@@ -432,7 +432,7 @@ $result = array (
 				'type' => 'user',
 				'size' => '30',
 				'db' => 'passthrough',
-				'userFunc' => 'EXT:' . TT_PRODUCTS_EXT . '/hooks/class.tx_ttproducts_hooks_be.php:tx_ttproducts_hooks_be->displayOrderHtml',
+				'userFunc' => 'JambageCom\\TtProducts\\Hooks\\OrderBackend->displayOrderHtml',
 				'parameters' => array(
 					'format' => 'html'
 				),
@@ -668,7 +668,7 @@ $result = array (
 			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:sys_products_orders.ordered_products',
 			'config' => array (
 				'type' => 'user',
-				'userFunc' => 'tx_ttproducts_hooks_be->tceSingleOrder',
+				'userFunc' => 'JambageCom\\TtProducts\\Hooks\\OrderBackend->tceSingleOrder',
 				'db' => 'passthrough',
 				'default' => ''
 			),

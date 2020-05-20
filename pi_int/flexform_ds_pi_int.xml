@@ -171,9 +171,10 @@
                   <config>
                       <type>select</type>
                       <renderMode>tree</renderMode>
+                      <renderType>selectTree</renderType>
                       <foreign_table>tt_products_cat</foreign_table>
                       <foreign_table_where>AND tt_products_cat.hidden=0 ORDER BY tt_products_cat.title</foreign_table_where>
-                      <autoSizeMax>45</autoSizeMax>
+                      <size>45</size>
                       <minitems>0</minitems>
                       <maxitems>99</maxitems>
                       <treeConfig>
@@ -182,7 +183,6 @@
                               <expandAll>1</expandAll>
                               <showHeader>1</showHeader>
                               <maxLevels>99</maxLevels>
-                              <width>500</width>
                           </appearance>
                       </treeConfig>
                   </config>

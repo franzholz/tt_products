@@ -1,4 +1,7 @@
 <?php
+
+namespace JambageCom\TtProducts\Hooks;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -39,8 +42,7 @@
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-class tx_ttproducts_hooks_be implements \TYPO3\CMS\Core\SingletonInterface {
+class OrderBackend implements \TYPO3\CMS\Core\SingletonInterface {
 
 	public function displayCategoryTree ($PA, $fobj) {
 		$result = false;
@@ -62,6 +64,40 @@ class tx_ttproducts_hooks_be implements \TYPO3\CMS\Core\SingletonInterface {
 		return $result;
 	}
 
+
+	// called from the page and list module for TCE
+	public function tceSingleOrder ($PA, $fobj) {
+		$table = $PA['table'];
+		$field = $PA['field'];
+		$row   = $PA['row'];
+
+			// Field configuration from TCA:
+		$config = $PA['fieldConf']['config'];
+
+		// do not use Ajax
+		$ajax = '';
+		$errorCode = '';
+        $tmp1 = array();
+        $tmp2 = '';
+
+		$db = GeneralUtility::makeInstance('tx_ttproducts_db');
+		$result =
+			$db->init(
+				$conf,
+				$tmp1,
+				$ajax,
+				$tmp2,
+				$errorCode
+			); // this initializes tx_ttproducts_config inside of creator
+
+		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
+
+		$TSconfig = \TYPO3\CMS\Backend\Utility\BackendUtility::getTCEFORM_TSconfig($table, $row);
+		$orderView = $tablesObj->get('sys_products_orders', true);
+		$out = $orderView->getSingleOrder($row);
+
+        return $out;
+	}
 
 	public function displayOrderHtml ($PA, $fobj) {
 		$result = 'ERROR';
@@ -88,10 +124,4 @@ class tx_ttproducts_hooks_be implements \TYPO3\CMS\Core\SingletonInterface {
 		return $result;
 	}
 }
-
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/hooks/class.tx_ttproducts_hooks_be.php'])	{
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/hooks/class.tx_ttproducts_hooks_be.php']);
-}
-
 

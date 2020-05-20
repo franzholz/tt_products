@@ -43,6 +43,7 @@ call_user_func(function () {
                 'default' => 0
             )
         );
+        $GLOBALS['TCA'][$table]['columns']['parent_category']['config']['renderMode'] = 'tree';
     }
 
     $excludeArray = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude.'];

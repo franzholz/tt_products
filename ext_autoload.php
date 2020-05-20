@@ -25,7 +25,6 @@ return array(
 	'tx_ttproducts_main' => $extensionPath . 'control/class.tx_ttproducts_main.php',
 	'tx_ttproducts_ajax' => $extensionPath . 'eid/class.tx_ttproducts_ajax.php',
 	'tx_ttproducts_db' => $extensionPath . 'eid/class.tx_ttproducts_db.php',
-	'tx_ttproducts_hooks_be' => $extensionPath . 'hooks/class.tx_ttproducts_hooks_be.php',
 	'tx_ttproducts_hooks_pool' => $extensionPath . 'hooks/class.tx_ttproducts_hooks_pool.php',
 	'tx_ttproducts_hooks_transactor' => $extensionPath . 'hooks/class.tx_ttproducts_hooks_transactor.php',
 	'tx_ttproducts_match_condition' => $extensionPath . 'hooks/class.tx_ttproducts_match_condition.php',

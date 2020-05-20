@@ -85,7 +85,7 @@ $result = array (
 		),
 	),
 	'types' => array (
-		'1' => array('showitem' => 'hidden;;;;1-1-1, cc_number, owner_name, cc_type, cvv2, endtime')
+		'1' => array('showitem' => 'cc_number, owner_name, cc_type, cvv2, endtime')
 	),
 	'palettes' => array (
 		'1' => array('showitem' => '')

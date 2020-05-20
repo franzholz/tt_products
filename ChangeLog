@@ -1,3 +1,6 @@
+2020-05-20 Franz Holzinger <franz@ttproducts.de>
+    * new feature issues #39 and #60: add a product list in the backend TCE for the order
+    * fix deprecation issues
 
 2020-05-02 Franz Holzinger <franz@ttproducts.de>
     * bugfix: the tables tt_products_downloads and tt_products_downloads_language will come with version 2.13.2.

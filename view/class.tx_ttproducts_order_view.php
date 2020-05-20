@@ -68,7 +68,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 		}
 	}
 
-	public function printView(&$templateCode, &$error_code)	 {
+	public function printView (&$templateCode, &$error_code)	 {
         $local_cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
 		$parser = $local_cObj;
         if (
@@ -186,6 +186,33 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 		} // else of if ($GLOBALS['TYPO3_DB']->sql_num_rows($res))
 
 		return $content;
+	}
+
+    public function getSingleOrder ($row) {
+		$from = '';
+		$where = '';
+		$uids = $row['uid'];
+		$orderBy = '';
+		$pid_list = '';
+		$productRowArray = array();
+		$multiOrderArray = array();
+		$result = '';
+
+		$this->getModelObj()->getOrderedProducts(
+			$from,
+			$uids,
+			$where,
+			$orderBy,
+			$whereProducts,
+			$pid_list,
+			$productRowArray,
+			$multiOrderArray
+		);
+
+        foreach ($productRowArray as $productRow) {
+            $result .= $productRow['uid'] . ': ' . $productRow['title'] . ' - ' . $productRow['subtitle'] . ' - ' . $productRow['itemnumber'] . PHP_EOL;
+        }
+        return $result;
 	}
 }
 

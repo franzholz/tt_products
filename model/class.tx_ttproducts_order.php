@@ -591,12 +591,115 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
 
 		$this->createMM($orderUid, $basketObj->itemArray);
 	}
+
+	public function getOrderedProducts (
+		$from,
+		$uids,
+		$where,
+		$orderBy,
+		$whereProducts,
+		$pid_list,
+		&$productRowArray,
+		&$multiOrderArray
+	) {
+		$productRowArray = array();
+		$multiOrderArray = array();
+
+		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
+		$productObj = $tablesObj->get('tt_products', false);
+		$variantSeparator = ';';
+		$local_cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
+
+		$tablename = $this->getTablename();
+
+/*
+SELECT
+po.uid as order_uid,
+po.crdate as order_date,
+pa.sys_products_orders_qty AS quantity,
+p.uid AS product_uid
+
+FROM sys_products_orders po LEFT JOIN
+sys_products_orders_mm_tt_products pa ON
+po.uid = pa.sys_products_orders_uid INNER JOIN tt_products p ON
+pa.tt_products_uid = p.uid
+*/
+
+		$alias = $this->getTableObj()->getAlias();
+		$productAlias = $productObj->getTableObj()->getAlias();
+		$productAliasPostfix1 = '1';
+		$productAlias1 = $productAlias . $productAliasPostfix1;
+
+		$selectConf = array();
+		if ($uids != '') {
+            $selectConf['uidInList'] = $uids;
+        }
+		if ($pid_list != '') {
+			$selectConf['pidInList'] = $pid_list;
+		}
+
+		$selectConf['selectFields'] =
+			$alias . '.uid as uid, ' . $alias . '.email as email, ' . $alias . '.feusers_uid as feusers_uid, ' .
+			$alias . '.crdate as crdate, ' . $alias . '.tracking_code as tracking_code, ' .
+			'pa.sys_products_orders_qty AS quantity, pa.variants AS variants, ' .
+			'pa.edit_variants AS edit_variants, pa.fal_variants AS fal_variants, ' . $productAlias1 . '.uid AS product_uid';
+
+		if ($whereProducts != '') {
+			$where .= ' AND ' .
+				$productObj->getTableObj()->transformWhere(
+					$whereProducts,
+					$productAliasPostfix1
+				);
+		}
+		$selectConf['where'] = $where;
+		$selectConf['from'] = $from;
+		$selectConf['leftjoin'] =
+			'sys_products_orders_mm_tt_products pa ON ' . $alias . '.uid = pa.sys_products_orders_uid INNER JOIN tt_products ' . $productAlias1 . ' ON pa.tt_products_uid = ' . $productAlias1 . '.uid';
+		if ($orderBy != '') {
+			$selectConf['orderBy'] = $orderBy;
+		}
+
+		$queryParts = $this->getTableObj()->getQueryConf(
+			$local_cObj,
+			$tablename,
+			$selectConf,
+			true
+		);
+		$res = $this->getTableObj()->exec_SELECT_queryArray($queryParts);
+		while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+			$multiOrderArray[] = $row;
+
+			$productRow = array();
+			$productRow = $productObj->get($row['product_uid']);
+
+			if ($row['edit_variants'] != '') {
+				$this->fillVariant(
+					$productRow,
+					$row['edit_variants'],
+					$variantSeparator,
+					'edit_'
+				);
+			}
+
+			if ($row['variants'] != '') {
+				$this->fillVariant(
+					$productRow,
+					$row['variants'],
+					$variantSeparator
+				);
+			}
+			$addProduct = true;
+            if ($addProduct) {
+                $productRowArray[] = $productRow;
+			}
+		}
+		return $productRowArray;
+	}
+
 }
 
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/class.tx_ttproducts_order.php'])	{
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/class.tx_ttproducts_order.php']);
 }
-
-
 

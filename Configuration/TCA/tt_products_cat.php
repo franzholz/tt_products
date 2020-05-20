@@ -182,7 +182,7 @@ $result = array (
 				'minitems' => 0,
 				'maxitems' => 1,
 				'type' => 'select',
-				'renderMode' => 'tree',
+                'renderType' => 'selectTree',
 				'foreign_table' => 'tt_products_cat',
 				'foreign_table_where' => ' ORDER BY tt_products_cat.title',
 				'treeConfig' => array(
@@ -190,10 +190,10 @@ $result = array (
 					'appearance' => array(
 						'expandAll' => 1,
 						'showHeader' => true,
-						'maxLevels' => 99,
-						'width' => 500,
+						'maxLevels' => 99
 					)
 				),
+                'size' => 45,
 				'exclude' => 1,
 				'default' => 0
 			)
