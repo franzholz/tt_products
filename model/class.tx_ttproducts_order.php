@@ -641,8 +641,7 @@ pa.tt_products_uid = p.uid
 		$selectConf['selectFields'] =
 			$alias . '.uid as uid, ' . $alias . '.email as email, ' . $alias . '.feusers_uid as feusers_uid, ' .
 			$alias . '.crdate as crdate, ' . $alias . '.tracking_code as tracking_code, ' .
-			'pa.sys_products_orders_qty AS quantity, pa.variants AS variants, ' .
-			'pa.edit_variants AS edit_variants, pa.fal_variants AS fal_variants, ' . $productAlias1 . '.uid AS product_uid';
+			'pa.sys_products_orders_qty AS quantity, ' . $productAlias1 . '.uid AS product_uid';
 
 		if ($whereProducts != '') {
 			$where .= ' AND ' .
@@ -672,22 +671,6 @@ pa.tt_products_uid = p.uid
 			$productRow = array();
 			$productRow = $productObj->get($row['product_uid']);
 
-			if ($row['edit_variants'] != '') {
-				$this->fillVariant(
-					$productRow,
-					$row['edit_variants'],
-					$variantSeparator,
-					'edit_'
-				);
-			}
-
-			if ($row['variants'] != '') {
-				$this->fillVariant(
-					$productRow,
-					$row['variants'],
-					$variantSeparator
-				);
-			}
 			$addProduct = true;
             if ($addProduct) {
                 $productRowArray[] = $productRow;
