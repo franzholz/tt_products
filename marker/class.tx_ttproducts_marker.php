@@ -68,10 +68,10 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
 		$this->conf = &$cnf->conf;
 		$this->config = &$cnf->config;
 		$this->markerArray = array('CATEGORY', 'PRODUCT', 'ARTICLE');
+		$markerFile = $this->conf['markerFile'];
 		$languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
 		$defaultMarkerFile = 'EXT:' . TT_PRODUCTS_EXT . '/marker/locallang.xml';
 		$languageObj->loadLocalLang($defaultMarkerFile);
-		$markerFile = $this->conf['markerFile'];
 		$language = $languageObj->getLanguage();
 
 		if ($language == '' || $language == 'default' || $language == 'en') {
