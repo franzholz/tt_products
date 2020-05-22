@@ -732,7 +732,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 					}
 				}
 				if ($bListStartEmpty)	{
-					$allowedItems = '0';	// not possible uid
+					$allowedItems = '0';	// not a possible uid
 				}
 			}
 
@@ -2415,18 +2415,17 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 			$content .= $out;
 		} else if ($theCode == 'SEARCH')	{
 			if ($this->conf['listViewOnSearch'] == '1' && $sword && $allowedItems != '0')	{
-				$contentEmpty = $subpartmarkerObj->getSubpart($templateCode,$subpartmarkerObj->spMarker('###ITEM_SEARCH_EMPTY###'),$error_code);
+				$contentEmpty = $subpartmarkerObj->getSubpart($templateCode, $subpartmarkerObj->spMarker('###ITEM_SEARCH_EMPTY###'), $error_code);
 			} else {
 				// nothing is shown
 			}
 		} else if ($out)	{
 			$content .= $out;
 		} else if ($whereCat != '' || $allowedItems != '0' || !$bListStartEmpty)	{
-			$subpartArray=array();
+			$subpartArray = array();
 			$subpartArray['###ITEM_CATEGORY_AND_ITEMS###'] = '';
-			$subpartArray['###LINK_PREV###']='';
-			$subpartArray['###LINK_NEXT###']='';
-
+			$subpartArray['###LINK_PREV###'] = '';
+			$subpartArray['###LINK_NEXT###'] = '';
 			$markerArray['###BROWSE_LINKS###'] = '';
 
 			$out = tx_div2007_core::substituteMarkerArrayCached($t['listFrameWork'], $markerArray, $subpartArray);
