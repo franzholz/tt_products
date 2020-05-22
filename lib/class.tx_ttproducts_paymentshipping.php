@@ -409,23 +409,32 @@ class tx_ttproducts_paymentshipping implements \TYPO3\CMS\Core\SingletonInterfac
 		$activeArray = is_array($active) ? $active : array($active);
 		$bUseXHTML = $GLOBALS['TSFE']->config['config']['xhtmlDoctype'] != '';
 		$selectedText = ($bUseXHTML ? 'selected="selected"' : 'selected');
+        $type = 0;
+		$wrap = '';
+		$confArray = [];
+        $htmlInputAddition = '';
 
 		if ($subkey != '')	{
 			$confArray = $this->conf[$pskey . '.'][$subkey . '.'];
 
-			// $confArray = array('TAXpercentage' => 19, '10.' => array('title' => 'Druckkosten', 'price' => 17));
- 			$confArray = tx_ttproducts_control_basket::cleanConfArr($confArray);
 			$htmlInputAddition = '[' . $subkey . ']';
-			if (is_array($this->conf[$pskey . '.'][$subkey . '.']))	{
-				$type = $this->conf[$pskey . '.'][$subkey . '.']['radio'];
-			}
 		} else {
-			$confArray = tx_ttproducts_control_basket::cleanConfArr($this->conf[$pskey . '.']);
-			$htmlInputAddition = '';
-			if (is_array($this->conf[$pskey . '.']))	{
-				$type = $this->conf[$pskey . '.']['radio'];
-			}
+			$confArray = $this->conf[$pskey . '.'];
 		}
+
+        if (
+            is_array($confArray)
+        ) {
+            if (isset($confArray['radio'])) {
+                $type = $confArray['radio'];
+            }
+            if (isset($confArray['wrap'])) {
+                $wrap = $confArray['wrap'];
+            }
+            if (isset($confArray['PIDlink'])) {
+                $pid = $confArray['PIDlink'];
+            }
+        }
 
 		if (
 			!tx_div2007_core::testInt($type)
@@ -433,15 +442,14 @@ class tx_ttproducts_paymentshipping implements \TYPO3\CMS\Core\SingletonInterfac
 			$type = 0;
 		}
 
-		$out='';
-		$submitCode = 'this.form.action=\''.$basketUrl.'\';this.form.submit();';
+		$out = '';
+		$submitCode = 'this.form.action=\'' . $basketUrl . '\';this.form.submit();';
 		$template = (
-			$this->conf[$pskey . '.']['template'] ?
-				preg_replace('/[[:space:]]*\\.[[:space:]]*' . $pskey . '[[:space:]]*\\.[[:space:]]*/', $pskey, $this->conf[$pskey . '.']['template']) :
+			$confArray['template'] ?
+				preg_replace('/[[:space:]]*\\.[[:space:]]*' . $pskey . '[[:space:]]*\\.[[:space:]]*/', $confArray['template']) :
 				'<input type="radio" name="recs[tt_products][' . $pskey . ']' . $htmlInputAddition . '" onClick="' . $submitCode . '" value="###VALUE###"###CHECKED###>###TITLE###&nbsp;&nbsp;&nbsp; ###IMAGE###<br>'
 			);
-		$wrap = $confArray['wrap'] ? $confArray['wrap'] :'<select id="' . $pskey . ($subkey != '' ? '-' . $subkey : '') . '-select" name="recs[tt_products][' . $pskey . ']' . $htmlInputAddition . '" onChange="' . $submitCode . '">|</select>';
-		$bWrapSelect = (count($confArray) > 1);
+		$wrap = $wrap ? $wrap : '<select id="' . $pskey . ($subkey != '' ? '-' . $subkey : '') . '-select" name="recs[tt_products][' . $pskey . ']' . $htmlInputAddition . '" onChange="' . $submitCode . '">|</select>';
 		$t = array();
 		if ($subkey != '')	{
 			$localBasketExtra = &$basketExtra[$pskey . '.'][$subkey . '.'];
@@ -449,6 +457,8 @@ class tx_ttproducts_paymentshipping implements \TYPO3\CMS\Core\SingletonInterfac
 			$localBasketExtra = &$basketExtra[$pskey . '.'];
 		}
 		$actTitle = $localBasketExtra['title'];
+        $confArray = tx_ttproducts_control_basket::cleanConfArr($confArray);
+		$bWrapSelect = (count($confArray) > 1);
 
 		if (is_array($confArray))	{
 			foreach($confArray as $key => $item)	{
@@ -605,7 +615,7 @@ class tx_ttproducts_paymentshipping implements \TYPO3\CMS\Core\SingletonInterfac
 		}
 
 		if (!$type && $bWrapSelect) {
-			$out = $this->cObj->wrap($out,$wrap);
+			$out = $this->cObj->wrap($out, $wrap);
 		}
 		return $out;
 	} // generateRadioSelect
