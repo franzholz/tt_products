@@ -435,12 +435,14 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
         $basketExtra = tx_ttproducts_control_basket::getBasketExtra();
 		$basketObj->create($basketExtra, $this->conf['useArticles'], $basketObj->getFuncTablename()); // get the basket->itemArray
 
-		$voucher = $tablesObj->get('voucher');
 		$recs = tx_ttproducts_control_basket::getRecs();
 
-		$voucher->doProcessing($recs);
         $basketObj->calculate($basketExtra); // get the calculated arrays
 		$basketObj->calculateSums();
+		$voucher = $tablesObj->get('voucher');
+		if (is_object($voucher)) {
+            $voucher->doProcessing($recs);
+        }
 		$basketObj->addVoucherSums();
 
 		$templateFile = '';

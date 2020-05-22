@@ -1,6 +1,7 @@
 2020-05-22 Franz Holzinger <franz@ttproducts.de>
     * bugfix issues #56, #57: The marker file could not be read in any more. The $markerFile initialization has been removed by failure.
     * bugfix issue #59: The payment shipping selector wrap and template setup has been ignored.
+    * bugfix issue #61: The basket sums must be calculated before the voucher percentages can be calculated.
 
 2020-05-20 Franz Holzinger <franz@ttproducts.de>
     * new feature issues #39 and #60: add a product list in the backend TCE for the order
