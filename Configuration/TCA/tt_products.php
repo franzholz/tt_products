@@ -1,6 +1,8 @@
 <?php
 defined('TYPO3_MODE') || die('Access denied.');
 
+$configuration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\JambageCom\TtProducts\Domain\Model\Dto\EmConfiguration::class);
+
 $whereCategory = '';
 
 if (
@@ -174,14 +176,14 @@ $result = array(
                 'size' => 50,
                 'generatorOptions' => array (
                     'fields' => array ('title', 'itemnumber'),
-                    'fieldSeparator' => '-',
+                    'fieldSeparator' => '_',
                     'prefixParentPageSlug' => false,
                     'replacements' => array (
-                        '/' => '',
+                        '/' => '-',
                     ),
                 ),
                 'fallbackCharacter' => '-',
-                'eval' => 'uniqueInSite',
+                'eval' => $configuration->getSlugBehaviour(),
                 'default' => ''
             )
         ),

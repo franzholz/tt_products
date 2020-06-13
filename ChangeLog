@@ -1,3 +1,7 @@
+2020-06-13 Franz Holzinger <franz@ttproducts.de>
+    * bugfix News Bug no. 91235: Detail Page 404 after upgrade 9.5.16..
+    Make slug evaluation configurable.
+
 2020-05-22 Franz Holzinger <franz@ttproducts.de>
     * bugfix issues #56, #57: The marker file could not be read in any more. The $markerFile initialization has been removed by failure.
     * bugfix issue #59: The payment shipping selector wrap and template setup has been ignored.

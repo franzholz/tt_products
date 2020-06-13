@@ -1,6 +1,8 @@
 <?php
 defined('TYPO3_MODE') || die('Access denied.');
 
+$configuration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\JambageCom\TtProducts\Domain\Model\Dto\EmConfiguration::class);
+
 // ******************************************************************
 // This is the language overlay for the articles table, tt_products_articles
 // ******************************************************************
@@ -196,6 +198,25 @@ $result = array (
 				'default' => ''
 			)
 		),
+        'slug' => array (
+            'exclude' => 1,
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products.slug',
+            'config' => array (
+                'type' => 'slug',
+                'size' => 50,
+                'generatorOptions' => array (
+                    'fields' => array ('title', 'article_uid'),
+                    'fieldSeparator' => '_',
+                    'prefixParentPageSlug' => false,
+                    'replacements' => array (
+                        '/' => '-',
+                    ),
+                ),
+                'fallbackCharacter' => '-',
+                'eval' => $configuration->getSlugBehaviour(),
+                'default' => ''
+            )
+        ),
 		'note' => array (
 			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products.note',
 			'config' => array (
@@ -233,12 +254,12 @@ $result = array (
                     )
                 ),
 
-                'showitem' => 'sys_language_uid, l18n_diffsource, hidden,--palette--;;1, article_uid,title,--palette--;;2, note, note2'
+                'showitem' => 'sys_language_uid, l18n_diffsource, hidden,--palette--;;1, article_uid,title,--palette--;;2, slug, note, note2'
             )
     ),
     'palettes' => array (
         '1' => array('showitem' => 'starttime,endtime,fe_group'),
-        '2' => array('showitem' => 'subtitle,keyword'),
+        '2' => array('showitem' => 'subtitle,slug,keyword'),
     )
 );
 

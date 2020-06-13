@@ -1,6 +1,8 @@
 <?php
 defined('TYPO3_MODE') || die('Access denied.');
 
+$configuration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\JambageCom\TtProducts\Domain\Model\Dto\EmConfiguration::class);
+
 $imageFolder = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['imageFolder'];
 if (!$imageFolder) {
 	$imageFolder = 'uploads/pics';
@@ -191,6 +193,25 @@ $result = array (
 			),
 			'l10n_mode' => 'prefixLangTitle',
 		),
+        'slug' => array (
+            'exclude' => 1,
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products.slug',
+            'config' => array (
+                'type' => 'slug',
+                'size' => 50,
+                'generatorOptions' => array (
+                    'fields' => array ('title', 'itemnumber'),
+                    'fieldSeparator' => '_',
+                    'prefixParentPageSlug' => false,
+                    'replacements' => array (
+                        '/' => '-',
+                    ),
+                ),
+                'fallbackCharacter' => '-',
+                'eval' => $configuration->getSlugBehaviour(),
+                'default' => ''
+            )
+        ),
 		'keyword' => array (
 			'exclude' => 1,
 			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products.keyword',
@@ -325,7 +346,7 @@ $result = array (
     ),
     'palettes' => array (
         '1' => array('showitem' => 'starttime,endtime,fe_group'),
-        '2' => array('showitem' => 'subtitle, keyword, itemnumber, www'),
+        '2' => array('showitem' => 'subtitle, slug, keyword, itemnumber, www'),
     )
 );
 
@@ -346,4 +367,3 @@ if (
 }
 
 return $result;
-

@@ -1,6 +1,8 @@
 <?php
 defined('TYPO3_MODE') || die('Access denied.');
 
+$configuration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\JambageCom\TtProducts\Domain\Model\Dto\EmConfiguration::class);
+
 // ******************************************************************
 // This is the language overlay for  products category table, tt_products_cat
 // ******************************************************************
@@ -170,6 +172,25 @@ $result = array (
 			),
 			'l10n_mode' => 'prefixLangTitle',
 		),
+        'slug' => array (
+            'exclude' => 1,
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products.slug',
+            'config' => array (
+                'type' => 'slug',
+                'size' => 50,
+                'generatorOptions' => array (
+                    'fields' => array ('title', 'cat_uid'),
+                    'fieldSeparator' => '_',
+                    'prefixParentPageSlug' => false,
+                    'replacements' => array (
+                        '/' => '-',
+                    ),
+                ),
+                'fallbackCharacter' => '-',
+                'eval' => $configuration->getSlugBehaviour(),
+                'default' => ''
+            )
+        ),
 		'keyword' => array (
 			'exclude' => 1,
 			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products.keyword',
@@ -235,7 +256,7 @@ $result = array (
                         )
                     )
                 ),
-                'showitem' => 'sys_language_uid, l18n_diffsource, hidden,--palette--;;1, cat_uid, title, subtitle, keyword, note, note2'
+                'showitem' => 'sys_language_uid, l18n_diffsource, hidden,--palette--;;1, cat_uid, title, subtitle, slug, keyword, note, note2'
             )
     ),
     'palettes' => array (
