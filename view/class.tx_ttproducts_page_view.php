@@ -63,7 +63,7 @@ class tx_ttproducts_page_view extends tx_ttproducts_category_base_view {
 		$imageObj = GeneralUtility::makeInstance('tx_ttproducts_field_image_view');
 
 			// Get image
-		$imageObj->getRowMarkerArrayEnhanced ($this->modelObj->getFuncTablename(), $row, $this->marker, $markerArray, $pid, $imageNum, $imageRenderObj, $viewCatTagArray, $theCode, $id, $prefix, '', $linkWrap);
+		$imageObj->getRowMarkerArrayEnhanced($this->modelObj->getFuncTablename(), $row, $this->marker, $markerArray, $pid, $imageNum, $imageRenderObj, $viewCatTagArray, $theCode, $id, $prefix, '', $linkWrap);
 
 		$pageCatTitle = htmlentities($row['title'], ENT_QUOTES, 'UTF-8');
 		$this->setMarkerArrayCatTitle ($markerArray, $pageCatTitle, $prefix);
