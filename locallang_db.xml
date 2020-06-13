@@ -12,7 +12,8 @@
 		<languageKey index="default" type="array">
 			<label index="tstamp">Time stamp</label>
 			<label index="crdate">Creation date</label>
-			<label index="tt_products">Products</label>
+            <label index="extmng.slugBehaviour">Slug behaviour: uniqueInSite: The same slug can be used for tt_products in different sites. Use this setting *only* if no tt_products records are shared between sites. "unique" means that another identical product title will lead to a different slug name than for the first product.</label>
+            <label index="tt_products">Products</label>
 			<label index="tt_products.accessory_uid">Accessory products</label>
 			<label index="tt_products.prod_uid">Template Products</label>
 			<label index="tt_products.related_uid">Related Products</label>
@@ -412,7 +413,7 @@
 			<label index="tt_content.pi_flexform.dam_group_by">DAM: GROUP BY</label>
 			<label index="tt_content.pi_flexform.dam_join_tables">DAM: JOIN tables</label>
 			<label index="tt_content.pi_flexform.tsconfig">Typoscript</label>
-		</languageKey>
+            </languageKey>
 		<languageKey index="de" type="array">
 			<label index="tstamp">Zeitstempel</label>
 			<label index="crdate">Bestelldatum</label>

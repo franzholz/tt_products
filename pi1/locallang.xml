@@ -45,6 +45,7 @@
 			<label index="error_maxquantity">Error in maximum quantity in the following products. | Buy less of them.</label>
 			<label index="error_reference_id">ERROR: reference ID could not be generated.</label>
 			<label index="error_transaction_details">ERROR: Setting details of transaction failed.</label>
+			<label index="error_order_number">ERROR: Setting of the order number failed.</label>
 			<label index="error_relay_url">ERROR: No relay URL given!</label>
 			<label index="error_find_payment_method">ERROR: Could not find provider object for payment method '%s'.</label>
 			<label index="error_edit_variant_range">ERROR: Wrong edit variant value "|" for product "|"</label>

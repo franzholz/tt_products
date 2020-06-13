@@ -71,7 +71,20 @@
 			<label index="basket_header_total">Summe</label>
 			<label index="basket_header_zw">Zwischensumme</label>
 			<label index="basket_price_total">inkl. Versand- und Bezahlkosten</label>
-			<label index="basket_price_goods_total">exkl. Versand- und Bezahlkosten</label>
+            <label index="basket_pricetax_total_csv">Umsatz Brutto</label>
+            <label index="basket_billing_name_csv">Kundenname</label>
+            <label index="basket_delivery_name_csv">Empfängername</label>
+            <label index="basket_billing_cnum_csv">Kundennummer</label>
+            <label index="basket_billing_country_csv">Land</label>
+            <label index="basket_billing_tt_products_vat_csv">Ust-IdNr</label>
+            <label index="basket_order_bill_no_csv">Rechnungsnummer</label>
+            <label index="basket_order_uid_csv">Bestellnummer</label>
+            <label index="basket_order_crdate_csv">Belegdatum</label>
+            <label index="basket_billing_prefix_csv">Rechnung </label>
+            <label index="basket_delivery_prefix_csv">Lieferung </label>
+            <label index="basket_payment_prefix_csv">Bezahlung </label>
+            <label index="basket_shipping_prefix_csv">Versand </label>
+            <label index="basket_price_goods_total">exkl. Versand- und Bezahlkosten</label>
 			<label index="basket_minprice_error">Sie haben die Mindestbestellmenge von 100 EUR nicht erreicht. Bitte aktualisieren Sie Ihren Warenkorb.</label>
 			<label index="basket_info_question">Fragen zu Ihrer Bestellung oder spezielle Wünsche zur Lieferung.</label>
 			<label index="basket_shipping_handling">Versand und Verpackung</label>
@@ -145,6 +158,7 @@
 
 			<label index="p_old_price">Alter Preis</label>
 			<label index="p_discount">Rabatt</label>
+			<label index="p_discount_price">Rabatt Preis</label>
 			<label index="p_unit_price">Einzelpreis</label>
 			<label index="p_accessory">Zubehör</label>
 			<label index="p_category">Kategorie</label>
