@@ -127,7 +127,6 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$oldFormCount,
 		&$formCount
 	)	{
-		$pibaseObj = GeneralUtility::makeInstance(''.$this->pibaseClass);
 		$subpartArray = array();
 		$subpartArray['###ITEM_CATEGORY###'] = $categoryOut;
 		$subpartArray[$itemListSubpart] = $itemListOut;
