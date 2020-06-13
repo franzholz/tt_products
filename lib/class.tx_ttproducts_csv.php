@@ -128,10 +128,11 @@ class tx_ttproducts_csv implements \TYPO3\CMS\Core\SingletonInterface {
 
 			// Write description header
 			$csvdescr = '"uid";"count"';
-			$variantFieldArray = $itemTable->variant->getSelectableFieldArray();
-			if (count($variantFieldArray))	{
-				$csvdescr .= ';"' . implode('";"',$variantFieldArray) . '"';
-			}
+// 			$variantFieldArray = $itemTable->variant->getSelectableFieldArray();
+// 			if (count($variantFieldArray))	{
+// 				$csvdescr .= ';"' . implode('";"',$variantFieldArray) . '"';
+// 			}
+
 			if ($csvfieldcount)	{
 				foreach($csvfields as $csvfield)	{
 					$csvdescr .= ';"' . $csvfield . '"';
@@ -162,9 +163,10 @@ class tx_ttproducts_csv implements \TYPO3\CMS\Core\SingletonInterface {
 						// product belongs to another basket
 						continue;
 					}
-					$variants = explode(';', $itemTable->variant->getVariantFromRow($row));
+// 					$variants = explode(';', $itemTable->variant->getVariantFromRow($row));
+
 					$csvdata = '"' . intval($row['uid']) . '";"' .
-						intval($actItem['count']) . '";"' . implode('";"',$variants) . '"';
+						intval($actItem['count']) . '"';
 					foreach($csvfields as $csvfield) {
 						$csvdata .= ';"' . $row[$csvfield] . '"';
 					}
