@@ -246,7 +246,6 @@ class tx_ttproducts_product extends tx_ttproducts_article_base {
 			}
 		}
 
-
 		if (count($whereArray))	{
 			$where = '(' . implode (($this->conf['useArticles'] == '3' ? ' OR ' : ' AND '), $whereArray) . ')';
 		} else {
