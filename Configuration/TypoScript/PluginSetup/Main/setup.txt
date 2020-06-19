@@ -536,9 +536,11 @@ plugin.tt_products {
   }
 
   orderEmail {
+  # email to the shop
        10000.suffix = shop
-       10000.from = customer
+       10000.from = shop
        10000.returnPath = {$plugin.tt_products.orderEmail_returnPath}
+  # email to the customer
        10002.suffix = customer
        10002.from = shop
        10002.returnPath = {$plugin.tt_products.orderEmail_returnPath}
