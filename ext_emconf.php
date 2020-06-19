@@ -18,9 +18,9 @@ $EM_CONF[$_EXTKEY] = array(
 	'version' => '2.9.10',
 	'constraints' => array(
 		'depends' => array(
-			'div2007' => '1.10.30-0.0.0',
+			'div2007' => '1.10.31-0.0.0',
 			'php' => '5.5.0-7.3.99',
-			'table' => '0.7.5-0.0.0',
+			'table' => '0.7.7-0.0.0',
 			'tsparser' => '0.2.5-0.0.0',
 			'typo3' => '6.2.0-9.5.99',
 		),
