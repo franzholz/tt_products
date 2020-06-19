@@ -1,3 +1,6 @@
+2020-06-19 Franz Holzinger <franz@ttproducts.de>
+    * bugfix issue #63: compatibility with TPO3 9.5 where the method substituteMarkerArray is not available for the content object any more.
+
 2020-06-13 Franz Holzinger <franz@ttproducts.de>
     * bugfix News Bug no. 91235: Detail Page 404 after upgrade 9.5.16..
     Make slug evaluation configurable.

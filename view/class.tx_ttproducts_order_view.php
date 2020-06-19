@@ -109,7 +109,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 			return '';
 		}
 
-		$content = $local_cObj->substituteMarkerArray($frameWork, $globalMarkerArray);
+		$content = $parser->substituteMarkerArray($frameWork, $globalMarkerArray);
 		$orderitem = tx_div2007_core::getSubpart($content, '###ORDER_ITEM###');
 		$count = $GLOBALS['TYPO3_DB']->sql_num_rows($res);
 
@@ -141,7 +141,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 
 				// total amount of creditpoints from gifts
 				$tot_creditpoints_gifts += $row['creditpoints_gifts'];
-				$orderlistc .= $local_cObj->substituteMarkerArray($orderitem, $markerArray);
+				$orderlistc .= $parser->substituteMarkerArray($orderitem, $markerArray);
 			}
 			$GLOBALS['TYPO3_DB']->sql_free_result($res);
 
