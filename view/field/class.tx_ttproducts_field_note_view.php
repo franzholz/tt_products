@@ -42,19 +42,19 @@ class tx_ttproducts_field_note_view extends tx_ttproducts_field_base_view {
 
 	public function getRowMarkerArray ($functablename, $fieldname, $row, $markerKey, &$markerArray, $tagArray, $theCode, $id, $basketExtra, &$bSkip, $bHtml=true, $charset='', $prefix='', $suffix='', $imageRenderObj='')	{
 
-        $local_cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
-
 		if (
 			$bHtml
 			&& ($theCode != 'EMAIL' || $this->conf['orderEmail_htmlmail'])
 		)	{
+            $local_cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
+
 			$value = $this->getModelObj()->getFieldValue($basketExtra, $row, $fieldname);
 
-				// Extension CSS styled content or fluid styled content
-			if (isset($GLOBALS['TSFE']->tmpl->setup['lib.']['parseFunc_RTE.'])) {
-				$value = tx_div2007_alpha5::RTEcssText($local_cObj, $value);
-			} else if (is_array($this->conf['parseFunc.']))	{
-				$value = $local_cObj->parseFunc($value,$this->conf['parseFunc.']);
+				// Extension CSS styled content
+			if (\JambageCom\Div2007\Utility\FrontendUtility::hasRTEparser()) {
+				$value = \JambageCom\Div2007\Utility\FrontendUtility::RTEcssText($local_cObj, $value);
+			} else if (is_array($this->conf['parseFunc.'])) {
+				$value = $local_cObj->parseFunc($value, $this->conf['parseFunc.']);
 			} else if ($this->conf['nl2brNote']) {
 				$value = nl2br($value);
 			}
