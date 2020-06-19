@@ -37,6 +37,8 @@
  *
  */
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+ 
 
 class tx_ttproducts_field_note_view extends tx_ttproducts_field_base_view {
 

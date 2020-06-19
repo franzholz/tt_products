@@ -655,7 +655,7 @@ class tx_ttproducts_activity_finalize {
 							$HTMLmailContent = '';
 
                             if ($basketHtml != '') {
-                                $HTMLmailContent = $this->pibase->cObj->substituteMarker($HTMLmailShell, '###HTML_BODY###', $basketHtml);
+                                $HTMLmailContent = $parser->substituteMarker($HTMLmailShell, '###HTML_BODY###', $basketHtml);
 
                                 $HTMLmailContent =
                                     $parser->substituteMarkerArray(
