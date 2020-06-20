@@ -259,7 +259,7 @@ $result = array (
     ),
     'palettes' => array (
         '1' => array('showitem' => 'starttime,endtime,fe_group'),
-        '2' => array('showitem' => 'subtitle,slug,keyword'),
+        '2' => array('showitem' => 'subtitle,keyword'),
     )
 );
 

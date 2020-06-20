@@ -1,3 +1,7 @@
+2020-06-20 Franz Holzinger <franz@ttproducts.de>
+    * bugfix issue #64: The slug field must not be placed inside of a palette together with other entries.
+    * bugfix: TYPO3 before version 9 does not have a slug field.
+
 2020-06-19 Franz Holzinger <franz@ttproducts.de>
     * bugfix issue #63: compatibility with TPO3 9.5 where the method substituteMarkerArray is not available for the content object any more.
 

@@ -341,12 +341,12 @@ $result = array (
                         )
                     )
                 ),
-                'showitem' => 'sys_language_uid, l18n_diffsource, hidden,--palette--;;1, prod_uid,title,--palette--;;2, unit, note, note2, image, smallimage, datasheet'
+                'showitem' => 'sys_language_uid, l18n_diffsource, hidden,--palette--;;1, prod_uid,title,--palette--;;2, slug, unit, note, note2, image, smallimage, datasheet'
             )
     ),
     'palettes' => array (
         '1' => array('showitem' => 'starttime,endtime,fe_group'),
-        '2' => array('showitem' => 'subtitle, slug, keyword, itemnumber, www'),
+        '2' => array('showitem' => 'subtitle, keyword, itemnumber, www'),
     )
 );
 
