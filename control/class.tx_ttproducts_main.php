@@ -489,7 +489,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
                     $templateObj->get(
                         $theCode,
                         $templateFile, 
-                        $errorMessage
+                        $errorCode
                     );
 			}
 			if ($errorMessage || !empty($errorCode)) {
