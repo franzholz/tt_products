@@ -1,3 +1,9 @@
+2020-07-29 Franz Holzinger <franz@ttproducts.de>
+    * bugfix: errors in generation of a text in RTE format for note fields
+
+2020-06-25 Franz Holzinger <franz@ttproducts.de>
+    * bugfix: Do not check the AGB on the finalize page, because it makes not sense to check the AGB after the payment has already been processed.
+
 2020-06-20 Franz Holzinger <franz@ttproducts.de>
     * bugfix issue #64: The slug field must not be placed inside of a palette together with other entries.
     * bugfix: TYPO3 before version 9 does not have a slug field.

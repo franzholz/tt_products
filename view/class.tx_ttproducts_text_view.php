@@ -36,6 +36,8 @@
  *
  */
 
+use JambageCom\Div2007\Utility\FrontendUtility;
+
 
 class tx_ttproducts_text_view extends tx_ttproducts_table_base_view {
 	public $marker = 'TEXT';
@@ -69,6 +71,7 @@ class tx_ttproducts_text_view extends tx_ttproducts_table_base_view {
 		$tagArray
 	) {
 		$bFoundTagArray = array();
+        $local_cObj = \JambageCom\TtProducts\Api\ControlApi::getCObj();
 
 		if (isset($rowArray) && is_array($rowArray) && count($rowArray)) {
 			foreach ($rowArray as $k => $row) {
@@ -78,11 +81,10 @@ class tx_ttproducts_text_view extends tx_ttproducts_table_base_view {
 				$value = $row['note'];
 				$value = ($this->conf['nl2brNote'] ? nl2br($value) : $value);
 
-					// Extension CSS styled content
-				if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('css_styled_content')) {
-					$value = tx_div2007_alpha5::RTEcssText($this->getCObj(), $value);
+                if (FrontendUtility::hasRTEparser()) {
+                    $value = FrontendUtility::RTEcssText($local_cObj, $value);
 				} else if (is_array($this->conf['parseFunc.'])) {
-					$value = $this->getCObj()->parseFunc($value, $this->conf['parseFunc.']);
+					$value = $local_cObj->parseFunc($value, $this->conf['parseFunc.']);
 				}
 				$markerArray['###' . $marker . '###'] = $value;
 				$markerTitle = $marker . '_' . strtoupper('title');
