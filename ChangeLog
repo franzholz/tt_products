@@ -1,4 +1,7 @@
-2020-07-29 Franz Holzinger <franz@ttproducts.de>
+2020-07-10 Franz Holzinger <franz@ttproducts.de>
+    * bugfix issue #67: Show the discount gained by the discount field of the product in the product single view.
+
+2020-06-29 Franz Holzinger <franz@ttproducts.de>
     * bugfix: errors in generation of a text in RTE format for note fields
 
 2020-06-25 Franz Holzinger <franz@ttproducts.de>

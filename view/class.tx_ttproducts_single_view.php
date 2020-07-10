@@ -618,6 +618,18 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
 						$prodRow,  // $prodVariantRow,
 						'firstVariant'
 					);
+                if (!empty($item)) {
+                    $row = $item['rec'];
+                }
+
+                if ($this->type != 'article')	{
+                    $prodRow = $row;
+                }
+                $prodVariantRow = $row;
+                if ($this->type == 'product') {
+                    $prodVariantRow = $prodRow;
+                }
+
 				$basketItemView = GeneralUtility::makeInstance('tx_ttproducts_basketitem_view');
 				$basketItemView->init($this->pibaseClass,$basketObj->basketExt,$basketObj->getItemObj());
 
@@ -646,7 +658,6 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
 				);
 
 				$currPriceMarkerArray = array();
-
 				$itemTableViewArray[$this->type]->getCurrentPriceMarkerArray(
 					$currPriceMarkerArray,
 					$itemTableArray['product']->getTablename(),
@@ -910,7 +921,7 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 			$jsMarkerArray = array();
 			$this->javaScriptMarker->getMarkerArray($jsMarkerArray, $markerArray);
-			$markerArray = array_merge ($categoryMarkerArray, $jsMarkerArray, $markerArray);
+			$markerArray = array_merge($categoryMarkerArray, $jsMarkerArray, $markerArray);
 			$markerArray['###HIDDENFIELDS###'] = $hiddenText; // TODO
 
 			// edit jf begin
@@ -942,7 +953,6 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
 			$markerArray['###LINK_BACK2LIST###'] = implode(' &laquo; ', array_reverse($breadcrumbArray));
 			// edit jf end
 			$markerArray = $markerObj->reduceMarkerArray($itemFrameWork, $markerArray);
-
 				// Substitute
 			$content = tx_div2007_core::substituteMarkerArrayCached($itemFrameWork, $markerArray, $subpartArray, $wrappedSubpartArray);
 

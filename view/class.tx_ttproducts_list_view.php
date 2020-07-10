@@ -936,7 +936,6 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 					$error_code[0] = 'template_invalid_marker_border';
 					$error_code[1] = '###' . $templateArea . '###';
 					$error_code[2] =  htmlspecialchars(implode('|', $matches['0']));
-
 					return '';
 				}
 			}
@@ -1935,6 +1934,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 					if ($itemTable->getType() == 'product' || $itemTable->getType() == 'article')	{
 						$currPriceMarkerArray = array();
 						$articleTablename = (is_object($itemTableArray['article']) ? $itemTableArray['article']->getTablename() : '');
+
 						$itemTableViewArray[$itemTable->getType()]->getCurrentPriceMarkerArray(
 							$currPriceMarkerArray,
 							$itemTableArray['product']->getTablename(),
