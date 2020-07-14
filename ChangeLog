@@ -1,3 +1,6 @@
+2020-07-14 Franz Holzinger <franz@ttproducts.de>
+    * bugfix for clickIntoBasket: The views must set the ###FORM_URL### marker correctly.
+
 2020-07-10 Franz Holzinger <franz@ttproducts.de>
     * bugfix issue #67: Show the discount gained by the discount field of the product in the product single view.
 

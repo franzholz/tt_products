@@ -94,7 +94,8 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$css_current='',
 		$bUseBackPid = true
 	)	{
-		$pidBasket = ($this->conf['PIDbasket'] ? $this->conf['PIDbasket'] : $GLOBALS['TSFE']->id);
+        $pid = GeneralUtility::_GP('id');
+		$pidBasket = ($this->conf['PIDbasket'] ? $this->conf['PIDbasket'] : $pid);
 		$pageLink = tx_div2007_alpha5::getPageLink_fh003(
 			$this->cObj,
 			$pidBasket,
@@ -123,6 +124,7 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
         $bExcludeSingleVar = true
     )	
     {
+        $pid = GeneralUtility::_GP('id');
 		$charset = 'UTF-8';
 		$urlMarkerArray = array();
 		$conf = array('useCacheHash' => true);
@@ -131,10 +133,10 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 		// disable caching as soon as someone enters products into the basket, enters user data etc.
 		// $addQueryString['no_cache'] = 1;
 			// Add's URL-markers to the $markerArray and returns it
-		$pidBasket = ($this->conf['PIDbasket'] ? $this->conf['PIDbasket'] : $GLOBALS['TSFE']->id);
-		$pidFormUrl = ($pidNext ? $pidNext : $GLOBALS['TSFE']->id);
+		$pidBasket = ($this->conf['PIDbasket'] ? $this->conf['PIDbasket'] : $pid);
+		$pidFormUrl = ($pidNext ? $pidNext : $pid);
 
-		if ($pidFormUrl != $GLOBALS['TSFE']->id && $bExcludeSingleVar)	{
+		if ($pidFormUrl != $pid && $bExcludeSingleVar)	{
 			$newExcludeListArray =
 				array(
 					'tt_products[article]',
@@ -148,7 +150,7 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 			}
 			$excludeList = implode(',', $excludeListArray);
 		}
-		$bUseBackPid = ($bUseBackPid && $pidNext != $GLOBALS['TSFE']->id);
+		$bUseBackPid = ($bUseBackPid && $pidNext != $pid);
 
 		$url = tx_div2007_alpha5::getTypoLink_URL_fh003(
 			$this->cObj,
@@ -162,13 +164,14 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 			$target,
 			$conf
 		);
+
 		$urlConfig = array(
 			'FORM_URL' => array(
-					'pid' => $formUrlPid,
+					'pid' => $pidFormUrl,
 					'excludeList' => $urlExcludeList
 				),
 			'FORM_URL_CURRENT' => array(
-					'pid' => $GLOBALS['TSFE']->id,
+					'pid' => $pid,
 					'excludeList' => $excludeList
 				)
 		);
@@ -187,7 +190,6 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 				$target,
 				$conf
 			);
-
 			$urlMarkerArray['###' . $markerKey . '###'] = htmlspecialchars($url, ENT_NOQUOTES, $charset);
 			$urlMarkerArray['###' . $markerKey . '_VALUE###'] =
 				$url;
@@ -196,10 +198,10 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$commandArray = array('basket', 'info', 'payment', 'finalize', 'thanks', 'search', 'memo', 'tracking', 'billing', 'delivery', 'agb', 'user1', 'user2', 'user3', 'user4', 'user5');
 
 		foreach ($commandArray as $command) {
-			$pid = ($this->conf['PID' . $command] ? $this->conf['PID' . $command] : $pidBasket);
+			$linkPid = ($this->conf['PID' . $command] ? $this->conf['PID' . $command] : $pidBasket);
 			$url = tx_div2007_alpha5::getTypoLink_URL_fh003(
 				$this->cObj,
-				$pid,
+				$linkPid,
 				$this->getLinkParams(
 					$excludeList,
 					$addQueryString,
@@ -274,13 +276,14 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$piVarSingle='product',
 		$piVarCat='cat'
 	) {
+        $pid = GeneralUtility::_GP('id');
 		$prefixId = $this->pibase->prefixId;
 		$queryString=array();
 		if ($bUseBackPid)	{
 			if ($bUsePrefix && !$addQueryString[$prefixId . '[backPID]'])	{
-				$queryString[$prefixId . '[backPID]'] = $GLOBALS['TSFE']->id;
+				$queryString[$prefixId . '[backPID]'] = $pid;
 			} else if (!$addQueryString['backPID'])	{
-				$queryString['backPID'] = $GLOBALS['TSFE']->id;
+				$queryString['backPID'] = $pid;
 			}
 		}
 
