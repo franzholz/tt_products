@@ -24,7 +24,7 @@
     "GPL-2.0-or-later"
   ],
   "require": {
-    "php": "^5.5",
+    "php": ">=5.5.0,<=7.3.99",
     "typo3/cms-core": ">=6.2.0,<=9.5.99",
     "jambagecom/div2007": ">=1.10.31,<2",
     "jambagecom/table": ">=0.7.7,<1",
