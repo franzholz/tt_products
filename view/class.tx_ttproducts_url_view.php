@@ -94,7 +94,7 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$css_current='',
 		$bUseBackPid = true
 	)	{
-        $pid = GeneralUtility::_GP('id');
+        $pid = $GLOBALS['TSFE']->id;
 		$pidBasket = ($this->conf['PIDbasket'] ? $this->conf['PIDbasket'] : $pid);
 		$pageLink = tx_div2007_alpha5::getPageLink_fh003(
 			$this->cObj,
@@ -124,7 +124,7 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
         $bExcludeSingleVar = true
     )	
     {
-        $pid = GeneralUtility::_GP('id');
+        $pid = $GLOBALS['TSFE']->id;
 		$charset = 'UTF-8';
 		$urlMarkerArray = array();
 		$conf = array('useCacheHash' => true);
@@ -276,7 +276,7 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$piVarSingle='product',
 		$piVarCat='cat'
 	) {
-        $pid = GeneralUtility::_GP('id');
+        $pid = $GLOBALS['TSFE']->id;
 		$prefixId = $this->pibase->prefixId;
 		$queryString=array();
 		if ($bUseBackPid)	{
