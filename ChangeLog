@@ -1,3 +1,8 @@
+
+
+2020-07-10 Franz Holzinger <franz@ttproducts.de>
+    * bugfix: The parent product must be shown on the top of the backend TCE of the article, if articleMode = 0.
+
 2020-07-14 Franz Holzinger <franz@ttproducts.de>
     * bugfix for clickIntoBasket: The views must set the ###FORM_URL### marker correctly.
 

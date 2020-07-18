@@ -33,11 +33,11 @@ call_user_func(function () {
                 )
             );
 
-            $GLOBALS['TCA'][$table]['types']['1'] =
+            $GLOBALS['TCA'][$table]['types']['1']['showitem'] =
                 str_replace(
                     'title,',
                     'uid_product,title,',
-                    $GLOBALS['TCA'][$table]['types']['1']
+                    $GLOBALS['TCA'][$table]['types']['1']['showitem']
                 );
 
             break;
