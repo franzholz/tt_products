@@ -64,7 +64,6 @@ return array(
 	'tx_ttproducts_country' => $extensionPath . 'model/class.tx_ttproducts_country.php',
 	'tx_ttproducts_email' => $extensionPath . 'model/class.tx_ttproducts_email.php',
 	'tx_ttproducts_graduated_price' => $extensionPath . 'model/class.tx_ttproducts_graduated_price.php',
-	'tx_ttproducts_language' => $extensionPath . 'model/class.tx_ttproducts_language.php',
 	'tx_ttproducts_mm_table' => $extensionPath . 'model/class.tx_ttproducts_mm_table.php',
 	'tx_ttproducts_model_activity' => $extensionPath . 'model/class.tx_ttproducts_model_activity.php',
 	'tx_ttproducts_model_control' => $extensionPath . 'model/class.tx_ttproducts_model_control.php',
