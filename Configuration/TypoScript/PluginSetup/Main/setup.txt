@@ -281,7 +281,7 @@ plugin.tt_products {
 		check = address,agb,basket,account,card
     }
     finalize {
-		check = address,agb,basket,account,card
+		check = address,basket,account,card
     }
     overview {
 		check = basket
