@@ -492,6 +492,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
                         $errorCode
                     );
 			}
+
 			if ($errorMessage || !empty($errorCode)) {
                 $bErrorFound = true;
 				break;

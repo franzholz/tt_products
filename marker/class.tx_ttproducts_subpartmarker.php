@@ -112,14 +112,15 @@ class tx_ttproducts_subpartmarker implements \TYPO3\CMS\Core\SingletonInterface 
 	 * @return	string		The subpart found, if found.
 	 * @see substituteSubpart(), t3lib_parsehtml::getSubpart()
 	 */
-	public function getSubpart ($content, $marker, &$error_code) {
+	public function getSubpart ($content, $marker, &$errorCode) {
         $result = tx_div2007_core::getSubpart($content, $marker);
 		if (!$result)	{
 			$templateObj = GeneralUtility::makeInstance('tx_ttproducts_template');
-			$error_code[0] = 'no_subtemplate';
-			$error_code[1] = $marker;
-			$error_code[2] = $templateObj->getTemplateFile();
+			$errorCode[0] = 'no_subtemplate';
+			$errorCode[1] = $marker;
+			$errorCode[2] = $templateObj->getTemplateFile();
 		}
+
 		return $result;
 	}
 }

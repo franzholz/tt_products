@@ -1,4 +1,7 @@
 
+2020-08-23 Franz Holzinger <franz@ttproducts.de>
+    * bugfix issue #54: make the templateFile based on a plugin code
+
 2020-08-22 Franz Holzinger <franz@ttproducts.de>
     * remove support for outdated file payment_DIBS.php
     * renaming of table fields of mm tables:

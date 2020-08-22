@@ -1186,19 +1186,12 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$infoViewObj = GeneralUtility::makeInstance('tx_ttproducts_info_view');
-        $templateObj = GeneralUtility::makeInstance('tx_ttproducts_template');
-        $templateFilename = '';
-        $templateCode = $templateObj->get(
-            '',
-            $templateFilename,
-            $errorCode
-        );
+
 		$basketView = GeneralUtility::makeInstance('tx_ttproducts_basket_view');
 		$basketView->init(
 			$this->pibaseClass,
 			$this->urlArray,
 			$this->useArticles,
-			$templateCode,
 			$errorCode
 		);
 		$activityVarsArray = array(

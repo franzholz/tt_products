@@ -48,9 +48,9 @@ class tx_ttproducts_config implements \TYPO3\CMS\Core\SingletonInterface {
 	/**
 	 * Getting the configurations
 	 */
-	public function init (&$conf, &$config) {
-		$this->conf = &$conf;
-		$this->config = &$config;
+	public function init ($conf, $config) {
+		$this->conf = $conf;
+		$this->config = $config;
 		$this->bHasBeenInitialised = true;
 	} // init
 
@@ -60,12 +60,12 @@ class tx_ttproducts_config implements \TYPO3\CMS\Core\SingletonInterface {
 	}
 
 
-	public function &getConf ()	{
+	public function getConf ()	{
 		return $this->conf;
 	}
 
 
-	public function &getConfig ()	{
+	public function getConfig ()	{
 		return $this->config;
 	}
 
@@ -76,7 +76,7 @@ class tx_ttproducts_config implements \TYPO3\CMS\Core\SingletonInterface {
 	}
 
 
-	public function &getTableDesc ($functablename, $type='')	{
+	public function getTableDesc ($functablename, $type='')	{
 		$tableDesc = array();
 		if (is_array($this->conf['table.']) &&
 			is_array($this->conf['table.'][$functablename.'.'])
@@ -103,7 +103,7 @@ class tx_ttproducts_config implements \TYPO3\CMS\Core\SingletonInterface {
 	}
 
 
-	public function &getSpecialConf ($type, $tablename='', $theCode='')	{
+	public function getSpecialConf ($type, $tablename='', $theCode='')	{
 		$specialConf = array();
 
 		if (is_array($this->conf[$type.'.']))	{
@@ -135,27 +135,27 @@ class tx_ttproducts_config implements \TYPO3\CMS\Core\SingletonInterface {
 	}
 
 
-	public function &getTableConf ($functablename, $theCode='')	{
+	public function getTableConf ($functablename, $theCode='')	{
 		$tableConf = $this->getSpecialConf('conf', $functablename, $theCode);
 		return $tableConf;
 	}
 
 
-	public function &getCSSConf ($functablename, $theCode='')	{
+	public function getCSSConf ($functablename, $theCode='')	{
 		$cssConf = $this->getSpecialConf('CSS', $functablename, $theCode);
 
 		return $cssConf;
 	}
 
 
-	public function &getFormConf ($theCode='')	{
+	public function getFormConf ($theCode='')	{
 		$cssConf = $this->getSpecialConf('form', '', $theCode);
 
 		return $cssConf;
 	}
 
 
-	public function &getViewControlConf ($theCode)	{
+	public function getViewControlConf ($theCode)	{
 		$viewConf = $this->getSpecialConf('control', '', $theCode);
 
 		return $viewConf;
@@ -299,6 +299,7 @@ class tx_ttproducts_config implements \TYPO3\CMS\Core\SingletonInterface {
 
 	public function getTemplateFile ($theCode) {
 		$rc = '';
+
 		if (is_array($this->conf['templateFile.']) && ($this->conf['templateFile.'][$theCode]))	{
 			$rc = $this->conf['templateFile.'][$theCode];
 		} else {

@@ -95,7 +95,7 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 
 	// returns the single view
-	public function printView (&$templateCode, &$error_code, $pageAsCategory, $templateSuffix = '') {
+	public function printView (&$templateCode, &$errorCode, $pageAsCategory, $templateSuffix = '') {
 
 		$pibaseObj = GeneralUtility::makeInstance('tx_ttproducts_pi1_base');
 		$basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
@@ -232,9 +232,9 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
 				$wrongPounds = preg_match_all($checkExpression, $itemFrameWork, $matches);
 
 				if ($wrongPounds) {
-					$error_code[0] = 'template_invalid_marker_border';
-					$error_code[1] = '###' . $subPartMarker . '###';
-					$error_code[2] = htmlspecialchars(implode('|', $matches['0']));
+					$errorCode[0] = 'template_invalid_marker_border';
+					$errorCode[1] = '###' . $subPartMarker . '###';
+					$errorCode[2] = htmlspecialchars(implode('|', $matches['0']));
 
 					return '';
 				}
@@ -271,9 +271,9 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 			if (!$itemFrameWork) {
 				$templateObj = GeneralUtility::makeInstance('tx_ttproducts_template');
-				$error_code[0] = 'no_subtemplate';
-				$error_code[1] = '###'.$subPartMarker.'###';
-				$error_code[2] = $templateObj->getTemplateFile();
+				$errorCode[0] = 'no_subtemplate';
+				$errorCode[1] = '###'.$subPartMarker.'###';
+				$errorCode[2] = $templateObj->getTemplateFile();
 
 				return '';
 			}
@@ -877,7 +877,7 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
 			}
 			$relatedListView = GeneralUtility::makeInstance('tx_ttproducts_relatedlist_view');
 			$relatedListView->init($this->cObj, $this->pidListObj->getPidlist(), $this->pidListObj->getRecursive());
-			$listMarkerArray = $relatedListView->getListMarkerArray('SINGLE',$this->pibaseClass,$templateCode, $markerArray, $viewTagArray, $itemTableArray[$this->type]->getFuncTablename(), $this->uid, $this->uidArray, $useArticles, $pageAsCategory, $this->pid, $error_code);
+			$listMarkerArray = $relatedListView->getListMarkerArray('SINGLE',$this->pibaseClass,$templateCode, $markerArray, $viewTagArray, $itemTableArray[$this->type]->getFuncTablename(), $this->uid, $this->uidArray, $useArticles, $pageAsCategory, $this->pid, $errorCode);
 
 			if (
 				$this->type == 'product' &&
@@ -977,15 +977,15 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
 			}
 
 			if ($content == '') {
-				$error_code[0] = 'internal_error';
-				$error_code[1] = 'TTP_3';
-				$error_code[2] = 'TYPO3 function';
+				$errorCode[0] = 'internal_error';
+				$errorCode[1] = 'TTP_3';
+				$errorCode[2] = 'TYPO3 function';
 			}
 		} else {
-			$error_code[0] = 'wrong_parameter';
-			$error_code[1] = ($this->type ? $this->type : 'product');
-			$error_code[2] = intval($this->uidArray[$this->type]);
-			$error_code[3] = $this->pidListObj->getPidlist();
+			$errorCode[0] = 'wrong_parameter';
+			$errorCode[1] = ($this->type ? $this->type : 'product');
+			$errorCode[2] = intval($this->uidArray[$this->type]);
+			$errorCode[3] = $this->pidListObj->getPidlist();
 		}
 
 		return $content;

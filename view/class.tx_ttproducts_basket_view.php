@@ -52,7 +52,6 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 	public $conf;
 	public $config;
 	public $price; // price object
-	public $templateCode = '';		// In init(), set to the content of the templateFile. Used by default in getView()
 	public $urlObj; // url functions
 	public $urlArray; // overridden url destinations
 	public $funcTablename;
@@ -71,7 +70,6 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$pibaseClass,
 		$urlArray = array(),
 		$useArticles,
-        $templateCode,
 		&$error_code
 	)	{
 		$this->pibaseClass = $pibaseClass;
@@ -80,7 +78,6 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$this->conf = &$cnf->conf;
 		$this->config = &$cnf->config;
-		$this->templateCode = $templateCode;
 		$this->error_code = &$error_code;
 		$this->useArticles = $useArticles;
 
@@ -219,13 +216,10 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 
 		if ($templateCode == '') {
-			$templateCode = $this->templateCode;
-			if ($templateCode == '') {
-				$templateObj = GeneralUtility::makeInstance('tx_ttproducts_template');
-				$this->error_code[0] = 'empty_template';
-				$this->error_code[1] = ($templateFilename ? $templateFilename : $templateObj->getTemplateFile());
-				return '';
-			}
+            $templateObj = GeneralUtility::makeInstance('tx_ttproducts_template');
+            $this->error_code[0] = 'empty_template';
+            $this->error_code[1] = ($templateFilename ? $templateFilename : $templateObj->getTemplateFile());
+            return '';
 		}
 
 			// Getting subparts from the template code.
@@ -235,7 +229,6 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$tempContent = tx_div2007_core::getSubpart($templateCode, $subpartmarkerObj->spMarker('###' . $subpartMarker . $this->config['templateSuffix'] . '###'));
 
 		$viewTagArray = $markerObj->getAllMarkers($tempContent);
-
 		$feUsersViewObj = $tablesObj->get('fe_users', true);
 		$feUsersViewObj->getWrappedSubpartArray(
 			$viewTagArray,
