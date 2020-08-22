@@ -58,7 +58,7 @@ class UpgradeApi {
                         $queryBuilder->expr()->eq(
                             'deleted',
                             $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
-                        ),
+                        )
                     )
                 )
                 ->execute()->fetchColumn(0);
@@ -80,7 +80,7 @@ class UpgradeApi {
                 $queryBuilder->expr()->eq(
                     'deleted',
                     $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
-                ),
+                )
             )
             ->setMaxResults(1)
             ->orderBy('crdate', 'DESC')
@@ -156,7 +156,7 @@ class UpgradeApi {
                     $queryBuilder->expr()->eq(
                         $articleTable . '.deleted',
                         $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
-                    ),
+                    )
                 )
             )
             ->execute();
@@ -185,7 +185,7 @@ class UpgradeApi {
                         $queryBuilder->expr()->eq(
                             'deleted',
                             $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
-                        ),
+                        )
                     )
                 )
                 ->execute()->fetchColumn(0);
@@ -226,7 +226,7 @@ class UpgradeApi {
                             $queryBuilder->expr()->eq(
                                 'deleted',
                                     $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
-                            ),
+                            )
                         )
                     )
                     ->set(
@@ -287,7 +287,7 @@ class UpgradeApi {
                     $queryBuilder->expr()->eq(
                         'deleted',
                         $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
-                    ),
+                    )
                 )
             )
             ->set('uid_local', $queryBuilder->quoteIdentifier('product_uid'), false)
@@ -343,7 +343,7 @@ class UpgradeApi {
                     $queryBuilder->expr()->eq(
                         'deleted',
                         $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
-                    ),
+                    )
                 )
             )
             ->set('uid_local', $queryBuilder->quoteIdentifier('sys_products_orders_uid'), false)
