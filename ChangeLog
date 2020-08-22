@@ -1,5 +1,6 @@
 
 2020-08-22 Franz Holzinger <franz@ttproducts.de>
+    * remove support for outdated file payment_DIBS.php
     * renaming of table fields of mm tables:
     * tt_products_mm_graduated_price:
     product_uid ==> uid_local
