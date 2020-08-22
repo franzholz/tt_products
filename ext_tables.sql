@@ -303,7 +303,7 @@ CREATE TABLE tt_products_products_mm_articles (
 	uid_foreign int(11) DEFAULT '0' NOT NULL,
 	tablenames varchar(30) DEFAULT '' NOT NULL,
 	sorting int(10) DEFAULT '0' NOT NULL,
-	articlesort int(10) DEFAULT '0' NOT NULL,
+	sorting_foreign int(10) DEFAULT '0' NOT NULL,
 
 	PRIMARY KEY (uid),
 	KEY uid_local (uid_local),
@@ -537,22 +537,23 @@ CREATE TABLE tt_products_texts_language (
 # Table structure for table 'tt_products_products_mm_graduated_price'
 #
 CREATE TABLE tt_products_mm_graduated_price (
-	uid int(11) unsigned NOT NULL auto_increment,
-	pid int(11) unsigned DEFAULT '0' NOT NULL,
-	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
-	crdate int(11) unsigned DEFAULT '0' NOT NULL,
+	uid int(11) NOT NULL auto_increment,
+	pid int(11) DEFAULT '0' NOT NULL,
+	tstamp int(11) DEFAULT '0' NOT NULL,
+	crdate int(11) DEFAULT '0' NOT NULL,
 	deleted tinyint(4) DEFAULT '0' NOT NULL,
-	hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
+	hidden tinyint(4) DEFAULT '0' NOT NULL,
 	title tinytext,
-	product_uid int(11) DEFAULT '0' NOT NULL,
-	graduated_price_uid int(11) DEFAULT '0' NOT NULL,
+	uid_local int(11) DEFAULT '0' NOT NULL,
+	uid_foreign int(11) DEFAULT '0' NOT NULL,
 	tablenames varchar(30) DEFAULT '' NOT NULL,
-	productsort int(10) DEFAULT '0' NOT NULL,
-	graduatedsort int(10) DEFAULT '0' NOT NULL,
+	sorting int(10) DEFAULT '0' NOT NULL,
+	sorting_foreign int(10) DEFAULT '0' NOT NULL,
 
 	PRIMARY KEY (uid),
-	KEY product_uid (product_uid),
-	KEY graduated_price_uid (graduated_price_uid),
+	KEY uid_local (uid_local),
+	KEY uid_foreign (uid_foreign),
+	KEY select01 (uid_local,uid_foreign),
 	KEY parent (pid)
 );
 
@@ -576,7 +577,6 @@ CREATE TABLE tt_products_graduated_price (
 	formula text,
 	startamount decimal(19,2) DEFAULT '0.00' NOT NULL,
 	note text,
-	items int(11) DEFAULT '0' NOT NULL,
 
 	PRIMARY KEY (uid),
 	KEY parent (pid),
@@ -692,9 +692,6 @@ CREATE TABLE sys_products_orders (
 );
 
 
-#
-# Table structure for table 'sys_products_orders_mm_tt_products'
-#
 CREATE TABLE sys_products_orders_mm_tt_products (
 	uid int(11) NOT NULL auto_increment,
 	pid int(11) DEFAULT '0' NOT NULL,
@@ -702,16 +699,17 @@ CREATE TABLE sys_products_orders_mm_tt_products (
 	crdate int(11) DEFAULT '0' NOT NULL,
 	deleted tinyint(4) DEFAULT '0' NOT NULL,
 	hidden tinyint(4) DEFAULT '0' NOT NULL,
-	sys_products_orders_uid int(11) unsigned DEFAULT '0' NOT NULL,
+	uid_local int(11) DEFAULT '0' NOT NULL,
+	uid_foreign int(11) DEFAULT '0' NOT NULL,
+
 	sys_products_orders_qty int(11) unsigned DEFAULT '0' NOT NULL,
-	tt_products_uid int(11) unsigned DEFAULT '0' NOT NULL,
-	tt_products_articles_uid int(11) unsigned DEFAULT '0' NOT NULL,
+	tt_products_articles_uid int(11) DEFAULT '0' NOT NULL,
 	tablenames varchar(50) DEFAULT '' NOT NULL,
 
 	PRIMARY KEY (uid),
-	KEY tt_products_uid (tt_products_uid),
 	KEY tt_products_articles_uid (tt_products_articles_uid),
-	KEY sys_products_orders_uid (sys_products_orders_uid)
+	KEY uid_local (uid_local),
+	KEY uid_foreign (uid_foreign)
 );
 
 

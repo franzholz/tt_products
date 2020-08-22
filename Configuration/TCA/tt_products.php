@@ -314,22 +314,24 @@ $result = array(
 				'default' => 0
 			)
 		),
-		'graduated_price_uid' => array (
-			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products.graduated_price_uid',
-			'config' => array (
-				'type' => 'inline',
-				'appearance' => array ('collapseAll' => true, 'newRecordLinkAddTitle' => true, 'useCombination' => true),
-				'foreign_table' => 'tt_products_mm_graduated_price',
-				'foreign_field' => 'product_uid',
-				'foreign_sortby' => 'productsort',
-				'foreign_label' => 'graduated_price_uid',
-				'foreign_selector' => 'graduated_price_uid',
-				'foreign_unique' => 'graduated_price_uid',
-				'maxitems' => 10,
-				'default' => 0
-			),
-		),
+        'graduated_price_uid' => array (
+            'exclude' => 1,
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products.graduated_price_uid',
+            'config' => array (
+                'type' => 'inline',
+                'appearance' =>
+                    array (
+                        'collapseAll' => true,
+                        'newRecordLinkAddTitle' => true,
+                        'useCombination' => true
+                    ),
+                'MM' => 'tt_products_mm_graduated_price',
+                'foreign_table' => 'tt_products_graduated_price',
+                'foreign_sortby' => 'sorting',
+                'maxitems' => 12,
+                'default' => 0
+            ),
+        ),
 		'article_uid' => array (
 			'exclude' => 1,
 			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products.article_uid',

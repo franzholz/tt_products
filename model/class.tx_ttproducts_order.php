@@ -482,7 +482,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
 		}
 
 			// First: delete any existing. Shouldn't be any
-		$where='sys_products_orders_uid='.intval($orderUid);
+		$where = 'uid_local=' . intval($orderUid);
 		$GLOBALS['TYPO3_DB']->exec_DELETEquery('sys_products_orders_mm_tt_products',$where);
 
 		if (isset($itemArray) && is_array($itemArray)) {
@@ -497,9 +497,9 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
 					}
 
 					$insertFields = array (
-						'sys_products_orders_uid' => intval($orderUid),
+						'uid_local' => intval($orderUid),
 						'sys_products_orders_qty' => intval($actItem['count']),
-						'tt_products_uid' => intval($actItem['rec']['uid']),
+						'uid_foreign' => intval($actItem['rec']['uid']),
 						'tablenames' => $productTablename.','.$articleTablename
 					);
 
@@ -621,8 +621,8 @@ p.uid AS product_uid
 
 FROM sys_products_orders po LEFT JOIN
 sys_products_orders_mm_tt_products pa ON
-po.uid = pa.sys_products_orders_uid INNER JOIN tt_products p ON
-pa.tt_products_uid = p.uid
+po.uid = pa.uid_local INNER JOIN tt_products p ON
+pa.uid_foreign = p.uid
 */
 
 		$alias = $this->getTableObj()->getAlias();
@@ -653,7 +653,7 @@ pa.tt_products_uid = p.uid
 		$selectConf['where'] = $where;
 		$selectConf['from'] = $from;
 		$selectConf['leftjoin'] =
-			'sys_products_orders_mm_tt_products pa ON ' . $alias . '.uid = pa.sys_products_orders_uid INNER JOIN tt_products ' . $productAlias1 . ' ON pa.tt_products_uid = ' . $productAlias1 . '.uid';
+			'sys_products_orders_mm_tt_products pa ON ' . $alias . '.uid = pa.uid_local INNER JOIN tt_products ' . $productAlias1 . ' ON pa.uid_foreign = ' . $productAlias1 . '.uid';
 		if ($orderBy != '') {
 			$selectConf['orderBy'] = $orderBy;
 		}

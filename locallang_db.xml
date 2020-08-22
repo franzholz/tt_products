@@ -177,8 +177,10 @@
 			<label index="tt_products_products_mm_downloads.uid_foreign">Download for it</label>
 			<label index="tt_products_mm_graduated_price">Relation products to gradutated prices</label>
 			<label index="tt_products_mm_graduated_price.product_uid">Product using it.</label>
-			<label index="tt_products_mm_graduated_price.graduated_price_uid">Price formula.</label>
-			<label index="tt_products_products_mm_articles">Relation products to articles</label>
+            <label index="tt_products_mm_graduated_price.uid_local">Product using it.</label>
+            <label index="tt_products_mm_graduated_price.graduated_price_uid">Price formula.</label>
+            <label index="tt_products_mm_graduated_price.uid_foreign">Price formula.</label>
+            <label index="tt_products_products_mm_articles">Relation products to articles</label>
 			<label index="tt_products_products_mm_articles.product_uid">Product using it</label>
 			<label index="tt_products_products_mm_articles.article_uid">Article</label>
 			<label index="tt_products_related_products_products_mm">Relation products to related products</label>
@@ -187,8 +189,6 @@
 			<label index="tt_products_accessory_products_products_mm">Relation products to accessory products</label>
 			<label index="tt_products_accessory_products_products_mm.uid_local">Origin Product</label>
 			<label index="tt_products_accessory_products_products_mm.uid_foreign">Accessory Product</label>
-			<label index="tt_products_mm_graduated_price.product_uid">Product using it.</label>
-			<label index="tt_products_mm_graduated_price.graduated_price_uid">Price formula.</label>
 			<label index="tt_products_graduated_price">Graduated prices</label>
 			<label index="tt_products_graduated_price.formula">Price formula:</label>
 			<label index="tt_products_graduated_price.startamount">Start amount of items:</label>
@@ -298,7 +298,10 @@
 			<label index="sys_products_orders_mm_gained_voucher_codes">Relations Order to Voucher Code</label>
 			<label index="sys_products_orders_mm_gained_voucher_codes.uid_local">Order</label>
 			<label index="sys_products_orders_mm_gained_voucher_codes.uid_foreign">Voucher</label>
-			<label index="fe_groups.tt_products_discount">Discount</label>
+            <label index="sys_products_orders_mm_tt_products">Relations Order to Product</label>
+            <label index="sys_products_orders_mm_tt_products.uid_local">Order</label>
+            <label index="sys_products_orders_mm_tt_products.uid_foreign">Product</label>
+            <label index="fe_groups.tt_products_discount">Discount</label>
             <label index="fe_users.cnum">Customer Number:</label>
             <label index="fe_users.static_info_country">Country Code:</label>
             <label index="fe_users.zone">State/province:</label>
@@ -558,8 +561,10 @@
 			<label index="tt_products_downloads_language.sys_language_uid">Sprache</label>
 			<label index="tt_products_mm_graduated_price">Beziehung Produkte zu Staffelpreisen</label>
 			<label index="tt_products_mm_graduated_price.product_uid">Produkt zum Staffelpreis</label>
+            <label index="tt_products_mm_graduated_price.uid_local">Produkt zum Staffelpreis</label>
 			<label index="tt_products_mm_graduated_price.graduated_price_uid">Preisformel</label>
-			<label index="tt_products_products_mm_articles">Beziehung des Produktes zu Artikeln</label>
+            <label index="tt_products_mm_graduated_price.uid_foreign">Preisformel</label>
+            <label index="tt_products_products_mm_articles">Beziehung des Produktes zu Artikeln</label>
 			<label index="tt_products_products_mm_articles.product_uid">Produkt verwendet Artikel</label>
 			<label index="tt_products_products_mm_articles.article_uid">Artikel</label>
 			<label index="tt_products_related_products_products_mm">Beziehung eines Produktes zu zugewiesenen Produkten</label>

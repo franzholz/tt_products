@@ -48,7 +48,7 @@ if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['articleMode'] >= '1
 					'default' => 0
 				)
 			),
-			'articlesort' => array (
+			'sorting_foreign' => array (
 				'config' => array (
 					'type' => 'passthrough',
 					'default' => 0

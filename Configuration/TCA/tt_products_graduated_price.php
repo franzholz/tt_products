@@ -24,7 +24,7 @@ $result = array (
 		'searchFields' => 'title,note',
 	),
 	'interface' => array (
-		'showRecordFieldList' => 'title,formula,startamount,note,parentid,items'
+		'showRecordFieldList' => 'title,formula,startamount,note,parentid'
 	),
 	'columns' => array (
 		'tstamp' => array (
@@ -160,25 +160,6 @@ $result = array (
 				'default' => ''
 			)
 		),
-		'items' => array (
-			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products_graduated_price.items',
-			'config' => array (
-				'type' => 'select',
-				'renderType' => 'selectSingle',
-				'items' => array (
-					array('', 0),
-				),
-				'foreign_table' => 'tt_products_mm_graduated_price',
-				'foreign_field' => 'graduated_price_uid',
-				'foreign_sortby' => 'graduatedsort',
-				'foreign_label' => 'product_uid',
-				'size' => 6,
-				'minitems' => 0,
-				'maxitems' => 100,
-				'default' => 0
-			)
-		),
 	),
 	'types' => array (
 		'0' =>
@@ -190,7 +171,7 @@ $result = array (
                         )
                     ),
                 ),
-                'showitem' => 'hidden,--palette--;;1, title, formula, startamount, note, items'
+                'showitem' => 'hidden,--palette--;;1, title, formula, startamount, note'
             )
 	),
 	'palettes' => array (

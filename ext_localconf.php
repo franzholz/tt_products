@@ -283,7 +283,13 @@ call_user_func(function () {
         // Register Status Report Hook
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['reports']['tx_reports']['status']['providers']['Shop System'][] = \JambageCom\TtProducts\Hooks\StatusProvider::class;
     }
+    
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['productMMArticleTtProducts']
+        = \JambageCom\TtProducts\Updates\ProductMMArticleTtProductsUpdater::class;
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['productMMGraduatedPriceTtProducts']
+        = \JambageCom\TtProducts\Updates\ProductMMGraduatedPriceTtProductsUpdater::class;
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['OrderMMProductTtProducts']
+        = \JambageCom\TtProducts\Updates\OrderMMProductTtProductsUpdater::class;
 });
 
- 
- 
+
