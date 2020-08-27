@@ -571,7 +571,7 @@ class tx_ttproducts_tracking implements \TYPO3\CMS\Core\SingletonInterface {
 					$type = 'select';
 				}
 				if ($recordLine == '') {
-					$recordLine = '<!-- ###INPUT### begin -->###ORDER_UID### (###ORDER_BILL_NO###): ###ORDER_NAME### (###ORDER_AMOUNT### ###CUR_SYM###) / ###ORDER_STATUS###) ###ORDER_CRDATE### ###LAST_ORDER_TYPE### ###LAST_ORDER_COUNT###<!-- ###INPUT### end -->';
+					$recordLine = '<!-- ###INPUT### begin -->###ORDER_ORDER_NO### (###ORDER_BILL_NO###): ###ORDER_NAME### (###ORDER_AMOUNT### ###CUR_SYM###) / ###ORDER_STATUS###) ###ORDER_CRDATE### ###LAST_ORDER_TYPE### ###LAST_ORDER_COUNT###<!-- ###INPUT### end -->';
 				}
 
 				$out = tx_ttproducts_form_div::createSelect(
@@ -665,7 +665,7 @@ class tx_ttproducts_tracking implements \TYPO3\CMS\Core\SingletonInterface {
 		$markerArray['###FIELD_EMAIL_NOTIFY###'] = $orderRow['email_notify'] ? ' ' . $checkedHTML : '';
 
 		$markerArray['###FIELD_EMAIL###'] = $orderRow['email'];
-		$markerArray['###ORDER_UID###'] = $orderObj->getNumber($orderRow['uid']);
+		$markerArray['###ORDER_ORDER_NO###'] = $orderObj->getNumber($orderRow['uid']);
 		$markerArray['###ORDER_DATE###'] = $this->cObj->stdWrap($orderRow['crdate'],$this->conf['orderDate_stdWrap.']);
 		$markerArray['###TRACKING_NUMBER###'] =  $trackingCode;
 		$markerArray['###UPDATE_CODE###'] = $updateCode;

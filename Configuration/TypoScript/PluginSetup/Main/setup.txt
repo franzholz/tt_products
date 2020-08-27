@@ -439,7 +439,7 @@ plugin.tt_products {
 
   tracking {
      fields = uid,crdate,name,tracking_code,amount,status,status_log,bill_no,feusers_uid
-     recordLine = <!-- ###INPUT### begin -->###ORDER_UID### (###ORDER_BILL_NO###): ###ORDER_NAME### (###ORDER_AMOUNT### ###CUR_SYM###) / ###ORDER_STATUS###) ###ORDER_CRDATE### ###LAST_ORDER_TYPE### ###LAST_ORDER_COUNT###<!-- ###INPUT### end -->
+     recordLine = <!-- ###INPUT### begin -->###ORDER_ORDER_NO### (###ORDER_BILL_NO###): ###ORDER_NAME### (###ORDER_AMOUNT### ###CUR_SYM###) / ###ORDER_STATUS###) ###ORDER_CRDATE### ###LAST_ORDER_TYPE### ###LAST_ORDER_COUNT###<!-- ###INPUT### end -->
      recordType = select
   }
 

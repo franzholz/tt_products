@@ -1120,7 +1120,7 @@ Subpart used if the order is finalized and this is thus the confirmation shown.-
     Ihre Test-Bestellung ist nun abgeschlossen und hat folgende Nummer:
   </div>
   <div id="ORDER_UID_BASKET_ORDERCONFIRMATION_TEMPLATE">
-    ###ORDER_UID###
+    ###ORDER_ORDER_NO###
   </div>
   <div id="text_payment_emailsend_BASKET_ORDERCONFIRMATION_TEMPLATE">
 		Es handelt sich hierbei nur um einen Test.<br>
@@ -1143,7 +1143,7 @@ Subpart used if the order is finalized and this is thus the confirmation shown.-
     Kontonummer: 1111111111<br>
     IBAN: DE11 1111 1111 1111 11111 11<br>
     BIC: BANKTEST<br><br>
-    Betreff: Ihre Bestellnummer ###ORDER_UID### unbedingt angeben! <br>
+    Betreff: Ihre Bestellnummer ###ORDER_ORDER_NO### unbedingt angeben! <br>
 	  <!-- ###MESSAGE_PAYMENT_10### end -->
   </div>
   <div id="header_zahlungsart_selbstabholer_BASKET_ORDERCONFIRMATION_TEMPLATE">
@@ -1174,7 +1174,7 @@ Subpart used if the order is finalized and this is thus the confirmation shown.-
     <form target="paypal" action="https://www.paypal.com/cgi-bin/webscr" method="post">
     <input type="hidden" name="cmd" value="_xclick">
     <input type="hidden" name="business" value="info@ttproducts.de">
-    <input type="hidden" name="item_name" value="###ORDER_UID###">
+    <input type="hidden" name="item_name" value="###ORDER_ORDER_NO###">
     <input type="hidden" name="amount" value="###PRICE_TOTAL_TAX###">
     <input type="hidden" name="no_note" value="1">
     <input type="hidden" name="currency_code" value="EUR">
@@ -1467,7 +1467,7 @@ If payment is initiated but the required information fields are not filled in co
 Displays the view of the order status by tracking codes.-->
 
 ###GW1B###
-<b>Ihre Bestellung (###ORDER_UID###) hat folgenden Status:</b><br>
+<b>Ihre Bestellung (###ORDER_ORDER_NO###) hat folgenden Status:</b><br>
 (siehe letzte Zeile f&uuml;r aktuellsten Stand)<br>
 <br>
 
@@ -1512,7 +1512,7 @@ This part is repeated for each order status item and finally this part in the te
 <div class="shopadmin">
   ###GW1B###Shop ADMIN:
 </div>
-Order: ####ORDER_UID###<br><br>
+Order: ####ORDER_ORDER_NO###<br><br>
 
 ###GW1B###
 
@@ -1652,11 +1652,11 @@ Displays error message if no tracking code.
 <!-- ###TRACKING_EMAILNOTIFY_TEMPLATE### begin
 Subpart used as template for the notify emails. First line is used as subject for the mail.-->
 
-herzogkienast.de Bestellstatus (####ORDER_UID###)
+herzogkienast.de Bestellstatus (####ORDER_ORDER_NO###)
 
 ###PERSON_SALUTATION###
 
-BESTELLINFORMATION (####ORDER_UID###):
+BESTELLINFORMATION (####ORDER_ORDER_NO###):
 Der Status Ihrer Bestellung wurde ge&auml;ndert:
 
 Zeit: ###ORDER_STATUS_TIME###
@@ -1698,12 +1698,12 @@ First line is used as subject for the mail.
 Subpart used as template for the order-emails
 First line is used as subject for the mail.
 -->
-Bestellung ####ORDER_UID###
+Bestellung ####ORDER_ORDER_NO###
 
-Bestellung ####ORDER_UID###
+Bestellung ####ORDER_ORDER_NO###
 
 Bestellbestätigung:
-Ihre Test-Bestellung ist abgeschlossen und hat die Nummer ###ORDER_UID###.
+Ihre Test-Bestellung ist abgeschlossen und hat die Nummer ###ORDER_ORDER_NO###.
 Verweisen Sie bitte bei jedem Kontakt mit uns auf diese Bestellnummer.
 
 BESTELLSTATUS:
@@ -1858,7 +1858,7 @@ This corresponds to the BASKET_TEMPLATE.<br>
 		<td colspan=7>
 		<p>###GW2B###<b>###ORDER_CONFIRMATION###</b>###GW2E###<br>
 		###ORDER_CONFIRMATION_THANKS###<br>###ORDER_CONFIRMATION_COMPLETE###<br>
-		<br>&nbsp;&nbsp;&nbsp;&nbsp;<b>###ORDER_UID###</b> <br><br>
+		<br>&nbsp;&nbsp;&nbsp;&nbsp;<b>###ORDER_ORDER_NO###</b> <br><br>
 		###ORDER_CONFIRMATION_EMAIL### ###CUSTOMER_RECIPIENTS_EMAIL### <br></p>
 		<p><i><b><font color="#FF0000">###ORDER_CONFIRMATION_PAYMENT###</font></b></i></p>
 
@@ -1871,7 +1871,7 @@ Message for payment method 10, nach Absprache
 -->
       	<p><font color=red><strong>###ORDER_CONFIRMATION_10###</strong><br>###ORDER_CONFIRMATION_10_TEXT###</font><p>
 		<font color=red><br>
-		<br>###ORDER_CONFIRMATION_ORDER_UID### ###ORDER_UID###</font><p>&nbsp;
+		<br>###ORDER_CONFIRMATION_ORDER_UID### ###ORDER_ORDER_NO###</font><p>&nbsp;
 	<!-- ###MESSAGE_PAYMENT_10### end -->
 	<!-- ###MESSAGE_PAYMENT_20### begin
 Message for payment method 20, Vorkasse
@@ -1883,7 +1883,7 @@ Message for payment method 20, Vorkasse
 		###ORDER_CONFIRMATION_20_BIC######SHOP_ACCOUNT_BIC###<br>
 		###ORDER_CONFIRMATION_20_IBAN######SHOP_ACCOUNT_IBAN###<font color=red><br>
   <br>
-		<br>###ORDER_CONFIRMATION_ORDER_UID### ###ORDER_UID###</font><p>
+		<br>###ORDER_CONFIRMATION_ORDER_UID### ###ORDER_ORDER_NO###</font><p>
 		&nbsp;<font color=red>&nbsp;</font>
 	<!-- ###MESSAGE_PAYMENT_20### end -->
 
@@ -1908,7 +1908,7 @@ Message for payment method 50, Vorkasse
 		<b>###ORDER_CONFIRMATION_50###</b><br>###ORDER_CONFIRMATION_50_TEXT###</font><p>
 		<font color=red>
   <br>
-		<br>###ORDER_CONFIRMATION_ORDER_UID### ###ORDER_UID###</font>
+		<br>###ORDER_CONFIRMATION_ORDER_UID### ###ORDER_ORDER_NO###</font>
 		<p>
 	<!-- ###MESSAGE_PAYMENT_50### end -->
 
@@ -2233,7 +2233,7 @@ Message for payment method 50, Vorkasse
 
 
 
-###GW1B###<p><b>Rechnung Nr. ###ORDER_UID###:</b></p>###GW1E###<br>
+###GW1B###<p><b>Rechnung Nr. ###ORDER_ORDER_NO###:</b></p>###GW1E###<br>
       <br><p><strong>Es handelt sich um einen Test.</strong></p>
   <!-- ###ITEM_CATEGORY_AND_ITEMS### begin -->
   <!-- ###ITEM_CATEGORY### begin -->
@@ -2315,7 +2315,7 @@ Message for payment method 50, Vorkasse
 
 ###DELIVERY_COUNTRY###
 
-###GW1B###<p><b>Lieferschein fr Rechnung Nr. ###ORDER_UID###:</b></p>###GW1E###<br><br>
+###GW1B###<p><b>Lieferschein fr Rechnung Nr. ###ORDER_ORDER_NO###:</b></p>###GW1E###<br><br>
 <br>
 <p><strong>Es handelt sich hierbei nur um einen Test.</strong></p>
 

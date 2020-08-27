@@ -58,11 +58,12 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 			$orderObj = $this->getModelObj();
 
 				// Order:	NOTE: Data exist only if the order->getBlankUid() has been called. Therefore this field in the template should be used only when an order has been established
-			$markerArray['###ORDER_UID###'] = $orderObj->getNumber($orderArray['orderUid']);
+			$markerArray['###ORDER_UID###'] = $markerArray['###ORDER_ORDER_NO###'] = $orderObj->getNumber($orderArray['orderUid']);
+
 			$markerArray['###ORDER_DATE###'] = $local_cObj->stdWrap($orderArray['orderDate'], $this->conf['orderDate_stdWrap.']);
 			$markerArray['###ORDER_TRACKING_NO###'] = $orderArray['orderTrackingNo'];
 		} else {
-			$markerArray['###ORDER_UID###'] = '';
+			$markerArray['###ORDER_UID###'] = $markerArray['###ORDER_ORDER_NO###'] = '';
 			$markerArray['###ORDER_DATE###'] = '';
 			$markerArray['###ORDER_TRACKING_NO###'] = '';
 		}

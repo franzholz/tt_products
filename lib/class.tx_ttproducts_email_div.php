@@ -176,7 +176,7 @@ class tx_ttproducts_email_div {
 				);
 
 				$markerArray['###ORDER_TRACKING_NO###'] = $tracking;
-				$markerArray['###ORDER_UID###'] = $orderNumber;
+				$markerArray['###ORDER_UID###'] = $markerArray['###ORDER_ORDER_NO###'] = $orderNumber;
 				$emailContent = tx_div2007_core::substituteMarkerArrayCached($emailContent, $markerArray);
 				$parts = explode(chr(10),$emailContent,2);
 				$subject = trim($parts[0]);

@@ -1902,7 +1902,7 @@ Subpart used if the order is finalized and this is thus the confirmation shown.
 		<td colspan=7>
 		<p>###GW2B###<b>###ORDER_CONFIRMATION###</b>###GW2E###<br>
 		###ORDER_CONFIRMATION_THANKS###<br>###ORDER_CONFIRMATION_COMPLETE###<br>
-		<br>&nbsp;&nbsp;&nbsp;&nbsp;<b>###ORDER_UID###</b> <br><br>
+		<br>&nbsp;&nbsp;&nbsp;&nbsp;<b>###ORDER_ORDER_NO###</b> <br><br>
 		###ORDER_CONFIRMATION_EMAIL### ###CUSTOMER_RECIPIENTS_EMAIL### <br></p>
 		<p><i><b><font color="#FF0000">###ORDER_CONFIRMATION_PAYMENT###</font></b></i></p>
 
@@ -1915,7 +1915,7 @@ Message for payment method 10, nach Absprache
 -->
       	<p><font color=red><strong>###ORDER_CONFIRMATION_10###</strong><br>###ORDER_CONFIRMATION_10_TEXT###</font><p>
 		<font color=red><br>
-		<br>###ORDER_CONFIRMATION_ORDER_UID### ###ORDER_UID###</font><p>&nbsp;
+		<br>###ORDER_CONFIRMATION_ORDER_UID### ###ORDER_ORDER_NO###</font><p>&nbsp;
 	<!-- ###MESSAGE_PAYMENT_10### end -->
 	<!-- ###MESSAGE_PAYMENT_20### begin
 Message for payment method 20, Vorkasse
@@ -1927,7 +1927,7 @@ Message for payment method 20, Vorkasse
 		###ORDER_CONFIRMATION_20_BIC######SHOP_ACCOUNT_BIC###<br>
 		###ORDER_CONFIRMATION_20_IBAN######SHOP_ACCOUNT_IBAN###<font color=red><br>
   <br>
-		<br>###ORDER_CONFIRMATION_ORDER_UID### ###ORDER_UID###</font><p>
+		<br>###ORDER_CONFIRMATION_ORDER_UID### ###ORDER_ORDER_NO###</font><p>
 		&nbsp;<font color=red>&nbsp;</font>
 	<!-- ###MESSAGE_PAYMENT_20### end -->
 
@@ -1952,7 +1952,7 @@ Message for payment method 50, Vorkasse
 		<b>###ORDER_CONFIRMATION_50###</b><br>###ORDER_CONFIRMATION_50_TEXT###</font><p>
 		<font color=red>
   <br>
-		<br>###ORDER_CONFIRMATION_ORDER_UID### ###ORDER_UID###</font>
+		<br>###ORDER_CONFIRMATION_ORDER_UID### ###ORDER_ORDER_NO###</font>
 		<p>
 	<!-- ###MESSAGE_PAYMENT_50### end -->
 
@@ -2283,7 +2283,7 @@ If payment is initiated but the required information fields are not filled in co
 Displays the view of the order status by tracking codes.
 -->
 ###GW1B###
-<b>###TRACKING_STATUS_ORDER### (###ORDER_UID###) ###TRACKING_STATUS_STATUS###</b><br>
+<b>###TRACKING_STATUS_ORDER### (###ORDER_ORDER_NO###) ###TRACKING_STATUS_STATUS###</b><br>
 ###TRACKING_STATUS_STATUS_TEXT###<br>
 <!-- ###ORDER_ITEM### begin -->
 ###TRACKING_STATUS_BILL### ###ORDER_BILL_NO###<br>
@@ -2456,9 +2456,9 @@ Displays error message if no tracking code.
 Subpart used as template for the notify emails
 First line is used as subject for the mail.
 -->
-###TRACKING_EMAIL_STATUS_LABEL### ###SELLERS_COMPANY###(####ORDER_UID###)
+###TRACKING_EMAIL_STATUS_LABEL### ###SELLERS_COMPANY###(####ORDER_ORDER_NO###)
 
-###TRACKING_EMAIL_INFO### (####ORDER_UID###):
+###TRACKING_EMAIL_INFO### (####ORDER_ORDER_NO###):
 ###TRACKING_EMAIL_STATUS_CHANGED###
 
 ###TRACKING_EMAIL_TIME### ###ORDER_STATUS_TIME###
@@ -2504,9 +2504,9 @@ http://###DOMAIN###/index.php?id=###PID_TRACKING###&amp;tracking=###ORDER_TRACKI
 Subpart used as template for the order-emails
 First line is used as subject for the mail.
 -->
-###ORDER_CONFIRMATION### ###SELLERS_COMPANY### ####ORDER_UID###
+###ORDER_CONFIRMATION### ###SELLERS_COMPANY### ####ORDER_ORDER_NO###
 
-###ORDER_CONFIRMATION_COMPLETE### ####ORDER_UID###
+###ORDER_CONFIRMATION_COMPLETE### ####ORDER_ORDER_NO###
 
 ###ORDER_CONFIRMATION_ORDER_STATUS###
 ###ORDER_CONFIRMATION_STATUS_ADDRESS###
@@ -2690,7 +2690,7 @@ This corresponds to the BASKET_TEMPLATE.<br>
 		<td colspan=7>
 		<p>###GW2B###<b>###ORDER_CONFIRMATION###</b>###GW2E###<br>
 		###ORDER_CONFIRMATION_THANKS###<br>###ORDER_CONFIRMATION_COMPLETE###<br>
-		<br>&nbsp;&nbsp;&nbsp;&nbsp;<b>###ORDER_UID###</b> <br><br>
+		<br>&nbsp;&nbsp;&nbsp;&nbsp;<b>###ORDER_ORDER_NO###</b> <br><br>
 		###ORDER_CONFIRMATION_EMAIL### ###CUSTOMER_RECIPIENTS_EMAIL### <br></p>
 		<p><i><b><font color="#FF0000">###ORDER_CONFIRMATION_PAYMENT###</font></b></i></p>
 
@@ -2703,7 +2703,7 @@ Message for payment method 10, nach Absprache
 -->
       	<p><font color=red><strong>###ORDER_CONFIRMATION_10###</strong><br>###ORDER_CONFIRMATION_10_TEXT###</font><p>
 		<font color=red><br>
-		<br>###ORDER_CONFIRMATION_ORDER_UID### ###ORDER_UID###</font><p>&nbsp;
+		<br>###ORDER_CONFIRMATION_ORDER_UID### ###ORDER_ORDER_NO###</font><p>&nbsp;
 	<!-- ###MESSAGE_PAYMENT_10### end -->
 	<!-- ###MESSAGE_PAYMENT_20### begin
 Message for payment method 20, Vorkasse
@@ -2715,7 +2715,7 @@ Message for payment method 20, Vorkasse
 		###ORDER_CONFIRMATION_20_BIC######SHOP_ACCOUNT_BIC###<br>
 		###ORDER_CONFIRMATION_20_IBAN######SHOP_ACCOUNT_IBAN###<font color=red><br>
   <br>
-		<br>###ORDER_CONFIRMATION_ORDER_UID### ###ORDER_UID###</font><p>
+		<br>###ORDER_CONFIRMATION_ORDER_UID### ###ORDER_ORDER_NO###</font><p>
 		&nbsp;<font color=red>&nbsp;</font>
 	<!-- ###MESSAGE_PAYMENT_20### end -->
 
@@ -2740,7 +2740,7 @@ Message for payment method 50, Vorkasse
 		<b>###ORDER_CONFIRMATION_50###</b><br>###ORDER_CONFIRMATION_50_TEXT###</font><p>
 		<font color=red>
   <br>
-		<br>###ORDER_CONFIRMATION_ORDER_UID### ###ORDER_UID###</font>
+		<br>###ORDER_CONFIRMATION_ORDER_UID### ###ORDER_ORDER_NO###</font>
 		<p>
 	<!-- ###MESSAGE_PAYMENT_50### end -->
 
@@ -3126,7 +3126,7 @@ RECHNUNG ###ORDER_DATE###
 Subpart used as template for the PDF generation
 -->
 
-###ORDER_CONFIRMATION_ORDER_UID### ###ORDER_UID### ###ORDER_DATE###
+###ORDER_CONFIRMATION_ORDER_UID### ###ORDER_ORDER_NO### ###ORDER_DATE###
 
 <!-- ###PDF_TABLE_1### begin -->
 ###BASKET_HEADER_ITEM###|###BASKET_HEADER_PRICE###|###BASKET_HEADER_QUANTITY###|###BASKET_HEADER_TOTAL###
