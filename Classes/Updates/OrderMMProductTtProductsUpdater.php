@@ -102,7 +102,7 @@ class OrderMMProductTtProductsUpdater implements UpgradeWizardInterface, Confirm
     public function getConfirmation(): Confirmation
     {
         $title = '';
-        $elementCount = $this->upgradeApi->countOfMMTableMigrations(static::TABLE, 'sys_products_orders_uid');
+        $elementCount = $this->upgradeApi->countOfMMTableMigrations(self::TABLE, 'sys_products_orders_uid');
         if ($elementCount) {
             $title = sprintf('%s order to product relations can possibly be migrated.', $elementCount);
         } else {
@@ -169,7 +169,7 @@ class OrderMMProductTtProductsUpdater implements UpgradeWizardInterface, Confirm
      */
     public function updateNecessary(): bool
     {
-        $elementCount = $this->upgradeApi->countOfMMTableMigrations(static::TABLE, 'sys_products_orders_uid');
+        $elementCount = $this->upgradeApi->countOfMMTableMigrations(self::TABLE, 'sys_products_orders_uid');
         return ($elementCount > 0);
     }
 

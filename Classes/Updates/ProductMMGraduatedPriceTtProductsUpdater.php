@@ -106,7 +106,7 @@ class ProductMMGraduatedPriceTtProductsUpdater implements UpgradeWizardInterface
     public function getConfirmation(): Confirmation
     {
         $title = '';
-        $elementCount = $this->upgradeApi->countOfMMTableMigrations(static::TABLE, 'product_uid');
+        $elementCount = $this->upgradeApi->countOfMMTableMigrations(self::TABLE, 'product_uid');
         if ($elementCount) {
             $title = sprintf('%s product to graduated price relations can possibly be migrated.', $elementCount);
         } else {
@@ -173,7 +173,7 @@ class ProductMMGraduatedPriceTtProductsUpdater implements UpgradeWizardInterface
      */
     public function updateNecessary(): bool
     {
-        $elementCount = $this->upgradeApi->countOfMMTableMigrations(static::TABLE, 'product_uid');
+        $elementCount = $this->upgradeApi->countOfMMTableMigrations(self::TABLE, 'product_uid');
         return ($elementCount > 0);
     }
 
