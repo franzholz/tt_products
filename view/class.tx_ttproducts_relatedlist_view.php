@@ -183,7 +183,7 @@ class tx_ttproducts_relatedlist_view implements \TYPO3\CMS\Core\SingletonInterfa
 		$useArticles,
 		$pageAsCategory,
 		$pid,
-		&$error_code
+		&$errorCode
 	)	{
 		$result = false;
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
@@ -230,7 +230,7 @@ class tx_ttproducts_relatedlist_view implements \TYPO3\CMS\Core\SingletonInterfa
 							$funcArray['functablename'],
 							implode(',', $relatedIds),
 							$listPids,
-							$error_code,
+							$errorCode,
 							$funcArray['template'] . $this->config['templateSuffix'],
 							$pageAsCategory,
 							array(),

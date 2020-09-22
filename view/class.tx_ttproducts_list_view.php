@@ -72,8 +72,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$pibaseObj = GeneralUtility::makeInstance('' . $pibaseClass);
 		$this->cObj = $pibaseObj->cObj;
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-		$this->conf = &$cnf->getConf();
-		$this->config = &$cnf->getConfig();
+		$this->conf = $cnf->getConf();
 		$this->pid = $pid;
 		$this->useArticles = $useArticles;
 		$this->uidArray = $uidArray;
@@ -420,7 +419,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$functablename,
 		$allowedItems,
 		$additionalPages,
-		&$error_code,
+		&$errorCode,
 		$templateArea = 'ITEM_LIST_TEMPLATE',
 		$pageAsCategory,
 		$mergeRow = array(),
@@ -428,7 +427,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$callFunctableArray = array(),
 		$parentDataArray = array()
 	) {
-		if (!empty($error_code))	{
+		if (!empty($errorCode))	{
 			return '';
 		}
 
@@ -440,6 +439,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$backPid = 0;
+		$config = $cnf->getConfig();
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 		$subpartmarkerObj = GeneralUtility::makeInstance('tx_ttproducts_subpartmarker');
 		$itemTableArray = array();
@@ -487,7 +487,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 			$memoViewObj->init(
 				$this->pibaseClass,
 				$theCode,
-				$this->config['pid_list'],
+				$config['pid_list'],
 				$this->conf,
 				$this->conf['useArticles']
 			);
@@ -780,7 +780,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 			case 'LISTGIFTS':
 				$formName = 'GiftForm';
 				$where .= ' AND '.($this->conf['whereGift'] ? $this->conf['whereGift'] : '1=0');
-				$templateArea = 'ITEM_LIST_GIFTS_TEMPLATE' . $this->config['templateSuffix'];
+				$templateArea = 'ITEM_LIST_GIFTS_TEMPLATE' . $config['templateSuffix'];
 			break;
 			case 'LISTHIGHLIGHTS':
 				$formName = 'ListHighlightsForm';
@@ -813,15 +813,15 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 				$t['search'] =
 					tx_div2007_core::getSubpart(
 						$templateCode,
-						$subpartmarkerObj->spMarker('###' . $searchTemplateArea . '###' . $this->config['templateSuffix'])
+						$subpartmarkerObj->spMarker('###' . $searchTemplateArea . '###' . $config['templateSuffix'])
 					);
 
 				if (!($t['search'])) {
 					$templateObj = GeneralUtility::makeInstance('tx_ttproducts_template');
 
-					$error_code[0] = 'no_subtemplate';
-					$error_code[1] = '###' . $searchTemplateArea . '###';
-					$error_code[2] = $templateObj->getTemplateFile();
+					$errorCode[0] = 'no_subtemplate';
+					$errorCode[1] = '###' . $searchTemplateArea . '###';
+					$errorCode[2] = $templateObj->getTemplateFile();
 
 					return '';
 				}
@@ -899,7 +899,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 			$where .= ' AND uid IN ('.implode(',',$allowedItemArray).')';
 		}
 
-		$limit = isset($tableConfArray[$functablename]['limit']) ? $tableConfArray[$functablename]['limit'] : $this->config['limit'];
+		$limit = isset($tableConfArray[$functablename]['limit']) ? $tableConfArray[$functablename]['limit'] : $config['limit'];
 		$limit = intval($limit);
 
 		if ($calllevel == 0)	{
@@ -921,9 +921,9 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 			// $templateArea = 'ITEM_LIST_TEMPLATE'
 			if (!$t['listFrameWork']) {
 				$templateObj = GeneralUtility::makeInstance('tx_ttproducts_template');
-				$error_code[0] = 'no_subtemplate';
-				$error_code[1] = '###'.$templateArea.'###';
-				$error_code[2] = $templateObj->getTemplateFile();
+				$errorCode[0] = 'no_subtemplate';
+				$errorCode[1] = '###'.$templateArea.'###';
+				$errorCode[2] = $templateObj->getTemplateFile();
 
 				return $content;
 			}
@@ -933,9 +933,9 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 				$wrongPounds = preg_match_all($checkExpression, $t['listFrameWork'], $matches);
 
 				if ($wrongPounds) {
-					$error_code[0] = 'template_invalid_marker_border';
-					$error_code[1] = '###' . $templateArea . '###';
-					$error_code[2] =  htmlspecialchars(implode('|', $matches['0']));
+					$errorCode[0] = 'template_invalid_marker_border';
+					$errorCode[1] = '###' . $templateArea . '###';
+					$errorCode[2] =  htmlspecialchars(implode('|', $matches['0']));
 					return '';
 				}
 			}
@@ -1103,7 +1103,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 				$parentArray
 			);
 
-			if ($itemTable->getType() == 'product' && in_array($this->useArticles, array(1,2,3))) {
+			if ($itemTable->getType() == 'product' && in_array($this->useArticles, array(1, 2, 3))) {
 				$markerFieldArray = array();
 				$articleViewTagArray = array();
 				$articleParentArray = array();
@@ -1349,7 +1349,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 				$limit = $latest;
 				$productsCount = $latest;
 			}
-			$selectConf['max'] = ($limit+1);
+			$selectConf['max'] = ($limit + 1);
 			if ($begin_at > 0)	{
 				$selectConf['begin'] = $begin_at;
 			}
@@ -1397,7 +1397,6 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 			$uidArray = array();
 
 			while($iCount < $limit && ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)))	{
-
 				$iCount++;
 				if (is_array($itemTableLangFields) && count($itemTableLangFields))	{
 					foreach($itemTableLangFields as $field => $langfield)	{
@@ -1637,7 +1636,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 								'',
 								$displayCat,
 								$row['pid'],
-								$this->config['limitImage'],
+								$config['limitImage'],
 								'listcatImage',
 								$viewCatTagArray,
 								$tmp = array(),
@@ -1656,7 +1655,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 								$categoryMarkerArray,
 								$displayCat,
 								$row['pid'],
-								$this->config['limitImage'],
+								$config['limitImage'],
 								'listcatImage',
 								$viewCatTagArray,
 								array(),
@@ -1715,7 +1714,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 								$itemTableViewArray['product']->getMarker(),
 								$productMarkerArray,
 								$catTitle,
-								$this->config['limitImage'],
+								$config['limitImage'],
 								'listImage',
 								$viewProductsTagArray,
 								array(),
@@ -1904,7 +1903,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 							$itemTableViewArray['article']->getMarker(),
 							$markerArray,
 							$catTitle,
-							$this->config['limitImage'],
+							$config['limitImage'],
 							$image,
 							$articleViewTagArray,
 							array(),
@@ -1982,7 +1981,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 							$this->useArticles,
 							$pageAsCategory,
 							$this->pid,
-							$error_code
+							$errorCode
 						);
 
 						if ($listMarkerArray && is_array($listMarkerArray)) {
@@ -2003,7 +2002,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 						$itemTableViewArray[$itemTable->getType()]->getMarker(),
 						$markerArray,
 						$catTitle,
-						$this->config['limitImage'],
+						$config['limitImage'],
 						$image,
 						$viewTagArray,
 						array(),
@@ -2093,7 +2092,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 							$linkCategoryMarkerArray,
 							$linkCat,
 							$row['pid'],
-							$this->config['limitImage'],
+							$config['limitImage'],
 							'listcatImage',
 							$viewCatTagArray,
 							array(),
@@ -2276,7 +2275,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 						$categoryMarkerArray,
 						$displayCat,
 						$GLOBALS['TSFE']->id,
-						$this->config['limitImage'],
+						$config['limitImage'],
 						'listcatImage',
 						$viewCatTagArray,
 						$tmp = array(),
@@ -2414,7 +2413,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 			$content .= $out;
 		} else if ($theCode == 'SEARCH')	{
 			if ($this->conf['listViewOnSearch'] == '1' && $sword && $allowedItems != '0')	{
-				$contentEmpty = $subpartmarkerObj->getSubpart($templateCode, $subpartmarkerObj->spMarker('###ITEM_SEARCH_EMPTY###'), $error_code);
+				$contentEmpty = $subpartmarkerObj->getSubpart($templateCode, $subpartmarkerObj->spMarker('###ITEM_SEARCH_EMPTY###'), $errorCode);
 			} else {
 				// nothing is shown
 			}
@@ -2429,7 +2428,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 			$out = tx_div2007_core::substituteMarkerArrayCached($t['listFrameWork'], $markerArray, $subpartArray);
 			$content .= $out;
-			$contentEmpty = $subpartmarkerObj->getSubpart($templateCode, $subpartmarkerObj->spMarker('###ITEM_LIST_EMPTY###'), $error_code);
+			$contentEmpty = $subpartmarkerObj->getSubpart($templateCode, $subpartmarkerObj->spMarker('###ITEM_LIST_EMPTY###'), $errorCode);
 		} else {
 			// nothing is shown
 		} // if (count ($itemArray))
@@ -2442,9 +2441,9 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 			$searchString = '###' . $articleViewObj->marker . '_';
 			if (strpos($t['item'], $searchString) > 0)	{
-				$error_code[0] = 'article_markers_unsubstituted';
-				$error_code[1] = '###' . $articleViewObj->marker . '_...###';
-				$error_code[2] = $this->useArticles;
+				$errorCode[0] = 'article_markers_unsubstituted';
+				$errorCode[1] = '###' . $articleViewObj->marker . '_...###';
+				$errorCode[2] = $this->useArticles;
 			}
 		}
 

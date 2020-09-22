@@ -1,3 +1,5 @@
+2020-09-22 Franz Holzinger <franz@ttproducts.de>
+    * bufixes: better support for error messages if a template file or its subpart has not been found. Configurations have been lost.
 
 2020-08-27 Franz Holzinger <franz@ttproducts.de>
     * compatibility with tt_products 3.1.11: Marker ###ORDER_UID### will be replaced by the new marker ###ORDER_ORDER_NO###.

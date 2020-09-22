@@ -48,7 +48,7 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base {
 		$functablename,
 		&$templateCode,
 		$theCode,
-		&$error_code,
+		&$errorCode,
 		$templateArea = 'ITEM_CATLIST_TEMPLATE',
 		$pageAsCategory,
 		$templateSuffix=''
@@ -69,7 +69,7 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base {
 			$t,
 			$htmlParts,
 			$theCode,
-			$error_code,
+			$errorCode,
 			$templateArea,
 			$pageAsCategory,
 			$templateSuffix,
@@ -90,7 +90,7 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base {
 		$catView = $tablesObj->get($functablename, true);
 		$catTableObj = $catView->getModelObj();
 
-		if (!empty($error_code)) {
+		if (!empty($errorCode)) {
 			// nothing
 		} else if (!empty($categoryArray)) {
 			$count = 0;
@@ -275,7 +275,7 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base {
 			$out = tx_div2007_core::substituteMarkerArrayCached($t['listFrameWork'], $markerArray, $subpartArray, $wrappedSubpartArray);
 			$content = $out;
 		} else {
-			$contentEmpty = $subpartmarkerObj->getSubpart($templateCode, $subpartmarkerObj->spMarker('###' . $templateArea . $templateSuffix . '_EMPTY###'), $error_code);
+			$contentEmpty = $subpartmarkerObj->getSubpart($templateCode, $subpartmarkerObj->spMarker('###' . $templateArea . $templateSuffix . '_EMPTY###'), $errorCode);
 		}
 
 		if ($contentEmpty != '') {

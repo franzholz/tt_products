@@ -40,12 +40,12 @@
 
 class tx_ttproducts_model_error {
 
-	public static function getMessage ($error_code, $languageObj)	{
+	public static function getMessage ($errorCode, $languageObj)	{
 		$rc = '';
 		$messageArr = array();
 		$i = 0;
 
-		foreach ($error_code as $key => $indice) {
+		foreach ($errorCode as $key => $indice) {
 			if ($key == 0) {
 				$messageArr = explode('|', $message = $languageObj->getLabel($indice));
 				$rc .= '<b>' . $languageObj->getLabel('plugin') . ': ' . $messageArr[0] . '</b>';

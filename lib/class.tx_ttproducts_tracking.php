@@ -164,7 +164,7 @@ class tx_ttproducts_tracking implements \TYPO3\CMS\Core\SingletonInterface {
 
 		All status values can be altered only if you're logged in as a BE-user and if you know the correct code (setup as .update_code in TypoScript config)
 	*/
-	function getTrackingInformation ($orderRow, $templateCode, $trackingCode, $updateCode, &$orderRecord, $admin) {
+	function getTrackingInformation (&$errorCode, $orderRow, $templateCode, $trackingCode, $updateCode, &$orderRecord, $admin) {
 		$bUseXHTML = $GLOBALS['TSFE']->config['config']['xhtmlDoctype'] != '';
 
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
@@ -637,6 +637,7 @@ class tx_ttproducts_tracking implements \TYPO3\CMS\Core\SingletonInterface {
 
 			$markerArray['###ORDER_HTML_OUTPUT###'] =
 				$basketView->getView(
+                    $errorCode,
 					$templateCode,
 					'TRACKING',
 					$infoViewObj,

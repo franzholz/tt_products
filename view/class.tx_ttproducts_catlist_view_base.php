@@ -270,7 +270,7 @@ abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\Single
 		&$t,
 		&$htmlParts,
 		$theCode,
-		&$error_code,
+		&$errorCode,
 		$templateArea,
 		$pageAsCategory,
 		$templateSuffix,
@@ -298,9 +298,9 @@ abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\Single
 			$wrongPounds = preg_match_all($checkExpression, $t['listFrameWork'], $matches);
 
 			if ($wrongPounds) {
-				$error_code[0] = 'template_invalid_marker_border';
-				$error_code[1] = '###' . $templateArea . $templateSuffix . '###';
-				$error_code[2] = htmlspecialchars(implode('|', $matches['0']));
+				$errorCode[0] = 'template_invalid_marker_border';
+				$errorCode[1] = '###' . $templateArea . $templateSuffix . '###';
+				$errorCode[2] = htmlspecialchars(implode('|', $matches['0']));
 
 				return false;
 			}
@@ -340,7 +340,7 @@ abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\Single
 		$orderBy = $GLOBALS['TYPO3_DB']->stripOrderBy($tableConf['orderBy']);
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 
-		if (empty($error_code) && $t['listFrameWork'] && is_object($categoryTable))	{
+		if (empty($errorCode) && $t['listFrameWork'] && is_object($categoryTable))	{
 //		###SUBCATEGORY_A_1###
 			$subCategoryMarkerArray = array();
 			$catArray = array();
@@ -533,14 +533,14 @@ abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\Single
 			}
 		} else if (!$t['listFrameWork']) {
 			$templateObj = GeneralUtility::makeInstance('tx_ttproducts_template');
-			$error_code[0] = 'no_subtemplate';
-			$error_code[1] = '###'.$templateArea.$templateSuffix.'###';
-			$error_code[2] = $templateObj->getTemplateFile();
+			$errorCode[0] = 'no_subtemplate';
+			$errorCode[1] = '###'.$templateArea.$templateSuffix.'###';
+			$errorCode[2] = $templateObj->getTemplateFile();
 			$rc = false;
 		} else if (!is_object($categoryTable))	{
-			$error_code[0] = 'internal_error';
-			$error_code[1] = 'TTP_1';
-			$error_code[2] = $functablename;
+			$errorCode[0] = 'internal_error';
+			$errorCode[1] = 'TTP_1';
+			$errorCode[2] = $functablename;
 			$rc = false;
 		}
 		return $rc;

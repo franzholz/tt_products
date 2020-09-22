@@ -192,7 +192,7 @@ class tx_ttproducts_api implements \TYPO3\CMS\Core\SingletonInterface {
 	}
 
 
-	static public function createFeuser ($conf, $infoObj, $basketView, $calculatedArray, $fromArray) {
+	static public function createFeuser ($templateCode, $conf, $infoObj, $basketView, $calculatedArray, $fromArray) {
 
 		$result = false;
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
@@ -252,10 +252,10 @@ class tx_ttproducts_api implements \TYPO3\CMS\Core\SingletonInterface {
 			$res = $GLOBALS['TYPO3_DB']->exec_INSERTquery('fe_users', $insertFields);
 			// send new user mail
 			if (!empty($infoArray['billing']['email'])) {
-				$empty = '';
 				$emailContent = trim(
 					$basketView->getView(
-						$empty,
+                        $errorCode,
+						$templateCode,
 						'EMAIL',
 						$infoObj,
 						false,

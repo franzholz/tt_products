@@ -51,7 +51,7 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 	public $errorMessage;
 
 
-	public function init (&$content, &$conf, &$config, $pibaseClass, &$error_code) {
+	public function init (&$content, &$conf, &$config, $pibaseClass, &$errorCode) {
 		$pibaseObj = GeneralUtility::makeInstance(''.$pibaseClass);
 		$this->cObj = $pibaseObj->cObj;
 
@@ -168,7 +168,7 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 		$pibaseObj = GeneralUtility::makeInstance('' . $pibaseClass);
 		$subpartmarkerObj = GeneralUtility::makeInstance('tx_ttproducts_subpartmarker');
 		$searchViewObj = GeneralUtility::makeInstance('tx_ttproducts_search_view');
-		$error_code = array();
+		$errorCode = array();
 		$errorMessage = '';
 
 		foreach($this->codeArray as $theCode)	{
@@ -184,7 +184,7 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 						$pibaseObj,
 						$theTemplateCode,
 						$this->config['columns'],
-						$error_code
+						$errorCode
 					);
 				break;
 				case 'FIELD':
@@ -195,7 +195,7 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 						2,
 						'field'.$this->cObj->data['uid'],
 						$tmp=array(),
-						$error_code
+						$errorCode
 					);
 				break;
 				case 'KEYFIELD':
@@ -216,7 +216,7 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 						1,
 						'keyfield'.$this->cObj->data['uid'],
 						$keyfieldConf,
-						$error_code
+						$errorCode
 					);
 				break;
 				case 'LASTENTRIES':
@@ -224,7 +224,7 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 						$pibaseObj,
 						$theTemplateCode,
 						$this->config['columns'],
-						$error_code
+						$errorCode
 					);
 				break;
 				case 'TEXTFIELD':
@@ -234,7 +234,7 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 						$this->config['columns'],
 						'textfield'.$this->cObj->data['uid'],
 						$this->cObj->data,
-						$error_code
+						$errorCode
 					);
 				break;
 				case 'YEAR':
@@ -242,7 +242,7 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 						$pibaseObj,
 						$theTemplateCode,
 						$this->config['columns'],
-						$error_code
+						$errorCode
 					);
 				break;
 				default:	// 'HELP'
@@ -250,8 +250,8 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 				break;
 			}
 
-			if ($error_code[0]) {
-				$contentTmp .= $errorObj->getMessage($error_code, $languageObj);
+			if ($errorCode[0]) {
+				$contentTmp .= $errorObj->getMessage($errorCode, $languageObj);
 			}
 
 			if ($contentTmp == 'error') {

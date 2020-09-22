@@ -100,6 +100,7 @@ class tx_ttproducts_activity_finalize {
 		$functablename,
 		$orderUid,
 		$basketExtra,
+		&$errorCode,
 		&$errorMessage
 	) {
 		if ($this->conf['errorLog']) {
@@ -203,7 +204,8 @@ class tx_ttproducts_activity_finalize {
 
 		$orderConfirmationHTML =
 			$basketView->getView(
-				$empty,
+                $errorCode,
+				$templateCode,
 				'BASKET',
 				$infoViewObj,
 				false,
@@ -231,7 +233,8 @@ class tx_ttproducts_activity_finalize {
 
 		$customerEmailHTML =
 			$basketView->getView(
-				$empty,
+                $errorCode,
+				$templateCode,
 				'EMAIL',
 				$infoViewObj,
 				false,
@@ -276,6 +279,7 @@ class tx_ttproducts_activity_finalize {
             ) {
 				$absFilename =
                     $billdeliveryObj->generateBill(
+                        $errorCode,
                         $templateCode,
                         $mainMarkerArray,
                         $basketExtra,
@@ -608,7 +612,8 @@ class tx_ttproducts_activity_finalize {
 
 							$basketText =
 								$basketView->getView(
-									$empty,
+                                    $errorCode,
+									$templateCode,
 									'EMAIL',
 									$infoViewObj,
 									false,
@@ -627,7 +632,8 @@ class tx_ttproducts_activity_finalize {
                             if ($this->conf['orderEmail_htmlmail']) {
                                 $basketHtml =
                                     $basketView->getView(
-                                        $empty,
+                                        $errorCode,
+                                        $templateCode,
                                         'EMAIL',
                                         $infoViewObj,
                                         false,
@@ -727,7 +733,8 @@ class tx_ttproducts_activity_finalize {
 						$reducedBasketPlaintext =
 							trim (
 								$basketView->getView(
-									$empty,
+                                    $errorCode,
+									$templateCode,
 									'EMAIL',
 									$infoViewObj,
 									false,
@@ -758,7 +765,8 @@ class tx_ttproducts_activity_finalize {
 							$reducedBasketHtml =
 								trim (
 									$basketView->getView(
-										$empty,
+                                        $errorCode,
+										$templateCode,
 										'EMAIL',
 										$infoViewObj,
 										false,

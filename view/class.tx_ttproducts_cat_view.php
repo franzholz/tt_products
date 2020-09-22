@@ -77,7 +77,7 @@ class tx_ttproducts_cat_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 
 	// returns the single view
-	public function printView(&$templateCode, $functablename, $uid, $theCode, &$error_code, $templateSuffix = '') {
+	public function printView(&$templateCode, $functablename, $uid, $theCode, &$errorCode, $templateSuffix = '') {
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 		$tableViewObj = $tablesObj->get($functablename, true);
 		$tableObj = $tableViewObj->getModelObj();
@@ -125,9 +125,9 @@ class tx_ttproducts_cat_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 			if (!$itemFrameWork) {
 				$templateObj = GeneralUtility::makeInstance('tx_ttproducts_template');
-				$error_code[0] = 'no_subtemplate';
-				$error_code[1] = '###' . $subPartMarker . '###';
-				$error_code[2] = $templateObj->getTemplateFile();
+				$errorCode[0] = 'no_subtemplate';
+				$errorCode[1] = '###' . $subPartMarker . '###';
+				$errorCode[2] = $templateObj->getTemplateFile();
 				return '';
 			}
 
@@ -374,10 +374,10 @@ class tx_ttproducts_cat_view implements \TYPO3\CMS\Core\SingletonInterface {
 				// Substitute
 			$content = tx_div2007_core::substituteMarkerArrayCached($itemFrameWork,$markerArray,$subpartArray,$wrappedSubpartArray);
 		} else {
-			$error_code[0] = 'wrong_parameter';
-			$error_code[1] = (($functablename == 'pages') ? 'page' : 'cat');
-			$error_code[2] = intval($uid);
-			$error_code[3] = $this->pidListObj->getPidlist();
+			$errorCode[0] = 'wrong_parameter';
+			$errorCode[1] = (($functablename == 'pages') ? 'page' : 'cat');
+			$errorCode[2] = intval($uid);
+			$errorCode[3] = $this->pidListObj->getPidlist();
 		}
 		return $content;
 	} // print

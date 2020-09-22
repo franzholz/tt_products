@@ -47,7 +47,6 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 	public $orderRecord = array();		// Will hold the order record if fetched.
 
 		// Internal: init():
-	public $config=array();			// updated configuration
 	public $conf;
 	public $tt_product_single=array();
 	public $control;			// object for the control of the application
@@ -122,7 +121,6 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 			$conf = $tsparser->setup;
 		}
 		$this->conf = &$conf;
-		$this->config = &$config;
 		$this->piVars = &$pibaseObj->piVars;
 		$this->pibaseClass = $pibaseClass;
 		$config['LLkey'] = $pibaseObj->LLkey;
@@ -130,7 +128,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 			// basket
 		$basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
 		$eInfo = tx_div2007_alpha5::getExtensionInfo_fh003(TT_PRODUCTS_EXT);
-		$this->config['version'] = $eInfo['version'];
+		$config['version'] = $eInfo['version'];
 		// Save the original flexform in case if we need it later as USER_INT
 		$this->cObj->data['_original_pi_flexform'] = $this->cObj->data['pi_flexform'];
 		$this->cObj->data['pi_flexform'] = GeneralUtility::xml2array($this->cObj->data['pi_flexform']);
@@ -195,20 +193,6 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 		}
 		$config['defaultCategoryID'] = tx_div2007_ff::get($flexformArray, 'categorySelection');
 
-		if (!$bRunAjax) {
-			// ### central initialization ###
-			$db = GeneralUtility::makeInstance('tx_ttproducts_db');
-			$db->init($conf, $config, $this->ajax, $pibaseObj); // this initializes tx_ttproducts_config inside of creator
-		}
-
-		if (!$bRunAjax && ExtensionManagementUtility::isLoaded('taxajax')) {
-			if($_POST['xajax']){
-				global $trans;
-				$trans = $this;
-				$this->ajax->taxajax->processRequests();
-				exit();
-			}
-		}
 
 		// *************************************
 		// *** getting configuration values:
@@ -225,18 +209,19 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 		}
 		$this->pageAsCategory = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['pageAsCategory'];
 		// get template suffix string
-		$config['templateSuffix'] = strtoupper($this->conf['templateSuffix']);
+		$config['templateSuffix'] = strtoupper($conf['templateSuffix']);
 
 		$templateSuffix = $pibaseObj->pi_getFFvalue($this->cObj->data['pi_flexform'], 'template_suffix');
 		$templateSuffix = strtoupper($templateSuffix);
 		$config['templateSuffix'] = ($templateSuffix ? $templateSuffix : $config['templateSuffix']);
-		$config['templateSuffix'] = ($config['templateSuffix'] ? '_'.$config['templateSuffix'] : '');
+		$config['templateSuffix'] = ($config['templateSuffix'] ? '_' . $config['templateSuffix'] : '');
 
 		$config['limit'] = $this->conf['limit'] ? $this->conf['limit'] : 50;
 		$config['limitImage'] = tx_div2007_core::intInRange($this->conf['limitImage'], 0, 50);
 		$config['limitImage'] = $config['limitImage'] ? $config['limitImage'] : 1;
 		$config['limitImageSingle'] = tx_div2007_core::intInRange($this->conf['limitImageSingle'], 0, 50);
 		$config['limitImageSingle'] = $config['limitImageSingle'] ? $config['limitImageSingle'] : 1;
+    
 		$recursive = ($this->cObj->data['recursive'] ? $this->cObj->data['recursive']: $this->conf['recursive']);
 		$config['recursive'] = tx_div2007_core::intInRange($recursive, 0, 100);
 		if ($this->conf['PIDstoreRoot'])	{
@@ -279,6 +264,22 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 
 			// If the current record should be displayed.
 		$config['displayCurrentRecord'] = $this->conf['displayCurrentRecord'];
+		
+		if (!$bRunAjax) {
+			// ### central initialization ###
+			$db = GeneralUtility::makeInstance('tx_ttproducts_db');
+			$db->init($conf, $config, $this->ajax, $pibaseObj); // this initializes tx_ttproducts_config inside of creator
+		}
+
+		if (!$bRunAjax && ExtensionManagementUtility::isLoaded('taxajax')) {
+			if($_POST['xajax']){
+				global $trans;
+				$trans = $this;
+				$this->ajax->taxajax->processRequests();
+				exit();
+			}
+		}
+
 		if ($config['displayCurrentRecord'])	{
 			$row = $this->cObj->data;
 			$this->tt_product_single['product'] = $row['uid'];
@@ -308,6 +309,8 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 			}
 		}
 
+		
+		
 			// image
 		$imageObj = GeneralUtility::makeInstance('tx_ttproducts_field_image');
 		$imageObj->init($pibaseObj->cObj);
@@ -425,7 +428,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 		$basketObj->init(
 			$pibaseClass,
 			$updateMode,
-			$this->config['pid_list'],
+			$config['pid_list'],
 			$bStoreBasket
 		);
 
@@ -460,7 +463,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 			$controlObj->init(
 				$pibaseClass,
 				$conf,
-				$cnf->getConfig(),
+				$config,
 				$basketObj->getFuncTablename(),
 				$this->conf['useArticles'],
 				$basketExtra
@@ -615,7 +618,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 
 							// category view
 						$categoryView = GeneralUtility::makeInstance($categoryClass);
-						$categoryView->init($pibaseClass, $this->config['pid_list'], $this->config['recursive'], $this->pid);
+						$categoryView->init($pibaseClass, $config['pid_list'], $config['recursive'], $this->pid);
 						$contentTmp = $categoryView->printView(
 							$functablename,
 							$templateCode,
@@ -623,7 +626,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 							$errorCode,
 							$templateArea,
 							$this->pageAsCategory,
-							$this->config['templateSuffix']
+							$config['templateSuffix']
 						);
 					}
 				break;
@@ -695,8 +698,8 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 					$catView->init(
 						$pibaseObj,
 						$this->pid,
-						$this->config['pid_list'],
-						$this->config['recursive']
+						$config['pid_list'],
+						$config['recursive']
 					);
 					$tableInfoArray = array('SINGLECAT' => 'tt_products_cat', 'SINGLEAD' => 'address');
 					$functablename = $tableInfoArray[$theCode];
@@ -709,7 +712,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 							$uid,
 							$theCode,
 							$errorCode,
-							$this->config['templateSuffix']
+							$config['templateSuffix']
 						);
 					}
 				break;
@@ -946,7 +949,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 							$orderRecord['email_notify'] = intval($orderRecord['email_notify']);
 						}
 
-						$content = $tracking->getTrackingInformation($orderRow, $trackingTemplateCode, $trackingCode, $updateCode, $orderRecord, $admin);
+						$content = $tracking->getTrackingInformation($errorCode, $orderRow, $trackingTemplateCode, $trackingCode, $updateCode, $orderRecord, $admin);
 						break;
 					case 'BILL':
 					case 'DELIVERY':
@@ -1008,6 +1011,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 		$pibaseObj = GeneralUtility::makeInstance('tx_ttproducts_pi1_base');
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$conf = $cnf->getConf();
+		$config = $cnf->getConfig();
 		$basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
 
 		$bSingleFromList = false;
@@ -1058,14 +1062,14 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 				$extVars,
 				$this->pid,
 				$conf['useArticles'],
-				$this->config['pid_list'],
-				$this->config['recursive']
+				$config['pid_list'],
+				$config['recursive']
 			);
 			$content = $this->singleView->printView(
 				$templateCode,
 				$errorCode,
 				$this->pageAsCategory,
-				$this->config['templateSuffix']
+				$config['templateSuffix']
 			);
 			$ctrlContent = $this->cObj->cObjGetSingle($conf['SINGLECTRL'], $conf['SINGLECTRL.']);
 			$content .= $ctrlContent;
@@ -1080,8 +1084,8 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 				$pid,
 				$conf['useArticles'],
 				$this->tt_product_single,
-				$this->config['pid_list'],
-				$this->config['recursive']
+				$config['pid_list'],
+				$config['recursive']
 			);
 
 			if ($theCode == 'LISTARTICLES' && $conf['useArticles'])	{
@@ -1099,7 +1103,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 			$allowedItems = tx_div2007_ff::get($this->cObj->data['pi_flexform'], 'productSelection');
 
 			$bAllPages = false;
-			$templateArea = $templateArea . $this->config['templateSuffix'];
+			$templateArea = $templateArea . $config['templateSuffix'];
 			$content = $listView->printView(
 				$templateCode,
 				$theCode,

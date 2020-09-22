@@ -47,7 +47,7 @@ class tx_ttproducts_selectcat_view extends tx_ttproducts_catlist_view_base {
 	public $htmlTagElement = 'option';
 
 	// returns the products list view
-	public function printView ($functablename, &$templateCode, $theCode, &$error_code, $templateArea = 'ITEM_CATEGORY_SELECT_TEMPLATE', $pageAsCategory, $templateSuffix = '') {
+	public function printView ($functablename, &$templateCode, $theCode, &$errorCode, $templateArea = 'ITEM_CATEGORY_SELECT_TEMPLATE', $pageAsCategory, $templateSuffix = '') {
 		$content='';
 		$out='';
 		$where='';
@@ -68,7 +68,7 @@ class tx_ttproducts_selectcat_view extends tx_ttproducts_catlist_view_base {
 			$t,
 			$htmlParts,
 			$theCode,
-			$error_code,
+			$errorCode,
 			$templateArea,
 			$pageAsCategory,
 			$templateSuffix,
@@ -80,7 +80,7 @@ class tx_ttproducts_selectcat_view extends tx_ttproducts_catlist_view_base {
 			$ctrlArray
 		);
 
-		if (empty($error_code)) 	{
+		if (empty($errorCode)) 	{
 			$count = 0;
 			$depth = 1;
 

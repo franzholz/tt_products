@@ -101,7 +101,7 @@ class tx_ttproducts_billdelivery implements \TYPO3\CMS\Core\SingletonInterface {
 	}
 
 
-    public function generateBill ($templateCode, $mainMarkerArray, $basketExtra, $type, $generationConf) {
+    public function generateBill (&$errorCode, $templateCode, $mainMarkerArray, $basketExtra, $type, $generationConf) {
 
 		$basketView = GeneralUtility::makeInstance('tx_ttproducts_basket_view');
 		$basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
@@ -146,6 +146,7 @@ class tx_ttproducts_billdelivery implements \TYPO3\CMS\Core\SingletonInterface {
 
                 $subpart = $typeCode . '_PDF_HEADER_TEMPLATE';
                 $header = $basketView->getView(
+                    $errorCode,
                     $templateCode,
                     $typeCode,
                     $infoViewObj,
@@ -162,6 +163,7 @@ class tx_ttproducts_billdelivery implements \TYPO3\CMS\Core\SingletonInterface {
                 );
                 $subpart = $typeCode . '_PDF_TEMPLATE';
                 $body = $basketView->getView(
+                    $errorCode,
                     $templateCode,
                     $typeCode,
                     $infoViewObj,
@@ -179,6 +181,7 @@ class tx_ttproducts_billdelivery implements \TYPO3\CMS\Core\SingletonInterface {
 
                 $subpart = $typeCode . '_PDF_FOOTER_TEMPLATE';
                 $footer = $basketView->getView(
+                    $errorCode,
                     $templateCode,
                     $typeCode,
                     $infoViewObj,
@@ -204,8 +207,9 @@ class tx_ttproducts_billdelivery implements \TYPO3\CMS\Core\SingletonInterface {
                 );
             } else {
                 $subpart = $typeCode . '_TEMPLATE';
-
+                $errorCode = [];
                 $content = $basketView->getView(
+                    $errorCode,
                     $templateCode,
                     $typeCode,
                     $infoViewObj,
@@ -221,7 +225,7 @@ class tx_ttproducts_billdelivery implements \TYPO3\CMS\Core\SingletonInterface {
                     $basketExtra
                 );
 
-                if (!isset($basketView->error_code) || $basketView->error_code[0]=='') {
+                if (!isset($errorCode) || $errorCode[0] == '') {
                     $absFileName = $this->getFileAbsFileName($type, $basketObj->order['orderTrackingNo'], 'html');
                     $this->writeFile($absFileName, $content);
                     $result = $absFileName;

@@ -49,7 +49,7 @@ class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base {
 		$functablename,
 		&$templateCode,
 		$theCode,
-		&$error_code,
+		&$errorCode,
 		$templateArea = 'ITEM_CATLIST_TEMPLATE',
 		$pageAsCategory,
 		$templateSuffix = ''
@@ -71,7 +71,7 @@ class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base {
 			$t,
 			$htmlParts,
 			$theCode,
-			$error_code,
+			$errorCode,
 			$templateArea,
 			$pageAsCategory,
 			$templateSuffix,
@@ -82,7 +82,7 @@ class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base {
 			$subCategoryMarkers,
 			$ctrlArray
 		);
-		if (empty($error_code))	{
+		if (empty($errorCode))	{
 			$markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
 			$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 			$categoryTableViewObj = $tablesObj->get($functablename,true);

@@ -198,6 +198,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 		$calculatedArray,
 		$basketExtra,
 		&$bFinalize,
+		&$errorCode,
 		&$errorMessage
 	)	{
 		$content = '';
@@ -297,6 +298,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 
 			if (!$errorMessage && $content == '' && !$bFinalize && $localTemplateCode != '') {
 				$content = $basketView->getView(
+                    $errorCode,
 					$localTemplateCode,
 					'PAYMENT',
 					$infoViewObj,
@@ -454,7 +456,6 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 		$languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$content = '';
-
 		if ($checkBasket && !$basketEmpty)	{
 			$basketConf = $cnf->getBasketConf('minPrice'); // check the basket limits
 
@@ -558,6 +559,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 						$calculatedArray,
 						$basketExtra,
 						$bFinalize,
+						$errorCode,
 						$errorMessage
 					);
 
@@ -596,6 +598,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
                 $mainMarkerArray['###FORM_URL_NEXT_ACTIVITY###'] = $nextUrl;
 
 				$paymentHTML = $basketView->getView(
+                    $errorCode,
                     $templateCode,
 					$theCode,
 					$infoViewObj,
@@ -669,7 +672,6 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 		$empty = '';
 		$content = '';
         $basketEmpty = (count($this->basket->getItemArray()) == 0);
-
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$basketView = GeneralUtility::makeInstance('tx_ttproducts_basket_view');
 		$infoViewObj = GeneralUtility::makeInstance('tx_ttproducts_info_view');
@@ -930,6 +932,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 									$calculatedArray,
 									$basketExtra,
 									$bFinalize,
+									$errorCode,
 									$errorMessage
 								);
 
@@ -969,6 +972,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 								$calculatedArray,
 								$basketExtra,
 								$bFinalize,
+								$errorCode,
 								$errorMessage
 							);
 							$paymentErrorMsg = $errorMessage;
@@ -1075,6 +1079,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 							$calculatedArray,
 							$basketExtra,
 							$bFinalize,
+							$errorCode,
 							$errorMessage
 						);
 					if ($errorMessage != '')	{
@@ -1097,13 +1102,15 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 					$this->funcTablename,
 					$orderUid,
 					$basketExtra,
+					$errorCode,
 					$errorMessage
 				);
 
 				if ($this->conf['PIDthanks'] > 0) {
 					$tmpl = 'BASKET_ORDERTHANKS_TEMPLATE';
 					$contentTmpThanks = $basketView->getView(
-						$empty,
+                        $errorCode,
+						$templateCode,
 						'BASKET',
 						$infoViewObj,
 						false,
@@ -1127,7 +1134,8 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 				}
 				$content .= $contentTmp;
 				$contentNoSave = $basketView->getView(
-					$empty,
+                    $errorCode,
+					$templateCode,
 					'BASKET',
 					$infoViewObj,
 					false,

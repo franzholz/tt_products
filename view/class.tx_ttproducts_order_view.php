@@ -69,7 +69,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 		}
 	}
 
-	public function printView (&$templateCode, &$error_code)	 {
+	public function printView (&$templateCode, &$errorCode)	 {
         $local_cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
 		$parser = $local_cObj;
         if (
@@ -104,9 +104,9 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 
 		if (!$frameWork) {
 			$templateObj = GeneralUtility::makeInstance('tx_ttproducts_template');
-			$error_code[0] = 'no_subtemplate';
-			$error_code[1] = '###'.$templateArea.'###';
-			$error_code[2] = $templateObj->getTemplateFile();
+			$errorCode[0] = 'no_subtemplate';
+			$errorCode[1] = '###'.$templateArea.'###';
+			$errorCode[2] = $templateObj->getTemplateFile();
 			return '';
 		}
 

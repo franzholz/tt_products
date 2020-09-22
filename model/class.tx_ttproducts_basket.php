@@ -125,7 +125,6 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 		$viewTableObj = $tablesObj->get($funcTablename);
 		$tmpBasketExt = $GLOBALS['TSFE']->fe_user->getKey('ses','basketExt');
-
 		$order = $GLOBALS['TSFE']->fe_user->getKey('ses','order');
 		$this->setOrder($order);
 		$basketExtRaw = GeneralUtility::_GP('ttp_basket');
@@ -272,8 +271,6 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 				}
 			}
 			$this->basketExt = $basketExtNew;
-
-
 
 			if ($bStoreBasket)	{
 

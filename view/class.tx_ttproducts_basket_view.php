@@ -55,7 +55,6 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 	public $urlObj; // url functions
 	public $urlArray; // overridden url destinations
 	public $funcTablename;
-	public $error_code;
 	public $useArticles;
 
 
@@ -69,16 +68,14 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 	public function init (
 		$pibaseClass,
 		$urlArray = array(),
-		$useArticles,
-		&$error_code
-	)	{
+		$useArticles
+    )	{
 		$this->pibaseClass = $pibaseClass;
 		$this->pibase =GeneralUtility::makeInstance('' . $pibaseClass);
 		$this->cObj = $this->pibase->cObj;
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$this->conf = &$cnf->conf;
 		$this->config = &$cnf->config;
-		$this->error_code = &$error_code;
 		$this->useArticles = $useArticles;
 
 		$this->urlObj = GeneralUtility::makeInstance('tx_ttproducts_url_view'); // a copy of it
@@ -144,6 +141,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 	 * This generates the shopping basket layout and also calculates the totals. Very important function.
 	 */
 	public function getView (
+        &$errorCode,
 		$templateCode,
 		$theCode,
 		$infoViewObj,
@@ -217,8 +215,9 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 		if ($templateCode == '') {
             $templateObj = GeneralUtility::makeInstance('tx_ttproducts_template');
-            $this->error_code[0] = 'empty_template';
-            $this->error_code[1] = ($templateFilename ? $templateFilename : $templateObj->getTemplateFile());
+            $errorCode = [];
+            $errorCode[0] = 'empty_template';
+            $errorCode[1] = ($templateFilename ? $templateFilename : $templateObj->getTemplateFile());
             return '';
 		}
 
@@ -264,9 +263,10 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$subpartEmptyArray = array('EMAIL_PLAINTEXT_TEMPLATE_SHOP', 'BASKET_ORDERCONFIRMATION_NOSAVE_TEMPLATE');
 		if (!$t['basketFrameWork'] && !in_array($subpartMarker, $subpartEmptyArray)) {
 			$templateObj = GeneralUtility::makeInstance('tx_ttproducts_template');
-			$this->error_code[0] = 'no_subtemplate';
-			$this->error_code[1] = '###'.$subpartMarker.$templateObj->getTemplateSuffix().'###';
-			$this->error_code[2] = ($templateFilename ? $templateFilename : $templateObj->getTemplateFile());
+			$errorCode = [];
+			$errorCode[0] = 'no_subtemplate';
+			$errorCode[1] = '###'.$subpartMarker.$templateObj->getTemplateSuffix().'###';
+			$errorCode[2] = ($templateFilename ? $templateFilename : $templateObj->getTemplateFile());
 			return '';
 		}
 
@@ -275,9 +275,10 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 			if (!empty($checkExpression)) {
 				$wrongPounds = preg_match_all($checkExpression, $t['basketFrameWork'], $matches);
 				if ($wrongPounds) {
-					$this->error_code[0] = 'template_invalid_marker_border';
-					$this->error_code[1] = '###' . $subpartMarker . '###';
-					$this->error_code[2] = htmlspecialchars(implode('|', $matches['0']));
+                    $errorCode = [];
+					$errorCode[0] = 'template_invalid_marker_border';
+					$errorCode[1] = '###' . $subpartMarker . '###';
+					$errorCode[2] = htmlspecialchars(implode('|', $matches['0']));
 					return '';
 				}
 			}
@@ -889,14 +890,14 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 					//	$minQuantityArray[] = array('rec' => $row, 'minQuantity' => $minQuantity, 'quantity' => $quantity);
 				$errorObj = GeneralUtility::makeInstance('tx_ttproducts_model_error');
 				$languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
-				$error_code = array();
-				$error_code[0] = 'error_minquantity';
-				$error_code[1] = '';
+				$quantityErrorCode = [];
+				$quantityErrorCode[0] = 'error_minquantity';
+				$quantityErrorCode[1] = '';
 
 				foreach ($minQuantityArray as $minQuantityRow)	{
-					$error_code[1] .= $minQuantityRow['rec']['title'] . ':' . $minQuantityRow['quantity'] . '&lt;' . $minQuantityRow['minQuantity'];
+					$quantityErrorCode[1] .= $minQuantityRow['rec']['title'] . ':' . $minQuantityRow['quantity'] . '&lt;' . $minQuantityRow['minQuantity'];
 				}
-				$errorOut = $errorObj->getMessage($error_code, $languageObj);
+				$errorOut = $errorObj->getMessage($quantityErrorCode, $languageObj);
 				$markerArray['###ERROR_MINQUANTITY###'] = $errorOut;
 				$subpartArray['###MESSAGE_MINQUANTITY_ERROR###'] = $parser->substituteMarkerArray($tmpSubpart, $markerArray);
 			} else {
@@ -1132,7 +1133,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 				$this->useArticles,
 				$GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['pageAsCategory'],
 				$GLOBALS['TSFE']->id,
-				$this->error_code
+				$errorCode
 			);
 			if ($relatedMarkerArray && is_array($relatedMarkerArray)) {
 				$markerArray = array_merge($markerArray, $relatedMarkerArray);

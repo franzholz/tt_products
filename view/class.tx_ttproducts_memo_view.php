@@ -77,7 +77,7 @@ class tx_ttproducts_memo_view implements \TYPO3\CMS\Core\SingletonInterface {
 	/**
 	 * Displays the memo
 	 */
-	public function printView ($theCode, &$templateCode, $pid, &$error_code)	{
+	public function printView ($theCode, &$templateCode, $pid, &$errorCode)	{
 		$markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
 		$content = '';
 
@@ -109,7 +109,7 @@ class tx_ttproducts_memo_view implements \TYPO3\CMS\Core\SingletonInterface {
 					$theTable,
 					($this->memoItems ? implode(',', $this->memoItems) : array()),
 					false,
-					$error_code,
+					$errorCode,
 					$templateArea,
 					$GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['pageAsCategory'],
 					array()
@@ -138,11 +138,11 @@ class tx_ttproducts_memo_view implements \TYPO3\CMS\Core\SingletonInterface {
 			$content = $markerObj->replaceGlobalMarkers($content);
 		}
 
-		if (!$content && empty($error_code)) {
+		if (!$content && empty($errorCode)) {
 			$templateObj = GeneralUtility::makeInstance('tx_ttproducts_template');
-			$error_code[0] = 'no_subtemplate';
-			$error_code[1] = '###' . $templateArea . $templateObj->getTemplateSuffix() . '###';
-			$error_code[2] = $templateObj->getTemplateFile();
+			$errorCode[0] = 'no_subtemplate';
+			$errorCode[1] = '###' . $templateArea . $templateObj->getTemplateSuffix() . '###';
+			$errorCode[2] = $templateObj->getTemplateFile();
 			$content = false;
 		}
 		return $content;
