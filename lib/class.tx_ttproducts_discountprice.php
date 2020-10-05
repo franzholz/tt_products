@@ -193,7 +193,7 @@ class tx_ttproducts_discountprice extends tx_ttproducts_pricecalc_base {
 									$countedItems[$k1][] = array('sort' => $sort, 'item' => $k2, 'active' => false, 'price' => '');	// collect the not yet active items
 
 									foreach ($prodConfArray as $k3 => $v3)	{
-										if ($k3 == 'type')	{
+										if ($k3 === 'type')	{
 											// nothing
 										} else if (
 											tx_div2007_core::testInt($k3)
@@ -258,7 +258,7 @@ class tx_ttproducts_discountprice extends tx_ttproducts_pricecalc_base {
 											$prodValue = $prodv;
 										}
 									} else {
-										if ($k3 == 'type')	{
+										if ($k3 === 'type')	{
 											$prodType = $prodv;
 										}
 									}
