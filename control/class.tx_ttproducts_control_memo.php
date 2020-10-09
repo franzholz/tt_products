@@ -276,7 +276,7 @@ class tx_ttproducts_control_memo {
 		foreach ($tableArray as $functablename => $type) {
 			$memoItems = self::readSessionMemoItems($functablename);
 
-			if (strlen($memoItems)) {
+			if (!empty($memoItems) && is_array($memoItems)) {
 				$feuserMemoItems = self::readFeUserMemoItems($functablename);
 				if (isset($feuserMemoItems) && is_array($feuserMemoItems)) {
 					$memoItems = array_merge($feuserMemoItems, $memoItems);
