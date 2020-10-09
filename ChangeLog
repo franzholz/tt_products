@@ -1,5 +1,7 @@
 
 
+2020-10-09 Franz Holzinger <franz@ttproducts.de>
+    * bugfix with memo item function: wrong functablename memoItems instead of tt_products
 
 2020-10-05 Franz Holzinger <franz@ttproducts.de>
     * bugfix with discountprice: $k3 == 'type' is true with a value of 0.

@@ -273,7 +273,7 @@ class tx_ttproducts_control_memo {
 	static public function copySession2Feuser ($params, $pObj, $conf) {
 
 		$tableArray = self::getMemoTableFieldArray();
-		foreach ($tableArray as $functablename) {
+		foreach ($tableArray as $functablename => $type) {
 			$memoItems = self::readSessionMemoItems($functablename);
 
 			if (strlen($memoItems)) {
