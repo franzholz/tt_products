@@ -37,6 +37,7 @@
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 
 
 class tx_ttproducts_page extends tx_ttproducts_category_base {
@@ -203,18 +204,19 @@ class tx_ttproducts_page extends tx_ttproducts_category_base {
 	/**
 	 * Returning the pid out from the row using the where clause
 	 */
-	public function getPID ($conf, $confExt, $row, $rootRow=array()) {
-		$rc = 0;
+	public function getPID ($conf, $confExt, $row, $rootRow = [])
+	{
+		$result = 0;
 		if ($confExt) {
 			foreach ($confExt as $k1 => $param) {
 				$type  = $param['type'];
 				$where = $param['where'];
 				$isValid = false;
 				if ($where) {
-					$wherelist = GeneralUtility::trimExplode ('AND', $where);
+					$wherelist = GeneralUtility::trimExplode('AND', $where);
 					$isValid = true;
 					foreach ($wherelist as $k2 => $condition) {
-						$args = GeneralUtility::trimExplode ('=', $condition);
+						$args = GeneralUtility::trimExplode('=', $condition);
 						if ($row[$args[0]] != $args[1]) {
 							$isValid = false;
 						}
@@ -226,26 +228,34 @@ class tx_ttproducts_page extends tx_ttproducts_category_base {
 				if ($isValid == true) {
 					switch ($type) {
 						case 'sql':
-							$rc = $param['pid'];
+							$result = $param['pid'];
 							break;
 						case 'pid':
-							$rc = intval($row['pid']);
+							$result = intval($row['pid']);
 							break;
+						case 'page.pid': // neu Anfang
+                            $pid = intval($row['pid']);
+                            $pageRow = $this->get($pid);
+                            if ($pageRow) {
+                                $result = intval($pageRow['pid']);
+                            }
+							break; // neu Ende
 					}
 					break;  //ready with the foreach loop
 				}
 			}
 		}
-		if (!$rc) {
-			if ($conf) {
-				$rc = $conf;
+
+		if (!$result) {
+            if (MathUtility::canBeInterpretedAsInteger($conf) && $conf > 0) {
+				$result = $conf;
 			} else {
-				$rc = ($rootRow['uid'] ? $rootRow['uid'] : $GLOBALS['TSFE']->id);
-				$rc = intval($rc);
+				$result = ($rootRow['uid'] ? $rootRow['uid'] : $GLOBALS['TSFE']->id);
+				$result = intval($result);
 			}
 		}
 
-		return $rc;
+		return $result;
 	} // getPID
 }
 
