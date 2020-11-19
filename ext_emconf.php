@@ -15,7 +15,7 @@ $EM_CONF[$_EXTKEY] = array(
 	'author' => 'Franz Holzinger',
 	'author_email' => 'franz@ttproducts.de',
 	'author_company' => 'jambage.com',
-	'version' => '2.9.11',
+	'version' => '2.9.12',
 	'constraints' => array(
 		'depends' => array(
 			'div2007' => '1.10.31-0.0.0',
@@ -30,6 +30,7 @@ $EM_CONF[$_EXTKEY] = array(
 			'func_wizards' => '',
 			'addons_em' => '0.2.1-0.0.0',
             'typo3db_legacy' => '1.0.0-1.1.99',
+			'taxajax' => '',
 		)
 	)
 );

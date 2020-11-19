@@ -131,11 +131,28 @@ call_user_func(function () {
         define('STATIC_INFO_TABLES_TAXES_EXT','static_info_tables_taxes');
     }
 
-    if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded(TAXAJAX_EXT)) {
-        if (!defined ('PATH_BE_taxajax')) {
-            define('PATH_BE_taxajax', \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath(TAXAJAX_EXT));
+    if (
+        TYPO3_MODE == 'FE' && \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded(TAXAJAX_EXT)
+    ) {
+        if (
+            version_compare(TYPO3_version, '9.5.0', '<')
+        ) {
+            $GLOBALS['TYPO3_CONF_VARS']['FE']['eID_include'][TT_PRODUCTS_EXT] =  \JambageCom\TtProducts\Controller\TaxajaxController::class . '::processRequest';
+        } else {
+            $GLOBALS['TYPO3_CONF_VARS']['FE']['taxajax_include'][TT_PRODUCTS_EXT] =  \JambageCom\TtProducts\Controller\TaxajaxController::class . '::processRequest';
         }
-        $GLOBALS['TYPO3_CONF_VARS'] ['FE']['eID_include'][TT_PRODUCTS_EXT] =  'EXT:'.TT_PRODUCTS_EXT.'/eid/class.tx_ttproducts_eid.php' ;
+    }
+
+    if (
+        TYPO3_MODE == 'FE' && \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded(TAXAJAX_EXT)
+    ) {
+        if (
+            version_compare(TYPO3_version, '9.5.0', '<')
+        ) {
+            $GLOBALS['TYPO3_CONF_VARS']['FE']['eID_include'][TT_PRODUCTS_EXT] =  \JambageCom\TtProducts\Controller\TaxajaxController::class . '::processRequest';
+        } else {
+            $GLOBALS['TYPO3_CONF_VARS']['FE']['taxajax_include'][TT_PRODUCTS_EXT] =  \JambageCom\TtProducts\Controller\TaxajaxController::class . '::processRequest';
+        }
     }
 
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addUserTSConfig('options.saveDocNew.tt_products=1');

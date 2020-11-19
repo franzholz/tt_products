@@ -84,23 +84,19 @@ class tx_ttproducts_ajax implements \TYPO3\CMS\Core\SingletonInterface {
 			$this->taxajax->debugOff();
 		}
 		$this->taxajax->setWrapperPrefix('');
+        $addQueryString = [];
 
-
-// 		$reqURI = GeneralUtility::getIndpEnv('TYPO3_REQUEST_URL');
-// 		$origUrlArray = explode('?', $reqURI);
-// 		$urlArray = GeneralUtility::explodeUrl2Array($origUrlArray['1'],true);
-// 		unset($urlArray['cHash']);
-// 		$urlArray['no_cache'] = 1;
-// 		$urlArray['eID'] = TT_PRODUCTS_EXT;
-// 		$reqURI = GeneralUtility::implodeArrayForUrl('',$urlArray);
-// 		$reqURI{0} = '?';
-// 		$reqURI = $origUrlArray['0'] . $reqURI;
-
-
-		$addQueryString = array(
-			'no_cache' => 1,
-			'eID' => TT_PRODUCTS_EXT
-		);
+        if (
+            version_compare(TYPO3_version, '9.5.0', '<')
+        ) {
+            $addQueryString = [
+                'eID' => TT_PRODUCTS_EXT
+            ];
+        } else {
+            $addQueryString = [
+                'taxajax' => TT_PRODUCTS_EXT
+            ];
+        }
 
 		$excludeList = '';
 		$queryString = $urlObj->getLinkParams(
