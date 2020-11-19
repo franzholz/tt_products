@@ -175,6 +175,7 @@ $result = array (
 			'config' => array (
 				'type' => 'input',
 				'size' => '40',
+                'eval' => 'trim',
 				'max' => '256',
 				'default' => ''
 			),

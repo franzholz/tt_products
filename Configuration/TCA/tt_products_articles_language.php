@@ -169,6 +169,7 @@ $result = array (
 			'config' => array (
 				'type' => 'input',
 				'size' => '40',
+				'eval' => 'trim',
 				'max' => '256',
 				'default' => ''
 			),
@@ -181,6 +182,7 @@ $result = array (
 				'type' => 'text',
 				'rows' => '3',
 				'cols' => '20',
+				'eval' => 'trim',
 				'max' => '512',
 				'default' => ''
 			),

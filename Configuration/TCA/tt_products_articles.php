@@ -145,8 +145,8 @@ $result = array (
 			'config' => array (
 				'type' => 'input',
 				'size' => '40',
-				'max' => '80',
 				'eval' => 'trim',
+				'max' => '80',
 				'default' => ''
 			)
 		),
@@ -157,6 +157,7 @@ $result = array (
 				'type' => 'text',
 				'rows' => '3',
 				'cols' => '20',
+				'eval' => 'trim',
 				'max' => '512',
 				'default' => ''
 			)

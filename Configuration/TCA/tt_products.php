@@ -153,9 +153,10 @@ $result = array(
 			'config' => array (
 				'type' => 'input',
 				'size' => '40',
+                'eval' => 'trim',
 				'max' => '256',
 				'default' => '',
-			)
+            )
 		),
 		'subtitle' => array (
 			'exclude' => 1,
@@ -164,6 +165,7 @@ $result = array(
 				'type' => 'text',
 				'rows' => '3',
 				'cols' => '20',
+                'eval' => null,
 				'max' => '512',
 				'default' => '',
 			)
@@ -195,7 +197,7 @@ $result = array(
 				'rows' => '5',
 				'cols' => '20',
 				'max' => '512',
-				'eval' => 'null',
+				'eval' => null,
 				'default' => '',
 			)
 		),
