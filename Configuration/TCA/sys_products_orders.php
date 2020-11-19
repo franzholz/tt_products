@@ -526,8 +526,8 @@ $result = array (
 			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:sys_products_orders.client_ip',
 			'config' => array (
 				'type' => 'input',
-				'size' => '15',
-				'max' => '15',
+				'size' => '40',
+				'max' => '50',
 				'default' => ''
 			)
 		),

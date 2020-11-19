@@ -670,7 +670,7 @@ CREATE TABLE sys_products_orders (
 	agb tinyint(1) DEFAULT '0' NOT NULL,
 	desired_date varchar(30) DEFAULT '' NOT NULL,
 	desired_time varchar(30) DEFAULT '' NOT NULL,
-	client_ip varchar(15) DEFAULT '' NOT NULL,
+	client_ip varchar(50) DEFAULT '' NOT NULL,
 	note text,
 	giftservice text,
 	cc_uid int(11) unsigned DEFAULT '0' NOT NULL,
