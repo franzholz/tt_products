@@ -1,6 +1,7 @@
 2020-11-19 Franz Holzinger <franz@ttproducts.de>
     * support for taxajax extension based on Middleware
     * bugfix issue #73: Trim the product title in the TCA and other fields.
+    * bugfix issue #74: The FE session has not been stored.
 
 2020-10-09 Franz Holzinger <franz@ttproducts.de>
     * bugfix with memo item function: wrong functablename memoItems instead of tt_products

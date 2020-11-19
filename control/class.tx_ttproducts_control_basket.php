@@ -335,12 +335,12 @@ class tx_ttproducts_control_basket {
 	}
 
 
-	static public function setStoredRecs ($valArray) {
-		self::store('recs', $valArray);
+	static public function setStoredRecs ($valueArrayy) {
+		self::store('recs', $valueArrayy);
 	}
 
 
-	static public function store ($type, $valArray) {
+	static public function store ($type, $valueArray) {
         tx_ttproducts_control_session::writeSession($type, $valueArray);
 	}
 
