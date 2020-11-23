@@ -90,7 +90,8 @@ $temporaryColumns = array (
 		'config' => array (
 			'type' => 'input',
 			'size' => '15',
-			'max' => '15'
+			'max' => '15',
+			'default' => ''
 		)
 	),
 	'tt_products_business_partner' => array (
