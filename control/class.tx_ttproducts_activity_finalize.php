@@ -334,15 +334,20 @@ class tx_ttproducts_activity_finalize {
 				$basketObj->getCalculatedArray(),
 				$accountUid
 			);
-			$csvfilepath = PATH_site . $this->conf['CSVdestination'];
+
+            if (
+                version_compare(TYPO3_version, '9.0.0', '>=')
+            ) {
+                $csvfilepath = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/' . $this->conf['CSVdestination'];
+			} else {
+                $csvfilepath = PATH_site . $this->conf['CSVdestination'];
+			}
 			$csvorderuid = $basketObj->order['orderUid'];
 			$csv->create($functablename, $infoViewObj, $csvorderuid, $basketExtra, $csvfilepath, $errorMessage);
 			if (!$this->conf['CSVnotInEmail']) {
 				$addcsv = $csvfilepath;
 			}
 		}
-
-// #################################
 
 		$markerArray['###MESSAGE_PAYMENT_SCRIPT###'] = '';
 		$empty = '';
