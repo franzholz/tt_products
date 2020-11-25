@@ -38,7 +38,7 @@ $result = array (
 	),
 	'columns' => array (
 		't3ver_label' => array (
-			'label'  => 'LLL:EXT:lang/locallang_general.xml:LGL.versionLabel',
+			'label'  => DIV2007_LANGUAGE_PATH . 'locallang_general.xlf:LGL.versionLabel',
 			'config' => array (
 				'type' => 'input',
 				'size' => '30',

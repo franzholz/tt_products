@@ -1,5 +1,7 @@
 
+
 2020-11-25 Franz Holzinger <franz@ttproducts.de>
+    * use constant DIV2007_LANGUAGE_PATH for the TYPO3 language file path.
     * bugfix: \JambageCom\TtProducts\Domain\Model\Dto\EmConfiguration is sometimes not found in the TCA folder, but only inside of Overrides
     * compatibility 9: Replace ExtensionManagementUtility::siteRelPath by \TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath(TT_PRODUCTS_EXT)
     * compatibility 9: replace PATH_site by \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/' 

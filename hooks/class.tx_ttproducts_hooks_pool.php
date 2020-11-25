@@ -44,7 +44,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class tx_ttproducts_hooks_pool extends tx_pool_hooks_base implements \TYPO3\CMS\Core\SingletonInterface {
 	public $extKey=TT_PRODUCTS_EXT;
 	public $prefixId = 'tx_ttproducts_hooks_pool';	// Same as class name
-	public $LLFileArray = array ('hooks/locallang_pool.xml', 'EXT:lang/locallang_mod_web_list.xml');
+	public $LLFileArray = array ('hooks/locallang_pool.xml', DIV2007_LANGUAGE_PATH . 'locallang_mod_web_list.xlf');
 	public $modMenu = array('function' => array('search'));
 	public $headerText = 'header_search';
 
