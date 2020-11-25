@@ -1,8 +1,6 @@
 <?php
 defined('TYPO3_MODE') || die('Access denied.');
 
-$configuration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\JambageCom\TtProducts\Domain\Model\Dto\EmConfiguration::class);
-
 $imageFolder = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['imageFolder'];
 if (!$imageFolder) {
 	$imageFolder = 'uploads/pics';
@@ -177,7 +175,6 @@ $result = array (
                     ),
                 ),
                 'fallbackCharacter' => '-',
-                'eval' => $configuration->getSlugBehaviour(),
                 'default' => ''
             )
         ),

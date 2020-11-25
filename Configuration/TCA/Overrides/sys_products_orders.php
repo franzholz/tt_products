@@ -2,6 +2,8 @@
 defined('TYPO3_MODE') || die('Access denied.');
 
 $table = 'sys_products_orders';
+$configuration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\JambageCom\TtProducts\Domain\Model\Dto\EmConfiguration::class);
+
 
 if (
     version_compare(TYPO3_version, '8.7.0', '<')
@@ -23,13 +25,14 @@ if (
     $GLOBALS['TCA'][$table]['ctrl']['sortby'] = 'sorting';
 }
 
-
 $excludeArray = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude.'];
 if (
     defined('TYPO3_version') &&
     version_compare(TYPO3_version, '9.0.0', '<')
 ) {
     $excludeArray[$table] .= ',slug';
+} else {
+    $GLOBALS['TCA'][$table]['columns']['slug']['config']['eval'] = $configuration->getSlugBehaviour();    
 }
 
 if (

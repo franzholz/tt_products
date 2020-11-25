@@ -3,6 +3,7 @@ defined('TYPO3_MODE') || die('Access denied.');
 
 call_user_func(function () {
     $table = 'tt_products_cat';
+    $configuration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\JambageCom\TtProducts\Domain\Model\Dto\EmConfiguration::class);
 
     if (
         version_compare(TYPO3_version, '8.7.0', '<')
@@ -52,6 +53,8 @@ call_user_func(function () {
         version_compare(TYPO3_version, '9.0.0', '<')
     ) {
         $excludeArray[$table] .= ',slug';
+    } else {
+        $GLOBALS['TCA'][$table]['columns']['slug']['config']['eval'] = $configuration->getSlugBehaviour();    
     }
 
     if (

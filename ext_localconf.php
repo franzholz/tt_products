@@ -40,7 +40,18 @@ call_user_func(function () {
     }
 
     if (!defined ('PATH_FE_TTPRODUCTS_REL')) {
-        define('PATH_FE_TTPRODUCTS_REL', \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::siteRelPath(TT_PRODUCTS_EXT));
+        if (
+            version_compare(TYPO3_version, '9.0.0', '>=')
+        ) {
+            define(
+                'PATH_FE_TTPRODUCTS_REL',
+                \TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix(
+                    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath(TT_PRODUCTS_EXT)
+                )
+            );
+        } else {
+            define('PATH_FE_TTPRODUCTS_REL', \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::siteRelPath(TT_PRODUCTS_EXT));
+        }
     }
 
     if (!defined ('ADDONS_EXT')) {

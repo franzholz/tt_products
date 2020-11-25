@@ -3,6 +3,7 @@ defined('TYPO3_MODE') || die('Access denied.');
 
 call_user_func(function () {
     $table = 'tt_products';
+    $configuration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\JambageCom\TtProducts\Domain\Model\Dto\EmConfiguration::class);
     $bSelectTaxMode = false;
 
     if (
@@ -167,6 +168,8 @@ call_user_func(function () {
         version_compare(TYPO3_version, '9.0.0', '<')
     ) {
         $excludeArray[$table] .= ',slug';
+    } else {
+        $GLOBALS['TCA'][$table]['columns']['slug']['config']['eval'] = $configuration->getSlugBehaviour();    
     }
 
     if (

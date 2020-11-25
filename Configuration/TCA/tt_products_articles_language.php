@@ -1,8 +1,6 @@
 <?php
 defined('TYPO3_MODE') || die('Access denied.');
 
-$configuration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\JambageCom\TtProducts\Domain\Model\Dto\EmConfiguration::class);
-
 // ******************************************************************
 // This is the language overlay for the articles table, tt_products_articles
 // ******************************************************************
@@ -215,7 +213,6 @@ $result = array (
                     ),
                 ),
                 'fallbackCharacter' => '-',
-                'eval' => $configuration->getSlugBehaviour(),
                 'default' => ''
             )
         ),
