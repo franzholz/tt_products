@@ -6,10 +6,10 @@ This extension brings to you a shop system for TYPO3.
 
 ## Configuration
 
-See the file manual.odt under the folder doc of the extension.
-https://wiki.typo3.org/Tt_products
-ebook:
-http://www.fosdoc.de/downloads/OSP_typo3webshop.pdf 
+See the file manual.odt under the folder doc of the extension.  
+https://wiki.typo3.org/Tt_products  
+ebook:  
+http://www.fosdoc.de/downloads/OSP_typo3webshop.pdf   
 
 ## Improvements
 
