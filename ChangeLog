@@ -1,4 +1,6 @@
 
+2020-12-01 Franz Holzinger <franz@ttproducts.de>
+    * enhancement to feature foundby: Setup foundby.type = radio fo show a radio box inside of the marker ###DELIVERY_FOUNDBY_SELECTOR###.
 
 2020-11-25 Franz Holzinger <franz@ttproducts.de>
     * use constant DIV2007_LANGUAGE_PATH for the TYPO3 language file path.

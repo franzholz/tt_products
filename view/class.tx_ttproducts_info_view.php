@@ -741,8 +741,14 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$markerArray['###USERNAME###'] = $this->infoArray['billing']['email'];
 		$markerArray['###PASSWORD###'] = $this->password;
 		$valueArray = $GLOBALS['TCA']['sys_products_orders']['columns']['foundby']['config']['items'];
-
 		unset($valueArray[0]);
+		$foundbyType = 'radio';
+		if (
+            isset($this->conf['foundby.']) &&
+            isset($this->conf['foundby.']['type'])
+        ) {
+            $foundbyType = $this->conf['foundby.']['type'];
+        }
 
 		$foundbyText = tx_ttproducts_form_div::createSelect(
 			$languageObj,
@@ -752,7 +758,7 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 			true,
 			true,
 			array(),
-			'radio'
+			$foundbyType
 		);
 
 		$foundbyKey = $this->infoArray['delivery']['foundby'];

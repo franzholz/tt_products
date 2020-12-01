@@ -25,6 +25,7 @@ plugin.tt_products {
   wrapInBaseClass = 1
   wrapInCode = 1
   onChangeCountryAttribute = this.form.submit();
+  foundby.type = radio
 
   limit = {$plugin.tt_products.limit}
   limitImage = {$plugin.tt_products.limitImage}
