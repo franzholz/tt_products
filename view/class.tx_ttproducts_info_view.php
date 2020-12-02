@@ -768,6 +768,7 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 		}
 
 		$markerArray['###DELIVERY_FOUNDBY###'] = $text;
+		$markerArray['###DELIVERY_FOUNDBY_KEY###'] = $foundbyKey;
 		$markerArray['###DELIVERY_FOUNDBY_SELECTOR###'] = $foundbyText;
 		$markerArray['###DELIVERY_FOUNDBY_OTHERS###'] = $this->infoArray['delivery']['foundby_others'];
 	} // getMarkerArray
