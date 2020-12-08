@@ -1,3 +1,5 @@
+2020-12-08 Franz Holzinger <franz@ttproducts.de>
+    * bugfix: Wrong order of treatment of the language object and the marker substitution 
 
 2020-12-01 Franz Holzinger <franz@ttproducts.de>
     * enhancement to feature foundby: Setup foundby.type = radio fo show a radio box inside of the marker ###DELIVERY_FOUNDBY_SELECTOR###.

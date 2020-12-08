@@ -47,6 +47,7 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
 		&$config,
 		$pObj,
 		$cObj,
+		&$errorCode,
 		array $recs = array(),
 		array $basketRec = array()
 	) {
@@ -64,6 +65,17 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
 			$pLangObj = &$pObj;
 		} else {
 			$pLangObj = &$this;
+		}
+
+		$markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
+		$res = $markerObj->init(
+			$cObj,
+			$pObj->piVars
+		);
+
+		if ($res == false)	{
+			$errorCode = $markerObj->getErrorCode();
+			return false;
 		}
 
 		tx_ttproducts_control_basket::init(

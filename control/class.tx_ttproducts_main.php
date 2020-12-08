@@ -249,26 +249,13 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 		$pid_list = ($pid_list ? $pid_list : $this->conf['pid_list']);
 		$config['pid_list'] = (isset($pid_list) ? $pid_list : $config['storeRootPid']);
 
-		$markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
-		$res = $markerObj->init(
-			$this->cObj,
-			$pibaseObj->piVars
-		);
-
-		$rc &= $res;
-
-		if ($res == false)	{
-			$errorCode = $markerObj->getErrorCode();
-			return false;
-		}
-
 			// If the current record should be displayed.
 		$config['displayCurrentRecord'] = $this->conf['displayCurrentRecord'];
 		
 		if (!$bRunAjax) {
 			// ### central initialization ###
 			$db = GeneralUtility::makeInstance('tx_ttproducts_db');
-			$db->init($conf, $config, $this->ajax, $pibaseObj); // this initializes tx_ttproducts_config inside of creator
+			$db->init($conf, $config, $this->ajax, $pibaseObj, $errorCode); // this initializes tx_ttproducts_config inside of creator
 		}
 
 		if (!$bRunAjax && ExtensionManagementUtility::isLoaded('taxajax')) {

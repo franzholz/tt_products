@@ -52,7 +52,7 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 	public $LOCAL_LANG_loaded = 0;		// Flag that tells if the locallang file has been fetch (or tried to be fetched) already.
 
 
-	public function init (&$conf, &$config, &$ajax, &$pObj)	{
+	public function init (&$conf, &$config, &$ajax, &$pObj, &$errorCode)	{
 		$this->conf = &$conf;
 
 		if (isset($ajax) && is_object($ajax))	{
@@ -85,7 +85,7 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
         }
 
         $controlCreatorObj = GeneralUtility::makeInstance('tx_ttproducts_control_creator');
-		$controlCreatorObj->init($conf, $config, $pObj, $this->cObj, $recs);
+		$controlCreatorObj->init($conf, $config, $pObj, $this->cObj, $errorCode, $recs);
 
 		$modelCreatorObj = GeneralUtility::makeInstance('tx_ttproducts_model_creator');
 		$modelCreatorObj->init($conf, $config, $this->cObj);
