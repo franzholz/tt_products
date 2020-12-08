@@ -246,9 +246,7 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
 				}
 			}
 		}
-
 		$this->globalMarkerArray = $markerArray;
-
 		$this->setLangArray($langArray);
 	} // setGlobalMarkerArray
 
