@@ -142,6 +142,9 @@ call_user_func(function () {
         define('STATIC_INFO_TABLES_TAXES_EXT','static_info_tables_taxes');
     }
 
+    // The autoloader does not work in ext_localconf.php and in the folder Configuratin/TCA
+    require_once(PATH_BE_TTPRODUCTS . 'Classes/Domain/Model/Dto/EmConfiguration.php');
+
     if (
         TYPO3_MODE == 'FE' && \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded(TAXAJAX_EXT)
     ) {
