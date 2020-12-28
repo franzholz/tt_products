@@ -548,7 +548,8 @@ plugin.tt_products {
        10002.returnPath = {$plugin.tt_products.orderEmail_returnPath}
   }
 
-  regExCheck.email = ^[A-Za-z0-9]+([-_\.]?[A-Za-z0-9])+@[A-Za-z0-9]+([-_\.]?[A-Za-z0-9])+\.[A-Za-z]{2,4}$
+  regExCheck.email = ^[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,64}$
+
 }
 
 [globalVar = GP:ttp_basket != '']

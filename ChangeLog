@@ -1,5 +1,6 @@
 2020-12-28 Franz Holzinger <franz@ttproducts.de>
     * bugfix: The file EmConfiguration.php must be included in ext_localconf.php. The composer does not work at this position and inside of TCA files.
+    * enhancement issue #75: support more email addresses by regexp
 
 2020-12-08 Franz Holzinger <franz@ttproducts.de>
     * bugfix: Wrong order of treatment of the language object and the marker substitution 
