@@ -112,7 +112,7 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
 				$this->marker,
 				$functablename,
 				$row,
-				'datasheet',
+				($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['falDatasheet'] ?  'datasheet_uid' : 'datasheet'),
 				$this->getModelObj()->getTableConf($theCode),
 				$subpartArray,
 				$wrappedSubpartArray,
@@ -190,7 +190,7 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
 		if (isset($datafieldViewObj) && is_object($datafieldViewObj))	{
 			$datafieldViewObj->getRowMarkerArray(
 				$modelObj->getTablename(),
-				'datasheet',
+				($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['falDatasheet'] ?  'datasheet_uid' : 'datasheet'),
 				$row,
 				$markerParam.'_DATASHEET',
 				$markerArray,
