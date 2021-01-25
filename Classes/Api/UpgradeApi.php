@@ -28,14 +28,39 @@ namespace JambageCom\TtProducts\Api;
  *
  */
 
+use Doctrine\DBAL\ParameterType;
+
 
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 
-class UpgradeApi {
+
+class UpgradeApi implements LoggerAwareInterface {
+    use LoggerAwareTrait;
+
+    public function getEmptyValues (
+        &$oldEmpty,
+        &$newEmpty,
+        $oldType,
+        $newType,
+        $queryBuilder
+    )
+    {
+        $stringEmpty = $queryBuilder->createNamedParameter('');
+        $integerEmpty = $queryBuilder->createNamedParameter(0);
+        $oldEmpty = $newEmpty = $stringEmpty;
+        if ($oldType == \PDO::PARAM_INT) {
+            $oldEmpty = $integerEmpty;
+        }
+        if ($newType == \PDO::PARAM_INT) {
+            $newEmpty = $integerEmpty;
+        }
+    }
 
     public function countOfProductMMArticleMigrations ()
     {
@@ -70,7 +95,6 @@ class UpgradeApi {
     public function countOfMMTableMigrations ($mmTable, $uidLocalOldField)
     {
         $count = 0;
-
         /** @var QueryBuilder $queryBuilder */
         $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($mmTable);
         $queryBuilder->getRestrictions()->removeAll();
@@ -121,6 +145,48 @@ class UpgradeApi {
         return $count;
     }
 
+
+    public function countOfTableFieldMigrations ($table, $oldField, $newField, $oldType = ParameterType::STRING, $newType = ParameterType::STRING)
+    {
+        $count = 0;
+
+        /** @var QueryBuilder $queryBuilder */
+        $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($table);
+        $queryBuilder->getRestrictions()->removeAll();
+
+        $expressionBuilder = $queryBuilder->expr();
+        $conditions = $expressionBuilder->andX();
+        $this->getEmptyValues(
+            $oldEmpty,
+            $newEmpty,
+            $oldType,
+            $newType,
+            $queryBuilder
+        );
+
+        $conditions->add(
+            $expressionBuilder->gt($oldField, $oldEmpty)
+        );
+
+        $conditions->add(
+            $expressionBuilder->eq($newField, $newEmpty)
+        );
+
+        $count = $queryBuilder = $queryBuilder->count('uid')
+            ->from($table)
+            ->where(
+                $queryBuilder->expr()->eq(
+                    'deleted',
+                    $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
+                )
+            )
+            ->andWhere($conditions)
+            ->setMaxResults(1)
+            ->execute()
+            ->fetchColumn(0);
+
+        return $count;
+    }
 
     /**
      * Perform migration of tt_products_articles relations to tt_products via the product_uid field into a mm table relation between tt_products and tt_products_articles
@@ -353,6 +419,262 @@ class UpgradeApi {
         $affectedRows = $queryBuilder->execute();
 
         return $databaseQueries;
+    }
+
+    public function performTableFieldMigrations ($table, $oldField, $newField, $oldFieldtype = ParameterType::STRING, $newFieldtype = ParameterType::STRING)
+    {
+        $databaseQueries = [];
+
+        /** @var Connection $connection */
+        $connection = GeneralUtility::makeInstance(ConnectionPool::class)
+            ->getConnectionForTable($table);
+        $queryBuilder = $connection->createQueryBuilder();
+        $queryBuilder->getRestrictions()->removeAll();
+        $this->getEmptyValues(
+            $oldEmpty,
+            $newEmpty,
+            $oldFieldtype,
+            $newFieldtype,
+            $queryBuilder
+        );
+
+        // Get entries to migrate
+        $statement = $queryBuilder
+            ->update(
+                $table
+            )
+            ->where(
+                $queryBuilder->expr()->andX(
+                    $queryBuilder->expr()->gt(
+                        $oldField,
+                        $queryBuilder->createNamedParameter($oldEmpty, $oldFieldtype)
+                    ),
+                    $queryBuilder->expr()->eq(
+                        $newField,
+                        $queryBuilder->createNamedParameter($newEmpty, $newFieldtype)
+                    ),
+                    $queryBuilder->expr()->eq(
+                        'deleted',
+                        $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
+                    )
+                )
+            )
+            ->set($newField, $queryBuilder->quoteIdentifier($oldField), false);
+            
+        $databaseQueries[] = $queryBuilder->getSQL();
+        $affectedRows = $queryBuilder->execute();
+
+        return $databaseQueries;
+    }
+    
+    /**
+     * Migrates a single field.
+     *
+     * @param array $row
+     * @param string $customMessage
+     * @param array $databaseQueries
+     *
+     * @throws \Exception
+     */
+    public function performTableFieldFalMigrations (
+        $table,
+        $oldField,
+        $newField,
+        $oldFieldtype = ParameterType::STRING,
+        $newFieldtype = ParameterType::STRING,
+        $sourcePath = ''
+    )
+    {
+        $databaseQueries = [];
+
+        /** @var Connection $connection */
+        $connection = GeneralUtility::makeInstance(ConnectionPool::class)
+            ->getConnectionForTable($table);
+        $queryBuilder = $connection->createQueryBuilder();
+        $queryBuilder->getRestrictions()->removeAll();
+        $this->getEmptyValues(
+            $oldEmpty,
+            $newEmpty,
+            $oldFieldtype,
+            $newFieldtype,
+            $queryBuilder
+        );
+
+        // Get entries to migrate
+        $statement = $queryBuilder
+            ->select('*')
+            ->from($table)
+            ->where(
+                $queryBuilder->expr()->andX(
+                    $queryBuilder->expr()->gt(
+                        $oldField,
+                        $oldEmpty
+                    ),
+                    $queryBuilder->expr()->eq(
+                        $newField,
+                        $newEmpty
+                    ),
+                    $queryBuilder->expr()->eq(
+                        'deleted',
+                        $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
+                    )
+                )
+            );
+        
+        $databaseQueries[] = $queryBuilder->getSQL();
+        $statement = $queryBuilder->execute();
+        $customMessage = '';
+
+        while ($row = $statement->fetch()) {
+            // Do something with that single row
+            if (is_array($row)) {
+                $this->migrateField(
+                    $customMessage,
+                    $databaseQueries,
+                    $table,
+                    $row,
+                    $oldField,
+                    $newField,
+                    $sourcePath
+                );
+            }
+        }
+        return $databaseQueries;
+    }
+
+    protected function migrateField (
+        &$customMessage,
+        &$databaseQueries,
+        $table,
+        array $row,
+        $oldField,
+        $newField,
+        $sourcePath = ''
+    )
+    {
+        if (
+            empty($table) ||
+            empty($oldField) ||
+            empty($newField) ||
+            !empty($row[$newField]) ||
+            !isset($GLOBALS['TCA'][$table]['columns'][$newField])
+        ) {
+            return false;
+        }
+        $fileadminDirectory = rtrim($GLOBALS['TYPO3_CONF_VARS']['BE']['fileadminDir'], '/') . '/';
+        $i = 0;
+        if ($sourcePath == '') {
+            $sourcePath = 'uploads/tx_ttproducts/' . $oldField;
+            if (isset($GLOBALS['TCA'][$table]['columns'][$oldField])) {
+                $sourcePath = $GLOBALS['TCA'][$table]['columns'][$oldField]['config']['uploadfolder'];
+            }
+        }
+
+        $storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\StorageRepository');
+        $storage = $storageRepository->findByUid(1);
+        $storageUid = (int) $storage->getUid();
+        $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
+        $fieldItems = explode(',', $row[$oldField]);
+        $pathSite = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/';
+        
+        foreach ($fieldItems as $item) {
+            $fileUid = null;
+            $currentSourcePath = $pathSite . $sourcePath  . '/' . basename($item);
+            $targetPath = 'user_upload';
+            $targetDirectory = $pathSite . $fileadminDirectory . $targetPath;
+            $targetPath = $targetDirectory . '/' . basename($item);
+            // maybe the file was already moved, so check if the original file still exists
+            if (file_exists($currentSourcePath)) {
+                if (!is_dir($targetDirectory)) {
+                    GeneralUtility::mkdir_deep($targetDirectory);
+                }
+                // see if the file already exists in the storage
+                $fileSha1 = sha1_file($currentSourcePath);
+                $queryBuilder = $connectionPool->getQueryBuilderForTable('sys_file');
+                $queryBuilder->getRestrictions()->removeAll();
+                $existingFileRecord = $queryBuilder->select('uid')->from('sys_file')->where(
+                    $queryBuilder->expr()->eq(
+                        'sha1',
+                        $queryBuilder->createNamedParameter($fileSha1, \PDO::PARAM_STR)
+                    ),
+                    $queryBuilder->expr()->eq(
+                        'storage',
+                        $queryBuilder->createNamedParameter($storageUid, \PDO::PARAM_INT)
+                    )
+                )->execute()->fetch();
+                // the file exists, the file does not have to be moved again
+                if (is_array($existingFileRecord)) {
+                    $fileUid = $existingFileRecord['uid'];
+                } else {
+                    // just move the file (no duplicate)
+                    rename($currentSourcePath, $targetPath);
+                }
+            }
+
+            if ($fileUid === null) {
+                // get the File object if it has not been fetched before
+                try {
+                    // if the source file does not exist, we should just continue, but leave a message in the docs;
+                    // ideally, the user would be informed after the update as well.
+                    /** @var File $file */
+                    $file = $storage->getFile($targetPath . $item);
+                    $fileUid = $file->getUid();
+                } catch (\InvalidArgumentException $e) {
+                    // no file found, no reference can be set
+                    $this->logger->warning(
+                        'File ' . $currentSourcePath . $item . ' does not exist. Reference was not migrated.',
+                        [
+                            'table' => $table,
+                            'record' => $row,
+                            'field' => $oldField,
+                        ]
+                    );
+                    $format = 'File \'%s\' does not exist. Referencing field: %s.%d.%s. The reference was not migrated.';
+                    $message = sprintf(
+                        $format,
+                        $currentSourcePath . $item,
+                        $table,
+                        $row['uid'],
+                        $oldField
+                    );
+                    $customMessage .= PHP_EOL . $message;
+                    continue;
+                }
+            }
+
+            if ($fileUid > 0) {
+                $fields = [
+                    'fieldname' => $newField,
+                    'table_local' => 'sys_file',
+                    'pid' => $row['pid'],
+                    'uid_foreign' => $row['uid'],
+                    'uid_local' => $fileUid,
+                    'tablenames' => $table,
+                    'crdate' => time(),
+                    'tstamp' => time(),
+//                     'sorting' => ($i + 256),
+                    'sorting_foreign' => $i,
+                ];
+                $queryBuilder = $connectionPool->getQueryBuilderForTable('sys_file_reference');
+                $queryBuilder->insert('sys_file_reference')->values($fields)->execute();
+                $databaseQueries[] = str_replace(LF, ' ', $queryBuilder->getSQL());
+                ++$i;
+            }
+        } // Ende foreach
+
+        // Update referencing table's original field to now contain the count of references,
+        // but only if all new references could be set
+        if ($i === count($fieldItems)) {
+            $queryBuilder = $connectionPool->getQueryBuilderForTable($table);
+            // letzter Schritt
+            $queryBuilder->update($table)->where(
+                $queryBuilder->expr()->eq(
+                    'uid',
+                    $queryBuilder->createNamedParameter($row['uid'], \PDO::PARAM_INT)
+                )
+            )->set($newField, $i)->execute();
+            $databaseQueries[] = str_replace(LF, ' ', $queryBuilder->getSQL());
+        }
     }
 }
 

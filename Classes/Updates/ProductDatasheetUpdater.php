@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 namespace JambageCom\TtProducts\Updates;
-    
+
 /*
  * This file is part of the TYPO3 CMS project.
  *
@@ -16,11 +16,11 @@ namespace JambageCom\TtProducts\Updates;
  * The TYPO3 project - inspiring people to share!
  */
 
- use Symfony\Component\Console\Output\OutputInterface;
+use Doctrine\DBAL\ParameterType;
 
+use Symfony\Component\Console\Output\OutputInterface;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-
 use TYPO3\CMS\Install\Updates\ChattyInterface;
 use TYPO3\CMS\Install\Updates\Confirmation;
 use TYPO3\CMS\Install\Updates\ConfirmableInterface;
@@ -31,9 +31,9 @@ use TYPO3\CMS\Install\Service\UpgradeWizardsService;
 use JambageCom\TtProducts\Api\UpgradeApi;
 
 
-class ProductMMArticleTtProductsUpdater implements UpgradeWizardInterface, ConfirmableInterface, ChattyInterface
+class ProductDatasheetUpdater implements UpgradeWizardInterface, ConfirmableInterface, ChattyInterface
 {
-    const TABLE = 'tt_products_products_mm_articles';
+    const TABLE = 'tt_products';
 
      /**
      * @var OutputInterface
@@ -43,20 +43,15 @@ class ProductMMArticleTtProductsUpdater implements UpgradeWizardInterface, Confi
     /**
      * @var string
      */
-    protected $title = 'EXT:' . TT_PRODUCTS_EXT . ' - Migrate product to article relations after changing articleMode from 0 to 1 or 2.';
-
+    protected $title = 'EXT:' . TT_PRODUCTS_EXT . ' - Migrate all file relations of datasheet of the table "' . self::TABLE . '" and its language table to sys_file_references';
+        
     /**
      * @var string
      */
-    protected $identifier = 'productMMArticleTtProducts';
-
-
-    /** @var UpgradeApi */
-    protected $upgradeApi;
+    protected $identifier = 'productDatasheetTtProducts';
 
     public function __construct()
     {
-        $this->upgradeApi = GeneralUtility::makeInstance(UpgradeApi::class);
     }
 
     /**
@@ -76,6 +71,9 @@ class ProductMMArticleTtProductsUpdater implements UpgradeWizardInterface, Confi
      */
     public function getTitle(): string
     {
+    debug ('B');
+    debug ($this->title, 'getIdentifier $this->title');
+    debug ('E');
         return $this->title;
     }
 
@@ -86,7 +84,10 @@ class ProductMMArticleTtProductsUpdater implements UpgradeWizardInterface, Confi
      */
     public function getDescription(): string
     {
-        return 'Migrate the articles to products relations into the relational mm table "tt_products_products_mm_articles" for "tt_products" and "tt_products_articles" records. This wizard migrates all articles which have a parent product assigned. The mm table between products and articles will be filled accordingly to these relations. This shall be executed once if you change the articleMode from 0 to 1 or 2. Otherwise your present article to product relations from article mode 0 will be lost. ';
+    debug ('B');
+    debug ($tmp, 'getDescription');
+    debug ('E');
+        return 'Migrate the datasheets of the product table "' . self::TABLE . '" and its language records to the FAL. ';
     }
 
     /**
@@ -94,6 +95,9 @@ class ProductMMArticleTtProductsUpdater implements UpgradeWizardInterface, Confi
      */
     public function getIdentifier(): string
     {
+    debug ('B');
+    debug ($this->identifier, 'getIdentifier $this->identifier');
+    debug ('E');
         return $this->identifier;
     }
 
@@ -104,18 +108,19 @@ class ProductMMArticleTtProductsUpdater implements UpgradeWizardInterface, Confi
      */
     public function getConfirmation(): Confirmation
     {
-        $message = '';
-        $elementCount = $this->upgradeApi->countOfProductMMArticleMigrations();
-
+        $upgradeApi = GeneralUtility::makeInstance(UpgradeApi::class);
+        $title = '';
+        $elementCount = $upgradeApi->countOfTableFieldMigrations (self::TABLE, 'datasheet', 'datasheet_uid', ParameterType::STRING, \PDO::PARAM_INT);
+        
+//         countOfDatasheetMigrations(self::TABLE, self::TABLE . '_lanugae';
         if ($elementCount) {
-            $message = sprintf('%s product to article relations can possibly be migrated.  Afterwards you can empty the field uid_product in the table tt_products_articles using phpMyAdmin.', $elementCount);
+            $title = sprintf('%d product datasheets can possibly be migrated.', $elementCount);
         } else {
-            $message = 'Nothing can be migrated';
+            $title = 'No datasheet can be migrated.';
         }
-
-        $title = 'Migration of product to article relations if you have switched from articleMode 0 to articleMode 1 or 2 in the extension configuration.';
-        $confirm = 'Yes, please migrate now!';
-        $deny = 'No';
+        $message = 'You can migrate datasheet relations.';
+        $confirm = 'Yes, please migrate';
+        $deny = 'No, don\'t migrate';
         $result = GeneralUtility::makeInstance(
             Confirmation::class,
             $title,
@@ -123,7 +128,7 @@ class ProductMMArticleTtProductsUpdater implements UpgradeWizardInterface, Confi
             false,
             $confirm,
             $deny,
-            $elementCount > 0
+            ($elementCount > 0 && version_compare(TYPO3_version, '10.0.0', '>='))
         );
 
         return $result;
@@ -138,13 +143,26 @@ class ProductMMArticleTtProductsUpdater implements UpgradeWizardInterface, Confi
      */
     public function performUpdate(array &$databaseQueries, &$customMessage)
     {
-        $queries = $this->upgradeApi->performProductMMArticleMigration();
+    debug ('B');
+        $upgradeApi = GeneralUtility::makeInstance(UpgradeApi::class);
+        // user decided to migrate, migrate and mark wizard as done
+        $queries = $upgradeApi->performTableFieldFalMigrations(
+            self::TABLE,
+            'datasheet',
+            'datasheet_uid',
+            ParameterType::STRING,
+            \PDO::PARAM_INT
+        );
+	
         if (!empty($queries)) {
             foreach ($queries as $query) {
                 $databaseQueries[] = $query;
             }
+    debug ($tmp, 'performUpdate TRUE');
         }
 
+        debug ($tmp, 'performUpdate ENDE FALSE');
+    debug ('E');
         return true;
     }
 
@@ -172,10 +190,14 @@ class ProductMMArticleTtProductsUpdater implements UpgradeWizardInterface, Confi
      */
     public function updateNecessary(): bool
     {
-        $elementCount = $this->upgradeApi->countOfProductMMArticleMigrations();
+debug ('B');
+        $upgradeApi = GeneralUtility::makeInstance(UpgradeApi::class);
+        $elementCount = $upgradeApi->countOfTableFieldMigrations(self::TABLE, 'datasheet', 'datasheet_uid', ParameterType::STRING, \PDO::PARAM_INT);
+debug ($elementCount, 'updateNecessary $elementCount');
+debug ('E');
         return ($elementCount > 0);
-    }
-
+    } 
+	
     /**
      * Returns an array of class names of Prerequisite classes
      * This way a wizard can define dependencies like "database up-to-date" or
