@@ -330,7 +330,8 @@ plugin.tt_products {
 
   conf.tt_products.ALL {
     orderBy = title
-    requiredFields = uid,pid,category,price,price2,discount,discount_disable,directcost,graduated_price_uid,tax,inStock,unit_factor,weight
+    requiredFields = uid,pid,category,price,price2,discount,discount_disable,directcost,graduated_price_uid,tax,tax_id,inStock,unit_factor,weight
+
     language.type = table
     language.table = tt_products_language
     functions {
@@ -561,8 +562,6 @@ plugin.tt_products = USER_INT
 [globalString = GP:sword = /.+/]
 plugin.tt_products = USER_INT
 
-[ext:static_info_tables_taxes:isLoaded = 1]
-plugin.tt_products.conf.tt_products.ALL.requiredFields = uid,pid,category,price,price2,discount,directcost,graduated_price_uid,tax_id,inStock,unit_factor,weight
 [global]
 
 

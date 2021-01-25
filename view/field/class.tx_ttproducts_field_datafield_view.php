@@ -65,7 +65,7 @@ class tx_ttproducts_field_datafield_view extends tx_ttproducts_field_base_view {
 			} else {
 				$typolinkConf = array();
 			}
-			$typolinkConf['parameter'] = $dirname . '/' . $dataFile;
+			$typolinkConf['parameter'] = ($dirname != '' ? $dirname . '/' : '') . $dataFile;
 			$linkTxt = microtime();
 			$typoLink = $local_cObj->typoLink($linkTxt, $typolinkConf);
 			$wrappedSubpartArray['###' . $marker . '###'] = GeneralUtility::trimExplode($linkTxt, $typoLink);
@@ -99,7 +99,7 @@ class tx_ttproducts_field_datafield_view extends tx_ttproducts_field_base_view {
 		);
 	}
 
-	public function &getItemSubpartArrays (
+	public function getItemSubpartArrays (
 		&$templateCode,
 		$markerKey,
 		$functablename,
@@ -161,13 +161,15 @@ class tx_ttproducts_field_datafield_view extends tx_ttproducts_field_base_view {
 			}
 		}
 
-		// empty all image fields with no available image
-		foreach ($tagArray as $value => $k1)	{
-			$keyMarker = '###'.$value.'###';
-			if (strpos($value, $markerKey . '_LINK_' . $upperField) !== false && !$wrappedSubpartArray[$keyMarker])	{
-				$wrappedSubpartArray[$keyMarker] =  array('<!--','-->');
-			}
-		}
+		if ($upperField != '') {
+            // empty all image fields with no available image
+            foreach ($tagArray as $value => $k1) {
+                $keyMarker = '###' . $value . '###';
+                if (strpos($value, $markerKey . '_LINK_' . $upperField) !== false && !$wrappedSubpartArray[$keyMarker]) {
+                    $wrappedSubpartArray[$keyMarker] =  array('<!--', '-->');
+                }
+            }
+        }
 	}
 
 

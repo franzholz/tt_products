@@ -312,8 +312,17 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
 		$path = '';
 		$tablename = $this->getTablename();
 
-		if ($fieldname && isset($GLOBALS['TCA'][$tablename]['columns'][$fieldname]) && is_array($GLOBALS['TCA'][$tablename]['columns'][$fieldname]))	{
-
+        if (
+            $fieldname &&
+            (
+                isset($GLOBALS['TCA'][$tablename]['columns'][$fieldname]) &&
+                is_array($GLOBALS['TCA'][$tablename]['columns'][$fieldname])
+            ) ||
+            (
+                isset($GLOBALS['TCA'][$tablename]['columns'][$fieldname . '_uid']) &&
+                is_array($GLOBALS['TCA'][$tablename]['columns'][$fieldname . '_uid'])
+            )
+        ) {
 			$funcTablename = $this->getFuncTablename();
 
 			if (
