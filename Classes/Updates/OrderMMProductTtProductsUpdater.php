@@ -46,7 +46,7 @@ class OrderMMProductTtProductsUpdater implements UpgradeWizardInterface, Confirm
     /**
      * @var string
      */
-    protected $identifier = 'OrderMMProductTtProducts';
+    protected $identifier = 'orderMMProductTtProducts';
 
     /** @var UpgradeApi */
     protected $upgradeApi;
@@ -83,7 +83,7 @@ class OrderMMProductTtProductsUpdater implements UpgradeWizardInterface, Confirm
      */
     public function getDescription(): string
     {
-        return 'Migrate the order to product relations for the obligatory fields uid_local and uid_foreign inside of the relational mm table "sys_products_orders_mm_tt_products" for "sys_products_orders" records. IRRE inline intermediate tables require the field names uid_local and uid_foreign. ';
+        return 'Migrate the order to product relations for the obligatory fields uid_local and uid_foreign inside of the relational mm table "' . self::TABLE . '" for "sys_products_orders" records. IRRE inline intermediate tables require the field names uid_local and uid_foreign. ';
     }
 
     /**

@@ -1,5 +1,6 @@
 2021-01-25 Franz Holzinger <franz@ttproducts.de>
     * add and improve the Upgrade Wizards
+    * new feature support for FAL: add fields image_uid, smallimage_uid, datasheet_uid
 
 2020-12-28 Franz Holzinger <franz@ttproducts.de>
     * bugfix: The file EmConfiguration.php must be included in ext_localconf.php. The composer does not work at this position and inside of TCA files.
