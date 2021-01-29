@@ -427,8 +427,7 @@ class tx_ttproducts_model_control {
 					}
 
 					if ($searchKey == $positionSearchVars[$position] || (is_array($searchParamArray[$position]) && key($searchParamArray[$position]) == $k || !is_array($searchParamArray[$position]) && $searchParamArray[$position] == $k))	{
-
-						if ($searchValue{0} == '\'' && $searchValue{strlen($searchValue)-1} == '\'')	{
+                        if (substr($searchValue, 0, 1) == '\'' && substr($searchValue, -1) == '\'') {
 							$searchValue = substr($searchValue,1,strlen($searchValue)-2);
 						}
 						if (isset($fullKeyFieldArray) && is_array($fullKeyFieldArray))	{

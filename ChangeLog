@@ -1,3 +1,7 @@
+
+2021-01-29 Franz Holzinger <franz@ttproducts.de>
+    * compatibility PHP 7.4: Curly braces as method to get individual characters inside of a string have been removed, 
+
 2021-01-25 Franz Holzinger <franz@ttproducts.de>
     * add and improve the Upgrade Wizards
     * new feature support for FAL: add fields image_uid, smallimage_uid, datasheet_uid
