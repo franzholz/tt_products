@@ -10,7 +10,8 @@
 				<label>LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.param_mode</label>
 				<config>
 					<type>select</type>
-					<items>
+                    <renderType>selectSingle</renderType>
+                    <items>
 						<numindex index="0">
 							<numindex index="0">LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.param_mode.0</numindex>
 							<numindex index="1">0</numindex>
@@ -39,7 +40,8 @@
 				<label>LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.display_mode</label>
 				<config>
 					<type>select</type>
-					<items>
+                    <renderType>selectMultipleSideBySide</renderType>
+                    <items>
 						<numindex index="1">
 							<numindex index="0">LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.display_mode.1</numindex>
 							<numindex index="1">LIST</numindex>
@@ -210,7 +212,8 @@
 				<label>LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.required_pivars</label>
 				<config>
 					<type>select</type>
-					<items>
+                    <renderType>selectCheckBox</renderType>
+                    <items>
 						<numindex index="1">
 							<numindex index="0">LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.required_pivars.1</numindex>
 							<numindex index="1">empty</numindex>
