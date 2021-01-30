@@ -188,7 +188,18 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
 		$markerArray['###DISABLED###'] = ($row['inStock'] > 0 ? '' : 'disabled');
 		$markerArray['###IN_STOCK_ID###'] = 'in-stock-id-' . $row['uid'];
 		$markerArray['###BASKET_IN_STOCK###'] = $languageObj->getLabel( ($row['inStock'] > 0 ? 'in_stock' : 'not_in_stock'));
-		$basketFile = $GLOBALS['TSFE']->tmpl->getFileName($this->conf['basketPic']);
+
+		$basketFile = '';
+        if ($this->conf['basketPic']) {
+            if (
+                version_compare(TYPO3_version, '9.4.0', '>=')
+            ) {
+                $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
+                $basketFile = $sanitizer->sanitize($this->conf['basketPic']);
+            } else {
+                $basketFile = $GLOBALS['TSFE']->tmpl->getFileName($this->conf['basketPic']);
+            }
+        }
 		$markerArray['###IMAGE_BASKET_SRC###'] = $basketFile;
 		$fileresource =  \JambageCom\Div2007\Utility\FrontendUtility::fileResource($basketFile);
 		$markerArray['###IMAGE_BASKET###'] = $fileresource;

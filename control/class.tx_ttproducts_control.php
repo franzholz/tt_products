@@ -203,7 +203,17 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 	)	{
 		$content = '';
 		$basketView = GeneralUtility::makeInstance('tx_ttproducts_basket_view');
-		$handleScript = $GLOBALS['TSFE']->tmpl->getFileName($basketExtra['payment.']['handleScript']);
+        $handleScript = '';
+        if (isset($basketExtra['payment.']['handleScript'])) {
+            if (
+                version_compare(TYPO3_version, '9.4.0', '>=')
+            ) {
+                $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
+                $handleScript = $sanitizer->sanitize($basketExtra['payment.']['handleScript']);
+            } else {
+                $handleScript = $GLOBALS['TSFE']->tmpl->getFileName($basketExtra['payment.']['handleScript']);
+            }
+        }
 		$handleLib = $basketExtra['payment.']['handleLib'];
 		$infoViewObj = GeneralUtility::makeInstance('tx_ttproducts_info_view');
 
@@ -1061,7 +1071,17 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 			$checkAllowed = $infoViewObj->checkAllowed($basketExtra);
 			if ($checkRequired == '' && $checkAllowed == '')	{
 				tx_div2007_alpha5::load_noLinkExtCobj_fh002($this->pibase);	// TODO
-				$handleScript = $GLOBALS['TSFE']->tmpl->getFileName($basketExtra['payment.']['handleScript']);
+                $handleScript = '';
+                if (isset($basketExtra['payment.']['handleScript'])) {
+                    if (
+                        version_compare(TYPO3_version, '9.4.0', '>=')
+                    ) {
+                        $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
+                        $handleScript = $sanitizer->sanitize($basketExtra['payment.']['handleScript']);
+                    } else {
+                        $handleScript = $GLOBALS['TSFE']->tmpl->getFileName($basketExtra['payment.']['handleScript']);
+                    }
+                }
 				$orderUid = $this->getOrderUid();
 				$orderNumber = $this->getOrdernumber($orderUid);
 

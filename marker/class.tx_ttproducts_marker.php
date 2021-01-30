@@ -75,10 +75,18 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
 		$language = $languageObj->getLanguage();
 
 		if ($language == '' || $language == 'default' || $language == 'en') {
-			if ($markerFile) {
-				$markerFile = $GLOBALS['TSFE']->tmpl->getFileName($markerFile);
-				$languageObj->loadLocalLang($markerFile);
-			}
+            if ($markerFile) {
+                if (
+                    version_compare(TYPO3_version, '9.4.0', '>=')
+                ) {
+                    $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
+                    $markerFile = $sanitizer->sanitize($markerFile);
+                } else {
+                    $markerFile = $GLOBALS['TSFE']->tmpl->getFileName($markerFile);
+                }
+
+                $languageObj->loadLocalLang($markerFile);
+            }
 		} else {
 			if (!$markerFile || $markerFile == '{$plugin.tt_products.file.markerFile}') {
 				if ($language == 'de') {
@@ -101,7 +109,16 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
 					$this->setErrorCode($errorCode);
 				}
 			}
-			$markerFile = $GLOBALS['TSFE']->tmpl->getFileName($markerFile);
+            if ($markerFile) {
+                if (
+                    version_compare(TYPO3_version, '9.4.0', '>=')
+                ) {
+                    $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
+                    $markerFile = $sanitizer->sanitize($markerFile);
+                } else {
+                    $markerFile = $GLOBALS['TSFE']->tmpl->getFileName($markerFile);
+                }
+            }
 			$languageObj->loadLocalLang($markerFile);
 		}
 		$locallang = $languageObj->getLocallang();
