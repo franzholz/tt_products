@@ -71,9 +71,6 @@ class ProductDatasheetUpdater implements UpgradeWizardInterface, ConfirmableInte
      */
     public function getTitle(): string
     {
-    debug ('B');
-    debug ($this->title, 'getIdentifier $this->title');
-    debug ('E');
         return $this->title;
     }
 
@@ -84,9 +81,6 @@ class ProductDatasheetUpdater implements UpgradeWizardInterface, ConfirmableInte
      */
     public function getDescription(): string
     {
-    debug ('B');
-    debug ($tmp, 'getDescription');
-    debug ('E');
         return 'Migrate the datasheets of the product table "' . self::TABLE . '" and its language records to the FAL. ';
     }
 
@@ -95,9 +89,6 @@ class ProductDatasheetUpdater implements UpgradeWizardInterface, ConfirmableInte
      */
     public function getIdentifier(): string
     {
-    debug ('B');
-    debug ($this->identifier, 'getIdentifier $this->identifier');
-    debug ('E');
         return $this->identifier;
     }
 
@@ -143,10 +134,11 @@ class ProductDatasheetUpdater implements UpgradeWizardInterface, ConfirmableInte
      */
     public function performUpdate(array &$databaseQueries, &$customMessage)
     {
-    debug ('B');
+        $result = true;
         $upgradeApi = GeneralUtility::makeInstance(UpgradeApi::class);
         // user decided to migrate, migrate and mark wizard as done
         $queries = $upgradeApi->performTableFieldFalMigrations(
+            $customMessage,
             self::TABLE,
             'datasheet',
             'datasheet_uid',
@@ -158,12 +150,12 @@ class ProductDatasheetUpdater implements UpgradeWizardInterface, ConfirmableInte
             foreach ($queries as $query) {
                 $databaseQueries[] = $query;
             }
-    debug ($tmp, 'performUpdate TRUE');
         }
 
-        debug ($tmp, 'performUpdate ENDE FALSE');
-    debug ('E');
-        return true;
+        if ($customMessage != '') {
+            $result = false;
+        }
+        return $result;
     }
 
     /**
@@ -190,11 +182,8 @@ class ProductDatasheetUpdater implements UpgradeWizardInterface, ConfirmableInte
      */
     public function updateNecessary(): bool
     {
-debug ('B');
         $upgradeApi = GeneralUtility::makeInstance(UpgradeApi::class);
         $elementCount = $upgradeApi->countOfTableFieldMigrations(self::TABLE, 'datasheet', 'datasheet_uid', ParameterType::STRING, \PDO::PARAM_INT);
-debug ($elementCount, 'updateNecessary $elementCount');
-debug ('E');
         return ($elementCount > 0);
     } 
 	

@@ -477,6 +477,7 @@ class UpgradeApi implements LoggerAwareInterface {
      * @throws \Exception
      */
     public function performTableFieldFalMigrations (
+        &$customMessage,
         $table,
         $oldField,
         $newField,
@@ -523,7 +524,6 @@ class UpgradeApi implements LoggerAwareInterface {
         
         $databaseQueries[] = $queryBuilder->getSQL();
         $statement = $queryBuilder->execute();
-        $customMessage = '';
 
         while ($row = $statement->fetch()) {
             // Do something with that single row
@@ -569,22 +569,28 @@ class UpgradeApi implements LoggerAwareInterface {
                 $sourcePath = $GLOBALS['TCA'][$table]['columns'][$oldField]['config']['uploadfolder'];
             }
         }
+        
 
-        $storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\StorageRepository');
-        $storage = $storageRepository->findByUid(1);
-        $storageUid = (int) $storage->getUid();
+//         $storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\StorageRepository::class);
+//         $defaultStorage = $storageRepository->getDefaultStorage();
+        $resourceFactory = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\ResourceFactory::class);
+        $defaultStorage = $resourceFactory->getDefaultStorage();
+        $storageUid = (int) $defaultStorage->getUid();
         $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
         $fieldItems = explode(',', $row[$oldField]);
         $pathSite = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/';
-        
+
         foreach ($fieldItems as $item) {
             $fileUid = null;
+            $sourceExists = false;
             $currentSourcePath = $pathSite . $sourcePath  . '/' . basename($item);
             $targetPath = 'user_upload';
             $targetDirectory = $pathSite . $fileadminDirectory . $targetPath;
-            $targetPath = $targetDirectory . '/' . basename($item);
+            $targetDirectoryFile = $targetDirectory . '/' . basename($item);
+            $targetPathFile = $targetPath . '/' . basename($item);
             // maybe the file was already moved, so check if the original file still exists
             if (file_exists($currentSourcePath)) {
+                $sourceExists = true;
                 if (!is_dir($targetDirectory)) {
                     GeneralUtility::mkdir_deep($targetDirectory);
                 }
@@ -607,32 +613,37 @@ class UpgradeApi implements LoggerAwareInterface {
                     $fileUid = $existingFileRecord['uid'];
                 } else {
                     // just move the file (no duplicate)
-                    rename($currentSourcePath, $targetPath);
+                    rename($currentSourcePath, $targetDirectoryFile);
                 }
+            } else {
+                // nothing
+                // Maybe the original files have already been moved.
             }
 
-            if ($fileUid === null) {
+            if ($fileUid == null) {
                 // get the File object if it has not been fetched before
                 try {
-                    // if the source file does not exist, we should just continue, but leave a message in the docs;
+                    // if the target file does not exist, we should just continue, but leave a message in the docs;
                     // ideally, the user would be informed after the update as well.
                     /** @var File $file */
-                    $file = $storage->getFile($targetPath . $item);
+                    $file = $defaultStorage->getFile($targetPathFile);
                     $fileUid = $file->getUid();
                 } catch (\InvalidArgumentException $e) {
+                    $path = $targetPathFile;
+                    $errorMessage = $e->getMessage();
+
                     // no file found, no reference can be set
                     $this->logger->warning(
-                        'File ' . $currentSourcePath . $item . ' does not exist. Reference was not migrated.',
+                        $errorMessage . ' The reference could not be migrated.',
                         [
                             'table' => $table,
                             'record' => $row,
                             'field' => $oldField,
                         ]
                     );
-                    $format = 'File \'%s\' does not exist. Referencing field: %s.%d.%s. The reference was not migrated.';
+                    $format = $errorMessage . ' Referencing field: %s.%d.%s. The reference could not be migrated.';
                     $message = sprintf(
                         $format,
-                        $currentSourcePath . $item,
                         $table,
                         $row['uid'],
                         $oldField

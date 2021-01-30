@@ -139,11 +139,13 @@ class ProductImageUpdater implements UpgradeWizardInterface, ConfirmableInterfac
      */
     public function performUpdate(array &$databaseQueries, &$customMessage)
     {
+        $result = true;
         $upgradeApi = GeneralUtility::makeInstance(UpgradeApi::class);
         $tables = explode(',', self::TABLES);
         foreach ($tables as $table) {
             // user decided to migrate, migrate and mark wizard as done
             $queries = $upgradeApi->performTableFieldFalMigrations(
+                $customMessage,
                 $table,
                 'image',
                 'image_uid',
@@ -158,7 +160,11 @@ class ProductImageUpdater implements UpgradeWizardInterface, ConfirmableInterfac
                 }
             }
         }
-        return true;
+        
+        if ($customMessage != '') {
+            $result = false;
+        }
+        return $result;
     }
 
     /**
