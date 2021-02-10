@@ -262,7 +262,11 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
 		$addressFields = array('name', 'first_name', 'last_name', 'company', 'salutation', 'address', 'house_no', 'zip', 'city', 'country', 'telephone', 'fax', 'email', 'email_notify', 'business_partner', 'organisation_form');
 
 
-        $excludeArray = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude.'];
+        $excludeArray =  
+            (version_compare(TYPO3_version, '10.0.0', '>=') ? 
+                $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude'] :
+                $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude.']
+            );
         $excludeFieldArray = array();
 
         if (

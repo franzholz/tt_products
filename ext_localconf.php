@@ -196,16 +196,25 @@ call_user_func(function () {
             $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['where.'] = $extensionConfiguration['where.'];
         }
 
-        if (isset($extensionConfiguration['exclude.']) && is_array($extensionConfiguration['exclude.'])) {
+        $excludeConf =  
+            (version_compare(TYPO3_version, '10.0.0', '>=') ? 
+                $extensionConfiguration['exclude']['configuration'] :
+                $extensionConfiguration['exclude.']['configuration']
+            );
+        if (isset($excludeConf) && is_array($excludeConf)) {
             $excludeArray = array();
-            foreach ($extensionConfiguration['exclude.'] as $tablename => $excludefields) {
+            foreach ($excludeConf as $tablename => $excludefields) {
                 if ($excludefields != '') {
                     $excludeArray[$tablename] = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $excludefields);
                 }
             }
 
             if (count($excludeArray)) {
-                $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude'] = $excludeArray;
+                if (version_compare(TYPO3_version, '10.0.0', '>=') {
+                    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude'] = $excludeArray;
+                } else {
+                    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude.'] = $excludeArray;
+                }
             }
         }
     }

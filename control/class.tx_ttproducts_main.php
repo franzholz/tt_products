@@ -818,7 +818,11 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 			$rc = '';
 		}
 
-		$showConfigurationError = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['error.']['configuration']; 
+        $showConfigurationError = 
+            (version_compare(TYPO3_version, '10.0.0', '>=') ? 
+                $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['error']['configuration'] :
+                $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['error.']['configuration']
+            );
 
 		if ($showConfigurationError && !$this->conf['defaultSetup'])	{
 			$rc .= '<h>Error: The default tt_products setup is missing.</h>';

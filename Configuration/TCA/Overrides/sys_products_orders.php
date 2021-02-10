@@ -25,7 +25,12 @@ if (
     $GLOBALS['TCA'][$table]['ctrl']['sortby'] = 'sorting';
 }
 
-$excludeArray = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude.'];
+$excludeArray =  
+    (version_compare(TYPO3_version, '10.0.0', '>=') ? 
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude'] :
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude.']
+    );
+
 if (
     defined('TYPO3_version') &&
     version_compare(TYPO3_version, '9.0.0', '<')
