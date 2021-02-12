@@ -473,9 +473,10 @@ class tx_ttproducts_tracking implements \TYPO3\CMS\Core\SingletonInterface {
 			if ($bInverseHistory)	{
 				$orderBy = 'crdate'; // Todo: all order by fields must be reversed to keep the history program logic
 			}
+            $enableFields = \JambageCom\Div2007\Utility\TableUtility::enableFields('sys_products_orders');
 
 				// Get unprocessed orders.
-			$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery($fields, 'sys_products_orders', $where . $this->cObj->enableFields('sys_products_orders'), '', $orderBy);
+			$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery($fields, 'sys_products_orders', $where . $enableFields, '', $orderBy);
 
 			$valueArray = array();
 			$keyMarkerArray = array();

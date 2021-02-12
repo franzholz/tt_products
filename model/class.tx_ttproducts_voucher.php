@@ -266,7 +266,8 @@ class tx_ttproducts_voucher extends tx_ttproducts_table_base {
 				$whereGeneral = '(fe_users_uid="' . intval($GLOBALS['TSFE']->fe_user->user['uid']) . '" OR fe_users_uid=0) ';
 				$whereGeneral .= 'AND code=' . $GLOBALS['TYPO3_DB']->fullQuoteStr($voucherCode, $voucherTable);
 			}
-			$where = $whereGeneral.$this->cObj->enableFields($voucherTable);
+            $enableFields = \JambageCom\Div2007\Utility\TableUtility::enableFields($voucherTable);
+			$where = $whereGeneral . $enableFields;
 			$fields = implode (',', $voucherfieldArray);
 
 			$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery($fields, $voucherTable, $where);

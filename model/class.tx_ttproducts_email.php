@@ -62,8 +62,7 @@ class tx_ttproducts_email extends tx_ttproducts_table_base {
 			$sql->prepareFields($this->getTableObj(), 'select', '*');
 			$sql->prepareWhereFields ($this->getTableObj(), 'uid', '=', intval($uid));
 			$sql->prepareEnableFields ($this->getTableObj());
-			//$this->getTableObj()->enableFields();
-			// Fetching the email
+
 			$res = $sql->exec_SELECTquery();
 			$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
 			$rc = $this->emailArray[$row['uid']] = $row;

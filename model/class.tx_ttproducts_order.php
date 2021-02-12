@@ -177,11 +177,12 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
 		}
 
 		$where = ($tracking ? 'tracking_code=' . $GLOBALS['TYPO3_DB']->fullQuoteStr($tracking, 'sys_products_orders') : 'uid=' . intval($orderUid));
+        $enableFields = \JambageCom\Div2007\Utility\TableUtility::enableFields('sys_products_orders');
 
 		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 			'*',
 			'sys_products_orders',
-			$where . $this->cObj->enableFields('sys_products_orders')
+			$where . $enableFields
 		);
 		$rc = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
 		$GLOBALS['TYPO3_DB']->sql_free_result($res);

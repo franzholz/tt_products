@@ -898,7 +898,6 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 	 *
 	 * @param	integer		Code: TRACKING, BILL or DELIVERY
 	 * @return	void
-	 * @see enableFields()
 	 */
 	public function products_tracking (&$errorCode, &$templateCode, $theCode, $conf)	{ // GeneralUtility::_GP('tracking')
 		$pibaseObj = GeneralUtility::makeInstance('tx_ttproducts_pi1_base');

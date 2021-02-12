@@ -130,7 +130,8 @@ class MatchCondition {
                 return false;
             }
             $where .= ' AND uid IN (' . implode(',', $uidArr) . ')';
-            $where .= $cObj->enableFields('tt_products');
+            $enableFields = \JambageCom\Div2007\Utility\TableUtility::enableFields('tt_products');
+            $where .= $enableFields;
 
             $rcArray = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows('*', 'tt_products', $where);
             foreach ($rcArray as $uid => $row) {

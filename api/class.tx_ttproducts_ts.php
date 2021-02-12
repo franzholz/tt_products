@@ -43,8 +43,8 @@ class tx_ttproducts_ts implements \TYPO3\CMS\Core\SingletonInterface {
 	static $count = 0;
 
 	protected function getChilds ($uid = 0) {
-        $cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
-		$where = 'pid = ' . $uid . $cObj->enableFields('pages');
+        $enableFields = \JambageCom\Div2007\Utility\TableUtility::enableFields('pages');
+		$where = 'pid = ' . $uid . $enableFields;
 
 		$rows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows('uid', 'pages', $where);
 		$childs = array();
@@ -80,13 +80,13 @@ class tx_ttproducts_ts implements \TYPO3\CMS\Core\SingletonInterface {
 
 	protected function getProductCount ($uid = 0) {
 		$result = 0;
-		$cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
+        $enableFields = \JambageCom\Div2007\Utility\TableUtility::enableFields('tt_products');
 
 		$allChilds = $this->getAllChilds($uid);
 
 		if (isset($allChilds) && is_array($allChilds) && count($allChilds)) {
 			$pids = implode(',', $allChilds);
-			$where = 'pid IN (' . $pids . ')' . $cObj->enableFields('tt_products');
+			$where = 'pid IN (' . $pids . ')' . $enableFields;
 			$rows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows('uid', 'tt_products', $where);
 			$result = false;
 
@@ -101,8 +101,8 @@ class tx_ttproducts_ts implements \TYPO3\CMS\Core\SingletonInterface {
 
 	protected function getMemoCount ($uid = 0) {
 		$result = 0;
-		$cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
-		$where = 'pid = ' . $uid . $cObj->enableFields('tt_content');
+        $enableFields = \JambageCom\Div2007\Utility\TableUtility::enableFields('tt_content');
+		$where = 'pid = ' . $uid . $enableFields;
 
 		$rows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows('uid,CType,list_type,pi_flexform', 'tt_content', $where);
 

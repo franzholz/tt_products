@@ -295,7 +295,6 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view {
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$tableConf = $cnf->getTableConf($functablename, $theCode);
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
-		$local_cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
 
 			// Get image
 		$specialImgCode = array();
@@ -337,7 +336,8 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view {
 					$foreignfield = $tempConf['uid_foreign'];
 					$fieldconfParent['generateImage'] = $tempConf['field.'];
 					$where_clause = $conftable.'.'.$foreignfield .'='. $imageRow[$localfield];
-					$where_clause .= $local_cObj->enableFields($conftable);
+                    $enableFields = \JambageCom\Div2007\Utility\TableUtility::enableFields($conftable);
+					$where_clause .= $enableFields;
 					$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*',$conftable,$where_clause,'',$foreignfield,1);
 						// only first found row will be used
 					$imageRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);

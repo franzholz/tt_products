@@ -210,7 +210,7 @@ call_user_func(function () {
             }
 
             if (count($excludeArray)) {
-                if (version_compare(TYPO3_version, '10.0.0', '>=') {
+                if (version_compare(TYPO3_version, '10.0.0', '>=')) {
                     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude'] = $excludeArray;
                 } else {
                     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude.'] = $excludeArray;
