@@ -443,10 +443,16 @@ abstract class tx_ttproducts_table_base_view  implements \TYPO3\CMS\Core\Singlet
 			}
 
 			foreach ($row as $field => $value)	{
-				if (in_array($field, $addedFieldArray))	{
+				if (
+					in_array($field, $addedFieldArray) ||
+					(
+						strpos($field, 'image_uid') !== false &&
+						!$GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['fal']
+					)
+				) {
 					continue; // do not handle the added fields here. They must be handled with the original field.
 				}
-				$viewField = $field;
+				$viewField = str_replace('_uid', '', $field);
 				$bSkip = false;
 				$theMarkerArray = &$rowMarkerArray;
 				$fieldId = $mainId . '-' . $viewField;

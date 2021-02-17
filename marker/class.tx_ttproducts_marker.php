@@ -324,9 +324,23 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
                     $colon = (count($subFieldPartArray) > 1);
 					$field = $subFieldPartArray[0];
 
-					if (!isset($tableFieldArray[$field])) {
-						$field = preg_replace('/[0-9]/', '', $field); // remove trailing numbers
-					}
+                    if (
+                        !isset($tableFieldArray[$field]) ||
+                        isset($tableFieldArray[$field . '_uid'])
+                    ) { // wird für ###PRODUCT_IMAGE1:M### benötigt
+                        $field = preg_replace('/[0-9]$/', '', $field); // remove trailing numbers
+                        if (isset($tableFieldArray[$field . '_uid'])) {
+                            $field = $field . '_uid';
+
+                            if (   
+                                isset($tableFieldArray[$field]) &&
+                                is_array($tableFieldArray[$field])
+                            ) {
+                                $retArray[] = $field;
+                                $bFieldaddedArray[$field] = true;
+                            }
+                        }
+                    }
 
 					if (
                         !$colon &&
@@ -342,11 +356,13 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
 						}
 						$field = implode('_', $newFieldPartArray);
 					}
-					$field = strtolower($field);
 
 					if (
                         !$colon &&
-                        !is_array($tableFieldArray[$field])
+                        (
+                            !isset($tableFieldArray[$field]) ||
+                            !is_array($tableFieldArray[$field])
+                        )
                     ) {	// find similar field names with letters in other cases
 						$upperField = strtoupper($field);
 						foreach ($tableFieldArray as $k => $v)	{
@@ -356,10 +372,15 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
 							}
 						}
 					}
-					if (is_array($tableFieldArray[$field]))	{
+					$field = strtolower($field);
+					if (
+						isset($tableFieldArray[$field]) &&
+						is_array($tableFieldArray[$field])
+					) {
 						$retArray[] = $field;
 						$bFieldaddedArray[$field] = true;
 					}
+
 					$parentFound = strpos($tag, 'PARENT');
 					if ($parentFound !== false)	{
 						$parentEnd = strpos($tag, '_');

@@ -51,10 +51,155 @@ class tx_ttproducts_field_media extends tx_ttproducts_field_base {
 
 		return $dirname;
 	}
-}
+	
+	public function getFileArray (
+		$tablename,
+		$imageRow,
+		$imageField,
+		$fal = true
+	) {
+		$fileArray = array();
 
+		if (
+			strpos($imageField, '_uid') &&
+			isset($imageRow[$imageField])
+		) {
+			$theTablename = $tablename;
+			$where_clause = '1=1';
+			$skip = false;
+			$sysfileRowArray = array();
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/field/class.tx_ttproducts_field_media.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/field/class.tx_ttproducts_field_media.php']);
+			if (
+				$tablename == 'tt_products' &&
+				isset($imageRow['ext']) &&
+				is_array($imageRow['ext']) &&
+				isset($imageRow['ext']['tt_products_articles']) &&
+				is_array($imageRow['ext']['tt_products_articles']) &&
+				!empty($imageRow['ext']['tt_products_articles'])
+			) {
+				$uidArray = array();
+				$theTablename = 'tt_products_articles';
+				foreach ($imageRow['ext']['tt_products_articles'] as $key => $row) {
+					if (isset($row['uid']) && $row['uid']) {
+						$uidArray[] = intval($row['uid']);
+					}
+				}
+
+				if (count($uidArray)) {
+					$where_clause = 'uid_foreign IN (' . implode(',', $uidArray) . ') AND tablenames="' . $theTablename . '" AND fieldname="' . $imageField . '"' ;
+					$where_clause .= \JambageCom\Div2007\Utility\TableUtility::enableFields('sys_file_reference');
+					$sysfileRowArray =
+						$GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
+							'*',
+							'sys_file_reference',
+							$where_clause,
+							'',
+							'sorting_foreign',
+							'',
+							'uid_local'
+						);
+				} else {
+					$skip = true;
+				}
+			}
+
+			if (
+				// if the article has no image then use the image of the product if present
+				empty($sysfileRowArray)
+			) {
+				if ($imageRow[$imageField]) {
+					$theTablename = $tablename;
+					$where_clause = 'uid_foreign=' . intval($imageRow['uid']) . ' AND tablenames="' . $theTablename . '" AND fieldname="' . $imageField . '"' ;
+					$where_clause .= \JambageCom\Div2007\Utility\TableUtility::enableFields('sys_file_reference');
+					$sysfileRowArray =
+						$GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
+							'*',
+							'sys_file_reference',
+							$where_clause,
+							'',
+							'sorting_foreign',
+							'',
+							'uid_local'
+						);
+					$skip = false;
+				} else {
+					$skip = true;
+				}
+			}
+
+			if (
+				!$skip &&
+				!empty($sysfileRowArray)
+			) {
+				$storageRepository = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\StorageRepository');
+				$storage = $storageRepository->findByUid(1);
+
+				foreach($sysfileRowArray as $fileUid => $sysfileRow) {
+					$resourceFactory = \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance();
+					$fileObj = $resourceFactory->getFileReferenceObject($sysfileRow['uid']);
+					$fileInfo = $storage->getFileInfo($fileObj);
+					if ($fal) {
+						$fileArray[$sysfileRow['uid']] = array_merge($sysfileRow, $fileInfo);
+					} else {
+						$fileArray[] = 'fileadmin' . $fileInfo['identifier'];
+					}
+				}
+			}
+		} else {
+			$fileArray = ($imageRow[$imageField] ? explode(',', $imageRow[$imageField]) : array());
+			$tmp = count($fileArray);
+			if (
+				!$tmp &&
+				isset($imageRow['file_mime_type']) &&
+				$imageRow['file_mime_type'] == 'image'
+			) {
+				$fileArray = array($imageRow['file_name']);
+			}
+		}
+
+		return $fileArray;
+	}
+
+	public function getMediaNum (
+		$functablename,
+		$fieldname,
+		$theCode
+	) {
+		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
+		$tableConf = $cnf->getTableConf($functablename, $theCode);
+
+		// example: plugin.tt_products.conf.tt_products.ALL.limitImage = 10
+		$mediaNum = $tableConf['limitImage'];
+
+		if (!$mediaNum)	{
+			$codeTypeArray = array(	// Todo: make this configurable
+				'list' => array('real' => array('SEARCH', 'MEMO'), 'part' => array('LIST', 'MENU'), 'num' => $this->conf['limitImage']),
+				'basket' => array('real' => array('OVERVIEW', 'BASKET', 'FINALIZE', 'INFO', 'PAYMENT', 'TRACKING', 'BILL', 'DELIVERY', 'EMAIL'),
+				'part' => array() , 'num' => 1),
+				'single' => array('real' => array(), 'part' => array('SINGLE'), 'num' => $this->conf['limitImageSingle'])
+			);
+
+			foreach ($codeTypeArray as $type => $codeArray)	{
+				$realArray = $codeArray['real'];
+				if (count ($realArray))	{
+					if (in_array($theCode, $realArray))	{
+						$mediaNum = $codeArray['num'];
+						break;
+					}
+				}
+				$partArray = $codeArray['part'];
+				if (is_array($partArray) && count($partArray))	{
+					foreach ($partArray as $k => $part)	{
+						if (strpos($theCode, $part) !== false)	{
+							$mediaNum = $codeArray['num'];
+							break;
+						}
+					}
+				}
+			}
+		}
+
+		return $mediaNum;
+	}
 }
 

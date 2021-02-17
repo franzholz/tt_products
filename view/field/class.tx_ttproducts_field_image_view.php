@@ -91,7 +91,7 @@ class tx_ttproducts_field_image_view extends tx_ttproducts_field_media_view {
 		$linkWrap = ''
 	)	{
 		$mediaNum =
-			$this->getMediaNum(
+			$this->getModelObj()->getMediaNum(
 				$functablename,
 				'image',
 				$theCode

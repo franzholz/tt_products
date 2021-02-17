@@ -412,7 +412,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view {
 		} // if (!$bImages) {
 
 		if (!$bImages)	{
-			$imgs = $this->getModelObj()->getImageArray($imageRow, $fieldname); // Korr +++
+            $imgs = $this->getModelObj()->getFileArray($theTablename, $imageRow, $fieldname, true);
 		}
 
 		$specialConf = array();
@@ -505,48 +505,6 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view {
 		}
 	}
 
-	public function getMediaNum (
-		$functablename,
-		$fieldname,
-		$theCode
-	) {
-		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-		$tableConf = $cnf->getTableConf($functablename, $theCode);
-
-		// example: plugin.tt_products.conf.tt_products.ALL.limitImage = 10
-		$mediaNum = $tableConf['limitImage'];
-
-		if (!$mediaNum)	{
-			$codeTypeArray = array(	// Todo: make this configurable
-				'list' => array('real' => array('SEARCH', 'MEMO'), 'part' => array('LIST', 'MENU'), 'num' => $this->conf['limitImage']),
-				'basket' => array('real' => array('OVERVIEW', 'BASKET', 'FINALIZE', 'INFO', 'PAYMENT', 'TRACKING', 'BILL', 'DELIVERY', 'EMAIL'),
-				'part' => array() , 'num' => 1),
-				'single' => array('real' => array(), 'part' => array('SINGLE'), 'num' => $this->conf['limitImageSingle'])
-			);
-
-			foreach ($codeTypeArray as $type => $codeArray)	{
-				$realArray = $codeArray['real'];
-				if (count ($realArray))	{
-					if (in_array($theCode, $realArray))	{
-						$mediaNum = $codeArray['num'];
-						break;
-					}
-				}
-				$partArray = $codeArray['part'];
-				if (is_array($partArray) && count($partArray))	{
-					foreach ($partArray as $k => $part)	{
-						if (strpos($theCode, $part) !== false)	{
-							$mediaNum = $codeArray['num'];
-							break;
-						}
-					}
-				}
-			}
-		}
-
-		return $mediaNum;
-	}
-
 	public function getRowMarkerArray (
 		$functablename,
 		$fieldname,
@@ -595,7 +553,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view {
 
 			if (is_array($mediaMarkerKeyArray) && count($mediaMarkerKeyArray))	{
 				$mediaNum =
-					$this->getMediaNum(
+					$this->getModelObj()->getMediaNum(
 						$functablename,
 						$fieldname,
 						$theCode

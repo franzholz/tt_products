@@ -110,6 +110,7 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 		$basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
         $basketExtra = tx_ttproducts_control_basket::getBasketExtra();
+        $useFal = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['fal'];
 
 			// price
 		$priceObj = GeneralUtility::makeInstance('tx_ttproducts_field_price');
@@ -190,7 +191,11 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 								$tmpRow[$displaySuffixId] = $priceValue;
 							}
 
-							if ($rowArticle)	{
+							if (
+								!$useFal &&
+								isset($rowArticle) &&
+								is_array($rowArticle)
+							) {
 								if (!$rowArticle['image'])	{
 									$rowArticle['image'] = $rowArray[$table]['image'];
 									$tmpRow['image'] = $rowArticle['image'];
@@ -221,12 +226,12 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 			$this->ajax->setConf($data['conf']);
 		}
 
-		$rc = $this->generateResponse($view, $rowArray, $variantArray);
+		$rc = $this->generateResponse($view, $rowArray, $rowArticle, $variantArray);
 		return $rc;
 	}
 
 
-	protected function generateResponse ($view, &$rowArray, &$variantArray)	{
+	protected function generateResponse ($view, &$rowArray, $rowArticle,, &$variantArray)	{
 		$csConvObj = $GLOBALS['TSFE']->csConvObj;
 
 		$theCode = strtoupper($view);
@@ -258,6 +263,7 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 
 			$itemTableView = $tablesObj->get($functablename, true);
 			$itemTable = $itemTableView->getModelObj();
+			$tablename = $itemTable->getTablename();
 
 			$jsTableNamesId = str_replace('_','-',$functablename).$suffix;
 			$uid = $row['uid'];
@@ -297,38 +303,89 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 				}
 
 				if (!in_array($field, $variantArray))	{
+					if (($position = strpos($field, '_uid')) !== false) {
+						if (!$useFal) {
+							continue;
+						}
+						$fieldId = substr($field, 0, $position);
+					} else {
+						if (
+							in_array($field, array('image', 'smallimage')) &&
+							$useFal
+						) {
+							continue;
+						}
+					}
+
 					$tagId = $jsTableNamesId.'-'.$view.'-'.$uid.'-'.$field;
 					switch ($field)	{
-						case 'image': // $this->cObj
+						case 'image':
+						case 'image_uid':
+						case 'smallimage':
+						case 'smallimage_uid':
+							$imageRow = $row;
+							$imageTablename = $tablename;
+							if (
+								isset($rowArticle) &&
+								is_array($rowArticle) &&
+								isset($rowArticle[$field]) &&
+								$rowArticle[$field]
+							) {
+								$imageTablename = 'tt_products_articles';
+								$imageRow[$field] = $rowArticle[$field];
+								$imageRow['uid'] = $rowArticle['uid'];
+								$imageRow['pid'] = $rowArticle['pid'];
+							}
 
 							$imageRenderObj = 'image';
 							if ($theCode == 'LIST' || $theCode == 'SEARCH') {
 								$imageRenderObj = 'listImage';
 							}
-							$imageArray = $imageObj->getImageArray($row, 'image');
-							$dirname = $imageObj->getDirname($row);
-							$markerArray = array();
-							$linkWrap = '';
+							$imageArray =
+								$imageObj->getFileArray(
+									$imageTablename,
+									$imageRow,
+									$field,
+									false
+								);
 
-							$mediaNum = $imageViewObj->getMediaNum (
-								'tt_products_articles',
-								'image',
-								$theCode
-							);
-							$imgCodeArray = $imageViewObj->getCodeMarkerArray(
-								'tt_products_articles',
-								'ARTICLE_IMAGE',
-								$theCode,
-								$row,
-								$imageArray,
-								$dirname,
-								$mediaNum,
-								$imageRenderObj,
-								$linkWrap,
-								$markerArray,
-								$specialConf = array()
-							);
-							$v = $imgCodeArray;
+							if (
+								is_array($imageArray) &&
+								count($imageArray)
+							) {
+								$dirname = '';
+								if ($fieldId == $field) {
+									$dirname = $imageObj->getDirname($imageRow);
+								}
+								$theImgDAM = array();
+								$markerArray = array();
+								$linkWrap = '';
+								$mediaNum = $imageObj->getMediaNum(
+									'tt_products_articles',
+									'image',
+									$theCode
+								);
+
+								$imgCodeArray = $imageViewObj->getCodeMarkerArray(
+									'tt_products_articles',
+									'ARTICLE_IMAGE',
+									$theCode,
+									$imageRow,
+									$imageArray,
+									$dirname,
+									$mediaNum,
+									$imageRenderObj,
+									$linkWrap,
+									$markerArray,
+									$theImgDAM,
+									$specialConf = array()
+								);
+
+								$v = $imgCodeArray;
+							} else {
+								$v = '';
+							}
+
 							break;
 
 						case 'inStock':

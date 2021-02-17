@@ -1,6 +1,7 @@
 
 2021-02-17 Franz Holzinger <franz@ttproducts.de>
-    * compatibility TYPO3 10.4,: replace user TCA by own renderType orderedProductsElement and orderHtmlElement
+    * compatibility TYPO3 10.4: replace user TCA by own renderType orderedProductsElement and orderHtmlElement
+    * compatibility TYPO3 10.4: add support for FAL
 
 2021-02-12 Franz Holzinger <franz@ttproducts.de>
     * compatibility TYPO3 9.5, Deprecation: no. 85558: ContentObjectRenderer->enableFields must be replaced by another solution. \JambageCom\Div2007\Utility\TableUtility::enableFields
