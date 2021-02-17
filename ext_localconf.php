@@ -330,6 +330,18 @@ call_user_func(function () {
         = \JambageCom\TtProducts\Updates\ProductMMGraduatedPriceTtProductsUpdater::class;
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['OrderMMProductTtProducts']
         = \JambageCom\TtProducts\Updates\OrderMMProductTtProductsUpdater::class;
+        
+    $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1613165400] = [
+        'nodeName' => 'orderedProductsElement',
+        'priority' => 40,
+        'class' => \JambageCom\TtProducts\Form\Element\OrderedProductsElement::class,
+    ];
+
+    $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1613221454] = [
+        'nodeName' => 'orderHtmlElement',
+        'priority' => 40,
+        'class' => \JambageCom\TtProducts\Form\Element\OrderHtmlElement::class,
+    ];
 });
 
 

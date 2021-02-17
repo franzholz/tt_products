@@ -425,20 +425,20 @@ $result = array (
 				'default' => ''
 			)
 		),
-		'orderHtml' => Array (
-			'exclude' => 1,
-			'label' => 'LLL:EXT:'.TT_PRODUCTS_EXT.'/locallang_db.xml:sys_products_orders.orderHtml',
-			'config' => Array (
-				'type' => 'user',
-				'size' => '30',
-				'db' => 'passthrough',
-				'userFunc' => 'JambageCom\\TtProducts\\Hooks\\OrderBackend->displayOrderHtml',
-				'parameters' => array(
-					'format' => 'html'
-				),
-				'default' => ''
-			)
-		),
+        'orderHtml' => [
+            'exclude' => 1,
+            'label' => 'LLL:EXT:'.TT_PRODUCTS_EXT.'/locallang_db.xml:sys_products_orders.orderHtml',
+            'config' => [
+                'type' => 'user',
+                'size' => '30',
+                'renderType' => 'orderHtmlElement',
+                'parameters' => [
+                    'format' => 'html'
+                ],
+                'db' => 'passthrough',
+                'default' => ''
+            ],
+        ],
 		'agb' => array (
 			'exclude' => 1,
 			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:sys_products_orders.agb',
@@ -663,16 +663,19 @@ $result = array (
 				'default' => 0
 			)
 		),
-		'ordered_products' => array (
-			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:sys_products_orders.ordered_products',
-			'config' => array (
-				'type' => 'user',
-				'userFunc' => 'JambageCom\\TtProducts\\Hooks\\OrderBackend->tceSingleOrder',
-				'db' => 'passthrough',
-				'default' => ''
-			),
-		),
+        'ordered_products' => [
+            'exclude' => 1,
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:sys_products_orders.ordered_products',
+            'config' => [
+                'type' => 'user',
+                'renderType' => 'orderedProductsElement',
+                'parameters' => [
+                    'mode' => 1
+                ],
+                'db' => 'passthrough',
+                'default' => ''
+            ],
+        ],
 	),
 	'types' => array (
 		'1' =>

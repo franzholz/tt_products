@@ -25,6 +25,37 @@ if (
     $GLOBALS['TCA'][$table]['ctrl']['sortby'] = 'sorting';
 }
 
+if (
+    defined('TYPO3_version') &&
+    version_compare(TYPO3_version, '10.0.0', '<')
+) {
+    $GLOBALS['TCA'][$table]['columns']['orderHtml'] = [
+        'exclude' => 1,
+        'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:sys_products_orders.orderHtml',
+        'config' => [
+            'type' => 'user',
+            'size' => '30',
+            'db' => 'passthrough',
+            'userFunc' => 'JambageCom\\TtProducts\\Hooks\\OrderBackend->displayOrderHtml',
+            'parameters' => [
+                'format' => 'html'
+            ],
+            'default' => ''
+        ]
+    ];
+
+    $GLOBALS['TCA'][$table]['columns']['ordered_products'] = [
+        'exclude' => 1,
+        'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:sys_products_orders.ordered_products',
+        'config' => [
+            'type' => 'user',
+            'userFunc' => 'JambageCom\\TtProducts\\Hooks\\OrderBackend->tceSingleOrder',
+            'db' => 'passthrough',
+            'default' => ''
+        ]
+    ];
+}
+
 $excludeArray =  
     (version_compare(TYPO3_version, '10.0.0', '>=') ? 
         $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude'] :

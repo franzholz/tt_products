@@ -1,11 +1,11 @@
 <?php
-
 namespace JambageCom\TtProducts\Hooks;
+
 
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2010-2010 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2012 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -30,7 +30,7 @@ namespace JambageCom\TtProducts\Hooks;
 /**
  * Part of the tt_products (Shop System) extension.
  *
- * hook functions for TYPO3 FE extensions
+ * hook functions for the TYPO3 BE
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
@@ -42,9 +42,10 @@ namespace JambageCom\TtProducts\Hooks;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+
 class OrderBackend implements \TYPO3\CMS\Core\SingletonInterface {
 
-	public function displayCategoryTree ($PA, $fobj) {
+	public function displayCategoryTree ($parameterArray, $fobj) {
 		$result = false;
 
 		if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('mbi_products_categories')) {
@@ -57,7 +58,7 @@ class OrderBackend implements \TYPO3\CMS\Core\SingletonInterface {
 			}
 
 			if (is_object($treeObj)) {
-				$result = $treeObj->displayCategoryTree($PA, $fobj);
+				$result = $treeObj->displayCategoryTree($parameterArray, $fobj);
 			}
 		}
 
@@ -66,13 +67,27 @@ class OrderBackend implements \TYPO3\CMS\Core\SingletonInterface {
 
 
 	// called from the page and list module for TCE
-	public function tceSingleOrder ($PA, $fobj) {
-		$table = $PA['table'];
-		$field = $PA['field'];
-		$row   = $PA['row'];
+    public function tceSingleOrder ($parameterArray, $fobj) {
+        $table = '';
+        $field = '';
+        $row   = [];
+        $config = [];
+
+		if (version_compare(TYPO3_version, '10.0.0', '<')) {
+
+            $table = $parameterArray['table'];
+            $field = $parameterArray['field'];
+            $row   = $parameterArray['row'];
+        } else {
+            $data = $parameterArray;
+            $table = $data['tableName'];
+            $field = $data['fieldName'];
+            $row   = $data['databaseRow'];
+            $parameterArray = $data['parameterArray'];
+        }
 
 			// Field configuration from TCA:
-		$config = $PA['fieldConf']['config'];
+		$config = $parameterArray['fieldConf']['config'];
 
 		// do not use Ajax
 		$ajax = '';
@@ -92,24 +107,36 @@ class OrderBackend implements \TYPO3\CMS\Core\SingletonInterface {
 
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 
+
 		$TSconfig = \TYPO3\CMS\Backend\Utility\BackendUtility::getTCEFORM_TSconfig($table, $row);
 		$orderView = $tablesObj->get('sys_products_orders', true);
 		$out = $orderView->getSingleOrder($row);
-
-        return $out;
 	}
 
-	public function displayOrderHtml ($PA, $fobj) {
+
+	public function displayOrderHtml ($parameterArray, $fobj) {
 		$result = 'ERROR';
+        $table = '';
+        $field = '';
+        $row   = [];
+        $config = [];
 
-		$table = $PA['table'];
-		$field = $PA['field'];
-		$row   = $PA['row'];
+		if (version_compare(TYPO3_version, '10.0.0', '<')) {
 
-			// Field configuration from TCA:
-		$config = $PA['fieldConf']['config'];
+            $table = $parameterArray['table'];
+            $field = $parameterArray['field'];
+            $row   = $parameterArray['row'];
+        } else {
+            $data = $parameterArray;
+            $table = $data['tableName'];
+            $field = $data['fieldName'];
+            $row   = $data['databaseRow'];
+            $parameterArray = $data['parameterArray'];
+        }
+        
+                // Field configuration from TCA:
+        $config = $parameterArray['fieldConf']['config'];
 		$orderData = unserialize($row['orderData']);
-
 		if (
 			is_array($orderData) &&
 			isset($orderData['html_output']) &&
