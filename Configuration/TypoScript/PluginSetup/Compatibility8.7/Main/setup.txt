@@ -556,10 +556,10 @@ plugin.tt_products {
 [globalVar = GP:ttp_basket != '']
 plugin.tt_products = USER_INT
 
-[traverse(request.getQueryParams(), 'tt_products/sword') matches "/.+/"]
+[globalString = GP:tt_products|sword = /.+/]
 plugin.tt_products = USER_INT
 
-[traverse(request.getQueryParams(), 'sword') matches "/.+/"]
+[globalString = GP:sword = /.+/]
 plugin.tt_products = USER_INT
 
 [global]
