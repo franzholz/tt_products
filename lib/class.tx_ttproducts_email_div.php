@@ -58,8 +58,6 @@ class tx_ttproducts_email_div {
 		$bcc = '',
 		$returnPath = ''
 	) {
-		global $TYPO3_CONF_VARS;
-
 		if ($toEMail == '' || $fromEMail == '' || ($html == '' && $message == '')) {
 
 			return false;
@@ -78,39 +76,57 @@ class tx_ttproducts_email_div {
 
         $fromName = str_replace('"', '\'', $fromName);
 
-        $mailMessage = tx_div2007_core::newMailMessage();
-        $mailMessage->setCharset('UTF-8')
-            ->setTo($toEMail)
-            ->setFrom(array($fromEMail => $fromName))
-            ->setReturnPath($returnPath)
-            ->setSubject($subject)
-            ->setBody($html, 'text/html')
-            ->addPart($message, 'text/plain');
+        if (version_compare(TYPO3_version, '10.0.0', '<')) {
+            $mailMessage = tx_div2007_core::newMailMessage();
+            $mailMessage->setCharset('UTF-8')
+                ->setTo($toEMail)
+                ->setFrom(array($fromEMail => $fromName))
+                ->setReturnPath($returnPath)
+                ->setSubject($subject)
+                ->setBody($html, 'text/html')
+                ->addPart($message, 'text/plain');
 
-        $type = $mailMessage->getHeaders()->get('Content-Type');
-        $type->setParameter('charset', 'UTF-8');
+            $type = $mailMessage->getHeaders()->get('Content-Type');
+            $type->setParameter('charset', 'UTF-8');
 
-        if (isset($attachment)) {
-            if (is_array($attachment)) {
-                $attachmentArray = $attachment;
-            } else {
-                $attachmentArray = array($attachment);
-            }
-            foreach ($attachmentArray as $theAttachment) {
-                if (file_exists($theAttachment)) {
-                    $mailMessage->attach(Swift_Attachment::fromPath($theAttachment));
+            if (isset($attachment)) {
+                if (is_array($attachment)) {
+                    $attachmentArray = $attachment;
+                } else {
+                    $attachmentArray = array($attachment);
+                }
+                foreach ($attachmentArray as $theAttachment) {
+                    if (file_exists($theAttachment)) {
+                        $mailMessage->attach(Swift_Attachment::fromPath($theAttachment));
+                    }
                 }
             }
+            if ($bcc != '') {
+                $mailMessage->addBcc($bcc);
+            }
+            $mailMessage->send();
+            $result = $mailMessage->isSent();
+            if ($conf['errorLog'] && count($mailMessage->getFailedRecipients())) {
+                error_log('send_mail Pos 2 undelivered emails: ' . implode(',', $mailMessage->getFailedRecipients()) . chr(13), 3, $conf['errorLog']);
+            }
+        } else {
+            $result = \JambageCom\Div2007\Utility\MailUtility::send(
+                implode($toEMail, ','),
+                $subject,
+                $message,
+                $html,
+                $fromEMail,
+                $fromName,
+                '',
+                '',
+                '',
+                $fromEMail,
+                '',
+                TT_PRODUCTS_EXT,
+                'sendMail'
+            );
         }
 
-        if ($bcc != '') {
-            $mailMessage->addBcc($bcc);
-        }
-        $mailMessage->send();
-        $result = $mailMessage->isSent();
-        if ($conf['errorLog'] && count($mailMessage->getFailedRecipients())) {
-            error_log('send_mail Pos 2 undelivered emails: ' . implode(',', $mailMessage->getFailedRecipients()) . chr(13), 3, $conf['errorLog']);
-        }
         return $result;
 	}
 
@@ -181,7 +197,7 @@ class tx_ttproducts_email_div {
 				$parts = explode(chr(10),$emailContent,2);
 				$subject = trim($parts[0]);
 				$plain_message = trim($parts[1]);
-				self::send_mail(implode($recipients,','), $subject, $plain_message, $tmp='', $senderemail, $sendername);
+                self::send_mail(implode($recipients,','), $subject, $plain_message, $tmp='', $senderemail, $sendername);
 			}
 		}
 	}
