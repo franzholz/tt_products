@@ -281,15 +281,24 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
 		return $result;
 	}
 
-	public function getAllMarkers (&$templateCode)	{
-		$treffer = array();
-		preg_match_all('/###([\w:]+)###/', $templateCode, $treffer);
-		$tagArray = $treffer[1];
-		$bFieldaddedArray = array();
+	public function getAllMarkers ($templateCode) {
 
-		if (is_array($tagArray))	{
+		$treffer = array();
+		$tagArray = false;
+
+		preg_match_all('/###([\w:-]+)###/', $templateCode, $treffer);
+		if (
+			isset($treffer) &&
+			is_array($treffer) &&
+			isset($treffer['1'])
+		) {
+			$tagArray = array_unique($treffer['1']);
+		}
+
+		if (is_array($tagArray)) {
 			$tagArray = array_flip($tagArray);
 		}
+
 		return $tagArray;
 	}
 
@@ -299,76 +308,93 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
 	 *
 	 * @access private
 	 */
-	public function getMarkerFields (&$templateCode, &$tableFieldArray, &$requiredFieldArray, &$addCheckArray, $prefixParam, &$tagArray, &$parentArray)	{
-
-		$retArray = (!empty($requiredFieldArray) ? $requiredFieldArray : array());
+	public function getMarkerFields (
+		$templateCode,
+		&$tableFieldArray,
+		&$requiredFieldArray,
+		&$addCheckArray,
+		$prefixParam,
+		&$tagArray,
+		&$parentArray
+	) {
+		$retArray = (count($requiredFieldArray) ? $requiredFieldArray : array());
 		// obligatory fields uid and pid
 
-		$prefix = $prefixParam.'_';
+		$prefix = $prefixParam . '_';
 		$prefixLen = strlen($prefix);
-
+		$bFieldaddedArray = array();
 		$tagArray = $this->getAllMarkers($templateCode);
 
-		if (is_array($tagArray))	{
+		if (is_array($tagArray)) {
 			$retTagArray = $tagArray;
-			foreach ($tagArray as $tag => $v1)	{
-				$prefixFound = strstr($tag, $prefix);
+			foreach ($tagArray as $tag => $v1) {
+				$prefixFound = strpos($tag, $prefix);
 
-				if ($prefixFound != '')	{
-					$fieldTmp = substr($prefixFound, $prefixLen);
+				if ($prefixFound !== false) {
+					$fieldTmp = substr($tag, $prefixFound + $prefixLen);
 					$fieldTmp = strtolower($fieldTmp);
+					$fieldTmp = preg_replace('/[0-9]$/', '', $fieldTmp); // remove trailing numbers
 
-					$fieldPartArray = GeneralUtility::trimExplode('_', $fieldTmp);
-					$fieldTmp = $fieldPartArray[0];
-					$subFieldPartArray = GeneralUtility::trimExplode(':', $fieldTmp);
-                    $colon = (count($subFieldPartArray) > 1);
-					$field = $subFieldPartArray[0];
+					$field = $fieldTmp;
 
-                    if (
-                        !isset($tableFieldArray[$field]) ||
-                        isset($tableFieldArray[$field . '_uid'])
-                    ) { // wird für ###PRODUCT_IMAGE1:M### benötigt
-                        $field = preg_replace('/[0-9]$/', '', $field); // remove trailing numbers
-                        if (isset($tableFieldArray[$field . '_uid'])) {
-                            $field = $field . '_uid';
-
-                            if (   
-                                isset($tableFieldArray[$field]) &&
-                                is_array($tableFieldArray[$field])
-                            ) {
-                                $retArray[] = $field;
-                                $bFieldaddedArray[$field] = true;
-                            }
-                        }
-                    }
-
-					if (
-                        !$colon &&
-                        !isset($tableFieldArray[$field])
-                    ) {
-						$newFieldPartArray = array();
-						foreach ($fieldPartArray as $k => $v) {
-							if (in_array($v, $this->specialArray)) {
-								break;
-							} else {
-								$newFieldPartArray[] = $v;
-							}
-						}
-						$field = implode('_', $newFieldPartArray);
+					if (isset($tableFieldArray[EXTERNAL_FIELD_PREFIX . $field])) {
+						$field = EXTERNAL_FIELD_PREFIX . $field;
 					}
 
-					if (
-                        !$colon &&
-                        (
+					if (!isset($tableFieldArray[$field])) {
+
+						$fieldPartArray = GeneralUtility::trimExplode('_', $fieldTmp);
+						$fieldTmp = $fieldPartArray[0];
+						$subFieldPartArray = GeneralUtility::trimExplode(':', $fieldTmp);
+						$colon = (count($subFieldPartArray) > 1);
+						$field = $subFieldPartArray[0];
+
+                        if (
                             !isset($tableFieldArray[$field]) ||
-                            !is_array($tableFieldArray[$field])
-                        )
-                    ) {	// find similar field names with letters in other cases
-						$upperField = strtoupper($field);
-						foreach ($tableFieldArray as $k => $v)	{
-							if (strtoupper($k) == $upperField)	{
-								$field = $k;
-								break;
+                            isset($tableFieldArray[$field . '_uid'])
+                        ) { // wird für ###PRODUCT_IMAGE1:M### benötigt
+                            $field = preg_replace('/[0-9]$/', '', $field); // remove trailing numbers
+                            if (isset($tableFieldArray[$field . '_uid'])) {
+                                $field = $field . '_uid';
+
+                                if (   
+                                    isset($tableFieldArray[$field]) &&
+                                    is_array($tableFieldArray[$field])
+                                ) {
+                                    $retArray[] = $field;
+                                    $bFieldaddedArray[$field] = true;
+                                }
+                            }
+                        }
+
+                        if (
+                            !$colon &&
+                            !isset($tableFieldArray[$field])
+                        ) {
+							$newFieldPartArray = array();
+							foreach ($fieldPartArray as $k => $v) {
+								if (in_array($v, $this->specialArray)) {
+									break;
+								} else {
+									$newFieldPartArray[] = $v;
+								}
+							}
+							$field = implode('_', $newFieldPartArray);
+						}
+
+						if (
+                            !$colon &&
+                            (
+                                !isset($tableFieldArray[$field]) ||
+                                !is_array($tableFieldArray[$field])
+							)
+						) {	// find similar field names with letters in other cases
+							$upperField = strtoupper($field);
+							foreach ($tableFieldArray as $k => $v) {
+								if (strtoupper($k) == $upperField) {
+									$field = $k;
+									break;
+								}
 							}
 						}
 					}
@@ -382,7 +408,8 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
 					}
 
 					$parentFound = strpos($tag, 'PARENT');
-					if ($parentFound !== false)	{
+
+					if ($parentFound !== false) {
 						$parentEnd = strpos($tag, '_');
 						$parentLen = strlen('PARENT');
 						$temp = substr($tag, $parentLen, ($parentEnd - $parentFound) - $parentLen);
@@ -391,10 +418,10 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
 				} else {
 					// unset the tags of different tables
 
-					foreach ($this->markerArray as $k => $marker)	{
-						if ($marker != $prefixParam) 	{
+					foreach ($this->markerArray as $k => $marker) {
+						if ($marker != $prefixParam) {
 							$bMarkerFound = strpos($tag, $marker);
-							if ($bMarkerFound == 0 && $bMarkerFound !== false)	{
+							if ($bMarkerFound == 0 && $bMarkerFound !== false) {
 								unset($retTagArray[$tag]);
 							}
 						}
@@ -409,24 +436,20 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
 		$parentArray = array_unique($parentArray);
 		sort($parentArray);
 
-		if (is_array($addCheckArray))	{
-			foreach ($addCheckArray as $marker => $field)	{
-				if (!$bFieldaddedArray[$field] && isset($tableFieldArray[$field]))	{ 	// TODO: check also if the marker is in the $tagArray
+		if (is_array($addCheckArray)) {
+			foreach ($addCheckArray as $marker => $field) {
+				if (!$bFieldaddedArray[$field] && isset($tableFieldArray[$field])) { 	// TODO: check also if the marker is in the $tagArray
 					$retArray[] = $field;
 				}
 			}
 		}
-		if (is_array($retArray))	{
+
+		if (is_array($retArray)) {
 			$retArray = array_unique($retArray);
 		}
-
 		return $retArray;
 	}
 }
 
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/marker/class.tx_ttproducts_marker.php'])	{
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/marker/class.tx_ttproducts_marker.php']);
-}
 
 

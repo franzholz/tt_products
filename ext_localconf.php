@@ -74,6 +74,10 @@ call_user_func(function () {
         define('POOL_EXT', 'pool');
     }
 
+    if (!defined ('EXTERNAL_FIELD_PREFIX')) {
+        define('EXTERNAL_FIELD_PREFIX', 'tx_ttproducts_');
+    }
+
     // deprecated constants
     if (!defined ('TT_PRODUCTS_EXTkey')) {
         define('TT_PRODUCTS_EXTkey', TT_PRODUCTS_EXT);
@@ -342,6 +346,13 @@ call_user_func(function () {
         'priority' => 40,
         'class' => \JambageCom\TtProducts\Form\Element\OrderHtmlElement::class,
     ];
+    
+    if (
+        version_compare(TYPO3_version, '10.4.0', '>=')
+    ) {
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['fal'] = 1;
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['falDatasheet'] = 1;
+    }
 });
 
 
