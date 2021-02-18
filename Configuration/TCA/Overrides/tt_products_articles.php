@@ -99,5 +99,75 @@ call_user_func(function () {
         );
     }
 
+    $GLOBALS['TCA'][$table]['interface']['showRecordFieldList'] .= ',image_uid,smallimage_uid';
+
+    $GLOBALS['TCA'][$table]['columns']['image_uid'] = array (
+        'exclude' => 1,
+        'label' => DIV2007_LANGUAGE_LGL . 'image',
+        'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
+            'image_uid',
+            array(
+                'appearance' => array(
+                    'createNewRelationLinkTitle' => 'LLL:EXT:cms/locallang_ttc.xlf:images.addFileReference',
+                    'collapseAll' => true,
+                ),
+                'foreign_types' => array(
+                    '0' => array(
+                        'showitem' => '
+                            --palette--;' . DIV2007_LANGUAGE_PATH . 'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
+                            --palette--;;filePalette'
+                    ),
+                    \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => array(
+                        'showitem' => '
+                            --palette--;' . DIV2007_LANGUAGE_PATH . 'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
+                            --palette--;;filePalette'
+                    ),
+                )
+            ),
+            $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']
+        )
+    );
+
+    $GLOBALS['TCA'][$table]['columns']['smallimage_uid'] = array (
+        'exclude' => 1,
+        'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products.smallimage',
+        'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
+            'smallimage_uid',
+            array(
+                'appearance' => array(
+                    'createNewRelationLinkTitle' => 'LLL:EXT:cms/locallang_ttc.xlf:images.addFileReference',
+                    'collapseAll' => true,
+                ),
+                'foreign_types' => array(
+                    '0' => array(
+                        'showitem' => '
+                            --palette--;' . DIV2007_LANGUAGE_PATH . 'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
+                            --palette--;;filePalette'
+                    ),
+                    \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => array(
+                        'showitem' => '
+                            --palette--;' . DIV2007_LANGUAGE_PATH . 'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
+                            --palette--;;filePalette'
+                    ),
+                )
+            ),
+            $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']
+        )
+    );
+
+    if (
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['fal'] ||
+        version_compare(TYPO3_version, '10.4.0', '>=')
+    ) {
+        $GLOBALS['TCA'][$table]['types']['1']['showitem'] = str_replace(',image,', ',image_uid,', $GLOBALS['TCA'][$table]['types']['1']['showitem']);
+        $GLOBALS['TCA'][$table]['types']['1']['showitem'] = str_replace(',smallimage', ',smallimage_uid', $GLOBALS['TCA'][$table]['types']['1']['showitem']);
+
+        unset($GLOBALS['TCA'][$table]['columns']['image']);
+        unset($GLOBALS['TCA'][$table]['columns']['smallimage']);
+    } else {
+        $GLOBALS['TCA'][$table]['types']['1']['showitem'] = str_replace(',image,', ',image,image_uid,', $GLOBALS['TCA'][$table]['types']['1']['showitem']);
+        $GLOBALS['TCA'][$table]['types']['1']['showitem'] = str_replace(',smallimage,', ',smallimage,smallimage_uid,', $GLOBALS['TCA'][$table]['types']['1']['showitem']);
+    }
+
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToInsertRecords($table);
 });
