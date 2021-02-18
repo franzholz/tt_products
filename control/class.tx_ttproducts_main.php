@@ -535,7 +535,6 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 				case 'LISTVIEWEDITEMS':
 				case 'LISTVIEWEDMOST':
 				case 'LISTVIEWEDMOSTOTHERS':
-
 					if (count($this->tt_product_single) && !$this->conf['NoSingleViewOnList']) {
 						if (!$bRunAjax && $this->convertToUserInt()) {
 							return '';
@@ -844,7 +843,6 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
         ) {
             $rc .= '<h>Error: $GLOBALS[\'TYPO3_CONF_VARS\'][\'FE\'][\'enableRecordRegistration\'] must be set to true.</h>';
         }
-
 		$this->destruct();
 		return $rc;
 	}

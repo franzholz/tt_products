@@ -231,7 +231,7 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 	}
 
 
-	protected function generateResponse ($view, &$rowArray, $rowArticle,, &$variantArray)	{
+	protected function generateResponse ($view, &$rowArray, $rowArticle, &$variantArray)	{
 		$csConvObj = $GLOBALS['TSFE']->csConvObj;
 
 		$theCode = strtoupper($view);
