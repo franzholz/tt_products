@@ -1896,8 +1896,10 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 							// use the product if no article row has been found
 						if ($articleRow)	{
 							$itemTable->mergeAttributeFields($prodVariantRow, $articleRow, false);
-						}
-
+                            $prodVariantRow['ext']['tt_products_articles'][] = $articleRow;
+                        } else {
+                            $prodVariantRow['ext']['tt_products_articles'] = array();
+                        }
 						$itemTableView->getModelMarkerArray(
 							$prodVariantRow,
 							$itemTableViewArray['article']->getMarker(),

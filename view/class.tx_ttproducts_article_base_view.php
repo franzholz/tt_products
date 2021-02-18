@@ -142,12 +142,12 @@ abstract class tx_ttproducts_article_base_view extends tx_ttproducts_table_base_
 	 */
 	public function getModelMarkerArray (
 		&$row,
-		$markerKey,
+		$markerParam,
 		&$markerArray,
 		$catTitle,
 		$imageNum=0,
 		$imageRenderObj='image',
-		&$tagArray,
+		$tagArray,
 		$forminfoArray=array(),
 		$theCode='',
 		$basketExtra=array(),
@@ -157,7 +157,7 @@ abstract class tx_ttproducts_article_base_view extends tx_ttproducts_table_base_
 		$linkWrap='',
 		$bHtml=true,
 		$charset=''
-	)	{
+	) {
 		$modelObj = $this->getModelObj();
 		$imageObj = GeneralUtility::makeInstance('tx_ttproducts_field_image_view');
 
@@ -173,7 +173,7 @@ abstract class tx_ttproducts_article_base_view extends tx_ttproducts_table_base_
 		$variantFieldArray = $modelObj->variant->getFieldArray();
 		$variantMarkerArray = array();
 
-		$this->getRowMarkerArray (
+		$this->getRowMarkerArray(
 			$row,
 			$marker,
 			$markerArray,

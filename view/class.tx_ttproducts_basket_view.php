@@ -342,7 +342,6 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 					$articleViewTagArray,
 					$articleParentArray
 				);
-
 				$prodUidField = $cnf->getTableDesc($articleTable->getTableObj()->name, 'uid_product');
 				$fieldsArray = array_merge($fieldsArray, $articleFieldsArray);
 				$uidKey = array_search($prodUidField, $fieldsArray);
@@ -536,7 +535,6 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 							$bHtml,
 							'UTF-8'
 						);
-
 						$articleViewObj->getItemMarkerSubpartArrays(
 							$t['item'],
 							$articleViewObj->getModelObj()->getFuncTablename(),
@@ -645,7 +643,6 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 						$subpartArray,
 						$wrappedSubpartArray
 					);
-
 					$tempContent = $parser->substituteMarkerArray(
 						$tempContent,
 						$markerArray

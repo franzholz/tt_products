@@ -212,32 +212,62 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view {
 			}
 
 			foreach($imageArray as $c => $val)	{
-
 				$imageConf = $imageConfStart;
 				if ($c == $mediaNum)	{
 					break;
 				}
 				$bUseImage = false;
 				$meta = false;
-				if ($val)	{
-					$imageConf['file'] = $dirname.$val;
-					$bUseImage = true;
+				if (!empty($val)) {
+					$filename = '';
+					if (is_array($val)) {
+						if (isset($val['name'])) {
+							$filename = 'fileadmin' . $val['identifier'];
+						}
+					} else {
+						$filename = $dirname . $val;
+					}
+					$imageConfFile = $filename;
 				}
 
 				if (!$this->conf['separateImage']) {
 					$key = 0;  // show all images together as one image
+				} else if (is_array($val)) {
+					$key = $val['name'];
 				} else {
-					$key = ($val ? $val : $c);
+					$key = (!empty($val) ? $val : $c);
 				}
-
 				$tagkey = '';
 				if ($val)	{
 					$tagkey = $this->getMarkerkey($imageMarkerArray, $markerKey, $key, $c + 1);
 				}
-
+				if (is_array($val)) {
+					$meta = $val;
+				}
+    
 				$cObj->alternativeData = ($meta ? $meta : $imageRow);
-				$imageConf['params'] = preg_replace('/\s+/',' ',$imageConf['params']);
-				$this->replaceMarkerArray($markerArray, $imageConf, $cObj->alternativeData);
+				$imageConf['params'] = preg_replace('/\s+/', ' ', $imageConf['params']);
+				if (!isset($imageConf['altText']) && isset($cObj->alternativeData['alternative'])) {
+                    $imageConf['altText'] = $cObj->alternativeData['alternative'];
+				}
+				if (!isset($imageConf['titleText']) && isset($cObj->alternativeData['title'])) {
+                    $imageConf['titleText'] = $cObj->alternativeData['title'];
+				}
+
+				$bGifBuilder = ($imageConf['file'] == 'GIFBUILDER');
+				if (isset($imageConfFile)) {
+                    $imageConf['file'] = $imageConfFile;
+                }
+				$filename = '';
+				if (is_array($val)) {
+					$filename = $imageConfFile;
+				} else {
+					$filename = $val;
+				}
+
+				$markerArray['###FILE###'] = $filename;
+
+                $this->replaceMarkerArray($markerArray, $imageConf, $cObj->alternativeData);
 				$tmpImgCode = $this->getImageCode($imageConf, $theCode);
 
 				if ($tmpImgCode != '')	{
@@ -267,7 +297,6 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view {
  				$imgCodeArray[0] = $cObj->stdWrap($imgCodeArray[0], $tableConf['joinedImagesWrap.']);
 			}
 		}
-
 		return $imgCodeArray;
 	}
 
@@ -412,7 +441,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view {
 		} // if (!$bImages) {
 
 		if (!$bImages)	{
-            $imgs = $this->getModelObj()->getFileArray($theTablename, $imageRow, $fieldname, true);
+            $imgs = $this->getModelObj()->getFileArray($functablename, $imageRow, $fieldname, true);
 		}
 
 		$specialConf = array();
@@ -454,7 +483,6 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view {
 
 		$c = 1;
 		$countArray = array();
-
 		foreach($theImgCode as $k1 => $val) {
 
 			$bIsSpecial = true;
@@ -558,7 +586,6 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view {
 						$fieldname,
 						$theCode
 					);
-
 				if ($mediaNum)	{
 
 					$this->getMediaMarkerArray(

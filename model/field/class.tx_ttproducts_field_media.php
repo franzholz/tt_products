@@ -38,6 +38,8 @@
  */
 
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 
 class tx_ttproducts_field_media extends tx_ttproducts_field_base {
 
@@ -70,7 +72,6 @@ class tx_ttproducts_field_media extends tx_ttproducts_field_base {
 			$sysfileRowArray = array();
 
 			if (
-				$tablename == 'tt_products' &&
 				isset($imageRow['ext']) &&
 				is_array($imageRow['ext']) &&
 				isset($imageRow['ext']['tt_products_articles']) &&

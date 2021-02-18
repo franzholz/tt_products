@@ -99,7 +99,6 @@ class tx_ttproducts_field_image_view extends tx_ttproducts_field_media_view {
 		if ($mediaNum > 0) {
 			$imageNum = $mediaNum;
 		}
-// hack end
 
 		$imageRow = $row;
 		$bImages = false;
@@ -300,7 +299,6 @@ class tx_ttproducts_field_image_view extends tx_ttproducts_field_media_view {
 				}
 			}
 		}
-
 		// empty all image fields with no available image
 		foreach ($tagArray as $value => $k1)	{
 			$keyMarker = '###'.$value.'###';

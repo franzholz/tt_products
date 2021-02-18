@@ -528,6 +528,14 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
 					$row['inStock'] = $articleRow['inStock'];
 				}
 			}
+    
+            if (
+                !empty($articleRow) &&
+                isset($prodVariantRow['ext']) &&
+                !isset($prodVariantRow['ext']['tt_products_articles'])
+            ) {
+                $prodVariantRow['ext']['tt_products_articles'][] = $articleRow;
+            }
 
 			$itemTableViewArray[$this->type]->getModelMarkerArray(
 				$row,

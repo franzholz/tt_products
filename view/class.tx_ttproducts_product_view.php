@@ -143,7 +143,7 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
 		$catTitle,
 		$imageNum=0,
 		$imageRenderObj='image',
-		&$tagArray,
+		$tagArray,
 		$forminfoArray=array(),
 		$theCode='',
 		$basketExtra=array(),
@@ -153,7 +153,7 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
 		$linkWrap='',
 		$bHtml=true,
 		$charset=''
-	)	{
+	) {
 			// Returns a markerArray ready for substitution with information for the tt_producst record, $row
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 		$modelObj = $this->getModelObj ();
@@ -184,8 +184,7 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
 			$bHtml,
 			$charset
 		);
-// Todo: das mit datasheet hier löschen
-
+// Todo: remove datasheet part from here:
 		$datafieldViewObj = $this->getFieldObj('datasheet');
 		if (isset($datafieldViewObj) && is_object($datafieldViewObj))	{
 			$datafieldViewObj->getRowMarkerArray(
@@ -399,6 +398,4 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_product_view.php']) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_product_view.php']);
 }
-
-
 
