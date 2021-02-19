@@ -486,9 +486,22 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
 
 				// XAJAX part
 				if (!$this->bAjaxAdded && is_object($this->ajax) && is_object($this->ajax->taxajax))	{
-					$code = $this->ajax->taxajax->getJavascript(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::siteRelPath(TAXAJAX_EXT));
+                    $path = '';
+                    if (
+                        version_compare(TYPO3_version, '9.0.0', '>=')
+                    ) {
+                        $path =
+                            \TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix(
+                                \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath(TAXAJAX_EXT)
+                            );
+                    } else {
+                        $path =  \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::siteRelPath(TAXAJAX_EXT));
+                    }
+
+					$code = $this->ajax->taxajax->getJavascript($path);
 					$this->bXajaxAdded = true;
 				}
+				$JSfieldname = 'tx_ttproducts-xajax';
 				$bDirectHTML = true;
 				break;
 
