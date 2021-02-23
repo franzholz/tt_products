@@ -42,7 +42,6 @@
     },
     "classmap": [
       "api",
-      "Classes",
       "control",
       "eid",
       "hooks",
