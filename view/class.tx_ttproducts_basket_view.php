@@ -1086,6 +1086,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 						$subpartArray,
 						$wrappedSubpartArray,
 						$viewTaxTagArray,
+						$markerArray,
 						$theCode,
 						$basketExtra,
 						''

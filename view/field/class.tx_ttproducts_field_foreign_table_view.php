@@ -51,6 +51,7 @@ class tx_ttproducts_field_foreign_table_view extends tx_ttproducts_field_base_vi
 		$tableConf,
 		&$subpartArray,
 		&$wrappedSubpartArray,
+		array $markerArray,
 		&$tagArray,
 		$theCode = '',
 		$basketExtra = array(),

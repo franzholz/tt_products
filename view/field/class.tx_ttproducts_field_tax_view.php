@@ -52,6 +52,7 @@ class tx_ttproducts_field_tax_view extends tx_ttproducts_field_base_view {
 		$tableConf,
 		&$subpartArray,
 		&$wrappedSubpartArray,
+		array $markerArray,
 		&$tagArray,
 		$theCode = '',
 		$basketExtra = array(),

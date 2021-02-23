@@ -244,6 +244,7 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base {
 						$row,
 						$subpartArray,
 						$wrappedSubpartArray,
+						$markerArray,
 						$viewCatTagArray,
 						$theCode
 					);

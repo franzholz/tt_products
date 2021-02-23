@@ -181,7 +181,7 @@ call_user_func(function () {
                     ],
                 ]
             ],
-            $GLOBALS['TYPO3_CONF_VARS']['GFX']['mediafile_ext']
+            $GLOBALS['TYPO3_CONF_VARS']['SYS']['mediafile_ext']
         )
     ];
 
@@ -200,7 +200,8 @@ call_user_func(function () {
 
     if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['falDatasheet']) {
         unset($GLOBALS['TCA'][$table]['columns']['datasheet']);
-        // nothing. This is the default behaviour
+        $GLOBALS['TCA'][$table]['types']['0']['showitem'] = str_replace(',datasheet,', ',datasheet_uid,', $GLOBALS['TCA'][$table]['types']['0']['showitem']);
+        $GLOBALS['TCA'][$table]['interface']['showRecordFieldList'] .= ',datasheet_uid';
     }
 
     $addressTable = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['addressTable'];

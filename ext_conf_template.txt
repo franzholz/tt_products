@@ -10,9 +10,9 @@ imageFolder = uploads/pics
 orderBySortingTables =
   # cat=basic/enable; type=integer; label=article mode: If 0, then the parent product in the article is used to assign the articles to a product. If 1, then the article group select at the product is used to assign multiple articles to a product. If 2, then the TYPO3 IRRE feature at the product is used to assign multiple articles to a product.
 articleMode = 0
-  # cat=basic/enable; type=boolean; label=FAL: Click here if you want to use the FAL for images (available since TYPO3 6.2). You can use the conversion tool in the function module to transfer your image file names into references to FAL.
+  # cat=basic/enable; type=boolean; label=FAL Images: Click here if you want to use the FAL for images (available since TYPO3 6.2). You can use the conversion tool in the function module to transfer your image file names into references to FAL.
 fal = 1
-  # cat=basic/enable; type=boolean; label=FAL: Click here if you want to use the FAL for datasheet (available since TYPO3 6.2). You can use the migration tool in the Install Tool to transfer your datasheet file names into references to FAL.
+  # cat=basic/enable; type=boolean; label=FAL Datasheet: Click here if you want to use the FAL for datasheet (available since TYPO3 6.2). You can use the migration tool in the Install Tool to transfer your datasheet file names into references to FAL.
 falDatasheet = 1
   # cat=basic/enable; type=string; label=BE template: file path to the template for the BE module
 templateFile = EXT:tt_products/template/example_template_bill_de.tmpl

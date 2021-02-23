@@ -1,3 +1,5 @@
+2021-02-23 Franz Holzinger <franz@ttproducts.de>
+    * compatibility TYPO3 10.4: bugfix for datasheet_uid
 
 2021-02-17 Franz Holzinger <franz@ttproducts.de>
     * compatibility TYPO3 10.4: replace user TCA by own renderType orderedProductsElement and orderHtmlElement

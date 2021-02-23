@@ -591,6 +591,7 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
 						$prodVariantRow,
 						$subpartArray,
 						$wrappedSubpartArray,
+						$markerArray,
 						$articleViewTagArray,
 						$theCode,
 						tx_ttproducts_control_basket::getBasketExtra(),

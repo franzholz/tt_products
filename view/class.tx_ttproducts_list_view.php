@@ -1676,6 +1676,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 										$catRow,
 										$categorySubpartArray,
 										$categoryWrappedSubpartArray,
+										$markerArray,
 										$viewCatTagArray,
 										$theCode,
 										tx_ttproducts_control_basket::getBasketExtra()

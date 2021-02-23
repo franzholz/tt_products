@@ -60,7 +60,7 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
 		&$templateCode,
 		$functablename,
 		&$row,
-		$markerArray,
+		array $markerArray,
 		&$subpartArray,
 		&$wrappedSubpartArray,
 		&$tagArray,
@@ -104,7 +104,6 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
 			$this->getModelObj()->hasAdditional($row,'isSingle'),
 			$bGiftService
 		);
-
 		$datafieldViewObj = $this->getFieldObj('datasheet');
 		if (isset($datafieldViewObj) && is_object($datafieldViewObj))	{
 			$datafieldViewObj->getItemSubpartArrays(
@@ -116,13 +115,13 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
 				$this->getModelObj()->getTableConf($theCode),
 				$subpartArray,
 				$wrappedSubpartArray,
+				$markerArray,
 				$tagArray,
 				$theCode,
 				$basketExtra
 			);
 		}
 	}
-
 
 	/**
 	 * Template marker substitution

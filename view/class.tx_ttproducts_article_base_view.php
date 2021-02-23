@@ -64,7 +64,7 @@ abstract class tx_ttproducts_article_base_view extends tx_ttproducts_table_base_
 		&$templateCode,
 		$functablename,
 		&$row,
-		$markerArray,
+		array $markerArray,
 		&$subpartArray,
 		&$wrappedSubpartArray,
 		&$tagArray,
@@ -72,12 +72,12 @@ abstract class tx_ttproducts_article_base_view extends tx_ttproducts_table_base_
 		$basketExtra=array(),
 		$iCount=''
 	)	{
-		$this->getItemSubpartArrays($templateCode, $functablename, $row, $subpartArray, $wrappedSubpartArray, $tagArray, $theCode, $basketExtra, $iCount);
+		$this->getItemSubpartArrays($templateCode, $functablename, $row, $subpartArray, $wrappedSubpartArray, $markerArray, $tagArray, $theCode, $basketExtra, $iCount);
 	}
 
 
-	public function getItemSubpartArrays (&$templateCode, $functablename, $row, &$subpartArray, &$wrappedSubpartArray, &$tagArray, $theCode='', $basketExtra=array(), $id='') {
-		parent::getItemSubpartArrays($templateCode, $functablename, $row, $subpartArray, $wrappedSubpartArray, $tagArray, $theCode, $basketExtra, $id);
+	public function getItemSubpartArrays (&$templateCode, $functablename, $row, &$subpartArray, &$wrappedSubpartArray, array $markerArray, &$tagArray, $theCode='', $basketExtra=array(), $id='') {
+		parent::getItemSubpartArrays($templateCode, $functablename, $row, $subpartArray, $wrappedSubpartArray, $markerArray, $tagArray, $theCode, $basketExtra, $id);
 	}
 
 
