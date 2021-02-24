@@ -159,6 +159,8 @@ call_user_func(function () {
         $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['fal'] ||
         version_compare(TYPO3_version, '10.4.0', '>=')
     ) {
+        $GLOBALS['TCA'][$table]['ctrl']['thumbnail'] = 'image_uid';
+
         $GLOBALS['TCA'][$table]['types']['1']['showitem'] = str_replace(',image,', ',image_uid,', $GLOBALS['TCA'][$table]['types']['1']['showitem']);
         $GLOBALS['TCA'][$table]['types']['1']['showitem'] = str_replace(',smallimage', ',smallimage_uid', $GLOBALS['TCA'][$table]['types']['1']['showitem']);
 

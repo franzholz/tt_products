@@ -71,6 +71,19 @@ call_user_func(function () {
         );
     }
 
+    if (
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['fal'] ||
+        version_compare(TYPO3_version, '10.4.0', '>=')
+    ) {
+        $GLOBALS['TCA'][$table]['ctrl']['thumbnail'] = 'image_uid';    
+
+        $GLOBALS['TCA'][$table]['types']['0']['showitem'] = str_replace(',image;', ',image_uid;', $GLOBALS['TCA'][$table]['types']['0']['showitem']);
+
+        unset($GLOBALS['TCA'][$table]['columns']['image']);
+    } else {
+        $GLOBALS['TCA'][$table]['types']['0']['showitem'] = str_replace(',image;;;;4-4-4,', ',image;;;;4-4-4,image_uid;;;;4-4-4,', $GLOBALS['TCA'][$table]['types']['0']['showitem']);
+    }
+
     if (version_compare(TYPO3_version, '7.6.0', '>=')) {
 
         unset($GLOBALS['TCA'][$table]['ctrl']['transOrigPointerField']);
