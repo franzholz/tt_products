@@ -77,11 +77,11 @@ call_user_func(function () {
     ) {
         $GLOBALS['TCA'][$table]['ctrl']['thumbnail'] = 'image_uid';    
 
-        $GLOBALS['TCA'][$table]['types']['0']['showitem'] = str_replace(',image;', ',image_uid;', $GLOBALS['TCA'][$table]['types']['0']['showitem']);
+        $GLOBALS['TCA'][$table]['types']['0']['showitem'] = str_replace('image,', 'image_uid,', $GLOBALS['TCA'][$table]['types']['0']['showitem']);
 
         unset($GLOBALS['TCA'][$table]['columns']['image']);
     } else {
-        $GLOBALS['TCA'][$table]['types']['0']['showitem'] = str_replace(',image;;;;4-4-4,', ',image;;;;4-4-4,image_uid;;;;4-4-4,', $GLOBALS['TCA'][$table]['types']['0']['showitem']);
+        $GLOBALS['TCA'][$table]['types']['0']['showitem'] = str_replace('image,', 'image, image_uid,', $GLOBALS['TCA'][$table]['types']['0']['showitem']);
     }
 
     if (version_compare(TYPO3_version, '7.6.0', '>=')) {
