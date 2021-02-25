@@ -1,3 +1,9 @@
+2021-02-25 Franz Holzinger <franz@ttproducts.de>
+    * bugfix for FAL: The small images have been forgotten in the upgrade script.
+
+2021-02-24 Franz Holzinger <franz@ttproducts.de>
+    * bugfix: Add missing images to tt_products_articles in the backend.
+
 2021-02-23 Franz Holzinger <franz@ttproducts.de>
     * compatibility TYPO3 10.4: bugfix for datasheet_uid
 

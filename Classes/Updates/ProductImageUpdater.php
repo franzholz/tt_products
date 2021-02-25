@@ -35,6 +35,13 @@ class ProductImageUpdater implements UpgradeWizardInterface, ConfirmableInterfac
 {
     const TABLES = 'tt_products,tt_products_language,tt_products_cat,tt_products_articles';
 
+    protected $tableFields = [
+        'tt_products' => ['image', 'smallimage'],
+        'tt_products_language' => ['image', 'smallimage'],
+        'tt_products_cat' => ['image'],
+        'tt_products_articles' => ['image', 'smallimage'],
+    ];
+
      /**
      * @var OutputInterface
      */
@@ -43,7 +50,7 @@ class ProductImageUpdater implements UpgradeWizardInterface, ConfirmableInterfac
     /**
      * @var string
      */
-    protected $title = 'EXT:' . TT_PRODUCTS_EXT . ' - Migrate all images of the tables "' . self::TABLES . '" to sys_file_references';
+    protected $title = 'EXT:' . TT_PRODUCTS_EXT . ' - Migrate all images of the tables ' . self::TABLES . ' to sys_file_references';
         
     /**
      * @var string
@@ -103,8 +110,14 @@ class ProductImageUpdater implements UpgradeWizardInterface, ConfirmableInterfac
         $title = '';
         $tables = explode(',', self::TABLES);
         foreach ($tables as $table) {
-            $elementCount = $upgradeApi->countOfTableFieldMigrations($table, 'image', 'image_uid', ParameterType::STRING, \PDO::PARAM_INT);
-
+            if (!isset($this->tableFields[$table])) {
+                continue;
+            }
+            $fields = $this->tableFields[$table];
+            $elementCount = 0;
+            foreach ($fields as $field) { 
+                $elementCount += $upgradeApi->countOfTableFieldMigrations($table, $field, $field . '_uid', ParameterType::STRING, \PDO::PARAM_INT);
+            }
             
     //         countOfImageMigrations(self::TABLE, self::TABLE . '_lanugae';
             if ($elementCount) {
@@ -143,20 +156,26 @@ class ProductImageUpdater implements UpgradeWizardInterface, ConfirmableInterfac
         $upgradeApi = GeneralUtility::makeInstance(UpgradeApi::class);
         $tables = explode(',', self::TABLES);
         foreach ($tables as $table) {
-            // user decided to migrate, migrate and mark wizard as done
-            $queries = $upgradeApi->performTableFieldFalMigrations(
-                $customMessage,
-                $table,
-                'image',
-                'image_uid',
-                ParameterType::STRING,
-                \PDO::PARAM_INT,
-                'uploads/pics'
-            );
-        
-            if (!empty($queries)) {
-                foreach ($queries as $query) {
-                    $databaseQueries[] = $query;
+            if (!isset($this->tableFields[$table])) {
+                continue;
+            }
+            $fields = $this->tableFields[$table];
+            foreach ($fields as $field) { 
+                // user decided to migrate, migrate and mark wizard as done
+                $queries = $upgradeApi->performTableFieldFalMigrations(
+                    $customMessage,
+                    $table,
+                    $field,
+                    $field . '_uid',
+                    ParameterType::STRING,
+                    \PDO::PARAM_INT,
+                    'uploads/pics'
+                );
+            
+                if (!empty($queries)) {
+                    foreach ($queries as $query) {
+                        $databaseQueries[] = $query;
+                    }
                 }
             }
         }
@@ -195,14 +214,26 @@ class ProductImageUpdater implements UpgradeWizardInterface, ConfirmableInterfac
         $elementCount = 0;
         $tables = explode(',', self::TABLES);
         foreach ($tables as $table) {
-            $elementCount += 
-                $upgradeApi->countOfTableFieldMigrations(
-                    $table,
-                    'image', 
-                    'image_uid', 
-                    ParameterType::STRING,
-                    \PDO::PARAM_INT
-                );
+            if (!isset($this->tableFields[$table])) {
+                continue;
+            }
+            $fields = $this->tableFields[$table];
+            foreach ($fields as $field) { 
+                $elementCount += 
+                    $upgradeApi->countOfTableFieldMigrations(
+                        $table,
+                        $field, 
+                        $field . '_uid', 
+                        ParameterType::STRING,
+                        \PDO::PARAM_INT
+                    );
+                if ($elementCount > 0) {
+                    break;
+                }
+            }
+            if ($elementCount > 0) {
+                break;
+            }
         }
         return ($elementCount > 0);
     } 
