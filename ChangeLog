@@ -1,3 +1,6 @@
+2021-02-27 Franz Holzinger <franz@ttproducts.de>
+    * compatibility TYPO3 9.5: replace $GLOBALS['TSFE']->additionalHeaderData by $pageRenderer->addHeaderData.
+
 2021-02-25 Franz Holzinger <franz@ttproducts.de>
     * bugfix for FAL: The small images have been forgotten in the upgrade script.
 

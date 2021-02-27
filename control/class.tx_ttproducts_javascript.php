@@ -514,14 +514,28 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
 		if (!$bError)	{
 			if ($code)	{
 				if ($bDirectHTML)	{
-					// $GLOBALS['TSFE']->setHeaderHTML ($fieldname, $code);
-					$GLOBALS['TSFE']->additionalHeaderData['tx_ttproducts-xajax'] = $code;
+                    if (
+                        version_compare(TYPO3_version, '9.5.0', '>=')
+                    ) {
+                        $pageRenderer = $this->getPageRenderer();
+                        $pageRenderer->addHeaderData($code);
+                    } else {
+                        $GLOBALS['TSFE']->additionalHeaderData['tx_ttproducts-xajax'] = $code;
+                    }
 				} else {
 					$GLOBALS['TSFE']->setJS($JSfieldname, $code);
 				}
 			}
 		}
 	} // setJS
+	
+    /**
+     * @return PageRenderer
+     */
+    protected function getPageRenderer()
+    {
+        return GeneralUtility::makeInstance(\TYPO3\CMS\Core\Page\PageRenderer::class);
+    }
 }
 
 
