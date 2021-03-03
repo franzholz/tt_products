@@ -80,7 +80,7 @@ class tx_ttproducts_orderaddress_view extends tx_ttproducts_table_base_view {
 				}
 			} else if (strpos($tag, $markerLogin . '_') === 0) {
                 if (
-                    $GLOBALS['TSFE']->loginUser &&
+                    \JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn() &&
                     isset($GLOBALS['TSFE']->fe_user->user) &&
                     is_array($GLOBALS['TSFE']->fe_user->user) &&
                     isset($GLOBALS['TSFE']->fe_user->user['uid'])

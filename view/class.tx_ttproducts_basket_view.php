@@ -289,8 +289,11 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 				// If there is a specific section for the billing address if user is logged in (used because the address may then be hardcoded from the database
 			if (trim(tx_div2007_core::getSubpart($t['basketFrameWork'], '###BILLING_ADDRESS_LOGIN###')))	{
-				//if ($GLOBALS['TSFE']->loginUser)	{
-				if ($GLOBALS['TSFE']->loginUser && $this->conf['lockLoginUserInfo']) {
+                if (
+                    \JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn()
+                    && 
+                    $this->conf['lockLoginUserInfo']
+                ) {
 					$t['basketFrameWork'] = $parser->substituteSubpart($t['basketFrameWork'], '###BILLING_ADDRESS###', '');
 				} else {
 					$t['basketFrameWork'] = $parser->substituteSubpart($t['basketFrameWork'], '###BILLING_ADDRESS_LOGIN###', '');
@@ -978,7 +981,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 			);
 
 				// Final substitution:
-			if (!$GLOBALS['TSFE']->loginUser)	{		// Remove section for FE_USERs only, if there are no fe_user
+			if (!\JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn()) {		// Remove section for FE_USERs only, if there are no fe_user
 				$subpartArray['###FE_USER_SECTION###'] = '';
 			}
 			if (is_object($infoViewObj))	{

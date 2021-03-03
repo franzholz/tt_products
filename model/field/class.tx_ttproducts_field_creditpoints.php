@@ -95,7 +95,7 @@ class tx_ttproducts_field_creditpoints extends tx_ttproducts_field_base {
 	/* It returns the number of credipoints by which the account of the FE user has been reduced. false is if no FE user is logged in. */
 	public function pay ()	{
 		$rc = false;
-		if ($GLOBALS['TSFE']->loginUser)	{
+		if (\JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn())	{
 
 			$creditpointsTotal = $this->getBasketTotal();
 

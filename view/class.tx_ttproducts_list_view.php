@@ -1218,7 +1218,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 			$selectConf['selectFields'] = 'DISTINCT ' . $itemTable->getTableObj()->transformSelect($selectFields, '', $collateConf) . $catSelect . $additionalSelect;
 
 			if (in_array($theCode, $viewedCodeArray) && $limit > 0)	{
-				if ($GLOBALS['TSFE']->loginUser)	{
+				if (\JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn())	{
 					$feUserId = intval($GLOBALS['TSFE']->fe_user->user['uid']);
 				}
 				$whereMM = '';

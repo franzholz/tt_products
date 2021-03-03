@@ -141,7 +141,7 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 		}
 
 		if (
-			$GLOBALS['TSFE']->loginUser &&
+			\JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn() &&
 			(!$this->infoArray['billing'] || !$this->infoArray['billing'][$checkField] || $this->conf['editLockedLoginInfo'] || $this->infoArray['billing']['error']) &&
 			$this->conf['lockLoginUserInfo']
 		)	{

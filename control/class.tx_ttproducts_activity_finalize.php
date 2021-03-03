@@ -138,7 +138,7 @@ class tx_ttproducts_activity_finalize {
 							$feuserField = 'tt_products_memoItems';
 							$memoItems = '';
 							if (
-                                $GLOBALS['TSFE']->loginUser &&
+                                \JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn() &&
                                 isset($GLOBALS['TSFE']->fe_user->user[$feuserField]) &&
                                 $GLOBALS['TSFE']->fe_user->user[$feuserField] != ''
                             ) {

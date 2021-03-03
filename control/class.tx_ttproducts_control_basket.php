@@ -198,7 +198,7 @@ class tx_ttproducts_control_basket {
 				if ($val['show'] || !isset($val['show'])) {
 					if ($val['type'] == 'fe_users') {
 						if (
-                            $GLOBALS['TSFE']->loginUser &&
+                            \JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn() &&
                             is_array($GLOBALS['TSFE']->fe_user->user)
                         ) {
 							$paymentField = $tablesObj->get('fe_users')->getFieldName('payment');

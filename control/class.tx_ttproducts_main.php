@@ -251,7 +251,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 
 			// If the current record should be displayed.
 		$config['displayCurrentRecord'] = $this->conf['displayCurrentRecord'];
-		
+
 		if (!$bRunAjax) {
 			// ### central initialization ###
 			$db = GeneralUtility::makeInstance('tx_ttproducts_db');
@@ -844,6 +844,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
             $rc .= '<h>Error: $GLOBALS[\'TYPO3_CONF_VARS\'][\'FE\'][\'enableRecordRegistration\'] must be set to true.</h>';
         }
 		$this->destruct();
+
 		return $rc;
 	}
 

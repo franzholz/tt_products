@@ -124,7 +124,7 @@ class tx_ttproducts_orderaddress extends tx_ttproducts_table_base {
 				$timeTemp = $infoObj->infoArray['billing']['date_of_birth'];
 				$bAge = true;
 			} else if (
-                $GLOBALS['TSFE']->loginUser &&
+                \JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn() &&
                 is_array($GLOBALS['TSFE']->fe_user->user)
             )	{
 				$timeTemp = date('d-m-Y', ($GLOBALS['TSFE']->fe_user->user['date_of_birth']));

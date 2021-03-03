@@ -367,7 +367,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
                 $label = $GLOBALS['TSFE']->sL('LLL:EXT:sr_feuser_register/Resources/Private/Language/locallang.xlf:' . $languageKey);
 				$editPID = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_srfeuserregister_pi1.']['editPID'];
 
-				if ($GLOBALS['TSFE']->loginUser && $editPID) {
+				if (\JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn() && $editPID) {
 					$addParams = array ('products_payment' => 1);
 					$addParams = $this->urlObj->getLinkParams('',$addParams,true);
 					$srfeuserBackUrl = $this->pibase->pi_getPageLink($GLOBALS['TSFE']->id,'',$addParams);
@@ -382,7 +382,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
                 $label = $GLOBALS['TSFE']->sL('LLL:EXT:agency/pi/locallang.xml:' . $languageKey);
 				$editPID = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_agency.']['editPID'];
 
-				if ($GLOBALS['TSFE']->loginUser && $editPID) {
+				if (\JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn() && $editPID) {
 					$addParams = array ('products_payment' => 1);
 					$addParams = $this->urlObj->getLinkParams('', $addParams, true);
 					$agencyBackUrl = $this->pibase->pi_getPageLink($GLOBALS['TSFE']->id, '', $addParams);

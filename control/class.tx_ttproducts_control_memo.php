@@ -231,7 +231,7 @@ class tx_ttproducts_control_memo {
 		$feuserField = self::getMemoField($functablename, true);
 
 		if (
-            $GLOBALS['TSFE']->loginUser &&
+            \JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn() &&
             isset($GLOBALS['TSFE']->fe_user->user[$feuserField]) &&
             $GLOBALS['TSFE']->fe_user->user[$feuserField] != ''
         ) {

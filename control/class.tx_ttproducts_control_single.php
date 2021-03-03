@@ -54,7 +54,7 @@ class tx_ttproducts_control_single implements \TYPO3\CMS\Core\SingletonInterface
 			$piVar = tx_ttproducts_model_control::getPiVar('tt_products');
 			$uid = $piVars[$piVar];
 
-			if ($GLOBALS['TSFE']->loginUser)	{
+			if (\JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn())	{
 	/*
 	$productTableObj->getTableConf('LISTVIEWEDITEMS');*/
 				$mmTablename = 'sys_products_fe_users_mm_visited_products';

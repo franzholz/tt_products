@@ -56,7 +56,7 @@ class tx_ttproducts_field_datafield extends tx_ttproducts_field_base {
             $fileRecords = \JambageCom\Div2007\Utility\FileAbstractionUtility::getFileRecords(
                 $tableName,
                 $fieldName,
-                [$row['uid']],
+                [$row['uid']]
             );
 
             if (!empty($fileRecords)) {

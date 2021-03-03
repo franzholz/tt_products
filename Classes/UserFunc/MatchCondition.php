@@ -87,7 +87,7 @@ class MatchCondition {
                     !is_array($infoArray[$type]) ||
                     !isset($infoArray[$type][$field])
                 ) &&
-                $GLOBALS['TSFE']->loginUser
+                \JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn()
             ) {
                 if ($field == 'country_code') {
                     $field = 'static_info_country';
