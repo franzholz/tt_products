@@ -42,17 +42,16 @@ namespace JambageCom\TtProducts\Controller;
  *
  */
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
-use TYPO3\CMS\Core\Http\NullResponse;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
-
-class TaxajaxController {
+class OldTaxajaxController {
 
     /**
     * @param ServerRequestInterface $request
@@ -60,20 +59,27 @@ class TaxajaxController {
     * @return ResponseInterface
     */
     public function processRequest (
-        ServerRequestInterface $request
-    )
+        ServerRequestInterface $request,
+        ResponseInterface $response): ResponseInterface
     {
         global $TSFE, $BE_USER, $TYPO3_CONF_VARS, $error;
 
-        $pageId = \JambageCom\Div2007\Utility\FrontendUtility::getPageId($request);
-        if (!$pageId) {
-            throw new \RuntimeException('Error in tt_products: No page id for Ajax call.');
+        $pageId = '';
+        if (
+            defined('TYPO3_version') &&
+            version_compare(TYPO3_version, '9.0.0', '>=')
+        ) {
+            $pageId = \JambageCom\Div2007\Utility\FrontendUtility::getPageId($request);
+            if (!$pageId) {
+                throw new \RuntimeException('Error in tt_products: No page id for Ajax call.');
+            }
         }
+
+        \JambageCom\Div2007\Utility\FrontendUtility::init($pageId);
 
         // ******************************************************
         // Start with tt_products
         // ******************************************************
-        $GLOBALS['TSFE']->getConfigArray($request);
 
         $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
         $config = array();
@@ -97,8 +103,7 @@ class TaxajaxController {
         $SOBE->main();
         $SOBE->printContent();
         $SOBE->destruct();
-
-        return new NullResponse();
+        return $response;
     }
 }
 

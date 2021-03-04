@@ -495,7 +495,7 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
                                 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath(TAXAJAX_EXT)
                             );
                     } else {
-                        $path =  \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::siteRelPath(TAXAJAX_EXT));
+                        $path =  \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::siteRelPath(TAXAJAX_EXT);
                     }
 
 					$code = $this->ajax->taxajax->getJavascript($path);

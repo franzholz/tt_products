@@ -183,7 +183,6 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 							$priceTaxArray = $priceObj->getPriceTaxArray(
 								$this->conf['discountPriceMode'], $basketExtra, 'price', tx_ttproducts_control_basket::getRoundFormat(), tx_ttproducts_control_basket::getRoundFormat('discount'), $tmpRow, $totalDiscountField, $priceTaxArray);
 
-							$csConvObj = $GLOBALS['TSFE']->csConvObj;
 							$field = 'price';
 							foreach ($priceTaxArray as $priceKey => $priceValue) {
 								$displayTax = $priceViewObj->convertKey($priceKey, $field);
@@ -230,10 +229,7 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 		return $rc;
 	}
 
-
 	protected function generateResponse ($view, &$rowArray, $rowArticle, &$variantArray)	{
-		$csConvObj = $GLOBALS['TSFE']->csConvObj;
-
 		$theCode = strtoupper($view);
 		$languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
 		$imageObj = GeneralUtility::makeInstance('tx_ttproducts_field_image');

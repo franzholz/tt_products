@@ -1,3 +1,7 @@
+2021-03-04 Franz Holzinger <franz@ttproducts.de>
+    * compatibility TYPO3 10.4: make a new TaxajaxController which does not initialize the front end
+    * compatibility TYPO3 10.4: Ajax bugfix
+
 2021-03-03 Franz Holzinger <franz@ttproducts.de>
     * compatibility TYPO3 9.5: replace $GLOBALS['TSFE']->loginUser by \JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn().
 
