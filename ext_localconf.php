@@ -156,6 +156,10 @@ call_user_func(function () {
             version_compare(TYPO3_version, '9.5.0', '<')
         ) {
             $GLOBALS['TYPO3_CONF_VARS']['FE']['eID_include'][TT_PRODUCTS_EXT] =  \JambageCom\TtProducts\Controller\OldTaxajaxController::class . '::processRequest';
+        } else if (
+            version_compare(TYPO3_version, '9.5', '==')
+        ) {
+            $GLOBALS['TYPO3_CONF_VARS']['FE']['taxajax_include'][TT_PRODUCTS_EXT] =  \JambageCom\TtProducts\Controller\OldTaxajaxController::class . '::processRequest';
         } else {
             $GLOBALS['TYPO3_CONF_VARS']['FE']['taxajax_include'][TT_PRODUCTS_EXT] =  \JambageCom\TtProducts\Controller\TaxajaxController::class . '::processRequest';
         }
