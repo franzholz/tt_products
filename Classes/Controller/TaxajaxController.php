@@ -65,11 +65,6 @@ class TaxajaxController {
     {
         global $TSFE, $BE_USER, $TYPO3_CONF_VARS, $error;
 
-        $pageId = \JambageCom\Div2007\Utility\FrontendUtility::getPageId($request);
-        if (!$pageId) {
-            throw new \RuntimeException('Error in tt_products: No page id for Ajax call.');
-        }
-
         // ******************************************************
         // Start with tt_products
         // ******************************************************
