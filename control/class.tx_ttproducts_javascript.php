@@ -514,10 +514,7 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
 		if (!$bError)	{
 			if ($code)	{
 				if ($bDirectHTML)	{
-                    if (version_compare(TYPO3_version, '10.5.0', '>=')) {
-                        $assetCollector = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Page\AssetCollector::class);
-                        $assetCollector->addInlineJavaScript($JSfieldname, $code);
-                    } else if (
+                    if (
                         version_compare(TYPO3_version, '9.5.0', '>=')
                     ) {
                         $pageRenderer = $this->getPageRenderer();
@@ -526,12 +523,7 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
                         $GLOBALS['TSFE']->additionalHeaderData[$JSfieldname] = $code;
                     }
 				} else {
-                    if (version_compare(TYPO3_version, '10.5.0', '>=')) {
-                        $assetCollector = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Page\AssetCollector::class);
-                        $assetCollector->addJavaScript($JSfieldname, $code);
-                    } else {
-                        $GLOBALS['TSFE']->setJS($JSfieldname, $code);
-                    }
+                    $GLOBALS['TSFE']->setJS($JSfieldname, $code);
 				}
 			}
 		}

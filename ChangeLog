@@ -1,3 +1,8 @@
+
+
+2021-03-05 Franz Holzinger <franz@ttproducts.de>
+    * bugfix: $assetCollector->addJavaScript and $assetCollector->addInlineJavaScript are no useful replacements for $GLOBALS['TSFE']->setJS and $GLOBALS['TSFE']->additionalHeaderData.
+
 2021-03-04 Franz Holzinger <franz@ttproducts.de>
     * compatibility TYPO3 10.4: make a new TaxajaxController which does not initialize the front end
     * compatibility TYPO3 10.4: Ajax bugfix
