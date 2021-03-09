@@ -235,7 +235,7 @@ class tx_ttproducts_form_div {
 			if (isset($attributes) && is_array($attributes)) {
 				$attributeTextArray[$k] = self::getAttributeString($attributes);
 			} else {
-				if ($attributes != '' && $attributes{0} != ' ') {
+				if ($attributes != '' && substr($attributes, 0, 1) != ' ') {
 					$attributeTextArray[$k] = ' ' . $attributes;
 				}
 			}
