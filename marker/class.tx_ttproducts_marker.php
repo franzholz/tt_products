@@ -62,11 +62,11 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
 	 * @param	array		array urls which should be overridden with marker key as index
 	 * @return	  void
 	 */
-	public function init ($cObj, $piVars)	{
+	public function init ($cObj, $piVars, $conf, $config)	{
 		$this->cObj = $cObj;
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-		$this->conf = &$cnf->conf;
-		$this->config = &$cnf->config;
+		$this->conf = $conf;
+		$this->config = $config;
 		$this->markerArray = array('CATEGORY', 'PRODUCT', 'ARTICLE');
 		$markerFile = $this->conf['markerFile'];
 		$languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);

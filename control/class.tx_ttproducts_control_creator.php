@@ -60,17 +60,20 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 		$tablesObj->init();
 
-		$languageObj = static::getLanguageObj($pLangObj, $cObj, $conf);
 		if (is_object($pObj))	{
 			$pLangObj = &$pObj;
 		} else {
 			$pLangObj = &$this;
 		}
+		$languageObj = static::getLanguageObj($pLangObj, $cObj, $conf);
+ 		$config['LLkey'] = $languageObj->getLocalLangKey(); /* $pibaseObj->LLkey; */
 
 		$markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
 		$res = $markerObj->init(
 			$cObj,
-			$pObj->piVars
+			$pObj->piVars,
+			$conf,
+			$config
 		);
 
 		if ($res == false)	{
@@ -84,8 +87,6 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
 			$recs,
 			$basketRec
 		);
-
- 		$config['LLkey'] = $languageObj->getLocalLangKey(); /* $pibaseObj->LLkey; */
 
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$cnf->init(
