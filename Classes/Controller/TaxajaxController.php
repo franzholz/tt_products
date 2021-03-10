@@ -74,8 +74,6 @@ class TaxajaxController {
         $config = array();
         $config['LLkey'] = '';
 
-        // tt_products specific parts
-
         // Make instance:
         $ajax = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_ttproducts_ajax');
         $ajax->init();

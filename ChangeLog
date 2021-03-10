@@ -1,5 +1,5 @@
 2021-03-09 Franz Holzinger <franz@ttproducts.de>
-    * bugfix issue #76: marks not parsed because of wrong initialization order.
+    * bugfix issue #76: Markers from setup marks are not parsed because of wrong initialization order.
 
 2021-03-05 Franz Holzinger <franz@ttproducts.de>
     * bugfix: $assetCollector->addInlineJavaScript is no useful replacement for $GLOBALS['TSFE']->additionalHeaderData.
