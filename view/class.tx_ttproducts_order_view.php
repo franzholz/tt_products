@@ -210,8 +210,8 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 			$multiOrderArray
 		);
 
-        foreach ($productRowArray as $productRow) {
-            $result .= $productRow['uid'] . ': ' . $productRow['title'] . ' - ' . $productRow['subtitle'] . ' - ' . $productRow['itemnumber'] . PHP_EOL;
+        foreach ($productRowArray as $key => $productRow) {
+            $result .= '<br>' . $productRow['uid'] . ': ' . $productRow['title'] . ' - ' . $productRow['subtitle'] . ' n. ' . $productRow['itemnumber'] . ' -> ' . $multiOrderArray[$key]['quantity'];
         }
         return $result;
 	}
