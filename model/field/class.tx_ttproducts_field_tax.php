@@ -40,46 +40,24 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
 class tx_ttproducts_field_tax extends tx_ttproducts_field_base {
-	protected $bUseStaticTaxes = false;
 
 	/**
 	 *
 	 */
-	public function preInit ($cObj, $bUseStaticTaxes, $uidStore) {
+	public function preInit ($cObj, $uidStore) {
 
 		parent::init($cObj);
-
-		if ($bUseStaticTaxes && $uidStore)	{
-			$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
-			$staticTaxObj = $tablesObj->get('static_taxes', false);
-/*			$dummyRow = array('tax_id' => '1');*/
-			$staticTaxObj->setStoreData($uidStore);
-			if ($staticTaxObj->isValid())	{
-				$this->bUseStaticTaxes = true;
-			}
-		}
 	} // init
-
-	public function getUseStaticTaxes ()	{
-		return $this->bUseStaticTaxes;
-	}
 
 	public function getTax ($basketExtra, &$row) {
 		$rc = $this->getFieldValue ($basketExtra, $row, 'tax');
 		return $rc;
 	}
 
-	public function getFieldValue ($basketExtra, $row, $fieldname)	{
+	public function getFieldValue ($basketExtra, $row, $fieldname) {
 		$newTax = '';
 		$fieldValue = '';
 		$taxFromShipping = '';
-
-		if ($this->getUseStaticTaxes())	{
-			$taxArray = array();
-			$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
-			$staticTaxObj = $tablesObj->get('static_taxes', false);
-			$staticTaxObj->getStaticTax($row, $newTax, $taxArray);
-		}
 
 		if (is_numeric($newTax)) {
 			$fieldValue = $newTax;

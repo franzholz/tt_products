@@ -51,6 +51,9 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
 		array $recs = array(),
 		array $basketRec = array()
 	) {
+        $staticInfoApi = GeneralUtility::makeInstance(\JambageCom\Div2007\Api\StaticInfoTablesApi::class);
+        $useStaticInfoTables = $staticInfoApi->init();
+
 		if ($conf['errorLog'] == '{$plugin.tt_products.file.errorLog}') {
 			$conf['errorLog'] = '';
 		} else if ($conf['errorLog']) {

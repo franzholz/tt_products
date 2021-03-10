@@ -288,7 +288,7 @@ plugin.tt_products {
   usePriceTag = 0
     # cat=plugin.products//; type=boolean; label=Use Frontend User Static Info Country Field: This is the small country field of the fe_user table
   useStaticInfoCountry = 0
-    # cat=plugin.products//; type=boolean; label=Use Static Taxes extension: Even if the product has a tax, the tax is taken from the extension static_info_tables_taxes
+    # cat=plugin.products//; type=boolean; label=Use Static Taxes extension: Even if the product has a tax, the tax is taken from the extension static_info_tables_taxes. Only available again in version 2.13.2+.
   useStaticTaxes = 0
     # cat=plugin.products//; type=string; label=Message displayed at bulkily items
   bulkilyWarning = <p><b>Warning! This article needs special transport.</b></p>

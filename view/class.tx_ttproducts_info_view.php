@@ -128,16 +128,16 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 				break;
 			}
 		}
-		$staticInfo = tx_ttproducts_static_info::getStaticInfo();
+		$staticInfoApi = GeneralUtility::makeInstance(\JambageCom\Div2007\Api\StaticInfoTablesApi::class);
 
-		if ($this->conf['useStaticInfoCountry'] && $this->infoArray['billing']['country_code'] && is_object($staticInfo))	{
-			$this->infoArray['billing']['country'] = $staticInfo->getStaticInfoName('COUNTRIES', $this->infoArray['billing']['country_code'],'','');
+		if ($this->conf['useStaticInfoCountry'] && $this->infoArray['billing']['country_code'] && is_object($staticInfoApi))	{
+			$this->infoArray['billing']['country'] = $staticInfoApi->getStaticInfoName('COUNTRIES', $this->infoArray['billing']['country_code'],'','');
 
 			if ($fixCountry) {
 				$bFixCountries = tx_ttproducts_control_basket::fixCountries($this->infoArray);
 			}
 
-			$this->infoArray['delivery']['country'] = $staticInfo->getStaticInfoName('COUNTRIES', $this->infoArray['delivery']['country_code'],'','');
+			$this->infoArray['delivery']['country'] = $staticInfoApi->getStaticInfoName('COUNTRIES', $this->infoArray['delivery']['country_code'],'','');
 		}
 
 		if (
@@ -367,9 +367,9 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$rc = '';
 
 		$where = $this->getWhereAllowedCountries($basketExtra);
-		$staticInfo = tx_ttproducts_static_info::getStaticInfo();
+        $staticInfoApi = GeneralUtility::makeInstance(\JambageCom\Div2007\Api\StaticInfoTablesApi::class);
 
-		if ($where && $this->conf['useStaticInfoCountry'] && is_object($staticInfo))	{
+		if ($where && $this->conf['useStaticInfoCountry'] && $staticInfoApi->isActive())	{
 			$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 			$countryObj = $tablesObj->get('static_countries');
 			if (is_object($countryObj))	{
@@ -389,9 +389,9 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 	 */
 	public function getWhereAllowedCountries ($basketExtra)	{
 		$where = '';
-		$staticInfo = tx_ttproducts_static_info::getStaticInfo();
+        $staticInfoApi = GeneralUtility::makeInstance(\JambageCom\Div2007\Api\StaticInfoTablesApi::class);
 
-		if (is_object($staticInfo))	{
+        if ($staticInfoApi->isActive()) {
 			$paymentshippingObj = GeneralUtility::makeInstance('tx_ttproducts_paymentshipping');
 			$where = $paymentshippingObj->getWhere($basketExtra, 'static_countries');
 		}
@@ -428,7 +428,7 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$orderAddressViewObj = $tablesObj->get('fe_users', true);
 		$orderAddressObj = $orderAddressViewObj->getModelObj();
 		$selectInfoFields = $orderAddressObj->getSelectInfoFields();
-		$staticInfo = tx_ttproducts_static_info::getStaticInfo();
+		$staticInfoApi = GeneralUtility::makeInstance(\JambageCom\Div2007\Api\StaticInfoTablesApi::class);
 
 		foreach ($infoFields as $k => $fName) {
 			if (!in_array($fName, $selectInfoFields)) {
@@ -447,7 +447,7 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 			}
 		}
 
-		if ($this->conf['useStaticInfoCountry'] && is_object($staticInfo))	{
+		if ($this->conf['useStaticInfoCountry'] && $staticInfoApi->isActive())	{
 			$bReady = false;
 			$whereCountries = $this->getWhereAllowedCountries($basketExtra);
 			$countryCodeArray = array();
@@ -465,96 +465,89 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
             ) {
                 // nothing to do
                 $bReady = true;
-            } else if (
-                \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('static_info_tables')
-            ) {
-				$eInfo = tx_div2007_alpha5::getExtensionInfo_fh003('static_info_tables');
-				$sitVersion = $eInfo['version'];
+            } else {
+                $markerArray['###PERSON_COUNTRY_CODE###'] =
+                    $staticInfoApi->buildStaticInfoSelector(
+                        'COUNTRIES',
+                        'recs[personinfo][country_code]',
+                        '',
+                        $countryCodeArray['billing'],
+                        '',
+                        $this->conf['onChangeCountryAttribute'],
+                        'field_personinfo_country_code',
+                        '',
+                        $whereCountries,
+                        '',
+                        false,
+                        array(),
+                        1,
+                        $outSelectedArray
+                    );
 
-				if (version_compare($sitVersion, '2.0.1', '>='))	{
-					$markerArray['###PERSON_COUNTRY_CODE###'] =
-						$staticInfo->buildStaticInfoSelector(
-							'COUNTRIES',
-							'recs[personinfo][country_code]',
-							'',
-							$countryCodeArray['billing'],
-							'',
-							$this->conf['onChangeCountryAttribute'],
-							'field_personinfo_country_code',
-							'',
-							$whereCountries,
-							'',
-							false,
-							array(),
-							1,
-							$outSelectedArray
-						);
+                if (isset($outSelectedArray) && is_array($outSelectedArray))	{
+                    $markerArray['###PERSON_ZONE###'] =
+                        $staticInfoApi->buildStaticInfoSelector(
+                            'SUBDIVISIONS',
+                            'recs[personinfo][zone]',
+                            '',
+                            $zoneCodeArray['billing'],
+                            current($outSelectedArray),
+                            0,
+                            '',
+                            '',
+                            '',
+                            ''
+                        );
+                } else {
+                    $markerArray['###PERSON_ZONE###'] = '';
+                }
+                $countryArray = $staticInfoApi->initCountries('ALL', '', false, $whereCountries);
+                $markerArray['###PERSON_COUNTRY_FIRST###'] = current($countryArray);
+                $markerArray['###PERSON_COUNTRY_FIRST_HIDDEN###'] = '<input type="hidden" name="recs[personinfo][country_code]" size="3" value="' . current(array_keys($countryArray)) . '">';
 
-					if (isset($outSelectedArray) && is_array($outSelectedArray))	{
-						$markerArray['###PERSON_ZONE###'] =
-							$staticInfo->buildStaticInfoSelector(
-								'SUBDIVISIONS',
-								'recs[personinfo][zone]',
-								'',
-								$zoneCodeArray['billing'],
-								current($outSelectedArray),
-								0,
-								'',
-								'',
-								'',
-								''
-							);
-					} else {
-						$markerArray['###PERSON_ZONE###'] = '';
-					}
-					$countryArray = $staticInfo->initCountries('ALL', '', false, $whereCountries);
-					$markerArray['###PERSON_COUNTRY_FIRST###'] = current($countryArray);
-					$markerArray['###PERSON_COUNTRY_FIRST_HIDDEN###'] = '<input type="hidden" name="recs[personinfo][country_code]" size="3" value="' . current(array_keys($countryArray)) . '">';
+                $markerArray['###PERSON_COUNTRY###'] =
+                    $staticInfoApi->getStaticInfoName('COUNTRIES', $countryCodeArray['billing'],'','');
+                unset($outSelectedArray);
+                $markerArray['###DELIVERY_COUNTRY_CODE###'] =
+                    $staticInfoApi->buildStaticInfoSelector(
+                        'COUNTRIES',
+                        'recs[delivery][country_code]',
+                        '',
+                        $countryCodeArray['delivery'],
+                        '',
+                        $this->conf['onChangeCountryAttribute'],
+                        'field_delivery_country_code',
+                        '',
+                        $whereCountries,
+                        '',
+                        false,
+                        array(),
+                        1,
+                        $outSelectedArray
+                    );
 
-					$markerArray['###PERSON_COUNTRY###'] =
-						$staticInfo->getStaticInfoName('COUNTRIES', $countryCodeArray['billing'],'','');
-					unset($outSelectedArray);
-					$markerArray['###DELIVERY_COUNTRY_CODE###'] =
-						$staticInfo->buildStaticInfoSelector(
-							'COUNTRIES',
-							'recs[delivery][country_code]',
-							'',
-							$countryCodeArray['delivery'],
-							'',
-							$this->conf['onChangeCountryAttribute'],
-							'field_delivery_country_code',
-							'',
-							$whereCountries,
-							'',
-							false,
-							array(),
-							1,
-							$outSelectedArray
-						);
+                if (isset($outSelectedArray) && is_array($outSelectedArray))	{
+                    $markerArray['###DELIVERY_ZONE###'] =
+                        $staticInfoApi->buildStaticInfoSelector(
+                            'SUBDIVISIONS',
+                            'recs[delivery][zone]',
+                            '',
+                            $zoneCodeArray['billing'],
+                            current($outSelectedArray),
+                            0,
+                            '',
+                            '',
+                            '',
+                            ''
+                        );
+                } else {
+                    $markerArray['###DELIVERY_ZONE###'] = '';
+                }
 
-					if (isset($outSelectedArray) && is_array($outSelectedArray))	{
-						$markerArray['###DELIVERY_ZONE###'] =
-							$staticInfo->buildStaticInfoSelector(
-								'SUBDIVISIONS',
-								'recs[delivery][zone]',
-								'',
-								$zoneCodeArray['billing'],
-								current($outSelectedArray),
-								0,
-								'',
-								'',
-								'',
-								''
-							);
-					} else {
-						$markerArray['###DELIVERY_ZONE###'] = '';
-					}
-
-					$markerArray['###DELIVERY_COUNTRY_FIRST###'] = $markerArray['###PERSON_COUNTRY_FIRST###'];
-					$markerArray['###DELIVERY_COUNTRY###'] =
-						$staticInfo->getStaticInfoName('COUNTRIES', $countryCodeArray['delivery'],'','');
-					$bReady = true;
-				}
+                $markerArray['###DELIVERY_COUNTRY_FIRST###'] = $markerArray['###PERSON_COUNTRY_FIRST###'];
+                $markerArray['###DELIVERY_COUNTRY###'] =
+                    $staticInfoApi->getStaticInfoName('COUNTRIES', $countryCodeArray['delivery'],'','');
+                $bReady = true;
 
 				$markerArray['###PERSON_ZONE_DISPLAY###'] = tx_div2007_staticinfotables::getTitleFromIsoCode('static_country_zones', array($zoneCodeArray['billing'], $countryCodeArray['billing']));
 				$markerArray['###DELIVERY_ZONE_DISPLAY###'] = tx_div2007_staticinfotables::getTitleFromIsoCode('static_country_zones', array($zoneCodeArray['delivery'], $countryCodeArray['delivery']));
@@ -562,7 +555,7 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 			if (!$bReady)	{
 				$markerArray['###PERSON_COUNTRY_CODE###'] =
-					$staticInfo->buildStaticInfoSelector(
+					$staticInfoApi->buildStaticInfoSelector(
 						'COUNTRIES',
 						'recs[personinfo][country_code]',
 						'',
@@ -572,9 +565,9 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 						'field_personinfo_country_code'
 					);
 				$markerArray['###PERSON_COUNTRY###'] =
-					$staticInfo->getStaticInfoName('COUNTRIES', $countryCodeArray['billing'],'','');
+					$staticInfoApi->getStaticInfoName('COUNTRIES', $countryCodeArray['billing'],'','');
 				$markerArray['###DELIVERY_COUNTRY_CODE###'] =
-					$staticInfo->buildStaticInfoSelector(
+					$staticInfoApi->buildStaticInfoSelector(
 						'COUNTRIES',
 						'recs[delivery][country_code]',
 						'',
@@ -584,7 +577,7 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 						'field_delivery_country_code'
 					);
 				$markerArray['###DELIVERY_COUNTRY###'] =
-					$staticInfo->getStaticInfoName(
+					$staticInfoApi->getStaticInfoName(
 						'COUNTRIES',
 						$countryCodeArray['delivery'],
 						'',

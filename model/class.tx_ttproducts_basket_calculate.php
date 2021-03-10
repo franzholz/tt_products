@@ -184,11 +184,7 @@ class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterfa
 			$this->calculatedArray['price0NoTax']['sametaxtotal'] = array();
 			$this->calculatedArray['categoryPriceNoTax']['sametaxtotal'] = array();
 
-			if ($taxObj->getUseStaticTaxes()) {
-				$shippingTax = $taxObj->getTax($row);
-			} else {
-				$shippingTax = $paymentshippingObj->getTaxPercentage($basketExtra, 'shipping', '');
-			}
+            $shippingTax = $paymentshippingObj->getTaxPercentage($basketExtra, 'shipping', '');
 
 			if ($shippingTax > $maxTax) {
 				$maxTax = $shippingTax;

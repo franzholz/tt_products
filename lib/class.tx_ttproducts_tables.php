@@ -49,7 +49,6 @@ class tx_ttproducts_tables implements \TYPO3\CMS\Core\SingletonInterface	{
 		'pages' => 'tx_ttproducts_page',
 		'static_banks_de' => 'tx_ttproducts_bank_de',
 		'static_countries' => 'tx_ttproducts_country',
-		'static_taxes' => 'tx_ttproducts_static_tax',
 		'sys_products_orders' => 'tx_ttproducts_order',
 		'sys_products_accounts' => 'tx_ttproducts_account',
 		'sys_products_cards' => 'tx_ttproducts_card',

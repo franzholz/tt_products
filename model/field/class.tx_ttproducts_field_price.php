@@ -196,11 +196,8 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base {
 		if (isset($row['tax']) && strlen($row['tax'])) {
 			$taxpercentage = $row['tax'];
 		}
-		$bUseStaticTaxes = $taxObj->getUseStaticTaxes() && strlen($row['tax_id']);
 
-		if ($bUseStaticTaxes)	{
-			$taxpercentage = $taxObj->getTax($row);
-		} else if (doubleval($taxpercentage) == 0 && !$bEnableTaxZero && $this->priceConf['TAXpercentage'] != '')	{
+		if (doubleval($taxpercentage) == 0 && !$bEnableTaxZero && $this->priceConf['TAXpercentage'] != '')	{
 			$taxpercentage = doubleval($this->priceConf['TAXpercentage']);
 		}
 
