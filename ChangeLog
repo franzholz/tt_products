@@ -1,3 +1,6 @@
+2021-03-10 Franz Holzinger <franz@ttproducts.de>
+    * bugfix issue #77: wrong call to tx_ttproducts_api::createFeuser()
+
 2021-03-09 Franz Holzinger <franz@ttproducts.de>
     * bugfix issue #76: Markers from setup marks are not parsed because of wrong initialization order.
 

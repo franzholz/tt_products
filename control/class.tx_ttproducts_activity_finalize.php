@@ -257,6 +257,7 @@ class tx_ttproducts_activity_finalize {
 		// Is no user is logged in --> create one
 		if ($this->conf['createUsers'] && $infoViewObj->infoArray['billing']['email'] != '' && (trim($GLOBALS['TSFE']->fe_user->user['username']) == '')) {
 			$feuserUid = tx_ttproducts_api::createFeuser(
+                $templateCode,
 				$this->conf,
 				$infoViewObj,
 				$basketView,
