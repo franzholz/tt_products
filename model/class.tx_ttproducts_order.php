@@ -158,8 +158,9 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
 	}
 
 
-	function clearUid ()	{
-		$this->basket->order['orderUid'] = '';
+	public function clearUid ()	{
+		$basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
+		$basketObj->order['orderUid'] = '';
 		$GLOBALS['TSFE']->fe_user->setKey('ses','order',array());
 	}
 

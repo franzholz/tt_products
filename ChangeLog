@@ -1,4 +1,7 @@
 2021-03-10 Franz Holzinger <franz@ttproducts.de>
+    * bugfix issue #78: removed $this->basket must not be used any more.
+
+2021-03-10 Franz Holzinger <franz@ttproducts.de>
     * bugfix issue #77: wrong call to tx_ttproducts_api::createFeuser()
 
 2021-03-09 Franz Holzinger <franz@ttproducts.de>
