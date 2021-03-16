@@ -33,7 +33,7 @@
   "suggest": {
     "friendsoftypo3/func": "^9.0",
     "jambagecom/addons-em": "^0.2",
-    "friendsoftypo3/typo3db-legacy": "^1.0",
+    "friendsoftypo3/typo3db-legacy": "^1",
     "jambagecom/taxajax": "^0.4, ^0.5,"
   },
   "autoload": {
@@ -57,8 +57,7 @@
     ]
   },
   "replace": {
-    "jambagecom/tt-products": "self.version",
-    "typo3-ter/tt-products": "self.version"
+    "jambagecom/tt-products": "self.version"
   },
   "extra": {
     "typo3/cms": {
