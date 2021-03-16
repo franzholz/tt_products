@@ -31,10 +31,10 @@
     "jambagecom/tsparser": ">=0.2.5,<1"
   },
   "suggest": {
-    "jambagecom/func-wizards": ">=0.0.1",
-    "jambagecom/addons-em": ">=0.2.1",
-    "friendsoftypo3/typo3db-legacy": ">=1.0.0,<1.99",
-    "jambagecom/taxajax": ">=0.4.5"
+    "friendsoftypo3/func": "^9.0",
+    "jambagecom/addons-em": "^0.2",
+    "friendsoftypo3/typo3db-legacy": "^1.0",
+    "jambagecom/taxajax": "^0.4, ^0.5,"
   },
   "autoload": {
     "psr-4": {
