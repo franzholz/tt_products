@@ -1,3 +1,5 @@
+2021-03-18 Franz Holzinger <franz@ttproducts.de>
+    * bugfix issue #80: Wrong value for marker ###ORDER_UID### in order finalization activity.
 
 2021-03-10 Franz Holzinger <franz@ttproducts.de>
     * bugfix issue #79: replace static class tx_ttproducts_static_info by calls of the \JambageCom\Div2007\Api\StaticInfoTablesApi class object $staticInfoApi.
