@@ -56,7 +56,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 			isset($orderArray['orderTrackingNo'])
 		) {
 			$orderObj = $this->getModelObj();
-			$markerArray['###ORDER_UID###'] = $orderArray['orderUid']
+			$markerArray['###ORDER_UID###'] = $orderArray['orderUid'];
 
 				// Order:	NOTE: Data exist only if the order->getBlankUid() has been called. Therefore this field in the template should be used only when an order has been established
 			$markerArray['###ORDER_ORDER_NO###'] = $orderObj->getNumber($orderArray['orderUid']);
