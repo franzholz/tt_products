@@ -310,7 +310,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
             }
 
 			if (!$errorMessage && $content == '' && !$bFinalize && $localTemplateCode != '') {
-                $orderArray = array();
+                $orderArray = $this->getStoredOrderArray();
 				$content = $basketView->getView(
                     $errorCode,
 					$localTemplateCode,
@@ -611,7 +611,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
                 );
 
                 $mainMarkerArray['###FORM_URL_NEXT_ACTIVITY###'] = $nextUrl;
-                $orderArray = array();
+                $orderArray = $this->getStoredOrderArray();
 				$paymentHTML = $basketView->getView(
                     $errorCode,
                     $templateCode,
@@ -694,7 +694,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 		$languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
 		$templateObj = GeneralUtility::makeInstance('tx_ttproducts_template');
 		$parser = $this->cObj;
-		$orderArray = array();
+		$orderArray = $this->getStoredOrderArray();
         if (
             defined('TYPO3_version') &&
             version_compare(TYPO3_version, '7.0.0', '>=')
