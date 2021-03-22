@@ -1,3 +1,8 @@
+
+
+2021-03-22 Franz Holzinger <franz@ttproducts.de>
+    * bugfix issue #80: The orderArray must be initialized before usage.
+
 2021-03-18 Franz Holzinger <franz@ttproducts.de>
     * bugfix issue #80: Wrong value for marker ###ORDER_UID### in order finalization activity.
 

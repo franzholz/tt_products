@@ -100,6 +100,7 @@ class tx_ttproducts_activity_finalize {
 		$functablename,
 		$orderUid,
 		$basketExtra,
+		$orderArray,
 		&$errorCode,
 		&$errorMessage
 	) {
@@ -118,6 +119,7 @@ class tx_ttproducts_activity_finalize {
 		$calculObj = GeneralUtility::makeInstance('tx_ttproducts_basket_calculate');
 		$activityConf = $cnfObj->getBasketConf('activity', 'finalize');
         $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
+		$orderObj = $tablesObj->get('sys_products_orders');
 
 		$fileArray = array(); // bill or delivery
 		$empty = '';
@@ -216,7 +218,7 @@ class tx_ttproducts_activity_finalize {
 				$mainMarkerArray,
 				'',
 				$itemArray,
-				array(),
+				$orderArray,
 				$basketExtra
 			);
 
@@ -245,12 +247,11 @@ class tx_ttproducts_activity_finalize {
 				$markerArray,
 				'',
 				$itemArray,
-				array(),
+				$orderArray,
 				$basketExtra
 			);
 
 		$result = $orderConfirmationHTML;
-		$orderObj = $tablesObj->get('sys_products_orders');
 		$apostrophe = $this->conf['orderEmail_apostrophe'];
 
 		// Move the user creation in front so that when we create the order we have a fe_userid so that the order lists work.
@@ -630,7 +631,7 @@ class tx_ttproducts_activity_finalize {
 									$mainMarkerArray,
 									'',
 									$basketItemArray,
-                                    array(),
+                                    $orderArray,
                                     $basketExtra
 								);
 							$basketText = trim($basketText);
@@ -650,7 +651,7 @@ class tx_ttproducts_activity_finalize {
                                         $mainMarkerArray,
                                         '',
                                         $basketItemArray,
-                                        array(),
+                                        $orderArray,
                                         $basketExtra
                                     );
                             }
@@ -751,7 +752,7 @@ class tx_ttproducts_activity_finalize {
 									$mainMarkerArray,
 									'',
 									$reducedItemArray,
-                                    array(),
+                                    $orderArray,
                                     $basketExtra
 								)
 							);
@@ -783,7 +784,7 @@ class tx_ttproducts_activity_finalize {
 										$mainMarkerArray,
 										'',
 										$reducedItemArray,
-										array(),
+										$orderArray,
 										$basketExtra
 									)
 								);

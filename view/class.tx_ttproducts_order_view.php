@@ -46,7 +46,6 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 	/** add the markers for uid, date and the tracking number which is stored in the basket recs */
 	public function getBasketRecsMarkerArray (&$markerArray, $orderArray)	{
         $local_cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
-
 			// order
 		if (
 			isset($orderArray) &&

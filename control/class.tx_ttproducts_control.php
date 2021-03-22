@@ -90,14 +90,17 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 		$this->urlObj->setUrlArray($this->urlArray);
 	} // init
 
+	private function getStoredOrderArray () {
+        return $GLOBALS['TSFE']->fe_user->getKey('ses','order');
+	}
 
 	protected function getOrderUid () {
 		$result = false;
 		$orderUid = 0;
-		$orderArray = $GLOBALS['TSFE']->fe_user->getKey('ses','order');
+		$storedOrderArray = $this->getStoredOrderArray();
 
-		if (isset($orderArray['orderUid'])) {
-			$orderUid = $orderArray['orderUid'];
+		if (isset($storedOrderArray['orderUid'])) {
+			$orderUid = $storedOrderArray['orderUid'];
 			$result = $orderUid;
 		}
 
@@ -307,6 +310,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
             }
 
 			if (!$errorMessage && $content == '' && !$bFinalize && $localTemplateCode != '') {
+                $orderArray = array();
 				$content = $basketView->getView(
                     $errorCode,
 					$localTemplateCode,
@@ -320,7 +324,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 					$markerArray,
 					$templateFilename,
 					$this->basket->getItemArray(),
-					array(),
+					$orderArray,
 					$basketExtra
 				);
 			}
@@ -464,6 +468,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 		$markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
 		$languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
+		$orderObj = $tablesObj->get('sys_products_orders');
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$content = '';
 		if ($checkBasket && !$basketEmpty)	{
@@ -606,7 +611,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
                 );
 
                 $mainMarkerArray['###FORM_URL_NEXT_ACTIVITY###'] = $nextUrl;
-
+                $orderArray = array();
 				$paymentHTML = $basketView->getView(
                     $errorCode,
                     $templateCode,
@@ -620,15 +625,13 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 					$mainMarkerArray,
                     '',
                     $this->basket->getItemArray(),
-                    array(),
+                    $orderArray,
 					$basketExtra
 				);
 				$content .= $paymentHTML;
 			}
 
 			if ($orderUid && $paymentHTML != '') {
-
-				$orderObj = $tablesObj->get('sys_products_orders');
 				$orderObj->setData($orderUid, $paymentHTML, 0, $basketExtra);
 			}
 		} else {	// If not all required info-fields are filled in, this is shown instead:
@@ -691,6 +694,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 		$languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
 		$templateObj = GeneralUtility::makeInstance('tx_ttproducts_template');
 		$parser = $this->cObj;
+		$orderArray = array();
         if (
             defined('TYPO3_version') &&
             version_compare(TYPO3_version, '7.0.0', '>=')
@@ -931,8 +935,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
                             )
                         ) {
 							$orderUid = $this->getOrderUid();
-
-							$mainMarkerArray['###MESSAGE_PAYMENT_SCRIPT###'] =
+                            $mainMarkerArray['###MESSAGE_PAYMENT_SCRIPT###'] =
 								$this->processPayment(
 									$orderUid,
 									$orderNumber,
@@ -1116,15 +1119,18 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 					$this->pibase,
 					$orderObj
 				);
+                $orderArray = $this->getStoredOrderArray();
+
 				$contentTmp = $activityFinalize->doProcessing(
 					$templateCode,
 					$mainMarkerArray,
 					$this->funcTablename,
 					$orderUid,
 					$basketExtra,
+					$orderArray,
 					$errorCode,
 					$errorMessage
-				);
+                );
 
 				if ($this->conf['PIDthanks'] > 0) {
 					$tmpl = 'BASKET_ORDERTHANKS_TEMPLATE';
@@ -1141,7 +1147,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 						$mainMarkerArray,
 						'',
 						$this->basket->getItemArray(),
-						array(),
+						$orderArray,
 						$basketExtra
 					);
 
@@ -1166,7 +1172,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 					$mainMarkerArray,
 					'',
 					$this->basket->getItemArray(),
-					array(),
+					$orderArray,
 					$basketExtra
 				);
 				$content .= $contentNoSave;
