@@ -84,7 +84,7 @@ class tx_ttproducts_graduated_price implements \TYPO3\CMS\Core\SingletonInterfac
 			$where = '1=1 '.$this->tableObj->enableFields();
 			$mmWhere = $this->tableObj->enableFields('',-1,array(),$this->mm_table);
 			if ($uid)	{
-				$uidWhere = $this->mm_table.'.product_uid ';
+				$uidWhere = $this->mm_table.'.uid_local ';
 				if (is_array($uid))	{
 					foreach ($uid as $v)	{
 						if (
@@ -108,9 +108,9 @@ class tx_ttproducts_graduated_price implements \TYPO3\CMS\Core\SingletonInterfac
 
 			// SELECT *
 			// FROM tt_products_graduated_price
-			// INNER JOIN tt_products_mm_graduated_price ON tt_products_graduated_price.uid = tt_products_mm_graduated_price.graduated_price_uid
+			// INNER JOIN tt_products_mm_graduated_price ON tt_products_graduated_price.uid = tt_products_mm_graduated_price.uid_foreign
 
-			$from = $this->tableObj->name.' INNER JOIN '.$this->mm_table.' ON '.$this->tableObj->name.'.uid='.$this->mm_table.'.graduated_price_uid';
+			$from = $this->tableObj->name.' INNER JOIN '.$this->mm_table.' ON '.$this->tableObj->name.'.uid='.$this->mm_table.'.uid_foreign';
 
 			// Fetching the products
 			$res = $this->tableObj->exec_SELECTquery('*', $where, $groupBy, $orderBy, $limit, $from);
@@ -124,9 +124,9 @@ class tx_ttproducts_graduated_price implements \TYPO3\CMS\Core\SingletonInterfac
 
 			if (is_array($uid))	{
 				$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', $this->mm_table, $uidWhere, '', '', $limit);
-				unset($this->mmArray[$row['product_uid']]);
+				unset($this->mmArray[$row['uid_local']]);
 				while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))	{
-					$this->mmArray[$row['product_uid']][] = $row['graduated_price_uid'];
+					$this->mmArray[$row['uid_local']][] = $row['uid_foreign'];
 				}
 				$GLOBALS['TYPO3_DB']->sql_free_result($res);
 			} else {

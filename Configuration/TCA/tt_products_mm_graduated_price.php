@@ -19,7 +19,7 @@ $result = array (
         'hideTable' => true,
     ),
     'interface' => array (
-        'showRecordFieldList' => 'product_uid,graduated_price_uid'
+        'showRecordFieldList' => 'uid_local,uid_foreign'
     ),
     'columns' => array (
         'hidden' => array (
