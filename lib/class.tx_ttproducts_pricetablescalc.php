@@ -91,7 +91,6 @@ class tx_ttproducts_pricetablescalc extends tx_ttproducts_pricecalc_base {
 				$priceProduct = $row1['price'];
 				foreach($actItemArray as $actItem)	{
 					$count += floatval($actItem['count']);
-// 					$priceProduct += floatval($actItem['rec']['price']);
 				}
 				$priceFormulaArray = $graduatedPriceObj->getFormulasByProduct($uid);
 
