@@ -1,4 +1,5 @@
-
+2021-03-27 Franz Holzinger <franz@ttproducts.de>
+    * compatibility PHP 7: Array and string offset access syntax with curly braces is deprecated.
 
 2021-03-25 Franz Holzinger <franz@ttproducts.de>
     * bugfix issue #81: The replacement of the fields of table tt_products_mm_graduated_price is sometimes missing. product_uid ==> uid_local

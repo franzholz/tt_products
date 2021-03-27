@@ -72,7 +72,7 @@ class tx_ttproducts_api implements \TYPO3\CMS\Core\SingletonInterface {
 			$formatText = $priceRoundFormatArray['1'];
 			$digits = 0;
 
-			while($formatText{$digits} == 'X') {
+			while(substr($formatText, $digits, 1) == 'X') {
 				$digits++;
 			}
 			$floatValue = substr($formatText, $digits);
@@ -103,7 +103,7 @@ class tx_ttproducts_api implements \TYPO3\CMS\Core\SingletonInterface {
 
 						for ($allowedPos = 0; $allowedPos < $countAllowedChars; $allowedPos++) {
 
-							$currentChar = $allowedChars{$allowedPos};
+							$currentChar = substr($allowedChars, $allowedPos, 1);
 							$currentValue = intval($currentChar);
 
 							if ($lowChar == '') {
