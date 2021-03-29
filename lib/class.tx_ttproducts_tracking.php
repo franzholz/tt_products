@@ -384,9 +384,18 @@ class tx_ttproducts_tracking implements \TYPO3\CMS\Core\SingletonInterface {
 		$markerArray['###OTHER_ORDERS_OPTIONS###'] = '';
 		$markerArray['###STATUS_OPTIONS###'] = '';
 		$subpartArray['###STATUS_ITEM###']=$STATUS_ITEM_c;
+		$beUserLogin = false;
+        if (
+            version_compare(TYPO3_version, '9.4.0', '>=')
+        ) {
+            $context = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Context\Context::class);
+            $beUserLogin = $context->getPropertyFromAspect('backend.user', 'isLoggedIn');
+        } else {
+            $beUserLogin = $GLOBALS['TSFE']->beUserLogin;
+        }
 
 			// Display admin-interface if access.
-		if (!$GLOBALS['TSFE']->beUserLogin) {
+		if (!$beUserLogin) {
 			$subpartArray['###ADMIN_CONTROL###']='';
 		} elseif ($admin) {
 			$subpartArray['###ADMIN_CONTROL_DENY###']='';
