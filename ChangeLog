@@ -1,3 +1,7 @@
+
+2021-03-29 Franz Holzinger <franz@ttproducts.de>
+    * TYPO3 9.5 deprecation no. 85389: Replace $GLOBALS['TSFE']->beUserLogin by $context->getPropertyFromAspect('backend.user', 'isLoggedIn').
+
 2021-03-29 Franz Holzinger <franz@ttproducts.de>
     * bugfix issue #82: PHP 7.4 replace !count() by empty().
 

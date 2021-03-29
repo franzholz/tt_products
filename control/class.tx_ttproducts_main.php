@@ -879,7 +879,17 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 	 */
 	public function shopAdmin (&$updateCode)	{
 		$admin = 0;
-		if ($GLOBALS['TSFE']->beUserLogin || $this->conf['shopAdmin'] != 'BE')	{
+		$beUserLogin = false;
+        if (
+            version_compare(TYPO3_version, '9.4.0', '>=')
+        ) {
+            $context = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Context\Context::class);
+            $beUserLogin = $context->getPropertyFromAspect('backend.user', 'isLoggedIn');
+        } else {
+            $beUserLogin = $GLOBALS['TSFE']->beUserLogin;
+        }
+
+		if ($beUserLogin || $this->conf['shopAdmin'] != 'BE') {
 			$updateCode = GeneralUtility::_GP('update_code');
 
 			if ($updateCode == $this->conf['update_code'])	{
