@@ -173,10 +173,10 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 		$articleViewTagArray = array();
 
-		if (!count($itemArray))	{
+		if (empty($itemArray))	{
 			$itemArray = $basketObj->getItemArray();
 		}
-		if (!count($orderArray))	{
+		if (empty($orderArray))	{
 			$orderArray = $basketObj->order;
 		}
 
@@ -191,7 +191,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
             $parser = tx_div2007_core::newHtmlParser(false);
         }
 
-		if (count($viewControlConf))	{
+		if (!empty($viewControlConf))	{
 			if (isset($viewControlConf['param.']) && is_array($viewControlConf['param.']))	{
 				$viewParamConf = $viewControlConf['param.'];
 			}
@@ -887,7 +887,6 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 			if (is_array($minQuantityArray) && count($minQuantityArray))	{
 				$subpartArray['###MESSAGE_MINQUANTITY###'] = '';
 				$tmpSubpart = tx_div2007_core::getSubpart($t['basketFrameWork'], '###MESSAGE_MINQUANTITY_ERROR###');
-					//	$minQuantityArray[] = array('rec' => $row, 'minQuantity' => $minQuantity, 'quantity' => $quantity);
 				$errorObj = GeneralUtility::makeInstance('tx_ttproducts_model_error');
 				$languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
 				$quantityErrorCode = [];

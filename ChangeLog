@@ -1,3 +1,6 @@
+2021-03-29 Franz Holzinger <franz@ttproducts.de>
+    * bugfix issue #82: PHP 7.4 replace !count() by empty().
+
 2021-03-27 Franz Holzinger <franz@ttproducts.de>
     * compatibility PHP 7: Array and string offset access syntax with curly braces is deprecated.
 
