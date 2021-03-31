@@ -117,16 +117,17 @@ class tx_ttproducts_email_div {
                 $html,
                 $fromEMail,
                 $fromName,
-                '',
+                $attachment,
                 '',
                 '',
                 $fromEMail,
                 '',
                 TT_PRODUCTS_EXT,
-                'sendMail'
+                'sendMail',
+                ''
             );
         }
-
+ 
         return $result;
 	}
 
