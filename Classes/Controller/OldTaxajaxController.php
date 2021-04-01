@@ -60,7 +60,7 @@ class OldTaxajaxController {
     */
     public function processRequest (
         ServerRequestInterface $request,
-        ResponseInterface $response): ResponseInterface
+        ResponseInterface $response)  /*: ResponseInterface*/
     {
         global $TSFE, $BE_USER, $TYPO3_CONF_VARS, $error;
 
