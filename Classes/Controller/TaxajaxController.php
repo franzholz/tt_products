@@ -63,8 +63,6 @@ class TaxajaxController {
         ServerRequestInterface $request
     )
     {
-        global $TSFE, $BE_USER, $TYPO3_CONF_VARS, $error;
-
         // ******************************************************
         // Start with tt_products
         // ******************************************************
