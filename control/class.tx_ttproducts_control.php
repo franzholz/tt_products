@@ -191,6 +191,22 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 		return ($retActivities);
 	}
 
+	protected function getTransactorConf ($handleLib) {
+        $transactorConf = '';
+
+        if (
+            defined('TYPO3_version') &&
+            version_compare(TYPO3_version, '9.0.0', '>=')
+        ) {
+            $transactorConf = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+                \TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class
+            )->get($handleLib);
+        } else { // before TYPO3 9
+            $transactorConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$handleLib]);
+        }
+
+        return $transactorConf;
+    }
 
 	protected function processPayment (
 		$orderUid,
@@ -227,15 +243,17 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 			$content = $paymentshippingObj->includeHandleScript($handleScript, $basketExtra['payment.']['handleScript.'], $this->conf['paymentActivity'], $bFinalize, $this->pibase, $infoViewObj);
 		} else if (strpos($handleLib, 'transactor') !== false && ExtensionManagementUtility::isLoaded($handleLib))	{
             $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
-
-				// Payment Transactor
-            $transactorConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$handleLib]);
-            $useNewTransactor = false;
+            $transactorConf = $this->getTransactorConf($handleLib);
+            
             if (
-                isset($transactorConf['compatibility']) &&
-                $transactorConf['compatibility'] == '0'
+                !empty($transactorConf)
             ) {
-                $useNewTransactor = true;
+                if (
+                    isset($transactorConf['compatibility']) &&
+                    $transactorConf['compatibility'] == '0'
+                ) {
+                    $useNewTransactor = true;
+                }
             }
 
             // Get references to the concerning baskets
@@ -864,6 +882,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 								$addQueryString = array();
 								$excludeList = '';
 								$linkParams = $this->urlObj->getLinkParams($excludeList,$addQueryString,true);
+								$transactorConf = $this->getTransactorConf($handleLib);
                                 $useNewTransactor = false;
                                 if (
                                     isset($transactorConf['compatibility']) &&

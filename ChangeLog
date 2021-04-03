@@ -1,3 +1,6 @@
+2021-04-03 Franz Holzinger <franz@ttproducts.de>
+    * compatibility TYPO3 10: Support für the transactor extension.
+
 2021-03-31 Franz Holzinger <franz@ttproducts.de>
     * bugfix issue #83: TYPO3 loses the attachment of the email.
 
