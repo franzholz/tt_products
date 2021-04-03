@@ -16,6 +16,7 @@
 2021-03-25 Franz Holzinger <franz@ttproducts.de>
     * bugfix issue #81: The replacement of the fields of table tt_products_mm_graduated_price is sometimes missing. product_uid ==> uid_local
     graduated_price_uid ==> uid_foreign
+    This must be done manually in TYPO3 < 10. Only TYPO3 10 has an upgrade wizard for it.
 
 2021-03-22 Franz Holzinger <franz@ttproducts.de>
     * bugfix issue #80: The orderArray must be initialized before usage.
@@ -76,8 +77,8 @@
     * compatibility TYPO3 10.4 deprecation 85445: Replace TemplateService->getFileName by TYPO3\CMS\Frontend\Resource\FilePathSanitizer object method sanitize.
 
 2021-01-25 Franz Holzinger <franz@ttproducts.de>
-    * add and improve the Upgrade Wizards
-    * new feature support for FAL: add fields image_uid, smallimage_uid, datasheet_uid
+    * add and improve the Upgrade Wizards in TYPO3 10.4
+    * new feature support for FAL in TYPO3 10.4: add fields image_uid, smallimage_uid, datasheet_uid
 
 2020-12-28 Franz Holzinger <franz@ttproducts.de>
     * bugfix: The file EmConfiguration.php must be included in ext_localconf.php. The composer does not work at this position and inside of TCA files.
