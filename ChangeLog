@@ -129,6 +129,7 @@
     * sys_products_orders_mm_tt_products:
     sys_products_orders_uid ==> uid_local
     tt_products_uid ==> uid_foreign
+    These fields must be renamed manually in TYPO3 < 10. THe upgrade wizard in the Install Tool is available in TYPO3 10 only.
 
     * bugfix for graduated prices: Remove the field items from table tt_products_graduated_price because TYPO3 does not support a backwards relation using a mm table.
 
