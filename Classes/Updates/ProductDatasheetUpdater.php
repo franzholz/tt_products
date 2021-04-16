@@ -143,7 +143,8 @@ class ProductDatasheetUpdater implements UpgradeWizardInterface, ConfirmableInte
             'datasheet',
             'datasheet_uid',
             ParameterType::STRING,
-            \PDO::PARAM_INT
+            \PDO::PARAM_INT,
+            'uploads/tx_ttproducts/datasheet'
         );
 	
         if (!empty($queries)) {
