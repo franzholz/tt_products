@@ -1,3 +1,8 @@
+
+
+2021-04-16 Franz Holzinger <franz@ttproducts.de>
+    * bugfix issue #84: Enabel the install tool migration wizards in the file ext_lcoalconf.php. ProductDatasheetUpdater and ProductImageUpdater have been missing.
+
 2021-04-03 Franz Holzinger <franz@ttproducts.de>
     * compatibility TYPO3 10: Support für the transactor extension.
 

@@ -326,7 +326,11 @@ call_user_func(function () {
         = \JambageCom\TtProducts\Updates\ProductMMGraduatedPriceTtProductsUpdater::class;
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['OrderMMProductTtProducts']
         = \JambageCom\TtProducts\Updates\OrderMMProductTtProductsUpdater::class;
-        
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['productDatasheetTtProducts']
+        = \JambageCom\TtProducts\Updates\ProductDatasheetUpdater::class;
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['productImageTtProducts']
+        = \JambageCom\TtProducts\Updates\ProductImageUpdater::class;
+
     $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1613165400] = [
         'nodeName' => 'orderedProductsElement',
         'priority' => 40,
@@ -345,6 +349,7 @@ call_user_func(function () {
         $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['fal'] = 1;
         $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['falDatasheet'] = 1;
     }
+
 });
 
 
