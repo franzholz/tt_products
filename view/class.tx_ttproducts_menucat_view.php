@@ -176,7 +176,6 @@ class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base {
 						$out .= $categoryOut;
 					}
 
-					// $out .= str_replace('###LIST_LINK###', $linkOut, $t['linkCategoryFrameWork']);
 					if (is_array($subCategories)	&&
 						(!$catConf['onlyChildsOfCurrent'] || $isParentArray[$actCategory] == true))	{
 						$depth++;
