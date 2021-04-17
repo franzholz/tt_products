@@ -1,0 +1,91 @@
+base: 'http://example.com/'
+baseVariants: {  }
+errorHandling:
+  -
+    errorCode: '404'
+    errorHandler: Page
+    errorContentSource: 't3://page?uid=1'
+languages:
+  -
+    title: Deutsch
+    enabled: true
+    base: /
+    typo3Language: de
+    locale: de_DE
+    iso-639-1: de
+    navigationTitle: ''
+    hreflang: 'de-DE'
+    direction: ''
+    flag: de
+    languageId: '0'
+rootPageId: 1
+routeEnhancers:
+  TtProduct:
+    type: Plugin
+    routePath: '/products/{product}'
+    namespace: tt_products
+    requirements:
+      product: '[a-zA-Z0-9].*'
+    aspects:
+      product:
+        type: PersistedAliasMapper
+        tableName: tt_products
+        routeFieldName: slug
+  TtProductPagination:
+    type: Plugin
+    routePath: '/browse_products/{pp}'
+    namespace: tt_products
+  TtProductWithPagination:
+    type: Plugin
+    routePath: '/products/{product}/browse_products/{pp}'
+    namespace: tt_products
+    requirements:
+      product: '[a-zA-Z0-9].*'
+      pp: '[a-zA-Z0-9].*'
+    aspects:
+      product:
+        type: PersistedAliasMapper
+        tableName: tt_products
+        routeFieldName: slug
+  TtProductBackPid:
+    type: Plugin
+    routePath: '/backPID/{backPID}'
+    namespace: tt_products
+    requirements:
+      backPID: '[a-zA-Z0-9].*'
+    aspects:
+      backPID:
+        type: PersistedPatternMapper
+        tableName: pages
+        routeFieldPattern: '^(?P<title>.+)$'
+        routeFieldResult: '{title}'
+  TtProductSearchDetail:
+    type: Plugin
+    routePath: '/products/{product}/backPID/{backPID}/sword/{sword}'
+    namespace: tt_products
+    requirements:
+      backPID: '[a-zA-Z0-9].*'
+      product: '[a-zA-Z0-9].*'
+    aspects:
+      backPID:
+        type: PersistedPatternMapper
+        tableName: pages
+        routeFieldPattern: '^(?P<title>.+)$'
+        routeFieldResult: '{title}'
+      product:
+        type: PersistedAliasMapper
+        tableName: tt_products
+        routeFieldName: slug
+routes:
+  -
+    route: robots.txt
+    type: staticText
+    content: "User-agent: *\r\nDisallow: /typo3/\r\nDisallow: /typo3_src/\r\nAllow: /typo3/sysext/frontend/Resources/Public/*\r\nSitemap: https://www.example.com/sitemap.xml"
+  -
+    route: sitemap.xml
+    type: uri
+    source: 't3://page?uid=1&type=1533906435'
+  -
+    route: rss.xml
+    type: uri
+    source: 't3://page?uid=1194&type=103'
