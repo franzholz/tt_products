@@ -350,6 +350,14 @@ call_user_func(function () {
         $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['falDatasheet'] = 1;
     }
 
+    $excludedParameters = [
+        'tt_products[sword]',
+        'sword',
+        'tt_products[activity][verify]',
+        'tt_products[backPID]'
+    ];
+    $GLOBALS['TYPO3_CONF_VARS']['FE']['cacheHash']['excludedParameters'] = 
+        array_merge($GLOBALS['TYPO3_CONF_VARS']['FE']['cacheHash']['excludedParameters'], $excludedParameters);
 });
 
 
