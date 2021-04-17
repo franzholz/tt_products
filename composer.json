@@ -25,7 +25,7 @@
   ],
   "require": {
     "php": ">=5.5.0,<=7.4.99",
-    "typo3/cms-core": ">=6.2.0,<=10.4.99",
+    "typo3/cms-core": "^6.2,^7.6,^8.7,^9.5,^10.4",
     "jambagecom/div2007": ">=1.11.5,<2",
     "jambagecom/table": ">=0.7.7,<1",
     "jambagecom/tsparser": ">=0.2.5,<1"

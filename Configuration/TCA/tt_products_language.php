@@ -326,7 +326,7 @@ $result = array (
 		),
 	),
 	'types' => array (
-		'1' =>
+		'0' =>
             array(
                 'columnsOverrides' => array(
                     'note' => array(
