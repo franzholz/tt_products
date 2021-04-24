@@ -2427,6 +2427,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 			$subpartArray['###ITEM_CATEGORY_AND_ITEMS###'] = '';
 			$subpartArray['###LINK_PREV###'] = '';
 			$subpartArray['###LINK_NEXT###'] = '';
+            $subpartArray['###LINK_BROWSE###'] = '';
 			$markerArray['###BROWSE_LINKS###'] = '';
 
 			$out = tx_div2007_core::substituteMarkerArrayCached($t['listFrameWork'], $markerArray, $subpartArray);
