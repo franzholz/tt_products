@@ -24,17 +24,17 @@
     "GPL-2.0-or-later"
   ],
   "require": {
-    "php": ">=5.5.0,<=7.4.99",
-    "typo3/cms-core": "^6.2,^7.6,^8.7,^9.5,^10.4",
-    "jambagecom/div2007": ">=1.11.5,<2",
-    "jambagecom/table": ">=0.7.7,<1",
-    "jambagecom/tsparser": ">=0.2.5,<1"
+    "php": "^5.5 || ^7.2",
+    "typo3/cms-core": "^6.2 || ^7.6 || ^8,7 || ^9.5 || ^10.4",
+    "jambagecom/div2007": "^1.11",
+    "jambagecom/table": "^0.7",
+    "jambagecom/tsparser": "^0.2"
   },
   "suggest": {
     "friendsoftypo3/func": "^9.0",
     "jambagecom/addons-em": "^0.2",
     "friendsoftypo3/typo3db-legacy": "^1",
-    "jambagecom/taxajax": "^0.4, ^0.5,"
+    "jambagecom/taxajax": "^0.4"
   },
   "autoload": {
     "psr-4": {

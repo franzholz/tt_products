@@ -413,18 +413,18 @@ $result = array (
 				'default' => ''
 			)
 		),
-		'orderData' => array (
+		'orderData' => [
 			'exclude' => 1,
 			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:sys_products_orders.orderData',
-			'config' => array (
+			'config' => [
 				'type' => 'text',
 				'cols' => '160',
 				'rows' => '160',
 				'wrap' => 'off',
 				'eval' => 'null',
 				'default' => ''
-			)
-		),
+			]
+		],
         'orderHtml' => [
             'exclude' => 1,
             'label' => 'LLL:EXT:'.TT_PRODUCTS_EXT.'/locallang_db.xml:sys_products_orders.orderHtml',

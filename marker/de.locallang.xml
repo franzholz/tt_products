@@ -190,7 +190,7 @@
             <label index="p_costs">Kosten</label>
 			<label index="p_datasheet">Datenblatt</label>
 			<label index="p_www">Hersteller Webseite</label>
-			<label index="p_instock">Verfügbarkei</label>
+			<label index="p_instock">Verfügbarkeit</label>
 			<label index="p_piece">Stück</label>
 			<label index="p_via_email">per e-Mail</label>
 			<label index="p_via_telephone">über Telefon</label>
