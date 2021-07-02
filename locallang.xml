@@ -14,6 +14,7 @@
 			<label index="pageModule.plugin"></label>
 			<label index="moduleFunction.tx_ttproducts_modfunc1"></label>
 			<label index="moduleFunction.tx_ttproducts_modfunc2"></label>
+			<label index="moduleFunction.tx_ttproducts_modfunc3"></label>
 		</labelContext>
 	</meta>
 	<data type="array">
@@ -24,8 +25,9 @@
 			<label index="m_ext">extended</label>
 			<label index="m_variants">variants</label>
 			<label index="pageModule.plugin">Shop System: Products, Articles, Product Categories, Orders</label>
-			<label index="moduleFunction.tx_ttproducts_modfunc1">Move Items</label>
-			<label index="moduleFunction.tx_ttproducts_modfunc2">Create Records in Alternative Languages</label>
+			<label index="moduleFunction.tx_ttproducts_modfunc1">Move Items (tt_products)</label>
+			<label index="moduleFunction.tx_ttproducts_modfunc2">Create Records in Alternative Languages (tt_products)</label>
+			<label index="moduleFunction.tx_ttproducts_modfunc3">Import images into FAL (tt_products)</label>
 		</languageKey>
 		<languageKey index="dk" type="array">
 			<label index="plugins_description">Tilføjer en butiks produktliste til siden. Dette er en del af den indbyggede butik og kræver, at siden indeholder produktelementer i databasen.</label>
@@ -36,8 +38,9 @@
 			<label index="m_ext">Erweitert</label>
 			<label index="m_variants">Varianten</label>
 			<label index="pageModule.plugin">Shop System: Produkte, Artikel, Produkt Kategorien, Bestellungen</label>
-			<label index="moduleFunction.tx_ttproducts_modfunc1">Produkte verschieben</label>
-			<label index="moduleFunction.tx_ttproducts_modfunc2">Erzeuge Datensätze in alternativen Sprachen</label>
+			<label index="moduleFunction.tx_ttproducts_modfunc1">Produkte verschieben (tt_products)</label>
+			<label index="moduleFunction.tx_ttproducts_modfunc2">Erzeuge Datensätze in alternativen Sprachen (tt_products)</label>
+			<label index="moduleFunction.tx_ttproducts_modfunc3">Importiere Bilder in die FAL (tt_products)</label>
 		</languageKey>
 		<languageKey index="no" type="array">
 			<label index="plugins_description">Setter inn en butikks produktliste på siden. Dette er en del av den innebygde butikken (webshopen) og krever at siden inneholder produktelementer i databasen.</label>

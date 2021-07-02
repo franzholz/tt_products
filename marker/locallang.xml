@@ -10,7 +10,7 @@
 	</meta>
 	<data type="array">
 		<languageKey index="default" type="array">
-			<label index="memo_dam_goto">Go to DAM memo list.</label>
+			<label index="memo_file_goto">Go to file memo list.</label>
 			<label index="memo_goto">Go to the memo list.</label>
 			<label index="memo_mark">Mark article</label>
 			<label index="memo_title">marked articles</label>
@@ -150,6 +150,7 @@
 			<label index="p_discount">Discount</label>
 			<label index="p_discount_price">Discount price</label>
 			<label index="p_unit_price">Unit price</label>
+            <label index="p_catalogue_price">Catalogue price</label>
 			<label index="p_acccessory">Accessories</label>
 			<label index="p_category">Category</label>
 			<label index="p_currency">EUR</label>

@@ -10,7 +10,7 @@
 	</meta>
 	<data type="array">
 		<languageKey index="de" type="array">
-			<label index="memo_dam_goto">Gehe zur DAM Merkliste.</label>
+			<label index="memo_file_goto">Gehe zur Dateien Merkliste.</label>
 			<label index="memo_goto">Gehe zur Merkliste.</label>
 			<label index="memo_mark">Artikel vormerken</label>
 			<label index="memo_title">Vorgemerkte Artikel</label>
@@ -160,7 +160,8 @@
 			<label index="p_discount">Rabatt</label>
 			<label index="p_discount_price">Rabatt Preis</label>
 			<label index="p_unit_price">Einzelpreis</label>
-			<label index="p_accessory">Zubehör</label>
+            <label index="p_catalogue_price">Listenpreis</label>
+            <label index="p_accessory">Zubehör</label>
 			<label index="p_category">Kategorie</label>
 			<label index="p_currency">EUR</label>
 			<label index="p_color">Farbe</label>
