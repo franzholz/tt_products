@@ -1,7 +1,7 @@
 {
   "name": "jambagecom/tt-products",
   "type": "typo3-cms-extension",
-  "description": "Shop system extension for TYPO3 CMS",
+  "description": "Shop system extension for TYPO3",
   "keywords": [
     "TYPO3",
     "extension",
