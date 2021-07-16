@@ -42,21 +42,23 @@ $result = array (
 			'config' => array (
 				'type' => 'input',
 				'size' => '8',
-				'eval' => 'date',
+				'eval' => 'datetime',
                 'renderType' => 'inputDateTime',
-				'default' => 0
-			)
+				'default' => 0,
+				'readOnly' => 1
+            )
 		),
 		'crdate' => array (
 			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:crdate',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:sys_products_orders.crdate',
 			'config' => array (
 				'type' => 'input',
 				'size' => '8',
-				'eval' => 'date',
+				'eval' => 'datetime',
                 'renderType' => 'inputDateTime',
-				'default' => 0
-			)
+				'default' => 0,
+				'readOnly' => 1
+            )
 		),
 		'sys_language_uid' => array (
 			'exclude' => 1,

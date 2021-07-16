@@ -44,7 +44,7 @@ $result = array (
 			'config' => array (
 				'type' => 'input',
 				'size' => '8',
-				'eval' => 'date',
+				'eval' => 'datetime',
                 'renderType' => 'inputDateTime',
 				'default' => 0
 			)
@@ -55,7 +55,7 @@ $result = array (
 			'config' => array (
 				'type' => 'input',
 				'size' => '8',
-				'eval' => 'date',
+				'eval' => 'datetime',
                 'renderType' => 'inputDateTime',
 				'default' => 0
 			)
@@ -194,7 +194,7 @@ $result = array (
                         )
                     )
                 ),
-                'showitem' => 'sys_language_uid, l18n_diffsource, hidden,--palette--;;1, text_uid, title, note, parenttable'
+                'showitem' => 'sys_language_uid, l18n_diffsource, crdate, tstamp, hidden,--palette--;;1, text_uid, title, note, parenttable'
             )
     ),
     'palettes' => array (

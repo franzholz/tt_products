@@ -81,7 +81,7 @@ $result = array(
 			'config' => array (
 				'type' => 'input',
 				'size' => '8',
-				'eval' => 'date',
+				'eval' => 'datetime',
                 'renderType' => 'inputDateTime',
 				'default' => 0
 			)
@@ -92,7 +92,7 @@ $result = array(
 			'config' => array (
 				'type' => 'input',
 				'size' => '8',
-				'eval' => 'date',
+				'eval' => 'datetime',
                 'renderType' => 'inputDateTime',
 				'default' => 0
 			)
@@ -912,7 +912,7 @@ $result = array(
                     )
                 ),
 
-                'showitem' => 'title,--palette--;;7, keyword,--palette--;;8, itemnumber,--palette--;;2, category, price,--palette--;;3, tax,--palette--;;4, offer,--palette--;;6,weight,--palette--;;9,creditpoints,hidden,--palette--;;1,' .
+                'showitem' => 'title,--palette--;;7, keyword,--palette--;;8, itemnumber,--palette--;;2, category, price,--palette--;;3, tax,--palette--;;4, offer,--palette--;;6,weight,--palette--;;9,creditpoints,hidden,tstamp,crdate,--palette--;;1,' .
 			'--div--;LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products.descriptions,note, note2,note_uid,text_uid,image,smallimage,datasheet,'.
 			'--div--;LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products.variants,color,color2,--palette--;;10,size,size2,--palette--;;11,description,gradings,material,quality,--palette--;;,additional,--palette--;;12,'.
 			'--div--;LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products.graduated,graduated_price_uid,'.

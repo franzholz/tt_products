@@ -51,7 +51,7 @@ $result = array (
 			'config' => array (
 				'type' => 'input',
 				'size' => '8',
-				'eval' => 'date',
+				'eval' => 'datetime',
                 'renderType' => 'inputDateTime',
 				'default' => 0
 			)
@@ -62,7 +62,7 @@ $result = array (
 			'config' => array (
 				'type' => 'input',
 				'size' => '8',
-				'eval' => 'date',
+				'eval' => 'datetime',
                 'renderType' => 'inputDateTime',
 				'default' => 0
 			)
@@ -478,7 +478,7 @@ $result = array (
                     )
                 ),
 
-                'showitem' => 'hidden,--palette--;;1, title,--palette--;;3, itemnumber, slug, inStock, basketminquantity, price,--palette--;;2;;, weight, color, color2, color3, size, size2, size3, description, gradings, material, quality, note,note2,image,smallimage'
+                'showitem' => 'hidden, tstamp, crdate,--palette--;;1, title,--palette--;;3, itemnumber, slug, inStock, basketminquantity, price,--palette--;;2;;, weight, color, color2, color3, size, size2, size3, description, gradings, material, quality, note,note2,image,smallimage'
             )
     ),
     'palettes' => array (

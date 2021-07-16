@@ -40,7 +40,7 @@ $result = array (
 			'config' => array (
 				'type' => 'input',
 				'size' => '8',
-				'eval' => 'date',
+				'eval' => 'datetime',
                 'renderType' => 'inputDateTime',
 				'default' => 0
 			)
@@ -51,7 +51,7 @@ $result = array (
 			'config' => array (
 				'type' => 'input',
 				'size' => '8',
-				'eval' => 'date',
+				'eval' => 'datetime',
                 'renderType' => 'inputDateTime',
 				'default' => 0
 			)
@@ -149,7 +149,7 @@ $result = array (
 		),
 	),
 	'types' => array (
-		'1' => array('showitem' => 'hidden,--palette--;;1, name, email, suffix')
+		'1' => array('showitem' => 'crdate, tstamp, hidden,--palette--;;1, name, email, suffix')
 	),
 	'palettes' => array (
 		'1' => array('showitem' => 'starttime, endtime, fe_group')

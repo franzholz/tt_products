@@ -64,7 +64,7 @@ $result = array (
 			'config' => array (
 				'type' => 'input',
 				'size' => '8',
-				'eval' => 'date',
+				'eval' => 'datetime',
                 'renderType' => 'inputDateTime',
 				'default' => 0
 			)
@@ -75,7 +75,7 @@ $result = array (
 			'config' => array (
 				'type' => 'input',
 				'size' => '8',
-				'eval' => 'date',
+				'eval' => 'datetime',
                 'renderType' => 'inputDateTime',
 				'default' => 0
 			)
@@ -323,7 +323,7 @@ $result = array (
                         )
                     )
                 ),
-                'showitem' => 'title, subtitle, slug, parent_category, catid, keyword, note, note2, email_uid, image, discount,discount_disable,highlight,hidden,--palette--;;1'
+                'showitem' => 'title, subtitle, slug, parent_category, catid, keyword, note, note2, email_uid, image, discount,discount_disable,highlight,tstamp, crdate, hidden,--palette--;;1'
             )
 	),
 	'palettes' => array (

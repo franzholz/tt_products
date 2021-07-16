@@ -42,7 +42,7 @@ $result = array (
 			'config' => array (
 				'type' => 'input',
 				'size' => '8',
-				'eval' => 'date',
+				'eval' => 'datetime',
                 'renderType' => 'inputDateTime',
 				'default' => 0
 			)
@@ -53,7 +53,7 @@ $result = array (
 			'config' => array (
 				'type' => 'input',
 				'size' => '8',
-				'eval' => 'date',
+				'eval' => 'datetime',
                 'renderType' => 'inputDateTime',
 				'default' => 0
 			)
@@ -199,7 +199,7 @@ $result = array (
                         )
                     ),
                 ),
-                'showitem' => 'hidden,--palette--;;1, title, marker, note, parentid, parenttable'
+                'showitem' => 'crdate, tstamp, hidden,--palette--;;1, title, marker, note, parentid, parenttable'
             )
     ),
     'palettes' => array (
