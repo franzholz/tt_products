@@ -1,4 +1,7 @@
 2021-07-16 Franz Holzinger <franz@ttproducts.de>
+    * bugfix issue #88: TYPO3 >= 9.5 must use a password hash for the password generation.
+
+2021-07-16 Franz Holzinger <franz@ttproducts.de>
     * remove support for TYPO3 6.2
 
 2021-04-17 Franz Holzinger <franz@ttproducts.de>

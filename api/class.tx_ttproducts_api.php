@@ -208,9 +208,18 @@ class tx_ttproducts_api implements \TYPO3\CMS\Core\SingletonInterface {
 
 		if (!$num_rows) {
 			$password = $infoObj->password = substr(md5(rand()), 0, 12);
-			if ($conf['useMd5Password']) {
-				$password = md5($password);
-			}
+            if (
+                version_compare(TYPO3_version, '9.5.0', '>=')
+            ) {
+                try {
+                    $hashInstance = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Crypto\PasswordHashing\PasswordHashFactory::class)->getDefaultHashInstance('FE');
+                    $password = $hashInstance->getHashedPassword($password);
+                } catch (TYPO3\CMS\Core\Crypto\PasswordHashing\InvalidPasswordHashException $e) {
+                    debug($tmp, 'no FE user could be generated!'); // keep this
+                }
+            } else if ($conf['useMd5Password']) {
+                $password = md5($password);
+            }
 			$tableFieldArray = $tablesObj->get('fe_users')->getTableObj()->tableFieldArray;
 			$insertFields = array(	// TODO: check with TCA
 				'pid' => intval($pid),
@@ -269,12 +278,12 @@ class tx_ttproducts_api implements \TYPO3\CMS\Core\SingletonInterface {
 
 				if ($emailContent != '') {
 					$parts = explode(chr(10), $emailContent, 2);
-					$subject=trim($parts[0]);
+					$subject = trim($parts[0]);
 					$plain_message = trim($parts[1]);
 
 					tx_ttproducts_email_div::send_mail(
 						$infoArray['billing']['email'],
-						$apostrophe.$subject . $apostrophe,
+						$apostrophe . $subject . $apostrophe,
 						$plain_message,
 						$tmp = '',
 						$fromArray['shop']['email'],
@@ -293,6 +302,7 @@ class tx_ttproducts_api implements \TYPO3\CMS\Core\SingletonInterface {
 			}
 			$GLOBALS['TYPO3_DB']->sql_free_result($res);
 		}
+
 		return $result;
 	}
 }
