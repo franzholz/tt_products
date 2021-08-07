@@ -391,22 +391,15 @@ abstract class tx_ttproducts_table_base_view  implements \TYPO3\CMS\Core\Singlet
 	)
 	{
         $local_cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
-        $parser = $local_cObj;
-        if (
-            defined('TYPO3_version') &&
-            version_compare(TYPO3_version, '7.0.0', '>=')
-        ) {
-            $parser = tx_div2007_core::newHtmlParser(false);
-        }
+        $parser = tx_div2007_core::newHtmlParser(false);
 
 		$rowMarkerArray = array();
 		if ($prefix === false)	{
 			$marker = '';
 		} else {
 			$markerKey = $this->getMarkerKey($markerKey);
-			$marker = $prefix.$markerKey;
+			$marker = $prefix . $markerKey;
 		}
-
 
 		if (is_array($row) && $row['uid'])	{
 

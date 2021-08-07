@@ -142,7 +142,7 @@ abstract class tx_ttproducts_article_base_view extends tx_ttproducts_table_base_
 	 */
 	public function getModelMarkerArray (
 		&$row,
-		$markerParam,
+		$markerKey,
 		&$markerArray,
 		$catTitle,
 		$imageNum=0,
@@ -172,7 +172,6 @@ abstract class tx_ttproducts_article_base_view extends tx_ttproducts_table_base_
 		}
 		$variantFieldArray = $modelObj->variant->getFieldArray();
 		$variantMarkerArray = array();
-
 		$this->getRowMarkerArray(
 			$row,
 			$marker,
@@ -191,7 +190,6 @@ abstract class tx_ttproducts_article_base_view extends tx_ttproducts_table_base_
 			$suffix,
 			$linkWrap
 		);
-
 		$this->getPriceMarkerArray($basketExtra, $markerArray, $row, $markerKey, $id, $theCode);
 
 		if (isset($row['delivery']))	{

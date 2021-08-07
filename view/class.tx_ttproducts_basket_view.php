@@ -211,7 +211,6 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$priceViewObj = GeneralUtility::makeInstance('tx_ttproducts_field_price_view');
 		$this->urlObj = GeneralUtility::makeInstance('tx_ttproducts_url_view'); // a copy of it
 
-
 		if ($templateCode == '') {
             $templateObj = GeneralUtility::makeInstance('tx_ttproducts_template');
             $errorCode = [];

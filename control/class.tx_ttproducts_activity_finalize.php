@@ -203,7 +203,6 @@ class tx_ttproducts_activity_finalize {
 		}
 
 		$markerArray['###CUSTOMER_RECIPIENTS_EMAIL###'] = implode(',', $emailControlArray['customer']['none']['recipient']);
-
 		$orderConfirmationHTML =
 			$basketView->getView(
                 $errorCode,

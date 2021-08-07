@@ -110,7 +110,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 				}
 			}
 			$itemRowWrapArray = GeneralUtility::trimExplode('|', $cssConf['itemRowWrap']);
-			$itemsOut.= ($tableRowOpen ? $itemRowWrapArray[1] : '');
+			$itemsOut .= ($tableRowOpen ? $itemRowWrapArray[1] : '');
 		}
 		$iColCount = 0;
 
@@ -537,14 +537,12 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$more = 0;	// If set during this loop, the next-item is drawn
 		$where = '';
 		$formName = 'ShopListForm';
-
 		$itemTableView = $tablesObj->get($functablename, true);
 		$itemTable = $itemTableView->getModelObj();
 		$tablename = $itemTable->getTablename();
 		$keyFieldArray = $itemTable->getKeyFieldArray($theCode);
 		$tableConfArray = array();
 		$tableConfArray[$functablename] = $itemTable->getTableConf($theCode);
-	//(	$tableConf = &$itemTable->getTableConf($theCode);
 		$itemTable->initCodeConf($theCode,$tableConfArray[$functablename]);
 		$prodAlias = $itemTable->getTableObj()->getAlias();
 		$tableAliasArray[$tablename] = $itemTable->getAlias();
@@ -1919,7 +1917,6 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 							true,
                             'UTF-8'
 						);
-
 						$articleViewObj->getItemSubpartArrays(
 							$t['item'],
 							'tt_products_articles',
@@ -2108,7 +2105,6 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 						$productMarkerArray = array_merge($productMarkerArray, $linkCategoryMarkerArray);
 					}
 					$markerArray = array_merge($productMarkerArray, $categoryMarkerArray, $markerArray);
-
 					$jsMarkerArray = array_merge($jsMarkerArray, $productMarkerArray);
 					if ($theCode == 'LISTGIFTS') {
 						$markerArray = tx_ttproducts_gifts_div::addGiftMarkers($markerArray, $basketObj->giftnumber);
@@ -2120,7 +2116,8 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 					$this->getSearchParams($addQueryString);
 					$markerArray =
                         $this->urlObj->addURLMarkers(
-                            $this->pid,$markerArray,
+                            $this->pid,
+                            $markerArray,
                             $addQueryString,
                             '',
                             $bUseBackPid,

@@ -1,3 +1,6 @@
+2021-08-07 Franz Holzinger <franz@ttproducts.de>
+    * bugfix: ###ARTICLE markers must be replaced in the product list view.
+
 2021-07-16 Franz Holzinger <franz@ttproducts.de>
     * bugfix issue #89: show the record fields crdate and tstamp with time.
 
