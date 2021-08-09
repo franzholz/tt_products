@@ -81,7 +81,7 @@ $result = array(
 			'config' => array (
 				'type' => 'input',
 				'size' => '8',
-				'eval' => 'datetime',
+				'eval' => 'datetime,int',
                 'renderType' => 'inputDateTime',
 				'default' => 0
 			)
@@ -92,7 +92,7 @@ $result = array(
 			'config' => array (
 				'type' => 'input',
 				'size' => '8',
-				'eval' => 'datetime',
+				'eval' => 'datetime,int',
                 'renderType' => 'inputDateTime',
 				'default' => 0
 			)
