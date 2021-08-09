@@ -110,8 +110,7 @@
     ###GW1B### Anzahl: ###GW1E### <input size="4" maxlength="6" type="text" name="###FIELD_NAME###" value="###FIELD_QTY###">
     <input type="image" src="###IMAGE_BASKET_SRC###" name="basket" class="inputimage_list" alt="In den Warenkorb">
   </div>
-  <div class="SEE_PRODUCT"><!--###LINK_ITEM###--><img src="fileadmin/images/ansehen.jpg" height="19" width="100" alt="Produkt ansehen"/><!--###LINK_ITEM###--></div>
-  <!--  <input type="button" class="button2_LIST" name="warenkorb" value="Warenkorbinhalt ansehen" onclick="self.location.href='index.php?id=###PID_BASKET###';"> -->
+  <div class="SEE_PRODUCT"><!--###LINK_ITEM###--><img src="typo3conf/ext/tt_products/Resources/Public/Images/readingglass.gif" height="40" width="50" alt="Produkt ansehen"/><!--###LINK_ITEM###--></div>
 </div>
 </form>
      <!--###ITEM_SINGLE_POST_HTML###-->
@@ -239,7 +238,7 @@
 	</dl>
   	<div id="anzahl_SINGLE">
       ###GW2B### Menge: ###GW2E###<input size="3" maxlength="4" type="text" name="###FIELD_NAME###" value="###FIELD_QTY###">
-      <input type="image" src="fileadmin/img/tt_products/basket1.gif" name="basket" id="inputimage" alt="In den Warenkorb" onClick="if(!document.forms['###FORM_NAME###']['###FIELD_NAME###'].value!=''){document.forms['###FORM_NAME###']['###FIELD_NAME###'].value=1;};"/>
+      <input type="image" src="###IMAGE_BASKET_SRC###" name="basket" class="inputimage_list" alt="In den Warenkorb" onClick="if(!document.forms['###FORM_NAME###']['###FIELD_NAME###'].value!=''){document.forms['###FORM_NAME###']['###FIELD_NAME###'].value=1;};"/>
     </div>
     <div id="SHOPADMIN_EMAIL_SINGLE">
       <a href="mailto:###SHOPADMIN_EMAIL###?subject=Frage zum Artikel: ###PRODUCT_TITLE###&body=Ich habe folgenden Artikel gesehen: ###PRODUCT_TITLE### %0AMeine Fragen: "><b>Fragen zum Artikel</b></a>  <br>
