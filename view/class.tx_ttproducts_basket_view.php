@@ -616,7 +616,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 							array('useCacheHash' => true)
 						)
 					);
-					$wrappedSubpartArray['###LINK_ITEM###'] = array('<a href="'.$tempUrl .'"'.$css_current.'>','</a>');
+					$wrappedSubpartArray['###LINK_ITEM###'] = array('<a class="singlelink" href="'.$tempUrl .'"'.$css_current.'>','</a>');
 					if (is_object($itemTableView->variant))	{
 						$itemTableView->variant->removeEmptyMarkerSubpartArray(
 							$markerArray,

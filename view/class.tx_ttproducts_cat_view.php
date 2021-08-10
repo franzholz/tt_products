@@ -172,7 +172,7 @@ class tx_ttproducts_cat_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 			if (isset($viewTagArray['LINK_ITEM'])) {
 				$wrappedSubpartArray['###LINK_ITEM###'] = array(
-					'<a href="'
+					'<a class="listlink" href="'
 						. htmlspecialchars(
 							$this->pibase->pi_getPageLink(
 								$linkPid,

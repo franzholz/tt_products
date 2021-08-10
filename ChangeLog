@@ -1,3 +1,6 @@
+2021-08-10 Franz Holzinger <franz@ttproducts.de>
+    * fix issue #91: Add class name "singlelink" for link to single and "listlink" for link to list view.
+
 2021-08-07 Franz Holzinger <franz@ttproducts.de>
     * bugfix: ###ARTICLE markers must be replaced in the product list view.
 

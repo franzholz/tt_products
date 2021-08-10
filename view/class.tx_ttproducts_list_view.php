@@ -1850,7 +1850,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 					if ($childCatWrap)	{
 						$wrappedSubpartArray['###LINK_ITEM###'] = GeneralUtility::trimExplode('|',$childCatWrap);
 					} else {
-						$wrappedSubpartArray['###LINK_ITEM###'] = array('<a href="' . htmlspecialchars($pageLink) . '"' . $css_current . '>', '</a>');
+						$wrappedSubpartArray['###LINK_ITEM###'] = array('<a class="singlelink" href="' . htmlspecialchars($pageLink) . '"' . $css_current . '>', '</a>');
 					}
 					tx_ttproducts_control_memo::getWrappedSubpartArray (
 						$wrappedSubpartArray,

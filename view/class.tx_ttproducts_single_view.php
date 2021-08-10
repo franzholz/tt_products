@@ -486,7 +486,7 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
 					array('useCacheHash' => true)
 				);
 				$linkUrl = htmlspecialchars($linkUrl);
-				$wrappedSubpartArray['###LINK_ITEM###'] = array('<a href="' . $linkUrl . '">', '</a>');
+				$wrappedSubpartArray['###LINK_ITEM###'] = array('<a class="listlink" href="' . $linkUrl . '">', '</a>');
 			}
 			if (isset($viewCatTagArray['LINK_CATEGORY'])) {
 				$catRow = $viewCatTable->get($cat);
