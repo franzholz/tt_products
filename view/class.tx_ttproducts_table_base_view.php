@@ -447,6 +447,11 @@ abstract class tx_ttproducts_table_base_view  implements \TYPO3\CMS\Core\Singlet
 				) {
 					continue; // do not handle the added fields here. They must be handled with the original field.
 				}
+				// take care of NULL values which must not be recognized as undefined.
+                if (gettype($value) == 'NULL') {
+                    $value = '';
+                }
+
 				$viewField = str_replace('_uid', '', $field);
 				$bSkip = false;
 				$theMarkerArray = &$rowMarkerArray;

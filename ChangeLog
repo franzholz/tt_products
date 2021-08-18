@@ -1,3 +1,8 @@
+
+2021-08-18 Franz Holzinger <franz@ttproducts.de>
+    * bugfix compatibility TYPO3 8.7: datasheet_uid must not be used.
+    * bugfix: a NULL value would be recognized as undefined. The marker array must always contain an empty string and not a NULL value.
+
 2021-08-17 Franz Holzinger <franz@ttproducts.de>
     * bugfix compatibility TYPO3 9.5 and 10.4: A USER_INT object must be used if the basket has been filled in in order not to use the page cache. ttp_basket
 
