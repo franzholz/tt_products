@@ -75,7 +75,7 @@ class tx_ttproducts_field_datafield extends tx_ttproducts_field_base {
                     $result[] = 'fileadmin/' . $fileInfo['identifier'];
                 }
             }
-        } else {
+        } else if (!empty($row[$fieldName])) {
         // only for old method by group selection without FAL
             $dirname = $this->getDirname($row, $fieldName);
             $files = GeneralUtility::trimExplode(',', $row[$fieldName]);
