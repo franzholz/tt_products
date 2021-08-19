@@ -76,7 +76,7 @@ class tx_ttproducts_email_div {
 
         $fromName = str_replace('"', '\'', $fromName);
 
-        if (version_compare(TYPO3_version, '10.0.0', '<')) {
+        if (version_compare(TYPO3_version, '8.7.0', '<')) {
             $mailMessage = tx_div2007_core::newMailMessage();
             $mailMessage->setCharset('UTF-8')
                 ->setTo($toEMail)

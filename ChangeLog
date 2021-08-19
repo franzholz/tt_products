@@ -1,6 +1,7 @@
 
 
 2021-08-19 Franz Holzinger <franz@ttproducts.de>
+    * fix issue #93: Use \JambageCom\Div2007\Utility\MailUtility for the sending of emails since TYPO3 8.7
     * fix issue #87: Deprecationn no. 65790 says that also the marker ###STORAGE_PID### cannot be used any more in TCA.
 
 2021-08-18 Franz Holzinger <franz@ttproducts.de>
