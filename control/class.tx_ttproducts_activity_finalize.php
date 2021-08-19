@@ -319,7 +319,6 @@ class tx_ttproducts_activity_finalize {
 				);
 		}
 
-
 		$orderObj->createMM($orderUid, $itemArray);
 		$addcsv = '';
 
