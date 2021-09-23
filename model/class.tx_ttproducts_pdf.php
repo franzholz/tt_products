@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2011 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2012 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -38,7 +38,7 @@
 
 
 
-class tx_ttproducts_pdf extends FPDF implements \TYPO3\CMS\Core\SingletonInterface {
+class tx_ttproducts_pdf implements \TYPO3\CMS\Core\SingletonInterface {
 	private $header;
 	private $footer;
 	private $body;
@@ -48,13 +48,14 @@ class tx_ttproducts_pdf extends FPDF implements \TYPO3\CMS\Core\SingletonInterfa
 	protected $size;
 
 
-	public function init ($cObj, $family, $style, $size) {
+	public function init ($family, $style, $size) {
 		$this->family = $family;
 		$this->style = $style;
 		$this->size = $size;
-		$this->cObj = $cObj;
 
 		$this->SetFont($family, $style, $size);
+
+		return true;
 	}
 
 	public function setHeader ($header) {
@@ -107,7 +108,7 @@ class tx_ttproducts_pdf extends FPDF implements \TYPO3\CMS\Core\SingletonInterfa
 	}
 
 	//Better table
-	public function ImprovedTable (array $header, array $data) {
+	public function ImprovedTable ($header, array $data) {
 		$this->getDimensions($widthArray);
 
 		$totalWidth = 0;
@@ -116,8 +117,10 @@ class tx_ttproducts_pdf extends FPDF implements \TYPO3\CMS\Core\SingletonInterfa
 		}
 
 		//Header
-		for($i = 0; $i < count($header); $i++) {
-			$this->Cell($widthArray[$i], 7, $header[$i], 1, 0, 'C');
+		if (is_array($header)) {
+            for($i = 0; $i < count($header); $i++) {
+                $this->Cell($widthArray[$i], 7, $header[$i], 1, 0, 'C');
+            }
 		}
 		$this->Ln();
 
@@ -180,7 +183,6 @@ class tx_ttproducts_pdf extends FPDF implements \TYPO3\CMS\Core\SingletonInterfa
 				}
 
 				if (isset($value)) {
-
 					if ($k2 < 2) {
 						$this->Cell($widthArray[$k2], 6, $value, 'LR', 0);
 					} else {
@@ -197,6 +199,7 @@ class tx_ttproducts_pdf extends FPDF implements \TYPO3\CMS\Core\SingletonInterfa
 				}
 
 				if (isset($additonalRow) && is_array($additonalRow)) {
+			//		$this->Ln();
 
 					foreach ($additonalRow as $k3 => $subValue) {
 						$bLastSubRow = ($k3 == ($subRowCount - 1));
@@ -219,6 +222,7 @@ class tx_ttproducts_pdf extends FPDF implements \TYPO3\CMS\Core\SingletonInterfa
 	}
 
 	public function Body () {
+		// $xPos = $this->GetX();
 		$tempContent = tx_div2007_core::getSubpart($this->body, '###PDF_TABLE_1###');
 		$tempContentArray = preg_split('/[\n]+/', $tempContent);
 		$dataArray = array();
@@ -227,7 +231,6 @@ class tx_ttproducts_pdf extends FPDF implements \TYPO3\CMS\Core\SingletonInterfa
 				$dataArray[] = preg_split('/\|/', $tmpContent, -1, PREG_SPLIT_NO_EMPTY);
 			}
 		}
-
 		$header = $dataArray['0'];
 		unset($dataArray['0']);
 		$this->ImprovedTable($header, $dataArray);
@@ -243,6 +246,5 @@ class tx_ttproducts_pdf extends FPDF implements \TYPO3\CMS\Core\SingletonInterfa
 		$this->MultiCell(0, 4, $restBody, '1L');
 	}
 }
-
 
 

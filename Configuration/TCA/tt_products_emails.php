@@ -17,21 +17,23 @@ $result = array (
 		'prependAtCopy' => DIV2007_LANGUAGE_LGL . 'prependAtCopy',
 		'crdate' => 'crdate',
 		'cruser_id' => 'cruser_id',
+		'versioningWS' => true,
+		'origUid' => 't3_origuid',
 		'mainpalette' => 1,
 		'iconfile' => PATH_TTPRODUCTS_ICON_TABLE_REL . 'tt_products_emails.gif',
 		'searchFields' => 'name,email',
 	),
 	'interface' => array (
-		'showRecordFieldList' => 'name,email,suffix,hidden,starttime,endtime,fe_group'
+		'showRecordFieldList' => 'name,email,suffix,tstamp, crdate, hidden,starttime,endtime,fe_group'
 	),
 	'columns' => array (
 		't3ver_label' => array (
-			'label'  => DIV2007_LANGUAGE_PATH . 'locallang_general.xlf:LGL.versionLabel',
+            'label'  => DIV2007_LANGUAGE_LGL . 'versionLabel',
 			'config' => array (
 				'type' => 'input',
 				'size' => '30',
 				'max'  => '30',
-				'default' => ''
+				'default' => '',
 			)
 		),
 		'tstamp' => array (
@@ -125,8 +127,9 @@ $result = array (
 			'config' => array (
 				'type' => 'input',
 				'size' => '40',
+				'eval' => 'trim',
 				'max' => '80',
-				'default' => ''
+				'default' => '',
 			)
 		),
 		'email' => array (
@@ -134,8 +137,9 @@ $result = array (
 			'config' => array (
 				'type' => 'input',
 				'size' => '40',
+				'eval' => 'trim',
 				'max' => '80',
-				'default' => ''
+				'default' => '',
 			)
 		),
 		'suffix' => array (
@@ -143,17 +147,19 @@ $result = array (
 			'config' => array (
 				'type' => 'input',
 				'size' => '24',
+				'eval' => 'trim',
 				'max' => '24',
-				'default' => ''
+				'default' => '',
 			)
 		),
 	),
 	'types' => array (
-		'1' => array('showitem' => 'crdate, tstamp, hidden,--palette--;;1, name, email, suffix')
+		'1' => array('showitem' => 'hidden,--palette--;;1, name, email, suffix')
 	),
 	'palettes' => array (
 		'1' => array('showitem' => 'starttime, endtime, fe_group')
 	)
+
 );
 
 

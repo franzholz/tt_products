@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2005-2007 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2012 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -37,32 +37,39 @@
  *
  */
 
+ 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
 class tx_ttproducts_email extends tx_ttproducts_table_base {
-	public $emailArray;	// array of read in emails
-	public $table;		 // object of the type tx_table_db
+	var $emailArray;	// array of read in emails
+	var $table;		 // object of the type tx_table_db
 
 	/**
 	 * Getting all tt_products_cat categories into internal array
 	 */
-	public function init($cObj, $functablename)  {
-		parent::init($cObj, $functablename);
-		$tablename = $this->getTablename();
-		$this->getTableObj()->addDefaultFieldArray(array('sorting' => 'sorting'));
-		$this->getTableObj()->setTCAFieldArray('tt_products_emails');
+	function init($functablename)  {
+		$result = parent::init($functablename);
+
+		if ($result) {
+			$tablename = $this->getTablename();
+			$this->getTableObj()->addDefaultFieldArray(array('sorting' => 'sorting'));
+			$this->getTableObj()->setTCAFieldArray('tt_products_emails');
+		}
+
+		return $result;
 	} // init
 
 
-	public function getEmail ($uid) {
-		$rc = $this->emailArray[$uid];;
+	function getEmail ($uid) {
+		$rc = $this->emailArray[$uid];
 		if ($uid && !$rc) {
 			$sql = GeneralUtility::makeInstance('tx_table_db_access');
 			$sql->prepareFields($this->getTableObj(), 'select', '*');
 			$sql->prepareWhereFields ($this->getTableObj(), 'uid', '=', intval($uid));
 			$sql->prepareEnableFields ($this->getTableObj());
-
+			//$this->getTableObj()->enableFields();
+			// Fetching the email
 			$res = $sql->exec_SELECTquery();
 			$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
 			$rc = $this->emailArray[$row['uid']] = $row;

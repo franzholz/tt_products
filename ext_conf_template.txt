@@ -9,11 +9,21 @@ imageFolder = uploads/pics
   # cat=basic/enable; type=string; label=Order tables by sorting: Enter a comma separated list of tt_products table names where the items should be listed by sorting in the backend
 orderBySortingTables =
   # cat=basic/enable; type=integer; label=article mode: If 0, then the parent product in the article is used to assign the articles to a product. If 1, then the article group select at the product is used to assign multiple articles to a product. If 2, then the TYPO3 IRRE feature at the product is used to assign multiple articles to a product.
-articleMode = 0
-  # cat=basic/enable; type=boolean; label=FAL Images: Click here if you want to use the FAL for images (available since TYPO3 6.2). You can use the conversion tool in the function module to transfer your image file names into references to FAL.
-fal = 1
+articleMode = 2
+  # cat=basic/enable; type=string; label=variant separator: separator inside of the variant field of products and articles. No pipe '|' symbol is allowed here. Use \r\n if you want the linefeed as the separator.
+variantSeparator = ;
+  # cat=basic/enable; type=string; label=tax fields of the backend: Comma separated list of visible tax fields of the table tt_products in the backend TCE. Allowed are: tax, taxcat_id, tax_id. taxcat_id and tax_id and require the extension static_info_tables_taxes 0.3.0.
+tax.fields = tax
+  # cat=basic/enable; type=boolean; label=FAL Images: Click here if you want to use the FAL (available since TYPO3 6.2). You can use the conversion tool in the function module to transfer your image file names into references to FAL.
+fal = 0
   # cat=basic/enable; type=boolean; label=FAL Datasheet: Click here if you want to use the FAL for datasheet (available since TYPO3 6.2). You can use the migration tool in the Install Tool to transfer your datasheet file names into references to FAL.
 falDatasheet = 1
+  # cat=basic/enable; type=boolean; label=SEPA: If 1, then SEPA is used for the accounts. The IBAN number is used instead of the account number.
+sepa = 1
+  # cat=basic/enable; type=boolean; label=BIC: If 1, then the BIC code must be entered for the accounts. The IBAN number can be sufficient without the BIC.
+bic = 1
+  # cat=basic/enable; type=string; label=Backend CSV: iban ... if an IBAN field shall be added. db_list must be installed.
+backend.csv.sys_products_orders = iban
   # cat=basic/enable; type=string; label=BE template: file path to the template for the BE module
 templateFile = EXT:tt_products/template/example_template_bill_de.tmpl
   # cat=basic/enable; type=string; label=template check: Perl regular expression to check the template file for validity
@@ -24,26 +34,31 @@ endtimeYear = 2038
 where.category =
   # cat=basic/enable; type=boolean; label=Page Title: Here you can activate the hook of tt_products to show the product title in the single view and maybe on other places.
 hook.setPageTitle = 1
-  # cat=basic/enable; type=string; label=tt_products exclude: exclude these fields from the table tt_products. addons_em must be installed.
+  # cat=basic/enable; type=string; label=tt_products exclude: exclude these fields from the table tt_products.
 exclude.tt_products =
-  # cat=exclude/enable; type=string; label=tt_products_language exclude: exclude these fields from the table tt_products_language. addons_em must be installed.
-exclude.tt_products_language = datasheet,www,image
-  # cat=exclude/enable; type=string; label=tt_products_cat exclude: exclude these fields from the table tt_products_cat. addons_em must be installed.
+  # cat=exclude/enable; type=string; label=tt_products_language exclude: exclude these fields from the table tt_products_language. For TYPO3 < 6.1: addons_em must be installed.
+exclude.tt_products_language = datasheet,www,image,image_uid,itemnumber,smallimage,smallimage_uid
+  # cat=exclude/enable; type=string; label=tt_products_cat exclude: exclude these fields from the table tt_products_cat. For TYPO3 < 6.1: addons_em must be installed.
 exclude.tt_products_cat =
-  # cat=exclude/enable; type=string; label=tt_products_cat_language exclude: exclude these fields from the table tt_products_cat_language. addons_em must be installed.
+  # cat=exclude/enable; type=string; label=tt_products_cat_language exclude: exclude these fields from the table tt_products_cat_language. For TYPO3 < 6.1: addons_em must be installed.
 exclude.tt_products_cat_language =
-  # cat=exclude/enable; type=string; label=tt_products_articles exclude: exclude these fields from the table tt_products_articles. addons_em must be installed.
+  # cat=exclude/enable; type=string; label=tt_products_articles exclude: exclude these fields from the table tt_products_articles. For TYPO3 < 6.1: addons_em must be installed.
 exclude.tt_products_articles =
   # cat=exclude/enable; type=string; label=tt_products_articles_language exclude: exclude these fields from the table tt_products_articles_language. addons_em must be installed.
 exclude.tt_products_articles_language =
-  # cat=exclude/enable; type=string; label=tt_products_texts exclude: exclude these fields from the table tt_products_texts. addons_em must be installed.
+  # cat=exclude/enable; type=string; label=tt_products_texts exclude: exclude these fields from the table tt_products_texts. For TYPO3 < 6.1: addons_em must be installed.
 exclude.tt_products_texts =
-  # cat=exclude/enable; type=string; label=tt_products_texts_language exclude: exclude these fields from the table tt_products_texts_language. addons_em must be installed.
+  # cat=exclude/enable; type=string; label=tt_products_texts_language exclude: exclude these fields from the table tt_products_texts_language. For TYPO3 < 6.1: addons_em must be installed.
 exclude.tt_products_texts_language =
-  # cat=exclude/enable; type=string; label=sys_products_orders exclude: exclude these fields from the table sys_products_orders.
+  # cat=exclude/enable; type=string; label=sys_products_accounts exclude: exclude these fields from the table sys_products_accounts.
 exclude.sys_products_orders = client_ip,date_of_birth,telephone,fax,ac_uid,cc_uid
+  # cat=cache/enable; type=boolean; label=Cache for Backend: Click here if you want to activate the backend cache for tt_products tables.
+cache.backend = 0
+  # cat=cache/enable; type=string; label=Server Cache Options: Enter the cache options for the server.
+cache.options.servers =
   # cat=error/enable; type=boolean; label=Show Configuration Error Messages: Misconfiguration Error messages are shown in the Front End.
 error.configuration = 1
-  # cat=records/enable/155; type=options[unique=unique,uniqueInSite=uniqueInSite,uniqueInPid=uniqueInPid]; label=LLL:EXT:tt_products/locallang_db.xml:extmng.slugBehaviour
+ # cat=records/enable/155; type=options[unique=unique,uniqueInSite=uniqueInSite,uniqueInPid=uniqueInPid]; label=LLL:EXT:tt_products/locallang_db.xml:extmng.slugBehaviour
 slugBehaviour = unique
+
 

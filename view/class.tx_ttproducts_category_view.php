@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2005-2009 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2012 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -37,8 +37,8 @@
  *
  */
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
 class tx_ttproducts_category_view extends tx_ttproducts_category_base_view {
@@ -56,15 +56,46 @@ class tx_ttproducts_category_view extends tx_ttproducts_category_base_view {
 	 * 	 			for the tt_producst record, $row
 	 * @access private
 	 */
-	public function getMarkerArray (&$markerArray, $markerKey, $category, $pid, $imageNum=0, $imageRenderObj='image', &$viewCatTagArray, $forminfoArray=array(), $pageAsCategory=0, $theCode, $basketExtra, $id, $prefix, $linkWrap='')	{
+	public function getMarkerArray (
+		&$markerArray,
+		$markerKey,
+		$category,
+		$pid,
+		$imageNum = 0,
+		$imageRenderObj = 'image',
+		&$viewCatTagArray,
+		$forminfoArray = array(),
+		$pageAsCategory = 0,
+		$theCode,
+		$basketExtra,
+		$basketRecs,
+		$id,
+		$prefix,
+		$linkWrap = ''
+	) {
 		$modelObj = $this->getModelObj();
 		$row = ($category ? $modelObj->get($category) : array ('title' => '', 'pid' => $pid));
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 		$functablename = $modelObj->getFuncTablename();
-		$imageObj = GeneralUtility::makeInstance('tx_ttproducts_field_image_view');
 
-			// Get image
-		$imageObj->getRowMarkerArrayEnhanced($functablename, $row, $this->marker, $markerArray, $row['pid'], $imageNum, $imageRenderObj, $viewCatTagArray, $theCode, $id, $prefix, $linkWrap);
+// 		$imageObj = GeneralUtility::makeInstance('tx_ttproducts_field_image_view');
+//
+// 			// Get image
+// 		$imageObj->getRowMarkerArrayEnhanced(
+// 			$functablename,
+// 			$row,
+// 			$this->marker,
+// 			$markerArray,
+// 			$row['pid'],
+// 			$imageNum,
+// 			$imageRenderObj,
+// 			$viewCatTagArray,
+// 			$theCode,
+// 			$id,
+// 			$prefix,
+// 			$linkWrap
+// 		);
+
 		$pageCatTitle = '';
 		if ($pageAsCategory == 1) {
 			$pageObj = $tablesObj->get('pages');
@@ -73,17 +104,35 @@ class tx_ttproducts_category_view extends tx_ttproducts_category_base_view {
 		}
 
 		$catTitle = $pageCatTitle;
-		if (($row['title']))	{
-			$catTitle .= ($this->tableconf['separator'].$row['title']);
+		if (($row['title'])) {
+			$catTitle .= ($this->tableconf['separator'] . $row['title']);
 		}
 		$this->setMarkerArrayCatTitle($markerArray, $catTitle, $prefix);
-		parent::getRowMarkerArray($row, $markerKey, $markerArray, $variantFieldArray, $variantMarkerArray, $viewCatTagArray, $theCode, $basketExtra, true, 'UTF-8', $imageNum, $imageRenderObj, $id, $prefix, '', $linkWrap);
+		parent::getRowMarkerArray(
+			$functablename,
+			$row,
+			$markerKey,
+			$markerArray,
+			$variantFieldArray,
+			$variantMarkerArray,
+			$viewCatTagArray,
+			$theCode,
+			$basketExtra,
+			$basketRecs,
+			true,
+			'UTF-8',
+			$imageNum,
+			$imageRenderObj,
+			$id,
+			$prefix,
+			'',
+			$linkWrap
+		);
 	}
 }
 
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_category_view.php'])	{
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_category_view.php']) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_category_view.php']);
 }
-
 

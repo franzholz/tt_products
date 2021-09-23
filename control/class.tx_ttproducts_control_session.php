@@ -65,6 +65,7 @@ class tx_ttproducts_control_session {
 
         if (
             !$GLOBALS['TYPO3_CONF_VARS']['FE']['maxSessionDataSize'] ||
+            !$GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['checkCookies'] ||
             $GLOBALS['TSFE']->fe_user->isCookieSet()
         ) {
             $GLOBALS['TSFE']->fe_user->setKey('ses', $key, $value);
@@ -119,7 +120,7 @@ class tx_ttproducts_control_session {
 					unset($allSessionData[$extKey][$key]);
 				}
 			}
-			tx_div2007_core::mergeRecursiveWithOverrule($allSessionData[$extKey], $data);
+			\TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($allSessionData[$extKey], $data);
 		} else {
 			$allSessionData[$extKey] = $data;
 		}

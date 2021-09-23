@@ -21,6 +21,8 @@ $result = array (
 		'prependAtCopy' => DIV2007_LANGUAGE_LGL . 'prependAtCopy',
 		'crdate' => 'crdate',
 		'cruser_id' => 'cruser_id',
+		'versioningWS' => true,
+		'origUid' => 't3_origuid',
 		'iconfile' => PATH_TTPRODUCTS_ICON_TABLE_REL . 'tt_products_cat_language.gif',
 		'languageField' => 'sys_language_uid',
 		'mainpalette' => 1,
@@ -31,7 +33,7 @@ $result = array (
 	),
 	'columns' => array (
 		't3ver_label' => array (
-			'label'  => DIV2007_LANGUAGE_PATH . 'locallang_general.xlf:LGL.versionLabel',
+           'label'  => DIV2007_LANGUAGE_LGL . 'versionLabel',
 			'config' => array (
 				'type' => 'input',
 				'size' => '30',
@@ -51,7 +53,7 @@ $result = array (
 					array(DIV2007_LANGUAGE_LGL . 'allLanguages', -1),
 					array(DIV2007_LANGUAGE_LGL . 'default_value', 0)
 				),
-				'default' => 0
+                'default' => 0
 			)
 		),
 		'tstamp' => array (
@@ -152,9 +154,9 @@ $result = array (
 			'config' => array (
 				'type' => 'input',
 				'size' => '40',
-                'eval' => 'trim',
+				'eval' => 'trim',
 				'max' => '256',
-				'default' => ''
+				'default' => '',
 			),
 			'l10n_mode' => 'prefixLangTitle',
 		),
@@ -166,8 +168,7 @@ $result = array (
 				'rows' => '3',
 				'cols' => '20',
 				'max' => '512',
-				'eval' => 'null',
-				'default' => ''
+				'default' => '',
 			),
 			'l10n_mode' => 'prefixLangTitle',
 		),
@@ -198,7 +199,7 @@ $result = array (
 				'cols' => '20',
 				'max' => '512',
 				'eval' => 'null',
-				'default' => ''
+				'default' => '',
 			)
 		),
 		'note' => array (
@@ -208,7 +209,7 @@ $result = array (
 				'cols' => '48',
 				'rows' => '5',
 				'eval' => 'null',
-				'default' => ''
+				'default' => '',
 			),
 			'l10n_mode' => 'prefixLangTitle',
 		),
@@ -219,7 +220,7 @@ $result = array (
 				'cols' => '48',
 				'rows' => '5',
 				'eval' => 'null',
-				'default' => ''
+				'default' => '',
 			),
 			'l10n_mode' => 'prefixLangTitle',
 		),
@@ -239,7 +240,7 @@ $result = array (
 			),
 		),
 	),
-	'types' => array (
+    'types' => array (
         '0' =>
             array(
                 'columnsOverrides' => array(
@@ -254,12 +255,12 @@ $result = array (
                         )
                     )
                 ),
-                'showitem' => 'sys_language_uid, l18n_diffsource, hidden, tstamp, crdate,--palette--;;1, cat_uid, title, subtitle, slug, keyword, note, note2'
+                'showitem' => 'sys_language_uid, l18n_diffsource, tstamp, crdate, hidden,--palette--;;1, cat_uid, title, subtitle, slug, keyword, note, note2'
             )
-    ),
-    'palettes' => array (
-        '1' => array('showitem' => 'starttime, endtime, fe_group')
-    )
+	),
+	'palettes' => array (
+		'1' => array('showitem' => 'starttime, endtime, fe_group')
+	)
 );
 
 if (

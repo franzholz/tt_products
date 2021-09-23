@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2006-2008 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2012 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -38,20 +38,12 @@
  */
 
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-
-
 
 class tx_ttproducts_article_view extends tx_ttproducts_article_base_view {
 	public $marker = 'ARTICLE';
 	public $type = 'article';
 	public $piVar = 'article';
 
-	public function init($modelObj)	{
-
-		$this->variant = GeneralUtility::makeInstance('tx_ttproducts_variant_dummy_view');
-		parent::init($modelObj);
-	}
 }
 
 
@@ -59,6 +51,5 @@ class tx_ttproducts_article_view extends tx_ttproducts_article_base_view {
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_article_view.php']) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_article_view.php']);
 }
-
 
 

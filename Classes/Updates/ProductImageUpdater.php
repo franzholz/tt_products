@@ -38,7 +38,7 @@ class ProductImageUpdater implements UpgradeWizardInterface, ConfirmableInterfac
     protected $tableFields = [
         'tt_products' => ['image', 'smallimage'],
         'tt_products_language' => ['image', 'smallimage'],
-        'tt_products_cat' => ['image'],
+        'tt_products_cat' => ['image', 'sliderimage'],
         'tt_products_articles' => ['image', 'smallimage'],
     ];
 

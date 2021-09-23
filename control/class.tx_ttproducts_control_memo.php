@@ -39,11 +39,11 @@
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
 class tx_ttproducts_control_memo {
 
 	static protected $memoTableFieldArray = array(
-		'tt_products' => 'memoItems'
+		'tt_products' => 'memoItems',
+		'tx_dam' => 'memodam'
 	);
 	static protected $memoItemArray = array();
 	static protected $controlVars = array(
@@ -98,6 +98,9 @@ class tx_ttproducts_control_memo {
 		self::loadMemo($functablename, $conf);
 
 		$memoItems = self::getMemoItems($functablename);
+		if (!is_array($memoItems)) {
+            $memoItems = array();
+		}
 		$controlVars = self::getControlVars();
 		$memoArray = array();
 		foreach ($controlVars as $controlVar) {
@@ -115,12 +118,12 @@ class tx_ttproducts_control_memo {
 			}
 
 			foreach ($piVars['memo'] as $k => $v) {
-				if (tx_div2007_core::testInt($k) && $k != '' && $v) {
+				if (\TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($k) && $k != '' && $v) {
 					$memoArray['addmemo'][] = intval($k);
 				} else if ($k == 'uids') {
 					$uidArray = explode(',', $v);
 					foreach ($uidArray as $uid) {
-						if (tx_div2007_core::testInt($uid) && $uid != '' && in_array($uid, $memoItems)) {
+						if (\TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($uid) && $uid != '' && in_array($uid, $memoItems)) {
 							$memoArray['delmemo'][] = $uid;
 						}
 					}
@@ -230,11 +233,7 @@ class tx_ttproducts_control_memo {
 		$result = '';
 		$feuserField = self::getMemoField($functablename, true);
 
-		if (
-            \JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn() &&
-            isset($GLOBALS['TSFE']->fe_user->user[$feuserField]) &&
-            $GLOBALS['TSFE']->fe_user->user[$feuserField] != ''
-        ) {
+		if ($GLOBALS['TSFE']->fe_user->user[$feuserField]) {
 			$result = explode(',', $GLOBALS['TSFE']->fe_user->user[$feuserField]);
 		}
 
@@ -243,8 +242,8 @@ class tx_ttproducts_control_memo {
 
 	static public function loadMemo ($functablename, $conf) {
 		$memoItems = '';
-		$bFeuser = self::bUseFeuser($conf);
-		$theField = self::getMemoField($functablename, $bFeuser);
+// 		$bFeuser = self::bUseFeuser($conf);
+// 		$theField = self::getMemoField($functablename, $bFeuser);
 
 		if (self::bUseFeuser($conf)) {
 
@@ -316,11 +315,10 @@ class tx_ttproducts_control_memo {
 					$bUseBackPid
 				)
 			);
-			$wrappedSubpartArray['###LINK_MEMO_' . strtoupper($cmd) . '###'] = array('<a href="' . htmlspecialchars($pageLink) . '"' . $css_current . '>','</a>');
+			$wrappedSubpartArray['###LINK_MEMO_' . strtoupper($cmd) . '###'] = array('<a href="' . htmlspecialchars($pageLink) . '"' . $css_current . '>', '</a>');
 			unset($addQueryString[$cmd . 'memo']);
 		}
 	}
 }
-
 
 

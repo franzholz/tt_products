@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2008-2009 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2016 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -39,59 +39,223 @@
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
+use JambageCom\TtProducts\Api\PaymentShippingHandling;
+
+
 class tx_ttproducts_field_tax extends tx_ttproducts_field_base {
+	protected $useStaticTaxes = false;
 
 	/**
 	 *
 	 */
-	public function preInit ($cObj, $uidStore) {
+	public function preInit (
+		$useStaticTaxes,
+		$uidStore,
+		$infoArray,
+		$conf
+	) {
+		parent::init();
 
-		parent::init($cObj);
+		if ($useStaticTaxes) { // change static_taxes
+			$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
+			$staticTaxObj = $tablesObj->get('static_taxes', false);
+
+			if ($staticTaxObj && is_object($staticTaxObj)) {
+				$staticTaxObj->setStoreData($uidStore);
+
+				if ($staticTaxObj->isValid()) {
+					$taxArray = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['tax.'];
+					$taxFields = '';
+
+					if (
+						isset($taxArray) &&
+						is_array($taxArray) &&
+						isset($taxArray['fields'])
+					) {
+						$taxFields = implode(',', GeneralUtility::trimExplode(',', $taxArray['fields']));
+					}
+
+					if (
+						GeneralUtility::inList($taxFields, 'tax_id') ||
+						GeneralUtility::inList($taxFields, 'taxcat_id')
+					) {
+						$this->setUseStaticTaxes(true);
+					}
+				}
+				$staticTaxObj->initTaxes($infoArray, $conf);
+			}
+		}
 	} // init
 
-	public function getTax ($basketExtra, &$row) {
-		$rc = $this->getFieldValue ($basketExtra, $row, 'tax');
-		return $rc;
+	public function getUseStaticTaxes () {
+		return $this->useStaticTaxes;
 	}
 
-	public function getFieldValue ($basketExtra, $row, $fieldname) {
+	public function setUseStaticTaxes ($useStaticTaxes) {
+		$this->useStaticTaxes = $useStaticTaxes;
+	}
+
+	public function getTax (
+		&$taxInfoArray,
+		array $row,
+		$basketExtra,
+		$basketRecs = array(),
+		$bEnableTaxZero = false
+	) {
+		$result = $this->getFieldValue(
+			$taxInfoArray,
+			$row,
+			'tax',
+			$basketExtra,
+			$basketRecs,
+			$bEnableTaxZero
+		);
+		return $result;
+	}
+
+	public function getFieldValue (
+		&$taxInfoArray,
+		array $row,
+		$fieldname,
+		$basketExtra = array(),
+		$basketRecs = array(),
+		$bEnableTaxZero = false
+	) {
+		$fieldValue = 0;
 		$newTax = '';
-		$fieldValue = '';
-		$taxFromShipping = '';
+
+		if (
+			$this->getUseStaticTaxes() ||
+			tx_ttproducts_static_tax::need4StaticTax($row)
+		) {
+			$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
+			$staticTaxObj = $tablesObj->get('static_taxes', false);
+			$staticTaxObj->getStaticTax(
+				$basketRecs,
+				$row,
+				$newTax,
+				$taxInfoArray
+			);
+		}
 
 		if (is_numeric($newTax)) {
 			$fieldValue = $newTax;
 		} else {
-			$fieldValue = parent::getFieldValue($basketExtra, $row, $fieldname);
-			$paymentshippingObj = GeneralUtility::makeInstance('tx_ttproducts_paymentshipping');
-			if (isset($paymentshippingObj) && is_object($paymentshippingObj)) {
-				$taxFromShipping =
-					$paymentshippingObj->getReplaceTaxPercentage(
+			if (!empty($row)) {
+				$resultValue =
+					parent::getFieldValue(
+						$taxInfoArray,
+						$row,
+						$fieldname,
 						$basketExtra,
-						'shipping',
-						$row['tax']
-					);	// if set then this has a tax which will override the tax of the products
+						$basketRecs,
+						$bEnableTaxZero
+					);
 
-				if (is_numeric($taxFromShipping)) {
-					$fieldValue = $taxFromShipping;
+				if (is_numeric($resultValue)) {
+					$fieldValue = $resultValue;
 				}
 			}
 
-			if (!is_numeric($taxFromShipping) && $fieldValue == 0)	{
-				if ($this->conf['TAXpercentage'])	{
+			if ($fieldValue == 0) {
+				if (!$bEnableTaxZero && $this->conf['TAXpercentage']) {
 					$fieldValue = floatval($this->conf['TAXpercentage']);
 				} else {
-					$fieldValue = 0.0;
+					$fieldValue = 0;
 				}
 			}
+
+			if (
+				tx_ttproducts_static_tax::isInstalled()
+			) {
+				$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
+				$staticTaxObj = $tablesObj->get('static_taxes', false);
+				$staticTaxObj->getTaxInfo(
+					$taxInfoArray,
+					$shopCountryArray,
+					$fieldValue,
+					array(),
+					$basketRecs
+				);
+			}
 		}
+
 		return $fieldValue;
+	}
+
+	public function getFieldCalculatedValue (
+		$fieldValue,
+		$basketExtra
+	) {
+		$taxFromShipping =
+			PaymentShippingHandling::getReplaceTaxPercentage(
+				$basketExtra,
+				'shipping',
+				$fieldValue
+			);	// if set then this has a tax which will override the tax of the products
+
+		if (
+			isset($taxFromShipping) &&
+			is_double($taxFromShipping)
+		) {
+			$fieldValue = $taxFromShipping;
+		} else {
+			$fieldValue = false;
+		}
+
+		return $fieldValue;
+	}
+
+	public function getTaxRates (
+		&$shopCountryArray,
+		&$taxInfoArray,
+		array $uidArray,
+		array $basketRecs
+	) {
+		$result = null;
+		if (
+			tx_ttproducts_static_tax::isInstalled()
+		) {
+			$taxInfoArray = array();
+			$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
+			$staticTaxObj = $tablesObj->get('static_taxes', false);
+			$taxResult = $staticTaxObj->getTaxInfo(
+				$taxInfoArray,
+				$shopCountryArray,
+				0.0,
+				$uidArray,
+				$basketRecs
+			);
+
+			if ($taxResult) {
+
+                $taxRates = array();
+                if (
+                    isset($taxInfoArray) &&
+                    is_array($taxInfoArray) &&
+                    !empty($taxInfoArray)
+                ) {
+                    foreach ($taxInfoArray as $countryCode => $taxRowArray) {
+                        foreach ($taxRowArray as $taxRow) {
+                            $taxRates[$countryCode][] = $taxRow['tx_rate'];
+                        }
+                    }
+                }
+                $result = $taxRates;
+            }
+		}
+
+		if (!$result) {
+			$result = GeneralUtility::trimExplode(',', $this->conf['TAXrates']);
+			$result = array('ALL' => $result);
+		}
+
+		return $result;
 	}
 }
 
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/field/class.tx_ttproducts_field_tax.php'])	{
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/field/class.tx_ttproducts_field_tax.php']) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/field/class.tx_ttproducts_field_tax.php']);
 }
-
 

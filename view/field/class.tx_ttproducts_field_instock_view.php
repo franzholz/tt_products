@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2007-2008 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2012 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -40,10 +40,28 @@
 
 class tx_ttproducts_field_instock_view extends tx_ttproducts_field_base_view {
 
-	function getRowMarkerArray ($functablename, $fieldname, $row, $markerKey, &$markerArray, $tagArray, $theCode, $id, $basketExtra, &$bSkip, $bHtml=true, $charset='', $prefix='', $suffix='', $imageRenderObj='')	{
-
-		if ($row[$fieldname])	{
-			$markerArray['###'.$markerKey.'_INSTOCK_UNIT###'] = $this->conf['inStockPieces'];
+	public function getRowMarkerArray (
+		$functablename,
+		$fieldname,
+		$row,
+		$markerKey,
+		&$markerArray,
+		$tagArray,
+		$theCode,
+		$id,
+		$basketExtra,
+		$basketRecs,
+		&$bSkip,
+		$bHtml = true,
+		$charset = '',
+		$prefix = '',
+		$suffix = '',
+		$imageNum = 0,
+		$imageRenderObj = '',
+		$bEnableTaxZero = false
+	) {
+		if ($row[$fieldname]) {
+			$markerArray['###' . $markerKey . '_INSTOCK_UNIT###'] = $this->conf['inStockPieces'];
 		} else {
 			$value = $this->conf['notInStockMessage'];
 			$markerArray['###'.$markerKey.'_INSTOCK_UNIT###'] = '';
@@ -55,7 +73,7 @@ class tx_ttproducts_field_instock_view extends tx_ttproducts_field_base_view {
 
 
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/field/class.tx_ttproducts_field_instock_view.php'])	{
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/field/class.tx_ttproducts_field_instock_view.php']) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/field/class.tx_ttproducts_field_instock_view.php']);
 }
 

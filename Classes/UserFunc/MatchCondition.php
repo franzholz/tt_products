@@ -54,7 +54,9 @@ class MatchCondition {
             \tx_ttproducts_control_basket::storeNewRecs();
             $recs = \tx_ttproducts_control_basket::getStoredRecs();
             \tx_ttproducts_control_basket::setRecs($recs);
-            $infoArray = \tx_ttproducts_control_basket::getInfoArray();
+
+            $infoArray = \tx_ttproducts_control_basket::getStoredInfoArray();
+
             \tx_ttproducts_control_basket::fixCountries($infoArray);
             $type = $params['0'];
             $field = $params['1'];
@@ -79,6 +81,8 @@ class MatchCondition {
                 $valueArray = GeneralUtility::trimExplode(',', $value);
                 $result = !in_array($infoArray[$type][$field], $valueArray);
             }
+
+//             \tx_ttproducts_control_basket::destruct();
 
             if (
                 !$result &&
@@ -109,39 +113,40 @@ class MatchCondition {
         return $result;
     }
 
-    public function hasBulkilyItem ($where) {
+    public function hasBulkilyItem ($params) {
+        $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
+
+        $rcArray = \JambageCom\TtProducts\Api\BasketApi::getRecords($conf);
+
         $bBukily = false;
-        $cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);	// Local cObj.
-        $cObj->start(array());
-        \tx_ttproducts_control_basket::setBasketExt(\tx_ttproducts_control_basket::getStoredBasketExt());
-        $basketExt = \tx_ttproducts_control_basket::getBasketExt();
-
-        if (isset($basketExt) && is_array($basketExt)) {
-
-            $uidArr = array();
-
-            foreach($basketExt as $uidTmp => $tmp) {
-                if ($uidTmp != 'gift' && !in_array($uidTmp, $uidArr)) {
-                    $uidArr[] = intval($uidTmp);
-                }
-            }
-
-            if (count($uidArr) == 0) {
-                return false;
-            }
-            $where .= ' AND uid IN (' . implode(',', $uidArr) . ')';
-            $enableFields = \JambageCom\Div2007\Utility\TableUtility::enableFields('tt_products');
-            $where .= $enableFields;
-
-            $rcArray = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows('*', 'tt_products', $where);
-            foreach ($rcArray as $uid => $row) {
-                if ($row['bulkily']) {
-                    $bBukily = true;
-                    break;
-                }
+        foreach ($rcArray as $uid => $row) {
+            if ($row['bulkily']) {
+                $bBukily = true;
+                break;
             }
         }
 
+        \tx_ttproducts_control_basket::destruct();
         return ($bBukily);
     }
+
+    public function checkWeight (
+        $params
+    ) {
+        $result = false;
+        $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
+
+        $rcArray = \JambageCom\TtProducts\Api\BasketApi::getRecords($conf);
+        $weight = \JambageCom\TtProducts\Api\BasketApi::getWeight($rcArray);
+
+        if (
+            $weight >= floatval($params['0']) &&
+            $weight <= floatval($params['1'])
+        ) {
+            $result = true;
+        }
+        return $result;
+    }
 }
+
+

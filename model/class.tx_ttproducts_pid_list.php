@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2007-2008 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2012 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -40,25 +40,21 @@
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
-
 class tx_ttproducts_pid_list {
-	public $pid_list;				// list of page ids
-	public $recursive;
-	public $pageArray = array();		// pid_list as array
-	public $cObj;
-
-	/**
-	 * Getting all tt_products_cat categories into internal array
-	 */
-	public function init ($cObj)	{
-		$this->cObj = $cObj;
-	} // init
+	protected $pid_list;				// list of page ids
+	protected $recursive;
+	protected $pageArray = array();		// pid_list as array
+	protected $allPages = false;
 
 
 	/**
 	 * Sets the pid_list internal var
 	 */
-	public function setPidlist ($pid_list)	{
+	public function setPidlist ($pid_list) {
+		if ($pid_list == -1) {
+			$this->allPages = true;
+			$this->recursive = 0;
+		}
 		$this->pid_list = $pid_list;
 	}
 
@@ -66,17 +62,17 @@ class tx_ttproducts_pid_list {
 	/**
 	 * gets the latest applied recursive
 	 */
-	public function getRecursive ()	{
+	public function getRecursive () {
 		return $this->recursive;
 	}
 
 
 	/**
-	 * Gets the pid_list internal variable or the child pid_list of the page id as parameter
+	 * Gets the pid_list internal var or the child pid_list of the page id as parameter
 	 */
-	public function getPidlist ($pid='')	{
+	public function getPidlist ($pid='') {
 		$rc = '';
-		if ($pid)	{
+		if ($pid) {
 			$this->applyRecursive(1,$pid,false);
 			$rc = $pid;
 		} else {
@@ -89,16 +85,17 @@ class tx_ttproducts_pid_list {
 	/**
 	 * Sets the pid_list internal var
 	 */
-	public function setPageArray ()	{
+	public function setPageArray () {
 		$this->pageArray = GeneralUtility::trimExplode (',', $this->pid_list);
 		$this->pageArray = array_flip($this->pageArray);
 	}
 
-	public function getPageArray ($pid = 0)	{
+
+	public function getPageArray ($pid = 0) {
 		if (
             $pid
-        ) {
-			$rc = isset($this->pageArray[$pid]);
+        )	{
+			$rc = isset($this->pageArray[$pid]) || $this->allPages;
 		} else {
 			$rc = $this->pageArray;
 		}
@@ -106,8 +103,21 @@ class tx_ttproducts_pid_list {
 		return $rc;
 	}
 
+
+	/**
+	 * Extends the internal pid_list by the levels given by $recursive
+	 *
+	 * @param	[type]		$recursive: ...
+	 * @param	[type]		$pids: ...
+	 * @param	[type]		$bStore: ...
+	 * @return	[type]		...
+	 */
 	public function applyRecursive ($recursive, &$pids, $bStore = false) {
-		$cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
+		$cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
+
+		if ($pids == -1) {
+			$this->allPages = true;
+		}
 
 		if ($pids != '') {
 			$pid_list = &$pids;
@@ -115,11 +125,12 @@ class tx_ttproducts_pid_list {
 			$pid_list = $this->pid_list;
 		}
 
-		if (!$pid_list) {
+		if (!$pid_list && !$this->allPages) {
 			$pid_list = $GLOBALS['TSFE']->id;
 		}
 
-		if ($recursive) {		// get pid-list if recursivity is enabled
+		if ($recursive && !$this->allPages) {
+			// get pid-list if recursivity is enabled
 			$recursive = intval($recursive);
 			$this->recursive = $recursive;
 			$pidSubArray = array();
@@ -148,9 +159,7 @@ class tx_ttproducts_pid_list {
 }
 
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/class.tx_ttproducts_pid_list.php'])	{
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/class.tx_ttproducts_pid_list.php']) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/class.tx_ttproducts_pid_list.php']);
 }
-
-
 

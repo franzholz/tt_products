@@ -75,6 +75,24 @@ class EmConfiguration
 
     /** @var int */
     protected $articleMode = 2;
+    
+    /** @var string */
+    protected $variantSeparator = ';';
+
+    /** @var array */
+    protected $tax = ['fields' => 'tax'];
+    
+    /** @var bool */
+    protected $fal = false;
+    
+    /** @var bool */
+    protected $sepa = false;
+    
+    /** @var bool */
+    protected $bic = false;
+
+    /** @var bool */
+    protected $creditpoints = false;
 
     /** @var string */
     protected $templateFile = 'EXT:' . TT_PRODUCTS_EXT . '/template/example_locallang_xml.html';
@@ -84,6 +102,9 @@ class EmConfiguration
 
     /** @var int */
     protected $endtimeYear = 2038;
+    
+    /** @var array */
+    protected $where = ['category' => ''];
 
     /** @var array */
     protected $hook = ['setPageTitle' => true];
@@ -109,67 +130,102 @@ class EmConfiguration
     /** @var string */
     protected $slugBehaviour = 'unique';
 
-    public function getPageAsCategory()/*: int*/
+    public function getPageAsCategory(): int
     {
         return $this->pageAsCategory;
     }
 
-    public function getAdressTable()/*: string*/
+    public function getAdressTable(): string
     {
         return $this->addressTable;
     }
 
-    public function getCheckCookies()/*: bool*/
+    public function getCheckCookies(): bool
     {
         return $this->checkCookies;
     }
 
-    public function getImageFolder()/*: string*/
+    public function getImageFolder(): string
     {
         return $this->imageFolder;
     }
 
-    public function getOrderBySortingTables()/*: string*/
+    public function getOrderBySortingTables(): string
     {
         return $this->orderBySortingTables;
     }
 
-    public function getArticleMode()/*: int*/
+    public function getArticleMode(): int
     {
         return $this->articleMode;
     }
 
-    public function getTemplateFile()/*: string*/
+    public function getVariantSeparator(): string
+    {
+        return $this->variantSeparator;
+    }
+
+    public function getTax($parameter): string
+    {
+        return $this->tax[$parameter];
+    }
+
+    public function getFal(): bool
+    {
+        return $this->fal;
+    }
+
+    public function getSepa(): bool
+    {
+        return $this->sepa;
+    }
+    
+    public function getBic(): bool
+    {
+        return $this->bic;
+    }
+
+    public function getCreditpoints(): bool
+    {
+        return $this->creditpoints;
+    }
+
+    public function getTemplateFile(): string
     {
         return $this->templateFile;
     }
 
-    public function getTemplateCheck()/*: string*/
+    public function getTemplateCheck(): string
     {
         return $this->templateCheck;
     }
 
-    public function getEndtimeYear()/*: string*/
+    public function getEndtimeYear(): string
     {
         return $this->endtimeYear;
     }
 
-    public function getHook($parameter)/*: bool*/
+    public function getWhere($parameter): string
+    {
+        return $this->where[$parameter];
+    }
+
+    public function getHook($parameter): bool
     {
         return $this->hook[$parameter];
     }
 
-    public function getExclude($parameter)/*: string*/
+    public function getExclude($parameter): string
     {
         return $this->exclude[$parameter];
     }
 
-    public function getError($parameter)/*: bool*/
+    public function getError($parameter): bool
     {
         return $this->error[$parameter];
     }
 
-    public function getSlugBehaviour()/*: string*/
+    public function getSlugBehaviour(): string
     {
         return $this->slugBehaviour;
     }

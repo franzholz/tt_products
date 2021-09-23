@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2006-2009 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2012 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -38,78 +38,74 @@
  */
 
 
-
-
 class tx_ttproducts_variant_view implements tx_ttproducts_variant_view_int, \TYPO3\CMS\Core\SingletonInterface {
 	public $modelObj;
 
 
-	public function init($modelObj)	{
+	public function init($modelObj) {
 		$this->modelObj = $modelObj;
 	}
 
-	public function getVariantSubpartMarkerArray (&$markerArray, &$subpartArray, &$wrappedSubpartArray, &$row, &$tempContent, $bUseSelects, &$conf, $bHasAdditional, $bGiftService)  {
-
-		if ($bUseSelects) {
-            $cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
-			$areaArray = array();
-			if (is_array($this->conf))	{
-				foreach ($this->conf as $key => $field)	{
-					if ($field != 'additional')	{	// no additional here
-						if (trim($row[$field]) != '')  {
-							$areaArray[] = 'display_variant' . $key;
-						}
-					}
-				}
-			}
-
-			if ($bHasAdditional) {
-				$areaArray[] = 'display_variant5_isSingle';
-			} else {
-				$areaArray[] = 'display_variant5_isNotSingle';
-			}
-
-			if ($bGiftService)	{
-				$areaArray[] = 'display_variant5_giftService';
-			} else {
-				$areaArray[] = 'display_variant5_NoGiftService';
-			}
-
-			foreach ($areaArray as $k => $area) {
-				$subpartArray['###' . $area . '###'] = tx_div2007_core::getSubpart($tempContent, '###' . $area . '###');
-			}
-		}
-		$this->removeEmptyMarkerSubpartArray($markerArray, $subpartArray, $wrappedSubpartArray, $row, $conf, $bHasAdditional, $bGiftService);
+	public function getVariantSubpartMarkerArray (
+		&$markerArray,
+		&$subpartArray,
+		&$wrappedSubpartArray,
+		$row,
+		$tempContent,
+		$bUseSelects,
+		$conf,
+		$bHasAdditional,
+		$bGiftService
+	) {
+		$this->removeEmptyMarkerSubpartArray(
+			$markerArray,
+			$subpartArray,
+			$wrappedSubpartArray,
+			$row,
+			$conf,
+			$bHasAdditional,
+			$bGiftService
+		);
 	}
 
-	public function removeEmptyMarkerSubpartArray (&$markerArray, &$subpartArray, &$wrappedSubpartArray, &$row, &$conf, $bHasAdditional, $bGiftService) {
-
+	public function removeEmptyMarkerSubpartArray (
+		&$markerArray,
+		&$subpartArray,
+		&$wrappedSubpartArray,
+		$row,
+		$conf,
+		$bHasAdditional,
+		$bGiftService
+	) {
 		$areaArray = array();
 		$remMarkerArray = array();
-		$variantConf = &$this->modelObj->conf;
+		$variantConf = $this->modelObj->conf;
 
         $maxKey = 0;
-		if (is_array($variantConf))	{
-			foreach ($variantConf as $key => $field)	{
-				if ($field != 'additional')	{	// no additional here
+		if (is_array($variantConf)) {
+			foreach ($variantConf as $key => $field) {
+				if ($field != 'additional') {	// no additional here
 					if (
 						!isset($row[$field]) ||
 						trim($row[$field]) == '' ||
 						!$conf['select' . ucfirst($field)]
 					) {
-						$remSubpartArray[] = 'display_variant'.$key;
+						$remSubpartArray[] = 'display_variant' . $key;
 					} else {
-						$remMarkerArray[] = 'display_variant'.$key;
+						$remMarkerArray[] = 'display_variant' . $key;
 					}
 				}
-                if ($key > $maxKey) {
+				if ($key > $maxKey) {
                     $maxKey = $key;
-                }
+				}
 			}
 		}
 
-	//	if ($this->itemTable->hasAdditional($row,'isSingle')) {
-		if ($bHasAdditional)	{
+        for ($i = $maxKey + 1; $i <= 32; ++$i) { // remove more variants from the future
+            $remSubpartArray[] = 'display_variant' . $i;
+        }
+
+		if ($bHasAdditional) {
 			$remSubpartArray[] = 'display_variant5_isNotSingle';
 			$remMarkerArray[] = 'display_variant5_isSingle';
 		} else {
@@ -117,7 +113,7 @@ class tx_ttproducts_variant_view implements tx_ttproducts_variant_view_int, \TYP
 			$remMarkerArray[] = 'display_variant5_isNotSingle';
 		}
 
-		if ($bGiftService)	{
+		if ($bGiftService) {
 			$remSubpartArray[] = 'display_variant5_NoGiftService';
 			$remMarkerArray[] = 'display_variant5_giftService';
 		} else {
@@ -125,17 +121,13 @@ class tx_ttproducts_variant_view implements tx_ttproducts_variant_view_int, \TYP
 			$remMarkerArray[] = 'display_variant5_NoGiftService';
 		}
 
-        for ($i = $maxKey + 1; $i <= 32; ++$i) { // remove more variants from the future
-            $remSubpartArray[] = 'display_variant' . $i;
-        }
-
-        foreach ($remSubpartArray as $k => $subpart) {
-			$subpartArray['###'.$subpart.'###'] = '';
+		foreach ($remSubpartArray as $k => $subpart) {
+			$subpartArray['###' . $subpart . '###'] = '';
 		}
 
-		foreach ($remMarkerArray as $k => $marker)	{
-			$markerArray['<!-- ###'.$marker.'### -->'] = '';
-			$wrappedSubpartArray['###'.$marker.'###'] = '';
+		foreach ($remMarkerArray as $k => $marker) {
+			$markerArray['<!-- ###' . $marker . '### -->'] = '';
+			$wrappedSubpartArray['###' . $marker . '###'] = '';
 		}
 	}
 }
@@ -144,4 +136,3 @@ class tx_ttproducts_variant_view implements tx_ttproducts_variant_view_int, \TYP
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_variant_view.php']) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_variant_view.php']);
 }
-

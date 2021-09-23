@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2008-2009 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2012 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -42,22 +42,29 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_template implements \TYPO3\CMS\Core\SingletonInterface {
 	private $templateFile;
+	protected $templateSuffix = '';
 
-	public function getTemplateFile ()	{
+	public function getTemplateFile () {
 		return $this->templateFile;
 	}
 
-	public function getTemplateSuffix ()	{
-		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-		$config = &$cnf->getConfig();
-		return $config['templateSuffix'];
+
+	public function setTemplateSuffix ($value) {
+		$this->templateSuffix = $value;
 	}
+
+
+	public function getTemplateSuffix () {
+		return $this->templateSuffix;
+	}
+
 
 	public function get (
 		$theCode,
 		&$templateFile,
 		&$errorCode
 	) {
+
 		$templateCode = '';
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$conf = $cnf->getConf();
@@ -75,7 +82,6 @@ class tx_ttproducts_template implements \TYPO3\CMS\Core\SingletonInterface {
 		}
 
 		if (file_exists($pathFilename)) {
-
 			// template file is fetched. The whole template file from which the various subpart are extracted.
 			$templateCode = file_get_contents($pathFilename);
 		}
@@ -89,7 +95,6 @@ class tx_ttproducts_template implements \TYPO3\CMS\Core\SingletonInterface {
 			$tmplText .= 'templateFile';
 
 			if (empty($errorCode)) {
-                $errorCode = [];
 				$errorCode[0] = 'no_template';
 				$errorCode[1] =  ' plugin.' . TT_PRODUCTS_EXT . '.' . $tmplText . ' = ' .
 					($templateFile ? $templateFile : '');
@@ -112,4 +117,5 @@ class tx_ttproducts_template implements \TYPO3\CMS\Core\SingletonInterface {
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/lib/class.tx_ttproducts_template.php'])	{
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/lib/class.tx_ttproducts_template.php']);
 }
+
 

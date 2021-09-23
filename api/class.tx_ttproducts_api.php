@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2011 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2016 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -29,6 +29,7 @@
  *
  * API functions
  *
+ *
  * @author  Franz Holzinger <franz@ttproducts.de>
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
  * @package TYPO3
@@ -36,10 +37,11 @@
  *
  */
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
-class tx_ttproducts_api implements \TYPO3\CMS\Core\SingletonInterface {
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
+
+class tx_ttproducts_api {
 
 	static public function roundPrice ($value, $format) {
 
@@ -71,7 +73,6 @@ class tx_ttproducts_api implements \TYPO3\CMS\Core\SingletonInterface {
 
 			$formatText = $priceRoundFormatArray['1'];
 			$digits = 0;
-
 			while(substr($formatText, $digits, 1) == 'X') {
 				$digits++;
 			}
@@ -85,10 +86,14 @@ class tx_ttproducts_api implements \TYPO3\CMS\Core\SingletonInterface {
 				$lowestValuePart = 0;
 				$length = strlen($floatValue);
 
-				if ($length > 3 && strpos($floatValue, '[') === 0 && strpos($floatValue, ']') === ($length - 1)) {
+				if (
+					$length > 3 &&
+					strpos($floatValue, '[') === 0 &&
+					strpos($floatValue, ']') === ($length - 1)
+				) {
 					$allowedChars = substr($floatValue, 1, $length - 2);
-					if ($allowedChars != '') {
 
+					if ($allowedChars != '') {
 						$digitValue = intval(round($value * $faktor * 10)) % 10;
 						$countAllowedChars = strlen($allowedChars);
 						$step = intval(10 / $countAllowedChars);
@@ -96,7 +101,6 @@ class tx_ttproducts_api implements \TYPO3\CMS\Core\SingletonInterface {
 						$finalAddition = $digitValue;
 						$lowChar = '';
 						$lowValue = -20;
-
 						$highChar = '';
 						$highValue = 20;
 						$bKeepChar = false;
@@ -116,7 +120,10 @@ class tx_ttproducts_api implements \TYPO3\CMS\Core\SingletonInterface {
 								$highValue = $currentValue;
 							}
 
-							if ($digitValue == $currentChar && $floatLen == ($length - 2)) { // '0' means '10'
+							if (
+								$digitValue == $currentChar &&
+								$floatLen == ($length - 2)
+							) { // '0' means '10'
 								$bKeepChar = true;
 								break;
 							} else {
@@ -139,11 +146,13 @@ class tx_ttproducts_api implements \TYPO3\CMS\Core\SingletonInterface {
 								}
 
 								$comparatorHigh1 = $currentValue - $digitValue;
+
 								if ($comparatorHigh1 < 0) {
 									$comparatorHigh1 += 10;
 								}
 
 								$comparatorHigh2 = $highValue - $digitValue;
+
 								if ($comparatorHigh2 < 0) {
 									$comparatorHigh2 += 10;
 								}
@@ -172,11 +181,10 @@ class tx_ttproducts_api implements \TYPO3\CMS\Core\SingletonInterface {
 								}
 							}
 						}
-
 						$lowestValuePart = (intval($finalAddition) / ($faktor * 10));
 					}
 				} else if (
-					tx_div2007_core::testInt($floatValue)
+					\TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($floatValue)
 				) {
 					$floatPart =  $floatValue * $faktor * 10;
 					$lowestValuePart = (intval($floatPart) / ($faktor * 10));
@@ -192,8 +200,95 @@ class tx_ttproducts_api implements \TYPO3\CMS\Core\SingletonInterface {
 	}
 
 
-	static public function createFeuser ($templateCode, $conf, $infoObj, $basketView, $calculatedArray, $fromArray) {
+	/* get the templateCode for an error message  */
+	static public function getErrorOut (
+		$theCode,
+		$templateCode,
+		$subpartMarker,
+		$alternativeSubpartMarker,
+		&$errorCode
+	) {
+		$result = false;
 
+		if (
+			$subpartMarker != '' &&
+			strpos($templateCode, $subpartMarker) !== false
+				||
+			$alternativeSubpartMarker != '' &&
+			strpos($templateCode, $alternativeSubpartMarker) !== false
+		) {
+			$errorTemplateCode = $templateCode;
+		} else {
+			$templateFile = '';
+			$templateObj = GeneralUtility::makeInstance('tx_ttproducts_template');
+			$errorTemplateCode = $templateObj->get(
+				$theCode,
+				$templateFile,
+				$errorCode
+			);
+
+			if (
+				$errorTemplateCode == '' ||
+				strpos($errorTemplateCode, $subpartMarker) === false &&
+				strpos($errorTemplateCode, $alternativeSubpartMarker) === false
+			) {
+				$errorTemplateCode = $templateObj->get(
+					'ERROR',
+					$templateFile,
+					$errorCode
+				);
+			}
+		}
+
+		if ($errorTemplateCode != '') {
+			$errorOut = false;
+
+			if ($subpartMarker != '' || $alternativeSubpartMarker != '') {
+				if (
+					$subpartMarker != '' &&
+					strpos($errorTemplateCode, $subpartMarker) !== false
+				) {
+					$errorOut =
+						tx_div2007_core::getSubpart(
+							$errorTemplateCode,
+							$subpartMarker
+						);
+				} else if (
+					$alternativeSubpartMarker != '' &&
+					strpos($errorTemplateCode, $alternativeSubpartMarker) !== false
+				) {
+					$errorOut =
+						tx_div2007_core::getSubpart(
+							$errorTemplateCode,
+							$alternativeSubpartMarker
+						);
+				}
+			} else {
+				$errorOut = $errorTemplateCode;
+			}
+
+			$result = $errorOut;
+
+			if ($result == '') {
+				$errorCode[0] = 'no_subtemplate';
+				$errorCode[1] = $subpartMarker;
+				$errorCode[2] = $templateFile;
+			}
+		}
+
+		return $result;
+	}
+
+
+	static public function createFeuser (
+		$bAllowCreation,
+		$templateCode,
+		$conf,
+		$infoObj,
+		$basketView,
+		$calculatedArray,
+		$fromArray
+	) {
 		$result = false;
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 		$infoArray = $infoObj->infoArray;
@@ -202,12 +297,22 @@ class tx_ttproducts_api implements \TYPO3\CMS\Core\SingletonInterface {
 		$pid = ($conf['PIDuserFolder'] ? $conf['PIDuserFolder'] : ($conf['PIDbasket'] ? $conf['PIDbasket'] : $GLOBALS['TSFE']->id));
 		$pid = intval($pid);
 		$username = strtolower(trim($infoArray['billing']['email']));
-		$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery('username', 'fe_users', 'username=' . $GLOBALS['TYPO3_DB']->fullQuoteStr($username, 'fe_users') . ' AND pid=' . $pid . ' AND deleted=0');
-		$num_rows = $GLOBALS['TYPO3_DB']->sql_num_rows($res);
-		$GLOBALS['TYPO3_DB']->sql_free_result($res);
+		$rowArray =
+			$GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
+				'uid,username', 'fe_users', 'username=' .
+					$GLOBALS['TYPO3_DB']->fullQuoteStr(
+						$username, 'fe_users'
+					) . ' AND pid=' . $pid . ' AND deleted=0'
+			);
+		$num_rows = count($rowArray);
 
-		if (!$num_rows) {
-			$password = $infoObj->password = substr(md5(rand()), 0, 12);
+		if ($num_rows) {
+			if (isset($rowArray['0']) && is_array($rowArray['0']) && isset($rowArray['0']['uid'])) {
+				$result = intval($rowArray['0']['uid']);
+			}
+		} else if ($bAllowCreation) {
+			$password = substr(md5(rand()), 0, 12);
+			$infoObj->password = $password;
             if (
                 version_compare(TYPO3_version, '9.5.0', '>=')
             ) {
@@ -215,7 +320,7 @@ class tx_ttproducts_api implements \TYPO3\CMS\Core\SingletonInterface {
                     $hashInstance = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Crypto\PasswordHashing\PasswordHashFactory::class)->getDefaultHashInstance('FE');
                     $password = $hashInstance->getHashedPassword($password);
                 } catch (TYPO3\CMS\Core\Crypto\PasswordHashing\InvalidPasswordHashException $e) {
-                    debug($tmp, 'no FE user could be generated!'); // keep this
+                    debug ($tmp, 'no FE user could be generated!'); // keep this
                 }
             } else if ($conf['useMd5Password']) {
                 $password = md5($password);
@@ -239,9 +344,9 @@ class tx_ttproducts_api implements \TYPO3\CMS\Core\SingletonInterface {
 			}
 
 			if (
-				ExtensionManagementUtility::isLoaded('agency') ||
-				ExtensionManagementUtility::isLoaded('femanager') ||
-				ExtensionManagementUtility::isLoaded('sr_feuser_register')
+				\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('agency') ||
+				\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('femanager') ||
+				\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('sr_feuser_register')
 			) {
 				if ($conf['useStaticInfoCountry'] && isset($infoArray['billing']['country_code'])) {
 					$insertFields['static_info_country'] = $infoArray['billing']['country_code'];
@@ -250,10 +355,7 @@ class tx_ttproducts_api implements \TYPO3\CMS\Core\SingletonInterface {
 				}
 			}
 
-			if(
-				$infoArray['billing']['date_of_birth'] &&
-				(ExtensionManagementUtility::isLoaded('sr_feuser_register') || ExtensionManagementUtility::isLoaded('agency'))
-			) {
+			if($infoArray['billing']['date_of_birth']) {
 				$date = str_replace('-', '/', $infoArray['billing']['date_of_birth']);
 				$insertFields['date_of_birth'] = strtotime($date);
 			}
@@ -261,9 +363,10 @@ class tx_ttproducts_api implements \TYPO3\CMS\Core\SingletonInterface {
 			$res = $GLOBALS['TYPO3_DB']->exec_INSERTquery('fe_users', $insertFields);
 			// send new user mail
 			if (!empty($infoArray['billing']['email'])) {
+				$empty = '';
 				$emailContent = trim(
 					$basketView->getView(
-                        $errorCode,
+						$errorCode,
 						$templateCode,
 						'EMAIL',
 						$infoObj,
@@ -272,6 +375,13 @@ class tx_ttproducts_api implements \TYPO3\CMS\Core\SingletonInterface {
 						$calculatedArray,
 						false,
 						'EMAIL_NEWUSER_TEMPLATE',
+						array(),
+						'',
+						array(),
+                        $notOverwritePriceIfSet = true,
+						array(),
+						array(),
+						array(),
 						array()
 					)
 				);
@@ -281,33 +391,1053 @@ class tx_ttproducts_api implements \TYPO3\CMS\Core\SingletonInterface {
 					$subject = trim($parts[0]);
 					$plain_message = trim($parts[1]);
 
-					tx_ttproducts_email_div::send_mail(
+					\JambageCom\Div2007\Utility\MailUtility::send(
 						$infoArray['billing']['email'],
 						$apostrophe . $subject . $apostrophe,
 						$plain_message,
 						$tmp = '',
 						$fromArray['shop']['email'],
-						$fromArray['shop']['name']
+						$fromArray['shop']['name'],
+						'',
+						'',
+						'',
+						'',
+						'',
+						TT_PRODUCTS_EXT,
+						'sendMail'
 					);
 				}
 			}
+
 			$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
 				'uid',
 				'fe_users',
-				'username='.$GLOBALS['TYPO3_DB']->fullQuoteStr($username, 'fe_users') .
+				'username=' . $GLOBALS['TYPO3_DB']->fullQuoteStr($username, 'fe_users') .
 					' AND pid=' . $pid . ' AND deleted=0');
 
 			while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
 				$result = intval($row['uid']);
+				break;
 			}
 			$GLOBALS['TYPO3_DB']->sql_free_result($res);
 		}
 
 		return $result;
 	}
-}
 
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/api/class.tx_ttproducts_api.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/api/class.tx_ttproducts_api.php']);
+	static public function splitSubjectAndText (
+		$templateCode,
+		$defaultSubject,
+		&$subject,
+		&$text
+	) {
+		$parser = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
+        if (
+            defined('TYPO3_version') &&
+            version_compare(TYPO3_version, '7.0.0', '>=')
+        ) {
+            $parser = tx_div2007_core::newHtmlParser(true);
+        }
+
+		$parts = preg_split('/[\n\r]+/', $templateCode, 2);	// First line is subject
+		$subject = trim($parts[0]);
+		$text = trim($parts[1]);
+
+		if (empty($text)) {	// the user did not use the subject field
+			$text = $subject;
+		}
+		$text = $parser->substituteMarkerArrayCached($text, $markerArray);
+		if (empty($subject)) {
+			$subject = $defaultSubject;
+		}
+	}
+
+
+
+	static public function generateBillNo (
+		$orderUid,
+		$orderPrefix
+	) {
+		$newNumber = 1;
+		$rows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
+			'uid,bill_no',
+			'sys_products_orders',
+			'bill_no > \'\'',
+			'',
+			'uid DESC',
+			'1'
+		);
+
+		if (
+			is_array($rows) &&
+			isset($rows['0']) &&
+			!empty($rows['0']['bill_no'])
+		) {
+			$billNo = $rows['0']['bill_no'];
+			$found = preg_match_all('/([\d]+)/', $billNo, $match);
+
+			if (
+				$found &&
+				isset($match) &&
+				is_array($match) &&
+				isset($match[0]) &&
+				is_array($match[0])
+			) {
+				$newNumber = $match[0][0] + 1;
+			}
+		}
+		$newNumber = $orderPrefix . $newNumber;
+
+		return $newNumber;
+	}
+
+	/**
+	 * Finalize an order
+	 *
+	 * This finalizes an order. The basket info has already been saved before on the payment page, if
+	 * a payment gateway is called afterwards.
+	 * A finalized order is then marked 'not hidden' and with status=1
+	 * The basket is also emptied, but address info is preserved for any new orders.
+	 * $orderUid is the order-uid to finalize
+	 * $mainMarkerArray is optional and may be pre-prepared fields for substitutiong in the template.
+	 *
+	 */
+	static public function finalizeOrder (
+		$pObj,
+		$templateCode,
+		$mainMarkerArray,
+		$functablename,
+		$orderUid,
+		$orderArray,
+		$itemArray,
+		$calculatedArray,
+		$addressArray,
+		$basketExtra,
+		$basketRecs,
+		$basketExtGift,
+		$usedCreditpoints,
+		$bDebug,
+		&$errorMessage
+	) {
+		$cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config'); // init ok
+// $markerObj  init ok
+		$basketView = GeneralUtility::makeInstance('tx_ttproducts_basket_view');
+		$infoViewObj = GeneralUtility::makeInstance('tx_ttproducts_info_view');
+		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables'); // init ok
+		$billdeliveryObj = GeneralUtility::makeInstance('tx_ttproducts_billdelivery');
+		$fileArray = array(); // bill or delivery
+
+		$activityFinalize = GeneralUtility::makeInstance('tx_ttproducts_activity_finalize');
+
+		$emailObj = $tablesObj->get('tt_products_emails');
+		$orderObj = $tablesObj->get('sys_products_orders');
+		$cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
+		$conf = $cnfObj->getConf();
+		$customerEmailHTML = '';
+
+		$parser = $cObj; 
+		if (
+            defined('TYPO3_version') &&
+            version_compare(TYPO3_version, '7.0.0', '>=')
+        ) {
+            $parser = tx_div2007_core::newHtmlParser(true);
+        }
+
+		$orderRow =
+			$orderObj->get(
+				$orderUid,
+				0,
+				false,
+				'',
+				'',
+				'',
+				'',
+				'uid,hidden,feusers_uid,status,bill_no',
+				false,
+				'',
+				false
+			);
+
+		if (
+			!empty($orderRow) &&
+			is_array($orderRow) &&
+			$orderRow['hidden'] == '0' &&
+			$orderRow['status'] != '0'
+		) {
+			return false; // the order has already been processed before
+		}
+		$orderObj->updateRecord($orderUid, array('hidden' =>  0)); // mark this order immediately as unhidden in order to let no instant message from the gateway execute the following PHP code twice
+
+		$instockTableArray = '';
+		$customerEmail = $infoViewObj->getCustomerEmail();
+		$defaultFromArray = $infoViewObj->getFromArray($customerEmail);
+
+
+/*
+		$defaultFromArray = array();
+		$defaultFromArray['shop'] = array(
+			'email' => $conf['orderEmail_from'],
+			'name' => $conf['orderEmail_fromName']
+		);
+		$defaultFromArray['customer'] = array(
+			'email' => $customerEmail,
+			'name' => $infoViewObj->infoArray['billing']['name']
+		);*/
+
+		$emailControlArray =
+			$activityFinalize->getEmailControlArray(
+				$templateCode,
+				$conf,
+				$defaultFromArray
+			);
+
+		if (isset($emailControlArray['customer'])) {
+			$markerArray['###CUSTOMER_RECIPIENTS_EMAIL###'] = implode(',', $emailControlArray['customer']['none']['recipient']);
+
+			$customerEmailHTML =
+				$basketView->getView(
+					$errorCode,
+					$templateCode,
+					'EMAIL',
+					$infoViewObj,
+					false,
+					false,
+					$calculatedArray,
+					true,
+					$emailControlArray['customer']['none']['htmltemplate'],
+					$markerArray,
+					'',
+					$itemArray,
+                    $notOverwritePriceIfSet = true,
+					array('0' => $orderArray),
+					array(),
+					$basketExtra,
+					$basketRecs
+				);
+		}
+
+		if ($GLOBALS['TSFE']->absRefPrefix == '') {
+			$absRefPrefix = GeneralUtility::getIndpEnv('TYPO3_SITE_URL');
+			$markerArray['"index.php'] = '"' . $absRefPrefix . 'index.php';
+		}
+
+		$apostrophe = $conf['orderEmail_apostrophe'];
+		$bdArray = $billdeliveryObj->getTypeArray();
+
+		foreach ($bdArray as $type) {
+			if (
+				isset($conf[$type . '.']) &&
+				is_array($conf[$type . '.']) &&
+				$conf[$type . '.']['generation'] == 'auto'
+			) {
+				if (
+					$type == 'bill' &&
+					!$orderRow['bill_no']
+				) {
+					$newBillNumber = self::generateBillNo(
+						$orderUid,
+						substr($conf['orderBillNumberPrefix'], 0, 30)
+					);
+					$orderArray['bill_no'] = $newBillNumber;
+				}
+
+				$absFilename =
+					$billdeliveryObj->generateBill(
+						$cObj,
+						$templateCode,
+						$mainMarkerArray,
+						$itemArray,
+						$calculatedArray,
+						$orderArray,
+						$basketExtra,
+						$basketRecs,
+						$type,
+						$conf[$type . '.']
+					);
+				if ($absFilename) {
+					$fileArray[$type] = $absFilename;
+				}
+			}
+		}
+
+		if (
+			isset($conf['gift.']) &&
+			isset($conf['gift.']['type']) &&
+			$conf['gift.']['type'] == 'voucher' &&
+			isset($conf['whereGift']) &&
+			$conf['whereGift'] != ''
+		) {
+			$voucherCount = 0;
+			$codeArray = array();
+			tx_ttproducts_voucher::generate($voucherCount, $codeArray, $orderUid, $itemArray, $conf['whereGift']);
+		}
+
+		$orderObj->putData(
+			$orderUid,
+			$orderArray,
+			$itemArray,
+			$customerEmailHTML,
+			1,
+			$basketExtra,
+			$calculatedArray,
+			'',
+			array(), // TODO: $giftServiceArticleArray,
+			'', // TODO: $vouchercode
+			$usedCreditpoints,
+			$voucherCount,
+			!$bDebug // if true, then the order record must already be existing
+		);
+
+		$creditpointsObj = GeneralUtility::makeInstance('tx_ttproducts_field_creditpoints');
+		$creditpointsObj->pay();
+
+		// any gift orders in the extended basket?
+		if ($basketExtGift) {
+			$pid = intval($conf['PIDGiftsTable']);
+
+			if (!$pid) {
+				$pid = intval($GLOBALS['TSFE']->id);
+			}
+
+			$rc = tx_ttproducts_gifts_div::saveOrderRecord(
+				$orderUid,
+				$pid,
+				$basketExtGift
+			);
+		}
+		$orderObj->createMM($orderUid, $itemArray);
+		$addcsv = '';
+
+		// Generate CSV for each order
+		if ($conf['generateCSV']) {
+			// get bank account info
+			$account = $tablesObj->get('sys_products_accounts');
+			$accountUid = $account->getUid();
+
+			$csv = GeneralUtility::makeInstance('tx_ttproducts_csv');
+            if (
+                version_compare(TYPO3_version, '9.0.0', '>=')
+            ) {
+                $csvfilepath = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/' . $conf['CSVdestination'];
+            } else {
+                $csvfilepath = PATH_site . $conf['CSVdestination'];
+            }
+
+			$csv->create(
+				$functablename,
+				$conf,
+				$itemArray,
+				$calculatedArray,
+				$accountUid,
+				$infoViewObj,
+				$orderUid,
+				$basketExtra,
+				$csvfilepath,
+				$errorMessage
+			);
+			if (!$conf['CSVnotInEmail']) {
+				$addcsv = $csvfilepath;
+			}
+		}
+
+		// Generate XML for each order
+		if ($conf['generateXML']) {
+			$orderXML =
+				trim (
+					$basketView->getView(
+						$errorCode,
+						$templateCode,
+						'EMAIL',
+						$infoViewObj,
+						false,
+						true,
+						$calculatedArray,
+						true,
+						'BASKET_ORDERXML_TEMPLATE',
+						$mainMarkerArray,
+						'',
+						$itemArray,
+                        $notOverwritePriceIfSet = true,
+						array('0' => $orderArray),
+						array(),
+						$basketExtra,
+						$basketRecs
+					)
+				);
+
+            if ($orderXML) {
+                if (
+                    version_compare(TYPO3_version, '9.0.0', '>=')
+                ) {
+                    $csvfilepath = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/' . $conf['XMLdestination'];
+                } else {
+                    $xmlFilepath = PATH_site . $conf['XMLdestination'];
+                }
+
+				if (substr($xmlFilepath, strlen($xmlFilepath) - 1, 1) != '/') {
+					$xmlFilepath .= '/';
+				}
+				$xmlFilepath .= $orderObj->getNumber($orderUid) . '.xml';
+				$xmlFile = fopen($xmlFilepath, 'w');
+				fwrite($xmlFile, $orderXML);
+				fclose($xmlFile);
+			}
+		}
+
+// #################################
+
+		$markerArray['###MESSAGE_PAYMENT_SCRIPT###'] = '';
+		$empty = '';
+
+		if ($conf['orderEmail_toAddress']) {
+			$infoViewObjArray = $addressArray;
+			if (is_array($infoViewObjArray) && count($infoViewObjArray)) {
+				foreach ($infoViewObjArray as $infoViewObjUid => $infoViewObjRow) {
+					if (
+						!isset($emailControlArray['shop']['none']['recipient']) ||
+						!in_array($infoViewObjRow['email'], $emailControlArray['shop']['none']['recipient'])
+					) {
+						$emailControlArray['shop']['none']['recipient'][] = $infoViewObjRow['email'];
+					}
+				}
+			}
+		}
+
+		if (
+			isset($conf['orderEmail.']) && is_array($conf['orderEmail.'])
+		) {
+			foreach ($conf['orderEmail.'] as $k => $emailConfig) {
+
+				$suffix = strtolower($emailConfig['suffix']);
+				if (!isset($suffix)) {
+					$suffix = 'shop';
+				}
+
+				if (
+					$emailConfig['to'] != '' ||
+					$emailConfig['to.'] != '' ||
+					$suffix == 'shop' ||
+					$suffix == 'customer'
+				) {
+					if ($emailConfig['shipping_point'] != '') {
+						$shippingPoint = strtolower($emailConfig['shipping_point']);
+					} else {
+						$shippingPoint = 'none';
+					}
+
+					$emailControlArray[$suffix][$shippingPoint]['attachmentFile'] = array();
+
+					if ($emailConfig['to.'] != '') {
+						$toConfig = $emailConfig['to.'];
+						if (
+                            \JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn() &&
+							trim($GLOBALS['TSFE']->fe_user->user['username']) != '' &&
+							$toConfig['table'] == 'fe_users' &&
+							$toConfig['field'] != '' &&
+							$toConfig['foreign_table'] != '' &&
+							$toConfig['foreign_field'] != '' &&
+							$toConfig['foreign_email_field'] != '' &&
+							$GLOBALS['TSFE']->fe_user->user[$toConfig['field']] != ''
+						) {
+							$where_clause =
+								$toConfig['foreign_table'] . '.' .
+									$toConfig['foreign_field'] . '=' .
+									$GLOBALS['TYPO3_DB']->fullQuoteStr(
+										$GLOBALS['TSFE']->fe_user->user[$toConfig['field']],
+										$toConfig['foreign_table']
+									);
+							$recordArray =
+								$GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
+									$toConfig['foreign_email_field'],
+									$toConfig['foreign_table'],
+									$where_clause
+								);
+
+							if (isset($recordArray) && is_array($recordArray)) {
+								foreach ($recordArray as $record) {
+									if ($record[$toConfig['foreign_email_field']] != '') {
+										$emailControlArray[$suffix][$shippingPoint]['recipient'][] = $record[$toConfig['foreign_email_field']];
+									}
+								}
+							}
+						}
+					}
+
+					if ($emailConfig['to'] != '') {
+						$emailArray = GeneralUtility::trimExplode(',', $emailConfig['to']);
+
+						foreach ($emailArray as $email) {
+							if (
+								!isset($emailControlArray[$suffix][$shippingPoint]['recipient']) ||
+								is_array($emailControlArray[$suffix][$shippingPoint]['recipient']) &&
+								!in_array($email, $emailControlArray[$suffix][$shippingPoint]['recipient'])
+							) {
+								$emailControlArray[$suffix][$shippingPoint]['recipient'][] = $email;
+							}
+						}
+					}
+
+					if ($emailConfig['attachment'] != '') {
+						$emailControlArray[$suffix][$shippingPoint]['attachment'] = GeneralUtility::trimExplode(',', $emailConfig['attachment']);
+
+						foreach($emailControlArray[$suffix][$shippingPoint]['attachment'] as $attachmentType) {
+							$emailControlArray[$suffix][$shippingPoint]['attachmentFile'][] = $fileArray[$attachmentType];
+						}
+					}
+
+					if ($suffix != 'customer') {
+
+						$templateSubpart = 'EMAIL_PLAINTEXT_TEMPLATE_' . strtoupper($suffix);
+						$htmlTemplateSubpart = 'EMAIL_HTML_TEMPLATE_' . strtoupper($suffix);
+						if (
+							$suffix == 'shop'
+						) {
+							if (strpos($templateCode, $templateSubpart) === false) {
+								$templateSubpart = $emailControlArray['customer']['none']['template'];
+							}
+							if (strpos($templateCode, $htmlTemplateSubpart) === false) {
+								$htmlTemplateSubpart = $emailControlArray['customer']['none']['htmltemplate'];
+							}
+						}
+
+						$emailControlArray[$suffix][$shippingPoint]['template'] = $templateSubpart;
+						$emailControlArray[$suffix][$shippingPoint]['htmltemplate'] = $htmlTemplateSubpart;
+
+						if ($addcsv != '') {
+							$emailControlArray[$suffix][$shippingPoint]['attachmentFile'][] = $addcsv;
+						}
+					}
+
+					if ($suffix == 'shop') {
+						$emailControlArray[$suffix][$shippingPoint]['bcc'] = $conf['orderEmail_bcc'];
+					}
+
+					if (!$emailConfig['from'] || $emailConfig['from'] == 'shop') {
+						$emailControlArray[$suffix][$shippingPoint]['from'] = $defaultFromArray['shop'];
+					} else if ($emailConfig['from'] == 'customer') {
+						$emailControlArray[$suffix][$shippingPoint]['from'] = $defaultFromArray['customer'];
+					} else if (isset($emailConfig['from.'])) {
+						$emailControlArray[$suffix][$shippingPoint]['from'] = array(
+							'email' => $emailConfig['from.']['email'],
+							'name' => $emailConfig['from.']['name']
+						);
+					}
+
+					if ($shippingPoint != 'none') {
+						$emailControlArray[$suffix][$shippingPoint]['recipient'] = array_unique(GeneralUtility::trimExplode(',', $emailConfig['to']));
+						if ($emailConfig['subject'] != '') {
+							$emailControlArray[$suffix][$shippingPoint]['subject'] = $emailConfig['subject'];
+						}
+					}
+
+					if (isset($emailConfig['returnPath'])) {
+						$emailControlArray[$suffix][$shippingPoint]['returnPath'] = $emailConfig['returnPath'];
+					}
+				}
+			}
+		}
+
+		if (
+			isset($conf['orderEmail_radio.']) &&
+			is_array($conf['orderEmail_radio.']) &&
+			isset($conf['orderEmail_radio.']['1.']) &&
+			is_array($conf['orderEmail_radio.']) &&
+			isset($conf['orderEmail_radio.']['1.'][$infoViewObj->infoArray['delivery']['radio1']])
+		) {
+			$emailControlArray['radio1']['none']['recipient'][] = $conf['orderEmail_radio.']['1.'][$infoViewObj->infoArray['delivery']['radio1']];
+		}
+
+		if (isset($emailControlArray['radio1']['none']['recipient'])) {
+			$emailControlArray['radio1']['none']['template'] = 'EMAIL_PLAINTEXT_TEMPLATE_RADIO1';
+			$emailControlArray['radio1']['none']['htmltemplate'] = 'EMAIL_HTML_TEMPLATE_RADIO1';
+		}
+
+		if ($conf['orderEmail_order2']) {
+			$emailControlArray['customer']['none']['recipient'] = array_merge($emailControlArray['customer']['none']['recipient'], $emailControlArray['shop']['none']['recipient']);
+			$emailControlArray['customer']['none']['recipient'] = array_unique($emailControlArray['customer']['none']['recipient']);
+		}
+		$customerHTMLmailContent = '';
+		$posEmailPlaintext = strpos($templateCode, $emailControlArray['customer']['none']['template']);
+
+		if (
+			$templateCode != '' &&
+			($posEmailPlaintext !== false || $conf['orderEmail_htmlmail'])
+		) {
+			if ($conf['orderEmail_htmlmail']) {	// If htmlmail lib is included, then generate a nice HTML-email
+				$HTMLmailShell = tx_div2007_core::getSubpart($templateCode, '###EMAIL_HTML_SHELL###');
+
+				$customerHTMLmailContent =
+					$parser->substituteMarker(
+						$HTMLmailShell,
+						'###HTML_BODY###',
+						$customerEmailHTML
+					);
+				$customerHTMLmailContent =
+					$parser->substituteMarkerArray(
+						$customerHTMLmailContent,
+						$markerArray
+					);
+
+					// Remove image tags to the products:
+				if ($conf['orderEmail_htmlmail.']['removeImagesWithPrefix']) {
+					$htmlParser = tx_div2007_core::newHtmlParser();
+					$htmlMailParts = $htmlParser->splitTags('img', $customerHTMLmailContent);
+
+					foreach($htmlMailParts as $kkk => $vvv) {
+						if ($kkk%2) {
+							list($attrib) = $htmlParser->get_tag_attributes($vvv);
+							if (GeneralUtility::isFirstPartOfStr($attrib['src'], $conf['orderEmail_htmlmail.']['removeImagesWithPrefix'])) {
+								$htmlMailParts[$kkk] = '';
+							}
+						}
+					}
+					$customerHTMLmailContent = implode('', $htmlMailParts);
+				}
+			} else {	// ... else just plain text...
+				// nothing to initialize
+			}
+
+			$agbAttachment = ($conf['AGBattachment'] ? GeneralUtility::getFileAbsFileName($conf['AGBattachment']) : '');
+
+			if ($agbAttachment != '') {
+				$emailControlArray['customer']['none']['attachmentFile'][] = $agbAttachment;
+
+				if (isset($emailControlArray['radio1']['none']['recipient'])) {
+
+					$emailControlArray['radio1']['none']['attachmentFile'][] = $agbAttachment;
+				}
+			}
+
+			$categoryInserted = array();
+			$shippingPointInserted = array();
+
+			// send distributor emails from email entered at the category level
+			foreach ($itemArray as $sort => $actItemArray) {
+				foreach ($actItemArray as $k1 => $actItem) {
+					$row = $actItem['rec'];
+					$extArray = $row['ext'];
+					$category = $row['category'];
+					$shipping_point = strtolower($row['shipping_point']);
+					$suffix = 'shop';
+
+					if ($categoryInserted[$category] != '') {
+						$suffix = $categoryInserted[$category];
+					} else if ($category) {
+						$categoryArray = $tablesObj->get('tt_products_cat')->get($category);
+						$emailRow = $emailObj->getEmail($categoryArray['email_uid']);
+
+						if (isset($emailRow) && is_array($emailRow)) {
+							$email = $emailRow['email'];
+							$emailArray = array();
+							if ($emailRow['name'] != '') {
+								$emailArray = array($email => $emailArray['name']);
+							} else {
+								$emailArray = array($email);
+							}
+
+							if ($emailRow['suffix'] != '') {
+								$suffix = strtolower($emailRow['suffix']);
+							}
+
+							if (
+								!isset($emailControlArray[$suffix]['none']['recipient']) ||
+								is_array($emailControlArray[$suffix]['none']['recipient']) &&
+								!in_array($email, $emailControlArray[$suffix]['none']['recipient'])
+							) {
+								$emailControlArray[$suffix]['none']['recipient'][] = $emailArray;
+							}
+						}
+						$categoryInserted[$category] = $suffix;
+					}
+
+// TODO hier die FAL Bedingung eintragen. Und hier die Rechnung erzeugen.
+					if (
+						$suffix == 'shop' // not for category specific suffix
+					) {
+						$addItem = false;
+						if (
+							isset($extArray['records']) &&
+							is_array($extArray['records'])
+						) {
+							if (
+								isset($emailControlArray['download'])
+							) {
+								$externalRowArray = $extArray['records'];
+								foreach ($externalRowArray as $tablename => $externalRow) {
+									if ($tablename == 'sys_file_reference') {
+										$suffix = 'download';
+										$addItem = true;
+										break;
+									}
+								}
+							}
+						} else {
+							if (
+								isset($emailControlArray['product'])
+							) {
+								$suffix = 'product';
+								$addItem = true;
+							}
+						}
+
+						if ($addItem) {
+							$emailControlArray[$suffix]['none']['itemArray'][$sort][] = $actItem;
+						}
+						$suffix = 'shop';
+					}
+
+					$emailControlArray[$suffix]['none']['itemArray'][$sort][] = $actItem;
+
+					if ($shipping_point) {
+						foreach ($emailControlArray as $suffix => $shippingControl) {
+							foreach ($shippingControl as $shippingKey => $shippingPointControl) {
+								// the shippingKey can be comma separated multiple value
+								$shippingKeyArray = GeneralUtility::trimExplode(',', $shippingKey);
+								foreach ($shippingKeyArray as $key) {
+									if (
+										$key == $shipping_point &&
+										isset($shippingControl[$shippingKey]) &&
+										is_array($shippingControl[$shippingKey]) &&
+										(
+											!isset($emailControlArray[$suffix][$shippingKey]) ||
+											!isset($emailControlArray[$suffix][$shippingKey]['itemArray']) ||
+											!isset($emailControlArray[$suffix][$shippingKey]['itemArray'][$sort]) ||
+											!in_array($actItem, $emailControlArray[$suffix][$shippingKey]['itemArray'][$sort])
+										)
+									) {
+										$emailControlArray[$suffix][$shippingKey]['itemArray'][$sort][] =
+											$actItem;
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+
+			$reducedCalculatedArray = $calculatedArray; // TODO: allow calculation on reduced products
+
+			foreach ($emailControlArray as $suffix => $shippingControlArray) {
+
+				foreach ($shippingControlArray as $shippingPoint => $suffixControlArray) {
+					if (isset($suffixControlArray) && is_array($suffixControlArray)) {
+
+						if (
+							isset($suffixControlArray['itemArray']) &&
+							is_array($suffixControlArray['itemArray'])
+						) {
+							$basketItemArray = $suffixControlArray['itemArray'];
+						} else if ($suffix == 'customer' || $suffix == 'shop') {
+							$basketItemArray = $itemArray;
+						} else {
+							$basketItemArray = '';
+						}
+                        $basketText = '';
+                        $basketHtml = '';
+
+						if (isset($basketItemArray) && is_array($basketItemArray)) {
+
+							$basketText =
+								$basketView->getView(
+									$errorCode,
+									$templateCode,
+									'EMAIL',
+									$infoViewObj,
+									false,
+									true,
+									$reducedCalculatedArray,
+									false,
+									$suffixControlArray['template'],
+									$mainMarkerArray,
+									'',
+									$basketItemArray,
+                                    $notOverwritePriceIfSet = true,
+									array('0' => $orderArray),
+									array(),
+									$basketExtra,
+									$basketRecs
+								);
+							$basketText = trim($basketText);
+
+                            if ($conf['orderEmail_htmlmail']) {
+                                $basketHtml =
+                                    $basketView->getView(
+                                        $errorCode,
+                                        $templateCode,
+                                        'EMAIL',
+                                        $infoViewObj,
+                                        false,
+                                        false,
+                                        $reducedCalculatedArray,
+                                        true,
+                                        $suffixControlArray['htmltemplate'],
+                                        $mainMarkerArray,
+                                        '',
+                                        $basketItemArray,
+                                        $notOverwritePriceIfSet = true,
+                                        array('0' => $orderArray),
+                                        array(),
+                                        $basketExtra,
+                                        $basketRecs
+                                    );
+                                $basketHtml = trim($basketHtml);
+                            }
+						}
+
+						if (
+                            $basketText != '' ||
+                            $basketHtml != ''
+                        ) {
+                            if ($basketText != '') {
+                                self::splitSubjectAndText(
+                                    $basketText,
+                                    $conf['orderEmail_subject'],
+                                    $subject,
+                                    $textContent
+                                );
+                            }
+
+                            $subject = ($suffixControlArray['subject'] != '' ? $suffixControlArray['subject'] : $subject);
+                            $HTMLmailContent = '';
+                            if ($basketHtml != '') {
+                                $HTMLmailContent =
+                                    $parser->substituteMarker(
+                                        $HTMLmailShell,
+                                        '###HTML_BODY###',
+                                        $basketHtml
+                                    );
+
+                                $HTMLmailContent =
+                                    $parser->substituteMarkerArray(
+                                        $HTMLmailContent,
+                                        $markerArray
+                                    );
+                            }
+
+							$fromArray = array();
+
+							if (
+								isset($suffixControlArray['from'])
+								&& is_array($suffixControlArray['from'])
+							) {
+								$fromArray = $suffixControlArray['from'];
+							} else {
+								$fromArray = $defaultFromArray['shop'];
+							}
+
+							if (
+								isset($suffixControlArray['recipient']) &&
+								is_array($suffixControlArray['recipient'])
+							) {
+								foreach ($suffixControlArray['recipient'] as $recipientEmail) {
+
+									\JambageCom\Div2007\Utility\MailUtility::send(
+										$recipientEmail,
+										$apostrophe . $subject . $apostrophe,
+										$textContent,
+										$HTMLmailContent,
+										$fromArray['email'],
+										$fromArray['name'],
+										$suffixControlArray['attachmentFile'],
+										$suffixControlArray['cc'],
+										$suffixControlArray['bcc'],
+										$suffixControlArray['returnPath'],
+										$suffixControlArray['replyTo'],
+										TT_PRODUCTS_EXT,
+										'sendMail'
+									);
+								}
+							}
+						}
+					}
+				}
+			}
+
+			$finalizeConf = $cnfObj->getFinalizeConf('productsFilter');
+
+			if (is_array($finalizeConf) && count($finalizeConf)) {
+
+				foreach ($finalizeConf as $k => $confpart) {
+					$reducedItemArray = array();
+
+					if (isset($confpart['pid']) && isset($confpart['email'])) {
+						foreach ($itemArray as $sort => $actItemArray) {
+							$reducedActItemArray = array();
+							foreach ($actItemArray as $k1 => $actItem) {
+								$row = $actItem['rec'];
+								if ($row['pid'] == $confpart['pid']) {
+									$reducedActItemArray[] = $actItem;
+								}
+							}
+							if (count($reducedActItemArray)) {
+								$reducedItemArray[$sort] = $reducedActItemArray;
+							}
+						}
+
+						if ($emailControlArray['shop']['none']['content'] != '') {
+							$emailKey = 'shop';
+						} else {
+							$emailKey = 'customer';
+						}
+
+						$reducedCalculatedArray = $calculatedArray;  // Todo: use a different calculation
+
+						$reducedBasketPlaintext =
+							trim(
+								$basketView->getView(
+									$errorCode,
+									$templateCode,
+									'EMAIL',
+									$infoViewObj,
+									false,
+									true,
+									$reducedCalculatedArray,
+									$conf['orderEmail_htmlmail'],
+									$emailControlArray[$emailKey]['none']['template'],
+									$mainMarkerArray,
+									'',
+									$reducedItemArray,
+                                    $notOverwritePriceIfSet = true,
+									array('0' => $orderArray),
+									array(),
+									$basketExtra,
+									$basketRecs
+								)
+							);
+						self::splitSubjectAndText(
+							$reducedBasketPlaintext,
+							$conf['orderEmail_subject'],
+							$subject,
+							$textContent
+						);
+						$textContent =
+							$parser->substituteMarkerArray(
+								$textContent,
+								$markerArray
+							);
+
+						if ($conf['orderEmail_htmlmail']) {
+							$reducedBasketHtml =
+								trim(
+									$basketView->getView(
+										$errorCode,
+										$templateCode,
+										'EMAIL',
+										$infoViewObj,
+										false,
+										true,
+										$reducedCalculatedArray,
+										true,
+										$emailControlArray[$emailKey]['none']['htmltemplate'],
+										$mainMarkerArray,
+										'',
+										$reducedItemArray,
+                                        $notOverwritePriceIfSet = true,
+										array('0' => $orderArray),
+										array(),
+										$basketExtra,
+										$basketRecs
+									)
+								);
+
+							$HTMLmailContent =
+								$parser->substituteMarker(
+									$HTMLmailShell,
+									'###HTML_BODY###',
+									$reducedBasketHtml
+								);
+
+							$HTMLmailContent =
+								$parser->substituteMarkerArray(
+									$HTMLmailContent,
+									$markerArray
+								);
+						} else {
+							$HTMLmailContent = '';
+						}
+
+						\JambageCom\Div2007\Utility\MailUtility::send(
+							$confpart['email'],
+							$apostrophe . $subject . $apostrophe,
+							$textContent,
+							$HTMLmailContent,
+							$emailControlArray['customer']['none']['from']['email'],
+							$emailControlArray['customer']['none']['from']['name'],
+							'',
+							'',
+							'',
+							$emailControlArray['customer']['none']['returnPath'],
+							$emailControlArray['customer']['none']['replyTo'],
+							TT_PRODUCTS_EXT,
+							'sendMail'
+						);
+					}
+				}
+			}
+
+			if (
+				$emailControlArray['radio1']['plaintext'] &&
+				is_array($emailControlArray['radio1']['recipient'])
+			) {
+				foreach ($emailControlArray['radio1']['recipient'] as $key => $recipient) {
+
+					\JambageCom\Div2007\Utility\MailUtility::send(
+						$recipient,
+						$apostrophe . $emailControlArray['radio1']['none']['subject'] . $apostrophe,
+						$emailControlArray['radio1']['none']['plaintext'],
+						$customerHTMLmailContent,
+						$emailControlArray['shop']['none']['from']['email'],
+						$emailControlArray['shop']['none']['from']['name'],
+						$emailControlArray['radio1']['none']['attachmentFile'],
+						'',
+						'',
+						$emailControlArray['shop']['none']['returnPath'],
+						$emailControlArray['shop']['none']['replyTo'],
+						TT_PRODUCTS_EXT,
+						'sendMail'
+					);
+				}
+			}
+		} else {
+            debug ($templateCode, '$templateCode is empty'); // keep this
+		}
+
+
+		// 3 different hook methods - There must be one for your needs, too.
+
+			// This cObject may be used to call a function which clears settings in an external order system.
+			// The output is NOT included anywhere
+		\JambageCom\Div2007\Utility\ObsoleteUtility::getExternalCObject($pObj, 'externalFinalizing');
+
+		if ($conf['externalOrderProcessFunc']) {
+            \JambageCom\Div2007\Utility\ObsoleteUtility::userProcess(
+                $pObj,
+                $conf,
+                'externalOrderProcessFunc',
+                $itemArray
+            );
+		}
+
+			// Call all finalizeOrder hooks
+		if (is_array ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['finalizeOrder'])) {
+			foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['finalizeOrder'] as $classRef) {
+				$hookObj= GeneralUtility::makeInstance($classRef);
+				if (method_exists($hookObj, 'finalizeOrder')) {
+					$hookObj->finalizeOrder(
+						$pObj,
+						$infoViewObj,
+						$templateCode,
+						$basketView,
+						$functablename,
+						$orderUid,
+						$orderConfirmationHTML,
+						$errorMessage,
+						$result
+					);
+				}
+			}
+		}
+	}
 }
+

@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2009-2009 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2012 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -43,20 +43,34 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class tx_ttproducts_field_creditpoints extends tx_ttproducts_field_base {
 
 
-	public function getBasketTotal ()	{
+	public function getBasketTotal () {
 		$rc = 0;
 		$basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
-		$itemArray = &$basketObj->getItemArray();
+		$itemArray = $basketObj->getItemArray();
 
-		if (count($itemArray))	{
+		if (count($itemArray)) {
+			$pricefactor = 0;
+			$mode = 'normal';
+			if (
+				isset($this->conf['creditpoints.']) &&
+				isset($this->conf['creditpoints.']['mode'])
+			) {
+				$mode = $this->conf['creditpoints.']['mode'];
+				$pricefactor = tx_ttproducts_creditpoints_div::getPriceFactor($this->conf);
+			}
+
 			$creditpointsTotal = 0;
 			// loop over all items in the basket indexed by a sort string
 			foreach ($itemArray as $sort => $actItemArray) {
 				foreach ($actItemArray as $k1 => $actItem) {
-					$row = &$actItem['rec'];
-					if ($row['creditpoints'] > 0)	{
-						$count = $actItem['count'];
+					$row = $actItem['rec'];
+					$count = $actItem['count'];
+
+					if ($row['creditpoints'] > 0) {
+
 						$creditpointsTotal += $row['creditpoints'] * $count;
+					} else if ($mode == 'auto' && $pricefactor) {
+						$creditpointsTotal += ($actItem['priceTax'] * $count) / $pricefactor;
 					}
 				}
 			}
@@ -66,7 +80,7 @@ class tx_ttproducts_field_creditpoints extends tx_ttproducts_field_base {
 	}
 
 
-	public function getBasketMissingCreditpoints ($addCreditpoints, &$missing, &$remaining)	{
+	public function getBasketMissingCreditpoints ($addCreditpoints, &$missing, &$remaining) {
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 		$feuserTable = $tablesObj->get('fe_users', false);
 
@@ -78,7 +92,7 @@ class tx_ttproducts_field_creditpoints extends tx_ttproducts_field_base {
 	}
 
 
-	public function getMissingCreditpoints ($fieldname, $row, &$missing, &$remaining)	{
+	public function getMissingCreditpoints ($fieldname, $row, &$missing, &$remaining) {
 
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 		$feuserTable = $tablesObj->get('fe_users', false);
@@ -92,23 +106,24 @@ class tx_ttproducts_field_creditpoints extends tx_ttproducts_field_base {
 
 
 	/* reduces the amount of creditpoints of the FE user by the total amount of creditpoints from the products. */
-	/* It returns the number of credipoints by which the account of the FE user has been reduced. false is if no FE user is logged in. */
-	public function pay ()	{
+	/* It returns the number of creditpoints by which the account of the FE user has been reduced. false is if no FE user is logged in. */
+	public function pay () {
 		$rc = false;
-		if (\JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn())	{
+		if (\JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn()) {
+//			$whereGeneral = '(fe_users_uid="'.$GLOBALS['TSFE']->fe_user->user['uid'].'" OR fe_users_uid=0) ';
 
 			$creditpointsTotal = $this->getBasketTotal();
 
-			if ($creditpointsTotal)	{
+			if ($creditpointsTotal) {
 				$fieldsArrayFeUsers = array();
 				$fieldsArrayFeUsers['tt_products_creditpoints'] = $GLOBALS['TSFE']->fe_user->user['tt_products_creditpoints'] - $creditpointsTotal;
-				if ($fieldsArrayFeUsers['tt_products_creditpoints'] < 0)	{
+				if ($fieldsArrayFeUsers['tt_products_creditpoints'] < 0) {
 					$fieldsArrayFeUsers['tt_products_creditpoints'] = 0;
 					$rc = $GLOBALS['TSFE']->fe_user->user['tt_products_creditpoints'];
 				}
-				if ($GLOBALS['TSFE']->fe_user->user['tt_products_creditpoints'] != $fieldsArrayFeUsers['tt_products_creditpoints'])	{
+				if ($GLOBALS['TSFE']->fe_user->user['tt_products_creditpoints'] != $fieldsArrayFeUsers['tt_products_creditpoints']) {
 					$GLOBALS['TSFE']->fe_user->user['tt_products_creditpoints'] = $fieldsArrayFeUsers['tt_products_creditpoints']; // store it also for the global FE user data
-					$GLOBALS['TYPO3_DB']->exec_UPDATEquery('fe_users', 'uid='.intval($GLOBALS['TSFE']->fe_user->user['uid']), $fieldsArrayFeUsers);
+					$GLOBALS['TYPO3_DB']->exec_UPDATEquery('fe_users', 'uid=' . intval($GLOBALS['TSFE']->fe_user->user['uid']), $fieldsArrayFeUsers);
 					$rc = $creditpointsTotal;
 				}
 			}
@@ -118,7 +133,9 @@ class tx_ttproducts_field_creditpoints extends tx_ttproducts_field_base {
 }
 
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/field/class.tx_ttproducts_field_creditpoints.php'])	{
+
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/field/class.tx_ttproducts_field_creditpoints.php']) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/field/class.tx_ttproducts_field_creditpoints.php']);
 }
+
 

@@ -50,6 +50,7 @@ call_user_func(function () {
             $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude'] :
             $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude.']
         );
+            
 
     if (
         defined('TYPO3_version') &&
@@ -57,7 +58,7 @@ call_user_func(function () {
     ) {
         $excludeArray[$table] .= ',slug';
     } else {
-        $GLOBALS['TCA'][$table]['columns']['slug']['config']['eval'] = $configuration->getSlugBehaviour();    
+        $GLOBALS['TCA'][$table]['columns']['slug']['config']['eval'] = $configuration->getSlugBehaviour();
     }
 
     if (
@@ -71,6 +72,7 @@ call_user_func(function () {
         );
     }
 
+
     if (version_compare(TYPO3_version, '7.6.0', '>=')) {
 
         unset($GLOBALS['TCA'][$table]['ctrl']['transOrigPointerField']);
@@ -79,3 +81,4 @@ call_user_func(function () {
 
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToInsertRecords($table);
 });
+

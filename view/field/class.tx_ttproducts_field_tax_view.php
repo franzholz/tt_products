@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2008-2009 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2012 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -40,7 +40,6 @@
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
-
 class tx_ttproducts_field_tax_view extends tx_ttproducts_field_base_view {
 
 	public function &getItemSubpartArrays (
@@ -52,16 +51,54 @@ class tx_ttproducts_field_tax_view extends tx_ttproducts_field_base_view {
 		$tableConf,
 		&$subpartArray,
 		&$wrappedSubpartArray,
-		array $markerArray,
 		&$tagArray,
 		$theCode = '',
 		$basketExtra = array(),
+		$basketRecs,
 		$id = '1'
 	) {
+		global $TCA;
+
+		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
+		$staticTaxViewObj = $tablesObj->get('static_taxes', true);
+
+		if (is_object($staticTaxViewObj)) {
+			$staticTaxFuncTableName = $staticTaxViewObj->getModelObj()->getFuncTablename();
+			$staticTaxViewObj->getItemSubpartArrays(
+				$templateCode,
+				$staticTaxFuncTableName,
+				$row,
+				$subpartArray,
+				$wrappedSubpartArray,
+				$tagArray,
+				$theCode,
+				$basketExtra,
+				$basketRecs,
+				$id
+			);
+		}
 	}
 
-	public function getRowMarkerArray ($functablename, $fieldname, $row, $markerKey, &$markerArray, $tagArray, $theCode, $id, $basketExtra, &$bSkip, $bHtml=true, $charset='', $prefix='', $suffix='', $imageRenderObj='')	{
-
+	public function getRowMarkerArray (
+		$functablename,
+		$fieldname,
+		$row,
+		$markerKey,
+		&$markerArray,
+		$tagArray,
+		$theCode,
+		$id,
+		$basketExtra,
+		$basketRecs,
+		&$bSkip,
+		$bHtml = true,
+		$charset = '',
+		$prefix = '',
+		$suffix = '',
+		$imageNum = 0,
+		$imageRenderObj = '',
+		$bEnableTaxZero = false
+	) {
 	}
 }
 
@@ -69,6 +106,5 @@ class tx_ttproducts_field_tax_view extends tx_ttproducts_field_base_view {
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/field/class.tx_ttproducts_field_tax_view.php'])	{
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/field/class.tx_ttproducts_field_tax_view.php']);
 }
-
 
 

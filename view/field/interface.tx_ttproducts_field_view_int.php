@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2007-2010 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2012 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -38,10 +38,29 @@
 
 
 
-interface tx_ttproducts_field_view_int	{
+interface tx_ttproducts_field_view_int {
+	public function init ($modelObj);
 	public function needsInit ();
 	public function getModelObj ();
-	public function getRowMarkerArray ($functablename, $fieldname, $row, $markerKey, &$markerArray, $tagArray, $theCode, $id, $basketExtra, &$bSkip, $bHtml=true, $charset='', $prefix='', $suffix='', $imageRenderObj='');
+	public function getRowMarkerArray (
+		$functablename,
+		$fieldname,
+		$row,
+		$markerKey,
+		&$markerArray,
+		$tagArray,
+		$theCode,
+		$id,
+		$basketExtra,
+		$basketRecs,
+		&$bSkip,
+		$bHtml = true,
+		$charset = '',
+		$prefix = '',
+		$suffix = '',
+		$imageNum = 0,
+		$imageRenderObj = '',
+		$bEnableTaxZero = false
+	);
 }
-
 

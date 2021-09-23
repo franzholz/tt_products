@@ -18,14 +18,11 @@
 			<trans-unit id="created" xml:space="preserve">
 				<source>The records have been generated.</source>
 			</trans-unit>
-            <trans-unit id="created_table" xml:space="preserve">
-                <source>%d %s have been created.</source>
-            </trans-unit>
 			<trans-unit id="no_texts" xml:space="preserve">
 				<source>No text records found on this page.</source>
 			</trans-unit>
 			<trans-unit id="no_alternative_product" xml:space="preserve">
-				<source>No product in alternative language has been found for these uid: %s</source>
+				<source>No product in alternative language has been found for these uid</source>
 			</trans-unit>
 		</body>
 	</file>

@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2008-2009 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2016 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -37,83 +37,70 @@
  *
  */
 
-
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
+use JambageCom\Div2007\Utility\FrontendUtility;
+
 
 class tx_ttproducts_relatedlist_view implements \TYPO3\CMS\Core\SingletonInterface {
-	public $conf;
-	public $config;
 	public $pidListObj;
-	public $cObj;
 
 
-	public function init ($cObj, $pid_list, $recursive)	{
-		$this->cObj = $cObj;
-
-		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-		$this->conf = &$cnf->conf;
-		$this->config = &$cnf->config;
+	public function init ($pid_list, $recursive) {
 
 		$this->pidListObj = GeneralUtility::makeInstance('tx_ttproducts_pid_list');
-		$this->pidListObj->init($cObj);
 		$this->pidListObj->applyRecursive($recursive, $pid_list, true);
 		$this->pidListObj->setPageArray();
 	}
 
-
-	public function getQuantityMarkerArray (
-		$theCode,
-		$functablename,
-		$marker,
-		$itemArray,
-		$useArticles,
-		&$markerArray,
+	public function getListUncachedMarkerArray (
+		$uid,
+		$conf,
+		$funcTablename,
 		$viewTagArray
 	) {
-		$addListArray = $this->getAddListArray (
-			$theCode,
-			$functablename,
-			$marker,
-			'',
-			$this->useArticles
-		);
-		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
-		$itemObj = $tablesObj->get($functablename);
+		$result = array();
 
-		$rowArray = array();
-		$rowArray[$functablename] = $itemArray;
+		if (
+			$funcTablename == 'tt_products' &&
+			isset($conf['LISTRELATEDBYSYSTEMCATEGORY']) &&
+			isset($conf['LISTRELATEDBYSYSTEMCATEGORY.']) &&
+			isset($conf['LISTRELATEDBYSYSTEMCATEGORY.']['userFunc'])
+		) {
+			if (isset($viewTagArray['PRODUCT_RELATED_SYSCAT'])) {
+				$cObjectType = $conf['LISTRELATEDBYSYSTEMCATEGORY'];
+				$relatedConf = $conf['LISTRELATEDBYSYSTEMCATEGORY.'];
+				$relatedConf['ref'] = $uid;
+				$relatedConf['code'] = 'LISTRELATEDBYSYSTEMCATEGORY';
+				$relatedConf['userFunc'] = $conf['LISTRELATEDBYSYSTEMCATEGORY.']['userFunc'];
+				$cObjectType = $conf['LISTRELATEDBYSYSTEMCATEGORY'];
 
-		foreach ($addListArray as $subtype => $funcArray)	{
-
-			if (isset($viewTagArray[$funcArray['marker']]) && $funcArray['require'])	{
-				$relatedIds = $itemObj->getRelated($uid, $subtype);
-
-				if (is_array($relatedIds) && count($relatedIds))	{
-
-					$quantitiyMarkerArray = array();
-					tx_ttproducts_control_basketquantity::getQuantityMarkerArray (
-						$relatedIds,
-						$rowArray,
-						$quantitiyMarkerArray
-					);
-					$markerArray = array_merge($markerArray, $quantitiyMarkerArray);
-				}
+				$cObj = FrontendUtility::getContentObjectRenderer(array());
+				$output = $cObj->cObjGetSingle($cObjectType, $relatedConf);
+				$result['###PRODUCT_RELATED_SYSCAT###'] = $output;
+			}
+		} else {
+			if (isset($viewTagArray['PRODUCT_RELATED_SYSCAT'])) {
+				$result['###PRODUCT_RELATED_SYSCAT###'] = '';
 			}
 		}
+		return $result;
 	}
 
 
 	public function getAddListArray (
 		$theCode,
-		$functablename,
+		$funcTablename,
 		$marker,
 		$uid,
 		$useArticles
-	)	{
+	) {
+		$result = false;
+		$cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
+		$conf = $cnfObj->getConf();
 
-		switch ($functablename)	{
+		switch ($funcTablename) {
 			case 'tt_products':
 				$result =
 					array(
@@ -121,51 +108,121 @@ class tx_ttproducts_relatedlist_view implements \TYPO3\CMS\Core\SingletonInterfa
 							'marker' => 'PRODUCT_RELATED_ARTICLES',
 							'template' => 'ITEM_LIST_RELATED_ARTICLES_TEMPLATE',
 							'require' => $useArticles,
-							'code' => 'LISTARTICLES',
-							'additionalPages' => $this->conf['pidsRelatedArticles'],
+							'code' => 'LISTRELATEDARTICLES',
+							'additionalPages' => $conf['pidsRelatedArticles'],
 							'mergeRow' => array(),
 							'functablename' => 'tt_products_articles',
-							'callFunctableArray' => array()
+							'callFunctableArray' => array(),
+							'cached' => true
 						),
 						'accessories' => array(
 							'marker' => 'PRODUCT_ACCESSORY_UID',
 							'template' => 'ITEM_LIST_ACCESSORY_TEMPLATE',
 							'require' => true,
-							'code' => 'LISTACCESSORY',
-							'additionalPages' => $this->conf['pidsRelatedAccessories'],
+							'code' => 'LISTRELATEDACCESSORY',
+							'additionalPages' => $conf['pidsRelatedAccessories'],
 							'mergeRow' => array(),
 							'functablename' => 'tt_products',
-							'callFunctableArray' => array()
+							'callFunctableArray' => array(),
+							'cached' => true
 						),
 						'products' => array(
 							'marker' => 'PRODUCT_RELATED_UID',
 							'template' => 'ITEM_LIST_RELATED_TEMPLATE',
 							'require' => true,
 							'code' => 'LISTRELATED',
-							'additionalPages' => $this->conf['pidsRelatedProducts'],
+							'additionalPages' => $conf['pidsRelatedProducts'],
 							'mergeRow' => array(),
 							'functablename' => 'tt_products',
-							'callFunctableArray' => array()
-						)
-					);
-				break;
-
-			case 'tt_products_articles':
-				$result =
-					array(
-						'accessories' => array(
-							'marker' => 'ARTICLE_ACCESSORY_UID',
-							'template' => 'ITEM_LIST_ACCESSORY_TEMPLATE',
+							'callFunctableArray' => array(),
+							'cached' => true
+						),
+						'productsbysystemcategory' => array(
+							'marker' => 'PRODUCT_RELATED_SYSCAT',
+							'template' => 'ITEM_LIST_RELATED_BY_SYSTEMCATEGORY_TEMPLATE',
 							'require' => true,
-							'code' => 'LISTACCESSORY',
-							'additionalPages' => $this->conf['pidsRelatedAccessories'],
+							'code' => 'LISTRELATEDBYSYSTEMCATEGORY',
+							'additionalPages' => $conf['pidsRelatedProducts'],
 							'mergeRow' => array(),
-							'functablename' => 'tt_products_articles',
-							'callFunctableArray' => array()
-						)
+							'functablename' => 'tt_products',
+							'callFunctableArray' => array(),
+							'cached' => false
+						),
+						'complete_downloads' => array(
+							'marker' => 'PRODUCT_COMPLETE_DOWNLOAD_UID',
+							'template' => 'ITEM_LIST_COMPLETE_DOWNLOAD_TEMPLATE',
+							'require' => true,
+							'code' => 'LISTRELATEDCOMPLETEDOWNLOAD',
+							'additionalPages' => $conf['pidsRelatedDownloads'],
+							'mergeRow' => array(),
+							'functablename' => 'sys_file_reference',
+							'callFunctableArray' => array(),
+// 							'callFunctableArray' => array($marker => 'sys_file_reference'),
+							'cached' => true
+						),
+                        'all_downloads' => array(
+                            'marker' => 'PRODUCT_ALL_DOWNLOAD_UID',
+                            'template' => 'ITEM_LIST_ALL_DOWNLOAD_TEMPLATE',
+                            'require' => true,
+                            'code' => 'LISTRELATEDALLDOWNLOAD',
+                            'additionalPages' => $conf['pidsRelatedDownloads'],
+                            'mergeRow' => array(),
+                            'functablename' => 'sys_file_reference',
+                            'callFunctableArray' => array(),
+                            'cached' => true
+                        ),
+						'partial_downloads' => array(
+							'marker' => 'PRODUCT_PARTIAL_DOWNLOAD_UID',
+							'template' => 'ITEM_LIST_PARTIAL_DOWNLOAD_TEMPLATE',
+							'require' => true,
+							'code' => 'LISTRELATEDPARTIALDOWNLOAD',
+							'additionalPages' => $conf['pidsRelatedDownloads'],
+							'mergeRow' => array(),
+							'functablename' => 'sys_file_reference',
+							'callFunctableArray' => array(),
+							'cached' => true
+
+// 							'callFunctableArray' => array($marker => 'sys_file_reference')
+						),
 					);
 				break;
 
+			case 'tx_dam':
+				if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('dam')) {
+					if ($uid > 0) {
+						$damext = array('tx_dam' =>
+							array(
+								array('uid' => $uid)
+							)
+						);
+						$extArray = array('ext' => $damext);
+					} else {
+						$extArray = array();
+					}
+					$result =
+						array(
+							'products' => array(
+								'marker' => 'DAM_PRODUCTS',
+								'template' => 'DAM_ITEM_LIST_TEMPLATE',
+								'require' => true,
+								'code' => $theCode,
+								'additionalPages' => false,
+								'mergeRow' => $extArray,
+								'functablename' => 'tt_products',
+								'callFunctableArray' => array($marker => 'tx_dam'),
+								'cached' => true
+							)
+						);
+				}
+				break;
+		}
+
+		if (is_array($result)) {
+			foreach ($result as $subtype => $funcArray) {
+				if (!isset($GLOBALS['TCA'][$funcArray['functablename']]['columns'])) {
+					unset($result[$subtype]); // if the current TYPO3 version does not support the needed foreign table
+				}
+			}
 		}
 		return $result;
 	}
@@ -173,72 +230,120 @@ class tx_ttproducts_relatedlist_view implements \TYPO3\CMS\Core\SingletonInterfa
 
 	public function getListMarkerArray (
 		$theCode,
-		$pibaseClass,
 		$templateCode,
-		$markerArray,
 		$viewTagArray,
-		$functablename,
+		$funcTablename,
 		$uid,
-		$uidArray,
+		$paramUidArray,
+		$parentProductRow,
+		$notOverwritePriceIfSet,
+        $multiOrderArray,
 		$useArticles,
 		$pageAsCategory,
 		$pid,
-		&$errorCode
-	)	{
+		&$error_code
+	) {
+		$cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
+		$config = $cnfObj->getConfig();
+
 		$result = false;
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
-		$itemViewObj = $tablesObj->get($functablename, true);
-		$addListArray = $this->getAddListArray($theCode, $functablename, $itemViewObj->getMarker(), $uid, $useArticles);
+		$itemViewObj = $tablesObj->get($funcTablename, true);
+		$addListArray =
+			$this->getAddListArray(
+				$theCode,
+				$funcTablename,
+				$itemViewObj->getMarker(),
+				$uid,
+				$useArticles
+			);
 
-		if (is_array($addListArray))	{
+		if (is_array($addListArray)) {
 			$listView = '';
 			$itemObj = $itemViewObj->getModelObj();
 
-			foreach ($addListArray as $subtype => $funcArray)	{
+			foreach ($addListArray as $subtype => $funcArray) {
+				if (!$funcArray['cached']) {
+					continue;
+				}
 
-				if (isset($viewTagArray[$funcArray['marker']]) && $funcArray['require'])	{
-					$relatedIds = $itemObj->getRelated($uid, $subtype);
+				if (isset($viewTagArray[$funcArray['marker']]) && $funcArray['require']) {
+					$relatedItemObj = $itemObj;
+					$parentFuncTablename = '';
+					if ($funcTablename != $funcArray['functablename']) {
+						$relatedItemObj = $tablesObj->get($funcArray['functablename'], false);
+						$parentFuncTablename = $funcArray['functablename'];
+					}
+					$tableConf = $relatedItemObj->getTableConf($funcArray['code']);
+					$orderBy = '';
+					if (isset($tableConf['orderBy'])) {
+						$orderBy = $tableConf['orderBy'];
+					}
+					$mergeRow = array();
+					$parentRows = array();
+					$relatedIds =
+						$itemObj->getRelated(
+							$parentFuncTablename,
+							$parentRows,
+                            $multiOrderArray,
+							$uid,
+							$subtype,
+							$orderBy
+						);
 
-					if (is_array($relatedIds) && count($relatedIds))	{
+					if (count($relatedIds)) {
 						// List all products:
-						if (!is_object($listView))	{
+
+						if (!is_object($listView)) {
 
 							$listView = GeneralUtility::makeInstance('tx_ttproducts_list_view');
-							$listView->init (
-								$pibaseClass,
+							$listView->init(
 								$pid,
-								$useArticles,
-								$uidArray,
+								$paramUidArray,
 								$tmp = $this->pidListObj->getPidlist(),
 								0
 							);
 						}
 						$callFunctableArray = $funcArray['callFunctableArray'];
 						$listPids = $funcArray['additionalPages'];
-						if ($listPids != '')	{
-							$this->pidListObj->applyRecursive($this->config['recursive'], $listPids);
+						if ($listPids != '') {
+							$this->pidListObj->applyRecursive($config['recursive'], $listPids);
 						} else {
 							$listPids = $this->pidListObj->getPidlist();
 						}
+
 						$parentDataArray = array(
-							'functablename' => $functablename,
+							'functablename' => $funcTablename,
 							'uid' => $uid
 						);
+
+						$productRowArray = array();
+						$bEditableVariants = true;
+
 						$tmpContent = $listView->printView(
 							$templateCode,
 							$funcArray['code'],
 							$funcArray['functablename'],
 							implode(',', $relatedIds),
 							$listPids,
-							$errorCode,
-							$funcArray['template'] . $this->config['templateSuffix'],
+							'',
+							$error_code,
+							$funcArray['template'] . $config['templateSuffix'],
 							$pageAsCategory,
-							array(),
+							tx_ttproducts_control_basket::getBasketExtra(),
+							tx_ttproducts_control_basket::getRecs(),
+							$mergeRow,
 							1,
 							$callFunctableArray,
-							$parentDataArray
+							$parentDataArray,
+							$parentProductRow,
+							$parentFuncTablename,
+							$parentRows,
+							$notOverwritePriceIfSet,
+							$multiOrderArray,
+							$productRowArray,
+							$bEditableVariants
 						);
-
 						$result['###' . $funcArray['marker'] . '###'] = $tmpContent;
 					} else {
 						$result['###' . $funcArray['marker'] . '###'] = '';
@@ -256,8 +361,7 @@ class tx_ttproducts_relatedlist_view implements \TYPO3\CMS\Core\SingletonInterfa
 }
 
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_relatedlist_view.php'])	{
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_relatedlist_view.php']) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_relatedlist_view.php']);
 }
-
 

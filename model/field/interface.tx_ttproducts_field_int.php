@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2007-2007 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2012 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -37,9 +37,17 @@
  */
 
 
-interface tx_ttproducts_field_int	{
-	function needsInit();
-	function getFieldValue($basketExtra, $row, $fieldname);
+interface tx_ttproducts_field_int {
+
+	public function needsInit();
+	public function getFieldValue (
+		&$taxInfoArray,
+		array $row,
+		$fieldname,
+		$basketExtra,
+		$basketRecs,
+		$bEnableTaxZero
+	);
 }
 
 

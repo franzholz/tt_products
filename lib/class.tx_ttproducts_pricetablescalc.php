@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2007-2009 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2012 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -41,32 +41,179 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
 
-
 class tx_ttproducts_pricetablescalc extends tx_ttproducts_pricecalc_base {
 
-	function init ($pibase)	{
-	// nothing
+
+
+	public function calculateValue ($formula, $row) {
+		$result = false;
+		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
+		$markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
+		$conf = $cnf->getConf();
+		$tagArray = $markerObj->getAllMarkers($formula);
+		$markerArray = array();
+
+		if (isset($conf['graduate.']) && is_array($conf['graduate.'])) {
+			$bIsValid = false;
+
+			foreach ($conf['graduate.'] as $graduateConf) {
+				$bIsValid = true;
+				if (isset($graduateConf['sql.']) && is_array($graduateConf['sql.'])) {
+					$bIsValid = tx_ttproducts_sql::isValid($row, $graduateConf['sql.']['where']);
+				}
+
+				if ($bIsValid) {
+					if (isset($graduateConf['marks.']) && is_array($graduateConf['marks.'])) {
+						foreach ($graduateConf['marks.'] as $tag => $value) {
+							$marker = '###' . strtoupper($tag) . '###';
+							$markerArray[$marker] = $value;
+						}
+					}
+				}
+			}
+		}
+
+		if (isset($tagArray) && is_array($tagArray)) {
+			foreach ($tagArray as $tag => $value) {
+				$marker = '###' . $tag . '###';
+				if (!isset($markerArray[$marker])) {
+					$markerArray[$marker] = '0';
+				}
+			}
+		}
+
+		$formula = tx_div2007_core::substituteMarkerArrayCached($formula, $markerArray);
+		$formula = trim($formula);
+		$len = strlen($formula);
+		$lastChar = substr($formula, -1, 1);
+
+		if (
+			$lastChar != '' &&
+			(
+				!MathUtility::canBeInterpretedAsInteger($lastChar)
+			)
+		) {
+			$formula = substr($formula, 0, strlen($formula) - 1);
+
+			switch ($lastChar) {
+				case '%':
+					if ($formula > 100) {
+						$formula = 100;
+					}
+					$priceProduct = $priceProduct * (1 - $formula/100);
+					$result = $priceProduct;
+					break;
+			}
+		} else {
+			$phpCode = '$result = ' . $formula . ';';
+
+			try {	// take care of divisions by zero
+				if (
+					!\JambageCom\Div2007\Utility\PhpUtility::php_is_secure($phpCode)
+				) {
+					throw new RuntimeException('Error in tt_products: The graduated price for "' . htmlspecialchars($formula) . '" is unsecure.', 50003);
+				}
+
+				$syntaxCheck =
+					\JambageCom\Div2007\Utility\PhpUtility::php_syntax_error($phpCode);
+				if (
+					is_array($syntaxCheck)
+				) {
+					throw new RuntimeException('Error in tt_products: The syntax check for "' . htmlspecialchars($formula) . '" went wrong.', 50004);
+				} else {
+					eval($phpCode);
+// 					eval("\$result = " . $formula . ";" );
+				}
+			}
+			catch(RuntimeException $e) {
+				debug ($e, 'calculateValue $e'); // keep this
+			}
+			catch(Exception $e) {
+				debug ($e, 'calculateValue $e'); // keep this
+				throw new RuntimeException('Error in tt_products: Devision by zero error with "' . htmlspecialchars($formula) . '" .', 50005);
+			}
+		}
+
+		if ($row['graduated_price_round'] != '') {
+
+			$result = tx_ttproducts_api::roundPrice($result, $row['graduated_price_round']);
+		}
+
+		return $result;
 	}
 
-	function getCalculatedData (
+
+	public function getDiscountPrice ($graduatedPriceObj, $row, $priceProduct, $count) {
+
+		$result = false;
+		$uid = $row['uid'];
+		$priceFormulaArray =
+			$graduatedPriceObj->getFormulasByItem($uid);
+
+		if (
+			isset($priceFormulaArray) &&
+			is_array($priceFormulaArray) &&
+			count($priceFormulaArray)
+		) {
+			$maxStartAmount = '0';
+			$thePriceFormula = false;
+
+			foreach ($priceFormulaArray as $k => $priceFormula) {
+				if ($count >= floatval($priceFormula['startamount'])) {
+					if (
+						floatval($priceFormula['startamount']) > $maxStartAmount
+					) {
+						$maxStartAmount = floatval($priceFormula['startamount']);
+						$thePriceFormula = $priceFormula;
+					}
+				}
+			}
+
+			if ($thePriceFormula) {
+				$calculatedValue =
+					$this->calculateValue(
+						$thePriceFormula['formula'],
+						$row
+					);
+
+				$result = $calculatedValue;
+
+				// Todo: if ($priceProduct > $calculatedValue)
+			}
+		}
+
+		return $result;
+	}
+
+	public function getCalculatedData (
 		&$itemArray,
-		&$conf,
+		$conf,
 		$type,
 		&$priceReduction,
 		&$discountArray,
 		$priceTotalTax,
 		$bUseArticles,
-		$bMergeArticles = true
+		$taxIncluded,
+		$bMergeArticles = true,
+		$uid = 0
 	) {
 		if (!$itemArray || !count($itemArray)) {
-			return;
+			return false;
 		}
 
-		$graduatedPriceObj = GeneralUtility::makeInstance('tx_ttproducts_graduated_price');
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
+		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 		$useArticles = $cnf->getUseArticles();
-		if ($bUseArticles && ($useArticles == 1 || $useArticles == 3)) {
-			$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
+		$productTable = $tablesObj->get('tt_products', false);
+		$graduatedPriceObj = $productTable->getGraduatedPriceObject();
+
+		if (
+			$bUseArticles &&
+			(
+				$useArticles == 1 ||
+				$useArticles == 3
+			)
+		) {
 			$articleTable = $tablesObj->get('tt_products_articles', false);
 		}
 
@@ -86,75 +233,67 @@ class tx_ttproducts_pricetablescalc extends tx_ttproducts_pricecalc_base {
 		foreach ($prodArray as $uid => $actItemArray) {
 			$row1 = $actItemArray['0']['rec'];
 
-			if ($row1['graduated_price_uid'])	{
+			if ($graduatedPriceObj->hasDiscountPrice($row1)) {
 				$count = 0;
-				$priceProduct = $row1['price'];
-				foreach($actItemArray as $actItem)	{
+				if ($taxIncluded) {
+					$priceProduct = $row1['pricetax'];
+				} else {
+					$priceProduct = $row1['pricenotax'];
+				}
+				foreach($actItemArray as $actItem) {
 					$count += floatval($actItem['count']);
 				}
-				$priceFormulaArray = $graduatedPriceObj->getFormulasByProduct($uid);
+				$newPriceProduct =
+					$this->getDiscountPrice(
+						$graduatedPriceObj,
+						$row1,
+						$priceProduct,
+						$count
+					);
 
-				foreach ($priceFormulaArray as $k => $priceFormula)	{
+				if ($newPriceProduct !== false) {
+					$priceProduct = $newPriceProduct;
 
-					if ($count >= floatval($priceFormula['startamount']))	{
-						$formula = trim($priceFormula['formula']);
-						$len = strlen($formula);
-						$lastChar = substr($formula,-1,1);
+					foreach($actItemArray as $actItem) {
 
-                        if (
-                            $lastChar != '' &&
-                            (
-                                !MathUtility::canBeInterpretedAsInteger($lastChar)
-                            )
-                        ) {
-							$formula = substr($formula,0,strlen($formula)-1);
-							switch ($lastChar)	{
-								case '%':
-									if ($formula > 100)	{
-										$formula = 100;
+						$row = $actItem['rec'];
+						$count = floatval($actItem['count']);
+						$sort = $actItem['sort'];
+						$k2 = $actItem['k2'];
+						$actPrice = $priceProduct;
+
+						if (isset($articleTable) && is_object($articleTable)) {
+							$extArray = $row['ext'];
+
+							if (
+								isset($extArray['tt_products_articles']) && is_array($extArray['tt_products_articles'])
+							) {
+								$articleUid = $extArray['tt_products_articles']['0']['uid'];
+
+								if (
+									MathUtility::canBeInterpretedAsInteger($articleUid)
+								) {
+									$articleRow = $articleTable->get($articleUid);
+									$bIsAddedPrice = $cnf->hasConfig($articleRow, 'isAddedPrice');
+
+									if ($bIsAddedPrice) {
+										$actPrice = $priceProduct + $articleRow['price'];
 									}
-									$priceProduct = $priceProduct * (1 - $formula/100);
-									break;
-							}
-						} else	{
-							$priceProduct = $formula;
-						}
-					}
-				}
-
-				foreach($actItemArray as $actItem)	{
-
-					$row = $actItem['rec'];
-					$count = floatval($actItem['count']);
-					$sort = $actItem['sort'];
-					$k2 = $actItem['k2'];
-					$actPrice = $priceProduct;
-
-					if (isset($articleTable) && is_object($articleTable))	{
-						$extArray = $row['ext'];
-						$articleUid = $extArray['tt_products_articles']['0']['uid'];
-
-						if (
-							tx_div2007_core::testInt($articleUid)
-						) {
-							$articleRow = $articleTable->get($articleUid);
-							$bIsAddedPrice = $cnf->hasConfig($articleRow, 'isAddedPrice');
-							if ($bIsAddedPrice)	{
-								$actPrice = $priceProduct + $articleRow['price'];
+								}
 							}
 						}
-					}
 
-					$itemArray[$sort][$k2]['rec'][$type] = $itemArray[$sort][$k2][$type] = $actPrice;
+						$itemArray[$sort][$k2]['rec'][$type] = $itemArray[$sort][$k2][$type] = $actPrice;
+					}
+					$priceReduction[$uid] = 1;
 				}
-				$priceReduction[$uid] = 1;
 			}
 		}
+
 	} // getCalculatedData
 }
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/lib/class.tx_ttproducts_pricetablescalc.php'])	{
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/lib/class.tx_ttproducts_pricetablescalc.php']);
 }
-
 

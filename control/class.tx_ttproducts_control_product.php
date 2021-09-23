@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2008-2010 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2016 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -37,46 +37,115 @@
  *
  */
 
+ 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 
 
 class tx_ttproducts_control_product {
 
 	/**
 	 */
-	static public function &getPresetVariantArray (
-		$uid
-	)	{
+	static public function getPresetVariantArray (
+		$itemTable,
+		$row,
+		$useArticles
+	) {
+		$uid = $row['uid'];
+		$functablename = $itemTable->getFuncTablename();;
 		$basketVar = tx_ttproducts_model_control::getBasketVar();
-		$presetVarianArray = array();
+		$presetVariantArray = array();
 		$basketArray = GeneralUtility::_GP($basketVar);
 
 		if (
 			isset($basketArray) && is_array($basketArray) &&
-			isset($basketArray[$uid]) && is_array($basketArray[$uid])
-		)	{
-			$presetVarianArray = $_POST[$basketVar][$uid];
+			isset($basketArray[$uid]) && is_array($basketArray[$uid]) &&
+			isset($_POST[$basketVar]) && is_array($_POST[$basketVar]) &&
+			isset($_POST[$basketVar][$uid])
+		) {
+			$presetVariantArray = $_POST[$basketVar][$uid];
 		}
 
-		return $presetVarianArray;
+		$storedRecs = tx_ttproducts_control_basket::getStoredVariantRecs();
+		if (
+			isset($storedRecs) &&
+			is_array($storedRecs) &&
+			isset($storedRecs[$functablename]) &&
+			is_array($storedRecs[$functablename]) &&
+			isset($storedRecs[$functablename][$uid])
+		) {
+			$variantRow = $storedRecs[$functablename][$uid];
+			$variant =
+				$itemTable->variant->getVariantFromProductRow(
+					$row,
+					$variantRow,
+					$useArticles,
+					false
+				);
+
+			$presetVariantArray = $variant;
+		}
+
+		return $presetVariantArray;
 	} // getPresetVariantArray
 
 
-	static public function getActiveArticleNo ()	{
-		$piVars = tx_ttproducts_model_control::getPiVars();
-		$piVar = tx_ttproducts_model_control::getPiVar('tt_products_articles');
-		$rc = false;
-		if (isset($piVars) && is_array($piVars) && isset($piVars[$piVar]))	{
-			$rc = $piVars[$piVar];
+	static public function getActiveArticleNo () {
+		$result = tx_ttproducts_model_control::getPiVarValue('tt_products_articles');
+		return $result;
+	}
+
+
+	static public function addAjax (
+		$tablesObj,
+		$languageObj,
+		$theCode,
+		$functablename
+	) {
+		if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('taxajax')) {
+
+			$itemTable = $tablesObj->get($functablename, false);
+
+			$selectableVariantFieldArray = $itemTable->variant->getSelectableFieldArray();
+			$editFieldArray = $itemTable->editVariant->getFieldArray();
+			$fieldArray = array();
+
+			if (
+				isset($selectableVariantFieldArray) &&
+				is_array($selectableVariantFieldArray)
+			) {
+				$fieldArray = $selectableVariantFieldArray;
+			}
+
+			if (isset($editFieldArray) && is_array($editFieldArray)) {
+				$fieldArray = array_merge($fieldArray, $editFieldArray);
+			}
+
+			$param = array($functablename => $fieldArray);
+			$bUseColorbox = false;
+			$tableConf = $itemTable->getTableConf($theCode);
+			if (
+				is_array($tableConf) &&
+				isset($tableConf['jquery.']) &&
+				isset($tableConf['jquery.']['colorbox']) &&
+				$tableConf['jquery.']['colorbox']
+			) {
+				$bUseColorbox = true;
+			}
+
+			$javaScriptObj = GeneralUtility::makeInstance('tx_ttproducts_javascript');
+			$javaScriptObj->set(
+				$languageObj,
+				'fetchdata',
+				$param
+			);
+
+			if (
+				$bUseColorbox
+			) {
+				$javaScriptObj->set($languageObj, 'colorbox');
+			}
 		}
-		return $rc;
 	}
 }
-
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/control/class.tx_ttproducts_control_product.php'])	{
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/control/class.tx_ttproducts_control_product.php']);
-}
-
-
 

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<T3locallang>
+	<meta type="array">
+		<type>module</type>
+		<description>Language labels for module &quot;&quot;</description>
+	</meta>
+	<data type="array">
+		<languageKey index="default" type="array">
+			<label index="title">Import images into FAL for tt_products.</label>
+			<label index="requires_typo3_62">The FAL conversion can only be executed under TYPO3 6.2 and higher.</label>
+			<label index="only_admin">These functions are only available for admins.</label>
+			<label index="pid_src">The source id is %d.</label>
+			<label index="start">Start the import of the images into FAL!</label>
+			<label index="finished">The import of the images into FAL has been finished!</label>
+			<label index="warning">Make a backup copy of your images in the folder uploads/pics. All images files from this folder will be removed.</label>
+		</languageKey>
+		<languageKey index="de" type="array">
+			<label index="title">Importiere Bilder in die FAL von tt_products</label>
+			<label index="only_admin">Diese Funktionen sind nur für Administratoren verfügbar.</label>
+			<label index="pid_src">Die Ausgangs Seiten-Id ist %d.</label>
+			<label index="start">Starte mit dem Import der Bilder nach FAL!</label>
+			<label index="finished">Import der Bilder nach FAL abgeschlossen!</label>
+			<label index="warning">Machen Sie eine Sicherheitskopie der Bilder im Verzeichnis uploads/pics! Alle Bild Dateien aus diesem Verzeichnis werden gelöscht.</label>
+		</languageKey>
+	</data>
+</T3locallang>

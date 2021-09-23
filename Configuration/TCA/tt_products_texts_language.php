@@ -9,7 +9,6 @@ $result = array (
 	'ctrl' => array (
 		'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products_texts_language',
 		'label' => 'title',
-		'default_sortby' => 'ORDER BY title',
 		'tstamp' => 'tstamp',
 		'delete' => 'deleted',
 		'enablecolumns' => array (
@@ -21,6 +20,8 @@ $result = array (
 		'prependAtCopy' => DIV2007_LANGUAGE_LGL . 'prependAtCopy',
 		'crdate' => 'crdate',
 		'cruser_id' => 'cruser_id',
+		'versioningWS' => true,
+		'origUid' => 't3_origuid',
 		'iconfile' => PATH_TTPRODUCTS_ICON_TABLE_REL . 'tt_products_texts_language.gif',
 		'languageField' => 'sys_language_uid',
 		'searchFields' => 'title,note',
@@ -30,7 +31,7 @@ $result = array (
 	),
 	'columns' => array (
 		't3ver_label' => array (
-			'label'  => DIV2007_LANGUAGE_PATH . 'locallang_general.xlf:LGL.versionLabel',
+			'label'  => DIV2007_LANGUAGE_PATH . 'locallang_general.xml:LGL.versionLabel',
 			'config' => array (
 				'type' => 'input',
 				'size' => '30',
@@ -86,7 +87,7 @@ $result = array (
 			'label' => DIV2007_LANGUAGE_LGL . 'hidden',
 			'config' => array (
 				'type' => 'check',
-				'default' => 0
+                'default' => 0
 			)
 		),
 		'starttime' => array (
@@ -151,9 +152,8 @@ $result = array (
 			'config' => array (
 				'type' => 'input',
 				'size' => '40',
-				'eval' => 'trim',
 				'max' => '256',
-				'default' => ''
+				'default' => '',
 			),
 			'l10n_mode' => 'prefixLangTitle',
 		),
@@ -162,9 +162,8 @@ $result = array (
 			'config' => array (
 				'type' => 'text',
 				'cols' => '48',
-				'eval' => null,
 				'rows' => '5',
-				'default' => ''
+				'default' => '',
 			),
 			'l10n_mode' => 'prefixLangTitle',
 		),
@@ -185,17 +184,16 @@ $result = array (
 		),
 	),
 	'types' => array (
-		'0' =>
-            array(
-                'columnsOverrides' => array(
-                    'note' => array(
-                        'config' => array(
-                            'enableRichtext' => '1'
-                        )
+		'0' => array(
+            'columnsOverrides' => array(
+                'note' => array(
+                    'config' => array(
+                        'enableRichtext' => '1'
                     )
-                ),
-                'showitem' => 'sys_language_uid, l18n_diffsource, crdate, tstamp, hidden,--palette--;;1, text_uid, title, note, parenttable'
-            )
+                )
+            ),
+            'showitem' => 'sys_language_uid, l18n_diffsource, tstamp, crdate, hidden,--palette--;;1, text_uid, title, note, parenttable'
+        )
     ),
     'palettes' => array (
         '1' => array('showitem' => 'starttime, endtime, fe_group')

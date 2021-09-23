@@ -17,7 +17,6 @@ call_user_func(function () {
     }
 
     $orderBySortingTablesArray = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['orderBySortingTables']);
-
     if (
         !empty($orderBySortingTablesArray) &&
         in_array($table, $orderBySortingTablesArray)
@@ -46,7 +45,7 @@ call_user_func(function () {
         );
         $GLOBALS['TCA'][$table]['columns']['parent_category']['config']['renderMode'] = 'tree';
     }
-    
+
     $excludeArray =  
         (version_compare(TYPO3_version, '10.0.0', '>=') ? 
             $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude'] :
@@ -59,7 +58,7 @@ call_user_func(function () {
     ) {
         $excludeArray[$table] .= ',slug';
     } else {
-        $GLOBALS['TCA'][$table]['columns']['slug']['config']['eval'] = $configuration->getSlugBehaviour();    
+        $GLOBALS['TCA'][$table]['columns']['slug']['config']['eval'] = $configuration->getSlugBehaviour();
     }
 
     if (
@@ -106,7 +105,7 @@ call_user_func(function () {
         $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['fal'] ||
         version_compare(TYPO3_version, '10.4.0', '>=')
     ) {
-        $GLOBALS['TCA'][$table]['ctrl']['thumbnail'] = 'image_uid';
+        $GLOBALS['TCA'][$table]['ctrl']['thumbnail'] = 'image_uid';    
 
         $GLOBALS['TCA'][$table]['types']['0']['showitem'] = str_replace(', image,', ', image_uid,', $GLOBALS['TCA'][$table]['types']['0']['showitem']);
 
@@ -114,6 +113,7 @@ call_user_func(function () {
     } else {
         $GLOBALS['TCA'][$table]['types']['0']['showitem'] = str_replace(', image,', ', image, image_uid,', $GLOBALS['TCA'][$table]['types']['0']['showitem']);
     }
+
 
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToInsertRecords($table);
 });

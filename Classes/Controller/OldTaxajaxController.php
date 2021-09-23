@@ -6,7 +6,7 @@ namespace JambageCom\TtProducts\Controller;
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2007-2020 Kasper Skårhøj (kasperYYYY@typo3.com)
+*  (c) 2007-2016 Kasper Skårhøj (kasperYYYY@typo3.com)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -31,7 +31,7 @@ namespace JambageCom\TtProducts\Controller;
 /**
  * Part of the tt_products (Shop System) extension.
  *
- * main class for taxajax
+ * main class for eID AJAX
  *
  * @author  Kasper Skårhøj <kasperYYYY@typo3.com>
  * @author  Franz Holzinger <franz@ttproducts.de>
@@ -60,7 +60,7 @@ class OldTaxajaxController {
     */
     public function processRequest (
         ServerRequestInterface $request,
-        ResponseInterface $response)  /*: ResponseInterface*/
+        ResponseInterface $response): ResponseInterface
     {
         global $TSFE, $BE_USER, $TYPO3_CONF_VARS, $error;
 
@@ -77,9 +77,11 @@ class OldTaxajaxController {
 
         \JambageCom\Div2007\Utility\FrontendUtility::init($pageId);
 
+
         // ******************************************************
         // Start with tt_products
         // ******************************************************
+
 
         $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
         $config = array();
@@ -96,7 +98,11 @@ class OldTaxajaxController {
         $SOBE->init($conf, $config, $ajax, $tmp = '', $errorCode);
 
         if($_POST['xajax']) {
+            global $trans;
+
+            $trans = $this;
             $ajax->taxajax->processRequests();
+
             $SOBE->destruct();
             exit();
         }

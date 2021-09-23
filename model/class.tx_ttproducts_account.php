@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2005-2009 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2016 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -37,7 +37,6 @@
  *
  */
 
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
@@ -46,49 +45,75 @@ class tx_ttproducts_account extends tx_ttproducts_table_base {
 	public $conf;
 	public $acArray;	// credit card data
 	public $bIsAllowed = false; // enable of bank ACCOUNTS
-	public $fieldArray = array('owner_name', 'ac_number', 'bic');
+	public $requiredFieldArray = array('owner_name', 'iban', 'ac_number', 'bic');
 	public $tablename = 'sys_products_accounts';
 	public $asterisk = '********';
 	public $useAsterisk = false;
+	public $sepa = true;
 
 
-	public function init ($cObj, $functablename)	{
+	public function init ($functablename) {
+
+		$result = true;
+
+		if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['sepa']) {
+			$this->sepa = true;
+			$this->requiredFieldArray = array('owner_name', 'iban');
+			if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['bic']) {
+				$this->requiredFieldArray[] = 'bic';
+			}
+		} else {
+			$this->sepa = false;
+			$this->requiredFieldArray = array('owner_name', 'ac_number', 'bic');
+		}
 		$basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
 		$formerBasket = $basketObj->recs;
 		$basketExtra = tx_ttproducts_control_basket::getBasketExtra();
 		$bIsAllowed = $basketExtra['payment.']['accounts'];
-		if (isset($basketExtra['payment.']['useAsterisk']))	{
+
+		if (isset($basketExtra['payment.']['useAsterisk'])) {
 			$this->useAsterisk = $basketExtra['payment.']['useAsterisk'];
 		}
 
-		parent::init($cObj, 'sys_products_accounts');
+		$result = parent::init('sys_products_accounts');
 		$this->acArray = array();
 		$this->acArray = $formerBasket['account'];
-		if (isset($bIsAllowed))	{
+		if (isset($bIsAllowed)) {
 			$this->bIsAllowed = $bIsAllowed;
 		}
 
 		$bNumberRecentlyModified = true;
 
-		if (!$this->acArray['ac_number'])	{
+		if (
+			$this->sepa && !$this->acArray['iban'] ||
+			!$this->sepa && !$this->acArray['ac_number']
+		) {
 			$bNumberRecentlyModified = false;
 		}
 
-		if ($bNumberRecentlyModified)	{
-			$acArray = $GLOBALS['TSFE']->fe_user->getKey('ses','ac');
-			if (!$acArray)	{
+		if ($bNumberRecentlyModified) {
+			$acArray = tx_ttproducts_control_session::readSession('ac');
+			if (!$acArray) {
 				$acArray = array();
 			}
 			$acArray['ac_uid'] = $this->create($acArray['ac_uid'], $this->acArray);
-			$GLOBALS['TSFE']->fe_user->setKey('ses','ac',$acArray);
-			if ($this->useAsterisk)	{
-				$this->acArray['ac_number'] = $this->asterisk;
+			$GLOBALS['TSFE']->fe_user->setKey('ses', 'ac', $acArray);
+			if ($this->useAsterisk) {
+				if (
+					$this->sepa
+				) {
+					$this->acArray['iban'] = $this->asterisk;
+				} else {
+					$this->acArray['ac_number'] = $this->asterisk;
+				}
 			}
 		}
+
+		return $result;
 	}
 
 
-	function getIsAllowed ()	{
+	public function getIsAllowed () {
 		return $this->bIsAllowed;
 	}
 
@@ -99,29 +124,42 @@ class tx_ttproducts_account extends tx_ttproducts_table_base {
 	/**
 	 * Create a new credit card record
 	 *
-	 * This creates a new credit card record on the page with pid PID_sys_products_orders. That page must exist!
-	 * Should be called only internally by eg. $order->getBlankUid, that first checks if a blank record is already created.
+	 * This creates a new account record on the page with pid PID_sys_products_orders. This page must exist!
 	 */
-	function create ($uid, $acArray)	{
+	public function create ($uid, $acArray) {
 		$newId = 0;
 		$pid = intval($this->conf['PID_sys_products_orders']);
-		if (!$pid)	$pid = intval($GLOBALS['TSFE']->id);
+		if (!$pid) {
+			$pid = intval($GLOBALS['TSFE']->id);
+		}
 
-		if ($acArray['owner_name'] != '' && $acArray[$accountField] && $GLOBALS['TSFE']->sys_page->getPage_noCheck($pid)) {
+		$accountField = 'iban';
+		if (
+			!$this->sepa
+		) {
+			$accountField = 'ac_number';
+		}
+
+		if (
+			$acArray['owner_name'] != '' &&
+			$acArray[$accountField] &&
+			$GLOBALS['TSFE']->sys_page->getPage_noCheck($pid)
+		) {
 			$time = time();
 			$newFields = array (
 				'pid' => intval($pid),
 				'tstamp' => $time,
 				'crdate' => $time,
 				'owner_name' => $acArray['owner_name'],
-				'bic' => $acArray['bic']
+				'bic' => $acArray['bic'],
 			);
-			if ( strcmp ($acArray['ac_number'], $this->asterisk) != 0)	{
-				$newFields['ac_number'] = $acArray['ac_number'];
+
+			if (strcmp($acArray[$accountField], $this->asterisk) != 0) {
+				$newFields[$accountField] = $acArray[$accountField];
 			}
 
-			if ($uid)	{
-				$GLOBALS['TYPO3_DB']->exec_UPDATEquery($this->tablename, 'uid=' . $uid,$newFields);
+			if ($uid) {
+				$GLOBALS['TYPO3_DB']->exec_UPDATEquery($this->tablename, 'uid=' . $uid, $newFields);
 				$newId = $uid;
 			} else {
 				$GLOBALS['TYPO3_DB']->exec_INSERTquery($this->tablename, $newFields);
@@ -132,43 +170,43 @@ class tx_ttproducts_account extends tx_ttproducts_table_base {
 	} // create
 
 
-	function getUid () {
+	public function getUid () {
 		$result = 0;
-		$acArray = $GLOBALS['TSFE']->fe_user->getKey('ses', 'ac');
-		if (isset($acArray['ac_uid'])) {
-			$result = $acArray['ac_uid'];
+		$accountArray = tx_ttproducts_control_session::readSession('ac');
+		if (isset($accountArray['ac_uid'])) {
+			$result = $accountArray['ac_uid'];
 		}
 		return $result;
 	}
 
 
-	function getRow ($uid, $bFieldArrayAll=false) {
-		$rcArray = array();
-		if ($bFieldArrayAll)	{
-			foreach ($this->fieldArray as $k => $field)	{
-				$rcArray [$field] = '';
+	public function getRow ($uid, $bFieldArrayAll = false) {
+		$result = array();
+		if ($bFieldArrayAll) {
+			foreach ($this->requiredFieldArray as $k => $field) {
+				$result[$field] = '';
 			}
 		}
 
 		if ($uid) {
-			$where = 'uid = '.intval($uid);
+			$where = 'uid = ' . intval($uid);
 			// Fetching the products
 			$fields = '*';
-			if ($bFieldArrayAll)	{
-				$fields = implode(',',$this->fieldArray);
+			if ($bFieldArrayAll) {
+				$fields = implode(',', $this->requiredFieldArray);
 			}
 			$tablename = $this->getTablename();
-			if ($tablename == '')	{
+			if ($tablename == '') {
 				$tablename = 'sys_products_accounts';
 			}
 			$res = $GLOBALS['TYPO3_DB']->exec_SELECTquery($fields, $tablename, $where);
 			$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
 			$GLOBALS['TYPO3_DB']->sql_free_result($res);
-			if ($row)	{
-				$rcArray = $row;
+			if ($row) {
+				$result = $row;
 			}
 		}
-		return $rcArray;
+		return $result;
 	}
 
 
@@ -179,42 +217,116 @@ class tx_ttproducts_account extends tx_ttproducts_table_base {
 	 * @return	string		Label of the record
 	 */
 	public function getLabel ($row) {
-		return $row['owner_name'] . ':' . $row['ac_number'] . ':' . $row['bic'];
+		$result = $row['owner_name'] . ':';
+
+		if ($this->sepa) {
+			$result .= $row['iban'];
+		} else {
+			$result .= $row['ac_number'] . ':' . $row['bic'];
+		}
+
+		return $result;
+	}
+
+
+
+	 /**
+	 * Returns the label of the record, Usage in the following format:
+	 * taken from https://codedump.io/share/uL5GlRG5SjCL/1/validate-iban-php
+	 * It fits the
+	 * http://en.wikipedia.org/wiki/International_Bank_Account_Number#Validating_the_IBAN
+	 *
+	 * @param	array		$row: current record
+	 * @return	string		Label of the record
+	 */
+
+	static public function checkIBAN ($iban) {
+		$result = false;
+
+        if (!extension_loaded('bcmath')) {
+            throw new RuntimeException('Required PHP module bcmath is not loaded!', 50007);
+        }
+
+		$iban = strtolower(str_replace(' ', '', $iban));
+		$Countries = array(
+			'al' => 28, 'ad' => 24, 'at' => 20, 'az' => 28, 'bh' => 22, 'be' => 16, 'ba' => 20, 'br' => 29, 'bg' => 22, 'cr' => 21, 'hr' => 21, 'cy' => 28, 'cz' => 24, 'dk' => 18, 'do' => 28,
+			'ee' => 20, 'fo '=> 18, 'fi' => 18, 'fr' => 27, 'ge' => 22, 'de' => 22, 'gi' => 23, 'gr' => 27, 'gl' => 18, 'gt' => 28, 'hu' => 28, 'is' => 26, 'ie' => 22, 'il' => 23, 'it' => 27,
+			'jo' => 30, 'kz' => 20, 'kw' => 30, 'lv' => 21, 'lb' => 28, 'li' => 21, 'lt' => 20, 'lu' => 20, 'mk' => 19, 'mt' =>31, 'mr' => 27, 'mu' => 30, 'mc' => 27, 'md' => 24, 'me' => 22, 'nl' => 18, 'no' => 15, 'pk' => 24, 'ps' => 29,
+			'pl' => 28, 'pt' => 25, 'qa' => 29, 'ro' => 24, 'sm' => 27, 'sa' => 24, 'rs' => 22, 'sk' => 24, 'si' => 19, 'es' => 24, 'se' => 24, 'ch' => 21, 'tn' => 24, 'tr' => 26, 'ae' => 23, 'gb' => 22, 'vg' => 24);
+		$Chars =
+			array(
+				'a' => 10, 'b' => 11, 'c' => 12, 'd' => 13, 'e' => 14, 'f' => 15, 'g' => 16, 'h' => 17, 'i' =>  18, 'j' => 19, 'k' => 20, 'l' => 21, 'm' => 22, 'n' => 23, 'o' => 24, 'p' => 25, 'q' => 26, 'r' => 27, 's' => 28, 't' => 29, 'u' => 30, 'v' => 31, 'w' => 32, 'x' => 33, 'y' => 34, 'z' => 35);
+
+		if(strlen($iban) == $Countries[substr($iban, 0, 2)]) {
+
+			$MovedChar = substr($iban, 4) . substr($iban, 0, 4);
+			$MovedCharArray = str_split($MovedChar);
+			$NewString = '';
+
+			foreach($MovedCharArray AS $key => $value){
+				if(!is_numeric($MovedCharArray[$key])){
+					$MovedCharArray[$key] = $Chars[$MovedCharArray[$key]];
+				}
+				$NewString .= $MovedCharArray[$key];
+			}
+
+			if(bcmod($NewString, '97') == 1) {
+				$result = true;
+			}
+		}
+
+		return $result;
 	}
 
 
 	/**
 	 * Checks if required fields for bank accounts are filled in
 	 */
-	function checkRequired ()	{
-		$rc = '';
+	public function checkRequired () {
+		$result = '';
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
-		if (ExtensionManagementUtility::isLoaded('static_info_tables_banks_de')) {
+		if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('static_info_tables_banks_de')) {
 			$bankObj = $tablesObj->get('static_banks_de');
 		}
 
-		foreach ($this->fieldArray as $k => $field)	{
-			if (!$this->acArray[$field])	{
-				$rc = $field;
+		foreach ($this->requiredFieldArray as $k => $field) {
+			if (!$this->acArray[$field]) {
+				$result = $field;
 				break;
 			}
-			if ($field == 'bic' && is_object($bankObj) /* && ExtensionManagementUtility::isLoaded('static_info_tables_banks_de')*/)	{
-				$where_clause = 'sort_code=' . intval(implode('',GeneralUtility::trimExplode(' ',$this->acArray[$field]))) . ' AND level=1';
-				$bankRow = $bankObj->get('',0,false,$where_clause);
-				if (!$bankRow)	{
-					$rc = $field;
+
+			$isValid = true;
+			switch($field) {
+				case 'iban':
+					$isValid = self::checkIBAN($this->acArray[$field]);
 					break;
-				}
+				case 'bic':
+					if (
+						is_object($bankObj)
+					) {
+						$where_clause = 'sort_code=' .
+							intval(implode('', GeneralUtility::trimExplode(' ', $this->acArray[$field]))) . ' AND level=1';
+						$bankRow = $bankObj->get('', 0, false, $where_clause);
+
+						if (!$bankRow) {
+							$isValid = false;
+						}
+					}
+					break;
+			}
+
+			if (!$isValid) {
+				$result = $field;
+				break;
 			}
 		}
-		return $rc;
+		return $result;
 	} // checkRequired
 }
 
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/class.tx_ttproducts_account.php'])	{
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/class.tx_ttproducts_account.php']) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/class.tx_ttproducts_account.php']);
 }
-
 
 

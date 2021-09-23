@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2007-2017 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2012 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -37,16 +37,17 @@
  *
  */
 
+
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
 
 class tx_ttproducts_voucher_view extends tx_ttproducts_table_base_view {
-	public $amount;
-	public $code;
-	public $bValid;
-	public $marker = 'VOUCHER';
-	public $usedCodeArray = array();
+	var $amount;
+	var $code;
+	var $bValid;
+	var $marker = 'VOUCHER';
+	var $usedCodeArray = array();
 
 
 	/**
@@ -56,31 +57,28 @@ class tx_ttproducts_voucher_view extends tx_ttproducts_table_base_view {
 	 * @return	void
 	 * @access private
 	 */
-	public function getsubpartMarkerArray (
+	public function getSubpartMarkerArray (
 		&$subpartArray,
 		&$wrappedSubpartArray,
-		$charset=''
-	)	{
-        $local_cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
+		$charset = ''
+	) {
 		$modelObj = $this->getModelObj();
-        $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
-
+		$languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
 		$subpartArray['###SUB_VOUCHERCODE###'] = '';
+		$code = $modelObj->getVoucherCode();
         $wrappedSubpartArray['###SUB_VOUCHERCODE_START###'] = array();
 
 		if (
-            $modelObj->getValid() &&
-            $modelObj->getCode() != ''
-        ) {
+			$modelObj->getValid() &&
+			$code != ''
+		) {
 			$subpartArray['###SUB_VOUCHERCODE_DISCOUNTWRONG###'] = '';
 			$wrappedSubpartArray['###SUB_VOUCHERCODE_DISCOUNT###'] = array();
 		} else {
-			$code = $modelObj->getCode();
-
 			if (isset($code)) {
 				$tmp = $languageObj->getLabel('voucher_invalid');
-				$tmpArray = explode('|',$tmp);
-				$subpartArray['###SUB_VOUCHERCODE_DISCOUNT###'] = $tmpArray[0] . htmlspecialchars($modelObj->getCode()) . $tmpArray[1];
+				$tmpArray = explode('|', $tmp);
+				$subpartArray['###SUB_VOUCHERCODE_DISCOUNT###'] = $tmpArray[0] . htmlspecialchars($modelObj->getVoucherCode()) . $tmpArray[1];
 				$wrappedSubpartArray['###SUB_VOUCHERCODE_DISCOUNTWRONG###'] = array();
 			} else {
 				$subpartArray['###SUB_VOUCHERCODE_DISCOUNT###'] = '';
@@ -99,13 +97,14 @@ class tx_ttproducts_voucher_view extends tx_ttproducts_table_base_view {
 	 */
 	public function getMarkerArray (
 		&$markerArray
-	)	{
+	) {
 		$priceViewObj = GeneralUtility::makeInstance('tx_ttproducts_field_price_view');
 		$modelObj = $this->getModelObj();
 		$markerArray['###INSERT_VOUCHERCODE###'] = 'recs[tt_products][vouchercode]';
-		$voucherCode = $modelObj->getCode();
-		if (!$voucherCode)	{
-			$voucherCode = $modelObj->getLastCodeUsed();
+
+		$voucherCode = $modelObj->getVoucherCode();
+		if (!$voucherCode) {
+			$voucherCode = $modelObj->getLastVoucherCodeUsed();
 		}
 
 		$amount = $modelObj->getRebateAmount();
@@ -119,6 +118,5 @@ class tx_ttproducts_voucher_view extends tx_ttproducts_table_base_view {
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_voucher_view.php']) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_voucher_view.php']);
 }
-
 
 

@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2010 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2012 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -37,35 +37,19 @@
  *
  */
 
-
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
+
+
 class tx_ttproducts_billdelivery implements \TYPO3\CMS\Core\SingletonInterface {
-	public $cObj;
-	public $conf;		  // original configuration
-	public $config;		// updated configuration
 	public $tableArray;
 	public $price;		 // object for price functions
-	public $typeArray = array('bill','delivery');
+	public $typeArray = array('bill', 'delivery');
 
 
-	/**
-	 * Initialized the basket, setting the deliveryInfo if a users is logged in
-	 * $basketObj is the TYPO3 default shopping basket array from ses-data
-	 *
-	 * @param		string	  $fieldname is the field in the table you want to create a JavaScript for
-	 * @return	  void
-	 */
-	public function init ($cObj) {
-		$this->cObj = $cObj;
-		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-		$this->conf = &$cnf->conf;
-		$this->config = &$cnf->config;
-	}
 
-
-	public function getTypeArray ()	{
+	public function getTypeArray () {
 		return $this->typeArray;
 	}
 
@@ -73,17 +57,20 @@ class tx_ttproducts_billdelivery implements \TYPO3\CMS\Core\SingletonInterface {
 	/**
 	 * get the relative filename of the bill or delivery file by the tracking code
 	 */
-	public function getRelFilename ($tracking, $type, $fileExtension='html')	{
-		$rc = $this->conf['outputFolder'] . '/' . $type . '/' . $tracking . '.' . $fileExtension;
+	public function getRelFilename ($tracking, $type, $fileExtension = 'html') {
+		$cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
+		$conf = $cnfObj->getConf();
+
+		$rc = $conf['outputFolder'] . '/' . $type . '/' . $tracking . '.' . $fileExtension;
 
 		return $rc;
 	}
 
 
-	public function getMarkerArray (&$markerArray, $tracking, $type)	{
+	public function getMarkerArray (&$markerArray, $tracking, $type) {
 		$markerprefix = strtoupper($type);
 		$relfilename = $this->getRelFilename($tracking, $type);
-		$markerArray['###'.$markerprefix.'_FILENAME###'] = $relfilename;
+		$markerArray['###' . $markerprefix . '_FILENAME###'] = $relfilename;
 	}
 
 
@@ -94,151 +81,150 @@ class tx_ttproducts_billdelivery implements \TYPO3\CMS\Core\SingletonInterface {
 	}
 
 
-	public function writeFile ($filename, $content)	{
+	public function writeFile ($filename, $content) {
 		$theFile = fopen($filename, 'wb');
 		fwrite($theFile, $content);
 		fclose($theFile);
 	}
 
 
-    public function generateBill (&$errorCode, $templateCode, $mainMarkerArray, $basketExtra, $type, $generationConf) {
+	public function generateBill (
+		$cObj,
+		$templateCode,
+		$mainMarkerArray,
+		$itemArray,
+		$calculatedArray,
+		$orderArray,
+		$basketExtra,
+		$basketRecs,
+		$type,
+		$generationConf
+	) {
 		$basketView = GeneralUtility::makeInstance('tx_ttproducts_basket_view');
-		$basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
 		$infoViewObj = GeneralUtility::makeInstance('tx_ttproducts_info_view');
+		$productRowArray = array(); // Todo: make this a parameter
 
 		$typeCode = strtoupper($type);
-        $generationType = strtolower($generationConf['type']);
 		$result = false;
+		$generationType = strtolower($generationConf['type']);
+		$billGeneratedFromHook = false;
 
-        // Hook
-            // Call all billing delivery hooks
-        if (is_array ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['billdelivery'])) {
-            foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['billdelivery'] as $classRef) {
-                $hookObj= GeneralUtility::makeInstance($classRef);
+		// Hook
+			// Call all billing delivery hooks
+		if (is_array ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['billdelivery'])) {
+			foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['billdelivery'] as $classRef) {
+				$hookObj= GeneralUtility::makeInstance($classRef);
 
-                if (method_exists($hookObj, 'generateBill')) {
-                    $billGeneratedFromHook = $hookObj->generateBill(
-                        $this,
-                        $this->cObj,
-                        $templateCode,
-                        $mainMarkerArray,
-                        $basketObj->getItemArray(),
-                        $basketObj->getCalculatedArray(),
-                        $basketObj->order,
-                        $basketExtra,
-                        $basketObj->recs,
-                        $type,
-                        $generationConf,
-                        $result
-                    );
-                }
-                if ($billGeneratedFromHook) {
-                    break;
-                }
-            }
-        }
+				if (method_exists($hookObj, 'generateBill')) {
+					$billGeneratedFromHook = $hookObj->generateBill(
+						$this,
+						$cObj,
+						$templateCode,
+						$mainMarkerArray,
+						$itemArray,
+						$calculatedArray,
+						$orderArray,
+						$basketExtra,
+						$basketRecs,
+						$type,
+						$generationConf,
+						$result
+					);
+				}
+				if ($billGeneratedFromHook) {
+					break;
+				}
+			}
+		}
 
-        if (!$billGeneratedFromHook) {
+		if (!$billGeneratedFromHook) {
+			if ($generationType == 'pdf') {
 
-            if ($generationType == 'pdf') {
-                $pdfViewObj = GeneralUtility::makeInstance('tx_ttproducts_pdf_view');
+				$absFileName =
+					$this->getFileAbsFileName(
+						$type,
+						str_replace('_', '-', strtolower($orderArray['bill_no'])) . '-' . $orderArray['tracking_code'],
+						'pdf'
+					);
+				$className = 'tx_ttproducts_pdf_view';
+				if (
+					\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('fpdf') // use FPDF
+				) {
+					$className = 'tx_ttproducts_fpdf_view';
+				}
 
-                $subpart = $typeCode . '_PDF_HEADER_TEMPLATE';
-                $header = $basketView->getView(
-                    $errorCode,
-                    $templateCode,
-                    $typeCode,
-                    $infoViewObj,
-                    false,
-                    true,
-                    $basketObj->getCalculatedArray(),
-                    false,
-                    $subpart,
-                    $mainMarkerArray,
-                    '',
-                    $basketObj->getItemArray(),
-                    array(),
-                    $basketExtra
-                );
-                $subpart = $typeCode . '_PDF_TEMPLATE';
-                $body = $basketView->getView(
-                    $errorCode,
-                    $templateCode,
-                    $typeCode,
-                    $infoViewObj,
-                    false,
-                    true,
-                    $basketObj->getCalculatedArray(),
-                    false,
-                    $subpart,
-                    $mainMarkerArray,
-                    '',
-                    $basketObj->getItemArray(),
-                    array(),
-                    $basketExtra
-                );
+				$pdfViewObj = GeneralUtility::makeInstance($className);
+				$result = $pdfViewObj->generate(
+					$cObj,
+					$basketView,
+					$infoViewObj,
+					$templateCode,
+					$mainMarkerArray,
+					$itemArray,
+					$calculatedArray,
+					$orderArray,
+					$productRowArray,
+					$basketExtra,
+					$basketRecs,
+					$typeCode,
+					$generationConf,
+					$absFileName
+				);
+			} else if ($generationType == 'html') {
+				$subpart = $typeCode . '_TEMPLATE';
 
-                $subpart = $typeCode . '_PDF_FOOTER_TEMPLATE';
-                $footer = $basketView->getView(
-                    $errorCode,
-                    $templateCode,
-                    $typeCode,
-                    $infoViewObj,
-                    false,
-                    true,
-                    $basketObj->getCalculatedArray(),
-                    false,
-                    $subpart,
-                    $mainMarkerArray,
-                    '',
-                    $basketObj->getItemArray(),
-                    array(),
-                    $basketExtra
-                );
-                $absFileName = $this->getFileAbsFileName($type, $basketObj->order['orderTrackingNo'], 'pdf');
+				$content = $basketView->getView(
+					$errorCode,
+					$templateCode,
+					$typeCode,
+					$infoViewObj,
+					false,
+					true,
+					$calculatedArray,
+					true,
+					$subpart,
+					$mainMarkerArray,
+					'',
+					$itemArray,
+                    $notOverwritePriceIfSet = false,
+					array('0' => $orderArray),
+					$productRowArray,
+					$basketExtra,
+					$basketRecs
+				);
 
-                $result = $pdfViewObj->generate(
-                    $this->cObj,
-                    $header,
-                    $body,
-                    $footer,
-                    $absFileName
-                );
-            } else {
-                $subpart = $typeCode . '_TEMPLATE';
-                $errorCode = [];
-                $content = $basketView->getView(
-                    $errorCode,
-                    $templateCode,
-                    $typeCode,
-                    $infoViewObj,
-                    false,
-                    true,
-                    $basketObj->getCalculatedArray(),
-                    true,
-                    $subpart,
-                    $mainMarkerArray,
-                    '',
-                    $basketObj->getItemArray(),
-                    array(),
-                    $basketExtra
-                );
+				if (
+					!isset($errorCode) ||
+					$errorCode[0] == ''
+				) {
+					$absFileName =
+						$this->getFileAbsFileName(
+							$type,
+							str_replace('_', '-', $orderArray['bill_no']) . '-' . $orderArray['tracking_code'],
+							'html'
+						);
+					$this->writeFile($absFileName, $content);
+					$result = $absFileName;
+				}
+			} else {
+				$result = false;
+			}
+		}
 
-                if (!isset($errorCode) || $errorCode[0] == '') {
-                    $absFileName = $this->getFileAbsFileName($type, $basketObj->order['orderTrackingNo'], 'html');
-                    $this->writeFile($absFileName, $content);
-                    $result = $absFileName;
-                }
-            }
-        }
-        return $result;
-    }
+		return $result;
+	}
 
 
 	/**
 	 * Bill,Delivery Generation from tracking code
 	 */
-	public function getInformation ($theCode, $orderRow, $templateCode, $trackingCode, $type)	{
+	public function getInformation (
+		$theCode,
+		$orderRow,
+		$templateCode,
+		$trackingCode,
+		$type
+	) {
 		/*
 		Bill or delivery information display, which needs tracking code to be shown
 		This is extension information to tracking at another page
@@ -246,27 +232,29 @@ class tx_ttproducts_billdelivery implements \TYPO3\CMS\Core\SingletonInterface {
 		*/
 		$priceObj = GeneralUtility::makeInstance('tx_ttproducts_field_price');
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
-
- 		$basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
-		$basketView = GeneralUtility::makeInstance('tx_ttproducts_basket_view');
 		$markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
 		$cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$conf = $cnfObj->getConf();
+
+		$basketView = GeneralUtility::makeInstance('tx_ttproducts_basket_view');
+		$productRowArray = array(); // Todo: make this a parameter
+
 		$globalMarkerArray = $markerObj->getGlobalMarkerArray();
 		$orderObj = $tablesObj->get('sys_products_orders');
 		$infoViewObj = GeneralUtility::makeInstance('tx_ttproducts_info_view');
-		$paymentshippingObj = GeneralUtility::makeInstance('tx_ttproducts_paymentshipping');
+// 		$paymentshippingObj = GeneralUtility::makeInstance('tx_ttproducts_paymentshipping');
 
 			// initialize order data.
-		$orderData = unserialize($orderRow['orderData']);
-// 		$markerArray = array();
-// 		$subpartArray = array();
-// 		$wrappedSubpartArray = array();
-
-		$itemArray = $orderObj->getItemArray($orderRow, $calculatedArray, $infoArray);
+		$orderData = $orderObj->getOrderData($orderRow);
+		$itemArray =
+			$orderObj->getItemArray(
+				$orderRow,
+				$calculatedArray,
+				$infoArray
+			);
 		$infoViewObj->init2($infoArray);
 
-		$basketRec = $paymentshippingObj->getBasketRec($orderRow);
+		$basketRec = \JambageCom\TtProducts\Api\BasketApi::getBasketRec($orderRow);
 		$basketExtra =
 			tx_ttproducts_control_basket::getBasketExtras(
 				$tablesObj,
@@ -282,11 +270,12 @@ class tx_ttproducts_billdelivery implements \TYPO3\CMS\Core\SingletonInterface {
 
 		$orderArray = array();
 
-		$orderArray['orderTrackingNo'] = $trackingCode;
-		$orderArray['orderUid'] = $orderRow['uid'];
-		$orderArray['orderDate'] = $orderRow['crdate'];
+		$orderArray['tracking_code'] = $trackingCode;
+		$orderArray['uid'] = $orderRow['uid'];
+		$orderArray['crdate'] = $orderRow['crdate'];
 
 		$content = $basketView->getView(
+			$errorCode,
 			$templateCode,
 			$theCode,
 			$infoViewObj,
@@ -298,8 +287,11 @@ class tx_ttproducts_billdelivery implements \TYPO3\CMS\Core\SingletonInterface {
 			$globalMarkerArray,
 			'',
 			$itemArray,
-			$orderArray,
-			$basketExtra
+            $notOverwritePriceIfSet = false,
+			array('0' => $orderArray),
+			$productRowArray,
+			$basketExtra,
+			$basketRec
 		);
 
 		return $content;
@@ -307,9 +299,9 @@ class tx_ttproducts_billdelivery implements \TYPO3\CMS\Core\SingletonInterface {
 }
 
 
+
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/lib/class.tx_ttproducts_billdelivery.php']) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/lib/class.tx_ttproducts_billdelivery.php']);
 }
-
 
 

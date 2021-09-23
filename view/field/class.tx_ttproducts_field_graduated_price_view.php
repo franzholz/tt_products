@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2007-2009 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2012 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -37,37 +37,86 @@
  *
  */
 
-
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-
 
 
 class tx_ttproducts_field_graduated_price_view extends tx_ttproducts_field_base_view {
 
-	public function &getItemSubpartArrays (
-		&$templateCode,
+	public function getItemSubpartArrays (
+		$templateCode,
 		$markerKey,
 		$functablename,
-		&$row,
+		$row,
 		$fieldname,
 		$tableConf,
 		&$subpartArray,
 		&$wrappedSubpartArray,
-		array $markerArray,
-		&$tagArray,
+		$tagArray,
 		$theCode = '',
 		$basketExtra = array(),
+		$basketRecs,
 		$id = '1'
 	) {
-		$priceTablesViewObj = GeneralUtility::makeInstance('tx_ttproducts_graduated_price_view');
-		$priceTablesViewObj->getPriceSubpartArrays($templateCode, $row, $fieldname, $subpartArray, $wrappedSubpartArray, $tagArray, $theCode, $basketExtra, $id);
+		global $TCA;
+
+		$bTaxIncluded = $this->conf['TAXincluded'];
+		$bEnableTaxZero = 0;
+		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
+		$viewItemTableObj = $tablesObj->get($functablename, true);
+
+		$priceTablesViewObj = $viewItemTableObj->getGraduatedPriceObject();
+		$priceTablesViewObj->getPriceSubpartArrays(
+			$templateCode,
+			$row,
+			$fieldname,
+			$bTaxIncluded,
+			$bEnableTaxZero,
+			$subpartArray,
+			$wrappedSubpartArray,
+			$tagArray,
+			$theCode,
+			$basketExtra,
+			$basketRecs,
+            $viewItemTableObj,
+			$id
+		);
 	}
 
 
-	public function getRowMarkerArray ($functablename, $fieldname, $row, $markerKey, &$markerArray, $tagArray, $theCode, $id, $basketExtra, &$bSkip, $bHtml=true, $charset='', $prefix='', $suffix='', $imageRenderObj='')	{
+	public function getRowMarkerArray (
+		$functablename,
+		$fieldname,
+		$row,
+		$markerKey,
+		&$markerArray,
+		$tagArray,
+		$theCode,
+		$id,
+		$basketExtra,
+		$basketRecs,
+		&$bSkip,
+		$bHtml = true,
+		$charset = '',
+		$prefix = '',
+		$suffix = '',
+		$imageNum = 0,
+		$imageRenderObj = '',
+		$bEnableTaxZero = false
+	) {
+		$bTaxIncluded = $this->conf['TAXincluded'];
+		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
+		$viewItemTableObj = $tablesObj->get($functablename, true);
 
-		$priceTablesViewObj = GeneralUtility::makeInstance('tx_ttproducts_graduated_price_view');
-		$priceTablesViewObj->getPriceMarkerArray($row, $basketExtra, $markerArray, $tagArray);
+		$priceTablesViewObj = $viewItemTableObj->getGraduatedPriceObject();
+		$priceTablesViewObj->getPriceMarkerArray(
+			$row,
+			$bTaxIncluded,
+			$bEnableTaxZero,
+			$basketExtra,
+			$basketRecs,
+			$markerArray,
+			$tagArray
+		);
 	}
 }
 
@@ -75,6 +124,4 @@ class tx_ttproducts_field_graduated_price_view extends tx_ttproducts_field_base_
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/field/class.tx_ttproducts_field_graduated_price_view.php']) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/field/class.tx_ttproducts_field_graduated_price_view.php']);
 }
-
-
 

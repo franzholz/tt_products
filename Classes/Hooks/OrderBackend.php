@@ -85,6 +85,7 @@ class OrderBackend implements \TYPO3\CMS\Core\SingletonInterface {
             $row   = $data['databaseRow'];
             $parameterArray = $data['parameterArray'];
         }
+
 			// Field configuration from TCA:
 		$config = $parameterArray['fieldConf']['config'];
 
@@ -109,8 +110,7 @@ class OrderBackend implements \TYPO3\CMS\Core\SingletonInterface {
 
 		$TSconfig = \TYPO3\CMS\Backend\Utility\BackendUtility::getTCEFORM_TSconfig($table, $row);
 		$orderView = $tablesObj->get('sys_products_orders', true);
-		$result = $orderView->getSingleOrder($row);
-		return $result;
+		$out = $orderView->getSingleOrder($row);
 	}
 
 

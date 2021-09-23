@@ -1,7 +1,6 @@
 <?php
 defined('TYPO3_MODE') || die('Access denied.');
 
-
 $imageFolder = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['imageFolder'];
 if (!$imageFolder) {
 	$imageFolder = 'uploads/pics';
@@ -28,15 +27,17 @@ $result = array (
 		'prependAtCopy' => DIV2007_LANGUAGE_LGL . 'prependAtCopy',
 		'crdate' => 'crdate',
 		'cruser_id' => 'cruser_id',
+		'versioningWS' => true,
+		'origUid' => 't3_origuid',
 		'iconfile' => PATH_TTPRODUCTS_ICON_TABLE_REL . 'tt_products_cat.gif',
-		'searchFields' => 'uid,title,subtitle,parent_category,catid,keyword,note,note2',
+		'searchFields' => 'uid,title,subtitle,catid,keyword,note,note2',
 	),
 	'interface' => array (
-		'showRecordFieldList' => 'hidden,starttime,endtime,fe_group,title, subtitle, catid, keyword, note, note2, image, discount, discount_disable, email_uid, highlight'
+		'showRecordFieldList' => 'hidden,starttime,endtime,fe_group,title, subtitle, parent_category, catid, keyword, note, note2, image, discount, discount_disable, email_uid, highlight, parent_category'
 	),
 	'columns' => array (
 		't3ver_label' => array (
-			'label'  => DIV2007_LANGUAGE_PATH . 'locallang_general.xlf:LGL.versionLabel',
+			'label'  => DIV2007_LANGUAGE_PATH . 'locallang_general.xml:LGL.versionLabel',
 			'config' => array (
 				'type' => 'input',
 				'size' => '30',
@@ -86,7 +87,7 @@ $result = array (
 			'config' => array (
 				'type' => 'input',
 				'size' => '8',
-				'eval' => 'date',
+				'eval' => 'datetime,int',
                 'renderType' => 'inputDateTime',
 				'default' => 0
 			)
@@ -142,9 +143,9 @@ $result = array (
 			'config' => array (
 				'type' => 'input',
 				'size' => '40',
-                'eval' => 'trim',
+				'eval' => 'trim',
 				'max' => '256',
-				'default' => ''
+				'default' => '',
 			)
 		),
 		'subtitle' => array (
@@ -154,9 +155,8 @@ $result = array (
 				'type' => 'text',
 				'rows' => '3',
 				'cols' => '20',
-                'eval' => null,
 				'max' => '512',
-				'default' => ''
+				'default' => '',
 			)
 		),
         'slug' => array (
@@ -192,10 +192,10 @@ $result = array (
 					'appearance' => array(
 						'expandAll' => 1,
 						'showHeader' => true,
-						'maxLevels' => 99
+						'maxLevels' => 99,
+						'width' => 500,
 					)
 				),
-                'size' => 45,
 				'exclude' => 1,
 				'default' => 0
 			)
@@ -220,7 +220,7 @@ $result = array (
 				'cols' => '20',
 				'max' => '512',
 				'eval' => 'null',
-				'default' => ''
+				'default' => '',
 			)
 		),
 		'note' => array (
@@ -230,8 +230,7 @@ $result = array (
 				'type' => 'text',
 				'cols' => '48',
 				'rows' => '5',
-				'eval' => 'null',
-				'default' => ''
+				'default' => '',
 			)
 		),
 		'note2' => array (
@@ -241,8 +240,7 @@ $result = array (
 				'type' => 'text',
 				'cols' => '48',
 				'rows' => '5',
-				'eval' => 'null',
-				'default' => ''
+				'default' => '',
 			)
 		),
 		'image' => array (
@@ -258,7 +256,23 @@ $result = array (
 				'maxitems' => '10',
 				'minitems' => '0',
 				'eval' => 'null',
-				'default' => ''
+				'default' => '',
+			)
+		),
+		'sliderimage' => array (
+			'exclude' => 1,
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products_cat.sliderimage',
+			'config' => array (
+				'type' => 'group',
+				'internal_type' => 'file',
+				'allowed' => $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'],
+				'max_size' => $GLOBALS['TYPO3_CONF_VARS']['BE']['maxFileSize'],
+				'uploadfolder' => $imageFolder,
+				'size' => '3',
+				'maxitems' => '10',
+				'minitems' => '0',
+				'eval' => 'null',
+				'default' => '',
 			)
 		),
 		'discount' => array (
@@ -323,14 +337,14 @@ $result = array (
                         )
                     )
                 ),
-                'showitem' => 'title, subtitle, slug, parent_category, catid, keyword, note, note2, email_uid, image, discount,discount_disable,highlight,tstamp, crdate, hidden,--palette--;;1'
-            )
-	),
-	'palettes' => array (
-		'1' => array('showitem' => 'starttime, endtime, fe_group')
-	)
-);
 
+                'showitem' => 'title, subtitle, slug, parent_category, catid, keyword, note, note2, email_uid, image, sliderimage, discount,discount_disable,highlight,tstamp,crdate,hidden,--palette--;;1'
+            )
+    ),
+    'palettes' => array (
+        '1' => array('showitem' => 'starttime, endtime, fe_group')
+    )
+);
 
 if (
     version_compare(TYPO3_version, '8.5.0', '<')
@@ -347,7 +361,6 @@ if (
             $result['types']['0']['showitem']
         );
 }
-
 
 return $result;
 

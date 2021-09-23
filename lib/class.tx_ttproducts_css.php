@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2007-2008 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2012 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -36,12 +36,9 @@
  *
  */
 
-
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
 class tx_ttproducts_css implements \TYPO3\CMS\Core\SingletonInterface {
-	public $pibase; // reference to object of pibase
 	public $conf;
 	protected $isCssStyled;
 	private $bIncluded = false;
@@ -49,20 +46,25 @@ class tx_ttproducts_css implements \TYPO3\CMS\Core\SingletonInterface {
 	/**
 	 * Getting all tt_products_cat categories into internal array
 	 */
-	public function init ($pibase)	{
-		$this->pibase = $pibase;
+	public function init () {
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$this->isCssStyled = ($cnf->conf['templateStyle'] == 'css-styled');
-		$this->conf = &$cnf->conf['CSS.']['ALL.'];
+		$this->conf = $cnf->conf['CSS.']['ALL.'];
 	} // init
 
-	public function isCSSStyled ()	{
-		if (isset($this->conf) && is_array($this->conf) && $this->isCssStyled && $this->conf['file']!='')	{
-			$rc = true;
+	public function isCSSStyled () {
+
+		if (
+			isset($this->conf) &&
+			is_array($this->conf) &&
+			$this->isCssStyled &&
+			$this->conf['file'] != ''
+		) {
+			$result = true;
 		} else {
-			$rc = false;
+			$result = false;
 		}
-		return $rc;
+		return $result;
 	}
 
 	public function setIncluded () {
@@ -73,7 +75,7 @@ class tx_ttproducts_css implements \TYPO3\CMS\Core\SingletonInterface {
 		return $this->bIncluded;
 	}
 
-	public function getConf ($tablename='', $theCode='ALL')	{
+	public function getConf ($tablename = '', $theCode = 'ALL') {
 
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$cssConf = $cnf->getSpecialConf('CSS', $tablename, $theCode);
@@ -81,8 +83,7 @@ class tx_ttproducts_css implements \TYPO3\CMS\Core\SingletonInterface {
 	}
 }
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/lib/class.tx_ttproducts_css.php'])	{
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/lib/class.tx_ttproducts_css.php']) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/lib/class.tx_ttproducts_css.php']);
 }
-
 

@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2008-2009 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2012 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -37,21 +37,32 @@
  *
  */
 
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
-class tx_ttproducts_hooks_pool extends tx_pool_hooks_base implements \TYPO3\CMS\Core\SingletonInterface {
-	public $extKey=TT_PRODUCTS_EXT;
+class tx_ttproducts_hooks_pool extends tx_pool_hooks_base {
+	public $extKey = TT_PRODUCTS_EXT;
 	public $prefixId = 'tx_ttproducts_hooks_pool';	// Same as class name
-	public $LLFileArray = array ('hooks/locallang_pool.xml', DIV2007_LANGUAGE_PATH . 'locallang_mod_web_list.xlf');
+	public $LLFileArray =
+		array (
+			'hooks/locallang_pool.xml',
+			DIV2007_LANGUAGE_PATH . 'locallang_mod_web_list.xlf'
+		);
 	public $modMenu = array('function' => array('search'));
 	public $headerText = 'header_search';
 
-	public function getViewData(&$content, &$header, &$docHeaderButtons, &$markerArray, $pOb)	{
+	public function getViewData (
+		&$content,
+		&$header,
+		&$docHeaderButtons,
+		&$markerArray,
+		$pOb
+	) {
 		$content = '<b>Suche &uuml;ber tt_products</b><br/>';
-		if (ExtensionManagementUtility::isLoaded('searchbox')) {
 
+		if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('searchbox')) {
+
+// 			GeneralUtility::requireOnce(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('searchbox') . 'view/class.tx_searchbox_view.php');
 			$searchBoxObj = GeneralUtility::makeInstance('tx_searchbox_view');
 
 			$content .= $searchBoxObj->getContent(
@@ -63,9 +74,11 @@ class tx_ttproducts_hooks_pool extends tx_pool_hooks_base implements \TYPO3\CMS\
 			);
 			$dbListConf = $searchBoxObj->getDblistConf($this->prefixId);
 		}
-		if (ExtensionManagementUtility::isLoaded('db_list')) {
+
+		if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('db_list')) {
+// 			GeneralUtility::requireOnce(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('db_list') . 'class.tx_dblist_script.php');
 			$dbListObj = GeneralUtility::makeInstance('tx_dblist_script');
-			$dbListObj->init($this->vars,$dbListConf);
+			$dbListObj->init($this->vars, $dbListConf);
 
 			$dbListObj->clearCache();
 			$dbListObj->main($docHeaderButtons, $markerArray, $pOb);
@@ -76,8 +89,7 @@ class tx_ttproducts_hooks_pool extends tx_pool_hooks_base implements \TYPO3\CMS\
 }
 
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/hooks/class.tx_ttproducts_hooks_pool.php'])	{
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/hooks/class.tx_ttproducts_hooks_pool.php']) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/hooks/class.tx_ttproducts_hooks_pool.php']);
 }
-
 

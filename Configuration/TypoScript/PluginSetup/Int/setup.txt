@@ -6,6 +6,9 @@
 ## Includes tt_products as a TYPO3 extension:
 includeLibs.tx_ttproducts_pi_int = EXT:tt_products/pi_int/class.tx_ttproducts_pi_int.php
 
+## This enables the tt_content.list item to display the product plugins:
+#plugin.tx_ttproducts_pi_int < plugin.tt_products
+
 plugin.tx_ttproducts_pi_int = USER_INT
 plugin.tx_ttproducts_pi_int {
   userFunc = tx_ttproducts_pi_int->main

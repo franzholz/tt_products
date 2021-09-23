@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2005-2007 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2012 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -36,161 +36,188 @@
  *
  */
 
+
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
 
 class tx_ttproducts_page extends tx_ttproducts_category_base {
-	public $noteArray = array(); 	// array of pages with notes
-	public $piVar = 'pid';
-	public $pageAsCategory;		// > 0 if pages are used as categories
+	var $noteArray = array(); 	// array of pages with notes
+	var $piVar = 'pid';
+	var $pageAsCategory;		// > 0 if pages are used as categories
 	protected $tableAlias = 'page';
 
 
 	/**
 	 * Getting all tt_products_cat categories into internal array
 	 */
-	public function init ($cObj, $tablename)	{
-		parent::init($cObj, $tablename);
+	function init ($tablename) {
+		$result = parent::init($tablename);
 
-		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-		$tablename = ($tablename ? $tablename : 'pages');
-		$this->tableconf = $cnf->getTableConf('pages');
-		$this->pageAsCategory = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['pageAsCategory'];
+		if ($result) {
+			$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
+			$tablename = ($tablename ? $tablename : 'pages');
+			$this->tableconf = $cnf->getTableConf('pages');
+			$this->pageAsCategory = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['pageAsCategory'];
 
-//		$this->table->setDefaultFieldArray(array('uid'=>'uid', 'pid'=>'pid', 't3ver_oid'=>'t3ver_oid', 't3ver_id' => 't3ver_id', 't3ver_label' => 't3ver_label', 'tstamp'=>'tstamp', 'hidden'=>'hidden', 'sorting'=> 'sorting',
-// 			'deleted' => 'deleted', 'hidden'=>'hidden', 'starttime' => 'starttime', 'endtime' => 'endtime'));
+	//		$this->table->setDefaultFieldArray(array('uid'=>'uid', 'pid'=>'pid', 't3ver_oid'=>'t3ver_oid', 't3ver_id' => 't3ver_id', 't3ver_label' => 't3ver_label', 'tstamp'=>'tstamp', 'hidden'=>'hidden', 'sorting'=> 'sorting',
+	// 			'deleted' => 'deleted', 'hidden'=>'hidden', 'starttime' => 'starttime', 'endtime' => 'endtime'));
 
-		$requiredFields = 'uid,pid,title,subtitle,media,shortcut';
-		if ($this->tableconf['requiredFields'])	{
-			$tmp = $this->tableconf['requiredFields'];
-			$requiredFields = ($tmp ? $tmp : $requiredFields);
-		}
-		$requiredListArray = GeneralUtility::trimExplode(',', $requiredFields);
-		$this->getTableObj()->setRequiredFieldArray($requiredListArray);
-		if (is_array($this->tableconf['language.']) &&
-			$this->tableconf['language.']['type'] == 'field' &&
-			is_array($this->tableconf['language.']['field.'])
-			)	{
-			$addRequiredFields = array();
-			$addRequiredFields = $this->tableconf['language.']['field.'];
-			$this->getTableObj()->addRequiredFieldArray ($addRequiredFields);
-		}
-
-		if (is_array($this->tableconf['generatePath.']) &&
-			$this->tableconf['generatePath.']['type'] == 'tablefields' &&
-			is_array($this->tableconf['generatePath.']['field.'])
-			)	{
-			$addRequiredFields = array();
-			foreach ($this->tableconf['generatePath.']['field.'] as $field => $value)	{
-				$addRequiredFields[] = $field;
+			$requiredFields = 'uid,pid,title,subtitle,media,shortcut';
+			if ($this->tableconf['requiredFields']) {
+				$tmp = $this->tableconf['requiredFields'];
+				$requiredFields = ($tmp ? $tmp : $requiredFields);
 			}
-			$this->getTableObj()->addRequiredFieldArray ($addRequiredFields);
+			$requiredListArray = GeneralUtility::trimExplode(',', $requiredFields);
+			$this->getTableObj()->setRequiredFieldArray($requiredListArray);
+			if (is_array($this->tableconf['language.']) &&
+				$this->tableconf['language.']['type'] == 'field' &&
+				is_array($this->tableconf['language.']['field.'])
+				) {
+				$addRequiredFields = array();
+				$addRequiredFields = $this->tableconf['language.']['field.'];
+				$this->getTableObj()->addRequiredFieldArray ($addRequiredFields);
+			}
+
+			if (is_array($this->tableconf['generatePath.']) &&
+				$this->tableconf['generatePath.']['type'] == 'tablefields' &&
+				is_array($this->tableconf['generatePath.']['field.'])
+				) {
+				$addRequiredFields = array();
+				foreach ($this->tableconf['generatePath.']['field.'] as $field => $value) {
+					$addRequiredFields[] = $field;
+				}
+				$this->getTableObj()->addRequiredFieldArray ($addRequiredFields);
+			}
+
+			$this->getTableObj()->setTCAFieldArray($tablename, 'pages');
+
+			if ($this->bUseLanguageTable($this->tableconf)) {
+				$this->getTableObj()->setForeignUidArray($this->getTableObj()->langname, 'pid');
+			}
+
+			if ($this->tableconf['language.'] && $this->tableconf['language.']['type'] == 'csv') {
+				$this->getTableObj()->initLanguageFile($this->tableconf['language.']['file']);
+			}
 		}
 
-		$this->getTableObj()->setTCAFieldArray($tablename, 'pages');
-
-		if ($this->bUseLanguageTable($this->tableconf))	{
-			$this->getTableObj()->setForeignUidArray($this->getTableObj()->langname, 'pid');
-		}
-
-		if ($this->tableconf['language.'] && $this->tableconf['language.']['type'] == 'csv')	{
-			$this->getTableObj()->initLanguageFile($this->tableconf['language.']['file']);
-		}
+		return $result;
 	} // init
 
 	/* initalisation for code dependant configuration */
-	public function initCodeConf ($theCode,$tableConf)	{
+	public function initCodeConf ($theCode,$tableConf) {
 		parent::initCodeConf ($theCode,$tableConf);
-		if ($this->bUseLanguageTable($tableConf))	{
+		if ($this->bUseLanguageTable($tableConf)) {
 			$this->getTableObj()->setForeignUidArray($this->getTableObj()->langname, 'pid');
 		}
 	}
 
-	public function getRootCat ()	{
+	public function getRootCat () {
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$rc = $cnf->config['rootPageID'];
 		return $rc;
 	}
 
+
 	public function getNotes ($uid) {
 		$rowArray = $this->noteArray[$uid];
 		$rcArray = array();
 		if (!is_array($rowArray) && $uid) {
-			$rowArray = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows('*', 'tt_products_products_note_pages_mm', 'uid_local = '.intval($uid),'','sorting');
+			$rowArray = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows('*', 'tt_products_products_note_pages_mm', 'uid_local = ' . intval($uid), '', 'sorting');
 			$this->noteArray[$uid] = $rowArray;
 		}
-		foreach ($rowArray as $k => $row)	{
+		foreach ($rowArray as $k => $row) {
 			$rcArray[] = $row['uid_foreign'];
 		}
 		return $rcArray;
 	}
 
+
 	public function getParent ($uid=0) {
 		$rc = array();
 		$row = $this->get ($uid);
-		if ($row['pid'])	{
+		if ($row['pid']) {
 			$rc = $this->get ($row['pid']);
 		}
 		return $rc;
 	}
+
 
 	public function getRowCategory ($row) {
 		$rc = $row['pid'];
 		return $rc;
 	}
 
+
 	public function getRowPid($row) {
 		$rc = $row['uid'];
 		return $rc;
 	}
 
-	public function getParamDefault ($theCode, $pid)	{
+
+	public function getParamDefault ($theCode, $pid) {
 		$pid = ($pid ? $pid : $this->conf['defaultPageID']);
-		if ($pid)	{
+		if ($pid) {
 			$pid = implode(',',GeneralUtility::intExplode(',', $pid));
 		}
 		return $pid;
 	}
 
-	public function getRelationArray ($dataArray, $excludeCats='',$rootUids='',$allowedCats='') {
+
+//	function &getRootpathArray (&$relationArray, $rootCat, $currentCat) {
+//		$rootpathArray = array();
+//		$uid = $currentCat;
+////		if (isset($uid))	{
+////			$count = 0;
+////			do	{
+////				$count++;
+////				$row = $this->get ($uid);
+////				$rootpathArray[] = $row;
+////				$lastUid = $uid;
+////				$uid = $row['pid'];
+////			} while ($lastUid != $rootCat && $count < 100);
+////		}
+//		return $rootpathArray;
+//	}
+
+	public function getRelationArray ($dataArray, $excludeCats = '',$rootUids = '',$allowedCats = '') {
 
 		$relationArray = array();
-		$pageArray = GeneralUtility::trimExplode (',', $pid_list);
+		$pageArray = GeneralUtility::trimExplode(',', $pid_list);
 		$excludeArray = GeneralUtility::trimExplode (',', $excludeCats);
-		foreach ($excludeArray as $k => $cat)	{
+		foreach ($excludeArray as $k => $cat) {
 			$excludeKey = array_search($cat, $pageArray);
 			unset($pageArray[$excludeKey]);
 		}
 		$tablename = $this->getTableObj()->name;
-		if ($this->config['LLkey'] && is_array($this->tableconf['language.']) && $this->tableconf['language.']['type'] == 'table')	{
+		if ($this->config['LLkey'] && is_array($this->tableconf['language.']) && $this->tableconf['language.']['type'] == 'table') {
 			$tablename = $this->tableconf['language.']['table'];
 		}
 
-		foreach ($pageArray as $k => $uid)	{
+		foreach ($pageArray as $k => $uid) {
 			$row = $this->get ($uid);
-			if ($row)	{
-				if (in_array($row['shortcut'],$excludeArray))	{	// do not show shortcuts to the excluded page
+			if ($row) {
+				if (in_array($row['shortcut'],$excludeArray)) {	// do not show shortcuts to the excluded page
 					$excludeKey = array_search($row['uid'], $pageArray);
 					unset($pageArray[$excludeKey]);
 					continue;
 				}
-				$relationArray [$uid]['title'] = $row['title'];
-				if ($tablename == $this->getTableObj()->name)	{ // default language and using language overlay table
-					$relationArray [$uid]['pid'] = $row['uid'];
+				$relationArray[$uid][$this->getLabel()] = $row['title'];
+				if ($tablename == $this->getTableObj()->name) { // default language and using language overlay table
+					$relationArray[$uid]['pid'] = $row['uid'];
 				} else {
-					$relationArray [$uid]['pid'] = $row['pid'];
+					$relationArray[$uid]['pid'] = $row['pid'];
 				}
 				$pid = $row['pid'];
 				$parentKey = array_search($pid, $pageArray);
-				if ($parentKey === false || $parentKey == 0 && $pageArray[0] != $pid)	{
+				if ($parentKey === false || $parentKey == 0 && $pageArray[0] != $pid) {
 					$pid = 0;
 				}
-				$relationArray [$uid]['parent_category'] = $pid;
+				$relationArray[$uid]['parent_category'] = $pid;
 				$parentId = $pid;
-				if ($parentId)	{
+				if ($parentId) {
 					$count = 0;
-					if (!is_array($relationArray[$parentId]['child_category']))	{
+					if (!is_array($relationArray[$parentId]['child_category'])) {
 						$relationArray[$parentId]['child_category'] = array();
 					}
 					$relationArray[$parentId]['child_category'][] = (int) $uid;
@@ -233,13 +260,13 @@ class tx_ttproducts_page extends tx_ttproducts_category_base {
 						case 'pid':
 							$result = intval($row['pid']);
 							break;
-						case 'page.pid': // neu Anfang
+						case 'page.pid':
                             $pid = intval($row['pid']);
                             $pageRow = $this->get($pid);
                             if ($pageRow) {
                                 $result = intval($pageRow['pid']);
                             }
-							break; // neu Ende
+							break;
 					}
 					break;  //ready with the foreach loop
 				}

@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2008-2008 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2012 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -37,6 +37,7 @@
  *
  */
 
+ 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
@@ -51,10 +52,10 @@ class tx_ttproducts_field_foreign_table_view extends tx_ttproducts_field_base_vi
 		$tableConf,
 		&$subpartArray,
 		&$wrappedSubpartArray,
-		array $markerArray,
 		&$tagArray,
 		$theCode = '',
 		$basketExtra = array(),
+		$basketRecs,
 		$id = '1'
 	) {
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
@@ -63,34 +64,53 @@ class tx_ttproducts_field_foreign_table_view extends tx_ttproducts_field_base_vi
 	}
 
 
-	public function getRowMarkerArray ($functablename, $fieldname, $row, $markerKey, &$markerArray, $tagArray, $theCode, $id, $basketExtra, &$bSkip, $bHtml=true, $charset='', $prefix='', $suffix='', $imageRenderObj='')	{
+	public function getRowMarkerArray (
+		$functablename,
+		$fieldname,
+		$row,
+		$markerKey,
+		&$markerArray,
+		$tagArray,
+		$theCode,
+		$id,
+		$basketExtra,
+		$basketRecs,
+		&$bSkip,
+		$bHtml = true,
+		$charset = '',
+		$prefix = '',
+		$suffix = '',
+		$imageNum = 0,
+		$imageRenderObj = '',
+		$bEnableTaxZero = false
+	) {
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 		$itemTableObj = $tablesObj->get($functablename, false);
 		$tablename = $itemTableObj->getTablename();
 		$foreigntablename = '';
 		$rowMarkerArray = array();
+		if ($GLOBALS['TCA'][$tablename]['columns'][$fieldname]['config']['type'] == 'group') {
 
-		if ($GLOBALS['TCA'][$tablename]['columns'][$fieldname]['config']['type'] == 'group')	{
 			$foreigntablename = $GLOBALS['TCA'][$tablename]['columns'][$fieldname]['config']['allowed'];
-			$foreignTableViewObj = $tablesObj->get($foreigntablename,true);
-			if (!$row[$fieldname])	{
+			$foreignTableViewObj = $tablesObj->get($foreigntablename, true);
+			if (!$row[$fieldname]) {
 				$foreignMarker = $foreignTableViewObj->getMarker();
 
-				foreach ($tagArray as $theTag => $v)	{
-					if (strpos($theTag,$foreignMarker) === 0)	{
+				foreach ($tagArray as $theTag => $v) {
+					if (strpos($theTag,$foreignMarker) === 0) {
 						$rowMarkerArray['###'.$theTag.'###'] = '';
 					}
 				}
 			}
 		}
 
-		if ($foreigntablename != '' && $row[$fieldname] > 0)	{
-/*			$tableClass = $tablesObj->getTableClass ($foreigntablename, true);
-			$foreignTableViewObj = GeneralUtility::makeInstance(''.$tableClass);*/
+		if ($foreigntablename != '' && $row[$fieldname] > 0) {
+
 			$foreignTableObj = $foreignTableViewObj->getModelObj();
-			if ($GLOBALS['TCA'][$tablename]['columns'][$fieldname]['config']['internal_type'] == 'db')	{
+			if ($GLOBALS['TCA'][$tablename]['columns'][$fieldname]['config']['internal_type'] == 'db') {
 				$foreignRow = $foreignTableObj->get($row[$fieldname]);
-				$foreignTableViewObj->getRowMarkerArray (
+				$foreignTableViewObj->getRowMarkerArray(
+					$foreigntablename,
 					$foreignRow,
 					'',
 					$rowMarkerArray,
@@ -99,19 +119,21 @@ class tx_ttproducts_field_foreign_table_view extends tx_ttproducts_field_base_vi
 					$tagArray,
 					$theCode,
 					$basketExtra,
+					$basketRecs,
 					$bHtml,
 					$charset,
-					0,
+					$imageNum,
 					$imageRenderObj,
 					$id,
 					$prefix,
 					$suffix,
-					''
+					'',
+					$bEnableTaxZero
 				);
 			}
 		//
 		}
-		$markerArray = array_merge ($markerArray, $rowMarkerArray);
+		$markerArray = array_merge($markerArray, $rowMarkerArray);
 	}
 }
 
@@ -119,6 +141,5 @@ class tx_ttproducts_field_foreign_table_view extends tx_ttproducts_field_base_vi
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/field/class.tx_ttproducts_field_foreign_table_view.php']) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/field/class.tx_ttproducts_field_foreign_table_view.php']);
 }
-
 
 

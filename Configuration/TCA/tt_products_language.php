@@ -1,7 +1,6 @@
 <?php
 defined('TYPO3_MODE') || die('Access denied.');
 
-
 $imageFolder = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['imageFolder'];
 if (!$imageFolder) {
 	$imageFolder = 'uploads/pics';
@@ -28,6 +27,8 @@ $result = array (
 		'prependAtCopy' => DIV2007_LANGUAGE_LGL . 'prependAtCopy',
 		'crdate' => 'crdate',
 		'cruser_id' => 'cruser_id',
+		'versioningWS' => true,
+		'origUid' => 't3_origuid',
 		'iconfile' => PATH_TTPRODUCTS_ICON_TABLE_REL . 'tt_products_language.gif',
 		'languageField' => 'sys_language_uid',
 		'mainpalette' => 1,
@@ -38,12 +39,12 @@ $result = array (
 	),
 	'columns' => array (
 		't3ver_label' => array (
-			'label'  => DIV2007_LANGUAGE_PATH . 'locallang_general.xlf:LGL.versionLabel',
+            'label'  => DIV2007_LANGUAGE_LGL . 'versionLabel',
 			'config' => array (
 				'type' => 'input',
 				'size' => '30',
 				'max'  => '30',
-				'default' => ''
+				'default' => '',
 			)
 		),
 		'sys_language_uid' => array (
@@ -61,8 +62,8 @@ $result = array (
 				'default' => 0
 			)
 		),
-		'sorting' => Array (
-			'config' => Array (
+		'sorting' => array (
+			'config' => array (
 				'type' => 'passthrough',
 				'default' => 0
 			)
@@ -174,9 +175,9 @@ $result = array (
 			'config' => array (
 				'type' => 'input',
 				'size' => '40',
-                'eval' => 'trim',
+				'eval' => 'trim',
 				'max' => '256',
-				'default' => ''
+				'default' => '',
 			),
 			'l10n_mode' => 'prefixLangTitle',
 		),
@@ -187,9 +188,9 @@ $result = array (
 				'type' => 'text',
 				'rows' => '3',
 				'cols' => '20',
+				'eval' => null,
 				'max' => '512',
-				'eval' => 'null',
-				'default' => ''
+				'default' => '',
 			),
 			'l10n_mode' => 'prefixLangTitle',
 		),
@@ -220,7 +221,7 @@ $result = array (
 				'cols' => '20',
 				'max' => '512',
 				'eval' => 'null',
-				'default' => ''
+				'default' => '',
 			)
 		),
 		'itemnumber' => array (
@@ -231,7 +232,7 @@ $result = array (
 				'size' => '40',
 				'eval' => 'trim',
 				'max' => '120',
-				'default' => ''
+				'default' => '',
 			)
 		),
 		'unit' => array (
@@ -241,7 +242,7 @@ $result = array (
 				'size' => '20',
 				'eval' => 'trim',
 				'max' => '20',
-				'default' => ''
+				'default' => '',
 			)
 		),
 		'note' => array (
@@ -250,7 +251,7 @@ $result = array (
 				'type' => 'text',
 				'cols' => '48',
 				'rows' => '5',
-				'default' => ''
+				'default' => '',
 			),
 			'l10n_mode' => 'prefixLangTitle',
 		),
@@ -260,7 +261,7 @@ $result = array (
 				'type' => 'text',
 				'cols' => '48',
 				'rows' => '2',
-				'default' => ''
+				'default' => '',
 			),
 			'l10n_mode' => 'prefixLangTitle',
 		),
@@ -277,7 +278,7 @@ $result = array (
 				'maxitems' => '20',
 				'minitems' => '0',
 				'eval' => 'null',
-				'default' => ''
+				'default' => '',
 			)
 		),
 		'www' => array (
@@ -288,7 +289,7 @@ $result = array (
 				'eval' => 'trim',
 				'size' => '30',
 				'max' => '160',
-				'default' => ''
+				'default' => '',
 			),
 			'l10n_mode' => 'prefixLangTitle',
 		),
@@ -305,13 +306,13 @@ $result = array (
 				'maxitems' => '10',
 				'minitems' => '0',
 				'eval' => 'null',
-				'default' => ''
+				'default' => '',
 			)
 		),
-		'smallimage' => Array (
+		'smallimage' => array (
 			'exclude' => 1,
 			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products.smallimage',
-			'config' => Array (
+			'config' => array (
 				'type' => 'group',
 				'internal_type' => 'file',
 				'allowed' => $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'],
@@ -321,7 +322,7 @@ $result = array (
 				'maxitems' => '10',
 				'minitems' => '0',
 				'eval' => 'null',
-				'default' => ''
+				'default' => '',
 			)
 		),
 	),
@@ -340,13 +341,14 @@ $result = array (
                         )
                     )
                 ),
-                'showitem' => 'sys_language_uid, l18n_diffsource, crdate, tstamp, hidden,--palette--;;1, prod_uid,title,--palette--;;2, slug, unit, note, note2, image, smallimage, datasheet'
+
+                'showitem' => 'sys_language_uid, l18n_diffsource, tstamp, crdate, hidden,--palette--;;1, prod_uid,title,--palette--;;2, slug, unit, note, note2, image, smallimage, datasheet'
             )
-    ),
-    'palettes' => array (
-        '1' => array('showitem' => 'starttime,endtime,fe_group'),
-        '2' => array('showitem' => 'subtitle, keyword, itemnumber, www'),
-    )
+	),
+	'palettes' => array (
+		'1' => array('showitem' => 'starttime,endtime,fe_group'),
+		'2' => array('showitem' => 'subtitle, keyword, itemnumber, www'),
+	)
 );
 
 if (
@@ -366,3 +368,4 @@ if (
 }
 
 return $result;
+

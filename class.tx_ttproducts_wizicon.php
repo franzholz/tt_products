@@ -31,11 +31,12 @@ class tx_ttproducts_wizicon {
     public function proc($wizardItems) {
         $params = '&defVals[tt_content][CType]=list&defVals[tt_content][list_type]=5&defVals[tt_content][select_key]=HELP';
         $wizardItems['plugins_tx_ttproducts_pi1'] = array(
-            'icon' => PATH_BE_TTPRODUCTS_REL . 'Resources/Public/Images/PluginWizard.png',
+            'icon' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extRelPath(TT_PRODUCTS_EXT) . 'Resources/Public/Images/PluginWizard.png',
             'title' => $GLOBALS['LANG']->sL('LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang.xml:plugins_title'),
             'description' => $GLOBALS['LANG']->sL('LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang.xml:plugins_description'),
             'params' => $params
         );
+
 
         return $wizardItems;
     }

@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2006-2007 Milosz Klosowicz (typo3@miklobit.com)
+*  (c) 2012 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -27,9 +27,9 @@
 /**
  * Part of the tt_products (Shop System) extension.
  *
- * This has never been used. It is removed from now on.
+ * admin control functions
  *
- * @author  Milosz Klosowicz <typo3@miklobit.com>
+ * @author	Franz Holzinger <franz@ttproducts.de>
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
  * @package TYPO3
  * @subpackage tt_products
@@ -37,41 +37,37 @@
  *
  */
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
+class tx_ttproducts_admin_control_view {
 
 
-class tx_ttproducts_currency_view implements \TYPO3\CMS\Core\SingletonInterface {
-
-	public $pibase; // reference to object of pibase
-	public $conf;
-	public $subpartMarkerObj; // marker functions
-	public $urlObj;
-
-	public function init($pibase) {
-		$this->pibase = $pibase;
-		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-
-		$this->conf = &$cnf->conf;
-
-		$this->subpartmarkerObj = GeneralUtility::makeInstance('tx_ttproducts_subpartmarker');
-		$this->subpartmarkerObj->init($pibase->cObj);
-		$this->urlObj = GeneralUtility::makeInstance('tx_ttproducts_url_view');
+	static public function getHiddenField ($updateCode) {
+		$result = '<input type="hidden" name="update_code" value="' . $updateCode . '" />';
+		return $result;
 	}
 
-
-	/**
-	 * currency selector
-	 */
-	function printView()  {
-		return false;
+	static public function getSubpartArrays (
+		$bIsAllowed,
+		$bValidUpdateCode,
+		&$subpartArray,
+		&$wrappedSubpartArray
+	) {
+			// Display admin-interface if access.
+		if (!$bIsAllowed) {
+			$subpartArray['###ADMIN_CONTROL###'] = '';
+		} elseif ($bValidUpdateCode) {
+			$subpartArray['###ADMIN_CONTROL_DENY###'] = '';
+			$wrappedSubpartArray['###ADMIN_CONTROL_OK###'] = '';
+			$wrappedSubpartArray['###ADMIN_CONTROL###'] = '';
+		} else {
+			$subpartArray['###ADMIN_CONTROL_OK###'] = '';
+			$wrappedSubpartArray['###ADMIN_CONTROL_DENY###'] = '';
+			$wrappedSubpartArray['###ADMIN_CONTROL###'] = '';
+		}
 	}
 }
 
 
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_currency_view.php'])	{
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_currency_view.php']);
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_admin_control_view.php']) {
+	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_admin_control_view.php']);
 }
-
-
 

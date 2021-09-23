@@ -6,7 +6,7 @@ namespace JambageCom\TtProducts\Controller;
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2007-2020 Kasper Skårhøj (kasperYYYY@typo3.com)
+*  (c) 2007-2016 Kasper Skårhøj (kasperYYYY@typo3.com)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -42,13 +42,12 @@ namespace JambageCom\TtProducts\Controller;
  *
  */
 
+use TYPO3\CMS\Core\Http\NullResponse;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-
-use TYPO3\CMS\Core\Http\NullResponse;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
 
@@ -72,6 +71,8 @@ class TaxajaxController {
         $config = array();
         $config['LLkey'] = '';
 
+        // tt_products specific parts
+
         // Make instance:
         $ajax = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_ttproducts_ajax');
         $ajax->init();
@@ -81,14 +82,15 @@ class TaxajaxController {
         $SOBE->init($conf, $config, $ajax, $tmp = '', $errorCode);
 
         if($_POST['xajax']) {
+
             $ajax->taxajax->processRequests();
+
             $SOBE->destruct();
             exit();
         }
         $SOBE->main();
         $SOBE->printContent();
         $SOBE->destruct();
-
         return new NullResponse();
     }
 }

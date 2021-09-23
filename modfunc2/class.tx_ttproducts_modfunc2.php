@@ -23,6 +23,8 @@
 ***************************************************************/
 
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 
 /**
  * Module extension (addition to function menu2 'Create Records in Alternative Languages' for the 'tt_products' extension.
@@ -132,7 +134,7 @@ class tx_ttproducts_modfunc2 extends \TYPO3\CMS\Backend\Module\AbstractFunctionM
 					}
 				}
 
-				if (is_array($uidNotFoundArray) && count($uidNotFoundArray)) {
+				if (count($uidNotFoundArray)) {
 					$content .= '<br />' . $GLOBALS['LANG']->getLL('no_alternative_product') . ': ' . implode(',', $uidNotFoundArray);
 				}
 

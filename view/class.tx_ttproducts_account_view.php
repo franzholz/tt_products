@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2005-2010 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2013 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -52,26 +52,25 @@ class tx_ttproducts_account_view extends tx_ttproducts_table_base_view {
 	 * @return	array
 	 * @access private
 	 */
-	function getMarkerArray ($row, &$markerArray, $bIsAllowed)	{
+	public function getMarkerArray ($row, &$markerArray, $bIsAllowed) {
+		global $TCA;
 
-		if ($bIsAllowed)	{
-			$acNumber = $row['ac_number'];
-			$acOwnerName = $row['owner_name'];
-			$acBic = $row['bic'];
-		} else {
-			$acNumber = '';
-			$acOwnerName = '';
-			$acBic = '';
+		$viewRow = array();
+		$modelObj = $this->getModelObj();
+
+		if ($bIsAllowed) {
+			$viewRow = $row;
 		}
 
-		$markerArray['###PERSON_ACCOUNTS_OWNER_NAME###'] = $acOwnerName;
-		$markerArray['###PERSON_ACCOUNTS_AC_NUMBER###'] = $acNumber;
-		$markerArray['###PERSON_ACCOUNTS_BIC###'] = $acBic;
+		$fieldArray = $modelObj->requiredFieldArray;
+		foreach ($fieldArray as $field) {
+			$markerArray['###PERSON_ACCOUNTS_' . strtoupper($field) . '###'] = $viewRow[$field];
+		}
 	} // getMarkerArray
 }
 
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_account_view.php'])	{
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_account_view.php']) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_account_view.php']);
 }
 

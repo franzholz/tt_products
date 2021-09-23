@@ -36,6 +36,7 @@
  *
  */
 
+
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
@@ -80,12 +81,11 @@ class tx_ttproducts_ts implements \TYPO3\CMS\Core\SingletonInterface {
 
 	protected function getProductCount ($uid = 0) {
 		$result = 0;
-        $enableFields = \JambageCom\Div2007\Utility\TableUtility::enableFields('tt_products');
-
 		$allChilds = $this->getAllChilds($uid);
 
 		if (isset($allChilds) && is_array($allChilds) && count($allChilds)) {
 			$pids = implode(',', $allChilds);
+            $enableFields = \JambageCom\Div2007\Utility\TableUtility::enableFields('tt_products');
 			$where = 'pid IN (' . $pids . ')' . $enableFields;
 			$rows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows('uid', 'tt_products', $where);
 			$result = false;
@@ -120,7 +120,7 @@ class tx_ttproducts_ts implements \TYPO3\CMS\Core\SingletonInterface {
 				) {
 					$flexformArray = GeneralUtility::xml2array($row['pi_flexform']);
 					$codes =
-						tx_div2007_ff::get(
+						\JambageCom\Div2007\Utility\FlexformUtility::get(
 							$flexformArray,
 							$fieldName,
 							'sDEF',
@@ -161,7 +161,7 @@ class tx_ttproducts_ts implements \TYPO3\CMS\Core\SingletonInterface {
 	* @return	array		The processed $I array returned (and stored in $this->I of the parent object again)
 	* @see tslib_menu::userProcess(), tslib_tmenu::writeMenu(), tslib_gmenu::writeMenu()
 	*/
-	public function pageProductCount_IProcFunc($I, $conf) {
+	public function pageProductCount_IProcFunc ($I, $conf) {
 
 		self::$count++;
 		$itemRow = $conf['parentObj']->menuArr[$I['key']];
@@ -181,7 +181,7 @@ class tx_ttproducts_ts implements \TYPO3\CMS\Core\SingletonInterface {
 	}
 
 
-	public function processMemo() {
+	public function processMemo () {
 
 		$functablename = 'tt_products';
 		$conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
@@ -195,6 +195,5 @@ class tx_ttproducts_ts implements \TYPO3\CMS\Core\SingletonInterface {
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/api/class.tx_ttproducts_ts.php']) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/api/class.tx_ttproducts_ts.php']);
 }
-
 
 

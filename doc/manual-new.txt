@@ -1,0 +1,283 @@
+addRequiredInfoFields auch unter shipping möglich
+
+###DELIVERY_STORE_SELECT### für pick_store
+
+plugin.tt_products {
+  form.INFO.selectStore.layout = ###CITY###: ###NAME###
+
+  form.INFO.selectStore.data {
+     class=haendlerSelect
+  }
+}
+
+
+plugin.tt_products.shipping {
+   10.title = Schweiz
+   10.replaceTAXpercentage {
+       0 = 8
+       7 = 2.5
+    }
+}
+
+UIDstore: tt_address hinzufügen
+
+UIDstoreGroup: FE Benutzer Gruppe
+
+
+
+FAQ:
+Marker ###PRICE_TAXRATE_TAX2### nicht ersetzt:
+
+Lösung: TAXrates setzen
+
+
+useStaticInfoCountry default 1 setzen
+
+
+
+payment/shipping
+
+PIDlink = page id for the destination link in the selector box
+
+
+errorLog für den Namen der PHP error_log Datei
+
+
+
+shipping {
+
+  #Versandkosten für LPB.de
+    #DEUTSCHLAND
+    TAXpercentage = 19
+    10.title = Postversand Deutschland
+    #10.where.static_countries = cn_iso_2 = 'DE'
+    10.calculationScript >
+    10.show = 1
+    10.price.type=weight
+    10.price.0 = 3.00
+    10.price.0.type = sql
+    10.price.0.where = amount > 0
+    10.price.500 = 3.00
+    10.price.2000 = 6.50
+    10.price.10000 = 13.50
+    10.price.30000 = 99.00
+    10.price.noCostsAmount {
+       upTo = 0
+     }
+}
+
+
+noCostsAmount {
+	upTo = 0
+}
+	für ein oberes Limit des Gesamtpreises im Warenkorb bis zu dem kostenlos geliefert wird.
+
+
+	// nur für type=weight ... SQL Bedingung über den Gesamtpreis im Warenkorb
+    10.price.0.type = sql
+    10.price.0.where = amount > 0
+
+
+Shipping Maximal Preis:
+
+    10.price.maximum = 6.9
+
+
+Gift Geschenkgutschein.
+
+gift {
+	type = voucher
+	TAXpercentage = 19
+}
+
+
+basket.activity.overview.store = 1
+
+
+
+FAL Bilder Marker aktivieren:
+
+  conf.tt_products.ALL.imageMarker {
+     type = index
+  }
+
+Rechnungsnummer Präfix:
+
+orderBillNumberPrefix
+
+
+Produktliste: nur mehr die standardmäßige Kategorie anzeigen
+
+  conf.tt_products_cat.LIST {
+	onlyDefaultCategory = 1
+  }
+
+  conf.tt_products_cat.LISTRELATED {
+	onlyDefaultCategory = 1
+  }
+
+
+
+shopAdmin = BE
+
+download.authorization = FE: Im Frontend eingeloggter Benutzer
+
+
+TAXpercentage.10.where.static_countries = cn_eu_member <> 1
+TAXpercentage.10.tax.tx_rate = 0
+TAXpercentage.10.tax.title = Ausserhalb EU keine Steuer
+
+
+Download Email aufspalten:
+
+  orderEmail {
+       10010.suffix = product
+       10010.from = customer
+       10010.returnPath = {$plugin.tt_products.orderEmail_returnPath}
+       10010.to = {$plugin.tt_products.orderEmail_to}
+       10020.suffix = download
+       10020.from = customer
+       10020.returnPath = {$plugin.tt_products.orderEmail_returnPath}
+       10020.to = {$plugin.tt_products.orderEmail_to}
+  }
+
+
+UIDbackendUser für den Backend User der im Frontend den DataHandler aufruft.
+
+
+Suche über Kollationen:
+
+  conf.tt_products.ALL {
+    collate {
+       title = utf8_bin
+    }
+  }
+
+
+plugin.tt_products {
+
+  conf.tt_products.SEARCH {
+    charRegExp = [[:blank:]]*
+  }
+}
+
+"{s1}" ... 1. Suchstring
+
+plugin.tt_products {
+
+  conf.tt_products.SEARCH {
+    charRegExp = ^"{s1}"|[[:blank:]]"{s1}",*
+  }
+}
+
+
+
+Edit Variant:
+
+		<!-- ###edit_variant_domain### begin -->
+		<b>###P_DOMAIN###</b> ###EDIT_VARIANT###
+		<br />
+		<!-- ###edit_variant_domain### end -->
+
+		<!-- ###edit_variant_width### begin -->
+		<b>###P_WIDTH###</b> ###EDIT_VARIANT###
+		<br />
+		<!-- ###edit_variant_width### end -->
+
+		<!-- ###edit_variant_height### begin -->
+		<b>###P_HEIGHT###</b> ###EDIT_VARIANT###
+		<br />
+		<!-- ###edit_variant_height### end -->
+
+
+  editVariant {
+    10 {
+      sql.where = uid = 1
+      suffix = domain
+      evalValues {
+        1 = required, wwwURL
+      }
+      error = <div class="fehlerbox"><div style="font-size:16px;"> Hint:</div> You must enter a valid Internet <span style="color:red;">Domain</span>.</div></div>
+    }
+
+    20 {
+      sql.where = uid = 1
+      suffix = width
+      evalValues {
+        1 = required
+      }
+      error = <div class="fehlerbox"><div style="font-size:16px;"> Hint:</div> You must enter a valid <span style="color:red;">Width</span>.</div></div>
+    }
+
+    30 {
+      sql.where = uid = 1
+      suffix = height
+      evalValues {
+        1 = required
+      }
+      error = <div class="fehlerbox"><div style="font-size:16px;"> Hint:</div> You must enter a valid <span style="color:red;">Height</span>.</div></div>
+    }
+  }
+
+
+
+Für widht und height hat es zuletzt damit funktioniert:
+
+plugin.tt_products {
+
+  editVariant {
+    10 {
+      sql.where = uid = 1
+      suffix = width
+      range {
+        1 = 479-802
+        2 = 803-1202
+        3 = 1203-1286
+      }
+      error = Es muss eine Breite zwischen 479 und 1286 eingegeben werden.
+    }
+    20 {
+      sql.where = uid = 1
+      suffix = height
+      range {
+        1 = 579-982
+        2 = 983-1182
+        3 = 1183-1339
+      }
+      error = Es muss eine Höhe zwischen 579 und 1339 eingegeben werden.
+    }
+  }
+}
+
+
+
+
+
+Colorbox Javascript zum Reset der Colorbox aktivieren
+
+  conf.tt_products.ALL {
+	jquery {
+		colorbox = 0
+	}
+  }
+
+
+
+  Beispiel Typoscript Conditions:
+
+[dayofmonth = <= 24] AND [month = 12] AND [globalVar = TSFE:fe_user|sesData|recs|delivery|country_code = DEU]
+plugin.tt_products.shipping.10.price.1 = 0
+[global]
+
+
+Voucher:
+
+plugin.tt_products {
+  table.voucher = tx_voucher_codes
+  voucher.active = 1
+}
+
+
+
+
+

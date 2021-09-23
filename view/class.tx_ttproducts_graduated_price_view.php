@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2007-2009 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2016 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -40,40 +40,71 @@
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
-class tx_ttproducts_graduated_price_view implements \TYPO3\CMS\Core\SingletonInterface {
+class tx_ttproducts_graduated_price_view extends tx_ttproducts_table_base_view {
 	public $marker = 'GRADPRICE';
-	public $modelObj;
 
-	public function init($modelObj)	{
-		$this->modelObj = $modelObj;
-	}
 
-	private function getFormulaMarkerArray($basketExtra, $row, $priceFormula, &$markerArray, $suffix='')	{
-		if (isset($priceFormula) && is_array($priceFormula))	{
+	private function getFormulaMarkerArray (
+		$basketExtra,
+		$basketRecs,
+		$row,
+		$priceFormula,
+		$bTaxIncluded,
+		$bEnableTaxZero,
+		&$markerArray,
+		$suffix = ''
+	) {
+		if (isset($priceFormula) && is_array($priceFormula)) {
+			$marker = $this->getMarker();
+			$conf = $this->getConf();
+
 			$priceObj = GeneralUtility::makeInstance('tx_ttproducts_field_price');
 			$priceViewObj = GeneralUtility::makeInstance('tx_ttproducts_field_price_view');
-			foreach ($priceFormula as $field => $value)	{
-				$keyMarker = '###'.$this->marker.'_'.strtoupper($field).$suffix.'###';
-				if (strpos($GLOBALS['TCA'][$this->modelObj->tableObj->getName()]['interface']['showRecordFieldList'], $field) === false) {
+			foreach ($priceFormula as $field => $value) {
+				$keyMarker = '###' . $marker . '_' . strtoupper($field) . $suffix . '###';
+				if (
+					strpos(
+						$GLOBALS['TCA'][$this->getModelObj()->getTablename()]['interface']['showRecordFieldList'],
+						$field) === false
+				) {
 					$value = '';
 				}
 				$markerArray[$keyMarker] = $value;
 			}
-			$priceNoTax = $priceObj->getPrice($basketExtra,$priceFormula['formula'],false,$row,false);
-			$priceTax = $priceObj->getPrice($basketExtra,$priceNoTax,true,$row,false);
-			$keyMarker = '###'.$this->marker.'_'.'PRICE_TAX'.$suffix.'###';
+
+			$priceNoTax =
+				$priceObj->getPrice(
+					$basketExtra,
+					$basketRecs,
+					$priceFormula['formula'],
+					false,
+					$row,
+					$bTaxIncluded,
+					$bEnableTaxZero
+				);
+			$priceTax =
+				$priceObj->getPrice(
+					$basketExtra,
+					$basketRecs,
+					$priceFormula['formula'],
+					true,
+					$row,
+					$bTaxIncluded,
+					$bEnableTaxZero
+				);
+			$keyMarker = '###' . $marker . '_' . 'PRICE_TAX' . $suffix . '###';
 			$markerArray[$keyMarker] = $priceViewObj->priceFormat($priceTax);
-			$keyMarker = '###'.$this->marker.'_'.'PRICE_NO_TAX'.$suffix.'###';
+			$keyMarker = '###' . $marker . '_' . 'PRICE_NO_TAX' . $suffix . '###';
 			$markerArray[$keyMarker] = $priceViewObj->priceFormat($priceNoTax);
 
-			$basePriceTax = $priceObj->getResellerPrice($basketExtra, $row, 1);
-			$basePriceNoTax = $priceObj->getResellerPrice($basketExtra, $row, 0);
+			$basePriceTax = $priceObj->getResellerPrice($basketExtra, $basketRecs, $row, 1);
+			$basePriceNoTax = $priceObj->getResellerPrice($basketExtra, $basketRecs, $row, 0);
 
-			if ($basePriceTax)	{
+			if ($basePriceTax) {
 				$skontoTax = ($basePriceTax - $priceTax);
-				$tmpPercentTax = number_format(($skontoTax / $basePriceTax) * 100, $this->conf['percentDec']);
+				$tmpPercentTax = number_format(($skontoTax / $basePriceTax) * 100, $conf['percentDec']);
 				$skontoNoTax = ($basePriceNoTax - $priceNoTax);
-				$tmpPercentNoTax = number_format(($skontoNoTax / $basePriceNoTax) * 100, $this->conf['percentDec']);
+				$tmpPercentNoTax = number_format(($skontoNoTax / $basePriceNoTax) * 100, $conf['percentDec']);
 			} else {
 				$skontoTax = 'total';
 				$skontoNoTax = 'total';
@@ -81,42 +112,65 @@ class tx_ttproducts_graduated_price_view implements \TYPO3\CMS\Core\SingletonInt
 				$tmpPercentNoTax = 'infinite';
 			}
 
-			$keyMarker = '###'.$this->marker.'_'.'PRICE_TAX_DISCOUNT'.$suffix.'###';
+			$keyMarker = '###' . $marker . '_' . 'PRICE_TAX_DISCOUNT' . $suffix . '###';
 			$markerArray[$keyMarker] = $priceViewObj->priceFormat($skontoTax);
-			$keyMarker = '###'.$this->marker.'_'.'PRICE_NO_TAX_DISCOUNT'.$suffix.'###';
+			$keyMarker = '###' . $marker . '_' . 'PRICE_NO_TAX_DISCOUNT' . $suffix . '###';
 			$markerArray[$keyMarker] = $priceViewObj->priceFormat($skontoNoTax);
-			$keyMarker = '###'.$this->marker.'_'.'PRICE_TAX_DISCOUNT_PERCENT'.$suffix.'###';
+			$keyMarker = '###' . $marker . '_' . 'PRICE_TAX_DISCOUNT_PERCENT' . $suffix . '###';
 			$markerArray[$keyMarker] = $priceViewObj->priceFormat($tmpPercentTax);
-			$keyMarker = '###'.$this->marker.'_'.'PRICE_NO_TAX_DISCOUNT_PERCENT'.$suffix.'###';
+			$keyMarker = '###' . $marker . '_' . 'PRICE_NO_TAX_DISCOUNT_PERCENT' . $suffix . '###';
 			$markerArray[$keyMarker] = $priceViewObj->priceFormat($tmpPercentNoTax);
 		}
 	}
 
-	public function getPriceSubpartArrays (&$templateCode, &$row, $fieldname, &$subpartArray, &$wrappedSubpartArray, &$tagArray, $theCode='', $basketExtra=array(), $id='1') {
-
-        $local_cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
-		$parser = $local_cObj;
+	public function getPriceSubpartArrays (
+		$templateCode,
+		$row,
+		$fieldname,
+		$bTaxIncluded,
+		$bEnableTaxZero,
+		&$subpartArray,
+		&$wrappedSubpartArray,
+		&$tagArray,
+		$theCode = '',
+		$basketExtra = array(),
+		$basketRecs = array(),
+        $pObj,            
+		$id = '1'
+	) {
+		$subpartmarkerObj = GeneralUtility::makeInstance('tx_ttproducts_subpartmarker');
+		$local_cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
+        $parser = $local_cObj;
         if (
             defined('TYPO3_version') &&
             version_compare(TYPO3_version, '7.0.0', '>=')
         ) {
             $parser = tx_div2007_core::newHtmlParser(false);
         }
-		$subpartmarkerObj = GeneralUtility::makeInstance('tx_ttproducts_subpartmarker');
+
 		$t = array();
-		$t['listFrameWork'] = tx_div2007_core::getSubpart($templateCode, '###GRADPRICE_FORMULA_ITEMS###');
+		$t['listFrameWork'] = tx_div2007_core::getSubpart($templateCode,'###GRADPRICE_FORMULA_ITEMS###');
 		$t['itemFrameWork'] = tx_div2007_core::getSubpart($t['listFrameWork'], '###ITEM_FORMULA###');
 
-		$priceFormulaArray = $this->modelObj->getFormulasByProduct($row['uid']);
-		if (is_array($priceFormulaArray) && count($priceFormulaArray))	{
+        $priceFormulaArray = $pObj->getModelObj()->getGraduatedPriceObject()->getFormulasByItem($row['uid']);
+
+        if (is_array($priceFormulaArray) && count($priceFormulaArray)) {
 			$content = '';
-			foreach ($priceFormulaArray as $k => $priceFormula)	{
-				if (isset($priceFormula) && is_array($priceFormula))	{
+			foreach ($priceFormulaArray as $k => $priceFormula) {
+				if (isset($priceFormula) && is_array($priceFormula)) {
 					$itemMarkerArray = array();
-					$this->getFormulaMarkerArray($basketExtra, $row, $priceFormula, $itemMarkerArray);
+					$this->getFormulaMarkerArray(
+						$basketExtra,
+						$basketRecs,
+						$row,
+						$priceFormula,
+						$bTaxIncluded,
+						$bEnableTaxZero,
+						$itemMarkerArray
+					);
 
 					$formulaContent = $parser->substituteMarkerArray($t['itemFrameWork'], $itemMarkerArray);
-					$content .= $parser->substituteSubpart($t['listFrameWork'],  '###ITEM_FORMULA###', $formulaContent) ;
+					$content .= $parser->substituteSubpart($t['listFrameWork'], '###ITEM_FORMULA###', $formulaContent) ;
 				}
 			}
 			$subpartArray['###GRADPRICE_FORMULA_ITEMS###'] = $content;
@@ -142,23 +196,42 @@ class tx_ttproducts_graduated_price_view implements \TYPO3\CMS\Core\SingletonInt
 	 */
 	public function getPriceMarkerArray (
 		$row,
+		$bTaxIncluded,
+		$bEnableTaxZero,
 		$basketExtra,
+		$basketRecs,
 		&$markerArray,
-		&$tagArray
-	)	{
-		if ($row['graduated_price_uid'])	{
-			$priceFormulaArray = $this->modelObj->getFormulasByProduct($row['uid']);
-			foreach ($priceFormulaArray as $k => $priceFormula)	{
-				if (isset($priceFormula) && is_array($priceFormula))	{
-					$this->getFormulaMarkerArray($basketExtra, $row, $priceFormula, $markerArray, ($k+1));
+		$tagArray
+	) {
+		if ($this->getModelObj()->hasDiscountPrice($row)) {
+
+			$priceFormulaArray = $this->getModelObj()->getFormulasByItem($row['uid']);
+			foreach ($priceFormulaArray as $k => $priceFormula) {
+				if (isset($priceFormula) && is_array($priceFormula)) {
+					$this->getFormulaMarkerArray(
+						$basketExtra,
+						$basketRecs,
+						$row,
+						$priceFormula,
+						$bTaxIncluded,
+						$bEnableTaxZero,
+						$markerArray,
+						($k + 1)
+					);
 				}
 			}
 		}
 
+		$marker = $this->getMarker();
+
 		// empty all fields with no available entry
-		foreach ($tagArray as $value => $k1)	{
+		foreach ($tagArray as $value => $k1) {
 			$keyMarker = '###' . $value . '###';
-			if (strstr($value, $this->marker . '_') && !$markerArray[$keyMarker] && $value != 'GRADPRICE_FORMULA_ITEMS') {
+			if (
+				strstr($value, $marker . '_') &&
+				!$markerArray[$keyMarker] &&
+				$value != 'GRADPRICE_FORMULA_ITEMS'
+			) {
 				$markerArray[$keyMarker] = '';
 			}
 		}
@@ -166,8 +239,6 @@ class tx_ttproducts_graduated_price_view implements \TYPO3\CMS\Core\SingletonInt
 }
 
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_graduated_price_view.php'])	{
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_graduated_price_view.php']) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_graduated_price_view.php']);
 }
-
-

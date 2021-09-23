@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2006-2007 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2012 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -37,26 +37,12 @@
  *
  */
 
+ 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
-
 class tx_ttproducts_javascript_marker implements \TYPO3\CMS\Core\SingletonInterface {
-	public $pibase; // reference to object of pibase
-	public $conf;
-	public $config;
-	public $needXajax;
-	public $marker = 'JAVASCRIPT';
-
-
-	function init($pibase) {
-		$this->pibase = $pibase;
-		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-
-		$this->conf = &$cnf->conf;
-		$this->config = &$cnf->config;
-		$this->bneedXajax = false;
-	}
+	protected $marker = 'JAVASCRIPT';
 
 
 	/**
@@ -71,41 +57,42 @@ class tx_ttproducts_javascript_marker implements \TYPO3\CMS\Core\SingletonInterf
 	 * @return	array
 	 * @access private
 	 */
-	public function getMarkerArray (&$markerArray, &$itemMarkerArray)	{
+	public function getMarkerArray (&$markerArray, $itemMarkerArray, $cObj) {
 
-		if (is_array($this->conf['javaScript.']))	{
-            $parser =  $this->pibase->cObj;
-            if (
-                defined('TYPO3_version') &&
-                version_compare(TYPO3_version, '7.0.0', '>=')
-            ) {
-                $parser = tx_div2007_core::newHtmlParser(false);
-            }
+		$cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
+		$conf = $cnfObj->getConf();
+		$parser = $cObj;
+        if (
+            defined('TYPO3_version') &&
+            version_compare(TYPO3_version, '7.0.0', '>=')
+        ) {
+            $parser = tx_div2007_core::newHtmlParser(false);
+        }
 
+		if (is_array($conf['javaScript.'])) {
 			$javaScriptObj = GeneralUtility::makeInstance('tx_ttproducts_javascript');
 
 			$jsItemMarkerArray = array();
-			foreach ($itemMarkerArray as $marker => $value)	{
+			foreach ($itemMarkerArray as $marker => $value) {
 				$jsItemMarkerArray[$marker] = $javaScriptObj->jsspecialchars($value);
 			}
 
-			foreach ($this->conf['javaScript.'] as $key => $confJS)	{
-				$marker = rtrim($key,'.');
-				$jsText = $parser->substituteMarkerArray($confJS['value'],  $jsItemMarkerArray);
+			foreach ($conf['javaScript.'] as $key => $confJS) {
+				$marker = rtrim($key, '.');
+				$jsText =
+					$parser->substituteMarkerArray($confJS['value'], $jsItemMarkerArray);
 				$paramsArray = array($marker => $jsText);
-				$javaScriptObj->set('direct', $paramsArray, $this->pibase->cObj->currentRecord);
-				$marker = '###'.$this->marker.'_'.strtoupper($marker).'###';
+				$javaScriptObj->set('direct', $paramsArray, $cObj->currentRecord);
+				$marker = '###' . $this->marker . '_' . strtoupper($marker) . '###';
 				$markerArray[$marker] = '';
 			}
 		}
 	}
-
 }
 
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/marker/class.tx_ttproducts_javascript_marker.php'])	{
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/marker/class.tx_ttproducts_javascript_marker.php']);
 }
-
 
 

@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2009-2009 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2012 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -41,8 +41,7 @@
 class tx_ttproducts_field_creditpoints_view extends tx_ttproducts_field_base_view {
 	protected $addedFieldArray = array('creditpoints_missing', 'creditpoints_remaining');
 
-
-	public function modifyItemSubpartRow ($fieldname, $row, &$addedFieldArray)	{
+	public function modifyItemSubpartRow ($fieldname, $row, &$addedFieldArray) {
 		$modelObj = $this->getModelObj();
 		$rc = $row;
 		$creditpointsMissing = 0;
@@ -54,14 +53,49 @@ class tx_ttproducts_field_creditpoints_view extends tx_ttproducts_field_base_vie
 		return $rc;
 	}
 
-
- 	public function getRowMarkerArray ($functablename, $fieldname, $row, $markerKey, &$markerArray, $tagArray, $theCode, $id, $basketExtra, &$bSkip, $bHtml=true, $charset='', $prefix='', $suffix='', $imageRenderObj='')	{
+	public function getRowMarkerArray (
+		$functablename,
+		$fieldname,
+		$row,
+		$markerKey,
+		&$markerArray,
+		$tagArray,
+		$theCode,
+		$id,
+		$basketExtra,
+		$basketRecs,
+		&$bSkip,
+		$bHtml = true,
+		$charset = '',
+		$prefix = '',
+		$suffix = '',
+		$imageNum = 0,
+		$imageRenderObj = '',
+		$bEnableTaxZero = false
+	) {
 		$modifiedRow = array();
-		$value = $this->getModelObj()->getFieldValue($basketExtra, $row, $fieldname);
+		$value =
+			$this->getModelObj()->getFieldValue(
+				$dummy,
+				$row,
+				$fieldname,
+				$basketExtra,
+				$basketRecs,
+				$dummy
+			);
+
 		$value = number_format($value,'0');
 		$modifiedRow[$fieldname] = $value;
-		foreach ($this->addedFieldArray as $addedField)	{
-			$value = $this->getModelObj()->getFieldValue($basketExtra, $row, $addedField);
+		foreach ($this->addedFieldArray as $addedField) {
+			$value =
+				$this->getModelObj()->getFieldValue(
+					$dummy,
+					$row,
+					$addedField,
+					$basketExtra,
+					$basketRecs,
+					$dummy
+				);
 			$modifiedRow[$addedField] = number_format($value,'0');
 		}
 		return $modifiedRow;
@@ -69,7 +103,7 @@ class tx_ttproducts_field_creditpoints_view extends tx_ttproducts_field_base_vie
 }
 
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/field/class.tx_ttproducts_field_creditpoints_view.php'])	{
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/field/class.tx_ttproducts_field_creditpoints_view.php']) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/field/class.tx_ttproducts_field_creditpoints_view.php']);
 }
 

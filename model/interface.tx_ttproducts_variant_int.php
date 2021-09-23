@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2006-2009 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2012 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -40,12 +40,18 @@
 
 
 interface tx_ttproducts_variant_int {
+	const EXTERNAL_QUANTITY_SEPARATOR = '_'; // to separate any information about the external table, e.g. its type and uid "fal=4"
+	const INTERNAL_VARIANT_SEPARATOR = ';';
+
 	public function init($itemTable, $tablename, $useArticles);
+	public function getSeparator();
+	public function getSplitSeparator();
+	public function getImplodeSeparator();
 	public function getUseArticles();
 	public function modifyRowFromVariant (&$row, $variant='');
-	public function getVariantFromRow (&$row);
-	public function getVariantFromProductRow (&$row, $index);
-	public function getVariantFromRawRow (&$row);
+	public function getVariantFromRow ($row);
+	public function getVariantFromProductRow ($row, $variantRow, $useArticles);
+	public function getVariantFromRawRow ($row);
 	public function getVariantRow($row='',$varianArray=array());
 	public function getTableUid ($table, $uid);
 	public function getSelectableArray();

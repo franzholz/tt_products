@@ -37,8 +37,6 @@
  *
  */
 
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-
 
 class tx_ttproducts_control_address {
 
@@ -58,7 +56,6 @@ class tx_ttproducts_control_address {
 
 	static public function getAddressTablename (&$extKey) {
         $emClass = '\\TYPO3\\CMS\\Core\\Utility\\ExtensionManagementUtility';
-
 		$extKey = '';
 		$addressTable = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['addressTable'];
 
@@ -67,7 +64,16 @@ class tx_ttproducts_control_address {
 
 			foreach ($addressExtKeyTable as $addressTable => $extKey) {
 
-                $testIntResult = tx_div2007_core::testInt($extKey);
+				$testIntResult = false;
+				if (class_exists('tx_div2007_core')) {
+					$testIntResult = \TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($extKey);
+				} else { // workaround for bug #55727
+					$result = false;
+					$callingClassName = '\\TYPO3\\CMS\\Core\\Utility\\MathUtility';
+
+                    $result = call_user_func($callingClassName . '::canBeInterpretedAsInteger', $extKey);
+					$testIntResult = $result;
+				}
 
 				if (
 					$testIntResult

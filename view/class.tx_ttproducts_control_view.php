@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2009-2009 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2012 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -39,8 +39,7 @@
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-class tx_ttproducts_control_view implements \TYPO3\CMS\Core\SingletonInterface {
+class tx_ttproducts_control_view {
 
 	/**
 	 * Template marker substitution
@@ -51,24 +50,25 @@ class tx_ttproducts_control_view implements \TYPO3\CMS\Core\SingletonInterface {
 	 * @return	array
 	 * @access private
 	 */
-	public function getMarkerArray (&$markerArray, &$allMarkers, $tableConfArray)	{
-		if (isset($tableConfArray) && is_array($tableConfArray))	{
-			$languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
+	function getMarkerArray (&$markerArray, &$allMarkers, $tableConfArray) {
+		if (isset($tableConfArray) && is_array($tableConfArray)) {
+            $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
 			$allValueArray = array();
 			$controlArray = tx_ttproducts_model_control::getControlArray();
+			$separator = ';';
 
-			foreach ($tableConfArray as $functablename => $tableConf)	{
+			foreach ($tableConfArray as $functablename => $tableConf) {
 
-				if (isset($tableConf['view.']) && is_array($tableConf['view.']))	{
-					foreach ($tableConf['view.'] as $type => $typeConf)	{
+				if (isset($tableConf['view.']) && is_array($tableConf['view.'])) {
+					foreach ($tableConf['view.'] as $type => $typeConf) {
 
-						if (is_array($typeConf))	{
+						if (is_array($typeConf)) {
 							$type = substr($type,0,strpos($type,'.'));
-							foreach ($typeConf as $numberx => $numberConf)	{
-								$number = substr($numberx,0,strpos($numberx,'.'));
-								$markerkey = strtoupper($type).$number;
-								if ($allMarkers[$markerkey] != '')	{
-									$allValueArray[$type.';'.$number] = $numberConf;
+							foreach ($typeConf as $numberx => $numberConf) {
+								$number = substr($numberx, 0, strpos($numberx, '.'));
+								$markerkey = strtoupper($type) . $number;
+								if ($allMarkers[$markerkey] != '') {
+									$allValueArray[$type . $separator . $number] = $numberConf;
 								}
 							}
 						}
@@ -76,15 +76,15 @@ class tx_ttproducts_control_view implements \TYPO3\CMS\Core\SingletonInterface {
 				}
 			}
 
-			if (isset($allValueArray) && is_array($allValueArray))	{
+			if (isset($allValueArray) && is_array($allValueArray)) {
 
-				foreach ($allValueArray as $key => $xValueArray)	{
-					$keyArray = GeneralUtility::trimExplode(';',$key);
+				foreach ($allValueArray as $key => $xValueArray) {
+					$keyArray = GeneralUtility::trimExplode($separator, $key);
 					$type = $keyArray[0];
 					$valueArray = tx_ttproducts_form_div::fetchValueArray($xValueArray['valueArray.']);
 					$attributeArray = $xValueArray['attribute.'];
 
-					if (in_array($type, array('sortSelect', 'filterSelect')))	{
+					if (in_array($type, array('sortSelect', 'filterSelect'))) {
 						$out = tx_ttproducts_form_div::createSelect(
 							$languageObj,
 							$valueArray,
@@ -94,19 +94,20 @@ class tx_ttproducts_control_view implements \TYPO3\CMS\Core\SingletonInterface {
 							true,
 							array(),
 							'select',
-							$attributeArray
+							$attributeArray,
+							''
 						);
-					} else if ($type == 'filterInput')	{
-						$out = tx_ttproducts_form_div::createTag	(
+					} else if ($type == 'filterInput') {
+						$out = tx_ttproducts_form_div::createTag(
 							'input',
-							tx_ttproducts_model_control::getPrefixId() . '['.tx_ttproducts_model_control::getControlVar().']['.$keyArray[0].']['.$keyArray[1].']',
+							tx_ttproducts_model_control::getPrefixId() . '[' . tx_ttproducts_model_control::getControlVar() . '][' . $keyArray[0] . '][' . $keyArray[1] . ']',
 							$controlArray[$keyArray[0]][$keyArray[1]],
 							$attributeArray
 						);
 					}
-					$markerkey = strtoupper($keyArray[0]  .$keyArray[1]);
-					$markerArray['###'.$markerkey.'_LABEL###'] = $xValueArray['label'];
-					$markerArray['###'.$markerkey.'###'] = $out;
+					$markerkey = strtoupper($keyArray[0]  . $keyArray[1]);
+					$markerArray['###' . $markerkey . '_LABEL###'] = $xValueArray['label'];
+					$markerArray['###' . $markerkey . '###'] = $out;
 				}
 			}
 		}
@@ -114,9 +115,8 @@ class tx_ttproducts_control_view implements \TYPO3\CMS\Core\SingletonInterface {
 }
 
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_control_view.php'])	{
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_control_view.php']) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_control_view.php']);
 }
-
 
 

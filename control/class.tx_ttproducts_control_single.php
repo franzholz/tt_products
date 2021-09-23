@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2009-2009 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2012 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -46,33 +46,33 @@ class tx_ttproducts_control_single implements \TYPO3\CMS\Core\SingletonInterface
 	 * @return	void
 	 * @access private
 	 */
-	function triggerEvents ($conf)	{
-		if (isset($conf['trigger.']))	{
+	function triggerEvents ($conf) {
+		if (isset($conf['trigger.'])) {
 
 			$triggerConf = $conf['trigger.'];
 			$piVars = tx_ttproducts_model_control::getPiVars();
 			$piVar = tx_ttproducts_model_control::getPiVar('tt_products');
 			$uid = $piVars[$piVar];
 
-			if (\JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn())	{
+			if (\JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn()) {
 	/*
 	$productTableObj->getTableConf('LISTVIEWEDITEMS');*/
 				$mmTablename = 'sys_products_fe_users_mm_visited_products';
 
-				if ($uid && in_array($mmTablename, $triggerConf))	{	// check if this trigger has been activated
+				if ($uid && in_array($mmTablename, $triggerConf)) {	// check if this trigger has been activated
 
 					$where = 'uid_local=' . intval($GLOBALS['TSFE']->fe_user->user['uid']) . ' AND uid_foreign=' . intval($uid);
 					$mmArray = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows('*', $mmTablename, $where, '', 'tstamp', '1');
 					$time = time();
 
-					if ($mmArray)	{
+					if ($mmArray) {
 						$updateFields = $mmArray['0'];
 						$updateFields['uid_foreign'] = $uid;
 						$updateFields['tstamp'] = $time;
 						$updateFields['qty'] += 1;
 						$GLOBALS['TYPO3_DB']->exec_UPDATEquery($mmTablename, $where, $updateFields);
 					} else {
-						$insertFields = array (
+						$insertFields = array(
 							'tstamp' => $time,
 							'uid_local' => $GLOBALS['TSFE']->fe_user->user['uid'],
 							'uid_foreign' => $uid,
@@ -85,12 +85,12 @@ class tx_ttproducts_control_single implements \TYPO3\CMS\Core\SingletonInterface
 
 			$tablename = 'sys_products_visited_products';
 
-			if ($uid && in_array($tablename, $triggerConf))	{	// check if this trigger has been activated
+			if ($uid && in_array($tablename, $triggerConf)) {	// check if this trigger has been activated
 
 				$where = 'uid=' . intval($uid);
 				$rowArray = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows('*', $tablename, $where, '', 'tstamp', '1');
 				$time = time();
-				if ($rowArray)	{
+				if ($rowArray) {
 
 					$updateFields = $rowArray['0'];
 					$updateFields['tstamp'] = $time;
@@ -111,7 +111,7 @@ class tx_ttproducts_control_single implements \TYPO3\CMS\Core\SingletonInterface
 }
 
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/control/class.tx_ttproducts_control_single.php'])	{
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/control/class.tx_ttproducts_control_single.php']) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/control/class.tx_ttproducts_control_single.php']);
 }
 

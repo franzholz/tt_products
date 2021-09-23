@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2008-2009 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2012 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -36,43 +36,84 @@
  *
  *
  */
-
-
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+use JambageCom\Div2007\Utility\ExtensionUtility;
 
 
 class tx_ttproducts_model_creator implements \TYPO3\CMS\Core\SingletonInterface {
 
-	public function init (&$conf, &$config, $cObj)  {
+	public function init ($conf, $config, $cObj) {
 
-		if (isset($conf['UIDstore']))	{
-			$tmpArray = GeneralUtility::trimExplode(',',$conf['UIDstore']);
-			$UIDstore = $tmpArray['0'];
+		$useStaticInfoTables = \JambageCom\Div2007\Utility\StaticInfoTablesUtility::getStaticInfo();
+		$bUseStaticTaxes = false;
+
+		if (
+			$conf['useStaticTaxes'] &&
+			$useStaticInfoTables
+		) {
+			if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('static_info_tables_taxes')) {
+				$eInfo2 = ExtensionUtility::getExtensionInfo('static_info_tables_taxes');
+
+				if (is_array($eInfo2)) {
+					$sittVersion = $eInfo2['version'];
+					if (version_compare($sittVersion, '0.3.0', '>=')) {
+						$bUseStaticTaxes = true;
+					}
+				}
+			}
 		}
+
+		$UIDstore = 0;
+
+		if (isset($conf['UIDstore'])) {
+			$tmpArray = GeneralUtility::trimExplode(',', $conf['UIDstore']);
+			$UIDstore = intval($tmpArray['0']);
+			if ($UIDstore) {
+				$where_clause = 'uid = ' . $UIDstore . \JambageCom\Div2007\Utility\TableUtility::enableFields('fe_users');
+				$storeRecord =
+					$GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow(
+						'*',
+						'fe_users',
+						$where_clause
+					);
+				if ($storeRecord) {
+					\JambageCom\TtProducts\Api\PaymentApi::setStoreRecord($storeRecord);
+				}
+			}
+		}
+		$infoArray = tx_ttproducts_control_basket::getInfoArray();
 
 		$taxObj = GeneralUtility::makeInstance('tx_ttproducts_field_tax');
 		$taxObj->preInit(
-			$cObj,
-			$UIDstore
+			$bUseStaticTaxes,
+			$UIDstore,
+			$infoArray,
+			$conf
 		);
 
 			// price
 		$priceObj = GeneralUtility::makeInstance('tx_ttproducts_field_price');
 		$priceObj->preInit(
-			$cObj,
 			$conf
 		);
 
 			// paymentshipping
-		$paymentshippingObj = GeneralUtility::makeInstance('tx_ttproducts_paymentshipping');
-		$paymentshippingObj->init(
-			$cObj,
-			$priceObj
-		);
+// 		$paymentshippingObj = GeneralUtility::makeInstance('tx_ttproducts_paymentshipping');
+// 		$paymentshippingObj->init($priceObj);
+		$paymentPriceObj = clone $priceObj;
+		$voucher = GeneralUtility::makeInstance('tx_ttproducts_voucher');
+		\JambageCom\TtProducts\Api\PaymentShippingHandling::init($paymentPriceObj, $voucher);
 
 		$basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket'); // TODO: initialization
+// 		$basketObj->init (
+// 			$pibaseClass,
+// 			$updateMode,
+// 			$pid_list,
+// 			$bStoreBasket
+// 		);
+
+		return true;
 	}
 
 	public function destruct () {
@@ -83,6 +124,4 @@ class tx_ttproducts_model_creator implements \TYPO3\CMS\Core\SingletonInterface 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/control/class.tx_ttproducts_model_creator.php']) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/control/class.tx_ttproducts_model_creator.php']);
 }
-
-
 

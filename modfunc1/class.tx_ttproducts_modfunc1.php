@@ -32,7 +32,6 @@
  * @package	TYPO3
  * @subpackage	tx_ttproducts
  */
-
 class tx_ttproducts_modfunc1 extends \TYPO3\CMS\Backend\Module\AbstractFunctionModule {
 
 	/**
@@ -79,6 +78,7 @@ class tx_ttproducts_modfunc1 extends \TYPO3\CMS\Backend\Module\AbstractFunctionM
 
 		if ($GLOBALS['BE_USER']->user['admin']) {
 			$menu = array();
+
 			$content = '';
 			$content .= '<br />' . $GLOBALS['LANG']->getLL('pid_dest') . \TYPO3\CMS\Backend\Utility\BackendUtility::getFuncInput(
 				$this->pObj->id,

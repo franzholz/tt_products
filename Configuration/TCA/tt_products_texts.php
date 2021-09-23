@@ -8,7 +8,6 @@ $result = array (
 	'ctrl' => array (
 		'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products_texts',
 		'label' => 'title',
-		'default_sortby' => 'ORDER BY title',
 		'tstamp' => 'tstamp',
 		'delete' => 'deleted',
 		'enablecolumns' => array (
@@ -20,6 +19,8 @@ $result = array (
 		'prependAtCopy' => DIV2007_LANGUAGE_LGL . 'prependAtCopy',
 		'crdate' => 'crdate',
 		'cruser_id' => 'cruser_id',
+		'versioningWS' => true,
+		'origUid' => 't3_origuid',
 		'iconfile' => PATH_TTPRODUCTS_ICON_TABLE_REL . 'tt_products_texts.gif',
 		'searchFields' => 'title,marker,note',
 	),
@@ -28,7 +29,7 @@ $result = array (
 	),
 	'columns' => array (
 		't3ver_label' => array (
-			'label'  => DIV2007_LANGUAGE_PATH . 'locallang_general.xlf:LGL.versionLabel',
+            'label'  => DIV2007_LANGUAGE_LGL . 'versionLabel',
 			'config' => array (
 				'type' => 'input',
 				'size' => '30',
@@ -136,7 +137,7 @@ $result = array (
 				'size' => '40',
 				'eval' => 'trim',
 				'max' => '256',
-				'default' => ''
+				'default' => '',
 			)
 		),
 		'marker' => array (
@@ -156,9 +157,8 @@ $result = array (
 			'config' => array (
 				'type' => 'text',
 				'cols' => '48',
-				'eval' => null,
 				'rows' => '5',
-				'default' => ''
+				'default' => '',
 			)
 		),
 		'parentid' => array (
@@ -199,12 +199,12 @@ $result = array (
                         )
                     ),
                 ),
-                'showitem' => 'crdate, tstamp, hidden,--palette--;;1, title, marker, note, parentid, parenttable'
+                'showitem' => 'tstamp, crdate, hidden,--palette--;;1, title, marker, note, parentid, parenttable'
             )
-    ),
-    'palettes' => array (
-        '1' => array('showitem' => 'starttime,endtime,fe_group'),
-    )
+	),
+	'palettes' => array (
+		'1' => array('showitem' => 'starttime,endtime,fe_group'),
+	)
 );
 
 if (

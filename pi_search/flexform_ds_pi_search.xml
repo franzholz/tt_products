@@ -71,6 +71,14 @@
 						      <numindex index="0">LLL:EXT:tt_products/pi_search/locallang_db.xml:tt_content.pi_search_flexform.local_param.3</numindex>
 						      <numindex index="1">cat</numindex>
 					      </numindex>
+					      <numindex index="4">
+						      <numindex index="0">LLL:EXT:tt_products/pi_search/locallang_db.xml:tt_content.pi_search_flexform.local_param.4</numindex>
+						      <numindex index="1">dam</numindex>
+					      </numindex>
+					      <numindex index="5">
+						      <numindex index="0">LLL:EXT:tt_products/pi_search/locallang_db.xml:tt_content.pi_search_flexform.local_param.5</numindex>
+						      <numindex index="1">damcat</numindex>
+					      </numindex>
 				      </items>
 				      <size>6</size>
 				      <minitems>0</minitems>
@@ -94,6 +102,10 @@
 							<numindex index="1">a</numindex>
 						</numindex>
 						<numindex index="3">
+							<numindex index="0">LLL:EXT:tt_products/pi_search/locallang_db.xml:tt_content.pi_search_flexform.foreign_param.3</numindex>
+							<numindex index="1">damcat</numindex>
+						</numindex>
+						<numindex index="4">
 							<numindex index="0">LLL:EXT:tt_products/pi_search/locallang_db.xml:tt_content.pi_search_flexform.foreign_param.4</numindex>
 							<numindex index="1"></numindex>
 						</numindex>

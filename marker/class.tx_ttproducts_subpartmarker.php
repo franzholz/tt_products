@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 1999-2009 Kasper Skårhøj (kasperYYYY@typo3.com)
+*  (c) 2012 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -42,34 +42,19 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
 class tx_ttproducts_subpartmarker implements \TYPO3\CMS\Core\SingletonInterface {
-	public $cObj; // reference to object
-	public $conf;
-
-
-	/**
-	 * Initialized the marker object
-	 * $basket is the TYPO3 default shopping basket array from ses-data
-	 *
-	 * @param	string		$fieldname is the field in the table you want to create a JavaScript for
-	* @param	array		array urls which should be overridden with marker key as index
-	 * @return	  void
- 	 */
-	public function init ($cObj)	{
- 		$this->cObj = $cObj;
-		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-
- 		$this->conf = &$cnf->conf;
-	}
-
 
 	/**
 	 * Returning template subpart marker
 	 */
 	public function spMarker ($subpartMarker) {
+
 		$altSPM = '';
-		if (isset($this->conf['altMainMarkers.'])) {
+		if (isset($conf['altMainMarkers.'])) {
+            $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
+            $conf = $cnfObj->getConf();
+            $cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
             $sPBody = substr($subpartMarker, 3, -3);
-			$altSPM = trim($this->cObj->stdWrap($this->conf['altMainMarkers.'][$sPBody], $this->conf['altMainMarkers.'][$sPBody.'.']));
+			$altSPM = trim($cObj->stdWrap($conf['altMainMarkers.'][$sPBody], $conf['altMainMarkers.'][$sPBody.'.']));
             if (
                 version_compare(TYPO3_version, '8.5.0', '<')
             ) {
@@ -84,10 +69,10 @@ class tx_ttproducts_subpartmarker implements \TYPO3\CMS\Core\SingletonInterface 
 	/**
 	 * Returning template subpart array
 	 */
-	function getTemplateSubParts ($templateCode, $subItemMarkerArray)	{
+	public function getTemplateSubParts ($templateCode, $subItemMarkerArray) {
 		$rc = array();
-		foreach ($subItemMarkerArray as $key => $subItemMarker)	{
-			$rc[$subItemMarker] = substr($this->spMarker('###'.$subItemMarker.'_TEMPLATE###'),3,-3);
+		foreach ($subItemMarkerArray as $key => $subItemMarker) {
+			$rc[$subItemMarker] = substr($this->spMarker('###'.$subItemMarker . '_TEMPLATE###'), 3, -3);
 		}
 		return $rc;
 	} // getTemplate
@@ -112,15 +97,16 @@ class tx_ttproducts_subpartmarker implements \TYPO3\CMS\Core\SingletonInterface 
 	 * @return	string		The subpart found, if found.
 	 * @see substituteSubpart(), t3lib_parsehtml::getSubpart()
 	 */
-	public function getSubpart ($content, $marker, &$errorCode) {
-        $result = tx_div2007_core::getSubpart($content, $marker);
-		if (!$result)	{
-			$templateObj = GeneralUtility::makeInstance('tx_ttproducts_template');
-			$errorCode[0] = 'no_subtemplate';
-			$errorCode[1] = $marker;
-			$errorCode[2] = $templateObj->getTemplateFile();
-		}
+	public function getSubpart ($content, $marker, &$error_code) {
+        $parser = tx_div2007_core::newHtmlParser(false);
+        $result = $parser->getSubpart($content, $marker);
 
+		if (!$result) {
+			$templateObj = GeneralUtility::makeInstance('tx_ttproducts_template');
+			$error_code[0] = 'no_subtemplate';
+			$error_code[1] = $marker;
+			$error_code[2] = $templateObj->getTemplateFile();
+		}
 		return $result;
 	}
 }
@@ -129,5 +115,4 @@ class tx_ttproducts_subpartmarker implements \TYPO3\CMS\Core\SingletonInterface 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/marker/class.tx_ttproducts_subpartmarker.php'])	{
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/marker/class.tx_ttproducts_subpartmarker.php']);
 }
-
 

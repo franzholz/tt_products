@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2010-2010 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2012 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -29,46 +29,47 @@
  *
  * memo functions
  *
- * @author  Klaus Zierer <zierer@pz-systeme.de>
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
  * @package TYPO3
  * @subpackage tt_products
  *
  */
-
-
+ 
+ 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
 class tx_ttproducts_memo_view implements \TYPO3\CMS\Core\SingletonInterface {
-	public $cObj;
 	public $pid_list;
 	public $pid; // pid where to go
 	public $useArticles;
 	public $memoItems;
-	public $pibaseClass;
-	public $conf;
+
 
 	public function init (
-			$pibaseClass,
 			$theCode,
-			&$pid_list,
+			$pid_list,
 			$conf,
 			$useArticles
 		) {
-		$this->pibaseClass = $pibaseClass;
-		$pibaseObj = GeneralUtility::makeInstance('' . $pibaseClass);
-		$this->cObj = $pibaseObj->cObj;
-		$this->conf = $conf;
+		$cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
+
+		$piVars = tx_ttproducts_model_control::getPiVars();
 
 		$this->pid_list = $pid_list;
 		$this->useArticles = $useArticles;
+// 		$fe_user_uid = $GLOBALS['TSFE']->fe_user->user['uid'];
+
+		$this->memoItems = array();
 
 		if (
 			tx_ttproducts_control_memo::bUseFeuser($conf) ||
 			tx_ttproducts_control_memo::bUseSession($conf)
 		) {
 			$functablename = 'tt_products';
+			if (strpos($theCode, 'DAM') !== false) {
+				$functablename = 'tx_dam';
+			}
 			$this->memoItems = tx_ttproducts_control_memo::getMemoItems($functablename);
 		}
 	}
@@ -77,28 +78,39 @@ class tx_ttproducts_memo_view implements \TYPO3\CMS\Core\SingletonInterface {
 	/**
 	 * Displays the memo
 	 */
-	public function printView ($theCode, &$templateCode, $pid, &$errorCode)	{
+	public function printView (
+		$templateCode,
+		$theCode,
+		$conf,
+		$pid,
+		&$errorCode
+	) {
 		$markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
 		$content = '';
 
 		if (
-			tx_ttproducts_control_memo::bUseFeuser($this->conf) ||
-			tx_ttproducts_control_memo::bUseSession($this->conf)
+			tx_ttproducts_control_memo::bUseFeuser($conf) ||
+			tx_ttproducts_control_memo::bUseSession($conf)
 		) {
-			if ($this->memoItems)	{
+			if ($this->memoItems) {
+
 				// List all products:
 				$listView = GeneralUtility::makeInstance('tx_ttproducts_list_view');
-				$listView->init (
-					$this->pibaseClass,
+				$listView->init(
 					$pid,
-					$this->useArticles,
 					array(),
 					$this->pid_list,
 					99
 				);
-				if ($theCode == 'MEMO')	{
+				if ($theCode == 'MEMO') {
 					$theTable = 'tt_products';
 					$templateArea = 'MEMO_TEMPLATE';
+				} else if ($theCode == 'MEMODAM') {
+					$theTable = 'tx_dam';
+					$templateArea = 'MEMODAM_TEMPLATE';
+				} else if ($theCode == 'MEMODAMOVERVIEW') {
+					$theTable = 'tx_dam';
+					$templateArea = 'MEMODAM_OVERVIEW_TEMPLATE';
 				} else {
 					return 'error';
 				}
@@ -109,32 +121,37 @@ class tx_ttproducts_memo_view implements \TYPO3\CMS\Core\SingletonInterface {
 					$theTable,
 					($this->memoItems ? implode(',', $this->memoItems) : array()),
 					false,
+					'',
 					$errorCode,
 					$templateArea,
 					$GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['pageAsCategory'],
-					array()
+					tx_ttproducts_control_basket::getBasketExtra(),
+					tx_ttproducts_control_basket::getRecs(),
+					array(),
+					0
 				);
 			} else {
 				$subpartmarkerObj = GeneralUtility::makeInstance('tx_ttproducts_subpartmarker');
-				$subpartmarkerObj->init(
-					$this->cObj
-				);
+				$cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
 
 				$templateArea = 'MEMO_EMPTY';
-				$content = tx_div2007_core::getSubpart($templateCode, $subpartmarkerObj->spMarker('###' . $templateArea . '###'));
+				$content = tx_div2007_core::getSubpart($templateCode,$subpartmarkerObj->spMarker('###'.$templateArea.'###'));
 				$content = $markerObj->replaceGlobalMarkers($content);
 			}
-		} else if (tx_ttproducts_control_memo::bIsAllowed('fe_users', $this->conf)) {
-			include_once (PATH_BE_ttproducts.'marker/class.tx_ttproducts_subpartmarker.php');
-
+		} else if (tx_ttproducts_control_memo::bIsAllowed('fe_users', $conf)) {
 			$subpartmarkerObj = GeneralUtility::makeInstance('tx_ttproducts_subpartmarker');
-			$subpartmarkerObj->init(
-				$this->cObj
-			);
 
 			$templateArea = 'MEMO_NOT_LOGGED_IN';
-			$templateAreaMarker = $subpartmarkerObj->spMarker('###'.$templateArea.'###');
-			$content = tx_div2007_core::getSubpart($templateCode, $templateAreaMarker);
+// 			$templateAreaMarker = $subpartmarkerObj->spMarker('###'.$templateArea.'###');
+
+			$content = tx_ttproducts_api::getErrorOut(
+				$theCode,
+				$templateCode,
+				$subpartmarkerObj->spMarker('###' . $templateArea . $this->config['templateSuffix'] . '###'),
+				$subpartmarkerObj->spMarker('###' . $templateArea . '###'),
+				$errorCode
+			) ;
+
 			$content = $markerObj->replaceGlobalMarkers($content);
 		}
 
@@ -150,22 +167,21 @@ class tx_ttproducts_memo_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 
 	public function getFieldMarkerArray (
-		&$row,
+		$row,
 		$markerKey,
 		&$markerArray,
 		$tagArray,
 		&$bUseCheckBox
 	)	{
-		$pibaseObj = GeneralUtility::makeInstance(''.$this->pibaseClass);
-		$fieldKey = 'FIELD_'.$markerKey.'_NAME';
-		if (isset($tagArray[$fieldKey]))	{
-			$markerArray['###'.$fieldKey.'###'] = $pibaseObj->prefixId.'[memo]['.$row['uid'].']';
+		$fieldKey = 'FIELD_' . $markerKey . '_NAME';
+		if (isset($tagArray[$fieldKey])) {
+			$markerArray['###'.$fieldKey.'###'] = tx_ttproducts_model_control::getPrefixId() . '[memo][' . $row['uid'] . ']';
 		}
 		$fieldKey = 'FIELD_'.$markerKey.'_CHECK';
 
-		if (isset($tagArray[$fieldKey]))	{
+		if (isset($tagArray[$fieldKey])) {
 			$bUseCheckBox = true;
-			if (in_array($row['uid'], $this->memoItems))	{
+			if (in_array($row['uid'], $this->memoItems)) {
 				$value = 1;
 			} else {
 				$value = 0;
@@ -182,11 +198,9 @@ class tx_ttproducts_memo_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$uidArray,
 		&$markerArray,
 		$bUseCheckBox
-	)	{
-
-		if ($bUseCheckBox)	{
-			$pibaseObj = GeneralUtility::makeInstance(''.$this->pibaseClass);
-			$markerArray['###HIDDENFIELDS###'] .= '<input type="hidden" name="' . $pibaseObj->prefixId . '[memo][uids]" value="' . implode(',',$uidArray) . '" />';
+	) {
+		if ($bUseCheckBox) {
+			$markerArray['###HIDDENFIELDS###'] .= '<input type="hidden" name="' . tx_ttproducts_model_control::getPrefixId() . '[memo][uids]" value="' . implode(',',$uidArray) . '" />';
 		}
 	}
 }
@@ -195,6 +209,5 @@ class tx_ttproducts_memo_view implements \TYPO3\CMS\Core\SingletonInterface {
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_memo_view.php']) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_memo_view.php']);
 }
-
 
 

@@ -24,6 +24,10 @@
 *
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
+
+
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 /**
  * Part of the tt_products (Shop System) extension.
  *
@@ -34,11 +38,8 @@
  * @package TYPO3
  * @subpackage tt_products
  */
- 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
+class tx_ttproducts_table_label {
 
-
-class tx_ttproducts_table_label implements \TYPO3\CMS\Core\SingletonInterface {
 
 	/**
 	 * Factory function which is called by label_userFunc. The function decides how to build the label.

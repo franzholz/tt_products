@@ -30,7 +30,6 @@ call_user_func(function () {
                     'size' => 1,
                     'minitems' => 0,
                     'maxitems' => 1,
-                    'default' => 0
                 )
             );
 
@@ -43,6 +42,7 @@ call_user_func(function () {
 
             break;
     }
+
 
     $orderBySortingTablesArray = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['orderBySortingTables']);
     if (
@@ -85,7 +85,7 @@ call_user_func(function () {
     ) {
         $excludeArray[$table] .= ',slug';
     } else {
-        $GLOBALS['TCA'][$table]['columns']['slug']['config']['eval'] = $configuration->getSlugBehaviour();    
+        $GLOBALS['TCA'][$table]['columns']['slug']['config']['eval'] = $configuration->getSlugBehaviour();
     }
 
     if (
@@ -159,10 +159,10 @@ call_user_func(function () {
         $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['fal'] ||
         version_compare(TYPO3_version, '10.4.0', '>=')
     ) {
-        $GLOBALS['TCA'][$table]['ctrl']['thumbnail'] = 'image_uid';
+        $GLOBALS['TCA'][$table]['ctrl']['thumbnail'] = 'image_uid';    
 
         $GLOBALS['TCA'][$table]['types']['1']['showitem'] = str_replace(',image,', ',image_uid,', $GLOBALS['TCA'][$table]['types']['1']['showitem']);
-        $GLOBALS['TCA'][$table]['types']['1']['showitem'] = str_replace(',smallimage', ',smallimage_uid', $GLOBALS['TCA'][$table]['types']['1']['showitem']);
+        $GLOBALS['TCA'][$table]['types']['1']['showitem'] = str_replace(',smallimage,', ',smallimage_uid,', $GLOBALS['TCA'][$table]['types']['1']['showitem']);
 
         unset($GLOBALS['TCA'][$table]['columns']['image']);
         unset($GLOBALS['TCA'][$table]['columns']['smallimage']);
@@ -173,3 +173,4 @@ call_user_func(function () {
 
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToInsertRecords($table);
 });
+

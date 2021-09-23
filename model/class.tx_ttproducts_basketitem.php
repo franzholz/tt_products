@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2007-2009 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2012 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -39,7 +39,6 @@
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
-
 class tx_ttproducts_basketitem implements \TYPO3\CMS\Core\SingletonInterface {
 
 	/**
@@ -52,49 +51,51 @@ class tx_ttproducts_basketitem implements \TYPO3\CMS\Core\SingletonInterface {
 	 */
 	public function getQuantity (
 		&$item,
-		$overwriteAmount=''
-	)	{
-		$rc = $item['count'];
+		$overwriteAmount = ''
+	) {
+		$result = $item['count'];
 		if (
 			$overwriteAmount != 'basket' &&
-			tx_div2007_core::testInt($overwriteAmount)
+			\TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($overwriteAmount)
 		) {
-			$rc = intval($overwriteAmount);
+			$result = intval($overwriteAmount);
 		}
-		return $rc;
+		return $result;
 	}
 
 
 	/**
-	 * gets the minimum necessary quantity of an item
+	 * gets the minimum necessary and maximum possible quantity of an item
 	 *
 	 * @param	array		reference to an item array with all the data of the item
 	 * @param	string		overwrite amount or 'basket'
 	 * @return	array
 	 * @access private
 	 */
-	public function getMinQuantity (
-		&$item
-	)	{
+	public function getMinMaxQuantity (
+		$item,
+		&$minQuantity,
+		&$maxQuantity
+	) {
+		global $TCA;
+
 		$row = $item['rec'];
-		$rc = $row['basketminquantity'];
+		$minQuantity = $row['basketminquantity'];
+		$maxQuantity = $row['basketmaxquantity'];
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 		$prodTable = $tablesObj->get('tt_products', false);
 		$articleRow = $prodTable->getArticleRowFromExt($row);
 
-		if (is_array($articleRow) && count($articleRow))	{
-
-			$rc = ($articleRow['basketminquantity'] != '0.00' ? $articleRow['basketminquantity'] : $rc);
+		if (is_array($articleRow) && count($articleRow)) {
+			$minQuantity = ($articleRow['basketminquantity'] != '0.00' ? $articleRow['basketminquantity'] : $minQuantity);
+			$maxQuantity = ($articleRow['basketmaxquantity'] != '0.00' ? $articleRow['basketmaxquantity'] : $maxQuantity);
 		}
-
-		return $rc;
 	}
 }
 
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/class.tx_ttproducts_basketitem.php'])	{
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/class.tx_ttproducts_basketitem.php']) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/class.tx_ttproducts_basketitem.php']);
 }
-
 
 

@@ -28,20 +28,20 @@ namespace JambageCom\TtProducts\Api;
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 /**
-* Part of the tt_products (Shop System) extension.
-*
-* control functions
-*
-* @author  Franz Holzinger <franz@ttproducts.de>
-* @package TYPO3
-* @subpackage tt_products
-*
-*
-*/
+ * Part of the tt_products (Shop System) extension.
+ *
+ * control functions
+ *
+ * @author  Franz Holzinger <franz@ttproducts.de>
+ * @package TYPO3
+ * @subpackage tt_products
+ *
+ *
+ */
 
 
 class ControlApi {
-    static protected $conf = array();
+	static protected $conf = array();
     static protected $cObj = null;
 
     static public function init ($conf, $cObj) {
@@ -57,34 +57,26 @@ class ControlApi {
         return static::$cObj;
     }
 
-    static public function isOverwriteMode ($infoArray) {
-        $overwriteMode = false;
-        $conf = static::getConf();
-        $checkField = \JambageCom\TtProducts\Api\CustomerApi::getPossibleCheckField();
+	static public function isOverwriteMode ($infoArray) {
+		$overwriteMode = false;
+		$conf = self::getConf();
 
-        if (
-            (
-                !$infoArray['billing'] ||
-                !$infoArray['billing'][$checkField] ||
-                $conf['editLockedLoginInfo'] ||
-                $infoArray['billing']['error']
-            ) &&
-            $conf['lockLoginUserInfo']
-        ) {
-            $overwriteMode = true;
-        }
+		$checkField = \JambageCom\TtProducts\Api\CustomerApi::getPossibleCheckField();
 
-        return $overwriteMode;
-    }
+		if (
+			(
+				!$infoArray['billing'] ||
+				!$infoArray['billing'][$checkField] ||
+				$conf['editLockedLoginInfo'] ||
+				$infoArray['billing']['error']
+			) &&
+			$conf['lockLoginUserInfo']
+		) {
+			$overwriteMode = true;
+		}
 
-    static public function getTagId (
-        $jsTableNamesId,
-        $theCode,
-        $uid,
-        $field
-    ) {
-        $result = $jsTableNamesId . '-' . strtolower($theCode) . '-' . $uid . '-' . $field;
-        return $result;
-    }
+		return $overwriteMode;
+	}
 }
+
 

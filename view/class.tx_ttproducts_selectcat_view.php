@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2006-2009 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2016 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -34,23 +34,33 @@
  * @package TYPO3
  * @subpackage tt_products
  *
- *
+ *+
  */
 
+ 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-
 
 
 class tx_ttproducts_selectcat_view extends tx_ttproducts_catlist_view_base {
 
-	public $htmlTagMain = 'select';	// main HTML tag
-	public $htmlTagElement = 'option';
+	protected $htmlTagMain = 'select';	// main HTML tag
+	protected $htmlTagElement = 'option';
 
 	// returns the products list view
-	public function printView ($functablename, &$templateCode, $theCode, &$errorCode, $templateArea = 'ITEM_CATEGORY_SELECT_TEMPLATE', $pageAsCategory, $templateSuffix = '') {
-		$content='';
-		$out='';
-		$where='';
+	public function printView (
+		$functablename,
+		&$templateCode,
+		$theCode,
+		&$error_code,
+		$templateArea = 'ITEM_CATEGORY_SELECT_TEMPLATE',
+		$pageAsCategory,
+		$templateSuffix = '',
+		$basketExtra,
+		$basketRecs
+	) {
+		$content = '';
+		$out = '';
+		$where = '';
 
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 		$languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
@@ -68,62 +78,69 @@ class tx_ttproducts_selectcat_view extends tx_ttproducts_catlist_view_base {
 			$t,
 			$htmlParts,
 			$theCode,
-			$errorCode,
+			$error_code,
 			$templateArea,
 			$pageAsCategory,
 			$templateSuffix,
+			$basketExtra,
+			$basketRecs,
 			$currentCat,
 			$categoryArray,
 			$catArray,
-			$isParentArray,
+			$activeRootline,
+			$rootpathArray,
 			$subCategoryMarkers,
 			$ctrlArray
 		);
 
-		if (empty($errorCode)) 	{
+		if (empty($error_code)) {
 			$count = 0;
 			$depth = 1;
-
-			if($pos = strpos($t['listFrameWork'],'###CATEGORY_SINGLE_'))	{
+			if($pos = strpos($t['listFrameWork'], '###CATEGORY_SINGLE_')) {
 				$bSeparated = true;
 			}
+
 			$contentId = '';
 
-			$contentPos = strpos($this->pibase->cObj->currentRecord, 'tt_content');
+			$contentPos = strpos($this->cObj->currentRecord, 'tt_content');
 			if ($contentPos !== false) {
-				$contentIdPos = strpos($this->pibase->cObj->currentRecord, ':');
-				$contentId = substr($this->pibase->cObj->currentRecord, $contentIdPos + 1);
+				$contentIdPos = strpos($this->cObj->currentRecord, ':');
+				$contentId = substr($this->cObj->currentRecord, $contentIdPos + 1);
 			}
 
-			$menu = $this->conf['CSS.'][$functablename.'.']['menu'];
+			$menu = $this->conf['CSS.'][$functablename . '.']['menu'];
 			$menu = ($menu ? $menu : $categoryTableView->getPivar() . '-' . $contentId . '-' . $depth);
-			$fill = '';
-			if ($method == 'clickShow')	{
+			$fillOnchange = '';
+			if ($method == 'clickShow') {
 				if ($bSeparated) {
-					$fill = 'fillSelect(this,2,' . $contentId . ',1);';
+					$fillOnchange = 'fillSelect(this, 2, ' . $contentId . ', 1);';
 				} else {
-					$fill = 'fillSelect(this,0,' . $contentId . ',0);';
+					$fillOnchange = 'fillSelect(this, 0, ' . $contentId . ', 0);';
 				}
 			}
 
 			$selectArray = array();
-			if (is_array($this->conf['form.'][$theCode.'.']) && is_array($this->conf['form.'][$theCode.'.']['dataArray.']))	{
-				foreach ($this->conf['form.'][$theCode.'.']['dataArray.'] as $k => $setting)	{
-					if (is_array($setting))	{
+			if (
+				isset($this->conf['form.'][$theCode . '.']) &&
+				is_array($this->conf['form.'][$theCode . '.']) &&
+				is_array($this->conf['form.'][$theCode . '.']['dataArray.'])
+			) {
+				foreach ($this->conf['form.'][$theCode . '.']['dataArray.'] as $k => $setting) {
+					if (is_array($setting)) {
 						$selectArray[$k] = array();
 						$type = $setting['type'];
-						if ($type)	{
+						if ($type) {
 							$parts = GeneralUtility::trimExplode('=', $type);
-							if ($parts[1] == 'select')	{
+							if ($parts[1] == 'select') {
 								$selectArray[$k]['name'] = $parts[0];
 							}
 						}
 						$label = $setting['label'];
-						if ($label)	{
+						if ($label) {
 							$selectArray[$k]['label'] = $label;
 						}
 						$params = $setting['params'];
-						if ($params)	{
+						if ($params) {
 							$selectArray[$k]['params'] = $params;
 						}
 					}
@@ -135,6 +152,7 @@ class tx_ttproducts_selectcat_view extends tx_ttproducts_catlist_view_base {
 
 			reset($selectArray);
 			$select = current($selectArray);
+
 			if (is_array($select)) {
 				if ($select['name']) {
 					$name = $select['name'];
@@ -164,8 +182,8 @@ class tx_ttproducts_selectcat_view extends tx_ttproducts_catlist_view_base {
 
 			$mainAttributeArray = array();
 			$mainAttributeArray['id'] = $menu;
-			if ($fill != '') {
-				$mainAttributeArray['onchange'] = $fill;
+			if ($fillOnchange != '') {
+				$mainAttributeArray['onchange'] = $fillOnchange;
 			}
 
 			$foreignRootLine = $categoryTable->getRootline(array('0'), $currentCat, 0);
@@ -186,10 +204,11 @@ class tx_ttproducts_selectcat_view extends tx_ttproducts_catlist_view_base {
 							$selectedCat = $categoryArray[$cat]['reference_category'];
 						}
 						$mainAttributeArray['class'] .= (isset($mainAttributeArray['class']) ? ' ' : '') . 'sel-inactive';
-						break;;
+						break;
 					}
 				}
 			}
+
 			$paramArray = GeneralUtility::get_tag_attributes($params);
 			if (isset($paramArray) && is_array($paramArray)) {
 				$mainAttributeArray = array_merge($mainAttributeArray, $paramArray);
@@ -214,15 +233,20 @@ class tx_ttproducts_selectcat_view extends tx_ttproducts_catlist_view_base {
 				$keyMarkerArray = ''
 			);
 			$out = $label . $selectOut;
+
 			$markerArray = array();
 			$subpartArray = array();
 			$wrappedSubpartArray = array();
-			$markerArray = $this->urlObj->addURLMarkers($this->conf['PIDlistDisplay'],$markerArray);
+			$markerArray =
+				$this->urlObj->addURLMarkers(
+					$this->conf['PIDlistDisplay'],
+					$markerArray
+				);
 			$this->urlObj->getWrappedSubpartArray($wrappedSubpartArray);
 			$subpartArray['###CATEGORY_SINGLE###'] = $out;
 
 			$count = intval(substr_count($t['listFrameWork'], '###CATEGORY_SINGLE_') / 2);
-			if ($pageAsCategory == 2)	{
+			if ($pageAsCategory == 2) {
 				// $catid = 'pid';
 				$parentFieldArray = array('pid');
 			} else {
@@ -234,9 +258,10 @@ class tx_ttproducts_selectcat_view extends tx_ttproducts_catlist_view_base {
 			if ($method == 'clickShow') {
 				$javaScriptObj = GeneralUtility::makeInstance('tx_ttproducts_javascript');
 				$javaScriptObj->set(
+					$languageObj,
 					'selectcat',
 					array($categoryArray),
-					$this->pibase->cObj->currentRecord,
+					$this->cObj->currentRecord,
 					1 + $count,
 					'cat',
 					$parentFieldArray,
@@ -249,11 +274,13 @@ class tx_ttproducts_selectcat_view extends tx_ttproducts_catlist_view_base {
 			if ($bSeparated) {
 				for ($i = 2; $i <= 1 + $count; ++$i) {
 					$menu = $piVar . '-' . $contentId . '-' . $i;
-					$bShowSubcategories = ($i < 1+$count ? 1 : 0);
+					$bShowSubcategories = ($i < 1 + $count ? 1 : 0);
 					$boxNumber = ($i < 1 + $count ? ($i + 1) : 0);
-					$fill = ' onchange="fillSelect(this, ' . $boxNumber . ',' . $contentId . ',' . $bShowSubcategories . ');"';
-					$tmp = '<' . $this->htmlTagMain . ' id="' . $menu . '"' . $fill . '>';
-					$tmp .= '<option value="0"></option>';
+					$fill = ' onchange="fillSelect(this, ' . $boxNumber . ', ' . $contentId . ', ' . $bShowSubcategories . ');"';
+					$tmp = '<' . $this->htmlTagMain .
+						' name="' . $name . '"' .
+						' id="' . $menu . '"' . $fill . '>';
+					$tmp .= '<' . $this->htmlTagElement . ' value="0"></' . $this->htmlTagElement . '>';
 					$tmp .= '</' . $this->htmlTagMain . '>';
 					$subpartArray['###CATEGORY_SINGLE_' . $i . '###'] = $tmp;
 				}
@@ -275,8 +302,7 @@ class tx_ttproducts_selectcat_view extends tx_ttproducts_catlist_view_base {
 	}
 }
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_selectcat_view.php'])	{
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_selectcat_view.php']) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_selectcat_view.php']);
 }
-
 

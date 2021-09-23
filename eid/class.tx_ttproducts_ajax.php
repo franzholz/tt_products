@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2007-2009 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2012 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -37,6 +37,7 @@
  *
  */
 
+
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
@@ -44,23 +45,38 @@ class tx_ttproducts_ajax implements \TYPO3\CMS\Core\SingletonInterface {
 	public $taxajax;	// xajax object
 	public $conf; 	// conf coming from JavaScript via Ajax
 
-	public function init()	{
-		$this->taxajax = GeneralUtility::makeInstance('tx_taxajax');
+
+	public function init () {
+		$result = false;
+		if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded(TAXAJAX_EXT)) {
+			$this->taxajax = GeneralUtility::makeInstance('tx_taxajax');
 
 			// Encoding of the response to FE charset
-		$this->taxajax->setCharEncoding('UTF-8');
+			$this->taxajax->setCharEncoding('utf-8');
+			$result = true;
+		}
+		return $result;
 	}
 
 
-	public function setConf(&$conf)	{
+	public function setConf ($conf) {
 		$this->conf = $conf;
 	}
 
 
-	public function &getConf()	{
+	public function getConf () {
 		return $this->conf;
 	}
 
+
+	static public function getStoredRecs () {
+		$result = tx_ttproducts_control_session::readSession('ajax');
+		return $result;
+	}
+
+	static public function setStoredRecs ($valArray) {
+		tx_ttproducts_control_basket::store('ajax', $valArray);
+	}
 
 	public function main (
 		$cObj,
@@ -80,10 +96,11 @@ class tx_ttproducts_ajax implements \TYPO3\CMS\Core\SingletonInterface {
 			// Turn only on during testing
 		if ($debug) {
 			$this->taxajax->debugOn();
-		} else	{
+		} else {
 			$this->taxajax->debugOff();
 		}
 		$this->taxajax->setWrapperPrefix('');
+
         $addQueryString = [];
 
         if (
@@ -104,12 +121,15 @@ class tx_ttproducts_ajax implements \TYPO3\CMS\Core\SingletonInterface {
 			[],
 			true,
 			false,
+			0,
 			$piVarSingle,
 			$piVarCat
 		);
+
 		$queryString = array_merge($queryString, $addQueryString);
 
 		$linkConf = array('useCacheHash' => 0);
+
 		$target = '';
 		$reqURI = tx_div2007_alpha5::getTypoLink_URL_fh003(
 			$cObj,
@@ -122,6 +142,4 @@ class tx_ttproducts_ajax implements \TYPO3\CMS\Core\SingletonInterface {
 		$this->taxajax->setRequestURI($reqURI);
 	}
 }
-
-
 

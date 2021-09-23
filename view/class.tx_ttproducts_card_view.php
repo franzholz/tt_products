@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2007-2010 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2012 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -41,7 +41,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
 class tx_ttproducts_card_view extends tx_ttproducts_table_base_view {
-	public $marker='CARD';
+	public $marker = 'CARD';
 
 	/**
 	 * Template marker substitution
@@ -55,13 +55,16 @@ class tx_ttproducts_card_view extends tx_ttproducts_table_base_view {
 	 * @return	array
 	 * @access private
 	 */
-	public function getMarkerArray ($row, &$markerArray, $allowedArray, $tablename = 'sys_products_cards')	{
+	public function getMarkerArray ($row, &$markerArray, array $allowedArray, $tablename = 'sys_products_cards') {
+
+// 		GeneralUtility::requireOnce(PATH_BE_TTPRODUCTS . 'lib/class.tx_ttproducts_form_div.php');
+
         $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
-        $local_cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
+        $cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
 		$ccNumberArray = array();
 		$ccTypeTextSelected = '';
 
-		if (is_array($allowedArray) && count($allowedArray))	{
+		if (count($allowedArray)) {
 			$ccTypeText =
 				tx_ttproducts_form_div::createSelect(
 					$languageObj,
@@ -75,8 +78,9 @@ class tx_ttproducts_card_view extends tx_ttproducts_table_base_view {
 		} else {
 			$ccTypeText = '';
 		}
-		if (is_array($row))	{
-			for ($i = 1; $i <= 4; ++$i)	{
+
+		if (is_array($row)) {
+			for ($i = 1; $i <= 4; ++$i) {
 				$value = '';
 				if (isset($row['cc_number_' . $i])) {
 					$value = $row['cc_number_' . $i];
@@ -91,18 +95,18 @@ class tx_ttproducts_card_view extends tx_ttproducts_table_base_view {
 		$markerArray['###PERSON_CARDS_OWNER_NAME###'] = htmlentities($ccOwnerName, ENT_QUOTES, 'UTF-8');
 		$markerArray['###PERSON_CARDS_CC_TYPE###'] = $ccTypeText;
 		$markerArray['###PERSON_CARDS_CC_TYPE_SELECTED###'] = $row['cc_type'];
-		if (isset($row['cc_type']))	{ //
+		if (isset($row['cc_type'])) { //
 			$tmp = $GLOBALS['TCA'][$tablename]['columns']['cc_type']['config']['items'][$row['cc_type']]['0'];
 			$tmp = tx_div2007_alpha5::sL_fh002($tmp);
-			$ccTypeTextSelected = $languageObj->getLabel($tmp);
+			$ccTypeTextSelected = $languageObj->getLabe($tmp);
 		}
 		$markerArray['###PERSON_CARDS_CC_TYPE_SELECTED###'] = $ccTypeTextSelected;
 		for ($i = 1; $i <= 4; ++$i)	{
-			$markerArray['###PERSON_CARDS_CC_NUMBER_' . $i . '###'] = $ccNumberArray[$i - 1];
+			$markerArray['###PERSON_CARDS_CC_NUMBER_'.$i.'###'] = $ccNumberArray[$i - 1];
 		}
-
 		$markerArray['###PERSON_CARDS_CC_NUMBER###'] = $row['cc_number'];
 		$markerArray['###PERSON_CARDS_CVV2###'] = $row['cvv2'];
+
 		$month = '';
 		$year = '';
 
@@ -121,11 +125,12 @@ class tx_ttproducts_card_view extends tx_ttproducts_table_base_view {
 			}
 		}
 
+
 		$markerArray['###PERSON_CARDS_ENDTIME_MM###'] = $month;
 		$markerArray['###PERSON_CARDS_ENDTIME_YY###'] = $year;
 		$markerArray['###PERSON_CARDS_ENDTIME_YY_SELECT###'] = '';
 		$markerArray['###PERSON_CARDS_ENDTIME_MM_SELECT###'] = '';
-		$markerArray['###PERSON_CARDS_ENDTIME###'] = $local_cObj->stdWrap($row['endtime'], $this->conf['cardEndDate_stdWrap.']);
+		$markerArray['###PERSON_CARDS_ENDTIME###'] = $cObj->stdWrap($row['endtime'],$this->conf['cardEndDate_stdWrap.']);
 
 		if (is_array($this->conf['payment.']['creditcardSelect.'])) {
 			$mmArray = $this->conf['payment.']['creditcardSelect.']['mm.'];
@@ -142,7 +147,7 @@ class tx_ttproducts_card_view extends tx_ttproducts_table_base_view {
 					);
 			}
 			$yyArray = $this->conf['payment.']['creditcardSelect.']['yy.'];
-			if (is_array($yyArray))	{
+			if (is_array($yyArray)) {
 				$valueArray = tx_ttproducts_form_div::fetchValueArray($yyArray['valueArray.']);
 				$markerArray['###PERSON_CARDS_ENDTIME_YY_SELECT###'] =
 					tx_ttproducts_form_div::createSelect (
@@ -159,9 +164,8 @@ class tx_ttproducts_card_view extends tx_ttproducts_table_base_view {
 }
 
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_card_view.php'])	{
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_card_view.php']) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_card_view.php']);
 }
-
 
 

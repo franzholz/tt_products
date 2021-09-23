@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2007-2008 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2012 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -37,8 +37,8 @@
  *
  */
 
+ 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-
 
 
 class tx_ttproducts_address_view extends tx_ttproducts_category_base_view {
@@ -58,19 +58,53 @@ class tx_ttproducts_address_view extends tx_ttproducts_category_base_view {
 	 * 				for the tt_producst record, $row
 	 * @access private
 	 */
-	function getMarkerArray (&$markerArray, $markerKey, $category, $pid, $imageNum=0, $imageRenderObj='image', &$viewCatTagArray, $forminfoArray=array(), $pageAsCategory=0, $theCode, $basketExtra, $id, $prefix,$linkWrap='')	{
-
-		$row = ($category ? $this->getModelObj()->get($category) : array ('title' => '', 'pid' => $pid));
-
+	public function getMarkerArray (
+		&$markerArray,
+		$markerKey,
+		$category,
+		$pid,
+		$imageNum = 0,
+		$imageRenderObj = 'image',
+		&$viewCatTagArray,
+		$forminfoArray = array(),
+		$pageAsCategory = 0,
+		$theCode,
+		$basketExtra,
+		$basketRecs,
+		$id,
+		$prefix,
+		$linkWrap = ''
+	) {
+		$titleField = $this->getModelObj()->fieldArray['title'];
+		$row = ($category ? $this->getModelObj()->get($category) : array ($titleField => '', 'pid' => $pid));
 		$catTitle = '';
-		$titleField = $this->fieldArray['name'];
-		if (($row[$titleField]))	{
+
+		if (($row[$titleField])) {
 			$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 			$tableConfig = $cnf->getTableConf('address', $theCode);
-			$catTitle .= ($tableConfig['separator'].$row[$titleField]);
+			$catTitle .= ($tableConfig['separator'] . $row[$titleField]);
 		}
 		$this->setMarkerArrayCatTitle($markerArray, $catTitle, $prefix);
-		parent::getRowMarkerArray ($row, $markerKey, $markerArray, $variantFieldArray, $variantMarkerArray, $viewCatTagArray, $theCode, $basketExtra, $bHtml, $charset, $imageNum, $imageRenderObj, $id, $prefix, '',$linkWrap);
+		parent::getRowMarkerArray(
+			'address',
+			$row,
+			$markerKey,
+			$markerArray,
+			$variantFieldArray,
+			$variantMarkerArray,
+			$viewCatTagArray,
+			$theCode,
+			$basketExtra,
+			$basketRecs,
+			$bHtml,
+			$charset,
+			$imageNum,
+			$imageRenderObj,
+			$id,
+			$prefix,
+			'',
+			$linkWrap
+		);
 	}
 }
 
@@ -78,6 +112,4 @@ class tx_ttproducts_address_view extends tx_ttproducts_category_base_view {
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_address_view.php']) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_address_view.php']);
 }
-
-
 

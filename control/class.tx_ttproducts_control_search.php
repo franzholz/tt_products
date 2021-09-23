@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2008-2009 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2012 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -36,30 +36,34 @@
  *
  */
 
-
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+use JambageCom\TtProducts\Api\PluginApi;
 
 
 class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface {
 	public $cObj;
 	public $conf;
 	public $config;
-	public $piVars;
 	public $pibaseClass;			// class of the pibase object
 	public $codeArray;			// Codes
 	public $errorMessage;
 
 
-	public function init (&$content, &$conf, &$config, $pibaseClass, &$errorCode) {
-		$pibaseObj = GeneralUtility::makeInstance(''.$pibaseClass);
-		$this->cObj = $pibaseObj->cObj;
+	public function init (&$content, &$conf, &$config, $cObj, $pibaseClass, &$error_code) {
+		global $TCA;
 
-		$flexformArray = GeneralUtility::xml2array($this->cObj->data['pi_flexform']);
-		$flexformTyposcript = tx_div2007_ff::get($flexformArray, 'myTS');
+		$pibaseObj = GeneralUtility::makeInstance('' . $pibaseClass);
+		$this->cObj = $cObj;
+
+		PluginApi::initFlexform($cObj);
+		$flexformArray = \JambageCom\TtProducts\Api\PluginApi::getFlexform();
+
+// 		$flexformArray = GeneralUtility::xml2array($this->cObj->data['pi_flexform']);
+		$flexformTyposcript = \JambageCom\Div2007\Utility\FlexformUtility::get($flexformArray, 'myTS');
+
 		if($flexformTyposcript) {
 			$tsparser = tx_div2007_core::newTsParser();
-
 			// Copy conf into existing setup
 			$tsparser->setup = $conf;
 			// Parse the new Typoscript
@@ -69,7 +73,7 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 		}
 		$this->conf = &$conf;
 		$this->config = &$config;
-		$this->piVars = &$pibaseObj->piVars;
+		$piVars = tx_ttproducts_model_control::getPiVars();
 		$this->pibaseClass = $pibaseClass;
 
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
@@ -78,12 +82,9 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 			$config
 		);
 
+		tx_div2007_alpha5::loadLL_fh002($pibaseObj, 'EXT:' . TT_PRODUCTS_EXT . '/pi_search/locallang.xml');
 		$allText = tx_div2007_alpha5::getLL_fh003($pibaseObj, 'all');
 
-			// get all extending TCAs
-		if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['extendingTCA']))	{
-			tx_div2007_alpha5::loadTcaAdditions_fh002($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['extendingTCA']);
-		}
 		// $pibaseObj->pi_initPIflexForm();
 		$this->cObj->data['pi_flexform'] = GeneralUtility::xml2array($this->cObj->data['pi_flexform']);
 		$newConfig = $this->getControlConfig($this->cObj, $conf, $this->cObj->data);
@@ -91,7 +92,7 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 		$this->codeArray = GeneralUtility::trimExplode(',', $config['code'],1);
 		$config['LLkey'] = $pibaseObj->LLkey;
 		$config['templateSuffix'] = strtoupper($this->conf['templateSuffix']);
-		$templateSuffix = tx_div2007_ff::get($flexformArray, 'template_suffix');
+		$templateSuffix = \JambageCom\Div2007\Utility\FlexformUtility::get($flexformArray, 'template_suffix');
 		$templateSuffix = strtoupper($templateSuffix);
 		$config['templateSuffix'] = ($templateSuffix ? $templateSuffix : $config['templateSuffix']);
 		$config['templateSuffix'] = ($config['templateSuffix'] ? '_'.$config['templateSuffix'] : '');
@@ -102,7 +103,8 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 		$markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
 		$markerObj->init(
 			$this->cObj,
-			$pibaseObj->piVars
+            $conf,
+			$piVars
 		);
 
 		$searchViewObj = GeneralUtility::makeInstance('tx_ttproducts_search_view');
@@ -114,7 +116,7 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 	} // init
 
 
-	public function &getControlConfig ($cObj, &$conf, &$row)	{
+	public function &getControlConfig ($cObj, &$conf, &$row) {
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$ctrlArray = tx_ttproducts_model_control::getParamsTableArray();
 
@@ -127,7 +129,7 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 				$conf['defaultCode'],
 				$row['pi_flexform'],
 				'display_mode',
-				true
+				$GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['useFlexforms']
 			);
 
 		$flexformConfigArray = array(
@@ -142,49 +144,70 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 			'delimiter',
 		);
 
-		foreach ($flexformConfigArray as $flexformConfig)	{
-			$tmpConfig = tx_div2007_ff::get($row['pi_flexform'], $flexformConfig);
+		foreach ($flexformConfigArray as $flexformConfig) {
+			$tmpConfig = \JambageCom\Div2007\Utility\FlexformUtility::get($row['pi_flexform'], $flexformConfig);
 			$config[$flexformConfig] = $tmpConfig;
 		}
 		$config['local_table'] = $cnf->getTableName($ctrlArray[$config['local_param']]);
 		$config['foreign_table'] = $cnf->getTableName($ctrlArray[$config['foreign_param']]);
-		if ($config['url'] != '')	{
+		if ($config['url'] != '') {
 			$url = str_replace('index.php?','',$config['url']);
-			$urlArray = GeneralUtility::trimExplode('=',$url);
-			if ($urlArray['0'] == 'id' && intval($urlArray['1']))	{
+			$urlArray = GeneralUtility::trimExplode('=', $url);
+			if ($urlArray['0'] == 'id' && intval($urlArray['1'])) {
 				$id = $urlArray['1'];
-				$url = tx_div2007_alpha5::getPageLink_fh003($cObj,$id);
+				$url = tx_div2007_alpha5::getPageLink_fh003($cObj, $id);
 				$config['url'] = $url;
 			}
 		}
+
 		return $config;
 	}
 
 
-	public function &run ($pibaseClass, &$errorCode, $content = '') {
+	public function &run ($cObj, $pibaseClass, &$errorCode, $content = '') {
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$templateObj = GeneralUtility::makeInstance('tx_ttproducts_template');
 		$languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
 		$pibaseObj = GeneralUtility::makeInstance('' . $pibaseClass);
 		$subpartmarkerObj = GeneralUtility::makeInstance('tx_ttproducts_subpartmarker');
 		$searchViewObj = GeneralUtility::makeInstance('tx_ttproducts_search_view');
-		$errorCode = array();
+		$error_code = array();
 		$errorMessage = '';
 
-		foreach($this->codeArray as $theCode)	{
+		foreach($this->codeArray as $theCode) {
 
 			$theCode = (string) trim($theCode);
 			$contentTmp = '';
-			$templateCode = $templateObj->get($theCode, $languageObj, $this->cObj, $tmp='', $errorMessage);
-			$theTemplateCode = tx_div2007_core::getSubpart($templateCode,$subpartmarkerObj->spMarker('###' . $theCode . $this->config['templateSuffix'] . '###'));
+			$templateCode =
+				$templateObj->get(
+					$theCode,
+					$tmp = '',
+					$errorCode
+				);
 
-			switch($theCode)	{
+			if ($errorCode) {
+				$errorText =
+					$languageObj->getLabel(
+						'no_template'
+					);
+				$errorMessage = str_replace('|', 'plugin.tt_products.templateFile', $errorText);
+			}
+
+			$theTemplateCode =
+				tx_div2007_core::getSubpart(
+					$templateCode,
+					$subpartmarkerObj->spMarker(
+						'###' . $theCode . $this->config['templateSuffix'] . '###'
+					)
+				);
+
+			switch($theCode) {
 				case 'FIRSTLETTER':
 					$contentTmp = $searchViewObj->printFirstletter(
 						$pibaseObj,
 						$theTemplateCode,
 						$this->config['columns'],
-						$errorCode
+						$error_code
 					);
 				break;
 				case 'FIELD':
@@ -195,7 +218,7 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 						2,
 						'field'.$this->cObj->data['uid'],
 						$tmp=array(),
-						$errorCode
+						$error_code
 					);
 				break;
 				case 'KEYFIELD':
@@ -216,7 +239,7 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 						1,
 						'keyfield'.$this->cObj->data['uid'],
 						$keyfieldConf,
-						$errorCode
+						$error_code
 					);
 				break;
 				case 'LASTENTRIES':
@@ -224,7 +247,7 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 						$pibaseObj,
 						$theTemplateCode,
 						$this->config['columns'],
-						$errorCode
+						$error_code
 					);
 				break;
 				case 'TEXTFIELD':
@@ -234,7 +257,7 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 						$this->config['columns'],
 						'textfield'.$this->cObj->data['uid'],
 						$this->cObj->data,
-						$errorCode
+						$error_code
 					);
 				break;
 				case 'YEAR':
@@ -242,7 +265,7 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 						$pibaseObj,
 						$theTemplateCode,
 						$this->config['columns'],
-						$errorCode
+						$error_code
 					);
 				break;
 				default:	// 'HELP'
@@ -250,14 +273,23 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 				break;
 			}
 
-			if ($errorCode[0]) {
-				$contentTmp .= $errorObj->getMessage($errorCode, $languageObj);
+			if ($error_code[0]) {
+				$contentTmp .= $errorObj->getMessage($error_code, $languageObj);
 			}
 
 			if ($contentTmp == 'error') {
-				$fileName = 'EXT:'.TT_PRODUCTS_EXT.'/template/products_help.tmpl';
-				$helpTemplate = $this->cObj->fileResource($fileName);
-				$content .=
+				$fileName = 'EXT:' . TT_PRODUCTS_EXT . '/template/products_help.tmpl';
+                if (
+                    version_compare(TYPO3_version, '9.4.0', '>=')
+                ) {
+                    $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
+                    $fileName = $sanitizer->sanitize($fileName);
+                } else {
+                    $fileName = $GLOBALS['TSFE']->tmpl->getFileName($fileName);
+                }
+
+				$helpTemplate = file_get_contents($GLOBALS['TSFE']->tmpl->getFileName($fileName));
+                $content .=
                     \JambageCom\Div2007\Utility\ViewUtility::displayHelpPage(
                         $languageObj,
                         $this->cObj,
@@ -269,7 +301,7 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 				unset($errorMessage);
 				break; // while
 			} else {
-				$content .= tx_div2007_alpha5::wrapContentCode_fh004($contentTmp,$theCode,$pibaseObj->prefixId,$this->cObj->data['uid']);
+				$content .= tx_div2007_alpha5::wrapContentCode_fh004($contentTmp, $theCode, $pibaseObj->prefixId, $this->cObj->data['uid']);
 			}
 		}
 
@@ -277,12 +309,24 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 			$content = '<p><b>' . $errorMessage . '</b></p>';
 		}
 
-		if ($bRunAjax || !intval($this->conf['wrapInBaseClass']))	{
+		if ($bRunAjax || !intval($this->conf['wrapInBaseClass'])) {
 			$rc = $content;
 		} else {
 			$content = $pibaseObj->pi_wrapInBaseClass($content);
-			if (is_object($this->css) && ($this->css->conf['file']))	{
-				$rc = '<style type="text/css">' . $this->cObj->fileResource($this->css->conf['file']) . '</style>' . chr(13) . $content;
+
+			if (is_object($this->css) && ($this->css->conf['file'])) {
+                $fileName = '';
+                if (
+                    version_compare(TYPO3_version, '9.4.0', '>=')
+                ) {
+                    $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
+                    $fileName = $sanitizer->sanitize($this->css->conf['file']);
+                } else {
+                    $fileName = 
+                    $GLOBALS['TSFE']->tmpl->getFileName($this->css->conf['file']);
+                }
+        
+                $rc = '<style type="text/css">' . file_get_contents($fileName)  . '</style>' . chr(13) . $content;
 			} else {
 				$rc = $content;
 			}
@@ -295,5 +339,4 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/control/class.tx_ttproducts_control_search.php']) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/control/class.tx_ttproducts_control_search.php']);
 }
-
 

@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2007-2008 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2012 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -37,73 +37,91 @@
  *
  */
 
-
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
 class tx_ttproducts_address extends tx_ttproducts_category_base {
-	public $dataArray = array(); // array of read in categories
-	public $pibase; // reference to object of pibase
-	public $conf;
-	public $config;
-	public $piVar = 'a';
-	public $marker = 'ADDRESS';
-
-	public $tableObj;	// object of the type tx_table_db
 
 	/**
 	 * Getting all address values into internal array
 	 */
-	public function init($cObj, $functablename)	{
-		parent::init($cObj, $functablename);
-		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
+	public function init ($functablename) {
+		global $TCA;
 
-		$tableconf = $cnf->getTableConf('address');
-		$tabledesc = $cnf->getTableDesc('address');
+		$result = parent::init($functablename);
+		if ($result) {
+			$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 
-		$tableObj = $this->getTableObj();
-		$tablename = $this->getTablename();
+			$tableconf = $cnf->getTableConf($functablename);
+			$tabledesc = $cnf->getTableDesc($functablename);
 
-		$tableObj->setConfig($tableconf);
-		$defaultFieldArray = $this->getDefaultFieldArray();
-		$tableObj->setDefaultFieldArray($defaultFieldArray);
-		$tableObj->setNewFieldArray();
-		$requiredFields = 'uid,pid,title';
-		$tableconf = $cnf->getTableConf($functablename);
-		if ($tableconf['requiredFields'])	{
-			$tmp = $tableconf['requiredFields'];
-			$requiredFields = ($tmp ? $tmp : $requiredFields);
+			$tableObj = $this->getTableObj();
+			$tablename = $this->getTablename();
+
+			$tableObj->setConfig($tableconf);
+			$defaultFieldArray = $this->getDefaultFieldArray();
+			$tableObj->setDefaultFieldArray($defaultFieldArray);
+			$tableObj->setNewFieldArray();
+			$requiredFields = 'uid,pid,title';
+
+			if ($tableconf['requiredFields']) {
+				$tmp = $tableconf['requiredFields'];
+				$requiredFields = ($tmp ? $tmp : $requiredFields);
+			}
+
+			$requiredListArray = GeneralUtility::trimExplode(',', $requiredFields);
+			$tableObj->setRequiredFieldArray($requiredListArray);
+			$tableObj->setTCAFieldArray($tablename);
+
+			if (isset($tabledesc) && is_array($tabledesc)) {
+				$this->fieldArray = array_merge($this->fieldArray, $tabledesc);
+			}
 		}
-
-		$requiredListArray = GeneralUtility::trimExplode(',', $requiredFields);
-		$tableObj->setRequiredFieldArray($requiredListArray);
-		$tableObj->setTCAFieldArray($tablename);
-
-		if (isset($tabledesc) && is_array($tabledesc))	{
-			$this->fieldArray = array_merge($this->fieldArray, $tabledesc);
-		}
+		return $result;
 	} // init
 
 
-	public function getRootCat()	{
-		$rc = $this->conf['rootAddressID'];
-		return $rc;
+	public function getRootCat () {
+		$result = $this->conf['rootAddressID'];
+
+		if ($result == '') {
+			$result = '0';
+		}
+
+		return $result;
 	}
 
 
-	public function getRelationArray ($dataArray, $excludeCats = '', $rootUids = '', $allowedCats = '') {
+	public function getRelationArray (
+		$dataArray,
+		$excludeCats = '',
+		$rootUids = '',
+		$allowedCats = ''
+	) {
 		$relationArray = array();
 		$rootArray = GeneralUtility::trimExplode(',', $rootUids);
 
-		if (is_array($dataArray))	{
-			foreach ($dataArray as $k => $row)	{
+		if (is_array($dataArray)) {
+			foreach ($dataArray as $k => $row) {
+
 				$uid = $row['uid'];
 				foreach ($row as $field => $value) {
 					$relationArray[$uid][$field] = $value;
 				}
 
-				$title = $row[$this->getField('name')];
-				$relationArray[$uid]['title'] = $title;
+				$labelField = $this->getField($this->getLabelFieldname());
+				$label = '';
+
+				if (strpos($labelField, 'userFunc:') !== false) {
+					$pos = strpos($labelField, ':');
+					$labelFunc = substr($labelField, $pos + 1);
+					$params = array('table' => $this->getTablename(), 'row' => $row);
+					$label = GeneralUtility::callUserFunction($labelFunc, $params, $this);
+				} else {
+					$label = $row[$labelField];
+				}
+
+				$relationArray[$uid][$this->getLabelFieldname()] = $label;
 				$relationArray[$uid]['pid'] = $row['pid'];
 				$relationArray[$uid]['parent_category'] = '';
 			}
@@ -111,12 +129,29 @@ class tx_ttproducts_address extends tx_ttproducts_category_base {
 
 		return $relationArray;
 	}
+
+
+	public function fetchAddressArray ($itemArray) {
+		$result = array();
+
+		foreach ($itemArray as $sort => $actItemArray) {
+			foreach ($actItemArray as $k1 => $actItem) {
+				$row = $actItem['rec'];
+				$addressUid = $row['address'];
+
+				if ($addressUid) {
+					$addressRow = $this->get($addressUid);
+					$result[$addressUid] = $addressRow;
+				}
+			}
+		}
+
+		return $result;
+	}
 }
 
 
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/class.tx_ttproducts_address.php']) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/class.tx_ttproducts_address.php']);
 }
-
-
 

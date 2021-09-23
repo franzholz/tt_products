@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2006-2009 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2012 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -37,34 +37,77 @@
  *
  */
 
+ 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
+use JambageCom\Div2007\Utility\FrontendUtility;
+
 
 abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base_view {
-	public $dataArray;  // array of read in categories
-	public $titleArray; // associative array of read in categories with title as index
+	var $dataArray;  // array of read in categories
 	public $marker = 'CATEGORY';
-	public $markerObj;
-	public $mm_table = ''; // only set if a mm table is used
-	public $parentField; // reference field name for parent
+	var $markerObj;
+	var $mm_table = ''; // only set if a mm table is used
+	var $parentField; // reference field name for parent
 
 
-	public function setMarkerArrayCatTitle (&$markerArray, $catTitle, $prefix)	{
-		$local_cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
-		$local_cObj->setCurrentVal($catTitle);
-		$title = $local_cObj->cObjGetSingle($this->conf['categoryHeader'],$this->conf['categoryHeader.'], 'categoryHeader');
-		$markerArray['###' . $prefix . $this->marker . '_TITLE###'] = htmlentities($title, ENT_QUOTES, 'UTF-8');
+	public function setMarkerArrayCatTitle (
+		&$markerArray,
+		$catTitle,
+		$prefix
+	) {
+        $cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
+		$cObj->setCurrentVal($catTitle);
+		$title = $cObj->cObjGetSingle($this->conf['categoryHeader'], $this->conf['categoryHeader.'], 'categoryHeader');
+		$markerArray['###' . $prefix . $this->marker . '_TITLE###'] = $title;
 	}
 
 
-	public function getMarkerArrayCatTitle(&$markerArray,$prefix='')	{
-		return ($markerArray['###'.$prefix.$this->marker.'_TITLE###']);
+	public function getMarkerArrayCatTitle (
+		$markerArray,
+		$prefix = ''
+	) {
+		$markerKey = '###' . $prefix . $this->marker . '_TITLE###';
+		$result = $markerArray[$markerKey];
+		return $result;
 	}
 
 
-	public function getSubpartArrays ($urlmarkerObj, $row, &$subpartArray, &$wrappedSubpartArray, &$tagArray, $pid, $linkMarker)	{
-        $local_cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
+	public function &getSubpartArrays (
+		&$urlmarkerObj,
+		$row,
+		&$subpartArray,
+		&$wrappedSubpartArray,
+		&$tagArray,
+		$pid,
+		$linkMarker
+	) {
+        $cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
 		$addQueryString = array();
 		$addQueryString[$this->piVar] = $row['uid'];
-		$wrappedSubpartArray['###'.$linkMarker.'###'] = array('<a href="'.  htmlspecialchars(tx_div2007_alpha5::getPageLink_fh003($local_cObj, $pid,'',$urlmarkerObj->getLinkParams('',$addQueryString,true,false,'product',$this->piVar),array('useCacheHash' => true))) . '">','</a>');
+		$wrappedSubpartArray['###' . $linkMarker . '###'] =
+			array(
+				'<a href="' .
+					htmlspecialchars(
+						FrontendUtility::getTypoLink_URL(
+							$cObj,
+							$pid,
+							$urlmarkerObj->getLinkParams(
+								'',
+								$addQueryString,
+								true,
+								false,
+								0,
+								'product',
+								$this->piVar
+							),
+							'',
+							array('useCacheHash' => true)
+						)
+					)
+			. '">',
+				'</a>'
+			);
 	}
 
 
@@ -80,10 +123,42 @@ abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base
 	 * 			 			for the tt_producst record, $row
 	 * @access private
 	 */
-	abstract function getMarkerArray (&$markerArray, $markerKey, $category, $pid, $imageNum=0, $imageRenderObj='image', &$viewCatTagArray, $forminfoArray=array(), $pageAsCategory=0, $theCode, $basketExtra, $id, $prefix,$linkWrap='');
+	abstract function getMarkerArray (
+		&$markerArray,
+		$markerKey,
+		$category,
+		$pid,
+		$imageNum = 0,
+		$imageRenderObj = 'image',
+		&$viewCatTagArray,
+		$forminfoArray = array(),
+		$pageAsCategory = 0,
+		$theCode,
+		$basketExtra,
+		$basketRecs, 
+		$id,
+		$prefix,
+		$linkWrap = ''
+	);
 
 
-	public function getParentMarkerArray ($parentArray, $row, &$markerArray, $category, $pid, $imageNum=0, $imageRenderObj='image', &$viewCatTagArray, $forminfoArray=array(), $pageAsCategory=0, $code, $basketExtra, $id, $prefix)	{
+	public function getParentMarkerArray (
+		$parentArray,
+		$row,
+		&$markerArray,
+		$category,
+		$pid,
+		$imageNum = 0,
+		$imageRenderObj = 'image',
+		&$viewCatTagArray,
+		$forminfoArray = array(),
+		$pageAsCategory = 0,
+		$code,
+		$basketExtra,
+		$basketRecs,
+		$id,
+		$prefix
+	) {
 
 		if (is_array($parentArray) && count($parentArray)) {
 			$currentRow = $row;
@@ -91,8 +166,8 @@ abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base
 			$currentCategory = $this->getModelObj()->getRowCategory($row);
 			$parentCategory = '';
 
-			foreach ($parentArray as $key => $parent)	{
-				do	{
+			foreach ($parentArray as $parent) {
+				do {
 					$parentRow = $this->getModelObj()->getParent($currentCategory);
 					$parentCategory = $parentRow['uid'];
 					$parentPid = $this->getModelObj()->getRowPid($parentRow);
@@ -103,8 +178,8 @@ abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base
 				} while ($count < $parent && is_array($currentRow) && count($currentRow));
 				$currentCategory = $parentCategory;
 
-				if (is_array($currentRow) && count($currentRow))	{
-					$this->getMarkerArray (
+				if (is_array($currentRow) && count($currentRow)) {
+					$this->getMarkerArray(
 						$markerArray,
 						'',
 						$parentCategory,
@@ -116,6 +191,7 @@ abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base
 						$pageAsCategory,
 						'SINGLE',
 						$basketExtra,
+						$basketRecs,
 						1,
 						'PARENT' . $parent . '_',
 						$prefix
@@ -140,9 +216,8 @@ abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base
 }
 
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_category_base_view.php'])	{
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_category_base_view.php']) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_category_base_view.php']);
 }
-
 
 

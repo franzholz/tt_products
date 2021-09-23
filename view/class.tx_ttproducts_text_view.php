@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2007-2008 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2012 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -42,19 +42,6 @@ use JambageCom\Div2007\Utility\FrontendUtility;
 class tx_ttproducts_text_view extends tx_ttproducts_table_base_view {
 	public $marker = 'TEXT';
 
-	function &getTagMarkerArray(&$tagArray, $parentMarker)	{
-		$rcArray = array();
-		$search = $parentMarker.'_'.$this->marker.'_';
-		$searchLen = strlen($search);
-		foreach ($tagArray as $marker => $k)	{
-			if (substr($marker, 0, $searchLen) == $search)	{
-				$tmp = substr($marker, $searchLen, strlen($marker) - $searchLen);
-				$rcArray[] = $tmp;
-			}
-		}
-		return $rcArray;
-	}
-
 
 	/**
 	 * Template marker substitution
@@ -65,15 +52,15 @@ class tx_ttproducts_text_view extends tx_ttproducts_table_base_view {
 	 * @access private
 	 */
 	public function getRowsMarkerArray (
-		&$rowArray,
+		$rowArray,
 		&$markerArray,
 		$parentMarker,
 		$tagArray
 	) {
 		$bFoundTagArray = array();
-        $local_cObj = \JambageCom\TtProducts\Api\ControlApi::getCObj();
+        $cObj = \JambageCom\TtProducts\Api\ControlApi::getCObj();
 
-		if (isset($rowArray) && is_array($rowArray) && count($rowArray)) {
+        if (isset($rowArray) && is_array($rowArray) && count($rowArray)) {
 			foreach ($rowArray as $k => $row) {
 				$tag = strtoupper($row['marker']);
 				$bFoundTagArray[$tag] = true;
@@ -82,15 +69,16 @@ class tx_ttproducts_text_view extends tx_ttproducts_table_base_view {
 				$value = ($this->conf['nl2brNote'] ? nl2br($value) : $value);
 
                 if (FrontendUtility::hasRTEparser()) {
-                    $value = FrontendUtility::RTEcssText($local_cObj, $value);
+                    $value = FrontendUtility::RTEcssText($cObj, $value);
 				} else if (is_array($this->conf['parseFunc.'])) {
-					$value = $local_cObj->parseFunc($value, $this->conf['parseFunc.']);
+					$value = $cObj->parseFunc($value, $this->conf['parseFunc.']);
 				}
 				$markerArray['###' . $marker . '###'] = $value;
 				$markerTitle = $marker . '_' . strtoupper('title');
 				$markerArray['###' . $markerTitle . '###'] = $row['title'];
 			}
 		}
+
 
 		if (isset($tagArray) && is_array($tagArray)) {
 			foreach ($tagArray as $tag) {

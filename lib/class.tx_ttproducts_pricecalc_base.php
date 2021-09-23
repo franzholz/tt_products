@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2007-2009 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2012 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -41,24 +41,26 @@
 
 class tx_ttproducts_pricecalc_base implements \TYPO3\CMS\Core\SingletonInterface {
 
-	function getPrice (&$conf, $offset, $num='1')	{
+	public function getPrice ($conf, $offset, $num = '1') {
 		$rc = 0;
 		$priceCalcTemp = $conf[$offset];
-		if (is_array($priceCalcTemp))	{
+		if (is_array($priceCalcTemp)) {
 			$rc = doubleval($priceCalcTemp['prod.'][$num]);
 		}
 		return $rc;
 	}
 
-	function getCalculatedData (
+	public function getCalculatedData (
 		&$itemArray,
-		&$conf,
+		$conf,
 		$type,
 		&$priceReduction,
 		&$discountArray,
 		$priceTotalTax,
 		$bUseArticles,
-		$bMergeArticles = true
+		$taxIncluded,
+		$bMergeArticles = true,
+		$uid = 0
 	) {
 	} // getCalculatedData
 

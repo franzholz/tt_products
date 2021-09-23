@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2007-2011 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2012 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -38,11 +38,8 @@
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-use JambageCom\Div2007\Utility\FrontendUtility;
 
 class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
-	public $pibase; // reference to object of pibase
-	public $cObj;
 	public $conf;
 	public $urlArray;
 
@@ -55,9 +52,7 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 	* @param		array		array urls which should be overridden with marker key as index
 	 * @return	  void
  	 */
-	public function init ($pibase, $conf)	{
- 		$this->pibase = $pibase;
-		$this->cObj = $this->pibase->cObj;
+	public function init ($conf) {
  		$this->conf = $conf;
 	}
 
@@ -68,7 +63,9 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 			array(
 				'article',
 				'product',
-				'variants'
+				'variants',
+				'dam',
+				'fal'
 			);
 		$singleExcludeListArray = array_merge($excludeListArray, $singleExcludeListArray);
 
@@ -80,7 +77,7 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 	}
 
 
-	public function setUrlArray ($urlArray)	{
+	public function setUrlArray ($urlArray) {
 		$this->urlArray = $urlArray;
 	}
 
@@ -90,41 +87,59 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 	 */
 	public function getWrappedSubpartArray (
 		&$wrappedSubpartArray,
-		$addQueryString=array(),
-		$css_current='',
+		$addQueryString = array(),
+		$css_current = '',
 		$bUseBackPid = true
-	)	{
-        $pid = $GLOBALS['TSFE']->id;
-		$pidBasket = ($this->conf['PIDbasket'] ? $this->conf['PIDbasket'] : $pid);
-		$pageLink = tx_div2007_alpha5::getPageLink_fh003(
-			$this->cObj,
-			$pidBasket,
-			'',
-			$this->getLinkParams(
+	) {
+        $cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
+		$commandArray =
+			array(
+				'basket',
+				'info',
+				'payment',
+				'finalize',
+				'thanks',
+				'search',
+				'memo',
+				'tracking',
+				'billing',
+				'delivery',
+				'agb'
+			);
+
+		foreach ($commandArray as $command) {
+
+			$pidBasket = ($this->conf['PID' . $command] ? $this->conf['PID' . $command] : $GLOBALS['TSFE']->id);
+			$pageLink = tx_div2007_alpha5::getPageLink_fh003(
+				$cObj,
+				$pidBasket,
 				'',
-				$addQueryString,
-				true,
-				$bUseBackPid
-			)
-		) ;
-		$wrappedSubpartArray['###LINK_BASKET###'] = array('<a href="' . htmlspecialchars($pageLink) . '"' . $css_current . '>', '</a>');
+				$this->getLinkParams(
+					'',
+					$addQueryString,
+					true,
+					$bUseBackPid
+				)
+			);
+			$wrappedSubpartArray['###LINK_' . strtoupper($command) . '###'] =
+				array('<a href="' . htmlspecialchars($pageLink) . '"' . $css_current . '>', '</a>');
+		}
 	}
 
 
-    /**
-    * Adds URL markers to a markerArray
-    */
-    public function addURLMarkers (
-        $pidNext,
-        $markerArray,
-        $addQueryString = array(),
-        $excludeList = '',
-        $bUseBackPid = true,
-        $backPid = 0,
-        $bExcludeSingleVar = true
-    )	
-    {
-        $pid = $GLOBALS['TSFE']->id;
+	/**
+	 * Adds URL markers to a markerArray
+	 */
+	public function addURLMarkers (
+		$pidNext,
+		$markerArray,
+		$addQueryString = array(),
+		$excludeList = '',
+		$bUseBackPid = true,
+		$backPid = 0,
+		$bExcludeSingleVar = true
+	) {
+        $cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
 		$charset = 'UTF-8';
 		$urlMarkerArray = array();
 		$conf = array('useCacheHash' => true);
@@ -133,52 +148,34 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 		// disable caching as soon as someone enters products into the basket, enters user data etc.
 		// $addQueryString['no_cache'] = 1;
 			// Add's URL-markers to the $markerArray and returns it
-		$pidBasket = ($this->conf['PIDbasket'] ? $this->conf['PIDbasket'] : $pid);
-		$pidFormUrl = ($pidNext ? $pidNext : $pid);
+		$basketPid = ($this->conf['PIDbasket'] ? $this->conf['PIDbasket'] : $GLOBALS['TSFE']->id);
+		$formUrlPid = ($pidNext ? $pidNext : $GLOBALS['TSFE']->id);
+		$singleExcludeList = $this->getSingleExcludeList($excludeList);
 
-		if ($pidFormUrl != $pid && $bExcludeSingleVar)	{
-			$newExcludeListArray =
-				array(
-					'tt_products[article]',
-					'tt_products[product]',
-					'tt_products[variants]'
-				);
-			$excludeListArray = GeneralUtility::trimExplode(',', $excludeList);
-			$excludeListArray = array_merge($excludeListArray, $newExcludeListArray);
-			if (!$excludeListArray[0])	{
-				unset($excludeListArray[0]);
-			}
-			$excludeList = implode(',', $excludeListArray);
+		$bUseBackPid = ($bUseBackPid && $pidNext != $GLOBALS['TSFE']->id);
+
+		$urlExcludeList = $excludeList;
+		if (
+			$formUrlPid != $GLOBALS['TSFE']->id &&
+			$bExcludeSingleVar
+		) {
+			$urlExcludeList = $singleExcludeList;
 		}
-		$bUseBackPid = ($bUseBackPid && $pidNext != $pid);
-
-		$url = tx_div2007_alpha5::getTypoLink_URL_fh003(
-			$this->cObj,
-			$pidFormUrl,
-			$this->getLinkParams(
-				$excludeList,
-				$addQueryString,
-				true,
-				$bUseBackPid
-			),
-			$target,
-			$conf
-		);
 
 		$urlConfig = array(
 			'FORM_URL' => array(
-					'pid' => $pidFormUrl,
+					'pid' => $formUrlPid,
 					'excludeList' => $urlExcludeList
 				),
 			'FORM_URL_CURRENT' => array(
-					'pid' => $pid,
+					'pid' => $GLOBALS['TSFE']->id,
 					'excludeList' => $excludeList
 				)
 		);
 
 		foreach ($urlConfig as $markerKey => $keyConfig) {
-			$url = FrontendUtility::getTypoLink_URL(
-				$this->cObj,
+			$url = tx_div2007_alpha5::getTypoLink_URL_fh003(
+				$cObj,
 				$keyConfig['pid'],
 				$this->getLinkParams(
 					$keyConfig['excludeList'],
@@ -190,23 +187,43 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 				$target,
 				$conf
 			);
+
 			$urlMarkerArray['###' . $markerKey . '###'] = htmlspecialchars($url, ENT_NOQUOTES, $charset);
 			$urlMarkerArray['###' . $markerKey . '_VALUE###'] =
 				$url;
 		}
 
-		$commandArray = array('basket', 'info', 'payment', 'finalize', 'thanks', 'search', 'memo', 'tracking', 'billing', 'delivery', 'agb', 'user1', 'user2', 'user3', 'user4', 'user5');
+		$commandArray =
+			array(
+				'basket',
+				'info',
+				'payment',
+				'finalize',
+				'thanks',
+				'search',
+				'memo',
+				'tracking',
+				'billing',
+				'delivery',
+				'agb',
+				'user1',
+				'user2',
+				'user3',
+				'user4',
+				'user5'
+			);
 
 		foreach ($commandArray as $command) {
-			$linkPid = ($this->conf['PID' . $command] ? $this->conf['PID' . $command] : $pidBasket);
+			$linkPid = ($this->conf['PID' . $command] ? $this->conf['PID' . $command] : $basketPid);
 			$url = tx_div2007_alpha5::getTypoLink_URL_fh003(
-				$this->cObj,
+				$cObj,
 				$linkPid,
 				$this->getLinkParams(
-					$excludeList,
+					$singleExcludeList,
 					$addQueryString,
 					true,
-					$bUseBackPid
+					$bUseBackPid,
+					$backPid
 				),
 				$target,
 				$conf
@@ -218,32 +235,47 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 					ENT_NOQUOTES,
 					$charset
 				);
+			$urlMarkerArray['###FORM_URL_' . strtoupper($command) . '_VALUE###'] =
+				$url;
 		}
-
 
 		$urlMarkerArray['###FORM_URL_TARGET###'] = '_self';
 
-		if (isset($this->urlArray) && is_array($this->urlArray))	{
-			foreach ($this->urlArray as $k => $urlValue)	{
+		if (
+			isset($this->urlArray) &&
+			is_array($this->urlArray) &&
+			!empty($this->urlArray)
+		) {
+			foreach ($this->urlArray as $k => $urlValue) {
 				$urlMarkerArray['###' . strtoupper($k) . '###'] = $urlValue;
 			}
 		}
+
 			// Call all addURLMarkers hooks at the end of this method
 		if (is_array ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['addURLMarkers'])) {
 			foreach  ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['addURLMarkers'] as $classRef) {
 				$hookObj= GeneralUtility::makeInstance($classRef);
 				if (method_exists($hookObj, 'addURLMarkers')) {
-					$hookObj->addURLMarkers($this->pibase,$pidNext,$urlMarkerArray,$addQueryString,$excludeList,$bUseBackPid,$bExcludeSingleVar);
+					$hookObj->addURLMarkers(
+						$cObj,
+						$pidNext,
+						$urlMarkerArray,
+						$addQueryString,
+						$excludeList,
+						$singleExcludeList,
+						$bUseBackPid,
+						$backPid,
+						$bExcludeSingleVar
+					);
 				}
 			}
 		}
 
-		if (isset($markerArray) && is_array($markerArray))	{
+		if (isset($markerArray) && is_array($markerArray)) {
 			$markerArray = array_merge($markerArray, $urlMarkerArray);
 		} else {
 			$markerArray = $urlMarkerArray;
 		}
-
 		return $markerArray;
 	} // addURLMarkers
 
@@ -251,13 +283,16 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 	/**
 	 * Returns a url for use in forms and links
 	 */
-	public function addQueryStringParam (&$queryString, $param, $bUsePrefix=false) {
-		$temp = $this->pibase->piVars[$param];
-		$temp = ($temp ? $temp : (GeneralUtility::_GP($param) && ($param!='pid') ? GeneralUtility::_GP($param) : 0));
+	public function addQueryStringParam (&$queryString, $param, $bUsePrefix = false) {
+		$piVars = tx_ttproducts_model_control::getPiVars();
+		$prefixId = tx_ttproducts_model_control::getPrefixId();
 
-		if ($temp)	{
-			if ($bUsePrefix)	{
-				$queryString[$this->pibase->prefixId.'['.$param.']'] = $temp;
+		$temp = $piVars[$param];
+		$temp = ($temp ? $temp : (GeneralUtility::_GP($param) && ($param != 'pid') ? GeneralUtility::_GP($param) : 0));
+
+		if ($temp) {
+			if ($bUsePrefix) {
+				$queryString[$prefixId . '[' . $param . ']'] = $temp;
 			} else {
 				$queryString[$param] = $temp;
 			}
@@ -269,21 +304,29 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 	 * Returns a url for use in forms and links
 	 */
 	public function getLinkParams (
-		$excludeList='',
-		$addQueryString=array(),
-		$bUsePrefix=false,
-		$bUseBackPid=true,
-		$piVarSingle='product',
-		$piVarCat='cat'
+		$excludeList = '',
+		$addQueryString = array(),
+		$bUsePrefix = false,
+		$bUseBackPid = true,
+		$backPid = 0,
+		$piVarSingle = 'product',
+		$piVarCat = 'cat'
 	) {
-        $pid = $GLOBALS['TSFE']->id;
-		$prefixId = $this->pibase->prefixId;
-		$queryString=array();
-		if ($bUseBackPid)	{
-			if ($bUsePrefix && !$addQueryString[$prefixId . '[backPID]'])	{
-				$queryString[$prefixId . '[backPID]'] = $pid;
-			} else if (!$addQueryString['backPID'])	{
-				$queryString['backPID'] = $pid;
+		$prefixId = tx_ttproducts_model_control::getPrefixId();
+
+		$queryString = array();
+		if ($bUseBackPid) {
+			if (!$backPid) {
+				$backPid = $GLOBALS['TSFE']->id;
+			}
+
+			if (
+				$bUsePrefix &&
+				!$addQueryString[$prefixId . '[backPID]']
+			) {
+				$queryString[$prefixId . '[backPID]'] = $backPid;
+			} else if (!$addQueryString['backPID']) {
+				$queryString['backPID'] = $backPid;
 			}
 		}
 
@@ -299,7 +342,7 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 		if ($piVarSingle != '') {
 			$this->addQueryStringParam($queryString, $piVarSingle, $bUsePrefix);
 		}
-		if ($piVarCat != '')	{
+		if ($piVarCat != '') {
 			$this->addQueryStringParam($queryString, $piVarCat, $bUsePrefix);
 		}
 
@@ -313,24 +356,32 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$this->addQueryStringParam($queryString, 'searchbox', $bUsePrefix);
 		$this->addQueryStringParam($queryString, 'sword', $bUsePrefix);
 
-		if ($bUsePrefix)	{
+// 		$sword = GeneralUtility::_GP('sword') ? GeneralUtility::_GP('sword') : '';
+// 		if (!$sword) {
+// 			$sword = GeneralUtility::_GP('swords') ? GeneralUtility::_GP('swords') : '';
+// 		}
+// 		if ($sword) {
+// 			$queryString['sword'] = rawurlencode(rawurldecode($sword));
+// 		}
+
+		if ($bUsePrefix) {
 			$excludeListArray = array();
-			$tmpArray = GeneralUtility::trimExplode(',',$excludeList);
-			if (isset($tmpArray) && is_array($tmpArray) && $tmpArray['0'])	{
-				foreach($tmpArray as $param)	{
-					if (strpos($param, $prefixId) === false)	{
+			$tmpArray = GeneralUtility::trimExplode(',', $excludeList);
+			if (isset($tmpArray) && is_array($tmpArray) && $tmpArray['0']) {
+				foreach($tmpArray as $param) {
+					if (strpos($param, $prefixId) === false) {
 						$excludeListArray[] = $prefixId . '[' . $param . ']';
 					}
 				}
-				if (count($excludeListArray))	{
+				if (count($excludeListArray)) {
 					$excludeList .= ',' . implode(',', $excludeListArray);
 				}
 			}
 		}
 
-		if (is_array($addQueryString))	{
-			foreach ($addQueryString as $param => $value){
-				if ($bUsePrefix)	{
+		if (is_array($addQueryString)) {
+			foreach ($addQueryString as $param => $value) {
+				if ($bUsePrefix) {
 					$queryString[$prefixId . '[' . $param . ']'] = $value;
 				} else {
 					$queryString[$param] = $value;
@@ -338,8 +389,14 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 			}
 		}
 
-		foreach($queryString as $key => $val)	{
-			if ($val=='' || (strlen($excludeList) && GeneralUtility::inList($excludeList,$key)))	{
+		foreach($queryString as $key => $val) {
+			if (
+				$val == '' ||
+				(
+					strlen($excludeList) &&
+					GeneralUtility::inList($excludeList, $key)
+				)
+			) {
 				unset($queryString[$key]);
 			}
 		}
@@ -349,7 +406,16 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 			foreach  ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['getLinkParams'] as $classRef) {
 				$hookObj= GeneralUtility::makeInstance($classRef);
 				if (method_exists($hookObj, 'getLinkParams')) {
-					$hookObj->getLinkParams($this,$queryString,$excludeList,$addQueryString,$bUsePrefix,$bUseBackPid,$piVarSingle,$piVarCat);
+					$hookObj->getLinkParams(
+						$this,
+						$queryString,
+						$excludeList,
+						$addQueryString,
+						$bUsePrefix,
+						$bUseBackPid,
+						$piVarSingle,
+						$piVarCat
+					);
 				}
 			}
 		}
@@ -359,8 +425,7 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 }
 
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_url_view.php'])	{
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_url_view.php']) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_url_view.php']);
 }
-
 

@@ -1,7 +1,7 @@
 {
   "name": "jambagecom/tt-products",
   "type": "typo3-cms-extension",
-  "description": "Shop system extension for TYPO3",
+  "description": "Shop system extension for TYPO3 CMS",
   "keywords": [
     "TYPO3",
     "extension",
@@ -28,13 +28,13 @@
     "typo3/cms-core": "^7.6 || ^8,7 || ^9.5 || ^10.4",
     "jambagecom/div2007": "^1.11",
     "jambagecom/table": "^0.7",
-    "jambagecom/tsparser": "^0.2"
+    "jambagecom/tsparser": "^0.2.5"
   },
   "suggest": {
     "friendsoftypo3/func": "^9.0",
     "jambagecom/addons-em": "^0.2",
     "friendsoftypo3/typo3db-legacy": "^1",
-    "jambagecom/taxajax": "^0.4"
+    "jambagecom/taxajax": "^0.4, ^0.5,"
   },
   "autoload": {
     "psr-4": {

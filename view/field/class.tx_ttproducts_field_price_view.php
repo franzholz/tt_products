@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2011 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2012 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -39,11 +39,12 @@
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+use JambageCom\TtProducts\Api\PaymentShippingHandling;
 
-class tx_ttproducts_field_price_view implements tx_ttproducts_field_view_int, \TYPO3\CMS\Core\SingletonInterface {
-	public $conf;			// original configuration
-	public $modelObj;
-	protected static $convertArray = array(
+
+
+class tx_ttproducts_field_price_view extends tx_ttproducts_field_base_view {
+	static protected $convertArray = array(
 		'price' => array(
 			'tax' => 'PRICE_TAX',
 			'taxperc' => 'TAX',
@@ -53,11 +54,21 @@ class tx_ttproducts_field_price_view implements tx_ttproducts_field_view_int, \T
 			'notax' => 'PRICE_NO_TAX',
 			'onlytax' => 'PRICE_ONLY_TAX',
 			'skontotax' => 'PRICE_TAX_DISCOUNT',
+			'skontonotax' => 'PRICE_NO_TAX_DISCOUNT',
 			'skontotaxperc' => 'PRICE_TAX_DISCOUNT_PERCENT',
 			'unotax' => 'UNIT_PRICE_NO_TAX',
 			'utax' => 'UNIT_PRICE_TAX',
 			'wnotax' => 'WEIGHT_UNIT_PRICE_NO_TAX',
 			'wtax' => 'WEIGHT_UNIT_PRICE_TAX',
+
+			'surchargetax' => 'SURCHARGE_TAX',
+			'surchargenotax' => 'SURCHARGE_NO_TAX',
+			'discountbyproductpricetax' => 'PRICE_TAX_RECORD_DISCOUNTED',
+			'discountbyproductpricenotax' => 'PRICE_NO_TAX_RECORD_DISCOUNTED',
+			'discountbyproductutax' => 'UNIT_PRICE_TAX_RECORD_DISCOUNTED',
+			'discountbyproductunotax' => 'UNIT_PRICE_NO_TAX_RECORD_DISCOUNTED',
+			'discountbyproductwtax' => 'WEIGHT_UNIT_PRICE_TAX_RECORD_DISCOUNTED',
+			'discountbyproductwnotax' => 'WEIGHT_UNIT_PRICE_NO_TAX_RECORD_DISCOUNTED',
 		),
 		'price2' => array(
 			'2tax' => 'PRICE2_TAX',
@@ -65,55 +76,58 @@ class tx_ttproducts_field_price_view implements tx_ttproducts_field_view_int, \T
 			'2onlytax' => 'PRICE2_ONLY_TAX',
 			'2skontotax' => 'PRICE2_TAX_DISCOUNT',
 			'2skontotaxperc' => 'PRICE2_TAX_DISCOUNT_PERCENT',
+
+			'surcharge2tax' => 'SURCHARGE2_TAX',
+			'surcharge2notax' => 'SURCHARGE2_NO_TAX',
+		),
+		'deposit' => array(
+			'deposittax' => 'DEPOSIT_TAX',
+			'depositnotax' => 'DEPOSIT_NO_TAX',
 		),
 		'directcost' => array(
-			'dctax' => 'DIRECTCOST_TAX',
-			'dcnotax' => 'DIRECTCOST_NO_TAX',
-		)
+			'directcosttax' => 'DIRECTCOST_TAX',
+			'directcostnotax' => 'DIRECTCOST_NO_TAX',
+		),
 	);
 
+    static public function getConvertedPriceFieldArray ($priceType) {
+        $priceFieldArray = array();
+        if (
+            isset(self::$convertArray[$priceType]) &&
+            is_array(self::$convertArray[$priceType])
+        ) {
+            foreach (self::$convertArray[$priceType] as $field => $marker) {
+                $markerField = str_replace('_', '', strtolower($marker));
+                $priceFieldArray[] = $markerField;
+            }
+        }
 
-	/**
-	 * Getting all tt_products_cat categories into internal array
-	 */
-	public function init ($modelObj)	{
-		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-		$this->conf = $cnf->conf;
-		$this->modelObj = $modelObj;
-		$this->bHasBeenInitialised = true;
-	} // init
-
-
-	public function needsInit ()	{
-		return !$this->bHasBeenInitialised;
-	}
-
-
-	public function getModelObj ()	{
-		return $this->modelObj;
-	}
-
+        return $priceFieldArray;
+    }
 
 	/**
 	 * Generate a graphical price tag or print the price as text
 	 */
-	public function printPrice ($priceText, $taxInclExcl = '')	{
+	public function printPrice ($priceText, $taxInclExcl = '') {
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-		$conf = $cnf->conf;
+		$conf = $cnf->getConf();
+		$languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
 
-		if (($conf['usePriceTag']) && (isset($conf['priceTagObj.'])))	{
-            $local_cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
+		if (($conf['usePriceTag']) && (isset($conf['priceTagObj.']))) {
+			$cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
+
 			$ptconf = $conf['priceTagObj.'];
 			$markContentArray = array();
 			$markContentArray['###PRICE###'] = $priceText;
 			$markContentArray['###TAX_INCL_EXCL###'] = ($taxInclExcl ? $languageObj->getLabel($taxInclExcl) : '');
 
-			$local_cObj->substituteMarkerInObject($ptconf, $markContentArray);
-			$rc = $local_cObj->cObjGetSingle($conf['priceTagObj'], $ptconf);
+			$cObj->substituteMarkerInObject($ptconf, $markContentArray);
+			$result = $cObj->cObjGetSingle($conf['priceTagObj'], $ptconf);
 		} else {
-			$rc = $priceText;
+			$result = $priceText;
 		}
-		return $rc;
+// debug ($result, 'printPrice $result');
+		return $result;
 	}
 
 
@@ -122,21 +136,35 @@ class tx_ttproducts_field_price_view implements tx_ttproducts_field_view_int, \T
 	 */
 	public function priceFormat ($double) {
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-		$conf = $cnf->conf;
+		$conf = $cnf->getConf();
 		$double = round($double, 10);
 
-		if ($conf['noZeroDecimalPoint'] && round($double, 2) == intval($double)) {
-			$rc = number_format($double, 0, $conf['priceDecPoint'], $conf['priceThousandPoint']);
+		if (
+			$conf['noZeroDecimalPoint'] &&
+			round($double, 2) == intval($double)
+		) {
+			$result = number_format($double, 0, $conf['priceDecPoint'], $conf['priceThousandPoint']);
 		} else {
-			$rc = number_format($double, intval($conf['priceDec']), $conf['priceDecPoint'], $conf['priceThousandPoint']);
+			$result =
+				number_format(
+					$double,
+					intval($conf['priceDec']),
+					$conf['priceDecPoint'],
+					$conf['priceThousandPoint']
+				);
 		}
 
-		if ($rc == '-0,00') {
-			$rc = '0,00';
+		if ($result == '-0,00') {
+			$result = '0,00';
 		}
 
-		return $rc;
+		if ($result == '-0.00') {
+			$result = '0.00';
+		}
+
+		return $result;
 	} // priceFormat
+
 
 	/**
 	 * Formatting a percentage
@@ -147,127 +175,216 @@ class tx_ttproducts_field_price_view implements tx_ttproducts_field_view_int, \T
 		$conf = $cnf->conf;
 		$double = round($double, 10);
 
-		$percentageDecPoint = isset($conf['percentageDecPoint']) ? $conf['percentageDecPoint'] : $conf['priceDecPoint'];
-		$percentageThousandPoint = isset($conf['percentageThousandPoint']) ? $conf['percentageThousandPoint'] : $conf['priceThousandPoint'];
-		$percentDec = isset($conf['percentDec']) ? $conf['percentDec'] : $conf['priceDec'];
-		$percentNoZeroDecimalPoint = isset($conf['percentNoZeroDecimalPoint']) ? $conf['percentNoZeroDecimalPoint'] : $conf['noZeroDecimalPoint'];
+		$percentDecPoint = $conf['percentDecPoint'];
+		$percentThousandPoint = $conf['percentThousandPoint'];
+		$percentDec = $conf['percentDec'];
+		$percentNoZeroDecimalPoint = $conf['percentNoZeroDecimalPoint'];
 
 		if ($percentNoZeroDecimalPoint && round($double, 2) == intval($double)) {
 			$result = number_format($double, 0, $percentDecPoint, $percentThousandPoint);
 		} else {
 			$result = number_format($double, intval($percentDec), $percentDecPoint, $percentThousandPoint);
 		}
+		if ($result == '-0,00') {
+			$result = '0,00';
+		}
+		if ($result == '-0.00') {
+			$result = '0.00';
+		}
 		return $result;
 	} // percentageFormat
 
 
-	static public function convertKey ($priceType, $fieldname)	{
-		$rc = false;
-		if (isset(self::$convertArray[$fieldname]) && is_array(self::$convertArray[$fieldname]))	{
-			$rc = self::$convertArray[$fieldname][$priceType];
+	static public function convertKey ($priceType, $fieldname) {
+		$result = false;
+		if (
+			isset(self::$convertArray[$fieldname]) &&
+			is_array(self::$convertArray[$fieldname])
+		) {
+			if (strpos($priceType, $fieldname) === 0) {
+				$priceType = substr($priceType, strlen($fieldname));
+			}
+
+			if (
+				isset(self::$convertArray[$fieldname][$priceType])
+			) {
+				$result = self::$convertArray[$fieldname][$priceType];
+			}
 		}
-		return $rc;
+		return $result;
 	}
 
-
-	public function getModelMarkerArray ($functablename, $basketExtra, $field, $row, &$markerArray, $priceMarkerPrefix, $id)	{
-
-        $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
+	public function getModelMarkerArray (
+		$functablename,
+		$basketExtra,
+		$basketRecs,
+		$field,
+		$row,
+		&$markerArray,
+		$priceMarkerPrefix,
+		$id,
+		$bEnableTaxZero = false,
+        $notOverwritePriceIfSet = true
+    ) {
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-		$conf = $cnf->conf;
-		$config = $cnf->config;
+		$conf = $cnf->getConf();
+		$config = $cnf->getConfig();
+		$languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
+
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 		$itemTableView = $tablesObj->get($functablename, true);
 		$itemTable = $itemTableView->getModelObj();
 		$modelObj = $this->getModelObj();
-		$totalDiscountField = $itemTable->getTotalDiscountField();
+		$totalDiscountField = \JambageCom\TtProducts\Model\Field\FieldInterface::DISCOUNT;
 
-		if ($priceMarkerPrefix != '')	{
-			$priceMarkerPrefix.='_';
+		if ($priceMarkerPrefix != '') {
+			$priceMarkerPrefix .= '_';
 		}
 		$priceMarkerArray = array();
-
+		$modelObj = $this->getModelObj();
 		$priceNo = intval($config['priceNoReseller']);
-		$paymentshippingObj = GeneralUtility::makeInstance('tx_ttproducts_paymentshipping');
-		$taxFromShipping = $paymentshippingObj->getReplaceTaxPercentage($basketExtra);
-		$taxInclExcl = (isset($taxFromShipping) && is_double($taxFromShipping) && $taxFromShipping == 0 ? 'tax_zero' : 'tax_included');
+		$taxFromShipping = PaymentShippingHandling::getReplaceTaxPercentage($basketExtra);
+		$taxInclExcl =
+			(
+				isset($taxFromShipping) &&
+				is_double($taxFromShipping) &&
+				$taxFromShipping == 0 ?
+					'tax_zero' :
+					'tax_included'
+			);
+		$taxInfoArray = array();
 
-		$priceTaxArray = array();
-		$priceTaxArray = $modelObj->getPriceTaxArray($conf['discountPriceMode'], $basketExtra, $field, tx_ttproducts_control_basket::getRoundFormat(), tx_ttproducts_control_basket::getRoundFormat('discount'), $row, $totalDiscountField, $priceTaxArray);
+		$priceTaxArray =
+			$modelObj->getPriceTaxArray(
+				$taxInfoArray,
+				$conf['discountPriceMode'],
+				$basketExtra,
+				$basketRecs,
+				$field,
+				tx_ttproducts_control_basket::getRoundFormat(),
+				tx_ttproducts_control_basket::getRoundFormat('discount'),
+				$row,
+				$totalDiscountField,
+				$bEnableTaxZero,
+				$notOverwritePriceIfSet
+			);
 
-		foreach ($priceTaxArray as $priceKey => $priceValue)	{
-			$displayTax = $this->convertKey($priceKey,$field);
-			if ($displayTax != '')	{
+		foreach ($priceTaxArray as $priceKey => $priceValue) {
+			$displayTax = $this->convertKey($priceKey, $field);
+
+			if ($displayTax !== false) {
 				$displayKey = $priceMarkerPrefix . $displayTax;
-				$priceFormatted = '';
-
-				if(strpos($priceKey, 'perc') !== false) {
-					$priceFormatted = $this->percentageFormat($priceValue);
+				if ($priceKey == 'skontotaxperc') {
+					$priceMarkerArray['###' . $displayKey . '###'] = $priceValue;
 				} else {
-					$priceFormatted = $this->priceFormat($priceValue);
+					$priceMarkerArray['###' . $displayKey . '###'] =
+						$this->printPrice(
+							$this->priceFormat($priceValue, $taxInclExcl)
+						);
 				}
 
-				$priceMarkerArray['###' . $displayKey . '###'] = $this->printPrice($priceFormatted, $taxInclExcl);
-
 				$displaySuffixId = str_replace('_', '', strtolower($displayTax));
-				$priceMarkerArray['###'.$displayKey.'_ID###'] = $id . '-' . $displaySuffixId;
+				$priceMarkerArray['###' . $displayKey . '_ID###'] = $id . '-' . $displaySuffixId;
 			}
 		}
 
+
+// Todo: The following markers must not be set here. This function is called in a loop for each field.
+
 		$priceMarkerArray['###TAX_INCL_EXCL###'] = ($taxInclExcl ? $languageObj->getLabel($taxInclExcl) : '');
 
-		if (is_array($markerArray))	{
+        if (!isset($markerArray['###TAX###'])) {
+            $priceMarkerArray['###TAX###'] = strval($row['tax']);
+		}
+
+		$pricefactor = doubleval($conf['creditpoints.']['priceprod']);
+		// price if discounted by credipoints
+		$priceMarkerArray['###PRICE_IF_DISCOUNTED_BY_CREDITPOINTS_TAX###'] = $this->printPrice($this->priceFormat(($priceTaxArray['tax'] - $pricefactor * $row['creditpoints']), $taxInclExcl));
+		$priceMarkerArray['###PRICE_IF_DISCOUNTED_BY_CREDITPOINTS_NO_TAX###'] = $this->printPrice($this->priceFormat(($priceTaxArray['notax'] - $pricefactor * $row['creditpoints']), $taxInclExcl));
+
+		if (is_array($markerArray)) {
 			$markerArray = array_merge($markerArray, $priceMarkerArray);
 		} else {
 			$markerArray = $priceMarkerArray;
 		}
+
 	} // getModelMarkerArray
 
 
-	public function getRowMarkerArray ($functablename, $fieldname, $row, $markerKey, &$markerArray, $tagArray, $theCode, $id, $basketExtra, &$bSkip, $bHtml=true, $charset='', $prefix='', $suffix='', $imageRenderObj='')	{
-
+	public function getRowMarkerArray (
+		$functablename,
+		$fieldname,
+		$row,
+		$markerKey,
+		&$markerArray,
+		$tagArray,
+		$theCode,
+		$id,
+		$basketExtra,
+		$basketRecs,
+		&$bSkip,
+		$bHtml = true,
+		$charset = '',
+		$prefix = '',
+		$suffix = '',
+		$imageNum = 0,
+		$imageRenderObj = '',
+		$bEnableTaxZero = false,
+        $notOverwritePriceIfSet = true
+	) {
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-		$conf = $cnf->conf;
+		$conf = $cnf->getConf();
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 		$itemTableView = $tablesObj->get($functablename, true);
 		$itemTable = $itemTableView->getModelObj();
 		$modelObj = $this->getModelObj();
+		$totalDiscountField = \JambageCom\TtProducts\Model\Field\FieldInterface::DISCOUNT;
 		$marker = strtoupper($fieldname);
-		$paymentshippingObj = GeneralUtility::makeInstance('tx_ttproducts_paymentshipping');
-		$taxFromShipping = $paymentshippingObj->getReplaceTaxPercentage($basketExtra);
-		$taxInclExcl = (isset($taxFromShipping) && is_double($taxFromShipping) && ($taxFromShipping == 0) ? 'tax_zero' : 'tax_included');
+		$taxFromShipping = PaymentShippingHandling::getReplaceTaxPercentage($basketExtra);
+		$taxInclExcl = (
+			isset($taxFromShipping) && is_double($taxFromShipping) && ($taxFromShipping == 0) ?
+				'tax_zero' :
+				'tax_included'
+			);
+		$taxInfoArray = array();
 // tt-products-single-1-pricetax
-
-		$totalDiscountField = $itemTable->getTotalDiscountField();
-		$priceTaxArray = array();
-
-		$priceTaxArray = $modelObj->getPriceTaxArray($conf['discountPriceMode'],$basketExtra, $fieldname, tx_ttproducts_control_basket::getRoundFormat(), tx_ttproducts_control_basket::getRoundFormat('discount'), $row, $totalDiscountField, $priceTaxArray);
+		$priceArray = $modelObj->getPriceTaxArray(
+			$taxInfoArray,
+			$conf['discountPriceMode'],
+			$basketExtra,
+			$basketRecs,
+			$fieldname,
+			tx_ttproducts_control_basket::getRoundFormat(),
+			tx_ttproducts_control_basket::getRoundFormat('discount'),
+			$row,
+			$totalDiscountField,
+			$bEnableTaxZero,
+            $notOverwritePriceIfSet = true
+		);
 
 		$priceMarkerPrefix = $itemTableView->getMarker() . '_';
-
-		foreach ($priceTaxArray as $priceType => $priceValue)	{
+		foreach ($priceArray as $priceType => $priceValue) {
 			$displayTax = self::convertKey($priceType, $fieldname);
-			$taxMarker = $priceMarkerPrefix . strtoupper($displayTax);
-			$priceFormatted = '';
-
-			if(strpos($priceKey, 'perc') !== false) {
-				$priceFormatted = $this->percentageFormat($priceValue);
-			} else {
-				$priceFormatted = $this->priceFormat($priceValue);
+			if ($displayTax === false) {
+				continue;
 			}
+			$taxMarker = $priceMarkerPrefix . strtoupper($displayTax);
+			$markerArray['###' . $taxMarker . '###'] =
+				$this->printPrice(
+					$this->priceFormat($priceValue),
+					$taxInclExcl
+				);
 
-			$markerArray['###' . $taxMarker . '###'] = $this->printPrice($priceFormatted, $taxInclExcl);
 			$displaySuffixId = str_replace('_', '', strtolower($displayTax));
 			$displaySuffixId = str_replace($fieldname, '', $displaySuffixId);
-			$markerArray['###'.$taxMarker.'_ID###'] = $id . $displaySuffixId;
+			$markerArray['###' . $taxMarker . '_ID###'] = $id . $displaySuffixId;
 		}
 	}
 }
 
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/field/class.tx_ttproducts_field_price_view.php'])	{
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/field/class.tx_ttproducts_field_price_view.php']) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/field/class.tx_ttproducts_field_price_view.php']);
 }
-
 
 

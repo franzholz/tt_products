@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2007-2009 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2012 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -39,32 +39,29 @@
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
-
 abstract class tx_ttproducts_field_base_view implements tx_ttproducts_field_view_int, \TYPO3\CMS\Core\SingletonInterface {
 	private $bHasBeenInitialised = false;
 	public $modelObj;
+	public $cObj;
 	public $conf;		// original configuration
 	public $config;		// modified configuration
 
 
-	public function init ($modelObj)	{
+	public function init ($modelObj) {
 		$this->modelObj = $modelObj;
-		$this->conf = &$modelObj->conf;
-		$this->config = &$modelObj->config;
+		$this->conf = $modelObj->conf;
+		$this->config = $modelObj->config;
 
 		$this->bHasBeenInitialised = true;
 	}
 
-
-	public function needsInit ()	{
+	public function needsInit () {
 		return !$this->bHasBeenInitialised;
 	}
 
-
-	public function getModelObj ()	{
+	public function getModelObj () {
 		return $this->modelObj;
 	}
-
 
 	public function getRepeatedRowSubpartArrays (
 		&$subpartArray,
@@ -91,9 +88,9 @@ abstract class tx_ttproducts_field_base_view implements tx_ttproducts_field_view
 		$value,
 		$tableConf,
 		$tagArray,
-		$theCode='',
+		$theCode = '',
 		$id='1'
-	)	{
+	) {
 		// overwrite this!
 		return false;
 	}
@@ -108,21 +105,17 @@ abstract class tx_ttproducts_field_base_view implements tx_ttproducts_field_view
 		$fieldname,
 		$tableConf,
 		$tagArray,
-		$theCode='',
-		$id='1'
-	)	{
+		$theCode = '',
+		$id = '1'
+	) {
 		$result = false;
 		$newContent = '';
-        $local_cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
 		$markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
 		$upperField = strtoupper($fieldname);
 		$templateAreaList = $markerKey . '_' . $upperField . '_LIST';
-
 		$t = array();
 		$t['listFrameWork'] = tx_div2007_core::getSubpart($templateCode, '###' . $templateAreaList . '###');
-
 		$templateAreaSingle = $markerKey . '_' . $upperField . '_SINGLE';
-
 		$t['singleFrameWork'] = tx_div2007_core::getSubpart($t['listFrameWork'], '###' . $templateAreaSingle . '###');
 
 		if ($t['singleFrameWork'] != '') {
@@ -134,12 +127,12 @@ abstract class tx_ttproducts_field_base_view implements tx_ttproducts_field_view
 			if (isset($valueArray) && is_array($valueArray) && $valueArray['0'] != '') {
 
 				$content = '';
-				foreach ($valueArray as $key => $value) {
+				foreach($valueArray as $key => $value) {
 					$repeatedMarkerArray = array();
 					$repeatedSubpartArray = array();
 					$repeatedWrappedSubpartArray = array();
 
-					$resultRowMarker = $this->getRepeatedRowMarkerArray (
+					$resultRowMarker = $this->getRepeatedRowMarkerArray(
 						$repeatedMarkerArray,
 						$markerKey,
 						$functablename,
@@ -153,7 +146,7 @@ abstract class tx_ttproducts_field_base_view implements tx_ttproducts_field_view
 						$id
 					);
 
-					$this->getRepeatedRowSubpartArrays (
+					$this->getRepeatedRowSubpartArrays(
 						$repeatedSubpartArray,
 						$repeatedWrappedSubpartArray,
 						$markerKey,
@@ -187,6 +180,7 @@ abstract class tx_ttproducts_field_base_view implements tx_ttproducts_field_view
 			}
 		}
 		$subpartArray['###' . $templateAreaList . '###'] = $newContent;
+
 		return $result;
 	}
 }
@@ -195,6 +189,5 @@ abstract class tx_ttproducts_field_base_view implements tx_ttproducts_field_view
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/field/class.tx_ttproducts_field_base_view.php']) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/field/class.tx_ttproducts_field_base_view.php']);
 }
-
 
 

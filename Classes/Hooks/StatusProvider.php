@@ -17,7 +17,7 @@ namespace JambageCom\TtProducts\Hooks;
 use JambageCom\Div2007\Utility\StatusUtility;
 
 /**
- * Hook into the backend module "Reports" checking the configuration required for tt_products
+ * Hook into the backend module "Reports" checking the configuration required for agency
  */
 class StatusProvider extends \JambageCom\Div2007\Base\StatusProviderBase
 {
@@ -34,22 +34,22 @@ class StatusProvider extends \JambageCom\Div2007\Base\StatusProviderBase
     public function getGlobalVariables () {
         $result = '';
         
-        if (
-            (
-                version_compare(TYPO3_version, '7.6.32', '>=') &&
-                version_compare(TYPO3_version, '8.7.0', '<')
-            ) ||
-            (
-                version_compare(TYPO3_version, '8.7.22', '>=') &&
-                version_compare(TYPO3_version, '9.5.0', '<')
-            )
-        ) {
-            $result = array(
-                'FE' => array(
-                    'enableRecordRegistration' => true
-                )
-            );
-        }
+//         if (
+//             (
+//                 version_compare(TYPO3_version, '7.6.32', '>=') &&
+//                 version_compare(TYPO3_version, '8.7.0', '<')
+//             ) ||
+//             (
+//                 version_compare(TYPO3_version, '8.7.22', '>=') &&
+//                 version_compare(TYPO3_version, '9.5.0', '<')
+//             )
+//         ) {
+//             $result = array(
+//                 'FE' => array(
+//                     'enableRecordRegistration' => true
+//                 )
+//             );
+//         }
         return $result;
     }
 

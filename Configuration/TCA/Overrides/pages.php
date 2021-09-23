@@ -13,7 +13,7 @@ if (
     foreach ($GLOBALS['TCA']['pages']['columns']['module']['config']['items'] as $item) {
         if ($item['1'] == $pageType) {
             $addToModuleSelection = false;
-            break;
+            continue;
         }
     }
 
@@ -52,7 +52,7 @@ if (
     foreach ($GLOBALS['TCA']['pages']['columns']['module']['config']['items'] as $item) {
         if ($item['1'] == $pageType) {
             $addToModuleSelection = false;
-            continue;
+            break;
         }
     }
 

@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2008-2009 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2012 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -33,11 +33,12 @@
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
  * @package TYPO3
  * @subpackage tt_products
- * @see file tt_products/Configuration/TypoScript/PluginSetup/Main/constants.txt
+ * @see file tt_products/static/old_style/constants.txt
  * @see TSref
  *
  */
 
+ 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
@@ -45,40 +46,46 @@ class tx_ttproducts_pi_int implements \TYPO3\CMS\Core\SingletonInterface {
 	/**
 	 * The backReference to the mother cObj object set at call time
 	 *
-	 * @var \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer
+	 * @var TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer
 	 */
-	public $cObj;
+	var $cObj;
+
 
 	/**
 	 * Main method. Call this from TypoScript by a USER cObject.
 	 */
-	public function main ($content, $conf)	{
+	public function main ($content, $conf) {
 
 		$pibaseObj = GeneralUtility::makeInstance('tx_ttproducts_pi_int_base');
 		$pibaseObj->cObj = $this->cObj;
 		$confMain = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
+// 		$conf = GeneralUtility::array_merge_recursive_overrule($confMain, $conf);
 		tx_div2007_core::mergeRecursiveWithOverrule($confMain, $conf);
 		$conf = $confMain;
 
-		if ($conf['templateFile'] != '')	{
+		if ($conf['templateFile'] != '') {
 
-			$content = $pibaseObj->main($content,$conf);
+			$content = $pibaseObj->main($content, $conf);
 		} else {
 			tx_div2007_alpha5::loadLL_fh002($pibaseObj, 'EXT:' . TT_PRODUCTS_EXT . '/pi_int/locallang.xml');
 
-			if (count($conf) > 2)	{
-				$content = tx_div2007_alpha5::getLL_fh003($pibaseObj, 'no_template') . ' plugin.tx_ttproducts_pi_int.templateFile';
+			if (count($conf) > 2) {
+				$errorText =
+					tx_div2007_alpha5::getLL_fh003(
+						$pibaseObj,
+						'no_template'
+					);
+				$content = str_replace('|', 'plugin.tt_products.templateFile', $errorText);
 			} else {
 				$content = tx_div2007_alpha5::getLL_fh003($pibaseObj, 'no_setup');
 			}
 		}
-
 		return $content;
 	}
 }
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/pi1/class.tx_ttproducts_pi_int.php'])	{
+
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/pi1/class.tx_ttproducts_pi_int.php']) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/pi1/class.tx_ttproducts_pi_int.php']);
 }
-
 

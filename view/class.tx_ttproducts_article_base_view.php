@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2006-2010 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2012 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -51,56 +51,141 @@ abstract class tx_ttproducts_article_base_view extends tx_ttproducts_table_base_
 	public $type; 	// the type of table 'article' or 'product'
 			// this gets in lower case also used for the URL parameter
 	public $variant;       // object for the product variant attributes, must initialized in the init function
+	public $editVariant; 	// object for the product editable variant attributes, must initialized in the init function
 	protected $mm_table = ''; // only set if a mm table is used
+	protected $graduatedPriceObject = false;
 
 
-	public function init ($modelObj)	{
-		parent::init($modelObj);
-		$this->variant->init($modelObj->variant);
+	public function init ($modelObj) {
+		$result = parent::init($modelObj);
+
+		if ($result) {
+			if (!isset($this->variant)) {
+				$this->variant = GeneralUtility::makeInstance('tx_ttproducts_variant_dummy_view');
+			}
+			if (!isset($this->editVariant)) {
+				$this->editVariant = GeneralUtility::makeInstance('tx_ttproducts_edit_variant_dummy_view');
+			}
+
+			$this->variant->init($modelObj->variant);
+			$this->editVariant->init($modelObj->editVariant);
+
+			$type = $modelObj->getType();
+			if (
+				$type == 'product' ||
+				$type == 'article'
+			) {
+				$graduatedPriceViewObj =
+					GeneralUtility::makeInstance('tx_ttproducts_graduated_price_view');
+				$graduatedPriceObj = $modelObj->getGraduatedPriceObject();
+				$graduatedPriceViewObj->init($graduatedPriceObj);
+				$this->setGraduatedPriceObject($graduatedPriceViewObj);
+			}
+		}
+
+		return $result;
 	}
 
+	public function setGraduatedPriceObject ($value) {
+		$this->graduatedPriceObject = $value;
+	}
+
+
+	public function getGraduatedPriceObject () {
+		return $this->graduatedPriceObject;
+	}
+
+	public function getEditVariant () {
+		return $this->editVariant;
+	}
+
+	public function getVariant () {
+		return $this->variant;
+	}
 
 	public function getItemMarkerSubpartArrays (
-		&$templateCode,
+		$templateCode,
 		$functablename,
-		&$row,
-		array $markerArray,
+		$row,
+		&$markerArray,
 		&$subpartArray,
 		&$wrappedSubpartArray,
-		&$tagArray,
-		$theCode='',
-		$basketExtra=array(),
-		$iCount=''
-	)	{
-		$this->getItemSubpartArrays($templateCode, $functablename, $row, $subpartArray, $wrappedSubpartArray, $markerArray, $tagArray, $theCode, $basketExtra, $iCount);
+		$tagArray,
+		$multiOrderArray = array(),
+		$productRowArray = array(),
+		$theCode = '',
+		$basketExtra = array(),
+		$basketRecs = array(),
+		$iCount = ''
+	) {
+		$this->getItemSubpartArrays(
+			$templateCode,
+			$functablename,
+			$row,
+			$subpartArray,
+			$wrappedSubpartArray,
+			$tagArray,
+			$theCode,
+			$basketExtra,
+			$basketRecs,
+			$iCount
+		);
 	}
 
+    public function getItemSubpartArrays (
+        &$templateCode,
+        $functablename,
+        $row,
+        &$subpartArray,
+        &$wrappedSubpartArray,
+        $tagArray,
+        $theCode = '',
+        $basketExtra = array(),
+        $basketRecs = array(),
+        $id = '',
+        $checkPriceZero = false
+    ) {
+		global $TCA;
 
-	public function getItemSubpartArrays (&$templateCode, $functablename, $row, &$subpartArray, &$wrappedSubpartArray, array $markerArray, &$tagArray, $theCode='', $basketExtra=array(), $id='') {
-		parent::getItemSubpartArrays($templateCode, $functablename, $row, $subpartArray, $wrappedSubpartArray, $markerArray, $tagArray, $theCode, $basketExtra, $id);
+		parent::getItemSubpartArrays(
+			$templateCode,
+			$functablename,
+			$row,
+			$subpartArray,
+			$wrappedSubpartArray,
+			$tagArray,
+			$theCode,
+			$basketExtra,
+			$basketRecs,
+			$id
+		);
 	}
 
 
 	public function getCurrentPriceMarkerArray (
 		&$markerArray,
+		$markerKey,
 		$originalName,
 		$originalRow,
 		$mergedName,
 		$mergedRow,
 		$id,
 		$theCode,
-		$basketExtra
-	)	{
-
-		if (is_array($mergedRow))	{
+		$basketExtra,
+		$basketRecs,
+		$bEnableTaxZero = false,
+        $notOverwritePriceIfSet = true
+	) {
+		if (is_array($mergedRow)) {
 			$row = $mergedRow;
-			if (is_array($originalRow) && count($originalRow))	{
+			if (is_array($originalRow) && count($originalRow)) {
 				if ($mergedName != '') {
 					$id .= 'from-' . str_replace('_', '-', $mergedName);
 				}
+
 				$row['uid'] = $originalRow['uid'];
-				foreach ($originalRow as $k => $v)	{
-					if (!isset($row[$k]))	{
+				foreach ($originalRow as $k => $v) {
+					if (!isset($row[$k])) {
 						$row[$k] = $v;
 					}
 				}
@@ -108,20 +193,52 @@ abstract class tx_ttproducts_article_base_view extends tx_ttproducts_table_base_
 		} else {
 			$row = $originalRow;
 		}
-		$this->getPriceMarkerArray($basketExtra, $markerArray, $row, '', $id, $theCode);
+
+		$this->getPriceMarkerArray(
+			$basketExtra,
+			$basketRecs,
+			$markerArray,
+			$row,
+			$markerKey,
+			$id,
+			$theCode,
+			$bEnableTaxZero,
+            $notOverwritePriceIfSet
+		);
 	}
 
 
-	public function getPriceMarkerArray ($basketExtra, &$markerArray, $row, $markerKey, $id, $theCode)	{
+	public function getPriceMarkerArray (
+		$basketExtra,
+		$basketRecs,
+		&$markerArray,
+		$row,
+		$markerKey,
+		$id,
+		$theCode,
+		$bEnableTaxZero = false,
+        $notOverwritePriceIfSet = true
+	) {
 		$modelObj = $this->getModelObj();
 		$priceViewObj = GeneralUtility::makeInstance('tx_ttproducts_field_price_view');
-
 		$functablename = $modelObj->getFuncTablename();
+
 		$mainId = $this->getId($row, $id, $theCode);
 
-		foreach ($GLOBALS['TCA'][$functablename]['columns'] as $field => $fieldTCA)	{
-			if (strpos($field, 'price') === 0)	{
-				$priceViewObj->getModelMarkerArray($functablename, $basketExtra, $field, $row, $markerArray, $markerKey, $mainId);
+		foreach ($GLOBALS['TCA'][$functablename]['columns'] as $field => $fieldTCA) {
+			if (strpos($field, 'price') === 0) {
+				$priceViewObj->getModelMarkerArray(
+					$functablename,
+					$basketExtra,
+					$basketRecs,
+					$field,
+					$row,
+					$markerArray,
+					$markerKey,
+					$mainId,
+					$bEnableTaxZero,
+                    $notOverwritePriceIfSet
+				);
 			}
 		}
 	}
@@ -141,38 +258,48 @@ abstract class tx_ttproducts_article_base_view extends tx_ttproducts_table_base_
 	 * @access private
 	 */
 	public function getModelMarkerArray (
-		&$row,
+		$row,
 		$markerKey,
 		&$markerArray,
 		$catTitle,
-		$imageNum=0,
-		$imageRenderObj='image',
+		$imageNum = 0,
+		$imageRenderObj = 'image',
 		$tagArray,
-		$forminfoArray=array(),
-		$theCode='',
-		$basketExtra=array(),
-		$id='',
-		$prefix='',
-		$suffix='',
-		$linkWrap='',
-		$bHtml=true,
-		$charset=''
+		$forminfoArray = array(),
+		$theCode = '',
+		$basketExtra = array(),
+		$basketRecs = array(),
+		$id = '',
+		$prefix = '',
+		$suffix = '',
+		$linkWrap = '',
+		$bHtml = true,
+		$charset = '',
+		$hiddenFields = '',
+		$multiOrderArray = array(),
+		$productRowArray = array(),
+		$bEnableTaxZero = false,
+        $notOverwritePriceIfSet = true
 	) {
 		$modelObj = $this->getModelObj();
 		$imageObj = GeneralUtility::makeInstance('tx_ttproducts_field_image_view');
+		$cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
+		$conf = $cnfObj->getConf();
 
-		if ($markerKey)	{
+		if ($markerKey) {
 			$marker = $markerKey;
 		} else {
 			$marker = $this->getMarker();
 		}
 
-		if (!$marker)	{
+		if (!$marker) {
 			return array();
 		}
 		$variantFieldArray = $modelObj->variant->getFieldArray();
 		$variantMarkerArray = array();
+
 		$this->getRowMarkerArray(
+			$modelObj->getFuncTablename(),
 			$row,
 			$marker,
 			$markerArray,
@@ -181,6 +308,7 @@ abstract class tx_ttproducts_article_base_view extends tx_ttproducts_table_base_
 			$tagArray,
 			$theCode,
 			$basketExtra,
+			$basketRecs,
 			$bHtml,
 			$charset,
 			$imageNum,
@@ -188,15 +316,21 @@ abstract class tx_ttproducts_article_base_view extends tx_ttproducts_table_base_
 			$id,
 			$prefix,
 			$suffix,
-			$linkWrap
+			$linkWrap,
+			$bEnableTaxZero
 		);
-		$this->getPriceMarkerArray($basketExtra, $markerArray, $row, $markerKey, $id, $theCode);
 
-		if (isset($row['delivery']))	{
-			$imageObj->getSingleImageMarkerArray ($marker.'_DELIVERY', $markerArray, $this->conf['delivery.'][$row['delivery'].'.']['image.'], $theCode);
-		} else {
-			$markerArray['###'.$marker.'_DELIVERY###'] = '';
-		}
+		$this->getPriceMarkerArray(
+			$basketExtra,
+			$basketRecs,
+			$markerArray,
+			$row,
+			$markerKey,
+			$id,
+			$theCode,
+			$bEnableTaxZero,
+            $notOverwritePriceIfSet
+		);
 	}
 }
 
@@ -204,5 +338,4 @@ abstract class tx_ttproducts_article_base_view extends tx_ttproducts_table_base_
 if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_article_base_view.php']) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_article_base_view.php']);
 }
-
 

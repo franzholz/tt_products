@@ -25,7 +25,7 @@ plugin.tt_products {
 
     # cat=plugin.products//; type=integer; label= use article table: You have to set this to 1 if you want that your entries in the products articles table get used. Set it to 2 if your articles do not use the variant fields. The default value is 3: The variants of the product need not be entered but are taken from the articles assigned to a product. Many articles are assigned to a product with the possibility of additional prices.
   useArticles = 3
-    # cat=plugin.products//; type=boolean; label= keep product data: Do not overwrite the product data with the articles fetched from the variants if they are not empty.
+    # cat=plugin.products//; type=boolean; label= keep product data: Do not overwrite the product data with the articles fetched from the variants if they are not empty. This is visible in the basket views.
   keepProductData = 1
     # cat=plugin.products//; type=boolean; label= no single display for articles:If true, then no article single view is used. Articles are instead linked to the product single view and the corresponding variant selection is shown.
   noArticleSingleView = 1
@@ -43,7 +43,7 @@ plugin.tt_products {
   clickEnlarge_list = 1
     # cat=plugin.products//; type=boolean; label= Click Enlarge, List display for items listed with a filter for a category having childs: See above
   clickEnlarge_listHasChilds = 1
-    # cat=plugin.products//; type=boolean; label= Click Enlarge, List display for items listed with a filter for a root category
+    # cat=plugin.products//; type=boolean; label= Click Enlarge, Basket display: As above, but for the images in the basket
   clickEnlarge_basket = 1
     # cat=plugin.products//; type=boolean; label= Click Enlarge, Category images: As above, but for the category images
   clickEnlarge_listcat = 0
@@ -122,21 +122,22 @@ plugin.tt_products {
     # cat=plugin.products/dims; type=int+; label= Max image height, single display: The maximum height in pixels of an image when displayed with a single product.
   maxH_single = 400
     # cat=plugin.products/dims; type=int+; label= Max small image width, single display: The maximum width in pixels of a small image when displayed with a single product.
-  maxW_smallSingle = 15
+  maxW_smallSingle = 60
     # cat=plugin.products/dims; type=int+; label= Max small image height, single display: The maximum height in pixels of a small image when displayed with a single product.
-  maxH_smallSingle = 35
+  maxH_smallSingle = 150
     # cat=plugin.products/dims; type=int+; label= Max image width, list display: The maximum width in pixels of an image when displayed in lists and searchresults.
   maxW_list = 50
     # cat=plugin.products/dims; type=int+; label= Max image height, list display: The maximum height in pixels of an image when displayed in lists and searchresults.
   maxH_list = 100
-    # cat=plugin.products/dims; type=int+; label= Max image width, list display: The category has childs
+    # cat=plugin.products/dims; type=int+; label= Max image width, list display: DAM, the category has childs
   maxW_listHasChilds = 50
-    # cat=plugin.products/dims; type=int+; label= Max image height, list display: The category has childs
+    # cat=plugin.products/dims; type=int+; label= Max image height, list display: DAM, the category has childs
   maxH_listHasChilds = 100
     # cat=plugin.products/dims; type=int+; label= Max root image width, list display: The maximum width in pixels of an image when displayed in lists and searchresults on the category root level.
   maxW_listRoot = 50
     # cat=plugin.products/dims; type=int+; label= Max root image height, list display: The maximum height in pixels of an image when displayed in lists and searchresults on the category root level.
   maxH_listRoot = 100
+
     # cat=plugin.products/dims; type=int+; label= Max image width, basket display: The maximum width in pixels of an image when displayed in the shopping-basket.
   maxW_basket = 100
     # cat=plugin.products/dims; type=int+; label= Max image height, basket display: The maximum height in pixels of an image when displayed in the shopping-basket.
@@ -191,9 +192,11 @@ plugin.tt_products {
   UIDstore =
     # cat=plugin.products//; type=eint+; label=Store user: UID of the usergroup of the fe_users table with the data of the shop.
   UIDstoreGroup =
+    # cat=plugin.products//; type=int+; label=Backend user: UID of the backend user who is used for adding related table entries for the FAL when the order record is stored.
+  UIDbackendUser = 1
 
     # cat=plugin.products//; type=string; label=When the payment shall be executed. Possible values:  'verify', 'payment', 'finalize'
-  paymentActivity = payment
+  paymentActivity=payment
 
     # cat=plugin.products//; type=eint+; label=advance order number with integer: If this value is set, then each time a new order is created the order-number counter will be incremented with a random number between [first-integer] and [second integer].
   advanceOrderNumberWithInteger =
@@ -209,8 +212,12 @@ plugin.tt_products {
   defaultProductID =
     # cat=plugin.products//; type=eint+; label=default category ID: ID of the default category that will be shown in the list view when no tt_products[cat] parameter is given
   defaultCategoryID =
+    # cat=plugin.products//; type=eint+; label=default DAM category ID: ID of the default DAM category that will be shown in the list view when no tt_products[damcat] parameter is given
+  defaultDAMCategoryID =
     # cat=plugin.products//; type=eint+; label=root category ID: The upper most category ID from where you want to start to list categories.
   rootCategoryID =
+    # cat=plugin.products//; type=eint+; label=root DAM category ID: The upper most DAM category ID from where you want to start to list DAM categories.
+  rootDAMCategoryID =
     # cat=plugin.products//; type=eint+; label=root page ID: The upper most page as category ID from where you want to start to list pages as categories.
   rootPageID =
     # cat=plugin.products//; type=int+; label=recursive levels: Number of recursive levels to select tt_products from in lists.
@@ -219,7 +226,7 @@ plugin.tt_products {
   domain = nodomain.entered.yet
 
     # cat=plugin.products//; type=small; label=TAX percentage: Type= Double (means, "use . as decimal point")
-  TAXpercentage = 25
+  TAXpercentage = 19
 
     # cat=plugin.products//; type=boolean; label=TAX included in database prices?
   TAXincluded = 1
@@ -227,6 +234,8 @@ plugin.tt_products {
   TAXmode = 1
     # cat=plugin.products//; type=eint+; label=TAX rates. Comma separated list of tax rates. The first will be taken as tax A, the second as tax B aso.
   TAXrates =
+    # cat=plugin.products//; type=eint+; label=no taxed price variation. The taxed price is always the same for all countries. The net price may vary with a different tax but not the gross price.
+  priceTAXnotVarying = 0
     # cat=plugin.products//; type=int+; label=Price decimals
   priceDec = 2
     # cat=plugin.products//; type=small; label=Price decimal point
@@ -235,10 +244,9 @@ plugin.tt_products {
   priceThousandPoint =
     # cat=plugin.products//; type=boolean; label=No Zero Decimal point: No decimal point is shown if only zeros would come after it
   noZeroDecimalPoint =
-
     # cat=plugin.products//; type=int+; label=Percent decimals
   percentDec = 3
-    # cat=plugin.products//; type=small; label=Percentage decimal point
+      # cat=plugin.products//; type=small; label=Percentage decimal point
   percentDecPoint = .
     # cat=plugin.products//; type=small; label=Percentage Thousand point
   percentThousandPoint =
@@ -249,7 +257,7 @@ plugin.tt_products {
   currencySymbol = EUR
 
     # cat=plugin.products//; type=boolean; label=lock login user: If set and a user is logged in, the address info of that fe_user is 'hardcoded' as billing address of the user.
-  lockLoginUserInfo = 0
+  lockLoginUserInfo = 1
     # cat=plugin.products//; type=boolean; label=edit locked login info: If set and lockLoginUserInfo is set then it is possible to edit still the data only for the order if there are HTML edit fields in the template
   editLockedLoginInfo = 0
     # cat=plugin.products//; type=boolean; label=lock login user address: If lockLoginUserInfo is set, this switch makes that the address field is filled in from address, country, zip and city of the fe_user
@@ -258,6 +266,8 @@ plugin.tt_products {
   orderByItemNumberSg = 0
     # cat=plugin.products//; type=string; label=Prefix to the order numbers: Dont use spaces or special chars. Max 30 chars.
   orderNumberPrefix = %
+    # cat=plugin.products//; type=string; label=Prefix to the order bill numbers: Dont use spaces or special chars. Max 30 chars.
+  orderBillNumberPrefix = BILL_
     # cat=plugin.products//; type=string; label=from email addresss: From email address for the confirmation email to customer
   orderEmail_from = shop@my-TYPO3-Shop.de
     # cat=plugin.products//; type=string; label=from email name: From name for the confirmation email to customer.
@@ -269,7 +279,7 @@ plugin.tt_products {
     # cat=plugin.products//; type=string; label=send email to delivery: If you want to send the email notification to the delivery email and not to the billing email
   orderEmail_toDelivery =
     # cat=plugin.products//; type=string; label=subject of email: The topic of your email. Or the first line in EMAIL_PLAINTEXT_TEMPLATE is used!
-  orderEmail_subject = this is the subject
+  orderEmail_subject = your order in our tt_products webshop
     # cat=plugin.products//; type=string; label=return path of email: If the email of the recipient is invalid then the message will be sent to this address.
   orderEmail_returnPath =
     # cat=plugin.products//; type=boolean; label=HTML email: If set, the order confirmation email is sent as HTML
@@ -287,13 +297,13 @@ plugin.tt_products {
     # cat=plugin.products//; type=boolean; label=Use Price Tag: Print a graphical price tag instead of the normal text field
   usePriceTag = 0
     # cat=plugin.products//; type=boolean; label=Use Frontend User Static Info Country Field: This is the small country field of the fe_user table
-  useStaticInfoCountry = 0
-    # cat=plugin.products//; type=boolean; label=Use Static Taxes extension: Even if the product has a tax, the tax is taken from the extension static_info_tables_taxes. Only available again in version 2.13.2+
+  useStaticInfoCountry = 1
+    # cat=plugin.products//; type=boolean; label=Use Static Taxes extension: Even if the product has a tax, the tax is taken from the extension static_info_tables_taxes
   useStaticTaxes = 0
     # cat=plugin.products//; type=string; label=Message displayed at bulkily items
   bulkilyWarning = <p><b>Warning! This article needs special transport.</b></p>
     # cat=plugin.products//; type=string; label=Special preparation: Message displayed at items marked as special preparation
-  specialPreparation = Special preparation possible! <A HREF="?id=999&tt_products=###PRODUCT_ID###">Order here</A>.
+  specialPreparation = Special preparation possible! <a href="?id=999&tt_products=###PRODUCT_ID###">Order here</a>.
 
     # cat=plugin.products//; type=int+; label=Max note length: Max. number of characters of the note text in the list view
   max_note_length = 10000
@@ -310,6 +320,8 @@ plugin.tt_products {
   discountGroupName =
     # cat=plugin.products//; type=boolean; label=Get discount price: If set the discount price will be used even for normal customers without having a frontend user in the discount group.
   getDiscountPrice = 0
+    # cat=plugin.products//; type=integer; label=Discount field mode: If set the discount field in the product and category table will be used to get a reducted price for a product.
+  discountFieldMode =
 
     # cat=plugin.products//; type=eint+; label=PID of revocation page: PID of the page with the right of revocation
   PIDrevocation = 0
@@ -323,6 +335,10 @@ plugin.tt_products {
     # cat=plugin.products/file; type=file[html,htm,pdf,doc,txt]; label= AGB Attachment File: This file is attached to the order confirmation mail
   AGBattachment =
 
+    # cat=plugin.products//; type=boolean; label=Order XML generation: Generate a XML file for each order
+  generateXML = 0
+    # cat=plugin.products//; type=string; label=Order XML folder: Destination directory for XML files generated by orders; Important: Enter a directory, that is NOT accessible via web!
+  XMLdestination = ../xmlorders/
     # cat=plugin.products//; type=boolean; label=Order CSV generation: Generate a CSV file for each order
   generateCSV = 0
     # cat=plugin.products//; type=string; label=Order CSV folder: Destination directory for CSV files generated by orders; Important: Enter a directory, that is NOT accessible via web!
@@ -363,7 +379,6 @@ plugin.tt_products {
 
     # cat=plugin.products//; type=boolean; label=debug Ajax: Turn this on and xAjax debugs will be diplayed. Only for testing purposes. Must not be set in online shops.
   ajaxDebug = 0
-
 }
 
 

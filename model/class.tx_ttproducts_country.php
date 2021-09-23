@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2006-2008 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2012 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -37,89 +37,96 @@
  *
  */
 
+
+
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
+
 class tx_ttproducts_country extends tx_ttproducts_table_base {
-	public $dataArray; // array of read in contents
-	public $table;	// object of the type tx_table_db
+	var $dataArray; // array of read in contents
+	var $table;	// object of the type tx_table_db
 	public $marker = 'STATICCOUNTRIES';
 
-//	public $defaultFieldArray = array('uid'=>'uid', 'pid'=>'pid'); // TYPO3 default fields
+//	var $defaultFieldArray = array('uid'=>'uid', 'pid'=>'pid'); // TYPO3 default fields
 
 	/**
 	 * Getting all tt_products_cat categories into internal array
 	 */
-	public function init ($cObj, $functablename)	{
-		parent::init($cObj, $functablename);
-		$tablename = $this->getTablename();
-		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-		$this->tableconf = $cnf->getTableConf('static_countries');
-		$this->getTableObj()->setDefaultFieldArray(array('uid'=>'uid', 'pid'=>'pid'));
-		$this->getTableObj()->setTCAFieldArray('static_countries');
+	public function init ($functablename) {
+		$result = parent::init($functablename);
 
-		$requiredFields = 'uid,pid';
-		if ($this->tableconf['requiredFields'])	{
-			$tmp = $this->tableconf['requiredFields'];
-			$requiredFields = ($tmp ? $tmp : $requiredFields);
-		}
-		$requiredListArray = GeneralUtility::trimExplode(',', $requiredFields);
-		$this->getTableObj()->setRequiredFieldArray($requiredListArray);
+		if ($result) {
+			$tablename = $this->getTablename();
+			$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
+			$this->tableconf = $cnf->getTableConf('static_countries');
+			$this->getTableObj()->setDefaultFieldArray(array('uid'=>'uid', 'pid'=>'pid'));
+			$this->getTableObj()->setTCAFieldArray('static_countries');
 
-		if (is_array($this->tableconf['generatePath.']) &&
-			$this->tableconf['generatePath.']['type'] == 'tablefields' &&
-			is_array($this->tableconf['generatePath.']['field.'])
-			)	{
-			$addRequiredFields = array();
-			foreach ($this->tableconf['generatePath.']['field.'] as $field => $value)	{
-				$addRequiredFields[] = $field;
+			$requiredFields = 'uid,pid';
+			if ($this->tableconf['requiredFields']) {
+				$tmp = $this->tableconf['requiredFields'];
+				$requiredFields = ($tmp ? $tmp : $requiredFields);
 			}
-			$this->getTableObj()->addRequiredFieldArray ($addRequiredFields);
+			$requiredListArray = GeneralUtility::trimExplode(',', $requiredFields);
+			$this->getTableObj()->setRequiredFieldArray($requiredListArray);
+
+			if (is_array($this->tableconf['generatePath.']) &&
+				$this->tableconf['generatePath.']['type'] == 'tablefields' &&
+				is_array($this->tableconf['generatePath.']['field.'])
+				) {
+				$addRequiredFields = array();
+				foreach ($this->tableconf['generatePath.']['field.'] as $field => $value) {
+					$addRequiredFields[] = $field;
+				}
+				$this->getTableObj()->addRequiredFieldArray($addRequiredFields);
+			}
 		}
+
+		return $result;
 	} // init
 
 
-	public function isoGet ($country_code, $where, $fields='') {
-		if (!$fields)	{
+	public function isoGet ($country_code, $where = '', $fields = '') {
+
+		if (!$fields) {
 			$rc = $this->dataArray[$country_code];
 		}
 		if (!$rc || $where) {
-			if ($country_code)	{
-				$whereString = 'cn_iso_3 = '.$GLOBALS['TYPO3_DB']->fullQuoteStr($country_code, $this->getTableObj()->name);
+			if ($country_code) {
+				$whereString = 'cn_iso_3 = ' . $GLOBALS['TYPO3_DB']->fullQuoteStr($country_code, $this->getTableObj()->name);
 			} else {
 				$whereString = '1=1';
 			}
-			if ($where)	{
-				$whereString .= ' AND '.$where;
+			if ($where) {
+				$whereString .= ' AND ' . $where;
 			}
 
-			$whereString .= ' '.$this->getTableObj()->enableFields();
+			$whereString .= ' ' . $this->getTableObj()->enableFields();
 			$fields = ($fields ? $fields : '*');
 			// Fetching the products
 
 			$res = $this->getTableObj()->exec_SELECTquery($fields, $whereString);
-			if ($country_code)	{
+			if ($country_code) {
 				$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
 			 	$rc = $row;
-			 	if ($row)	{
+			 	if ($row) {
 			 		$this->dataArray[$row['cn_iso_3']] = $row;
 			 	}
 			} else {
-				while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))	{
-					$rc []= $this->dataArray[$row['uid']] = $row;
+				while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+					$rc[]= $this->dataArray[$row['uid']] = $row;
 				}
 			}
 			$GLOBALS['TYPO3_DB']->sql_free_result($res);
 		}
 		return $rc;
 	}
-
 }
 
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/class.tx_ttproducts_country.php'])	{
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/class.tx_ttproducts_country.php']) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/class.tx_ttproducts_country.php']);
 }
-
 
 

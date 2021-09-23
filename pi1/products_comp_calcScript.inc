@@ -26,3 +26,4 @@ $compPercent = 100/(1-$feePercent/100)-100;		// The compensation percentage.
 $this->basket->calculatedArray['priceNoTax']['payment'] = $baseAmount/100*$compPercent;		// Add the amount to the no_tax total
 $this->basket->calculatedArray['priceTax']['payment'] = $this->basket->calculatedArray['priceNoTax']['payment'] * (1+$this->basket->conf['payment.']['TAXpercentage']/100);		// ..and add the amount to the tax total + tax of the amount, if any
 
+?>

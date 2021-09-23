@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2006-2009 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2012 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -36,6 +36,7 @@
  *
  */
 
+ 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
@@ -50,83 +51,118 @@ class tx_ttproducts_config implements \TYPO3\CMS\Core\SingletonInterface {
 	 */
 	public function init ($conf, $config) {
 		$this->conf = $conf;
+
 		$this->config = $config;
 		$this->bHasBeenInitialised = true;
 	} // init
 
 
-	public function needsInit ()	{
+	public function needsInit () {
 		return !$this->bHasBeenInitialised;
 	}
 
 
-	public function getConf ()	{
-		return $this->conf;
+	public function setConf ($key, $value) {
+		if ($key != '') {
+			$this->conf[$key] = $value;
+		} else {
+			$this->conf = $value;
+		}
 	}
 
 
-	public function getConfig ()	{
+	public function getConf () {
+		$result = $this->conf;
+		if (self::needsInit()) {
+			$result = false;
+		}
+
+		return $result;
+	}
+
+
+	public function setConfig ($value) {
+		$this->config = $value;
+	}
+
+
+	public function getConfig () {
 		return $this->config;
 	}
 
 
-	public function getUseArticles ()	{
-		$rc = $this->conf['useArticles'];
-		return $rc;
+	public function getUseArticles () {
+		$result = false;
+		$conf = $this->getConf();
+		if (isset($conf) && is_array($conf)) {
+			$result = $conf['useArticles'];
+		}
+		return $result;
 	}
 
 
-	public function getTableDesc ($functablename, $type='')	{
+	public function getTableDesc ($functablename, $type = '') {
 		$tableDesc = array();
-		if (is_array($this->conf['table.']) &&
-			is_array($this->conf['table.'][$functablename.'.'])
-			)	{
-			$tableDesc = $this->conf['table.'][$functablename.'.'];
+		if (
+			is_array($this->conf['table.']) &&
+			is_array($this->conf['table.'][$functablename . '.'])
+		) {
+			$tableDesc = $this->conf['table.'][$functablename . '.'];
 		}
 
-		if ($type)	{
-			$rc = $tableDesc[$type];
+		if ($type) {
+			$result = $tableDesc[$type];
 		} else {
-			$rc = $tableDesc;
+			$result = $tableDesc;
 		}
-		return $rc;
+		return $result;
 	}
 
 
-	public function getTableName ($functablename)	{
-		if (isset($this->conf['table.']) && is_array($this->conf['table.']) && isset($this->conf['table.'][$functablename]))	{
-			$rc = $this->conf['table.'][$functablename];
+	public function getTableName ($functablename) {
+		if (
+			isset($this->conf['table.']) &&
+			is_array($this->conf['table.']) &&
+			isset($this->conf['table.'][$functablename])
+		) {
+			$result = $this->conf['table.'][$functablename];
 		} else {
-			$rc = $functablename;
+			$result = $functablename;
 		}
-		return $rc;
+		return $result;
 	}
 
 
-	public function getSpecialConf ($type, $tablename='', $theCode='')	{
+	public function getSpecialConf ($type, $tablename = '', $theCode = '') {
 		$specialConf = array();
 
-		if (is_array($this->conf[$type.'.']))	{
+		if (isset($this->conf[$type . '.'])) {
 
-			if ($tablename != '' && is_array($this->conf[$type.'.'][$tablename.'.']))	{
-				if (is_array($this->conf[$type.'.'][$tablename.'.']['ALL.']))	{
-					$specialConf = $this->conf[$type.'.'][$tablename.'.']['ALL.'];
+			if ($tablename != '' && isset($this->conf[$type . '.'][$tablename . '.'])) {
+				if (
+					is_array($this->conf[$type . '.'][$tablename . '.']['ALL.'])
+				) {
+					$specialConf = $this->conf[$type . '.'][$tablename . '.']['ALL.'];
 				}
-				if ($theCode &&
-					is_array($this->conf[$type.'.'][$tablename.'.'][$theCode.'.']))	{
-					$tempConf = $this->conf[$type.'.'][$tablename.'.'][$theCode.'.'];
+				if (
+					$theCode &&
+					isset($this->conf[$type . '.'][$tablename . '.'][$theCode . '.'])
+				) {
+					$tempConf = $this->conf[$type . '.'][$tablename . '.'][$theCode . '.'];
 					tx_div2007_core::mergeRecursiveWithOverrule($specialConf, $tempConf);
 				}
-				if ($specialConf['orderBy'] == '{$plugin.'.TT_PRODUCTS_EXT.'.orderBy}')	{
+				if ($specialConf['orderBy'] == '{$plugin.' . TT_PRODUCTS_EXT . '.orderBy}') {
 					$specialConf['orderBy'] = '';
 				}
 			} else {
-				if (is_array($this->conf[$type.'.']['ALL.']))	{
-					$specialConf = $this->conf[$type.'.']['ALL.'];
+				if (isset($this->conf[$type . '.']['ALL.'])) {
+					$specialConf = $this->conf[$type . '.']['ALL.'];
 				}
-				if ($theCode &&
-					is_array($this->conf[$type.'.'][$theCode.'.']))	{
-					$tempConf = $this->conf[$type.'.'][$theCode.'.'];
+				if (
+					$theCode &&
+					isset($this->conf[$type . '.'][$theCode . '.'])
+				) {
+					$tempConf = $this->conf[$type . '.'][$theCode . '.'];
 					tx_div2007_core::mergeRecursiveWithOverrule($specialConf, $tempConf);
 				}
 			}
@@ -135,40 +171,50 @@ class tx_ttproducts_config implements \TYPO3\CMS\Core\SingletonInterface {
 	}
 
 
-	public function getTableConf ($functablename, $theCode='')	{
+	public function getTableConf ($functablename, $theCode = '') {
 		$tableConf = $this->getSpecialConf('conf', $functablename, $theCode);
 		return $tableConf;
 	}
 
 
-	public function getCSSConf ($functablename, $theCode='')	{
+	public function getCSSConf ($functablename, $theCode = '') {
 		$cssConf = $this->getSpecialConf('CSS', $functablename, $theCode);
 
 		return $cssConf;
 	}
 
 
-	public function getFormConf ($theCode='')	{
-		$cssConf = $this->getSpecialConf('form', '', $theCode);
+	public function getJsConf ($theCode = '') {
+		$result = $this->getSpecialConf('js', '', $theCode);
 
-		return $cssConf;
+		return $result;
 	}
 
 
-	public function getViewControlConf ($theCode)	{
+	public function getFormConf ($theCode = '') {
+		$result = $this->getSpecialConf('form', '', $theCode);
+
+		return $result;
+	}
+
+
+	public function getViewControlConf ($theCode) {
 		$viewConf = $this->getSpecialConf('control', '', $theCode);
 
 		return $viewConf;
 	}
 
 
-	public function getTypeConf ($type, $feature, $detail='') {
+	public function getTypeConf ($type, $feature, $detail = '') {
 
 		$rc = array();
 
 		if (is_array($this->conf[$type . '.'])) {
 			if ($detail != '') {
-				if (isset($this->conf[$type . '.'][$feature . '.']) && is_array($this->conf[$type . '.'][$feature . '.'])) {
+				if (
+					isset($this->conf[$type . '.'][$feature . '.']) &&
+					is_array($this->conf[$type . '.'][$feature . '.'])
+				) {
 					if (isset($this->conf[$type . '.'][$feature . '.'][$detail])) {
 						$rc = $this->conf[$type . '.'][$feature . '.'][$detail];
 					} else if (isset($this->conf[$type . '.'][$feature . '.'][$detail . '.'])) {
@@ -190,15 +236,21 @@ class tx_ttproducts_config implements \TYPO3\CMS\Core\SingletonInterface {
 	}
 
 
-	public function getBasketConf ($feature, $detail='')	{
-		$rc = $this->getTypeConf('basket', $feature, $detail);
-		return $rc;
+	public function getBasketConf ($feature, $detail = '') {
+		$result = $this->getTypeConf('basket', $feature, $detail);
+		return $result;
 	}
 
 
-	public function getFinalizeConf ($feature, $detail='')	{
-		$rc = $this->getTypeConf('finalize', $feature, $detail);
-		return $rc;
+	public function getFinalizeConf ($feature, $detail = '') {
+		$result = $this->getTypeConf('finalize', $feature, $detail);
+		return $result;
+	}
+
+
+	public function getDownloadConf ($feature, $detail = '') {
+		$result = $this->getTypeConf('download', $feature, $detail);
+		return $result;
 	}
 
 
@@ -218,12 +270,12 @@ class tx_ttproducts_config implements \TYPO3\CMS\Core\SingletonInterface {
 	}
 
 
-	public function getTranslationFields ($tableConf)	{
+	public function getTranslationFields ($tableConf) {
 		$fieldArray = array();
-		if (is_array($tableConf['language.']) && $tableConf['language.']['type'] == 'field')	{
+		if (is_array($tableConf['language.']) && $tableConf['language.']['type'] == 'field') {
 			$langConf = $tableConf['language.']['field.'];
-			if (is_array($langConf))	{
-				foreach ($langConf as $field => $langfield)	{
+			if (is_array($langConf)) {
+				foreach ($langConf as $field => $langfield) {
 					$fieldArray[$field] = $langfield;
 				}
 			}
@@ -232,17 +284,17 @@ class tx_ttproducts_config implements \TYPO3\CMS\Core\SingletonInterface {
 	}
 
 
-	public function getImageFields ($tableConf)	{
+	public function getImageFields ($tableConf) {
 		$retArray = array();
 
 		$generateArray = array('generateImage', 'generatePath');
-		foreach ($generateArray as $k => $generate)	{
-			if (is_array($tableConf) && is_array($tableConf[$generate.'.'])) {
-				$genPartArray = $tableConf[$generate.'.'];
-				if ($genPartArray['type'] == 'tablefields')	{
+		foreach ($generateArray as $k => $generate) {
+			if (is_array($tableConf) && is_array($tableConf[$generate . '.'])) {
+				$genPartArray = $tableConf[$generate . '.'];
+				if ($genPartArray['type'] == 'tablefields') {
 					$fieldArray = $genPartArray['field.'];
-					if (is_array($fieldArray))	{
-						foreach ($fieldArray as $field => $count)	{
+					if (is_array($fieldArray)) {
+						foreach ($fieldArray as $field => $count) {
 							$retArray[] = $field;
 						}
 					}
@@ -257,10 +309,17 @@ class tx_ttproducts_config implements \TYPO3\CMS\Core\SingletonInterface {
 	 * Returns true if the item has the $check value checked
 	 *
 	 */
-	public function hasConfig (&$row, $check)  {
+	public function hasConfig (
+		&$row,
+		$check,
+		$configField = 'config'
+	) {
 		$hasConfig = false;
-		$config = GeneralUtility::xml2array($row['config']);
-		$hasConfig = tx_div2007_ff::get($config, $check);
+
+		if (isset($row[$configField])) {
+			$config = GeneralUtility::xml2array($row[$configField]);
+			$hasConfig = \JambageCom\Div2007\Utility\FlexformUtility::get($config, $check);
+		}
 
 		return $hasConfig;
 	}
@@ -288,30 +347,30 @@ class tx_ttproducts_config implements \TYPO3\CMS\Core\SingletonInterface {
 	}
 
 
-	public function getAJAXConf ()	{
-		$rc = array();
-		if (isset($this->conf['ajax.']) && is_array($this->conf['ajax.']['conf.']))	{
-			$rc = $this->conf['ajax.']['conf.'];
+	public function getAJAXConf () {
+		$result = array();
+		if (isset($this->conf['ajax.']) && is_array($this->conf['ajax.']['conf.'])) {
+			$result = $this->conf['ajax.']['conf.'];
 		}
-		return $rc;
+		return $result;
 	}
 
 
 	public function getTemplateFile ($theCode) {
-		$rc = '';
+		$result = '';
 
-		if (is_array($this->conf['templateFile.']) && ($this->conf['templateFile.'][$theCode]))	{
-			$rc = $this->conf['templateFile.'][$theCode];
+		if (
+			is_array($this->conf['templateFile.']) &&
+			($this->conf['templateFile.'][$theCode])
+		) {
+			$result = $this->conf['templateFile.'][$theCode];
 		} else {
-			$rc = $this->conf['templateFile'];
+			$result = $this->conf['templateFile'];
 		}
 
-		return $rc;
+		return $result;
 	}
 
-
-	public function mergeAJAX ($ajaxconf)	{
-	}
 }
 
 

@@ -2,7 +2,7 @@
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2005-2007 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2012 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -36,15 +36,14 @@
  *
  */
 
-
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
 
 class tx_ttproducts_page_view extends tx_ttproducts_category_base_view {
-	public $noteArray = array(); 	// array of pages with notes
-	public $piVar = 'pid';
-	public $pageAsCategory;		// > 0 if pages are used as categories
+	var $noteArray = array(); 	// array of pages with notes
+	var $piVar = 'pid';
+	var $pageAsCategory;		// > 0 if pages are used as categories
 
 	/**
 	 * Template marker substitution
@@ -58,25 +57,76 @@ class tx_ttproducts_page_view extends tx_ttproducts_category_base_view {
 	 * 		 			for the tt_producst record, $row
 	 * @access private
 	 */
-	public function getMarkerArray (&$markerArray, $markerKey, $category, $pid, $imageNum=0, $imageRenderObj='image', &$viewCatTagArray, $forminfoArray=array(), $pageAsCategory=0, $theCode, $basketExtra, $id, $prefix,$linkWrap='')	{
+	public function getMarkerArray (
+		&$markerArray,
+		$markerKey,
+		$category,
+		$pid,
+		$imageNum=0,
+		$imageRenderObj = 'image',
+		&$viewCatTagArray,
+		$forminfoArray = array(),
+		$pageAsCategory = 0,
+		$theCode,
+		$basketExtra,
+		$basketRecs,
+		$id,
+		$prefix,
+		$linkWrap = ''
+	) {
+		$functablename = $this->modelObj->getFuncTablename();
 		$row = $this->modelObj->get($pid);
-		$imageObj = GeneralUtility::makeInstance('tx_ttproducts_field_image_view');
-
-			// Get image
-		$imageObj->getRowMarkerArrayEnhanced($this->modelObj->getFuncTablename(), $row, $this->marker, $markerArray, $pid, $imageNum, $imageRenderObj, $viewCatTagArray, $theCode, $id, $prefix, '', $linkWrap);
+// 		$imageObj = GeneralUtility::makeInstance('tx_ttproducts_field_image_view');
+//
+// 			// Get image
+// 		$imageObj->getRowMarkerArrayEnhanced(
+// 			$functablename,
+// 			$row,
+// 			$this->marker,
+// 			$markerArray,
+// 			$pid,
+// 			$imageNum,
+// 			$imageRenderObj,
+// 			$viewCatTagArray,
+// 			$theCode,
+// 			$id,
+// 			$prefix,
+// 			'',
+// 			$linkWrap
+// 		);
 
 		$pageCatTitle = htmlentities($row['title'], ENT_QUOTES, 'UTF-8');
-		$this->setMarkerArrayCatTitle ($markerArray, $pageCatTitle, $prefix);
-		$markerArray['###'.$prefix.$this->marker.'_SUBTITLE###'] = htmlentities($row['subtitle'], ENT_QUOTES, 'UTF-8');
+		$this->setMarkerArrayCatTitle($markerArray, $pageCatTitle, $prefix);
+		$markerArray['###' . $prefix . $this->marker . '_SUBTITLE###'] =
+			htmlentities(
+				$row['subtitle'],
+				ENT_QUOTES,
+				'UTF-8'
+			);
 
-		parent::getRowMarkerArray($row, $markerKey, $markerArray, $variantFieldArray, $variantMarkerArray, $viewCatTagArray, $theCode, $basketExtra, true, '', $imageNum, $imageRenderObj, $id, $prefix);
+		parent::getRowMarkerArray(
+			$functablename,
+			$row,
+			$markerKey,
+			$markerArray,
+			$variantFieldArray,
+			$variantMarkerArray,
+			$viewCatTagArray,
+			$theCode,
+			$basketExtra,
+			$basketRecs,
+			true,
+			'',
+			$imageNum,
+			$imageRenderObj,
+			$id,
+			$prefix
+		);
 	}
 }
 
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_page_view.php'])	{
+if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_page_view.php']) {
 	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_page_view.php']);
 }
-
-
 

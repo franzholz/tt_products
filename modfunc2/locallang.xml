@@ -6,7 +6,7 @@
 	</meta>
 	<data type="array">
 		<languageKey index="default" type="array">
-			<label index="title">Move Items</label>
+			<label index="title">Create Records in Alternative Languages</label>
 			<label index="only_admin">These functions are only available for admins.</label>
 			<label index="pid_src">The source id is %d.</label>
 			<label index="start">Start the generation of the records!</label>
@@ -15,7 +15,7 @@
 			<label index="no_alternative_product">No product in alternative language has been found for these uid</label>
 		</languageKey>
 		<languageKey index="de" type="array">
-			<label index="title">Produkte verschieben</label>
+			<label index="title">Erzeuge Datensätze in alternativen Sprachen</label>
 			<label index="only_admin">Diese Funktionen sind nur für Administratoren verfügbar.</label>
 			<label index="pid_src">Die Ausgangs Seiten-Id ist %d.</label>
 			<label index="start">Starte mit dem Erzeugen der Datensätze!</label>

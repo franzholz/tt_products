@@ -7,11 +7,14 @@
 includeLibs.tt_products = EXT:tt_products/pi1/class.tx_ttproducts_pi1.php
 includeLibs.tt_products_user_int =  EXT:tt_products/control/class.tx_ttproducts_control_user_int.php
 
+## <INCLUDE_TYPOSCRIPT: source="FILE: EXT:tt_products/static/share/setup.txt">: TODO
+
 ## This enables the tt_content.list item to display the product plugins:
 plugin.tt_products >
 plugin.tt_products = USER
 plugin.tt_products {
   userFunc = tx_ttproducts_pi1->main
+  test = nothing
   templateFile = {$plugin.tt_products.file.templateFile}
   defaultSetup = 1
   fe = 1
@@ -127,10 +130,12 @@ plugin.tt_products {
 
   NoSingleViewOnList = {$plugin.tt_products.NoSingleViewOnList}
   listViewOnSearch = {$plugin.tt_products.listViewOnSearch}
+  downloadViewOnlyProductsFal = {$plugin.tt_products.downloadViewOnlyProductsFal}
 
   PIDagb = {$plugin.tt_products.PIDagb}
   PIDrevocation = {$plugin.tt_products.PIDrevocation}
   PIDprivacy = {$plugin.tt_products.PIDprivacy}
+
   PIDinfo = {$plugin.tt_products.PIDinfo}
   PIDfinalize = {$plugin.tt_products.PIDfinalize}
   PIDpayment = {$plugin.tt_products.PIDpayment}
@@ -155,8 +160,10 @@ plugin.tt_products {
   defaultArticleID = {$plugin.tt_products.defaultArticleID}
   defaultProductID = {$plugin.tt_products.defaultProductID}
   defaultCategoryID = {$plugin.tt_products.defaultCategoryID}
+  defaultDAMCategoryID = {$plugin.tt_products.defaultDAMCategoryID}
 
   rootCategoryID = {$plugin.tt_products.rootCategoryID}
+  rootDAMCategoryID = {$plugin.tt_products.rootDAMCategoryID}
   rootPageID = {$plugin.tt_products.rootPageID}
   recursive = {$plugin.tt_products.recursive}
   domain = {$plugin.tt_products.domain}
@@ -180,6 +187,7 @@ plugin.tt_products {
   TAXincluded = {$plugin.tt_products.TAXincluded}
   TAXmode = {$plugin.tt_products.TAXmode}
   TAXrates = {$plugin.tt_products.TAXrates}
+  priceTAXnotVarying = {$plugin.tt_products.priceTAXnotVarying}
 
   lockLoginUserInfo = {$plugin.tt_products.lockLoginUserInfo}
   editLockedLoginInfo = {$plugin.tt_products.editLockedLoginInfo}
@@ -249,6 +257,8 @@ plugin.tt_products {
   AGBtarget = {$plugin.tt_products.AGBtarget}
   AGBattachment = {$plugin.tt_products.AGBattachment}
 
+  generateXML = {$plugin.tt_products.generateXML}
+  XMLdestination = {$plugin.tt_products.XMLdestination}
   generateCSV = {$plugin.tt_products.generateCSV}
   CSVdestination = {$plugin.tt_products.CSVdestination}
   CSVfields = {$plugin.tt_products.CSVfields}
@@ -330,8 +340,7 @@ plugin.tt_products {
 
   conf.tt_products.ALL {
     orderBy = title
-    requiredFields = uid,pid,category,price,price2,discount,discount_disable,directcost,graduated_price_uid,tax,tax_id,inStock,unit_factor,weight
-
+    requiredFields = uid,pid,category,price,price2,discount,discount_disable,directcost,graduated_price_uid,tax,inStock,unit_factor,weight
     language.type = table
     language.table = tt_products_language
     functions {
@@ -351,6 +360,7 @@ plugin.tt_products {
 	}
 	charRegExp = [[:blank:]]*
   }
+
 
   conf.tt_products.LIST {
 	field {
@@ -414,17 +424,6 @@ plugin.tt_products {
     }
  }
 
-
-  table.tt_products_graduated_price = tt_products_graduated_price
-  conf.tt_products_graduated_price.ALL {
-    language.type = noTranslation
-  }
-
-  table.tt_products_mm_graduated_price = tt_products_mm_graduated_price
-  conf.tt_products_mm_graduated_price.ALL {
-    language.type = noTranslation
-  }
-
   table.tt_products_texts = tt_products_texts
   conf.tt_products_texts.ALL {
     onlyChildsOfCurrent = 1
@@ -437,6 +436,32 @@ plugin.tt_products {
      requiredFields = uid,pid,title,subtitle,media
      language.type = table
      language.table = pages_language_overlay
+     hierarchytiers = 1
+  }
+
+  table.tx_dam = tx_dam
+  table.tx_dam {
+    category = category
+  }
+
+  conf.tx_dam.ALL {
+     language.type = noTranslation
+     orderBy = sorting
+     keyfield {
+	keywords =
+     }
+  }
+
+  table.tx_dam_cat = tx_dam_cat
+  table.tx_dam_cat {
+     leafFuncTables = tx_dam
+  }
+
+  conf.tx_dam_cat.ALL {
+     requiredFields = uid,pid
+     onlyChildsOfCurrent = 1
+     language.type = noTranslation
+     orderBy = sorting
      hierarchytiers = 1
   }
 
@@ -460,21 +485,30 @@ plugin.tt_products {
 
   debug = {$plugin.tt_products.debug}
   ajaxDebug = {$plugin.tt_products.ajaxDebug}
-  delivery	{
-  	0.image < .image
-  	0.image {
-  	file = EXT:tt_products/res/icons/fe/availableDemand.gif
-  	file.maxW = {$plugin.tt_products.maxW_single}
+  conf.tt_products.ALL.delivery = COA
+  conf.tt_products.ALL.delivery {
+    0.text = COA
+    0.text {
+        10 = TEXT
+        10.value = ###P_DELIVERY_AVAILABLE_DEMAND###
     }
-  	1.image < plugin.tt_products.delivery.0.image
-  	1.image {
-  	file = EXT:tt_products/res/icons/fe/availableImmediate.gif
+    0.image < .image
+    0.image {
+        file = EXT:tt_products/res/icons/fe/availableDemand.gif
+        file.maxW = {$plugin.tt_products.maxW_single}
     }
-  	2.image < plugin.tt_products.delivery.0.image
-  	2.image {
-  	file = EXT:tt_products/res/icons/fe/availableShort.gif
+    1 < plugin.tt_products.conf.tt_products.ALL.delivery.0
+    1.text.10.value = ###P_DELIVERY_AVAILABLE_IMMEDIATE###
+    1.image {
+        file = EXT:tt_products/res/icons/fe/availableImmediate.gif
+    }
+    2 < plugin.tt_products.conf.tt_products.ALL.delivery.0
+    2.text.10.value = ###P_DELIVERY_AVAILABLE_SHORT###
+    2.image {
+        file = EXT:tt_products/res/icons/fe/availableShort.gif
     }
   }
+
 
   _CSS_DEFAULT_STYLE (
       .tx-ttproducts-pi1-wrap1 {font-family: Verdana, Arial, Helvetica, sans-serif; font-size: 12px; color: #000; }
@@ -497,9 +531,14 @@ plugin.tt_products {
 	}
   }
 
+  BASKETQTY = USER_INT
+  BASKETQTY {
+    userFunc = JambageCom\TtProducts\Api\BasketApi->getQuantity
+  }
+
   RATING = USER_INT
   RATING {
-    extkey = ratings
+	extkey = ratings
     api = Netcreators\Ratings\Api\Api
     userFunc = Netcreators\Ratings\Controller\RegisterPluginController->main
   }
@@ -550,17 +589,13 @@ plugin.tt_products {
   }
 
   regExCheck.email = ^[A-Z0-9a-z._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,64}$
-
 }
-
-
-[traverse[request.getParsedBody()['ttp_basket'] matches "/.+/"]
-plugin.tt_products = USER_INT
-[global]
-
 
 [traverse(request.getQueryParams(), 'tt_products/sword') matches "/.+/"]
 plugin.tt_products = USER_INT
+plugin.tt_products {
+   test = sword Test 2
+}
 
 [traverse(request.getQueryParams(), 'sword') matches "/.+/"]
 plugin.tt_products = USER_INT

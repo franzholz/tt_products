@@ -9,7 +9,7 @@
 ***************************************************************
 *  Copyright notice
 *
-*  (c) 2009-2010 POB EDV-Systeme <info@pob.com>
+*  (c) 2009-2016 POB EDV-Systeme <info@pob.com>
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -67,9 +67,7 @@
 	<!-- ###ITEM_CATEGORY_AND_ITEMS### begin -->
 		<!-- ###ITEM_CATEGORY### begin -->
 			<tr>
-				<td colspan=4><br><font size=3>###GW1B###<strong>###CATEGORY_TITLE###</strong>###GW1E###</font>
-    <br>
-
+				<td colspan=4><br><font size=3>###GW1B###<strong>###CATEGORY_TITLE###</strong>###GW1E###</font><br>
 				</td>
 			</tr>
 		<!-- ###ITEM_CATEGORY### end -->
@@ -79,7 +77,6 @@
 			</tr>
 			<!-- ###ITEM_SINGLE### begin-->
 			<tr>
-<!--  List of category tags: ###ALLCATTAGS###  -->
 			<td colspan=4>
 			<form method="post" action="###FORM_URL###" name="###FORM_NAME###">
 			<table border="0" cellspacing="0" cellpadding="1" width="100%" id="table2">
@@ -102,6 +99,22 @@
 					<td valign=top>###PRODUCT_IMAGE###</td>
 					<td></td>
 					<td valign=top>###GW2B######PRODUCT_NOTE######GW2E###<br>
+
+						<!-- ###edit_variant_domain### begin -->
+						<b>###P_DOMAIN###</b> ###EDIT_VARIANT###
+						<br>
+						<!-- ###edit_variant_domain### end -->
+
+						<!-- ###edit_variant_width### begin -->
+						<b>###P_WIDTH###</b> ###EDIT_VARIANT###
+						<br>
+						<!-- ###edit_variant_width### end -->
+
+						<!-- ###edit_variant_height### begin -->
+						<b>###P_HEIGHT###</b> ###EDIT_VARIANT###
+						<br>
+						<!-- ###edit_variant_height### end -->
+
 						<!-- ###display_variant1### -->
 						###GW2B######P_COLOR### ###GW2E### <select style="font-size: 10px"
   						name="###FIELD_COLOR_NAME###" id="###PRODUCT_COLOR_ID###" onchange="###PRODUCT_COLOR_FUNCTION1###" rows="1">
@@ -163,19 +176,19 @@
 		    			<!-- ###display_variant11### -->
 
                         <br>###GW2B###<b>###LIST_ITEM_PRICE###</b> <strong> <font color=red><b id="###PRICE_TAX_ID###">###PRICE_TAX###</b>
-					###P_CURRENCY###</font></strong><strong><font color=red> </font></strong>
+					###P_CURRENCY###</font></strong>
 					###INCL_VAT###,&nbsp;###PLUS###
 					<b><a href="index.php?id=###PID_DELIVERY######LANGPARAM###">###SHIPPING###</a></b>###GW2E###<br>
 						###GW2B###(###NO_VAT### <b id="###PRICE_NO_TAX_ID###">###PRICE_NO_TAX###</b>) (###VAT###
 					<b id="###PRICE_ONLY_TAX_ID###">###PRICE_ONLY_TAX###</b>)###GW2E###</td>
-					<td valign="top" nowrap align="right">###GW2B### ###LIST_ITEM_QUANTITY### ###GW2E###<input size="3" maxlength="4" type="text" name="###FIELD_NAME###" value="###FIELD_QTY###"><br>
+					<td valign="top" nowrap="nowrap" align="right">###GW2B### ###LIST_ITEM_QUANTITY### ###GW2E###<input size="3" maxlength="4" type="text" name="###FIELD_NAME###" value="###FIELD_QTY###"><br>
 					<input type="submit" name="order3" value="###LIST_BUY_NOW###" onClick="if (!document.forms['###FORM_NAME###']['###FIELD_NAME###'].value!=''){document.forms['###FORM_NAME###']['###FIELD_NAME###'].value=1;};"><br>
 
-				<!-- ###FE_GROUP_1_TEMPLATE### begin -->
+				<!-- ###LOGIN_TEMPLATE### begin -->
 					<!-- ###LINK_MEMO_ADD### begin -->
 					<img name="addtomemo" src="###PATH_FE_REL###res/icons/fe/addmemo.png" title="auf die Merkliste">
 					<!-- ###LINK_MEMO_ADD### end -->
-				<!-- ###FE_GROUP_1_TEMPLATE### end -->
+				<!-- ###LOGIN_TEMPLATE### end -->
 
 				<!--###LINK_ITEM###-->###GW1B###<b>###LIST_DETAIL###</b>###GW1E###<br><!--###LINK_ITEM###-->
 					</td>
@@ -184,10 +197,6 @@
 			</form>
 			</td>
 			</tr>
-<tr><td>
-
-</td></tr>
-
 			<!-- ###ITEM_SINGLE### end -->
 		<!-- ###ITEM_LIST### end -->
 	<!-- ###ITEM_CATEGORY_AND_ITEMS### end -->
@@ -202,6 +211,184 @@
 <p>
 <br>
 <!-- ###ITEM_LIST_TEMPLATE### end -->
+
+
+
+
+<br><br><br><br><hr><br><br><br>
+<h3>ITEM_LIST_RELATED_BY_SYSTEMCATEGORY_TEMPLATE</h3>
+<em>This subpart is used to display the regular list of products having the same system category.</em><br>
+<br>
+<br>
+
+
+<!-- ###ITEM_LIST_RELATED_BY_SYSTEMCATEGORY_TEMPLATE### begin
+	This subpart is used to display the regular list of products. It's also used by search-results.
+-->
+<table border="0" cellspacing="0" cellpadding="1" width="100%" id="table1">
+	<tr>
+		<td><div align="left"><!--###LINK_PREV###-->###GW2B###<b>&lt;&lt; ###LIST_PREV_PAGE###</b>###GW2E###<!--###LINK_PREV###--></div></td>
+		<td></td>
+		<td width="80%"><!-- ###LINK_BROWSE### begin -->
+			[ ###BROWSE_LINKS### ]
+			<!-- ###LINK_BROWSE### end-->
+		</td>
+		<td><div align="right"><!--###LINK_NEXT###-->###GW2B###<b>###LIST_NEXT_PAGE###
+			&gt;&gt;</b>###GW2E###<!--###LINK_NEXT###--></div></td>
+	</tr>
+	<tr>
+		<td><img src="clear.gif" width=100 height=1></td>
+		<td><img src="clear.gif" width=5 height=1></td>
+		<td><img src="clear.gif" width=300 height=1></td>
+		<td><img src="clear.gif" width=100 height=1></td>
+	</tr>
+	<!-- ###ITEM_CATEGORY_AND_ITEMS### begin -->
+		<!-- ###ITEM_CATEGORY### begin -->
+			<tr>
+				<td colspan=4><br><font size=3>###GW1B###<strong>###CATEGORY_TITLE###</strong>###GW1E###</font><br>
+				</td>
+			</tr>
+		<!-- ###ITEM_CATEGORY### end -->
+		<!-- ###ITEM_LIST### begin -->
+			<tr>
+				<td colspan=4><img src="clear.gif" width=1 height=6></td>
+			</tr>
+			<!-- ###ITEM_SINGLE### begin-->
+			<tr>
+			<td colspan=4>
+			<form method="post" action="###FORM_URL###" name="###FORM_NAME###">
+			<table border="0" cellspacing="0" cellpadding="1" width="100%" id="table2">
+				<tr>
+					<td><img src="clear.gif" width=100 height=1></td>
+					<td><img src="clear.gif" width=5 height=1></td>
+					<td><img src="clear.gif" width=300 height=1></td>
+					<td><img src="clear.gif" width=100 height=1></td>
+				</tr>
+				<tr>
+					<td colspan=4><img src="clear.gif" width=1 height=6></td>
+				</tr>
+				<tr>
+					<td colspan=4 bgcolor="###GC1###"><!--###LINK_ITEM###-->###GW1B###<b>###PRODUCT_TITLE###</b>###GW1E###<!--###LINK_ITEM###--></td>
+				</tr>
+				<tr>
+					<td valign=top>###PRODUCT_SMALLIMAGE###</td>
+				</tr>
+				<tr>
+					<td valign=top>###PRODUCT_IMAGE###</td>
+					<td></td>
+					<td valign=top>###GW2B######PRODUCT_NOTE######GW2E###<br>
+
+						<!-- ###edit_variant_domain### begin -->
+						<b>###P_DOMAIN###</b> ###EDIT_VARIANT###
+						<br>
+						<!-- ###edit_variant_domain### end -->
+
+						<!-- ###edit_variant_width### begin -->
+						<b>###P_WIDTH###</b> ###EDIT_VARIANT###
+						<br>
+						<!-- ###edit_variant_width### end -->
+
+						<!-- ###edit_variant_height### begin -->
+						<b>###P_HEIGHT###</b> ###EDIT_VARIANT###
+						<br>
+						<!-- ###edit_variant_height### end -->
+
+						<!-- ###display_variant1### -->
+						###GW2B######P_COLOR### ###GW2E### <select style="font-size: 10px"
+  						name="###FIELD_COLOR_NAME###" id="###PRODUCT_COLOR_ID###" onchange="###PRODUCT_COLOR_FUNCTION1###" rows="1">
+                        ###PRODUCT_COLOR###</select><br>
+						<!-- ###display_variant1### -->
+
+						<!-- ###display_variant6### -->
+						###GW2B######P_COLOR2### ###GW2E### <select style="font-size: 10px"
+  						name="###FIELD_COLOR2_NAME###" id="###PRODUCT_COLOR2_ID###" onchange="###PRODUCT_COLOR2_FUNCTION1###" rows="1">
+                        ###PRODUCT_COLOR2###</select><br>
+						<!-- ###display_variant6### -->
+
+						<!-- ###display_variant7### -->
+						###GW2B######P_COLOR3### ###GW2E### <select style="font-size: 10px"
+  						name="###FIELD_COLOR3_NAME###" id="###PRODUCT_COLOR3_ID###" onchange="###PRODUCT_COLOR3_FUNCTION1###" rows="1">
+                        ###PRODUCT_COLOR3###</select><br>
+						<!-- ###display_variant7### -->
+
+						<!-- ###display_variant2### -->
+		                ###GW2B######P_SIZE### ###GW2E### <select style="font-size: 10px"
+		    			name="###FIELD_SIZE_NAME###" id="###PRODUCT_SIZE_ID###" onchange="###PRODUCT_SIZE_FUNCTION1###" rows="1">
+		    			###PRODUCT_SIZE###</select><br>
+		    			<!-- ###display_variant2### -->
+
+		    			<!-- ###display_variant8### -->
+		    			###GW2B######P_WIDTH### ###GW2E### <select style="font-size: 10px"
+		    			name="###FIELD_SIZE2_NAME###" id="###PRODUCT_SIZE2_ID###" onchange="###PRODUCT_SIZE2_FUNCTION1###" rows="1">
+		    			###PRODUCT_SIZE2###</select><br>
+		    			<!-- ###display_variant8### -->
+
+		    			<!-- ###display_variant9### -->
+		    			###GW2B######P_HEIGHT### ###GW2E### <select style="font-size: 10px"
+		    			name="###FIELD_SIZE3_NAME###" id="###PRODUCT_SIZE3_ID###" onchange="###PRODUCT_SIZE3_FUNCTION1###" rows="1">
+		    			###PRODUCT_SIZE3###</select><br>
+		    			<!-- ###display_variant9### -->
+
+						<!-- ###display_variant4### -->
+		                ###GW2B######P_GRADINGS### ###GW2E### <select style="font-size: 10px"
+		    			name="###FIELD_GRADINGS_NAME###" id="###PRODUCT_GRADINGS_ID###" onchange="###PRODUCT_GRADINGS_FUNCTION1###" rows="1">
+		    			###PRODUCT_GRADINGS###</select><br>
+		    			<!-- ###display_variant4### -->
+
+		    			<!-- ###display_variant3### -->
+		    			###GW2B######P_DESCRIPTION### ###GW2E### <select style="font-size: 10px"
+		    			name="###FIELD_DESCRIPTION_NAME###" id="###PRODUCT_DESCRIPTION_ID###" onchange="###PRODUCT_DESCRIPTION_FUNCTION1###" rows="1">
+		    			###PRODUCT_DESCRIPTION###</select><br>
+		    			<!-- ###display_variant3### -->
+
+						<!-- ###display_variant10### -->
+		                ###GW2B######P_MATERIAL### ###GW2E### <select style="font-size: 10px"
+		    			name="###FIELD_MATERIAL_NAME###" id="###PRODUCT_MATERIAL_ID###" onchange="###PRODUCT_MATERIAL_FUNCTION1###" rows="1">
+		    			###PRODUCT_MATERIAL###</select><br>
+		    			<!-- ###display_variant10### -->
+
+		    			<!-- ###display_variant11### -->
+		    			###GW2B######P_QUALITY### ###GW2E### <select style="font-size: 10px"
+		    			name="###FIELD_QUALITY_NAME###" id="###PRODUCT_QUALITY_ID###" onchange="###PRODUCT_QUALITY_FUNCTION1###" rows="1">
+		    			###PRODUCT_QUALITY###</select><br>
+		    			<!-- ###display_variant11### -->
+
+                        <br>###GW2B###<b>###LIST_ITEM_PRICE###</b> <strong> <font color=red><b id="###PRICE_TAX_ID###">###PRICE_TAX###</b>
+					###P_CURRENCY###</font></strong>
+					###INCL_VAT###,&nbsp;###PLUS###
+					<b><a href="index.php?id=###PID_DELIVERY######LANGPARAM###">###SHIPPING###</a></b>###GW2E###<br>
+						###GW2B###(###NO_VAT### <b id="###PRICE_NO_TAX_ID###">###PRICE_NO_TAX###</b>) (###VAT###
+					<b id="###PRICE_ONLY_TAX_ID###">###PRICE_ONLY_TAX###</b>)###GW2E###</td>
+					<td valign="top" nowrap="nowrap" align="right">###GW2B### ###LIST_ITEM_QUANTITY### ###GW2E###<input size="3" maxlength="4" type="text" name="###FIELD_NAME###" value="###FIELD_QTY###"><br>
+					<input type="submit" name="order3" value="###LIST_BUY_NOW###" onClick="if (!document.forms['###FORM_NAME###']['###FIELD_NAME###'].value!=''){document.forms['###FORM_NAME###']['###FIELD_NAME###'].value=1;};"><br>
+
+				<!-- ###LOGIN_TEMPLATE### begin -->
+					<!-- ###LINK_MEMO_ADD### begin -->
+					<img name="addtomemo" src="###PATH_FE_REL###res/icons/fe/addmemo.png" title="auf die Merkliste">
+					<!-- ###LINK_MEMO_ADD### end -->
+				<!-- ###LOGIN_TEMPLATE### end -->
+
+				<!--###LINK_ITEM###-->###GW1B###<b>###LIST_DETAIL###</b>###GW1E###<br><!--###LINK_ITEM###-->
+					</td>
+				</tr>
+			</table>
+			</form>
+			</td>
+			</tr>
+			<!-- ###ITEM_SINGLE### end -->
+		<!-- ###ITEM_LIST### end -->
+	<!-- ###ITEM_CATEGORY_AND_ITEMS### end -->
+	<tr>
+		<td><div align="left"><!--###LINK_PREV###-->###GW2B###<b>&lt;&lt; ###LIST_PREV_PAGE###</b>###GW2E###<!--###LINK_PREV###--></div></td>
+		<td></td>
+		<td></td>
+		<td><div align="right"><!--###LINK_NEXT###-->###GW2B###<b>###LIST_NEXT_PAGE###
+			&gt;&gt;</b>###GW2E###<!--###LINK_NEXT###--></div></td>
+	</tr>
+</table>
+<p>
+<br>
+<!-- ###ITEM_LIST_RELATED_BY_SYSTEMCATEGORY_TEMPLATE### end -->
 
 
 
@@ -269,15 +456,15 @@
 						<!-- ###display_variant1### -->
 						###GW2B######P_COLOR### ###ARTICLE_COLOR######GW2E###<br>
 						<!-- ###display_variant1### -->
-		  <!-- ###display_variant2### -->
+						<!-- ###display_variant2### -->
 		    			###GW2B######P_SIZE### ###ARTICLE_SIZE######GW2E###<br>
-		  <!-- ###display_variant2### -->
+						<!-- ###display_variant2### -->
 			<span class="article_price">&#8364; ###PRICE_TAX###</span>
 			###ITEM_SINGLE_POST_HTML###
           <!-- ###ITEM_SINGLE### end -->
 
 					</td>
-					<td valign=top nowrap align=right>###GW2B###
+					<td valign=top nowrap="nowrap" align=right>###GW2B###
 					</td>
 				</tr>
 			</table>
@@ -298,101 +485,6 @@
 </table>
 <br>
 <!-- ###ITEM_LIST_RELATED_ARTICLES_TEMPLATE### end -->
-
-
-
-
-
-<br><br><br><br></p>
-<hr><br><br><br>
-<h3>ITEM_LIST_ACCESSORY_TEMPLATE</h3>
-<em>This subpart is used to display the regular list of articles.</em><br>
-<br>
-<br>
-
-<!-- ###ITEM_LIST_ACCESSORY_TEMPLATE### begin
-	This subpart is used to display the regular list of articles.
--->
-<table border="0" cellspacing="0" cellpadding="1" width=1 id="table1">
-	<tr>
-		<td><!--###LINK_PREV###-->###GW2B###<div align="left"><b>&lt;&lt; ###LIST_PREV_PAGE###</b></div>###GW2E###<!--###LINK_PREV###--></td>
-		<td></td>
-		<td></td>
-		<td><!--###LINK_NEXT###-->###GW2B###<div align="right"><b>###LIST_NEXT_PAGE###
-			&gt;&gt;</b></div>###GW2E###<!--###LINK_NEXT###--></td>
-	</tr>
-	<tr>
-		<td><img src="clear.gif" width=100 height=1></td>
-		<td><img src="clear.gif" width=5 height=1></td>
-		<td><img src="clear.gif" width=300 height=1></td>
-		<td><img src="clear.gif" width=100 height=1></td>
-	</tr>
-	<!-- ###ITEM_CATEGORY_AND_ITEMS### begin -->
-		<!-- ###ITEM_CATEGORY### begin -->
-			<tr>
-				<td colspan=4><br>###GW1B###<font size=3><strong>###CATEGORY_TITLE###</strong></font> ###GW1E###
-				<br>
-
-				</td>
-			</tr>
-		<!-- ###ITEM_CATEGORY### end -->
-		<!-- ###ITEM_PRODUCT_AND_ITEMS### begin -->
-		<!-- ###ITEM_PRODUCT### begin -->
-		<tr><td>This is the product title: ###PRODUCT_TITLE###</td></tr>
-		<!-- ###ITEM_PRODUCT### end -->
-		<!-- ###ITEM_LIST### begin -->
-			<tr>
-				<td colspan=4><img src="clear.gif" width=1 height=6></td>
-			</tr>
-			<!-- ###ITEM_SINGLE### begin-->
-			<tr>
-			<td colspan=4>
-			<table border="0" cellspacing="0" cellpadding="1" width=1 id="table2">
-				<tr>
-					<td><img src="clear.gif" width=100 height=1></td>
-					<td><img src="clear.gif" width=5 height=1></td>
-					<td><img src="clear.gif" width=300 height=1></td>
-					<td><img src="clear.gif" width=100 height=1></td>
-				</tr>
-				<tr>
-					<td colspan=4><img src="clear.gif" width=1 height=6></td>
-				</tr>
-				<tr>
-					<td colspan=4 bgcolor="###GC1###"><!--###LINK_ITEM###-->###GW2B###<b>###ARTICLE_TITLE###</b>###GW2E###<!--###LINK_ITEM###--></td>
-				</tr>
-					<td valign=top>###ARTICLE_IMAGE###</td>
-					<td></td>
-					<td valign=top>###GW2B######ARTICLE_NOTE######GW2E###<br>
-						<!-- ###display_variant1### -->
-						###GW2B######P_COLOR### ###ARTICLE_COLOR######GW2E###<br>
-						<!-- ###display_variant1### -->
-		  <!-- ###display_variant2### -->
-		    			###GW2B######P_SIZE### ###ARTICLE_SIZE######GW2E###<br>
-		  <!-- ###display_variant2### -->
-			###ITEM_SINGLE_POST_HTML###
-          <!-- ###ITEM_SINGLE### end -->
-
-					</td>
-					<td valign=top nowrap align=right>###GW2B###
-					</td>
-				</tr>
-			</table>
-			</td>
-			</tr>
-
-		<!-- ###ITEM_LIST### end -->
-	<!-- ###ITEM_PRODUCT_AND_ITEMS### end -->
-	<!-- ###ITEM_CATEGORY_AND_ITEMS### end -->
-	<tr>
-		<td><!--###LINK_PREV###-->###GW2B###<div align="left"><b>&lt;&lt; ###LIST_PREV_PAGE###</b></div>###GW2E###<!--###LINK_PREV###--></td>
-		<td></td>
-		<td></td>
-		<td><!--###LINK_NEXT###-->###GW2B###<div align="right"><b>###LIST_NEXT_PAGE###
-			&gt;&gt;</b></div>###GW2E###<!--###LINK_NEXT###--></td>
-	</tr>
-</table>
-<br>
-<!-- ###ITEM_LIST_ACCESSORY_TEMPLATE### end -->
 
 
 
@@ -422,8 +514,21 @@
 	<tr>
 		<td colspan=3><img src="clear.gif" width="1" height="6"></td>
 	</tr>
+	<!-- ###ITEM_CATEGORY### begin -->
+		<tr>
+			<td colspan=4>###CATEGORY_TITLE###</td>
+		</tr>
+	<!-- ###ITEM_CATEGORY### end -->
 	<tr>
 		<td colspan=3 bgcolor="###GC1###"><!--###LINK_ITEM###-->###GW2B###<b>###PRODUCT_TITLE###</b><br>###PRODUCT_SUBTITLE######GW2E###<!--###LINK_ITEM###--></td>
+	</tr>
+	<tr>
+		<td valign=top>###PRODUCT_SMALLIMAGE1###</td>
+	</tr>
+	<tr>
+		<td id="###ARTICLE_IMAGE_ID1###">
+				###ARTICLE_IMAGE1###
+		</td>
 	</tr>
 	<tr>
 		<td valign=top>###PRODUCT_IMAGE1###  ###PRODUCT_IMAGE1:PIX1###  ###PRODUCT_IMAGE2###</td>
@@ -438,11 +543,26 @@
 				###LIST_ITEM_NUMBER### ###PRODUCT_ITEMNUMBER###
 			###GW2E###<br>
 
-                        ###GW2B###<b>###LIST_ITEM_PRICE###</b> <strong> <font color=red><span id="###PRICE_TAX_ID###">###PRICE_TAX###</span>  ###P_CURRENCY###</font></strong><strong><font color=red> </font></strong>
+                        ###GW2B###<b>###LIST_ITEM_PRICE###</b> <strong> <font color=red><span id="###ARTICLE_PRICE_TAX_ID###">###ARTICLE_PRICE_TAX###</span>  ###P_CURRENCY###</font></strong><strong><font color=red> </font></strong>
 					###INCL_VAT###,&nbsp;###PLUS###
 					<b><a href="index.php?id=###PID_DELIVERY######LANGPARAM###">###SHIPPING###</a></b>###GW2E###<br>
-						###GW2B###(###NO_VAT### ###PRICE_NO_TAX###) (###VAT###
-					###PRICE_ONLY_TAX###)###GW2E###<br>
+						###GW2B###(###NO_VAT### <span id="###ARTICLE_PRICE_NO_TAX_ID###">###ARTICLE_PRICE_NO_TAX###</span>) (###VAT###
+					<span id="###ARTICLE_PRICE_ONLY_TAX_ID###">###PRICE_ONLY_TAX###</span>)###GW2E###<br>
+
+					<!-- ###edit_variant_domain### begin -->
+					<b>###P_DOMAIN###</b> ###EDIT_VARIANT###
+					<br>
+					<!-- ###edit_variant_domain### end -->
+
+					<!-- ###edit_variant_width### begin -->
+					<b>###P_WIDTH###</b> ###EDIT_VARIANT###
+					<br>
+					<!-- ###edit_variant_width### end -->
+
+					<!-- ###edit_variant_height### begin -->
+					<b>###P_HEIGHT###</b> ###EDIT_VARIANT###
+					<br>
+					<!-- ###edit_variant_height### end -->
 
 						<!-- ###display_variant1### -->
       <br>
@@ -515,18 +635,19 @@
 			<p>
 			###GW1B######P_DATASHEET######GW1E### <font size="1"><b><i>###PRODUCT_DATASHEET###</i></b></font>###ICON_DATASHEET###</p>
 			<!-- ###PRODUCT_LINK_DATASHEET### end -->
+		<br><em id="###BASKET_INPUT_ERROR_ID###" ></em><br>
 
 		###GW2B### ###LIST_ITEM_QUANTITY### ###GW2E###<input size="3" maxlength="4" type="text" name="###FIELD_NAME###" value="###FIELD_QTY###">
 
-            <!-- ###FE_GROUP_1_TEMPLATE### begin -->
+            <!-- ###LOGIN_TEMPLATE### begin -->
 				<!-- ###LINK_MEMO_ADD### begin -->
 				<img name="addtomemo" src="###PATH_FE_REL###res/icons/fe/addmemo.png" title="auf die Merkliste">
 				<!-- ###LINK_MEMO_ADD### end -->
-			<!-- ###FE_GROUP_1_TEMPLATE### end -->
-				<input type="Submit" name="order" value="###LIST_BUY_NOW###" onClick="if(!document.forms['###FORM_NAME###']['###FIELD_NAME###'].value!=''){document.forms['###FORM_NAME###']['###FIELD_NAME###'].value=1;};">
+			<!-- ###LOGIN_TEMPLATE### end -->
+				<input type="submit" name="order" value="###LIST_BUY_NOW###" onClick="if(!document.forms['###FORM_NAME###']['###FIELD_NAME###'].value!=''){document.forms['###FORM_NAME###']['###FIELD_NAME###'].value=1;};">
 			<br><br>
 
-		<input type="button" name="warenkorb" value="###BASKET_GOTO###" onclick="self.location.href='###FORM_URL_BASKET###';">
+		<input id="###BASKET_INTO_ID###" type="button" name="warenkorb" value="###BASKET_GOTO###" onclick="self.location.href='###FORM_URL_BASKET###';">
 
 			###GW1B###<a href="mailto:###SHOPADMIN_EMAIL###?subject=###P_EMAIL_SUBJECT### ###PRODUCT_ITEMNUMBER###&amp;body=###P_EMAIL_BODY### ###PRODUCT_TITLE### %0A###P_EMAIL_QUESTION### "><b>###P_EMAIL###</b></a>###GW1E###  <br>
 
@@ -540,7 +661,7 @@
 ###COMMENT### <br>
 ###PRODUCT_RELATED_UID### <br>
 ###PRODUCT_RELATED_ARTICLES### <br>
-
+###PRODUCT_RELATED_SYSCAT### <br>
 
 ###GW2B###
 <!--###LINK_ITEM###-->
@@ -667,7 +788,7 @@
 			<!-- ###PRODUCT_LINK_DATASHEET### end -->
 
 		###GW2B### ###LIST_ITEM_QUANTITY### ###GW2E###<input size="3" maxlength="4" type="text" name="###FIELD_NAME###" value="###FIELD_QTY###">
-				<input type="Submit" name="order" value="###LIST_BUY_NOW###" onClick="if(!document.forms['###FORM_NAME###']['###FIELD_NAME###'].value!=''){document.forms['###FORM_NAME###']['###FIELD_NAME###'].value=1;};">
+				<input type="submit" name="order" value="###LIST_BUY_NOW###" onClick="if(!document.forms['###FORM_NAME###']['###FIELD_NAME###'].value!=''){document.forms['###FORM_NAME###']['###FIELD_NAME###'].value=1;};">
 
 			<br><br>
 
@@ -686,54 +807,6 @@
 <br>
 
 <!-- ###ITEM_SINGLE_DISPLAY_RECORDINSERT### end -->
-
-
-<br><br><br><br><hr><br><br><br>
-<h3>ARTICLE_SINGLE_DISPLAY</h3>
-<em>This subpart is used to display single products.</em><br>
-<br>
-<br>
-
-<!-- ###ARTICLE_SINGLE_DISPLAY### begin
-	This subpart is used to display single products.
--->
-
-<table border="0" cellspacing="0" cellpadding="1" width=1>
-	<tr>
-		<td><img src="clear.gif" width="100" height="1"></td>
-		<td><img src="clear.gif" width="5" height="1"></td>
-		<td><img src="clear.gif" width="300" height="1"></td>
-	</tr>
-	<tr>
-		<td colspan=3><img src="clear.gif" width="1" height="6"></td>
-	</tr>
-	<tr>
-		<td colspan=3 bgcolor="###GC1###"><!--###LINK_ITEM###-->###GW2B###<b>###ARTICLE_TITLE###</b><br>###ARTICLE_SUBTITLE######GW2E###<!--###LINK_ITEM###--></td>
-	</tr>
-	<tr>
-		<td valign=top>###ARTICLE_IMAGE1###  ###ARTICLE_IMAGE2###</td>
-		<td></td>
-		<td valign=top>
-			###GW2B######ARTICLE_NOTE###<br>
-		</td>
-	</tr>
-</table>
-<br>
-
-
-###GW2B###
-<!--###LINK_ITEM###-->
-<b>&lt;- ###LIST_BACK_TO_LIST###</b>
-<!--###LINK_ITEM###-->
-###GW2E###
-
-
-###ARTICLE_ACCESSORY_UID###
-
-
-
-<!-- ###ARTICLE_SINGLE_DISPLAY### end -->
-
 
 
 
@@ -762,6 +835,20 @@
 	</tr>
 	<tr>
 		<td valign=top>###CATEGORY_IMAGE1###</td>
+	</tr>
+	<tr>
+		<td valign=top>###CATEGORY_IMAGE2###</td>
+	</tr>
+	<tr>
+		<td valign=top>###CATEGORY_IMAGE3###</td>
+	</tr>
+	<tr>
+		<td valign=top>###CATEGORY_IMAGE4###</td>
+	</tr>
+	<tr>
+		<td valign=top>###CATEGORY_IMAGE5###</td>
+	</tr>
+	<tr>
 		<td></td>
 		<td valign=top>
 			###GW2B######CATEGORY_NOTE###<br>
@@ -798,9 +885,9 @@
 
 <table border="0" cellspacing="0" cellpadding="1" width=1>
 	<tr>
-		<!-- ###FE_GROUP_1_TEMPLATE### begin -->
+		<!-- ###LOGIN_TEMPLATE### begin -->
 		<td>&nbsp;</td>
-		<!-- ###FE_GROUP_1_TEMPLATE### end -->
+		<!-- ###LOGIN_TEMPLATE### end -->
 		<td><!--###LINK_PREV###-->###GW2B###<div align="left"><b>&lt;&lt; ###LIST_PREV_PAGE###</b></div>###GW2E###<!--###LINK_PREV###--></td>
 		<td><!-- ###LINK_BROWSE### begin -->
 			[ ###BROWSE_LINKS### ]
@@ -913,7 +1000,7 @@
             <!-- ###display_variant5_isNotSingle### -->
             ###GW1B### ###LIST_ITEM_QUANTITY### ###GW1E###
 			<input size="8" maxlength="10" type="text" name="###FIELD_NAME###1" value="###FIELD_QTY###">&nbsp;
-            <input type="Submit" name="order2" value="###LIST_BUY_NOW###"></td>
+            <input type="submit" name="order2" value="###LIST_BUY_NOW###"></td>
             <!-- ###display_variant5_isNotSingle### -->
           ###ITEM_SINGLE_POST_HTML###
           <!-- ###ITEM_SINGLE### end -->
@@ -988,7 +1075,7 @@
 									<input type="image" name="order" src="###PATH_FE_REL###res/icons/fe/minibasket1.gif" value="###LIST_BUY_NOW###" onClick="if (!document.forms['###FORM_NAME###']['###FIELD_NAME###'].value!=''){document.forms['###FORM_NAME###']['###FIELD_NAME###'].value=1;};">
 								</td>
 				<td style="padding: 2px 2px 2px 2px; border-top: 1px dotted #3F4F73;">
-					<input type="image" name="remove" src="###PATH_FE_REL###res/icons/fe/delmemo.png" value="von der Merkliste streichen" onClick="document.getElementsByName('###FORM_NAME###')[0].action='###FORM_MEMO###&amp;tt_products[delmemo]=###PRODUCT_UID###';">
+					<input type="image" name="remove" src="###PATH_FE_REL###res/icons/fe/delmemo.png" value="von der Merkliste streichen" onClick="document.getElementsByName('###FORM_NAME###')[0].action='###FORM_MEMO###&amp;tt_products%5Bdelmemo%5D=###PRODUCT_UID###';">
 				</td>
               </tr>
               </form>
@@ -1018,10 +1105,8 @@
 <br>
 
 <!-- ###MEMO_NOT_LOGGED_IN### begin -->
-###GW1B###<b>###MEMO_NOT_LOGGED_IN###</b>###GW1E###
+###GW1B###<b>###ERROR_NOT_LOGGED_IN###</b>###GW1E###
 <!-- ###MEMO_NOT_LOGGED_IN### end -->
-
-
 
 
 <h3>MEMO_EMPTY</h3>
@@ -1068,6 +1153,166 @@ Subpart displayed if the search was empty. If the search was successfull, the IT
 
 
 
+<!-- ###ITEM_LIST_DOWNLOADS_TEMPLATE### begin
+	This subpart is used to display the regular list of products. It's also used by search-results.
+-->
+<table border="0" cellspacing="0" cellpadding="1" width="100%" id="table1">
+	<tr>
+		<td><div align="left"><!--###LINK_PREV###-->###GW2B###<b>&lt;&lt; ###LIST_PREV_PAGE###</b>###GW2E###<!--###LINK_PREV###--></div></td>
+		<td></td>
+		<td width="80%"><!-- ###LINK_BROWSE### begin -->
+			[ ###BROWSE_LINKS### ]
+			<!-- ###LINK_BROWSE### end-->
+		</td>
+		<td><div align="right"><!--###LINK_NEXT###-->###GW2B###<b>###LIST_NEXT_PAGE###
+			&gt;&gt;</b>###GW2E###<!--###LINK_NEXT###--></div></td>
+	</tr>
+	<tr>
+		<td><img src="clear.gif" width=100 height=1></td>
+		<td><img src="clear.gif" width=5 height=1></td>
+		<td><img src="clear.gif" width=300 height=1></td>
+		<td><img src="clear.gif" width=100 height=1></td>
+	</tr>
+	<!-- ###ITEM_CATEGORY_AND_ITEMS### begin -->
+		<!-- ###ITEM_CATEGORY### begin -->
+			<tr>
+				<td colspan=4><br><font size=3>###GW1B###<strong>###CATEGORY_TITLE###</strong>###GW1E###</font><br>
+				</td>
+			</tr>
+		<!-- ###ITEM_CATEGORY### end -->
+		<!-- ###ITEM_LIST### begin -->
+			<tr>
+				<td colspan=4><img src="clear.gif" width=1 height=6></td>
+			</tr>
+			<!-- ###ITEM_SINGLE### begin-->
+			<tr>
+			<td colspan=4>
+			<form method="post" action="###FORM_URL###" name="###FORM_NAME###">
+			<table border="0" cellspacing="0" cellpadding="1" width="50%" id="table2">
+				<tr>
+					<td><img src="clear.gif" width=100 height=1></td>
+					<td><img src="clear.gif" width=5 height=1></td>
+					<td><img src="clear.gif" width=300 height=1></td>
+					<td><img src="clear.gif" width=100 height=1></td>
+				</tr>
+				<tr>
+					<td colspan=4><img src="clear.gif" width=1 height=6></td>
+				</tr>
+				<tr>
+					<td colspan=4 bgcolor="###GC1###"><!--###LINK_ITEM###-->###GW1B###<b>###PRODUCT_TITLE###</b>###GW1E###<!--###LINK_ITEM###--></td>
+				</tr>
+				<tr>
+					<td valign=top>###PRODUCT_IMAGE###</td>
+					<td></td>
+					<td valign=top>###GW2B######PRODUCT_NOTE######GW2E###<br>
+
+						<!-- ###edit_variant_domain### begin -->
+						<b>###P_DOMAIN###</b> ###EDIT_VARIANT###
+						<br>
+						<!-- ###edit_variant_domain### end -->
+
+						<!-- ###edit_variant_width### begin -->
+						<b>###P_WIDTH###</b> ###EDIT_VARIANT###
+						<br>
+						<!-- ###edit_variant_width### end -->
+
+						<!-- ###edit_variant_height### begin -->
+						<b>###P_HEIGHT###</b> ###EDIT_VARIANT###
+						<br>
+						<!-- ###edit_variant_height### end -->
+
+						<!-- ###display_variant1### -->
+						###GW2B######P_COLOR### ###GW2E### <select style="font-size: 10px"
+  						name="###FIELD_COLOR_NAME###" id="###PRODUCT_COLOR_ID###" onchange="###PRODUCT_COLOR_FUNCTION1###" rows="1">
+                        ###PRODUCT_COLOR###</select><br>
+						<!-- ###display_variant1### -->
+
+						<!-- ###display_variant6### -->
+						###GW2B######P_COLOR2### ###GW2E### <select style="font-size: 10px"
+  						name="###FIELD_COLOR2_NAME###" id="###PRODUCT_COLOR2_ID###" onchange="###PRODUCT_COLOR2_FUNCTION1###" rows="1">
+                        ###PRODUCT_COLOR2###</select><br>
+						<!-- ###display_variant6### -->
+
+						<!-- ###display_variant7### -->
+						###GW2B######P_COLOR3### ###GW2E### <select style="font-size: 10px"
+  						name="###FIELD_COLOR3_NAME###" id="###PRODUCT_COLOR3_ID###" onchange="###PRODUCT_COLOR3_FUNCTION1###" rows="1">
+                        ###PRODUCT_COLOR3###</select><br>
+						<!-- ###display_variant7### -->
+
+						<!-- ###display_variant2### -->
+		                ###GW2B######P_SIZE### ###GW2E### <select style="font-size: 10px"
+		    			name="###FIELD_SIZE_NAME###" id="###PRODUCT_SIZE_ID###" onchange="###PRODUCT_SIZE_FUNCTION1###" rows="1">
+		    			###PRODUCT_SIZE###</select><br>
+		    			<!-- ###display_variant2### -->
+
+		    			<!-- ###display_variant8### -->
+		    			###GW2B######P_WIDTH### ###GW2E### <select style="font-size: 10px"
+		    			name="###FIELD_SIZE2_NAME###" id="###PRODUCT_SIZE2_ID###" onchange="###PRODUCT_SIZE2_FUNCTION1###" rows="1">
+		    			###PRODUCT_SIZE2###</select><br>
+		    			<!-- ###display_variant8### -->
+
+		    			<!-- ###display_variant9### -->
+		    			###GW2B######P_HEIGHT### ###GW2E### <select style="font-size: 10px"
+		    			name="###FIELD_SIZE3_NAME###" id="###PRODUCT_SIZE3_ID###" onchange="###PRODUCT_SIZE3_FUNCTION1###" rows="1">
+		    			###PRODUCT_SIZE3###</select><br>
+		    			<!-- ###display_variant9### -->
+
+						<!-- ###display_variant4### -->
+		                ###GW2B######P_GRADINGS### ###GW2E### <select style="font-size: 10px"
+		    			name="###FIELD_GRADINGS_NAME###" id="###PRODUCT_GRADINGS_ID###" onchange="###PRODUCT_GRADINGS_FUNCTION1###" rows="1">
+		    			###PRODUCT_GRADINGS###</select><br>
+		    			<!-- ###display_variant4### -->
+
+		    			<!-- ###display_variant3### -->
+		    			###GW2B######P_DESCRIPTION### ###GW2E### <select style="font-size: 10px"
+		    			name="###FIELD_DESCRIPTION_NAME###" id="###PRODUCT_DESCRIPTION_ID###" onchange="###PRODUCT_DESCRIPTION_FUNCTION1###" rows="1">
+		    			###PRODUCT_DESCRIPTION###</select><br>
+		    			<!-- ###display_variant3### -->
+
+						<!-- ###display_variant10### -->
+		                ###GW2B######P_MATERIAL### ###GW2E### <select style="font-size: 10px"
+		    			name="###FIELD_MATERIAL_NAME###" id="###PRODUCT_MATERIAL_ID###" onchange="###PRODUCT_MATERIAL_FUNCTION1###" rows="1">
+		    			###PRODUCT_MATERIAL###</select><br>
+		    			<!-- ###display_variant10### -->
+
+		    			<!-- ###display_variant11### -->
+		    			###GW2B######P_QUALITY### ###GW2E### <select style="font-size: 10px"
+		    			name="###FIELD_QUALITY_NAME###" id="###PRODUCT_QUALITY_ID###" onchange="###PRODUCT_QUALITY_FUNCTION1###" rows="1">
+		    			###PRODUCT_QUALITY###</select><br>
+		    			<!-- ###display_variant11### -->
+
+					</td>
+				</tr>
+			<!-- ###DOWNLOAD_SINGLE### begin -->
+			<tr>
+				<td>
+				<strong>###DOWNLOAD_TITLE###:</strong><br/>
+				###DOWNLOAD_NOTE###
+				###DOWNLOAD_LINK###
+				</td>
+			</tr>
+			<!-- ###DOWNLOAD_SINGLE### end -->
+			<tr><td>###HIDDENFIELDS###</td></tr>
+			</table>
+			</form>
+			</td>
+			</tr>
+			<!-- ###ITEM_SINGLE### end -->
+		<!-- ###ITEM_LIST### end -->
+	<!-- ###ITEM_CATEGORY_AND_ITEMS### end -->
+	<tr>
+		<td><div align="left"><!--###LINK_PREV###-->###GW2B###<b>&lt;&lt; ###LIST_PREV_PAGE###</b>###GW2E###<!--###LINK_PREV###--></div></td>
+		<td></td>
+		<td></td>
+		<td><div align="right"><!--###LINK_NEXT###-->###GW2B###<b>###LIST_NEXT_PAGE###
+			&gt;&gt;</b>###GW2E###<!--###LINK_NEXT###--></div></td>
+	</tr>
+</table>
+<p>
+<br>
+<!-- ###ITEM_LIST_DOWNLOADS_TEMPLATE### end -->
+
+
 <br><br><br><br><hr><br><br><br>
 <h3>ITEM_LIST_EMPTY</h3>
 <em>Subpart displayed if the list was empty and another category must be chosen.</em><br>
@@ -1079,6 +1324,20 @@ Subpart displayed if the list under the selected category was empty. If the sql 
 -->
 ###GW1B###<b>###LIST_ITEM_NOTFOUND###</b>###GW1E###
 <!-- ###ITEM_LIST_EMPTY### end -->
+
+
+
+<br><br><br><br><hr><br><br><br>
+<h3>ITEM_ADLIST_TEMPLATE_EMPTY</h3>
+<em>Subpart displayed if the address list was empty and another filter option must be used.</em><br>
+<br>
+<br>
+
+<!-- ###ITEM_ADLIST_TEMPLATE_EMPTY### begin
+Subpart displayed if the list under the selected category was empty. If the sql query was successfull, the ITEM_CATLIST_TEMPLATE in the top is used.
+-->
+###GW1B###<b>###LIST_ADDRESS_NOTFOUND###</b>###GW1E###
+<!-- ###ITEM_ADLIST_TEMPLATE_EMPTY### end -->
 
 
 
@@ -1097,7 +1356,7 @@ The product list part has the exact same features as the regular LIST_ITEM_TEMPL
 In addition there's a number of fields used for delivery and payment information.
 -->
 ###EXTERNAL_COBJECT###
-<form method="post" id="basketForm" action="###FORM_URL###">
+<form method="post" id="basketForm" name="###FORM_NAME###" action="###FORM_URL###">
 
 <table border="0" cellspacing="0" cellpadding="0" width="100%" style="border-collapse: collapse" bordercolor="#111111">
 <tr>
@@ -1132,6 +1391,19 @@ In addition there's a number of fields used for delivery and payment information
 <br>
 ###PRODUCT_IMAGE###</td>
 <td colspan="2" style="border-bottom-style: solid; border-bottom-width: 1">
+				<!-- ###edit_variant_domain### begin -->
+				<font size="1">###GW2B######P_DOMAIN###
+				###EDIT_VARIANT######GW2E###</font><br>
+				<!-- ###edit_variant_domain### end -->
+				<!-- ###edit_variant_width### begin -->
+				<font size="1">###GW2B######P_WIDTH###
+				###EDIT_VARIANT######GW2E###</font><br>
+				<!-- ###edit_variant_width### end -->
+				<!-- ###edit_variant_height### begin -->
+				<font size="1">###GW2B######P_HEIGHT###
+				###EDIT_VARIANT######GW2E###</font><br>
+				<!-- ###edit_variant_height### end -->
+
 				<!-- ###display_variant1### -->
 				<font size="1">###GW2B######P_COLOR###
 				###ARTICLE_COLOR######GW2E###</font><br>
@@ -1172,6 +1444,14 @@ In addition there's a number of fields used for delivery and payment information
 				<font size="1">###GW2B######P_QUALITY###
 				###ARTICLE_QUALITY######GW2E###</font><br>
 				<!-- ###display_variant11### -->
+				<!-- ###edit_variant_height### begin -->
+				<font size="1">###GW2B######P_HEIGHT###
+				###EDIT_VARIANT######GW2E###</font><br>
+				<!-- ###edit_variant_height### end -->
+				<!-- ###edit_variant_width### begin -->
+				<font size="1">###GW2B######P_WIDTH###
+				###EDIT_VARIANT######GW2E###</font><br>
+				<!-- ###edit_variant_width### end -->
    <br>
 		  ###GW1B###<font size="1">###BULKILY_WARNING###</font>###GW1E###</td>
 <td valign=top style="border-bottom-style: solid; border-bottom-width: 1">###GW1B### ###PRICE_TAX###<br>
@@ -1179,7 +1459,11 @@ In addition there's a number of fields used for delivery and payment information
 <td valign=top style="border-bottom-style: solid; border-bottom-width: 1">
 <p align="center"> <input size="2" maxlength="4" type="text" name="###FIELD_NAME_BASKET###" value="###FIELD_QTY###"> </td>
 <td valign=top align=right style="border-bottom-style: solid; border-bottom-width: 1">###GW1B### <b>###PRICE_TOTAL_TAX###</b> <br>
-<font size="1">(###NO_VAT### ###PRICE_TOTAL_NO_TAX###)</font>###GW1E###</td>
+<font size="1">(###NO_VAT### ###PRICE_TOTAL_NO_TAX###)</font>###GW1E### <br>
+<!-- ###LINK_BASKET_DELETE### begin -->
+<img name="deleteItem" src="###PATH_FE_ICONS###/x.gif" title="###BASKET_DELETE_X_ITEM###">
+<!-- ###LINK_BASKET_DELETE### end -->
+</td>
 </tr>
 <!-- ###ITEM_SINGLE### end -->
 <!-- ###ITEM_LIST### end -->
@@ -1190,66 +1474,69 @@ In addition there's a number of fields used for delivery and payment information
 
 
 <tr>
-<td colspan=6>###GW1B######BASKET_DELETE_ITEM######GW1E###<br>
+<td colspan=6>###GW1B######BASKET_DELETE_X_ITEM######GW1E###<br>
 <br>
 ###GW1B######BASKET_CHANGE_ITEM######GW1E###<br>
-<br>
-###GW1B######BASKET_PAYMENT_SELECT_PAYMENT######GW1E###<br>
 &nbsp;</td>
 </tr>
 
-
-<tr>
-      <td colspan=3 bgcolor="###GC2###">###GW2B###<b>###BASKET_SHIPPING_HANDLING###</b>###GW2E###</td>
-      <td colspan=2></td>
-
-</tr>
-
-<tr>
-<td colspan=6><img src="clear.gif" width="1" height="6"></td>
-</tr>
-
-
-<tr>
-<td colspan=5>
-###GW1B######BASKET_SHIPPING_PRICE### <b>###SHIPPING_TITLE###</b>###GW1E###<br><br>
-
-<table width="100%" style="border-collapse: collapse" bordercolor="#111111" cellpadding="0" cellspacing="0"><tr>
-            <td valign="middle">###GW1B######SHIPPING_SELECTOR######GW1E###</td>
-</tr></table>
-
-</td>
-      <td valign=top align=right>###GW1B### <b>###PRICE_SHIPPING_TAX###</b>
-         <br>(###NO_VAT### ###PRICE_SHIPPING_NO_TAX###)
-        ###GW1E###</td>
-</tr>
-
-<tr>
-<td colspan=6><img src="clear.gif" width="1" height="10"></td>
-</tr>
+	<tr>
+		<td colspan=3 bgcolor="###GC2###">###GW2B###<a href="index.php?id=###PID_DELIVERY######LANGPARAM###" target=_blank><b><font color=#000000>###BASKET_SHIPPING_HANDLING###</font></b>###GW2E###</td>
+		<td colspan=2></td>
+	</tr>
+	<tr>
+	<td colspan=3>
+		<form method="post" action="###FORM_URL###" name="###FORM_NAME###" id="shippingForm">
+			###BASKET_SHIPPING_PRICE### ###SHIPPING_SELECTOR###<br>
+		</form>
+	</td>
+	<td valign=top align=right colspan=2>###GW1B###<b>###PRICE_SHIPPING_TAX###
+	</b><font size="1">(###NO_VAT### ###PRICE_SHIPPING_NO_TAX###)</font>###GW1E###</td>
+	</tr>
+	<tr>
+		<td colspan=5 height="12"><img src="clear.gif" width="1" height="10"></td>
+	</tr>
 
 <tr>
 <td valign=top colspan=5></td>
-<td valign=top align=right nowrap>###GW1B###(###NO_VAT### ###P_CURRENCY### ###PRICE_TOTAL_NO_TAX###)###GW1E###<br> ###GW1B###(###VAT###
+<td valign=top align=right nowrap="nowrap">###GW1B###(###NO_VAT### ###P_CURRENCY### ###PRICE_TOTAL_NO_TAX###)###GW1E###<br> ###GW1B###(###VAT###
 ###P_CURRENCY### ###PRICE_TOTAL_ONLY_TAX###)  ###GW1E###<br>
 ###GW1B### <b>###P_CURRENCY### ###PRICE_TOTAL_TAX###</b>###GW1E###</td>
 </tr>
+<tr>
+<td valign=top colspan=3></td>
+<td valign=top align=right nowrap="nowrap">###GW1B###
+###INCLUDED_VAT### ###PRICE_TAXRATE_TAX1###% : ###P_CURRENCY### ###PRICE_TAXRATE_ONLY_TAX1### ###GW1E###
+</td>
+</tr>
+<tr>
+<td valign=top colspan=3></td>
+<td valign=top align=right nowrap="nowrap">###GW1B###
+###INCLUDED_VAT### ###PRICE_TAXRATE_TAX2###% : ###P_CURRENCY### ###PRICE_TAXRATE_ONLY_TAX2### ###GW1E###
+</td>
+</tr>
+<!-- ###COUNTRY_TAXRATES### begin -->
+<tr>
+<td valign=top colspan=3></td>
+<td valign=top align=right nowrap="nowrap">###GW1B###
+###INCLUDED_VAT### ###COUNTRY_CODE### ###STATICTAX_TX_RATE###% : ###P_CURRENCY### ###PRICE_TOTAL_ONLY_TAX### ###GW1E###
+</td>
+</tr>
+<!-- ###COUNTRY_TAXRATES### end -->
 </table><br>
 <table width="100%"><tr>
 <td>
 <input type="hidden" name="mode_update" value="1">
+<input type="hidden" id="setActivity" value="1">
 <input type="submit" name="products_update" value="###BASKET_UPDATE_CART###">
 <input type="submit" name="products_clear_basket" value="###BASKET_EMPTY_CART###"></td>
 <td align="right">
-<input type="submit" name="products_info" value="###BASKET_CHECKOUT###" onClick="var basketForm; basketForm = document.getElementById('basketForm'); basketForm.action='###FORM_URL_INFO###';"></td>
+<input type="submit" name="products_info" id="products_info" value="###BASKET_CHECKOUT###" onClick="var basketForm; var activityButton; basketForm = document.getElementById('basketForm'); basketForm.action='###FORM_URL_INFO###'; activityButton = document.getElementById('setActivity'); activityButton.name = 'activity[info]';"></td>
 </tr>
 </table>
 </form>
 <br>
 <!-- ###BASKET_TEMPLATE### end -->
-
-
-
 
 
 
@@ -1288,7 +1575,7 @@ Exact same features as BASKET_TEMPLATE
 <td>###GW1B######PERSON_SALUTATION######GW1E###</td>
 </tr>
 <tr>
-<td>###GW1B###<strong>###BASKET_NAME###: </strong>###GW1E###</td>
+<td>###GW1B###<strong>###BASKET_NAME### * : </strong>###GW1E###</td>
 <td><input type="text" name="recs[personinfo][name]" size="30" value="###PERSON_NAME###"></td>
 </tr>
 <tr>
@@ -1296,7 +1583,7 @@ Exact same features as BASKET_TEMPLATE
 <td><input type="text" name="recs[personinfo][company]" size="30" value="###PERSON_COMPANY###"></td>
 </tr>
 <tr>
-<td>###GW1B###<strong>###BASKET_ADDRESS###: </strong>###GW1E###</td>
+<td>###GW1B###<strong>###BASKET_ADDRESS### * : </strong>###GW1E###</td>
 <td><textarea cols=30 rows=5 name="recs[personinfo][address]" wrap="off">###PERSON_ADDRESS###</textarea></td>
 </tr>
 <tr>
@@ -1312,11 +1599,11 @@ Exact same features as BASKET_TEMPLATE
 <td>###PERSON_COUNTRY_CODE###</td>
 </tr>
 <tr>
-<td>###GW1B###<strong>###BASKET_PHONE###: </strong>###GW1E###</td>
+<td>###GW1B###<strong>###BASKET_PHONE### * : </strong>###GW1E###</td>
 <td><input type="text" name="recs[personinfo][telephone]" size="25" value="###PERSON_TELEPHONE###"></td>
 </tr>
 <tr>
-<td>###GW1B###<strong>###BASKET_EMAIL###: </strong>###GW1E###</td>
+<td>###GW1B###<strong>###BASKET_EMAIL### * : </strong>###GW1E###</td>
 <td><input type="text" name="recs[personinfo][email]" size="60" value="###PERSON_EMAIL###"></td>
 </tr>
 <tr>
@@ -1330,8 +1617,6 @@ Exact same features as BASKET_TEMPLATE
 </tr>
 <!-- ###MESSAGE_SHIPPING_40### -->
 </table><br>
-
-
 
 ###GW1B###<em>###BASKET_INFO_TEXT###</em>
 ###GW1E###
@@ -1482,7 +1767,6 @@ Lieferung ab Werk. Lieferkosten berechnen wir Ihnen g&uuml;nstigst nach
 Aufwand analog unserer <a
 href="http://www.ttproducts.de/13.html">Transportkosten&uuml;bersicht
 </a>.<br>
-###BASKET_ENTER_VAT_ID### <input type="text" name="recs[personinfo][tt_products_vat]" size="30" value="###PERSON_TT_PRODUCTS_VAT###"><br>
 <!-- ###MESSAGE_SHIPPING_40### -->
 <!-- ###MESSAGE_SHIPPING### -->
 
@@ -1594,6 +1878,9 @@ This whole subpart, message_payment is substituted with the subpart 'message_pay
 <td>&nbsp;</td>
       <td colspan=3>###GW1B######BASKET_TERMS_ACK######GW1E###</td>
 </tr>
+<tr><td>
+<b><!--###LINK_REVOCATION### -->###BASKET_RIGHT_OF_REVOCATION###<!--###LINK_REVOCATION### --></b>
+</td></tr>
 <tr>
 <td colspan="6">###GW2B###<b><!--###LINK_AGB### -->###BASKET_TERMS###<!--###LINK_AGB### --></b><br>
 ###BASKET_TERMS_READ###<input type="checkbox" name="recs[personinfo][agb]" ###PERSON_AGB###>###GW2E### </td>
@@ -1606,7 +1893,7 @@ This whole subpart, message_payment is substituted with the subpart 'message_pay
 <td><input type="hidden" name="products_info" value="1"></td>
 <td><input type="submit" name="products_update" value="###BASKET_BACK_TO_CART###"></td>
 <td align="right">
-<input type="submit" name="products_payment" value="###BASKET_PAYMENT_CHECKOUT###" onclick="this.form.action='###FORM_URL###';">
+<input type="submit" name="products_payment" value="###BASKET_PAYMENT_CHECKOUT###" onclick="this.form.action='###FORM_URL_PAYMENT###';">
 ###HIDDENFIELDS###
 </td>
 </tr></table>
@@ -1671,8 +1958,9 @@ Exact same features as BASKET_TEMPLATE
 		<td colspan=5><img src="clear.gif" width="1" height="6"></td>
 	</tr>
 	<tr>
-		<td valign=top colspan=3>###GW1B###<b>###PRODUCT_TITLE###</b>###GW1E###
+		<td valign=top colspan=3>###GW1B###<b>###PRODUCT_TITLE### <!-- ###edit_variant_domain### begin -->| ###EDIT_VARIANT###<!-- ###edit_variant_domain### end --><!-- ###edit_variant_width### begin -->| ###EDIT_VARIANT###<!-- ###edit_variant_width### end --><!-- ###edit_variant_height### begin -->| ###EDIT_VARIANT###<!-- ###edit_variant_height### end --></b>###GW1E###
 		</td>
+		<td>###PRODUCT_IMAGE###</td>
     <!--
 <td valign=top>###GW1B### ###PRICE_TAX### ###GW1E###</td>
 -->
@@ -1817,18 +2105,32 @@ Exact same features as BASKET_TEMPLATE
 	<tr>
 		<td colspan=5><img src="clear.gif" width="1" height="10"></td>
 	</tr>
-	<tr>
-		<td colspan=3 bgcolor="###GC2###">###GW2B###<a href="index.php?id=###PID_DELIVERY######LANGPARAM###" target=_blank><b><font color=#000000>###BASKET_SHIPPING_HANDLING###</font></b>###GW2E###</td>
-		<td colspan=2></td>
-	</tr>
-	<td colspan=3>###GW1B######BASKET_SHIPPING_PRICE### <b>###SHIPPING_TITLE###</b>###GW1E###<br>
-	</td>
-	<td valign=top align=right colspan=2>###GW1B###<b>###PRICE_SHIPPING_TAX###
-	</b><font size="1">(###NO_VAT### ###PRICE_SHIPPING_NO_TAX###)</font>###GW1E###</td>
-	</tr>
-	<tr>
-		<td colspan=5 height="12"><img src="clear.gif" width="1" height="10"></td>
-	</tr>
+
+
+<tr>
+      <td colspan=3 bgcolor="###GC2###">###GW2B###<b>###BASKET_SHIPPING_HANDLING###</b>###GW2E###</td>
+      <td colspan=2></td>
+
+</tr>
+
+<tr>
+<td colspan=6><img src="clear.gif" width="1" height="6"></td>
+</tr>
+
+<tr>
+<td colspan=5>
+###BASKET_SHIPPING_PRICE### ###SHIPPING_TITLE###
+</td>
+      <td valign=top align=right>###GW1B### <b>###PRICE_SHIPPING_TAX###</b>
+         <br>(###NO_VAT### ###PRICE_SHIPPING_NO_TAX###)
+        ###GW1E###</td>
+</tr>
+
+<tr>
+<td colspan=6><img src="clear.gif" width="1" height="10"></td>
+</tr>
+
+
 	<tr>
 		<td colspan=3 bgcolor="###GC2###">###GW2B###<b>###BASKET_PAYMENT###</b>###GW2E###</td>
 		<td valign=top align=right colspan=3>&nbsp;</td>
@@ -1849,25 +2151,29 @@ Exact same features as BASKET_TEMPLATE
 	<tr>
 		<td valign=top colspan=3>###GW1B###<strong>###BASKET_PAYMENT_INVOICE###</strong>
       ###GW1E###</td>
-		<td valign=top align=right colspan=2 nowrap>###GW1B### <b>###P_CURRENCY### ###PRICE_TOTAL_TAX###</b>
+		<td valign=top align=right colspan=2 nowrap="nowrap">###GW1B### <b>###P_CURRENCY### ###PRICE_TOTAL_TAX###</b>
 		<br>(###VAT### ###P_CURRENCY### ###PRICE_TOTAL_ONLY_TAX###)
 		<br>(###NO_VAT### ###P_CURRENCY### ###PRICE_TOTAL_NO_TAX###)<br>###GW1E###</td>
 	</tr>
-	<tr><td valign=top align=right colspan=5 nowrap>
-	###MESSAGE_PAYMENT_SCRIPT### <!-- start payment script if available and paymentActivity = payment -->
-	<td></tr>
 </table>
+
+<table>
+<tr><td valign=top align=right colspan=5 nowrap="nowrap">
+###MESSAGE_PAYMENT_SCRIPT### <!-- start payment script if available and paymentActivity = payment -->
+<td></tr>
+</table>
+
 <form method="post" action="###FORM_URL###" name="###FORM_NAME###" id="paymentForm">
 	<table width="100%">
 		<tr>
 			<td>
-			<input type="Submit" name="products_update" value="###BASKET_BACK_TO_CART###">
+			<input type="submit" name="products_update" value="###BASKET_BACK_TO_CART###">
 			<input type="hidden" name="products_cmd" value="cardno"></td>
 			<td align="right">
 <!-- ###MESSAGE_PAYMENT_TRANSACTOR_NO### begin -->
-			<input type="Submit" name="products_finalize" value="###BASKET_PLACE_ORDER###" onclick="this.form.action='###FORM_URL_THANKS###'; this.form.target='###FORM_URL_TARGET###';">###GW1B### ###GW1E###
+			<input type="submit" name="products_finalize" value="###BASKET_PLACE_ORDER###" onclick="this.form.action='###FORM_URL_THANKS###'; this.form.target='###FORM_URL_TARGET###';">###GW1B### ###GW1E###
 <!-- ###MESSAGE_PAYMENT_TRANSACTOR_NO### end -->
-
+			</td>
 		</tr>
 	</table>
 </form><br>
@@ -1996,49 +2302,49 @@ Message for payment method 50, Vorkasse
 			<a href="###PRODUCT_WWW###">Download</a>
 			<!-- ###MESSAGE_PAYMENT_90### end -->
 		</td>
-		<td valign=top>###GW1B###<b>###PRODUCT_TITLE###</b>###GW1E###
+		<td valign=top>###GW1B###<b>###PRODUCT_TITLE###  <!-- ###edit_variant_domain### begin -->| ###EDIT_VARIANT###<!-- ###edit_variant_domain### end --><!-- ###edit_variant_width### begin -->| ###EDIT_VARIANT###<!-- ###edit_variant_width### end --><!-- ###edit_variant_height### begin -->| ###EDIT_VARIANT###<!-- ###edit_variant_height### end --></b>###GW1E###
 
-<br>###GW1B###<font size="1">###LIST_ITEM_NUMBER### ###PRODUCT_ITEMNUMBER###</font>###GW1E###
+<br>###GW1B###<font size="1">###LIST_ITEM_NUMBER### ###ARTICLE_ITEMNUMBER###</font>###GW1E###
 						<!-- ###display_variant1### -->
       <br>
 						<font size="1">###GW2B######P_COLOR###
-                        ###PRODUCT_COLOR######GW2E###</font><br>
+                        ###ARTICLE_COLOR######GW2E###</font><br>
 						<!-- ###display_variant1### -->
 						<!-- ###display_variant6### -->
 						<font size="1">###GW2B######P_COLOR2###
-                        ###PRODUCT_COLOR2######GW2E###</font><br>
+                        ###ARTICLE_COLOR2######GW2E###</font><br>
 						<!-- ###display_variant6### -->
 						<!-- ###display_variant7### -->
 						<font size="1">###GW2B######P_COLOR3###
-                        ###PRODUCT_COLOR3######GW2E###</font><br>
+                        ###ARTICLE_COLOR3######GW2E###</font><br>
 						<!-- ###display_variant7### -->
 						<!-- ###display_variant2### -->
 		                <font size="1">###GW2B######P_SIZE###
-		                ###PRODUCT_SIZE######GW2E###</font><br>
+		                ###ARTICLE_SIZE######GW2E###</font><br>
 		    			<!-- ###display_variant2### -->
 		    			<!-- ###display_variant8### -->
 		    			<font size="1">###GW2B######P_WIDTH###
-		    			###PRODUCT_SIZE2######GW2E###</font><br>
+		    			###ARTICLE_SIZE2######GW2E###</font><br>
 		    			<!-- ###display_variant8### -->
 		    			<!-- ###display_variant9### -->
 		    			<font size="1">###GW2B######P_HEIGHT###
-		    			###PRODUCT_SIZE3######GW2E###</font><br>
+		    			###ARTICLE_SIZE3######GW2E###</font><br>
 		    			<!-- ###display_variant9### -->
 						<!-- ###display_variant4### -->
 		                <font size="1">###GW2B######P_GRADINGS###
-		                ###PRODUCT_GRADINGS######GW2E###</font><br>
+		                ###ARTICLE_GRADINGS######GW2E###</font><br>
 		    			<!-- ###display_variant4### -->
 		    			<!-- ###display_variant3### -->
 		    			<font size="1">###GW2B######P_DESCRIPTION###
-		    			###PRODUCT_DESCRIPTION######GW2E###</font><br>
+		    			###ARTICLE_DESCRIPTION######GW2E###</font><br>
 		    			<!-- ###display_variant3### -->
 						<!-- ###display_variant10### -->
 		                <font size="1">###GW2B######P_MATERIAL###
-		                ###PRODUCT_MATERIAL######GW2E###</font><br>
+		                ###ARTICLE_MATERIAL######GW2E###</font><br>
 		    			<!-- ###display_variant10### -->
 		    			<!-- ###display_variant11### -->
 		    			<font size="1">###GW2B######P_QUALITY###
-		    			###PRODUCT_QUALITY######GW2E###</font><br>
+		    			###ARTICLE_QUALITY######GW2E###</font><br>
 		    			<!-- ###display_variant11### -->
 </td>
 		<td valign=top><!--###GW1B### ###PRICE_TAX### ###GW1E###--></td>
@@ -2244,6 +2550,59 @@ Message for payment method 50, Vorkasse
 
 
 
+<!-- ###BASKET_ORDERXML_TEMPLATE### begin -->
+<?xml version="1.0"?>
+<orderform>
+  <bestellnummer>###ORDER_ORDER_NO###</bestellnummer>
+    <product_list>
+<!-- ###ITEM_CATEGORY_AND_ITEMS### --><!-- ###ITEM_CATEGORY### begin --><!-- ###ITEM_CATEGORY### end --><!-- ###ITEM_LIST### begin --><!-- ###ITEM_SINGLE### begin-->
+    <product>                                                                                                             <!--  wiederholt sich pro Artikel -->
+      <product_quantity>###FIELD_QTY###</product_quantity>
+      <product_id1>###PRODUCT_ITEMNUMBER###</product_id1>
+      <product_id2>###CATEGORY_TITLE###</product_id2>
+      <product_name>###PRODUCT_TITLE###</product_name>
+      <product_note>###PRODUCT_NOTE###</product_note>
+      <product_trackingnumber> </product_trackingnumber>
+<!-- ###display_variant1### -->      <product_color>###PRODUCT_COLOR###</product_color><!-- ###display_variant1### -->
+<!-- ###display_variant6### -->      <product_color2>###PRODUCT_COLOR2###</product_color2><!-- ###display_variant6### -->
+<!-- ###display_variant7### -->      <product_color3>###PRODUCT_COLOR3###</product_color3><!-- ###display_variant7### -->
+<!-- ###display_variant2### -->      <product_size>###PRODUCT_SIZE###</product_size><!-- ###display_variant2### -->
+<!-- ###display_variant8### -->      <product_size2>###PRODUCT_SIZE2###</product_size2><!-- ###display_variant8### -->
+<!-- ###display_variant9### -->      <product_size3>###PRODUCT_SIZE3###</product_size3><!-- ###display_variant9### -->
+<!-- ###display_variant4### -->      <product_gradings>###PRODUCT_GRADINGS###</product_gradings><!-- ###display_variant4### -->
+<!-- ###display_variant3### -->      <product_desription>###PRODUCT_DESCRIPTION###</product_desription><!-- ###display_variant3### -->
+<!-- ###display_variant10### -->      <product_material>###PRODUCT_MATERIAL###</product_material><!-- ###display_variant10### -->
+<!-- ###display_variant11### -->      <product_quality>###PRODUCT_QUALITY###</product_quality><!-- ###display_variant11### -->
+    </product>
+<!-- ###ITEM_SINGLE### end --><!-- ###ITEM_LIST### end --><!-- ###ITEM_CATEGORY_AND_ITEMS###  end -->
+  </product_list>
+  <customer>
+    <firma>###PERSON_COMPANY###</firma>
+    <abteilung>###PERSON_STATE###</abteilung>
+    <name>###PERSON_NAME###</name>
+    <strasse>###PERSON_ADDRESS_DISPLAY###</strasse>
+    <zip>###PERSON_ZIP###</zip>
+    <city>###PERSON_CITY###</city>
+    <email>###PERSON_EMAIL###</email>
+    <telefon>###PERSON_TELEPHONE###</telefon>
+    <member_number>###PERSON_FAX###</member_number>
+        <person_type>###PERSON_STATUS###</person_type>
+  </customer>
+   <delivery>
+    <firma>###DELIVERY_COMPANY###</firma>
+        <abteilung>###DELIVERY_STATE###</abteilung>
+    <name>###DELIVERY_NAME###</name>
+    <strasse>###DELIVERY_ADDRESS_DISPLAY###</strasse>
+    <zip>###DELIVERY_ZIP###</zip>
+    <city>###DELIVERY_CITY###</city>
+    <telefon>###DELIVERY_TELEPHONE###</telefon>
+    <email>###DELIVERY_EMAIL###</email>
+  </delivery>
+  <remarks>###DELIVERY_NOTE_DISPLAY###</remarks>
+</orderform>
+<!-- ###BASKET_ORDERXML_TEMPLATE### end -->
+
+
 
 
 <br><br><br><br><hr><br><br><br>
@@ -2268,8 +2627,8 @@ If payment is initiated but the required information fields are not filled in co
 ###GW1B###<b>###BASKET_REQUIRED_MESSAGE_ERROR###</b>###GW1E###<p>###GW1B###<font color="#FF0000">###BASKET_REQUIRED_MESSAGE_MISSING###  ###ERROR_DETAILS###</font></p>
 <p><b>###BASKET_REQUIRED_MESSAGE_FIX###</b>###GW1E###
 </p>
-<form method="post" action="###FORM_URL###">
-	<input type="Submit" name="products_info" value="###BASKET_REQUIRED_BUTTON_FIX###" onclick="document.forms[0].action='###FORM_URL_INFO###';">
+<form method="post" action="###FORM_URL###" name="###FORM_NAME###">
+	<input type="submit" name="products_info" value="###BASKET_REQUIRED_BUTTON_FIX###" onclick="document.getElementsByName('###FORM_NAME###')[0].action='###FORM_URL_INFO###';">
 </form>
 <!-- ###BASKET_REQUIRED_INFO_MISSING### end -->
 
@@ -2299,9 +2658,9 @@ Displays the view of the order status by tracking codes.
 This part is repeated for each order status item and finally this part in the template code is substituted with the accumulated code for all order status actions.
 -->
 	<tr>
-		<td nowrap valign=top>###GW1B### ###ORDER_STATUS_TIME###  ###GW1E###</td>
+		<td nowrap="nowrap" valign=top>###GW1B### ###ORDER_STATUS_TIME###  ###GW1E###</td>
 		<td valign=top>###GW1B### ###ORDER_STATUS###  ###GW1E###</td>
-		<td nowrap valign=top>###GW1B### ###ORDER_STATUS_INFO###  ###GW1E###</td>
+		<td nowrap="nowrap" valign=top>###GW1B### ###ORDER_STATUS_INFO###  ###GW1E###</td>
 		<td valign=top>###GW1B### ###ORDER_STATUS_COMMENT###  ###GW1E###</td>
 	</tr>
 <!-- ###STATUS_ITEM### end -->
@@ -2309,7 +2668,6 @@ This part is repeated for each order status item and finally this part in the te
 
     <!-- ###ADMIN_CONTROL### begin -->
         	<div class="admin_control">
-
 
 	            <!-- ###ADMIN_CONTROL_OK### begin -->
 
@@ -2319,12 +2677,10 @@ This part is repeated for each order status item and finally this part in the te
 							<legend>###TRACKING_STATUS_CHOOSE_ORDER###</legend>
 							<input type="submit" name="submit" value="###TRACKING_STATUS_CHOOSE_ORDER_BUTTON###"><div>
 								###OTHER_ORDERS_OPTIONS###
-								<input type="hidden" name="update_code" value="###UPDATE_CODE###">
+							<input type="hidden" name="update_code" value="###UPDATE_CODE###">
 							</div>
 						</form>
-
  					</fieldset>
-
                			<div class="admin_control_ok">
 							<form method="post" action="###FORM_URL###">
 								<fieldset>
@@ -2346,13 +2702,13 @@ This part is repeated for each order status item and finally this part in the te
 	            <!-- ###ADMIN_CONTROL_DENY### begin -->
                 	<div class="admin_control_deny">
 						<form method="post" action="###FORM_URL###">
-							<div><label for="password"><strong>###TRACKING_STATUS_PASSWORD###
+							<label for="password"><strong>###TRACKING_STATUS_PASSWORD###
 								</strong></label>
 								<input type="password" size="40" name="update_code" id="password" value="###UPDATE_CODE###">&nbsp;
 	                            <input type="submit" name="submit" value="###TRACKING_STATUS_PASSWORD_BUTTON###">
 								<input type="hidden" name="tracking" value="###TRACKING_NUMBER###">
-							</div>
-						</form></div>
+						</form>
+					</div>
 	            <!-- ###ADMIN_CONTROL_DENY### end -->
         </div>
 	    <!-- ###ADMIN_CONTROL### end -->
@@ -2361,7 +2717,7 @@ This part is repeated for each order status item and finally this part in the te
 <strong>###TRACKING_STATUS_EMAIL###</strong><br>###TRACKING_STATUS_EMAIL_TEXT###<br>
 <form method="post" action="###FORM_URL###" name="statusInform">
 	<input type="checkbox" name="orderRecord[email_notify]" value="1" ###FIELD_EMAIL_NOTIFY###>###TRACKING_STATUS_EMAIL_CHECKBOX###<br>
-	<input type="text" size=40 name="orderRecord[email]" value="###FIELD_EMAIL###">
+	<input type="text" size="40" name="orderRecord[email]" value="###FIELD_EMAIL###">
 	<input type="hidden" name="tracking" value="###TRACKING_NUMBER###">
 	<input type="submit" name="userNotification" value="###TRACKING_STATUS_EMAIL_BUTTON###">
 </form><br><br><strong>###TRACKING_STATUS_MESSAGE###</strong><br>###TRACKING_STATUS_MESSAGE_TEXT###<form method="post" action="###FORM_URL###"  name="sendNote">
@@ -2373,7 +2729,7 @@ This part is repeated for each order status item and finally this part in the te
 	<option value="53">###TRACKING_STATUS_MESSAGE_53###
 	</option></select> <br>###GW1B######TRACKING_STATUS_MESSAGE_SUBJECT_COMMENT######GW1B###<br>
 	<textarea cols="40" rows="5" name="orderRecord[status_comment]"></textarea><br>
-	<input type="Submit" name="submit" value="###TRACKING_STATUS_MESSAGE_BUTTON###">
+	<input type="submit" name="submit" value="###TRACKING_STATUS_MESSAGE_BUTTON###">
 </form>-->
 <br><br><b>###TRACKING_STATUS_ORDER_ORIGINAL###</b><br><br>###GW1E###
 <hr><br>###ORDER_HTML_OUTPUT###
@@ -2396,7 +2752,7 @@ Displays form for entering the tracking number.
 ###GW1B###<b>###TRACKING_STATUS_NUMBER###</b>###GW1E###<br>
 <form method="post" action="###FORM_URL###">
 	<input type="text" name="tracking" size="20"><br>
-	<input type="Submit" name="submit" value="###TRACKING_STATUS_NUMBER_BUTTON###">
+	<input type="submit" name="submit" value="###TRACKING_STATUS_NUMBER_BUTTON###">
 </form>
 
 <!-- ###ADMIN_CONTROL### begin -->
@@ -2409,7 +2765,7 @@ Displays form for entering the tracking number.
 <!-- ###ADMIN_CONTROL_DENY### begin -->
 				<form method="post" action="###FORM_URL###">###GW1B###Code:###GW1B###<br>
 					<input type="password" size=40 name="update_code" value="">
-					<input type="Submit" name="submit" value="Code eingeben">
+					<input type="submit" name="submit" value="Code eingeben">
 				</form>
 <!-- ###ADMIN_CONTROL_DENY### begin -->
 				</td>
@@ -2437,7 +2793,7 @@ Displays error message if no tracking code.
 ###GW1B###<b>###ORDER_STATUS_WRONG_NUMBER###</b>###GW1E###<br>
 <form method="post" action="###FORM_URL###">
 	<input type="text" name="tracking" size="20"><br>
-	<input type="Submit" name="submit" value="###ORDER_STATUS_VIEW###">
+	<input type="submit" name="submit" value="###ORDER_STATUS_VIEW###">
 </form>
 
 <!-- ###TRACKING_WRONG_NUMBER### end -->
@@ -2517,7 +2873,7 @@ http://###DOMAIN###/index.php?id=###PID_TRACKING###&amp;tracking=###ORDER_TRACKI
 <!-- ###ITEM_CATEGORY_AND_ITEMS### -->
 <!-- ###ITEM_LIST### begin -->
 <!-- ###ITEM_SINGLE### begin-->
-###PRODUCT_TITLE###
+###PRODUCT_TITLE###  <!-- ###edit_variant_domain### begin -->| ###EDIT_VARIANT###<!-- ###edit_variant_domain### end --><!-- ###edit_variant_width### begin -->| ###EDIT_VARIANT###<!-- ###edit_variant_width### end --><!-- ###edit_variant_height### begin -->| ###EDIT_VARIANT###<!-- ###edit_variant_height### end -->
 ###BASKET_HEADER_QUANTITY###: ###FIELD_QTY###
 <!-- ###ITEM_SINGLE### end -->
 <!-- ###ITEM_LIST### end -->
@@ -2784,7 +3140,7 @@ Message for payment method 50, Vorkasse
 			<a href="###PRODUCT_WWW###">Download</a>
 			<!-- ###MESSAGE_PAYMENT_90### end -->
 		</td>
-		<td valign=top>###GW1B###<b>###PRODUCT_TITLE###</b>###GW1E###
+		<td valign=top>###GW1B###<b>###PRODUCT_TITLE###  <!-- ###edit_variant_domain### begin -->| ###EDIT_VARIANT###<!-- ###edit_variant_domain### end --><!-- ###edit_variant_width### begin -->| ###EDIT_VARIANT###<!-- ###edit_variant_width### end --><!-- ###edit_variant_height### begin -->| ###EDIT_VARIANT###<!-- ###edit_variant_height### end --></b>###GW1E###
 
 <br>###GW1B###<font size="1">###LIST_ITEM_NUMBER### ###PRODUCT_ITEMNUMBER###</font>###GW1E###
 						<!-- ###display_variant1### -->
@@ -2897,7 +3253,6 @@ Message for payment method 50, Vorkasse
 				<td>###GW1B###<strong>###FE_USER_UID###</strong>###GW1E###</td>
 			</tr>
 <!-- ###FE_USER_SECTION### end -->
-
 		</table></td>
 		<td colspan=4></td>
 	</tr>
@@ -3033,6 +3388,179 @@ Message for payment method 50, Vorkasse
 
 
 
+<br><br><br><br><hr><br><br><br>
+<h3>ORDERS_LIST_TEMPLATE</h3>
+<em>This subpart is used to display the regular list of orders.</em><br>
+<br>
+<br>
+
+
+<!-- ###ORDERS_LIST_TEMPLATE### begin This subpart is used to display the list of orders. PAGE orders-->
+
+
+    <!-- ###ADMIN_CONTROL### begin -->
+        	<div class="admin_control">
+	            <!-- ###ADMIN_CONTROL_OK### begin -->
+				<div class="admin_control_ok">
+					<form method="post" action="###FORM_URL###"><fieldset>
+						###FEUSER_SELECT###
+						<input type="submit" name="submit" value="###ORDER_PARTY_CHANGE_BUTTON###">
+						###ADMIN_HIDDENFIELDS###
+					</form>
+
+					<form method="post" action="###FORM_URL###"><fieldset>
+						###FEGROUP_SELECT###
+						<input type="submit" name="submit" value="###ORDER_GROUP_CHANGE_BUTTON###">
+						###ADMIN_HIDDENFIELDS###
+					</form>
+				</div>
+
+	            <!-- ###ADMIN_CONTROL_OK### end -->
+
+	            <!-- ###ADMIN_CONTROL_DENY### begin -->
+				<div class="admin_control_deny">
+					<form method="post" action="###FORM_URL###">
+						<div><label for="password"><strong>###TRACKING_STATUS_PASSWORD###
+							</strong></label>
+							###ADMIN_HIDDENFIELDS###&nbsp;
+							<input type="password" size=40 name="update_code" value="">
+							<input type="submit" name="submit" value="###TRACKING_STATUS_PASSWORD_BUTTON###">
+							<input type="hidden" name="tracking" value="###TRACKING_NUMBER###">
+						</div>
+					</form>
+				</div>
+	            <!-- ###ADMIN_CONTROL_DENY### end -->
+        </div>
+	    <!-- ###ADMIN_CONTROL### end -->
+       	<div class="view_control">
+			<form method="post" action="###FORM_URL###"><fieldset>
+				###VIEW_SELECT### ###ORDER_VIEW_CRDATE_MIN###: ###ORDER_CRDATE_GE_SELECT### ###ORDER_VIEW_CRDATE_MAX###: ###ORDER_CRDATE_LE_SELECT###
+				<input type="submit" name="submit" value="###ORDER_VIEW_CHANGE_BUTTON###">
+				###HIDDENFIELDS###
+			</form>
+        </div>
+
+<!-- ###MESSAGE_VIEW_NULL### begin -->
+<p>W&auml;hlen Sie in obiger Select Box aus, was Sie anzeigen wollen!</p>
+<!-- ###MESSAGE_VIEW_NULL### end -->
+
+<!-- ###MESSAGE_VIEW_0### begin -->
+	###PANEL1###
+<p>View 0: Bestellungen</p>
+<!-- ###MESSAGE_VIEW_0### end -->
+
+<!-- ###MESSAGE_VIEW_1### begin -->
+<p>View 1: Produkte</p>
+	###PANEL2###
+<!-- ###MESSAGE_VIEW_1### end -->
+
+		<table border="0" cellspacing="0" cellpadding="1" width=100%>
+			<tr>
+				<td colspan=4 bgcolor="###GC2###">###GW2B###<b>Client : </b>###GW2E###</td>
+			</tr>
+
+			<tr>
+			<td colspan=4>
+			<font size=3><strong>Client "###FEUSER_NAME###" n&deg; : ###FEUSER_NUMBER###</strong></font>
+			<font size=3><strong>Groupe "###FEGROUP_TITLE###" n&deg; : </strong></font>
+			</td>
+			</tr>
+
+	<!-- ###ORDER_LIST### begin -->
+			<tr>
+				<td bgcolor="###GC2###">###GW2B###<b>Date :</b>###GW2E###</td>
+				<td bgcolor="###GC2###">###GW2B###<b>N&deg; Facture:</b>###GW2E###</td>
+				<td bgcolor="###GC2###">###GW2B###<b>Prix TTC :</b>###GW2E###</td>
+				<td bgcolor="###GC2###">###GW2B###<b>Actions:</b>###GW2E###</td>
+			</tr>
+			<tr>
+				<td colspan=4><img src="clear.gif" width=1 height=6></td>
+			</tr>
+		<!-- ###ORDER_ITEM### begin -->
+			<tr>
+				<td bgcolor="###GC1###">###GW2B###<b>###ORDER_DATE###</b>###GW2E###</td>
+				<td bgcolor="###GC1###">###GW2B###<b>###ORDER_NUMBER###</b>###GW2E###</td>
+				<td bgcolor="###GC1###">###GW2B###<b>###ORDER_AMOUNT###</b>###GW2E###</td>
+				<td bgcolor="###GC1###">###GW2B###<b>[<a href=index.php?id=###PID_TRACKING###&amp;tracking=###TRACKING_CODE###>Voir statut</a>] [<a href=index.php?id=###PID_BILLING###&amp;tracking=###TRACKING_CODE###>Voir cette facture</a>] [<a href=index.php?id=###PID_DELIVERY###&amp;tracking=###TRACKING_CODE###>Voir bon de livraison</a>] &raquo;</b>###GW2E###</td>
+			</tr>
+		<!-- ###ORDER_ITEM### end -->
+	<!-- ###ORDER_LIST### end -->
+	<!-- ###ORDER_NOROWS### begin -->
+			<tr>
+				<td colspan=4 bgcolor="###GC1###">###GW2B###<b>Aucun enregistrement ne r&eacute;pond 	&agrave; ces crit&egrave;res</b>###GW2E###</td>
+			</tr>
+	<!-- ###ORDER_NOROWS### end -->
+	<!-- ###ORDER_PRODUCT_LIST### begin -->
+	<tr><td bgcolor="###GC2###">###GW2B###<b>Produits ordonn&eacute;s</b>###GW2E###</td></tr>
+
+	<tr><td>###ORDER_PRODUCT_UID###</td></tr>
+	<!-- ###ORDER_PRODUCT_LIST### end -->
+		</table>
+<br><br>
+<!-- ###ORDERS_LIST_TEMPLATE### end -->
+
+
+
+
+<br><br><br><br><hr><br><br><br>
+<h3>DOWNLOAD_LIST_TEMPLATE</h3>
+<em>This subpart is used to display the regular list of downloads from the ordered products.</em><br>
+<br>
+<br>
+
+
+<!-- ###DOWNLOAD_LIST_TEMPLATE### begin This subpart is used to display the list of downloads coming from the orders. PAGE orders-->
+
+    <!-- ###ADMIN_CONTROL### begin -->
+        	<div class="admin_control">
+	            <!-- ###ADMIN_CONTROL_OK### begin -->
+				<div class="admin_control_ok">
+					<form method="post" action="###FORM_URL###"><fieldset>
+						###FEUSER_SELECT###
+						<input type="submit" name="submit" value="###ORDER_PARTY_CHANGE_BUTTON###">
+						###ADMIN_HIDDENFIELDS###
+					</form>
+				</div>
+				<table border="0" cellspacing="0" cellpadding="1" width=100%>
+					<tr>
+						<td colspan=4 bgcolor="###GC2###">###GW2B###<b>Client : </b>###GW2E###</td>
+					</tr>
+
+					<tr>
+					<td colspan=4>
+					<font size=3><strong>Client "###FEUSER_NAME###" n&deg; : ###FEUSER_NUMBER###</strong></font>
+					</td>
+					</tr>
+				</table>
+	            <!-- ###ADMIN_CONTROL_OK### end -->
+
+	            <!-- ###ADMIN_CONTROL_DENY### begin -->
+				<div class="admin_control_deny">
+					<form method="post" action="###FORM_URL###" >
+						<div><label for="password"><strong>###TRACKING_STATUS_PASSWORD###
+							</strong></label>
+							###ADMIN_HIDDENFIELDS###&nbsp;
+							<input type="password" size=40 name="update_code" value="">
+							<input type="submit" name="submit" value="###TRACKING_STATUS_PASSWORD_BUTTON###">
+							<input type="hidden" name="tracking" value="###TRACKING_NUMBER###">
+						</div>
+					</form>
+				</div>
+	            <!-- ###ADMIN_CONTROL_DENY### end -->
+        </div>
+	    <!-- ###ADMIN_CONTROL### end -->
+
+	<!-- ###ORDER_PRODUCT_LIST### begin -->
+	<table border="0" cellspacing="0" cellpadding="1" width=100%>
+	<tr><td bgcolor="###GC2###">###GW2B###<b>T&eacute;l&eacute;chargements achet&eacute;es</b>###GW2E###</td></tr>
+
+	<tr><td>###ORDER_PRODUCT_UID###</td></tr>
+	</table>
+	<!-- ###ORDER_PRODUCT_LIST### end -->
+<br><br>
+<!-- ###DOWNLOAD_LIST_TEMPLATE### end -->
+
+
 
 <!-- ###ITEM_CATLIST_TEMPLATE### begin
 	This subpart is used to display the regular list of categories.
@@ -3042,6 +3570,9 @@ Message for payment method 50, Vorkasse
 		<!--###LINK_CATEGORY### begin-->
 			###LIST_LINK###
 		<!--###LINK_CATEGORY### end-->
+		###CATEGORY_IMAGE1###
+		###CATEGORY_IMAGE2###
+		###CATEGORY_IMAGE3###
 		###ITEM_SINGLE_POST_HTML###
 	<!-- ###CATEGORY_SINGLE### end-->
 
@@ -3079,9 +3610,7 @@ Message for payment method 50, Vorkasse
 -->
 	<!-- ###CATEGORY_SINGLE### begin-->
 		###ITEM_SINGLE_PRE_HTML###
-		<!--###LINK_CATEGORY### begin-->
-			###LIST_LINK### ###CATEGORY_IMAGE###
-		<!--###LINK_CATEGORY### end-->
+		<!--###LINK_CATEGORY### begin-->###LIST_LINK### ###CATEGORY_IMAGE###<!--###LINK_CATEGORY### end-->
 		###ITEM_SINGLE_POST_HTML###
 	<!-- ###CATEGORY_SINGLE### end-->
 
@@ -3097,6 +3626,27 @@ Message for payment method 50, Vorkasse
 	<div id="ArticleId">&nbsp;</div>
 
 <!-- ###ITEM_CATEGORY_MENU_TEMPLATE### end -->
+
+
+<!----------------------------------------------------------------------------------->
+<!-- ###ITEM_ADLIST_TEMPLATE### begin
+	This subpart is used to display the regular list of categories.
+-->
+<div class="mainMenu">
+	<!-- ###CATEGORY_SINGLE### begin-->
+		###ITEM_SINGLE_PRE_HTML###
+		<!--###LINK_CATEGORY### begin-->
+			###LIST_LINK###
+		<!--###LINK_CATEGORY### end--> <br/>
+		###ADDRESS_THOROUGHFARE### ###ADDRESS_THOROUGHFARE_NUMBER###
+		###ADDRESS_POST_CODE### ###ADDRESS_LOCALITY###
+		###ADDRESS_REMARKS###
+		###ITEM_SINGLE_POST_HTML###
+	<!-- ###CATEGORY_SINGLE### end-->
+</div>
+<!-- ###ITEM_ADLIST_TEMPLATE### end -->
+<!----------------------------------------------------------------------------------->
+
 
 
 
@@ -3133,7 +3683,7 @@ Subpart used as template for the PDF generation
 <!-- ###ITEM_CATEGORY_AND_ITEMS### -->
 <!-- ###ITEM_LIST### begin -->
 <!-- ###ITEM_SINGLE### begin-->
-###PRODUCT_TITLE### ###PRODUCT_NOTE### ###PRODUCT_NOTE2###|###PRODUCT_PRICE###|###FIELD_QTY###|###PRICE_TOTAL_TAX###
+###PRODUCT_TITLE###  <!-- ###edit_variant_domain### begin -->| ###EDIT_VARIANT###<!-- ###edit_variant_domain### end --><!-- ###edit_variant_width### begin -->| ###EDIT_VARIANT###<!-- ###edit_variant_width### end --><!-- ###edit_variant_height### begin -->| ###EDIT_VARIANT###<!-- ###edit_variant_height### end --> ###PRODUCT_NOTE### ###PRODUCT_NOTE2###|###PRODUCT_PRICE###|###FIELD_QTY###|###PRICE_TOTAL_TAX###
 <!-- ###ITEM_SINGLE### end -->
 <!-- ###ITEM_LIST### end -->
 <!-- ###ITEM_CATEGORY_AND_ITEMS### end --> | |###BASKET_PAYMENT_TOTAL###|###PRICE_TOTAL_NO_TAX### ###P_CURRENCY###
@@ -3161,7 +3711,7 @@ Subpart used as template for the PDF generation
 </em>
 <!-- ###BILL_PDF_FOOTER_TEMPLATE### begin
 -->
- My super products shop .
+ My special products shop .
 
 <!-- ###BILL_PDF_FOOTER_TEMPLATE### end -->
 
