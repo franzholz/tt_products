@@ -152,7 +152,7 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$formUrlPid = ($pidNext ? $pidNext : $GLOBALS['TSFE']->id);
 		$singleExcludeList = $this->getSingleExcludeList($excludeList);
 
-		$bUseBackPid = ($bUseBackPid && $pidNext != $GLOBALS['TSFE']->id);
+		$bUseBackPid = ($bUseBackPid && $pidNext && $pidNext != $GLOBALS['TSFE']->id);
 
 		$urlExcludeList = $excludeList;
 		if (
