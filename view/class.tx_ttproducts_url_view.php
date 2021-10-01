@@ -150,7 +150,7 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 			}
 			$excludeList = implode(',', $excludeListArray);
 		}
-		$bUseBackPid = ($bUseBackPid && $pidNext != $pid);
+		$bUseBackPid = ($bUseBackPid && $pidNext && $pidNext != $pid);
 
 		$url = tx_div2007_alpha5::getTypoLink_URL_fh003(
 			$this->cObj,
