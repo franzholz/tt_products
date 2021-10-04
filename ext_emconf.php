@@ -4,7 +4,7 @@
  * Extension Manager/Repository config file for ext "tt_products".
  ***************************************************************/
 
-$EM_CONF[$_EXTKEY] = array(
+$EM_CONF[$_EXTKEY] = [
 	'title' => 'Shop System',
 	'description' => 'New versions at ttproducts.de. Documented in E-Book "Der TYPO3-Webshop" - Shop with listing in multiple languages, with order tracking, product variants, credit card payment and bank accounts, bill, creditpoint, voucher system and gift certificates. Latest updates at ttproducts.de.',
 	'category' => 'plugin',
@@ -16,22 +16,22 @@ $EM_CONF[$_EXTKEY] = array(
 	'author_email' => 'franz@ttproducts.de',
 	'author_company' => 'jambage.com',
 	'version' => '2.9.19',
-	'constraints' => array(
-		'depends' => array(
+	'constraints' => [
+		'depends' => [
 			'div2007' => '1.11.5-0.0.0',
 			'php' => '5.5.0-7.4.99',
 			'table' => '0.7.7-0.0.0',
 			'tsparser' => '0.2.5-0.0.0',
 			'typo3' => '7.6.0-10.4.99',
-		),
-		'conflicts' => array(
-		),
-		'suggests' => array(
+		],
+		'conflicts' => [
+		],
+		'suggests' => [
 			'func' => '',
 			'addons_em' => '0.2.1-0.0.0',
             'typo3db_legacy' => '1.0.0-1.1.99',
 			'taxajax' => '',
-		)
-	)
-);
+		]
+	]
+];
 
