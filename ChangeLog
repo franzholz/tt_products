@@ -1,4 +1,5 @@
-
+2021-10-12 Franz Holzinger <franz@ttproducts.de>
+    * bugfix: The tt_products TypoScript version comparison must verify for version 9 and higher to get the correct Shop System setup.
 
 2021-08-19 Franz Holzinger <franz@ttproducts.de>
     * fix issue #93: Use \JambageCom\Div2007\Utility\MailUtility for the sending of emails since TYPO3 8.7
