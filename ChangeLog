@@ -1,3 +1,152 @@
+
+2021-10-12 Franz Holzinger <franz@ttproducts.de>
+    * bugfix: The tt_products TypoScript version comparison must verify for version 9 and higher to get the correct Shop System setup.
+
+2021-08-19 Franz Holzinger <franz@ttproducts.de>
+    * fix issue #93: Use \JambageCom\Div2007\Utility\MailUtility for the sending of emails since TYPO3 8.7
+    * fix issue #87: Deprecationn no. 65790 says that also the marker ###STORAGE_PID### cannot be used any more in TCA.
+
+2021-08-18 Franz Holzinger <franz@ttproducts.de>
+    * bugfix compatibility TYPO3 8.7: datasheet_uid must not be used.
+    * bugfix: a NULL value would be recognized as undefined. The marker array must always contain an empty string and not a NULL value.
+    * bugfix: datasheet files without FAL must be considered only if they are not NULL.
+
+2021-08-17 Franz Holzinger <franz@ttproducts.de>
+    * bugfix compatibility TYPO3 9.5 and 10.4: A USER_INT object must be used if the basket has been filled in in order not to use the page cache. ttp_basket
+
+2021-08-10 Franz Holzinger <franz@ttproducts.de>
+    * fix issue #91: Add class name "singlelink" for link to single and "listlink" for link to list view.
+
+2021-08-07 Franz Holzinger <franz@ttproducts.de>
+    * bugfix: ###ARTICLE markers must be replaced in the product list view.
+
+2021-07-16 Franz Holzinger <franz@ttproducts.de>
+    * bugfix issue #89: show the record fields crdate and tstamp with time.
+
+2021-07-16 Franz Holzinger <franz@ttproducts.de>
+    * bugfix issue #88: TYPO3 >= 9.5 must use a password hash for the password generation.
+
+2021-07-16 Franz Holzinger <franz@ttproducts.de>
+    * remove support for TYPO3 6.2
+
+2021-04-17 Franz Holzinger <franz@ttproducts.de>
+    * compatibility TYPO3 10: Fix issue  #86. Support FAL for table tt_products_language
+
+2021-04-16 Franz Holzinger <franz@ttproducts.de>
+    * bugfix issue #84: Enabel the install tool migration wizards in the file ext_lcoalconf.php. ProductDatasheetUpdater and ProductImageUpdater have been missing.
+
+2021-04-03 Franz Holzinger <franz@ttproducts.de>
+    * compatibility TYPO3 10: Support für the transactor extension.
+
+2021-03-31 Franz Holzinger <franz@ttproducts.de>
+    * bugfix issue #83: TYPO3 loses the attachment of the email.
+
+2021-03-29 Franz Holzinger <franz@ttproducts.de>
+    * TYPO3 9.5 deprecation no. 85389: Replace $GLOBALS['TSFE']->beUserLogin by $context->getPropertyFromAspect('backend.user', 'isLoggedIn').
+
+2021-03-29 Franz Holzinger <franz@ttproducts.de>
+    * bugfix issue #82: PHP 7.4 replace !count() by empty().
+
+2021-03-27 Franz Holzinger <franz@ttproducts.de>
+    * compatibility PHP 7: Array and string offset access syntax with curly braces is deprecated.
+
+2021-03-25 Franz Holzinger <franz@ttproducts.de>
+    * bugfix issue #81: The replacement of the fields of table tt_products_mm_graduated_price is sometimes missing. product_uid ==> uid_local
+    graduated_price_uid ==> uid_foreign
+    This must be done manually in TYPO3 < 10. Only TYPO3 10 has an upgrade wizard for it.
+
+2021-03-22 Franz Holzinger <franz@ttproducts.de>
+    * bugfix issue #80: The orderArray must be initialized before usage.
+
+2021-03-18 Franz Holzinger <franz@ttproducts.de>
+    * bugfix issue #80: Wrong value for marker ###ORDER_UID### in order finalization activity.
+
+2021-03-10 Franz Holzinger <franz@ttproducts.de>
+    * bugfix issue #79: replace static class tx_ttproducts_static_info by calls of the \JambageCom\Div2007\Api\StaticInfoTablesApi class object $staticInfoApi.
+    * remove support for static_info_tables_taxes. Upgrade to version 2.13.2 or higher if you still need it.
+
+2021-03-10 Franz Holzinger <franz@ttproducts.de>
+    * bugfix issue #78: removed $this->basket must not be used any more.
+
+2021-03-10 Franz Holzinger <franz@ttproducts.de>
+    * bugfix issue #77: wrong call to tx_ttproducts_api::createFeuser()
+
+2021-03-09 Franz Holzinger <franz@ttproducts.de>
+    * bugfix issue #76: Markers from setup marks are not parsed because of wrong initialization order.
+
+2021-03-05 Franz Holzinger <franz@ttproducts.de>
+    * bugfix: $assetCollector->addInlineJavaScript is no useful replacement for $GLOBALS['TSFE']->additionalHeaderData.
+    * bugfix: $assetCollector->addInlineJavaScrip with ['priority' => true] is the replacement for $GLOBALS['TSFE']->setJS
+
+2021-03-04 Franz Holzinger <franz@ttproducts.de>
+    * compatibility TYPO3 10.4: make a new TaxajaxController which does not initialize the front end
+    * compatibility TYPO3 10.4: Ajax bugfix
+
+2021-03-03 Franz Holzinger <franz@ttproducts.de>
+    * compatibility TYPO3 9.5: replace $GLOBALS['TSFE']->loginUser by \JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn().
+
+2021-02-27 Franz Holzinger <franz@ttproducts.de>
+    * compatibility TYPO3 9.5: replace $GLOBALS['TSFE']->additionalHeaderData by $pageRenderer->addHeaderData.
+
+2021-02-25 Franz Holzinger <franz@ttproducts.de>
+    * bugfix for FAL: The small images have been forgotten in the upgrade script.
+
+2021-02-24 Franz Holzinger <franz@ttproducts.de>
+    * bugfix: Add missing images to tt_products_articles in the backend.
+
+2021-02-23 Franz Holzinger <franz@ttproducts.de>
+    * compatibility TYPO3 10.4: bugfix for datasheet_uid
+
+2021-02-17 Franz Holzinger <franz@ttproducts.de>
+    * compatibility TYPO3 10.4: replace user TCA by own renderType orderedProductsElement and orderHtmlElement
+    * compatibility TYPO3 10.4: add support for FAL
+    * compatibility TYPO3 10.4: new TypoScript conditions with Symfony expressions
+
+2021-02-12 Franz Holzinger <franz@ttproducts.de>
+    * compatibility TYPO3 9.5, Deprecation: no. 85558: ContentObjectRenderer->enableFields must be replaced by another solution. \JambageCom\Div2007\Utility\TableUtility::enableFields
+
+2021-02-11 Franz Holzinger <franz@ttproducts.de>
+    * compatibility TYPO3 10.4: The $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT] array components must not have a trailing dot.
+
+2021-01-29 Franz Holzinger <franz@ttproducts.de>
+    * compatibility PHP 7.4: Curly braces as method to get individual characters inside of a string have been removed, 
+    * compatibility TYPO3 10.4: add missing renderType to <type>select</type> in TCA flexform configuration. 
+    * compatibility TYPO3 10.4 deprecation 85445: Replace TemplateService->getFileName by TYPO3\CMS\Frontend\Resource\FilePathSanitizer object method sanitize.
+
+2021-01-25 Franz Holzinger <franz@ttproducts.de>
+    * add and improve the Upgrade Wizards in TYPO3 10.4
+    * new feature support for FAL in TYPO3 10.4: add fields image_uid, smallimage_uid, datasheet_uid
+
+2020-12-28 Franz Holzinger <franz@ttproducts.de>
+    * bugfix: The file EmConfiguration.php must be included in ext_localconf.php. The composer does not work at this position and inside of TCA files.
+    * enhancement issue #75: support more email addresses by regexp
+
+2020-12-08 Franz Holzinger <franz@ttproducts.de>
+    * bugfix: Wrong order of treatment of the language object and the marker substitution 
+
+2020-12-01 Franz Holzinger <franz@ttproducts.de>
+    * enhancement to feature foundby: Setup foundby.type = radio fo show a radio box inside of the marker ###DELIVERY_FOUNDBY_SELECTOR###.
+
+2020-11-25 Franz Holzinger <franz@ttproducts.de>
+    * use constant DIV2007_LANGUAGE_PATH for the TYPO3 language file path.
+    * bugfix: \JambageCom\TtProducts\Domain\Model\Dto\EmConfiguration is sometimes not found in the TCA folder, but only inside of Overrides
+    * compatibility 9: Replace ExtensionManagementUtility::siteRelPath by \TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath(TT_PRODUCTS_EXT)
+    * compatibility 9: replace PATH_site by \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/' 
+    
+2020-11-19 Franz Holzinger <franz@ttproducts.de>
+    * support for taxajax extension based on Middleware
+    * bugfix issue #73: Trim the product title in the TCA and other fields.
+    * bugfix issue #74: The FE session has not been stored.
+
+2020-10-09 Franz Holzinger <franz@ttproducts.de>
+    * bugfix with memo item function: wrong functablename memoItems instead of tt_products
+
+2020-10-05 Franz Holzinger <franz@ttproducts.de>
+    * bugfix with discountprice: $k3 == 'type' is true with a value of 0.
+
+2020-09-22 Franz Holzinger <franz@ttproducts.de>
+    * bugfixes: better support for error messages if a template file or its subpart has not been found. Configurations have been lost.
+
 2020-08-27 Franz Holzinger <franz@ttproducts.de>
 * Use the new marker ###ORDER_ORDER_NO### instead of ###ORDER_UID###.
 

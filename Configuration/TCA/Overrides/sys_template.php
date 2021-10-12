@@ -3,7 +3,7 @@ defined('TYPO3_MODE') || die('Access denied.');
 
 call_user_func(function () {
    if (
-            version_compare(TYPO3_version, '9.5.0', '<')
+            version_compare(TYPO3_version, '9.5.0', '>=')
     ) {
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addStaticFile( TT_PRODUCTS_EXT, 'Configuration/TypoScript/PluginSetup/Main/', 'Shop System');
     } else {
