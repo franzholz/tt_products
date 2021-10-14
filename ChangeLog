@@ -1,3 +1,6 @@
+2021-10-14 Franz Holzinger <franz@ttproducts.de>
+    * bugfix: Use the correct new TypoScript condition to check if a tt_products basket (ttp_basket) has been submitted with a POST form.
+
 2021-10-12 Franz Holzinger <franz@ttproducts.de>
     * bugfix: The tt_products TypoScript version comparison must verify for version 9 and higher to get the correct Shop System setup.
 

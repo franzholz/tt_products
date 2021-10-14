@@ -554,7 +554,7 @@ plugin.tt_products {
 }
 
 
-[traverse[request.getParsedBody()['ttp_basket'] matches "/.+/"]
+[traverse(request.getParsedBody(), 'ttp_basket')]
 plugin.tt_products = USER_INT
 [global]
 
