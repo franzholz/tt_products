@@ -119,6 +119,9 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
                     $markerFile = $GLOBALS['TSFE']->tmpl->getFileName($markerFile);
                 }
             }
+            if (!$markerFile) {
+                throw new \RuntimeException('Error in tt_products: No marker file for language "' . $language . '" set.', 50011);
+            }
 			$languageObj->loadLocalLang($markerFile);
 		}
 		$locallang = $languageObj->getLocallang();
