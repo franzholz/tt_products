@@ -75,6 +75,9 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
 		$language = $languageObj->getLanguage();
 
 		if ($language == '' || $language == 'default' || $language == 'en') {
+            if (!$markerFile) {
+                $markerFile = $defaultMarkerFile;
+            }
             if ($markerFile) {
                 if (
                     version_compare(TYPO3_version, '9.4.0', '>=')
@@ -94,6 +97,9 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
 				} else if (ExtensionManagementUtility::isLoaded(ADDONS_EXT)) {
 					$markerFile = 'EXT:' . ADDONS_EXT . '/' . $language . '.locallang.xml';
 				}
+                if (!$markerFile) {
+                    $markerFile = $defaultMarkerFile;
+                }
 			} else if (substr($markerFile, 0, 4) == 'EXT:') {	// extension
 				list($extKey, $local) = explode('/', substr($markerFile, 4), 2);
 				$filename='';
@@ -109,6 +115,7 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
 					$this->setErrorCode($errorCode);
 				}
 			}
+
             if ($markerFile) {
                 if (
                     version_compare(TYPO3_version, '9.4.0', '>=')
@@ -119,6 +126,7 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
                     $markerFile = $GLOBALS['TSFE']->tmpl->getFileName($markerFile);
                 }
             }
+
             if (!$markerFile) {
                 throw new \RuntimeException('Error in tt_products: No marker file for language "' . $language . '" set.', 50011);
             }
@@ -454,6 +462,3 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
 		return $retArray;
 	}
 }
-
-
-
