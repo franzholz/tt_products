@@ -24,7 +24,7 @@ endtimeYear = 2038
 where.category =
   # cat=basic/enable; type=boolean; label=Page Title: Here you can activate the hook of tt_products to show the product title in the single view and maybe on other places.
 hook.setPageTitle = 1
-  # cat=basic/enable; type=string; label=tt_products exclude: exclude these fields from the table tt_products. addons_em must be installed.
+  # cat=exclude/enable; type=string; label=tt_products exclude: exclude these fields from the table tt_products. addons_em must be installed.
 exclude.tt_products =
   # cat=exclude/enable; type=string; label=tt_products_language exclude: exclude these fields from the table tt_products_language. addons_em must be installed.
 exclude.tt_products_language = datasheet,www,image
