@@ -27,7 +27,7 @@
     "php": "^5.5 || ^7.2",
     "typo3/cms-core": "^7.6 || ^8,7 || ^9.5 || ^10.4",
     "jambagecom/div2007": "^1.11",
-    "jambagecom/table": "^0.7",
+    "jambagecom/table": "^0.7 || ^0.8",
     "jambagecom/tsparser": "^0.2"
   },
   "suggest": {
