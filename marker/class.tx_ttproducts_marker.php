@@ -71,7 +71,10 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
 		$language = $languageObj->getLanguage();
 
 		if ($language == '' || $language == 'default' || $language == 'en') {
-			if ($markerFile) {
+            if (!$markerFile) {
+                $markerFile = $defaultMarkerFile;
+            }
+            if ($markerFile) {
                 if (
                     version_compare(TYPO3_version, '9.4.0', '>=')
                 ) {
@@ -80,8 +83,8 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
                 } else {
                     $markerFile = $GLOBALS['TSFE']->tmpl->getFileName($markerFile);
                 }
-				$languageObj->loadLocalLang($markerFile);
-			}
+                $languageObj->loadLocalLang($markerFile);
+            }
 		} else {
 			if (!$markerFile || $markerFile == '{$plugin.tt_products.file.markerFile}') {
 				if ($language == 'de') {
@@ -105,7 +108,10 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
 				}
 			}
 
-			if ($markerFile) {
+            if (!$markerFile) {
+                $markerFile = $defaultMarkerFile;
+            }
+            if ($markerFile) {
                 if (
                     version_compare(TYPO3_version, '9.4.0', '>=')
                 ) {
