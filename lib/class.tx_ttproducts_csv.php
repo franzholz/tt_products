@@ -63,7 +63,7 @@ class tx_ttproducts_csv implements \TYPO3\CMS\Core\SingletonInterface {
 		$itemTable = $tablesObj->get($functablename, false);
 
 		$csvFilepath = trim($csvFilepath);
-		if ($csvFilepath{strlen($csvFilepath) - 1} != '/') {
+		if ($csvFilepath[strlen($csvFilepath) - 1] != '/') {
 			$csvFilepath .= '/';
 		}
 		$csvFilepath .= $orderObj->getNumber($csvorderuid) . '.csv';
