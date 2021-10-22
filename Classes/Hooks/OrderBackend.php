@@ -68,6 +68,10 @@ class OrderBackend implements \TYPO3\CMS\Core\SingletonInterface {
 
 	// called from the page and list module for TCE
     public function tceSingleOrder ($parameterArray, $fobj) {
+		if (version_compare(TYPO3_version, '9.5.0', '<')) {
+            return 'The ordered list view requires TYPO3 9.5 or later .';
+		}
+
         $table = '';
         $field = '';
         $row   = [];
@@ -110,8 +114,9 @@ class OrderBackend implements \TYPO3\CMS\Core\SingletonInterface {
 
 		$TSconfig = \TYPO3\CMS\Backend\Utility\BackendUtility::getTCEFORM_TSconfig($table, $row);
 		$orderView = $tablesObj->get('sys_products_orders', true);
-		$out = $orderView->getSingleOrder($row);
-	}
+		$result = $orderView->getSingleOrder($row);
+		return $result;
+    }
 
 
 	public function displayOrderHtml ($parameterArray, $fobj) {
