@@ -1,3 +1,6 @@
+2021-10-22 Franz Holzinger <franz@ttproducts.de>
+    * bugfix: Array and string offset access syntax with curly braces is deprecated in PHP 7.
+    * remove support for PHP 5.
 
 2021-10-12 Franz Holzinger <franz@ttproducts.de>
     * bugfix: The tt_products TypoScript version comparison must verify for version 9 and higher to get the correct Shop System setup.

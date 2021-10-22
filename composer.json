@@ -24,7 +24,7 @@
     "GPL-2.0-or-later"
   ],
   "require": {
-    "php": "^5.5 || ^7.2",
+    "php": "^7.2",
     "typo3/cms-core": "^7.6 || ^8.7 || ^9.5 || ^10.4",
     "jambagecom/div2007": "^1.11",
     "jambagecom/table": "^0.7 || ^0.8",
@@ -34,7 +34,8 @@
     "friendsoftypo3/func": "^9.0",
     "jambagecom/addons-em": "^0.2",
     "friendsoftypo3/typo3db-legacy": "^1",
-    "jambagecom/taxajax": "^0.4, ^0.5,"
+    "jambagecom/taxajax": "^0.4, ^0.5,",
+    "sjbr/static-info-tables": "^6.7,^6.8,^6.9"
   },
   "autoload": {
     "psr-4": {
