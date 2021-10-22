@@ -1,3 +1,6 @@
+2021-10-22 Franz Holzinger <franz@ttproducts.de>
+    * bugfix: Array and string offset access syntax with curly braces is deprecated in PHP 7.
+
 2021-10-14 Franz Holzinger <franz@ttproducts.de>
     * bugfix: Use the correct new TypoScript condition to check if a tt_products basket (ttp_basket) has been submitted with a POST form.
 
