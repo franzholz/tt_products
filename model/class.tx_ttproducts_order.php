@@ -943,15 +943,23 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
 	}
 
 
-	protected function fillVariant (&$row, $variant, $variantSplitSeparator, $prefix = '') {
-		$$variantArray =
-			preg_split(
-				'/[\h]*' . $variantSplitSeparator . '[\h]*/',
-				$variant,
-				-1,
-				PREG_SPLIT_NO_EMPTY
-			);
-	}
+    protected function fillVariant (&$row, $variant, $variantSplitSeparator, $prefix = '') {
+        $variantArray =
+            preg_split(
+                '/[\h]*' . $variantSplitSeparator . '[\h]*/',
+                $variant,
+                -1,
+                PREG_SPLIT_NO_EMPTY
+            );
+
+        foreach ($variantArray as $variantPart) {
+            $parts = explode(':', $variantPart);
+
+            $field = $prefix . $parts['0'];
+            $row[$field] = $parts['1'];
+        }
+    }
+
 
 	static public function getFal (
         &$orderedDownloadUid,
