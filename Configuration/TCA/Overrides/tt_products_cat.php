@@ -103,8 +103,7 @@ call_user_func(function () {
     );
 
     if (
-        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['fal'] ||
-        version_compare(TYPO3_version, '10.4.0', '>=')
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['fal']
     ) {
         $GLOBALS['TCA'][$table]['ctrl']['thumbnail'] = 'image_uid';
 
