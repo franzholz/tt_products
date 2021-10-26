@@ -126,7 +126,7 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 		$basketExtra = tx_ttproducts_control_basket::getBasketExtra();
 		$basketRecs = tx_ttproducts_control_basket::getRecs();
 		$funcTablename = tx_ttproducts_control_basket::getFuncTablename();
-		$useFal = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['fal'];
+		$useFal = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['fal'] ||  version_compare(TYPO3_version, '10.4.0', '>=');
 
 			// price
 		$priceObj = GeneralUtility::makeInstance('tx_ttproducts_field_price');
@@ -408,7 +408,7 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 		$conf =  $cnfObj->getConf();
 		$bUseXHTML = $GLOBALS['TSFE']->config['config']['xhtmlDoctype'] != '';
 		$csConvObj = $GLOBALS['TSFE']->csConvObj;
-		$useFal = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['fal'];
+		$useFal = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['fal'] ||  version_compare(TYPO3_version, '10.4.0', '>=');
 
 		$theCode = strtoupper($view);
 		$imageObj = GeneralUtility::makeInstance('tx_ttproducts_field_image');
@@ -608,6 +608,7 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 							) {
 								$imageRenderObj = 'smallImage';
 							}
+
 							$imageArray =
 								$imageObj->getFileArray(
 									$imageTablename,

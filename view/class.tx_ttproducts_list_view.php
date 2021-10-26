@@ -2218,7 +2218,6 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 									$productRowArray,
 									$theCode == 'LISTGIFTS'
 								);
-
 								$tablesObj->get('tt_products', true)->getItemSubpartArrays(
 									$t['item'],
 									'tt_products',
@@ -2454,7 +2453,6 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 						}
 						$markerArray['###SQL_GROUPBY_COUNT###'] = $row['sql_groupby_count'];
 						$allVariants = '';
-
 						$prodVariantRow = $prodRow;
 
 						if (
@@ -2934,6 +2932,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 							);
 						}
 						$tempContent = '';
+
 						if ($t['item'] != '') {
 							$tempContent .= tx_div2007_core::substituteMarkerArrayCached(
 								$t['item'],
@@ -2942,7 +2941,6 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 								$wrappedSubpartArray
 							);
 						}
-
 						$itemsOut .= $tempContent;
 
 						// max. number of columns reached?

@@ -1,3 +1,6 @@
+2021-10-26 Franz Holzinger <franz@ttproducts.de>
+    * bugfix compatibility TYPO3 10.4: FAL must always be used for TYPO3 10, no matter what has been configured for tt_products.
+
 2021-10-22 Franz Holzinger <franz@ttproducts.de>
     * bugfix: ordered product list over backend hook
     * bugfix: Array and string offset access syntax with curly braces is deprecated in PHP 7.

@@ -413,7 +413,6 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 
 		$basketObj->calculateSums();
 		$basketObj->addVoucherSums();
-
 		$templateFile = '';
 		$templateCode = '';
 

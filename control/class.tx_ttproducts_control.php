@@ -1834,7 +1834,6 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 				$errorMessage
 			);
 		}
-
 		return $content;
 	}
 }

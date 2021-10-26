@@ -49,7 +49,7 @@ class tx_ttproducts_voucher extends tx_ttproducts_table_base {
 	protected $usedVoucherCodeArray = array();
 
 	/**
-	 * Getting all tt_products_cat categories into internal array
+	 * Getting all voucher codes into internal array
 	 */
 	public function init ($functablename) {
 
