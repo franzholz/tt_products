@@ -132,6 +132,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 		// Save the original flexform in case if we need it later as USER_INT
 		$this->cObj->data['_original_pi_flexform'] = $this->cObj->data['pi_flexform'];
 		$this->cObj->data['pi_flexform'] = GeneralUtility::xml2array($this->cObj->data['pi_flexform']);
+		$this->javaScriptObj = GeneralUtility::makeInstance('tx_ttproducts_javascript');
 
 		$config['code'] =
 			tx_div2007_alpha5::getSetupOrFFvalue_fh004(
@@ -270,7 +271,6 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 		if ($config['displayCurrentRecord'])	{
 			$row = $this->cObj->data;
 			$this->tt_product_single['product'] = $row['uid'];
-
 		} else {
 			$error_detail = '';
 			$paramArray = array('product', 'article');
@@ -291,13 +291,11 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 
 			if ($error_detail != '')	{
 				$errorCode[0] = 'wrong_' . $error_detail;
-				$errorCode[1] = $paramVal;
+				$errorCode[1] = htmlspecialchars($paramVal);
 				return false;
 			}
 		}
 
-		
-		
 			// image
 		$imageObj = GeneralUtility::makeInstance('tx_ttproducts_field_image');
 		$imageObj->init($pibaseObj->cObj);
@@ -329,8 +327,6 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 
 		$graduatedPriceViewObj = GeneralUtility::makeInstance('tx_ttproducts_graduated_price_view');
 		$graduatedPriceViewObj->init($graduatedPriceObj);
-
-		$this->javaScriptObj = GeneralUtility::makeInstance('tx_ttproducts_javascript');
 
 			// JavaScript
 		$this->javaScriptObj->init(
@@ -760,7 +756,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
                     $messageArr = explode('|', $message = $languageObj->getLabel($indice));
                     $contentTmp .= '<b>' . $languageObj->getLabel('tt_products') . ': ' . $messageArr[0] . '</b>';
                 } else {
-                    $contentTmp .= '<b>' . $indice . $messageArr[$i] . '</b>';
+                    $contentTmp .= '<b>' . $indice . htmlspecialchars($messageArr[$i]) . '</b>';
                 }
                 $i++;
             }

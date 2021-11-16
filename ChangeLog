@@ -1,3 +1,6 @@
+2021-11-16 Franz Holzinger <franz@ttproducts.de>
+    * bugfix: Error case with wrong product uid in string form must show correct HTML formatted output.
+
 2021-10-26 Franz Holzinger <franz@ttproducts.de>
     * bugfix compatibility TYPO3 10.4: FAL must always be used for TYPO3 10, no matter what has been configured for tt_products.
 
