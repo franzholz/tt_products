@@ -262,6 +262,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 		} else {
 			$error_detail = '';
 			$paramArray = array('product', 'article', 'dam', 'fal');
+			$paramVal = '';
 
 			foreach ($paramArray as $param) {
 				$paramVal = ($piVars[$param] ? $piVars[$param] : '');
@@ -279,7 +280,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 
 			if ($error_detail != '') {
 				$errorCode[0] = 'wrong_' . $error_detail;
-				$errorCode[1] = $paramVal;
+				$errorCode[1] = htmlspecialchars($paramVal);
 				return false;
 			}
 		}
