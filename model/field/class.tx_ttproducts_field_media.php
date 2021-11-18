@@ -143,7 +143,13 @@ class tx_ttproducts_field_media extends tx_ttproducts_field_base {
 					$fileInfo = $storage->getFileInfo($fileObj);
 
 					if ($fal) {
-						$fileArray[$sysfileRow['uid']] = array_merge($sysfileRow, $fileInfo);
+						$fileArray[$sysfileRow['uid']] = array_merge($fileInfo, $sysfileRow);
+						$keepFields = ['title', 'description', 'alternative'];
+						foreach ($keepFields as $keepField) {
+                            if ($sysfileRow[$keepField] == '' && $fileInfo[$keepField] != '') {
+                                $fileArray[$sysfileRow['uid']][$keepField] = $fileInfo[$keepField];
+                            }
+						}
 					} else {
 						$fileArray[] = 'fileadmin' . $fileInfo['identifier'];
 					}
