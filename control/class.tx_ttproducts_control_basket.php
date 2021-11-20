@@ -43,11 +43,6 @@ use TYPO3\CMS\Core\Utility\MathUtility;
 use JambageCom\TtProducts\Api\CustomerApi;
 
 
-// if (version_compare(TYPO3_version, '7.0.0', '>=')) { // The autoloader is broken in TYPO3 7.5.0
-// 	require_once(PATH_BE_TTPRODUCTS . 'model/class.tx_ttproducts_pid_list.php');
-// }
-// 
-
 abstract class BasketRecsIndex {
 	const Billing = 'personinfo';
 	const Delivery = 'delivery';

@@ -47,21 +47,17 @@ class WizardIcon
             'params' => $params
         );
 
-        if (version_compare(TYPO3_version, '7.5', '>=')) {
-            $iconIdentifier = 'extensions-tt_products-wizard';
-            /** @var \TYPO3\CMS\Core\Imaging\IconRegistry $iconRegistry */
-            $iconRegistry = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Imaging\\IconRegistry');
-            $iconRegistry->registerIcon(
-                $iconIdentifier,
-                'TYPO3\\CMS\\Core\\Imaging\\IconProvider\\BitmapIconProvider',
-                array(
-                    'source' => 'EXT:' . TT_PRODUCTS_EXT . '/' . $wizardIcon,
-                )
-            );
-            $wizardItem['iconIdentifier'] = $iconIdentifier;
-        } else {
-            $wizardItem['icon'] = ExtensionManagementUtility::extRelPath(TT_PRODUCTS_EXT) . $wizardIcon;
-        }
+        $iconIdentifier = 'extensions-tt_products-wizard';
+        /** @var \TYPO3\CMS\Core\Imaging\IconRegistry $iconRegistry */
+        $iconRegistry = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Imaging\\IconRegistry');
+        $iconRegistry->registerIcon(
+            $iconIdentifier,
+            'TYPO3\\CMS\\Core\\Imaging\\IconProvider\\BitmapIconProvider',
+            array(
+                'source' => 'EXT:' . TT_PRODUCTS_EXT . '/' . $wizardIcon,
+            )
+        );
+        $wizardItem['iconIdentifier'] = $iconIdentifier;
 
         $wizardItems['plugins_tx_ttproducts_pi1'] = $wizardItem;
 

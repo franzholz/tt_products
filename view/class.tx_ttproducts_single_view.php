@@ -110,13 +110,8 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
 		$urlObj = GeneralUtility::makeInstance('tx_ttproducts_url_view');
         $cObj = \JambageCom\TtProducts\Api\ControlApi::getCObj();
-        $parser = $cObj;
-        if (
-            defined('TYPO3_version') &&
-            version_compare(TYPO3_version, '7.0.0', '>=')
-        ) {
-            $parser = tx_div2007_core::newHtmlParser(false);
-        }
+
+        $parser = tx_div2007_core::newHtmlParser(false);
 
 		$piVars = tx_ttproducts_model_control::getPiVars();
 		$conf = $cnf->getConf();

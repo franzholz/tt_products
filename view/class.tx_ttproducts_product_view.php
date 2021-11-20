@@ -215,13 +215,7 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
 		$cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$conf = $cnfObj->getConf();
 		$cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
-        $parser = $cObj;
-        if (
-            defined('TYPO3_version') &&
-            version_compare(TYPO3_version, '7.0.0', '>=')
-        ) {
-            $parser = tx_div2007_core::newHtmlParser(false);
-        }
+        $parser = tx_div2007_core::newHtmlParser(false);
 		parent::getModelMarkerArray(
 			$row,
 			$markerParam,

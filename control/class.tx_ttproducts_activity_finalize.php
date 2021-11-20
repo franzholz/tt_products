@@ -101,13 +101,7 @@ class tx_ttproducts_activity_finalize implements \TYPO3\CMS\Core\SingletonInterf
 		&$errorCode,
 		&$errorMessage
 	) {
-        $parser = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
-        if (
-            defined('TYPO3_version') &&
-            version_compare(TYPO3_version, '7.0.0', '>=')
-        ) {
-            $parser = tx_div2007_core::newHtmlParser(false);
-        }
+        $parser = tx_div2007_core::newHtmlParser(false);
 
 		$cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');

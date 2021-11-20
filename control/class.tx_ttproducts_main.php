@@ -317,13 +317,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 		$conf = $cnf->getConf();
 		$config = $cnf->getConfig();
         $piVars = tx_ttproducts_model_control::getPiVars();
-		$parser = $this->cObj;
-        if (
-            defined('TYPO3_version') &&
-            version_compare(TYPO3_version, '7.0.0', '>=')
-        ) {
-            $parser = tx_div2007_core::newHtmlParser(false);
-        }
+        $parser = tx_div2007_core::newHtmlParser(false);
 
 		if ($conf['no_cache'] && $this->convertToUserInt($cObj)) {
 			// Compatibility with previous versions where users could set
@@ -1141,13 +1135,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 		$markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
 
         $cObj = \JambageCom\TtProducts\Api\ControlApi::getCObj();
-        $parser = $cObj;
-        if (
-            defined('TYPO3_version') &&
-            version_compare(TYPO3_version, '7.0.0', '>=')
-        ) {
-            $parser = tx_div2007_core::newHtmlParser(false);
-        }
+        $parser = tx_div2007_core::newHtmlParser(false);
 
 		$globalMarkerArray = $markerObj->getGlobalMarkerArray();
 

@@ -25,27 +25,6 @@ call_user_func(function () {
 
     if (
         defined('TYPO3_version') &&
-        version_compare(TYPO3_version, '7.0.0', '<')
-    ) {
-        $GLOBALS['TCA'][$table]['columns']['fe_group'] = array (
-            'exclude' => 1,
-            'label' => DIV2007_LANGUAGE_LGL . 'fe_group',
-            'config' => array (
-                'type' => 'select',
-                'items' => array (
-                    array('', 0),
-                    array(DIV2007_LANGUAGE_LGL . 'hide_at_login', -1),
-                    array(DIV2007_LANGUAGE_LGL . 'any_login', -2),
-                    array(DIV2007_LANGUAGE_LGL . 'usergroups', '--div--')
-                ),
-                'foreign_table' => 'fe_groups',
-                'default' => 0
-            )
-        );
-    }
-
-    if (
-        defined('TYPO3_version') &&
         version_compare(TYPO3_version, '11.0.0', '<')
     ) {
         $GLOBALS['TCA'][$table]['columns']['sys_language_uid'] = [
@@ -80,12 +59,6 @@ call_user_func(function () {
             $GLOBALS['TCA'][$table],
             $excludeArray[$table]
         );
-    }
-
-    if (version_compare(TYPO3_version, '7.6.0', '>=')) {
-
-        unset($GLOBALS['TCA'][$table]['ctrl']['transOrigPointerField']);
-        unset($GLOBALS['TCA'][$table]['ctrl']['transOrigPointerTable']);
     }
 
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToInsertRecords($table);

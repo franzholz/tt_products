@@ -234,8 +234,7 @@ call_user_func(function () {
     }
 
     if (
-        TYPO3_MODE == 'BE' &&
-        version_compare(TYPO3_version, '7.5.0', '>')
+        TYPO3_MODE == 'BE'
     ) {
         $pageType = 'ttproducts'; // a maximum of 10 characters
         $icons = array(

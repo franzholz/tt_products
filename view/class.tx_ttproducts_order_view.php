@@ -176,13 +176,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 			$from = 'sys_products_orders';
 		}
 		$cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
-        $parser = $cObj;
-        if (
-            defined('TYPO3_version') &&
-            version_compare(TYPO3_version, '7.0.0', '>=')
-        ) {
-            $parser = tx_div2007_core::newHtmlParser(false);
-        }
+        $parser = tx_div2007_core::newHtmlParser(false);
 
         $res =
 			$GLOBALS['TYPO3_DB']->exec_SELECTquery(

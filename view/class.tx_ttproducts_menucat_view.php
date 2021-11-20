@@ -64,13 +64,7 @@ class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base {
 		$javaScriptMarker = GeneralUtility::makeInstance('tx_ttproducts_javascript_marker');
 		$prefixId = tx_ttproducts_model_control::getPrefixId();
 		$cObj = \JambageCom\TtProducts\Api\ControlApi::getCObj();
-        $parser = $cObj;
-        if (
-            defined('TYPO3_version') &&
-            version_compare(TYPO3_version, '7.0.0', '>=')
-        ) {
-            $parser = tx_div2007_core::newHtmlParser(false);
-        }
+        $parser = tx_div2007_core::newHtmlParser(false);
 
 		parent::getPrintViewArrays(
 			$functablename,

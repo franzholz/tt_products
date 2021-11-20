@@ -103,7 +103,6 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$oldFormCount,
 		&$formCount
 	) {
-		$cObj = FrontendUtility::getContentObjectRenderer();
 		$subpartArray = array();
 		$subpartArray['###ITEM_CATEGORY###'] = $categoryOut;
 		$subpartArray[$itemListSubpart] = $itemListOut;
@@ -125,13 +124,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 		&$categoryMarkerArray
 	) {
 		$cObj = FrontendUtility::getContentObjectRenderer();
-        $parser = $cObj;
-        if (
-            defined('TYPO3_version') &&
-            version_compare(TYPO3_version, '7.0.0', '>=')
-        ) {
-            $parser = tx_div2007_core::newHtmlParser(false);
-        }
+        $parser = tx_div2007_core::newHtmlParser(false);
 
 		$markerArray = array_merge($productMarkerArray, $categoryMarkerArray);
 		$productOut = $parser->substituteMarkerArray($productFrameWork, $markerArray);
@@ -450,13 +443,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$conf = $cnfObj->getConf();
 		$config = $cnfObj->getConfig();
 		$cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
-        $parser = $cObj;
-        if (
-            defined('TYPO3_version') &&
-            version_compare(TYPO3_version, '7.0.0', '>=')
-        ) {
-            $parser = tx_div2007_core::newHtmlParser(false);
-        }
+        $parser = tx_div2007_core::newHtmlParser(false);
 
 		$languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
 		$backPid = 0;
@@ -2377,12 +2364,6 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 						$linkConf = array_merge( array('useCacheHash' => $bUseCache), $linkConf);
 
-						if (
-                            !$bUseCache &&
-                            version_compare(TYPO3_version, '7.0.0', '<')
-                        ) {
-							$linkConf = array_merge( array('no_cache' => 1), $linkConf);
-						}
 						$target = '';
 						$pageLink = tx_div2007_alpha5::getTypoLink_URL_fh003(
 							$cObj,

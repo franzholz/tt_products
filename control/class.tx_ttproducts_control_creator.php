@@ -40,11 +40,6 @@
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
-
-if (version_compare(TYPO3_version, '7.0.0', '>=')) { // The autoloader is broken in TYPO3 7.5.0
-	require_once(PATH_BE_TTPRODUCTS . 'lib/class.tx_ttproducts_tables.php');
-}
-
 class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterface {
 
 	public function init (

@@ -73,14 +73,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view {
 		$bUseExtItemMarkerArray,
 		&$imageConf
 	) {
-        $cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
-        $parser = $cObj;
-        if (
-            defined('TYPO3_version') &&
-            version_compare(TYPO3_version, '7.0.0', '>=')
-        ) {
-            $parser = tx_div2007_core::newHtmlParser(false);
-        }
+        $parser = tx_div2007_core::newHtmlParser(false);
 
         $this->getExtItemMarkerArray($markerArray, $imageConf, $row);
 

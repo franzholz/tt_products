@@ -155,13 +155,7 @@ class PaymentShippingHandling {
 		$framework
 	) {
 		$cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
-        $parser = $cObj;
-        if (
-            defined('TYPO3_version') &&
-            version_compare(TYPO3_version, '7.0.0', '>=')
-        ) {
-            $parser = \tx_div2007_core::newHtmlParser(false);
-        }
+        $parser = \tx_div2007_core::newHtmlParser(false);
 
 		$markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');

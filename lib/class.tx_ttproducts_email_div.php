@@ -183,13 +183,7 @@ class tx_ttproducts_email_div {
 		$senderemail = ($giftRow['personemail'] ? $giftRow['personemail'] : $conf['orderEmail_from']);
 		$recipients = $recipient;
 		$recipients = GeneralUtility::trimExplode(',',$recipients,1);
-        $parser =  $cObj;
-        if (
-            defined('TYPO3_version') &&
-            version_compare(TYPO3_version, '7.0.0', '>=')
-        ) {
-            $parser = tx_div2007_core::newHtmlParser(false);
-        }
+        $parser = tx_div2007_core::newHtmlParser(false);
 
 		if (count($recipients)) {	// If any recipients, then compile and send the mail.
 			$emailContent = trim(tx_div2007_core::getSubpart($templateCode, '###' . $templateMarker . '###'));

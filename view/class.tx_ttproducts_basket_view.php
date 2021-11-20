@@ -178,13 +178,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 		&$subpartArray,
 		&$wrappedSubpartArray
 	) {
-		$parser = $cObj;
-        if (
-            defined('TYPO3_version') &&
-            version_compare(TYPO3_version, '7.0.0', '>=')
-        ) {
-            $parser = tx_div2007_core::newHtmlParser(false);
-        }
+        $parser = tx_div2007_core::newHtmlParser(false);
 		$basketConfArray = array();
 		// check the basket limits
 		$basketConfArray['minimum'] = $cnf->getBasketConf('minPrice');
@@ -284,13 +278,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$itemObj = GeneralUtility::makeInstance('tx_ttproducts_basketitem');
 		$basketItemView = GeneralUtility::makeInstance('tx_ttproducts_basketitem_view');
 		$cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
-		$parser = $cObj;
-        if (
-            defined('TYPO3_version') &&
-            version_compare(TYPO3_version, '7.0.0', '>=')
-        ) {
-            $parser = tx_div2007_core::newHtmlParser(false);
-        }
+        $parser = tx_div2007_core::newHtmlParser(false);
 
 		$taxObj = GeneralUtility::makeInstance('tx_ttproducts_field_tax');
 		$piVars = tx_ttproducts_model_control::getPiVars();

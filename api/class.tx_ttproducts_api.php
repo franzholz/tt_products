@@ -432,14 +432,7 @@ class tx_ttproducts_api {
 		&$subject,
 		&$text
 	) {
-		$parser = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
-        if (
-            defined('TYPO3_version') &&
-            version_compare(TYPO3_version, '7.0.0', '>=')
-        ) {
-            $parser = tx_div2007_core::newHtmlParser(true);
-        }
-
+        $parser = tx_div2007_core::newHtmlParser(true);
 		$parts = preg_split('/[\n\r]+/', $templateCode, 2);	// First line is subject
 		$subject = trim($parts[0]);
 		$text = trim($parts[1]);
@@ -535,14 +528,7 @@ class tx_ttproducts_api {
 		$cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
 		$conf = $cnfObj->getConf();
 		$customerEmailHTML = '';
-
-		$parser = $cObj; 
-		if (
-            defined('TYPO3_version') &&
-            version_compare(TYPO3_version, '7.0.0', '>=')
-        ) {
-            $parser = tx_div2007_core::newHtmlParser(true);
-        }
+        $parser = tx_div2007_core::newHtmlParser(true);
 
 		$orderRow =
 			$orderObj->get(

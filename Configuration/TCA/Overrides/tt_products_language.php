@@ -24,37 +24,7 @@ call_user_func(function () {
         $GLOBALS['TCA'][$table]['ctrl']['sortby'] = 'sorting';
     }
 
-
     if (
-        defined('TYPO3_version') &&
-        version_compare(TYPO3_version, '7.0.0', '<')
-    ) {
-        $GLOBALS['TCA'][$table]['columns']['fe_group'] = array (
-            'exclude' => 1,
-            'label' => DIV2007_LANGUAGE_LGL . 'fe_group',
-            'config' => array (
-                'type' => 'select',
-                'items' => array (
-                    array('', 0),
-                    array(DIV2007_LANGUAGE_LGL . 'hide_at_login', -1),
-                    array(DIV2007_LANGUAGE_LGL . 'any_login', -2),
-                    array(DIV2007_LANGUAGE_LGL . 'usergroups', '--div--')
-                ),
-                'foreign_table' => 'fe_groups',
-                'default' => 0
-            )
-        );
-    }
-
-
-    if (version_compare(TYPO3_version, '7.6.0', '>=')) {
-
-        unset($GLOBALS['TCA'][$table]['ctrl']['transOrigPointerField']);
-        unset($GLOBALS['TCA'][$table]['ctrl']['transOrigPointerTable']);
-    }
-
-    if (
-        tx_div2007_core::compat_version('6.2') &&
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('filelist')
     ) {
         $palleteAddition = ',--palette--;LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:sys_file_reference.shopAttributes;tt_productsPalette';
