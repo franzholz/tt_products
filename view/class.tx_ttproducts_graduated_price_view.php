@@ -62,13 +62,11 @@ class tx_ttproducts_graduated_price_view extends tx_ttproducts_table_base_view {
 			$priceViewObj = GeneralUtility::makeInstance('tx_ttproducts_field_price_view');
 			foreach ($priceFormula as $field => $value) {
 				$keyMarker = '###' . $marker . '_' . strtoupper($field) . $suffix . '###';
-				if (
-					strpos(
-						$GLOBALS['TCA'][$this->getModelObj()->getTablename()]['interface']['showRecordFieldList'],
-						$field) === false
-				) {
-					$value = '';
-				}
+                if (
+                    !isset($GLOBALS['TCA'][$this->getModelObj()->getTablename()]['columns'][$field])
+                ) {
+                    $value = '';
+                }
 				$markerArray[$keyMarker] = $value;
 			}
 

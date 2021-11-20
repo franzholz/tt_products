@@ -24,9 +24,6 @@ $result = array (
 		'iconfile' => PATH_TTPRODUCTS_ICON_TABLE_REL . 'tt_products_texts.gif',
 		'searchFields' => 'title,marker,note',
 	),
-	'interface' => array (
-		'showRecordFieldList' => 'hidden,title,marker,note'
-	),
 	'columns' => array (
 		't3ver_label' => array (
             'label'  => DIV2007_LANGUAGE_LGL . 'versionLabel',
@@ -125,7 +122,6 @@ $result = array (
                 'exclusiveKeys' => '-1,-2',
                 'foreign_table' => 'fe_groups',
                 'foreign_table_where' => 'ORDER BY fe_groups.title',
-                'enableMultiSelectFilterTextfield' => true,
                 'default' => 0,
             ]
         ],
@@ -215,6 +211,15 @@ if (
             '/(^|,)\s*note\s*(,|$)/', '$1 note;;;richtext[]:rte_transform[mode=ts_css|imgpath=uploads/tx_ttproducts/rte/] $2',
             $result['types']['0']['showitem']
         );
+}
+
+if (
+    defined('TYPO3_version') &&
+    version_compare(TYPO3_version, '10.0.0', '<')
+) {
+    $result['interface'] = [];
+    $result['interface']['showRecordFieldList'] =   
+        'hidden,title,marker,note';
 }
 
 return $result;

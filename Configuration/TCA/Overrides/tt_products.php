@@ -131,7 +131,12 @@ call_user_func(function () {
             'replace:tax_dummy'
         );
 
-        $GLOBALS['TCA'][$table]['interface']['showRecordFieldList'] = str_replace(',tax,', ',tax,' . $newFields . ',', $GLOBALS['TCA'][$table]['interface']['showRecordFieldList']);
+        if (
+            defined('TYPO3_version') &&
+            version_compare(TYPO3_version, '10.0.0', '<')
+        ) {
+            $GLOBALS['TCA'][$table]['interface']['showRecordFieldList'] = str_replace(',tax,', ',tax,' . $newFields . ',', $GLOBALS['TCA'][$table]['interface']['showRecordFieldList']);
+        }
     }
 
     switch ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['articleMode']) {
@@ -166,38 +171,56 @@ call_user_func(function () {
 
     $orderBySortingTablesArray = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['orderBySortingTables']);
 
-    $sysCategoryOrderBy = 'sys_category.title ASC';
+    if (version_compare(TYPO3_version, '11.5.0', '>=')) {
+        $GLOBALS['TCA'][$table]['columns']['syscat'] = [
+            'config' => [
+                'type' => 'category'
+            ]
+        ];
 
-    if (
-        !empty($orderBySortingTablesArray) &&
-        in_array('sys_category', $orderBySortingTablesArray)
-    ) {
-        $sysCategoryOrderBy = 'sys_category.sorting ASC';
+        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes(
+            $table,
+            'categories'
+        );
+    } else {
+        $sysCategoryOrderBy = 'sys_category.title ASC';
+
+        if (
+            !empty($orderBySortingTablesArray) &&
+            in_array('sys_category', $orderBySortingTablesArray)
+        ) {
+            $sysCategoryOrderBy = 'sys_category.sorting ASC';
+        }
+
+        // Add an extra system categories selection field to the tt_products table
+        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::makeCategorizable(
+            TT_PRODUCTS_EXT,
+            $table,
+            'syscat',
+            [
+                // Set a custom label
+                'label' =>
+                    'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products.syscat',
+                // This field can be an exclude-field
+                'exclude' => 1,
+                // Override generic configuration, e.g. sort by title rather than by sorting
+                'fieldConfiguration' => [
+                    'foreign_table_where' => ' AND sys_category.sys_language_uid IN (-1, 0) ORDER BY ' . $sysCategoryOrderBy,
+                ],
+                // string (keyword), see TCA reference for details
+                'l10n_mode' => 'exclude',
+                // list of keywords, see TCA reference for details
+                'l10n_display' => 'hideDiff',
+            ]
+        );
     }
 
-    // Add an extra system categories selection field to the tt_products table
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::makeCategorizable(
-        TT_PRODUCTS_EXT,
-        $table,
-        'syscat',
-        array(
-            // Set a custom label
-            'label' =>
-                'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products.syscat',
-            // This field can be an exclude-field
-            'exclude' => 1,
-            // Override generic configuration, e.g. sort by title rather than by sorting
-            'fieldConfiguration' => array(
-                'foreign_table_where' => ' AND sys_category.sys_language_uid IN (-1, 0) ORDER BY ' . $sysCategoryOrderBy,
-            ),
-            // string (keyword), see TCA reference for details
-            'l10n_mode' => 'exclude',
-            // list of keywords, see TCA reference for details
-            'l10n_display' => 'hideDiff',
-        )
-    );
-
-    $GLOBALS['TCA'][$table]['interface']['showRecordFieldList'] .= ',image_uid,smallimage_uid';
+    if (
+        defined('TYPO3_version') &&
+        version_compare(TYPO3_version, '10.0.0', '<')
+    ) {
+        $GLOBALS['TCA'][$table]['interface']['showRecordFieldList'] .= ',image_uid,smallimage_uid';
+    }
 
     $palleteAddition = ',--palette--;LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:sys_file_reference.shopAttributes;tt_productsPalette';
     // TODO.
@@ -389,4 +412,8 @@ call_user_func(function () {
     }
 
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToInsertRecords($table);
+
+    if (version_compare(TYPO3_version, '10.4.0', '<')) {
+        $GLOBALS['TCA'][$table]['columns']['fe_group']['config']['enableMultiSelectFilterTextfield'] = true;
+    }
 });

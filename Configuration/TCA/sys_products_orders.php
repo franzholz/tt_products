@@ -23,9 +23,6 @@ $result = array (
         'dividers2tabs' => '1',
         'searchFields' => 'uid,name,first_name,last_name,vat_id,address,zip,city,telephone,email,giftcode,bill_no,tracking_code',
     ),
-    'interface' => array (
-        'showRecordFieldList' => 'hidden,sys_language_uid,name,first_name,last_name,company,vat_id,salutation,address,house_no,,zip,city,country,telephone,email,fax,business_partner,organisation_form,payment,shipping,amount,tax_mode,pay_mode,email_notify,tracking_code,status,agb,feusers_id,creditpoints,creditpoints_spended,creditpoints_saved,creditpoints_gifts,desired_date,desired_time,client_ip,note,giftservice,cc_uid,ac_uid,date_of_birth,date_of_payment,date_of_delivery,bill_no,radio1,ordered_products,fal_uid,gained_uid'
-    ),
     'columns' => array (
         'hidden' => array (
             'exclude' => 1,
@@ -63,14 +60,7 @@ $result = array (
             'exclude' => 1,
             'label' => DIV2007_LANGUAGE_LGL . 'language',
             'config' => array (
-                'type' => 'select',
-                'renderType' => 'selectSingle',
-                'foreign_table' => 'sys_language',
-                'foreign_table_where' => 'ORDER BY sys_language.title',
-                'items' => array(
-                    array(DIV2007_LANGUAGE_LGL . 'allLanguages', -1),
-                    array(DIV2007_LANGUAGE_LGL . 'default_value', 0)
-                ),
+                'type' => 'language',
                 'default' => 0
             )
         ),
@@ -736,6 +726,13 @@ if (!$GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['sepa']) {
     $result['columns']['ac_uid']['label'] = 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:sys_products_accounts.ac_number';
 }
 
+if (
+    defined('TYPO3_version') &&
+    version_compare(TYPO3_version, '10.0.0', '<')
+) {
+    $result['interface'] = [];
+    $result['interface']['showRecordFieldList'] =   
+        'hidden,sys_language_uid,name,first_name,last_name,company,vat_id,salutation,address,house_no,,zip,city,country,telephone,email,fax,business_partner,organisation_form,payment,shipping,amount,tax_mode,pay_mode,email_notify,tracking_code,status,agb,feusers_id,creditpoints,creditpoints_spended,creditpoints_saved,creditpoints_gifts,desired_date,desired_time,client_ip,note,giftservice,cc_uid,ac_uid,date_of_birth,date_of_payment,date_of_delivery,bill_no,radio1,ordered_products,fal_uid,gained_uid';
+}
 
 return $result;
-

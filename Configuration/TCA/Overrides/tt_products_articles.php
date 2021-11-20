@@ -18,8 +18,12 @@ call_user_func(function () {
 
     switch ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['articleMode']) {
         case '0':
-            $GLOBALS['TCA'][$table]['interface']['showRecordFieldList'] = str_replace(',subtitle,', ',subtitle,uid_product,', $GLOBALS['TCA'][$table]['interface']['showRecordFieldList']);
-
+            if (
+                defined('TYPO3_version') &&
+                version_compare(TYPO3_version, '10.0.0', '<')
+            ) {
+                $GLOBALS['TCA'][$table]['interface']['showRecordFieldList'] = str_replace(',subtitle,', ',subtitle,uid_product,', $GLOBALS['TCA'][$table]['interface']['showRecordFieldList']);
+            }
             $GLOBALS['TCA'][$table]['columns']['uid_product'] = array (
                 'exclude' => 1,
                 'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products_articles.uid_product',
@@ -99,7 +103,12 @@ call_user_func(function () {
         );
     }
 
-    $GLOBALS['TCA'][$table]['interface']['showRecordFieldList'] .= ',image_uid,smallimage_uid';
+    if (
+        defined('TYPO3_version') &&
+        version_compare(TYPO3_version, '10.0.0', '<')
+    ) {
+        $GLOBALS['TCA'][$table]['interface']['showRecordFieldList'] .= ',image_uid,smallimage_uid';
+    }
 
     $GLOBALS['TCA'][$table]['columns']['image_uid'] = array (
         'exclude' => 1,
@@ -172,5 +181,8 @@ call_user_func(function () {
     }
 
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToInsertRecords($table);
+    if (version_compare(TYPO3_version, '10.4.0', '<')) {
+        $GLOBALS['TCA'][$table]['columns']['fe_group']['config']['enableMultiSelectFilterTextfield'] = true;
+    }
 });
 

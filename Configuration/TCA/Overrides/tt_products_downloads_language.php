@@ -46,6 +46,27 @@ call_user_func(function () {
         );
     }
 
+    if (
+        defined('TYPO3_version') &&
+        version_compare(TYPO3_version, '11.0.0', '<')
+    ) {
+        $GLOBALS['TCA'][$table]['columns']['sys_language_uid'] = [
+            'exclude' => 1,
+            'label' => DIV2007_LANGUAGE_LGL . 'language',
+            'config' => [
+                'type' => 'select',
+                'renderType' => 'selectSingle',
+                'foreign_table' => 'sys_language',
+                'foreign_table_where' => 'ORDER BY sys_language.title',
+                'items' => [
+                    [DIV2007_LANGUAGE_LGL . 'allLanguages', -1],
+                    [DIV2007_LANGUAGE_LGL . 'default_value', 0]
+                ],
+                'default' => 0
+            ]
+        ];
+    }
+
     $excludeArray =  
         (version_compare(TYPO3_version, '10.0.0', '>=') ? 
             $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude'] :
@@ -74,5 +95,8 @@ call_user_func(function () {
 
 
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToInsertRecords($table);
+    if (version_compare(TYPO3_version, '10.4.0', '<')) {
+        $GLOBALS['TCA'][$table]['columns']['fe_group']['config']['enableMultiSelectFilterTextfield'] = true;
+    }
 });
 

@@ -12,7 +12,7 @@ call_user_func(function () {
     }
 
     if (!defined ('PATH_TTPRODUCTS_ICON_TABLE_REL')) {
-        define('PATH_TTPRODUCTS_ICON_TABLE_REL', 'EXT:' . TT_PRODUCTS_EXT . '/res/icons/table/');
+        define('PATH_TTPRODUCTS_ICON_TABLE_REL', 'EXT:' . TT_PRODUCTS_EXT . '/Resources/Public/Icons/');
     }
 
     if (!defined ('ADDONS_EXT')) {
@@ -293,5 +293,4 @@ call_user_func(function () {
     $GLOBALS['TYPO3_CONF_VARS']['FE']['cacheHash']['excludedParameters'] = 
         array_merge($GLOBALS['TYPO3_CONF_VARS']['FE']['cacheHash']['excludedParameters'], $excludedParameters);
 });
-
 

@@ -28,9 +28,6 @@ $result = array (
 		'mainpalette' => 1,
 		'searchFields' => 'title,subtitle,catid,keyword,note,note2',
 	),
-	'interface' => array (
-		'showRecordFieldList' => 'sys_language_uid,l18n_diffsource,hidden,starttime,endtime,fe_group,title,subtitle,note,note2,cat_uid'
-	),
 	'columns' => array (
 		't3ver_label' => array (
            'label'  => DIV2007_LANGUAGE_LGL . 'versionLabel',
@@ -45,14 +42,7 @@ $result = array (
 			'exclude' => 0,
 			'label' => DIV2007_LANGUAGE_LGL . 'language',
 			'config' => array (
-				'type' => 'select',
-				'renderType' => 'selectSingle',
-				'foreign_table' => 'sys_language',
-				'foreign_table_where' => 'ORDER BY sys_language.title',
-				'items' => array(
-					array(DIV2007_LANGUAGE_LGL . 'allLanguages', -1),
-					array(DIV2007_LANGUAGE_LGL . 'default_value', 0)
-				),
+                'type' => 'language',
                 'default' => 0
 			)
 		),
@@ -144,7 +134,6 @@ $result = array (
                 'exclusiveKeys' => '-1,-2',
                 'foreign_table' => 'fe_groups',
                 'foreign_table_where' => 'ORDER BY fe_groups.title',
-                'enableMultiSelectFilterTextfield' => true,
                 'default' => 0,
             ]
         ],
@@ -277,6 +266,15 @@ if (
             '/(^|,)\s*note2\s*(,|$)/', '$1 note2;;;richtext[]:rte_transform[mode=ts_css|imgpath=uploads/tx_ttproducts/rte/] $2',
             $result['types']['0']['showitem']
         );
+}
+
+if (
+    defined('TYPO3_version') &&
+    version_compare(TYPO3_version, '10.0.0', '<')
+) {
+    $result['interface'] = [];
+    $result['interface']['showRecordFieldList'] =   
+        'sys_language_uid,l18n_diffsource,hidden,starttime,endtime,fe_group,title,subtitle,note,note2,cat_uid'
 }
 
 return $result;

@@ -18,9 +18,6 @@ $result = array (
         'iconfile' => PATH_TTPRODUCTS_ICON_TABLE_REL . 'tt_products_cat.gif',
         'hideTable' => true,
     ),
-    'interface' => array (
-        'showRecordFieldList' => 'product_uid,graduated_price_uid'
-    ),
     'columns' => array (
         'hidden' => array (
             'exclude' => 1,
@@ -68,5 +65,13 @@ $result = array (
     )
 );
 
-return $result;
+if (
+    defined('TYPO3_version') &&
+    version_compare(TYPO3_version, '10.0.0', '<')
+) {
+    $result['interface'] = [];
+    $result['interface']['showRecordFieldList'] =   
+        'product_uid,graduated_price_uid';
+}
 
+return $result;

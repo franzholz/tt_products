@@ -28,9 +28,6 @@ $result = array (
 		'languageField' => 'sys_language_uid',
 		'searchFields' => 'title,note',
 	),
-	'interface' => array (
-		'showRecordFieldList' => 'sys_language_uid,hidden,starttime,endtime,fe_group,title,note'
-	),
 	'columns' => array (
 		't3ver_label' => array (
 			'label'  => DIV2007_LANGUAGE_PATH . 'locallang_general.xml:LGL.versionLabel',
@@ -67,14 +64,7 @@ $result = array (
 			'exclude' => 0,
 			'label' => DIV2007_LANGUAGE_LGL . 'language',
 			'config' => array (
-				'type' => 'select',
-				'renderType' => 'selectSingle',
-				'foreign_table' => 'sys_language',
-				'foreign_table_where' => 'ORDER BY sys_language.title',
-				'items' => array(
-					array(DIV2007_LANGUAGE_LGL . 'allLanguages', -1),
-					array(DIV2007_LANGUAGE_LGL . 'default_value', 0)
-				),
+                'type' => 'language',
 				'default' => 0
 			)
 		),
@@ -144,7 +134,6 @@ $result = array (
                 'exclusiveKeys' => '-1,-2',
                 'foreign_table' => 'fe_groups',
                 'foreign_table_where' => 'ORDER BY fe_groups.title',
-                'enableMultiSelectFilterTextfield' => true,
                 'default' => 0,
             ]
         ],
@@ -233,6 +222,13 @@ if (
         );
 }
 
+if (
+    defined('TYPO3_version') &&
+    version_compare(TYPO3_version, '10.0.0', '<')
+) {
+    $result['interface'] = [];
+    $result['interface']['showRecordFieldList'] =   
+        'sys_language_uid,hidden,starttime,endtime,fe_group,title,note';
+}
+
 return $result;
-
-

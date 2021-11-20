@@ -32,9 +32,6 @@ $result = array (
 		'iconfile' => PATH_TTPRODUCTS_ICON_TABLE_REL . 'tt_products_cat.gif',
 		'searchFields' => 'uid,title,subtitle,catid,keyword,note,note2',
 	),
-	'interface' => array (
-		'showRecordFieldList' => 'hidden,starttime,endtime,fe_group,title, subtitle, parent_category, catid, keyword, note, note2, image, discount, discount_disable, email_uid, highlight, parent_category'
-	),
 	'columns' => array (
 		't3ver_label' => array (
 			'label'  => DIV2007_LANGUAGE_PATH . 'locallang_general.xml:LGL.versionLabel',
@@ -133,7 +130,6 @@ $result = array (
                 'exclusiveKeys' => '-1,-2',
                 'foreign_table' => 'fe_groups',
                 'foreign_table_where' => 'ORDER BY fe_groups.title',
-                'enableMultiSelectFilterTextfield' => true,
                 'default' => 0,
             ]
         ],
@@ -362,5 +358,13 @@ if (
         );
 }
 
-return $result;
+if (
+    defined('TYPO3_version') &&
+    version_compare(TYPO3_version, '10.0.0', '<')
+) {
+    $result['interface'] = [];
+    $result['interface']['showRecordFieldList'] =   
+        'hidden,starttime,endtime,fe_group,title, subtitle, parent_category, catid, keyword, note, note2, image, discount, discount_disable, email_uid, highlight, parent_category';
+}
 
+return $result;

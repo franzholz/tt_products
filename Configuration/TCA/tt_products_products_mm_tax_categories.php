@@ -12,9 +12,6 @@ $result = array(
         'prependAtCopy' => DIV2007_LANGUAGE_LGL . 'prependAtCopy',
         'hideTable' => true,
     ),
-    'interface' => array(
-        'showRecordFieldList' => ''
-    ),
     'columns' => array(
         'uid_local' => array (
             'label' => 'inactive',
@@ -31,5 +28,14 @@ $result = array(
     )
 );
 
+if (
+    defined('TYPO3_version') &&
+    version_compare(TYPO3_version, '10.0.0', '<')
+) {
+    $result['interface'] = [];
+    $result['interface']['showRecordFieldList'] =   
+        '';
+}
 
 return $result;
+

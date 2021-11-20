@@ -15,9 +15,6 @@ $result = array (
         'iconfile' => PATH_TTPRODUCTS_ICON_TABLE_REL . 'sys_products_cards.gif',
         'searchFields' => 'owner_name,cc_number',
     ),
-    'interface' => array (
-        'showRecordFieldList' => 'cc_number,owner_name,cc_type,cvv2,endtime'
-    ),
     'columns' => array (
         'endtime' => array (
             'exclude' => 1,
@@ -92,6 +89,13 @@ $result = array (
     )
 );
 
+if (
+    defined('TYPO3_version') &&
+    version_compare(TYPO3_version, '10.0.0', '<')
+) {
+    $result['interface'] = [];
+    $result['interface']['showRecordFieldList'] =   
+        'cc_number,owner_name,cc_type,cvv2,endtime';
+}
 
 return $result;
-

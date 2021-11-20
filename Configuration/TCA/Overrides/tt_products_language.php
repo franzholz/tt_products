@@ -116,7 +116,6 @@ call_user_func(function () {
         if (
             version_compare(TYPO3_version, '10.4.0', '>=')
         ) {
-            $GLOBALS['TCA'][$table]['interface']['showRecordFieldList'] .= ',image_uid,smallimage_uid,datasheet_uid';
             $GLOBALS['TCA'][$table]['ctrl']['thumbnail'] = 'image_uid';    
 
             $GLOBALS['TCA'][$table]['types']['0']['showitem'] = str_replace('image, smallimage, datasheet', 'image_uid, smallimage_uid, datasheet_uid,', $GLOBALS['TCA'][$table]['types']['0']['showitem']);
@@ -137,6 +136,27 @@ call_user_func(function () {
                 unset($GLOBALS['TCA'][$table]['columns']['datasheet_uid']);
             }
         }
+    }
+
+    if (
+        defined('TYPO3_version') &&
+        version_compare(TYPO3_version, '11.0.0', '<')
+    ) {
+        $GLOBALS['TCA'][$table]['columns']['sys_language_uid'] = [
+            'exclude' => 1,
+            'label' => DIV2007_LANGUAGE_LGL . 'language',
+            'config' => [
+                'type' => 'select',
+                'renderType' => 'selectSingle',
+                'foreign_table' => 'sys_language',
+                'foreign_table_where' => 'ORDER BY sys_language.title',
+                'items' => [
+                    [DIV2007_LANGUAGE_LGL . 'allLanguages', -1],
+                    [DIV2007_LANGUAGE_LGL . 'default_value', 0]
+                ],
+                'default' => 0
+            ]
+        ];
     }
 
     $excludeArray =  
@@ -166,4 +186,8 @@ call_user_func(function () {
     }
 
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToInsertRecords($table);
+    
+    if (version_compare(TYPO3_version, '10.4.0', '<')) {
+        $GLOBALS['TCA'][$table]['columns']['fe_group']['config']['enableMultiSelectFilterTextfield'] = true;
+    }
 });

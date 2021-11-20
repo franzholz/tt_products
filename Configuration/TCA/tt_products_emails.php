@@ -23,9 +23,6 @@ $result = array (
 		'iconfile' => PATH_TTPRODUCTS_ICON_TABLE_REL . 'tt_products_emails.gif',
 		'searchFields' => 'name,email',
 	),
-	'interface' => array (
-		'showRecordFieldList' => 'name,email,suffix,tstamp, crdate, hidden,starttime,endtime,fe_group'
-	),
 	'columns' => array (
 		't3ver_label' => array (
             'label'  => DIV2007_LANGUAGE_LGL . 'versionLabel',
@@ -118,7 +115,6 @@ $result = array (
                 'exclusiveKeys' => '-1,-2',
                 'foreign_table' => 'fe_groups',
                 'foreign_table_where' => 'ORDER BY fe_groups.title',
-                'enableMultiSelectFilterTextfield' => true,
                 'default' => 0,
             ]
         ],
@@ -162,6 +158,13 @@ $result = array (
 
 );
 
+if (
+    defined('TYPO3_version') &&
+    version_compare(TYPO3_version, '10.0.0', '<')
+) {
+    $result['interface'] = [];
+    $result['interface']['showRecordFieldList'] = 'name,email,suffix,tstamp, crdate, hidden,starttime,endtime,fe_group';
+}
 
 return $result;
 

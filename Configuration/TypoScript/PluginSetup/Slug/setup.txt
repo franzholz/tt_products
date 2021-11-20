@@ -1,0 +1,16 @@
+# Module configuration for extension slug
+
+module.tx_slug {
+    settings{
+        additionalTables{
+            tt_products {
+                label = Products
+                slugField = slug
+                titleField = title
+                icon = EXT:tt_products/Resouces/Public/Icons/tt_products.gif
+            }
+        }
+    }
+}
+
+

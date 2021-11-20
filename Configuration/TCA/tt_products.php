@@ -50,9 +50,6 @@ $result = array(
 		'dividers2tabs' => '1',
 		'searchFields' => 'uid,title,subtitle,itemnumber,ean,note,note2,www',
 	),
-	'interface' => array (
-		'showRecordFieldList' => 'hidden,starttime,endtime,fe_group,title,subtitle,keyword,accessory_uid,related_uid,itemnumber,ean,shipping_point,price,price2,discount,discount_disable,tax,creditpoints,deposit,graduated_price_enable,graduated_price_round,graduated_price_uid,article_uid,note,note2,note_uid,text_uid,download_type,download_info,download_uid,category,syscat,address,inStock,basketminquantity,basketmaxquantity,weight,usebydate,bulkily,offer,highlight,bargain,directcost,color,color2,color3,size,size2,size3,description,gradings,material,quality,additional,unit,unit_factor,www,datasheet,special_preparation,image,smallimage,sellstarttime,sellendtime,shipping,shipping2,handling'
-	),
 	'columns' => array (
 		't3ver_label' => array (
             'label'  => DIV2007_LANGUAGE_LGL . 'versionLabel',
@@ -153,7 +150,6 @@ $result = array(
                 'exclusiveKeys' => '-1,-2',
                 'foreign_table' => 'fe_groups',
                 'foreign_table_where' => 'ORDER BY fe_groups.title',
-                'enableMultiSelectFilterTextfield' => true,
                 'default' => 0,
             ]
         ],
@@ -1069,6 +1065,15 @@ if (
             '/(^|,)\s*note2\s*(,|$)/', '$1 note2;;;richtext[]:rte_transform[mode=ts_css|imgpath=uploads/tx_ttproducts/rte/] $2',
             $result['types']['0']['showitem']
         );
+}
+
+if (
+    defined('TYPO3_version') &&
+    version_compare(TYPO3_version, '10.0.0', '<')
+) {
+    $result['interface'] = [];
+    $result['interface']['showRecordFieldList'] =   
+        'hidden,starttime,endtime,fe_group,title,subtitle,keyword,accessory_uid,related_uid,itemnumber,ean,shipping_point,price,price2,discount,discount_disable,tax,creditpoints,deposit,graduated_price_enable,graduated_price_round,graduated_price_uid,article_uid,note,note2,note_uid,text_uid,download_type,download_info,download_uid,category,syscat,address,inStock,basketminquantity,basketmaxquantity,weight,usebydate,bulkily,offer,highlight,bargain,directcost,color,color2,color3,size,size2,size3,description,gradings,material,quality,additional,unit,unit_factor,www,datasheet,special_preparation,image,smallimage,sellstarttime,sellendtime,shipping,shipping2,handling';
 }
 
 return $result;

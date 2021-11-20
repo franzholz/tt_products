@@ -72,7 +72,12 @@ call_user_func(function () {
         );
     }
 
-    $GLOBALS['TCA'][$table]['ctrl']['interface']['showRecordFieldList'] .= ',image_uid';
+    if (
+        defined('TYPO3_version') &&
+        version_compare(TYPO3_version, '10.0.0', '<')
+    ) {
+        $GLOBALS['TCA'][$table]['ctrl']['interface']['showRecordFieldList'] .= ',image_uid';
+    }
 
     $GLOBALS['TCA'][$table]['columns']['image_uid'] = array (
         'exclude' => 1,
@@ -116,5 +121,8 @@ call_user_func(function () {
 
 
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToInsertRecords($table);
+    if (version_compare(TYPO3_version, '10.4.0', '<')) {
+        $GLOBALS['TCA'][$table]['columns']['fe_group']['config']['enableMultiSelectFilterTextfield'] = true;
+    }
 });
 

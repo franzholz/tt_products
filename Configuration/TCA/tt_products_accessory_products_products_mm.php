@@ -19,9 +19,6 @@ $result = array (
         'iconfile' => PATH_TTPRODUCTS_ICON_TABLE_REL . 'tt_products_relations.gif',
         'hideTable' => true,
     ),
-    'interface' => array (
-        'showRecordFieldList' => 'uid_local,uid_foreign'
-    ),
     'columns' => array (
         'uid_local' => array (
             'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products_accessory_products_products_mm.uid_local',
@@ -61,6 +58,14 @@ $result = array (
     )
 );
 
+if (
+    defined('TYPO3_version') &&
+    version_compare(TYPO3_version, '10.0.0', '<')
+) {
+    $result['interface'] = [];
+    $result['interface']['showRecordFieldList'] =   
+        'uid_local,uid_foreign';
+}
 
 return $result;
 

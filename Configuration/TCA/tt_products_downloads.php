@@ -25,11 +25,6 @@ $result = array (
 		'origUid' => 't3_origuid',
 		'iconfile' => PATH_TTPRODUCTS_ICON_TABLE_REL . 'tt_products_downloads.gif',
 		'searchFields' => 'title,marker,note',
-		'languageField' => 'sys_language_uid',
-		'searchFields' => 'title,note',
-	),
-	'interface' => array (
-		'showRecordFieldList' => 'hidden,title,marker,note,path,edition,author,price_enable,price'
 	),
 	'columns' => array (
 		't3ver_label' => array (
@@ -129,7 +124,6 @@ $result = array (
                 'exclusiveKeys' => '-1,-2',
                 'foreign_table' => 'fe_groups',
                 'foreign_table_where' => 'ORDER BY fe_groups.title',
-                'enableMultiSelectFilterTextfield' => true,
                 'default' => 0,
             ]
         ],
@@ -237,8 +231,12 @@ $result = array (
 				'default' => 0
 			)
 		),
+        'file_uid' = array (
+            'exclude' => 1,
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products_downloads.file_uid',
+            'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig('file_uid')
+        ),
 	),
-
     'types' => array (
         '0' =>
             array(
@@ -249,7 +247,7 @@ $result = array (
                         )
                     )
                 ),
-                'showitem' => 'title, author, slug, edition, price_enable, price,  note, marker, path, tstamp, crdate, hidden,--palette--;;1'
+                'showitem' => 'title, author, slug, edition, price_enable, price,  note, marker, path, file_uid, tstamp, crdate, hidden,--palette--;;1'
             )
     ),
     'palettes' => array (
@@ -268,16 +266,12 @@ if (
 }
 
 if (
-    tx_div2007_core::compat_version('6.2')
+    defined('TYPO3_version') &&
+    version_compare(TYPO3_version, '10.0.0', '<')
 ) {
-	$result['ctrl']['interface']['showRecordFieldList'] .= ',file_uid';
-
-	$result['columns']['file_uid'] = array (
-		'exclude' => 1,
-		'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products_downloads.file_uid',
-		'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig('file_uid')
-	);
-	$result['types']['0']['showitem'] .= ',file_uid';
+    $result['interface'] = [];
+    $result['interface']['showRecordFieldList'] =   
+        'hidden,title,marker,note,path,edition,author,price_enable,price,file_uid';
 }
 
 return $result;
