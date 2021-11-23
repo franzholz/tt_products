@@ -231,10 +231,11 @@ $result = array (
 				'default' => 0
 			)
 		),
-        'file_uid' = array (
+        'file_uid' => array (
             'exclude' => 1,
             'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products_downloads.file_uid',
             'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig('file_uid')
+            
         ),
 	),
     'types' => array (

@@ -274,7 +274,7 @@ if (
 ) {
     $result['interface'] = [];
     $result['interface']['showRecordFieldList'] =   
-        'sys_language_uid,l18n_diffsource,hidden,starttime,endtime,fe_group,title,subtitle,note,note2,cat_uid'
+        'sys_language_uid,l18n_diffsource,hidden,starttime,endtime,fe_group,title,subtitle,note,note2,cat_uid';
 }
 
 return $result;
