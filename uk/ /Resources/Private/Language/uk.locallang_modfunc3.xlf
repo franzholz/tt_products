@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff version="1.0">
+  <file source-language="en" datatype="plaintext" original="messages" date="2017-07-08T13:15:50Z" product-name="tt_products" target-language="uk">
+    <header/>
+    <body>
+      <trans-unit id="title" xml:space="preserve">
+				<source>Import images into FAL for tt_products.</source>
+			<target state="needs-translation">Import images into FAL for tt_products.</target></trans-unit>
+      <trans-unit id="requires_typo3_62" xml:space="preserve">
+				<source>The FAL conversion can only be executed under TYPO3 6.2 and higher.</source>
+			<target state="needs-translation">The FAL conversion can only be executed under TYPO3 6.2 and higher.</target></trans-unit>
+      <trans-unit id="only_admin" xml:space="preserve">
+				<source>These functions are only available for admins.</source>
+			<target state="needs-translation">These functions are only available for admins.</target></trans-unit>
+      <trans-unit id="pid_src" xml:space="preserve">
+				<source>The source id is %d.</source>
+			<target state="needs-translation">The source id is %d.</target></trans-unit>
+      <trans-unit id="start" xml:space="preserve">
+				<source>Start the import of the images into FAL!</source>
+			<target state="needs-translation">Start the import of the images into FAL!</target></trans-unit>
+      <trans-unit id="finished" xml:space="preserve">
+				<source>The import of the images into FAL has been finished!</source>
+			<target state="needs-translation">The import of the images into FAL has been finished!</target></trans-unit>
+      <trans-unit id="warning" xml:space="preserve">
+				<source>Make a backup copy of your images in the folder uploads/pics. All images files from this folder will be removed.</source>
+			<target state="needs-translation">Make a backup copy of your images in the folder uploads/pics. All images files from this folder will be removed.</target></trans-unit>
+    </body>
+  </file>
+</xliff>
