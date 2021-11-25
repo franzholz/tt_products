@@ -3,27 +3,27 @@
   <file source-language="en" datatype="plaintext" original="messages" date="2017-07-08T13:15:42Z" product-name="tt_products" target-language="da">
     <header/>
     <body>
-      <trans-unit id="title" xml:space="preserve">
+      <trans-unit id="title" xml:space="preserve" approved="yes">
 				<source>Create Records in Alternative Languages</source>
-			<target state="needs-translation">Create Records in Alternative Languages</target></trans-unit>
-      <trans-unit id="only_admin" xml:space="preserve">
+			<target state="final">Opret elementer på alternative sprog</target></trans-unit>
+      <trans-unit id="only_admin" xml:space="preserve" approved="yes">
 				<source>These functions are only available for admins.</source>
-			<target state="needs-translation">These functions are only available for admins.</target></trans-unit>
-      <trans-unit id="pid_src" xml:space="preserve">
+			<target state="final">Disse funktioner er kun tilgængelige for administratorer.</target></trans-unit>
+      <trans-unit id="pid_src" xml:space="preserve" approved="yes">
 				<source>The source id is %d.</source>
-			<target state="needs-translation">The source id is %d.</target></trans-unit>
-      <trans-unit id="start" xml:space="preserve">
+			<target state="final">Kilde id er %d.</target></trans-unit>
+      <trans-unit id="start" xml:space="preserve" approved="yes">
 				<source>Start the generation of the records!</source>
-			<target state="needs-translation">Start the generation of the records!</target></trans-unit>
-      <trans-unit id="created" xml:space="preserve">
+			<target state="final">Start oprettelse af elementer!</target></trans-unit>
+      <trans-unit id="created" xml:space="preserve" approved="yes">
 				<source>The records have been generated.</source>
-			<target state="needs-translation">The records have been generated.</target></trans-unit>
-      <trans-unit id="no_texts" xml:space="preserve">
+			<target state="final">Elementerne er blevet oprettet.</target></trans-unit>
+      <trans-unit id="no_texts" xml:space="preserve" approved="yes">
 				<source>No text records found on this page.</source>
-			<target state="needs-translation">No text records found on this page.</target></trans-unit>
-      <trans-unit id="no_alternative_product" xml:space="preserve">
+			<target state="final">Ingen tekstelementer fundet på denne side.</target></trans-unit>
+      <trans-unit id="no_alternative_product" xml:space="preserve" approved="yes">
 				<source>No product in alternative language has been found for these uid</source>
-			<target state="needs-translation">No product in alternative language has been found for these uid</target></trans-unit>
+			<target state="final">Intet produkt i et alternativt sprog er fundet for disse uid</target></trans-unit>
     </body>
   </file>
 </xliff>
