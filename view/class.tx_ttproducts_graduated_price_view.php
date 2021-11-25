@@ -54,10 +54,12 @@ class tx_ttproducts_graduated_price_view implements \TYPO3\CMS\Core\SingletonInt
 			$priceViewObj = GeneralUtility::makeInstance('tx_ttproducts_field_price_view');
 			foreach ($priceFormula as $field => $value)	{
 				$keyMarker = '###'.$this->marker.'_'.strtoupper($field).$suffix.'###';
-				if (strpos($GLOBALS['TCA'][$this->modelObj->tableObj->getName()]['interface']['showRecordFieldList'], $field) === false) {
-					$value = '';
-				}
-				$markerArray[$keyMarker] = $value;
+                if (
+                    !isset($GLOBALS['TCA'][$this->getModelObj()->getTablename()]['columns'][$field])
+                ) {
+                    $value = '';
+                }
+                $markerArray[$keyMarker] = $value;
 			}
 			$priceNoTax = $priceObj->getPrice($basketExtra,$priceFormula['formula'],false,$row,false);
 			$priceTax = $priceObj->getPrice($basketExtra,$priceNoTax,true,$row,false);
