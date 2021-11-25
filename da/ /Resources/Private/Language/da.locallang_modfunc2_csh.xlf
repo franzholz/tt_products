@@ -3,17 +3,17 @@
   <file source-language="en" datatype="plaintext" original="messages" date="2017-07-08T17:08:00Z" product-name="import" target-language="da">
     <header/>
     <body>
-      <trans-unit id="tt_products.func2.createLanguagesWizard">
+      <trans-unit id="tt_products.func2.createLanguagesWizard" approved="yes">
         <source>Execute the Create Languages for Tables Wizard</source>
-        <target state="needs-translation">Execute the Create Languages for Tables Wizard</target>
+        <target state="final">Udfør guiden Opret sprog til tabeller</target>
       </trans-unit>
-      <trans-unit id="tt_products.func2.alttitle">
+      <trans-unit id="tt_products.func2.alttitle" approved="yes">
         <source>Create languages wizard for tt_products_text table</source>
-        <target state="needs-translation">Create languages wizard for tt_products_text table</target>
+        <target state="final">Opret sprogguide til tt_products_text tabellen</target>
       </trans-unit>
-      <trans-unit id="tt_products.func2.description" xml:space="preserve">
+      <trans-unit id="tt_products.func2.description" xml:space="preserve" approved="yes">
                 <source>Enables you to copy the extended text of tt_products into the alternative language table.</source>
-            <target state="needs-translation">Enables you to copy the extended text of tt_products into the alternative language table.</target></trans-unit>
+            <target state="final">Giver dig mulighed for at kopiere den udvidede tekst af tt_products til den alternative sprogtabel.</target></trans-unit>
     </body>
   </file>
 </xliff>
