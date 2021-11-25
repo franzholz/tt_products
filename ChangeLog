@@ -1,3 +1,6 @@
+2021-11-25 Franz Holzinger <franz@ttproducts.de>
+    * compatibility: New versions 2.14.x require at least TYPO3 9.5 and will work also with TYPO3 10 and 11.
+
 2021-11-20 Franz Holzinger <franz@ttproducts.de>
     * deprecations in TYPO3 10.4 and 11.5: TCA modifications
     * remove code pieces written for TYPO3 < 7.6.
