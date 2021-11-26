@@ -1,3 +1,6 @@
+2021-11-26 Franz Holzinger <franz@ttproducts.de>
+    * move and convert marker/locallang.xml into Resources/Private/Language/locallang_marker.xlf .
+
 2021-11-25 Franz Holzinger <franz@ttproducts.de>
     * compatibility: New versions 2.14.x require at least TYPO3 9.5 and will work also with TYPO3 10 and 11.
 
