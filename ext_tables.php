@@ -43,7 +43,7 @@ call_user_func(function () {
             'web_func',
             'tx_ttproducts_modfunc1',
             PATH_BE_TTPRODUCTS . 'modfunc1/class.tx_ttproducts_modfunc1.php',
-            'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang.xml:moduleFunction.tx_ttproducts_modfunc1',
+            'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . '/locallang.xlf:moduleFunction.tx_ttproducts_modfunc1',
             'wiz'
         );
 
@@ -52,7 +52,7 @@ call_user_func(function () {
             'web_func',
             'tx_ttproducts_modfunc2',
             PATH_BE_TTPRODUCTS . 'modfunc2/class.tx_ttproducts_modfunc2.php',
-            'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang.xml:moduleFunction.tx_ttproducts_modfunc2',
+            'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . '/locallang.xlf:moduleFunction.tx_ttproducts_modfunc2',
             'wiz'
         );
 
@@ -61,7 +61,7 @@ call_user_func(function () {
             'web_func',
             'tx_ttproducts_modfunc3',
             PATH_BE_TTPRODUCTS . 'modfunc3/class.tx_ttproducts_modfunc3.php',
-            'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang.xml:moduleFunction.tx_ttproducts_modfunc3',
+            'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . '/locallang.xlf:moduleFunction.tx_ttproducts_modfunc3',
             'wiz'
         );
     }

@@ -66,7 +66,7 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
 
 		$markerFile = $conf['markerFile'];
 		$languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
-		$defaultMarkerFile = 'EXT:' . TT_PRODUCTS_EXT . '/marker/locallang.xml';
+		$defaultMarkerFile = 'EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . '/locallang_marker.xlf';
 		$languageObj->loadLocalLang($defaultMarkerFile);
 		$language = $languageObj->getLanguage();
 
@@ -75,22 +75,14 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
                 $markerFile = $defaultMarkerFile;
             }
             if ($markerFile) {
-                if (
-                    version_compare(TYPO3_version, '9.4.0', '>=')
-                ) {
-                    $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
-                    $markerFile = $sanitizer->sanitize($markerFile);
-                } else {
-                    $markerFile = $GLOBALS['TSFE']->tmpl->getFileName($markerFile);
-                }
+                $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
+                $markerFile = $sanitizer->sanitize($markerFile);
                 $languageObj->loadLocalLang($markerFile);
             }
 		} else {
 			if (!$markerFile || $markerFile == '{$plugin.tt_products.file.markerFile}') {
 				if ($language == 'de') {
-					$markerFile = 'EXT:' . TT_PRODUCTS_EXT . '/marker/' . $language . '.locallang.xml';
-				} else if (ExtensionManagementUtility::isLoaded(ADDONS_EXT)) {
-					$markerFile = 'EXT:' . ADDONS_EXT . '/' . $language . '.locallang.xml';
+					$markerFile = 'EXT:' . TT_PRODUCTS_EXT . '/marker/' . $language . '.locallang.xlf';
 				}
 			} else if (substr($markerFile, 0, 4) == 'EXT:') {	// extension
 				list($extKey, $local) = explode('/', substr($markerFile, 4), 2);
@@ -112,14 +104,8 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
                 $markerFile = $defaultMarkerFile;
             }
             if ($markerFile) {
-                if (
-                    version_compare(TYPO3_version, '9.4.0', '>=')
-                ) {
-                    $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
-                    $markerFile = $sanitizer->sanitize($markerFile);
-                } else {
-                    $markerFile = $GLOBALS['TSFE']->tmpl->getFileName($markerFile);
-                }
+                $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
+                $markerFile = $sanitizer->sanitize($markerFile);
 			}
 			$languageObj->loadLocalLang($markerFile);
 		}
