@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-	<file source-language="en" datatype="plaintext" original="messages" date="2021-11-23T20:35:28Z" product-name="tt_products">
+	<file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/locallang_marker.xlf" date="2021-11-23T20:35:28Z" product-name="tt_products">
 		<header/>
 		<body>
 			<trans-unit id="memo_file_goto" xml:space="preserve">
