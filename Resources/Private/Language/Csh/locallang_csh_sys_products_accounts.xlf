@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/Csh/locallang_csh_sys_products_accounts.xlf" date="2021-11-23T20:34:13Z" product-name="tt_products">
+		<header/>
+		<body>
+			<trans-unit id=".description" xml:space="preserve">
+				<source>Shop bank accounts.</source>
+			</trans-unit>
+			<trans-unit id=".details" xml:space="preserve">
+				<source>Some orders have been made with bank accounts. Hide them as much as you can and delete them as soon as possible!</source>
+			</trans-unit>
+			<trans-unit id="_.seeAlso" xml:space="preserve">
+				<source>tt_products</source>
+			</trans-unit>
+			<trans-unit id="title.description" xml:space="preserve">
+				<source>[FILL IN] sys_products_accounts-&gt;title</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>
