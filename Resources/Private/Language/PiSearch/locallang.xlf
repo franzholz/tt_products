@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" datatype="plaintext" original="messages" date="2021-12-01T10:35:25Z" product-name="tt_products">
+		<header/>
+		<body>
+			<trans-unit id="no_template" xml:space="preserve">
+				<source>The shop search template file has not been found. Check your template setup about</source>
+			</trans-unit>
+			<trans-unit id="no_subtemplate" xml:space="preserve">
+				<source>The part | or the search template file | has not been found.</source>
+			</trans-unit>
+			<trans-unit id="all" xml:space="preserve">
+				<source>ALL</source>
+			</trans-unit>
+			<trans-unit id="latest_entries" xml:space="preserve">
+				<source>Go to the %d latest entries.</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>
