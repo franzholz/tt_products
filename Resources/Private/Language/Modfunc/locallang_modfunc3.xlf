@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2017-07-08T13:15:50Z" product-name="tt_products">
+	<file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/Modfunc/locallang_modfunc3.xlf" date="2017-07-08T13:15:50Z" product-name="tt_products">
 		<header/>
 		<body>
 			<trans-unit id="title" xml:space="preserve">
 				<source>Import images into FAL for tt_products.</source>
-			</trans-unit>
-			<trans-unit id="requires_typo3_62" xml:space="preserve">
-				<source>The FAL conversion can only be executed under TYPO3 6.2 and higher.</source>
 			</trans-unit>
 			<trans-unit id="only_admin" xml:space="preserve">
 				<source>These functions are only available for admins.</source>
@@ -22,8 +19,11 @@
 				<source>The import of the images into FAL has been finished!</source>
 			</trans-unit>
 			<trans-unit id="warning" xml:space="preserve">
-				<source>Make a backup copy of your images in the folder uploads/pics. All images files from this folder will be removed.</source>
+				<source>You must make a backup copy of your images in the folder uploads/pics manually before you continue! All image files from this folder will be removed.</source>
 			</trans-unit>
+            <trans-unit id="imported_number" xml:space="preserve">
+                <source>%s records of tt_products with images have been converted into FAL.</source>
+            </trans-unit>
 		</body>
 	</file>
 </xliff>
