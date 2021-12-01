@@ -1,16 +1,13 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2017-07-08T12:59:44Z" product-name="tt_products">
+	<file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/Modfunc/locallang_modfunc1.xlf" date="2017-07-08T12:59:44Z" product-name="tt_products">
 		<header/>
 		<body>
 			<trans-unit id="age" xml:space="preserve">
-				<source>Age of records in days.</source>
+				<source>Age of records in days</source>
 			</trans-unit>
 			<trans-unit id="title" xml:space="preserve">
 				<source>Move Items</source>
-			</trans-unit>
-			<trans-unit id="checklabel" xml:space="preserve">
-				<source>Check box #1</source>
 			</trans-unit>
 			<trans-unit id="only_admin" xml:space="preserve">
 				<source>These functions are only available for admins.</source>
@@ -19,14 +16,20 @@
 				<source>The source id is %d.</source>
 			</trans-unit>
 			<trans-unit id="pid_dest" xml:space="preserve">
-				<source>Enter the destination page id!</source>
+				<source>Enter the destination page id</source>
 			</trans-unit>
 			<trans-unit id="start" xml:space="preserve">
-				<source>Start the move!</source>
+				<source>Start the move</source>
 			</trans-unit>
-			<trans-unit id="moved" xml:space="preserve">
-				<source>The records have been moved.</source>
+			<trans-unit id="nothing_moved" xml:space="preserve">
+				<source>No records have been moved.</source>
 			</trans-unit>
+            <trans-unit id="moved_table" xml:space="preserve">
+                <source>%d %s have been moved.</source>
+            </trans-unit>
+            <trans-unit id="nothing" xml:space="preserve">
+                <source>Nothing has been done. Fill in all form fields correctly!</source>
+            </trans-unit>
 		</body>
 	</file>
 </xliff>

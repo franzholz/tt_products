@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.0">
-	<file source-language="en" datatype="plaintext" original="messages" date="2017-07-08T13:15:42Z" product-name="tt_products">
+	<file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/Modfunc/locallang_modfunc2.xlf" date="2017-07-08T13:15:42Z" product-name="tt_products">
 		<header/>
 		<body>
 			<trans-unit id="title" xml:space="preserve">
@@ -18,11 +18,14 @@
 			<trans-unit id="created" xml:space="preserve">
 				<source>The records have been generated.</source>
 			</trans-unit>
+            <trans-unit id="created_table" xml:space="preserve">
+                <source>%d %s have been created.</source>
+            </trans-unit>
 			<trans-unit id="no_texts" xml:space="preserve">
 				<source>No text records found on this page.</source>
 			</trans-unit>
 			<trans-unit id="no_alternative_product" xml:space="preserve">
-				<source>No product in alternative language has been found for these uid</source>
+				<source>No product in alternative language has been found for these uid: %s</source>
 			</trans-unit>
 		</body>
 	</file>
