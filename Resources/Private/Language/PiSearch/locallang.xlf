@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-	<file source-language="en" datatype="plaintext" original="messages" date="2021-12-01T10:35:25Z" product-name="tt_products">
+	<file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/PiSearch/locallang.xlf date="2021-12-01T10:35:25Z" product-name="tt_products">
 		<header/>
 		<body>
 			<trans-unit id="no_template" xml:space="preserve">
