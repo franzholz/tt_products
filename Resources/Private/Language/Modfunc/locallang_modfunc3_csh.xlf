@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff version="1.0" xmlns:t3="http://typo3.org/schemas/xliff">
+   <file source-language="en" datatype="plaintext" original="messages" date="2017-07-08T17:08:00Z" product-name="import">
+		<header/>
+		<body>
+			<trans-unit id="tt_products.func3.importFalWizard">
+				<source>Execute the FAL Import Wizard</source>
+			</trans-unit>
+            <trans-unit id="tt_products.func3.alttitle">
+                <source>Import FAL wizard for tt_products tables</source>
+            </trans-unit>
+            <trans-unit id="tt_products.func3.description" xml:space="preserve">
+                <source>Enables you to import the images into FAL for all tables of tt_products.</source>
+            </trans-unit>
+        </body>
+	</file>
+</xliff>
