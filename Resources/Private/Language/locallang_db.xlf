@@ -1,0 +1,1238 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" datatype="plaintext" original="messages" date="2021-11-23T20:35:08Z" product-name="tt_products">
+		<header/>
+		<body>
+			<trans-unit id="tstamp" xml:space="preserve">
+				<source>Time stamp</source>
+			</trans-unit>
+			<trans-unit id="crdate" xml:space="preserve">
+				<source>Creation date</source>
+			</trans-unit>
+			<trans-unit id="extmng.slugBehaviour" xml:space="preserve">
+				<source>Slug behaviour: uniqueInSite: The same slug can be used for tt_products in different sites. Use this setting *only* if no tt_products records are shared between sites. &quot;unique&quot; means that another identical product title will lead to a different slug name than for the first product.</source>
+			</trans-unit>
+			<trans-unit id="tt_products" xml:space="preserve">
+				<source>Products</source>
+			</trans-unit>
+			<trans-unit id="tt_products.accessory_uid" xml:space="preserve">
+				<source>Accessory products</source>
+			</trans-unit>
+			<trans-unit id="tt_products.prod_uid" xml:space="preserve">
+				<source>Template Products</source>
+			</trans-unit>
+			<trans-unit id="tt_products.related_uid" xml:space="preserve">
+				<source>Related Products</source>
+			</trans-unit>
+			<trans-unit id="tt_products.directcost" xml:space="preserve">
+				<source>Direct Cost:</source>
+			</trans-unit>
+			<trans-unit id="tt_products.regular_price" xml:space="preserve">
+				<source>Regular Price:</source>
+			</trans-unit>
+			<trans-unit id="tt_products.price" xml:space="preserve">
+				<source>Price:</source>
+			</trans-unit>
+			<trans-unit id="tt_products.price2" xml:space="preserve">
+				<source>Price (2):</source>
+			</trans-unit>
+			<trans-unit id="tt_products.discount" xml:space="preserve">
+				<source>Possible Discount:</source>
+			</trans-unit>
+			<trans-unit id="tt_products.discount_disable" xml:space="preserve">
+				<source>Disable Discounts:</source>
+			</trans-unit>
+			<trans-unit id="tt_products.unit" xml:space="preserve">
+				<source>Unit of Measure</source>
+			</trans-unit>
+			<trans-unit id="tt_products.unit_factor" xml:space="preserve">
+				<source>Unit Factor</source>
+			</trans-unit>
+			<trans-unit id="tt_products.graduated_price_enable" xml:space="preserve">
+				<source>Enable Graduated Prices:</source>
+			</trans-unit>
+			<trans-unit id="tt_products.graduated_price_round" xml:space="preserve">
+				<source>Round format for Graduated Prices:</source>
+			</trans-unit>
+			<trans-unit id="tt_products.graduated_price_uid" xml:space="preserve">
+				<source>Graduated Prices:</source>
+			</trans-unit>
+			<trans-unit id="tt_products.article_uid" xml:space="preserve">
+				<source>Articles:</source>
+			</trans-unit>
+			<trans-unit id="tt_products.note_uid" xml:space="preserve">
+				<source>Describing Pages:</source>
+			</trans-unit>
+			<trans-unit id="tt_products.note" xml:space="preserve">
+				<source>Description</source>
+			</trans-unit>
+			<trans-unit id="tt_products.note2" xml:space="preserve">
+				<source>Commentary</source>
+			</trans-unit>
+			<trans-unit id="tt_products.text_uid" xml:space="preserve">
+				<source>Additional texts:</source>
+			</trans-unit>
+			<trans-unit id="tt_products.itemnumber" xml:space="preserve">
+				<source>Identifier:</source>
+			</trans-unit>
+			<trans-unit id="tt_products.ean" xml:space="preserve">
+				<source>EAN Code:</source>
+			</trans-unit>
+			<trans-unit id="tt_products.shipping_point" xml:space="preserve">
+				<source>Shipping point:</source>
+			</trans-unit>
+			<trans-unit id="tt_products.inStock" xml:space="preserve">
+				<source>In Stock (pcs):</source>
+			</trans-unit>
+			<trans-unit id="tt_products.basketminquantity" xml:space="preserve">
+				<source>Minimum quantity in basket:</source>
+			</trans-unit>
+			<trans-unit id="tt_products.basketmaxquantity" xml:space="preserve">
+				<source>Maximum quantity in basket:</source>
+			</trans-unit>
+			<trans-unit id="tt_products.datasheet" xml:space="preserve">
+				<source>Datasheet</source>
+			</trans-unit>
+			<trans-unit id="tt_products.www" xml:space="preserve">
+				<source>WWW URL</source>
+			</trans-unit>
+			<trans-unit id="tt_products.tax_free" xml:space="preserve">
+				<source>Tax-free:</source>
+			</trans-unit>
+			<trans-unit id="tt_products.tax" xml:space="preserve">
+				<source>Tax:</source>
+			</trans-unit>
+			<trans-unit id="tt_products.deposit" xml:space="preserve">
+				<source>Deposit:</source>
+			</trans-unit>
+			<trans-unit id="tt_products.weight" xml:space="preserve">
+				<source>Weight (kg):</source>
+			</trans-unit>
+			<trans-unit id="tt_products.usebydate" xml:space="preserve">
+				<source>Use by date:</source>
+			</trans-unit>
+			<trans-unit id="tt_products.bulkily" xml:space="preserve">
+				<source>Bulkily:</source>
+			</trans-unit>
+			<trans-unit id="tt_products.offer" xml:space="preserve">
+				<source>Offer:</source>
+			</trans-unit>
+			<trans-unit id="tt_products.highlight" xml:space="preserve">
+				<source>Highlight:</source>
+			</trans-unit>
+			<trans-unit id="tt_products.bargain" xml:space="preserve">
+				<source>Bargain:</source>
+			</trans-unit>
+			<trans-unit id="tt_products.color" xml:space="preserve">
+				<source>Colour (Variant 1):</source>
+			</trans-unit>
+			<trans-unit id="tt_products.color2" xml:space="preserve">
+				<source>2nd Colour (Variant 6):</source>
+			</trans-unit>
+			<trans-unit id="tt_products.color3" xml:space="preserve">
+				<source>3rd Colour (Variant 7):</source>
+			</trans-unit>
+			<trans-unit id="tt_products.color4" xml:space="preserve">
+				<source>4th Colour (Variant 12):</source>
+			</trans-unit>
+			<trans-unit id="tt_products.size" xml:space="preserve">
+				<source>Size Length (Variant 2):</source>
+			</trans-unit>
+			<trans-unit id="tt_products.size2" xml:space="preserve">
+				<source>2nd Size Width (Variant 8):</source>
+			</trans-unit>
+			<trans-unit id="tt_products.size3" xml:space="preserve">
+				<source>3rd Size Height (Variant 9):</source>
+			</trans-unit>
+			<trans-unit id="tt_products.size4" xml:space="preserve">
+				<source>4th Size (Variant 13):</source>
+			</trans-unit>
+			<trans-unit id="tt_products.description" xml:space="preserve">
+				<source>Description (Variant 3):</source>
+			</trans-unit>
+			<trans-unit id="tt_products.description2" xml:space="preserve">
+				<source>2nd Description (Variant 14):</source>
+			</trans-unit>
+			<trans-unit id="tt_products.description3" xml:space="preserve">
+				<source>3rd Description (Variant 15):</source>
+			</trans-unit>
+			<trans-unit id="tt_products.descriptions" xml:space="preserve">
+				<source>Descriptions </source>
+			</trans-unit>
+			<trans-unit id="tt_products.gradings" xml:space="preserve">
+				<source>Gradings (Variant 4):</source>
+			</trans-unit>
+			<trans-unit id="tt_products.material" xml:space="preserve">
+				<source>Material (Variant 10):</source>
+			</trans-unit>
+			<trans-unit id="tt_products.quality" xml:space="preserve">
+				<source>Quality (Variant 11):</source>
+			</trans-unit>
+			<trans-unit id="tt_products.form" xml:space="preserve">
+				<source>Form (Variant 16):</source>
+			</trans-unit>
+			<trans-unit id="tt_products.form2" xml:space="preserve">
+				<source>2nd Form (Variant 17):</source>
+			</trans-unit>
+			<trans-unit id="tt_products.type" xml:space="preserve">
+				<source>Type (Variant 18):</source>
+			</trans-unit>
+			<trans-unit id="tt_products.pattern" xml:space="preserve">
+				<source>Pattern (Variant 19):</source>
+			</trans-unit>
+			<trans-unit id="tt_products.surface" xml:space="preserve">
+				<source>Surface (Variant 20):</source>
+			</trans-unit>
+			<trans-unit id="tt_products.angular" xml:space="preserve">
+				<source>Angular (Variant 21):</source>
+			</trans-unit>
+			<trans-unit id="tt_products.time" xml:space="preserve">
+				<source>Time (Variant 22):</source>
+			</trans-unit>
+			<trans-unit id="tt_products.time2" xml:space="preserve">
+				<source>2nd Time (Variant 23):</source>
+			</trans-unit>
+			<trans-unit id="tt_products.guarantee" xml:space="preserve">
+				<source>Guarantee (Variant 24):</source>
+			</trans-unit>
+			<trans-unit id="tt_products.elements" xml:space="preserve">
+				<source>Elements (Variant 25):</source>
+			</trans-unit>
+			<trans-unit id="tt_products.boundary" xml:space="preserve">
+				<source>Boundary (Variant 26):</source>
+			</trans-unit>
+			<trans-unit id="tt_products.costs" xml:space="preserve">
+				<source>Costs (Variant 27):</source>
+			</trans-unit>
+			<trans-unit id="tt_products.additionaltab" xml:space="preserve">
+				<source>Addition</source>
+			</trans-unit>
+			<trans-unit id="tt_products.additional_type" xml:space="preserve">
+				<source>internal additional type:</source>
+			</trans-unit>
+			<trans-unit id="tt_products.additional" xml:space="preserve">
+				<source>Additional (Variant 5):</source>
+			</trans-unit>
+			<trans-unit id="tt_products.additional.isSingle" xml:space="preserve">
+				<source>Buy only once:</source>
+			</trans-unit>
+			<trans-unit id="tt_products.additional.isImage" xml:space="preserve">
+				<source>Is an image:</source>
+			</trans-unit>
+			<trans-unit id="tt_products.additional.alwaysInStock" xml:space="preserve">
+				<source>always in stock:</source>
+			</trans-unit>
+			<trans-unit id="tt_products.additional.noMinPrice" xml:space="preserve">
+				<source>no minimum price:</source>
+			</trans-unit>
+			<trans-unit id="tt_products.additional.noMaxPrice" xml:space="preserve">
+				<source>no maximum price:</source>
+			</trans-unit>
+			<trans-unit id="tt_products.additional.noGiftService" xml:space="preserve">
+				<source>no gift service:</source>
+			</trans-unit>
+			<trans-unit id="tt_products.creditpoints" xml:space="preserve">
+				<source>credit points</source>
+			</trans-unit>
+			<trans-unit id="tt_products.damcat" xml:space="preserve">
+				<source>DAM category for product:</source>
+			</trans-unit>
+			<trans-unit id="tt_products.syscat" xml:space="preserve">
+				<source>System category for product:</source>
+			</trans-unit>
+			<trans-unit id="tt_products.special_preparation" xml:space="preserve">
+				<source>Special Preparation:</source>
+			</trans-unit>
+			<trans-unit id="tt_products.articles" xml:space="preserve">
+				<source>Articles </source>
+			</trans-unit>
+			<trans-unit id="tt_products.graduated" xml:space="preserve">
+				<source>Graduated Prices</source>
+			</trans-unit>
+			<trans-unit id="tt_products.subtitle" xml:space="preserve">
+				<source>Subtitle </source>
+			</trans-unit>
+			<trans-unit id="tt_products.keyword" xml:space="preserve">
+				<source>Keywords (,): </source>
+			</trans-unit>
+			<trans-unit id="tt_products.variants" xml:space="preserve">
+				<source>Variants </source>
+			</trans-unit>
+			<trans-unit id="tt_products.extravariants" xml:space="preserve">
+				<source>Extra Variants </source>
+			</trans-unit>
+			<trans-unit id="tt_products.relations" xml:space="preserve">
+				<source>Relations </source>
+			</trans-unit>
+			<trans-unit id="tt_products.smallimage" xml:space="preserve">
+				<source>Small image</source>
+			</trans-unit>
+			<trans-unit id="tt_products.shippingdiv" xml:space="preserve">
+				<source>Shipping </source>
+			</trans-unit>
+			<trans-unit id="tt_products.shipping" xml:space="preserve">
+				<source>shipping costs for first item</source>
+			</trans-unit>
+			<trans-unit id="tt_products.shipping2" xml:space="preserve">
+				<source>shipping costs for each additional item</source>
+			</trans-unit>
+			<trans-unit id="tt_products.handling" xml:space="preserve">
+				<source>fee for handling</source>
+			</trans-unit>
+			<trans-unit id="tt_products.delivery" xml:space="preserve">
+				<source>delivery:</source>
+			</trans-unit>
+			<trans-unit id="tt_products.delivery.availableNot" xml:space="preserve">
+				<source>not available</source>
+			</trans-unit>
+			<trans-unit id="tt_products.delivery.availableImmediate" xml:space="preserve">
+				<source>immediate delivery</source>
+			</trans-unit>
+			<trans-unit id="tt_products.delivery.availableShort" xml:space="preserve">
+				<source>soon available</source>
+			</trans-unit>
+			<trans-unit id="tt_products.delivery.availableDemand" xml:space="preserve">
+				<source>only on demand</source>
+			</trans-unit>
+			<trans-unit id="tt_products.categorydiv" xml:space="preserve">
+				<source>Categories </source>
+			</trans-unit>
+			<trans-unit id="tt_products.download_type" xml:space="preserve">
+				<source>internal download type:</source>
+			</trans-unit>
+			<trans-unit id="tt_products.download_uid" xml:space="preserve">
+				<source>Downloads</source>
+			</trans-unit>
+			<trans-unit id="tt_products.download_info" xml:space="preserve">
+				<source>Information required from the download</source>
+			</trans-unit>
+			<trans-unit id="tt_products.download_info.limitedToDomain" xml:space="preserve">
+				<source>limited to a domain</source>
+			</trans-unit>
+			<trans-unit id="tt_products.title" xml:space="preserve">
+				<source>Name:</source>
+			</trans-unit>
+			<trans-unit id="tt_products.slug" xml:space="preserve">
+				<source>URL Segment</source>
+			</trans-unit>
+			<trans-unit id="tt_products.sellstarttime" xml:space="preserve">
+				<source>Starttime for selling:</source>
+			</trans-unit>
+			<trans-unit id="tt_products.sellendtime" xml:space="preserve">
+				<source>Endtime for selling:</source>
+			</trans-unit>
+			<trans-unit id="tt_products_language" xml:space="preserve">
+				<source>Products (alternative language)</source>
+			</trans-unit>
+			<trans-unit id="tt_products_language.prod_uid" xml:space="preserve">
+				<source>Product record</source>
+			</trans-unit>
+			<trans-unit id="tt_products_language.sys_language_uid" xml:space="preserve">
+				<source>Language</source>
+			</trans-unit>
+			<trans-unit id="tt_products_language.text_uid" xml:space="preserve">
+				<source>Additional texts:</source>
+			</trans-unit>
+			<trans-unit id="tt_products_language.datasheet" xml:space="preserve">
+				<source>Datasheet</source>
+			</trans-unit>
+			<trans-unit id="tt_products_cat" xml:space="preserve">
+				<source>Product categories</source>
+			</trans-unit>
+			<trans-unit id="tt_products_cat.catid" xml:space="preserve">
+				<source>Category Identifier</source>
+			</trans-unit>
+			<trans-unit id="tt_products_cat.email_uid" xml:space="preserve">
+				<source>Confirmation email</source>
+			</trans-unit>
+			<trans-unit id="tt_products_cat.discount" xml:space="preserve">
+				<source>Possible Discount:</source>
+			</trans-unit>
+			<trans-unit id="tt_products_cat.discount_disable" xml:space="preserve">
+				<source>Disable Discount:</source>
+			</trans-unit>
+			<trans-unit id="tt_products_cat.highlight" xml:space="preserve">
+				<source>Highlight</source>
+			</trans-unit>
+			<trans-unit id="tt_products_cat.sliderimage" xml:space="preserve">
+				<source>Slider Image</source>
+			</trans-unit>
+			<trans-unit id="tt_products_cat.parent_category" xml:space="preserve">
+				<source>Parent category</source>
+			</trans-unit>
+			<trans-unit id="tt_products_cat_language" xml:space="preserve">
+				<source>Product category (alternative language)</source>
+			</trans-unit>
+			<trans-unit id="tt_products_cat_language.sys_language_uid" xml:space="preserve">
+				<source>Language</source>
+			</trans-unit>
+			<trans-unit id="tt_products_cat_language.cat_uid" xml:space="preserve">
+				<source>Product category record</source>
+			</trans-unit>
+			<trans-unit id="tt_products_articles" xml:space="preserve">
+				<source>Product articles</source>
+			</trans-unit>
+			<trans-unit id="tt_products_articles.uid_product" xml:space="preserve">
+				<source>Product</source>
+			</trans-unit>
+			<trans-unit id="tt_products_articles.config_type" xml:space="preserve">
+				<source>internal config type:</source>
+			</trans-unit>
+			<trans-unit id="tt_products_articles.config" xml:space="preserve">
+				<source>Configuration:</source>
+			</trans-unit>
+			<trans-unit id="tt_products_articles.config.isaddedprice" xml:space="preserve">
+				<source>price is added</source>
+			</trans-unit>
+			<trans-unit id="tt_products_articles.graduated_config_type" xml:space="preserve">
+				<source>internal graduated config type:</source>
+			</trans-unit>
+			<trans-unit id="tt_products_articles.graduated_config" xml:space="preserve">
+				<source>Graduated Price Configuration:</source>
+			</trans-unit>
+			<trans-unit id="tt_products_articles.graduated_config.addParentProductCount" xml:space="preserve">
+				<source>Add the product counts of the parent product</source>
+			</trans-unit>
+			<trans-unit id="tt_products_articles_language" xml:space="preserve">
+				<source>Product articles (alternative language)</source>
+			</trans-unit>
+			<trans-unit id="tt_products_articles_language.article_uid" xml:space="preserve">
+				<source>Product article</source>
+			</trans-unit>
+			<trans-unit id="tt_products_attribute_mm_graduated_price" xml:space="preserve">
+				<source>Relation product attributes to gradutated prices</source>
+			</trans-unit>
+			<trans-unit id="tt_products_attribute_mm_graduated_price.uid_local" xml:space="preserve">
+				<source>Product attribute using it.</source>
+			</trans-unit>
+			<trans-unit id="tt_products_attribute_mm_graduated_price.uid_foreign" xml:space="preserve">
+				<source>Price formula.</source>
+			</trans-unit>
+			<trans-unit id="tt_products_emails" xml:space="preserve">
+				<source>Products emails</source>
+			</trans-unit>
+			<trans-unit id="tt_products_emails.suffix" xml:space="preserve">
+				<source>Template Suffix</source>
+			</trans-unit>
+			<trans-unit id="tt_products_texts" xml:space="preserve">
+				<source>Product texts</source>
+			</trans-unit>
+			<trans-unit id="tt_products_texts.marker" xml:space="preserve">
+				<source>Marker</source>
+			</trans-unit>
+			<trans-unit id="tt_products_texts.parentid" xml:space="preserve">
+				<source>Parent product</source>
+			</trans-unit>
+			<trans-unit id="tt_products_texts.parenttable" xml:space="preserve">
+				<source>Parent table</source>
+			</trans-unit>
+			<trans-unit id="tt_products_texts_language" xml:space="preserve">
+				<source>Product texts (alternative language)</source>
+			</trans-unit>
+			<trans-unit id="tt_products_texts_language.text_uid" xml:space="preserve">
+				<source>Parent text</source>
+			</trans-unit>
+			<trans-unit id="tt_products_texts_language.sys_language_uid" xml:space="preserve">
+				<source>Language</source>
+			</trans-unit>
+			<trans-unit id="tt_products_texts_language.parentid" xml:space="preserve">
+				<source>Parent product (alternative language)</source>
+			</trans-unit>
+			<trans-unit id="tt_products_texts_language.parenttable" xml:space="preserve">
+				<source>Parent table</source>
+			</trans-unit>
+			<trans-unit id="tt_products_downloads" xml:space="preserve">
+				<source>Product Downloads</source>
+			</trans-unit>
+			<trans-unit id="tt_products_downloads.title" xml:space="preserve">
+				<source>Title</source>
+			</trans-unit>
+			<trans-unit id="tt_products_downloads.marker" xml:space="preserve">
+				<source>Marker</source>
+			</trans-unit>
+			<trans-unit id="tt_products_downloads.path" xml:space="preserve">
+				<source>Path</source>
+			</trans-unit>
+			<trans-unit id="tt_products_downloads.file_uid" xml:space="preserve">
+				<source>Files</source>
+			</trans-unit>
+			<trans-unit id="tt_products_downloads.author" xml:space="preserve">
+				<source>Author</source>
+			</trans-unit>
+			<trans-unit id="tt_products_downloads.edition" xml:space="preserve">
+				<source>Edition</source>
+			</trans-unit>
+			<trans-unit id="tt_products_downloads.edition.complete" xml:space="preserve">
+				<source>Complete</source>
+			</trans-unit>
+			<trans-unit id="tt_products_downloads.edition.partial" xml:space="preserve">
+				<source>Partial</source>
+			</trans-unit>
+			<trans-unit id="tt_products_downloads.open" xml:space="preserve">
+				<source>Open for download</source>
+			</trans-unit>
+			<trans-unit id="tt_products_downloads.price_enable" xml:space="preserve">
+				<source>Enable the Price</source>
+			</trans-unit>
+			<trans-unit id="tt_products_downloads.price" xml:space="preserve">
+				<source>Price</source>
+			</trans-unit>
+			<trans-unit id="tt_products_downloads_language" xml:space="preserve">
+				<source>Product Downloads (alternative language)</source>
+			</trans-unit>
+			<trans-unit id="tt_products_downloads_language.parent_uid" xml:space="preserve">
+				<source>Parent download</source>
+			</trans-unit>
+			<trans-unit id="tt_products_downloads_language.sys_language_uid" xml:space="preserve">
+				<source>Language</source>
+			</trans-unit>
+			<trans-unit id="tt_products_products_mm_tax_categories" xml:space="preserve">
+				<source>Relation products to tax categories</source>
+			</trans-unit>
+			<trans-unit id="tt_products_products_mm_downloads" xml:space="preserve">
+				<source>Relation products to downloads</source>
+			</trans-unit>
+			<trans-unit id="tt_products_products_mm_downloads.uid_local" xml:space="preserve">
+				<source>Product using it</source>
+			</trans-unit>
+			<trans-unit id="tt_products_products_mm_downloads.uid_foreign" xml:space="preserve">
+				<source>Download for it</source>
+			</trans-unit>
+			<trans-unit id="tt_products_mm_graduated_price" xml:space="preserve">
+				<source>Relation products to gradutated prices</source>
+			</trans-unit>
+			<trans-unit id="tt_products_mm_graduated_price.product_uid" xml:space="preserve">
+				<source>Product using it.</source>
+			</trans-unit>
+			<trans-unit id="tt_products_mm_graduated_price.uid_local" xml:space="preserve">
+				<source>Product using it.</source>
+			</trans-unit>
+			<trans-unit id="tt_products_mm_graduated_price.graduated_price_uid" xml:space="preserve">
+				<source>Price formula.</source>
+			</trans-unit>
+			<trans-unit id="tt_products_mm_graduated_price.uid_foreign" xml:space="preserve">
+				<source>Price formula.</source>
+			</trans-unit>
+			<trans-unit id="tt_products_products_mm_articles" xml:space="preserve">
+				<source>Relation products to articles</source>
+			</trans-unit>
+			<trans-unit id="tt_products_products_mm_articles.product_uid" xml:space="preserve">
+				<source>Product using it</source>
+			</trans-unit>
+			<trans-unit id="tt_products_products_mm_articles.article_uid" xml:space="preserve">
+				<source>Article</source>
+			</trans-unit>
+			<trans-unit id="tt_products_related_products_products_mm" xml:space="preserve">
+				<source>Relation products to related products</source>
+			</trans-unit>
+			<trans-unit id="tt_products_related_products_products_mm.uid_local" xml:space="preserve">
+				<source>Origin Product</source>
+			</trans-unit>
+			<trans-unit id="tt_products_related_products_products_mm.uid_foreign" xml:space="preserve">
+				<source>Related Product</source>
+			</trans-unit>
+			<trans-unit id="tt_products_accessory_products_products_mm" xml:space="preserve">
+				<source>Relation products to accessory products</source>
+			</trans-unit>
+			<trans-unit id="tt_products_accessory_products_products_mm.uid_local" xml:space="preserve">
+				<source>Origin Product</source>
+			</trans-unit>
+			<trans-unit id="tt_products_accessory_products_products_mm.uid_foreign" xml:space="preserve">
+				<source>Accessory Product</source>
+			</trans-unit>
+			<trans-unit id="tt_products_graduated_price" xml:space="preserve">
+				<source>Graduated prices</source>
+			</trans-unit>
+			<trans-unit id="tt_products_graduated_price.formula" xml:space="preserve">
+				<source>Price formula:</source>
+			</trans-unit>
+			<trans-unit id="tt_products_graduated_price.startamount" xml:space="preserve">
+				<source>Start amount of items:</source>
+			</trans-unit>
+			<trans-unit id="tt_products_graduated_price.items" xml:space="preserve">
+				<source>Items</source>
+			</trans-unit>
+			<trans-unit id="tt_products_graduated_price.starttime" xml:space="preserve">
+				<source>valid from</source>
+			</trans-unit>
+			<trans-unit id="tt_products_graduated_price.endtime" xml:space="preserve">
+				<source>valid until</source>
+			</trans-unit>
+			<trans-unit id="sys_file_reference.tx_ttproducts_author" xml:space="preserve">
+				<source>Author</source>
+			</trans-unit>
+			<trans-unit id="sys_file_reference.tx_ttproducts_startpoint" xml:space="preserve">
+				<source>Start Point</source>
+			</trans-unit>
+			<trans-unit id="sys_file_reference.tx_ttproducts_endpoint" xml:space="preserve">
+				<source>End Point</source>
+			</trans-unit>
+			<trans-unit id="sys_file_reference.tx_ttproducts_price_enable" xml:space="preserve">
+				<source>Enable the Price</source>
+			</trans-unit>
+			<trans-unit id="sys_file_reference.tx_ttproducts_price" xml:space="preserve">
+				<source>Price</source>
+			</trans-unit>
+			<trans-unit id="sys_file_reference.shopAttributes" xml:space="preserve">
+				<source>Shop Attributes</source>
+			</trans-unit>
+			<trans-unit id="sys_products_cards" xml:space="preserve">
+				<source>Credit cards for orders</source>
+			</trans-unit>
+			<trans-unit id="sys_products_cards.owner_name" xml:space="preserve">
+				<source>owner name</source>
+			</trans-unit>
+			<trans-unit id="sys_products_cards.cc_number" xml:space="preserve">
+				<source>number</source>
+			</trans-unit>
+			<trans-unit id="sys_products_cards.cc_number_1" xml:space="preserve">
+				<source>number part 1</source>
+			</trans-unit>
+			<trans-unit id="sys_products_cards.cc_number_2" xml:space="preserve">
+				<source>number part 2</source>
+			</trans-unit>
+			<trans-unit id="sys_products_cards.cc_number_3" xml:space="preserve">
+				<source>number part 3</source>
+			</trans-unit>
+			<trans-unit id="sys_products_cards.cc_number_4" xml:space="preserve">
+				<source>number part 4</source>
+			</trans-unit>
+			<trans-unit id="sys_products_cards.cc_type" xml:space="preserve">
+				<source>organization</source>
+			</trans-unit>
+			<trans-unit id="sys_products_cards.cc_type.I.0" xml:space="preserve">
+				<source>American Express</source>
+			</trans-unit>
+			<trans-unit id="sys_products_cards.cc_type.I.1" xml:space="preserve">
+				<source>Diners Club</source>
+			</trans-unit>
+			<trans-unit id="sys_products_cards.cc_type.I.2" xml:space="preserve">
+				<source>Mastercard</source>
+			</trans-unit>
+			<trans-unit id="sys_products_cards.cc_type.I.3" xml:space="preserve">
+				<source>Visa</source>
+			</trans-unit>
+			<trans-unit id="sys_products_cards.cvv2" xml:space="preserve">
+				<source>Card Security Code</source>
+			</trans-unit>
+			<trans-unit id="sys_products_cards.endtime_mm" xml:space="preserve">
+				<source>Card endtime: month</source>
+			</trans-unit>
+			<trans-unit id="sys_products_cards.endtime_yy" xml:space="preserve">
+				<source>Card endtime: year</source>
+			</trans-unit>
+			<trans-unit id="sys_products_accounts" xml:space="preserve">
+				<source>Bank accounts for orders</source>
+			</trans-unit>
+			<trans-unit id="sys_products_accounts.owner_name" xml:space="preserve">
+				<source>owner name</source>
+			</trans-unit>
+			<trans-unit id="sys_products_accounts.ac_number" xml:space="preserve">
+				<source>account number</source>
+			</trans-unit>
+			<trans-unit id="sys_products_accounts.bic" xml:space="preserve">
+				<source>bank identifier code</source>
+			</trans-unit>
+			<trans-unit id="sys_products_accounts.iban" xml:space="preserve">
+				<source>IBAN</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders" xml:space="preserve">
+				<source>Sys products orders</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.crdate" xml:space="preserve">
+				<source>Order date</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.payment" xml:space="preserve">
+				<source>payment</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.shipping" xml:space="preserve">
+				<source>shipping</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.amount" xml:space="preserve">
+				<source>amount</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.tax_mode" xml:space="preserve">
+				<source>tax mode</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.tax_mode.I.0" xml:space="preserve">
+				<source>taxed</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.tax_mode.I.1" xml:space="preserve">
+				<source>duty free</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.pay_mode" xml:space="preserve">
+				<source>payment mode</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.pay_mode.I.0" xml:space="preserve">
+				<source>unpaid</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.pay_mode.I.1" xml:space="preserve">
+				<source>bank transfer</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.pay_mode.I.2" xml:space="preserve">
+				<source>credit card</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.pay_mode.I.3" xml:space="preserve">
+				<source>cash</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.pay_mode.I.4" xml:space="preserve">
+				<source>Paypal</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.pay_mode.I.5" xml:space="preserve">
+				<source>Saferpay</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.pay_mode.I.6" xml:space="preserve">
+				<source>iPayment</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.pay_mode.I.7" xml:space="preserve">
+				<source>Payone</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.pay_mode.I.8" xml:space="preserve">
+				<source>ClickandBuy</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.pay_mode.I.9" xml:space="preserve">
+				<source>vrepay</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.pay_mode.I.10" xml:space="preserve">
+				<source>Authorize.net</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.pay_mode.I.11" xml:space="preserve">
+				<source>Arrangement</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.pay_mode.I.12" xml:space="preserve">
+				<source>Concardis</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.pay_mode.I.13" xml:space="preserve">
+				<source>Dibs</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.pay_mode.I.14" xml:space="preserve">
+				<source>Sofortueberweisung</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.pay_mode.I.15" xml:space="preserve">
+				<source>Stripe</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.pay_mode.I.16" xml:space="preserve">
+				<source>Expercash</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.pay_mode.I.17" xml:space="preserve">
+				<source>Paymill</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.email_notify" xml:space="preserve">
+				<source>email notification</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.tracking_code" xml:space="preserve">
+				<source>tracking code</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.status" xml:space="preserve">
+				<source>status</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.status_log" xml:space="preserve">
+				<source>status_log</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.orderData" xml:space="preserve">
+				<source>order data</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.orderHtml" xml:space="preserve">
+				<source>Order Html</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.orderHtmlDiv" xml:space="preserve">
+				<source>Html</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.agb" xml:space="preserve">
+				<source>agb</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.feusers_uid" xml:space="preserve">
+				<source>frontend user</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.creditpoints" xml:space="preserve">
+				<source>credit points</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.creditpoints_spended" xml:space="preserve">
+				<source>spended creditpoints</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.creditpoints_saved" xml:space="preserve">
+				<source>saved creditpoints</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.creditpoints_gifts" xml:space="preserve">
+				<source>gifts creditpoints</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.desired_date" xml:space="preserve">
+				<source>desired date</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.desired_time" xml:space="preserve">
+				<source>desired time</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.client_ip" xml:space="preserve">
+				<source>used IP address</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.vat_id" xml:space="preserve">
+				<source>EU VAT number</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.salutation" xml:space="preserve">
+				<source>salutation</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.salutation.I.0" xml:space="preserve">
+				<source>Mr.</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.salutation.I.1" xml:space="preserve">
+				<source>Mrs.</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.salutation.I.2" xml:space="preserve">
+				<source>Company.</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.salutation.I.3" xml:space="preserve">
+				<source>To</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.foundby" xml:space="preserve">
+				<source>found by</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.foundby.I.0" xml:space="preserve">
+				<source>undefined</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.foundby.I.1" xml:space="preserve">
+				<source>company 1</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.foundby.I.2" xml:space="preserve">
+				<source>company 2</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.foundby.I.3" xml:space="preserve">
+				<source>friends and acquaintances</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.foundby.I.4" xml:space="preserve">
+				<source>internet search engine</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.foundby.I.5" xml:space="preserve">
+				<source>newspaper</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.foundby.I.6" xml:space="preserve">
+				<source>others</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.first_name" xml:space="preserve">
+				<source>first name</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.last_name" xml:space="preserve">
+				<source>last name</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.address" xml:space="preserve">
+				<source>street / address</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.house_no" xml:space="preserve">
+				<source>house number</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.order_code" xml:space="preserve">
+				<source>Order code</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.date_of_birth" xml:space="preserve">
+				<source>Date of birth</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.date_of_payment" xml:space="preserve">
+				<source>Date of payment</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.date_of_delivery" xml:space="preserve">
+				<source>Date of delivery</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.bill_no" xml:space="preserve">
+				<source>Bill number</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.order_no" xml:space="preserve">
+				<source>Order number</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.radio1" xml:space="preserve">
+				<source>checked items</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.radio1.I.0" xml:space="preserve">
+				<source>nothing checked</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.radio1.I.1" xml:space="preserve">
+				<source>checked 1</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.radio1.I.2" xml:space="preserve">
+				<source>checked 2</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.giftservice" xml:space="preserve">
+				<source>Gift service</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.ordered_products" xml:space="preserve">
+				<source>Bought products</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.fal_uid" xml:space="preserve">
+				<source>Bought files</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.gained_uid" xml:space="preserve">
+				<source>Gained products</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders.gained_voucher" xml:space="preserve">
+				<source>Gained voucher codes</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders_mm_gained_voucher_codes" xml:space="preserve">
+				<source>Relations Order to Voucher Code</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders_mm_gained_voucher_codes.uid_local" xml:space="preserve">
+				<source>Order</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders_mm_gained_voucher_codes.uid_foreign" xml:space="preserve">
+				<source>Voucher</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders_mm_tt_products" xml:space="preserve">
+				<source>Relations Order to Product</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders_mm_tt_products.uid_local" xml:space="preserve">
+				<source>Order</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders_mm_tt_products.uid_foreign" xml:space="preserve">
+				<source>Product</source>
+			</trans-unit>
+			<trans-unit id="fe_groups.tt_products_discount" xml:space="preserve">
+				<source>Discount</source>
+			</trans-unit>
+			<trans-unit id="fe_users.cnum" xml:space="preserve">
+				<source>Customer Number:</source>
+			</trans-unit>
+			<trans-unit id="fe_users.static_info_country" xml:space="preserve">
+				<source>Country Code:</source>
+			</trans-unit>
+			<trans-unit id="fe_users.zone" xml:space="preserve">
+				<source>State/province:</source>
+			</trans-unit>
+			<trans-unit id="fe_users.tt_products_memoItems" xml:space="preserve">
+				<source>Memo Items</source>
+			</trans-unit>
+			<trans-unit id="fe_users.tt_products_memofile" xml:space="preserve">
+				<source>Memo Files</source>
+			</trans-unit>
+			<trans-unit id="fe_users.tt_products_discount" xml:space="preserve">
+				<source>Discount</source>
+			</trans-unit>
+			<trans-unit id="fe_users.tt_products_creditpoints" xml:space="preserve">
+				<source>Creditpoints</source>
+			</trans-unit>
+			<trans-unit id="fe_users.tt_products_vouchercode" xml:space="preserve">
+				<source>Vouchercode</source>
+			</trans-unit>
+			<trans-unit id="fe_users.tt_products_vat" xml:space="preserve">
+				<source>EU VAT number</source>
+			</trans-unit>
+			<trans-unit id="fe_users.tt_products_payment_bill" xml:space="preserve">
+				<source>Allow payment by bill</source>
+			</trans-unit>
+			<trans-unit id="fe_users.tt_products_business_partner" xml:space="preserve">
+				<source>Business Partner</source>
+			</trans-unit>
+			<trans-unit id="fe_users.tt_products_business_partner.I.0" xml:space="preserve">
+				<source>Private Customer</source>
+			</trans-unit>
+			<trans-unit id="fe_users.tt_products_business_partner.I.1" xml:space="preserve">
+				<source>Business Customer</source>
+			</trans-unit>
+			<trans-unit id="fe_users.tt_products_organisation_form" xml:space="preserve">
+				<source>Form of Organisation</source>
+			</trans-unit>
+			<trans-unit id="fe_users.tt_products_organisation_form.A1" xml:space="preserve">
+				<source>Aktiengesellschaft</source>
+			</trans-unit>
+			<trans-unit id="fe_users.tt_products_organisation_form.A2" xml:space="preserve">
+				<source>Aktiengesellschaft &amp; Co. KG</source>
+			</trans-unit>
+			<trans-unit id="fe_users.tt_products_organisation_form.A3" xml:space="preserve">
+				<source>Aktiengesellschaft &amp; Co. OHG</source>
+			</trans-unit>
+			<trans-unit id="fe_users.tt_products_organisation_form.BH" xml:space="preserve">
+				<source>Kommunalverwaltung</source>
+			</trans-unit>
+			<trans-unit id="fe_users.tt_products_organisation_form.E1" xml:space="preserve">
+				<source>Eingetragene Genossenschaft</source>
+			</trans-unit>
+			<trans-unit id="fe_users.tt_products_organisation_form.E2" xml:space="preserve">
+				<source>Eingetragener Verein</source>
+			</trans-unit>
+			<trans-unit id="fe_users.tt_products_organisation_form.E3" xml:space="preserve">
+				<source>Einzelunternehmen</source>
+			</trans-unit>
+			<trans-unit id="fe_users.tt_products_organisation_form.E4" xml:space="preserve">
+				<source>Eingetragener Kaufmann</source>
+			</trans-unit>
+			<trans-unit id="fe_users.tt_products_organisation_form.G1" xml:space="preserve">
+				<source>Ges. bürgerlichen Rechts</source>
+			</trans-unit>
+			<trans-unit id="fe_users.tt_products_organisation_form.G2" xml:space="preserve">
+				<source>GmbH</source>
+			</trans-unit>
+			<trans-unit id="fe_users.tt_products_organisation_form.G3" xml:space="preserve">
+				<source>GmbH &amp; Co.</source>
+			</trans-unit>
+			<trans-unit id="fe_users.tt_products_organisation_form.G4" xml:space="preserve">
+				<source>GmbH &amp; Co. KG</source>
+			</trans-unit>
+			<trans-unit id="fe_users.tt_products_organisation_form.G5" xml:space="preserve">
+				<source>GmbH &amp; Co. OHG</source>
+			</trans-unit>
+			<trans-unit id="fe_users.tt_products_organisation_form.G6" xml:space="preserve">
+				<source>GmbH gemeinschaftlich</source>
+			</trans-unit>
+			<trans-unit id="fe_users.tt_products_organisation_form.G7" xml:space="preserve">
+				<source>Gemeinnützige GmbH (gGmbH)</source>
+			</trans-unit>
+			<trans-unit id="fe_users.tt_products_organisation_form.K2" xml:space="preserve">
+				<source>Kommanditgesellsch. auf Aktien</source>
+			</trans-unit>
+			<trans-unit id="fe_users.tt_products_organisation_form.K3" xml:space="preserve">
+				<source>KG auf Aktien &amp; Co. KG</source>
+			</trans-unit>
+			<trans-unit id="fe_users.tt_products_organisation_form.KG" xml:space="preserve">
+				<source>Kommanditgesellschaft</source>
+			</trans-unit>
+			<trans-unit id="fe_users.tt_products_organisation_form.KO" xml:space="preserve">
+				<source>Körperschaft öffentl. Rechts</source>
+			</trans-unit>
+			<trans-unit id="fe_users.tt_products_organisation_form.O1" xml:space="preserve">
+				<source>Offene Handelsgesellschaft</source>
+			</trans-unit>
+			<trans-unit id="fe_users.tt_products_organisation_form.P" xml:space="preserve">
+				<source>Privatperson</source>
+			</trans-unit>
+			<trans-unit id="fe_users.tt_products_organisation_form.S1" xml:space="preserve">
+				<source>Stiftung Öffentlichen Rechts</source>
+			</trans-unit>
+			<trans-unit id="fe_users.tt_products_organisation_form.S2" xml:space="preserve">
+				<source>Stiftung Privaten Rechts</source>
+			</trans-unit>
+			<trans-unit id="fe_users.tt_products_organisation_form.S3" xml:space="preserve">
+				<source>Stiftung &amp; Co. Handels KG</source>
+			</trans-unit>
+			<trans-unit id="fe_users.tt_products_organisation_form.U" xml:space="preserve">
+				<source>Rechtsform klären</source>
+			</trans-unit>
+			<trans-unit id="fe_users.tt_products_organisation_form.V1" xml:space="preserve">
+				<source>Versicherungsverein a. Gegens.</source>
+			</trans-unit>
+			<trans-unit id="fe_users.tt_products_organisation_form.Z1" xml:space="preserve">
+				<source>Ausländische Rechtsformen</source>
+			</trans-unit>
+			<trans-unit id="tt_content.list_type_pi1" xml:space="preserve">
+				<source>Shop System</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.param_mode" xml:space="preserve">
+				<source>Parameter: mode</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.param_mode.0" xml:space="preserve">
+				<source>0</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.param_mode.1" xml:space="preserve">
+				<source>1</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.param_mode.2" xml:space="preserve">
+				<source>2</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.param_mode.3" xml:space="preserve">
+				<source>3</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.display_mode" xml:space="preserve">
+				<source>Display mode</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.display_mode.1" xml:space="preserve">
+				<source>Products: list</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.display_mode.2" xml:space="preserve">
+				<source>Products: list gifts</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.display_mode.3" xml:space="preserve">
+				<source>Products: list highlights</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.display_mode.4" xml:space="preserve">
+				<source>Products: list offers</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.display_mode.5" xml:space="preserve">
+				<source>Products: list new items</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.display_mode.6" xml:space="preserve">
+				<source>Products: single view</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.display_mode.7" xml:space="preserve">
+				<source>Products: search</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.display_mode.8" xml:space="preserve">
+				<source>Test: various</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.display_mode.9" xml:space="preserve">
+				<source>Basket: shopping cart, options</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.display_mode.10" xml:space="preserve">
+				<source>Basket: overview</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.display_mode.11" xml:space="preserve">
+				<source>Basket: collect addresses</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.display_mode.12" xml:space="preserve">
+				<source>Basket: order review, payment</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.display_mode.13" xml:space="preserve">
+				<source>Basket: order confirmation</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.display_mode.14" xml:space="preserve">
+				<source>Orders: tracking</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.display_mode.15" xml:space="preserve">
+				<source>Orders: billing</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.display_mode.16" xml:space="preserve">
+				<source>Orders: delivery</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.display_mode.17" xml:space="preserve">
+				<source>Orders: list</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.display_mode.18" xml:space="preserve">
+				<source>Products: memo</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.display_mode.19" xml:space="preserve">
+				<source>General: help</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.display_mode.20" xml:space="preserve">
+				<source>Categories: list</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.display_mode.21" xml:space="preserve">
+				<source>Articles: list</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.display_mode.22" xml:space="preserve">
+				<source>Categories: select</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.display_mode.23" xml:space="preserve">
+				<source>Files: list</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.display_mode.24" xml:space="preserve">
+				<source>System Categories: list</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.display_mode.25" xml:space="preserve">
+				<source>Addresses: select</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.display_mode.26" xml:space="preserve">
+				<source>Addresses: list</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.display_mode.27" xml:space="preserve">
+				<source>Categories: menu</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.display_mode.28" xml:space="preserve">
+				<source>Addresses: menu</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.display_mode.29" xml:space="preserve">
+				<source>System Categories: select</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.display_mode.30" xml:space="preserve">
+				<source>System Categories: menu</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.display_mode.31" xml:space="preserve">
+				<source>Categories: single</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.display_mode.32" xml:space="preserve">
+				<source>Addresses: single</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.display_mode.33" xml:space="preserve">
+				<source>System Categories: single</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.display_mode.34" xml:space="preserve">
+				<source>Files: memo</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.display_mode.35" xml:space="preserve">
+				<source>Files: memo overview</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.display_mode.36" xml:space="preserve">
+				<source></source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.display_mode.37" xml:space="preserve">
+				<source>User: plugin 1 for external extension</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.display_mode.38" xml:space="preserve">
+				<source>User: plugin 2 for external extension</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.display_mode.39" xml:space="preserve">
+				<source>User: plugin 3 for external extension</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.display_mode.40" xml:space="preserve">
+				<source>User: plugin 4 for external extension</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.display_mode.41" xml:space="preserve">
+				<source>User: plugin 5 for external extension</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.display_mode.42" xml:space="preserve">
+				<source>Products: list recently visited items</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.display_mode.43" xml:space="preserve">
+				<source>Products: list mostly visited</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.display_mode.44" xml:space="preserve">
+				<source>Products: list all users mostly visited</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.display_mode.45" xml:space="preserve">
+				<source>Products: list affordable items</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.display_mode.46" xml:space="preserve">
+				<source>Orders: downloads</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.display_mode.control" xml:space="preserve">
+				<source>Control</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.display_mode.unused" xml:space="preserve">
+				<source>Unused</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.product_selection" xml:space="preserve">
+				<source>Product selection</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.category_selection" xml:space="preserve">
+				<source>Category selection</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.required_pivars" xml:space="preserve">
+				<source>Required parameters</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.required_pivars.1" xml:space="preserve">
+				<source> </source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.required_pivars.2" xml:space="preserve">
+				<source>Product</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.required_pivars.3" xml:space="preserve">
+				<source>Category</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.required_pivars.4" xml:space="preserve">
+				<source>File (not implemented)</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.required_pivars.5" xml:space="preserve">
+				<source>System Category (not implemented)</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.required_pivars.6" xml:space="preserve">
+				<source>Address</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.required_pivars.7" xml:space="preserve">
+				<source>Language</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.required_pivars.8" xml:space="preserve">
+				<source>Search</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.template_suffix" xml:space="preserve">
+				<source>Template suffix</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.dam_where" xml:space="preserve">
+				<source>DAM: WHERE</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.dam_group_by" xml:space="preserve">
+				<source>DAM: GROUP BY</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.dam_join_tables" xml:space="preserve">
+				<source>DAM: JOIN TABLES</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.product_where" xml:space="preserve">
+				<source>Product: WHERE</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.file_where" xml:space="preserve">
+				<source>File: WHERE</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.file_group_by" xml:space="preserve">
+				<source>File: GROUP BY</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.file_join_tables" xml:space="preserve">
+				<source>File: JOIN tables</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.tsconfig" xml:space="preserve">
+				<source>Typoscript</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>
