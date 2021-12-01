@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2017-07-08T13:15:42Z" product-name="tt_products">
+		<header/>
+		<body>
+			<trans-unit id="title" xml:space="preserve">
+				<source>Create Records in Alternative Languages</source>
+			</trans-unit>
+			<trans-unit id="only_admin" xml:space="preserve">
+				<source>These functions are only available for admins.</source>
+			</trans-unit>
+			<trans-unit id="pid_src" xml:space="preserve">
+				<source>The source id is %d.</source>
+			</trans-unit>
+			<trans-unit id="start" xml:space="preserve">
+				<source>Start the generation of the records!</source>
+			</trans-unit>
+			<trans-unit id="created" xml:space="preserve">
+				<source>The records have been generated.</source>
+			</trans-unit>
+			<trans-unit id="no_texts" xml:space="preserve">
+				<source>No text records found on this page.</source>
+			</trans-unit>
+			<trans-unit id="no_alternative_product" xml:space="preserve">
+				<source>No product in alternative language has been found for these uid</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>
