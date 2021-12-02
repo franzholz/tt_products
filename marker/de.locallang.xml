@@ -293,7 +293,6 @@
 			<label index="order_confirmation_new_order">Neue Bestellung</label>
 			<label index="order_confirmation_order_uid">Bitte Ihre Bestellnummer unbedingt angeben</label>
 			<label index="order_confirmation_your_order_details">Einzelheiten der Bestellung</label>
-			<label index="order_confirmation_thanks">Vielen Dank für Ihre Bestellung</label>
 			<label index="order_confirmation_next_steps">Die nächsten Schritte</label>
 			<label index="order_confirmation_articles_delivery">Die Auslieferung der Artikel erfolgt innerhalb von 14 Tagen.</label>
 
