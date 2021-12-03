@@ -12,7 +12,7 @@ if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['sepa']) {
 // ******************************************************************
 $result = array (
     'ctrl' => array (
-        'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:sys_products_accounts',
+        'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:sys_products_accounts',
         'label' => $accountField,
         'label_userFunc' => 'tx_ttproducts_table_label->getLabel',
         'default_sortby' => 'ORDER BY ' . $accountField,
@@ -25,7 +25,7 @@ $result = array (
     'columns' => array (
         'iban' => array (
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:sys_products_accounts.iban',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:sys_products_accounts.iban',
             'config' => array (
                 'type' => 'input',
                 'size' => '24',
@@ -36,7 +36,7 @@ $result = array (
         ),
         'ac_number' => array (
             'exclude' => 0,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:sys_products_accounts.ac_number',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:sys_products_accounts.ac_number',
             'config' => array (
                 'type' => 'input',
                 'size' => '40',
@@ -57,7 +57,7 @@ $result = array (
         ),
         'bic' => array (
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:sys_products_accounts.bic',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:sys_products_accounts.bic',
             'config' => array (
                 'type' => 'input',
                 'size' => '11',

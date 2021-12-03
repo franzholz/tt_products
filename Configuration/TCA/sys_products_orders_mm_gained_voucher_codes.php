@@ -6,7 +6,7 @@ defined('TYPO3_MODE') || die('Access denied.');
 // ******************************************************************
 $result = array (
     'ctrl' => array (
-        'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:sys_products_orders_mm_gained_voucher_codes',
+        'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:sys_products_orders_mm_gained_voucher_codes',
         'label' => 'uid_local',
         'tstamp' => 'tstamp',
         'delete' => 'deleted',

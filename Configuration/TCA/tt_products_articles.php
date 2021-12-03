@@ -13,7 +13,7 @@ if (!$imageFolder) {
 
 $result = array (
     'ctrl' => array (
-        'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products_articles',
+        'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_articles',
         'label' => 'title',
         'label_alt' => 'subtitle',
         'default_sortby' => 'ORDER BY title',
@@ -47,7 +47,7 @@ $result = array (
         ),
         'tstamp' => array (
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tstamp',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tstamp',
             'config' => array (
                 'type' => 'input',
                 'size' => '8',
@@ -58,7 +58,7 @@ $result = array (
         ),
         'crdate' => array (
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:crdate',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:crdate',
             'config' => array (
                 'type' => 'input',
                 'size' => '8',
@@ -148,7 +148,7 @@ $result = array (
         ),
         'subtitle' => array (
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products.subtitle',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.subtitle',
             'config' => array (
                 'type' => 'text',
                 'rows' => '3',
@@ -160,7 +160,7 @@ $result = array (
         ),
         'slug' => array (
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products.slug',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.slug',
             'config' => array (
                 'type' => 'slug',
                 'size' => 50,
@@ -178,7 +178,7 @@ $result = array (
         ),
         'keyword' => array (
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products.keyword',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.keyword',
             'config' => array (
                 'type' => 'text',
                 'rows' => '5',
@@ -189,7 +189,7 @@ $result = array (
             )
         ),
         'itemnumber' => array (
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products.itemnumber',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.itemnumber',
             'config' => array (
                 'type' => 'input',
                 'size' => '40',
@@ -200,7 +200,7 @@ $result = array (
         ),
         'price' => array (
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products.price',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.price',
             'config' => array (
                 'type' => 'input',
                 'size' => '12',
@@ -211,7 +211,7 @@ $result = array (
         ),
         'price2' => array (
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products.price2',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.price2',
             'config' => array (
                 'type' => 'input',
                 'size' => '12',
@@ -221,7 +221,7 @@ $result = array (
             )
         ),
         'graduated_config_type' => array (
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products_articles.graduated_config_type',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_articles.graduated_config_type',
             'config' => array (
                 'type' => 'select',
                 'renderType' => 'selectSingle',
@@ -235,7 +235,7 @@ $result = array (
         ),
         'graduated_config' => array (
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products_articles.graduated_config',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_articles.graduated_config',
             'config' => array (
                 'type' => 'flex',
                 'ds_pointerField' => 'graduated_config_type',
@@ -247,7 +247,7 @@ $result = array (
                                 <el>
                                 <addParentProductCount>
                                     <TCEforms>
-                                        <label>LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products_articles.graduated_config.addParentProductCount</label>
+                                        <label>LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_articles.graduated_config.addParentProductCount</label>
                                         <config>
                                             <type>check</type>
                                             <default>1</default>
@@ -266,7 +266,7 @@ $result = array (
         ),
         'graduated_price_enable' => array (
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products.graduated_price_enable',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.graduated_price_enable',
             'config' => array (
                 'type' => 'check',
                 'default' => 1
@@ -274,7 +274,7 @@ $result = array (
         ),
         'graduated_price_round' => array (
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products.graduated_price_round',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.graduated_price_round',
             'config' => array (
                 'type' => 'input',
                 'size' => '20',
@@ -285,7 +285,7 @@ $result = array (
         ),
         'graduated_price_uid' => array (
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products.graduated_price_uid',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.graduated_price_uid',
             'config' => array (
                 'type' => 'inline',
                 'appearance' =>
@@ -306,7 +306,7 @@ $result = array (
             ),
         ),
         'note' => array (
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products.note',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.note',
             'config' => array (
                 'type' => 'text',
                 'cols' => '48',
@@ -316,7 +316,7 @@ $result = array (
             'l10n_mode' => 'prefixLangTitle',
         ),
         'note2' => array (
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products.note2',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.note2',
             'config' => array (
                 'type' => 'text',
                 'cols' => '48',
@@ -327,7 +327,7 @@ $result = array (
         ),
         'inStock' => array (
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products.inStock',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.inStock',
             'config' => array (
                 'type' => 'input',
                 'size' => '6',
@@ -338,7 +338,7 @@ $result = array (
         ),
         'basketminquantity' => array (
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products.basketminquantity',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.basketminquantity',
             'config' => array (
                 'type' => 'input',
                 'size' => '10',
@@ -349,7 +349,7 @@ $result = array (
         ),
         'basketmaxquantity' => array (
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products.basketmaxquantity',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.basketmaxquantity',
             'config' => array (
                 'type' => 'input',
                 'size' => '10',
@@ -360,7 +360,7 @@ $result = array (
         ),
         'weight' => array (
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products.weight',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.weight',
             'config' => array (
                 'type' => 'input',
                 'size' => '10',
@@ -371,7 +371,7 @@ $result = array (
         ),
         'color' => array (
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products.color',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.color',
             'config' => array (
                 'type' => 'text',
                 'cols' => '46',
@@ -383,7 +383,7 @@ $result = array (
         ),
         'color2' => array (
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products.color2',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.color2',
             'config' => array (
                 'type' => 'text',
                 'cols' => '46',
@@ -394,7 +394,7 @@ $result = array (
         ),
         'color3' => array (
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products.color3',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.color3',
             'config' => array (
                 'type' => 'text',
                 'cols' => '46',
@@ -405,7 +405,7 @@ $result = array (
         ),
         'size' => array (
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products.size',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.size',
             'config' => array (
                 'type' => 'text',
                 'cols' => '46',
@@ -416,7 +416,7 @@ $result = array (
         ),
         'size2' => array (
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products.size2',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.size2',
             'config' => array (
                 'type' => 'text',
                 'cols' => '46',
@@ -427,7 +427,7 @@ $result = array (
         ),
         'size3' => array (
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products.size3',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.size3',
             'config' => array (
                 'type' => 'text',
                 'cols' => '46',
@@ -438,7 +438,7 @@ $result = array (
         ),
         'description' => array (
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products.description',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.description',
             'config' => array (
                 'type' => 'text',
                 'cols' => '46',
@@ -449,7 +449,7 @@ $result = array (
         ),
         'gradings' => array (
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products.gradings',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.gradings',
             'config' => array (
                 'type' => 'text',
                 'cols' => '46',
@@ -460,7 +460,7 @@ $result = array (
         ),
         'material' => array (
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products.material',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.material',
             'config' => array (
                 'type' => 'text',
                 'cols' => '46',
@@ -471,7 +471,7 @@ $result = array (
         ),
         'quality' => array (
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products.quality',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.quality',
             'config' => array (
                 'type' => 'text',
                 'cols' => '46',
@@ -481,7 +481,7 @@ $result = array (
             )
         ),
         'config_type' => array (
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products_articles.config_type',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_articles.config_type',
             'config' => array (
                 'type' => 'select',
                 'renderType' => 'selectSingle',
@@ -494,7 +494,7 @@ $result = array (
         ),
         'config' => array (
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products_articles.config',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_articles.config',
             'config' => array (
                 'type' => 'flex',
                 'ds_pointerField' => 'config_type',
@@ -506,7 +506,7 @@ $result = array (
                                 <el>
                                 <isAddedPrice>
                                     <TCEforms>
-                                        <label>LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products_articles.config.isaddedprice</label>
+                                        <label>LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_articles.config.isaddedprice</label>
                                         <config>
                                             <type>check</type>
                                         </config>
@@ -542,7 +542,7 @@ $result = array (
         ),
         'smallimage' => array (
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products.smallimage',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.smallimage',
             'config' => array (
                 'type' => 'group',
                 'internal_type' => 'file',
@@ -573,8 +573,8 @@ $result = array (
                     )
                 ),
                 'showitem' => 'tstamp, crdate, hidden,--palette--;;1, title,--palette--;;3, itemnumber, slug, inStock, basketminquantity,basketmaxquantity, price,--palette--;;2, weight, note,note2,image,smallimage,' .
-                '--div--;LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products.variants,color,color2,--palette--;;9,size,size2,--palette--;;10,description,gradings,material,quality,' .
-                '--div--;LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products.graduated,graduated_config,graduated_price_enable,graduated_price_round,graduated_price_uid,'
+                '--div--;LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.variants,color,color2,--palette--;;9,size,size2,--palette--;;10,description,gradings,material,quality,' .
+                '--div--;LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.graduated,graduated_config,graduated_price_enable,graduated_price_round,graduated_price_uid,'
             )
     ),
     'palettes' => array (

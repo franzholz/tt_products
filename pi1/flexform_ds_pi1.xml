@@ -7,145 +7,145 @@
 	    <el>
 	      <display_mode>
 			<TCEforms>
-				<label>LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.display_mode</label>
+				<label>LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.display_mode</label>
 				<config>
 					<type>select</type>
                     <renderType>selectMultipleSideBySide</renderType>
                     <items>
 						<numindex index="1">
-							<numindex index="0">LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.display_mode.1</numindex>
+							<numindex index="0">LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.display_mode.1</numindex>
 							<numindex index="1">LIST</numindex>
 						</numindex>
 						<numindex index="2">
-							<numindex index="0">LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.display_mode.2</numindex>
+							<numindex index="0">LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.display_mode.2</numindex>
 							<numindex index="1">LISTGIFTS</numindex>
 						</numindex>
 						<numindex index="3">
-							<numindex index="0">LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.display_mode.3</numindex>
+							<numindex index="0">LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.display_mode.3</numindex>
 							<numindex index="1">LISTHIGHLIGHTS</numindex>
 						</numindex>
 						<numindex index="4">
-							<numindex index="0">LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.display_mode.4</numindex>
+							<numindex index="0">LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.display_mode.4</numindex>
 							<numindex index="1">LISTOFFERS</numindex>
 						</numindex>
 						<numindex index="5">
-							<numindex index="0">LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.display_mode.5</numindex>
+							<numindex index="0">LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.display_mode.5</numindex>
 							<numindex index="1">LISTNEWITEMS</numindex>
 						</numindex>
 						<numindex index="6">
-							<numindex index="0">LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.display_mode.6</numindex>
+							<numindex index="0">LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.display_mode.6</numindex>
 							<numindex index="1">SINGLE</numindex>
 						</numindex>
 						<numindex index="7">
-							<numindex index="0">LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.display_mode.7</numindex>
+							<numindex index="0">LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.display_mode.7</numindex>
 							<numindex index="1">SEARCH</numindex>
 						</numindex>
 						<numindex index="8">
-							<numindex index="0">LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.display_mode.18</numindex>
+							<numindex index="0">LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.display_mode.18</numindex>
 							<numindex index="1">MEMO</numindex>
 						</numindex>
 						<numindex index="9">
-							<numindex index="0">LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.display_mode.8</numindex>
+							<numindex index="0">LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.display_mode.8</numindex>
 							<numindex index="1">TEST</numindex>
 						</numindex>
 						<numindex index="10">
-							<numindex index="0">LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.display_mode.9</numindex>
+							<numindex index="0">LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.display_mode.9</numindex>
 							<numindex index="1">BASKET</numindex>
 						</numindex>
 						<numindex index="11">
-							<numindex index="0">LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.display_mode.10</numindex>
+							<numindex index="0">LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.display_mode.10</numindex>
 							<numindex index="1">OVERVIEW</numindex>
 						</numindex>
 						<numindex index="12">
-							<numindex index="0">LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.display_mode.11</numindex>
+							<numindex index="0">LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.display_mode.11</numindex>
 							<numindex index="1">INFO</numindex>
 						</numindex>
 						<numindex index="13">
-							<numindex index="0">LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.display_mode.12</numindex>
+							<numindex index="0">LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.display_mode.12</numindex>
 							<numindex index="1">PAYMENT</numindex>
 						</numindex>
 						<numindex index="14">
-							<numindex index="0">LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.display_mode.13</numindex>
+							<numindex index="0">LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.display_mode.13</numindex>
 							<numindex index="1">FINALIZE</numindex>
 						</numindex>
 						<numindex index="15">
-							<numindex index="0">LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.display_mode.14</numindex>
+							<numindex index="0">LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.display_mode.14</numindex>
 							<numindex index="1">TRACKING</numindex>
 						</numindex>
 						<numindex index="16">
-							<numindex index="0">LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.display_mode.15</numindex>
+							<numindex index="0">LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.display_mode.15</numindex>
 							<numindex index="1">BILL</numindex>
 						</numindex>
 						<numindex index="17">
-							<numindex index="0">LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.display_mode.16</numindex>
+							<numindex index="0">LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.display_mode.16</numindex>
 							<numindex index="1">DELIVERY</numindex>
 						</numindex>
 						<numindex index="18">
-							<numindex index="0">LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.display_mode.17</numindex>
+							<numindex index="0">LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.display_mode.17</numindex>
 							<numindex index="1">ORDERS</numindex>
 						</numindex>
 						<numindex index="19">
-							<numindex index="0">LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.display_mode.19</numindex>
+							<numindex index="0">LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.display_mode.19</numindex>
 							<numindex index="1">HELP</numindex>
 						</numindex>
 						<numindex index="20">
-							<numindex index="0">LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.display_mode.20</numindex>
+							<numindex index="0">LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.display_mode.20</numindex>
 							<numindex index="1">LISTCAT</numindex>
 						</numindex>
 						<numindex index="21">
-							<numindex index="0">LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.display_mode.22</numindex>
+							<numindex index="0">LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.display_mode.22</numindex>
 							<numindex index="1">SELECTCAT</numindex>
 						</numindex>
 						<numindex index="22">
-							<numindex index="0">LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.display_mode.27</numindex>
+							<numindex index="0">LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.display_mode.27</numindex>
 							<numindex index="1">MENUCAT</numindex>
 						</numindex>
 						<numindex index="23">
-							<numindex index="0">LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.display_mode.31</numindex>
+							<numindex index="0">LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.display_mode.31</numindex>
 							<numindex index="1">SINGLECAT</numindex>
 						</numindex>
 						<numindex index="24">
-							<numindex index="0">LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.display_mode.21</numindex>
+							<numindex index="0">LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.display_mode.21</numindex>
 							<numindex index="1">LISTARTICLES</numindex>
 						</numindex>
 						<numindex index="25">
-							<numindex index="0">LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.display_mode.23</numindex>
+							<numindex index="0">LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.display_mode.23</numindex>
 							<numindex index="1">LISTDAM</numindex>
 						</numindex>
 						<numindex index="26">
-							<numindex index="0">LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.display_mode.34</numindex>
+							<numindex index="0">LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.display_mode.34</numindex>
 							<numindex index="1">MEMODAM</numindex>
 						</numindex>
 						<numindex index="28">
-							<numindex index="0">LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.display_mode.24</numindex>
+							<numindex index="0">LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.display_mode.24</numindex>
 							<numindex index="1">LISTDAMCAT</numindex>
 						</numindex>
 						<numindex index="29">
-							<numindex index="0">LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.display_mode.29</numindex>
+							<numindex index="0">LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.display_mode.29</numindex>
 							<numindex index="1">SELECTDAMCAT</numindex>
 						</numindex>
 						<numindex index="30">
-							<numindex index="0">LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.display_mode.30</numindex>
+							<numindex index="0">LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.display_mode.30</numindex>
 							<numindex index="1">MENUDAMCAT</numindex>
 						</numindex>
 						<numindex index="31">
-							<numindex index="0">LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.display_mode.33</numindex>
+							<numindex index="0">LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.display_mode.33</numindex>
 							<numindex index="1">SINGLEDAMCAT</numindex>
 						</numindex>
 						<numindex index="32">
-							<numindex index="0">LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.display_mode.26</numindex>
+							<numindex index="0">LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.display_mode.26</numindex>
 							<numindex index="1">LISTAD</numindex>
 						</numindex>
 						<numindex index="33">
-							<numindex index="0">LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.display_mode.25</numindex>
+							<numindex index="0">LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.display_mode.25</numindex>
 							<numindex index="1">SELECTAD</numindex>
 						</numindex>
 						<numindex index="34">
-							<numindex index="0">LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.display_mode.28</numindex>
+							<numindex index="0">LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.display_mode.28</numindex>
 							<numindex index="1">MENUAD</numindex>
 						</numindex>
 						<numindex index="35">
-							<numindex index="0">LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.display_mode.32</numindex>
+							<numindex index="0">LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.display_mode.32</numindex>
 							<numindex index="1">SINGLEAD</numindex>
 						</numindex>
 					</items>
@@ -157,25 +157,25 @@
 	      </display_mode>
 	      <param_mode>
 			<TCEforms>
-				<label>LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.param_mode</label>
+				<label>LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.param_mode</label>
 				<config>
 					<type>select</type>
                     <renderType>selectSingle</renderType>
                     <items>
 						<numindex index="0">
-							<numindex index="0">LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.param_mode.0</numindex>
+							<numindex index="0">LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.param_mode.0</numindex>
 							<numindex index="1">0</numindex>
 						</numindex>
 						<numindex index="1">
-							<numindex index="0">LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.param_mode.1</numindex>
+							<numindex index="0">LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.param_mode.1</numindex>
 							<numindex index="1">1</numindex>
 						</numindex>
 						<numindex index="2">
-							<numindex index="0">LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.param_mode.2</numindex>
+							<numindex index="0">LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.param_mode.2</numindex>
 							<numindex index="1">2</numindex>
 						</numindex>
 						<numindex index="3">
-							<numindex index="0">LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.param_mode.3</numindex>
+							<numindex index="0">LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.param_mode.3</numindex>
 							<numindex index="1">3</numindex>
 						</numindex>
 					</items>
@@ -187,7 +187,7 @@
 	      </param_mode>
 		  <productSelection>
 			<TCEforms>
-				<label>LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.product_selection</label>
+				<label>LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.product_selection</label>
 				<config>
 					<type>group</type>
 					<internal_type>db</internal_type>
@@ -201,7 +201,7 @@
 		</productSelection>
 		<categorySelection>
 			<TCEforms>
-				<label>LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.category_selection</label>
+				<label>LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.category_selection</label>
 				<config>
 					<type>select</type>
                     <renderType>selectTree</renderType>
@@ -223,7 +223,7 @@
 		</categorySelection>
 	      <template_suffix>
 			<TCEforms>
-				<label>LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.template_suffix</label>
+				<label>LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.template_suffix</label>
 				<config>
 					<type>input</type>
 					<size>30</size>
@@ -232,33 +232,33 @@
 	      </template_suffix>
 	      <required_pivars>
 			<TCEforms>
-				<label>LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.required_pivars</label>
+				<label>LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.required_pivars</label>
 				<config>
 					<type>select</type>
                     <renderType>selectCheckBox</renderType>
                     <items>
 						<numindex index="1">
-							<numindex index="0">LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.required_pivars.1</numindex>
+							<numindex index="0">LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.required_pivars.1</numindex>
 							<numindex index="1">empty</numindex>
 						</numindex>
 						<numindex index="2">
-							<numindex index="0">LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.required_pivars.2</numindex>
+							<numindex index="0">LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.required_pivars.2</numindex>
 							<numindex index="1">product</numindex>
 						</numindex>
 						<numindex index="3">
-							<numindex index="0">LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.required_pivars.3</numindex>
+							<numindex index="0">LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.required_pivars.3</numindex>
 							<numindex index="1">cat</numindex>
 						</numindex>
 						<numindex index="6">
-							<numindex index="0">LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.required_pivars.6</numindex>
+							<numindex index="0">LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.required_pivars.6</numindex>
 							<numindex index="1">a</numindex>
 						</numindex>
 						<numindex index="7">
-							<numindex index="0">LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.required_pivars.7</numindex>
+							<numindex index="0">LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.required_pivars.7</numindex>
 							<numindex index="1">L</numindex>
 						</numindex>
 						<numindex index="8">
-							<numindex index="0">LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.required_pivars.8</numindex>
+							<numindex index="0">LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.required_pivars.8</numindex>
 							<numindex index="1">sword</numindex>
 						</numindex>
 					</items>
@@ -270,7 +270,7 @@
 	      </required_pivars>
 	      <product_where>
 			<TCEforms>
-				<label>LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.product_where</label>
+				<label>LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.product_where</label>
 				<config>
 					<type>input</type>
 					<size>80</size>
@@ -279,7 +279,7 @@
 	      </product_where>
 	      <dam_where>
 		      <TCEforms>
-			      <label>LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.dam_where</label>
+			      <label>LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.dam_where</label>
 			      <config>
 				      <type>input</type>
 				      <size>80</size>
@@ -288,7 +288,7 @@
 	      </dam_where>
 	      <dam_group_by>
 		      <TCEforms>
-			      <label>LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.dam_group_by</label>
+			      <label>LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.dam_group_by</label>
 			      <config>
 				      <type>input</type>
 				      <size>80</size>
@@ -297,7 +297,7 @@
 	      </dam_group_by>
 	      <dam_join_tables>
 		      <TCEforms>
-			      <label>LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.dam_join_tables</label>
+			      <label>LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.dam_join_tables</label>
 			      <config>
 				      <type>input</type>
 				      <size>80</size>
@@ -307,7 +307,7 @@
 		<myTS>
 			<TCEforms>
 				<exclude>1</exclude>
-				<label>LLL:EXT:tt_products/locallang_db.xml:tt_content.pi_flexform.tsconfig</label>
+				<label>LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.tsconfig</label>
 				<config>
 					<type>text</type>
 					<cols>80</cols>

@@ -14,7 +14,7 @@ if (
 
     $temporaryColumns = array (
         'uid_local' => array(
-            'label' => 'LLL:EXT:' . STATIC_INFO_TABLES_TAXES_EXT . '/locallang_db.xml:' . $tablename . '.uid_local',
+            'label' => 'LLL:EXT:' . STATIC_INFO_TABLES_TAXES_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xml:' . $tablename . '.uid_local',
             'config' => array(
                 'type' => 'select',
                 'renderType' => 'selectSingle',
@@ -23,7 +23,7 @@ if (
             )
         ),
         'uid_foreign' => array(
-            'label' => 'LLL:EXT:' . STATIC_INFO_TABLES_TAXES_EXT . '/locallang_db.xml:' . $tablename . '.uid_foreign',
+            'label' => 'LLL:EXT:' . STATIC_INFO_TABLES_TAXES_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:' . $tablename . '.uid_foreign',
             'config' => array(
                 'type' => 'select',
                 'renderType' => 'selectMultipleSideBySide',

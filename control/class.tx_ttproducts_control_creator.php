@@ -215,15 +215,15 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
         );
 
         $languageObj->loadLocalLang(
-            'EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml',
+            'EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf',
             false
         );
         $languageObj->loadLocalLang(
-            'EXT:' . TT_PRODUCTS_EXT . '/pi_search/locallang_db.xml',
+            'EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'PiSearch/locallang_db.xlf',
             false
         );
         $languageObj->loadLocalLang(
-            'EXT:' . TT_PRODUCTS_EXT . '/pi1/locallang.xml',
+            'EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'Pi1/locallang.xlf',
             false
         );
 

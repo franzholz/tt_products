@@ -29,7 +29,7 @@ if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('voucher')) {
 	$temporaryColumns = array (
 		'gained_voucher' => array (
 			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:sys_products_orders.gained_voucher',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:sys_products_orders.gained_voucher',
 			'config' => array (
 				'type' => 'inline',
 				'appearance' => array (
@@ -66,7 +66,7 @@ if (
 ) {
     $GLOBALS['TCA'][$table]['columns']['orderHtml'] = [
         'exclude' => 1,
-        'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:sys_products_orders.orderHtml',
+        'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:sys_products_orders.orderHtml',
         'config' => [
             'type' => 'user',
             'size' => '30',
@@ -81,7 +81,7 @@ if (
 
     $GLOBALS['TCA'][$table]['columns']['ordered_products'] = [
         'exclude' => 1,
-        'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:sys_products_orders.ordered_products',
+        'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:sys_products_orders.ordered_products',
         'config' => [
             'type' => 'user',
             'userFunc' => 'JambageCom\\TtProducts\\Hooks\\OrderBackend->tceSingleOrder',

@@ -5,7 +5,7 @@ if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('voucher')) {
 
 	$temporaryColumns = array (
 		'uid_local' => array (
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:sys_products_orders_mm_gained_voucher_codes.uid_local',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:sys_products_orders_mm_gained_voucher_codes.uid_local',
 			'config' => array (
 				'type' => 'select',
 				'renderType' => 'selectSingle',
@@ -15,7 +15,7 @@ if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('voucher')) {
 			)
 		),
 		'uid_foreign' => array (
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:sys_products_orders_mm_gained_voucher_codes.uid_foreign',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:sys_products_orders_mm_gained_voucher_codes.uid_foreign',
 			'config' => array (
 				'type' => 'select',
 				'renderType' => 'selectSingle',

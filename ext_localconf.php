@@ -185,7 +185,7 @@ call_user_func(function () {
 
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tce']['formevals']['JambageCom\\Div2007\\Hooks\\Evaluation\\Double6'] = '';
 
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPItoST43(TT_PRODUCTS_EXT, '_pi_int/class.tx_ttproducts_pi_int.php', '_pi_int', 'list_type', 0 );
+    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPItoST43(TT_PRODUCTS_EXT, 'pi_int/class.tx_ttproducts_pi_int.php', '_pi_int', 'list_type', 0 );
 
     if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('searchbox')) {
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPItoST43(TT_PRODUCTS_EXT, 'pi_search/class.tx_ttproducts_pi_search.php', '_pi_search', 'list_type', 0 );

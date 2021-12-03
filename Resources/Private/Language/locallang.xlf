@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-	<file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/locallang.xlf" date="2021-11-29T17:31:55Z" product-name="tt_products">
-		<header/>
+	<file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/locallang.xlf" date="2021-11-23T20:33:04Z" product-name="tt_products">
+	<header/>
 		<body>
 			<trans-unit id="plugins_title" xml:space="preserve">
 				<source>Shop System</source>

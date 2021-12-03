@@ -6,7 +6,7 @@ $table = 'sys_file_reference';
 $temporaryColumns = array (
     'tx_ttproducts_author' => array (
         'exclude' => 0,
-        'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:sys_file_reference.tx_ttproducts_author',
+        'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:sys_file_reference.tx_ttproducts_author',
         'config' => array (
             'type' => 'input',
             'size' => '40',
@@ -16,7 +16,7 @@ $temporaryColumns = array (
     ),
     'tx_ttproducts_startpoint' => array (
         'exclude' => 0,
-        'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:sys_file_reference.tx_ttproducts_startpoint',
+        'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:sys_file_reference.tx_ttproducts_startpoint',
         'config' => array (
             'type' => 'input',
             'size' => '40',
@@ -26,7 +26,7 @@ $temporaryColumns = array (
     ),
     'tx_ttproducts_endpoint' => array (
         'exclude' => 0,
-        'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:sys_file_reference.tx_ttproducts_endpoint',
+        'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:sys_file_reference.tx_ttproducts_endpoint',
         'config' => array (
             'type' => 'input',
             'size' => '40',
@@ -36,7 +36,7 @@ $temporaryColumns = array (
     ),
     'tx_ttproducts_price_enable' => array (
         'exclude' => 1,
-        'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:sys_file_reference.tx_ttproducts_price_enable',
+        'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:sys_file_reference.tx_ttproducts_price_enable',
         'config' => array (
             'type' => 'check',
             'default' => 0
@@ -44,7 +44,7 @@ $temporaryColumns = array (
     ),
     'tx_ttproducts_price' => array (
         'exclude' => 1,
-        'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:sys_file_reference.tx_ttproducts_price',
+        'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:sys_file_reference.tx_ttproducts_price',
         'config' => array (
             'type' => 'input',
             'size' => '20',

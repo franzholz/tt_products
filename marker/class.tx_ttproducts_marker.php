@@ -66,7 +66,7 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
 
 		$markerFile = $conf['markerFile'];
 		$languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
-		$defaultMarkerFile = 'EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . '/locallang_marker.xlf';
+		$defaultMarkerFile = 'EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_marker.xlf';
 		$languageObj->loadLocalLang($defaultMarkerFile);
 		$language = $languageObj->getLanguage();
 

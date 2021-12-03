@@ -7,7 +7,7 @@ defined('TYPO3_MODE') || die('Access denied.');
 // ******************************************************************
 $result = array (
     'ctrl' => array (
-        'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:sys_products_orders_mm_tt_products',
+        'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:sys_products_orders_mm_tt_products',
         'label' => 'title',
         'tstamp' => 'tstamp',
         'delete' => 'deleted',
@@ -29,7 +29,7 @@ $result = array (
             'default' => 0
         ),
         'uid_local' => array (
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:sys_products_orders_mm_tt_products.uid_local',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:sys_products_orders_mm_tt_products.uid_local',
             'config' => array (
                 'type' => 'select',
                 'renderType' => 'selectSingle',
@@ -39,7 +39,7 @@ $result = array (
             )
         ),
         'uid_foreign' => array (
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:sys_products_orders_mm_tt_products.uid_foreign',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:sys_products_orders_mm_tt_products.uid_foreign',
             'config' => array (
                 'type' => 'select',
                 'renderType' => 'selectSingle',
