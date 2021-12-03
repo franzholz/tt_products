@@ -289,7 +289,7 @@
 				<source>Please confirm that you have read and accepted the general terms and conditions.</source>
 			</trans-unit>
 			<trans-unit id="basket_terms_read" xml:space="preserve">
-				<source>and I accept them..</source>
+				<source>and I accept them.</source>
 			</trans-unit>
 			<trans-unit id="basket_privacy_policy" xml:space="preserve">
 				<source>Privacy Policy</source>
