@@ -137,7 +137,7 @@ class ProductImageUpdater implements UpgradeWizardInterface, ConfirmableInterfac
             false,
             $confirm,
             $deny,
-            ($elementCount > 0 && version_compare(TYPO3_version, '10.0.0', '>='))
+            ($elementCount > 0 && version_compare(TYPO3_version, '9.5.0', '>='))
         );
 
         return $result;
@@ -155,6 +155,7 @@ class ProductImageUpdater implements UpgradeWizardInterface, ConfirmableInterfac
         $result = true;
         $upgradeApi = GeneralUtility::makeInstance(UpgradeApi::class);
         $tables = explode(',', self::TABLES);
+
         foreach ($tables as $table) {
             if (!isset($this->tableFields[$table])) {
                 continue;
@@ -169,7 +170,7 @@ class ProductImageUpdater implements UpgradeWizardInterface, ConfirmableInterfac
                     $field . '_uid',
                     ParameterType::STRING,
                     \PDO::PARAM_INT,
-                    'uploads/pics'
+                    '' // no default path uploads/pics here
                 );
             
                 if (!empty($queries)) {
