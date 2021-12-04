@@ -1,6 +1,6 @@
 name: tt-products
 type: typo3
-docroot: public
+docroot: .build/public
 php_version: "7.4"
 webserver_type: nginx-fpm
 router_http_port: "8084"
