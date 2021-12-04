@@ -1,3 +1,7 @@
+2021-12-04 Franz Holzinger <franz@ttproducts.de>
+    * compatibility issue #84: allow image upgrade wizard for TYPO3 9.5.
+      Consider to use $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_products']['imageFolder'] if set instead of 'uploads/pics'.
+
 2021-11-26 Franz Holzinger <franz@ttproducts.de>
     * move and convert marker/locallang.xml into Resources/Private/Language/locallang_marker.xlf .
 
