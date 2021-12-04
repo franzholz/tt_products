@@ -155,11 +155,17 @@ class ProductImageUpdater implements UpgradeWizardInterface, ConfirmableInterfac
         $result = true;
         $upgradeApi = GeneralUtility::makeInstance(UpgradeApi::class);
         $tables = explode(',', self::TABLES);
+        $imageFolder = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['imageFolder'];
+        if (!$imageFolder) {
+            $imageFolder = 'uploads/pics';
+        }
+
         foreach ($tables as $table) {
             if (!isset($this->tableFields[$table])) {
                 continue;
             }
             $fields = $this->tableFields[$table];
+
             foreach ($fields as $field) { 
                 // user decided to migrate, migrate and mark wizard as done
                 $queries = $upgradeApi->performTableFieldFalMigrations(
@@ -169,7 +175,7 @@ class ProductImageUpdater implements UpgradeWizardInterface, ConfirmableInterfac
                     $field . '_uid',
                     ParameterType::STRING,
                     \PDO::PARAM_INT,
-                    'uploads/pics'
+                    $imageFolder
                 );
             
                 if (!empty($queries)) {
