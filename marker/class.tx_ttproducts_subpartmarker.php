@@ -55,11 +55,6 @@ class tx_ttproducts_subpartmarker implements \TYPO3\CMS\Core\SingletonInterface 
             $cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
             $sPBody = substr($subpartMarker, 3, -3);
 			$altSPM = trim($cObj->stdWrap($conf['altMainMarkers.'][$sPBody], $conf['altMainMarkers.'][$sPBody.'.']));
-            if (
-                version_compare(TYPO3_version, '8.5.0', '<')
-            ) {
-                $GLOBALS['TT']->setTSlogMessage('Using alternative subpart marker for "' . $subpartMarker . '": ' . $altSPM, 1);
-            }
 		}
 		$rc = $altSPM ? $altSPM : $subpartMarker;
 		return $rc;

@@ -223,16 +223,9 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
     protected function getTransactorConf ($handleLib) {
         $transactorConf = '';
 
-        if (
-            defined('TYPO3_version') &&
-            version_compare(TYPO3_version, '9.0.0', '>=')
-        ) {
-            $transactorConf = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-                \TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class
-            )->get($handleLib);
-        } else { // before TYPO3 9
-            $transactorConf = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][$handleLib]);
-        }
+        $transactorConf = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+            \TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class
+        )->get($handleLib);
 
         return $transactorConf;
     }
@@ -263,14 +256,8 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 			$infoViewObj = GeneralUtility::makeInstance('tx_ttproducts_info_view');
 			$handleScript = '';
             if (isset($basketExtra['payment.']['handleScript'])) {
-                if (
-                    version_compare(TYPO3_version, '9.4.0', '>=')
-                ) {
-                    $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
-                    $handleScript = $sanitizer->sanitize($basketExtra['payment.']['handleScript']);
-                } else {
-                    $handleScript = $GLOBALS['TSFE']->tmpl->getFileName($basketExtra['payment.']['handleScript']);
-                }
+                $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
+                $handleScript = $sanitizer->sanitize($basketExtra['payment.']['handleScript']);
             }
 
 			$handleLib = $basketExtra['payment.']['handleLib'];

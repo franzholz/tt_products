@@ -64,15 +64,9 @@ class OldTaxajaxController {
     {
         global $TSFE, $BE_USER, $TYPO3_CONF_VARS, $error;
 
-        $pageId = '';
-        if (
-            defined('TYPO3_version') &&
-            version_compare(TYPO3_version, '9.0.0', '>=')
-        ) {
-            $pageId = \JambageCom\Div2007\Utility\FrontendUtility::getPageId($request);
-            if (!$pageId) {
-                throw new \RuntimeException('Error in tt_products: No page id for Ajax call.');
-            }
+        $pageId = \JambageCom\Div2007\Utility\FrontendUtility::getPageId($request);
+        if (!$pageId) {
+            throw new \RuntimeException('Error in tt_products: No page id for Ajax call.');
         }
 
         \JambageCom\Div2007\Utility\FrontendUtility::init($pageId);

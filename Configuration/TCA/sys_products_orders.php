@@ -711,17 +711,6 @@ $result = array (
 
 
 
-if (
-    version_compare(TYPO3_version, '8.5.0', '<')
-) {
-    $result['types']['1']['showitem'] =
-        preg_replace(
-            '/(^|,)\s*note\s*(,|$)/', '$1 note;;;richtext[]:rte_transform[mode=ts_css|imgpath=uploads/tx_ttproducts/rte/] $2',
-            $result['types']['1']['showitem']
-        );
-}
-
-
 if (!$GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['sepa']) {
     $result['columns']['ac_uid']['label'] = 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:sys_products_accounts.ac_number';
 }

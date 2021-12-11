@@ -1343,15 +1343,8 @@ class PaymentShippingHandling {
 		$calculationScript = $basketConf['calculationScript'];
 		if ($calculationScript != '') {
             $calcScript = '';
-
-            if (
-                version_compare(TYPO3_version, '9.4.0', '>=')
-            ) {
-                $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
+            $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
                 $calcScript = $sanitizer->sanitize($calculationScript);
-            } else {
-                $calcScript = $GLOBALS['TSFE']->tmpl->getFileName($calculationScript);
-            }
 
 			if ($calcScript) {
 				$confScript = &$basketConf['calculationScript.'];

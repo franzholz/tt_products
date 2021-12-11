@@ -175,16 +175,6 @@ $result = array (
     )
 );
 
-if (
-    version_compare(TYPO3_version, '8.5.0', '<')
-) {
-    $result['types']['0']['showitem'] =
-        preg_replace(
-            '/(^|,)\s*note\s*(,|$)/', '$1 note;;;richtext[]:rte_transform[mode=ts_css|imgpath=uploads/tx_ttproducts/rte/] $2',
-            $result['types']['0']['showitem']
-        );
-}
-
 $table = 'tt_products_graduated_price';
 
 $orderBySortingTablesArray = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['orderBySortingTables']);

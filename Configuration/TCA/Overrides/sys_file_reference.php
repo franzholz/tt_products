@@ -61,13 +61,5 @@ $fieldList = implode(',', $fieldArray);
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns($table, $temporaryColumns);
 
-if (version_compare(TYPO3_version, '7.6.0', '<')) {
-
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes(
-        $table,
-        $fieldList
-    );
-} else {
-    $GLOBALS['TCA'][$table]['palettes']['tt_productsPalette']['showitem'] = $fieldList;
-}
+$GLOBALS['TCA'][$table]['palettes']['tt_productsPalette']['showitem'] = $fieldList;
 

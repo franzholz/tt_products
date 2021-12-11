@@ -279,14 +279,8 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 
 			if ($contentTmp == 'error') {
 				$fileName = 'EXT:' . TT_PRODUCTS_EXT . '/template/products_help.tmpl';
-                if (
-                    version_compare(TYPO3_version, '9.4.0', '>=')
-                ) {
-                    $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
-                    $fileName = $sanitizer->sanitize($fileName);
-                } else {
-                    $fileName = $GLOBALS['TSFE']->tmpl->getFileName($fileName);
-                }
+                $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
+                $fileName = $sanitizer->sanitize($fileName);
 
 				$helpTemplate = file_get_contents($GLOBALS['TSFE']->tmpl->getFileName($fileName));
                 $content .=
@@ -316,15 +310,8 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 
 			if (is_object($this->css) && ($this->css->conf['file'])) {
                 $fileName = '';
-                if (
-                    version_compare(TYPO3_version, '9.4.0', '>=')
-                ) {
-                    $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
-                    $fileName = $sanitizer->sanitize($this->css->conf['file']);
-                } else {
-                    $fileName = 
-                    $GLOBALS['TSFE']->tmpl->getFileName($this->css->conf['file']);
-                }
+                $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
+                $fileName = $sanitizer->sanitize($this->css->conf['file']);
         
                 $rc = '<style type="text/css">' . file_get_contents($fileName)  . '</style>' . chr(13) . $content;
 			} else {

@@ -74,14 +74,8 @@ class tx_ttproducts_control_access implements \TYPO3\CMS\Core\SingletonInterface
 
 	static public function isAllowed ($bRequireBEAdmin) {
 		$beUserLogin = false;
-        if (
-            version_compare(TYPO3_version, '9.4.0', '>=')
-        ) {
-            $context = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Context\Context::class);
-            $beUserLogin = $context->getPropertyFromAspect('backend.user', 'isLoggedIn');
-        } else {
-            $beUserLogin = $GLOBALS['TSFE']->beUserLogin;
-        }
+        $context = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Context\Context::class);
+        $beUserLogin = $context->getPropertyFromAspect('backend.user', 'isLoggedIn');
 
 		$result = (!$bRequireBEAdmin || $beUserLogin);
 		return $result;

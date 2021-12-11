@@ -16,12 +16,7 @@ namespace JambageCom\TtProducts\Updates;
  * The TYPO3 project - inspiring people to share!
  */
 
- 
-if (
-    version_compare(TYPO3_version, '9.5.0', '<')
-) {
-    return;
-}
+
 
 use Symfony\Component\Console\Output\OutputInterface;
 

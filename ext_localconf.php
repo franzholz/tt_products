@@ -71,10 +71,6 @@ call_user_func(function () {
             version_compare(TYPO3_version, '10.4.0', '>=')
         ) {
             $GLOBALS['TYPO3_CONF_VARS']['FE']['taxajax_include'][TT_PRODUCTS_EXT] =  \JambageCom\TtProducts\Controller\TaxajaxController::class . '::processRequest';
-        } else if (
-            version_compare(TYPO3_version, '9.5.0', '<')
-        ) {
-            $GLOBALS['TYPO3_CONF_VARS']['FE']['eID_include'][TT_PRODUCTS_EXT] =  \JambageCom\TtProducts\Controller\OldTaxajaxController::class . '::processRequest';
         } else {
             $GLOBALS['TYPO3_CONF_VARS']['FE']['taxajax_include'][TT_PRODUCTS_EXT] =  \JambageCom\TtProducts\Controller\OldTaxajaxController::class . '::processRequest';
         }
@@ -83,16 +79,9 @@ call_user_func(function () {
     $extensionConfiguration = array();
     $originalConfiguration = array();
 
-    if (
-        defined('TYPO3_version') &&
-        version_compare(TYPO3_version, '9.0.0', '>=')
-    ) {
-        $extensionConfiguration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-            \TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class
-        )->get(TT_PRODUCTS_EXT);
-    } else { // before TYPO3 9
-        $extensionConfiguration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][TT_PRODUCTS_EXT]);
-    }
+    $extensionConfiguration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
+        \TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class
+    )->get(TT_PRODUCTS_EXT);
 
     if (
         isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]) &&

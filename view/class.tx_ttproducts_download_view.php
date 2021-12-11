@@ -198,13 +198,7 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view {
 						continue;
 					}
 
-                    if (
-                        version_compare(TYPO3_version, '9.0.0', '>=')
-                    ) {
-                        $path = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/';
-                    } else {
-                        $path = PATH_site;
-                    }
+                    $path = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/';
 					$path = $path . $row['path'] . '/';
 
 					// $directLink = TYPO3_SITE_SCRIPT;
