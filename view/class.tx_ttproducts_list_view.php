@@ -41,6 +41,7 @@
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+use JambageCom\Div2007\Utility\BrowserUtility;
 use JambageCom\Div2007\Utility\FrontendUtility;
 
 use JambageCom\TtProducts\Api\PluginApi;
@@ -1314,7 +1315,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 			$GLOBALS['TYPO3_DB']->sql_free_result($res);
 			$productsCount = $row[0];
 
-            $browserConf = $this->getBrowserConf($tableConfArray[$functablename]); // needed for the replacement of the method pi_linkTP_keepPIvars by FrontendUtility::linkTPKeepCtrlVars and the page browser
+            $browserConf = $this->getBrowserConf($tableConfArray[$functablename]); // needed for the replacement of the method pi_linkTP_keepPIvars by BrowserUtility::linkTPKeepCtrlVars and the page browser
             $maxPages = 10000;
             if (isset($browserConf['maxPages'])) {
                 $maxPages = intval($browserConf['maxPages']);
@@ -1580,7 +1581,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 							if ($linkCat)	{
 								$addQueryString = array($categoryTableView->getPivar() => $linkCat);
                                 $tempUrl =
-                                    FrontendUtility::linkTPKeepCtrlVars(
+                                    BrowserUtility::linkTPKeepCtrlVars(
                                         $browseObj,
                                         $cObj,
                                         $prefixId,
