@@ -26,18 +26,11 @@ class EmConfiguration
     public function __construct(array $configuration = [])
     {
         if (empty($configuration)) {
-            if (
-                defined('TYPO3_version') &&
-                version_compare(TYPO3_version, '9.0.0', '>=')
-            ) {
-                try {
-                    $extensionConfiguration = GeneralUtility::makeInstance(ExtensionConfiguration::class);
-                    $configuration = $extensionConfiguration->get(TT_PRODUCTS_EXT);
-                } catch (\Exception $exception) {
-                    // do nothing
-                }
-            } else {
-                $configuration = unserialize($GLOBALS['TYPO3_CONF_VARS']['EXT']['extConf'][TT_PRODUCTS_EXT]);
+            try {
+                $extensionConfiguration = GeneralUtility::makeInstance(ExtensionConfiguration::class);
+                $configuration = $extensionConfiguration->get(TT_PRODUCTS_EXT);
+            } catch (\Exception $exception) {
+                // do nothing
             }
         }
 

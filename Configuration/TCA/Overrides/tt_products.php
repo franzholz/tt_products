@@ -7,17 +7,6 @@ call_user_func(function () {
     $whereTaxCategory = '';
     $bSelectTaxMode = false;
 
-    if (
-        version_compare(TYPO3_version, '8.7.0', '<')
-    ) {
-        $fieldArray = array('tstamp', 'crdate', 'starttime', 'endtime', 'usebydate', 'sellstarttime', 'sellendtime');
-
-        foreach ($fieldArray as $field) {
-            unset($GLOBALS['TCA'][$table]['columns'][$field]['config']['renderType']);
-            $GLOBALS['TCA'][$table]['columns'][$field]['config']['max'] = '20';
-        }
-    }
-
     $taxArray = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['tax.'];
     $taxFields = '';
 
@@ -370,14 +359,7 @@ call_user_func(function () {
             $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude.']
         );
 
-    if (
-        defined('TYPO3_version') &&
-        version_compare(TYPO3_version, '9.0.0', '<')
-    ) {
-        $excludeArray[$table] .= ',slug';
-    } else {
-        $GLOBALS['TCA'][$table]['columns']['slug']['config']['eval'] = $configuration->getSlugBehaviour();
-    }
+    $GLOBALS['TCA'][$table]['columns']['slug']['config']['eval'] = $configuration->getSlugBehaviour();
 
     if (
         isset($excludeArray) &&

@@ -184,25 +184,11 @@ class tx_ttproducts_download extends tx_ttproducts_article_base {
 					$resourceFactory = \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance();
 					$fileObj = $resourceFactory->getFileReferenceObject($sysfileRow['uid']);
 					$fileInfo = $storage->getFileInfo($fileObj);
-
-                    if (
-                        version_compare(TYPO3_version, '9.0.0', '>=')
-                    ) {
-                        $fileArray[$sysfileRow['uid']] = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/' . 'fileadmin' . $fileInfo['identifier'];
-                    } else {
-                        $fileArray[$sysfileRow['uid']] = PATH_site . 'fileadmin' . $fileInfo['identifier'];
-                    }
+                    $fileArray[$sysfileRow['uid']] = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/' . 'fileadmin' . $fileInfo['identifier'];
 				}
 			}
 		} else if ($row['path'] != '') {
-            if (
-                version_compare(TYPO3_version, '9.0.0', '>=')
-            ) {
-                $path = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/'  . $row['path'] . '/';
-            } else {
-                $path = PATH_site . $row['path'] . '/';
-            }
-
+            $path = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/'  . $row['path'] . '/';
 			$fileArray =
 				\TYPO3\CMS\Core\Utility\GeneralUtility::getAllFilesAndFoldersInPath(
 					$fileArray,

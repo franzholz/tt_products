@@ -128,39 +128,21 @@ class tx_ttproducts_email_div {
 				$parts = explode(chr(10), $emailContent, 2);
 				$subject = trim($parts[0]);
 				$plain_message = trim($parts[1]);
-				if (version_compare(TYPO3_version, '8.7.0', '<')) {
-                    tx_div2007_email::sendMail(
-                        implode($recipients, ','),
-                        $subject,
-                        $plain_message,
-                        $tmp = '',
-                        $senderemail,
-                        $sendername,
-                        '',
-                        '',
-                        '',
-                        $senderemail,
-                        '',
-                        TT_PRODUCTS_EXT,
-                        'sendMail'
-                    );
-                } else {
-                    \JambageCom\Div2007\Utility\MailUtility::send(
-                        implode($recipients, ','),
-                        $subject,
-                        $plain_message,
-                        $tmp = '',
-                        $senderemail,
-                        $sendername,
-                        '',
-                        '',
-                        '',
-                        $senderemail,
-                        '',
-                        TT_PRODUCTS_EXT,
-                        'sendMail'
-                    );
-                }
+                \JambageCom\Div2007\Utility\MailUtility::send(
+                    implode($recipients, ','),
+                    $subject,
+                    $plain_message,
+                    $tmp = '',
+                    $senderemail,
+                    $sendername,
+                    '',
+                    '',
+                    '',
+                    $senderemail,
+                    '',
+                    TT_PRODUCTS_EXT,
+                    'sendMail'
+                );
 			}
 		}
 	}

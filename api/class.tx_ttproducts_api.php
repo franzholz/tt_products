@@ -313,17 +313,11 @@ class tx_ttproducts_api {
 		} else if ($bAllowCreation) {
 			$password = substr(md5(rand()), 0, 12);
 			$infoObj->password = $password;
-            if (
-                version_compare(TYPO3_version, '9.5.0', '>=')
-            ) {
-                try {
-                    $hashInstance = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Crypto\PasswordHashing\PasswordHashFactory::class)->getDefaultHashInstance('FE');
-                    $password = $hashInstance->getHashedPassword($password);
-                } catch (TYPO3\CMS\Core\Crypto\PasswordHashing\InvalidPasswordHashException $e) {
-                    debug ($tmp, 'no FE user could be generated!'); // keep this
-                }
-            } else if ($conf['useMd5Password']) {
-                $password = md5($password);
+            try {
+                $hashInstance = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Crypto\PasswordHashing\PasswordHashFactory::class)->getDefaultHashInstance('FE');
+                $password = $hashInstance->getHashedPassword($password);
+            } catch (TYPO3\CMS\Core\Crypto\PasswordHashing\InvalidPasswordHashException $e) {
+                debug ($tmp, 'no FE user could be generated!'); // keep this
             }
 			$tableFieldArray = $tablesObj->get('fe_users')->getTableObj()->tableFieldArray;
 			$insertFields = array(	// TODO: check with TCA
@@ -702,13 +696,7 @@ class tx_ttproducts_api {
 			$accountUid = $account->getUid();
 
 			$csv = GeneralUtility::makeInstance('tx_ttproducts_csv');
-            if (
-                version_compare(TYPO3_version, '9.0.0', '>=')
-            ) {
-                $csvfilepath = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/' . $conf['CSVdestination'];
-            } else {
-                $csvfilepath = PATH_site . $conf['CSVdestination'];
-            }
+            $csvfilepath = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/' . $conf['CSVdestination'];
 
 			$csv->create(
 				$functablename,
@@ -753,13 +741,7 @@ class tx_ttproducts_api {
 				);
 
             if ($orderXML) {
-                if (
-                    version_compare(TYPO3_version, '9.0.0', '>=')
-                ) {
-                    $csvfilepath = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/' . $conf['XMLdestination'];
-                } else {
-                    $xmlFilepath = PATH_site . $conf['XMLdestination'];
-                }
+                $csvfilepath = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/' . $conf['XMLdestination'];
 
 				if (substr($xmlFilepath, strlen($xmlFilepath) - 1, 1) != '/') {
 					$xmlFilepath .= '/';

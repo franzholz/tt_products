@@ -567,17 +567,10 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
 					is_object($this->ajax) &&
 					is_object($this->ajax->taxajax)
 				) {
-                    $path = '';
-                    if (
-                        version_compare(TYPO3_version, '9.0.0', '>=')
-                    ) {
-                        $path =
-                            \TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix(
-                                \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath(TAXAJAX_EXT)
-                            );
-                    } else {
-                        $path =  \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::siteRelPath(TAXAJAX_EXT);
-                    }
+                    $path =
+                        \TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix(
+                            \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath(TAXAJAX_EXT)
+                        );
 					$code = $this->ajax->taxajax->getJavascript($path);
 					$this->bXajaxAdded = true;
 				}
@@ -605,14 +598,8 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
 				$JSfieldname != ''
 			) {
 				if ($bDirectHTML)	{
-                    if (
-                        version_compare(TYPO3_version, '9.5.0', '>=')
-                    ) {
-                        $pageRenderer = $this->getPageRenderer();
-                        $pageRenderer->addHeaderData($code);
-                    } else {
-                        $GLOBALS['TSFE']->additionalHeaderData[$JSfieldname] = $code;
-                    }
+                    $pageRenderer = $this->getPageRenderer();
+                    $pageRenderer->addHeaderData($code);
 				} else {
                     if (version_compare(TYPO3_version, '10.4.0', '>=')) {
                         $assetCollector = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Page\AssetCollector::class);

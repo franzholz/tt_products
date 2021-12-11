@@ -375,15 +375,8 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
 
         $fileName = $conf['basketPic'];
         $basketFile = '';
-
-        if (
-            version_compare(TYPO3_version, '9.4.0', '>=')
-        ) {
-            $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
-            $basketFile = $sanitizer->sanitize($fileName);
-        } else {
-            $basketFile = $GLOBALS['TSFE']->tmpl->getFileName($fileName);
-        }
+        $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
+        $basketFile = $sanitizer->sanitize($fileName);
 
         $markerArray['###IMAGE_BASKET_SRC###'] = $basketFile;
 		$fileresource =  \JambageCom\Div2007\Utility\FrontendUtility::fileResource($basketFile);

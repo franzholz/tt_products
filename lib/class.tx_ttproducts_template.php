@@ -71,14 +71,8 @@ class tx_ttproducts_template implements \TYPO3\CMS\Core\SingletonInterface {
 		$templateFile = $cnf->getTemplateFile($theCode);
 		$pathFilename = '';
 		if ($templateFile) {
-            if (
-                version_compare(TYPO3_version, '9.4.0', '>=')
-            ) {
-                $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
-                $pathFilename = $sanitizer->sanitize($templateFile);
-            } else {
-                $pathFilename = $GLOBALS['TSFE']->tmpl->getFileName($templateFile);
-            }
+            $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
+            $pathFilename = $sanitizer->sanitize($templateFile);
 		}
 
 		if (file_exists($pathFilename)) {

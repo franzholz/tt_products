@@ -101,19 +101,9 @@ class tx_ttproducts_ajax implements \TYPO3\CMS\Core\SingletonInterface {
 		}
 		$this->taxajax->setWrapperPrefix('');
 
-        $addQueryString = [];
-
-        if (
-            version_compare(TYPO3_version, '9.5.0', '<')
-        ) {
-            $addQueryString = [
-                'eID' => TT_PRODUCTS_EXT
-            ];
-        } else {
-            $addQueryString = [
-                'taxajax' => TT_PRODUCTS_EXT
-            ];
-        }
+        $addQueryString = [
+            'taxajax' => TT_PRODUCTS_EXT
+        ];
 
 		$excludeList = '';
 		$queryString = $urlObj->getLinkParams(

@@ -72,13 +72,7 @@ class tx_ttproducts_pdf_view_sample07 {
 		if (is_array($generationConf['handleLib.'])) {
 			switch (strtoupper($generationConf['handleLib'])) {
 				case 'PHPWORD':
-                    if (
-                        version_compare(TYPO3_version, '9.0.0', '>=')
-                    ) {
-                        $pathsite = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/';
-                    } else {
-                        $pathsite = = PATH_site;
-                    }
+                    $pathsite = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/';
 
 					$path = $pathsite . $generationConf['handleLib.']['path'];
 
@@ -177,14 +171,7 @@ class tx_ttproducts_pdf_view_sample07 {
 
  					\TYPO3\CMS\Core\Utility\GeneralUtility::requireOnce ($path . '/samples/Sample_Footer.php');
 
-                    if (
-                        version_compare(TYPO3_version, '9.0.0', '>=')
-                    ) {
-                        $pathsite = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/';
-                    } else {
-                        $pathsite = = PATH_site;
-                    }
-
+                    $pathsite = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/';
                     $phpWord = \PhpOffice\PhpWord\IOFactory::load($pathsite . $name);
 
 					if (is_array($generationConf['handleLib.']['rendererLibrary.'])) {

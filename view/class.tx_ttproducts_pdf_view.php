@@ -80,14 +80,7 @@ class tx_ttproducts_pdf_view {
 		) {
 			switch (strtoupper($generationConf['handleLib'])) {
 				case 'PHPWORD':
-                    if (
-                        version_compare(TYPO3_version, '9.0.0', '>=')
-                    ) {
-                        $pathsite = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/';
-                    } else {
-                        $pathsite = = PATH_site;
-                    }
-
+                    $pathsite = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/';
 					$itemObj = GeneralUtility::makeInstance('tx_ttproducts_basketitem');
 					$path = $pathsite . $generationConf['handleLib.']['path'];
 
@@ -246,14 +239,7 @@ class tx_ttproducts_pdf_view {
 
 					if (is_array($generationConf['handleLib.']['rendererLibrary.'])) {
 
-                        if (
-                            version_compare(TYPO3_version, '9.0.0', '>=')
-                        ) {
-                            $pathsite = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/';
-                        } else {
-                            $pathsite = = PATH_site;
-                        }
-
+                        $pathsite = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/';
 						$rendererName = \PhpOffice\PhpWord\Settings::PDF_RENDERER_DOMPDF;	//   PDF_RENDERER_MPDF PDF_RENDERER_TCPDF
 						$rendererLibraryPath = $pathsite . $generationConf['handleLib.']['rendererLibrary.']['path'];
 						\PhpOffice\PhpWord\Settings::setPdfRenderer($rendererName, $rendererLibraryPath);

@@ -132,14 +132,7 @@ class tx_ttproducts_modfunc3 extends \TYPO3\CMS\Backend\Module\AbstractFunctionM
 
 										// Check if the file is already known by FAL, if not add it
 										$targetFileName = 'fileadmin/' . $targetDirectory . $image;
-
-                                        if (
-                                            version_compare(TYPO3_version, '9.0.0', '>=')
-                                        ) {
-                                            $path = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/';
-                                        } else {
-                                            $path = = PATH_site;
-                                        }
+                                        $path = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/';
 
 										if (!file_exists($path . $targetFileName)) {
 											$fullSourceFileName = $path . self::ORIGINAL_DIRECTORY . $image;

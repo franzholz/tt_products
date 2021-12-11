@@ -963,14 +963,8 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 
 			if ($contentTmp == 'error') {
 				$fileName = 'EXT:' . TT_PRODUCTS_EXT . '/template/products_help.tmpl';
-                if (
-                    version_compare(TYPO3_version, '9.4.0', '>=')
-                ) {
-                    $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
-                    $fileName = $sanitizer->sanitize($fileName);
-                } else {
-                    $fileName = $GLOBALS['TSFE']->tmpl->getFileName($fileName);
-                }
+                $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
+                $fileName = $sanitizer->sanitize($fileName);
 
                 $helpTemplate = file_get_contents($fileName);
                 $content .=
@@ -1004,14 +998,8 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
                 $fileName = $javaScriptConf['file'];
                 $incFile = '';
 
-                if (
-                    version_compare(TYPO3_version, '9.4.0', '>=')
-                ) {
-                    $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
-                    $incFile = $sanitizer->sanitize($fileName);
-                } else {
-                    $incFile = $GLOBALS['TSFE']->tmpl->getFileName($fileName);
-                }
+                $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
+                $incFile = $sanitizer->sanitize($fileName);
 
                 if ($incFile != '' && !$javaScriptObj->getIncluded($incFile)) {
                     $text = '<script type="text/javascript" src="' . $incFile . '" ></script>';
@@ -1036,14 +1024,8 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
                 $fileName = $cssObj->conf['file'];
                 $incFile = '';
 
-                if (
-                    version_compare(TYPO3_version, '9.4.0', '>=')
-                ) {
-                    $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
-                    $incFile = $sanitizer->sanitize($fileName);
-                } else {
-                    $incFile = $GLOBALS['TSFE']->tmpl->getFileName($fileName);
-                }
+                $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
+                $incFile = $sanitizer->sanitize($fileName);
 
 				if ($incFile != '') {
 					$result = '<style type="text/css">@import "' . $incFile . '"</style>' . chr(13) . $content;

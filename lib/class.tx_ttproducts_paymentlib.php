@@ -229,15 +229,8 @@ class tx_ttproducts_paymentlib implements \TYPO3\CMS\Core\SingletonInterface {
 							$templateFilename = $templateObj->getTemplateFile();
 						}
                         $incFile = '';
-
-                        if (
-                            version_compare(TYPO3_version, '9.4.0', '>=')
-                        ) {
-                            $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
-                            $incFile = $sanitizer->sanitize($templateFilename);
-                        } else {
-                            $incFile = $GLOBALS['TSFE']->tmpl->getFileName($templateFilename);
-                        }
+                        $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
+                        $incFile = $sanitizer->sanitize($templateFilename);
 
 						$localTemplateCode = file_get_contents($incFile);
 						$markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');

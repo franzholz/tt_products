@@ -137,7 +137,7 @@ class ProductImageUpdater implements UpgradeWizardInterface, ConfirmableInterfac
             false,
             $confirm,
             $deny,
-            ($elementCount > 0 && version_compare(TYPO3_version, '9.5.0', '>='))
+            ($elementCount > 0)
         );
 
         return $result;

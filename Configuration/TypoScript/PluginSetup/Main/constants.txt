@@ -80,7 +80,7 @@ plugin.tt_products {
   displayCatListType = ul
 
     # cat=plugin.products//; type=string; label= URL of the basket image
-  basketPic = EXT:tt_products/res/icons/fe/minibasket1.gif
+  basketPic = EXT:tt_products/Resources/Public/Images/minibasket1.gif
     # cat=plugin.products//; type=boolean; label= Click into basket: If set the basket page will be shown after a product has been put there. PIDbasket needs to be set.
   clickIntoBasket = 0
     # cat=plugin.products//; type=boolean; label= Click into list: If set the list page will be shown after a product has been put there. PIDlistDisplay needs to be set.

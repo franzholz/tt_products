@@ -41,6 +41,7 @@
  
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+use JambageCom\Div2007\Utility\BrowserUtility;
 use JambageCom\Div2007\Utility\FrontendUtility;
 
 
@@ -233,7 +234,6 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 		return $browserConf;
 	}
 
-
 	public function getBrowserObj(
 		$conf,
 		$browserConf,
@@ -242,23 +242,30 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$maxPages
 	) {
 		$bShowFirstLast = true;
+		$dontLinkActivePage = 0;
+		$parameterApi = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\ParameterApi::class);
 
 		if (
 			isset($browserConf) &&
-			is_array($browserConf) &&
-			isset($browserConf['showFirstLast'])
+			is_array($browserConf)
 		) {
-			$bShowFirstLast = $browserConf['showFirstLast'];
+			if (isset($browserConf['showFirstLast'])) {
+                $bShowFirstLast = $browserConf['showFirstLast'];
+            }
+			if (isset($browserConf['dontLinkActivePage'])) {
+                $dontLinkActivePage = $browserConf['dontLinkActivePage'];
+            }
 		}
+
 		$pagefloat = 0;
-		$imageArray = array();
-		$imageActiveArray = array();
-		$piVars = tx_ttproducts_model_control::getPiVars();
-		$browseObj = GeneralUtility::makeInstance('tx_div2007_alpha_browse_base');
-		$browseObj->init_fh002(
+		$imageArray = [];
+		$imageActiveArray = [];
+		$piVars = $parameterApi->getPiVars();
+		$browseObj = GeneralUtility::makeInstance(\JambageCom\Div2007\Base\BrowserBase::class);
+		$browseObj->init(
 			$conf,
 			$piVars,
-			array(),
+			[],
 			false,	// no autocache used yet
 			tx_ttproducts_control_pibase::$pi_USER_INT_obj,
 			$productsCount,
@@ -268,12 +275,12 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 			false,
 			$pagefloat,
 			$imageArray,
-			$imageActiveArray
+			$imageActiveArray,
+			$dontLinkActivePage
 		);
 
 		return $browseObj;
 	}
-
 
 	public function getBrowserMarkers (
 		$browseObj,
@@ -284,34 +291,34 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$more,
 		$limit,
 		$begin_at,
-		$bUseCache,
+		$useCacheHash,
 		&$markerArray,
 		&$subpartArray,
 		&$wrappedSubpartArray
 	) {
-		$cObj = FrontendUtility::getContentObjectRenderer();
-		$languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
+        $cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
+        $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
+		$parameterApi = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\ParameterApi::class);
 
-/*		$pibaseObj = GeneralUtility::makeInstance('' . $this->pibaseClass);*/
 		$subpartmarkerObj = GeneralUtility::makeInstance('tx_ttproducts_subpartmarker');
-		$pointerParam = tx_ttproducts_model_control::getPointerPiVar('LIST');
+		$pointerParam = $parameterApi->getPointerPiVar('LIST');
 		$splitMark = md5(microtime());
-		$prefixId = tx_ttproducts_model_control::getPrefixId();
+		$prefixId = $parameterApi->getPrefixId();
+        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 
 		if ($more) {
 			$next = ($begin_at + $limit > $productsCount) ? $productsCount - $limit : $begin_at + $limit;
 			$addQueryString[$pointerParam] = intval($next / $limit);
 			$this->getSearchParams($addQueryString);
 			$tempUrl =
-				tx_div2007_alpha5::linkTP_keepCtrlVars(
+				BrowserUtility::linkTPKeepCtrlVars(
 					$browseObj,
 					$cObj,
 					$prefixId,
 					$splitMark,
 					$addQueryString,
-					$bUseCache
+					$useCacheHash
 				);
-// 			$tempUrl = $pibaseObj->pi_linkTP_keepPIvars($splitMark,$addQueryString,$bUseCache,0);
 			$wrappedSubpartArray['###LINK_NEXT###'] = explode($splitMark, $tempUrl);
 		} else {
 			$subpartArray['###LINK_NEXT###'] = '';
@@ -322,16 +329,16 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 			$addQueryString[$pointerParam] = intval($prev / $limit);
 			$this->getSearchParams($addQueryString);
 			$tempUrl =
-				tx_div2007_alpha5::linkTP_keepCtrlVars(
+				BrowserUtility::linkTPKeepCtrlVars(
 					$browseObj,
 					$cObj,
 					$prefixId,
 					$splitMark,
 					$addQueryString,
-					$bUseCache
+					$useCacheHash
 				);
 
-// 			$tempUrl = $pibaseObj->pi_linkTP_keepPIvars($splitMark,$addQueryString,$bUseCache,0);
+// 			$tempUrl = $pibaseObj->pi_linkTP_keepPIvars($splitMark,$addQueryString,$useCacheHash,0);
 			$wrappedSubpartArray['###LINK_PREV###'] = explode($splitMark, $tempUrl);
 		} else {
 			$subpartArray['###LINK_PREV###'] = '';
@@ -341,21 +348,20 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 		if ($productsCount > $limit) { // there is more than one page, so let's browse
 
-            $t['browseFrameWork'] = tx_div2007_core::getSubpart(
+			$t['browseFrameWork'] = $templateService->getSubpart(
 				$t['listFrameWork'],
 				$subpartmarkerObj->spMarker('###LINK_BROWSE###')
 			);
-
 			if ($t['browseFrameWork'] != '') {
 
 				$wrappedSubpartArray['###LINK_BROWSE###'] = array('', '');
 
 				if (is_array($browserConf)) {
-					$addQueryString = array();
+					$addQueryString = [];
 					$this->getSearchParams($addQueryString);
 
 					$markerArray['###BROWSE_LINKS###'] =
-						FrontendUtility::listBrowser(
+						BrowserUtility::render(
 							$browseObj,
 							$languageObj,
 							$cObj,
@@ -371,27 +377,21 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 				} else {
 					for ($i = 0 ; $i < ($productsCount / $limit); $i++) {
 						if (($begin_at >= $i * $limit) && ($begin_at < $i * $limit + $limit)) {
-							$markerArray['###BROWSE_LINKS###'] .= ' <b>' . (string) ($i+1) . '</b> ';
+							$markerArray['###BROWSE_LINKS###'] .= ' <b>' . (string) ($i + 1) . '</b> ';
 							//	you may use this if you want to link to the current page also
 							//
 						} else {
 							$addQueryString[$pointerParam] = (string) ($i);
 							$tempUrl =
-								tx_div2007_alpha5::linkTP_keepCtrlVars(
+								BrowserUtility::linkTPKeepCtrlVars(
 									$browseObj,
 									$cObj,
 									$prefixId,
-									(string)($i+1) . ' ',
+									(string)($i + 1) . ' ',
 									$addQueryString,
-									$bUseCache
+									$useCacheHash
 								);
-/*
-							$tempUrl = $pibaseObj->pi_linkTP_keepPIvars(
-								(string)($i+1) . ' ',
-								$addQueryString,
-								$bUseCache,
-								0
-							);*/
+
 							$markerArray['###BROWSE_LINKS###'] .= $tempUrl;
 						}
 					}
@@ -1130,21 +1130,20 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 			}
 
 			$linkMemoConf = array_merge( array('useCacheHash' => $bUseCache), $linkMemoConf);
-
 			$markerArray['###FORM_MEMO###'] =
 				htmlspecialchars(
-					tx_div2007_alpha5::getPageLink_fh003(
+					FrontendUtility::getTypoLink_URL(
 						$cObj,
 						$pidMemo,
-						'',
 						$urlObj->getLinkParams(
 							$excludeList,
-							array(),
+							[],
 							true,
 							$bUseBackPid,
 							$backPid,
 							$itemTableView->getPivar()
 						),
+						'',
 						$linkMemoConf
 					)
 				);
@@ -1666,7 +1665,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 				$GLOBALS['TYPO3_DB']->sql_free_result($res);
 				$productsCount = $row[0];
 
-				$browserConf = $this->getBrowserConf($tableConfArray[$functablename]); // needed for the replacement of the method pi_linkTP_keepPIvars by tx_div2007_alpha5::linkTP_keepCtrlVars and the page browser
+				$browserConf = $this->getBrowserConf($tableConfArray[$functablename]); // needed for the replacement of the method pi_linkTP_keepPIvars by BrowserUtility::linkTPKeepCtrlVars and the page browser
 				$maxPages = 10000;
 				if (isset($browserConf['maxPages'])) {
                     $maxPages = intval($browserConf['maxPages']);
@@ -2037,7 +2036,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 									if ($linkCat) {
 										$addQueryString = array($categoryPivar => $linkCat);
 										$tempUrl =
-											tx_div2007_alpha5::linkTP_keepCtrlVars(
+											BrowserUtility::linkTPKeepCtrlVars(
 												$browseObj,
 												$cObj,
 												$prefixId,
@@ -2365,7 +2364,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 						$linkConf = array_merge( array('useCacheHash' => $bUseCache), $linkConf);
 
 						$target = '';
-						$pageLink = tx_div2007_alpha5::getTypoLink_URL_fh003(
+						$pageLink = FrontendUtility::getTypoLink_URL(
 							$cObj,
 							$pid,
 							$queryString,

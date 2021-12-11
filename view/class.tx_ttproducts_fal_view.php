@@ -173,13 +173,7 @@ class tx_ttproducts_fal_view extends tx_ttproducts_article_base_view {
             $fileObj = $resourceFactory->getFileReferenceObject($row['uid']);
             $fileInfo = $storage->getFileInfo($fileObj);
 
-            if (
-                version_compare(TYPO3_version, '9.0.0', '>=')
-            ) {
-                $path = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/';
-            } else {
-                $path = = PATH_site;
-            }
+            $path = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/';
 
             $file = $path . 'fileadmin' . $fileInfo['identifier'];
             $filename = basename($file);

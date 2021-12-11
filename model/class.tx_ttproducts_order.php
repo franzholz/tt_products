@@ -689,66 +689,6 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
 						if (($position = strpos($falVariants, '|records:')) === 0) {
 							$falVariants = substr($falVariants, strlen('|records:'));
 						}
-
-						if (
-                            version_compare(TYPO3_version, '8.0.0', '<') && // This feature is developed further only in tt_products 3.0.0
-							isset($externalUidArray['sys_file_reference']) &&
-							$externalUidArray['sys_file_reference'] > 0  &&
-							isset($fac) &&
-							is_object($fac)
-						) {
-						// sys_file_reference für tt_products auslesen, es danach neu anlegen für sys_products_orders
-							$fileUid = $externalRowArray['sys_file_reference']['uid_local'];
-
-							$data = array();
-							$data['sys_file_reference']['NEW1234'] = array(
-								'uid_local' => $fileUid,
-								'uid_foreign' => intval($orderUid), // uid of your table record
-								'tablenames' => $orderTablename,
-								'fieldname' => $falFieldname,
-								'pid' => $externalRowArray['sys_file_reference']['pid'], // parent id of the parent page
-								'table_local' => 'sys_file'
-							);
-							$NEWid = 'NEW1234';
-
-							foreach (tx_ttproducts_fal::$copyFieldArray as $field) {
-								$data['sys_file_reference'][$NEWid][$field] = $externalRowArray['sys_file_reference'][$field];
-							}
-
-							$data[$orderTablename][$orderUid] =
-								array($falFieldname => $NEWid);
-
-							/** @var \JambageCom\TtProducts\Backend\BackendUserSimulation $backendUser */
-							$backendUser = GeneralUtility::makeInstance(
-								'JambageCom\TtProducts\Backend\BackendUserSimulation',
-								$this->conf['UIDbackendUser']
-							);
-
-							/** @var \TYPO3\CMS\Core\DataHandling\DataHandler $tce */
-							$tce = GeneralUtility::makeInstance('TYPO3\CMS\Core\DataHandling\DataHandler'); // create TCE instance
-							$tce->start($data, array(), $backendUser);
-							$tce->process_datamap();
-
-							if ($tce->errorLog) {
-								$content = 'TCE->errorLog:' . \TYPO3\CMS\Core\Utility\DebugUtility::viewArray($tce->errorLog);
-								$backendUser->writelog(
-									4,
-									0,
-									1,
-									0,
-									'tt_products: ' . $content,
-									$data,
-									'sys_file_reference',
-									'',
-									'',
-									-1,
-									$NEWid,
-									$this->conf['UIDbackendUser']
-								);
-							}
-
-							$falCount++;
-						}
 					}
 
 					$insertFields = array (
