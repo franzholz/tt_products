@@ -176,7 +176,7 @@ class tx_ttproducts_pdf_view_sample07 {
 
 					if (is_array($generationConf['handleLib.']['rendererLibrary.'])) {
 						$rendererName = \PhpOffice\PhpWord\Settings::PDF_RENDERER_DOMPDF;	//   PDF_RENDERER_MPDF PDF_RENDERER_TCPDF
-						$rendererLibraryPath = PATH_site . $generationConf['handleLib.']['rendererLibrary.']['path'];
+						$rendererLibraryPath = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/' . $generationConf['handleLib.']['rendererLibrary.']['path'];
 						\PhpOffice\PhpWord\Settings::setPdfRenderer($rendererName, $rendererLibraryPath);
 						$objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'PDF');
 						$objWriter->save('fileadmin/Sample_07_TemplateCloneRow.pdf');
