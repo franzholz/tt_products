@@ -23,6 +23,7 @@
 ***************************************************************/
 
 
+use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
@@ -141,9 +142,15 @@ class tx_ttproducts_modfunc3 extends \TYPO3\CMS\Backend\Module\AbstractFunctionM
 											$fileRepository->addToIndex($file);
 										}
 
-										$fac = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\ResourceFactory'); // create instance to storage repository
+                                        if (
+                                            version_compare(TYPO3_version, '10.4.0', '<')
+                                        ) {
+                                            $resourceFactory = ResourceFactory::getInstance();
+                                        } else {
+                                            $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
+                                        }
 
-										$file = $fac->getFileObjectFromCombinedIdentifier($fileIdentifier);
+										$file = $resourceFactory->getFileObjectFromCombinedIdentifier($fileIdentifier);
 
 										if ($file instanceof \TYPO3\CMS\Core\Resource\File) {
 											$fileUid = $file->getUid();

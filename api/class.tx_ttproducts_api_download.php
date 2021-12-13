@@ -38,6 +38,7 @@
 
 
 
+use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
@@ -48,8 +49,13 @@ class tx_ttproducts_api_download {
 	) {
 		$storageRepository = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\StorageRepository');
 		$storage = $storageRepository->findByUid(1);
-
-		$resourceFactory = \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance();
+        if (
+            version_compare(TYPO3_version, '10.4.0', '<')
+        ) {
+            $resourceFactory = ResourceFactory::getInstance();
+        } else {
+            $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
+        }
 
 		$fileObj = $resourceFactory->getFileReferenceObject($fileReferenceUid);
 

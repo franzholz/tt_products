@@ -36,6 +36,8 @@
  *
  */
 
+use TYPO3\CMS\Core\Resource\ResourceFactory;
+
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
@@ -169,7 +171,14 @@ class tx_ttproducts_fal_view extends tx_ttproducts_article_base_view {
 
             $storageRepository = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\StorageRepository');
             $storage = $storageRepository->findByUid(1);
-            $resourceFactory = \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance();
+            if (
+                version_compare(TYPO3_version, '10.4.0', '<')
+            ) {
+                $resourceFactory = ResourceFactory::getInstance();
+            } else {
+                $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
+            }
+
             $fileObj = $resourceFactory->getFileReferenceObject($row['uid']);
             $fileInfo = $storage->getFileInfo($fileObj);
 
