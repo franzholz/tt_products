@@ -37,17 +37,17 @@ call_user_func(function () {
         $temporaryColumns = array (
             'tax_id' => array (
                 'exclude' => 0,
-                'label' => 'LLL:EXT:' . STATIC_INFO_TABLES_TAXES_EXT . '/locallang_db.xml:static_taxes.tx_rate_id',
+                'label' => 'LLL:EXT:' . STATIC_INFO_TABLES_TAXES_EXT . '/locallang_db.xlf:static_taxes.tx_rate_id',
                 'config' => array (
                     'type' => 'select',
                     'renderType' => 'selectSingle',
                     'items' => array (
-                        array('LLL:EXT:' . STATIC_INFO_TABLES_TAXES_EXT . '/locallang_db.xml:static_taxes.tx_rate_id.I.0', '0'),
-                        array('LLL:EXT:' . STATIC_INFO_TABLES_TAXES_EXT . '/locallang_db.xml:static_taxes.tx_rate_id.I.1', '1'),
-                        array('LLL:EXT:' . STATIC_INFO_TABLES_TAXES_EXT . '/locallang_db.xml:static_taxes.tx_rate_id.I.2', '2'),
-                        array('LLL:EXT:' . STATIC_INFO_TABLES_TAXES_EXT . '/locallang_db.xml:static_taxes.tx_rate_id.I.3', '3'),
-                        array('LLL:EXT:' . STATIC_INFO_TABLES_TAXES_EXT . '/locallang_db.xml:static_taxes.tx_rate_id.I.4', '4'),
-                        array('LLL:EXT:' . STATIC_INFO_TABLES_TAXES_EXT . '/locallang_db.xml:static_taxes.tx_rate_id.I.5', '5'),
+                        array('LLL:EXT:' . STATIC_INFO_TABLES_TAXES_EXT . '/locallang_db.xlf:static_taxes.tx_rate_id.I.0', '0'),
+                        array('LLL:EXT:' . STATIC_INFO_TABLES_TAXES_EXT . '/locallang_db.xlf:static_taxes.tx_rate_id.I.1', '1'),
+                        array('LLL:EXT:' . STATIC_INFO_TABLES_TAXES_EXT . '/locallang_db.xlf:static_taxes.tx_rate_id.I.2', '2'),
+                        array('LLL:EXT:' . STATIC_INFO_TABLES_TAXES_EXT . '/locallang_db.xlf:static_taxes.tx_rate_id.I.3', '3'),
+                        array('LLL:EXT:' . STATIC_INFO_TABLES_TAXES_EXT . '/locallang_db.xlf:static_taxes.tx_rate_id.I.4', '4'),
+                        array('LLL:EXT:' . STATIC_INFO_TABLES_TAXES_EXT . '/locallang_db.xlf:static_taxes.tx_rate_id.I.5', '5'),
                     ),
                     'default' => 0
                 )
@@ -72,7 +72,7 @@ call_user_func(function () {
         case '1':
             $GLOBALS['TCA'][$table]['columns']['article_uid'] = array (
                 'exclude' => 1,
-                'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products.article_uid',
+                'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xlf:tt_products.article_uid',
                 'config' => array (
                     'type' => 'group',
                     'internal_type' => 'db',
@@ -102,7 +102,7 @@ call_user_func(function () {
 
     $GLOBALS['TCA'][$table]['interface']['showRecordFieldList'] .= ',image_uid,smallimage_uid';
 
-    $palleteAddition = ',--palette--;LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:sys_file_reference.shopAttributes;tt_productsPalette';
+    $palleteAddition = ',--palette--;LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xlf:sys_file_reference.shopAttributes;tt_productsPalette';
 
     $GLOBALS['TCA'][$table]['columns']['image_uid'] = [
         'exclude' => 1,
@@ -133,7 +133,7 @@ call_user_func(function () {
 
     $GLOBALS['TCA'][$table]['columns']['smallimage_uid'] = [
         'exclude' => 1,
-        'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products.smallimage',
+        'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xlf:tt_products.smallimage',
         'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
             'smallimage_uid',
             [
@@ -164,7 +164,7 @@ call_user_func(function () {
     ) {
         $GLOBALS['TCA'][$table]['columns']['datasheet_uid'] = [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products.datasheet',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xlf:tt_products.datasheet',
             'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
                 'datasheet_uid',
                 [

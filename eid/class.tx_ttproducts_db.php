@@ -125,7 +125,6 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 		);
 		$discount = $GLOBALS['TSFE']->fe_user->user['tt_products_discount'];
 
-        // We put our incomming data to the regular piVars
 		$itemTable = $tablesObj->get('tt_products', false);
 
 		if (is_array($data))	{
@@ -468,6 +467,8 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 
 		$piVars = tx_ttproducts_model_control::getPiVars();
 		$pibaseObj->piVars = $piVars;
+        $parameterApi = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\ParameterApi::class);
+        $parameterApi->setPiVars($piVars);
 
 		if (
 			isset($data) &&
@@ -541,6 +542,9 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 
         // We put our incomming data to the regular piVars
 		$pibaseObj->piVars = $piVars;
+        $parameterApi = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\ParameterApi::class);
+        $parameterApi->setPiVars($piVars);
+
 
 		$pibaseObj->cObj = $this->cObj;
 

@@ -15,7 +15,7 @@ $GLOBALS['TCA'][$table]['types']['list']['subtypes_addlist'][$listType] = 'pi_fl
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin(
     array(
-        'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_content.list_type_pi1',
+        'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xlf:tt_content.list_type_pi1',
         $listType,
         'EXT:' . TT_PRODUCTS_EXT . '/ext_icon.gif'
     ),
@@ -35,7 +35,7 @@ if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('searchbox')) {
     
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin(
         array(
-            'LLL:EXT:' . TT_PRODUCTS_EXT . '/pi_search/locallang_db.xml:tt_content.list_type_pi_search',
+            'LLL:EXT:' . TT_PRODUCTS_EXT . '/pi_search/locallang_db.xlf:tt_content.list_type_pi_search',
             $listType,
             'EXT:' . TT_PRODUCTS_EXT . '/ext_icon.gif'
         ),
@@ -55,7 +55,7 @@ $GLOBALS['TCA'][$table]['types']['list']['subtypes_addlist'][$listType] = 'pi_fl
 
 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin(
     array(
-        'LLL:EXT:' . TT_PRODUCTS_EXT . '/pi_int/locallang_db.xml:tt_content.list_type_pi_int', $listType,
+        'LLL:EXT:' . TT_PRODUCTS_EXT . '/pi_int/locallang_db.xlf:tt_content.list_type_pi_int', $listType,
         'EXT:' . TT_PRODUCTS_EXT . '/ext_icon.gif'
     ),
     'list_type',

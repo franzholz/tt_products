@@ -12,7 +12,7 @@ if (!$imageFolder) {
 // ******************************************************************
 $result = array (
 	'ctrl' => array (
-		'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products_cat',
+		'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xlf:tt_products_cat',
 		'label' => 'title',
 		'label_alt' => 'subtitle',
 		'default_sortby' =>' ORDER BY title',
@@ -60,7 +60,7 @@ $result = array (
 		),
 		'tstamp' => array (
 			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tstamp',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xlf:tstamp',
 			'config' => array (
 				'type' => 'input',
 				'size' => '8',
@@ -71,7 +71,7 @@ $result = array (
 		),
 		'crdate' => array (
 			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:crdate',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xlf:crdate',
 			'config' => array (
 				'type' => 'input',
 				'size' => '8',
@@ -149,7 +149,7 @@ $result = array (
 		),
 		'subtitle' => array (
 			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products.subtitle',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xlf:tt_products.subtitle',
 			'config' => array (
 				'type' => 'text',
 				'rows' => '3',
@@ -161,7 +161,7 @@ $result = array (
 		),
         'slug' => array (
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products.slug',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xlf:tt_products.slug',
             'config' => array (
                 'type' => 'slug',
                 'size' => 50,
@@ -179,7 +179,7 @@ $result = array (
         ),
 		'parent_category' => array (
 			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products_cat.parent_category',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xlf:tt_products_cat.parent_category',
 			'config' => array(
 				'minitems' => 0,
 				'maxitems' => 1,
@@ -202,7 +202,7 @@ $result = array (
 		),
 		'catid' => Array (
 			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products_cat.catid',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xlf:tt_products_cat.catid',
 			'config' => Array (
 				'type' => 'input',
 				'size' => '20',
@@ -213,7 +213,7 @@ $result = array (
 		),
 		'keyword' => array (
 			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products.keyword',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xlf:tt_products.keyword',
 			'config' => array (
 				'type' => 'text',
 				'rows' => '5',
@@ -225,7 +225,7 @@ $result = array (
 		),
 		'note' => array (
 			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products.note',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xlf:tt_products.note',
 			'config' => array (
 				'type' => 'text',
 				'cols' => '48',
@@ -236,7 +236,7 @@ $result = array (
 		),
 		'note2' => array (
 			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products.note2',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xlf:tt_products.note2',
 			'config' => array (
 				'type' => 'text',
 				'cols' => '48',
@@ -263,7 +263,7 @@ $result = array (
 		),
 		'discount' => array (
 			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products_cat.discount',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xlf:tt_products_cat.discount',
 			'config' => array (
 				'type' => 'input',
 				'size' => '4',
@@ -278,7 +278,7 @@ $result = array (
 		),
 		'discount_disable' => array (
 			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products_cat.discount_disable',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xlf:tt_products_cat.discount_disable',
 			'config' => array (
 				'type' => 'check',
 				'default' => 0
@@ -286,7 +286,7 @@ $result = array (
 		),
 		'email_uid' => array (
 			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products_cat.email_uid',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xlf:tt_products_cat.email_uid',
 			'config' => array (
 				'type' => 'group',
 				'internal_type' => 'db',
@@ -301,7 +301,7 @@ $result = array (
 		),
 		'highlight' => array (
 			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products_cat.highlight',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xlf:tt_products_cat.highlight',
 			'config' => array (
 				'type' => 'check',
 				'default' => 0

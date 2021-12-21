@@ -401,11 +401,11 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
                 if (!$languageKey) {
                     $languageKey = 'missing_' . $check;
                 }
-                $label = $GLOBALS['TSFE']->sL('LLL:EXT:agency/pi/locallang.xml:' . $languageKey);
+                $label = $GLOBALS['TSFE']->sL('LLL:EXT:agency/pi/locallang.xlf:' . $languageKey);
 				$editPID = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_agency.']['editPID'];
 
 				if (\JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn() && $editPID) {
-					$addParams = array ('products_payment' => 1);
+					$addParams = array('products_payment' => 1);
 					$addParams = $this->urlObj->getLinkParams('', $addParams, true);
 					$agencyBackUrl = $this->pibase->pi_getPageLink($GLOBALS['TSFE']->id, '', $addParams);
 					$agencyParams = array('agency[backURL]' => $agencyBackUrl);

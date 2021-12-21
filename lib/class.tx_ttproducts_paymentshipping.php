@@ -43,6 +43,8 @@
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+use JambageCom\Div2007\Utility\FrontendUtility;
+
 
 class tx_ttproducts_paymentshipping implements \TYPO3\CMS\Core\SingletonInterface {
 	public $cObj;
@@ -331,7 +333,7 @@ class tx_ttproducts_paymentshipping implements \TYPO3\CMS\Core\SingletonInterfac
 		$priceViewObj = GeneralUtility::makeInstance('tx_ttproducts_field_price_view');
 		$urlObj = GeneralUtility::makeInstance('tx_ttproducts_url_view');
 		$basketUrl = htmlspecialchars(
-			tx_div2007_alpha5::getTypoLink_URL_fh003(
+			FrontendUtility::getTypoLink_URL(
 				$this->cObj,
 				$pid,
 				$urlObj->getLinkParams(

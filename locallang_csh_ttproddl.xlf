@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" datatype="plaintext" original="messages" date="2021-11-23T20:34:39Z" product-name="tt_products">
+		<header/>
+		<body>
+			<trans-unit id=".description" xml:space="preserve">
+				<source>Shop downloads.</source>
+			</trans-unit>
+			<trans-unit id=".details" xml:space="preserve">
+				<source>There are a lot of download path descriptions possible for each product</source>
+			</trans-unit>
+			<trans-unit id="_.seeAlso" xml:space="preserve">
+				<source>tt_products</source>
+			</trans-unit>
+			<trans-unit id="title.description" xml:space="preserve">
+				<source>[FILL IN] tt_products_downloads-&gt;title</source>
+			</trans-unit>
+			<trans-unit id="marker.description" xml:space="preserve">
+				<source>Marker part to be used in the template to form the ###PRODUCT_DOWNLOAD_...###</source>
+			</trans-unit>
+			<trans-unit id="note.description" xml:space="preserve">
+				<source>note</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

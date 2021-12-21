@@ -6,7 +6,7 @@ $result = NULL;
 if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['articleMode'] >= '1') {
 	$result = array (
 		'ctrl' => array (
-			'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products_products_mm_articles',
+			'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xlf:tt_products_products_mm_articles',
 			'label' => 'uid_local',
 			'tstamp' => 'tstamp',
 			'delete' => 'deleted',
@@ -23,7 +23,7 @@ if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['articleMode'] >= '1
 		),
 		'columns' => array (
 			'uid_local' => array (
-				'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products_products_mm_articles.uid_local',
+				'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xlf:tt_products_products_mm_articles.uid_local',
 				'config' => array (
 					'type' => 'select',
 					'renderType' => 'selectSingle',
@@ -33,7 +33,7 @@ if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['articleMode'] >= '1
 				)
 			),
 			'uid_foreign' => array (
-				'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products_products_mm_articles.uid_foreign',
+				'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xlf:tt_products_products_mm_articles.uid_foreign',
 				'config' => array (
 					'type' => 'select',
 					'renderType' => 'selectSingle',

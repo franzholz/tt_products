@@ -152,7 +152,7 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 		}
 		$bUseBackPid = ($bUseBackPid && $pidNext && $pidNext != $pid);
 
-		$url = tx_div2007_alpha5::getTypoLink_URL_fh003(
+		$url = FrontendUtility::getTypoLink_URL(
 			$this->cObj,
 			$pidFormUrl,
 			$this->getLinkParams(
@@ -199,7 +199,8 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 		foreach ($commandArray as $command) {
 			$linkPid = ($this->conf['PID' . $command] ? $this->conf['PID' . $command] : $pidBasket);
-			$url = tx_div2007_alpha5::getTypoLink_URL_fh003(
+			
+			$url = FrontendUtility::getTypoLink_URL(
 				$this->cObj,
 				$linkPid,
 				$this->getLinkParams(
@@ -219,7 +220,6 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 					$charset
 				);
 		}
-
 
 		$urlMarkerArray['###FORM_URL_TARGET###'] = '_self';
 
@@ -252,12 +252,16 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 	 * Returns a url for use in forms and links
 	 */
 	public function addQueryStringParam (&$queryString, $param, $bUsePrefix=false) {
-		$temp = $this->pibase->piVars[$param];
+		$parameterApi = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\ParameterApi::class);
+		$piVars = $parameterApi->getPiVars();
+		$prefixId = $parameterApi->getPrefixId();
+
+		$temp = $piVars[$param];
 		$temp = ($temp ? $temp : (GeneralUtility::_GP($param) && ($param!='pid') ? GeneralUtility::_GP($param) : 0));
 
 		if ($temp)	{
 			if ($bUsePrefix)	{
-				$queryString[$this->pibase->prefixId.'['.$param.']'] = $temp;
+				$queryString[$prefixId . '[' . $param . ']'] = $temp;
 			} else {
 				$queryString[$param] = $temp;
 			}
@@ -302,7 +306,6 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 		if ($piVarCat != '')	{
 			$this->addQueryStringParam($queryString, $piVarCat, $bUsePrefix);
 		}
-
 		$listPointerParam = tx_ttproducts_model_control::getPointerPiVar('LIST');
 		$this->addQueryStringParam($queryString, $listPointerParam, $bUsePrefix);
 		$catlistPointerParam = tx_ttproducts_model_control::getPointerPiVar('CATLIST');

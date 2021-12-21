@@ -3,7 +3,7 @@ defined('TYPO3_MODE') || die('Access denied.');
 
 $result = array (
 	'ctrl' => array (
-		'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products_emails',
+		'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xlf:tt_products_emails',
 		'label' => 'name',
 		'default_sortby' => 'ORDER BY name',
 		'tstamp' => 'tstamp',
@@ -36,7 +36,7 @@ $result = array (
 		),
 		'tstamp' => array (
 			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tstamp',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xlf:tstamp',
 			'config' => array (
 				'type' => 'input',
 				'size' => '8',
@@ -47,7 +47,7 @@ $result = array (
 		),
 		'crdate' => array (
 			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:crdate',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xlf:crdate',
 			'config' => array (
 				'type' => 'input',
 				'size' => '8',
@@ -139,7 +139,7 @@ $result = array (
 			)
 		),
 		'suffix' => array (
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products_emails.suffix',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xlf:tt_products_emails.suffix',
 			'config' => array (
 				'type' => 'input',
 				'size' => '24',

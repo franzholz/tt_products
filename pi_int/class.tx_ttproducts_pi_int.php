@@ -64,7 +64,7 @@ class tx_ttproducts_pi_int implements \TYPO3\CMS\Core\SingletonInterface {
 
 			$content = $pibaseObj->main($content,$conf);
 		} else {
-			tx_div2007_alpha5::loadLL_fh002($pibaseObj, 'EXT:' . TT_PRODUCTS_EXT . '/pi_int/locallang.xml');
+			tx_div2007_alpha5::loadLL_fh002($pibaseObj, 'EXT:' . TT_PRODUCTS_EXT . '/pi_int/locallang.xlf');
 
 			if (count($conf) > 2)	{
 				$content = tx_div2007_alpha5::getLL_fh003($pibaseObj, 'no_template') . ' plugin.tx_ttproducts_pi_int.templateFile';

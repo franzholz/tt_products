@@ -6,7 +6,7 @@ defined('TYPO3_MODE') || die('Access denied.');
 // ******************************************************************
 $result = array (
 	'ctrl' => array (
-		'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products_graduated_price',
+		'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xlf:tt_products_graduated_price',
 		'label' => 'title',
 		'default_sortby' => 'ORDER BY title',
 		'tstamp' => 'tstamp',
@@ -29,7 +29,7 @@ $result = array (
 	'columns' => array (
 		'tstamp' => array (
 			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tstamp',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xlf:tstamp',
 			'config' => array (
 				'type' => 'input',
 				'size' => '8',
@@ -40,7 +40,7 @@ $result = array (
 		),
 		'crdate' => array (
 			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:crdate',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xlf:crdate',
 			'config' => array (
 				'type' => 'input',
 				'size' => '8',
@@ -65,7 +65,7 @@ $result = array (
 		),
 		'starttime' => array (
 			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products_graduated_price.starttime',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xlf:tt_products_graduated_price.starttime',
 			'config' => array (
 				'type' => 'input',
 				'size' => '8',
@@ -76,7 +76,7 @@ $result = array (
 		),
 		'endtime' => array (
 			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products_graduated_price.endtime',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xlf:tt_products_graduated_price.endtime',
 			'config' => array (
 				'type' => 'input',
 				'size' => '8',
@@ -132,7 +132,7 @@ $result = array (
 		),
 		'formula' => array (
 			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products_graduated_price.formula',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xlf:tt_products_graduated_price.formula',
 			'config' => array (
 				'type' => 'text',
 				'cols' => '48',
@@ -142,7 +142,7 @@ $result = array (
 		),
 		'startamount' => array (
 			'exclude' => 1,
-			'label' => 'LLL:EXT:'.TT_PRODUCTS_EXT.'/locallang_db.xml:tt_products_graduated_price.startamount',
+			'label' => 'LLL:EXT:'.TT_PRODUCTS_EXT.'/locallang_db.xlf:tt_products_graduated_price.startamount',
 			'config' => array (
 				'type' => 'input',
 				'size' => '12',

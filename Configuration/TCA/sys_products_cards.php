@@ -6,7 +6,7 @@ defined('TYPO3_MODE') || die('Access denied.');
 // ******************************************************************
 $result = array (
 	'ctrl' => array (
-		'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:sys_products_cards',
+		'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xlf:sys_products_cards',
 		'label' => 'cc_number',
 		'default_sortby' => 'ORDER BY cc_number',
 		'tstamp' => 'tstamp',
@@ -36,7 +36,7 @@ $result = array (
 		),
 		'cc_number' => array (
 			'exclude' => 0,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:sys_products_cards.cc_number',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xlf:sys_products_cards.cc_number',
 			'config' => array (
 				'type' => 'input',
 				'size' => '40',
@@ -57,15 +57,15 @@ $result = array (
 		),
 		'cc_type' => array (
 			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:sys_products_cards.cc_type',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xlf:sys_products_cards.cc_type',
 			'config' => array (
 				'type' => 'select',
 				'renderType' => 'selectSingle',
 				'items' => array (
-					array('LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:sys_products_cards.cc_type.I.0', '0'),
-					array('LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:sys_products_cards.cc_type.I.1', '1'),
-					array('LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:sys_products_cards.cc_type.I.2', '2'),
-					array('LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:sys_products_cards.cc_type.I.3', '3'),
+					array('LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xlf:sys_products_cards.cc_type.I.0', '0'),
+					array('LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xlf:sys_products_cards.cc_type.I.1', '1'),
+					array('LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xlf:sys_products_cards.cc_type.I.2', '2'),
+					array('LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xlf:sys_products_cards.cc_type.I.3', '3'),
 				),
 				'size' => 1,
 				'maxitems' => 1,
@@ -74,7 +74,7 @@ $result = array (
 		),
 		'cvv2' => array (
 			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:sys_products_cards.cvv2',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xlf:sys_products_cards.cvv2',
 			'config' => array (
 				'type' => 'input',
 				'size' => '4',

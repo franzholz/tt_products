@@ -43,6 +43,7 @@
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+use JambageCom\Div2007\Utility\FrontendUtility;
 
 
 class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
@@ -691,7 +692,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 				$excludeList = $viewParamConf['ignore'];
 			}
 
-			$url = tx_div2007_alpha5::getTypoLink_URL_fh003(
+			$url = FrontendUtility::getTypoLink_URL(
 				$this->pibase->cObj,
 				$pid,
 				$this->urlObj->getLinkParams(

@@ -39,6 +39,8 @@
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+use JambageCom\Div2007\Utility\FrontendUtility;
+
 
 class tx_ttproducts_ajax implements \TYPO3\CMS\Core\SingletonInterface {
 	public $taxajax;	// xajax object
@@ -111,7 +113,7 @@ class tx_ttproducts_ajax implements \TYPO3\CMS\Core\SingletonInterface {
 
 		$linkConf = array('useCacheHash' => 0);
 		$target = '';
-		$reqURI = tx_div2007_alpha5::getTypoLink_URL_fh003(
+		$reqURI = FrontendUtility::getTypoLink_URL(
 			$cObj,
 			$GLOBALS['TSFE']->id,
 			$queryString,

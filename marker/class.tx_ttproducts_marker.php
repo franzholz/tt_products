@@ -70,7 +70,7 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
 		$this->markerArray = array('CATEGORY', 'PRODUCT', 'ARTICLE');
 		$markerFile = $this->conf['markerFile'];
 		$languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
-		$defaultMarkerFile = 'EXT:' . TT_PRODUCTS_EXT . '/marker/locallang.xml';
+		$defaultMarkerFile = 'EXT:' . TT_PRODUCTS_EXT . '/marker/locallang.xlf';
 		$languageObj->loadLocalLang($defaultMarkerFile);
 		$language = $languageObj->getLanguage();
 
@@ -93,9 +93,9 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
 		} else {
 			if (!$markerFile || $markerFile == '{$plugin.tt_products.file.markerFile}') {
 				if ($language == 'de') {
-					$markerFile = 'EXT:' . TT_PRODUCTS_EXT . '/marker/' . $language . '.locallang.xml';
+					$markerFile = 'EXT:' . TT_PRODUCTS_EXT . '/marker/' . $language . '.locallang.xlf';
 				} else if (ExtensionManagementUtility::isLoaded(ADDONS_EXT)) {
-					$markerFile = 'EXT:' . ADDONS_EXT . '/' . $language . '.locallang.xml';
+					$markerFile = 'EXT:' . ADDONS_EXT . '/' . $language . '.locallang.xlf';
 				}
                 if (!$markerFile) {
                     $markerFile = $defaultMarkerFile;

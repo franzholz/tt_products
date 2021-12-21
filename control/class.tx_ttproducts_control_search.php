@@ -69,7 +69,7 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 		}
 		$this->conf = &$conf;
 		$this->config = &$config;
-		$this->piVars = &$pibaseObj->piVars;
+		$this->piVars = $pibaseObj->piVars;
 		$this->pibaseClass = $pibaseClass;
 
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
@@ -97,7 +97,7 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 		$config['templateSuffix'] = ($config['templateSuffix'] ? '_'.$config['templateSuffix'] : '');
 
         $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
-		$languageObj->loadLocalLang( 'EXT:' . TT_PRODUCTS_EXT . '/pi_search/locallang.xml');
+		$languageObj->loadLocalLang( 'EXT:' . TT_PRODUCTS_EXT . '/pi_search/locallang.xlf');
 
 		$markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
 		$markerObj->init(

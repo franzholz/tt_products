@@ -32,8 +32,8 @@ class tx_ttproducts_wizicon {
         $params = '&defVals[tt_content][CType]=list&defVals[tt_content][list_type]=5&defVals[tt_content][select_key]=HELP';
         $wizardItems['plugins_tx_ttproducts_pi1'] = array(
             'icon' => PATH_BE_TTPRODUCTS_REL . 'Resources/Public/Images/PluginWizard.png',
-            'title' => $GLOBALS['LANG']->sL('LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang.xml:plugins_title'),
-            'description' => $GLOBALS['LANG']->sL('LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang.xml:plugins_description'),
+            'title' => $GLOBALS['LANG']->sL('LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang.xlf:plugins_title'),
+            'description' => $GLOBALS['LANG']->sL('LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang.xlf:plugins_description'),
             'params' => $params
         );
 

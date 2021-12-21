@@ -1840,7 +1840,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
                     }
 
 					$target = '';
-					$pageLink = tx_div2007_alpha5::getTypoLink_URL_fh003(
+					$pageLink = FrontendUtility::getTypoLink_URL(
 						$this->cObj,
 						$pid,
 						$queryString,

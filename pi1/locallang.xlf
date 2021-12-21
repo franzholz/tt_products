@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" datatype="plaintext" original="messages" date="2021-12-01T10:17:30Z" product-name="tt_products">
+		<header/>
+		<body>
+			<trans-unit id="plugin" xml:space="preserve">
+				<source>Shop Plugin</source>
+			</trans-unit>
+			<trans-unit id="open_bill" xml:space="preserve">
+				<source>Click here to open the bill</source>
+			</trans-unit>
+			<trans-unit id="open_delivery" xml:space="preserve">
+				<source>Click here to open the delivery sheet</source>
+			</trans-unit>
+			<trans-unit id="invalid_email" xml:space="preserve">
+				<source>Invalid E-mail address |! Please re-enter.</source>
+			</trans-unit>
+			<trans-unit id="no_template" xml:space="preserve">
+				<source>The shop template file has not been found. Check your template setup about</source>
+			</trans-unit>
+			<trans-unit id="empty_template" xml:space="preserve">
+				<source>The shop template file | is empty.</source>
+			</trans-unit>
+			<trans-unit id="no_subtemplate" xml:space="preserve">
+				<source>The subpart part marker | or the template file | has not been found.</source>
+			</trans-unit>
+			<trans-unit id="template_invalid_marker_border" xml:space="preserve">
+				<source>The following invalid marker borders have been found inside of the subpart | of your template file: |.</source>
+			</trans-unit>
+			<trans-unit id="accept_AGB" xml:space="preserve">
+				<source>You have to accept the general trading conditions to proceed.</source>
+			</trans-unit>
+			<trans-unit id="additional_single" xml:space="preserve">
+				<source>buy this product</source>
+			</trans-unit>
+			<trans-unit id="additional_gift_service" xml:space="preserve">
+				<source>wrap product by gift service</source>
+			</trans-unit>
+			<trans-unit id="wrong_parameter" xml:space="preserve">
+				<source>Wrong parameters. GET/POST var 'tt_products[|]' is missing or no item with uid = | found on allowed pages (|) .</source>
+			</trans-unit>
+			<trans-unit id="wrong_product" xml:space="preserve">
+				<source>The product '|' you are looking for does not exist in the system.</source>
+			</trans-unit>
+			<trans-unit id="wrong_article" xml:space="preserve">
+				<source>The article '|' you are looking for does not exist in the system.</source>
+			</trans-unit>
+			<trans-unit id="wrong_dam" xml:space="preserve">
+				<source>The dam record '|' you are looking for does not exist in the system.</source>
+			</trans-unit>
+			<trans-unit id="no_csv_creation" xml:space="preserve">
+				<source>Warning: Cannot create CSV file '|' for this order!</source>
+			</trans-unit>
+			<trans-unit id="no_feusers" xml:space="preserve">
+				<source>No Front End Users have been found.</source>
+			</trans-unit>
+			<trans-unit id="wrong_code" xml:space="preserve">
+				<source>Wrong display mode or code '|'.</source>
+			</trans-unit>
+			<trans-unit id="wrong_type" xml:space="preserve">
+				<source>Wrong display type '|'.</source>
+			</trans-unit>
+			<trans-unit id="instock_warning_header" xml:space="preserve">
+				<source>Warning: %s : Only %d pieces left.</source>
+			</trans-unit>
+			<trans-unit id="instock_warning" xml:space="preserve">
+				<source>Warning: %s no. %s runs out of stock. Only %d pieces left.</source>
+			</trans-unit>
+			<trans-unit id="product" xml:space="preserve">
+				<source>product</source>
+			</trans-unit>
+			<trans-unit id="article" xml:space="preserve">
+				<source>article</source>
+			</trans-unit>
+			<trans-unit id="missing" xml:space="preserve">
+				<source>Please enter the | .</source>
+			</trans-unit>
+			<trans-unit id="missing_address" xml:space="preserve">
+				<source>street with housenumber</source>
+			</trans-unit>
+			<trans-unit id="missing_city" xml:space="preserve">
+				<source>town</source>
+			</trans-unit>
+			<trans-unit id="missing_telephone" xml:space="preserve">
+				<source>telephone number</source>
+			</trans-unit>
+			<trans-unit id="missing_email" xml:space="preserve">
+				<source>email address</source>
+			</trans-unit>
+			<trans-unit id="missing_zip" xml:space="preserve">
+				<source>zip code</source>
+			</trans-unit>
+			<trans-unit id="missing_tt_products_vat" xml:space="preserve">
+				<source>VAT number</source>
+			</trans-unit>
+			<trans-unit id="check_missing_iban" xml:space="preserve">
+				<source>Check the IBAN!</source>
+			</trans-unit>
+			<trans-unit id="error_minquantity" xml:space="preserve">
+				<source>Error in minimum quantity in the following products. | Buy more of them.</source>
+			</trans-unit>
+			<trans-unit id="error_maxquantity" xml:space="preserve">
+				<source>Error in maximum quantity in the following products. | Buy less of them.</source>
+			</trans-unit>
+			<trans-unit id="error_reference_id" xml:space="preserve">
+				<source>ERROR: reference ID could not be generated.</source>
+			</trans-unit>
+			<trans-unit id="error_transaction_details" xml:space="preserve">
+				<source>ERROR: Setting details of transaction failed.</source>
+			</trans-unit>
+			<trans-unit id="error_order_number" xml:space="preserve">
+				<source>ERROR: Setting of the order number failed.</source>
+			</trans-unit>
+			<trans-unit id="error_relay_url" xml:space="preserve">
+				<source>ERROR: No relay URL given!</source>
+			</trans-unit>
+			<trans-unit id="error_find_payment_method" xml:space="preserve">
+				<source>ERROR: Could not find provider object for payment method '%s'.</source>
+			</trans-unit>
+			<trans-unit id="error_edit_variant_range" xml:space="preserve">
+				<source>ERROR: Wrong edit variant value &quot;|&quot; for product &quot;|&quot;</source>
+			</trans-unit>
+			<trans-unit id="error_range" xml:space="preserve">
+				<source>ERROR: The setup &quot;|&quot; must be in the range between &quot;|&quot; and &quot;|&quot;. &quot;|&quot; is out of range.</source>
+			</trans-unit>
+			<trans-unit id="tax_included" xml:space="preserve">
+				<source>VAT incl. price</source>
+			</trans-unit>
+			<trans-unit id="tax_excluded" xml:space="preserve">
+				<source>w/o VAT</source>
+			</trans-unit>
+			<trans-unit id="tax_zero" xml:space="preserve">
+				<source>without taxes</source>
+			</trans-unit>
+			<trans-unit id="extension_missing" xml:space="preserve">
+				<source>The extension '|' has not been installed.</source>
+			</trans-unit>
+			<trans-unit id="extension_payment_missing" xml:space="preserve">
+				<source>The extension for the payment method has not been configured.</source>
+			</trans-unit>
+			<trans-unit id="setup_missing" xml:space="preserve">
+				<source>Setup for | is missing.</source>
+			</trans-unit>
+			<trans-unit id="voucher_invalid" xml:space="preserve">
+				<source>The voucher code | is not accepted.</source>
+			</trans-unit>
+			<trans-unit id="voucher_invalid_amount" xml:space="preserve">
+				<source>The total sum of the products in the basket is too small to be able to use the voucher code %s.</source>
+			</trans-unit>
+			<trans-unit id="voucher_payment_article" xml:space="preserve">
+				<source>Discount</source>
+			</trans-unit>
+			<trans-unit id="voucher_gained" xml:space="preserve">
+				<source>You have gained the following voucher codes</source>
+			</trans-unit>
+			<trans-unit id="internal_error" xml:space="preserve">
+				<source>Internal error no. | in tt_products (|).</source>
+			</trans-unit>
+			<trans-unit id="article_markers_unsubstituted" xml:space="preserve">
+				<source>No substitution of article markers | . You must set useArticles (at the moment &quot;|&quot;) to another value to use articles.</source>
+			</trans-unit>
+			<trans-unit id="in_stock" xml:space="preserve">
+				<source>in stock</source>
+			</trans-unit>
+			<trans-unit id="not_in_stock" xml:space="preserve">
+				<source>Not in stock</source>
+			</trans-unit>
+			<trans-unit id="list_browseresults_first" xml:space="preserve">
+				<source>&lt;&lt; First</source>
+			</trans-unit>
+			<trans-unit id="list_browseresults_prev" xml:space="preserve">
+				<source>&lt; Previous</source>
+			</trans-unit>
+			<trans-unit id="list_browseresults_page" xml:space="preserve">
+				<source>Page</source>
+			</trans-unit>
+			<trans-unit id="list_browseresults_next" xml:space="preserve">
+				<source>Next &gt;</source>
+			</trans-unit>
+			<trans-unit id="list_browseresults_last" xml:space="preserve">
+				<source>Last &gt;&gt;</source>
+			</trans-unit>
+			<trans-unit id="list_browseresults_to" xml:space="preserve">
+				<source>to</source>
+			</trans-unit>
+			<trans-unit id="list_browseresults_displays" xml:space="preserve">
+				<source>Displaying results ###SPAN_BEGIN###%s to %s&lt;/span&gt; out of ###SPAN_BEGIN###%s&lt;/span&gt;</source>
+			</trans-unit>
+			<trans-unit id="list_browseresults_displays_marker" xml:space="preserve">
+				<source>Displaying results ###FROM### to ###TO### out of ###OUT_OF###</source>
+			</trans-unit>
+			<trans-unit id="order_already_finalized" xml:space="preserve">
+				<source>The order has already been finalized!</source>
+			</trans-unit>
+			<trans-unit id="orders_view_orders" xml:space="preserve">
+				<source>Orders</source>
+			</trans-unit>
+			<trans-unit id="orders_view_products" xml:space="preserve">
+				<source>Products</source>
+			</trans-unit>
+			<trans-unit id="undeclared" xml:space="preserve">
+				<source>undeclared</source>
+			</trans-unit>
+			<trans-unit id="unregistered" xml:space="preserve">
+				<source>unregistered</source>
+			</trans-unit>
+			<trans-unit id="first_order" xml:space="preserve">
+				<source>first order</source>
+			</trans-unit>
+			<trans-unit id="download" xml:space="preserve">
+				<source>Download</source>
+			</trans-unit>
+			<trans-unit id="download_requires_felogin" xml:space="preserve">
+				<source>You must be logged in the Front End in order to download.</source>
+			</trans-unit>
+			<trans-unit id="error_download" xml:space="preserve">
+				<source>Download Error</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

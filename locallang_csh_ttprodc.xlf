@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" datatype="plaintext" original="messages" date="2021-11-23T20:34:23Z" product-name="tt_products">
+		<header/>
+		<body>
+			<trans-unit id=".description" xml:space="preserve">
+				<source>Shop items categories.</source>
+			</trans-unit>
+			<trans-unit id=".details" xml:space="preserve">
+				<source>The categories are only used with the shopping system if the shop is configured to do so.</source>
+			</trans-unit>
+			<trans-unit id="_.seeAlso" xml:space="preserve">
+				<source>tt_products</source>
+			</trans-unit>
+			<trans-unit id="title.description" xml:space="preserve">
+				<source>[FILL IN] tt_products_cat-&gt;title</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

@@ -44,6 +44,6 @@ exclude.tt_products_texts_language =
 exclude.sys_products_orders = client_ip,date_of_birth,telephone,fax,ac_uid,cc_uid
   # cat=error/enable; type=boolean; label=Show Configuration Error Messages: Misconfiguration Error messages are shown in the Front End.
 error.configuration = 1
-  # cat=records/enable/155; type=options[unique=unique,uniqueInSite=uniqueInSite,uniqueInPid=uniqueInPid]; label=LLL:EXT:tt_products/locallang_db.xml:extmng.slugBehaviour
+  # cat=records/enable/155; type=options[unique=unique,uniqueInSite=uniqueInSite,uniqueInPid=uniqueInPid]; label=LLL:EXT:tt_products/locallang_db.xlf:extmng.slugBehaviour
 slugBehaviour = unique
 

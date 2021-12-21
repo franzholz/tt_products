@@ -1,3 +1,7 @@
+2021-12-18 Franz Holzinger <franz@ttproducts.de>
+    * Replace locallang XML files by the converted XLF files
+    * Bugfix: piVar from former pibase object must not be used in the basket view
+
 2021-12-04 Franz Holzinger <franz@ttproducts.de>
     * compatibility issue #84: allow image upgrade wizard for TYPO3 9.5.
       Consider to use $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_products']['imageFolder'] if set instead of 'uploads/pics'.

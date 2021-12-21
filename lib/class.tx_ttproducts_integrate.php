@@ -34,7 +34,7 @@
 class tx_ttproducts_integrate implements \TYPO3\CMS\Core\SingletonInterface {
 
 	/**
-	 * Includes the locallang.xml and returns the $LOCAL_LANG array found in that file.
+	 * Includes the locallang.xlf and returns the $LOCAL_LANG array found in that file.
 	 */
 	public function generateArticleMM()	{
 		$count = 0;

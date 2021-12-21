@@ -6,7 +6,7 @@ defined('TYPO3_MODE') || die('Access denied.');
 // ******************************************************************
 $result = array (
     'ctrl' => array (
-        'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products_mm_graduated_price',
+        'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xlf:tt_products_mm_graduated_price',
         'label' => 'title',
         'tstamp' => 'tstamp',
         'delete' => 'deleted',
@@ -31,7 +31,7 @@ $result = array (
             )
         ),
         'uid_local' => array (
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products_mm_graduated_price.uid_local',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xlf:tt_products_mm_graduated_price.uid_local',
             'config' => array (
                 'type' => 'select',
                 'renderType' => 'selectSingle',
@@ -41,7 +41,7 @@ $result = array (
             )
         ),
         'uid_foreign' => array (
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products_mm_graduated_price.uid_foreign',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xlf:tt_products_mm_graduated_price.uid_foreign',
             'config' => array (
                 'type' => 'select',
                 'renderType' => 'selectSingle',

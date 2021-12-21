@@ -463,7 +463,7 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
 					$excludeListLinkItem = $itemTableViewArray[$this->type]->getPivar();
 				}
 
-				$sword = $this->pibase->piVars['sword'];
+				$sword = $pibaseObj->piVars['sword'];
 				if ($sword) 	{
 					$addQueryString['sword'] = $sword;
 				}

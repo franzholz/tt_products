@@ -22,7 +22,7 @@ call_user_func(function () {
 
             $GLOBALS['TCA'][$table]['columns']['uid_product'] = array (
                 'exclude' => 1,
-                'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products_articles.uid_product',
+                'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xlf:tt_products_articles.uid_product',
                 'config' => array (
                     'type' => 'group',
                     'internal_type' => 'db',
@@ -130,7 +130,7 @@ call_user_func(function () {
 
     $GLOBALS['TCA'][$table]['columns']['smallimage_uid'] = array (
         'exclude' => 1,
-        'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xml:tt_products.smallimage',
+        'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang_db.xlf:tt_products.smallimage',
         'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
             'smallimage_uid',
             array(

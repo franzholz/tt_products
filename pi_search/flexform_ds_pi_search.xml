@@ -7,33 +7,33 @@
 	    <el>
 	      <display_mode>
 			<TCEforms>
-				<label>LLL:EXT:tt_products/pi_search/locallang_db.xml:tt_content.pi_search_flexform.display_mode</label>
+				<label>LLL:EXT:tt_products/pi_search/locallang_db.xlf:tt_content.pi_search_flexform.display_mode</label>
 				<config>
 					<type>select</type>
                     <renderType>selectMultipleSideBySide</renderType>
                     <items>
 						<numindex index="1">
-							<numindex index="0">LLL:EXT:tt_products/pi_search/locallang_db.xml:tt_content.pi_search_flexform.display_mode.1</numindex>
+							<numindex index="0">LLL:EXT:tt_products/pi_search/locallang_db.xlf:tt_content.pi_search_flexform.display_mode.1</numindex>
 							<numindex index="1">FIRSTLETTER</numindex>
 						</numindex>
 						<numindex index="2">
-							<numindex index="0">LLL:EXT:tt_products/pi_search/locallang_db.xml:tt_content.pi_search_flexform.display_mode.2</numindex>
+							<numindex index="0">LLL:EXT:tt_products/pi_search/locallang_db.xlf:tt_content.pi_search_flexform.display_mode.2</numindex>
 							<numindex index="1">YEAR</numindex>
 						</numindex>
 						<numindex index="3">
-							<numindex index="0">LLL:EXT:tt_products/pi_search/locallang_db.xml:tt_content.pi_search_flexform.display_mode.3</numindex>
+							<numindex index="0">LLL:EXT:tt_products/pi_search/locallang_db.xlf:tt_content.pi_search_flexform.display_mode.3</numindex>
 							<numindex index="1">KEYFIELD</numindex>
 						</numindex>
 						<numindex index="4">
-							<numindex index="0">LLL:EXT:tt_products/pi_search/locallang_db.xml:tt_content.pi_search_flexform.display_mode.4</numindex>
+							<numindex index="0">LLL:EXT:tt_products/pi_search/locallang_db.xlf:tt_content.pi_search_flexform.display_mode.4</numindex>
 							<numindex index="1">TEXTFIELD</numindex>
 						</numindex>
 						<numindex index="5">
-							<numindex index="0">LLL:EXT:tt_products/pi_search/locallang_db.xml:tt_content.pi_search_flexform.display_mode.5</numindex>
+							<numindex index="0">LLL:EXT:tt_products/pi_search/locallang_db.xlf:tt_content.pi_search_flexform.display_mode.5</numindex>
 							<numindex index="1">LASTENTRIES</numindex>
 						</numindex>
 						<numindex index="6">
-							<numindex index="0">LLL:EXT:tt_products/pi_search/locallang_db.xml:tt_content.pi_search_flexform.display_mode.6</numindex>
+							<numindex index="0">LLL:EXT:tt_products/pi_search/locallang_db.xlf:tt_content.pi_search_flexform.display_mode.6</numindex>
 							<numindex index="1">FIELD</numindex>
 						</numindex>
 					</items>
@@ -45,7 +45,7 @@
 	      </display_mode>
 	      <template_suffix>
 			<TCEforms>
-				<label>LLL:EXT:tt_products/pi_search/locallang_db.xml:tt_content.pi_search_flexform.template_suffix</label>
+				<label>LLL:EXT:tt_products/pi_search/locallang_db.xlf:tt_content.pi_search_flexform.template_suffix</label>
 				<config>
 					<type>input</type>
 					<size>30</size>
@@ -54,21 +54,21 @@
 	      </template_suffix>
 	      <local_param>
 		      <TCEforms>
-			      <label>LLL:EXT:tt_products/pi_search/locallang_db.xml:tt_content.pi_search_flexform.local_param</label>
+			      <label>LLL:EXT:tt_products/pi_search/locallang_db.xlf:tt_content.pi_search_flexform.local_param</label>
 			      <config>
 				      <type>select</type>
                       <renderType>selectCheckBox</renderType>
                       <items>
 					      <numindex index="1">
-						      <numindex index="0">LLL:EXT:tt_products/pi_search/locallang_db.xml:tt_content.pi_search_flexform.local_param.1</numindex>
+						      <numindex index="0">LLL:EXT:tt_products/pi_search/locallang_db.xlf:tt_content.pi_search_flexform.local_param.1</numindex>
 						      <numindex index="1">product</numindex>
 					      </numindex>
 					      <numindex index="2">
-						      <numindex index="0">LLL:EXT:tt_products/pi_search/locallang_db.xml:tt_content.pi_search_flexform.local_param.2</numindex>
+						      <numindex index="0">LLL:EXT:tt_products/pi_search/locallang_db.xlf:tt_content.pi_search_flexform.local_param.2</numindex>
 						      <numindex index="1">article</numindex>
 					      </numindex>
 					      <numindex index="3">
-						      <numindex index="0">LLL:EXT:tt_products/pi_search/locallang_db.xml:tt_content.pi_search_flexform.local_param.3</numindex>
+						      <numindex index="0">LLL:EXT:tt_products/pi_search/locallang_db.xlf:tt_content.pi_search_flexform.local_param.3</numindex>
 						      <numindex index="1">cat</numindex>
 					      </numindex>
 				      </items>
@@ -80,21 +80,21 @@
 	      </local_param>
 	      <foreign_param>
 			<TCEforms>
-				<label>LLL:EXT:tt_products/pi_search/locallang_db.xml:tt_content.pi_search_flexform.foreign_param</label>
+				<label>LLL:EXT:tt_products/pi_search/locallang_db.xlf:tt_content.pi_search_flexform.foreign_param</label>
 				<config>
 					<type>select</type>
                     <renderType>selectCheckBox</renderType>
                     <items>
 						<numindex index="1">
-							<numindex index="0">LLL:EXT:tt_products/pi_search/locallang_db.xml:tt_content.pi_search_flexform.foreign_param.1</numindex>
+							<numindex index="0">LLL:EXT:tt_products/pi_search/locallang_db.xlf:tt_content.pi_search_flexform.foreign_param.1</numindex>
 							<numindex index="1">cat</numindex>
 						</numindex>
 						<numindex index="2">
-							<numindex index="0">LLL:EXT:tt_products/pi_search/locallang_db.xml:tt_content.pi_search_flexform.foreign_param.2</numindex>
+							<numindex index="0">LLL:EXT:tt_products/pi_search/locallang_db.xlf:tt_content.pi_search_flexform.foreign_param.2</numindex>
 							<numindex index="1">a</numindex>
 						</numindex>
 						<numindex index="3">
-							<numindex index="0">LLL:EXT:tt_products/pi_search/locallang_db.xml:tt_content.pi_search_flexform.foreign_param.4</numindex>
+							<numindex index="0">LLL:EXT:tt_products/pi_search/locallang_db.xlf:tt_content.pi_search_flexform.foreign_param.4</numindex>
 							<numindex index="1"></numindex>
 						</numindex>
 					</items>
@@ -106,7 +106,7 @@
 		</foreign_param>
 		<fields>
 			<TCEforms>
-				<label>LLL:EXT:tt_products/pi_search/locallang_db.xml:tt_content.pi_search_flexform.fields</label>
+				<label>LLL:EXT:tt_products/pi_search/locallang_db.xlf:tt_content.pi_search_flexform.fields</label>
 				<config>
 					<type>input</type>
 					<size>80</size>
@@ -115,7 +115,7 @@
 		</fields>
 		<group_by_fields>
 			<TCEforms>
-				<label>LLL:EXT:tt_products/pi_search/locallang_db.xml:tt_content.pi_search_flexform.group_by_fields</label>
+				<label>LLL:EXT:tt_products/pi_search/locallang_db.xlf:tt_content.pi_search_flexform.group_by_fields</label>
 				<config>
 					<type>input</type>
 					<size>80</size>
@@ -124,7 +124,7 @@
 		</group_by_fields>
 	      <parameters>
 			<TCEforms>
-				<label>LLL:EXT:tt_products/pi_search/locallang_db.xml:tt_content.pi_search_flexform.parameters</label>
+				<label>LLL:EXT:tt_products/pi_search/locallang_db.xlf:tt_content.pi_search_flexform.parameters</label>
 				<config>
 					<type>input</type>
 					<size>80</size>
@@ -133,7 +133,7 @@
 		</parameters>
 	      <delimiter>
 			<TCEforms>
-				<label>LLL:EXT:tt_products/pi_search/locallang_db.xml:tt_content.pi_search_flexform.delimiter</label>
+				<label>LLL:EXT:tt_products/pi_search/locallang_db.xlf:tt_content.pi_search_flexform.delimiter</label>
 				<config>
 					<type>input</type>
 					<size>3</size>
@@ -142,7 +142,7 @@
 		</delimiter>
 		<url>
 			<TCEforms>
-				<label>LLL:EXT:tt_products/pi_search/locallang_db.xml:tt_content.pi_search_flexform.url</label>
+				<label>LLL:EXT:tt_products/pi_search/locallang_db.xlf:tt_content.pi_search_flexform.url</label>
 				<config>
 					<type>input</type>
 					<size>80</size>
@@ -151,7 +151,7 @@
 		</url>
 	      <columns>
 		      <TCEforms>
-			      <label>LLL:EXT:tt_products/pi_search/locallang_db.xml:tt_content.pi_search_flexform.columns</label>
+			      <label>LLL:EXT:tt_products/pi_search/locallang_db.xlf:tt_content.pi_search_flexform.columns</label>
 			      <config>
 				      <type>input</type>
 				      <size>2</size>
@@ -160,7 +160,7 @@
 	      </columns>
 	      <all>
 		      <TCEforms>
-			      <label>LLL:EXT:tt_products/pi_search/locallang_db.xml:tt_content.pi_search_flexform.all</label>
+			      <label>LLL:EXT:tt_products/pi_search/locallang_db.xlf:tt_content.pi_search_flexform.all</label>
 			      <config>
 				      <type>check</type>
 				      <size>1</size>
@@ -170,7 +170,7 @@
 		<myTS>
 			<TCEforms>
 				<exclude>1</exclude>
-				<label>LLL:EXT:tt_products/pi_search/locallang_db.xml:tt_content.pi_search_flexform.tsconfig</label>
+				<label>LLL:EXT:tt_products/pi_search/locallang_db.xlf:tt_content.pi_search_flexform.tsconfig</label>
 				<config>
 					<type>text</type>
 					<cols>80</cols>

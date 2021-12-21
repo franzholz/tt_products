@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+	<file source-language="en" datatype="plaintext" original="messages" date="2021-12-01T10:35:33Z" product-name="tt_products">
+		<header/>
+		<body>
+			<trans-unit id="tt_content.list_type_pi_search" xml:space="preserve">
+				<source>Shop System Search</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_search_flexform.display_mode" xml:space="preserve">
+				<source>Display mode</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_search_flexform.display_mode.1" xml:space="preserve">
+				<source>First Letter</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_search_flexform.display_mode.2" xml:space="preserve">
+				<source>Year</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_search_flexform.display_mode.3" xml:space="preserve">
+				<source>Select Key Field</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_search_flexform.display_mode.4" xml:space="preserve">
+				<source>Text Field</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_search_flexform.display_mode.5" xml:space="preserve">
+				<source>Last Entries</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_search_flexform.display_mode.6" xml:space="preserve">
+				<source>Field Values</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_search_flexform.template_suffix" xml:space="preserve">
+				<source>Template Suffix</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_search_flexform.local_param" xml:space="preserve">
+				<source>Local Table</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_search_flexform.local_param.1" xml:space="preserve">
+				<source>Product</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_search_flexform.local_param.2" xml:space="preserve">
+				<source>Article</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_search_flexform.local_param.3" xml:space="preserve">
+				<source>Category</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_search_flexform.local_param.4" xml:space="preserve">
+				<source>DAM</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_search_flexform.local_param.5" xml:space="preserve">
+				<source>DAM Category</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_search_flexform.foreign_param" xml:space="preserve">
+				<source>Foreign Table</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_search_flexform.foreign_param.1" xml:space="preserve">
+				<source>Category</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_search_flexform.foreign_param.2" xml:space="preserve">
+				<source>Address</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_search_flexform.foreign_param.3" xml:space="preserve">
+				<source>DAM Category</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_search_flexform.foreign_param.4" xml:space="preserve">
+				<source> </source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_search_flexform.fields" xml:space="preserve">
+				<source>Fields</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_search_flexform.group_by_fields" xml:space="preserve">
+				<source>GROUP BY Fields</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_search_flexform.url" xml:space="preserve">
+				<source>URL</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_search_flexform.all" xml:space="preserve">
+				<source>Show all box</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_search_flexform.parameters" xml:space="preserve">
+				<source>Parameters</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_search_flexform.delimiter" xml:space="preserve">
+				<source>Delimiter</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_search_flexform.columns" xml:space="preserve">
+				<source>Number of Columns</source>
+			</trans-unit>
+			<trans-unit id="tt_content.pi_search_flexform.tsconfig" xml:space="preserve">
+				<source>Typoscript</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>

@@ -40,6 +40,8 @@
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+use JambageCom\Div2007\Utility\FrontendUtility;
+
 
 class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 		// Internal
@@ -121,7 +123,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 			$conf = $tsparser->setup;
 		}
 		$this->conf = &$conf;
-		$this->piVars = &$pibaseObj->piVars;
+		$this->piVars = $pibaseObj->piVars;
 		$this->pibaseClass = $pibaseClass;
 		$config['LLkey'] = $pibaseObj->LLkey;
 
@@ -734,7 +736,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
                     isset($errorConf[$indice . '.']['redirect.']['pid'])
                 ) {
                     $pid = $errorConf[$indice . '.']['redirect.']['pid'];
-                    $url = tx_div2007_alpha5::getTypoLink_URL_fh003(
+                    $url = FrontendUtility::getTypoLink_URL(
                         $this->cObj,
                         $pid,
                         $urlObj->getLinkParams(
