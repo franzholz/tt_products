@@ -32,28 +32,42 @@ call_user_func(function () {
 
     if (TYPO3_MODE == 'BE') {
 
-        if (version_compare(TYPO3_version, '7.0', '>=')) {
-            $GLOBALS['TBE_MODULES_EXT']['xMOD_db_new_content_el']['addElClasses']['JambageCom\\TtProducts\\Controller\\Plugin\\WizardIcon'] = PATH_BE_TTPRODUCTS . 'Classes/Controller/Plugin/WizardIcon.php';
-        } else {
-            $GLOBALS['TBE_MODULES_EXT']['xMOD_db_new_content_el']['addElClasses']['tx_ttproducts_wizicon'] = PATH_BE_TTPRODUCTS . 'class.tx_ttproducts_wizicon.php';
-        }
+        $GLOBALS['TBE_MODULES_EXT']['xMOD_db_new_content_el']['addElClasses']['JambageCom\\TtProducts\\Controller\\Plugin\\WizardIcon'] = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath(TT_PRODUCTS_EXT) . 'Classes/Controller/Plugin/WizardIcon.php';
 
-        call_user_func(
-            $emClass . '::insertModuleFunction',
+        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::insertModuleFunction(
             'web_func',
-            'tx_ttproducts_modfunc1',
-            PATH_BE_TTPRODUCTS . 'modfunc1/class.tx_ttproducts_modfunc1.php',
-            'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang.xlf:moduleFunction.tx_ttproducts_modfunc1',
-            'wiz'
+            \JambageCom\TtProducts\Controller\Module\MoveItemsWizardModuleFunctionController::class,
+            null,
+            'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang.xlf:moduleFunction.tx_ttproducts_modfunc1'
         );
 
-        call_user_func(
-            $emClass . '::insertModuleFunction',
+        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr(
+            '_MOD_web_func',
+            'EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'Modfunc/locallang_modfunc1_csh.xlf'
+        );
+
+        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::insertModuleFunction(
             'web_func',
-            'tx_ttproducts_modfunc2',
-            PATH_BE_TTPRODUCTS . 'modfunc2/class.tx_ttproducts_modfunc2.php',
-            'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang.xlf:moduleFunction.tx_ttproducts_modfunc2',
-            'wiz'
+            \JambageCom\TtProducts\Controller\Module\CreateLanguagesWizardModuleFunctionController::class,
+            null,
+            'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang.xlf:moduleFunction.tx_ttproducts_modfunc2'
+        );
+
+        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr(
+            '_MOD_web_func',
+            'EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'Modfunc/locallang_modfunc2_csh.xlf'
+        );
+
+        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::insertModuleFunction(
+            'web_func',
+            \JambageCom\TtProducts\Controller\Module\ImportFalWizardModuleFunctionController::class,
+            null,
+            'LLL:EXT:' . TT_PRODUCTS_EXT . '/locallang.xlf:moduleFunction.tx_ttproducts_modfunc3'
+        );
+
+        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr(
+            '_MOD_web_func',
+            'EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'Modfunc/locallang_modfunc3_csh.xlf'
         );
     }
 });
