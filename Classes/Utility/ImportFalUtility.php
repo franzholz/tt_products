@@ -51,8 +51,6 @@ class ImportFalUtility {
         &$infoArray,
         $currId
     ) {
-        debug($tmp, 'importAll ');
-        debug ($_REQUEST, '$_REQUEST');
         $result = true;
         $infoArray = array();
 
@@ -70,10 +68,6 @@ class ImportFalUtility {
         } else {
             $targetFolder = $storage->getFolder('/' . $targetDirectory);
         }
-        debug ($targetFolder, '$targetFolder +++');
-        /** @var $fileRepository \TYPO3\CMS\Core\Resource\FileRepository */
-//         $fileRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\FileRepository');
-
         $content = '';
         $pid = intval($currId);
         $tableMediaArray = array(
@@ -85,7 +79,6 @@ class ImportFalUtility {
 
         foreach ($tableMediaArray as $tablename => $imageFieldnameArray) {
             $imageCount = 0;
-            debug ($tablename, '$tablename');
             foreach ($imageFieldnameArray as $imageFieldname) {
                 $imageFalFieldname =  $imageFieldname . '_uid';
 
@@ -96,25 +89,19 @@ class ImportFalUtility {
                         'pid=' . $pid . ' AND deleted=0'
                     );
 
-                debug ($rowArray, '$rowArray');
-
                 if (is_array($rowArray) && count($rowArray)) {
 
                     foreach ($rowArray as $k => $row) {
     //                  if ($k != 3) continue; // Test
-                debug ($row, '$row');
 
                         if ($row[$imageFieldname] != '') {
                             $imageArray = explode(',', $row[$imageFieldname]);
                             $sysfileRowArray = array();
-                            debug ($imageArray, '$imageArray');
                             if (intval($row[$imageFalFieldname]) != 0) {
-                                debug ($row[$imageFalFieldname], '$row['. $imageFalFieldname . '] TODO');
 
                                 $where_clause = 'uid_foreign=' . intval($row['uid']) . ' AND tablenames="' . $tablename . '" AND fieldname="' . $imageFalFieldname . '"' ;
                                 $where_clause .= \JambageCom\Div2007\Utility\TableUtility::deleteClause('sys_file_reference');
 
-                                debug ($where_clause, '$where_clause');
                                 $sysfileRowArray =
                                     $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
                                         '*',
@@ -125,16 +112,12 @@ class ImportFalUtility {
                                         '',
                                         'uid_local'
                                     );
-                                debug ($sysfileRowArray, '$sysfileRowArray');
                             }
 
-                            debug ($imageArray, '$imageArray vor Schleife');
                             if (!empty($imageArray)) {
                                 $imageCount = count($imageArray);
                                 $needsCountUpdate = false;
                                 foreach ($imageArray as $imageKey => $image) {
-                                debug ($imageKey, '$imageKey');
-                                debug ($image, '$image');
                                     $imageFile = '/user_upload/' . $image;
                                     $fileIdentifier = '1:' . $imageFile;
 
@@ -146,11 +129,9 @@ class ImportFalUtility {
 
                                     if (!file_exists(\TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/' . $targetFileName)) {
                                         $fullSourceFileName = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/' . self::ORIGINAL_DIRECTORY . $image;
-                                        debug ($fullSourceFileName, '$fullSourceFileName');
                                         // Move the file to the storage and index it (indexing creates the sys_file entry)
                                         $file = $storage->addFile($fullSourceFileName, $targetFolder, '', 'cancel');
 //                                         $fileRepository->addToIndex($file);
-                                        debug ($targetFolder, 'added to $targetFolder');
                                     }
 
                                     if (
@@ -162,15 +143,11 @@ class ImportFalUtility {
                                     }
 
                                     $file = $resourceFactory->getFileObjectFromCombinedIdentifier($fileIdentifier);
-                                debug ($file, '$file');
                                     if ($file instanceof \TYPO3\CMS\Core\Resource\File) {
                                         $fileUid = $file->getUid();
     //                                  $properties = $file->getProperties();
     //                                  $fileInfo = $storage->getFileInfo($file);
-    debug ($fileUid, '$fileUid');
-    debug ($sysfileRowArray[$fileUid], '$sysfileRowArray['.$fileUid.']');
 
-    //                                  debug ($properties, '$properties');
                                         if (
                                             empty($sysfileRowArray) ||
                                             !isset($sysfileRowArray[$fileUid])
@@ -184,15 +161,12 @@ class ImportFalUtility {
                                                 'pid' => $pid, // parent id of the parent page
                                                 'table_local' => 'sys_file',
                                             );
-//                                              $data[$tablename][$row['uid']] = array($imageFalFieldname => $imageCount); // set to the number of images
 
                                             if (!empty($sysfileRowArray)) {
                                                 $needsCountUpdate = true;
                                             } else {
                                                 $data[$tablename][$row['uid']] = array($imageFalFieldname => 'NEW1234');
                                             }
-
-                                            debug ($data, 'INSERT $data');
 
                                             /** @var \TYPO3\CMS\Core\DataHandling\DataHandler $tce */
                                             $tce = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\DataHandling\DataHandler'); // create TCE instance
@@ -206,8 +180,6 @@ class ImportFalUtility {
                                             }
                                         }
                                     }
-                                debug ($imageKey, '$imageKey Pos 3');
-                                debug ($image, '$image Pos 3');
                                     $imageCount++;
                                 } // foreach ($imageArray
 
@@ -226,10 +198,7 @@ class ImportFalUtility {
             $infoArray[$tablename] = $imageCount;
         } // foreach
 
-        debug ($theOutput, 'MODFUNC3 ENDE $theOutput');
-
         return $result;
     }
 }
-
 

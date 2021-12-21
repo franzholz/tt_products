@@ -47,12 +47,8 @@ class MoveItemsUtility {
         $destId,
         $age
     ) {
-        debug($tmp, 'moveAll ');
-        debug ($_REQUEST, '$_REQUEST');
         $result = true;
         $infoArray = array();
-
-        debug ($currId, '$currId');
 
         if($currId && $destId) {
             $infoArray['rows'] = array();
@@ -73,8 +69,6 @@ class MoveItemsUtility {
             }
         }
 
-        debug ($theOutput, 'MODFUNC1 ENDE $result');
-        debug ($infoArray, 'MODFUNC1 ENDE $infoArray');
         return $result;
     }
 }

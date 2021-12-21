@@ -112,7 +112,6 @@ class ImportFalWizardModuleFunctionController
                     $infoArray,
                     $_REQUEST['id']
                 );
-            debug ($infoArray, '$infoArray ');
 
             $view->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName(
                 'EXT:' . TT_PRODUCTS_EXT . '/Resources/Private/Templates/ImportFalFinished.html'
@@ -130,10 +129,8 @@ class ImportFalWizardModuleFunctionController
 
             $assigns['menu'] = $menu;
         }
-debug ($assigns, '$assigns');
         $view->assignMultiple($assigns);
         $out = $view->render();
-debug ($out, 'main ENDE $out');
         return $out;
     }
 

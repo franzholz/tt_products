@@ -46,12 +46,8 @@ class CreateLanguagesUtility {
         &$errorLanguageCodeArray,
         $currId
     ) {
-        debug($tmp, 'moveAll ');
-        debug ($_REQUEST, '$_REQUEST');
         $result = true;
         $infoArray = array();
-
-        debug ($currId, '$currId');
 
         if($currId) {
             $tableArray = array('tt_products_texts' => 'tt_products_texts_language');
@@ -173,8 +169,6 @@ class CreateLanguagesUtility {
             }
         }
 
-        debug ($theOutput, 'MODFUNC1 ENDE $result');
-        debug ($infoArray, 'MODFUNC1 ENDE $infoArray');
         return $result;
     }
 }

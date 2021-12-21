@@ -151,14 +151,10 @@ class CreateLanguagesWizardModuleFunctionController
                 if ($information == '') {
                     $information = $GLOBALS['LANG']->getLL('no_alternative_product');
                 }
-                    debug ($information, '$information Pos 2');
             } else if (
                 isset($errorLanguageCodeArray) && is_array($errorLanguageCodeArray)
             ) {
-            debug ($errorLanguageCodeArray, '$errorLanguageCodeArray Pos 2');
                 foreach ($errorLanguageCodeArray as $table => $codeArray) {
-debug ($table, '$table');
-debug ($codeArray, '$codeArray');
                     $code = '';
                     $parameter = '';
                     if (isset($codeArray['code'])) {
@@ -167,13 +163,10 @@ debug ($codeArray, '$codeArray');
                     if (isset($codeArray['parameter'])) {
                         $parameter = $codeArray['parameter'];
                     }
-debug ($code, '$code');
 
                     switch ($code) {
                         case 'no_texts':
-debug ($code, '$code Pos 2');
                             $information .= $GLOBALS['LANG']->getLL($code);
-                    debug ($information, '$information Pos 3');
                             break;
                         case 'no_alternative_product':
                             $information .= sprintf($GLOBALS['LANG']->getLL($code), $parameter);
@@ -181,8 +174,6 @@ debug ($code, '$code Pos 2');
                     }
                 }
             }
-                    debug ($information, '$information Pos 4');
-
             $assigns['information'] = $information;
         } else {
             // CSH
