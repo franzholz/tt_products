@@ -1,0 +1,21 @@
+<h1><f:translate key="{LLPrefix}title"/></h1>
+<div>
+    <h3>{f:translate(key: '{LLPrefix}warning')}</h3>
+    <p><f:translate key="{LLPrefix}pid_src" arguments="{0: pid_src}"/></p>
+    <div class="form-group">
+        <label for="moveItemDestination">
+            <f:translate key="{LLPrefix}pid_dest"/>:
+            <input type="text" size="8" name="move[destination]" id="move-destination-id" value="{destination}">
+        </label>
+        <label for="moveItemAge">
+            <f:translate key="{LLPrefix}age"/>:
+            <input type="text" size="8" name="move[age]" id="move-age-id" value="{age}">
+        </label>
+        <input type="submit" name="execute" value="{f:translate(key: '{LLPrefix}start')}">
+    </div>
+
+    <f:if condition="{cshItem}">
+        <span class="btn btn-default btn-sm">{cshItem -> f:format.raw()}</span>
+    </f:if>
+</div>
+
