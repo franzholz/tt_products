@@ -13,9 +13,9 @@ http://www.fosdoc.de/downloads/OSP_typo3webshop.pdf
 
 ## Upgrade
 
-If you upgrade to tt_products 2.9.13 then you must execute the upgrade wizards in the TYPO3 Install Tool for tt_products, before you make any modifications in the database.
+If you upgrade to a newer version of tt_products then you sometimes you must execute upgrade wizards in the TYPO3 Install Tool for tt_products. Do not forget to make a backup copy of the database before you execute them.
 
-If you are still using TYPO3 < 10, then you must execute the renaming of these database table fields manually in phpMyAdmin.
+Only if you are still using TYPO3 < 9 you must execute the renaming of these database table fields manually in phpMyAdmin or a similar database tool. 
 
     tt_products_mm_graduated_price:
     product_uid ==> uid_local
