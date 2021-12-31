@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xliff xmlns:t3="http://typo3.org/schemas/xliff" version="1.0">
-  <file source-language="en" datatype="plaintext" original="messages" date="2017-07-08T17:08:00Z" product-name="import" target-language="da">
+  <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/Modfunc/locallang_modfunc2_csh.xlf" date="2017-07-08T17:08:00Z" product-name="import" target-language="da">
     <header/>
     <body>
-      <trans-unit id="tt_products.func2.createLanguagesWizard" approved="yes">
+      <trans-unit id="tt_products.func2.createLanguagesWizard">
         <source>Execute the Create Languages for Tables Wizard</source>
-        <target state="final">Udfør guiden Opret sprog til tabeller</target>
+        <target state="needs-translation">Execute the Create Languages for Tables Wizard</target>
       </trans-unit>
-      <trans-unit id="tt_products.func2.alttitle" approved="yes">
+      <trans-unit id="tt_products.func2.alttitle">
         <source>Create languages wizard for tt_products_text table</source>
-        <target state="final">Opret sprogguide til tt_products_text tabellen</target>
+        <target state="needs-translation">Create languages wizard for tt_products_text table</target>
       </trans-unit>
-      <trans-unit id="tt_products.func2.description" xml:space="preserve" approved="yes">
+      <trans-unit id="tt_products.func2.description" xml:space="preserve">
                 <source>Enables you to copy the extended text of tt_products into the alternative language table.</source>
-            <target state="final">Giver dig mulighed for at kopiere den udvidede tekst af tt_products til den alternative sprogtabel.</target></trans-unit>
+            <target state="needs-translation">Enables you to copy the extended text of tt_products into the alternative language table.</target></trans-unit>
     </body>
   </file>
 </xliff>
