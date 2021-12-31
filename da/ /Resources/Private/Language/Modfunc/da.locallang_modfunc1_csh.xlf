@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xliff xmlns:t3="http://typo3.org/schemas/xliff" version="1.0">
-  <file source-language="en" datatype="plaintext" original="messages" date="2017-07-08T17:08:00Z" product-name="import" target-language="da">
+  <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/Modfunc/locallang_modfunc1_csh.xlf" date="2017-07-08T17:08:00Z" product-name="import" target-language="da">
     <header/>
     <body>
-      <trans-unit id="tt_products.func1.moveItemsWizard" approved="yes">
+      <trans-unit id="tt_products.func1.moveItemsWizard">
         <source>Execute the Move Items Wizard</source>
-        <target state="final">Kør guiden Flyt emner</target>
+        <target state="needs-translation">Execute the Move Items Wizard</target>
       </trans-unit>
-      <trans-unit id="tt_products.func1.alttitle" approved="yes">
+      <trans-unit id="tt_products.func1.alttitle">
         <source>Move Items wizard for tt_products tables</source>
-        <target state="final">Flyt emner guide for tt_products tabeller</target>
+        <target state="needs-translation">Move Items wizard for tt_products tables</target>
       </trans-unit>
-      <trans-unit id="tt_products.func1.description" xml:space="preserve" approved="yes">
+      <trans-unit id="tt_products.func1.description" xml:space="preserve">
                 <source>Enables you to move the records for all tables of tt_products.</source>
-            <target state="final">Gør dig i stand til at flytte elementerne for alle tabeller af tt_products.</target></trans-unit>
+            <target state="needs-translation">Enables you to move the records for all tables of tt_products.</target></trans-unit>
     </body>
   </file>
 </xliff>
