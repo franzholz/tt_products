@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/Csh/locallang_csh_tt_products_emails.xlf" date="2021-11-23T20:34:48Z" product-name="tt_products" target-language="ca">
+    <header/>
+    <body>
+      <trans-unit id=".description" xml:space="preserve">
+				<source>Shop emails.</source>
+			<target state="needs-translation">Shop emails.</target></trans-unit>
+      <trans-unit id=".details" xml:space="preserve">
+				<source>The email addresses are used to send notification emails on a category base of the product.</source>
+			<target state="needs-translation">The email addresses are used to send notification emails on a category base of the product.</target></trans-unit>
+      <trans-unit id="_.seeAlso" xml:space="preserve">
+				<source>tt_products</source>
+			<target state="needs-translation">tt_products</target></trans-unit>
+      <trans-unit id="title.description" xml:space="preserve">
+				<source>[FILL IN] tt_products_emails-&gt;title</source>
+			<target state="needs-translation">[FILL IN] tt_products_emails-&gt;title</target></trans-unit>
+    </body>
+  </file>
+</xliff>

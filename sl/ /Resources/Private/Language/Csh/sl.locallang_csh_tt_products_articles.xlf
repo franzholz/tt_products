@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/Csh/locallang_csh_tt_products_articles.xlf" date="2021-11-23T20:34:02Z" product-name="tt_products" target-language="sl">
+    <header/>
+    <body>
+      <trans-unit id=".description" xml:space="preserve">
+				<source>Shop articles.</source>
+			<target state="needs-translation">Shop articles.</target></trans-unit>
+      <trans-unit id=".details" xml:space="preserve">
+				<source>The articles are used to have special attributes like the price for variants of the products. They can be entered only after the corresponding product has already been entered.</source>
+			<target state="needs-translation">The articles are used to have special attributes like the price for variants of the products. They can be entered only after the corresponding product has already been entered.</target></trans-unit>
+      <trans-unit id="_.seeAlso" xml:space="preserve">
+				<source>tt_products</source>
+			<target state="needs-translation">tt_products</target></trans-unit>
+      <trans-unit id="title.description" xml:space="preserve">
+				<source>title</source>
+			<target state="needs-translation">title</target></trans-unit>
+      <trans-unit id="subtitle.description" xml:space="preserve">
+				<source>subtitle</source>
+			<target state="needs-translation">subtitle</target></trans-unit>
+      <trans-unit id="keyword.description" xml:space="preserve">
+				<source>keyword</source>
+			<target state="needs-translation">keyword</target></trans-unit>
+      <trans-unit id="itemnumber.description" xml:space="preserve">
+				<source>itemnumber</source>
+			<target state="needs-translation">itemnumber</target></trans-unit>
+      <trans-unit id="price.description" xml:space="preserve">
+				<source>price</source>
+			<target state="needs-translation">price</target></trans-unit>
+      <trans-unit id="price2.description" xml:space="preserve">
+				<source>price2</source>
+			<target state="needs-translation">price2</target></trans-unit>
+      <trans-unit id="graduated_config_type.description" xml:space="preserve">
+				<source>graduated_config_type</source>
+			<target state="needs-translation">graduated_config_type</target></trans-unit>
+      <trans-unit id="graduated_config.description" xml:space="preserve">
+				<source>graduated_config</source>
+			<target state="needs-translation">graduated_config</target></trans-unit>
+      <trans-unit id="graduated_price_round.description" xml:space="preserve">
+				<source>graduated_price_round</source>
+			<target state="needs-translation">graduated_price_round</target></trans-unit>
+      <trans-unit id="graduated_price_enable.description" xml:space="preserve">
+				<source>graduated_price_enable</source>
+			<target state="needs-translation">graduated_price_enable</target></trans-unit>
+      <trans-unit id="note.description" xml:space="preserve">
+				<source>note</source>
+			<target state="needs-translation">note</target></trans-unit>
+      <trans-unit id="note2.description" xml:space="preserve">
+				<source>note2</source>
+			<target state="needs-translation">note2</target></trans-unit>
+      <trans-unit id="image.description" xml:space="preserve">
+				<source>image</source>
+			<target state="needs-translation">image</target></trans-unit>
+      <trans-unit id="image_uid.description" xml:space="preserve">
+				<source>image</source>
+			<target state="needs-translation">image</target></trans-unit>
+      <trans-unit id="smallimage.description" xml:space="preserve">
+				<source>smallimage</source>
+			<target state="needs-translation">smallimage</target></trans-unit>
+      <trans-unit id="smallimage_uid.description" xml:space="preserve">
+				<source>smallimage</source>
+			<target state="needs-translation">smallimage</target></trans-unit>
+      <trans-unit id="inStock.description" xml:space="preserve">
+				<source>inStock</source>
+			<target state="needs-translation">inStock</target></trans-unit>
+      <trans-unit id="basketminquantity.description" xml:space="preserve">
+				<source>basketminquantity</source>
+			<target state="needs-translation">basketminquantity</target></trans-unit>
+      <trans-unit id="basketmaxquantity.description" xml:space="preserve">
+				<source>basketmaxquantity</source>
+			<target state="needs-translation">basketmaxquantity</target></trans-unit>
+      <trans-unit id="weight.description" xml:space="preserve">
+				<source>weight</source>
+			<target state="needs-translation">weight</target></trans-unit>
+      <trans-unit id="color.description" xml:space="preserve">
+				<source>color variant 1</source>
+			<target state="needs-translation">color variant 1</target></trans-unit>
+      <trans-unit id="color2.description" xml:space="preserve">
+				<source>color2 variant 6</source>
+			<target state="needs-translation">color2 variant 6</target></trans-unit>
+      <trans-unit id="color3.description" xml:space="preserve">
+				<source>color3 variant 7</source>
+			<target state="needs-translation">color3 variant 7</target></trans-unit>
+      <trans-unit id="color4.description" xml:space="preserve">
+				<source>color4 variant 12</source>
+			<target state="needs-translation">color4 variant 12</target></trans-unit>
+      <trans-unit id="size.description" xml:space="preserve">
+				<source>size variant 2</source>
+			<target state="needs-translation">size variant 2</target></trans-unit>
+      <trans-unit id="size2.description" xml:space="preserve">
+				<source>size2 variant 8</source>
+			<target state="needs-translation">size2 variant 8</target></trans-unit>
+      <trans-unit id="size3.description" xml:space="preserve">
+				<source>size3 variant 9</source>
+			<target state="needs-translation">size3 variant 9</target></trans-unit>
+      <trans-unit id="size4.description" xml:space="preserve">
+				<source>size4 variant 13</source>
+			<target state="needs-translation">size4 variant 13</target></trans-unit>
+      <trans-unit id="description.description" xml:space="preserve">
+				<source>description variant 3</source>
+			<target state="needs-translation">description variant 3</target></trans-unit>
+      <trans-unit id="description2.description" xml:space="preserve">
+				<source>description2 variant 14</source>
+			<target state="needs-translation">description2 variant 14</target></trans-unit>
+      <trans-unit id="description3.description" xml:space="preserve">
+				<source>description3 variant 15</source>
+			<target state="needs-translation">description3 variant 15</target></trans-unit>
+      <trans-unit id="gradings.description" xml:space="preserve">
+				<source>gradings variant 4</source>
+			<target state="needs-translation">gradings variant 4</target></trans-unit>
+      <trans-unit id="material.description" xml:space="preserve">
+				<source>material variant 10</source>
+			<target state="needs-translation">material variant 10</target></trans-unit>
+      <trans-unit id="quality.description" xml:space="preserve">
+				<source>quality variant 11</source>
+			<target state="needs-translation">quality variant 11</target></trans-unit>
+      <trans-unit id="form.description" xml:space="preserve">
+				<source>form variant 16</source>
+			<target state="needs-translation">form variant 16</target></trans-unit>
+      <trans-unit id="form2.description" xml:space="preserve">
+				<source>form2 variant 17</source>
+			<target state="needs-translation">form2 variant 17</target></trans-unit>
+      <trans-unit id="type.description" xml:space="preserve">
+				<source>type variant 18</source>
+			<target state="needs-translation">type variant 18</target></trans-unit>
+      <trans-unit id="pattern.description" xml:space="preserve">
+				<source>pattern variant 19</source>
+			<target state="needs-translation">pattern variant 19</target></trans-unit>
+      <trans-unit id="surface.description" xml:space="preserve">
+				<source>surface variant 20</source>
+			<target state="needs-translation">surface variant 20</target></trans-unit>
+      <trans-unit id="angular.description" xml:space="preserve">
+				<source>angular variant 21</source>
+			<target state="needs-translation">angular variant 21</target></trans-unit>
+      <trans-unit id="time.description" xml:space="preserve">
+				<source>time variant 22</source>
+			<target state="needs-translation">time variant 22</target></trans-unit>
+      <trans-unit id="time2.description" xml:space="preserve">
+				<source>time2 variant 23</source>
+			<target state="needs-translation">time2 variant 23</target></trans-unit>
+      <trans-unit id="guarantee.description" xml:space="preserve">
+				<source>guarantee variant 24</source>
+			<target state="needs-translation">guarantee variant 24</target></trans-unit>
+      <trans-unit id="elements.description" xml:space="preserve">
+				<source>elements variant 25</source>
+			<target state="needs-translation">elements variant 25</target></trans-unit>
+      <trans-unit id="boundary.description" xml:space="preserve">
+				<source>boundary variant 26</source>
+			<target state="needs-translation">boundary variant 26</target></trans-unit>
+      <trans-unit id="costs.description" xml:space="preserve">
+				<source>costs variant 27</source>
+			<target state="needs-translation">costs variant 27</target></trans-unit>
+      <trans-unit id="config_type.description" xml:space="preserve">
+				<source>config_type</source>
+			<target state="needs-translation">config_type</target></trans-unit>
+      <trans-unit id="config.description" xml:space="preserve">
+				<source>config</source>
+			<target state="needs-translation">config</target></trans-unit>
+      <trans-unit id="uid_product.description" xml:space="preserve">
+				<source>uid_product</source>
+			<target state="needs-translation">uid_product</target></trans-unit>
+    </body>
+  </file>
+</xliff>

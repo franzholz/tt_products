@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/PiInt/locallang.xlf" date="2021-12-01T10:54:31Z" product-name="tt_products" target-language="ru">
+    <header/>
+    <body>
+      <trans-unit id="no_template" xml:space="preserve">
+				<source>The shop variable content template file has not been found. Check your template setup about</source>
+			<target state="needs-translation">The shop variable content template file has not been found. Check your template setup about</target></trans-unit>
+      <trans-unit id="no_subtemplate" xml:space="preserve">
+				<source>The part | or the shop variable content template file | has not been found.</source>
+			<target state="needs-translation">The part | or the shop variable content template file | has not been found.</target></trans-unit>
+      <trans-unit id="all" xml:space="preserve">
+				<source>ALL</source>
+			<target state="needs-translation">ALL</target></trans-unit>
+      <trans-unit id="latest_entries" xml:space="preserve">
+				<source>Go to the %d latest entries.</source>
+			<target state="needs-translation">Go to the %d latest entries.</target></trans-unit>
+      <trans-unit id="no_setup" xml:space="preserve">
+				<source>No setup for the dynamic plugins of tt_products has been found. It is under the name 'tx_ttproducts_pi_int'. Consider to add 'Shop System Variable Content' on the template setup under 'include static from extensions'.</source>
+			<target state="needs-translation">No setup for the dynamic plugins of tt_products has been found. It is under the name 'tx_ttproducts_pi_int'. Consider to add 'Shop System Variable Content' on the template setup under 'include static from extensions'.</target></trans-unit>
+    </body>
+  </file>
+</xliff>
