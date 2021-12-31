@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/Csh/locallang_csh_tt_products_cat.xlf" date="2021-11-23T20:34:23Z" product-name="tt_products" target-language="uk">
+    <header/>
+    <body>
+      <trans-unit id=".description" xml:space="preserve">
+				<source>Shop items categories.</source>
+			<target state="needs-translation">Shop items categories.</target></trans-unit>
+      <trans-unit id=".details" xml:space="preserve">
+				<source>The categories are only used with the shopping system if the shop is configured to do so.</source>
+			<target state="needs-translation">The categories are only used with the shopping system if the shop is configured to do so.</target></trans-unit>
+      <trans-unit id="_.seeAlso" xml:space="preserve">
+				<source>tt_products</source>
+			<target state="needs-translation">tt_products</target></trans-unit>
+      <trans-unit id="title.description" xml:space="preserve">
+				<source>[FILL IN] tt_products_cat-&gt;title</source>
+			<target state="needs-translation">[FILL IN] tt_products_cat-&gt;title</target></trans-unit>
+    </body>
+  </file>
+</xliff>
