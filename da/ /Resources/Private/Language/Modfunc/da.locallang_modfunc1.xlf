@@ -1,32 +1,35 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <xliff version="1.0">
-  <file source-language="en" datatype="plaintext" original="messages" date="2017-07-08T12:59:44Z" product-name="tt_products" target-language="da">
+  <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/Modfunc/locallang_modfunc1.xlf" date="2017-07-08T12:59:44Z" product-name="tt_products" target-language="da">
     <header/>
     <body>
-      <trans-unit id="age" xml:space="preserve" approved="yes">
-				<source>Age of records in days.</source>
-			<target state="final">Alder på elementer i dage.</target></trans-unit>
-      <trans-unit id="title" xml:space="preserve" approved="yes">
+      <trans-unit id="age" xml:space="preserve">
+				<source>Age of records in days</source>
+			<target state="translated">Alder på elementer i dage</target></trans-unit>
+      <trans-unit id="title" xml:space="preserve">
 				<source>Move Items</source>
-			<target state="final">Flyt emner</target></trans-unit>
-      <trans-unit id="checklabel" xml:space="preserve" approved="yes">
-				<source>Check box #1</source>
-			<target state="final">Afkrydsningsfelt #1</target></trans-unit>
-      <trans-unit id="only_admin" xml:space="preserve" approved="yes">
+			<target state="translated">Flyt emner</target></trans-unit>
+      <trans-unit id="only_admin" xml:space="preserve">
 				<source>These functions are only available for admins.</source>
-			<target state="final">Disse funktioner er kun tilgængelige for administratorer.</target></trans-unit>
-      <trans-unit id="pid_src" xml:space="preserve" approved="yes">
+			<target state="translated">Disse funktioner er kun tilgængelige for administratorer.</target></trans-unit>
+      <trans-unit id="pid_src" xml:space="preserve">
 				<source>The source id is %d.</source>
-			<target state="final">Kilde id er %d.</target></trans-unit>
-      <trans-unit id="pid_dest" xml:space="preserve" approved="yes">
-				<source>Enter the destination page id!</source>
-			<target state="final">Indtast destinationssidens id!</target></trans-unit>
-      <trans-unit id="start" xml:space="preserve" approved="yes">
-				<source>Start the move!</source>
-			<target state="final">Sæt i gang!</target></trans-unit>
-      <trans-unit id="moved" xml:space="preserve" approved="yes">
-				<source>The records have been moved.</source>
-			<target state="final">Elementet er blevet flyttet.</target></trans-unit>
+			<target state="translated">Kilde id er %d.</target></trans-unit>
+      <trans-unit id="pid_dest" xml:space="preserve">
+				<source>Enter the destination page id</source>
+			<target state="translated">Indtast destinationssidens id</target></trans-unit>
+      <trans-unit id="start" xml:space="preserve">
+				<source>Start the move</source>
+			<target state="translated">Sæt i gang</target></trans-unit>
+      <trans-unit id="nothing_moved" xml:space="preserve">
+				<source>No records have been moved.</source>
+			<target state="needs-translation">No records have been moved.</target></trans-unit>
+      <trans-unit id="moved_table" xml:space="preserve">
+                <source>%d %s have been moved.</source>
+            <target state="needs-translation">%d %s have been moved.</target></trans-unit>
+      <trans-unit id="nothing" xml:space="preserve">
+                <source>Nothing has been done. Fill in all form fields correctly!</source>
+            <target state="needs-translation">Nothing has been done. Fill in all form fields correctly!</target></trans-unit>
     </body>
   </file>
 </xliff>
