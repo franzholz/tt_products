@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/Csh/locallang_csh_tt_products_texts.xlf" date="2021-11-23T20:35:02Z" product-name="tt_products" target-language="cs">
+    <header/>
+    <body>
+      <trans-unit id=".description" xml:space="preserve">
+				<source>Shop texts.</source>
+			<target state="needs-translation">Shop texts.</target></trans-unit>
+      <trans-unit id=".details" xml:space="preserve">
+				<source>There are a lot of text descriptions possible for each product</source>
+			<target state="needs-translation">There are a lot of text descriptions possible for each product</target></trans-unit>
+      <trans-unit id="_.seeAlso" xml:space="preserve">
+				<source>tt_products</source>
+			<target state="needs-translation">tt_products</target></trans-unit>
+      <trans-unit id="title.description" xml:space="preserve">
+				<source>[FILL IN] tt_products_texts-&gt;title</source>
+			<target state="needs-translation">[FILL IN] tt_products_texts-&gt;title</target></trans-unit>
+      <trans-unit id="marker.description" xml:space="preserve">
+				<source>Marker part to be used in the template to form the ###PRODUCT_TEXT_...###</source>
+			<target state="needs-translation">Marker part to be used in the template to form the ###PRODUCT_TEXT_...###</target></trans-unit>
+      <trans-unit id="note.description" xml:space="preserve">
+				<source>note</source>
+			<target state="needs-translation">note</target></trans-unit>
+    </body>
+  </file>
+</xliff>
