@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/PiInt/locallang_db.xlf" date="2021-11-23T20:36:18Z" product-name="tt_products" target-language="de">
+    <header/>
+    <body>
+      <trans-unit id="tt_content.list_type_pi_int" xml:space="preserve" approved="yes">
+				<source>Shop System Variable Content</source>
+			<target state="final">Shop System benutzerabhängige Inhalte</target></trans-unit>
+      <trans-unit id="tt_content.pi_int_flexform.display_mode" xml:space="preserve" approved="yes">
+				<source>Display mode</source>
+			<target state="final">Anzeigetyp</target></trans-unit>
+      <trans-unit id="tt_content.pi_int_flexform.display_mode.7" xml:space="preserve">
+				<source>Products: search</source>
+			<target state="needs-translation">Products: search</target></trans-unit>
+      <trans-unit id="tt_content.pi_int_flexform.display_mode.8" xml:space="preserve">
+				<source>Currency: selector</source>
+			<target state="needs-translation">Currency: selector</target></trans-unit>
+      <trans-unit id="tt_content.pi_int_flexform.display_mode.9" xml:space="preserve" approved="yes">
+				<source>Basket: content</source>
+			<target state="final">Warenkorb: Inhalt</target></trans-unit>
+      <trans-unit id="tt_content.pi_int_flexform.display_mode.10" xml:space="preserve" approved="yes">
+				<source>Basket: overview</source>
+			<target state="final">Warenkorb: Miniformat</target></trans-unit>
+      <trans-unit id="tt_content.pi_int_flexform.display_mode.11" xml:space="preserve" approved="yes">
+				<source>Basket: input customer data</source>
+			<target state="final">Warenkorb: Eingabe Kundendaten</target></trans-unit>
+      <trans-unit id="tt_content.pi_int_flexform.display_mode.12" xml:space="preserve" approved="yes">
+				<source>Basket: control and payment</source>
+			<target state="final">Warenkorb: Kontrolle und Bezahlung</target></trans-unit>
+      <trans-unit id="tt_content.pi_int_flexform.display_mode.13" xml:space="preserve" approved="yes">
+				<source>Basket: finalize order</source>
+			<target state="final">Warenkorb: Bestellung abschließen</target></trans-unit>
+      <trans-unit id="tt_content.pi_int_flexform.display_mode.14" xml:space="preserve" approved="yes">
+				<source>Orders: tracking</source>
+			<target state="final">Bestellung: Verwaltung</target></trans-unit>
+      <trans-unit id="tt_content.pi_int_flexform.display_mode.15" xml:space="preserve" approved="yes">
+				<source>Orders: billing</source>
+			<target state="final">Bestellung: Rechnung</target></trans-unit>
+      <trans-unit id="tt_content.pi_int_flexform.display_mode.16" xml:space="preserve" approved="yes">
+				<source>Orders: delivery</source>
+			<target state="final">Bestellung: Lieferschein</target></trans-unit>
+      <trans-unit id="tt_content.pi_int_flexform.display_mode.17" xml:space="preserve" approved="yes">
+				<source>Orders: list</source>
+			<target state="final">Bestellung: Liste</target></trans-unit>
+      <trans-unit id="tt_content.pi_int_flexform.display_mode.18" xml:space="preserve" approved="yes">
+				<source>Products: memo</source>
+			<target state="final">Produkte: Memo</target></trans-unit>
+      <trans-unit id="tt_content.pi_int_flexform.display_mode.19" xml:space="preserve" approved="yes">
+				<source>General: help</source>
+			<target state="final">Allgemein: Hilfe</target></trans-unit>
+    </body>
+  </file>
+</xliff>
