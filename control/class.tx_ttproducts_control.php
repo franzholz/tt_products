@@ -280,7 +280,6 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 			) {
                 $transactorConf = $this->getTransactorConf($handleLib);
                 $useNewTransactor = false;
-                $transactorConf = '';
             
                 if (
                     !empty($transactorConf)
