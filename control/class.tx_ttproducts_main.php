@@ -110,7 +110,6 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 
 		$pibaseObj = GeneralUtility::makeInstance('' . $pibaseClass);
 
-// 		$cObj = $pibaseObj->cObj;
 		// Save the original flexform in case if we need it later as USER_INT
 		$cObj->data['_original_pi_flexform'] = $cObj->data['pi_flexform'];
 		PluginApi::initFlexform($cObj);
@@ -128,9 +127,6 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 			$conf = $tsparser->setup;
 		}
 		$this->pibaseClass = $pibaseClass;
-
-// 		$cObj->data['pi_flexform'] = GeneralUtility::xml2array($cObj->data['pi_flexform']);
-
 		$config['code'] =
 			tx_div2007_alpha5::getSetupOrFFvalue_fh004(
 				$cObj,
@@ -440,7 +436,6 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 			if (is_object($addressObj)) {
 				$addressArray = $addressObj->fetchAddressArray($itemArray);
 			}
-
 			$content .= $controlObj->doProcessing(
 				$this->codeArray,
 				$basketObj->getCalculatedSums(),

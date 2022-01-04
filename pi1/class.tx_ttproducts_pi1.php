@@ -51,7 +51,7 @@ class tx_ttproducts_pi1 implements \TYPO3\CMS\Core\SingletonInterface {
 	/**
 	 * The backReference to the mother cObj object set at call time
 	 *
-	 * @var TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer
+	 * @var \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer
 	 */
 	public $cObj;
 
@@ -67,18 +67,15 @@ class tx_ttproducts_pi1 implements \TYPO3\CMS\Core\SingletonInterface {
 		if ($conf['templateFile'] != '' || $conf['templateFile.'] != '') {
 			$content = $pibaseObj->main($content, $conf);
 		} else {
-			tx_div2007_alpha5::loadLL_fh002($pibaseObj, 'EXT:' . TT_PRODUCTS_EXT . '/pi1/locallang.xml');
-			$errorText =
-				tx_div2007_alpha5::getLL_fh003(
-					$pibaseObj,
-					'no_template'
-				);
+            $errorText = $GLOBALS['TSFE']->sL(
+                'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'Pi1/locallang.xlf:no_template'
+            );
 			$content = str_replace('|', 'plugin.tt_products.templateFile', $errorText);
+            $content = '<p><strong>' . $content . '</strong></p>';
 		}
 
 		return $content;
 	}
-
 
 	/**
 	 * Main method for the cached object. Call this from TypoScript by a USER or COBJ cObject.
@@ -88,7 +85,7 @@ class tx_ttproducts_pi1 implements \TYPO3\CMS\Core\SingletonInterface {
 
 		if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['getUserFunc'])) {
 			foreach($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['getUserFunc'] as $classRef) {-
-				$hookObj= GeneralUtility::makeInstance($classRef);
+				$hookObj = GeneralUtility::makeInstance($classRef);
 				if (method_exists($hookObj, 'getUserFunc')) {
 					$hookObj->cObj = $this->cObj;
 					$content .= $hookObj->getUserFunc($content, $conf);
@@ -97,10 +94,5 @@ class tx_ttproducts_pi1 implements \TYPO3\CMS\Core\SingletonInterface {
 		}
 		return $content;
 	}
-}
-
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/pi1/class.tx_ttproducts_pi1.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/pi1/class.tx_ttproducts_pi1.php']);
 }
 

@@ -33,22 +33,21 @@
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
  * @package TYPO3
  * @subpackage tt_products
- * @see file tt_products/static/old_style/constants.txt
+ * @see file Configuration/TypoScript/PluginSetup/Main/constants.txt
  * @see TSref
  *
  */
 
-
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
-class tx_ttproducts_pi_search implements \TYPO3\CMS\Core\SingletonInterface {
+class tx_ttproducts_pi_search {
 	/**
 	 * The backReference to the mother cObj object set at call time
 	 *
-	 * @var TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer
+	 * @var \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer
 	 */
-	var $cObj;
+	public $cObj;
 
 	/**
 	 * Main method. Call this from TypoScript by a USER cObject.
@@ -62,12 +61,10 @@ class tx_ttproducts_pi_search implements \TYPO3\CMS\Core\SingletonInterface {
 
 			$content = $pibaseObj->main($content, $conf);
 		} else {
-			tx_div2007_alpha5::loadLL_fh002($pibaseObj, 'EXT:' . TT_PRODUCTS_EXT . '/pi_search/locallang.xml');
-			$errorText =
-				tx_div2007_alpha5::getLL_fh003(
-					$pibaseObj,
-					'no_template'
-				);
+            $errorText = $GLOBALS['TSFE']->sL(
+                'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'PiSearch/locallang.xlf:no_template'
+            );
+
 			$content = str_replace('|', 'plugin.tt_products_pi_search.templateFile', $errorText);
 		}
 
@@ -75,7 +72,4 @@ class tx_ttproducts_pi_search implements \TYPO3\CMS\Core\SingletonInterface {
 	}
 }
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/pi1/class.tx_ttproducts_pi_search.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/pi1/class.tx_ttproducts_pi_search.php']);
-}
 
