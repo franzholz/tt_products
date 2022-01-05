@@ -39,48 +39,65 @@ call_user_func(function () {
         $GLOBALS['TCA'][$table]['ctrl']['interface']['showRecordFieldList'] .= ',image_uid';
     }
 
-    $GLOBALS['TCA'][$table]['columns']['image_uid'] = array (
-        'exclude' => 1,
-        'label' => DIV2007_LANGUAGE_LGL . 'image',
-        'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
-            'image_uid',
-            array(
-                'appearance' => array(
-                    'createNewRelationLinkTitle' => 'LLL:EXT:cms/locallang_ttc.xlf:images.addFileReference',
-                    'collapseAll' => true,
-                ),
-                'foreign_types' => array(
-                    '0' => array(
-                        'showitem' => '
-                            --palette--;' . DIV2007_LANGUAGE_PATH . 'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                            --palette--;;filePalette'
-                    ),
-                    \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => array(
-                        'showitem' => '
-                            --palette--;' . DIV2007_LANGUAGE_PATH . 'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                            --palette--;;filePalette'
-                    ),
-                )
-            ),
-            $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']
-        )
-    );
 
-    if (
-        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['fal'] ||
-        version_compare(TYPO3_version, '10.4.0', '>=')
-    ) {
-        $GLOBALS['TCA'][$table]['ctrl']['thumbnail'] = 'image_uid';    
+    $GLOBALS['TCA'][$table]['ctrl']['interface']['showRecordFieldList'] .= ',image_uid,sliderimage_uid';
 
-        $GLOBALS['TCA'][$table]['types']['0']['showitem'] = str_replace(', image,', ', image_uid,', $GLOBALS['TCA'][$table]['types']['0']['showitem']);
+    $fieldArray = ['image', 'sliderimage'];
+    foreach ($fieldArray as $field) {
+        $uidField = $field . '_uid';
+        $GLOBALS['TCA'][$table]['columns'][$uidField] = [
+            'exclude' => 1,
+            'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
+                $uidField,
+                [
+                    'appearance' => [
+                        'createNewRelationLinkTitle' => 'LLL:EXT:cms/locallang_ttc.xlf:images.addFileReference',
+                        'collapseAll' => true,
+                    ],
+                    'foreign_types' => [
+                        '0' => [
+                            'showitem' => '
+                                --palette--;' . DIV2007_LANGUAGE_PATH . 'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
+                                --palette--;;filePalette'
+                        ],
+                        \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => [
+                            'showitem' => '
+                                --palette--;' . DIV2007_LANGUAGE_PATH . 'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
+                                --palette--;;filePalette'
+                        ],
+                    ]
+                ],
+                $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']
+            )
+        ];
 
-        unset($GLOBALS['TCA'][$table]['columns']['image']);
-    } else {
-        $GLOBALS['TCA'][$table]['types']['0']['showitem'] = str_replace(', image,', ', image, image_uid,', $GLOBALS['TCA'][$table]['types']['0']['showitem']);
+        if ($field == 'image') {
+            $GLOBALS['TCA'][$table]['columns'][$uidField]['label'] = DIV2007_LANGUAGE_LGL . $field;
+        } else {
+            $GLOBALS['TCA'][$table]['columns'][$uidField]['label'] = 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_cat.' . $field;
+        }
+
+        if (
+            $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['fal'] ||
+            version_compare(TYPO3_version, '10.4.0', '>=')
+        ) {
+            $GLOBALS['TCA'][$table]['ctrl']['thumbnail'] = 'image_uid';    
+
+            $search = ', ' . $field . ',';
+            $replace = ', ' . $uidField . ',';
+            $GLOBALS['TCA'][$table]['types']['0']['showitem'] = str_replace($search, $replace, $GLOBALS['TCA'][$table]['types']['0']['showitem']);
+
+            unset($GLOBALS['TCA'][$table]['columns'][$field]);
+        } else {
+            $search = ', ' . $field . ',';
+            $replace = $search . ' ' . $uidField . ',';
+
+            $GLOBALS['TCA'][$table]['types']['0']['showitem'] = str_replace($search, $replace, $GLOBALS['TCA'][$table]['types']['0']['showitem']);
+        }        
     }
 
-
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToInsertRecords($table);
+
     if (version_compare(TYPO3_version, '10.4.0', '<')) {
         $GLOBALS['TCA'][$table]['columns']['fe_group']['config']['enableMultiSelectFilterTextfield'] = true;
     }

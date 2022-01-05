@@ -1,4 +1,5 @@
 2022-01-05 Franz Holzinger <franz@ttproducts.de>
+    * use the field sliderimage_uid for FAL instead of sliderimage
     * outdated external cObject: Use a Hook instead. Remove calls to tx_div2007_alpha5::load_noLinkExtCobj_fh002
     * bugfix: Do not use duplicate output when the payment gateway is used or the basket page is reloaded after finalization.
 
