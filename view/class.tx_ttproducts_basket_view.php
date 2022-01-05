@@ -265,7 +265,6 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 				and substitutes a lot of fields and subparts.
 				Any pre-preparred fields can be set in $mainMarkerArray, which is substituted in the subpart before the item-and-categories part is substituted.
 			*/
-
 		$out = '';
 		$calculationField = \JambageCom\TtProducts\Model\Field\FieldInterface::PRICE_CALCULATED;
 		$basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
@@ -467,6 +466,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 			}
 			$t['categoryFrameWork'] = tx_div2007_core::getSubpart($t['basketFrameWork'], '###ITEM_CATEGORY###');
 			$t['itemFrameWork'] = tx_div2007_core::getSubpart($t['basketFrameWork'], '###ITEM_LIST###');
+
 			$t['item'] = tx_div2007_core::getSubpart($t['itemFrameWork'], '###ITEM_SINGLE###');
 			$t['taxes'] = tx_div2007_core::getSubpart($t['basketFrameWork'], '###COUNTRY_TAXRATES###');
 
