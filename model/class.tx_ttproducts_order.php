@@ -609,7 +609,6 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
 		$selectableVariantFieldArray = array();
 		$orderTablename = 'sys_products_orders';
 		$falFieldname = 'fal_uid';
-        $fac = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\ResourceFactory'); // create instance of storage repository
 		$variantSeparator = '---';
 
 		if ($this->conf['useArticles'] != 2) {

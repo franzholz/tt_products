@@ -37,6 +37,7 @@
  *
  */
 
+use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
@@ -138,7 +139,13 @@ class tx_ttproducts_field_media extends tx_ttproducts_field_base {
 				$storage = $storageRepository->findByUid(1);
 
 				foreach($sysfileRowArray as $fileUid => $sysfileRow) {
-					$resourceFactory = \TYPO3\CMS\Core\Resource\ResourceFactory::getInstance();
+                    if (
+                        version_compare(TYPO3_version, '10.4.0', '<')
+                    ) {
+                        $resourceFactory = ResourceFactory::getInstance();
+                    } else {
+                        $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
+                    }
 					$fileObj = $resourceFactory->getFileReferenceObject($sysfileRow['uid']);
 					$fileInfo = $storage->getFileInfo($fileObj);
 

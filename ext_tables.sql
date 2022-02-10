@@ -267,6 +267,7 @@ CREATE TABLE tt_products_cat (
 	image text,
 	image_uid int(11) DEFAULT '0' NOT NULL,
 	sliderimage text,
+	sliderimage_uid int(11) DEFAULT '0' NOT NULL,
 	email_uid int(11) DEFAULT '0' NOT NULL,
 	discount decimal(19,2) DEFAULT '0.00' NOT NULL,
 	discount_disable tinyint(3) unsigned DEFAULT '0' NOT NULL,

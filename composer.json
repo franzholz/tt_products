@@ -34,8 +34,8 @@
     "friendsoftypo3/func": "^9.0",
     "jambagecom/addons-em": "^0.2",
     "friendsoftypo3/typo3db-legacy": "^1",
-    "jambagecom/taxajax": "^0.4, ^0.5,",
-    "sjbr/static-info-tables": "^6.7,^6.8,^6.9"
+    "jambagecom/taxajax": "^0.4 || ^0.5",
+    "sjbr/static-info-tables": "^6.7 || ^6.8 || ^6.9 || ^11.5"
   },
   "autoload": {
     "psr-4": {
@@ -49,8 +49,6 @@
       "lib",
       "marker",
       "model",
-      "modfunc1",
-      "modfunc2",
       "pi1",
       "pi_int",
       "pi_search",

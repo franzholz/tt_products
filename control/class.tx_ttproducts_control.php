@@ -280,7 +280,6 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 			) {
                 $transactorConf = $this->getTransactorConf($handleLib);
                 $useNewTransactor = false;
-                $transactorConf = '';
             
                 if (
                     !empty($transactorConf)
@@ -431,8 +430,6 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 						\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($gatewayExtName)
 					) {
 						// Payment Library
-// 						GeneralUtility::requireOnce (PATH_BE_TTPRODUCTS.'lib/class.tx_ttproducts_paymentlib.php');
-
 						$paymentObj = GeneralUtility::makeInstance('tx_ttproducts_paymentlib');
 						$paymentObj->init(
 							$this->pibase,
@@ -693,11 +690,9 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 		}
 
 		$basketMarkerArray = array();
-
 		if ($checkBasket && $bBasketEmpty) {
 			$contentEmpty = '';
 			if ($this->activityArray['products_overview']) {
-				tx_div2007_alpha5::load_noLinkExtCobj_fh002($this->pibase);
 				$contentEmpty = tx_div2007_core::getSubpart(
 					$templateCode,
 					$subpartmarkerObj->spMarker('###BASKET_OVERVIEW_EMPTY' . $this->config['templateSuffix'] . '###')
@@ -730,7 +725,6 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 			}
 
 			if ($contentEmpty != '') {
-
 				$contentEmpty = $markerObj->replaceGlobalMarkers($contentEmpty);
 				$bFinalize = false;
 			}
@@ -940,7 +934,13 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 					false
 				);
 			}
-		} else if ($theCode != 'OVERVIEW') {	// If not all required info-fields are filled in, this is shown instead:
+		} else if (
+            $theCode != 'OVERVIEW' &&
+            (
+                $currentPaymentActivity != 'finalize' ||
+                $bFinalize
+            )
+        ) {	// If not all required info-fields are filled in, this is shown instead:
 			$infoArray['billing']['error'] = 1;
 			$subpart = 'BASKET_REQUIRED_INFO_MISSING';
 			$requiredOut = tx_ttproducts_api::getErrorOut(
@@ -949,7 +949,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 				$subpartmarkerObj->spMarker('###' . $subpart . $this->config['templateSuffix'] . '###'),
 				$subpartmarkerObj->spMarker('###' . $subpart . '###'),
 				$errorCode
-			) ;
+			);
 
 			if (!$errorCode) {
 				$content .=
@@ -1070,6 +1070,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 				);
 			}
 		}
+
 		foreach ($activityArray as $activity => $value) {
 			$theCode = 'BASKET';
 			$basket_tmpl = '';
@@ -1130,7 +1131,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 						$calculatedArray = array();
 						$calculObj = GeneralUtility::makeInstance('tx_ttproducts_basket_calculate');
 						$calculObj->setCalculatedArray($calculatedArray);
-                        $bBasketEmpty = $basketObj->isEmpty();						
+                        $bBasketEmpty = $basketObj->isEmpty();
 					break;
 					case 'products_basket':
 						if (
@@ -1141,7 +1142,6 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 						}
 					break;
 					case 'products_overview':
-						tx_div2007_alpha5::load_noLinkExtCobj_fh002($this->pibase);	// TODO
 						$basket_tmpl = 'BASKET_OVERVIEW_TEMPLATE';
 
 						if ($codeActivityArray[$activity]) {
@@ -1175,7 +1175,6 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 					break;
 					case 'products_info':
 						// if (!$activityArray['products_payment'] && !$activityArray['products_finalize']) {
-						tx_div2007_alpha5::load_noLinkExtCobj_fh002($this->pibase); // TODO
 						$basket_tmpl = 'BASKET_INFO_TEMPLATE';
 						// }
 
@@ -1187,7 +1186,6 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 						$bPayment = true;
 						$orderUid = $this->getOrderUid($orderArray);
                         $orderNumber = $this->getOrdernumber($orderUid);
-						tx_div2007_alpha5::load_noLinkExtCobj_fh002($this->pibase);	// TODO
 
 						if ($conf['paymentActivity'] == 'payment' || $conf['paymentActivity'] == 'verify') {
 							$handleLib =
@@ -1462,7 +1460,6 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 
 			$checkAllowed = $infoViewObj->checkAllowed($basketExtra);
 			if ($checkRequired == '' && $checkAllowed == '') {
-				tx_div2007_alpha5::load_noLinkExtCobj_fh002($this->pibase);	// TODO
 				$orderUid = $this->getOrderUid($orderArray);
                 $orderNumber = $this->getOrdernumber($orderUid);
 
@@ -1495,8 +1492,6 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 					$mainMarkerArray['###MESSAGE_PAYMENT_SCRIPT###'] = '';
 				}
 
-// 				GeneralUtility::requireOnce (PATH_BE_TTPRODUCTS.'control/class.tx_ttproducts_activity_finalize.php');
-
 					// order finalization
 				$activityFinalize = GeneralUtility::makeInstance('tx_ttproducts_activity_finalize');
 				if (intval($conf['alwaysInStock'])) {
@@ -1504,7 +1499,6 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 				} else {
 					$alwaysInStock = 0;
 				}
-
 
 				$usedCreditpoints = tx_ttproducts_creditpoints_div::getUsedCreditpoints($_REQUEST['recs']);
 
@@ -1585,7 +1579,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 					$subpartmarkerObj->spMarker('###' . $subpart . $this->config['templateSuffix'] . '###'),
 					$subpartmarkerObj->spMarker('###' . $subpart . '###'),
 					$errorCode
-				) ;
+				);
 
 				if (!$requiredOut) {
 					return '';
@@ -1605,7 +1599,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 				);
 
 				$mainMarkerArray['###ERROR_DETAILS###'] = $label;
-				$urlMarkerArray = $this->urlObj->addURLMarkers(0, array());
+                $urlMarkerArray = $this->urlObj->addURLMarkers(0, [], $theCode);
 				$markerArray = array_merge($mainMarkerArray, $urlMarkerArray);
 
 				$content .= $requiredOut;

@@ -35,9 +35,11 @@ use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
+use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
+
 
 
 class UpgradeApi implements LoggerAwareInterface {
@@ -570,7 +572,13 @@ class UpgradeApi implements LoggerAwareInterface {
             }
         }
 
-        $resourceFactory = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\ResourceFactory::class);
+        if (
+            version_compare(TYPO3_version, '10.4.0', '<')
+        ) {
+            $resourceFactory = ResourceFactory::getInstance();
+        } else {
+            $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
+        }
         $defaultStorage = $resourceFactory->getDefaultStorage();
         if (!is_object($defaultStorage)) {
             $storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\StorageRepository::class);

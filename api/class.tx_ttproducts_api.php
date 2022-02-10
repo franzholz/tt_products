@@ -226,7 +226,6 @@ class tx_ttproducts_api {
 				$templateFile,
 				$errorCode
 			);
-
 			if (
 				$errorTemplateCode == '' ||
 				strpos($errorTemplateCode, $subpartMarker) === false &&
@@ -266,7 +265,6 @@ class tx_ttproducts_api {
 			} else {
 				$errorOut = $errorTemplateCode;
 			}
-
 			$result = $errorOut;
 
 			if ($result == '') {

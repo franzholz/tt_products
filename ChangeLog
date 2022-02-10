@@ -1,3 +1,8 @@
+2022-01-05 Franz Holzinger <franz@ttproducts.de>
+    * use the field sliderimage_uid for FAL instead of sliderimage
+    * outdated external cObject: Use a Hook instead. Remove calls to tx_div2007_alpha5::load_noLinkExtCobj_fh002
+    * bugfix: Do not use duplicate output when the payment gateway is used or the basket page is reloaded after finalization.
+
 2021-12-04 Franz Holzinger <franz@ttproducts.de>
     * compatibility issue #84: allow image upgrade wizard for TYPO3 9.5.
       Consider to use $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_products']['imageFolder'] if set instead of 'uploads/pics'.
