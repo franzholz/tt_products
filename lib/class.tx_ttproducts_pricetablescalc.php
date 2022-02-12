@@ -134,7 +134,7 @@ class tx_ttproducts_pricetablescalc extends tx_ttproducts_pricecalc_base {
 			}
 		}
 
-		if ($row['graduated_price_round'] != '') {
+		if (isset($row['graduated_price_round']) && strlen($row['graduated_price_round'])) {
 
 			$result = tx_ttproducts_api::roundPrice($result, $row['graduated_price_round']);
 		}
@@ -266,7 +266,8 @@ class tx_ttproducts_pricetablescalc extends tx_ttproducts_pricecalc_base {
 							$extArray = $row['ext'];
 
 							if (
-								isset($extArray['tt_products_articles']) && is_array($extArray['tt_products_articles'])
+								isset($extArray['tt_products_articles']) && is_array($extArray['tt_products_articles']) &&
+								!empty($extArray['tt_products_articles'])
 							) {
 								$articleUid = $extArray['tt_products_articles']['0']['uid'];
 

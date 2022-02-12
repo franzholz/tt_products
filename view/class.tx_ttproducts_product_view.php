@@ -40,6 +40,7 @@
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+use JambageCom\Div2007\Utility\FrontendUtility;
 
 class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
 	public $relatedArray = array(); // array of related products
@@ -103,9 +104,9 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
 			$extArray = $row['ext'];
 		}
 
-		if (is_array($extArray) && is_array($extArray['tt_products'])) {
+		if (is_array($extArray) && isset($extArray['tt_products']) && is_array($extArray['tt_products'])) {
 			$variant = $extArray['tt_products'][0]['vars'];
-		} else if (is_array($extArray) && is_array($extArray['tx_dam'])) {
+		} else if (is_array($extArray) && isset($extArray['tx_dam'])) {
 			$variant = $extArray['tx_dam'][0]['vars'];
 		}
 		$bGiftService = true;
@@ -166,7 +167,7 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
 			$wrappedSubpartArray,
 			$this->getMarker(),
 			$tagArray,
-			$hiddenFields,
+			$hiddenFields = '',
 			$multiOrderArray,
 			$localRowArray,
 			$checkPriceZero
@@ -214,7 +215,7 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
 		$modelObj = $this->getModelObj();
 		$cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$conf = $cnfObj->getConf();
-		$cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
+		$cObj = FrontendUtility::getContentObjectRenderer();
         $parser = tx_div2007_core::newHtmlParser(false);
 		parent::getModelMarkerArray(
 			$row,
@@ -241,12 +242,14 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
             $notOverwritePriceIfSet
 		);
 // Todo: das mit datasheet hier löschen
-
-		$datafieldViewObj = $this->getFieldObj('datasheet');
+        $datasheetField = ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['falDatasheet'] ?  'datasheet_uid' : 'datasheet');
+        if (!empty($row[$datasheetField])) {
+            $datafieldViewObj = $this->getFieldObj('datasheet');
+		}
 		if (isset($datafieldViewObj) && is_object($datafieldViewObj)) {
 			$datafieldViewObj->getRowMarkerArray(
 				$modelObj->getFuncTablename(),
-				($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['falDatasheet'] ?  'datasheet_uid' : 'datasheet'),
+				$datasheetField,
 				$row,
 				$markerParam . '_DATASHEET',
 				$markerArray,
@@ -266,11 +269,11 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
 
 			// Subst. fields
 		$markerArray['###' . $this->getMarker() . '_UNIT###'] = $row['unit'];
-		$markerArray['###' . $this->getMarker() . '_UNIT_FACTOR###'] = $row['unit_factor'];
-		$markerArray['###' . $this->getMarker() . '_WWW###'] = $row['www'];
-		$markerArray['###BULKILY_WARNING###'] = $row['bulkily'] ? $conf['bulkilyWarning'] : '';
+		$markerArray['###' . $this->getMarker() . '_UNIT_FACTOR###'] = $row['unit_factor'] ?? '0';
+		$markerArray['###' . $this->getMarker() . '_WWW###'] = $row['www'] ?? '';
+		$markerArray['###BULKILY_WARNING###'] = !empty($row['bulkily']) ? $conf['bulkilyWarning'] : '';
 
-		if ($conf['itemMarkerArrayFunc']) {
+		if (!empty($conf['itemMarkerArrayFunc'])) {
 			$markerArray =
 				\JambageCom\Div2007\Utility\ObsoleteUtility::userProcess(
 					$this,
@@ -361,10 +364,13 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
 									// Extension CSS styled content
 								if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('css_styled_content')) {
 									$markerArray['###' . $index . '###'] =
-										tx_div2007_alpha5::RTEcssText($cObj, $contentEl[$fieldName]);
-								} else if (is_array($this->conf['parseFunc.'])) {
+										FrontendUtility::RTEcssText(
+                                            $local_cObj,
+                                            $contentEl[$fieldName]
+                                        );
+								} else if (is_array($conf['parseFunc.'])) {
 									$markerArray['###' . $index . '###'] =
-										$cObj->parseFunc($contentEl[$fieldName],$this->conf['parseFunc.']);
+										$cObj->parseFunc($contentEl[$fieldName],$conf['parseFunc.']);
 								}
 							}
 						}
@@ -380,7 +386,6 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
 				}
 			}
 
-			$conf = $this->getConf();
 			$extKey = '';
 
 				// check need for rating
@@ -480,7 +485,7 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
 			}
 		}
 
-		if ($row['special_preparation']) {
+		if (!empty($row['special_preparation'])) {
 			$markerArray['###' . $this->getMarker() . '_SPECIAL_PREP###'] = $parser->substituteMarkerArray($conf['specialPreparation'], $markerArray);
 		} else {
 			$markerArray['###' . $this->getMarker() . '_SPECIAL_PREP###'] = '';

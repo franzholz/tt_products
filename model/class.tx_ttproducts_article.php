@@ -61,7 +61,7 @@ class tx_ttproducts_article extends tx_ttproducts_article_base {
 		if ($result) {
 			$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 			$tableConfig = array();
-			$tableConfig['orderBy'] = $cnf->conf['orderBy'];
+			$tableConfig['orderBy'] = $cnf->conf['orderBy'] ?? '';
 
 			if (!$tableConfig['orderBy']) {
 				$tableConfig['orderBy'] = $this->getOrderBy ();

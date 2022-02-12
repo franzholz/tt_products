@@ -71,9 +71,9 @@ class tx_ttproducts_country extends tx_ttproducts_table_base {
 			$requiredListArray = GeneralUtility::trimExplode(',', $requiredFields);
 			$this->getTableObj()->setRequiredFieldArray($requiredListArray);
 
-			if (is_array($this->tableconf['generatePath.']) &&
+			if (!empty($this->tableconf['generatePath.']) &&
 				$this->tableconf['generatePath.']['type'] == 'tablefields' &&
-				is_array($this->tableconf['generatePath.']['field.'])
+				!empty($this->tableconf['generatePath.']['field.'])
 				) {
 				$addRequiredFields = array();
 				foreach ($this->tableconf['generatePath.']['field.'] as $field => $value) {
@@ -87,12 +87,14 @@ class tx_ttproducts_country extends tx_ttproducts_table_base {
 	} // init
 
 
-	public function isoGet ($country_code, $where = '', $fields = '') {
+    public function isoGet ($country_code, $where = '', $fields = '') {
 
-		if (!$fields) {
+        if (!$fields) {
 			$rc = $this->dataArray[$country_code];
 		}
 		if (!$rc || $where) {
+            $pageRepository = \JambageCom\Div2007\Utility\CompatibilityUtility::getPageRepository();
+
 			if ($country_code) {
 				$whereString = 'cn_iso_3 = ' . $GLOBALS['TYPO3_DB']->fullQuoteStr($country_code, $this->getTableObj()->name);
 			} else {
@@ -102,7 +104,7 @@ class tx_ttproducts_country extends tx_ttproducts_table_base {
 				$whereString .= ' AND ' . $where;
 			}
 
-			$whereString .= ' ' . $this->getTableObj()->enableFields();
+			$whereString .= ' ' . $pageRepository->enableFields($this->getTablename());
 			$fields = ($fields ? $fields : '*');
 			// Fetching the products
 

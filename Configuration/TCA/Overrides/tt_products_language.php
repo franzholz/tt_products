@@ -84,12 +84,22 @@ call_user_func(function () {
             unset($GLOBALS['TCA'][$table]['columns']['datasheet']);
         } else {
             if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['fal']) {
-                $GLOBALS['TCA'][$table]['interface']['showRecordFieldList'] .= ',image_uid,smallimage_uid';
+                if (
+                    defined('TYPO3_version') &&
+                    version_compare(TYPO3_version, '10.0.0', '<')
+                ) {
+                    $GLOBALS['TCA'][$table]['interface']['showRecordFieldList'] .= ',image_uid,smallimage_uid';
+                }
                 $GLOBALS['TCA'][$table]['types']['0']['showitem'] = str_replace('image, smallimage,', 'image, image_uid, smallimage, smallimage_uid,', $GLOBALS['TCA'][$table]['types']['0']['showitem']);
             }
 
             if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['falDatasheet']) {
-                $GLOBALS['TCA'][$table]['interface']['showRecordFieldList'] .= ',datasheet_uid';
+                if (
+                    defined('TYPO3_version') &&
+                    version_compare(TYPO3_version, '10.0.0', '<')
+                ) {
+                    $GLOBALS['TCA'][$table]['interface']['showRecordFieldList'] .= ',datasheet_uid';
+                }
                 $GLOBALS['TCA'][$table]['types']['0']['showitem'] = str_replace('datasheet', 'datasheet_uid', $GLOBALS['TCA'][$table]['types']['0']['showitem']);                
             } else {
                 unset($GLOBALS['TCA'][$table]['columns']['datasheet_uid']);

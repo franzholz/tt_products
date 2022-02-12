@@ -56,7 +56,8 @@ class tx_ttproducts_graduated_price_view extends tx_ttproducts_table_base_view {
 	) {
 		if (isset($priceFormula) && is_array($priceFormula)) {
 			$marker = $this->getMarker();
-			$conf = $this->getConf();
+            $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
+            $conf = $cnfObj->getConf();
 
 			$priceObj = GeneralUtility::makeInstance('tx_ttproducts_field_price');
 			$priceViewObj = GeneralUtility::makeInstance('tx_ttproducts_field_price_view');

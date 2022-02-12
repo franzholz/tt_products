@@ -41,6 +41,10 @@
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
+use JambageCom\Div2007\Utility\FrontendUtility;
+
+
+
 class tx_ttproducts_field_delivery_view extends tx_ttproducts_field_base_view {
 
 
@@ -82,7 +86,7 @@ class tx_ttproducts_field_delivery_view extends tx_ttproducts_field_base_view {
 			$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 			$tableconf = $cnf->getTableConf($functablename, $theCode);
 			$domain = $conf['domain'];
-			$cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
+			$cObj = FrontendUtility::getContentObjectRenderer();
 
 			if ($domain == '' || strrpos($domain, '###') !== false) {
 				$domain = $_SERVER['HTTP_HOST'];

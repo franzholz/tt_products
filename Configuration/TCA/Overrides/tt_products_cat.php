@@ -36,11 +36,8 @@ call_user_func(function () {
         defined('TYPO3_version') &&
         version_compare(TYPO3_version, '10.0.0', '<')
     ) {
-        $GLOBALS['TCA'][$table]['ctrl']['interface']['showRecordFieldList'] .= ',image_uid';
+        $GLOBALS['TCA'][$table]['ctrl']['interface']['showRecordFieldList'] .= ',image_uid,sliderimage_uid';
     }
-
-
-    $GLOBALS['TCA'][$table]['ctrl']['interface']['showRecordFieldList'] .= ',image_uid,sliderimage_uid';
 
     $fieldArray = ['image', 'sliderimage'];
     foreach ($fieldArray as $field) {

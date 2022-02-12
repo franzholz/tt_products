@@ -43,6 +43,7 @@
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+use JambageCom\Div2007\Utility\FrontendUtility;
 use JambageCom\TtProducts\Api\PaymentShippingHandling;
 
 class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
@@ -81,7 +82,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$calculatedArray,
 		$taxArray
 	) {
-		$cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
+		$cObj = FrontendUtility::getContentObjectRenderer();
 		$taxObj = GeneralUtility::makeInstance('tx_ttproducts_field_tax');
 		$priceViewObj = GeneralUtility::makeInstance('tx_ttproducts_field_price_view');
 		$markerArray = array();
@@ -147,7 +148,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 		// This is for the Basketoverview
 		$markerArray['###NUMBER_GOODSTOTAL###'] = $calculatedArray['count'];
-        $fileresource =  \JambageCom\Div2007\Utility\FrontendUtility::fileResource($conf['basketPic']);
+        $fileresource = FrontendUtility::fileResource($conf['basketPic']);
 		$markerArray['###IMAGE_BASKET###'] = $fileresource;
 
 		return $markerArray;
@@ -199,7 +200,9 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 			}
 
 			if (
+                isset($checkPriceArray[$boundaryType]) &&
 				$checkPriceArray[$boundaryType] &&
+				isset($basketConfArray[$boundaryType]['type']) &&
 				$basketConfArray[$boundaryType]['type'] == 'price'
 			) {
 				$value = $calculatedArray['priceTax'][$basketConfArray[$boundaryType]['collect']]['ALL'];
@@ -276,7 +279,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
 		$itemObj = GeneralUtility::makeInstance('tx_ttproducts_basketitem');
 		$basketItemView = GeneralUtility::makeInstance('tx_ttproducts_basketitem_view');
-		$cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
+		$cObj = FrontendUtility::getContentObjectRenderer();
         $parser = tx_div2007_core::newHtmlParser(false);
 
 		$taxObj = GeneralUtility::makeInstance('tx_ttproducts_field_tax');
@@ -372,14 +375,16 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 			$feUserRow = $GLOBALS['TSFE']->fe_user->user;
 		}
 
+		$tmp = [];
+        $feUsersParentArray = [];
 		$feUsersArray = $markerObj->getMarkerFields(
 			$tempContent,
 			$orderAddressObj->getTableObj()->tableFieldArray,
 			$orderAddressObj->getTableObj()->requiredFieldArray,
-			$tmp = array(),
+			$tmp,
 			$orderAddressViewObj->marker,
 			$feUsersViewTagArray,
-			$feUsersParentArray = array()
+			$feUsersParentArray
 		);
 
 		$orderAddressViewObj->getItemSubpartArrays(
@@ -544,11 +549,12 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 				$viewDamCatTagArray = array();
 				$catParentArray = array();
+				$tmp = [];
 				$catfieldsArray = $markerObj->getMarkerFields(
 					$itemFrameWork,
 					$damCatObj->getTableObj()->tableFieldArray,
 					$damCatObj->getTableObj()->requiredFieldArray,
-					$tmp = array(),
+					$tmp,
 					$damCatObj->marker,
 					$viewDamCatTagArray,
 					$catParentArray
@@ -694,7 +700,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 					$catRow = $row['category'] ? $tablesObj->get('tt_products_cat')->get($row['category']) : array();
 					// $catTitle= $actItem['rec']['category'] ? $this->tt_products_cat->get($actItem['rec']['category']) : '';
-					$catTitle = $catRow['title'];
+					$catTitle = $catRow['title'] ?? '';
 					$tmp = array();
 
 						// use the product if no article row has been found
@@ -748,6 +754,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 							) {
 								$prodVariantRow = $extArray['mergeArticles'];
 							} else if (
+								isset($extArray[$articleTable->getFuncTablename()]) &&
 								is_array($extArray[$articleTable->getFuncTablename()])
 							) {
 								$articleExtArray = $extArray[$articleTable->getFuncTablename()];
@@ -883,16 +890,12 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 					$markerArray['###PRICE_TOTAL_0_NO_TAX###'] = $priceViewObj->priceFormat($actItem['total0NoTax']);
 					$markerArray['###PRICE_TOTAL_0_ONLY_TAX###'] = $priceViewObj->priceFormat($actItem['total0Tax'] - $actItem['total0NoTax']);
 
-					$markerArray['###PRICE_TOTAL_TAX_RECORD_DISCOUNTED###'] = $priceViewObj->priceFormat($row['pricediscountbyproductpricetax'] * $actItem['count']);
-					$markerArray['###PRICE_TOTAL_NO_TAX_RECORD_DISCOUNTED###'] = $priceViewObj->priceFormat($row['pricediscountbyproductpricenotax'] * $actItem['count']);
-
+                    $pricecredits_total_totunits_no_tax = 0;
+                    $pricecredits_total_totunits_tax = 0;
 					if ($row['category'] == $conf['creditsCategory']) {
 						// creditpoint system start
-						$pricecredits_total_totunits_no_tax = $actItem['totalNoTax'] * $row['unit_factor'];
-						$pricecredits_total_totunits_tax = $actItem['totalTax'] * $row['unit_factor'];
-					} else if (doubleval($row['price']) && doubleval($row['price2'])) {
-						$pricecredits_total_totunits_no_tax = 0;
-						$pricecredits_total_totunits_tax = 0;
+						$pricecredits_total_totunits_no_tax = $actItem['totalNoTax'] * ($row['unit_factor'] ?? 0);
+						$pricecredits_total_totunits_tax = $actItem['totalTax'] * ( $row['unit_factor'] ?? 0);
 					}
 					$markerArray['###PRICE_TOTAL_TOTUNITS_NO_TAX###'] = $priceViewObj->priceFormat($pricecredits_total_totunits_no_tax);
 					$markerArray['###PRICE_TOTAL_TOTUNITS_TAX###'] = $priceViewObj->priceFormat($pricecredits_total_totunits_tax);
@@ -904,7 +907,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 					$page = $tablesObj->get('pages');
 					$pid = $page->getPID(
 						$conf['PIDitemDisplay'],
-						$conf['PIDitemDisplay.'],
+						$conf['PIDitemDisplay.'] ?? '',
 						$row,
 						$GLOBALS['TSFE']->rootLine[1]
 					);
@@ -926,7 +929,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 							$funcTablename == 'tt_products'
 						) &&
 						is_array($extArray) &&
-						is_array($extArray['tx_dam'])
+						isset($extArray['tx_dam'])
 					) {
 						reset($extArray['tx_dam']);
 						$damext = current($extArray['tx_dam']);
@@ -984,21 +987,22 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 					}
 					$markerArray = array_merge($markerArray, $damMarkerArray, $damCategoryMarkerArray);
 
-					$tempUrl =
-						tx_div2007_alpha5::getPageLink_fh003(
-							$cObj,
-							$pid,
-							'',
-							$this->urlObj->getLinkParams(
-								'',
-								$addQueryString,
-								true,
-								$bUseBackPid,
-								0,
-								''
-							),
-							array('useCacheHash' => true)
-						);
+                    $tempUrl =
+                        FrontendUtility::getTypoLink_URL(
+                            $cObj,
+                            $pid,
+                            $this->urlObj->getLinkParams(
+                                '',
+                                $addQueryString,
+                                true,
+                                $bUseBackPid,
+                                0,
+                                ''
+                            ),
+                            '',
+                            array('useCacheHash' => true)
+                        );
+
 					$wrappedSubpartArray['###LINK_ITEM###'] =
 						array(
 							'<a class="singlelink" href="' . htmlspecialchars($tempUrl) . '"' . $css_current . '>',
@@ -1101,9 +1105,9 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 			if (is_array($activityArray)) {
 				$activity = '';
-				if ($activityArray['products_payment']) {
+				if (!empty($activityArray['products_payment'])) {
 					$activity = 'payment';
-				} else if ($activityArray['products_info']) {
+				} else if (!empty($activityArray['products_info'])) {
 					$activity = 'info';
 				}
 				if ($activity) {
@@ -1126,12 +1130,12 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 				$excludeList = $viewParamConf['ignore'];
 			}
 
-			$url = tx_div2007_alpha5::getTypoLink_URL_fh003(
+			$url = FrontendUtility::getTypoLink_URL(
 				$cObj,
 				$pid,
 				$this->urlObj->getLinkParams(
 					$excludeList,
-					array(),
+					[],
 					true,
 					$bUseBackPid,
 					0,
@@ -1140,6 +1144,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 				$target = '',
 				$confCache
 			);
+
 			$htmlUrl = htmlspecialchars(
 					$url,
 					ENT_NOQUOTES,
@@ -1398,10 +1403,9 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 			$pointerExcludeArray = array_keys(tx_ttproducts_model_control::getPointerParamsCodeArray());
 			$singleExcludeList = $this->urlObj->getSingleExcludeList(implode(',', $pointerExcludeArray));
 			$tempUrl =
-				tx_div2007_alpha5::getPageLink_fh003(
+                FrontendUtility::getTypoLink_URL(
 					$cObj,
 					$pidagb,
-					'',
 					$this->urlObj->getLinkParams(
 						$singleExcludeList,
 						$addQueryString,
@@ -1411,6 +1415,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 						''
 					)
 				);
+
 			$wrappedSubpartArray['###LINK_AGB###'] = array(
 				'<a href="' . htmlspecialchars($tempUrl) . '" target="' . $conf['AGBtarget'] . '">',
 				'</a>'
@@ -1418,10 +1423,9 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 
             $pidPrivacy = intval($conf['PIDprivacy']);
             $tempUrl =
-                tx_div2007_alpha5::getPageLink_fh003(
+                FrontendUtility::getTypoLink_URL(
                     $cObj,
                     $pidPrivacy,
-                    '',
                     $this->urlObj->getLinkParams(
                         $singleExcludeList,
                         $addQueryString,
@@ -1439,10 +1443,9 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 			$pidRevocation = intval($conf['PIDrevocation']);
 
 			$tempUrl =
-				tx_div2007_alpha5::getPageLink_fh003(
+				FrontendUtility::getTypoLink_URL(
 					$cObj,
 					$pidRevocation,
-					'',
 					$this->urlObj->getLinkParams(
 						$singleExcludeList,
 						$addQueryString,
@@ -1452,6 +1455,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 						''
 					)
 				);
+
 			$wrappedSubpartArray['###LINK_REVOCATION###'] = array(
 				'<a href="' . htmlspecialchars($tempUrl) . '" target="' . $conf['AGBtarget'] . '">',
 				'</a>'
@@ -1667,7 +1671,10 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 			);
 
 				// Call all getBasketView hooks at the end of this method
-			if (is_array ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['getBasketView'])) {
+            if (
+                isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['getBasketView']) &&
+                is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['getBasketView'])
+            ) {
 				foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['getBasketView'] as $classRef) {
 					$hookObj= GeneralUtility::makeInstance($classRef);
 					if (method_exists($hookObj, 'getMarkerArrays')) {
@@ -1734,7 +1741,8 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 			);
 
 				// This cObject may be used to call a function which manipulates the shopping basket based on settings in an external order system. The output is included in the top of the order (HTML) on the basket-page.
-			$externalCObject = tx_div2007_alpha5::getExternalCObject_fh003($this, 'externalProcessing');
+			$externalCObject =  \JambageCom\Div2007\Utility\ObsoleteUtility::getExternalCObject($this, 'externalProcessing');
+
 			$markerArray['###EXTERNAL_COBJECT###'] = $externalCObject . '';  // adding extra preprocessing CObject
 
  // workaround for TYPO3 bug #44270

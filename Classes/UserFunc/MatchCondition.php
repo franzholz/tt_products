@@ -120,7 +120,7 @@ class MatchCondition {
 
         $bBukily = false;
         foreach ($rcArray as $uid => $row) {
-            if ($row['bulkily']) {
+            if (!empty($row['bulkily'])) {
                 $bBukily = true;
                 break;
             }

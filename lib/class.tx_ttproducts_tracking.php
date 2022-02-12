@@ -492,13 +492,14 @@ class tx_ttproducts_tracking implements \TYPO3\CMS\Core\SingletonInterface {
 		);
 
 		if ($orderRow) {
+            $tmp = [];
 			$orderView->getRowMarkerArray(
 				$tableName,
 				$orderRow,
 				'',
 				$orderMarkerArray,
-				$tmp = array(),
-				$tmp = array(),
+				$tmp,
+				$tmp,
 				$viewTagArray,
 				'TRACKING',
                 $basketExtra,
@@ -741,7 +742,7 @@ class tx_ttproducts_tracking implements \TYPO3\CMS\Core\SingletonInterface {
 
 		$markerArray['###FIELD_EMAIL###'] = $orderRow['email'];
 		$markerArray['###ORDER_UID###'] = $markerArray['###ORDER_ORDER_NO###'] = $orderObj->getNumber($orderRow['uid']);
-		$markerArray['###ORDER_DATE###'] = $this->cObj->stdWrap($orderRow['crdate'], $this->conf['orderDate_stdWrap.']);
+		$markerArray['###ORDER_DATE###'] = $this->cObj->stdWrap($orderRow['crdate'], $this->conf['orderDate_stdWrap.'] ?? '');
 		$markerArray['###TRACKING_NUMBER###'] =  $trackingCode;
 		$markerArray['###UPDATE_CODE###'] = $updateCode;
 		$markerArray['###TRACKING_DATA_NAME###'] = $pibaseObj->prefixId . '[data]';
@@ -749,7 +750,7 @@ class tx_ttproducts_tracking implements \TYPO3\CMS\Core\SingletonInterface {
 		$markerArray['###TRACKING_STATUS_COMMENT_NAME###'] = 'orderRecord[status_comment]';
 		$markerArray['###TRACKING_STATUS_COMMENT_VALUE###'] = ($bStatusValid ? '' : $orderRecord['status_comment']);
 
-		if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['tracking'])) {
+		if (isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['tracking']) && is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['tracking'])) {
 			foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['tracking'] as $classRef) {
 				$hookObj= GeneralUtility::makeInstance($classRef);
 				if (method_exists($hookObj, 'getTrackingInformation')) {

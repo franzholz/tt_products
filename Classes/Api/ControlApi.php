@@ -68,7 +68,7 @@ class ControlApi {
 				!$infoArray['billing'] ||
 				!$infoArray['billing'][$checkField] ||
 				$conf['editLockedLoginInfo'] ||
-				$infoArray['billing']['error']
+				!empty($infoArray['billing']['error'])
 			) &&
 			$conf['lockLoginUserInfo']
 		) {

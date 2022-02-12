@@ -64,7 +64,7 @@ class CustomerApi {
 		$conf,
 		$billingRow,
 		$deliveryRow,
-		$basektExtra
+		$basketExtra
 	) {
 		if (
 			isset($basketRecs) &&
@@ -90,8 +90,7 @@ class CustomerApi {
 			}
 		}
 		self::setFields($fields);
-		$requiredInfoFields = array();
-		$requiredInfoFieldArray = $conf['requiredInfoFields.'];
+		$requiredInfoFieldArray = $conf['requiredInfoFields.'] ?? [];
 		$typeArray = array('billing', 'delivery');
 
 		foreach ($typeArray as $type) {

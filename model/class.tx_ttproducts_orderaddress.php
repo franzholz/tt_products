@@ -69,7 +69,7 @@ class tx_ttproducts_orderaddress extends tx_ttproducts_table_base {
 	// 		$this->image->init($this->pibase);
 
 			$this->getTableObj()->setTCAFieldArray($tablename);
-			$this->fieldArray['payment'] = ($this->tableconf['payment'] ? $this->tableconf['payment'] : '');
+			$this->fieldArray['payment'] = ($this->tableconf['payment'] ?? '');
 			$requiredFields = 'uid,pid,email' . ($this->fieldArray['payment'] ? ',' . $this->fieldArray['payment'] : '');
 			if (is_array($this->tableconf['ALL.'])) {
 				$tmp = $this->tableconf['ALL.']['requiredFields'];
@@ -152,19 +152,22 @@ class tx_ttproducts_orderaddress extends tx_ttproducts_table_base {
 			$bCondition = true;
 		}
 
-		$whereConf = $this->conf['conf.'][$funcTablename.'.']['ALL.']['fe_users.']['where'];
-		$whereArray = GeneralUtility::trimExplode('IN', $whereConf);
-		$pos1 = strpos ($whereArray[1], '(');
-		$pos2 = strpos ($whereArray[1], ')');
-		$inString = substr ($whereArray[1], $pos1+1, $pos2-$pos1-1);
+		$whereConf = $this->conf['conf.'][$funcTablename.'.']['ALL.']['fe_users.']['where'] ?? '';
+		
+		if (!empty($whereConf)) {
+            $whereArray = GeneralUtility::trimExplode('IN', $whereConf);
+            $pos1 = strpos ($whereArray[1], '(');
+            $pos2 = strpos ($whereArray[1], ')');
+            $inString = substr ($whereArray[1], $pos1 + 1, $pos2 - $pos1 - 1);
 
-		$valueArray = GeneralUtility::trimExplode(',', $inString);
-		foreach ($valueArray as $value) {
-			if ($row[$whereArray[0]] == $value) {
-				$this->bConditionRecord = true;
-				break;
-			}
-		}
+            $valueArray = GeneralUtility::trimExplode(',', $inString);
+            foreach ($valueArray as $value) {
+                if ($row[$whereArray[0]] == $value) {
+                    $this->bConditionRecord = true;
+                    break;
+                }
+            }
+        }
 
 		if ($bCondition) {
 			$this->bCondition = true;

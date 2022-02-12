@@ -64,7 +64,7 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base {
 		if ($result) {
 			$type = $this->getType();
 			$tablename = $this->getTablename();
-			$useArticles = $this->conf['useArticles'];
+			$useArticles = $this->conf['useArticles'] ?? 0;
 			$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 			$conf = $cnf->getConf();
 
@@ -79,8 +79,8 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base {
 			}
 			$tableDesc = $this->getTableDesc();
 
-			$this->fieldArray['address'] = ($tableDesc['address'] ? $tableDesc['address'] : 'address');
-			$this->fieldArray['itemnumber'] = ($tableDesc['itemnumber'] ? $tableDesc['itemnumber'] : 'itemnumber');
+			$this->fieldArray['address'] = ($tableDesc['address'] ?? 'address');
+			$this->fieldArray['itemnumber'] = ($tableDesc['itemnumber'] ?? 'itemnumber');
 
 			if (
 				$type == 'product' ||
@@ -301,7 +301,7 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base {
 		$rc = '';
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$tableconf = $cnf->getTableConf($functablename, $theCode);
-		if (is_array($tableconf) && $tableconf['urlparams']) {
+		if (is_array($tableconf) && isset($tableconf['urlparams'])) {
 			$rc = $tableconf['urlparams'];
 		}
 		return $rc;

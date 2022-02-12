@@ -1,3 +1,12 @@
+2022-02-12 Franz Holzinger <franz@ttproducts.de>
+    * bugfixes PHP 8
+    * add new transactor listener
+
+2022-02-09 Franz Holzinger <franz@ttproducts.de>
+    * remove paymentlib
+    * remove markers ###PRICE_TOTAL_TAX_RECORD_DISCOUNTED### and ###PRICE_TOTAL_TAX_RECORD_DISCOUNTED###
+    * replace all calls to the tx_div2007_alpha5 class.
+
 2022-01-05 Franz Holzinger <franz@ttproducts.de>
     * use the field sliderimage_uid for FAL instead of sliderimage
     * outdated external cObject: Use a Hook instead. Remove calls to tx_div2007_alpha5::load_noLinkExtCobj_fh002

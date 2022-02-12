@@ -190,7 +190,7 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Cor
 			$fieldArray = $this->getFieldArray();
 			$count = 0;
 			foreach ($fieldArray as $key => $field) {
-				if ($this->selectableArray[$key]) {
+				if (!empty($this->selectableArray[$key])) {
 					if (
 						isset($variantArray[$count])
 					) {
@@ -212,7 +212,7 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Cor
 						if (isset($variantValueArray[$variantIndex])) {
 							$row[$field] = $variantValueArray[$variantIndex];
 						} else {
-							$row[$field] = $variantValueArray[0];
+							$row[$field] = $variantValueArray['0'] ?? '';
 						}
 					}
 					$count++;
@@ -237,6 +237,7 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Cor
 			$extArray = $row['ext'];
 
 			if (
+                isset($extArray['tt_products']) &&
 				is_array($extArray['tt_products'])
 			) {
 				reset($extArray['tt_products']);
@@ -283,18 +284,17 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Cor
 			$count = 0;
 
 			foreach ($fieldArray as $key => $field) {
-				if ($this->selectableArray[$key]) {
-					$variantValue = $variantRow[$field];
-// 					$prodVariantArray = GeneralUtility::trimExplode($variantSeparator, $row[$field]);
-					$prodVariantArray =
-						preg_split(
-						'/[\h]*' . $variantSeparator . '[\h]*/',
-						$row[$field],
-						-1,
-						PREG_SPLIT_NO_EMPTY
-					);
+				if (!empty($this->selectableArray[$key])) {
+					$variantValue = $variantRow[$field] ?? '';
 
-					if ($variantValue != '') {
+					if ($variantValue != '' && isset($row[$field]) && strlen($row[$field])) {
+                        $prodVariantArray =
+                            preg_split(
+                            '/[\h]*' . $variantSeparator . '[\h]*/',
+                            $row[$field],
+                            -1,
+                            PREG_SPLIT_NO_EMPTY
+                        );
 						$varantIndex = array_search($variantValue, $prodVariantArray);
 						$variantArray[] = $varantIndex;
 						$variantResultRow[$field] = $varantIndex;
@@ -380,7 +380,7 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Cor
 			$rcRow = $row;
 
 			foreach ($fieldArray as $field) {
-				$variants = $row[$field];
+				$variants = $row[$field] ?? '';
 				$tmpArray =
 					preg_split(
 						'/[\h]*' . $variantSeparator . '[\h]*/',
@@ -390,7 +390,7 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Cor
 					);
 
 				$index = (isset($variantArray[$field]) ? $variantArray[$field] : 0);
-				$rcRow[$field] = $tmpArray[$index];
+				$rcRow[$field] = $tmpArray[$index] ?? '';
 			}
 			$result = $rcRow;
 		} else {
@@ -464,7 +464,7 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Cor
 							PREG_SPLIT_NO_EMPTY
 						);
 
-					if ($articleValueArray[0]) {
+					if (!empty($articleValueArray['0'])) {
 						$valueArray = array_merge($valueArray, $articleValueArray);
 					}
 				}
@@ -505,7 +505,7 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Cor
 		$variantSeparator = $this->getSplitSeparator();
 
 		foreach ($variantRowArray as $field => $valueArray) {
-			if ($row[$field] != '') {
+			if (isset($row[$field]) && $row[$field] != '') {
 
 				$variantRowArray[$field] =
 					preg_split(

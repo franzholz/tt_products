@@ -55,13 +55,12 @@ class tx_ttproducts_card extends tx_ttproducts_table_base {
 		$basketExtra = tx_ttproducts_control_basket::getBasketExtra();
 
 		if (isset($basketExtra) && is_array($basketExtra) && isset($basketExtra['payment.'])) {
-			$allowedUids = $basketExtra['payment.']['creditcards'];
+			$allowedUids = $basketExtra['payment.']['creditcards'] ?? '';
 		}
 
 		$result = parent::init($functablename);
 
-		$this->ccArray = array();
-		$this->ccArray = $formerBasket['creditcard'];
+		$this->ccArray = $formerBasket['creditcard'] ?? [];
 		if (isset($allowedUids)) {
 			$this->allowedArray = GeneralUtility::trimExplode(',',$allowedUids);
 		}
@@ -70,7 +69,7 @@ class tx_ttproducts_card extends tx_ttproducts_table_base {
 		foreach ($this->inputFieldArray as $k => $field) {
 			$size = $this->sizeArray[$field];
 			if ($size) {
-				if ($this->ccArray[$field] && strcmp ($this->ccArray[$field], $this->asteriskArray[$size]) != 0) {
+				if (isset($this->ccArray[$field]) && strcmp ($this->ccArray[$field], $this->asteriskArray[$size]) != 0) {
 					$bNumberRecentlyModified = true;
 				}
 			}
@@ -169,15 +168,20 @@ class tx_ttproducts_card extends tx_ttproducts_table_base {
 				$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
 				$GLOBALS['TYPO3_DB']->sql_free_result($res);
 				for ($i = 1; $i <= 4; ++$i) {
-					$tmpOldPart = substr($row['cc_number'], ($i-1) * 4, 4);
-					if (strcmp($ccArray['cc_number_' . $i], $this->asteriskArray[$this->sizeArray['cc_number_' . $i]]) == 0) {
-						$ccArray['cc_number_' . $i] = $tmpOldPart;
-					}
+                    $tmpOldPart = '';
+                    if (!empty($row['cc_number'])) {
+                        $tmpOldPart = substr($row['cc_number'], ($i-1) * 4, 4);
+                    }
+                    if (isset($ccArray['cc_number_' . $i])) {
+                        if (strcmp($ccArray['cc_number_' . $i], $this->asteriskArray[$this->sizeArray['cc_number_' . $i]]) == 0) {
+                            $ccArray['cc_number_' . $i] = $tmpOldPart;
+                        }
+                    }
 				}
 				$fieldArray = array('cc_type', 'owner_name', 'cvv2');
 
 				foreach ($fieldArray as $k => $field) {
-					if (strcmp($ccArray[$field], $this->asteriskArray[$this->sizeArray[$field]]) == 0) {
+					if (isset($ccArray[$field]) && strcmp($ccArray[$field], $this->asteriskArray[$this->sizeArray[$field]]) == 0) {
 						unset($newFields[$field]); // prevent from change into asterisks
 					}
 				}
@@ -234,7 +238,7 @@ class tx_ttproducts_card extends tx_ttproducts_table_base {
 
 
 	public function getRow ($uid, $bFieldArrayAll = false) {
-// 		$rcArray = array();
+		$rcArray = array();
 		if ($bFieldArrayAll) {
 			foreach ($this->inputFieldArray as $k => $field) {
 				$rcArray[$field] = '';
@@ -275,7 +279,7 @@ class tx_ttproducts_card extends tx_ttproducts_table_base {
 				continue;
 			}
 
-			$testVal = $this->ccArray[$field];
+			$testVal = $this->ccArray[$field] ?? '';
 			if (
 				!\TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($testVal) &&
 				!$testVal

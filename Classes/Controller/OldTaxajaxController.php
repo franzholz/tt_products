@@ -50,6 +50,8 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 
+use JambageCom\Div2007\Utility\FrontendUtility;
+
 
 class OldTaxajaxController {
 
@@ -64,12 +66,12 @@ class OldTaxajaxController {
     {
         global $TSFE, $BE_USER, $TYPO3_CONF_VARS, $error;
 
-        $pageId = \JambageCom\Div2007\Utility\FrontendUtility::getPageId($request);
+        $pageId = FrontendUtility::getPageId($request);
         if (!$pageId) {
             throw new \RuntimeException('Error in tt_products: No page id for Ajax call.');
         }
 
-        \JambageCom\Div2007\Utility\FrontendUtility::init($pageId);
+        FrontendUtility::init($pageId);
 
 
         // ******************************************************

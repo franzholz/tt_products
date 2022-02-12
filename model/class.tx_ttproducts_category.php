@@ -54,7 +54,7 @@ class tx_ttproducts_category extends tx_ttproducts_category_base {
 	public function init (
 		$functablename
 	) {
-		$tablename = ($tablename ? $tablename : $functablename);
+		$tablename = $functablename;
 
 		$result = parent::init($functablename);
 
@@ -82,7 +82,7 @@ class tx_ttproducts_category extends tx_ttproducts_category_base {
 					$prodTableDesc = $cnf->getTableDesc($prodfunctablename);
 					$prodtablename = $prodOb->getTablename();
 					$categoryField = ($prodTableDesc['category'] ? $prodTableDesc['category'] : 'category');
-					$rcArray = tx_div2007_alpha5::getForeignTableInfo_fh003($prodtablename, $categoryField);
+					$rcArray = \JambageCom\Div2007\Utility\TableUtility::getForeignTableInfo($prodtablename, $categoryField);
 					$this->setMMTablename($rcArray['mmtable']);
 				}
 			}
@@ -111,11 +111,11 @@ class tx_ttproducts_category extends tx_ttproducts_category_base {
 				$tableObj->setTCAFieldArray($this->getTableObj()->langname);
 			}
 
-			if ($this->tableconf['language.'] && $this->tableconf['language.']['type'] == 'csv') {
+			if (isset($this->tableconf['language.']) && isset($this->tableconf['language.']['type']) && $this->tableconf['language.']['type'] == 'csv' && isset($this->tableconf['language.']['file'])) {
 				$tableObj->initLanguageFile($this->tableconf['language.']['file']);
 			}
 
-			if ($this->tableconf['language.'] && is_array($this->tableconf['language.']['marker.'])) {
+			if (isset($this->tableconf['language.']) && isset($this->tableconf['language.']['marker.'])) {
 				$tableObj->initMarkerFile($this->tableconf['language.']['marker.']['file']);
 			}
 		}
@@ -126,9 +126,9 @@ class tx_ttproducts_category extends tx_ttproducts_category_base {
 	public function getRootCat () {
 		$functablename = $this->getFuncTablename ();
 		if ($functablename == 'tt_products_cat') {
-			$result = $this->conf['rootCategoryID'];
+			$result = $this->conf['rootCategoryID'] ?? '';
 		} else if ($functablename == 'tx_dam_cat') {
-			$result = $this->conf['rootDAMCategoryID'];
+			$result = $this->conf['rootDAMCategoryID'] ?? '';
 		}
 
 		if ($result == '') {
@@ -286,7 +286,7 @@ class tx_ttproducts_category extends tx_ttproducts_category_base {
 
 					while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
 						if (
-							is_array($tableObj->langArray) &&
+							!empty(is_array($tableObj->langArray)) &&
 							$tableObj->langArray[$row[$labelFieldname]]
 						) {
 							$row[$labelFieldname] = $tableObj->langArray[$row[$labelFieldname]];
@@ -513,24 +513,26 @@ class tx_ttproducts_category extends tx_ttproducts_category_base {
 					$relationArray[$uid][$field] = $value;
 				}
 
-				$parent = $row[$this->parentField];
+				$parentId = '';
+				if ($this->parentField != '' && isset($row[$this->parentField])) {
+                    $parentId = $row[$this->parentField];
+				}
 
 				if(
-					(!$parent) ||
+					(!$parentId) ||
 					(
 						$allowedCats &&
-						!in_array($parent, $catArray)
+						!in_array($parentId, $catArray)
 					) ||
 					(
 						$excludeCats &&
-						in_array($parent, $excludeArray)
+						in_array($parentId, $excludeArray)
 					)
 				) {
-					$parent = 0;
+					$parentId = 0;
 				}
 
-				$relationArray[$uid]['parent_category'] = $parent;
-				$parentId = $row[$this->parentField];
+				$relationArray[$uid]['parent_category'] = $parentId;
 
 				if (
 					$parentId &&

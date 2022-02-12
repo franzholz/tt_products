@@ -40,6 +40,7 @@
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+use JambageCom\Div2007\Utility\FrontendUtility;
 
 class tx_ttproducts_subpartmarker implements \TYPO3\CMS\Core\SingletonInterface {
 
@@ -52,7 +53,7 @@ class tx_ttproducts_subpartmarker implements \TYPO3\CMS\Core\SingletonInterface 
 		if (isset($conf['altMainMarkers.'])) {
             $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
             $conf = $cnfObj->getConf();
-            $cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
+            $cObj = FrontendUtility::getContentObjectRenderer();
             $sPBody = substr($subpartMarker, 3, -3);
 			$altSPM = trim($cObj->stdWrap($conf['altMainMarkers.'][$sPBody], $conf['altMainMarkers.'][$sPBody.'.']));
 		}

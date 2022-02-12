@@ -39,6 +39,7 @@
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+use JambageCom\Div2007\Utility\FrontendUtility;
 
 class tx_ttproducts_voucher extends tx_ttproducts_table_base {
 	protected $amount;
@@ -343,7 +344,7 @@ class tx_ttproducts_voucher extends tx_ttproducts_table_base {
 	public function doProcessing ($recs) {
 		$voucherCode = $recs['tt_products']['vouchercode'];
 		$this->setVoucherCode($voucherCode);
-		$cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
+		$cObj = FrontendUtility::getContentObjectRenderer();
 
 		if (
 			$this->isVoucherCodeUsed($voucherCode) ||

@@ -39,6 +39,7 @@
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+use JambageCom\Div2007\Utility\FrontendUtility;
 
 use JambageCom\TtProducts\Api\PluginApi;
 
@@ -127,8 +128,11 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 			$conf = $tsparser->setup;
 		}
 		$this->pibaseClass = $pibaseClass;
+        $conf['code'] = $conf['code'] ?? '';
+        $conf['code.'] = $conf['code.'] ?? [];
+
 		$config['code'] =
-			tx_div2007_alpha5::getSetupOrFFvalue_fh004(
+            \JambageCom\Div2007\Utility\ConfigUtility::getSetupOrFFvalue(
 				$cObj,
 	 			$conf['code'],
 	 			$conf['code.'],
@@ -213,7 +217,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 			$this->pid,
 			$this->pageAsCategory,
 			$errorCode,
-			$piVars['backPID']
+			$piVars['backPID'] ?? ''
 		);
 
 		if (!$result) {
@@ -261,7 +265,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 			$paramVal = '';
 
 			foreach ($paramArray as $param) {
-				$paramVal = ($piVars[$param] ? $piVars[$param] : '');
+				$paramVal = ($piVars[$param] ?? '');
 				if ($paramVal) {
 					$bParamValIsInt = \TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($paramVal);
 
@@ -287,7 +291,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
             T3JQUERY === true
         ) {
 			tx_t3jquery::addJqJS();
-		} else if ($conf['pathToJquery'] != '') {
+		} else if (!empty($conf['pathToJquery'])) {
 		// if none of the previous is true, you need to include your own library
 			$GLOBALS['TSFE']->additionalHeaderData[TT_PRODUCTS_EXT . '-jquery'] = '<script src="' . GeneralUtility::getFileAbsFileName($conf['pathToJquery']) . '" type="text/javascript" ></script>';
 		}
@@ -315,7 +319,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
         $piVars = tx_ttproducts_model_control::getPiVars();
         $parser = tx_div2007_core::newHtmlParser(false);
 
-		if ($conf['no_cache'] && $this->convertToUserInt($cObj)) {
+		if (!empty($conf['no_cache']) && $this->convertToUserInt($cObj)) {
 			// Compatibility with previous versions where users could set
 			// 'no_cache' TS option. This option does not exist anymore and we
 			// simply convert the plugin to USER_INT if that old option is set.
@@ -863,7 +867,10 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 					$contentTmp = '<br>TEST:' . $scriptCall . '</br><br/><br>' . $commandOut . '<br/>';
 
 						// Call all test hooks
-					if (is_array ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['test'])) {
+					if (
+                        isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['test']) &&
+                        is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['test'])
+                    ) {
 						foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['test'] as $classRef) {
 							if (count($errorCode)) {
 								break;
@@ -917,7 +924,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 					);
 			}
 
-			if ($errorCode[0]) {
+			if (!empty($errorCode[0])) {
 
 				$errorConf = array();
 				if (isset($this->conf['error.'])) {
@@ -933,7 +940,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 						isset($errorConf[$indice . '.']['redirect.']['pid'])
 					) {
 						$pid = $errorConf[$indice . '.']['redirect.']['pid'];
-						$url = tx_div2007_alpha5::getTypoLink_URL_fh003(
+						$url = FrontendUtility::getTypoLink_URL(
 							$this->cObj,
 							$pid,
 							$urlObj->getLinkParams(
@@ -978,7 +985,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 
 			if (!$bRunAjax && intval($conf['wrapInCode'])) {
 				$content .=
-					tx_div2007_alpha5::wrapContentCode_fh004(
+					FrontendUtility::wrapContentCode(
 						$contentTmp,
 						$theCode,
 						$pibaseObj->prefixId,
@@ -989,7 +996,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 			}
 
 			$javaScriptConf = $cnf->getJsConf($theCode);
-			if ($javaScriptConf['file'] != '') {
+			if (!empty($javaScriptConf['file'])) {
                 $fileName = $javaScriptConf['file'];
                 $incFile = '';
 
@@ -1011,7 +1018,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 		if ($bRunAjax || !intval($conf['wrapInBaseClass'])) {
 			$result = $content;
 		} else {
-			$content = tx_div2007_alpha5::wrapInBaseClass_fh002($content, $pibaseObj->prefixId, $pibaseObj->extKey);
+			$content = FrontendUtility::wrapInBaseClass($content, $pibaseObj->prefixId, $pibaseObj->extKey);
 			$cssObj = GeneralUtility::makeInstance('tx_ttproducts_css');
 			$result = '';
 
@@ -1222,12 +1229,12 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 		}
 
 		$markerArray = $globalMarkerArray;
-		$markerArray['###FORM_URL###'] = tx_div2007_alpha5::getPageLink_fh003(
-			$cObj,
-			$GLOBALS['TSFE']->id,
-			'',
-			$urlObj->getLinkParams('', array(), true)
-		);
+        $markerArray['###FORM_URL###'] =
+            FrontendUtility::getTypoLink_URL(
+                $cObj,
+                $GLOBALS['TSFE']->id,
+                $urlObj->getLinkParams('', array(), true)
+            );
 
 		$content = $parser->substituteMarkerArray($content, $markerArray);
 		return $content;
@@ -1283,7 +1290,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 			($theCode == 'SINGLE') ||
 			$bSingleFromList
 		) {
-			$extVars = $piVars['variants'];
+			$extVars = $piVars['variants'] ?? '';
 			$extVars = ($extVars ? $extVars : GeneralUtility::_GP('ttp_extvars'));
 			$showAmount = $cnf->getBasketConf('view', 'showAmount');
 
@@ -1296,9 +1303,9 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 			}
 
 			if (
-				!$conf['NoSingleViewOnList'] &&
-				!$conf['PIDitemDisplay'] &&
-				!$conf['PIDitemDisplay.']
+				empty($conf['NoSingleViewOnList']) &&
+				empty($conf['PIDitemDisplay']) &&
+				empty($conf['PIDitemDisplay.'])
 			) {
 				if ($this->convertToUserInt($cObj)) {
 					return '';

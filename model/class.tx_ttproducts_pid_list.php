@@ -39,6 +39,8 @@
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+use JambageCom\Div2007\Utility\FrontendUtility;
+
 
 class tx_ttproducts_pid_list {
 	protected $pid_list;				// list of page ids
@@ -113,7 +115,7 @@ class tx_ttproducts_pid_list {
 	 * @return	[type]		...
 	 */
 	public function applyRecursive ($recursive, &$pids, $bStore = false) {
-		$cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
+		$cObj = FrontendUtility::getContentObjectRenderer();
 
 		if ($pids == -1) {
 			$this->allPages = true;

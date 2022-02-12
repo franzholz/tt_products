@@ -75,6 +75,9 @@ class PriceApi {
 
 		if ($bIsAddedPrice) {
 			if (strpos($field, 'price') === 0) {
+                if (!isset($targetRow['surcharge' . $priceNumber])) {
+                    $targetRow['surcharge' . $priceNumber] = 0;
+                }
 				$targetRow['surcharge' . $priceNumber] += $value;
 			}
 
@@ -84,13 +87,19 @@ class PriceApi {
 				if (!isset($targetRow['ext'])) {
 					$targetRow['ext'] = array();
 				}
+				if (!isset($targetRow['ext']['addedPrice'])) {
+                    $targetRow['ext']['addedPrice'] = 0;
+                }
 				$targetRow['ext']['addedPrice'] += $targetRow[$field];
 			}
         }
 
 		if($bKeepNotEmpty) {
 			if (
-				!round($targetRow[$field], 16) &&
+                (
+                    !isset($targetRow[$field]) ||
+                    !round($targetRow[$field], 16)
+				) &&
 				round($value, 16)
 			) {
 				$targetRow[$field] = $value;

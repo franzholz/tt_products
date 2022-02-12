@@ -162,7 +162,10 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 		}
 
 			// Call info hooks
-		if (is_array ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['info'])) {
+		if (
+            isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['info']) &&
+            is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['info'])
+        ) {
 			foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['info'] as $classRef) {
 				$hookObj = GeneralUtility::makeInstance($classRef);
 				if (method_exists($hookObj, 'mapPersonIntoDelivery')) {
@@ -229,7 +232,10 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 			if (($checkFieldsExpr) && (is_array($checkFieldsExpr))) {
 				foreach ($checkFieldsExpr as $fName => $checkExpr) {
 					if (trim($this->infoArray[$type][$fName]) != '') {
-						if (preg_match('/' . $checkExpr . '/', $this->infoArray[$type][$fName]) == 0) {
+						if (
+                            isset($this->infoArray[$type][$fName]) &&
+                            preg_match('/' . $checkExpr . '/', $this->infoArray[$type][$fName]) == 0
+                        ) {
 							$result = $fName;
 							break;
 						}
@@ -247,13 +253,17 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 	 */
 	public function checkAllowed ($basketExtra) {
 		$rc = '';
-		$staticInfo = \JambageCom\Div2007\Utility\StaticInfoTablesUtility::getStaticInfo();
+        if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
+            $staticInfoApi = GeneralUtility::makeInstance(\JambageCom\Div2007\Api\StaticInfoTablesApi::class);
+        } else {
+            $staticInfoApi = GeneralUtility::makeInstance(\JambageCom\Div2007\Api\OldStaticInfoTablesApi::class);
+        }
 		$where = $this->getWhereAllowedCountries($basketExtra);
 
 		if (
 			$where &&
 			$this->conf['useStaticInfoCountry'] &&
-			is_object($staticInfo)
+			$staticInfoApi->isActive()
 		) {
 			$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 			$countryObj = $tablesObj->get('static_countries');
@@ -278,10 +288,14 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 	 * gets the WHERE clause for the allowed static_countries
 	 */
 	public function getWhereAllowedCountries ($basketExtra) {
-		$staticInfo = \JambageCom\Div2007\Utility\StaticInfoTablesUtility::getStaticInfo();
+        if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
+            $staticInfoApi = GeneralUtility::makeInstance(\JambageCom\Div2007\Api\StaticInfoTablesApi::class);
+        } else {
+            $staticInfoApi = GeneralUtility::makeInstance(\JambageCom\Div2007\Api\OldStaticInfoTablesApi::class);
+        }
 		$where = '';
 
-		if (is_object($staticInfo)) {
+        if ($staticInfoApi->isActive()) {
 			$where = \JambageCom\TtProducts\Api\PaymentShippingHandling::getWhere($basketExtra, 'static_countries');
 		}
 		return $where;
@@ -338,26 +352,33 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$orderAddressObj = $orderAddressViewObj->getModelObj();
 		$selectInfoFields = $orderAddressObj->getSelectInfoFields();
 		$piVars = tx_ttproducts_model_control::getPiVars();
-		$staticInfo = \JambageCom\Div2007\Utility\StaticInfoTablesUtility::getStaticInfo();
+        if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
+            $staticInfoApi = GeneralUtility::makeInstance(\JambageCom\Div2007\Api\StaticInfoTablesApi::class);
+        } else {
+            $staticInfoApi = GeneralUtility::makeInstance(\JambageCom\Div2007\Api\OldStaticInfoTablesApi::class);
+        }
 
 		foreach ($infoFields as $k => $fName) {
 			if (!in_array($fName, $selectInfoFields)) {
 				$fieldMarker = strtoupper($fName);
 				if ($bHtml) {
 					$markerArray['###PERSON_' . $fieldMarker . '###'] =
-					htmlspecialchars($this->infoArray['billing'][$fName]);
+					htmlspecialchars($this->infoArray['billing'][$fName] ?? '');
 					$markerArray['###DELIVERY_' . $fieldMarker . '###'] =
-					htmlspecialchars($this->infoArray['delivery'][$fName]);
+					htmlspecialchars($this->infoArray['delivery'][$fName] ?? '');
 				} else {
 					$markerArray['###PERSON_' . $fieldMarker . '###'] =
-					$this->infoArray['billing'][$fName];
+					$this->infoArray['billing'][$fName] ?? '';
 					$markerArray['###DELIVERY_' . $fieldMarker . '###'] =
-					$this->infoArray['delivery'][$fName];
+					$this->infoArray['delivery'][$fName] ?? '';
 				}
 			}
 		}
 
-		if ($this->conf['useStaticInfoCountry'] && is_object($staticInfo)) {
+		if ($this->conf['useStaticInfoCountry'] && $staticInfoApi->isActive()) {
+            $countryViewObj = $tablesObj->get('static_countries', true);
+            $countryObj = $countryViewObj->getModelObj();
+
 			$bReady = false;
 			$whereCountries = $this->getWhereAllowedCountries($basketExtra);
 			$countryCodeArray = array();
@@ -382,7 +403,7 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 				if (version_compare($sitVersion, '2.0.1', '>=')) {
 					$markerArray['###PERSON_COUNTRY_CODE###'] =
-						$staticInfo->buildStaticInfoSelector(
+						$staticInfoApi->buildStaticInfoSelector(
 							'COUNTRIES',
 							'recs[personinfo][country_code]',
 							'',
@@ -400,32 +421,35 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 						);
 
 					if (isset($outSelectedArray) && is_array($outSelectedArray)) {
+                        $countryCode = current($outSelectedArray);
 						$markerArray['###PERSON_ZONE###'] =
-							$staticInfo->buildStaticInfoSelector(
+							$staticInfoApi->buildStaticInfoSelector(
 								'SUBDIVISIONS',
 								'recs[personinfo][zone]',
 								'',
 								$zoneCodeArray['billing'],
-								current($outSelectedArray),
+								$countryCode, // neu
 								0,
 								'',
 								'',
 								'',
 								''
 							);
+                        $countryRow = $countryObj->isoGet($countryCode);
+                        $countryViewObj->getRowMarkers($markerArray, 'PERSON', $countryRow);
 					} else {
 						$markerArray['###PERSON_ZONE###'] = '';
 					}
-					$countryArray = $staticInfo->initCountries('ALL','',false,$whereCountries);
+					$countryArray = $staticInfoApi->initCountries('ALL','',false,$whereCountries);
 					$markerArray['###PERSON_COUNTRY_FIRST###'] = current($countryArray);
 					$markerArray['###PERSON_COUNTRY_FIRST_HIDDEN###'] = '<input type="hidden" name="recs[personinfo][country_code]" size="3" value="'.current(array_keys($countryArray)).'">';
 
 					$markerArray['###PERSON_COUNTRY###'] =
-						$staticInfo->getStaticInfoName('COUNTRIES', $countryCodeArray['billing'],'','');
+						$staticInfoApi->getStaticInfoName($countryCodeArray['billing'],'COUNTRIES','','');
 					unset($outSelectedArray);
 
 					$markerArray['###DELIVERY_COUNTRY_CODE###'] =
-						$staticInfo->buildStaticInfoSelector(
+						$staticInfoApi->buildStaticInfoSelector(
 							'COUNTRIES',
 							'recs[delivery][country_code]',
 							'',
@@ -443,28 +467,35 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 						);
 
 					if (isset($outSelectedArray) && is_array($outSelectedArray)) {
+                        $countryCode = current($outSelectedArray);
 						$markerArray['###DELIVERY_ZONE###'] =
-							$staticInfo->buildStaticInfoSelector(
+							$staticInfoApi->buildStaticInfoSelector(
 								'SUBDIVISIONS',
 								'recs[delivery][zone]',
 								'',
 								$zoneCodeArray['billing'],
-								current($outSelectedArray),
+								$countryCode,
 								0,
 								'',
 								'',
 								'',
 								''
 							);
-					} else {
+                        $countryRow = $countryObj->isoGet($countryCode);
+                        $countryViewObj->getRowMarkers(
+                            $markerArray,
+                            'DELIVERY',
+                            $countryRow
+                        );
+                    } else {
 						$markerArray['###DELIVERY_ZONE###'] = '';
 					}
 
 					$markerArray['###DELIVERY_COUNTRY_FIRST###'] = $markerArray['###PERSON_COUNTRY_FIRST###'];
 					$markerArray['###DELIVERY_COUNTRY###'] =
-						$staticInfo->getStaticInfoName(
-							'COUNTRIES',
+						$staticInfoApi->getStaticInfoName(
 							$countryCodeArray['delivery'],
+							'COUNTRIES',
 							'',
 							''
 						);
@@ -485,7 +516,7 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 			if (!$bReady) {
 				$markerArray['###PERSON_COUNTRY_CODE###'] =
-					$staticInfo->buildStaticInfoSelector(
+					$staticInfoApi->buildStaticInfoSelector(
 						'COUNTRIES',
 						'recs[personinfo][country_code]',
 						'',
@@ -495,14 +526,15 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 						'field_personinfo_country_code'
 					);
 				$markerArray['###PERSON_COUNTRY###'] =
-					$staticInfo->getStaticInfoName(
-						'COUNTRIES',
+					$staticInfoApi->getStaticInfoName(
 						$countryCodeArray['billing'],
+						'COUNTRIES',
 						'',
 						''
 					);
+        
 				$markerArray['###DELIVERY_COUNTRY_CODE###'] =
-					$staticInfo->buildStaticInfoSelector(
+					$staticInfoApi->buildStaticInfoSelector(
 						'COUNTRIES',
 						'recs[delivery][country_code]',
 						'',
@@ -512,9 +544,9 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 						'field_delivery_country_code'
 					);
 				$markerArray['###DELIVERY_COUNTRY###'] =
-					$staticInfo->getStaticInfoName(
-						'COUNTRIES',
+					$staticInfoApi->getStaticInfoName(
 						$countryCodeArray['delivery'],
+						'COUNTRIES',
 						'',
 						''
 					);
@@ -541,14 +573,16 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 			'delivery'
 		);
 
-		$text = tx_div2007_core::csConv($this->infoArray['delivery']['note'], $GLOBALS['TSFE']->metaCharset);
+		$text = $this->infoArray['delivery']['note'] ?? '';
 		$markerArray['###DELIVERY_NOTE###'] = $text;
 		$markerArray['###DELIVERY_NOTE_DISPLAY###'] = nl2br($text);
-		$markerArray['###DELIVERY_GIFT_SERVICE###'] = $this->infoArray['delivery']['giftservice'];
-		$markerArray['###DELIVERY_GIFT_SERVICE_DISPLAY###'] = nl2br($this->infoArray['delivery']['giftservice']);
-		$markerArray['###DELIVERY_RADIO1_1###'] = ($this->infoArray['delivery']['radio1'] == '1' ? 'checked ' : '');
-		$markerArray['###DELIVERY_RADIO1_2###'] = ($this->infoArray['delivery']['radio1'] == '2' ? 'checked ' : '');
-		$markerArray['###DELIVERY_RADIO1_DISPLAY###'] = $this->infoArray['delivery']['radio1'];
+		$markerArray['###DELIVERY_GIFT_SERVICE###'] = $this->infoArray['delivery']['giftservice'] ?? '';
+		$markerArray['###DELIVERY_GIFT_SERVICE_DISPLAY###'] = nl2br($this->infoArray['delivery']['giftservice'] ?? '');
+		if (isset($this->infoArray['delivery']['radio1'])) {
+            $markerArray['###DELIVERY_RADIO1_1###'] = ($this->infoArray['delivery']['radio1'] == '1' ? 'checked ' : '');
+            $markerArray['###DELIVERY_RADIO1_2###'] = ($this->infoArray['delivery']['radio1'] == '2' ? 'checked ' : '');
+            $markerArray['###DELIVERY_RADIO1_DISPLAY###'] = $this->infoArray['delivery']['radio1'];
+        }
 
 			// Desired delivery date.
 		$markerArray['###DELIVERY_DESIRED_DATE###'] = $this->infoArray['delivery']['desired_date'];
@@ -681,13 +715,13 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 
 			// Fe users:
-		$markerArray['###FE_USER_TT_PRODUCTS_DISCOUNT###'] = $GLOBALS['TSFE']->fe_user->user['tt_products_discount'];
-		$markerArray['###FE_USER_USERNAME###'] = $GLOBALS['TSFE']->fe_user->user['username'];
-		$markerArray['###FE_USER_UID###'] = $GLOBALS['TSFE']->fe_user->user['uid'];
+		$markerArray['###FE_USER_TT_PRODUCTS_DISCOUNT###'] = $GLOBALS['TSFE']->fe_user->user['tt_products_discount'] ?? '';
+		$markerArray['###FE_USER_USERNAME###'] = $GLOBALS['TSFE']->fe_user->user['username'] ?? '';
+		$markerArray['###FE_USER_UID###'] = $GLOBALS['TSFE']->fe_user->user['uid'] ?? '';
 		$bAgb = ($this->infoArray['billing']['agb'] && (!isset($piVars['agb']) || $piVars['agb'] > 0));
-		$markerArray['###FE_USER_CNUM###'] = $GLOBALS['TSFE']->fe_user->user['cnum'];
+		$markerArray['###FE_USER_CNUM###'] = $GLOBALS['TSFE']->fe_user->user['cnum'] ?? '';
 		$markerArray['###PERSON_AGB###'] = 'value="1" ' . ($bAgb ? 'checked="checked"' : '');
-		$markerArray['###USERNAME###'] = $this->infoArray['billing']['email'];
+		$markerArray['###USERNAME###'] = $this->infoArray['billing']['email'] ?? '';
 		$markerArray['###PASSWORD###'] = $this->password;
 		$valueArray = $GLOBALS['TCA']['sys_products_orders']['columns']['foundby']['config']['items'];
 		
@@ -710,23 +744,23 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 			$languageObj,
 			$valueArray,
 			'recs[delivery][foundby]',
-			$this->infoArray['delivery']['foundby'],
+			$this->infoArray['delivery']['foundby'] ?? '',
 			true,
 			true,
 			array(),
 			$foundbyType
 		);
 
-		$foundbyKey = $this->infoArray['delivery']['foundby'];
-		if (is_array($valueArray[$foundbyKey])) {
-			$tmp = tx_div2007_alpha5::sL_fh002($valueArray[$foundbyKey][0]);
+		$foundbyKey = $this->infoArray['delivery']['foundby'] ?? '';
+		if (isset($valueArray[$foundbyKey])) {
+			$tmp = $languageObj->splitLabel($valueArray[$foundbyKey][0]);
 			$text = $languageObj->getLabel($tmp);
 		}
 
 		$markerArray['###DELIVERY_FOUNDBY###'] = $text;
 		$markerArray['###DELIVERY_FOUNDBY_KEY###'] = $foundbyKey;
 		$markerArray['###DELIVERY_FOUNDBY_SELECTOR###'] = $foundbyText;
-		$markerArray['###DELIVERY_FOUNDBY_OTHERS###'] = $this->infoArray['delivery']['foundby_others'];
+		$markerArray['###DELIVERY_FOUNDBY_OTHERS###'] = $this->infoArray['delivery']['foundby_others'] ?? '';
 	} // getMarkerArray
 }
 

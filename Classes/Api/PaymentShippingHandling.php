@@ -49,6 +49,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use \TYPO3\CMS\Core\Utility\MathUtility;
 
 use JambageCom\Div2007\Utility\ExtensionUtility;
+use JambageCom\Div2007\Utility\FrontendUtility;
+
 
 
 class PaymentShippingHandling {
@@ -98,8 +100,8 @@ class PaymentShippingHandling {
 			$hookVar &&
 			isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$hookVar]) &&
 			is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$hookVar]) &&
-			isset ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$hookVar][$pskey]) &&
-			is_array ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$hookVar][$pskey])
+			isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$hookVar][$pskey]) &&
+			is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$hookVar][$pskey])
 		) {
 			foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$hookVar][$pskey] as $classRef) {
 				$hookObj= GeneralUtility::makeInstance($classRef);
@@ -154,7 +156,7 @@ class PaymentShippingHandling {
 		&$wrappedSubpartArray,
 		$framework
 	) {
-		$cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
+		$cObj = FrontendUtility::getContentObjectRenderer();
         $parser = \tx_div2007_core::newHtmlParser(false);
 
 		$markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
@@ -166,7 +168,7 @@ class PaymentShippingHandling {
 		$psMessageArray = array();
 		$tmpSubpartArray = array();
 
-		$handleLib = $basketExtra['payment.']['handleLib'];
+		$handleLib = $basketExtra['payment.']['handleLib'] ?? '';
 
 		if (
 			strpos($handleLib, 'transactor') !== false &&
@@ -177,7 +179,7 @@ class PaymentShippingHandling {
 			\tx_transactor_api::init($languageObj, '', $conf);
 
 			\tx_transactor_api::getItemMarkerSubpartArrays(
-				$basketExtra['payment.']['handleLib.'],
+				$basketExtra['payment.']['handleLib.'] ?? '',
 				$subpartArray,
 				$wrappedSubpartArray
 			);
@@ -191,7 +193,7 @@ class PaymentShippingHandling {
 			if (in_array($pskey, $psArray)) {
 				$marker = strtoupper($pskey);
 				$markerPrefix = 'MESSAGE_' . $marker;
-				$keyArray = $basketExtra[$pskey];
+				$keyArray = $basketExtra[$pskey] ?? [];
 				if (!is_array($keyArray)) {
 					$keyArray = array($keyArray);
 				}
@@ -253,7 +255,7 @@ class PaymentShippingHandling {
 							}
 						}
 					} else {
-						$bActive = ($k2int == $basketExtra[$pskey][0]);
+						$bActive = isset($basketExtra[$pskey][0]) && ($k2int == $basketExtra[$pskey][0]);
 						self::helperSubpartArray(
 							$markerPrefix,
 							$bActive,
@@ -287,7 +289,7 @@ class PaymentShippingHandling {
 				}
 			}
 
-			$subpartArray['###' . $markerPrefix . '###'] = $psMessageArray[$pskey];
+			$subpartArray['###' . $markerPrefix . '###'] = $psMessageArray[$pskey] ?? [];
 		}
 	}
 
@@ -302,7 +304,7 @@ class PaymentShippingHandling {
 		$calculatedArray,
 		$basketExtra
 	) {
-		$cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
+		$cObj = FrontendUtility::getContentObjectRenderer();
 		$priceViewObj = GeneralUtility::makeInstance('tx_ttproducts_field_price_view');
 
 		if ($subkey != '') {
@@ -334,14 +336,14 @@ class PaymentShippingHandling {
         if ($subkey != '') {
             $imageCode =
                 $imageObj->getImageCode(
-                    $basketExtra[$pskey . '.'][$subkey . '.']['image.'],
+                    $basketExtra[$pskey . '.'][$subkey . '.']['image.'] ?? [],
                     $theCode
                 );
             $markerArray['###' . $markerkey . '_TITLE###'] = $basketExtra[$pskey . '.'][$subkey . '.']['title'];
         } else {
             $imageCode =
                 $imageObj->getImageCode(
-                    $basketExtra[$pskey . '.']['image.'],
+                    $basketExtra[$pskey . '.']['image.'] ?? [],
                     $theCode
                 );
             $markerArray['###' . $markerkey . '_TITLE###'] = $basketExtra[$pskey . '.']['title'];
@@ -359,7 +361,7 @@ class PaymentShippingHandling {
 		$calculatedArray,
 		$basketExtra
 	) {
-		$cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
+		$cObj = FrontendUtility::getContentObjectRenderer();
 		$priceViewObj = GeneralUtility::makeInstance('tx_ttproducts_field_price_view');
 		$urlObj = GeneralUtility::makeInstance('tx_ttproducts_url_view');
 
@@ -468,9 +470,9 @@ class PaymentShippingHandling {
 			.wrap		[string]	<select>|</select> - wrap for the selectorboxes.  Only if .radio is false. See default value below
 			.template	[string]	Template string for the display of radiobuttons.  Only if .radio is true. See default below
 			*/
-		$cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
+		$cObj = FrontendUtility::getContentObjectRenderer();
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
-		$active = $basketExtra[$pskey];
+		$active = $basketExtra[$pskey] ?? '';
 		$activeArray = is_array($active) ? $active : array($active);
 		$bUseXHTML = $GLOBALS['TSFE']->config['config']['xhtmlDoctype'] != '';
 		$selectedText = ($bUseXHTML ? 'selected="selected"' : 'selected');
@@ -508,21 +510,20 @@ class PaymentShippingHandling {
 
 		$urlObj = GeneralUtility::makeInstance('tx_ttproducts_url_view');
         $linkConf = array('useCacheHash' => true);
-		$linkUrl = htmlspecialchars(
-			\tx_div2007_alpha5::getTypoLink_URL_fh003(
-				$cObj,
-				$pid,
-				$urlObj->getLinkParams(
-					'',
-					array(),
-					true,
-					$bUseBackPid
-				),
-				'',
-				$linkConf
-			)
-		);
-
+        $linkUrl = htmlspecialchars(
+            FrontendUtility::getTypoLink_URL(
+                $cObj,
+                $pid,
+                $urlObj->getLinkParams(
+                    '',
+                    [],
+                    true,
+                    $useBackPid
+                ),
+                '',
+                $linkConf
+            )
+        );
 		$out = '';
 		$submitCode = 'this.form.action=\'' . $linkUrl . '\';this.form.submit();';
 
@@ -546,12 +547,12 @@ class PaymentShippingHandling {
 		$t = array();
 		$localBasketExtra = array();
 		if ($subkey != '') {
-			$localBasketExtra = $basketExtra[$pskey . '.'][$subkey . '.'];
+			$localBasketExtra = $basketExtra[$pskey . '.'][$subkey . '.'] ?? [];
 		} else {
-			$localBasketExtra = $basketExtra[$pskey . '.'];
+			$localBasketExtra = $basketExtra[$pskey . '.'] ?? [];
 		}
 
-		$actTitle = $localBasketExtra['title'];
+		$actTitle = $localBasketExtra['title'] ?? '';
         $confArray = \tx_ttproducts_control_basket::cleanConfArr($confArray);
 		$bWrapSelect = (count($confArray) > 1);
 
@@ -559,7 +560,7 @@ class PaymentShippingHandling {
 			foreach($confArray as $key => $item) {
 
                 if (
-					($item['show'] || !isset($item['show'])) &&
+					(!isset($item['show']) || $item['show']) &&
 					(
 						!isset($item['showLimit']) ||
 						doubleval($item['showLimit']) >= doubleval($calculatedArray['count']) ||
@@ -572,6 +573,7 @@ class PaymentShippingHandling {
 					$tableName = '';
 
 					if (
+                        isset($item['where.']) &&
 						$item['where.'] != '' &&
 						(strpos($item['title'], '###') !== false)
 					) {
@@ -676,10 +678,6 @@ class PaymentShippingHandling {
                                             $image,
                                             $theCode
                                         );
-
-									if ($theCode == 'EMAIL') {
-										\tx_div2007_alpha5::fixImageCodeAbsRefPrefix($imageCode);
-									}
 								}
 
 								self::getModelMarkerArray(
@@ -731,11 +729,12 @@ class PaymentShippingHandling {
 			$markerArray = array();
 			$viewTagArray = array();
 			$parentArray = array();
+			$tmp = [];
 			$fieldsArray = $markerObj->getMarkerFields(
 				$actTitle,
-				$tmp = array(),
-				$tmp = array(),
-				$tmp = array(),
+				$tmp,
+				$tmp,
+				$tmp,
 				$itemTable->marker,
 				$viewTagArray,
 				$parentArray
@@ -1002,6 +1001,7 @@ class PaymentShippingHandling {
 
 		if (
 			$calcSetup != '' &&
+			isset($confArray['price.']) &&
 			is_array($confArray['price.']) &&
 			isset($confArray['price.']['calc.']) &&
 			isset($confArray['price.']['calc.']['use']) &&
@@ -1087,7 +1087,7 @@ class PaymentShippingHandling {
 // 					$priceShippingNoTax += $this->priceObj->getPrice($shippingPrice,false,$row,$taxIncluded,true);
 // 				}
 
-				if ($row['bulkily']) {
+				if (!empty($row['bulkily'])) {
 					$value = floatval($basketExtra['shipping.']['bulkilyAddition']) * $actItem['count'];
 					$row['tax'] = floatval($basketExtra['shipping.']['bulkilyFeeTax']);
 					$priceShippingTax +=
@@ -1135,12 +1135,12 @@ class PaymentShippingHandling {
 		&$priceNoTax,
         &$resetPrice 
 	) {
-		$cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
+		$cObj = FrontendUtility::getContentObjectRenderer();
 
-		if (isset($basketExtra[$pskey . '.'])) {
+		if (!empty($basketExtra[$pskey . '.'])) {
 			if (
 				$subkey != '' &&
-				isset($basketExtra[$pskey . '.'][$subkey . '.'])
+				!empty($basketExtra[$pskey . '.'][$subkey . '.'])
 			) {
 				$basketConf = $basketExtra[$pskey . '.'][$subkey . '.'];
 			} else {
@@ -1160,6 +1160,7 @@ class PaymentShippingHandling {
 
 		self::$priceObj->init($cObj, $pskeyConf, 0);
 		if ($confArray) {
+            $tmp = '';
 			self::getConfiguredPrice(
 				$pskey,
 				$subkey,
@@ -1174,7 +1175,7 @@ class PaymentShippingHandling {
 				$priceTax,
 				$priceNoTax,
                 $resetPrice,
-				$tmp = ''
+				$tmp
 			);
 		} else if (isset($basketConf['price'])) {
 			$priceAdd = doubleVal($basketConf['price']);
@@ -1282,14 +1283,15 @@ class PaymentShippingHandling {
 		$pskey,
 		$subkey = ''
 	) {
+        $basketConf = array();
 		if (isset($basketExtra[$pskey.'.'])) {
-			if ($subkey != '' && isset($basketExtra[$pskey . '.'][$subkey . '.'])) {
+			if ($subkey != '' && !empty($basketExtra[$pskey . '.'][$subkey . '.'])) {
 				$basketConf = $basketExtra[$pskey . '.'][$subkey . '.'];
-			} else {
+			} else if (
+                isset($basketExtra[$pskey . '.'])
+			) {
 				$basketConf = $basketExtra[$pskey . '.'];
 			}
-		} else {
-			$basketConf = array();
 		}
 		return $basketConf;
 	}
@@ -1307,7 +1309,7 @@ class PaymentShippingHandling {
 	) {
 		$basketConf = self::getBasketConf($basketExtra, $pskey, $subkey);
 
-		$perc = doubleVal($basketConf['percentOfGoodstotal']);
+		$perc = doubleVal($basketConf['percentOfGoodstotal'] ?? 0);
 		if ($perc)  {
 			$priceShipping = doubleVal(($calculatedArray['priceTax']['goodstotal']['ALL'] / 100) * $perc);
 			$dum = self::$priceObj->getPrice(
@@ -1374,7 +1376,7 @@ class PaymentShippingHandling {
 		$row = $shippingRow;
 		$taxIncluded = self::$priceObj->getTaxIncluded();
 
-		$weigthFactor = doubleVal($basketExtra['shipping.']['priceFactWeight']);
+		$weigthFactor = doubleVal($basketExtra['shipping.']['priceFactWeight'] ?? 0);
 		if($weigthFactor > 0) {
 			$priceShipping = $calculatedArray['weight'] * $weigthFactor;
 			$priceShippingTax +=
@@ -1399,7 +1401,7 @@ class PaymentShippingHandling {
 				);
 		}
 
-		$countFactor = doubleVal($basketExtra['shipping.']['priceFactCount']);
+		$countFactor = doubleVal($basketExtra['shipping.']['priceFactCount'] ?? 0);
 		if($countFactor > 0) {
 			$priceShipping = $countTotal * $countFactor;
 			$priceShippingTax +=
@@ -1484,7 +1486,7 @@ class PaymentShippingHandling {
 		$taxpercentage = '';
 		$row = $paymentRow;
 		$payment = 0;
-		$perc = doubleVal($basketExtra['payment.']['percentOfTotalShipping']);
+		$perc = doubleVal($basketExtra['payment.']['percentOfTotalShipping'] ?? 0);
 		if ($perc) {
 			$payment = ($calculatedArray['priceTax']['goodstotal']['ALL'] + $calculatedArray['shipping']['priceTax'] ) * doubleVal($perc);
 		}
@@ -1674,20 +1676,23 @@ class PaymentShippingHandling {
 
 		if (
 			$subkey == '' &&
-			is_array($basketExtra[$pskey . '.']) &&
+			!empty($basketExtra[$pskey . '.']) &&
 			isset($basketExtra[$pskey . '.']['TAXpercentage'])
 		) {
 			$result = doubleval($basketExtra[$pskey . '.']['TAXpercentage']);
 		} else if (
 			$subkey != '' &&
-			is_array($basketExtra[$pskey . '.']) &&
+			!empty($basketExtra[$pskey . '.']) &&
 			isset($basketExtra[$pskey . '.'][$subkey . '.']) &&
 			is_array($basketExtra[$pskey . '.'][$subkey . '.']) &&
 			isset($basketExtra[$pskey . '.'][$subkey . '.']['TAXpercentage'])
 		) {
 			$result = doubleval($basketExtra[$pskey . '.'][$subkey . '.']['TAXpercentage']);
 		} else {
-			if ($subkey == '') {
+			if (
+                $subkey == '' &&
+                isset($conf[$pskey . '.']['TAXpercentage'])
+            ) {
 				$result = doubleval($conf[$pskey . '.']['TAXpercentage']);
 			} else if (
 				isset($conf[$pskey . '.']) &&
@@ -1782,7 +1787,9 @@ class PaymentShippingHandling {
 					isset($basketExtra[$pskey . '.']['addRequiredInfoFields.'][$type])
 				) {
 					$tmp = $basketExtra[$pskey . '.']['addRequiredInfoFields.'][$type];
-				} else {
+				} else if (
+					isset($basketExtra[$pskey . '.']['addRequiredInfoFields'])
+                ) {
 					$tmp = $basketExtra[$pskey . '.']['addRequiredInfoFields'];
 				}
 
@@ -1798,7 +1805,7 @@ class PaymentShippingHandling {
 
 	static public function get ($pskey, $setup, $basketExtra) {
 		$result = '';
-		$tmp = $basketExtra[$pskey . '.'][$setup];
+		$tmp = $basketExtra[$pskey . '.'][$setup] ?? '';
 		if ($tmp != '') {
 			$result = trim($tmp);
 		}
@@ -1808,8 +1815,8 @@ class PaymentShippingHandling {
 
 	static public function useCreditcard ($basketExtra) {
 		$result = false;
-		$payConf = $basketExtra['payment.'];
-		if (is_array($payConf) && $payConf['creditcards'] != '') {
+		$payConf = $basketExtra['payment.'] ?? [];
+		if (is_array($payConf) && !empty($payConf['creditcards'])) {
 			$result = true;
 		}
 		return $result;
@@ -1818,8 +1825,8 @@ class PaymentShippingHandling {
 
 	static public function useAccount ($basketExtra) {
 		$result = false;
-		$payConf = &$basketExtra['payment.'];
-		if (is_array($payConf) && $payConf['accounts'] != '') {
+		$payConf = $basketExtra['payment.'] ?? [];
+		if (is_array($payConf) && !empty($payConf['accounts'])) {
 			$result = true;
 		}
 		return $result;
@@ -1829,10 +1836,11 @@ class PaymentShippingHandling {
 	static public function getHandleLib ($request, $basketExtra) {
 
 		$result = false;
-		$payConf = $basketExtra['payment.'];
+		$payConf = $basketExtra['payment.'] ?? [];
+		$handleLib = '';
 
 		if (is_array($payConf)) {
-			$handleLib = $payConf['handleLib'];
+			$handleLib = $payConf['handleLib'] ?? '';
 		}
 
 		if (
@@ -1840,7 +1848,9 @@ class PaymentShippingHandling {
 				strpos($handleLib,'transactor') !== false ||
 				strpos($handleLib, 'paymentlib') !== false
 			) &&
+			isset($payConf['handleLib.']) &&
 			is_array($payConf['handleLib.']) &&
+			isset($payConf['handleLib.']['gatewaymode']) &&
 			$payConf['handleLib.']['gatewaymode'] == $request &&
 			\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($handleLib)
 		) {

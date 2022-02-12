@@ -39,7 +39,6 @@ namespace JambageCom\TtProducts\Api;
  *
  */
 
-use JambageCom\Div2007\Utility\FrontendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 

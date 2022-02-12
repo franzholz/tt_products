@@ -422,8 +422,8 @@ abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\Single
 			$subpartArray['###LINK_CATEGORY###'] = '###CATEGORY_TMP###';
 			$tmp = tx_div2007_core::substituteMarkerArrayCached($t['categoryFrameWork'], array(),$subpartArray);
 			$htmlParts = GeneralUtility::trimExplode('###CATEGORY_TMP###', $tmp);
-			$rootCat = $categoryTable->getRootCat();
-			$currentCat = $categoryTable->getParamDefault($theCode, $piVars[tx_ttproducts_model_control::getPiVar($functablename)]);
+			$rootCat = $categoryTable->getRootCat() ?? '';
+			$currentCat = $categoryTable->getParamDefault($theCode, $piVars[tx_ttproducts_model_control::getPiVar($functablename)] ?? '');
 
 			$startCat = $currentCat;
 			if (strpos($theCode, 'SELECT') !== false) {

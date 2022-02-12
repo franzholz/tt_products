@@ -156,7 +156,7 @@ class tx_ttproducts_orderaddress_view extends tx_ttproducts_table_base_view {
 						$languageObj,
 						$TCA[$tablename]['columns'][$field]['config']['items'],
 						'recs[' . $type . '][' . $field . ']',
-						(is_array($row) ? $row[$field] : ''),
+						(is_array($row) && isset($row[$field]) ? $row[$field] : ''),
 						true,
 						true,
 						array(),
@@ -170,6 +170,7 @@ class tx_ttproducts_orderaddress_view extends tx_ttproducts_table_base_view {
 				$itemConfig = $TCA[$tablename]['columns'][$field]['config']['items'];
 
 				if (
+                    isset($row[$field]) &&
 					$row[$field] != '' &&
 					isset($itemConfig) &&
 					is_array($itemConfig)
@@ -186,7 +187,7 @@ class tx_ttproducts_orderaddress_view extends tx_ttproducts_table_base_view {
 						}
 					}
 
-					$tmp = tx_div2007_alpha5::sL_fh002($tcaValue);
+					$tmp = $languageObj->splitLabel($tcaValue);
 					$fieldOutputArray[$field] = htmlspecialchars(
                         $languageObj->getLabel(
 							$tmp

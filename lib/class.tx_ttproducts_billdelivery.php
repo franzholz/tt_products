@@ -111,7 +111,7 @@ class tx_ttproducts_billdelivery implements \TYPO3\CMS\Core\SingletonInterface {
 
 		// Hook
 			// Call all billing delivery hooks
-		if (is_array ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['billdelivery'])) {
+		if (isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['billdelivery']) && is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['billdelivery'])) {
 			foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['billdelivery'] as $classRef) {
 				$hookObj= GeneralUtility::makeInstance($classRef);
 
@@ -137,7 +137,7 @@ class tx_ttproducts_billdelivery implements \TYPO3\CMS\Core\SingletonInterface {
 			}
 		}
 
-		if (!$billGeneratedFromHook) {
+		if (!$billGeneratedFromHook && isset($orderArray['bill_no'])) {
 			if ($generationType == 'pdf') {
 
 				$absFileName =

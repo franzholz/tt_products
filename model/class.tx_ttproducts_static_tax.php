@@ -334,8 +334,13 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base {
 		array $uidArray,
 		array $basketRecs
 	) {
-		$staticInfoObj = \JambageCom\Div2007\Utility\StaticInfoTablesUtility::getStaticInfo();
-		$countryArray = $this->countryArray;
+        if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
+            $staticInfoApi = GeneralUtility::makeInstance(\JambageCom\Div2007\Api\StaticInfoTablesApi::class);
+        } else {
+            $staticInfoApi = GeneralUtility::makeInstance(\JambageCom\Div2007\Api\OldStaticInfoTablesApi::class);
+        }
+
+        $countryArray = $this->countryArray;
 		if (
 			!isset($countryArray['shop']) ||
 			$countryArray['shop']['country_code'] == ''
@@ -379,7 +384,7 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base {
 			\JambageCom\StaticInfoTablesTaxes\Api\TaxApi::fetchCountryTaxes(
 				$countryCode,
 				$zoneCode,
-				$staticInfoObj,
+				$staticInfoApi,
 				$tax,
 				$categoryArray,
 				-1,
@@ -493,7 +498,11 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base {
 			) {
 				$uid = $row['uid'];
 				$taxInfoArray = array();
-				$staticInfoObj = \JambageCom\Div2007\Utility\StaticInfoTablesUtility::getStaticInfo();
+                if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
+                    $staticInfoApi = GeneralUtility::makeInstance(\JambageCom\Div2007\Api\StaticInfoTablesApi::class);
+                } else {
+                    $staticInfoApi = GeneralUtility::makeInstance(\JambageCom\Div2007\Api\OldStaticInfoTablesApi::class);
+                }
 				$countryArray = $this->countryArray;
 
 				if (isset($personInfo) && is_array($personInfo)) {
@@ -525,7 +534,7 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base {
 						\JambageCom\StaticInfoTablesTaxes\Api\TaxApi::fetchCountryTaxes(
 							$countryCode,
 							$zoneCode,
-							$staticInfoObj,
+							$staticInfoApi,
 							0.0,
 							$categoryArray,
 							$taxId,

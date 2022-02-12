@@ -83,9 +83,11 @@ class tx_ttproducts_tables implements \TYPO3\CMS\Core\SingletonInterface {
 
 		$rc = '';
 		if ($functablename) {
-
-			$neededExtension = $this->needExtensionArray[$functablename];
-			if (!isset($neededExtension) || \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($neededExtension)) {
+            $neededExtension = '';
+            if (isset($this->needExtensionArray[$functablename])) {
+                $neededExtension = $this->needExtensionArray[$functablename];
+			}
+			if (empty($neededExtension) || \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($neededExtension)) {
 				$rc = $this->tableClassArray[$functablename] . ($bView ? '_view' : '');
 			} else {
 				$rc = 'skip';
@@ -120,7 +122,7 @@ class tx_ttproducts_tables implements \TYPO3\CMS\Core\SingletonInterface {
 					list($extKey, $className) = GeneralUtility::trimExplode(':', $className, true);
 
 					if (!\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($extKey)) {
-						debug ('Error in '.TT_PRODUCTS_EXT.'. No extension "' . $extKey . '" has been loaded to use class class.' . $className . '.','internal error');
+						debug ('Error in '.TT_PRODUCTS_EXT.'. No extension "' . $extKey . '" has been activated to use class class.' . $className . '.','internal error');
 						continue;
 					}
 					$path = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($extKey);
@@ -146,7 +148,11 @@ class tx_ttproducts_tables implements \TYPO3\CMS\Core\SingletonInterface {
 			}
 		} else {
 			if ($classNameArray['model'] == 'skip') {
-				debug ('The extension \'' . $this->needExtensionArray[$functablename] . '\' needed for table \'' . $functablename . '\' has not been installed.', 'internal error in ' . TT_PRODUCTS_EXT); // keep this
+                if (isset($this->needExtensionArray[$functablename])) {
+                    debug ('The extension \'' . $this->needExtensionArray[$functablename] . '\' needed for table \'' . $functablename . '\' has not been installed.', 'internal error in ' . TT_PRODUCTS_EXT); // keep this
+                } else {
+                    debug ('Table \'' . $functablename . '\' is not configured.', 'internal error in ' . TT_PRODUCTS_EXT); // keep this
+                }
 			} else {
 				debug ('Object for \'' . $functablename . '\' has not been found.', 'internal error in ' . TT_PRODUCTS_EXT); // keep this
 			}
@@ -169,7 +175,7 @@ class tx_ttproducts_tables implements \TYPO3\CMS\Core\SingletonInterface {
 
 		$result = false;
 		if ($resultInit) {
-			$result = ($bView ? $tableObj['view'] : $tableObj['model']);
+			$result = ($bView ? $tableObj['view'] : $tableObj['model'] ?? false);
 		}
 		return $result;
 	}
@@ -207,13 +213,11 @@ class tx_ttproducts_tables implements \TYPO3\CMS\Core\SingletonInterface {
 	 *
 	 */
 	public function getForeignTableInfo ($functablename, $fieldname) {
-		global $TCA;
-
-		$rc = array();
+		$rc = [];
 		if ($fieldname != '') {
-			$tableObj = $this->get($functablename,false);
-			$tablename = $tableObj->getTableName ($functablename);
-			$rc = tx_div2007_alpha5::getForeignTableInfo_fh003 ($tablename, $fieldname);
+			$tableObj = $this->get($functablename, false);
+			$tablename = $tableObj->getTableName($functablename);
+			$rc = \JambageCom\Div2007\Utility\TableUtility::getForeignTableInfo($tablename, $fieldname);
 		}
 		return $rc;
 	}

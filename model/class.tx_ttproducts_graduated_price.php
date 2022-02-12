@@ -109,7 +109,7 @@ class tx_ttproducts_graduated_price {
 	public function hasDiscountPrice ($row) {
 		$result = false;
 
-		if ($row['graduated_price_uid'] && $row['graduated_price_enable']) {
+		if (!empty($row['graduated_price_uid']) && !empty($row['graduated_price_enable'])) {
 			$result = true;
 		}
 		return $result;
@@ -120,6 +120,11 @@ class tx_ttproducts_graduated_price {
 		if ($this->needsInit()) {
 			return false;
 		}
+
+		$result = false;
+		$limit = '';
+		$orderBy = '';
+		$groupBy = '';
 
 		if (
 			$uid &&

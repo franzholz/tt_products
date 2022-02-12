@@ -63,7 +63,7 @@ class tx_ttproducts_javascript_marker implements \TYPO3\CMS\Core\SingletonInterf
 		$conf = $cnfObj->getConf();
         $parser = tx_div2007_core::newHtmlParser(false);
 
-		if (is_array($conf['javaScript.'])) {
+		if (isset($conf['javaScript.'])) {
 			$javaScriptObj = GeneralUtility::makeInstance('tx_ttproducts_javascript');
 
 			$jsItemMarkerArray = array();

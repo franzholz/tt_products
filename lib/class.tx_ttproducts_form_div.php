@@ -81,7 +81,7 @@ class tx_ttproducts_form_div {
 				}
 
 				if ($bTranslateText) {
-					$tmp = tx_div2007_alpha5::sL_fh002($selectValue);
+					$tmp = $languageObj->splitLabel($selectValue);
 					$text = $languageObj->getLabel($tmp);
 				} else {
 					$text = '';

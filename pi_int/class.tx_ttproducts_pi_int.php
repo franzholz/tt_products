@@ -66,20 +66,18 @@ class tx_ttproducts_pi_int implements \TYPO3\CMS\Core\SingletonInterface {
 		if ($conf['templateFile'] != '') {
 
 			$content = $pibaseObj->main($content, $conf);
-		} else {
-			tx_div2007_alpha5::loadLL_fh002($pibaseObj, 'EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'PiInt/locallang.xlf');
-
-			if (count($conf) > 2) {
-				$errorText =
-					tx_div2007_alpha5::getLL_fh003(
-						$pibaseObj,
-						'no_template'
-					);
-				$content = str_replace('|', 'plugin.tt_products.templateFile', $errorText);
-			} else {
-				$content = tx_div2007_alpha5::getLL_fh003($pibaseObj, 'no_setup');
-			}
-		}
+        } else {
+            if (count($conf) > 2) {
+                $errorText = $GLOBALS['TSFE']->sL(
+                    'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'PiInt/locallang.xlf:no_template'
+                );
+                $content = str_replace('|', 'plugin.tt_products.templateFile', $errorText);
+            } else {
+                $errorText = $GLOBALS['TSFE']->sL(
+                    'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'PiInt/locallang.xlf:no_setup'
+                );
+            }
+        }
 		return $content;
 	}
 }

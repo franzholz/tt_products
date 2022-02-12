@@ -45,7 +45,14 @@ class tx_ttproducts_model_creator implements \TYPO3\CMS\Core\SingletonInterface 
 
 	public function init ($conf, $config, $cObj) {
 
-		$useStaticInfoTables = \JambageCom\Div2007\Utility\StaticInfoTablesUtility::getStaticInfo();
+        $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
+         if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
+            $staticInfoApi = GeneralUtility::makeInstance(\JambageCom\Div2007\Api\StaticInfoTablesApi::class);
+        } else {
+            $staticInfoApi = GeneralUtility::makeInstance(\JambageCom\Div2007\Api\OldStaticInfoTablesApi::class);
+        }
+
+        $useStaticInfoTables = $staticInfoApi->isActive();
 		$bUseStaticTaxes = false;
 
 		if (

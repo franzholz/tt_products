@@ -60,7 +60,7 @@ class PluginApi {
     static public function init ($conf) {
         $piVarsDefault = array();
         $prefixId = \tx_ttproducts_model_control::getPrefixId();
-        $defaults = $conf['_DEFAULT_PI_VARS.'];
+        $defaults = $conf['_DEFAULT_PI_VARS.'] ?? '';
         if (
             isset($defaults) &&
             is_array($defaults)
@@ -225,7 +225,7 @@ class PluginApi {
 
 		// get template suffix string
 
-		$config['templateSuffix'] = strtoupper($conf['templateSuffix']);
+		$config['templateSuffix'] = strtoupper($conf['templateSuffix'] ?? '');
 
 		$templateSuffix = \JambageCom\Div2007\Utility\FlexformUtility::get(self::getFlexform(), 'template_suffix');
 		$templateSuffix = strtoupper($templateSuffix);
@@ -237,12 +237,12 @@ class PluginApi {
 		$config['limitImageSingle'] = \tx_div2007_core::intInRange($conf['limitImageSingle'], 0, 50, 1);
 		$config['limitImageSingle'] = $config['limitImageSingle'] ? $config['limitImageSingle'] : 1;
 
-		if ($conf['priceNoReseller']) {
+		if (!empty($conf['priceNoReseller'])) {
 			$config['priceNoReseller'] = \tx_div2007_core::intInRange($conf['priceNoReseller'], 2, 10);
 		}
 
 			// If the current record should be displayed.
-		$config['displayCurrentRecord'] = $conf['displayCurrentRecord'];
+		$config['displayCurrentRecord'] = $conf['displayCurrentRecord'] ?? '';
 
 		if (
 			$conf['TAXmode'] == '' ||

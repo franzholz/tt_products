@@ -40,6 +40,7 @@ use TYPO3\CMS\Core\Resource\ResourceFactory;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+use JambageCom\Div2007\Utility\FrontendUtility;
 
 
 class tx_ttproducts_fal_view extends tx_ttproducts_article_base_view {
@@ -163,7 +164,7 @@ class tx_ttproducts_fal_view extends tx_ttproducts_article_base_view {
             }
 
             $paramArray[$postVar . '[fal]'] = intval($row['uid']);
-            $url = tx_div2007_alpha5::getTypoLink_URL_fh003(
+            $url = FrontendUtility::getTypoLink_URL(
                 $cObj,
                 $GLOBALS['TSFE']->id,
                 $paramArray
