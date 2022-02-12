@@ -280,7 +280,7 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 
 							$priceTaxArray = $priceObj->getPriceTaxArray(
 								$taxInfoArray,
-								$this->conf['discountPriceMode'],
+								$this->conf['discountPriceMode'] ?? '',
 								tx_ttproducts_control_basket::getBasketExtra(),
 								tx_ttproducts_control_basket::getRecs(),
 								'price',
@@ -372,9 +372,7 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 
 
 	protected function generateErrorResponse ($uid, $editErrorArray) {
-
-		$bUseXHTML = $GLOBALS['TSFE']->config['config']['xhtmlDoctype'] != '';
-		$csConvObj = $GLOBALS['TSFE']->csConvObj;
+        $bUseXHTML = \JambageCom\Div2007\Utility\HtmlUtility::useXHTML();
 
 		// Instantiate the tx_xajax_response object
 		$objResponse = new tx_taxajax_response($this->ajax->taxajax->getCharEncoding(), true);
@@ -406,8 +404,7 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 		$cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$config = $cnfObj->getConfig();
 		$conf =  $cnfObj->getConf();
-		$bUseXHTML = $GLOBALS['TSFE']->config['config']['xhtmlDoctype'] != '';
-		$csConvObj = $GLOBALS['TSFE']->csConvObj;
+        $bUseXHTML = \JambageCom\Div2007\Utility\HtmlUtility::useXHTML();
 		$useFal = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['fal'] ||  version_compare(TYPO3_version, '10.4.0', '>=');
 
 		$theCode = strtoupper($view);
@@ -459,7 +456,7 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 				$currentCat =
 					$categoryTable->getParamDefault(
 						$theCode,
-						$piVars[$categoryPivar]
+						$piVars[$categoryPivar] ?? ''
 					);
 				$rootCat = $categoryTable->getRootCat();
 				$relatedArray =
@@ -617,7 +614,7 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 									false
 								);
 
-							if (
+                            if (
 								is_array($imageArray) &&
 								count($imageArray)
 							) {
@@ -634,6 +631,7 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 									'image',
 									$theCode
 								);
+								$specialConf = [];
 
 								$imgCodeArray = $imageViewObj->getCodeMarkerArray(
 									'tt_products_articles',
@@ -647,7 +645,7 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 									$linkWrap,
 									$markerArray,
 									$theImgDAM,
-									$specialConf = array()
+									$specialConf
 								);
 								$v = $imgCodeArray;
 							} else {
@@ -734,7 +732,7 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 		switch ($cmd) {
 			default:
 				$hookVar = 'ajaxCommands';
-				if ($hookVar && is_array ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$hookVar])) {
+				if ($hookVar && isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$hookVar]) && is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$hookVar])) {
 					foreach  ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$hookVar] as $classRef) {
 						$hookObj= GeneralUtility::makeInstance($classRef);
 						if (method_exists($hookObj, 'init')) {

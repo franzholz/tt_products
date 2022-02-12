@@ -49,7 +49,7 @@ class tx_ttproducts_css implements \TYPO3\CMS\Core\SingletonInterface {
 	public function init () {
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$this->isCssStyled = ($cnf->conf['templateStyle'] == 'css-styled');
-		$this->conf = $cnf->conf['CSS.']['ALL.'];
+		$this->conf = $cnf->conf['CSS.'];
 	} // init
 
 	public function isCSSStyled () {

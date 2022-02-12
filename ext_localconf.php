@@ -91,6 +91,24 @@ call_user_func(function () {
     }
 
     if (
+        version_compare(TYPO3_version, '10.0.0', '>=') &&
+        (
+            !isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude']) ||
+            !is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude'])
+        )
+    ) {
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude'] = [];
+    } else if (
+        version_compare(TYPO3_version, '10.0.0', '<') &&
+        (
+            !isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude.']) ||
+            !is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude.'])
+        )
+    ) {
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude.'] = [];
+    }
+
+    if (
         isset($extensionConfiguration) && is_array($extensionConfiguration
     )) {
         $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT] =
@@ -104,13 +122,13 @@ call_user_func(function () {
     if (isset($extensionConfiguration) && is_array($extensionConfiguration)) {
         $excludeConf =  
             (version_compare(TYPO3_version, '10.0.0', '>=') ? 
-                $extensionConfiguration['exclude']['configuration'] :
-                $extensionConfiguration['exclude.']['configuration']
+                $extensionConfiguration['exclude'] :
+                $extensionConfiguration['exclude.']
             );
         if (isset($excludeConf) && is_array($excludeConf)) {
-            $excludeArray = array();
+            $excludeArray = [];
             foreach ($excludeConf as $tablename => $excludefields) {
-                if ($excludefields != '') {
+                if ($excludefields != '' && is_string($excludefields)) {
                     $excludeArray[$tablename] = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $excludefields);
                 }
             }
@@ -159,11 +177,11 @@ call_user_func(function () {
 
         $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['ws_flexslider']['listAction'][TT_PRODUCTS_EXT] = 'EXT:' . TT_PRODUCTS_EXT . '/hooks/class.tx_ttproducts_ws_flexslider.php:&tx_ttproducts_ws_flexslider';
 
-        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['transactor']['listener'][TT_PRODUCTS_EXT] = 'tx_ttproducts_hooks_transactor';
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['transactor']['listener'][TT_PRODUCTS_EXT] = \JambageCom\TtProducts\Hooks\TransactorListener::class;
 
         if (
             isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['hook.']) &&
-            $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['hook.']['setPageTitle']
+            !empty($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['hook.']['setPageTitle'])
         ) {
             // TYPO3 page title
             $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_fe.php']['contentPostProc-output'][] = 'JambageCom\\TtProducts\\Hooks\\ContentPostProcessor->setPageTitle';
@@ -196,18 +214,6 @@ call_user_func(function () {
     $addressTable = tx_ttproducts_control_address::getAddressTablename($addressExtKey);
 
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['addressTable'] = $addressTable;
-
-    if (
-        version_compare(TYPO3_version, '10.0.0', '>=') &&
-        !is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude'])
-    ) {
-        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude'] = [];
-    } else if (
-        version_compare(TYPO3_version, '10.0.0', '<') &&
-        !is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude.'])
-    ) {
-        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude.'] = [];
-    }
 
     if (TYPO3_MODE == 'BE' && \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('db_list')) {
 

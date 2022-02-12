@@ -170,7 +170,7 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
 				} else {
 					$subpartArray['###LINK_BASKET_' . $upperCmd . '###'] = '';
 				}
-				unset($addQueryString[$fullCmd]);
+				unset($addQueryString[$cmd]);
 			}
 		}
 	}
@@ -281,9 +281,12 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
 		if (is_array($extArray)) {
 			if (isset($extArray['extVarLine'])) {
 				$variant = $extArray['extVarLine'];
-			} else if (is_array($extArray['tt_products'])) {
+			} else if (
+                isset($extArray['tt_products']) &&
+                is_array($extArray['tt_products'])
+            ) {
 				$variant = $viewTable->variant->getVariantFromRow($row);
-			} else if (is_array($extArray['tx_dam'])) {
+			} else if (isset($extArray['tx_dam'])) {
 				$variant = $extArray['tx_dam'][0]['vars'];
 			}
 		}
@@ -379,7 +382,7 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
         $basketFile = $sanitizer->sanitize($fileName);
 
         $markerArray['###IMAGE_BASKET_SRC###'] = $basketFile;
-		$fileresource =  \JambageCom\Div2007\Utility\FrontendUtility::fileResource($basketFile);
+		$fileresource =  FrontendUtility::fileResource($basketFile);
 		$markerArray['###IMAGE_BASKET###'] = $fileresource;
 
 		if (isset($fieldArray) && is_array($fieldArray)) {
@@ -387,12 +390,15 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
 			$tablename = $viewTable->getTablename();
 
 			foreach($fieldArray as $k => $field) {
+                if (!isset($selectableArray[$k])) { // additional
+                    continue;
+                }
 				$fieldConf = $GLOBALS['TCA'][$tablename]['columns'][$field];
 				$fieldMarker = strtoupper($field);
 
 				if (isset($fieldConf) && is_array($fieldConf)) {
 					$text = '';
-					$variantValue = $row[$field];
+					$variantValue = $row[$field] ?? '';
 					$prodTmpRow = preg_split('/[\h]*' . $variantSeparator . '[\h]*/', $variantValue, -1, PREG_SPLIT_NO_EMPTY);
 
 					$imageFileArray = '';
@@ -402,7 +408,7 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
 
 						if (
 							is_array($formConf) &&
-							is_array($formConf[$selectConfKey . '.'])
+							isset($formConf[$selectConfKey . '.'])
 						) {
 							$theFormConf = $formConf[$selectConfKey . '.'];
 
@@ -509,11 +515,11 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
 					} else {
 						$prodTmpRow = $row;
 						$viewTable->variant->modifyRowFromVariant($prodTmpRow, $variant);
-						$text = $prodTmpRow[$field]; // $prodTmpRow[0];
+						$text = $prodTmpRow[$field] ?? ''; // $prodTmpRow[0];
 					}
 
 					$markerArray['###FIELD_' . $fieldMarker . '_NAME###'] = $basketVar . '[' . $row['uid'] . '][' . $field . ']';
-					$markerArray['###FIELD_' . $fieldMarker . '_VALUE###'] = $row[$field];
+					$markerArray['###FIELD_' . $fieldMarker . '_VALUE###'] = $row[$field] ?? '';
 					$markerArray['###FIELD_' . $fieldMarker . '_ONCHANGE'] = ''; // TODO:  use $forminfoArray['###FORM_NAME###' in something like onChange="Go(this.form.Auswahl.options[this.form.Auswahl.options.selectedIndex].value)"
 
 					$markerKey = '###' . $viewTable->marker . '_' . $fieldMarker . '###';
@@ -551,7 +557,7 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
 			if (
 				$functablename == 'tt_products' &&
 				is_array($extArray) &&
-				is_array($extArray['tx_dam'])
+				isset($extArray['tx_dam'])
 			) {
 				reset($extArray['tx_dam']);
 				$damext = current($extArray['tx_dam']);
@@ -563,7 +569,7 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
 				$damUid = tx_ttproducts_model_control::getPiVarValue('tx_dam');
 			}
 
-			if ($damUid) {
+			if (isset($damUid)) {
 				$tableVariant = $viewTable->variant->getTableUid('tx_dam', $damUid);
 				$variant .= $tableVariant;
 				$markerArray['###DAM_UID###'] = $damUid;

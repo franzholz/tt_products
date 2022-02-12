@@ -74,7 +74,7 @@ class tx_ttproducts_product extends tx_ttproducts_article_base {
 		if ($result) {
 			$cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
 			$tableConfig = array();
-			$tableConfig['orderBy'] = $cnfObj->conf['orderBy'];
+			$tableConfig['orderBy'] = $cnfObj->conf['orderBy'] ?? '';
 
 			if (!$tableConfig['orderBy']) {
 				$tableConfig['orderBy'] = $this->getOrderBy();
@@ -123,7 +123,10 @@ class tx_ttproducts_product extends tx_ttproducts_article_base {
 		$whereArticle = '',
 		$orderBy = ''
 	) {
-		$rowArray = $this->articleArray[$uid];
+        $rowArray = [];
+        if (isset($this->articleArray[$uid])) {
+            $rowArray = $this->articleArray[$uid];
+        }
 
 		if (
 			!$rowArray && $uid
@@ -277,8 +280,8 @@ class tx_ttproducts_product extends tx_ttproducts_article_base {
 		$useArticles = $cnfObj->getUseArticles();
 
 		$articleNo = false;
+		$articleRow = [];
 		$variantSeparator = $this->getVariant()->getSeparator();
-
 		$regexpDelimiter = tx_ttproducts_model_control::determineRegExpDelimiter($variantSeparator);
 
 		if ($bUsePreset) {
@@ -428,21 +431,29 @@ class tx_ttproducts_product extends tx_ttproducts_article_base {
 	}
 
 
-	public function getArticleRowFromExt (
-		$row
-	) {
-		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
+    public function getArticleRowFromExt (
+        $row
+    ) {
+        $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 
-		$rc = false;
-		$extArray = $row['ext'];
+        $result = false;
+        $extArray = $row['ext'];
 
-		if (isset($extArray) && is_array($extArray) && is_array($extArray['tt_products_articles']) && is_array($extArray['tt_products_articles']['0'])) {
-			$articleUid = $extArray['tt_products_articles']['0']['uid'];
-			$articleTable = $tablesObj->get('tt_products_articles', false);
-			$rc = $articleTable->get($articleUid);
-		}
-		return $rc;
-	}
+        if (
+            isset($extArray) &&
+            is_array($extArray) &&
+            isset($extArray['tt_products_articles']) &&
+            is_array($extArray['tt_products_articles']) &&
+            isset($extArray['tt_products_articles']['0']) &&
+            is_array($extArray['tt_products_articles']['0'])
+        ) {
+            $articleUid = $extArray['tt_products_articles']['0']['uid'];
+            $articleTable = $tablesObj->get('tt_products_articles', false);
+            $result = $articleTable->get($articleUid);
+        }
+        return $result;
+    }
+
 
 
 	public function getSystemCategories ($uid, $orderBy) {
@@ -773,7 +784,10 @@ class tx_ttproducts_product extends tx_ttproducts_article_base {
 		$where = '';
 
 			// Call all addWhere hooks for categories at the end of this method
-		if (is_array ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['prodCategory'])) {
+		if (
+            isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['prodCategory']) &&
+            is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['prodCategory'])
+        ) {
 			foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['prodCategory'] as $classRef) {
 				$hookObj = GeneralUtility::makeInstance($classRef);
 				if (method_exists($hookObj, 'addWhereCat')) {
@@ -832,7 +846,10 @@ class tx_ttproducts_product extends tx_ttproducts_article_base {
 		$tableNameArray = array();
 
 			// Call all addWhere hooks for categories at the end of this method
-		if (is_array ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['prodCategory'])) {
+		if (
+            isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['prodCategory']) &&
+            is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['prodCategory'])
+        ) {
 			foreach  ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['prodCategory'] as $classRef) {
 				$hookObj= GeneralUtility::makeInstance($classRef);
 				if (method_exists($hookObj, 'addConfCatProduct')) {
@@ -855,7 +872,10 @@ class tx_ttproducts_product extends tx_ttproducts_article_base {
 		$tableNameArray = array();
 
 			// Call all addWhere hooks for categories at the end of this method
-		if (is_array ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['prodCategory'])) {
+		if (
+            isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['prodCategory']) &&
+            is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['prodCategory'])
+        ) {
 			foreach  ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['prodCategory'] as $classRef) {
 				$hookObj= GeneralUtility::makeInstance($classRef);
 				if (method_exists($hookObj, 'addselectConfCat')) {
@@ -874,7 +894,10 @@ class tx_ttproducts_product extends tx_ttproducts_article_base {
 		$uidArray = array();
 
 			// Call all addWhere hooks for categories at the end of this method
-		if (is_array ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['prodCategory'])) {
+		if (
+            isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['prodCategory']) &&
+            is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['prodCategory'])
+        ) {
 			foreach  ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['prodCategory'] as $classRef) {
 				$hookObj= GeneralUtility::makeInstance($classRef);
 				if (method_exists($hookObj, 'getPageUidsCat')) {
@@ -900,14 +923,15 @@ class tx_ttproducts_product extends tx_ttproducts_article_base {
 	) {
 		$tableConf = $this->getTableConf($theCode);
 		$cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
+		$conf = $cnfObj->getConf();
 
-		if ($tableConf['requiredFields']!='') {
+		if (!empty($tableConf['requiredFields'])) {
 			$requiredFields = $tableConf['requiredFields'];
 		} else {
 			$requiredFields = 'uid,pid,category,price,price2,discount,discount_disable,directcost,tax,deposit';
 		}
-		$instockField = $cnfObj->getTableDesc($functablename,'inStock');
-		if ($instockField && !$this->conf['alwaysInStock']) {
+		$instockField = $cnfObj->getTableDesc($this->getFuncTablename(), 'inStock');
+		if ($instockField && empty($conf['alwaysInStock'])) {
 			$requiredFields = $requiredFields.','.$instockField;
 		}
 		$rc = $requiredFields;
@@ -920,11 +944,14 @@ class tx_ttproducts_product extends tx_ttproducts_article_base {
 		$pid = 0
 	) {
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
+		$cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
+		$conf = $cnfObj->getConf();
 
 		if (
 			$this->getFuncTablename() == 'tt_products' &&
+			isset($this->conf['discountFieldMode']) &&
 			in_array(
-				$this->conf['discountFieldMode'],
+				$conf['discountFieldMode'],
 				array('1', '2')
 			)
 		) {
@@ -932,7 +959,7 @@ class tx_ttproducts_product extends tx_ttproducts_article_base {
 			$categoryTable = $tablesObj->get($categoryfunctablename, false);
 			$discount = 0;
 
-			switch ($this->conf['discountFieldMode']) {
+			switch ($conf['discountFieldMode']) {
 				case '1':
 					$catArray = $categoryTable->getCategoryArray($row, 'sorting');
 					$discount = $categoryTable->getMaxDiscount(

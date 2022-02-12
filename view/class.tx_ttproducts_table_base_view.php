@@ -41,8 +41,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\SingletonInterface {
 	private $bHasBeenInitialised = false;
-	public $conf;
-	public $config;
 	public $piVar;
 	public $modelObj;
 	public $marker;		// can be overridden
@@ -50,9 +48,6 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
 
 	public function init ($modelObj) {
 		$this->modelObj = $modelObj;
-		$this->conf = $modelObj->conf;
-		$this->config = $modelObj->config;
-
 		$this->bHasBeenInitialised = true;
 
 		return true;
@@ -64,14 +59,6 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
 
 	public function destruct () {
 		$this->bHasBeenInitialised = false;
-	}
-
-	public function setConf ($conf) {
-		$this->conf = $conf;
-	}
-
-	public function getConf () {
-		return $this->conf;
 	}
 
 	public function getModelObj () {
@@ -488,8 +475,8 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
 
 		$newRow = array();
 		foreach ($row as $field => $value) {
-			if (is_array($tableconf['field.'][$field . '.'])) {
-				if ($tableconf['field.'][$field . '.']['untouched']) {
+			if (isset($tableconf['field.'][$field . '.'])) {
+				if (!empty($tableconf['field.'][$field . '.']['untouched'])) {
 					$value = $origRow[$field];
 				}
 				$tableconf['field.'][$field . '.']['value'] = $value;
@@ -515,7 +502,10 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
 		}
 		$marker = $this->getMarker();
 
-		if (is_array ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$marker])) {
+		if (
+            isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$marker]) &&
+            is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$marker])
+        ) {
 			foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$marker] as $classRef) {
 				$hookObj = GeneralUtility::makeInstance($classRef);
 				if (method_exists($hookObj, 'modifyFieldObject')) {
@@ -541,10 +531,12 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
 	public function createFieldMarkerArray ($row, $markerPrefix, $suffix) {
 		$fieldMarkerArray = array();
 		foreach ($row as $field => $value) {
-			$viewField = $field;
-			$markerKey = $markerPrefix . strtoupper($viewField . $suffix);
+            if (is_string($value)) {
+                $viewField = $field;
+                $markerKey = $markerPrefix . strtoupper($viewField . $suffix);
 
-			$fieldMarkerArray['###' . $markerKey . '###'] = $value;
+                $fieldMarkerArray['###' . $markerKey . '###'] = $value;
+            }
 		}
 		return $fieldMarkerArray;
 	}
@@ -581,8 +573,9 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
 			$markerKey = $this->getMarkerKey($markerKey);
 			$marker = $prefix . $markerKey;
 		}
+		$mainId = '';
 
-		if (is_array($row) && $row['uid']) {
+		if (isset($row) && is_array($row) && !empty($row['uid'])) {
 
 			$newRow = $row;
 			$addedFieldArray = array();
@@ -730,7 +723,10 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
 
 				foreach ($GLOBALS['TCA'][$tablename]['columns'] as $theField => $confArray) {
 
-					if ($confArray['config']['type'] == 'group') {
+					if (
+                        $confArray['config']['type'] == 'group' &&
+                        isset($confArray['config']['foreign_table'])
+                    ) {
 						$foreigntablename = $confArray['config']['foreign_table'];
                         if (
                             $foreigntablename != '' &&
@@ -787,7 +783,10 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
 			// Call all getRowMarkerArray hooks at the end of this method
 		$marker = $this->getMarker();
 
-		if (is_array ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$marker])) {
+		if (
+            isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$marker]) &&
+            is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$marker])
+        ) {
 			foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$marker] as $classRef) {
 				$hookObj = GeneralUtility::makeInstance($classRef);
 				if (method_exists($hookObj, 'getRowMarkerArray')) {

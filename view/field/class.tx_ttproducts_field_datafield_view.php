@@ -40,6 +40,8 @@
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+use JambageCom\Div2007\Utility\FrontendUtility;
+
 
 class tx_ttproducts_field_datafield_view extends tx_ttproducts_field_base_view {
 
@@ -71,8 +73,8 @@ class tx_ttproducts_field_datafield_view extends tx_ttproducts_field_base_view {
 		$fieldname,
 		$tableConf
 	) {
-        $cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
-		if ($tagArray[$marker]) {
+        $cObj = FrontendUtility::getContentObjectRenderer();
+		if (isset($tagArray[$marker])) {
 			// $wrappedSubpartArray['###' . $marker . '###'] = array('<a href="' . $dirname . '/' . $dataFile . '">','</a>');
 
 			if (
@@ -193,7 +195,7 @@ class tx_ttproducts_field_datafield_view extends tx_ttproducts_field_base_view {
                 $keyMarker = '###' . $value . '###';
                 if (
                     strpos($value, $markerKey . '_LINK_' . $upperField) !== false &&
-                    !$wrappedSubpartArray[$keyMarker]
+                    empty($wrappedSubpartArray[$keyMarker])
                 ) {
                     $wrappedSubpartArray[$keyMarker] =  array('<!--', '-->');
                 }
@@ -335,7 +337,7 @@ class tx_ttproducts_field_datafield_view extends tx_ttproducts_field_base_view {
 			$extension = substr($filename, $extensionPos + 1);
 		}
 
-		if (isset($imageRenderObj)) {
+		if (!empty($imageRenderObj)) {
 
             $imageObj = GeneralUtility::makeInstance('tx_ttproducts_field_image_view');
 			$imageConf = $this->conf[$imageRenderObj . '.'];
@@ -414,7 +416,7 @@ class tx_ttproducts_field_datafield_view extends tx_ttproducts_field_base_view {
 		$marker1 = 'ICON_' . strtoupper($fieldname);
 		$marker2 = $markerKey . '1';
 
-		if (isset($imageRenderObj) && $val && (isset($tagArray[$marker1]) || isset($tagArray[$marker2]))) {
+		if (!empty($imageRenderObj) && $val && (isset($tagArray[$marker1]) || isset($tagArray[$marker2]))) {
 
             $imageObj = GeneralUtility::makeInstance('tx_ttproducts_field_image_view');
 			$imageConf = $this->conf[$imageRenderObj . '.'];

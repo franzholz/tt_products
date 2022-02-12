@@ -40,7 +40,10 @@
 
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\Resource\FilePathSanitizer;
 
+
+use JambageCom\Div2007\Utility\FrontendUtility;
 
 
 class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
@@ -61,29 +64,25 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
 	 * @return	  void
 	 */
 	public function init ($conf, $piVars) {
-
 		$this->markerArray = array('CATEGORY', 'PRODUCT', 'ARTICLE');
-
 		$markerFile = $conf['markerFile'];
 		$languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
+        $language = $languageObj->getLanguage();
 		$defaultMarkerFile = 'EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_marker.xlf';
 		$languageObj->loadLocalLang($defaultMarkerFile);
-		$language = $languageObj->getLanguage();
+        $sanitizer = GeneralUtility::makeInstance(FilePathSanitizer::class);
 
 		if ($language == '' || $language == 'default' || $language == 'en') {
             if (!$markerFile) {
                 $markerFile = $defaultMarkerFile;
             }
-            if ($markerFile) {
-                $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
+			if ($markerFile) {
                 $markerFile = $sanitizer->sanitize($markerFile);
-                $languageObj->loadLocalLang($markerFile);
-            }
+				$languageObj->loadLocalLang($markerFile);
+			}
 		} else {
 			if (!$markerFile || $markerFile == '{$plugin.tt_products.file.markerFile}') {
-				if ($language == 'de') {
-					$markerFile = 'EXT:' . TT_PRODUCTS_EXT . '/marker/' . $language . '.locallang.xlf';
-				}
+                $markerFile = $defaultMarkerFile;
 			} else if (substr($markerFile, 0, 4) == 'EXT:') {	// extension
 				list($extKey, $local) = explode('/', substr($markerFile, 4), 2);
 				$filename='';
@@ -92,7 +91,7 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
 					!ExtensionManagementUtility::isLoaded($extKey) &&
 					strcmp($local, '')
 				) {
-					$errorCode = array();
+					$errorCode = [];
 					$errorCode[0] = 'extension_missing';
 					$errorCode[1] = $extKey;
 					$errorCode[2] = $markerFile;
@@ -100,20 +99,19 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
 				}
 			}
 
-            if (!$markerFile) {
-                $markerFile = $defaultMarkerFile;
+			if (!$markerFile) {
+                throw new \RuntimeException('Error in tt_products: No marker file for language "' . $language . '" set.', 50011);
             }
-            if ($markerFile) {
-                $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
-                $markerFile = $sanitizer->sanitize($markerFile);
-			}
+            $markerFile = $sanitizer->sanitize($markerFile);
+// 			$markerFile = $GLOBALS['TSFE']->tmpl->getFileName($markerFile);
 			$languageObj->loadLocalLang($markerFile);
 		}
 		$locallang = $languageObj->getLocallang();
 		$LLkey = $languageObj->getLocalLangKey();
 		$this->setGlobalMarkerArray($conf, $piVars, $locallang, $LLkey);
 		$errorCode = $this->getErrorCode();
-		return (is_array($errorCode) && count($errorCode) == 0 ? true : false);
+
+		return (!is_array($errorCode) || (count($errorCode) == 0) ? true : false);
 	}
 
 	public function getErrorCode () {
@@ -149,19 +147,19 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
 	public function setGlobalMarkerArray ($conf, $piVars, $locallang, $LLkey) {
         $cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
 		$markerArray = array();
-		$language = $GLOBALS['TSFE']->config['config']['language'];
+		$language = $GLOBALS['TSFE']->config['config']['language'] ?? '';
 		if ($language == '') {
 			$language = 'default';
 		}
 
 			// globally substituted markers, fonts and colors.
 		$splitMark = md5(microtime());
-		list($markerArray['###GW1B###' ], $markerArray['###GW1E###']) = explode($splitMark, $cObj->stdWrap($splitMark, $conf['wrap1.']));
-		list($markerArray['###GW2B###'], $markerArray['###GW2E###']) = explode($splitMark, $cObj->stdWrap($splitMark, $conf['wrap2.']));
-		list($markerArray['###GW3B###'], $markerArray['###GW3E###']) = explode($splitMark, $cObj->stdWrap($splitMark, $conf['wrap3.']));
-		$markerArray['###GC1###'] = $cObj->stdWrap($conf['color1'], $conf['color1.']);
-		$markerArray['###GC2###'] = $cObj->stdWrap($conf['color2'], $conf['color2.']);
-		$markerArray['###GC3###'] = $cObj->stdWrap($conf['color3'], $conf['color3.']);
+		list($markerArray['###GW1B###' ], $markerArray['###GW1E###']) = explode($splitMark, $cObj->stdWrap($splitMark, $conf['wrap1.'] ?? ''));
+		list($markerArray['###GW2B###'], $markerArray['###GW2E###']) = explode($splitMark, $cObj->stdWrap($splitMark, $conf['wrap2.'] ?? ''));
+		list($markerArray['###GW3B###'], $markerArray['###GW3E###']) = explode($splitMark, $cObj->stdWrap($splitMark, $conf['wrap3.'] ?? ''));
+		$markerArray['###GC1###'] = $cObj->stdWrap($conf['color1'] ?? '', $conf['color1.'] ?? '');
+		$markerArray['###GC2###'] = $cObj->stdWrap($conf['color2'] ?? '', $conf['color2.'] ?? '');
+		$markerArray['###GC3###'] = $cObj->stdWrap($conf['color3'] ?? '', $conf['color3.'] ?? '');
 		$markerArray['###DOMAIN###'] = $conf['domain'];
 		$markerArray['###PATH_FE_REL###'] = \TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath(PATH_BE_TTPRODUCTS);
 		$markerArray['###PATH_FE_ICONS###'] = \TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath(PATH_BE_TTPRODUCTS . 'res/icons/fe/');
@@ -188,16 +186,19 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
 			$markerArray['###LANGPARAM###'] = '';
 		}
 		$markerArray['###LANG###'] = $lang;
-		$markerArray['###LANGUAGE###'] = $GLOBALS['TSFE']->config['config']['language'];
-		$markerArray['###LOCALE_ALL###'] = $GLOBALS['TSFE']->config['config']['locale_all'];
+		$markerArray['###LANGUAGE###'] = $GLOBALS['TSFE']->config['config']['language'] ?? '';
+		$markerArray['###LOCALE_ALL###'] = $GLOBALS['TSFE']->config['config']['locale_all'] ?? '';
 
-		$backPID = $piVars['backPID'];
+		$backPID = $piVars['backPID'] ?? '';
 		$backPID = ($backPID ? $backPID : GeneralUtility::_GP('backPID'));
 		$backPID = ($backPID  ? $backPID : ($conf['PIDlistDisplay'] ? $conf['PIDlistDisplay'] : $GLOBALS['TSFE']->id));
 		$markerArray['###BACK_PID###'] = $backPID;
 
 			// Call all addGlobalMarkers hooks at the end of this method
-		if (is_array ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['addGlobalMarkers'])) {
+		if (
+            isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['addGlobalMarkers']) &&
+            is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['addGlobalMarkers'])
+        ) {
 			foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['addGlobalMarkers'] as $classRef) {
 				$hookObj= GeneralUtility::makeInstance($classRef);
 				if (method_exists($hookObj, 'addGlobalMarkers')) {
@@ -244,7 +245,7 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
 					switch($key) {
 						case 'image.':
 							foreach ($value as $k2 => $v2) {
-                                $fileresource =  \JambageCom\Div2007\Utility\FrontendUtility::fileResource($v2);
+                                $fileresource = FrontendUtility::fileResource($v2);
 								$markerArray['###IMAGE' . strtoupper($k2) . '###'] = $fileresource;
 							}
 						break;
@@ -444,7 +445,7 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
 
 		if (is_array($addCheckArray)) {
 			foreach ($addCheckArray as $marker => $field) {
-				if (!$bFieldaddedArray[$field] && isset($tableFieldArray[$field])) { 	// TODO: check also if the marker is in the $tagArray
+				if (empty($bFieldaddedArray[$field]) && isset($tableFieldArray[$field])) { 	// TODO: check also if the marker is in the $tagArray
 					$retArray[] = $field;
 				}
 			}

@@ -42,13 +42,15 @@ class tx_ttproducts_control_pibase {
 	static public $pi_USER_INT_obj = false;
 
 	static public function init ($pibaseObj) {
-		self::$pi_USER_INT_obj = $pibaseObj->pi_USER_INT_obj;
+        if (
+            version_compare(TYPO3_version, '10.4.0', '<')
+        ) {
+            self::$pi_USER_INT_obj = $pibaseObj->pi_USER_INT_obj;
+        }
 	}
 
 	static public function getIsUserIntObject ()  {
 		return self::$pi_USER_INT_obj;
 	}
 }
-
-
 

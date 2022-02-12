@@ -44,11 +44,11 @@ use JambageCom\Div2007\Utility\FrontendUtility;
 
 
 abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base_view {
-	var $dataArray;  // array of read in categories
+	public $dataArray;  // array of read in categories
 	public $marker = 'CATEGORY';
-	var $markerObj;
-	var $mm_table = ''; // only set if a mm table is used
-	var $parentField; // reference field name for parent
+	public $markerObj;
+	public $mm_table = ''; // only set if a mm table is used
+	public $parentField; // reference field name for parent
 
 
 	public function setMarkerArrayCatTitle (
@@ -56,9 +56,12 @@ abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base
 		$catTitle,
 		$prefix
 	) {
-        $cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
+        $cObj = FrontendUtility::getContentObjectRenderer();
 		$cObj->setCurrentVal($catTitle);
-		$title = $cObj->cObjGetSingle($this->conf['categoryHeader'], $this->conf['categoryHeader.'], 'categoryHeader');
+		$cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
+		$conf = $cnfObj->getConf();
+
+		$title = $cObj->cObjGetSingle($conf['categoryHeader'] ?? '', $this->conf['categoryHeader.'] ?? '', 'categoryHeader');
 		$markerArray['###' . $prefix . $this->marker . '_TITLE###'] = $title;
 	}
 
@@ -82,7 +85,7 @@ abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base
 		$pid,
 		$linkMarker
 	) {
-        $cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
+        $cObj = FrontendUtility::getContentObjectRenderer();
 		$addQueryString = array();
 		$addQueryString[$this->piVar] = $row['uid'];
 		$wrappedSubpartArray['###' . $linkMarker . '###'] =
@@ -141,7 +144,6 @@ abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base
 		$linkWrap = ''
 	);
 
-
 	public function getParentMarkerArray (
 		$parentArray,
 		$row,
@@ -179,6 +181,7 @@ abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base
 				$currentCategory = $parentCategory;
 
 				if (is_array($currentRow) && count($currentRow)) {
+                    $tmp = [];
 					$this->getMarkerArray(
 						$markerArray,
 						'',
@@ -187,7 +190,7 @@ abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base
 						$this->config['limitImage'],
 						'listcatImage',
 						$viewCatTagArray,
-						$tmp = array(),
+						$tmp,
 						$pageAsCategory,
 						'SINGLE',
 						$basketExtra,

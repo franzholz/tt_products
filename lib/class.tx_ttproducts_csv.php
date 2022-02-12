@@ -99,7 +99,7 @@ class tx_ttproducts_csv implements \TYPO3\CMS\Core\SingletonInterface {
 				}
 			}
 
-			$csvlinepayment = '"' . $basketExtra['payment.']['title'] . '";"' .
+			$csvlinepayment = '"' . ($basketExtra['payment.']['title'] ?? '') . '";"' .
 				$priceViewObj->priceFormat($calculatedArray['priceTax']['payment']) . '";"' .
 				$priceViewObj->priceFormat($calculatedArray['priceNoTax']['payment']) . '"';
 
@@ -129,7 +129,7 @@ class tx_ttproducts_csv implements \TYPO3\CMS\Core\SingletonInterface {
 				}
 			}
 
-			if ($conf['CSVinOneLine']) {
+			if (!empty($conf['CSVinOneLine'])) {
 				$csvdescr .= ';"deliverynote";"desired date";"desired time";"shipping method";"shipping_price";"shipping_no_tax";"payment method";"payment_price";"payment_no_tax"';
 				$csvdescr .= ';"giftcode"';
 				$csvdescr .= ';' . $csvlinehead . ';' . $csvlinehead;
@@ -172,7 +172,7 @@ class tx_ttproducts_csv implements \TYPO3\CMS\Core\SingletonInterface {
 				}
 			}
 
-			if (!$conf['CSVinOneLine']) {
+			if (empty($conf['CSVinOneLine'])) {
 				fwrite($csvFile, chr(13));
 				fwrite($csvFile, $csvlinehead . chr(13));
 				fwrite($csvFile, $csvlineperson . chr(13));

@@ -38,6 +38,8 @@
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+use JambageCom\Div2007\Utility\FrontendUtility;
+
 
 class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 	public $conf;
@@ -109,16 +111,15 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 		foreach ($commandArray as $command) {
 
-			$pidBasket = ($this->conf['PID' . $command] ? $this->conf['PID' . $command] : $GLOBALS['TSFE']->id);
-			$pageLink = tx_div2007_alpha5::getPageLink_fh003(
+			$pidBasket = ($this->conf['PID' . $command] ?? $GLOBALS['TSFE']->id);
+			$pageLink = FrontendUtility::getTypoLink_URL(
 				$cObj,
 				$pidBasket,
-				'',
 				$this->getLinkParams(
 					'',
 					$addQueryString,
 					true,
-					$bUseBackPid
+					$useBackPid
 				)
 			);
 			$wrappedSubpartArray['###LINK_' . strtoupper($command) . '###'] =
@@ -174,20 +175,19 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 		);
 
 		foreach ($urlConfig as $markerKey => $keyConfig) {
-			$url = tx_div2007_alpha5::getTypoLink_URL_fh003(
+			$url = FrontendUtility::getTypoLink_URL(
 				$cObj,
 				$keyConfig['pid'],
 				$this->getLinkParams(
 					$keyConfig['excludeList'],
 					$addQueryString,
 					true,
-					$bUseBackPid,
+					$useBackPid,
 					$backPid
 				),
 				$target,
 				$conf
 			);
-
 			$urlMarkerArray['###' . $markerKey . '###'] = htmlspecialchars($url, ENT_NOQUOTES, $charset);
 			$urlMarkerArray['###' . $markerKey . '_VALUE###'] =
 				$url;
@@ -214,15 +214,15 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 			);
 
 		foreach ($commandArray as $command) {
-			$linkPid = ($this->conf['PID' . $command] ? $this->conf['PID' . $command] : $basketPid);
-			$url = tx_div2007_alpha5::getTypoLink_URL_fh003(
+			$linkPid = ($this->conf['PID' . $command] ?? $basketPid);
+			$url = FrontendUtility::getTypoLink_URL(
 				$cObj,
 				$linkPid,
 				$this->getLinkParams(
 					$singleExcludeList,
 					$addQueryString,
 					true,
-					$bUseBackPid,
+					$useBackPid,
 					$backPid
 				),
 				$target,
@@ -252,7 +252,10 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 		}
 
 			// Call all addURLMarkers hooks at the end of this method
-		if (is_array ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['addURLMarkers'])) {
+		if (
+            isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['addURLMarkers']) &&
+            is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['addURLMarkers'])
+        ) {
 			foreach  ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['addURLMarkers'] as $classRef) {
 				$hookObj= GeneralUtility::makeInstance($classRef);
 				if (method_exists($hookObj, 'addURLMarkers')) {
@@ -287,7 +290,7 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$piVars = tx_ttproducts_model_control::getPiVars();
 		$prefixId = tx_ttproducts_model_control::getPrefixId();
 
-		$temp = $piVars[$param];
+		$temp = $piVars[$param] ?? '';
 		$temp = ($temp ? $temp : (GeneralUtility::_GP($param) && ($param != 'pid') ? GeneralUtility::_GP($param) : 0));
 
 		if ($temp) {
@@ -322,10 +325,10 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 			if (
 				$bUsePrefix &&
-				!$addQueryString[$prefixId . '[backPID]']
+				empty($addQueryString[$prefixId . '[backPID]'])
 			) {
 				$queryString[$prefixId . '[backPID]'] = $backPid;
-			} else if (!$addQueryString['backPID']) {
+			} else if (empty($addQueryString['backPID'])) {
 				$queryString['backPID'] = $backPid;
 			}
 		}
@@ -402,7 +405,10 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 		}
 
 			// Call all getLinkParams hooks at the end of this method
-		if (is_array ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['getLinkParams'])) {
+		if (
+            isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['getLinkParams']) &&
+            is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['getLinkParams'])
+        ) {
 			foreach  ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['getLinkParams'] as $classRef) {
 				$hookObj= GeneralUtility::makeInstance($classRef);
 				if (method_exists($hookObj, 'getLinkParams')) {

@@ -52,9 +52,15 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
 		array $recs = array(),
 		array $basketRec = array()
 	) {
-        $useStaticInfoTables = \JambageCom\Div2007\Utility\StaticInfoTablesUtility::init();
+        if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
+            $staticInfoApi = GeneralUtility::makeInstance(\JambageCom\Div2007\Api\StaticInfoTablesApi::class);
+        } else {
+            $staticInfoApi = GeneralUtility::makeInstance(\JambageCom\Div2007\Api\OldStaticInfoTablesApi::class);
+        }
 
-		if ($conf['PIDstoreRoot']) {
+        $useStaticInfoTables = $staticInfoApi->init();
+
+		if (!empty($conf['PIDstoreRoot'])) {
 			$config['storeRootPid'] = $conf['PIDstoreRoot'];
 		} else if (TYPO3_MODE == 'FE') {
 			foreach ($GLOBALS['TSFE']->tmpl->rootLine as $k => $row) {
@@ -75,8 +81,8 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
 			$conf['errorLog'] = GeneralUtility::resolveBackPath(PATH_typo3conf . '../' . $conf['errorLog']);
 		}
 
-		$tmp = $cObj->stdWrap($conf['pid_list'], $conf['pid_list.']);
-		$pid_list = ($cObj->data['pages'] ? $cObj->data['pages'] : ($conf['pid_list.'] ? trim($tmp) : ''));
+		$tmp = $cObj->stdWrap($conf['pid_list'], $conf['pid_list.'] ?? '');
+		$pid_list = ($cObj->data['pages'] ? $cObj->data['pages'] : (!empty($conf['pid_list.']) ? trim($tmp) : ''));
 		$pid_list = ($pid_list ? $pid_list : $conf['pid_list']);
 		$config['pid_list'] = (isset($pid_list) ? $pid_list : $config['storeRootPid']);
 
@@ -190,9 +196,6 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
 			}
 			$tablesObj->setTableClassArray($tableClassArray);
 		}
-
-		$storeObj = GeneralUtility::makeInstance('tx_div2007_store');
-		$storeObj->setCobj($cObj);
 
 		return true;
 	}

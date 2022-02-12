@@ -7,7 +7,15 @@ call_user_func(function () {
     $whereTaxCategory = '';
     $bSelectTaxMode = false;
 
-    $taxArray = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['tax.'];
+    $taxArray = [];
+
+    if (
+        version_compare(TYPO3_version, '10.0.0', '>=')
+    ) {
+        $taxArray = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['tax'];
+    } else {
+        $taxArray = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['tax.'];
+    }
     $taxFields = '';
 
     if (

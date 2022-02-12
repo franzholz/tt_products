@@ -39,6 +39,8 @@
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+use JambageCom\Div2007\Utility\FrontendUtility;
+
 
 class tx_ttproducts_cat_view implements \TYPO3\CMS\Core\SingletonInterface {
 	public $pibase; // reference to object of pibase
@@ -159,7 +161,7 @@ class tx_ttproducts_cat_view implements \TYPO3\CMS\Core\SingletonInterface {
 			);
 
 				// Fill marker arrays
-			$backPID = $piVars['backPID'];
+			$backPID = $piVars['backPID'] ?? '';
 			$backPID = ($backPID ? $backPID : GeneralUtility::_GP('backPID'));
 			$basketPID = $this->conf['PIDbasket'];
 			$pid = $backPID;
@@ -185,7 +187,7 @@ class tx_ttproducts_cat_view implements \TYPO3\CMS\Core\SingletonInterface {
 						'product',
 						$tableViewObj->piVar
 					);
-				$linkUrl = tx_div2007_alpha5::getTypoLink_URL_fh003(
+				$linkUrl = FrontendUtility::getTypoLink_URL(
 					$this->cObj,
 					$linkPid,
 					$queryString,
@@ -354,7 +356,6 @@ class tx_ttproducts_cat_view implements \TYPO3\CMS\Core\SingletonInterface {
 				if ($bUseBackPid) {
 					$addQueryString['backPID'] = $backPID;
 				}
-
 				$queryString =
 					$this->urlObj->getLinkParams(
 						'',
@@ -365,7 +366,7 @@ class tx_ttproducts_cat_view implements \TYPO3\CMS\Core\SingletonInterface {
 						'product',
 						''
 					);
-				$linkUrl = tx_div2007_alpha5::getTypoLink_URL_fh003(
+				$linkUrl = FrontendUtility::getTypoLink_URL(
 					$this->cObj,
 					$GLOBALS['TSFE']->id,
 					$queryString,
@@ -429,7 +430,7 @@ class tx_ttproducts_cat_view implements \TYPO3\CMS\Core\SingletonInterface {
 						'product',
 						''
 					);
-				$linkUrl = tx_div2007_alpha5::getTypoLink_URL_fh003(
+				$linkUrl = FrontendUtility::getTypoLink_URL(
 					$this->cObj,
 					$GLOBALS['TSFE']->id,
 					$queryString,

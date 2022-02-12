@@ -38,6 +38,7 @@
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+use JambageCom\Div2007\Utility\FrontendUtility;
 
 class tx_ttproducts_download_view extends tx_ttproducts_article_base_view {
 	public $marker = 'DOWNLOAD';
@@ -273,7 +274,7 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view {
 								// $extKey
 								$paramArray[$postVar . '[download]'] = $k;
 
-								$url = tx_div2007_alpha5::getTypoLink_URL_fh003(
+								$url = FrontendUtility::getTypoLink_URL(
 									$cObj,
 									$GLOBALS['TSFE']->id,
 									$paramArray
@@ -285,7 +286,7 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view {
 								$foldername . '<img src="' . $downloadImageFile . '">' . '</a>';
 							} else {
 								$paramArray[$postVar . '[fal]'] = $k;
-								$url = tx_div2007_alpha5::getTypoLink_URL_fh003(
+								$url = FrontendUtility::getTypoLink_URL(
 									$cObj,
 									$GLOBALS['TSFE']->id,
 									$paramArray
@@ -334,7 +335,7 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view {
 									// Extension CSS styled content
 								if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('css_styled_content')) {
 									$value =
-										tx_div2007_alpha5::RTEcssText(
+										FrontendUtility::RTEcssText(
 											$cObj,
 											$value
 										);

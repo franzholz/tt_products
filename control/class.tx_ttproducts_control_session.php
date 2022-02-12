@@ -64,7 +64,6 @@ class tx_ttproducts_control_session {
         // with bogus content and thus bloat the database
 
         if (
-            !$GLOBALS['TYPO3_CONF_VARS']['FE']['maxSessionDataSize'] ||
             !$GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['checkCookies'] ||
             $GLOBALS['TSFE']->fe_user->isCookieSet()
         ) {

@@ -83,7 +83,10 @@ class tx_ttproducts_pi1 implements \TYPO3\CMS\Core\SingletonInterface {
 	public function getUserFunc ($content, $conf) {
 		$conf = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tt_products.'];
 
-		if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['getUserFunc'])) {
+		if (
+            isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['getUserFunc']) &&
+            is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['getUserFunc'])
+		) {
 			foreach($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['getUserFunc'] as $classRef) {-
 				$hookObj = GeneralUtility::makeInstance($classRef);
 				if (method_exists($hookObj, 'getUserFunc')) {

@@ -38,6 +38,8 @@
  
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+use JambageCom\Div2007\Utility\FrontendUtility;
+
 
 class tx_ttproducts_memo_view implements \TYPO3\CMS\Core\SingletonInterface {
 	public $pid_list;
@@ -52,7 +54,7 @@ class tx_ttproducts_memo_view implements \TYPO3\CMS\Core\SingletonInterface {
 			$conf,
 			$useArticles
 		) {
-		$cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
+		$cObj = FrontendUtility::getContentObjectRenderer();
 
 		$piVars = tx_ttproducts_model_control::getPiVars();
 
@@ -132,7 +134,7 @@ class tx_ttproducts_memo_view implements \TYPO3\CMS\Core\SingletonInterface {
 				);
 			} else {
 				$subpartmarkerObj = GeneralUtility::makeInstance('tx_ttproducts_subpartmarker');
-				$cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
+				$cObj = FrontendUtility::getContentObjectRenderer();
 
 				$templateArea = 'MEMO_EMPTY';
 				$content = tx_div2007_core::getSubpart($templateCode,$subpartmarkerObj->spMarker('###'.$templateArea.'###'));

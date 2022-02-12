@@ -298,7 +298,7 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 				break; // while
 			} else {
 				$content .=
-                    \JambageCom\Div2007\Utility\FrontendUtility::wrapContentCode(
+                    FrontendUtility::wrapContentCode(
                         $contentTmp,
                         $theCode,
                         $pibaseObj->prefixId,

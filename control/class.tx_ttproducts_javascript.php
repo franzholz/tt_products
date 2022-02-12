@@ -38,6 +38,8 @@
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+use JambageCom\Div2007\Utility\FrontendUtility;
+
 class tx_ttproducts_javascript implements \TYPO3\CMS\Core\SingletonInterface {
 	public $ajax;
 	public $bAjaxAdded;
@@ -582,7 +584,7 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
 				$JSfieldname = 'tx_ttproducts-colorbox';
 				$colorboxFile = \TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath(PATH_BE_TTPRODUCTS . 'Resources/Public/JavaScript/tt_products_colorbox.js');
 
-				\JambageCom\Div2007\Utility\FrontendUtility::addJavascriptFile($colorboxFile,
+				FrontendUtility::addJavascriptFile($colorboxFile,
 					$JSfieldname
 				);
 				break;

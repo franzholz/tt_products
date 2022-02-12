@@ -41,6 +41,9 @@
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
+use JambageCom\Div2007\Utility\FrontendUtility;
+
+
 
 class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 	public $marker = 'ORDER';
@@ -126,7 +129,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 		&$markerArray,
 		$orderArray
 	) {
-        $cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
+        $cObj = FrontendUtility::getContentObjectRenderer();
 		if (
 			isset($orderArray) &&
 			is_array($orderArray) &&
@@ -143,10 +146,10 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
             $markerArray['###ORDER_DATE###'] =
 				$cObj->stdWrap(
 					$orderArray['crdate'],
-					$this->conf['orderDate_stdWrap.']
+					$this->conf['orderDate_stdWrap.'] ?? ''
 				);
 			$markerArray['###ORDER_TRACKING_NO###'] = htmlspecialchars($orderArray['tracking_code']);
-			$markerArray['###ORDER_BILL_NO###'] = $orderArray['bill_no'];
+			$markerArray['###ORDER_BILL_NO###'] = $orderArray['bill_no'] ?? '';
 		} else {
 			$markerArray['###ORDER_UID###'] = '';
 			$markerArray['###ORDER_ORDER_NO###'] = '';
@@ -175,7 +178,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 		if ($from == '') {
 			$from = 'sys_products_orders';
 		}
-		$cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
+		$cObj = FrontendUtility::getContentObjectRenderer();
         $parser = tx_div2007_core::newHtmlParser(false);
 
         $res =
@@ -202,7 +205,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 
 			while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
 				$markerArray['###TRACKING_CODE###'] = $row['tracking_code'];
-				$markerArray['###ORDER_DATE###'] = $cObj->stdWrap($row['crdate'], $this->conf['orderDate_stdWrap.']);
+				$markerArray['###ORDER_DATE###'] = $cObj->stdWrap($row['crdate'], $this->conf['orderDate_stdWrap.'] ?? '');
 				$markerArray['###ORDER_NUMBER###'] = $orderObj->getNumber($row['uid']);
 				$markerArray['###ORDER_CREDITS###'] = $row['creditpoints_saved'] + $row['creditpoints_gifts'] - $row['creditpoints_spended'] - $row['creditpoints'];
 				$markerArray['###ORDER_AMOUNT###'] = $priceViewObj->printPrice($priceViewObj->priceFormat($row['amount']));

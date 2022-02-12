@@ -41,6 +41,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 use JambageCom\TtProducts\Api\PaymentShippingHandling;
 
+use JambageCom\Div2007\Utility\FrontendUtility;
 
 
 class tx_ttproducts_field_price_view extends tx_ttproducts_field_base_view {
@@ -114,7 +115,7 @@ class tx_ttproducts_field_price_view extends tx_ttproducts_field_base_view {
 		$languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
 
 		if (($conf['usePriceTag']) && (isset($conf['priceTagObj.']))) {
-			$cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
+			$cObj = FrontendUtility::getContentObjectRenderer();
 
 			$ptconf = $conf['priceTagObj.'];
 			$markContentArray = array();
@@ -135,6 +136,9 @@ class tx_ttproducts_field_price_view extends tx_ttproducts_field_base_view {
 	 * Formatting a price
 	 */
 	public function priceFormat ($double) {
+        if (!is_numeric($double)) {
+            return $double;
+        }
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$conf = $cnf->getConf();
 		$double = round($double, 10);
@@ -242,7 +246,6 @@ class tx_ttproducts_field_price_view extends tx_ttproducts_field_base_view {
 		}
 		$priceMarkerArray = array();
 		$modelObj = $this->getModelObj();
-		$priceNo = intval($config['priceNoReseller']);
 		$taxFromShipping = PaymentShippingHandling::getReplaceTaxPercentage($basketExtra);
 		$taxInclExcl =
 			(
@@ -257,7 +260,7 @@ class tx_ttproducts_field_price_view extends tx_ttproducts_field_base_view {
 		$priceTaxArray =
 			$modelObj->getPriceTaxArray(
 				$taxInfoArray,
-				$conf['discountPriceMode'],
+				$conf['discountPriceMode'] ?? '',
 				$basketExtra,
 				$basketRecs,
 				$field,
@@ -297,10 +300,16 @@ class tx_ttproducts_field_price_view extends tx_ttproducts_field_base_view {
             $priceMarkerArray['###TAX###'] = strval($row['tax']);
 		}
 
-		$pricefactor = doubleval($conf['creditpoints.']['priceprod']);
-		// price if discounted by credipoints
-		$priceMarkerArray['###PRICE_IF_DISCOUNTED_BY_CREDITPOINTS_TAX###'] = $this->printPrice($this->priceFormat(($priceTaxArray['tax'] - $pricefactor * $row['creditpoints']), $taxInclExcl));
-		$priceMarkerArray['###PRICE_IF_DISCOUNTED_BY_CREDITPOINTS_NO_TAX###'] = $this->printPrice($this->priceFormat(($priceTaxArray['notax'] - $pricefactor * $row['creditpoints']), $taxInclExcl));
+        $pricefactor = 0;
+        if (isset($conf['creditpoints.']['priceprod'])) {
+            $pricefactor = doubleval($conf['creditpoints.']['priceprod']);
+        }
+        
+		if ($field == 'price') {
+            // price if discounted by credipoints
+            $priceMarkerArray['###PRICE_IF_DISCOUNTED_BY_CREDITPOINTS_TAX###'] = $this->printPrice($this->priceFormat(($priceTaxArray['tax'] - $pricefactor * ($row['creditpoints'] ?? 0)), $taxInclExcl));
+            $priceMarkerArray['###PRICE_IF_DISCOUNTED_BY_CREDITPOINTS_NO_TAX###'] = $this->printPrice($this->priceFormat(($priceTaxArray['notax'] - $pricefactor * ($row['creditpoints'] ?? 0)), $taxInclExcl));
+        }
 
 		if (is_array($markerArray)) {
 			$markerArray = array_merge($markerArray, $priceMarkerArray);
@@ -350,7 +359,7 @@ class tx_ttproducts_field_price_view extends tx_ttproducts_field_base_view {
 // tt-products-single-1-pricetax
 		$priceArray = $modelObj->getPriceTaxArray(
 			$taxInfoArray,
-			$conf['discountPriceMode'],
+			$conf['discountPriceMode'] ?? '',
 			$basketExtra,
 			$basketRecs,
 			$fieldname,

@@ -261,7 +261,8 @@ $result = array (
 				'type' => 'group',
 				'internal_type' => 'file',
 				'allowed' => 'doc,htm,html,pdf,sxw,txt,xls,gif,jpg,png',
-				'max_size' => $GLOBALS['TYPO3_CONF_VARS']['BE']['maxFileSize'],
+                'max_size' => 
+                isset($GLOBALS['TYPO3_CONF_VARS']['BE']['maxFileSize']) ? $GLOBALS['TYPO3_CONF_VARS']['BE']['maxFileSize'] : 0,
 				'uploadfolder' => 'uploads/tx_ttproducts/datasheet',
 				'size' => '5',
 				'maxitems' => '20',
@@ -289,7 +290,8 @@ $result = array (
 				'type' => 'group',
 				'internal_type' => 'file',
 				'allowed' => $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'],
-				'max_size' => $GLOBALS['TYPO3_CONF_VARS']['BE']['maxFileSize'],
+                'max_size' => 
+                isset($GLOBALS['TYPO3_CONF_VARS']['BE']['maxFileSize']) ? $GLOBALS['TYPO3_CONF_VARS']['BE']['maxFileSize'] : 0,
 				'uploadfolder' => $imageFolder,
 				'size' => '3',
 				'maxitems' => '10',
@@ -305,7 +307,8 @@ $result = array (
 				'type' => 'group',
 				'internal_type' => 'file',
 				'allowed' => $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'],
-				'max_size' => $GLOBALS['TYPO3_CONF_VARS']['BE']['maxFileSize'],
+                'max_size' => 
+                isset($GLOBALS['TYPO3_CONF_VARS']['BE']['maxFileSize']) ? $GLOBALS['TYPO3_CONF_VARS']['BE']['maxFileSize'] : 0,
 				'uploadfolder' => $imageFolder,
 				'size' => '5',
 				'maxitems' => '10',

@@ -244,7 +244,10 @@ class tx_ttproducts_activity_finalize implements \TYPO3\CMS\Core\SingletonInterf
 		if (
 			$infoViewObj->infoArray['billing']['email'] != '' &&
 			!\JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn() &&
-			(trim($GLOBALS['TSFE']->fe_user->user['username']) == '')
+			(
+                empty($GLOBALS['TSFE']->fe_user->user) ||
+                trim($GLOBALS['TSFE']->fe_user->user['username']) == ''
+            )
 		) {
 			// Move the user creation in front so that when we create the order we have a fe_userid so that the order lists work.
 

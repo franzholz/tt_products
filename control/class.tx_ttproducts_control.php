@@ -85,10 +85,10 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 		$this->urlObj = GeneralUtility::makeInstance('tx_ttproducts_url_view'); // a copy of it
 		// This handleURL is called instead of the THANKS-url in order to let handleScript process the information if payment by credit card or so.
 		$this->urlArray = array();
-		if ($basketObj->basketExtra['payment.']['handleURL']) {
+		if (!empty($basketObj->basketExtra['payment.']['handleURL'])) {
 			$this->urlArray['form_url_thanks'] = $basketObj->basketExtra['payment.']['handleURL'];
 		}
-		if ($basketObj->basketExtra['payment.']['handleTarget']) {	// Alternative target
+		if (!empty($basketObj->basketExtra['payment.']['handleTarget'])) {	// Alternative target
 			$this->urlArray['form_url_target'] = $basketObj->basketExtra['payment.']['handleTarget'];
 		}
 		$this->urlObj->setUrlArray($this->urlArray);
@@ -182,14 +182,14 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 			}
 		}
 
-		if ($codeActivities['products_info']) {
-			if($codeActivities['products_payment']) {
+		if (!empty($codeActivities['products_info'])) {
+			if(!empty($codeActivities['products_payment'])) {
 				$codeActivities['products_payment'] = false;
 			}
 		}
 
 		if (
-			$codeActivities['products_basket'] &&
+			!empty($codeActivities['products_basket']) &&
 			count($codeActivities) > 1
 		) {
 			if (
@@ -249,6 +249,8 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 	) {
 		$content = '';
 		$paymentScript = false;
+		$handleLib = '';
+		$localTemplateCode = '';
 
 		if ($orderUid) {
 			$basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
@@ -260,7 +262,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
                 $handleScript = $sanitizer->sanitize($basketExtra['payment.']['handleScript']);
             }
 
-			$handleLib = $basketExtra['payment.']['handleLib'];
+			$handleLib = $basketExtra['payment.']['handleLib'] ?? '';
 
 			$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 
@@ -268,8 +270,8 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 				$paymentScript = true;
 				$content = PaymentShippingHandling::includeHandleScript(
 					$handleScript,
-					$basketExtra['payment.']['handleScript.'],
-					$this->conf['paymentActivity'],
+					$basketExtra['payment.']['handleScript.'] ?? '',
+					$this->conf['paymentActivity'] ?? '',
 					$bFinalize,
 					$this->pibase,
 					$infoViewObj
@@ -307,7 +309,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
                         call_user_func($callingClassName . '::init', $languageObj, $this->cObj, $this->conf);
                         $parameters = array(
                             $handleLib,
-                            $basketExtra['payment.']['handleLib.'],
+                            $basketExtra['payment.']['handleLib.'] ?? [],
                             TT_PRODUCTS_EXT,
                             $basketObj->getItemArray(),
                             $calculatedArray,
@@ -357,7 +359,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
                     );
                     $content = tx_transactor_api::includeHandleLib(
                         $handleLib,
-                        $basketExtra['payment.']['handleLib.'],
+                        $basketExtra['payment.']['handleLib.'] ?? [],
                         TT_PRODUCTS_EXT,
                         $basketObj->getItemArray(),
                         $calculatedArray,
@@ -404,60 +406,6 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 						$basketExtra,
 						$basketRecs
 					);
-				}
-			} else if (
-				strpos($handleLib, 'paymentlib') !== false &&
-				\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($handleLib)
-			) {
-				$paymentScript = true;
-				$eInfo = ExtensionUtility::getExtensionInfo($handleLib);
-
-				$paymentlibVersion = $eInfo['version'];
-				$phpVersion = phpversion();
-				if (
-					isset($basketObj->basketExtra['payment.']['handleLib.']) &&
-					is_array($basketObj->basketExtra['payment.']['handleLib.'])
-				) {
-					$gatewayExtName = $basketObj->basketExtra['payment.']['handleLib.']['extName'];
-				}
-
-				if (
-					version_compare($paymentlibVersion, '0.2.1', '>=') &&
-					version_compare($paymentlibVersion, '0.4.0', '<')
-				) {
-					if (
-						$gatewayExtName != '' &&
-						\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($gatewayExtName)
-					) {
-						// Payment Library
-						$paymentObj = GeneralUtility::makeInstance('tx_ttproducts_paymentlib');
-						$paymentObj->init(
-							$this->pibase,
-							$basketView,
-							$this->urlObj
-						);
-
-						$content = $paymentObj->includeHandleLib(
-							$handleLib,
-							$basketExtra,
-							$basketRecs,
-							$calculatedArray,
-							$basketObj->getItemArray(),
-							$orderArray,
-							$basketObj->basketExtra['payment.']['handleLib.'],
-							$bFinalize,
-							$errorMessage
-						);
-					} else {
-						$languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
-						if ($gatewayExtName == '') {
-							$errorMessage = $languageObj->getLabel('extension_payment_missing');
-						} else {
-							$message = $languageObj->getLabel('extension_missing');
-							$messageArr =  explode('|', $message);
-							$errorMessage = $messageArr[0] . $gatewayExtName . $messageArr[1];
-						}
-					}
 				}
 			}
 		}
@@ -582,7 +530,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
                     }
                 }
 			}
-		} else if ($pidagb && !$_REQUEST['recs']['personinfo']['agb'] && !GeneralUtility::_GET('products_payment') && !$infoArray['billing']['agb']) {
+		} else if ($pidagb && empty($_REQUEST['recs']['personinfo']['agb']) && !GeneralUtility::_GET('products_payment') && empty($infoArray['billing']['agb'])) {
 				// so AGB has not been accepted
 			$label = $languageObj->getLabel('accept_AGB');
 
@@ -651,11 +599,14 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$taxObj = GeneralUtility::makeInstance('tx_ttproducts_field_tax');
 		$content = '';
+		$hiddenFields = '';
+		$paymentScript = false;
 
 		if ($checkBasket && !$bBasketEmpty) {
 			$basketConf = $cnf->getBasketConf('minPrice'); // check the basket limits
 
 			foreach ($activityArray as $activity => $valid) {
+                $bNeedsMinCheck = false;
 				if ($valid) {
 					$bNeedsMinCheck =
 						in_array(
@@ -770,9 +721,9 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 			empty($giftRequired) &&
 			(
 				empty($pidagb) ||
-				$_REQUEST['recs']['personinfo']['agb'] ||
+				!empty($_REQUEST['recs']['personinfo']['agb']) ||
 				($bPayment && GeneralUtility::_GET('products_payment')) ||
-				$infoArray['billing']['agb']
+				!empty($infoArray['billing']['agb'])
 			)
 		) {
 			if (
@@ -820,7 +771,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
                     $nextActivity = '';
                     foreach ($activityArray as $activity) {
                         $shortActivity = array_search($activity, static::$activityMap);
-                        $nextActivity  = static::$nextActivity[$activity];
+                        $nextActivity  = static::$nextActivity[$activity] ?? '';
                         break;
                     }
 
@@ -832,7 +783,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
                 $mainMarkerArray['###HIDDENFIELDS###'] = $hiddenFields;
                 $nextUrl = FrontendUtility::getTypoLink_URL(
                     $cObj,
-                    $conf['PID' . $nextActivity],
+                    $conf['PID' . $nextActivity] ?? '',
                     array()
                 );
 
@@ -842,7 +793,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 					$templateCode,
 					$theCode,
 					$infoViewObj,
-					$this->activityArray['products_info'],
+					$this->activityArray['products_info'] ?? false,
 					false,
 					$calculatedArray,
 					true,
@@ -996,6 +947,16 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 	) {
 		$empty = '';
 		$content = '';
+		$bPayment = false;
+		$checkRequired = '';
+		$cardRequired = '';
+		$accountRequired = '';
+        $paymentErrorMsg = '';
+        $pidagb = '';
+        $cardObj = null;
+        $cardRow = [];
+        $accountObj = null;
+
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$basketView = GeneralUtility::makeInstance('tx_ttproducts_basket_view');
 		$infoViewObj = GeneralUtility::makeInstance('tx_ttproducts_info_view');
@@ -1006,12 +967,13 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 		$languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
 		$templateObj = GeneralUtility::makeInstance('tx_ttproducts_template');
         $parser = tx_div2007_core::newHtmlParser(false);
+		$orderUid = false;
+        $orderNumber = '';
 
 		$markerArray = array();
 		$checkAllowed = false;
 		$checkBasket = false;
 		$checkEditVariants = false;
-		$orderUid = false;
         $bBasketEmpty = $basketObj->isEmpty();
 		$orderArray = tx_ttproducts_control_basket::getStoredOrder();
 		$productRowArray = array(); // Todo: make this a parameter
@@ -1037,11 +999,11 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 		$bFinalVerify = false;
 
 		if (
-			$activityArray['products_info'] ||
-			$activityArray['products_payment'] ||
-			$activityArray['products_customized_payment'] ||
-			$activityArray['products_verify'] ||
-			$activityArray['products_finalize']
+			!empty($activityArray['products_info']) ||
+			!empty($activityArray['products_payment']) ||
+			!empty($activityArray['products_customized_payment']) ||
+			!empty($activityArray['products_verify']) ||
+			!empty($activityArray['products_finalize'])
 		) {
 			$basketObj->basketExtra = $basketExtra; // Todo: $basketExtra must become a parameter in the table's init method
 
@@ -1144,7 +1106,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 					case 'products_overview':
 						$basket_tmpl = 'BASKET_OVERVIEW_TEMPLATE';
 
-						if ($codeActivityArray[$activity]) {
+						if (!empty($codeActivityArray[$activity])) {
 							$theCode = 'OVERVIEW';
 						}
 					break;
@@ -1174,11 +1136,9 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 						}
 					break;
 					case 'products_info':
-						// if (!$activityArray['products_payment'] && !$activityArray['products_finalize']) {
 						$basket_tmpl = 'BASKET_INFO_TEMPLATE';
-						// }
 
-						if ($codeActivityArray[$activity] || $activityArray['products_basket'] == false) {
+						if (!empty($codeActivityArray[$activity]) || $activityArray['products_basket'] == false) {
 							$theCode = 'INFO';
 						}
 					break;
@@ -1229,8 +1189,8 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
                                     ) {
                                         $parameters = array(
                                             $referenceId,
-                                            $basketExtra['payment.']['handleLib'],
-                                            $basketExtra['payment.']['handleLib.'],
+                                            $basketExtra['payment.']['handleLib'] ?? '',
+                                            $basketExtra['payment.']['handleLib.'] ?? [],
                                             TT_PRODUCTS_EXT,
                                             $calculatedArray,
                                             $conf['paymentActivity'],
@@ -1251,8 +1211,8 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
                                 } else {
                                     $paymentErrorMsg = tx_transactor_api::checkRequired(
                                         $referenceId,
-                                        $basketExtra['payment.']['handleLib'],
-                                        $basketExtra['payment.']['handleLib.'],
+                                        $basketExtra['payment.']['handleLib'] ?? '',
+                                        $basketExtra['payment.']['handleLib.'] ?? [],
                                         TT_PRODUCTS_EXT,
                                         $calculatedArray,
                                         $conf['paymentActivity'],
@@ -1276,7 +1236,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 							}
 						}
 
-						if ($codeActivityArray[$activity] || $activityArray['products_basket'] == false) {
+						if (!empty($codeActivityArray[$activity]) || $activityArray['products_basket'] == false) {
 							$theCode = 'PAYMENT';
 						}
 						$basket_tmpl = 'BASKET_PAYMENT_TEMPLATE';
@@ -1370,7 +1330,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 						}
 
 						if (
-							($codeActivityArray[$activity] || $activityArray['products_basket'] == false) &&
+							(!empty($codeActivityArray[$activity]) || $activityArray['products_basket'] == false) &&
 							$bFinalize
 						) {
 							$theCode = 'FINALIZE';
@@ -1437,7 +1397,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 
 				$piVars = tx_ttproducts_model_control::getPiVars();
 				if (is_array($piVars)) {
-					$backPID = $piVars['backPID'];
+					$backPID = $piVars['backPID'] ?? '';
 				}
 				$overwriteMarkerArray =
 					$this->urlObj->addURLMarkers(
@@ -1500,7 +1460,10 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 					$alwaysInStock = 0;
 				}
 
-				$usedCreditpoints = tx_ttproducts_creditpoints_div::getUsedCreditpoints($_REQUEST['recs']);
+				$usedCreditpoints = 0;
+				if (isset($_REQUEST['recs'])) {
+                    $usedCreditpoints = tx_ttproducts_creditpoints_div::getUsedCreditpoints($_REQUEST['recs']);
+                }
 
 				$contentTmp = $activityFinalize->doProcessing(
 					$templateCode,
@@ -1519,7 +1482,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 					$errorMessage
 				);
 
-				if ($conf['PIDthanks'] == $GLOBALS['TSFE']->id) {
+				if (isset($conf['PIDthanks']) && $conf['PIDthanks'] == $GLOBALS['TSFE']->id) {
 					$tmpl = 'BASKET_ORDERTHANKS_TEMPLATE';
 					$contentTmpThanks = $basketView->getView(
 						$errorCode,
@@ -1544,7 +1507,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 						$contentTmp = $contentTmpThanks;
 					}
 				}
-				if ($activityArray['products_payment']) {	// forget the payment output from before if it comes to finalize
+				if (!empty($activityArray['products_payment'])) {	// forget the payment output from before if it comes to finalize
 					$content = '';
 				}
 				$content .= $contentTmp;
@@ -1725,10 +1688,10 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 					case 'INFO':
 						if (
 							!(
-								$activityArray['products_verify'] ||
-								$activityArray['products_customized_payment'] ||
-								$activityArray['products_payment'] ||
-								$activityArray['products_finalize']
+								!empty($activityArray['products_verify']) ||
+								!empty($activityArray['products_customized_payment']) ||
+								!empty($activityArray['products_payment']) ||
+								!empty($activityArray['products_finalize'])
 							)
 						) {
 							$codeActivityArray['products_info'] = true;
@@ -1774,16 +1737,16 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 		tx_ttproducts_model_activity::setActivityArray($this->activityArray);
 		$fixCountry =
 			(
-				$this->activityArray['products_basket'] ||
-				$this->activityArray['products_info'] ||
-				$this->activityArray['products_payment'] ||
-				$this->activityArray['products_verify'] ||
-				$this->activityArray['products_finalize'] ||
-				$this->activityArray['products_customized_payment']
+				!empty($this->activityArray['products_basket']) ||
+				!empty($this->activityArray['products_info']) ||
+				!empty($this->activityArray['products_payment']) ||
+				!empty($this->activityArray['products_verify']) ||
+				!empty($this->activityArray['products_finalize']) ||
+				!empty($this->activityArray['products_customized_payment'])
 			);
 
 		$infoViewObj->init(
-			$activityArray['products_payment'],
+			$activityArray['products_payment'] ?? false,
 			$fixCountry,
 			$basketExtra
 		);

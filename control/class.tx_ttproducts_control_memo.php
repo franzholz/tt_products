@@ -38,6 +38,8 @@
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use JambageCom\Div2007\Utility\FrontendUtility;
+
 
 class tx_ttproducts_control_memo {
 
@@ -104,7 +106,7 @@ class tx_ttproducts_control_memo {
 		$controlVars = self::getControlVars();
 		$memoArray = array();
 		foreach ($controlVars as $controlVar) {
-			if ($piVars[$controlVar]) {
+			if (!empty($piVars[$controlVar])) {
 				$memoArray[$controlVar] = explode(',', $piVars[$controlVar]);
 			}
 		}
@@ -304,17 +306,17 @@ class tx_ttproducts_control_memo {
 		foreach ($cmdArray as $cmd) {
 			$addQueryString[$cmd . 'memo'] = $uid;
 
-			$pageLink = tx_div2007_alpha5::getPageLink_fh003(
-				$cObj,
-				$pidMemo,
-				'',
-				$urlObj->getLinkParams(
-					$excludeList,
-					$addQueryString,
-					true,
-					$bUseBackPid
-				)
-			);
+            $pageLink = FrontendUtility::getTypoLink_URL(
+                $cObj,
+                $pidMemo,
+                $urlObj->getLinkParams(
+                    $excludeList,
+                    $addQueryString,
+                    true,
+                    $bUseBackPid
+                )
+            );
+
 			$wrappedSubpartArray['###LINK_MEMO_' . strtoupper($cmd) . '###'] = array('<a href="' . htmlspecialchars($pageLink) . '"' . $css_current . '>', '</a>');
 			unset($addQueryString[$cmd . 'memo']);
 		}

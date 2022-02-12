@@ -82,7 +82,7 @@ class tx_ttproducts_address extends tx_ttproducts_category_base {
 
 
 	public function getRootCat () {
-		$result = $this->conf['rootAddressID'];
+		$result = $this->conf['rootAddressID'] ?? '';
 
 		if ($result == '') {
 			$result = '0';

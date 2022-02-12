@@ -39,6 +39,8 @@
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+use JambageCom\Div2007\Utility\FrontendUtility;
+
 
 class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base {
 
@@ -55,7 +57,7 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base {
 		$pageAsCategory,
 		$childRow
 	) {
-        $cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
+        $cObj = FrontendUtility::getContentObjectRenderer();
         $parser = tx_div2007_core::newHtmlParser(false);
 
 		$icCount = 0;
@@ -196,11 +198,12 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base {
 			$currentMarkerArray = array();
 
 			$maxDepth = $catTableObj->getDepth($theCode);
+			$tmp = [];
 			$catfieldsArray = $markerObj->getMarkerFields(
 				$t['categoryFrameWork'],
 				$catTableObj->getTableObj()->tableFieldArray,
 				$catTableObj->getTableObj()->requiredFieldArray,
-				$tmp = array(),
+				$tmp,
 				$catTableObj->marker,
 				$viewCatTagArray,
 				$parentArray
@@ -427,7 +430,7 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base {
 		$basketRecs,
 		$id
 	) {
-        $cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
+        $cObj = FrontendUtility::getContentObjectRenderer();
         $parser = tx_div2007_core::newHtmlParser(false);
 
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
@@ -485,8 +488,8 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base {
 			);
 
 		if (isset($cssConf) && is_array($cssConf)) {
-			$rowEven = $cssConf['row.']['even'];
-			$rowUneven = $cssConf['row.']['uneven'];
+			$rowEven = $cssConf['row.']['even'] ?? '';
+			$rowUneven = $cssConf['row.']['uneven'] ?? '';
 			$evenUneven = (($iCount & 1) == 0 ? $rowEven : $rowUneven);
 		} else {
 			$evenUneven = '';

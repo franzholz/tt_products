@@ -118,11 +118,12 @@ class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base {
 			$tabArray[$depth] = $this->getTabs($depth * 2);
 			$parentArray = array();
 			$viewCatTagArray = array();
+			$tmp = [];
 			$catfieldsArray = $markerObj->getMarkerFields(
 				$t['linkCategoryFrameWork'],
 				$categoryTable->getTableObj()->tableFieldArray,
 				$categoryTable->getTableObj()->requiredFieldArray,
-				$tmp = array(),
+				$tmp,
 				$categoryTableView->getMarker(),
 				$viewCatTagArray,
 				$parentArray

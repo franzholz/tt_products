@@ -215,7 +215,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
 			$orderArray = $this->getCurrentArray();
 		}
 
-		$result = $orderArray['uid'];
+		$result = $orderArray['uid'] ?? 0;
 		return $result;
 	}
 
@@ -338,7 +338,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
             is_array($excludeArray) &&
             isset($excludeArray[$tablename])
         ) {
-            $excludeFieldArray = GeneralUtility::trimExplode(',', $excludeArray[$tablename]);
+            $excludeFieldArray = $excludeArray[$tablename];
         }
 
 		if ($status > 0) {
@@ -374,11 +374,11 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
 
 		if (!$bOnlyStatusChange) {
 
-			if ($deliveryInfo['name'] == '') {
+			if (!empty($deliveryInfo['name'])) {
 				$deliveryInfo['name'] = $deliveryInfo['last_name'] . ' ' . $deliveryInfo['first_name'];
 			}
 
-			if ($deliveryInfo['date_of_birth']) {
+			if (!empty($deliveryInfo['date_of_birth'])) {
 				$dateBirth = tx_ttproducts_sql::convertDate($deliveryInfo['date_of_birth']);
 			}
 
@@ -411,12 +411,16 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
 			$fieldsArray['shipping'] = $shipping;
 			$fieldsArray['amount'] = $amount;
 			$fieldsArray['note'] = $deliveryInfo['note'];
-			if ($dateBirth) {
+			if (!empty($dateBirth)) {
 				$fieldsArray['date_of_birth'] = $dateBirth;
 			}
 			$fieldsArray['radio1'] = $deliveryInfo['radio1'];
 
-			if (isset($giftServiceArticleArray) && is_array($giftServiceArticleArray)) {
+			if (
+                isset($giftServiceArticleArray) && 
+                is_array($giftServiceArticleArray) &&
+                !empty($deliveryInfo['giftservice'])
+            ) {
 				$fieldsArray['giftservice'] = $deliveryInfo['giftservice'] . '||' . implode(',',$giftServiceArticleArray);
 			}
 			$fieldsArray['foundby'] = $deliveryInfo['foundby'];
@@ -430,7 +434,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
             $sys_language_uid = $api->getLanguageId();
 			$fieldsArray['sys_language_uid'] = $sys_language_uid;
 
-			if ($billingInfo['tt_products_vat'] != '') {
+			if (!empty($billingInfo['tt_products_vat'])) {
 				$fieldsArray['vat_id'] = $billingInfo['tt_products_vat'];
 
 				$taxPercentage = PaymentShippingHandling::getReplaceTaxPercentage($basketExtra);
@@ -446,7 +450,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
 				$fieldsArrayFeUsers['date_of_birth'] = $dateBirth;
 			}
 
-			if ($status == 1 && $this->conf['creditpoints.'] && $usedCreditpoints) {
+			if ($status == 1 && !empty($this->conf['creditpoints.']) && $usedCreditpoints) {
 
 	/* Added Els: update fe_user with amount of creditpoints (= exisitng amount - used_creditpoints - spended_creditpoints + saved_creditpoints */
 				$fieldsArrayFeUsers['tt_products_creditpoints'] =
@@ -474,14 +478,14 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
 				$GLOBALS['TYPO3_DB']->sql_free_result($res);
 				if (
 					($uid_voucher != '') &&
-					($deliveryInfo['feusers_uid'] > 0) &&
+					!empty($deliveryInfo['feusers_uid']) &&
 					($deliveryInfo['feusers_uid'] != $uid_voucher)
 				) {
 					$fieldsArrayFeUsers['tt_products_vouchercode'] = $vouchercode;
 				}
 			}
 
-			if ($status == 1 && $deliveryInfo['feusers_uid']) {
+			if ($status == 1 && !empty($deliveryInfo['feusers_uid'])) {
 		/* Added Els: update user from vouchercode with 5 credits */
 				tx_ttproducts_creditpoints_div::addCreditPoints(
 					$vouchercode,
@@ -602,7 +606,8 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
 	 */
 	public function createMM (
 		$orderUid,
-		$itemArray
+		$itemArray,
+		$theCode
 	) {
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 		$editFieldArray = array();
@@ -742,8 +747,8 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
 		$orderData = unserialize($row['orderData']);
 		if ($orderData === false) {
 			$orderData =
-				tx_div2007_alpha5::unserialize_fh002(
-					$orderRow['orderData'],
+				\JambageCom\Div2007\Utility\SystemUtility::unserialize(
+					$row['orderData'],
 					false
 				);
 		}
@@ -855,9 +860,9 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
 			$calculatedArray,
 			$cardUid,
 			$accountUid,
-			$this->conf['email_notify_default'],	// Email notification is set here. Default email address is delivery email contact
-			$basketExtra['payment'][0] . ': ' . $basketExtra['payment.']['title'],
-			$basketExtra['shipping'][0] . ': ' . $basketExtra['shipping.']['title'],
+			$this->conf['email_notify_default'] ?? '',	// Email notification is set here. Default email address is delivery email contact
+			($basketExtra['payment'][0] ?? '') . ': ' . ($basketExtra['payment.']['title'] ?? ''),
+			($basketExtra['shipping'][0] ?? '') . ': ' . ($basketExtra['shipping.']['title'] ?? ''),
 			$calculatedArray['priceTax']['total']['ALL'],
 			$orderHTML,
 			$infoViewOb,

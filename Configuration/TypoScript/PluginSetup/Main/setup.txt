@@ -340,7 +340,7 @@ plugin.tt_products {
 
   conf.tt_products.ALL {
     orderBy = title
-    requiredFields = uid,pid,category,price,price2,discount,discount_disable,directcost,graduated_price_uid,tax,inStock,unit_factor,weight
+    requiredFields = uid,pid,category,price,price2,discount,discount_disable,directcost,graduated_price_uid,graduated_price_enable,tax,inStock,unit_factor,weight,itemnumber
     language.type = table
     language.table = tt_products_language
     functions {

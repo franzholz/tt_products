@@ -69,7 +69,7 @@ class tx_ttproducts_account extends tx_ttproducts_table_base {
 		$basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
 		$formerBasket = $basketObj->recs;
 		$basketExtra = tx_ttproducts_control_basket::getBasketExtra();
-		$bIsAllowed = $basketExtra['payment.']['accounts'];
+		$bIsAllowed = $basketExtra['payment.']['accounts'] ?? false;
 
 		if (isset($basketExtra['payment.']['useAsterisk'])) {
 			$this->useAsterisk = $basketExtra['payment.']['useAsterisk'];
@@ -77,7 +77,7 @@ class tx_ttproducts_account extends tx_ttproducts_table_base {
 
 		$result = parent::init('sys_products_accounts');
 		$this->acArray = array();
-		$this->acArray = $formerBasket['account'];
+		$this->acArray = $formerBasket['account'] ?? '';
 		if (isset($bIsAllowed)) {
 			$this->bIsAllowed = $bIsAllowed;
 		}
@@ -85,8 +85,8 @@ class tx_ttproducts_account extends tx_ttproducts_table_base {
 		$bNumberRecentlyModified = true;
 
 		if (
-			$this->sepa && !$this->acArray['iban'] ||
-			!$this->sepa && !$this->acArray['ac_number']
+			!empty($this->sepa) && empty($this->acArray['iban']) ||
+			empty($this->sepa) && empty($this->acArray['ac_number'])
 		) {
 			$bNumberRecentlyModified = false;
 		}

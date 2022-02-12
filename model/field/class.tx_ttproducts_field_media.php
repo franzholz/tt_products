@@ -45,6 +45,7 @@ class tx_ttproducts_field_media extends tx_ttproducts_field_base {
 
 	public function getDirname ($imageRow) {
 		if (
+            isset($imageRow['file_mime_type']) &&
 			$imageRow['file_mime_type'] == 'image' &&
 			isset($imageRow['file_path'])
 		) {
@@ -187,7 +188,7 @@ class tx_ttproducts_field_media extends tx_ttproducts_field_base {
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$tableConf = $cnf->getTableConf($functablename, $theCode);
 
-		$mediaNum = $tableConf['limitImage'];
+		$mediaNum = $tableConf['limitImage'] ?? '';
 		if (!$mediaNum) {
 			$codeTypeArray = array(	// Todo: make this configurable
 				'list' =>
