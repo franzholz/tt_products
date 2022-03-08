@@ -2,14 +2,15 @@
 
 ## What is does
 
-This extension brings to you a shop system for TYPO3.
+This is a shop system extension for TYPO3 based on PHP 7 and PHP 8.
 
 ## Configuration
 
-See the file manual.odt under the folder doc of the extension.  
-https://wiki.typo3.org/Tt_products  
-ebook:  
-http://www.fosdoc.de/downloads/OSP_typo3webshop.pdf   
+See the file manual.odt under the folder doc of the extension.
+
+
+* [Wiki](https://github.com/franzholz/tt_products/wiki)
+* [Ebook](http://www.fosdoc.de/downloads/OSP_typo3webshop.pdf)
 
 ## Upgrade
 
@@ -33,5 +34,5 @@ Only if you are still using TYPO3 < 9 you must execute the renaming of these dat
 
 ## Improvements
 
-Contribute under https://github.com/franzholz/tt_products .
+Contribute under [Github tt_products](https://github.com/franzholz/tt_products)  .
 

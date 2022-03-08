@@ -77,14 +77,10 @@ class TransactorListener {
 // neu Ende
 
         $transactionRow = $params['row'];
-debug ($transactionRow, 'TransactorListener::execute $transactionRow');
         $testMode = $params['testmode'];
         $referenceId = $transactionRow['reference'];
 
         $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tt_products.'];
-        
-    debug ($conf['pdfInfoFields'], '$conf[\'pdfInfoFields\']');
-
         $config = array();
         $config['LLkey'] = '';
         $errorCode = '';
