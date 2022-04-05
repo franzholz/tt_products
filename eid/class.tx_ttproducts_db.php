@@ -528,12 +528,14 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 						) {
 							$tmpArray = array();
 							$fieldViewObj = $itemTableView->getObj($class);
+							$linkWrap = false;
 							$modifiedValue =
 								$fieldViewObj->getRowMarkerArray(
 									$functablename,
 									$field,
 									$row,
 									$tmp,
+									$tmpArray,
 									$tmpArray,
 									$tmpArray,
 									$theCode,
@@ -545,8 +547,11 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 									'',
 									'',
 									'',
-									''
-								);
+									0,
+									'',
+									$linkWrap,
+									false
+                                );
 							$v = $modifiedValue;
 						}
 					}
@@ -876,6 +881,9 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 			}
 		}
 
+        // We put our incomming data to the regular piVars
+        $parameterApi = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\ParameterApi::class);
+        $parameterApi->setPiVars($piVars);
         // We put our incomming data to the regular piVars
         tx_ttproducts_model_control::setPiVars($piVars);
 		$pibaseObj->cObj = $this->cObj;
