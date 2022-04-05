@@ -214,7 +214,7 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 			);
 
 		foreach ($commandArray as $command) {
-			$linkPid = ($this->conf['PID' . $command] ?? $basketPid);
+			$linkPid = (!empty($this->conf['PID' . $command]) ? $this->conf['PID' . $command] : $basketPid);
 			$url = FrontendUtility::getTypoLink_URL(
 				$cObj,
 				$linkPid,
