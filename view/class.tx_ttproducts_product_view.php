@@ -43,11 +43,11 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use JambageCom\Div2007\Utility\FrontendUtility;
 
 class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
-	public $relatedArray = array(); // array of related products
+	public $relatedArray = []; // array of related products
 	public $marker = 'PRODUCT';
 	public $type = 'product';
 	public $piVar = 'product';
-	public $articleArray = array();
+	public $articleArray = [];
 	public $datafield;
 
 
@@ -71,11 +71,11 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
 		&$subpartArray,
 		&$wrappedSubpartArray,
 		$tagArray,
-		$multiOrderArray = array(),
-		$productRowArray = array(),
+		$multiOrderArray = [],
+		$productRowArray = [],
 		$theCode = '',
-		$basketExtra = array(),
-		$basketRecs = array(),
+		$basketExtra = [],
+		$basketRecs = [],
 		$iCount = '',
 		$checkPriceZero = false
 	) {
@@ -99,7 +99,7 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
 			$iCount,
 			$checkPriceZero
 		);
-		$extArray = array();
+		$extArray = [];
 		if (isset($row['ext'])) {
 			$extArray = $row['ext'];
 		}
@@ -150,7 +150,7 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
 				'tt_products'
 			);
 
-        $localRowArray = array();
+        $localRowArray = [];
 
 		foreach ($productRowArray as $productRow) {
 			if ($productRow['uid'] == $row['uid']) {
@@ -194,10 +194,10 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
 		$imageNum = 0,
 		$imageRenderObj = 'image',
 		$tagArray,
-		$forminfoArray = array(),
+		$forminfoArray = [],
 		$theCode = '',
-		$basketExtra = array(),
-		$basketRecs = array(),
+		$basketExtra = [],
+		$basketRecs = [],
 		$id = '',
 		$prefix = '',
 		$suffix = '',
@@ -205,8 +205,8 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
 		$bHtml = true,
 		$charset = '',
 		$hiddenFields = '',
-		$multiOrderArray = array(),
-		$productRowArray = array(),
+		$multiOrderArray = [],
+		$productRowArray = [],
 		$bEnableTaxZero = false,
         $notOverwritePriceIfSet = true
 	) {
@@ -285,7 +285,7 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
 
 		if ($theCode == 'SINGLE') {
 			$addressUid = intval($row['address']);
-			$addressRow = array();
+			$addressRow = [];
 			$addressViewObj = $tablesObj->get('address', true);
 
 			if (is_object($addressViewObj)) {
@@ -298,7 +298,7 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
 					$addressObj = $addressViewObj->getModelObj();
 					$addressRow = $addressObj->get($addressUid);
 				}
-				$adressMarkerArray = array();
+				$adressMarkerArray = [];
 				$addressViewObj->getRowMarkerArray(
 					'address',
 					$addressRow,
@@ -336,7 +336,7 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
 					$pageRow = $pageObj->get($pid);
 					$pageMarkerKey = 'PRODUCT_NOTE_UID_' . ($k + 1);
 					$contentArray = $tablesObj->get('tt_content')->getFromPid($pid);
-					$countArray = array();
+					$countArray = [];
 					foreach($contentArray as $k2 => $contentEl) {
 						$cType = $contentEl['CType'];
 						$countArray[$cType] = intval($countArray[$cType]) + 1;
@@ -419,11 +419,11 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
 
 				$cObj = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
 				/* @var $cObj TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer */
-				$cObj->start(array());
+				$cObj->start([]);
 				$markerArray['###RATING###'] = $cObj->cObjGetSingle($cObjectType, $ratingConf);
 				$cObj = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
 				/* @var $cObj TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer */
-				$cObj->start(array());
+				$cObj->start([]);
 				$ratingConf['mode'] = 'static';
 				$markerArray['###RATING_STATIC###'] = $cObj->cObjGetSingle($cObjectType, $ratingConf);
 			} else {
@@ -478,7 +478,7 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
 				$commentConf['linkParams'] = $linkParams;
 
 				$cObj = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
-				$cObj->start(array());
+				$cObj->start([]);
 				$markerArray['###COMMENT###'] = $cObj->cObjGetSingle($cObjectType, $commentConf);
 			} else {
 				$markerArray['###COMMENT###'] = '';
