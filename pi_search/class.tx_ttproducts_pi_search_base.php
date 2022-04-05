@@ -57,6 +57,8 @@ class tx_ttproducts_pi_search_base extends \TYPO3\CMS\Frontend\Plugin\AbstractPl
 	 */
 	public function main ($content, $conf) {
 		tx_ttproducts_model_control::setPrefixId($this->prefixId);
+        $parameterApi = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\ParameterApi::class);
+		$parameterApi->setPrefixId($this->prefixId);
         PluginApi::init($conf);
 
 		$confMain = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];

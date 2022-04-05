@@ -969,7 +969,6 @@ CREATE TABLE sys_products_orders_mm_tt_products (
 	tablenames varchar(50) DEFAULT '' NOT NULL,
 
 	PRIMARY KEY (uid),
-	KEY tt_products_uid (tt_products_uid),
 	KEY tt_products_articles_uid (tt_products_articles_uid),
 	KEY uid_local (uid_local),
 	KEY uid_foreign (uid_foreign)
