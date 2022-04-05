@@ -62,9 +62,10 @@ class tx_ttproducts_pi1_base extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin i
 	 * Main method. Call this from TypoScript by a USER or USER_INT cObject.
 	 */
 	public function main ($content, $conf) {
-		tx_ttproducts_model_control::setPrefixId($this->prefixId);
-// 		tx_ttproducts_model_control::setPiVarDefaults($conf);
+        $parameterApi = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\ParameterApi::class);
+		$parameterApi->setPrefixId($this->prefixId);
         PluginApi::init($conf);
+		tx_ttproducts_model_control::setPrefixId($this->prefixId);
 
 		$this->conf = $conf;
 		$config = array();
