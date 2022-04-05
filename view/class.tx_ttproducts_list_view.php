@@ -107,10 +107,10 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$oldFormCount,
 		&$formCount
 	) {
-		$subpartArray = array();
+		$subpartArray = [];
 		$subpartArray['###ITEM_CATEGORY###'] = $categoryOut;
 		$subpartArray[$itemListSubpart] = $itemListOut;
-		$rc = tx_div2007_core::substituteMarkerArrayCached($categoryAndItemsFrameWork, array(), $subpartArray);
+		$rc = tx_div2007_core::substituteMarkerArrayCached($categoryAndItemsFrameWork, [], $subpartArray);
 		if ($formCount == $oldFormCount) {
 			$formCount++; // next form must have another name
 		}
@@ -132,10 +132,10 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 		$markerArray = array_merge($productMarkerArray, $categoryMarkerArray);
 		$productOut = $parser->substituteMarkerArray($productFrameWork, $markerArray);
-		$subpartArray = array();
+		$subpartArray = [];
 		$subpartArray['###ITEM_PRODUCT###'] = $productOut;
 		$subpartArray['###ITEM_LIST###'] = $itemListOut;
-		$rc = tx_div2007_core::substituteMarkerArrayCached($productAndItemsFrameWork, array(), $subpartArray);
+		$rc = tx_div2007_core::substituteMarkerArrayCached($productAndItemsFrameWork, [], $subpartArray);
 		$categoryOut = '';
 		$itemListOut = '';	// Clear the item-code var
 
@@ -231,7 +231,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 			if (isset($tableConfArray['view.']['browser.'])) {
 				$browserConf = $tableConfArray['view.']['browser.'];
 			} else {
-				$browserConf = array();
+				$browserConf = [];
 			}
 		}
 		return $browserConf;
@@ -313,6 +313,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 			$next = ($begin_at + $limit > $productsCount) ? $productsCount - $limit : $begin_at + $limit;
 			$addQueryString[$pointerParam] = intval($next / $limit);
 			$this->getSearchParams($addQueryString);
+			
 			$tempUrl =
 				BrowserUtility::linkTPKeepCtrlVars(
 					$browseObj,
@@ -424,16 +425,16 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$pageAsCategory,
 		$basketExtra,
 		$basketRecs,
-		$mergeRow = array(),
+		$mergeRow = [],
 		$calllevel = 0,
-		$callFunctableArray = array(),
-		$parentDataArray = array(),
-		$parentProductRow = array(), // Download
+		$callFunctableArray = [],
+		$parentDataArray = [],
+		$parentProductRow = [], // Download
 		$parentFuncTablename = '', // Download
-		$parentRows = array(), // Download
+		$parentRows = [], // Download
 		$notOverwritePriceIfSet = true, // Download
-		$multiOrderArray = array(),
-		$productRowArray = array(),
+		$multiOrderArray = [],
+		$productRowArray = [],
 		$bEditableVariants = true
 	) {
 		if (!empty($error_code)) {
@@ -454,7 +455,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 		$whereCat = '';
         $whereProduct = '';
-		$itemArray = array();
+		$itemArray = [];
 
 		$viewedCodeArray = array('LISTAFFORDABLE', 'LISTVIEWEDITEMS', 'LISTVIEWEDMOST', 'LISTVIEWEDMOSTOTHERS');
 		$bUseCache = true;
@@ -467,10 +468,10 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$urlObj = GeneralUtility::makeInstance('tx_ttproducts_url_view');
 
 		$contentUid = $cObj->data['uid'];
-		$itemTableArray = array();
-		$itemTableViewArray = array();
+		$itemTableArray = [];
+		$itemTableViewArray = [];
 		$currentParentRow = '';
-		$externalRowArray = array();
+		$externalRowArray = [];
 		$bCheckUnusedArticleMarkers = false;
 
 		if (
@@ -523,18 +524,18 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 		}
 		$pidMemo = ($conf['PIDmemo'] ? $conf['PIDmemo'] : $GLOBALS['TSFE']->id);
 
-		$sqlTableArray = array();
-		$tableAliasArray = array();
+		$sqlTableArray = [];
+		$tableAliasArray = [];
 		$sqlTableIndex = 0;
-		$headerFieldArray = array();
-		$headerTableArray = array();
-		$headerTableObjArray = array();
+		$headerFieldArray = [];
+		$headerTableArray = [];
+		$headerTableObjArray = [];
 		$content = '';
 		$out = '';
-		$t = array();
-		$childCatArray = array();
-		$rootCatArray = array();
-		$jsMarkerArray = array();
+		$t = [];
+		$childCatArray = [];
+		$rootCatArray = [];
+		$jsMarkerArray = [];
 		$childCatWrap = '';
 		$imageWrap = '';
 		$linkCat = '';
@@ -598,8 +599,8 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 			$useCategories = false;
 		}
 		$keyFieldArray = $itemTable->getKeyFieldArray($theCode);
-		$tableConfArray = array();
-		$viewConfArray = array();
+		$tableConfArray = [];
+		$viewConfArray = [];
 		$functableArray = array($functablename, $categoryfunctablename);
 		tx_ttproducts_model_control::getTableConfArrays(
 			$cObj,
@@ -750,7 +751,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 			}
 			$temptime = time() - 86400 * intval(trim($newitemdays));
 			$timeFieldArray = GeneralUtility::trimExplode(',', $tableConfArray[$functablename]['controlFields.']['newItemDays']);
-			$whereTimeFieldArray = array();
+			$whereTimeFieldArray = [];
 			foreach ($timeFieldArray as $k => $value) {
 				$whereTimeFieldArray[] = $tableAliasArray[$tablename] . '.' . $value . ' >= ' . $temptime;
 			}
@@ -770,7 +771,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 		if (isset($piVars[tx_ttproducts_model_control::getSearchboxVar()])) {
             $searchVars = $piVars[tx_ttproducts_model_control::getSearchboxVar()];
         }
-		$bUseSearchboxArray = array();
+		$bUseSearchboxArray = [];
 		$latest = '';
 
 		if (isset($searchVars['local']) || isset($searchVars['uid'])) {
@@ -1006,7 +1007,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 					// Substitute a few markers
 				$out = $t['search'];
 				$tmpPid = ($conf['PIDsearch'] ? $conf['PIDsearch'] : $GLOBALS['TSFE']->id);
-				$addQueryString = array();
+				$addQueryString = [];
 				$this->getSearchParams($addQueryString);
 
 				$excludeList = 'sword';
@@ -1038,7 +1039,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 				$markerArray =
 					$urlObj->addURLMarkers(
 						$tmpPid,
-						array(),
+						[],
 						$addQueryString,
 						$excludeList,
 						$bUseBackPid,
@@ -1133,7 +1134,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 			$addQueryString = $this->uidArray;
 			$excludeList = ($theCode == 'SEARCH' ? 'sword' : '');
 			$this->getSearchParams($addQueryString);
-			$markerArray = array();
+			$markerArray = [];
 			$markerArray['###HIDDENFIELDS###'] = '';
 			$markerArray =
 				$urlObj->addURLMarkers(
@@ -1149,7 +1150,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 				$excludeList = $pointerParam;
 			}
 
-			$linkMemoConf = array();
+			$linkMemoConf = [];
 			if (
 				isset($linkConfArray) &&
 				is_array($linkConfArray) &&
@@ -1177,14 +1178,14 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 					)
 				);
 
-            $wrappedSubpartArray = array();
+            $wrappedSubpartArray = [];
 			$urlObj->getWrappedSubpartArray(
 				$wrappedSubpartArray,
-				array(),
+				[],
 				'',
 				$bUseBackPid
 			);
-			$subpartArray = array();
+			$subpartArray = [];
 			$viewTagArray = $markerObj->getAllMarkers($t['listFrameWork']);
 			$tablesObj->get('fe_users', true)->getWrappedSubpartArray(
 				$viewTagArray,
@@ -1229,7 +1230,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 				is_array($damJoinTableArray) &&
 				in_array('address', $damJoinTableArray)
 			) {
-				$t['itemheader'] = array();
+				$t['itemheader'] = [];
 				$t['itemheader']['address'] = tx_div2007_core::getSubpart($t['itemFrameWork'],'###ITEM_ADDRESS###');
 				if ($t['itemheader']['address'] != '') {
 					$headerField = $itemTable->getField('address');
@@ -1237,9 +1238,9 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 					$headerFieldArray[$headerFieldIndex] = $headerField;
 					$headerTableArray[$headerFieldIndex] = 'address';
 					$headerTableObjArray['address'] = $tablesObj->get('address', true);
-					$markerFieldArray = array();
-					$headerViewTagArray[$headerFieldIndex] = array();
-					$headerParentArray[$headerFieldIndex] = array();
+					$markerFieldArray = [];
+					$headerViewTagArray[$headerFieldIndex] = [];
+					$headerParentArray[$headerFieldIndex] = [];
 
 					$headerTableFieldsArray[$headerFieldIndex] = $markerObj->getMarkerFields(
 						$t['itemheader']['address'],
@@ -1269,7 +1270,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 				$dum = strstr($t['item'], 'ITEM_SINGLE_POST_HTML');
 				$bItemPostHtml = (strstr($t['item'], 'ITEM_SINGLE_POST_HTML') != false);
 					// Get products count
-				$selectConf = array();
+				$selectConf = [];
 				$allowedPages = ($pid ? $pid : $this->pidListObj->getPidlist());
 
 				if ($additionalPages) {
@@ -1282,7 +1283,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 				}
 
 				if ($allowedItems || $allowedItems == '0') {
-					$allowedItemArray = array();
+					$allowedItemArray = [];
 					$tempArray = GeneralUtility::trimExplode(',', $allowedItems);
 					$allowedItemArray = $GLOBALS['TYPO3_DB']->cleanIntArray($tempArray);
 					$selectConf['uidInList'] = implode(',', $allowedItemArray);
@@ -1310,7 +1311,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 						$enableFieldArray = $addressTable->getTableObj()->getEnableFieldArray();
 						$foreignTableInfo = $tablesObj->getForeignTableInfo($tablename,$itemTable->fieldArray['address']);
 						$foreignTableInfo['table_field'] = $itemTable->fieldArray['address'];
-						$newSqlTableArray = array();
+						$newSqlTableArray = [];
 						$aliasPostfix=($sqlTableIndex);
 						$tablesObj->prepareSQL($foreignTableInfo,$tableAliasArray,$aliasPostfix,$newSqlTableArray);
 						$sqlTableArray['from'][$sqlTableIndex] = $foreignTableInfo['foreign_table'];
@@ -1345,7 +1346,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 						}
 					}
 				}
-				$displayConf = array();
+				$displayConf = [];
 					// Get products count
 				$displayConf['columns'] = '';
 				if (isset($tableConfArray[$functablename]['displayColumns.'])) {
@@ -1392,12 +1393,12 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 					'PRODUCT_ADDITIONAL_SINGLE' => 'additional',
 					'PRODUCT_LINK_DATASHEET' => 'datasheet'
 				);
-				$markerFieldArray = array();
+				$markerFieldArray = [];
 				if ($itemTable->getType() == 'product') {
 					$markerFieldArray = $productMarkerFieldArray;
 				}
-				$viewTagArray = array();
-				$parentArray = array();
+				$viewTagArray = [];
+				$parentArray = [];
 
 				$fieldsArray = $markerObj->getMarkerFields(
 					$t['item'],
@@ -1413,9 +1414,9 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 					$itemTable->getType() == 'product' &&
 					in_array($useArticles, array(1, 2, 3))
 				) {
-					$markerFieldArray = array();
-					$articleViewTagArray = array();
-					$articleParentArray = array();
+					$markerFieldArray = [];
+					$articleViewTagArray = [];
+					$articleParentArray = [];
 					$articleFieldsArray = $markerObj->getMarkerFields(
 						$t['item'],
 						$itemTable->getTableObj()->tableFieldArray,
@@ -1433,8 +1434,8 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 						unset($fieldsArray[$uidKey]);
 					}
 				} else if ($itemTable->getType() == 'article' || $itemTable->getType() == 'dam') {
-					$viewProductsTagArray = array();
-					$productsParentArray = array();
+					$viewProductsTagArray = [];
+					$productsParentArray = [];
 					$tmpFramework = ($t['productAndItemsFrameWork'] ? $t['productAndItemsFrameWork'] : $t['categoryAndItemsFrameWork']);
 					$productsFieldsArray = $markerObj->getMarkerFields(
 						$tmpFramework,
@@ -1464,8 +1465,8 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 				$fieldsArray = array_merge($fieldsArray, $itemTableLangFields);
 				$itemImageFields = $cnfObj->getImageFields($itemTableConf);
 				$fieldsArray = array_merge($fieldsArray, $itemImageFields);
-				$viewCatTagArray = array();
-				$catParentArray = array();
+				$viewCatTagArray = [];
+				$catParentArray = [];
 
 				$columnFields = $cnfObj->getColumnFields($itemTableConf);
 
@@ -1482,7 +1483,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 				$catFramework = '';
 				$mergeTagArray = [];
 				if ($useCategories) {
-                    $tmp = array();
+                    $tmp = [];
 					$catfieldsArray = $markerObj->getMarkerFields(
 						$t['categoryAndItemsFrameWork'], // categoryAndItemsFrameWork  categoryFrameWork
 						$categoryTable->getTableObj()->tableFieldArray,
@@ -1504,7 +1505,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 						$orderByCat != ''
 					)
 				) {
-					$aliasArray = array();
+					$aliasArray = [];
 					$aliasArray['mm1'] = 'mm_cat1';
 					$aliasArray['mm2'] = 'mm_cat2';
 					$itemTable->addConfCat($categoryTable, $selectConf, $aliasArray);
@@ -1546,7 +1547,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 					}
 				}
 
-				$collateConf = array();
+				$collateConf = [];
 				if (
 					isset($tableConfArray[$functablename]['collate.'])
 				) {
@@ -1757,7 +1758,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 						$collateConf
 					);
 				$iCount = 0;
-				$uidArray = array();
+				$uidArray = [];
 				while($iCount < $limit && ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))) {
 					$iCount++;
 
@@ -1851,37 +1852,37 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 					tx_div2007_core::substituteMarkerArrayCached(
 						$t[$markerFramework],
 						$markerArray,
-						array(),
-						array()
+						[],
+						[]
 					);
 				$t['itemFrameWork'] =
 					tx_div2007_core::substituteMarkerArrayCached(
 						$t['itemFrameWork'],
 						$markerArray,
-						array(),
-						array()
+						[],
+						[]
 					);
 
-				$currentArray = array();
+				$currentArray = [];
 				$currentArray['category'] = '-1';
 				$currentArray['product'] = '-1';
-				$nextArray = array();
+				$nextArray = [];
 				$nextArray['category'] = '';
 				$nextArray['product'] = '';
-				$productMarkerArray = array();
+				$productMarkerArray = [];
 				$out = '';
 				$categoryAndItemsOut = '';
 				$iCount = 0;
 				$iColCount = 0;
 				$productListOut = '';
 				$itemsOut = '';
-				$headerItemsOutArray = array();
-				$currentHeaderRow = array();
+				$headerItemsOutArray = [];
+				$currentHeaderRow = [];
 				$itemListOut = '';
 				$categoryOut = '';
 				$tableRowOpen = 0;
 				$itemListSubpart = ($itemTable->getType() == 'article' && $t['productAndItemsFrameWork'] ? '###ITEM_PRODUCT_AND_ITEMS###' : '###ITEM_LIST###');
-				$prodRow = array();
+				$prodRow = [];
 				if ($itemTable->getType() != 'product') {
 					$prodRow = $parentProductRow;
 				}
@@ -1917,9 +1918,9 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 							$error_code
 						);
 					}
-					$categoryMarkerArray = array();
-					$categorySubpartArray = array();
-					$categoryWrappedSubpartArray = array();
+					$categoryMarkerArray = [];
+					$categorySubpartArray = [];
+					$categoryWrappedSubpartArray = [];
 					$itemRowWrapArray = [];
 
 					$itemRowWrapArray = GeneralUtility::trimExplode('|', $cssConf['itemRowWrap']);
@@ -1947,7 +1948,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 							if ($bHeaderFieldChanged || !count($currentHeaderRow)) {
 								$bHeaderFieldChanged = true;
-								$headerMarkerArray = array();
+								$headerMarkerArray = [];
 								foreach($headerTableArray as $headertable) {
 
 									$headerTableLen = strlen($headertable);
@@ -1963,8 +1964,8 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 								foreach($currentHeaderRow as $headertable => $headerRow) {
 
-									$headerMarkerArray = array();
-									$tmp = array();
+									$headerMarkerArray = [];
+									$tmp = [];
 									$tablesObj->get($headertable, true)->getRowMarkerArray(
 										$headertable,
 										$headerRow,
@@ -1989,8 +1990,8 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 									$headerItemsOutArray[$headertable] =tx_div2007_core::substituteMarkerArrayCached(
 										$t['itemheader']['address'],
 										$headerMarkerArray,
-										array(),
-										array()
+										[],
+										[]
 									);
 								}
 							}
@@ -2110,12 +2111,12 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 							}
 							$currentArray['category'] = (($pageAsCategory < 2 || $itemTable->getType() == 'dam') ? $displayCat : $row['pid']);
 							$bCategoryHasChanged = true;
-							$categoryMarkerArray = array();
-							$categorySubpartArray = array();
-							$categoryWrappedSubpartArray = array();
+							$categoryMarkerArray = [];
+							$categorySubpartArray = [];
+							$categoryWrappedSubpartArray = [];
 
 							if ($where != '' || $conf['displayListCatHeader']) { // Todo: displayListCatHeader is always 1 because of if before
-                                $tmp = array();
+                                $tmp = [];
 								$categoryTableView->getMarkerArray(
 									$categoryMarkerArray,
 									'',
@@ -2144,7 +2145,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 									$config['limitImage'],
 									'listcatImage',
 									$viewCatTagArray,
-									array(),
+									[],
 									$pageAsCategory,
 									$theCode,
 									$basketExtra,
@@ -2185,7 +2186,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 							$bCategoryHasChanged = false;
 						}
 
-						$subpartArray = array();
+						$subpartArray = [];
 
 						if ($itemTable->getType() == 'article') {
 							// relevant only for article list with articleMode == 0
@@ -2194,7 +2195,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 								$row['uid_product'] &&
 								$row['uid_product'] != $currentArray['product']
 							) {
-								$productMarkerArray = array();
+								$productMarkerArray = [];
 								// fetch new product if articles are listed
 								$prodRow = $tablesObj->get('tt_products')->get($row['uid_product']);
 
@@ -2214,7 +2215,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 									$config['limitImage'],
 									'listImage',
 									$viewProductsTagArray,
-									array(),
+									[],
 									$theCode,
 									$basketExtra,
 									$basketRecs,
@@ -2299,8 +2300,8 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 						$css_current = ($css_current ? ' class="' . $css_current . '"' : '');
 
 							// Print Item Title
-						$wrappedSubpartArray = array();
-						$addQueryString = array();
+						$wrappedSubpartArray = [];
+						$addQueryString = [];
 						$pagesObj = $tablesObj->get('pages');
 						$pid = $pagesObj->getPID($conf['PIDitemDisplay'] ?? '', $conf['PIDitemDisplay.'] ?? '', $row);
 
@@ -2381,7 +2382,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 							$categoryPivar
 						);
 
-						$linkConf = array();
+						$linkConf = [];
 						if (
 							isset($linkConfArray) &&
 							is_array($linkConfArray) &&
@@ -2405,12 +2406,12 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 							$wrappedSubpartArray['###LINK_ITEM###'] = GeneralUtility::trimExplode('|', $childCatWrap);
 						} else {
 							$wrappedSubpartArray['###LINK_ITEM###'] =
-								array(
+								[
 									'<a class="singlelink" href="' . htmlspecialchars($pageLink) . '"' .
 										$css_current .
 										'>',
 									'</a>'
-								);
+								];
 						}
 
 						tx_ttproducts_control_memo::getWrappedSubpartArray(
@@ -2420,7 +2421,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 							$cObj,
 							$urlObj,
 							$excludeList,
-							array(),
+							[],
 							'',
 							$bUseBackPid
 						);
@@ -2433,7 +2434,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 							$externalRowArray[$itemTable->getFuncTablename()] = $row;
 						}
 
-						$markerArray = array();
+						$markerArray = [];
 						$item = $basketObj->getItem(
 							tx_ttproducts_control_basket::getBasketExt(),
 							$basketExtra,
@@ -2500,7 +2501,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 									$prodVariantRow['ext']['tt_products_articles'][] = $articleRow;
 								} else {
-									$prodVariantRow['ext']['tt_products_articles'] = array();
+									$prodVariantRow['ext']['tt_products_articles'] = [];
 								}
 							}
 						}
@@ -2549,7 +2550,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 								$basketObj->calculate($basketItemArray); // get the calculated arrays
 								$prodVariantRow = $basketObj->getMergedRowFromItemArray($basketItemArray, $basketExtra);
 							}
-							$currPriceMarkerArray = array();
+							$currPriceMarkerArray = [];
 							$articleTablename = (is_object($itemTableArray['article']) ? $itemTableArray['article']->getTablename() : '');
 							$itemTableViewArray['product']->getCurrentPriceMarkerArray(
 								$currPriceMarkerArray,
@@ -2619,7 +2620,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 							);
 
 							if ($listMarkerArray && is_array($listMarkerArray)) {
-								$quantityMarkerArray = array();
+								$quantityMarkerArray = [];
 
 								foreach ($listMarkerArray as $marker => $markerValue) {
 									$markerValue = $parser->substituteMarkerArray($markerValue, $markerArray);
@@ -2628,7 +2629,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 								}
 							}
 						}
-
+debug ($imageWrap, '$imageWrap vor getModelMarkerArray');
 						$itemTableView->getModelMarkerArray(
 							$row,
 							$itemTableViewArray[$itemTable->getType()]->getMarker(),
@@ -2637,7 +2638,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 							$config['limitImage'],
 							$image,
 							$viewTagArray,
-							array(),
+							[],
 							$theCode,
 							$basketExtra,
 							$basketRecs,
@@ -2659,7 +2660,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 							isset($tableConfArray[$categoryfunctablename]) &&
 							isset($tableConfArray[$categoryfunctablename]['tagmark.'])
 						) {
-							$tagArray = array();
+							$tagArray = [];
 							$tagConf = $tableConfArray[$categoryfunctablename]['tagmark.'];
 							foreach ($catArray as $loopCategory) {
 								$catRow =
@@ -2722,7 +2723,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 									$config['limitImage'],
 									$image,
 									$articleViewTagArray,
-									array(),
+									[],
 									$theCode,
 									$basketExtra,
 									$basketRecs,
@@ -2802,7 +2803,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 							$productDAMMarkerArray &&
 							is_array($productDAMMarkerArray)
 						) {
-							$tmpMarkerArray = array();
+							$tmpMarkerArray = [];
 							$tmpMarkerArray['###DAM_UID###'] = $row['uid'];
 
 							foreach ($productDAMMarkerArray as $marker => $v) {
@@ -2814,7 +2815,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 						}
 
 						if ($linkCat) {
-							$linkCategoryMarkerArray = array();
+							$linkCategoryMarkerArray = [];
 							$categoryTableView->getMarkerArray(
 								$linkCategoryMarkerArray,
 								$linkCat,
@@ -2822,7 +2823,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 								$config['limitImage'],
 								'listcatImage',
 								$viewCatTagArray,
-								array(),
+								[],
 								$pageAsCategory,
 								$theCode,
 								$basketExtra,
@@ -2853,7 +2854,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 						}
 
 						// $markerArray['###FORM_URL###']=$this->formUrl; // Applied later as well.
-						$addQueryString = array();
+						$addQueryString = [];
 						$addQueryString = $this->uidArray;
 						$this->getSearchParams($addQueryString);
 						$markerArray =
@@ -2968,7 +2969,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 								}
 
 								$markerArray = array_merge($productMarkerArray, $categoryMarkerArray, $markerArray);
-								$subpartArray = array();
+								$subpartArray = [];
 
 								if ($bHeaderFieldChanged) {
 									foreach ($headerItemsOutArray as $headerTable => $headerItemsOut) {
@@ -2983,8 +2984,8 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 							$iColCount = 0; // restart in the first column
 						}
 						$nextCat = 0;
-						$nextRow = array();
-						$catArray = array();
+						$nextRow = [];
+						$catArray = [];
 						if (isset($itemArray[$iCount])) {
 							$nextRow = $itemArray[$iCount];
 							if ($useCategories) {
@@ -3055,7 +3056,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 								$itemsOut &&
 								$t['itemFrameWork']
 							) {
-								$subpartArray = array();
+								$subpartArray = [];
 								$subpartArray['###ITEM_SINGLE###'] = $itemsOut;
 
 								$itemListNewOut = tx_div2007_core::substituteMarkerArrayCached(
@@ -3072,7 +3073,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 				} else {
 					if (isset($catTableConf['subpart.'])) {
 						$displayCat = $cat;
-						$tmp = array();
+						$tmp = [];
 						$categoryTableView->getMarkerArray(
 							$categoryMarkerArray,
 							$displayCat,
@@ -3109,7 +3110,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 									$t['itemFrameWork']
 								) {
 									$markerArray = $categoryMarkerArray;
-									$subpartArray = array();
+									$subpartArray = [];
 									$markerArray['###ITEM_SINGLE_PRE_HTML###'] = '';
 									$markerArray['###ITEM_SINGLE_POST_HTML###'] = '';
 									$subpartArray['###ITEM_SINGLE###'] = '';
@@ -3167,11 +3168,11 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 			// next / prev:
 			// $url = $this->getLinkUrl('','begin_at');
 				// Reset:
-			$subpartArray=array();
-			$wrappedSubpartArray=array();
+			$subpartArray= [];
+			$wrappedSubpartArray= [];
 			$markerArray=$globalMarkerArray;
 			$splitMark = md5(microtime());
-			$addQueryString=array();
+			$addQueryString= [];
 			$addQueryString['addmemo'] = '';
 			$addQueryString['delmemo'] = '';
 
@@ -3194,9 +3195,8 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 				$subpartArray,
 				$wrappedSubpartArray
 			);
-
 			$subpartArray['###ITEM_CATEGORY_AND_ITEMS###'] = $out;
-			$addQueryString = array();
+			$addQueryString = [];
 			$addQueryString = $this->uidArray;
 			$excludeList = ($theCode == 'SEARCH' ? 'sword' : '');
 			$this->getSearchParams($addQueryString);
@@ -3253,7 +3253,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 		} else if ($out) {
 			$content .= $out;
 		} else if ($whereCat != '' || $allowedItems != '0' || !$bListStartEmpty) {
-			$subpartArray = array();
+			$subpartArray = [];
 			$subpartArray['###ITEM_CATEGORY_AND_ITEMS###'] = '';
 			$subpartArray['###LINK_PREV###'] = '';
 			$subpartArray['###LINK_NEXT###'] = '';
@@ -3279,9 +3279,9 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 		} // if (count ($itemArray))
 
 		if ($bCheckUnusedArticleMarkers) {
-			$markerFieldArray = array();
-			$articleViewTagArray = array();
-			$articleParentArray = array();
+			$markerFieldArray = [];
+			$articleViewTagArray = [];
+			$articleParentArray = [];
 			$articleViewObj = $tablesObj->get('tt_products_articles', true);
 
 			$searchString = '###' . $articleViewObj->marker . '_';
