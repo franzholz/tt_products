@@ -1,3 +1,6 @@
+2022-04-05 Franz Holzinger <franz@ttproducts.de>
+    * new feature: category list with multiple hierarchy tiers
+
 2022-02-12 Franz Holzinger <franz@ttproducts.de>
     * bugfixes PHP 8
     * add new transactor listener

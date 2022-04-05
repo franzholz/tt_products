@@ -89,6 +89,7 @@ class tx_ttproducts_field_graduated_price_view extends tx_ttproducts_field_base_
 		$row,
 		$markerKey,
 		&$markerArray,
+		$fieldMarkerArray,
 		$tagArray,
 		$theCode,
 		$id,
@@ -101,6 +102,7 @@ class tx_ttproducts_field_graduated_price_view extends tx_ttproducts_field_base_
 		$suffix = '',
 		$imageNum = 0,
 		$imageRenderObj = '',
+		$linkWrap = false,
 		$bEnableTaxZero = false
 	) {
 		$bTaxIncluded = $this->conf['TAXincluded'];

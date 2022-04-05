@@ -59,6 +59,7 @@ class tx_ttproducts_field_creditpoints_view extends tx_ttproducts_field_base_vie
 		$row,
 		$markerKey,
 		&$markerArray,
+		$fieldMarkerArray,
 		$tagArray,
 		$theCode,
 		$id,
@@ -71,6 +72,7 @@ class tx_ttproducts_field_creditpoints_view extends tx_ttproducts_field_base_vie
 		$suffix = '',
 		$imageNum = 0,
 		$imageRenderObj = '',
+		$linkWrap = false,
 		$bEnableTaxZero = false
 	) {
 		$modifiedRow = array();

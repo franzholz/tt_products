@@ -26,35 +26,62 @@ routeEnhancers:
     index: ''
     map:
       /: 0
-  TtProduct:
+  TtProducts:
     type: Plugin
     routePath: '/products/{product}'
     namespace: tt_products
     requirements:
-      product: '[a-zA-Z0-9].*'
+      product: '[\w].*'
     aspects:
       product:
         type: PersistedAliasMapper
         tableName: tt_products
         routeFieldName: slug
-  TtProductPagination:
+  TtProductsCategory:
     type: Plugin
-    routePath: '/browse_products/{pp}'
+    routePath: '/cat/{cat}'
     namespace: tt_products
     requirements:
-      pp: '[a-zA-Z0-9].*'
+      cat: '[\w].*'
+    aspects:
+      cat:
+        type: PersistedAliasMapper
+        tableName: tt_products_cat
+        routeFieldName: slug
+  TtProductsCategoryProduct:
+    type: Plugin
+    routePath: '/cat/{cat}/products/{product}'
+    namespace: tt_products
+    requirements:
+      cat: '[\w].*'
+      product: '[\w].*'
+    aspects:
+      cat:
+        type: PersistedAliasMapper
+        tableName: tt_products_cat
+        routeFieldName: slug
+      product:
+        type: PersistedAliasMapper
+        tableName: tt_products
+        routeFieldName: slug
+  TtProductsPagination:
+    type: Plugin
+    routePath: '/browsep/{pp}'
+    namespace: tt_products
+    requirements:
+      pp: '[0-9]*'
     aspects:
       pp:
         type: StaticRangeMapper
         start: '0'
         end: '100'
-  TtProductWithPagination:
+  TtProductsProductsWithPagination:
     type: Plugin
-    routePath: '/products/{product}/browse_products/{pp}'
+    routePath: '/products/{product}/browsep/{pp}'
     namespace: tt_products
     requirements:
-      pp: '[a-zA-Z0-9].*'
-      product: '[a-zA-Z0-9].*'
+      pp: '[0-9]*'
+      product: '[\w].*'
     aspects:
       product:
         type: PersistedAliasMapper
@@ -64,25 +91,41 @@ routeEnhancers:
         type: StaticRangeMapper
         start: '0'
         end: '100'
-  TtProductBackPid:
+  TtProductsCategoryPagination:
+    type: Plugin
+    routePath: '/cat/{cat}/browsep/{pp}'
+    namespace: tt_products
+    requirements:
+      cat: '[\w].*'
+      pp: '[0-9]*'
+    aspects:
+      cat:
+        type: PersistedAliasMapper
+        tableName: tt_products_cat
+        routeFieldName: slug
+      pp:
+        type: StaticRangeMapper
+        start: '0'
+        end: '100'
+  TtProductsOnlyBackPid:
     type: Plugin
     routePath: '/backPID/{backPID}'
     namespace: tt_products
     requirements:
-      backPID: '[a-zA-Z0-9].*'
+      backPID: '[\w].*'
     aspects:
       backPID:
         type: PersistedPatternMapper
         tableName: pages
         routeFieldPattern: '^(?P<title>.+)$'
         routeFieldResult: '{title}'
-  TtProductSearchDetail:
+  TtProductsBackPid:
     type: Plugin
-    routePath: '/products/{product}/backPID/{backPID}/sword/{sword}'
+    routePath: '/products/{product}/backPID/{backPID}'
     namespace: tt_products
     requirements:
-      backPID: '[a-zA-Z0-9].*'
-      product: '[a-zA-Z0-9].*'
+      backPID: '[\w].*'
+      product: '[\w].*'
     aspects:
       backPID:
         type: PersistedPatternMapper
@@ -93,14 +136,31 @@ routeEnhancers:
         type: PersistedAliasMapper
         tableName: tt_products
         routeFieldName: slug
-  TtProductWithPaginationAndBackPid:
+  TtProductsSearchDetail:
     type: Plugin
-    routePath: '/products/{product}/backPID/{backPID}/browse_products/{pp}'
+    routePath: '/products/{product}/backPID/{backPID}/sword/{sword}'
     namespace: tt_products
     requirements:
-      backPID: '[a-zA-Z0-9].*'
-      product: '[a-zA-Z0-9].*'
-      pp: '[a-zA-Z0-9].*'
+      backPID: '[\w].*'
+      product: '[\w].*'
+    aspects:
+      backPID:
+        type: PersistedPatternMapper
+        tableName: pages
+        routeFieldPattern: '^(?P<title>.+)$'
+        routeFieldResult: '{title}'
+      product:
+        type: PersistedAliasMapper
+        tableName: tt_products
+        routeFieldName: slug
+  TtProductsWithPaginationAndBackPid:
+    type: Plugin
+    routePath: '/products/{product}/backPID/{backPID}/browsep/{pp}'
+    namespace: tt_products
+    requirements:
+      backPID: '[\w].*'
+      product: '[\w].*'
+      pp: '[0-9]*'
     aspects:
       backPID:
         type: PersistedPatternMapper

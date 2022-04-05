@@ -127,7 +127,6 @@ class tx_ttproducts_field_price_view extends tx_ttproducts_field_base_view {
 		} else {
 			$result = $priceText;
 		}
-// debug ($result, 'printPrice $result');
 		return $result;
 	}
 
@@ -326,6 +325,7 @@ class tx_ttproducts_field_price_view extends tx_ttproducts_field_base_view {
 		$row,
 		$markerKey,
 		&$markerArray,
+		$fieldMarkerArray,
 		$tagArray,
 		$theCode,
 		$id,
@@ -338,9 +338,10 @@ class tx_ttproducts_field_price_view extends tx_ttproducts_field_base_view {
 		$suffix = '',
 		$imageNum = 0,
 		$imageRenderObj = '',
-		$bEnableTaxZero = false,
-        $notOverwritePriceIfSet = true
+		$linkWrap = false,
+		$bEnableTaxZero = false
 	) {
+        $notOverwritePriceIfSet = true;
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$conf = $cnf->getConf();
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');

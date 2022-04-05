@@ -47,6 +47,7 @@ class tx_ttproducts_field_image_view extends tx_ttproducts_field_media_view {
 		$row,
 		$markerKey,
 		&$markerArray,
+		$fieldMarkerArray,
 		$tagArray,
 		$theCode,
 		$id,
@@ -59,6 +60,7 @@ class tx_ttproducts_field_image_view extends tx_ttproducts_field_media_view {
 		$suffix = '',
 		$imageNum = 0,
 		$imageRenderObj = '',
+        $linkWrap = false,
 		$bEnableTaxZero = false
 	) {
 		parent::getRowMarkerArray(
@@ -67,6 +69,7 @@ class tx_ttproducts_field_image_view extends tx_ttproducts_field_media_view {
 			$row,
 			$markerKey,
 			$markerArray,
+			$fieldMarkerArray,
 			$tagArray,
 			$theCode,
 			$id,
@@ -79,6 +82,7 @@ class tx_ttproducts_field_image_view extends tx_ttproducts_field_media_view {
 			$suffix,
 			$imageNum,
 			$imageRenderObj,
+			$linkWrap,
 			$bEnableTaxZero
 		);
 	}

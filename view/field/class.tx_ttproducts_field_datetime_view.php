@@ -49,6 +49,7 @@ class tx_ttproducts_field_datetime_view extends tx_ttproducts_field_base_view {
 		$row,
 		$markerKey,
 		&$markerArray,
+		$fieldMarkerArray,
 		$tagArray,
 		$theCode,
 		$id,
@@ -61,6 +62,7 @@ class tx_ttproducts_field_datetime_view extends tx_ttproducts_field_base_view {
 		$suffix = '',
 		$imageNum = 0,
 		$imageRenderObj = '',
+		$linkWrap = false,
 		$bEnableTaxZero = false
 	) {
         $cObj = FrontendUtility::getContentObjectRenderer();

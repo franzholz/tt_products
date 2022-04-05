@@ -113,7 +113,6 @@ plugin.tt_products {
   basketPic = {$plugin.tt_products.basketPic}
   clickIntoBasket = {$plugin.tt_products.clickIntoBasket}
   clickIntoList = {$plugin.tt_products.clickIntoList}
-  clickIntoSubmenu = {$plugin.tt_products.clickIntoSubmenu}
   clickItemsIntoSubmenu = {$plugin.tt_products.clickItemsIntoSubmenu}
   basketMaxQuantity = {$plugin.tt_products.basketMaxQuantity}
   quantityIsFloat = {$plugin.tt_products.quantityIsFloat}
@@ -359,6 +358,9 @@ plugin.tt_products {
 	  }
 	}
 	charRegExp = [[:blank:]]*
+    imageMarker {
+        type = index
+    }
   }
 
 

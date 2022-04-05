@@ -76,7 +76,7 @@ class tx_ttproducts_pdf_view_sample07 {
 
 					$path = $pathsite . $generationConf['handleLib.']['path'];
 
- 					\TYPO3\CMS\Core\Utility\GeneralUtility::requireOnce ($path . '/src/PhpWord/Autoloader.php');
+ 					require_once($path . '/src/PhpWord/Autoloader.php');
 					\PhpOffice\PhpWord\Autoloader::register();
 
 					$phpWord = new \PhpOffice\PhpWord\PhpWord();
@@ -169,7 +169,7 @@ class tx_ttproducts_pdf_view_sample07 {
 					$name = 'fileadmin/Sample_07_TemplateCloneRow.docx';
 					$document->saveAs($name);
 
- 					\TYPO3\CMS\Core\Utility\GeneralUtility::requireOnce ($path . '/samples/Sample_Footer.php');
+ 					require_once($path . '/samples/Sample_Footer.php');
 
                     $pathsite = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/';
                     $phpWord = \PhpOffice\PhpWord\IOFactory::load($pathsite . $name);

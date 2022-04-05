@@ -45,8 +45,8 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Cor
 	public $itemTable;
 	private $useArticles;
 	private $selectableArray;
-	public $fieldArray = array();	// array of fields which are variants with ';' or by other characters separated values
-	private $selectableFieldArray = array();
+	public $fieldArray = [];	// array of fields which are variants with ';' or by other characters separated values
+	private $selectableFieldArray = [];
 	public $firstVariantRow = '';
 	public $additionalKey;
 	public $additionalField = 'additional';
@@ -66,11 +66,11 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Cor
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 
 		$tmpArray = $cnf->getTableDesc($tablename);
-		$this->conf = (is_array($tmpArray) && is_array($tmpArray['variant.']) ? $tmpArray['variant.'] : array());
+		$this->conf = (is_array($tmpArray) && is_array($tmpArray['variant.']) ? $tmpArray['variant.'] : []);
 		$this->itemTable = $itemTable;
 		$this->useArticles = $useArticles;
-		$this->selectableArray = array();
-		$firstVariantArray = array();
+		$this->selectableArray = [];
+		$firstVariantArray = [];
 		$fieldArray = $this->conf;
 		$additionalKey = '';
 
@@ -194,7 +194,7 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Cor
 					if (
 						isset($variantArray[$count])
 					) {
-						$variantValueArray = array();
+						$variantValueArray = [];
 
 						if (isset($row[$field])) {
 							$theVariant = $row[$field];
@@ -267,8 +267,8 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Cor
 		$applySeparator = true
 	) {
 		$result = false;
-		$variantArray = array();
-		$variantResultRow = array();
+		$variantArray = [];
+		$variantResultRow = [];
 		$variantSeparator = $this->getSplitSeparator();
 
 		if (
@@ -330,8 +330,8 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Cor
 		$applySeparator = true
 	) {
 		$result = false;
-		$variantArray = array();
-		$variantRow = array();
+		$variantArray = [];
+		$variantRow = [];
 		$useArticles = $this->getUseArticles();
 		$selectableArray = $this->getSelectableArray();
 
@@ -368,13 +368,13 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Cor
 	}
 
 
-	public function getVariantRow ($row = '', $variantArray = array()) {
+	public function getVariantRow ($row = '', $variantArray = []) {
 		$result = '';
 		$variantSeparator = $this->getSplitSeparator();
 
 		if (isset($row) && is_array($row)) {
 			if (!isset($variantArray)) {
-				$variantArray = array();
+				$variantArray = [];
 			}
 			$fieldArray = $this->getFieldArray();
 			$rcRow = $row;
@@ -402,7 +402,7 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Cor
 
     public function getVariantValuesRow ($row = '') {
 
-        $result = array();
+        $result = [];
 
         if (isset($row) && is_array($row)) {
             $fieldArray = $this->getFieldArray();
@@ -433,7 +433,7 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Cor
 		$productRow,
 		$withSeparator = false
 	) {
-		$result = array();
+		$result = [];
 
 		$selectableFieldArray = $this->getSelectableFieldArray();
 
@@ -445,7 +445,7 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Cor
 			if (
 				isset($productRow[$field])
 			) {
-				$valueArray = array();
+				$valueArray = [];
 
 				$productValueArray =
 					preg_split(
@@ -471,7 +471,7 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Cor
 				$valueArray = array_values(array_unique($valueArray));
 
 				if (!empty($productValueArray)) {
-					$sortedValueArray = array();
+					$sortedValueArray = [];
 					foreach ($productValueArray as $value) {
 						if (in_array($value, $valueArray)) {
 							$sortedValueArray[] = $value;
@@ -525,13 +525,13 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Cor
 			);
 
 		$selectableFieldArray = $this->getSelectableFieldArray();
-		$possibleArticleArray = array();
+		$possibleArticleArray = [];
 
 		if (
 			isset($articleRowArray) && is_array($articleRowArray) &&
 			isset($this->selectableArray) && is_array($this->selectableArray)
 		) {
-			$result = array();
+			$result = [];
 		}
 
 		foreach ($articleRowArray as $articleRow) {

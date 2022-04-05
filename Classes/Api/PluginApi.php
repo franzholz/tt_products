@@ -55,11 +55,12 @@ abstract class RelatedProductsTypes {
 class PluginApi {
 
 	static private $bHasBeenInitialised = false;
-	static private $flexformArray = array();
+	static private $flexformArray = [];
 
     static public function init ($conf) {
-        $piVarsDefault = array();
-        $prefixId = \tx_ttproducts_model_control::getPrefixId();
+        $piVarsDefault = [];
+        $parameterApi = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\ParameterApi::class);
+        $prefixId = $parameterApi->getPrefixId();
         $defaults = $conf['_DEFAULT_PI_VARS.'] ?? '';
         if (
             isset($defaults) &&
@@ -70,6 +71,7 @@ class PluginApi {
             } else {
                 $piVarsDefault = $defaults;
             }
+            $parameterApi->setPiVarDefaults($piVarsDefault);
             \tx_ttproducts_model_control::setPiVarDefaults($piVarsDefault);
         }
 
@@ -78,7 +80,7 @@ class PluginApi {
         if (!empty($piVarsDefault)) {
             $tmp = $piVarsDefault;
             if (is_array($piVars)) {
-                \tx_div2007_core_php53::mergeRecursiveWithOverrule(
+                \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule(
                     $tmp,
                     $piVars
                 );
@@ -86,6 +88,9 @@ class PluginApi {
             $piVars = $tmp;
         }
 
+        $parameterApi->setPiVars(
+            $piVars
+        );
         \tx_ttproducts_model_control::setPiVars(
             $piVars
         );
@@ -98,7 +103,7 @@ class PluginApi {
         &$errorCode,
         $bRunAjax = false
     ) {
-        $errorCode = array();
+        $errorCode = [];
 
         self::initUrl(
             $urlObj,
@@ -282,7 +287,7 @@ class PluginApi {
 
 	public function getRelatedProductsBySystemCategory ($content, $pluginConf) {
 		$result = '';
-		$errorCode = array();
+		$errorCode = [];
 
 		$result =
 			$this->getRelatedProducts(
@@ -315,9 +320,9 @@ class PluginApi {
 		if (!self::$bHasBeenInitialised) {
 			$conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
 			\tx_div2007_core::mergeRecursiveWithOverrule($conf, $pluginConf);
-			$config = array();
+			$config = [];
 
-			$cObj = FrontendUtility::getContentObjectRenderer(array());
+			$cObj = FrontendUtility::getContentObjectRenderer([]);
 
 			self::init2(
 				$conf,
@@ -377,13 +382,13 @@ class PluginApi {
 			$orderBy = $tableConf['orderBy'];
 		}
 
-		$mergeRow = array();
-		$parentRows = array();
+		$mergeRow = [];
+		$parentRows = [];
 		$relatedIds =
 			$itemObj->getRelated(
 				$parentFuncTablename,
 				$parentRows,
-                $multiOrderArray = array(),
+                $multiOrderArray = [],
 				$uid,
 				$subtype,
 				$orderBy
