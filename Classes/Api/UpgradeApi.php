@@ -30,7 +30,6 @@ namespace JambageCom\TtProducts\Api;
 
 use Doctrine\DBAL\ParameterType;
 
-
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
@@ -39,7 +38,6 @@ use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
-
 
 
 class UpgradeApi implements LoggerAwareInterface {
@@ -571,7 +569,7 @@ class UpgradeApi implements LoggerAwareInterface {
                 $sourcePath = $GLOBALS['TCA'][$table]['columns'][$oldField]['config']['uploadfolder'];
             }
         }
-
+        
         if (
             version_compare(TYPO3_version, '10.4.0', '<')
         ) {
@@ -579,6 +577,7 @@ class UpgradeApi implements LoggerAwareInterface {
         } else {
             $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
         }
+
         $defaultStorage = $resourceFactory->getDefaultStorage();
         if (!is_object($defaultStorage)) {
             $storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\StorageRepository::class);
@@ -591,20 +590,21 @@ class UpgradeApi implements LoggerAwareInterface {
 
         foreach ($fieldItems as $item) {
             $fileUid = null;
+            $existingFileRecord = null;
             $sourceExists = false;
-            $currentSourcePath = $pathSite . $sourcePath  . '/' . basename($item);
+            $sourcePathFile = $pathSite . $sourcePath  . '/' . basename($item);
             $targetPath = 'user_upload';
             $targetDirectory = $pathSite . $fileadminDirectory . $targetPath;
             $targetDirectoryFile = $targetDirectory . '/' . basename($item);
             $targetPathFile = $targetPath . '/' . basename($item);
-            // maybe the file was already moved, so check if the original file still exists
-            if (file_exists($currentSourcePath)) {
+            // maybe the file needs to be moved, so check if the source file still exists
+            if (file_exists($sourcePathFile)) {
                 $sourceExists = true;
                 if (!is_dir($targetDirectory)) {
                     GeneralUtility::mkdir_deep($targetDirectory);
                 }
-                // see if the file already exists in the storage
-                $fileSha1 = sha1_file($currentSourcePath);
+                // see if the target file already exists in the storage
+                $fileSha1 = sha1_file($targetDirectoryFile);
                 $queryBuilder = $connectionPool->getQueryBuilderForTable('sys_file');
                 $queryBuilder->getRestrictions()->removeAll();
                 $existingFileRecord = $queryBuilder->select('uid')->from('sys_file')->where(
@@ -618,11 +618,11 @@ class UpgradeApi implements LoggerAwareInterface {
                     )
                 )->execute()->fetch();
                 // the file exists, the file does not have to be moved again
-                if (is_array($existingFileRecord)) {
+                if (is_array($existingFileRecord) && $existingFileRecord['uid']) {
                     $fileUid = $existingFileRecord['uid'];
                 } else {
                     // just move the file (no duplicate)
-                    rename($currentSourcePath, $targetDirectoryFile);
+                    rename($sourcePathFile, $targetDirectoryFile);
                 }
             } else {
                 // nothing
@@ -632,7 +632,7 @@ class UpgradeApi implements LoggerAwareInterface {
             if ($fileUid == null) {
                 // get the File object if it has not been fetched before
                 try {
-                    // if the target file does not exist, we should just continue, but leave a message in the docs;
+                    // if the target file does not exist, we should just continue, but leave a message in the docs, maybe because the source file is missing.
                     // ideally, the user would be informed after the update as well.
                     /** @var File $file */
                     $file = $defaultStorage->getFile($targetPathFile);
@@ -643,19 +643,22 @@ class UpgradeApi implements LoggerAwareInterface {
 
                     // no file found, no reference can be set
                     $this->logger->warning(
-                        $errorMessage . ' The reference could not be migrated.',
+                        $errorMessage . ' The file "' . $sourcePath . '/' . basename($item) . '" could not be migrated to the folder "' . $targetDirectory . '" .',
                         [
                             'table' => $table,
                             'record' => $row,
                             'field' => $oldField,
                         ]
                     );
-                    $format = $errorMessage . ' Referencing field: %s.%d.%s. The reference could not be migrated.';
+                    $format = $errorMessage . ' Referencing field: %s.%d.%s. The item "%s" with the file "%s" could not be migrated to the folder "%s" .' . (is_writable($targetDirectory) ? '' : ' No write access!' . ($sourceExists ? '' : ' The source file does not exist. '));
                     $message = sprintf(
                         $format,
                         $table,
                         $row['uid'],
-                        $oldField
+                        $oldField,
+                        $item,
+                        $sourcePathFile, // $sourcePath . '/' . basename($item),
+                        $fileadminDirectory . $targetPath
                     );
                     $customMessage .= PHP_EOL . $message;
                     continue;
@@ -663,6 +666,52 @@ class UpgradeApi implements LoggerAwareInterface {
             }
 
             if ($fileUid > 0) {
+                if (is_array($existingFileRecord)) {
+                    $queryBuilder = $connectionPool->getQueryBuilderForTable('sys_file_reference');
+
+                    // Check if entries are already referenced
+                    $count = $queryBuilder->count('uid')
+                        ->from('sys_file_reference')
+                        ->where(
+                            $queryBuilder->expr()->andX(
+                                $queryBuilder->expr()->eq(
+                                    'fieldname',
+                                    $queryBuilder->createNamedParameter($newField)
+                                ),
+                                $queryBuilder->expr()->eq(
+                                    'deleted',
+                                    $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
+                                ),
+                                $queryBuilder->expr()->eq(
+                                    'table_local',
+                                    $queryBuilder->createNamedParameter('sys_file')
+                                ),
+                                $queryBuilder->expr()->eq(
+                                    'pid',
+                                    $queryBuilder->createNamedParameter($row['pid'], \PDO::PARAM_INT)
+                                ),
+                                $queryBuilder->expr()->eq(
+                                    'uid_foreign',
+                                    $queryBuilder->createNamedParameter($row['uid'], \PDO::PARAM_INT)
+                                ),
+                                $queryBuilder->expr()->eq(
+                                    'uid_local',
+                                    $queryBuilder->createNamedParameter($fileUid, \PDO::PARAM_INT)
+                                ),
+                                $queryBuilder->expr()->eq(
+                                    'tablenames',
+                                    $queryBuilder->createNamedParameter($table)
+                                )
+                            )
+                        )
+                        ->execute()->fetchColumn(0);
+
+                        // if the file record has already been assigned to this table
+                    if ($count > 0) {
+                        continue;
+                    }
+                }
+
                 $fields = [
                     'fieldname' => $newField,
                     'table_local' => 'sys_file',
