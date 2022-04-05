@@ -70,6 +70,7 @@ class tx_ttproducts_field_foreign_table_view extends tx_ttproducts_field_base_vi
 		$row,
 		$markerKey,
 		&$markerArray,
+		$fieldMarkerArray,
 		$tagArray,
 		$theCode,
 		$id,

@@ -48,6 +48,7 @@ interface tx_ttproducts_field_view_int {
 		$row,
 		$markerKey,
 		&$markerArray,
+		$fieldMarkerArray,
 		$tagArray,
 		$theCode,
 		$id,
@@ -60,6 +61,7 @@ interface tx_ttproducts_field_view_int {
 		$suffix = '',
 		$imageNum = 0,
 		$imageRenderObj = '',
+		$linkWrap = false,
 		$bEnableTaxZero = false
 	);
 }

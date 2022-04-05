@@ -46,6 +46,7 @@ class tx_ttproducts_field_instock_view extends tx_ttproducts_field_base_view {
 		$row,
 		$markerKey,
 		&$markerArray,
+		$fieldMarkerArray,
 		$tagArray,
 		$theCode,
 		$id,
@@ -58,6 +59,7 @@ class tx_ttproducts_field_instock_view extends tx_ttproducts_field_base_view {
 		$suffix = '',
 		$imageNum = 0,
 		$imageRenderObj = '',
+		$linkWrap = false,
 		$bEnableTaxZero = false
 	) {
 		if ($row[$fieldname]) {
