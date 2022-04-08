@@ -95,9 +95,10 @@ class PaymentApi {
 			$textSchema = $theTable . '.' . $colName . '.I.';
 			$i = 0;
 			do {
+                $usedLang = 'default';
 				$text = $languageObj->getLabel(
 					$textSchema . $i,
-					$usedLang = 'default'
+					$usedLang
 				);
 
 				$text = str_replace(' ', '_', $text);
