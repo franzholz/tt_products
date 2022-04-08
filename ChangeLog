@@ -1,3 +1,6 @@
+2022-04-08 Franz Holzinger <franz@ttproducts.de>
+    * bugfix: The country select boxes must be shown for a logged in FE user if no delivery country has been chosen yet.
+
 2022-04-05 Franz Holzinger <franz@ttproducts.de>
     * new feature: category list with multiple hierarchy tiers
 

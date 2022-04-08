@@ -118,7 +118,6 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 	 * Fills in all empty fields in the delivery info array
 	 */
 	public function mapPersonIntoDelivery ($basketExtra) {
-
 			// all of the delivery address will be overwritten when no address and no email address have been filled in
 		if (
 			(
@@ -183,7 +182,7 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$rc = '';
 		$fieldCheckArray = $this->conf['regExCheck.'];
 
-		$fieldChecks = array();
+		$fieldChecks = [];
 		if (isset($fieldCheckArray) && is_array($fieldCheckArray)) {
 			// Array komplett durchlaufen
 			foreach ($fieldCheckArray as $key => $value) {
@@ -308,7 +307,7 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$conf = $cnfObj->getConf();
 
-		$resultArray = array();
+		$resultArray = [];
 		$resultArray['shop'] = array(
 			'email' => $conf['orderEmail_from'],
 			'name' => $conf['orderEmail_fromName']
@@ -381,17 +380,18 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 			$bReady = false;
 			$whereCountries = $this->getWhereAllowedCountries($basketExtra);
-			$countryCodeArray = array();
+			$countryCodeArray = [];
 			$countryCodeArray['billing'] = ($this->infoArray['billing']['country_code'] != '' ? $this->infoArray['billing']['country_code'] : ($GLOBALS['TSFE']->fe_user->user['static_info_country'] != '' ? $GLOBALS['TSFE']->fe_user->user['static_info_country'] : false));
             $countryCodeArray['delivery'] = ($this->infoArray['delivery']['country_code'] != '' ? $this->infoArray['delivery']['country_code'] : ($GLOBALS['TSFE']->fe_user->user['static_info_country'] != '' ? $GLOBALS['TSFE']->fe_user->user['static_info_country'] : false));
 
-			$zoneCodeArray = array();
+			$zoneCodeArray = [];
 			$zoneCodeArray['billing'] = ($this->infoArray['billing']['zone'] != '' ? $this->infoArray['billing']['zone'] : ($GLOBALS['TSFE']->fe_user->user['zone'] != '' ? $GLOBALS['TSFE']->fe_user->user['zone'] : false));
 			$zoneCodeArray['delivery'] = ($this->infoArray['delivery']['zone'] != '' ? $this->infoArray['delivery']['zone'] : ($GLOBALS['TSFE']->fe_user->user['zone'] != '' ? $GLOBALS['TSFE']->fe_user->user['zone'] : false));
 
             if (
                 $countryCodeArray['billing'] === false &&
-                $this->infoArray['billing']['country'] != ''
+                $this->infoArray['billing']['country'] != '' &&
+                $this->infoArray['delivery']['country'] != ''
             ) {
                 // nothing to do
                 $bReady = true;
@@ -415,7 +415,7 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 							$whereCountries,
 							'',
 							false,
-							array(),
+							[],
 							1,
 							$outSelectedArray
 						);
@@ -440,7 +440,7 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 					} else {
 						$markerArray['###PERSON_ZONE###'] = '';
 					}
-					$countryArray = $staticInfoApi->initCountries('ALL','',false,$whereCountries);
+					$countryArray = $staticInfoApi->initCountries('ALL', '', false, $whereCountries);
 					$markerArray['###PERSON_COUNTRY_FIRST###'] = current($countryArray);
 					$markerArray['###PERSON_COUNTRY_FIRST_HIDDEN###'] = '<input type="hidden" name="recs[personinfo][country_code]" size="3" value="'.current(array_keys($countryArray)).'">';
 
@@ -461,7 +461,7 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 							$whereCountries,
 							'',
 							false,
-							array(),
+							[],
 							1,
 							$outSelectedArray
 						);
@@ -612,7 +612,7 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 					$layout = $formConf['selectStore.']['layout'];
 				}
 				$orderBy = $tableconf['orderBy'];
-				$uidStoreArray = array();
+				$uidStoreArray = [];
 
 				if (isset($this->conf['UIDstore'])) {
 
@@ -627,7 +627,7 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 				$where_clause = '';
 				if ($tablename == 'fe_users' && $this->conf['UIDstoreGroup'] != '') {
 
-					$orChecks = array();
+					$orChecks = [];
 					$memberGroups = GeneralUtility::trimExplode(',', $this->conf['UIDstoreGroup']);
 					foreach ($memberGroups as $value) {
 						$orChecks[] = $GLOBALS['TYPO3_DB']->listQuery('usergroup', $value, $tablename);
@@ -663,19 +663,19 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 						'tt_address' => array('zip', 'city', 'name', 'address'),
 						'fe_users' => array('zip', 'city', 'name', 'address')
 					);
-					$valueArray = array();
+					$valueArray = [];
 					if ($addressArray && isset($tableFieldArray[$tablename]) && is_array($tableFieldArray[$tablename])) {
 						foreach ($addressArray as $uid => $row) {
 
 							$boxContent = '';
 							if ($layout != '') {
-								$boxMarkerArray = array();
+								$boxMarkerArray = [];
 								foreach ($row as $field => $value) {
 									$boxMarkerArray['###' . strtoupper($field) . '###'] = $value;
 								}
 								$boxContent = $parser->substituteMarkerArray($layout, $boxMarkerArray);
 							} else {
-								$partRow = array();
+								$partRow = [];
 								foreach ($tableFieldArray[$tablename] as $field) {
 									$partRow[$field] = $row[$field];
 								}
@@ -694,7 +694,7 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 								$actUidStore,
 								true,
 								false,
-								array(),
+								[],
 								'select',
 								$dataArray,
 								'',
@@ -747,7 +747,7 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 			$this->infoArray['delivery']['foundby'] ?? '',
 			true,
 			true,
-			array(),
+			[],
 			$foundbyType
 		);
 
