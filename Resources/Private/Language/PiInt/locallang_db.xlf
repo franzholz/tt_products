@@ -3,49 +3,49 @@
 	<file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/PiInt/locallang_db.xlf" date="2021-11-23T20:36:18Z" product-name="tt_products">
 		<header/>
 		<body>
-			<trans-unit id="tt_content.list_type_pi_int" xml:space="preserve">
+			<trans-unit id="tt_content.list_type_pi_int" resname="tt_content.list_type_pi_int">
 				<source>Shop System Variable Content</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_int_flexform.display_mode" xml:space="preserve">
+			<trans-unit id="tt_content.pi_int_flexform.display_mode" resname="tt_content.pi_int_flexform.display_mode">
 				<source>Display mode</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_int_flexform.display_mode.7" xml:space="preserve">
+			<trans-unit id="tt_content.pi_int_flexform.display_mode.7" resname="tt_content.pi_int_flexform.display_mode.7">
 				<source>Products: search</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_int_flexform.display_mode.8" xml:space="preserve">
+			<trans-unit id="tt_content.pi_int_flexform.display_mode.8" resname="tt_content.pi_int_flexform.display_mode.8">
 				<source>Currency: selector</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_int_flexform.display_mode.9" xml:space="preserve">
+			<trans-unit id="tt_content.pi_int_flexform.display_mode.9" resname="tt_content.pi_int_flexform.display_mode.9">
 				<source>Basket: content</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_int_flexform.display_mode.10" xml:space="preserve">
+			<trans-unit id="tt_content.pi_int_flexform.display_mode.10" resname="tt_content.pi_int_flexform.display_mode.10">
 				<source>Basket: overview</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_int_flexform.display_mode.11" xml:space="preserve">
+			<trans-unit id="tt_content.pi_int_flexform.display_mode.11" resname="tt_content.pi_int_flexform.display_mode.11">
 				<source>Basket: input customer data</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_int_flexform.display_mode.12" xml:space="preserve">
+			<trans-unit id="tt_content.pi_int_flexform.display_mode.12" resname="tt_content.pi_int_flexform.display_mode.12">
 				<source>Basket: control and payment</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_int_flexform.display_mode.13" xml:space="preserve">
+			<trans-unit id="tt_content.pi_int_flexform.display_mode.13" resname="tt_content.pi_int_flexform.display_mode.13">
 				<source>Basket: finalize order</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_int_flexform.display_mode.14" xml:space="preserve">
+			<trans-unit id="tt_content.pi_int_flexform.display_mode.14" resname="tt_content.pi_int_flexform.display_mode.14">
 				<source>Orders: tracking</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_int_flexform.display_mode.15" xml:space="preserve">
+			<trans-unit id="tt_content.pi_int_flexform.display_mode.15" resname="tt_content.pi_int_flexform.display_mode.15">
 				<source>Orders: billing</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_int_flexform.display_mode.16" xml:space="preserve">
+			<trans-unit id="tt_content.pi_int_flexform.display_mode.16" resname="tt_content.pi_int_flexform.display_mode.16">
 				<source>Orders: delivery</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_int_flexform.display_mode.17" xml:space="preserve">
+			<trans-unit id="tt_content.pi_int_flexform.display_mode.17" resname="tt_content.pi_int_flexform.display_mode.17">
 				<source>Orders: list</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_int_flexform.display_mode.18" xml:space="preserve">
+			<trans-unit id="tt_content.pi_int_flexform.display_mode.18" resname="tt_content.pi_int_flexform.display_mode.18">
 				<source>Products: memo</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_int_flexform.display_mode.19" xml:space="preserve">
+			<trans-unit id="tt_content.pi_int_flexform.display_mode.19" resname="tt_content.pi_int_flexform.display_mode.19">
 				<source>General: help</source>
 			</trans-unit>
 		</body>
