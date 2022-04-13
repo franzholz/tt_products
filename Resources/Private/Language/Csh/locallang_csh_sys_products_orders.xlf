@@ -3,16 +3,16 @@
 	<file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/Csh/locallang_csh_sys_products_orders.xlf" date="2021-11-23T20:34:55Z" product-name="tt_products">
 		<header/>
 		<body>
-			<trans-unit id=".description" xml:space="preserve">
+			<trans-unit id=".description" resname=".description">
 				<source>Shop orders.</source>
 			</trans-unit>
-			<trans-unit id=".details" xml:space="preserve">
+			<trans-unit id=".details" resname=".details">
 				<source>Some orders have been made and should be changeable only by the admin.</source>
 			</trans-unit>
-			<trans-unit id="_.seeAlso" xml:space="preserve">
+			<trans-unit id="_.seeAlso" resname="_.seeAlso">
 				<source>tt_products</source>
 			</trans-unit>
-			<trans-unit id="title.description" xml:space="preserve">
+			<trans-unit id="title.description" resname="title.description">
 				<source>[FILL IN] sys_products_orders-&gt;title</source>
 			</trans-unit>
 		</body>

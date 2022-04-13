@@ -3,31 +3,31 @@
 	<file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/Modfunc/locallang_modfunc1.xlf" date="2017-07-08T12:59:44Z" product-name="tt_products">
 		<header/>
 		<body>
-			<trans-unit id="age" xml:space="preserve">
+			<trans-unit id="age" resname="age">
 				<source>Age of records in days</source>
 			</trans-unit>
-			<trans-unit id="title" xml:space="preserve">
+			<trans-unit id="title" resname="title">
 				<source>Move Items</source>
 			</trans-unit>
-			<trans-unit id="only_admin" xml:space="preserve">
+			<trans-unit id="only_admin" resname="only_admin">
 				<source>These functions are only available for admins.</source>
 			</trans-unit>
-			<trans-unit id="pid_src" xml:space="preserve">
+			<trans-unit id="pid_src" resname="pid_src">
 				<source>The source id is %d.</source>
 			</trans-unit>
-			<trans-unit id="pid_dest" xml:space="preserve">
+			<trans-unit id="pid_dest" resname="pid_dest">
 				<source>Enter the destination page id</source>
 			</trans-unit>
-			<trans-unit id="start" xml:space="preserve">
+			<trans-unit id="start" resname="start">
 				<source>Start the move</source>
 			</trans-unit>
-			<trans-unit id="nothing_moved" xml:space="preserve">
+			<trans-unit id="nothing_moved" resname="nothing_moved">
 				<source>No records have been moved.</source>
 			</trans-unit>
-            <trans-unit id="moved_table" xml:space="preserve">
+            <trans-unit id="moved_table" resname="moved_table">
                 <source>%d %s have been moved.</source>
             </trans-unit>
-            <trans-unit id="nothing" xml:space="preserve">
+            <trans-unit id="nothing" resname="nothing">
                 <source>Nothing has been done. Fill in all form fields correctly!</source>
             </trans-unit>
 		</body>

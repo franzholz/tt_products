@@ -3,280 +3,280 @@
 	<file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/Csh/locallang_csh_tt_products.xlf" date="2021-11-23T20:33:46Z" product-name="tt_products">
 		<header/>
 		<body>
-			<trans-unit id=".description" xml:space="preserve">
+			<trans-unit id=".description" resname=".description">
 				<source>Shop items.</source>
 			</trans-unit>
-			<trans-unit id=".details" xml:space="preserve">
+			<trans-unit id=".details" resname=".details">
 				<source>This table holds the products available in the default shopping system.</source>
 			</trans-unit>
-			<trans-unit id="_.seeAlso" xml:space="preserve">
+			<trans-unit id="_.seeAlso" resname="_.seeAlso">
 				<source>tt_products_cat mbi_products_categories</source>
 			</trans-unit>
-			<trans-unit id="hidden.description" xml:space="preserve">
+			<trans-unit id="hidden.description" resname="hidden.description">
 				<source>hidden</source>
 			</trans-unit>
-			<trans-unit id="starttime.description" xml:space="preserve">
+			<trans-unit id="starttime.description" resname="starttime.description">
 				<source>starttime</source>
 			</trans-unit>
-			<trans-unit id="endtime.description" xml:space="preserve">
+			<trans-unit id="endtime.description" resname="endtime.description">
 				<source>endtime</source>
 			</trans-unit>
-			<trans-unit id="fe_group.description" xml:space="preserve">
+			<trans-unit id="fe_group.description" resname="fe_group.description">
 				<source>fe_group</source>
 			</trans-unit>
-			<trans-unit id="title.description" xml:space="preserve">
+			<trans-unit id="title.description" resname="title.description">
 				<source>title</source>
 			</trans-unit>
-			<trans-unit id="subtitle.description" xml:space="preserve">
+			<trans-unit id="subtitle.description" resname="subtitle.description">
 				<source>subtitle</source>
 			</trans-unit>
-			<trans-unit id="keyword.description" xml:space="preserve">
+			<trans-unit id="keyword.description" resname="keyword.description">
 				<source>keyword</source>
 			</trans-unit>
-			<trans-unit id="prod_uid.description" xml:space="preserve">
+			<trans-unit id="prod_uid.description" resname="prod_uid.description">
 				<source>prod_uid - related products</source>
 			</trans-unit>
-			<trans-unit id="dam_uid.description" xml:space="preserve">
+			<trans-unit id="dam_uid.description" resname="dam_uid.description">
 				<source>dam_uid - related medias from the DAM extension</source>
 			</trans-unit>
-			<trans-unit id="file_uid.description" xml:space="preserve">
+			<trans-unit id="file_uid.description" resname="file_uid.description">
 				<source>file_uid - related medias from the FAL</source>
 			</trans-unit>
-			<trans-unit id="accessory_uid.description" xml:space="preserve">
+			<trans-unit id="accessory_uid.description" resname="accessory_uid.description">
 				<source>accessory_uid over tt_products_accessory_products_products_mm</source>
 			</trans-unit>
-			<trans-unit id="related_uid.description" xml:space="preserve">
+			<trans-unit id="related_uid.description" resname="related_uid.description">
 				<source>related_uid over tt_products_related_products_products_mm</source>
 			</trans-unit>
-			<trans-unit id="itemnumber.description" xml:space="preserve">
+			<trans-unit id="itemnumber.description" resname="itemnumber.description">
 				<source>itemnumber</source>
 			</trans-unit>
-			<trans-unit id="ean.description" xml:space="preserve">
+			<trans-unit id="ean.description" resname="ean.description">
 				<source>ean</source>
 			</trans-unit>
-			<trans-unit id="shipping_point.description" xml:space="preserve">
+			<trans-unit id="shipping_point.description" resname="shipping_point.description">
 				<source>shipping_point</source>
 			</trans-unit>
-			<trans-unit id="directcost.description" xml:space="preserve">
+			<trans-unit id="directcost.description" resname="directcost.description">
 				<source>directcost</source>
 			</trans-unit>
-			<trans-unit id="regular_price.description" xml:space="preserve">
+			<trans-unit id="regular_price.description" resname="regular_price.description">
 				<source>regular_price</source>
 			</trans-unit>
-			<trans-unit id="price.description" xml:space="preserve">
+			<trans-unit id="price.description" resname="price.description">
 				<source>price</source>
 			</trans-unit>
-			<trans-unit id="price2.description" xml:space="preserve">
+			<trans-unit id="price2.description" resname="price2.description">
 				<source>price2</source>
 			</trans-unit>
-			<trans-unit id="discount.description" xml:space="preserve">
+			<trans-unit id="discount.description" resname="discount.description">
 				<source>discount</source>
 			</trans-unit>
-			<trans-unit id="discount_disable.description" xml:space="preserve">
+			<trans-unit id="discount_disable.description" resname="discount_disable.description">
 				<source>discount_disable</source>
 			</trans-unit>
-			<trans-unit id="deposit.description" xml:space="preserve">
+			<trans-unit id="deposit.description" resname="deposit.description">
 				<source>deposit</source>
 			</trans-unit>
-			<trans-unit id="creditpoints.description" xml:space="preserve">
+			<trans-unit id="creditpoints.description" resname="creditpoints.description">
 				<source>creditpoints</source>
 			</trans-unit>
-			<trans-unit id="graduated_price_round.description" xml:space="preserve">
+			<trans-unit id="graduated_price_round.description" resname="graduated_price_round.description">
 				<source>graduated_price_round</source>
 			</trans-unit>
-			<trans-unit id="graduated_price_enable.description" xml:space="preserve">
+			<trans-unit id="graduated_price_enable.description" resname="graduated_price_enable.description">
 				<source>graduated_price_enable</source>
 			</trans-unit>
-			<trans-unit id="note.description" xml:space="preserve">
+			<trans-unit id="note.description" resname="note.description">
 				<source>note</source>
 			</trans-unit>
-			<trans-unit id="note2.description" xml:space="preserve">
+			<trans-unit id="note2.description" resname="note2.description">
 				<source>note2</source>
 			</trans-unit>
-			<trans-unit id="note_uid.description" xml:space="preserve">
+			<trans-unit id="note_uid.description" resname="note_uid.description">
 				<source>note_uid over tt_products_products_note_pages_mm</source>
 			</trans-unit>
-			<trans-unit id="text_uid.description" xml:space="preserve">
+			<trans-unit id="text_uid.description" resname="text_uid.description">
 				<source>text_uid</source>
 			</trans-unit>
-			<trans-unit id="download_type.description" xml:space="preserve">
+			<trans-unit id="download_type.description" resname="download_type.description">
 				<source>download_type</source>
 			</trans-unit>
-			<trans-unit id="download_info.description" xml:space="preserve">
+			<trans-unit id="download_info.description" resname="download_info.description">
 				<source>download_info</source>
 			</trans-unit>
-			<trans-unit id="download_uid.description" xml:space="preserve">
+			<trans-unit id="download_uid.description" resname="download_uid.description">
 				<source>download_uid over tt_products_products_mm_downloads</source>
 			</trans-unit>
-			<trans-unit id="unit.description" xml:space="preserve">
+			<trans-unit id="unit.description" resname="unit.description">
 				<source>unit</source>
 			</trans-unit>
-			<trans-unit id="unit_factor.description" xml:space="preserve">
+			<trans-unit id="unit_factor.description" resname="unit_factor.description">
 				<source>unit_factor</source>
 			</trans-unit>
-			<trans-unit id="image.description" xml:space="preserve">
+			<trans-unit id="image.description" resname="image.description">
 				<source>image</source>
 			</trans-unit>
-			<trans-unit id="image_uid.description" xml:space="preserve">
+			<trans-unit id="image_uid.description" resname="image_uid.description">
 				<source>image</source>
 			</trans-unit>
-			<trans-unit id="smallimage.description" xml:space="preserve">
+			<trans-unit id="smallimage.description" resname="smallimage.description">
 				<source>smallimage</source>
 			</trans-unit>
-			<trans-unit id="smallimage_uid.description" xml:space="preserve">
+			<trans-unit id="smallimage_uid.description" resname="smallimage_uid.description">
 				<source>smallimage</source>
 			</trans-unit>
-			<trans-unit id="datasheet.description" xml:space="preserve">
+			<trans-unit id="datasheet.description" resname="datasheet.description">
 				<source>datasheet</source>
 			</trans-unit>
-			<trans-unit id="www.description" xml:space="preserve">
+			<trans-unit id="www.description" resname="www.description">
 				<source>www</source>
 			</trans-unit>
-			<trans-unit id="category.description" xml:space="preserve">
+			<trans-unit id="category.description" resname="category.description">
 				<source>category maybe over tx_mbiproductscategories_mm</source>
 			</trans-unit>
-			<trans-unit id="address.description" xml:space="preserve">
+			<trans-unit id="address.description" resname="address.description">
 				<source>address from an address table</source>
 			</trans-unit>
-			<trans-unit id="inStock.description" xml:space="preserve">
+			<trans-unit id="inStock.description" resname="inStock.description">
 				<source>inStock</source>
 			</trans-unit>
-			<trans-unit id="basketminquantity.description" xml:space="preserve">
+			<trans-unit id="basketminquantity.description" resname="basketminquantity.description">
 				<source>basketminquantity</source>
 			</trans-unit>
-			<trans-unit id="basketmaxquantity.description" xml:space="preserve">
+			<trans-unit id="basketmaxquantity.description" resname="basketmaxquantity.description">
 				<source>basketmaxquantity</source>
 			</trans-unit>
-			<trans-unit id="tax_free.description" xml:space="preserve">
+			<trans-unit id="tax_free.description" resname="tax_free.description">
 				<source>tax_free</source>
 			</trans-unit>
-			<trans-unit id="taxcat_id.description" xml:space="preserve">
+			<trans-unit id="taxcat_id.description" resname="taxcat_id.description">
 				<source>taxcat_id</source>
 			</trans-unit>
-			<trans-unit id="tax_id.description" xml:space="preserve">
+			<trans-unit id="tax_id.description" resname="tax_id.description">
 				<source>tax_id</source>
 			</trans-unit>
-			<trans-unit id="tax.description" xml:space="preserve">
+			<trans-unit id="tax.description" resname="tax.description">
 				<source>tax</source>
 			</trans-unit>
-			<trans-unit id="weight.description" xml:space="preserve">
+			<trans-unit id="weight.description" resname="weight.description">
 				<source>weight</source>
 			</trans-unit>
-			<trans-unit id="usebydate.description" xml:space="preserve">
+			<trans-unit id="usebydate.description" resname="usebydate.description">
 				<source>usebydate</source>
 			</trans-unit>
-			<trans-unit id="bulkily.description" xml:space="preserve">
+			<trans-unit id="bulkily.description" resname="bulkily.description">
 				<source>bulkily</source>
 			</trans-unit>
-			<trans-unit id="offer.description" xml:space="preserve">
+			<trans-unit id="offer.description" resname="offer.description">
 				<source>offer</source>
 			</trans-unit>
-			<trans-unit id="highlight.description" xml:space="preserve">
+			<trans-unit id="highlight.description" resname="highlight.description">
 				<source>highlight</source>
 			</trans-unit>
-			<trans-unit id="bargain.description" xml:space="preserve">
+			<trans-unit id="bargain.description" resname="bargain.description">
 				<source>bargain</source>
 			</trans-unit>
-			<trans-unit id="color.description" xml:space="preserve">
+			<trans-unit id="color.description" resname="color.description">
 				<source>color variant 1</source>
 			</trans-unit>
-			<trans-unit id="color2.description" xml:space="preserve">
+			<trans-unit id="color2.description" resname="color2.description">
 				<source>color2 variant 6</source>
 			</trans-unit>
-			<trans-unit id="color3.description" xml:space="preserve">
+			<trans-unit id="color3.description" resname="color3.description">
 				<source>color3 variant 7</source>
 			</trans-unit>
-			<trans-unit id="color4.description" xml:space="preserve">
+			<trans-unit id="color4.description" resname="color4.description">
 				<source>color4 variant 12</source>
 			</trans-unit>
-			<trans-unit id="size.description" xml:space="preserve">
+			<trans-unit id="size.description" resname="size.description">
 				<source>size variant 2</source>
 			</trans-unit>
-			<trans-unit id="size2.description" xml:space="preserve">
+			<trans-unit id="size2.description" resname="size2.description">
 				<source>size2 variant 8</source>
 			</trans-unit>
-			<trans-unit id="size3.description" xml:space="preserve">
+			<trans-unit id="size3.description" resname="size3.description">
 				<source>size3 variant 9</source>
 			</trans-unit>
-			<trans-unit id="size4.description" xml:space="preserve">
+			<trans-unit id="size4.description" resname="size4.description">
 				<source>size4 variant 13</source>
 			</trans-unit>
-			<trans-unit id="description.description" xml:space="preserve">
+			<trans-unit id="description.description" resname="description.description">
 				<source>description variant 3</source>
 			</trans-unit>
-			<trans-unit id="description2.description" xml:space="preserve">
+			<trans-unit id="description2.description" resname="description2.description">
 				<source>description2 variant 14</source>
 			</trans-unit>
-			<trans-unit id="description3.description" xml:space="preserve">
+			<trans-unit id="description3.description" resname="description3.description">
 				<source>description3 variant 15</source>
 			</trans-unit>
-			<trans-unit id="gradings.description" xml:space="preserve">
+			<trans-unit id="gradings.description" resname="gradings.description">
 				<source>gradings variant 4</source>
 			</trans-unit>
-			<trans-unit id="material.description" xml:space="preserve">
+			<trans-unit id="material.description" resname="material.description">
 				<source>material variant 10</source>
 			</trans-unit>
-			<trans-unit id="quality.description" xml:space="preserve">
+			<trans-unit id="quality.description" resname="quality.description">
 				<source>quality variant 11</source>
 			</trans-unit>
-			<trans-unit id="form.description" xml:space="preserve">
+			<trans-unit id="form.description" resname="form.description">
 				<source>form variant 16</source>
 			</trans-unit>
-			<trans-unit id="form2.description" xml:space="preserve">
+			<trans-unit id="form2.description" resname="form2.description">
 				<source>form2 variant 17</source>
 			</trans-unit>
-			<trans-unit id="type.description" xml:space="preserve">
+			<trans-unit id="type.description" resname="type.description">
 				<source>type variant 18</source>
 			</trans-unit>
-			<trans-unit id="pattern.description" xml:space="preserve">
+			<trans-unit id="pattern.description" resname="pattern.description">
 				<source>pattern variant 19</source>
 			</trans-unit>
-			<trans-unit id="surface.description" xml:space="preserve">
+			<trans-unit id="surface.description" resname="surface.description">
 				<source>surface variant 20</source>
 			</trans-unit>
-			<trans-unit id="angular.description" xml:space="preserve">
+			<trans-unit id="angular.description" resname="angular.description">
 				<source>angular variant 21</source>
 			</trans-unit>
-			<trans-unit id="time.description" xml:space="preserve">
+			<trans-unit id="time.description" resname="time.description">
 				<source>time variant 22</source>
 			</trans-unit>
-			<trans-unit id="time2.description" xml:space="preserve">
+			<trans-unit id="time2.description" resname="time2.description">
 				<source>time2 variant 23</source>
 			</trans-unit>
-			<trans-unit id="guarantee.description" xml:space="preserve">
+			<trans-unit id="guarantee.description" resname="guarantee.description">
 				<source>guarantee variant 24</source>
 			</trans-unit>
-			<trans-unit id="elements.description" xml:space="preserve">
+			<trans-unit id="elements.description" resname="elements.description">
 				<source>elements variant 25</source>
 			</trans-unit>
-			<trans-unit id="boundary.description" xml:space="preserve">
+			<trans-unit id="boundary.description" resname="boundary.description">
 				<source>boundary variant 26</source>
 			</trans-unit>
-			<trans-unit id="costs.description" xml:space="preserve">
+			<trans-unit id="costs.description" resname="costs.description">
 				<source>costs variant 27</source>
 			</trans-unit>
-			<trans-unit id="additional.description" xml:space="preserve">
+			<trans-unit id="additional.description" resname="additional.description">
 				<source>additional</source>
 			</trans-unit>
-			<trans-unit id="special_preparation.description" xml:space="preserve">
+			<trans-unit id="special_preparation.description" resname="special_preparation.description">
 				<source>special_preparation</source>
 			</trans-unit>
-			<trans-unit id="shipping.description" xml:space="preserve">
+			<trans-unit id="shipping.description" resname="shipping.description">
 				<source>shipping</source>
 			</trans-unit>
-			<trans-unit id="shipping2.description" xml:space="preserve">
+			<trans-unit id="shipping2.description" resname="shipping2.description">
 				<source>shipping2</source>
 			</trans-unit>
-			<trans-unit id="handling.description" xml:space="preserve">
+			<trans-unit id="handling.description" resname="handling.description">
 				<source>handling</source>
 			</trans-unit>
-			<trans-unit id="delivery.description" xml:space="preserve">
+			<trans-unit id="delivery.description" resname="delivery.description">
 				<source>delivery</source>
 			</trans-unit>
-			<trans-unit id="sellstarttime.description" xml:space="preserve">
+			<trans-unit id="sellstarttime.description" resname="sellstarttime.description">
 				<source>sellstarttime</source>
 			</trans-unit>
-			<trans-unit id="sellendtime.description" xml:space="preserve">
+			<trans-unit id="sellendtime.description" resname="sellendtime.description">
 				<source>sellendtime</source>
 			</trans-unit>
 		</body>
