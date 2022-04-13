@@ -3,18 +3,22 @@
   <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/Csh/locallang_csh_sys_products_cards.xlf" date="2021-11-23T20:34:32Z" product-name="tt_products" target-language="he">
     <header/>
     <body>
-      <trans-unit id=".description" xml:space="preserve">
-				<source>Shop credit cards.</source>
-			<target state="needs-translation">Shop credit cards.</target></trans-unit>
-      <trans-unit id=".details" xml:space="preserve">
-				<source>Some orders have been made with credit cards. Hide them as much as you can and delete them as soon as possible!</source>
-			<target state="needs-translation">Some orders have been made with credit cards. Hide them as much as you can and delete them as soon as possible!</target></trans-unit>
-      <trans-unit id="_.seeAlso" xml:space="preserve">
-				<source>tt_products</source>
-			<target state="needs-translation">tt_products</target></trans-unit>
-      <trans-unit id="title.description" xml:space="preserve">
-				<source>[FILL IN] sys_products_cards-&gt;title</source>
-			<target state="needs-translation">[FILL IN] sys_products_cards-&gt;title</target></trans-unit>
+      <trans-unit id=".description" resname=".description">
+        <source>Shop credit cards.</source>
+        <target state="needs-translation">Shop credit cards.</target>
+      </trans-unit>
+      <trans-unit id=".details" resname=".details">
+        <source>Some orders have been made with credit cards. Hide them as much as you can and delete them as soon as possible!</source>
+        <target state="needs-translation">Some orders have been made with credit cards. Hide them as much as you can and delete them as soon as possible!</target>
+      </trans-unit>
+      <trans-unit id="_.seeAlso" resname="_.seeAlso">
+        <source>tt_products</source>
+        <target state="needs-translation">tt_products</target>
+      </trans-unit>
+      <trans-unit id="title.description" resname="title.description">
+        <source>[FILL IN] sys_products_cards-&gt;title</source>
+        <target state="needs-translation">[FILL IN] sys_products_cards-&gt;title</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
