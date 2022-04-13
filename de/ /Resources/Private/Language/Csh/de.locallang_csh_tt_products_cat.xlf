@@ -3,18 +3,22 @@
   <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/Csh/locallang_csh_tt_products_cat.xlf" date="2021-11-23T20:34:23Z" product-name="tt_products" target-language="de">
     <header/>
     <body>
-      <trans-unit id=".description" xml:space="preserve" approved="yes">
-				<source>Shop items categories.</source>
-			<target state="final">Produktkategorien</target></trans-unit>
-      <trans-unit id=".details" xml:space="preserve" approved="yes">
-				<source>The categories are only used with the shopping system if the shop is configured to do so.</source>
-			<target state="final">Die Kategorien werden im Shop System nur dann verwendet, wenn der Shop auch dafür konfiguriert worden ist.</target></trans-unit>
-      <trans-unit id="_.seeAlso" xml:space="preserve">
-				<source>tt_products</source>
-			<target state="needs-translation">tt_products</target></trans-unit>
-      <trans-unit id="title.description" xml:space="preserve">
-				<source>[FILL IN] tt_products_cat-&gt;title</source>
-			<target state="needs-translation">[FILL IN] tt_products_cat-&gt;title</target></trans-unit>
+      <trans-unit id=".description" resname=".description" approved="yes">
+        <source>Shop items categories.</source>
+        <target state="final">Produktkategorien</target>
+      </trans-unit>
+      <trans-unit id=".details" resname=".details" approved="yes">
+        <source>The categories are only used with the shopping system if the shop is configured to do so.</source>
+        <target state="final">Die Kategorien werden im Shop System nur dann verwendet, wenn der Shop auch dafür konfiguriert worden ist.</target>
+      </trans-unit>
+      <trans-unit id="_.seeAlso" resname="_.seeAlso">
+        <source>tt_products</source>
+        <target state="needs-translation">tt_products</target>
+      </trans-unit>
+      <trans-unit id="title.description" resname="title.description">
+        <source>[FILL IN] tt_products_cat-&gt;title</source>
+        <target state="needs-translation">[FILL IN] tt_products_cat-&gt;title</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
