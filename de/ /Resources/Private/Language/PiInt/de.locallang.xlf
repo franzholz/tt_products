@@ -3,21 +3,26 @@
   <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/PiInt/locallang.xlf" date="2021-12-01T10:54:31Z" product-name="tt_products" target-language="de">
     <header/>
     <body>
-      <trans-unit id="no_template" xml:space="preserve" approved="yes">
-				<source>The shop variable content template file has not been found. Check your template setup about</source>
-			<target state="final">Die Shop Template Datei für benutzerabhängige Inhalte wurde nicht gefunden. Überprüfen Sie im Template Setup:</target></trans-unit>
-      <trans-unit id="no_subtemplate" xml:space="preserve" approved="yes">
-				<source>The part | or the shop variable content template file | has not been found.</source>
-			<target state="final">Der Bereich | wurde in der Shop Template Datei für benutzerabhängige Inhalte | nicht gefunden.</target></trans-unit>
-      <trans-unit id="all" xml:space="preserve">
-				<source>ALL</source>
-			<target state="needs-translation">ALL</target></trans-unit>
-      <trans-unit id="latest_entries" xml:space="preserve" approved="yes">
-				<source>Go to the %d latest entries.</source>
-			<target state="final">Gehe zu den %d letzten Einträgen.</target></trans-unit>
-      <trans-unit id="no_setup" xml:space="preserve" approved="yes">
-				<source>No setup for the dynamic plugins of tt_products has been found. It is under the name 'tx_ttproducts_pi_int'. Consider to add 'Shop System Variable Content' on the template setup under 'include static from extensions'.</source>
-			<target state="final">Es ist kein Setup für die benutzerabhängigen dynamischen Inhalte von tt_products gefunden worden. Es muss unter dem Namen 'tx_ttproducts_pi_int' konfiguriert werden. Dazu fügen Sie den 'Shop System Variable Content' im Template Setup unter dem Punkt 'include static from extensions' ein.</target></trans-unit>
+      <trans-unit id="no_template" resname="no_template" approved="yes">
+        <source>The shop variable content template file has not been found. Check your template setup about</source>
+        <target state="final">Die Shop Template Datei für benutzerabhängige Inhalte wurde nicht gefunden. Überprüfen Sie im Template Setup:</target>
+      </trans-unit>
+      <trans-unit id="no_subtemplate" resname="no_subtemplate" approved="yes">
+        <source>The part | or the shop variable content template file | has not been found.</source>
+        <target state="final">Der Bereich | wurde in der Shop Template Datei für benutzerabhängige Inhalte | nicht gefunden.</target>
+      </trans-unit>
+      <trans-unit id="all" resname="all">
+        <source>ALL</source>
+        <target state="needs-translation">ALL</target>
+      </trans-unit>
+      <trans-unit id="latest_entries" resname="latest_entries" approved="yes">
+        <source>Go to the %d latest entries.</source>
+        <target state="final">Gehe zu den %d letzten Einträgen.</target>
+      </trans-unit>
+      <trans-unit id="no_setup" resname="no_setup" approved="yes">
+        <source>No setup for the dynamic plugins of tt_products has been found. It is under the name 'tx_ttproducts_pi_int'. Consider to add 'Shop System Variable Content' on the template setup under 'include static from extensions'.</source>
+        <target state="final">Es ist kein Setup für die benutzerabhängigen dynamischen Inhalte von tt_products gefunden worden. Es muss unter dem Namen 'tx_ttproducts_pi_int' konfiguriert werden. Dazu fügen Sie den 'Shop System Variable Content' im Template Setup unter dem Punkt 'include static from extensions' ein.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
