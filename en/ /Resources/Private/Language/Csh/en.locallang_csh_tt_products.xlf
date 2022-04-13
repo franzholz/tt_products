@@ -3,282 +3,374 @@
   <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/Csh/locallang_csh_tt_products.xlf" date="2021-11-23T20:33:46Z" product-name="tt_products" target-language="en">
     <header/>
     <body>
-      <trans-unit id=".description" xml:space="preserve">
-				<source>Shop items.</source>
-			<target state="needs-translation">Shop items.</target></trans-unit>
-      <trans-unit id=".details" xml:space="preserve">
-				<source>This table holds the products available in the default shopping system.</source>
-			<target state="needs-translation">This table holds the products available in the default shopping system.</target></trans-unit>
-      <trans-unit id="_.seeAlso" xml:space="preserve">
-				<source>tt_products_cat mbi_products_categories</source>
-			<target state="needs-translation">tt_products_cat mbi_products_categories</target></trans-unit>
-      <trans-unit id="hidden.description" xml:space="preserve">
-				<source>hidden</source>
-			<target state="needs-translation">hidden</target></trans-unit>
-      <trans-unit id="starttime.description" xml:space="preserve">
-				<source>starttime</source>
-			<target state="needs-translation">starttime</target></trans-unit>
-      <trans-unit id="endtime.description" xml:space="preserve">
-				<source>endtime</source>
-			<target state="needs-translation">endtime</target></trans-unit>
-      <trans-unit id="fe_group.description" xml:space="preserve">
-				<source>fe_group</source>
-			<target state="needs-translation">fe_group</target></trans-unit>
-      <trans-unit id="title.description" xml:space="preserve">
-				<source>title</source>
-			<target state="needs-translation">title</target></trans-unit>
-      <trans-unit id="subtitle.description" xml:space="preserve">
-				<source>subtitle</source>
-			<target state="needs-translation">subtitle</target></trans-unit>
-      <trans-unit id="keyword.description" xml:space="preserve">
-				<source>keyword</source>
-			<target state="needs-translation">keyword</target></trans-unit>
-      <trans-unit id="prod_uid.description" xml:space="preserve">
-				<source>prod_uid - related products</source>
-			<target state="needs-translation">prod_uid - related products</target></trans-unit>
-      <trans-unit id="dam_uid.description" xml:space="preserve">
-				<source>dam_uid - related medias from the DAM extension</source>
-			<target state="needs-translation">dam_uid - related medias from the DAM extension</target></trans-unit>
-      <trans-unit id="file_uid.description" xml:space="preserve">
-				<source>file_uid - related medias from the FAL</source>
-			<target state="needs-translation">file_uid - related medias from the FAL</target></trans-unit>
-      <trans-unit id="accessory_uid.description" xml:space="preserve">
-				<source>accessory_uid over tt_products_accessory_products_products_mm</source>
-			<target state="needs-translation">accessory_uid over tt_products_accessory_products_products_mm</target></trans-unit>
-      <trans-unit id="related_uid.description" xml:space="preserve">
-				<source>related_uid over tt_products_related_products_products_mm</source>
-			<target state="needs-translation">related_uid over tt_products_related_products_products_mm</target></trans-unit>
-      <trans-unit id="itemnumber.description" xml:space="preserve">
-				<source>itemnumber</source>
-			<target state="needs-translation">itemnumber</target></trans-unit>
-      <trans-unit id="ean.description" xml:space="preserve">
-				<source>ean</source>
-			<target state="needs-translation">ean</target></trans-unit>
-      <trans-unit id="shipping_point.description" xml:space="preserve">
-				<source>shipping_point</source>
-			<target state="needs-translation">shipping_point</target></trans-unit>
-      <trans-unit id="directcost.description" xml:space="preserve">
-				<source>directcost</source>
-			<target state="needs-translation">directcost</target></trans-unit>
-      <trans-unit id="regular_price.description" xml:space="preserve">
-				<source>regular_price</source>
-			<target state="needs-translation">regular_price</target></trans-unit>
-      <trans-unit id="price.description" xml:space="preserve">
-				<source>price</source>
-			<target state="needs-translation">price</target></trans-unit>
-      <trans-unit id="price2.description" xml:space="preserve">
-				<source>price2</source>
-			<target state="needs-translation">price2</target></trans-unit>
-      <trans-unit id="discount.description" xml:space="preserve">
-				<source>discount</source>
-			<target state="needs-translation">discount</target></trans-unit>
-      <trans-unit id="discount_disable.description" xml:space="preserve">
-				<source>discount_disable</source>
-			<target state="needs-translation">discount_disable</target></trans-unit>
-      <trans-unit id="deposit.description" xml:space="preserve">
-				<source>deposit</source>
-			<target state="needs-translation">deposit</target></trans-unit>
-      <trans-unit id="creditpoints.description" xml:space="preserve">
-				<source>creditpoints</source>
-			<target state="needs-translation">creditpoints</target></trans-unit>
-      <trans-unit id="graduated_price_round.description" xml:space="preserve">
-				<source>graduated_price_round</source>
-			<target state="needs-translation">graduated_price_round</target></trans-unit>
-      <trans-unit id="graduated_price_enable.description" xml:space="preserve">
-				<source>graduated_price_enable</source>
-			<target state="needs-translation">graduated_price_enable</target></trans-unit>
-      <trans-unit id="note.description" xml:space="preserve">
-				<source>note</source>
-			<target state="needs-translation">note</target></trans-unit>
-      <trans-unit id="note2.description" xml:space="preserve">
-				<source>note2</source>
-			<target state="needs-translation">note2</target></trans-unit>
-      <trans-unit id="note_uid.description" xml:space="preserve">
-				<source>note_uid over tt_products_products_note_pages_mm</source>
-			<target state="needs-translation">note_uid over tt_products_products_note_pages_mm</target></trans-unit>
-      <trans-unit id="text_uid.description" xml:space="preserve">
-				<source>text_uid</source>
-			<target state="needs-translation">text_uid</target></trans-unit>
-      <trans-unit id="download_type.description" xml:space="preserve">
-				<source>download_type</source>
-			<target state="needs-translation">download_type</target></trans-unit>
-      <trans-unit id="download_info.description" xml:space="preserve">
-				<source>download_info</source>
-			<target state="needs-translation">download_info</target></trans-unit>
-      <trans-unit id="download_uid.description" xml:space="preserve">
-				<source>download_uid over tt_products_products_mm_downloads</source>
-			<target state="needs-translation">download_uid over tt_products_products_mm_downloads</target></trans-unit>
-      <trans-unit id="unit.description" xml:space="preserve">
-				<source>unit</source>
-			<target state="needs-translation">unit</target></trans-unit>
-      <trans-unit id="unit_factor.description" xml:space="preserve">
-				<source>unit_factor</source>
-			<target state="needs-translation">unit_factor</target></trans-unit>
-      <trans-unit id="image.description" xml:space="preserve">
-				<source>image</source>
-			<target state="needs-translation">image</target></trans-unit>
-      <trans-unit id="image_uid.description" xml:space="preserve">
-				<source>image</source>
-			<target state="needs-translation">image</target></trans-unit>
-      <trans-unit id="smallimage.description" xml:space="preserve">
-				<source>smallimage</source>
-			<target state="needs-translation">smallimage</target></trans-unit>
-      <trans-unit id="smallimage_uid.description" xml:space="preserve">
-				<source>smallimage</source>
-			<target state="needs-translation">smallimage</target></trans-unit>
-      <trans-unit id="datasheet.description" xml:space="preserve">
-				<source>datasheet</source>
-			<target state="needs-translation">datasheet</target></trans-unit>
-      <trans-unit id="www.description" xml:space="preserve">
-				<source>www</source>
-			<target state="needs-translation">www</target></trans-unit>
-      <trans-unit id="category.description" xml:space="preserve">
-				<source>category maybe over tx_mbiproductscategories_mm</source>
-			<target state="needs-translation">category maybe over tx_mbiproductscategories_mm</target></trans-unit>
-      <trans-unit id="address.description" xml:space="preserve">
-				<source>address from an address table</source>
-			<target state="needs-translation">address from an address table</target></trans-unit>
-      <trans-unit id="inStock.description" xml:space="preserve">
-				<source>inStock</source>
-			<target state="needs-translation">inStock</target></trans-unit>
-      <trans-unit id="basketminquantity.description" xml:space="preserve">
-				<source>basketminquantity</source>
-			<target state="needs-translation">basketminquantity</target></trans-unit>
-      <trans-unit id="basketmaxquantity.description" xml:space="preserve">
-				<source>basketmaxquantity</source>
-			<target state="needs-translation">basketmaxquantity</target></trans-unit>
-      <trans-unit id="tax_free.description" xml:space="preserve">
-				<source>tax_free</source>
-			<target state="needs-translation">tax_free</target></trans-unit>
-      <trans-unit id="taxcat_id.description" xml:space="preserve">
-				<source>taxcat_id</source>
-			<target state="needs-translation">taxcat_id</target></trans-unit>
-      <trans-unit id="tax_id.description" xml:space="preserve">
-				<source>tax_id</source>
-			<target state="needs-translation">tax_id</target></trans-unit>
-      <trans-unit id="tax.description" xml:space="preserve">
-				<source>tax</source>
-			<target state="needs-translation">tax</target></trans-unit>
-      <trans-unit id="weight.description" xml:space="preserve">
-				<source>weight</source>
-			<target state="needs-translation">weight</target></trans-unit>
-      <trans-unit id="usebydate.description" xml:space="preserve">
-				<source>usebydate</source>
-			<target state="needs-translation">usebydate</target></trans-unit>
-      <trans-unit id="bulkily.description" xml:space="preserve">
-				<source>bulkily</source>
-			<target state="needs-translation">bulkily</target></trans-unit>
-      <trans-unit id="offer.description" xml:space="preserve">
-				<source>offer</source>
-			<target state="needs-translation">offer</target></trans-unit>
-      <trans-unit id="highlight.description" xml:space="preserve">
-				<source>highlight</source>
-			<target state="needs-translation">highlight</target></trans-unit>
-      <trans-unit id="bargain.description" xml:space="preserve">
-				<source>bargain</source>
-			<target state="needs-translation">bargain</target></trans-unit>
-      <trans-unit id="color.description" xml:space="preserve">
-				<source>color variant 1</source>
-			<target state="needs-translation">color variant 1</target></trans-unit>
-      <trans-unit id="color2.description" xml:space="preserve">
-				<source>color2 variant 6</source>
-			<target state="needs-translation">color2 variant 6</target></trans-unit>
-      <trans-unit id="color3.description" xml:space="preserve">
-				<source>color3 variant 7</source>
-			<target state="needs-translation">color3 variant 7</target></trans-unit>
-      <trans-unit id="color4.description" xml:space="preserve">
-				<source>color4 variant 12</source>
-			<target state="needs-translation">color4 variant 12</target></trans-unit>
-      <trans-unit id="size.description" xml:space="preserve">
-				<source>size variant 2</source>
-			<target state="needs-translation">size variant 2</target></trans-unit>
-      <trans-unit id="size2.description" xml:space="preserve">
-				<source>size2 variant 8</source>
-			<target state="needs-translation">size2 variant 8</target></trans-unit>
-      <trans-unit id="size3.description" xml:space="preserve">
-				<source>size3 variant 9</source>
-			<target state="needs-translation">size3 variant 9</target></trans-unit>
-      <trans-unit id="size4.description" xml:space="preserve">
-				<source>size4 variant 13</source>
-			<target state="needs-translation">size4 variant 13</target></trans-unit>
-      <trans-unit id="description.description" xml:space="preserve">
-				<source>description variant 3</source>
-			<target state="needs-translation">description variant 3</target></trans-unit>
-      <trans-unit id="description2.description" xml:space="preserve">
-				<source>description2 variant 14</source>
-			<target state="needs-translation">description2 variant 14</target></trans-unit>
-      <trans-unit id="description3.description" xml:space="preserve">
-				<source>description3 variant 15</source>
-			<target state="needs-translation">description3 variant 15</target></trans-unit>
-      <trans-unit id="gradings.description" xml:space="preserve">
-				<source>gradings variant 4</source>
-			<target state="needs-translation">gradings variant 4</target></trans-unit>
-      <trans-unit id="material.description" xml:space="preserve">
-				<source>material variant 10</source>
-			<target state="needs-translation">material variant 10</target></trans-unit>
-      <trans-unit id="quality.description" xml:space="preserve">
-				<source>quality variant 11</source>
-			<target state="needs-translation">quality variant 11</target></trans-unit>
-      <trans-unit id="form.description" xml:space="preserve">
-				<source>form variant 16</source>
-			<target state="needs-translation">form variant 16</target></trans-unit>
-      <trans-unit id="form2.description" xml:space="preserve">
-				<source>form2 variant 17</source>
-			<target state="needs-translation">form2 variant 17</target></trans-unit>
-      <trans-unit id="type.description" xml:space="preserve">
-				<source>type variant 18</source>
-			<target state="needs-translation">type variant 18</target></trans-unit>
-      <trans-unit id="pattern.description" xml:space="preserve">
-				<source>pattern variant 19</source>
-			<target state="needs-translation">pattern variant 19</target></trans-unit>
-      <trans-unit id="surface.description" xml:space="preserve">
-				<source>surface variant 20</source>
-			<target state="needs-translation">surface variant 20</target></trans-unit>
-      <trans-unit id="angular.description" xml:space="preserve">
-				<source>angular variant 21</source>
-			<target state="needs-translation">angular variant 21</target></trans-unit>
-      <trans-unit id="time.description" xml:space="preserve">
-				<source>time variant 22</source>
-			<target state="needs-translation">time variant 22</target></trans-unit>
-      <trans-unit id="time2.description" xml:space="preserve">
-				<source>time2 variant 23</source>
-			<target state="needs-translation">time2 variant 23</target></trans-unit>
-      <trans-unit id="guarantee.description" xml:space="preserve">
-				<source>guarantee variant 24</source>
-			<target state="needs-translation">guarantee variant 24</target></trans-unit>
-      <trans-unit id="elements.description" xml:space="preserve">
-				<source>elements variant 25</source>
-			<target state="needs-translation">elements variant 25</target></trans-unit>
-      <trans-unit id="boundary.description" xml:space="preserve">
-				<source>boundary variant 26</source>
-			<target state="needs-translation">boundary variant 26</target></trans-unit>
-      <trans-unit id="costs.description" xml:space="preserve">
-				<source>costs variant 27</source>
-			<target state="needs-translation">costs variant 27</target></trans-unit>
-      <trans-unit id="additional.description" xml:space="preserve">
-				<source>additional</source>
-			<target state="needs-translation">additional</target></trans-unit>
-      <trans-unit id="special_preparation.description" xml:space="preserve">
-				<source>special_preparation</source>
-			<target state="needs-translation">special_preparation</target></trans-unit>
-      <trans-unit id="shipping.description" xml:space="preserve">
-				<source>shipping</source>
-			<target state="needs-translation">shipping</target></trans-unit>
-      <trans-unit id="shipping2.description" xml:space="preserve">
-				<source>shipping2</source>
-			<target state="needs-translation">shipping2</target></trans-unit>
-      <trans-unit id="handling.description" xml:space="preserve">
-				<source>handling</source>
-			<target state="needs-translation">handling</target></trans-unit>
-      <trans-unit id="delivery.description" xml:space="preserve">
-				<source>delivery</source>
-			<target state="needs-translation">delivery</target></trans-unit>
-      <trans-unit id="sellstarttime.description" xml:space="preserve">
-				<source>sellstarttime</source>
-			<target state="needs-translation">sellstarttime</target></trans-unit>
-      <trans-unit id="sellendtime.description" xml:space="preserve">
-				<source>sellendtime</source>
-			<target state="needs-translation">sellendtime</target></trans-unit>
+      <trans-unit id=".description" resname=".description">
+        <source>Shop items.</source>
+        <target state="needs-translation">Shop items.</target>
+      </trans-unit>
+      <trans-unit id=".details" resname=".details">
+        <source>This table holds the products available in the default shopping system.</source>
+        <target state="needs-translation">This table holds the products available in the default shopping system.</target>
+      </trans-unit>
+      <trans-unit id="_.seeAlso" resname="_.seeAlso">
+        <source>tt_products_cat mbi_products_categories</source>
+        <target state="needs-translation">tt_products_cat mbi_products_categories</target>
+      </trans-unit>
+      <trans-unit id="hidden.description" resname="hidden.description">
+        <source>hidden</source>
+        <target state="needs-translation">hidden</target>
+      </trans-unit>
+      <trans-unit id="starttime.description" resname="starttime.description">
+        <source>starttime</source>
+        <target state="needs-translation">starttime</target>
+      </trans-unit>
+      <trans-unit id="endtime.description" resname="endtime.description">
+        <source>endtime</source>
+        <target state="needs-translation">endtime</target>
+      </trans-unit>
+      <trans-unit id="fe_group.description" resname="fe_group.description">
+        <source>fe_group</source>
+        <target state="needs-translation">fe_group</target>
+      </trans-unit>
+      <trans-unit id="title.description" resname="title.description">
+        <source>title</source>
+        <target state="needs-translation">title</target>
+      </trans-unit>
+      <trans-unit id="subtitle.description" resname="subtitle.description">
+        <source>subtitle</source>
+        <target state="needs-translation">subtitle</target>
+      </trans-unit>
+      <trans-unit id="keyword.description" resname="keyword.description">
+        <source>keyword</source>
+        <target state="needs-translation">keyword</target>
+      </trans-unit>
+      <trans-unit id="prod_uid.description" resname="prod_uid.description">
+        <source>prod_uid - related products</source>
+        <target state="needs-translation">prod_uid - related products</target>
+      </trans-unit>
+      <trans-unit id="dam_uid.description" resname="dam_uid.description">
+        <source>dam_uid - related medias from the DAM extension</source>
+        <target state="needs-translation">dam_uid - related medias from the DAM extension</target>
+      </trans-unit>
+      <trans-unit id="file_uid.description" resname="file_uid.description">
+        <source>file_uid - related medias from the FAL</source>
+        <target state="needs-translation">file_uid - related medias from the FAL</target>
+      </trans-unit>
+      <trans-unit id="accessory_uid.description" resname="accessory_uid.description">
+        <source>accessory_uid over tt_products_accessory_products_products_mm</source>
+        <target state="needs-translation">accessory_uid over tt_products_accessory_products_products_mm</target>
+      </trans-unit>
+      <trans-unit id="related_uid.description" resname="related_uid.description">
+        <source>related_uid over tt_products_related_products_products_mm</source>
+        <target state="needs-translation">related_uid over tt_products_related_products_products_mm</target>
+      </trans-unit>
+      <trans-unit id="itemnumber.description" resname="itemnumber.description">
+        <source>itemnumber</source>
+        <target state="needs-translation">itemnumber</target>
+      </trans-unit>
+      <trans-unit id="ean.description" resname="ean.description">
+        <source>ean</source>
+        <target state="needs-translation">ean</target>
+      </trans-unit>
+      <trans-unit id="shipping_point.description" resname="shipping_point.description">
+        <source>shipping_point</source>
+        <target state="needs-translation">shipping_point</target>
+      </trans-unit>
+      <trans-unit id="directcost.description" resname="directcost.description">
+        <source>directcost</source>
+        <target state="needs-translation">directcost</target>
+      </trans-unit>
+      <trans-unit id="regular_price.description" resname="regular_price.description">
+        <source>regular_price</source>
+        <target state="needs-translation">regular_price</target>
+      </trans-unit>
+      <trans-unit id="price.description" resname="price.description">
+        <source>price</source>
+        <target state="needs-translation">price</target>
+      </trans-unit>
+      <trans-unit id="price2.description" resname="price2.description">
+        <source>price2</source>
+        <target state="needs-translation">price2</target>
+      </trans-unit>
+      <trans-unit id="discount.description" resname="discount.description">
+        <source>discount</source>
+        <target state="needs-translation">discount</target>
+      </trans-unit>
+      <trans-unit id="discount_disable.description" resname="discount_disable.description">
+        <source>discount_disable</source>
+        <target state="needs-translation">discount_disable</target>
+      </trans-unit>
+      <trans-unit id="deposit.description" resname="deposit.description">
+        <source>deposit</source>
+        <target state="needs-translation">deposit</target>
+      </trans-unit>
+      <trans-unit id="creditpoints.description" resname="creditpoints.description">
+        <source>creditpoints</source>
+        <target state="needs-translation">creditpoints</target>
+      </trans-unit>
+      <trans-unit id="graduated_price_round.description" resname="graduated_price_round.description">
+        <source>graduated_price_round</source>
+        <target state="needs-translation">graduated_price_round</target>
+      </trans-unit>
+      <trans-unit id="graduated_price_enable.description" resname="graduated_price_enable.description">
+        <source>graduated_price_enable</source>
+        <target state="needs-translation">graduated_price_enable</target>
+      </trans-unit>
+      <trans-unit id="note.description" resname="note.description">
+        <source>note</source>
+        <target state="needs-translation">note</target>
+      </trans-unit>
+      <trans-unit id="note2.description" resname="note2.description">
+        <source>note2</source>
+        <target state="needs-translation">note2</target>
+      </trans-unit>
+      <trans-unit id="note_uid.description" resname="note_uid.description">
+        <source>note_uid over tt_products_products_note_pages_mm</source>
+        <target state="needs-translation">note_uid over tt_products_products_note_pages_mm</target>
+      </trans-unit>
+      <trans-unit id="text_uid.description" resname="text_uid.description">
+        <source>text_uid</source>
+        <target state="needs-translation">text_uid</target>
+      </trans-unit>
+      <trans-unit id="download_type.description" resname="download_type.description">
+        <source>download_type</source>
+        <target state="needs-translation">download_type</target>
+      </trans-unit>
+      <trans-unit id="download_info.description" resname="download_info.description">
+        <source>download_info</source>
+        <target state="needs-translation">download_info</target>
+      </trans-unit>
+      <trans-unit id="download_uid.description" resname="download_uid.description">
+        <source>download_uid over tt_products_products_mm_downloads</source>
+        <target state="needs-translation">download_uid over tt_products_products_mm_downloads</target>
+      </trans-unit>
+      <trans-unit id="unit.description" resname="unit.description">
+        <source>unit</source>
+        <target state="needs-translation">unit</target>
+      </trans-unit>
+      <trans-unit id="unit_factor.description" resname="unit_factor.description">
+        <source>unit_factor</source>
+        <target state="needs-translation">unit_factor</target>
+      </trans-unit>
+      <trans-unit id="image.description" resname="image.description">
+        <source>image</source>
+        <target state="needs-translation">image</target>
+      </trans-unit>
+      <trans-unit id="image_uid.description" resname="image_uid.description">
+        <source>image</source>
+        <target state="needs-translation">image</target>
+      </trans-unit>
+      <trans-unit id="smallimage.description" resname="smallimage.description">
+        <source>smallimage</source>
+        <target state="needs-translation">smallimage</target>
+      </trans-unit>
+      <trans-unit id="smallimage_uid.description" resname="smallimage_uid.description">
+        <source>smallimage</source>
+        <target state="needs-translation">smallimage</target>
+      </trans-unit>
+      <trans-unit id="datasheet.description" resname="datasheet.description">
+        <source>datasheet</source>
+        <target state="needs-translation">datasheet</target>
+      </trans-unit>
+      <trans-unit id="www.description" resname="www.description">
+        <source>www</source>
+        <target state="needs-translation">www</target>
+      </trans-unit>
+      <trans-unit id="category.description" resname="category.description">
+        <source>category maybe over tx_mbiproductscategories_mm</source>
+        <target state="needs-translation">category maybe over tx_mbiproductscategories_mm</target>
+      </trans-unit>
+      <trans-unit id="address.description" resname="address.description">
+        <source>address from an address table</source>
+        <target state="needs-translation">address from an address table</target>
+      </trans-unit>
+      <trans-unit id="inStock.description" resname="inStock.description">
+        <source>inStock</source>
+        <target state="needs-translation">inStock</target>
+      </trans-unit>
+      <trans-unit id="basketminquantity.description" resname="basketminquantity.description">
+        <source>basketminquantity</source>
+        <target state="needs-translation">basketminquantity</target>
+      </trans-unit>
+      <trans-unit id="basketmaxquantity.description" resname="basketmaxquantity.description">
+        <source>basketmaxquantity</source>
+        <target state="needs-translation">basketmaxquantity</target>
+      </trans-unit>
+      <trans-unit id="tax_free.description" resname="tax_free.description">
+        <source>tax_free</source>
+        <target state="needs-translation">tax_free</target>
+      </trans-unit>
+      <trans-unit id="taxcat_id.description" resname="taxcat_id.description">
+        <source>taxcat_id</source>
+        <target state="needs-translation">taxcat_id</target>
+      </trans-unit>
+      <trans-unit id="tax_id.description" resname="tax_id.description">
+        <source>tax_id</source>
+        <target state="needs-translation">tax_id</target>
+      </trans-unit>
+      <trans-unit id="tax.description" resname="tax.description">
+        <source>tax</source>
+        <target state="needs-translation">tax</target>
+      </trans-unit>
+      <trans-unit id="weight.description" resname="weight.description">
+        <source>weight</source>
+        <target state="needs-translation">weight</target>
+      </trans-unit>
+      <trans-unit id="usebydate.description" resname="usebydate.description">
+        <source>usebydate</source>
+        <target state="needs-translation">usebydate</target>
+      </trans-unit>
+      <trans-unit id="bulkily.description" resname="bulkily.description">
+        <source>bulkily</source>
+        <target state="needs-translation">bulkily</target>
+      </trans-unit>
+      <trans-unit id="offer.description" resname="offer.description">
+        <source>offer</source>
+        <target state="needs-translation">offer</target>
+      </trans-unit>
+      <trans-unit id="highlight.description" resname="highlight.description">
+        <source>highlight</source>
+        <target state="needs-translation">highlight</target>
+      </trans-unit>
+      <trans-unit id="bargain.description" resname="bargain.description">
+        <source>bargain</source>
+        <target state="needs-translation">bargain</target>
+      </trans-unit>
+      <trans-unit id="color.description" resname="color.description">
+        <source>color variant 1</source>
+        <target state="needs-translation">color variant 1</target>
+      </trans-unit>
+      <trans-unit id="color2.description" resname="color2.description">
+        <source>color2 variant 6</source>
+        <target state="needs-translation">color2 variant 6</target>
+      </trans-unit>
+      <trans-unit id="color3.description" resname="color3.description">
+        <source>color3 variant 7</source>
+        <target state="needs-translation">color3 variant 7</target>
+      </trans-unit>
+      <trans-unit id="color4.description" resname="color4.description">
+        <source>color4 variant 12</source>
+        <target state="needs-translation">color4 variant 12</target>
+      </trans-unit>
+      <trans-unit id="size.description" resname="size.description">
+        <source>size variant 2</source>
+        <target state="needs-translation">size variant 2</target>
+      </trans-unit>
+      <trans-unit id="size2.description" resname="size2.description">
+        <source>size2 variant 8</source>
+        <target state="needs-translation">size2 variant 8</target>
+      </trans-unit>
+      <trans-unit id="size3.description" resname="size3.description">
+        <source>size3 variant 9</source>
+        <target state="needs-translation">size3 variant 9</target>
+      </trans-unit>
+      <trans-unit id="size4.description" resname="size4.description">
+        <source>size4 variant 13</source>
+        <target state="needs-translation">size4 variant 13</target>
+      </trans-unit>
+      <trans-unit id="description.description" resname="description.description">
+        <source>description variant 3</source>
+        <target state="needs-translation">description variant 3</target>
+      </trans-unit>
+      <trans-unit id="description2.description" resname="description2.description">
+        <source>description2 variant 14</source>
+        <target state="needs-translation">description2 variant 14</target>
+      </trans-unit>
+      <trans-unit id="description3.description" resname="description3.description">
+        <source>description3 variant 15</source>
+        <target state="needs-translation">description3 variant 15</target>
+      </trans-unit>
+      <trans-unit id="gradings.description" resname="gradings.description">
+        <source>gradings variant 4</source>
+        <target state="needs-translation">gradings variant 4</target>
+      </trans-unit>
+      <trans-unit id="material.description" resname="material.description">
+        <source>material variant 10</source>
+        <target state="needs-translation">material variant 10</target>
+      </trans-unit>
+      <trans-unit id="quality.description" resname="quality.description">
+        <source>quality variant 11</source>
+        <target state="needs-translation">quality variant 11</target>
+      </trans-unit>
+      <trans-unit id="form.description" resname="form.description">
+        <source>form variant 16</source>
+        <target state="needs-translation">form variant 16</target>
+      </trans-unit>
+      <trans-unit id="form2.description" resname="form2.description">
+        <source>form2 variant 17</source>
+        <target state="needs-translation">form2 variant 17</target>
+      </trans-unit>
+      <trans-unit id="type.description" resname="type.description">
+        <source>type variant 18</source>
+        <target state="needs-translation">type variant 18</target>
+      </trans-unit>
+      <trans-unit id="pattern.description" resname="pattern.description">
+        <source>pattern variant 19</source>
+        <target state="needs-translation">pattern variant 19</target>
+      </trans-unit>
+      <trans-unit id="surface.description" resname="surface.description">
+        <source>surface variant 20</source>
+        <target state="needs-translation">surface variant 20</target>
+      </trans-unit>
+      <trans-unit id="angular.description" resname="angular.description">
+        <source>angular variant 21</source>
+        <target state="needs-translation">angular variant 21</target>
+      </trans-unit>
+      <trans-unit id="time.description" resname="time.description">
+        <source>time variant 22</source>
+        <target state="needs-translation">time variant 22</target>
+      </trans-unit>
+      <trans-unit id="time2.description" resname="time2.description">
+        <source>time2 variant 23</source>
+        <target state="needs-translation">time2 variant 23</target>
+      </trans-unit>
+      <trans-unit id="guarantee.description" resname="guarantee.description">
+        <source>guarantee variant 24</source>
+        <target state="needs-translation">guarantee variant 24</target>
+      </trans-unit>
+      <trans-unit id="elements.description" resname="elements.description">
+        <source>elements variant 25</source>
+        <target state="needs-translation">elements variant 25</target>
+      </trans-unit>
+      <trans-unit id="boundary.description" resname="boundary.description">
+        <source>boundary variant 26</source>
+        <target state="needs-translation">boundary variant 26</target>
+      </trans-unit>
+      <trans-unit id="costs.description" resname="costs.description">
+        <source>costs variant 27</source>
+        <target state="needs-translation">costs variant 27</target>
+      </trans-unit>
+      <trans-unit id="additional.description" resname="additional.description">
+        <source>additional</source>
+        <target state="needs-translation">additional</target>
+      </trans-unit>
+      <trans-unit id="special_preparation.description" resname="special_preparation.description">
+        <source>special_preparation</source>
+        <target state="needs-translation">special_preparation</target>
+      </trans-unit>
+      <trans-unit id="shipping.description" resname="shipping.description">
+        <source>shipping</source>
+        <target state="needs-translation">shipping</target>
+      </trans-unit>
+      <trans-unit id="shipping2.description" resname="shipping2.description">
+        <source>shipping2</source>
+        <target state="needs-translation">shipping2</target>
+      </trans-unit>
+      <trans-unit id="handling.description" resname="handling.description">
+        <source>handling</source>
+        <target state="needs-translation">handling</target>
+      </trans-unit>
+      <trans-unit id="delivery.description" resname="delivery.description">
+        <source>delivery</source>
+        <target state="needs-translation">delivery</target>
+      </trans-unit>
+      <trans-unit id="sellstarttime.description" resname="sellstarttime.description">
+        <source>sellstarttime</source>
+        <target state="needs-translation">sellstarttime</target>
+      </trans-unit>
+      <trans-unit id="sellendtime.description" resname="sellendtime.description">
+        <source>sellendtime</source>
+        <target state="needs-translation">sellendtime</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
