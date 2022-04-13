@@ -3,15 +3,15 @@
   <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/Modfunc/locallang_modfunc2_csh.xlf" date="2017-07-08T17:08:00Z" product-name="import" target-language="es-ES">
     <header/>
     <body>
-      <trans-unit id="tt_products.func2.createLanguagesWizard">
+      <trans-unit id="tt_products.func2.createLanguagesWizard" resname="tt_products.func2.createLanguagesWizard">
         <source>Execute the Create Languages for Tables Wizard</source>
         <target state="needs-translation">Execute the Create Languages for Tables Wizard</target>
       </trans-unit>
-      <trans-unit id="tt_products.func2.alttitle">
+      <trans-unit id="tt_products.func2.alttitle" resname="tt_products.func2.alttitle">
         <source>Create languages wizard for tt_products_text table</source>
         <target state="needs-translation">Create languages wizard for tt_products_text table</target>
       </trans-unit>
-      <trans-unit id="tt_products.func2.description" xml:space="preserve">
+      <trans-unit id="tt_products.func2.description" xml:space="preserve" resname="tt_products.func2.description">
                 <source>Enables you to copy the extended text of tt_products into the alternative language table.</source>
             <target state="needs-translation">Enables you to copy the extended text of tt_products into the alternative language table.</target></trans-unit>
     </body>
