@@ -3,24 +3,30 @@
   <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/Csh/locallang_csh_tt_products_downloads.xlf" date="2021-11-23T20:34:39Z" product-name="tt_products" target-language="hu">
     <header/>
     <body>
-      <trans-unit id=".description" xml:space="preserve">
-				<source>Shop downloads.</source>
-			<target state="needs-translation">Shop downloads.</target></trans-unit>
-      <trans-unit id=".details" xml:space="preserve">
-				<source>There are a lot of download path descriptions possible for each product</source>
-			<target state="needs-translation">There are a lot of download path descriptions possible for each product</target></trans-unit>
-      <trans-unit id="_.seeAlso" xml:space="preserve">
-				<source>tt_products</source>
-			<target state="needs-translation">tt_products</target></trans-unit>
-      <trans-unit id="title.description" xml:space="preserve">
-				<source>[FILL IN] tt_products_downloads-&gt;title</source>
-			<target state="needs-translation">[FILL IN] tt_products_downloads-&gt;title</target></trans-unit>
-      <trans-unit id="marker.description" xml:space="preserve">
-				<source>Marker part to be used in the template to form the ###PRODUCT_DOWNLOAD_...###</source>
-			<target state="needs-translation">Marker part to be used in the template to form the ###PRODUCT_DOWNLOAD_...###</target></trans-unit>
-      <trans-unit id="note.description" xml:space="preserve">
-				<source>note</source>
-			<target state="needs-translation">note</target></trans-unit>
+      <trans-unit id=".description" resname=".description">
+        <source>Shop downloads.</source>
+        <target state="needs-translation">Shop downloads.</target>
+      </trans-unit>
+      <trans-unit id=".details" resname=".details">
+        <source>There are a lot of download path descriptions possible for each product</source>
+        <target state="needs-translation">There are a lot of download path descriptions possible for each product</target>
+      </trans-unit>
+      <trans-unit id="_.seeAlso" resname="_.seeAlso">
+        <source>tt_products</source>
+        <target state="needs-translation">tt_products</target>
+      </trans-unit>
+      <trans-unit id="title.description" resname="title.description">
+        <source>[FILL IN] tt_products_downloads-&gt;title</source>
+        <target state="needs-translation">[FILL IN] tt_products_downloads-&gt;title</target>
+      </trans-unit>
+      <trans-unit id="marker.description" resname="marker.description">
+        <source>Marker part to be used in the template to form the ###PRODUCT_DOWNLOAD_...###</source>
+        <target state="needs-translation">Marker part to be used in the template to form the ###PRODUCT_DOWNLOAD_...###</target>
+      </trans-unit>
+      <trans-unit id="note.description" resname="note.description">
+        <source>note</source>
+        <target state="needs-translation">note</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
