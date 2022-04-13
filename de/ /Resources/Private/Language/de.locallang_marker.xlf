@@ -3,1167 +3,1554 @@
   <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/locallang_marker.xlf" date="2021-11-23T20:35:28Z" product-name="tt_products" target-language="de">
     <header/>
     <body>
-      <trans-unit id="memo_file_goto" xml:space="preserve" approved="yes">
-				<source>Go to file memo list.</source>
-			<target state="final">Gehe zur Dateien Merkliste.</target></trans-unit>
-      <trans-unit id="memo_goto" xml:space="preserve" approved="yes">
-				<source>Go to the memo list.</source>
-			<target state="final">Gehe zur Merkliste.</target></trans-unit>
-      <trans-unit id="memo_mark" xml:space="preserve" approved="yes">
-				<source>Mark article</source>
-			<target state="final">Artikel vormerken</target></trans-unit>
-      <trans-unit id="memo_title" xml:space="preserve" approved="yes">
-				<source>marked articles</source>
-			<target state="final">Vorgemerkte Artikel</target></trans-unit>
-      <trans-unit id="memo_quit" xml:space="preserve" approved="yes">
-				<source>quit marked article</source>
-			<target state="final">Vormerkung löschen</target></trans-unit>
-      <trans-unit id="basket_goto" xml:space="preserve" approved="yes">
-				<source>Go to shopping cart.</source>
-			<target state="final">Gehe zum Warenkorb.</target></trans-unit>
-      <trans-unit id="basket_into" xml:space="preserve" approved="yes">
-				<source>Into the shopping cart.</source>
-			<target state="final">In den Warenkorb.</target></trans-unit>
-      <trans-unit id="basket_into_input_type" xml:space="preserve" approved="yes">
-				<source>Send</source>
-			<target state="final">abschicken</target></trans-unit>
-      <trans-unit id="basket_mini_empty" xml:space="preserve" approved="yes">
-				<source>Shopping cart is empty</source>
-			<target state="final">Der Warenkorb ist leer</target></trans-unit>
-      <trans-unit id="basket_mini_item" xml:space="preserve" approved="yes">
-				<source>Item</source>
-			<target state="final">Artikel</target></trans-unit>
-      <trans-unit id="basket_mini_notax" xml:space="preserve" approved="yes">
-				<source>Not including VAT:</source>
-			<target state="final">ohne MwSt</target></trans-unit>
-      <trans-unit id="basket_mini_tax" xml:space="preserve" approved="yes">
-				<source>Including VAT:</source>
-			<target state="final">inkl. MwSt</target></trans-unit>
-      <trans-unit id="basket_mini_header" xml:space="preserve" approved="yes">
-				<source>Shopping cart:</source>
-			<target state="final">Warenkorb</target></trans-unit>
-      <trans-unit id="basket_empty" xml:space="preserve" approved="yes">
-				<source>Your shopping cart is empty!</source>
-			<target state="final">Ihr Warenkorb ist leer!</target></trans-unit>
-      <trans-unit id="basket_billing_address" xml:space="preserve" approved="yes">
-				<source>Invoicing address </source>
-			<target state="final">Rechnungsanschrift</target></trans-unit>
-      <trans-unit id="basket_billing_address_input" xml:space="preserve" approved="yes">
-				<source>Please enter your address here.</source>
-			<target state="final">Bitte geben Sie hier Ihre Daten ein.</target></trans-unit>
-      <trans-unit id="basket_billing_address_input_delivery" xml:space="preserve" approved="yes">
-				<source>You can also enter an alternative delivery address.</source>
-			<target state="final">Sie können auch eine alternative Lieferadresse angeben.</target></trans-unit>
-      <trans-unit id="basket_delivery_address" xml:space="preserve" approved="yes">
-				<source>Delivery address</source>
-			<target state="final">Lieferanschrift</target></trans-unit>
-      <trans-unit id="basket_delivery_address_alternative" xml:space="preserve" approved="yes">
-				<source>alternative delivery address</source>
-			<target state="final">andere Lieferadresse</target></trans-unit>
-      <trans-unit id="basket_delivery_address_empty" xml:space="preserve" approved="yes">
-				<source>Leave unchanged to send to the address above.</source>
-			<target state="final">Wenn Sie hier nichts angeben, erfolgt die Lieferung an die oben angegebene Rechnungsadresse.</target></trans-unit>
-      <trans-unit id="basket_info_text" xml:space="preserve" approved="yes">
-				<source> Note: Fields marked with * are mandatory. Your data will not be forwarded to third parties! </source>
-			<target state="final"> Hinweis: Felder mit * sind Pflichtfelder und müssen ausgefüllt werden. </target></trans-unit>
-      <trans-unit id="basket_name" xml:space="preserve">
-				<source>Name</source>
-			<target state="needs-translation">Name</target></trans-unit>
-      <trans-unit id="basket_name_company" xml:space="preserve" approved="yes">
-				<source>Name/company</source>
-			<target state="final">Name/Unternehmen</target></trans-unit>
-      <trans-unit id="basket_contact" xml:space="preserve" approved="yes">
-				<source>Contact person</source>
-			<target state="final">Kontaktperson</target></trans-unit>
-      <trans-unit id="basket_first_name" xml:space="preserve" approved="yes">
-				<source>First name</source>
-			<target state="final">Vorname</target></trans-unit>
-      <trans-unit id="basket_last_name" xml:space="preserve" approved="yes">
-				<source>Surname</source>
-			<target state="final">Nachname</target></trans-unit>
-      <trans-unit id="basket_title" xml:space="preserve" approved="yes">
-				<source>Title</source>
-			<target state="final">Anrede</target></trans-unit>
-      <trans-unit id="basket_company" xml:space="preserve" approved="yes">
-				<source>Company</source>
-			<target state="final">Firma</target></trans-unit>
-      <trans-unit id="basket_address" xml:space="preserve" approved="yes">
-				<source>Address</source>
-			<target state="final">Adresse</target></trans-unit>
-      <trans-unit id="basket_house_no" xml:space="preserve" approved="yes">
-				<source>House number</source>
-			<target state="final">Hausnummer</target></trans-unit>
-      <trans-unit id="basket_date_of_birth" xml:space="preserve">
-				<source>Date of birth</source>
-			<target state="needs-translation">Date of birth</target></trans-unit>
-      <trans-unit id="basket_zip" xml:space="preserve" approved="yes">
-				<source>Postcode</source>
-			<target state="final">PLZ</target></trans-unit>
-      <trans-unit id="basket_city" xml:space="preserve" approved="yes">
-				<source>City</source>
-			<target state="final">Stadt</target></trans-unit>
-      <trans-unit id="basket_country" xml:space="preserve" approved="yes">
-				<source>Country</source>
-			<target state="final">Land</target></trans-unit>
-      <trans-unit id="basket_phone" xml:space="preserve" approved="yes">
-				<source>Telephone</source>
-			<target state="final">Telefon</target></trans-unit>
-      <trans-unit id="basket_email" xml:space="preserve" approved="yes">
-				<source>E-mail</source>
-			<target state="final">Email</target></trans-unit>
-      <trans-unit id="basket_zip_city" xml:space="preserve" approved="yes">
-				<source>Postcode/city</source>
-			<target state="final">PLZ / Stadt</target></trans-unit>
-      <trans-unit id="basket_zone" xml:space="preserve" approved="yes">
-				<source>Zone</source>
-			<target state="final">Bundesland</target></trans-unit>
-      <trans-unit id="basket_street" xml:space="preserve" approved="yes">
-				<source>Street</source>
-			<target state="final">Straße</target></trans-unit>
-      <trans-unit id="basket_fe_username" xml:space="preserve" approved="yes">
-				<source>User name</source>
-			<target state="final">Username</target></trans-unit>
-      <trans-unit id="basket_fe_user_id" xml:space="preserve" approved="yes">
-				<source>User ID </source>
-			<target state="final">User ID</target></trans-unit>
-      <trans-unit id="basket_update_cart" xml:space="preserve" approved="yes">
-				<source>Update shopping cart</source>
-			<target state="final">Warenkorb aktualisieren</target></trans-unit>
-      <trans-unit id="basket_empty_cart" xml:space="preserve" approved="yes">
-				<source>Delete shopping cart</source>
-			<target state="final">Warenkorb löschen</target></trans-unit>
-      <trans-unit id="basket_remove_item" xml:space="preserve" approved="yes">
-				<source>Remove item from shopping cart</source>
-			<target state="final">aus dem Warenkorb entfernen</target></trans-unit>
-      <trans-unit id="basket_checkout" xml:space="preserve" approved="yes">
-				<source>To the order</source>
-			<target state="final">zur Bestellung</target></trans-unit>
-      <trans-unit id="basket_back_to_cart" xml:space="preserve" approved="yes">
-				<source>Back to the shopping cart</source>
-			<target state="final">zurück zum Warenkorb</target></trans-unit>
-      <trans-unit id="basket_place_order" xml:space="preserve" approved="yes">
-				<source>Complete the order</source>
-			<target state="final">Zahlungspflichtig bestellen</target></trans-unit>
-      <trans-unit id="basket_enter_vat_id" xml:space="preserve" approved="yes">
-				<source>Enter your valid VAT Reg. No. here:</source>
-			<target state="final">Ihre gültige USt-IdNr. hier eingeben:</target></trans-unit>
-      <trans-unit id="basket_back_to_address" xml:space="preserve" approved="yes">
-				<source>Back to the address</source>
-			<target state="final">zurück zur Rechnungsanschrift</target></trans-unit>
-      <trans-unit id="basket_place_payment" xml:space="preserve" approved="yes">
-				<source>Proceed to checkout</source>
-			<target state="final">Zur Kasse</target></trans-unit>
-      <trans-unit id="basket_vat_id" xml:space="preserve" approved="yes">
-				<source>VAT Reg. No.</source>
-			<target state="final">USt-IdNr.</target></trans-unit>
-      <trans-unit id="basket_item_list" xml:space="preserve" approved="yes">
-				<source>items in your shopping cart</source>
-			<target state="final">folgende Artikel befinden sich im Warenkorb</target></trans-unit>
-      <trans-unit id="basket_header_item" xml:space="preserve" approved="yes">
-				<source>Item</source>
-			<target state="final">Artikel</target></trans-unit>
-      <trans-unit id="basket_header_item_selected" xml:space="preserve" approved="yes">
-				<source>selected items</source>
-			<target state="final">gewählte Artikel</target></trans-unit>
-      <trans-unit id="basket_header_quantity" xml:space="preserve" approved="yes">
-				<source>Quantity</source>
-			<target state="final">Menge</target></trans-unit>
-      <trans-unit id="basket_header_price" xml:space="preserve" approved="yes">
-				<source>Price</source>
-			<target state="final">Preis</target></trans-unit>
-      <trans-unit id="basket_header_total" xml:space="preserve" approved="yes">
-				<source>Total</source>
-			<target state="final">Summe</target></trans-unit>
-      <trans-unit id="basket_price_total" xml:space="preserve" approved="yes">
-				<source>incl. all costs</source>
-			<target state="final">inkl. Versand- und Bezahlkosten</target></trans-unit>
-      <trans-unit id="basket_pricetax_total_csv" xml:space="preserve" approved="yes">
-				<source>sales gross</source>
-			<target state="final">Umsatz Brutto</target></trans-unit>
-      <trans-unit id="basket_price_goods_total" xml:space="preserve" approved="yes">
-				<source>excl. Shipping/payment</source>
-			<target state="final">exkl. Versand- und Bezahlkosten</target></trans-unit>
-      <trans-unit id="basket_billing_name_csv" xml:space="preserve" approved="yes">
-				<source>customer name</source>
-			<target state="final">Kundenname</target></trans-unit>
-      <trans-unit id="basket_delivery_name_csv" xml:space="preserve" approved="yes">
-				<source>receiver name</source>
-			<target state="final">Empfängername</target></trans-unit>
-      <trans-unit id="basket_billing_cnum_csv" xml:space="preserve" approved="yes">
-				<source>customer number</source>
-			<target state="final">Kundennummer</target></trans-unit>
-      <trans-unit id="basket_billing_country_csv" xml:space="preserve" approved="yes">
-				<source>country</source>
-			<target state="final">Land</target></trans-unit>
-      <trans-unit id="basket_order_bill_no_csv" xml:space="preserve" approved="yes">
-				<source>bill number</source>
-			<target state="final">Rechnungsnummer</target></trans-unit>
-      <trans-unit id="basket_order_uid_csv" xml:space="preserve" approved="yes">
-				<source>order number</source>
-			<target state="final">Bestellnummer</target></trans-unit>
-      <trans-unit id="basket_order_crdate_csv" xml:space="preserve" approved="yes">
-				<source>voucher date</source>
-			<target state="final">Belegdatum</target></trans-unit>
-      <trans-unit id="basket_billing_prefix_csv" xml:space="preserve" approved="yes">
-				<source>bill </source>
-			<target state="final">Rechnung </target></trans-unit>
-      <trans-unit id="basket_delivery_prefix_csv" xml:space="preserve" approved="yes">
-				<source>delivery </source>
-			<target state="final">Lieferung </target></trans-unit>
-      <trans-unit id="basket_payment_prefix_csv" xml:space="preserve" approved="yes">
-				<source>payment </source>
-			<target state="final">Bezahlung </target></trans-unit>
-      <trans-unit id="basket_shipping_prefix_csv" xml:space="preserve" approved="yes">
-				<source>shipping </source>
-			<target state="final">Versand </target></trans-unit>
-      <trans-unit id="basket_minprice_error" xml:space="preserve" approved="yes">
-				<source>You have not reached the minimum order quantity of 100 EUR. Please update your cart.</source>
-			<target state="final">Sie haben die Mindestbestellmenge von 100 EUR nicht erreicht. Bitte aktualisieren Sie Ihren Warenkorb.</target></trans-unit>
-      <trans-unit id="basket_info_question" xml:space="preserve" approved="yes">
-				<source>Questions or customer wishes regarding your order.</source>
-			<target state="final">Fragen zu Ihrer Bestellung oder spezielle Wünsche zur Lieferung.</target></trans-unit>
-      <trans-unit id="basket_shipping_handling" xml:space="preserve" approved="yes">
-				<source>Shipping and packing</source>
-			<target state="final">Versand und Verpackung</target></trans-unit>
-      <trans-unit id="basket_shipping_payment" xml:space="preserve" approved="yes">
-				<source>Shipping and payment</source>
-			<target state="final">Versand und Bezahlung</target></trans-unit>
-      <trans-unit id="basket_shipping_billing" xml:space="preserve" approved="yes">
-				<source>Shipping and billing</source>
-			<target state="final">Rechnung und Versand</target></trans-unit>
-      <trans-unit id="basket_payment_checkout" xml:space="preserve" approved="yes">
-				<source>Go to pay</source>
-			<target state="final">zur Kasse</target></trans-unit>
-      <trans-unit id="basket_payment_select" xml:space="preserve" approved="yes">
-				<source>Method of payment:</source>
-			<target state="final">Zahlungsmethode</target></trans-unit>
-      <trans-unit id="basket_payment" xml:space="preserve" approved="yes">
-				<source>Method of payment:</source>
-			<target state="final">Zahlungsmethode</target></trans-unit>
-      <trans-unit id="basket_payment_total" xml:space="preserve" approved="yes">
-				<source>Total amount:</source>
-			<target state="final">Gesamtbetrag</target></trans-unit>
-      <trans-unit id="basket_payment_invoice" xml:space="preserve" approved="yes">
-				<source>Invoice amount:</source>
-			<target state="final">Rechnungsbetrag</target></trans-unit>
-      <trans-unit id="basket_payment_memo" xml:space="preserve" approved="yes">
-				<source>Message:</source>
-			<target state="final">Nachricht</target></trans-unit>
-      <trans-unit id="basket_payment_shipping_date" xml:space="preserve" approved="yes">
-				<source>Required date of delivery:</source>
-			<target state="final">gewünschtes Lieferdatum</target></trans-unit>
-      <trans-unit id="basket_payment_comment" xml:space="preserve" approved="yes">
-				<source>Comment:</source>
-			<target state="final">Kommentar</target></trans-unit>
-      <trans-unit id="basket_payment_email_comment" xml:space="preserve" approved="yes">
-				<source>(The order confirmation will be sent to this e-mail address)</source>
-			<target state="final">(An diese Email-Adresse wird die Bestätigung Ihrer Bestellung geschickt!)</target></trans-unit>
-      <trans-unit id="basket_payment_add_comment" xml:space="preserve" approved="yes">
-				<source>You can add a comment to your order here:</source>
-			<target state="final">Hier können Sie Ihrer Bestellung einen Kommentar hinzufügen</target></trans-unit>
-      <trans-unit id="basket_payment_select_payment" xml:space="preserve" approved="yes">
-				<source>Select the shipping mode and payment method.</source>
-			<target state="final">Bitte wählen Sie den Versand- und Zahlungsmodus aus.</target></trans-unit>
-      <trans-unit id="basket_right_of_revocation" xml:space="preserve" approved="yes">
-				<source>Right of revocation</source>
-			<target state="final">Widerrufsbelehrung</target></trans-unit>
-      <trans-unit id="basket_salutation" xml:space="preserve" approved="yes">
-				<source>Salutation</source>
-			<target state="final">Anrede</target></trans-unit>
-      <trans-unit id="basket_shipping_methods" xml:space="preserve" approved="yes">
-				<source>Shipping methods</source>
-			<target state="final">Versandarten</target></trans-unit>
-      <trans-unit id="basket_shipping_price" xml:space="preserve" approved="yes">
-				<source>Type of shipment:</source>
-			<target state="final">Versandmethode</target></trans-unit>
-      <trans-unit id="basket_terms" xml:space="preserve" approved="yes">
-				<source>I have read and accept &quot;the general terms</source>
-			<target state="final">"Die Allgemeinen Geschäftsbedingungen"</target></trans-unit>
-      <trans-unit id="basket_terms_and" xml:space="preserve" approved="yes">
-				<source>and the</source>
-			<target state="final">und die</target></trans-unit>
-      <trans-unit id="basket_terms_revocation" xml:space="preserve" approved="yes">
-				<source>revocation conditions</source>
-			<target state="final">Widerrufsbelehrung</target></trans-unit>
-      <trans-unit id="basket_terms_ack" xml:space="preserve" approved="yes">
-				<source>Please confirm that you have read and accepted the general terms and conditions.</source>
-			<target state="final">Sie bestätigen hiermit, dass Sie die AGB und die Widerrufsbelehrung gelesen haben und diese akzeptieren.</target></trans-unit>
-      <trans-unit id="basket_terms_read" xml:space="preserve">
-				<source>and I accept them.</source>
-			<target state="needs-translation">and I accept them.</target></trans-unit>
-      <trans-unit id="basket_privacy_policy" xml:space="preserve" approved="yes">
-				<source>Privacy Policy</source>
-			<target state="final">Datenschutzerklärung</target></trans-unit>
-      <trans-unit id="basket_privacy_policy_agree_1" xml:space="preserve" approved="yes">
-				<source>I have read and agree to the privacy policy.</source>
-			<target state="final">Ich habe die Datenschutzrichtlinie gelesen und akzeptiere sie.</target></trans-unit>
-      <trans-unit id="basket_privacy_policy_agree_2" xml:space="preserve" approved="yes">
-				<source>I agree for any data I transmit through this site, that you can use them in accordance with the Privacy Policy.</source>
-			<target state="final">Ich stimme für alle von mir über diese Webseite übertragenen Daten zu, dass Sie diese gemäß der Datenschutzrichtlinie verwenden dürfen.</target></trans-unit>
-      <trans-unit id="basket_privacy_policy_hint" xml:space="preserve" approved="yes">
-				<source>Hint</source>
-			<target state="final">Hinweis</target></trans-unit>
-      <trans-unit id="basket_privacy_policy_hint_1" xml:space="preserve" approved="yes">
-				<source>You have the right to renounce the agreement to the usage of your personal data at any time via email.</source>
-			<target state="final">Sie haben das Recht die Zustimmung zur Nutzung Ihrer Daten jederzeit per Email zu widerrufen.</target></trans-unit>
-      <trans-unit id="basket_required_message_error" xml:space="preserve" approved="yes">
-				<source>Error in the entry</source>
-			<target state="final">Fehler bei der Eingabe</target></trans-unit>
-      <trans-unit id="basket_required_message_missing" xml:space="preserve" approved="yes">
-				<source>You have not completed all the required fields for your address or you have not accepted the general terms and conditions!</source>
-			<target state="final">Sie haben nicht alle erforderlichen Felder mit Ihren Adressinformationen ausgefüllt, oder die AGB nicht akzeptiert!</target></trans-unit>
-      <trans-unit id="basket_required_message_fix" xml:space="preserve" approved="yes">
-				<source>Please correct your entries!</source>
-			<target state="final">Bitte korrigieren Sie Ihre Angaben!</target></trans-unit>
-      <trans-unit id="basket_required_button_fix" xml:space="preserve" approved="yes">
-				<source>Correct entries</source>
-			<target state="final">Angaben korrigieren</target></trans-unit>
-      <trans-unit id="basket_delete_item" xml:space="preserve" approved="yes">
-				<source>To delete an item, just enter &quot;0&quot; for the order quantity and click on &quot;Update shopping cart&quot; below.</source>
-			<target state="final">Zum Löschen eines Artikels bitte nur bei der Bestellmenge '0' eintragen und unten auf Warenkorb aktualisieren klicken!</target></trans-unit>
-      <trans-unit id="basket_delete_x_item" xml:space="preserve" approved="yes">
-				<source>To delete an item, just click on the X icon beside of the item!</source>
-			<target state="final">Zum Löschen eines Artikels auf das X Symbol neben dem Artikel klicken!</target></trans-unit>
-      <trans-unit id="basket_change_amount" xml:space="preserve" approved="yes">
-				<source>If you want to change the order quantity, just enter the required quantity in &quot;Quantity&quot; and click on &quot;Update shopping cart&quot; below.</source>
-			<target state="final">Falls Sie die Menge ändern möchten, geben Sie die gewünschte Anzahl ein und klicken auf "Warenkorb aktualisieren".</target></trans-unit>
-      <trans-unit id="product_in_basket" xml:space="preserve" approved="yes">
-				<source>The following items are in your cart</source>
-			<target state="final">Folgende Artikel befinden sich im Warenkorb</target></trans-unit>
-      <trans-unit id="product_ordered" xml:space="preserve" approved="yes">
-				<source>You have ordered the following items</source>
-			<target state="final">Sie haben folgende Artikel bestellt</target></trans-unit>
-      <trans-unit id="basket_shipping_information" xml:space="preserve" approved="yes">
-				<source>If your order should be delivered to different address, please enter the full delivery address here.</source>
-			<target state="final">Wenn Ihre Bestellung zu einer anderen Adresse geliefert werden soll, so geben Sie hier bitte die vollständige Lieferadresse an.</target></trans-unit>
-      <trans-unit id="basket_payment_bic" xml:space="preserve">
-				<source>BIC</source>
-			<target state="needs-translation">BIC</target></trans-unit>
-      <trans-unit id="basket_payment_iban" xml:space="preserve">
-				<source>IBAN</source>
-			<target state="needs-translation">IBAN</target></trans-unit>
-      <trans-unit id="basket_payment_account_holder" xml:space="preserve" approved="yes">
-				<source>Account Holder</source>
-			<target state="final">Kontoinhaber</target></trans-unit>
-      <trans-unit id="shipping_add_text" xml:space="preserve">
-				<source>Plus shipping costs, according to our freight agreement/road toll allowance!</source>
-			<target state="needs-translation">Plus shipping costs, according to our freight agreement/road toll allowance!</target></trans-unit>
-      <trans-unit id="shipping_end_text" xml:space="preserve">
-				<source>All deliveries are completed with the current freight agreement/road toll allowance not included</source>
-			<target state="needs-translation">All deliveries are completed with the current freight agreement/road toll allowance not included</target></trans-unit>
-      <trans-unit id="shipping_weight_text" xml:space="preserve">
-				<source>Total weight of your order</source>
-			<target state="needs-translation">Total weight of your order</target></trans-unit>
-      <trans-unit id="basket_payment_20" xml:space="preserve" approved="yes">
-				<source>advance payment</source>
-			<target state="final">Scheck/Vorkasse</target></trans-unit>
-      <trans-unit id="basket_payment_60" xml:space="preserve" approved="yes">
-				<source>credit card</source>
-			<target state="final">Kreditkarte</target></trans-unit>
-      <trans-unit id="basket_amount_payable" xml:space="preserve" approved="yes">
-				<source>amount payable</source>
-			<target state="final">zu zahlender Betrag</target></trans-unit>
-      <trans-unit id="basket_sender_10" xml:space="preserve">
-				<source>DHL</source>
-			<target state="needs-translation">DHL</target></trans-unit>
-      <trans-unit id="basket_weight_total" xml:space="preserve" approved="yes">
-				<source>total weigth</source>
-			<target state="final">Gesamtgewicht</target></trans-unit>
-      <trans-unit id="basket_button_continue" xml:space="preserve" approved="yes">
-				<source>continue checkout</source>
-			<target state="final">weiter</target></trans-unit>
-      <trans-unit id="vat" xml:space="preserve" approved="yes">
-				<source>VAT</source>
-			<target state="final">MwSt:</target></trans-unit>
-      <trans-unit id="no_vat" xml:space="preserve" approved="yes">
-				<source>Net</source>
-			<target state="final">netto:</target></trans-unit>
-      <trans-unit id="incl_vat" xml:space="preserve" approved="yes">
-				<source>Including VAT</source>
-			<target state="final">incl. MwSt</target></trans-unit>
-      <trans-unit id="included_vat" xml:space="preserve">
-				<source>Included VAT</source>
-			<target state="needs-translation">Included VAT</target></trans-unit>
-      <trans-unit id="includes" xml:space="preserve" approved="yes">
-				<source>includes</source>
-			<target state="final">enthält</target></trans-unit>
-      <trans-unit id="plus" xml:space="preserve" approved="yes">
-				<source>Plus</source>
-			<target state="final">zzgl.</target></trans-unit>
-      <trans-unit id="shipping" xml:space="preserve" approved="yes">
-				<source>shipping</source>
-			<target state="final">Versand</target></trans-unit>
-      <trans-unit id="p_old_price" xml:space="preserve" approved="yes">
-				<source>Old price</source>
-			<target state="final">Alter Preis</target></trans-unit>
-      <trans-unit id="p_discount" xml:space="preserve" approved="yes">
-				<source>Discount</source>
-			<target state="final">Rabatt</target></trans-unit>
-      <trans-unit id="p_discount_price" xml:space="preserve" approved="yes">
-				<source>Discount price</source>
-			<target state="final">Rabatt Preis</target></trans-unit>
-      <trans-unit id="p_unit_price" xml:space="preserve" approved="yes">
-				<source>Unit price</source>
-			<target state="final">Einzelpreis</target></trans-unit>
-      <trans-unit id="p_catalogue_price" xml:space="preserve" approved="yes">
-				<source>Catalogue price</source>
-			<target state="final">Listenpreis</target></trans-unit>
-      <trans-unit id="p_acccessory" xml:space="preserve">
-				<source>Accessories</source>
-			<target state="needs-translation">Accessories</target></trans-unit>
-      <trans-unit id="p_category" xml:space="preserve" approved="yes">
-				<source>Category</source>
-			<target state="final">Kategorie</target></trans-unit>
-      <trans-unit id="p_currency" xml:space="preserve">
-				<source>EUR</source>
-			<target state="needs-translation">EUR</target></trans-unit>
-      <trans-unit id="p_color" xml:space="preserve" approved="yes">
-				<source>Colour</source>
-			<target state="final">Farbe</target></trans-unit>
-      <trans-unit id="p_color2" xml:space="preserve" approved="yes">
-				<source>Colour 2</source>
-			<target state="final">Farbe2</target></trans-unit>
-      <trans-unit id="p_color3" xml:space="preserve" approved="yes">
-				<source>Colour 3</source>
-			<target state="final">Farbe3</target></trans-unit>
-      <trans-unit id="p_color4" xml:space="preserve" approved="yes">
-				<source>Colour 4</source>
-			<target state="final">Farbe4</target></trans-unit>
-      <trans-unit id="p_color5" xml:space="preserve" approved="yes">
-				<source>Colour 5</source>
-			<target state="final">Farbe5</target></trans-unit>
-      <trans-unit id="p_size" xml:space="preserve" approved="yes">
-				<source>Size</source>
-			<target state="final">Größe</target></trans-unit>
-      <trans-unit id="p_size2" xml:space="preserve">
-				<source>Size 2</source>
-			<target state="needs-translation">Size 2</target></trans-unit>
-      <trans-unit id="p_size3" xml:space="preserve">
-				<source>Size 3</source>
-			<target state="needs-translation">Size 3</target></trans-unit>
-      <trans-unit id="p_size4" xml:space="preserve">
-				<source>Size 4</source>
-			<target state="needs-translation">Size 4</target></trans-unit>
-      <trans-unit id="p_width" xml:space="preserve" approved="yes">
-				<source>Width</source>
-			<target state="final">Breite</target></trans-unit>
-      <trans-unit id="p_height" xml:space="preserve" approved="yes">
-				<source>Height</source>
-			<target state="final">Höhe</target></trans-unit>
-      <trans-unit id="p_width_height" xml:space="preserve" approved="yes">
-				<source>Width and Height</source>
-			<target state="final">Breite und Höhe</target></trans-unit>
-      <trans-unit id="p_gradings" xml:space="preserve" approved="yes">
-				<source>Model</source>
-			<target state="final">Ausführung</target></trans-unit>
-      <trans-unit id="p_description" xml:space="preserve" approved="yes">
-				<source>Description</source>
-			<target state="final">Beschreibung</target></trans-unit>
-      <trans-unit id="p_description2" xml:space="preserve">
-				<source>Description 2</source>
-			<target state="needs-translation">Description 2</target></trans-unit>
-      <trans-unit id="p_description3" xml:space="preserve">
-				<source>Description 3</source>
-			<target state="needs-translation">Description 3</target></trans-unit>
-      <trans-unit id="p_material" xml:space="preserve">
-				<source>Material</source>
-			<target state="needs-translation">Material</target></trans-unit>
-      <trans-unit id="p_quality" xml:space="preserve" approved="yes">
-				<source>Quality</source>
-			<target state="final">Qualität</target></trans-unit>
-      <trans-unit id="p_form" xml:space="preserve">
-				<source>Form</source>
-			<target state="needs-translation">Form</target></trans-unit>
-      <trans-unit id="p_form2" xml:space="preserve">
-				<source>Form 2</source>
-			<target state="needs-translation">Form 2</target></trans-unit>
-      <trans-unit id="p_type" xml:space="preserve" approved="yes">
-				<source>Type</source>
-			<target state="final">Art</target></trans-unit>
-      <trans-unit id="p_pattern" xml:space="preserve" approved="yes">
-				<source>Pattern</source>
-			<target state="final">Muster</target></trans-unit>
-      <trans-unit id="p_surface" xml:space="preserve" approved="yes">
-				<source>Surface</source>
-			<target state="final">Oberfläche</target></trans-unit>
-      <trans-unit id="p_angular" xml:space="preserve" approved="yes">
-				<source>Angular</source>
-			<target state="final">Winkel</target></trans-unit>
-      <trans-unit id="p_time" xml:space="preserve" approved="yes">
-				<source>Time</source>
-			<target state="final">Zeit</target></trans-unit>
-      <trans-unit id="p_time2" xml:space="preserve" approved="yes">
-				<source>Time 2</source>
-			<target state="final">Zeit 2</target></trans-unit>
-      <trans-unit id="p_guarantee" xml:space="preserve" approved="yes">
-				<source>Guarantee</source>
-			<target state="final">Garantie</target></trans-unit>
-      <trans-unit id="p_elements" xml:space="preserve" approved="yes">
-				<source>Elements</source>
-			<target state="final">Elemente</target></trans-unit>
-      <trans-unit id="p_boundary" xml:space="preserve" approved="yes">
-				<source>Boundary</source>
-			<target state="final">Umgebung</target></trans-unit>
-      <trans-unit id="p_costs" xml:space="preserve" approved="yes">
-				<source>Costs</source>
-			<target state="final">Kosten</target></trans-unit>
-      <trans-unit id="p_datasheet" xml:space="preserve" approved="yes">
-				<source>Data sheet</source>
-			<target state="final">Datenblatt</target></trans-unit>
-      <trans-unit id="p_www" xml:space="preserve" approved="yes">
-				<source>Manufacturer website</source>
-			<target state="final">Hersteller Webseite</target></trans-unit>
-      <trans-unit id="p_instock" xml:space="preserve" approved="yes">
-				<source>in stock</source>
-			<target state="final">Verfügbarkeit</target></trans-unit>
-      <trans-unit id="p_piece" xml:space="preserve" approved="yes">
-				<source>Item</source>
-			<target state="final">Stück</target></trans-unit>
-      <trans-unit id="p_via_email" xml:space="preserve" approved="yes">
-				<source>via E-mail</source>
-			<target state="final">per e-Mail</target></trans-unit>
-      <trans-unit id="p_via_telephone" xml:space="preserve" approved="yes">
-				<source>via telephone</source>
-			<target state="final">über Telefon</target></trans-unit>
-      <trans-unit id="p_email" xml:space="preserve" approved="yes">
-				<source>E-mail request for item</source>
-			<target state="final">e-Mail Anfrage zum Artikel</target></trans-unit>
-      <trans-unit id="p_email_body" xml:space="preserve" approved="yes">
-				<source>I have seen the following item</source>
-			<target state="final">Ich habe folgenden Artikel gesehen</target></trans-unit>
-      <trans-unit id="p_email_subject" xml:space="preserve" approved="yes">
-				<source>E-mail request for item</source>
-			<target state="final">e-Mail Anfrage zum Artikel</target></trans-unit>
-      <trans-unit id="p_email_question" xml:space="preserve" approved="yes">
-				<source>My questions</source>
-			<target state="final">Meine Fragen:</target></trans-unit>
-      <trans-unit id="p_email_sender" xml:space="preserve">
-				<source>Absender</source>
-			<target state="needs-translation">Absender</target></trans-unit>
-      <trans-unit id="p_email_recipient" xml:space="preserve">
-				<source>Empfänger</source>
-			<target state="needs-translation">Empfänger</target></trans-unit>
-      <trans-unit id="p_is_single" xml:space="preserve" approved="yes">
-				<source>Single product, which can only be selected once.</source>
-			<target state="final">Einzelprodukt, das nur einmal gewählt werden kann.</target></trans-unit>
-      <trans-unit id="p_related" xml:space="preserve" approved="yes">
-				<source>Related products</source>
-			<target state="final">verwandte Produkte</target></trans-unit>
-      <trans-unit id="p_delivery_status" xml:space="preserve" approved="yes">
-				<source>Delivery status</source>
-			<target state="final">Lieferstatus</target></trans-unit>
-      <trans-unit id="p_delivery_available_demand" xml:space="preserve" approved="yes">
-				<source>No delivery at the moment.</source>
-			<target state="final">Momentan leider nicht lieferbar.</target></trans-unit>
-      <trans-unit id="p_delivery_available_immediate" xml:space="preserve" approved="yes">
-				<source>Delivery within 24 hours (1 business day) after payment</source>
-			<target state="final">Lieferung innerhalb von 24 Stunden (1 Werktag) nach Zahlungseingang</target></trans-unit>
-      <trans-unit id="p_delivery_available_short" xml:space="preserve" approved="yes">
-				<source>Delivery within 48 hours (2 business days) after payment</source>
-			<target state="final">Lieferung innerhalb von 48 Stunden (2 Werktage) nach Zahlungseingang</target></trans-unit>
-      <trans-unit id="p_order_date" xml:space="preserve" approved="yes">
-				<source>Order date</source>
-			<target state="final">Bestelldatum</target></trans-unit>
-      <trans-unit id="p_checkbox1" xml:space="preserve">
-				<source>Checkbox 1 Text</source>
-			<target state="needs-translation">Checkbox 1 Text</target></trans-unit>
-      <trans-unit id="p_checkbox1_value" xml:space="preserve">
-				<source>Checkbox 1 Value</source>
-			<target state="needs-translation">Checkbox 1 Value</target></trans-unit>
-      <trans-unit id="list_buy_now" xml:space="preserve" approved="yes">
-				<source>Into the shopping cart.</source>
-			<target state="final">in den Warenkorb</target></trans-unit>
-      <trans-unit id="list_detail" xml:space="preserve" approved="yes">
-				<source>Item details</source>
-			<target state="final">Produktdetails</target></trans-unit>
-      <trans-unit id="list_next_page" xml:space="preserve" approved="yes">
-				<source>Next page</source>
-			<target state="final">nächste Seite</target></trans-unit>
-      <trans-unit id="list_prev_page" xml:space="preserve" approved="yes">
-				<source>Previous page</source>
-			<target state="final">vorherige Seite</target></trans-unit>
-      <trans-unit id="list_back_to_list" xml:space="preserve" approved="yes">
-				<source>Back to list</source>
-			<target state="final">zurück zur Liste</target></trans-unit>
-      <trans-unit id="list_item_number" xml:space="preserve" approved="yes">
-				<source>Item no.</source>
-			<target state="final">Artikel Nr.</target></trans-unit>
-      <trans-unit id="list_item_price" xml:space="preserve" approved="yes">
-				<source>Price</source>
-			<target state="final">Preis</target></trans-unit>
-      <trans-unit id="list_item_deposit" xml:space="preserve" approved="yes">
-				<source>Deposit</source>
-			<target state="final">Pfand</target></trans-unit>
-      <trans-unit id="list_item_quantity" xml:space="preserve" approved="yes">
-				<source>Quantity</source>
-			<target state="final">Menge</target></trans-unit>
-      <trans-unit id="list_item_notfound" xml:space="preserve" approved="yes">
-				<source>No item has been found for this category. Choose another subcategory.</source>
-			<target state="final">In dieser Kategorie sind keine Produkte. Bitte treffen Sie eine andere Auswahl.</target></trans-unit>
-      <trans-unit id="list_address_notfound" xml:space="preserve" approved="yes">
-				<source>No address has been found for this category. Choose another filter option.</source>
-			<target state="final">Unter dieser Kategorie gibt es keine Adresse. Treffen Sie eine andere Auswahl.</target></trans-unit>
-      <trans-unit id="single_next_product" xml:space="preserve" approved="yes">
-				<source>Next product</source>
-			<target state="final">nächstes Produkt</target></trans-unit>
-      <trans-unit id="single_prev_product" xml:space="preserve" approved="yes">
-				<source>Previous Product</source>
-			<target state="final">vorheriges Produkt</target></trans-unit>
-      <trans-unit id="search_item_notfound" xml:space="preserve" approved="yes">
-				<source>This item cannot be found.</source>
-			<target state="final">Es wurden keine Artikel gefunden.</target></trans-unit>
-      <trans-unit id="search_button" xml:space="preserve" approved="yes">
-				<source>Search</source>
-			<target state="final">Suchen</target></trans-unit>
-      <trans-unit id="search_for" xml:space="preserve" approved="yes">
-				<source>Search for</source>
-			<target state="final">Suche nach</target></trans-unit>
-      <trans-unit id="error_not_logged_in" xml:space="preserve" approved="yes">
-				<source>You are not logged onto the system.</source>
-			<target state="final">Um den Merkzettel zu sehen melden Sie sich bitte an.</target></trans-unit>
-      <trans-unit id="person_cards_number" xml:space="preserve" approved="yes">
-				<source>card number</source>
-			<target state="final">vierstellige Kartennummer</target></trans-unit>
-      <trans-unit id="person_cards_secure_code" xml:space="preserve" approved="yes">
-				<source>Security code</source>
-			<target state="final">Sicherheitscode</target></trans-unit>
-      <trans-unit id="person_cards_lasting" xml:space="preserve" approved="yes">
-				<source>Valid to (Month/Year)</source>
-			<target state="final">Gültigkeit bis (Monat/Jahr)</target></trans-unit>
-      <trans-unit id="person_cards_owner" xml:space="preserve" approved="yes">
-				<source>Name on card</source>
-			<target state="final">Karteninhaber (Vor- und Nachname)</target></trans-unit>
-      <trans-unit id="person_cards_cc_type_title" xml:space="preserve" approved="yes">
-				<source>Choose Card</source>
-			<target state="final">Kreditkarte auswählen</target></trans-unit>
-      <trans-unit id="person_cards_cc_type_1" xml:space="preserve">
-				<source>American Express</source>
-			<target state="needs-translation">American Express</target></trans-unit>
-      <trans-unit id="person_cards_cc_type_2" xml:space="preserve">
-				<source>Diners Club</source>
-			<target state="needs-translation">Diners Club</target></trans-unit>
-      <trans-unit id="person_cards_cc_type_3" xml:space="preserve">
-				<source>Master Card</source>
-			<target state="needs-translation">Master Card</target></trans-unit>
-      <trans-unit id="person_cards_cc_type_4" xml:space="preserve">
-				<source>VISA</source>
-			<target state="needs-translation">VISA</target></trans-unit>
-      <trans-unit id="memo_not_logged_in" xml:space="preserve">
-				<source>You are not logged onto the system.</source>
-			<target state="needs-translation">You are not logged onto the system.</target></trans-unit>
-      <trans-unit id="sellers_salutation" xml:space="preserve" approved="yes">
-				<source>Kind regards</source>
-			<target state="final">Mit freundlichen Grüßen,</target></trans-unit>
-      <trans-unit id="sellers_company" xml:space="preserve" approved="yes">
-				<source>company of the seller</source>
-			<target state="final">Firma</target></trans-unit>
-      <trans-unit id="sellers_name" xml:space="preserve" approved="yes">
-				<source>name of the seller</source>
-			<target state="final">Name des Verkäufers</target></trans-unit>
-      <trans-unit id="sellers_address" xml:space="preserve" approved="yes">
-				<source>address of the seller</source>
-			<target state="final">Straße des Verkäufers</target></trans-unit>
-      <trans-unit id="sellers_city" xml:space="preserve" approved="yes">
-				<source>city of the seller</source>
-			<target state="final">Postleitzahl und Stadt des Verkäufers</target></trans-unit>
-      <trans-unit id="sellers_country" xml:space="preserve" approved="yes">
-				<source>county of the seller</source>
-			<target state="final">Land des Verkäufers</target></trans-unit>
-      <trans-unit id="sellers_phone" xml:space="preserve" approved="yes">
-				<source>telephone of the seller</source>
-			<target state="final">Telefon des Verkäufers</target></trans-unit>
-      <trans-unit id="sellers_fax" xml:space="preserve" approved="yes">
-				<source>fax of the seller</source>
-			<target state="final">Faxnummer des Verkäufers</target></trans-unit>
-      <trans-unit id="sellers_email" xml:space="preserve" approved="yes">
-				<source>e-mail of the seller</source>
-			<target state="final">E-Mail des Verkäufers</target></trans-unit>
-      <trans-unit id="sellers_internet" xml:space="preserve" approved="yes">
-				<source>internet address of the seller</source>
-			<target state="final">Internetaddresse des Verkäufers</target></trans-unit>
-      <trans-unit id="sellers_internet_other" xml:space="preserve" approved="yes">
-				<source>internet addresses of the seller</source>
-			<target state="final">andere Internetaddressen des Verkäufers</target></trans-unit>
-      <trans-unit id="sellers_hrb" xml:space="preserve" approved="yes">
-				<source>Registration court of the seller</source>
-			<target state="final">Handelsregister Teil B (AG, GmbH)</target></trans-unit>
-      <trans-unit id="sellers_executive" xml:space="preserve" approved="yes">
-				<source>Managing Director of the seller</source>
-			<target state="final">Geschäftsführer Name</target></trans-unit>
-      <trans-unit id="sellers_vat_id" xml:space="preserve" approved="yes">
-				<source>EU VAT No of the seller</source>
-			<target state="final">USt-ID des Verkäufers</target></trans-unit>
-      <trans-unit id="order_confirmation" xml:space="preserve" approved="yes">
-				<source>Order confirmation</source>
-			<target state="final">Bestellbestätigung</target></trans-unit>
-      <trans-unit id="order_confirmation_thanks" xml:space="preserve" approved="yes">
-				<source>Thank you for your order!</source>
-			<target state="final">Vielen Dank für Ihre Bestellung</target></trans-unit>
-      <trans-unit id="order_confirmation_next_steps" xml:space="preserve" approved="yes">
-				<source>The next steps</source>
-			<target state="final">Die nächsten Schritte</target></trans-unit>
-      <trans-unit id="order_confirmation_articles_delivery" xml:space="preserve" approved="yes">
-				<source>The delivery of the articles will take place in the next 14 days.</source>
-			<target state="final">Die Auslieferung der Artikel erfolgt innerhalb von 14 Tagen.</target></trans-unit>
-      <trans-unit id="order_confirmation_complete" xml:space="preserve" approved="yes">
-				<source>Your order is now complete and has the following order number:</source>
-			<target state="final">Ihre Bestellung ist nun abgeschlossen und hat folgende Bestellnummer:</target></trans-unit>
-      <trans-unit id="order_confirmation_email" xml:space="preserve" approved="yes">
-				<source>The order confirmation will be sent to the following e-mail address:</source>
-			<target state="final">Die Bestellbestätigung wird an folgende Emailadresse geschickt:</target></trans-unit>
-      <trans-unit id="order_confirmation_payment" xml:space="preserve" approved="yes">
-				<source>Method of payment</source>
-			<target state="final">Zahlungsart</target></trans-unit>
-      <trans-unit id="order_confirmation_10" xml:space="preserve" approved="yes">
-				<source>To be agreed</source>
-			<target state="final">Nach Absprache</target></trans-unit>
-      <trans-unit id="order_confirmation_10_text" xml:space="preserve" approved="yes">
-				<source>Please contact us</source>
-			<target state="final">Bitte setzen Sie sich mit uns in Verbindung</target></trans-unit>
-      <trans-unit id="order_confirmation_15" xml:space="preserve" approved="yes">
-				<source>Direct Debit</source>
-			<target state="final">Lastschrift</target></trans-unit>
-      <trans-unit id="order_confirmation_15_text" xml:space="preserve" approved="yes">
-				<source>The amount will be withdrawn from your account.</source>
-			<target state="final">Der Betrag wird von Ihrem Konto abgebucht.</target></trans-unit>
-      <trans-unit id="order_confirmation_20" xml:space="preserve" approved="yes">
-				<source>Payment in advance</source>
-			<target state="final">Vorkasse</target></trans-unit>
-      <trans-unit id="order_confirmation_20_text" xml:space="preserve" approved="yes">
-				<source>Please transfer the invoice amount to the following bank account:</source>
-			<target state="final">Bitte überweisen Sie den Rechnungsbetrag auf folgendes Konto</target></trans-unit>
-      <trans-unit id="order_confirmation_20_owner" xml:space="preserve" approved="yes">
-				<source>Account holder: </source>
-			<target state="final">Kontoinhaber</target></trans-unit>
-      <trans-unit id="order_confirmation_20_account" xml:space="preserve" approved="yes">
-				<source>Account number: </source>
-			<target state="final">Kontonummer</target></trans-unit>
-      <trans-unit id="order_confirmation_20_bank_no" xml:space="preserve" approved="yes">
-				<source>Bank identification code: </source>
-			<target state="final">BLZ</target></trans-unit>
-      <trans-unit id="order_confirmation_20_bank" xml:space="preserve" approved="yes">
-				<source>Bank: </source>
-			<target state="final">Bank</target></trans-unit>
-      <trans-unit id="order_confirmation_20_bic" xml:space="preserve" approved="yes">
-				<source>BIC: </source>
-			<target state="final">BIC</target></trans-unit>
-      <trans-unit id="order_confirmation_20_iban" xml:space="preserve" approved="yes">
-				<source>IBAN: </source>
-			<target state="final">IBAN</target></trans-unit>
-      <trans-unit id="order_confirmation_30" xml:space="preserve" approved="yes">
-				<source>Surname:</source>
-			<target state="final">Nachnahme</target></trans-unit>
-      <trans-unit id="order_confirmation_30_text" xml:space="preserve" approved="yes">
-				<source>The product will be delivered to you directly. Payable on receipt.</source>
-			<target state="final">Die Ware wird Ihnen direkt zugesandt. Sie bezahlen die Ware bei Erhalt.</target></trans-unit>
-      <trans-unit id="order_confirmation_40" xml:space="preserve" approved="yes">
-				<source>Invoice:</source>
-			<target state="final">Rechnung</target></trans-unit>
-      <trans-unit id="order_confirmation_40_text" xml:space="preserve" approved="yes">
-				<source>The ordered item will be delivered with an invoice.</source>
-			<target state="final">Die bestellte Ware wird Ihnen auf Rechnung zugesandt.</target></trans-unit>
-      <trans-unit id="order_confirmation_50" xml:space="preserve" approved="yes">
-				<source>Cash payment:</source>
-			<target state="final">Barzahlung</target></trans-unit>
-      <trans-unit id="order_confirmation_50_text" xml:space="preserve" approved="yes">
-				<source>We only accept cash payment on collection!</source>
-			<target state="final">Wir akzeptieren nur Barzahlung bei Abholung!</target></trans-unit>
-      <trans-unit id="order_confirmation_50_button_text" xml:space="preserve">
-				<source>Complete the ordering process by paying by credit card</source>
-			<target state="translated">Bestellprozess durch Zahlung mit Kreditkarte abschließen</target></trans-unit>
-      <trans-unit id="order_confirmation_90" xml:space="preserve">
-				<source>PayPal</source>
-			<target state="needs-translation">PayPal</target></trans-unit>
-      <trans-unit id="order_confirmation_90_text" xml:space="preserve" approved="yes">
-				<source>To complete the ordering process by PayPal click here </source>
-			<target state="final">Die Bestellung wurde per PayPal bezahlt.</target></trans-unit>
-      <trans-unit id="order_confirmation_delivery_order_status" xml:space="preserve" approved="yes">
-				<source>Delivery and order status:</source>
-			<target state="final">Liefer- und Bestellstatus</target></trans-unit>
-      <trans-unit id="order_confirmation_goods_remain" xml:space="preserve" approved="yes">
-				<source>The goods remain our property until full payment has been effected.</source>
-			<target state="final">Die Ware bleibt bis zur vollständigen Bezahlung unser Eigentum.</target></trans-unit>
-      <trans-unit id="order_confirmation_date_of_order" xml:space="preserve" approved="yes">
-				<source>Date of your order:</source>
-			<target state="final">Ihr Bestelldatum</target></trans-unit>
-      <trans-unit id="order_confirmation_view_status_with_code" xml:space="preserve" approved="yes">
-				<source>You can check your order status at anytime using your order status code:</source>
-			<target state="final">Sie können Ihren Bestellstatus jederzeit mittels Ihres Bestellstatus-Codes überprüfen</target></trans-unit>
-      <trans-unit id="order_confirmation_check_order_status" xml:space="preserve" approved="yes">
-				<source>Check order status!</source>
-			<target state="final">Bestellstatus überprüfen!</target></trans-unit>
-      <trans-unit id="order_confirmation_order_status" xml:space="preserve" approved="yes">
-				<source>ORDER STATUS:</source>
-			<target state="final">BESTELLSTATUS</target></trans-unit>
-      <trans-unit id="order_confirmation_status_address" xml:space="preserve" approved="yes">
-				<source>You can view the status of your order at this address</source>
-			<target state="final">Sie können den Status Ihrer Bestellung an dieser Adresse einsehen</target></trans-unit>
-      <trans-unit id="order_confirmation_your_order" xml:space="preserve" approved="yes">
-				<source>Thank you for your order</source>
-			<target state="final">Ihre Bestellung</target></trans-unit>
-      <trans-unit id="order_confirmation_your_order_uid" xml:space="preserve" approved="yes">
-				<source>order number</source>
-			<target state="final">Bestellnummer</target></trans-unit>
-      <trans-unit id="order_confirmation_new_order" xml:space="preserve" approved="yes">
-				<source>new order</source>
-			<target state="final">Neue Bestellung</target></trans-unit>
-      <trans-unit id="order_confirmation_your_order_details" xml:space="preserve" approved="yes">
-				<source>order details:</source>
-			<target state="final">Einzelheiten der Bestellung</target></trans-unit>
-      <trans-unit id="memo_no_product" xml:space="preserve" approved="yes">
-				<source>There are no products in the leaflet.</source>
-			<target state="final">Sie haben kein Produkt in den in den Merkzettel gelegt.</target></trans-unit>
-      <trans-unit id="method_hint" xml:space="preserve">
-				<source>Your data is transmitted securely via an encoded connection.</source>
-			<target state="needs-translation">Your data is transmitted securely via an encoded connection.</target></trans-unit>
-      <trans-unit id="order_confirmation_owner" xml:space="preserve">
-				<source>Account holder </source>
-			<target state="needs-translation">Account holder </target></trans-unit>
-      <trans-unit id="order_confirmation_account" xml:space="preserve">
-				<source>Account number </source>
-			<target state="needs-translation">Account number </target></trans-unit>
-      <trans-unit id="order_confirmation_bank_no" xml:space="preserve">
-				<source>Bank sort code </source>
-			<target state="translated">Bankleitzahl </target></trans-unit>
-      <trans-unit id="order_confirmation_bank" xml:space="preserve">
-				<source>Bank </source>
-			<target state="needs-translation">Bank </target></trans-unit>
-      <trans-unit id="order_confirmation_bic" xml:space="preserve">
-				<source>BIC </source>
-			<target state="needs-translation">BIC </target></trans-unit>
-      <trans-unit id="order_confirmation_iban" xml:space="preserve">
-				<source>IBAN </source>
-			<target state="needs-translation">IBAN </target></trans-unit>
-      <trans-unit id="order_confirmation_order_uid" xml:space="preserve" approved="yes">
-				<source>It is essential to state your order number:</source>
-			<target state="final">Bitte Ihre Bestellnummer unbedingt angeben</target></trans-unit>
-      <trans-unit id="basket_voucher" xml:space="preserve" approved="yes">
-				<source>Voucher:</source>
-			<target state="final">Gutschein:</target></trans-unit>
-      <trans-unit id="basket_voucher_price_act" xml:space="preserve" approved="yes">
-				<source>Discount:</source>
-			<target state="final">Preisnachlass:</target></trans-unit>
-      <trans-unit id="basket_voucher_wrong_code" xml:space="preserve" approved="yes">
-				<source>The voucher code you entered seems to be wrong. Please try again.</source>
-			<target state="final">Der eingegebene Gutscheincode ist falsch. Bitte versuchen Sie es nocheinmal.</target></trans-unit>
-      <trans-unit id="basket_voucher_done" xml:space="preserve" approved="yes">
-				<source>You have already redeemed this voucher code!</source>
-			<target state="final">Sie haben Ihren Gutschein bereits eingelöst!</target></trans-unit>
-      <trans-unit id="basket_found" xml:space="preserve" approved="yes">
-				<source>Found at -my internet address - </source>
-			<target state="final">Gefunden bei -meine Internetadresse- </target></trans-unit>
-      <trans-unit id="basket_voucher_calculate" xml:space="preserve">
-				<source>Calculate new price</source>
-			<target state="needs-translation">Calculate new price</target></trans-unit>
-      <trans-unit id="basket_shipping_price_choice" xml:space="preserve" approved="yes">
-				<source>Shipping costs:</source>
-			<target state="final">Versandkosten:</target></trans-unit>
-      <trans-unit id="basket_tipafriend" xml:space="preserve" approved="yes">
-				<source>Recommend a friend.</source>
-			<target state="final">Einem Freund weiter empfehlen.</target></trans-unit>
-      <trans-unit id="basket_change_item" xml:space="preserve" approved="yes">
-				<source>If you want to change the order quantity, just enter the required quantity in &quot;Quantity&quot; and click on &quot;Update shopping basket&quot; below.</source>
-			<target state="final">Falls Sie die Anzahl ändern möchten, geben Sie die gewünschte Menge ein und klicken auf "Warenkorb aktualisieren".</target></trans-unit>
-      <trans-unit id="order_confirmation_info" xml:space="preserve" approved="yes">
-				<source>Your data is transmitted securely via an encoded connection.</source>
-			<target state="final">Ihre Daten werden sicher über eine verschlüsselte Verbindung übertragen.</target></trans-unit>
-      <trans-unit id="order_confirmation_hint" xml:space="preserve" approved="yes">
-				<source>By making the payment you complete the ordering process!</source>
-			<target state="final">Durch die Bezahlung schließen Sie den Bestellvorgang ab!</target></trans-unit>
-      <trans-unit id="basket_artno" xml:space="preserve">
-				<source>Art.no.</source>
-			<target state="needs-translation">Art.no.</target></trans-unit>
-      <trans-unit id="basket_fax" xml:space="preserve" approved="yes">
-				<source>Fax No.</source>
-			<target state="final">Fax</target></trans-unit>
-      <trans-unit id="basket_name_prename" xml:space="preserve" approved="yes">
-				<source>Prename</source>
-			<target state="final">Vorname*</target></trans-unit>
-      <trans-unit id="basket_address_plus" xml:space="preserve" approved="yes">
-				<source>Addition to address</source>
-			<target state="final">Adresszusatz</target></trans-unit>
-      <trans-unit id="bank_receiver" xml:space="preserve">
-				<source>Account owner</source>
-			<target state="needs-translation">Account owner</target></trans-unit>
-      <trans-unit id="p_currency_no_tax" xml:space="preserve">
-				<source>EUR</source>
-			<target state="needs-translation">EUR</target></trans-unit>
-      <trans-unit id="order_status_wrong_number" xml:space="preserve" approved="yes">
-				<source>The order code does not exist! Please verify and try again!</source>
-			<target state="final">Der Bestellstatus-Code existiert nicht! Bitte stellen Sie die Richtigkeit sicher und versuchen es noch einmal!</target></trans-unit>
-      <trans-unit id="order_status_view" xml:space="preserve" approved="yes">
-				<source>View order status</source>
-			<target state="final">Bestellstatus einsehen</target></trans-unit>
-      <trans-unit id="order_status_use_number" xml:space="preserve" approved="yes">
-				<source>Please use that number for the further communication with us.</source>
-			<target state="final">Bitte benutzen Sie diese Nummer als Referenz,  mit uns Kontakt aufnehmen.</target></trans-unit>
-      <trans-unit id="order_status_tracking" xml:space="preserve" approved="yes">
-				<source>You can check your order status with this number: click here to show the  current status.</source>
-			<target state="final">Sie können Ihre Bestellung jederzeit überprüfen und den Stand der Bearbeitung verfolgen,  die Auftragstatusnummer auf folgender Seite eingeben</target></trans-unit>
-      <trans-unit id="order_party_change_button" xml:space="preserve" approved="yes">
-				<source>Select party</source>
-			<target state="final">Person auswählen</target></trans-unit>
-      <trans-unit id="order_group_change_button" xml:space="preserve" approved="yes">
-				<source>Select group</source>
-			<target state="final">Gruppe auswählen</target></trans-unit>
-      <trans-unit id="order_view_change_button" xml:space="preserve" approved="yes">
-				<source>Select order view</source>
-			<target state="final">Bestellanzeige auswählen</target></trans-unit>
-      <trans-unit id="order_view_crdate_max" xml:space="preserve" approved="yes">
-				<source>End time</source>
-			<target state="final">Endezeit</target></trans-unit>
-      <trans-unit id="order_view_crdate_min" xml:space="preserve" approved="yes">
-				<source>Start time</source>
-			<target state="final">Startzeit</target></trans-unit>
-      <trans-unit id="tracking_status_bill" xml:space="preserve" approved="yes">
-				<source>Your invoice #:</source>
-			<target state="final">Ihre Rechnungs #</target></trans-unit>
-      <trans-unit id="tracking_status_order" xml:space="preserve" approved="yes">
-				<source>Your order #:</source>
-			<target state="final">Ihre Bestellung #</target></trans-unit>
-      <trans-unit id="tracking_status_status" xml:space="preserve" approved="yes">
-				<source>has the following status</source>
-			<target state="final">hat folgenden Status</target></trans-unit>
-      <trans-unit id="tracking_status_status_text" xml:space="preserve" approved="yes">
-				<source>(see last line for current status)</source>
-			<target state="final">(siehe letzte Zeile für aktuellsten Stand)</target></trans-unit>
-      <trans-unit id="tracking_status_data" xml:space="preserve" approved="yes">
-				<source>Additional data for status change:</source>
-			<target state="final">Zusätzliche Daten für die Statusänderung:</target></trans-unit>
-      <trans-unit id="tracking_status_date" xml:space="preserve" approved="yes">
-				<source>Date/time:</source>
-			<target state="final">Datum/Zeit</target></trans-unit>
-      <trans-unit id="tracking_status_code" xml:space="preserve" approved="yes">
-				<source>order status code</source>
-			<target state="final">Auftragsnummer</target></trans-unit>
-      <trans-unit id="tracking_status_action" xml:space="preserve" approved="yes">
-				<source>Action:</source>
-			<target state="final">Aktion</target></trans-unit>
-      <trans-unit id="tracking_status_comment" xml:space="preserve" approved="yes">
-				<source>Comment:</source>
-			<target state="final">Kommentar</target></trans-unit>
-      <trans-unit id="tracking_status_choose_order" xml:space="preserve" approved="yes">
-				<source>Select order</source>
-			<target state="final">Bestellung wählen</target></trans-unit>
-      <trans-unit id="tracking_status_choose_order_button" xml:space="preserve" approved="yes">
-				<source>Select</source>
-			<target state="final">auswählen</target></trans-unit>
-      <trans-unit id="tracking_status_change" xml:space="preserve" approved="yes">
-				<source>Change order status</source>
-			<target state="final">Bestellstatus ändern</target></trans-unit>
-      <trans-unit id="tracking_status_change_button" xml:space="preserve" approved="yes">
-				<source>Add order status</source>
-			<target state="final">Bestellstatus hinzufügen</target></trans-unit>
-      <trans-unit id="tracking_status_order_comment" xml:space="preserve" approved="yes">
-				<source>Comment on new order status</source>
-			<target state="final">Kommentar zum neuen Bestellstatus</target></trans-unit>
-      <trans-unit id="tracking_status_password" xml:space="preserve" approved="yes">
-				<source>Password:</source>
-			<target state="final">Passwort</target></trans-unit>
-      <trans-unit id="tracking_status_password_button" xml:space="preserve" approved="yes">
-				<source>Enter password</source>
-			<target state="final">Passwort eingeben</target></trans-unit>
-      <trans-unit id="tracking_status_email" xml:space="preserve" approved="yes">
-				<source>E-mail notification:</source>
-			<target state="final">Email-Benachrichtigung</target></trans-unit>
-      <trans-unit id="tracking_status_email_text" xml:space="preserve" approved="yes">
-				<source>If you want to be informed of your order status as soon as it has been changed, check the following:</source>
-			<target state="final">Wenn Sie sich über den Status Ihrer Bestellung informieren lassen wollen sobald sich der Status geändert hat, dann überprüfen Sie bitte folgendes</target></trans-unit>
-      <trans-unit id="tracking_status_email_checkbox" xml:space="preserve" approved="yes">
-				<source>The message about the ordering procedure.</source>
-			<target state="final">Nachricht über Ablauf des Bestellvorgangs erhalten.</target></trans-unit>
-      <trans-unit id="tracking_status_email_button" xml:space="preserve" approved="yes">
-				<source>Update</source>
-			<target state="final">Aktualisieren</target></trans-unit>
-      <trans-unit id="tracking_status_message" xml:space="preserve" approved="yes">
-				<source>Message to SHOP:</source>
-			<target state="final">Nachricht an SHOP</target></trans-unit>
-      <trans-unit id="tracking_status_message_text" xml:space="preserve" approved="yes">
-				<source>Here you can send us a message about your order.</source>
-			<target state="final">Hier können Sie uns eine Nachricht bezüglich Ihrer Bestellung schicken.</target></trans-unit>
-      <trans-unit id="tracking_status_message_subject" xml:space="preserve" approved="yes">
-				<source>Select subject:</source>
-			<target state="final">Betreff auswählen</target></trans-unit>
-      <trans-unit id="tracking_status_message_1" xml:space="preserve" approved="yes">
-				<source>Customer order sent</source>
-			<target state="final">Bestellung vom Kunden abgeschickt</target></trans-unit>
-      <trans-unit id="tracking_status_message_2" xml:space="preserve" approved="yes">
-				<source>Order from shop received and accepted</source>
-			<target state="final">Bestellung vom Shop erhalten und angenommen</target></trans-unit>
-      <trans-unit id="tracking_status_message_10" xml:space="preserve" approved="yes">
-				<source>Shop is waiting for goods delivery from third party </source>
-			<target state="final">Warten auf Warenlieferung eines Dritten</target></trans-unit>
-      <trans-unit id="tracking_status_message_11" xml:space="preserve" approved="yes">
-				<source>Shop is waiting for customer payment</source>
-			<target state="final">Warten auf Bezahlung vom Kunden</target></trans-unit>
-      <trans-unit id="tracking_status_message_12" xml:space="preserve" approved="yes">
-				<source>Shop is waiting for customer order</source>
-			<target state="final">Bestellung wird für den Versand vorbereitet</target></trans-unit>
-      <trans-unit id="tracking_status_message_13" xml:space="preserve" approved="yes">
-				<source>Order has been paid</source>
-			<target state="final">Bestellung wurde bezahlt</target></trans-unit>
-      <trans-unit id="tracking_status_message_20" xml:space="preserve" approved="yes">
-				<source>Goods have been delivered to customer</source>
-			<target state="final">Waren an Kunden geliefert</target></trans-unit>
-      <trans-unit id="tracking_status_message_21" xml:space="preserve" approved="yes">
-				<source>Vouchers have been delivered to customer</source>
-			<target state="final">Geschenkgutscheine an Kunden geliefert</target></trans-unit>
-      <trans-unit id="tracking_status_message_30" xml:space="preserve" approved="yes">
-				<source>Other messages from shop</source>
-			<target state="final">Andere Meldung vom Shop</target></trans-unit>
-      <trans-unit id="tracking_status_message_31" xml:space="preserve" approved="yes">
-				<source>An invoice has been issued</source>
-			<target state="final">Eine Rechnung ist erstellt worden</target></trans-unit>
-      <trans-unit id="tracking_status_message_32" xml:space="preserve" approved="yes">
-				<source>An invoice has been sent.</source>
-			<target state="final">Eine Rechnung ist verschickt worden.</target></trans-unit>
-      <trans-unit id="tracking_status_message_33" xml:space="preserve" approved="yes">
-				<source>This order is tax-free.</source>
-			<target state="final">Diese Bestellung gilt als steuerfrei.</target></trans-unit>
-      <trans-unit id="tracking_status_message_50" xml:space="preserve" approved="yes">
-				<source>Customer requires the order to be cancelled</source>
-			<target state="final">Kunde wünscht die Stornierung der Bestellung</target></trans-unit>
-      <trans-unit id="tracking_status_message_51" xml:space="preserve" approved="yes">
-				<source>Message from customer to shop</source>
-			<target state="final">Nachricht von Kunde an den Shop</target></trans-unit>
-      <trans-unit id="tracking_status_message_52" xml:space="preserve" approved="yes">
-				<source>Customer requires the invoice including tax</source>
-			<target state="final">Kunde wünscht Rechnung inkl.Steuer</target></trans-unit>
-      <trans-unit id="tracking_status_message_53" xml:space="preserve" approved="yes">
-				<source>Customer requires a tax-free invoice</source>
-			<target state="final">Kunde wünscht steuerfreie Rechnung</target></trans-unit>
-      <trans-unit id="tracking_status_message_60" xml:space="preserve" approved="yes">
-				<source>Voucher message to the recipient</source>
-			<target state="final">Sende Geschenkgutein Nachricht an den Empfänger</target></trans-unit>
-      <trans-unit id="tracking_status_message_100" xml:space="preserve" approved="yes">
-				<source>Order dispatched</source>
-			<target state="final">Bestellung versendet</target></trans-unit>
-      <trans-unit id="tracking_status_message_101" xml:space="preserve" approved="yes">
-				<source>Order completed</source>
-			<target state="final">Bestellung geschlossen</target></trans-unit>
-      <trans-unit id="tracking_status_message_200" xml:space="preserve" approved="yes">
-				<source>Order cancelled</source>
-			<target state="final">Bestellung storniert</target></trans-unit>
-      <trans-unit id="tracking_status_message_subject_comment" xml:space="preserve" approved="yes">
-				<source>Remarks:</source>
-			<target state="final">Bemerkung</target></trans-unit>
-      <trans-unit id="tracking_status_message_button" xml:space="preserve" approved="yes">
-				<source>Send message</source>
-			<target state="final">Nachricht senden</target></trans-unit>
-      <trans-unit id="tracking_status_order_original" xml:space="preserve" approved="yes">
-				<source>Order confirmation - original:</source>
-			<target state="final">Bestellbestätigung - Original</target></trans-unit>
-      <trans-unit id="tracking_status_number" xml:space="preserve" approved="yes">
-				<source>Enter order status code:</source>
-			<target state="final">Bestellstatus-Code eingeben</target></trans-unit>
-      <trans-unit id="tracking_status_header" xml:space="preserve" approved="yes">
-				<source>order status</source>
-			<target state="final">Auftragsstatus</target></trans-unit>
-      <trans-unit id="tracking_status_code_enter" xml:space="preserve" approved="yes">
-				<source>Enter your order status code.</source>
-			<target state="final">Geben Sie Ihre Auftragsstatusnummer ein.</target></trans-unit>
-      <trans-unit id="tracking_status_code_wrong" xml:space="preserve" approved="yes">
-				<source>The order status code does not exist. Make sure that the code is entered correctly. Try it again.</source>
-			<target state="final">Die Auftragsstatusnummer existiert nicht! Gehen Sie sicher, dass es die richtige Nummer ist und versuchen Sie es erneut!.</target></trans-unit>
-      <trans-unit id="tracking_status_number_button" xml:space="preserve" approved="yes">
-				<source>View status</source>
-			<target state="final">Status sehen</target></trans-unit>
-      <trans-unit id="tracking_email_status_label" xml:space="preserve" approved="yes">
-				<source>Order status </source>
-			<target state="final">Bestellstatus </target></trans-unit>
-      <trans-unit id="tracking_email_status" xml:space="preserve" approved="yes">
-				<source>Status:</source>
-			<target state="final">Status</target></trans-unit>
-      <trans-unit id="tracking_email_time" xml:space="preserve" approved="yes">
-				<source>Time:</source>
-			<target state="final">Zeit</target></trans-unit>
-      <trans-unit id="tracking_email_info" xml:space="preserve" approved="yes">
-				<source>ORDER INFORMATION</source>
-			<target state="final">BESTELLINFORMATION</target></trans-unit>
-      <trans-unit id="tracking_email_comment" xml:space="preserve" approved="yes">
-				<source>Remarks:</source>
-			<target state="final">Bemerkung</target></trans-unit>
-      <trans-unit id="tracking_email_status_view" xml:space="preserve" approved="yes">
-				<source>Click on your data to view:</source>
-			<target state="final">Klicken Sie um Ihre Daten jetzt einzusehen:</target></trans-unit>
-      <trans-unit id="tracking_email_status_changed" xml:space="preserve" approved="yes">
-				<source>The status of your order has been changed:</source>
-			<target state="final">Der Status Ihrer Bestellung wurde geändert:</target></trans-unit>
-      <trans-unit id="tracking_email_view_information" xml:space="preserve" approved="yes">
-				<source>You can view the order status at anytime and change order information if required using your order status code:</source>
-			<target state="final">Mit Ihrem Bestellstatus-Code können Sie jederzeit den Bestellstatus einsehen und evtl. Bestellinformationen ändern</target></trans-unit>
-      <trans-unit id="new_user_name" xml:space="preserve" approved="yes">
-				<source>Your user name is as follows:</source>
-			<target state="final">Ihr Benutzername lautet</target></trans-unit>
-      <trans-unit id="new_user_password" xml:space="preserve" approved="yes">
-				<source>Your password is as follows:</source>
-			<target state="final">Ihr Passwort lautet</target></trans-unit>
-      <trans-unit id="new_user_access_data" xml:space="preserve" approved="yes">
-				<source>Your access data for </source>
-			<target state="final">Ihre Zugangsdaten bei </target></trans-unit>
-      <trans-unit id="new_user_welcome" xml:space="preserve" approved="yes">
-				<source>We are delighted to welcome you as a new customer.</source>
-			<target state="final">Wir freuen uns, Sie bei uns als neuen Kunden begrüßen zu dürfen.</target></trans-unit>
-      <trans-unit id="new_user_login" xml:space="preserve" approved="yes">
-				<source>For future orders you can log on with your user name and your password.</source>
-			<target state="final">In zukünftigen Bestellungen können Sie sich mit Ihrem Benutzernamen und Ihrem Passwort anmelden, um zu bestellen.</target></trans-unit>
-      <trans-unit id="new_user_keep_email" xml:space="preserve" approved="yes">
-				<source>Please keep this e-mail in a safe place.</source>
-			<target state="final">Bitte bewahren Sie diese E-Mail gut auf.</target></trans-unit>
-      <trans-unit id="register_now" xml:space="preserve" approved="yes">
-				<source>If you have not registered yet start with your declaration now in the shop</source>
-			<target state="final">Falls Sie noch nicht registriert sind, nehmen Sie Ihre Anmeldung im Shop jetzt vor</target></trans-unit>
-      <trans-unit id="gift_code" xml:space="preserve" approved="yes">
-				<source>Gift coupon code</source>
-			<target state="final">Code des Geschenkgutscheins</target></trans-unit>
-      <trans-unit id="gift_redeem" xml:space="preserve" approved="yes">
-				<source>Cash in gift code.</source>
-			<target state="final">Geschenkgutschein einlösen</target></trans-unit>
-      <trans-unit id="gift_code_redeemed" xml:space="preserve" approved="yes">
-				<source>This gift code has been cashed into voucher points</source>
-			<target state="final">Dieser Gutscheincode wurde umgewandelt in folgende Kontopunkte</target></trans-unit>
-      <trans-unit id="gift_codes_redeemed" xml:space="preserve" approved="yes">
-				<source>You gift codes have been redeemed into the following voucher points</source>
-			<target state="final">Ihre eingelöste(n) Gutscheinpunkt(e) wurden in folgende Kontopunkte umgewandelt</target></trans-unit>
-      <trans-unit id="gift_sender_name" xml:space="preserve" approved="yes">
-				<source>Sender name</source>
-			<target state="final">Absender Name</target></trans-unit>
-      <trans-unit id="gift_sender_email" xml:space="preserve" approved="yes">
-				<source>Sender email</source>
-			<target state="final">Absender Email</target></trans-unit>
-      <trans-unit id="gift_recipient_name" xml:space="preserve" approved="yes">
-				<source>Recipient name</source>
-			<target state="final">Empfänger Name</target></trans-unit>
-      <trans-unit id="gift_recipient_email" xml:space="preserve" approved="yes">
-				<source>Recipient email</source>
-			<target state="final">Empfänger Email</target></trans-unit>
-      <trans-unit id="voucher_received" xml:space="preserve" approved="yes">
-				<source>You have received a voucher code.</source>
-			<target state="final">Sie haben ein Gutschein Zertifikat erhalten.</target></trans-unit>
-      <trans-unit id="voucher_unique" xml:space="preserve" approved="yes">
-				<source>Unique voucher code</source>
-			<target state="final">Einmaliger Gutscheincode</target></trans-unit>
-      <trans-unit id="voucher_value_euro" xml:space="preserve" approved="yes">
-				<source>Value of the voucher in Euro</source>
-			<target state="final">Wert des Gutscheins in Euro</target></trans-unit>
-      <trans-unit id="text_message_shipping_10" xml:space="preserve">
-				<source>Shipping to countries #10</source>
-			<target state="needs-translation">Shipping to countries #10</target></trans-unit>
-      <trans-unit id="text_message_shipping_20" xml:space="preserve">
-				<source>Shipping to countries #20</source>
-			<target state="needs-translation">Shipping to countries #20</target></trans-unit>
-      <trans-unit id="text_message_shipping_30" xml:space="preserve">
-				<source>Shipping to countries #30</source>
-			<target state="needs-translation">Shipping to countries #30</target></trans-unit>
-      <trans-unit id="text_message_payment_10" xml:space="preserve">
-				<source>Payment method #10</source>
-			<target state="needs-translation">Payment method #10</target></trans-unit>
-      <trans-unit id="text_message_payment_20" xml:space="preserve">
-				<source>Payment method #20</source>
-			<target state="needs-translation">Payment method #20</target></trans-unit>
-      <trans-unit id="text_message_payment_30" xml:space="preserve">
-				<source>Payment method #30</source>
-			<target state="needs-translation">Payment method #30</target></trans-unit>
+      <trans-unit id="memo_file_goto" resname="memo_file_goto" approved="yes">
+        <source>Go to file memo list.</source>
+        <target state="final">Gehe zur Dateien Merkliste.</target>
+      </trans-unit>
+      <trans-unit id="memo_goto" resname="memo_goto" approved="yes">
+        <source>Go to the memo list.</source>
+        <target state="final">Gehe zur Merkliste.</target>
+      </trans-unit>
+      <trans-unit id="memo_mark" resname="memo_mark" approved="yes">
+        <source>Mark article</source>
+        <target state="final">Artikel vormerken</target>
+      </trans-unit>
+      <trans-unit id="memo_title" resname="memo_title" approved="yes">
+        <source>marked articles</source>
+        <target state="final">Vorgemerkte Artikel</target>
+      </trans-unit>
+      <trans-unit id="memo_quit" resname="memo_quit" approved="yes">
+        <source>quit marked article</source>
+        <target state="final">Vormerkung löschen</target>
+      </trans-unit>
+      <trans-unit id="basket_goto" resname="basket_goto" approved="yes">
+        <source>Go to shopping cart.</source>
+        <target state="final">Gehe zum Warenkorb.</target>
+      </trans-unit>
+      <trans-unit id="basket_into" resname="basket_into" approved="yes">
+        <source>Into the shopping cart.</source>
+        <target state="final">In den Warenkorb.</target>
+      </trans-unit>
+      <trans-unit id="basket_into_input_type" resname="basket_into_input_type" approved="yes">
+        <source>Send</source>
+        <target state="final">abschicken</target>
+      </trans-unit>
+      <trans-unit id="basket_mini_empty" resname="basket_mini_empty" approved="yes">
+        <source>Shopping cart is empty</source>
+        <target state="final">Der Warenkorb ist leer</target>
+      </trans-unit>
+      <trans-unit id="basket_mini_item" resname="basket_mini_item" approved="yes">
+        <source>Item</source>
+        <target state="final">Artikel</target>
+      </trans-unit>
+      <trans-unit id="basket_mini_notax" resname="basket_mini_notax" approved="yes">
+        <source>Not including VAT:</source>
+        <target state="final">ohne MwSt</target>
+      </trans-unit>
+      <trans-unit id="basket_mini_tax" resname="basket_mini_tax" approved="yes">
+        <source>Including VAT:</source>
+        <target state="final">inkl. MwSt</target>
+      </trans-unit>
+      <trans-unit id="basket_mini_header" resname="basket_mini_header" approved="yes">
+        <source>Shopping cart:</source>
+        <target state="final">Warenkorb</target>
+      </trans-unit>
+      <trans-unit id="basket_empty" resname="basket_empty" approved="yes">
+        <source>Your shopping cart is empty!</source>
+        <target state="final">Ihr Warenkorb ist leer!</target>
+      </trans-unit>
+      <trans-unit id="basket_billing_address" resname="basket_billing_address" approved="yes">
+        <source>Invoicing address </source>
+        <target state="final">Rechnungsanschrift</target>
+      </trans-unit>
+      <trans-unit id="basket_billing_address_input" resname="basket_billing_address_input" approved="yes">
+        <source>Please enter your address here.</source>
+        <target state="final">Bitte geben Sie hier Ihre Daten ein.</target>
+      </trans-unit>
+      <trans-unit id="basket_billing_address_input_delivery" resname="basket_billing_address_input_delivery" approved="yes">
+        <source>You can also enter an alternative delivery address.</source>
+        <target state="final">Sie können auch eine alternative Lieferadresse angeben.</target>
+      </trans-unit>
+      <trans-unit id="basket_delivery_address" resname="basket_delivery_address" approved="yes">
+        <source>Delivery address</source>
+        <target state="final">Lieferanschrift</target>
+      </trans-unit>
+      <trans-unit id="basket_delivery_address_alternative" resname="basket_delivery_address_alternative" approved="yes">
+        <source>alternative delivery address</source>
+        <target state="final">andere Lieferadresse</target>
+      </trans-unit>
+      <trans-unit id="basket_delivery_address_empty" resname="basket_delivery_address_empty" approved="yes">
+        <source>Leave unchanged to send to the address above.</source>
+        <target state="final">Wenn Sie hier nichts angeben, erfolgt die Lieferung an die oben angegebene Rechnungsadresse.</target>
+      </trans-unit>
+      <trans-unit id="basket_info_text" resname="basket_info_text" approved="yes">
+        <source> Note: Fields marked with * are mandatory. Your data will not be forwarded to third parties! </source>
+        <target state="final"> Hinweis: Felder mit * sind Pflichtfelder und müssen ausgefüllt werden. </target>
+      </trans-unit>
+      <trans-unit id="basket_name" resname="basket_name">
+        <source>Name</source>
+        <target state="needs-translation">Name</target>
+      </trans-unit>
+      <trans-unit id="basket_name_company" resname="basket_name_company" approved="yes">
+        <source>Name/company</source>
+        <target state="final">Name/Unternehmen</target>
+      </trans-unit>
+      <trans-unit id="basket_contact" resname="basket_contact" approved="yes">
+        <source>Contact person</source>
+        <target state="final">Kontaktperson</target>
+      </trans-unit>
+      <trans-unit id="basket_first_name" resname="basket_first_name" approved="yes">
+        <source>First name</source>
+        <target state="final">Vorname</target>
+      </trans-unit>
+      <trans-unit id="basket_last_name" resname="basket_last_name" approved="yes">
+        <source>Surname</source>
+        <target state="final">Nachname</target>
+      </trans-unit>
+      <trans-unit id="basket_title" resname="basket_title" approved="yes">
+        <source>Title</source>
+        <target state="final">Anrede</target>
+      </trans-unit>
+      <trans-unit id="basket_company" resname="basket_company" approved="yes">
+        <source>Company</source>
+        <target state="final">Firma</target>
+      </trans-unit>
+      <trans-unit id="basket_address" resname="basket_address" approved="yes">
+        <source>Address</source>
+        <target state="final">Adresse</target>
+      </trans-unit>
+      <trans-unit id="basket_house_no" resname="basket_house_no" approved="yes">
+        <source>House number</source>
+        <target state="final">Hausnummer</target>
+      </trans-unit>
+      <trans-unit id="basket_date_of_birth" resname="basket_date_of_birth">
+        <source>Date of birth</source>
+        <target state="needs-translation">Date of birth</target>
+      </trans-unit>
+      <trans-unit id="basket_zip" resname="basket_zip" approved="yes">
+        <source>Postcode</source>
+        <target state="final">PLZ</target>
+      </trans-unit>
+      <trans-unit id="basket_city" resname="basket_city" approved="yes">
+        <source>City</source>
+        <target state="final">Stadt</target>
+      </trans-unit>
+      <trans-unit id="basket_country" resname="basket_country" approved="yes">
+        <source>Country</source>
+        <target state="final">Land</target>
+      </trans-unit>
+      <trans-unit id="basket_phone" resname="basket_phone" approved="yes">
+        <source>Telephone</source>
+        <target state="final">Telefon</target>
+      </trans-unit>
+      <trans-unit id="basket_email" resname="basket_email" approved="yes">
+        <source>E-mail</source>
+        <target state="final">Email</target>
+      </trans-unit>
+      <trans-unit id="basket_zip_city" resname="basket_zip_city" approved="yes">
+        <source>Postcode/city</source>
+        <target state="final">PLZ / Stadt</target>
+      </trans-unit>
+      <trans-unit id="basket_zone" resname="basket_zone" approved="yes">
+        <source>Zone</source>
+        <target state="final">Bundesland</target>
+      </trans-unit>
+      <trans-unit id="basket_street" resname="basket_street" approved="yes">
+        <source>Street</source>
+        <target state="final">Straße</target>
+      </trans-unit>
+      <trans-unit id="basket_fe_username" resname="basket_fe_username" approved="yes">
+        <source>User name</source>
+        <target state="final">Username</target>
+      </trans-unit>
+      <trans-unit id="basket_fe_user_id" resname="basket_fe_user_id" approved="yes">
+        <source>User ID </source>
+        <target state="final">User ID</target>
+      </trans-unit>
+      <trans-unit id="basket_update_cart" resname="basket_update_cart" approved="yes">
+        <source>Update shopping cart</source>
+        <target state="final">Warenkorb aktualisieren</target>
+      </trans-unit>
+      <trans-unit id="basket_empty_cart" resname="basket_empty_cart" approved="yes">
+        <source>Delete shopping cart</source>
+        <target state="final">Warenkorb löschen</target>
+      </trans-unit>
+      <trans-unit id="basket_remove_item" resname="basket_remove_item" approved="yes">
+        <source>Remove item from shopping cart</source>
+        <target state="final">aus dem Warenkorb entfernen</target>
+      </trans-unit>
+      <trans-unit id="basket_checkout" resname="basket_checkout" approved="yes">
+        <source>To the order</source>
+        <target state="final">zur Bestellung</target>
+      </trans-unit>
+      <trans-unit id="basket_back_to_cart" resname="basket_back_to_cart" approved="yes">
+        <source>Back to the shopping cart</source>
+        <target state="final">zurück zum Warenkorb</target>
+      </trans-unit>
+      <trans-unit id="basket_place_order" resname="basket_place_order" approved="yes">
+        <source>Complete the order</source>
+        <target state="final">Zahlungspflichtig bestellen</target>
+      </trans-unit>
+      <trans-unit id="basket_enter_vat_id" resname="basket_enter_vat_id" approved="yes">
+        <source>Enter your valid VAT Reg. No. here:</source>
+        <target state="final">Ihre gültige USt-IdNr. hier eingeben:</target>
+      </trans-unit>
+      <trans-unit id="basket_back_to_address" resname="basket_back_to_address" approved="yes">
+        <source>Back to the address</source>
+        <target state="final">zurück zur Rechnungsanschrift</target>
+      </trans-unit>
+      <trans-unit id="basket_place_payment" resname="basket_place_payment" approved="yes">
+        <source>Proceed to checkout</source>
+        <target state="final">Zur Kasse</target>
+      </trans-unit>
+      <trans-unit id="basket_vat_id" resname="basket_vat_id" approved="yes">
+        <source>VAT Reg. No.</source>
+        <target state="final">USt-IdNr.</target>
+      </trans-unit>
+      <trans-unit id="basket_item_list" resname="basket_item_list" approved="yes">
+        <source>items in your shopping cart</source>
+        <target state="final">folgende Artikel befinden sich im Warenkorb</target>
+      </trans-unit>
+      <trans-unit id="basket_header_item" resname="basket_header_item" approved="yes">
+        <source>Item</source>
+        <target state="final">Artikel</target>
+      </trans-unit>
+      <trans-unit id="basket_header_item_selected" resname="basket_header_item_selected" approved="yes">
+        <source>selected items</source>
+        <target state="final">gewählte Artikel</target>
+      </trans-unit>
+      <trans-unit id="basket_header_quantity" resname="basket_header_quantity" approved="yes">
+        <source>Quantity</source>
+        <target state="final">Menge</target>
+      </trans-unit>
+      <trans-unit id="basket_header_price" resname="basket_header_price" approved="yes">
+        <source>Price</source>
+        <target state="final">Preis</target>
+      </trans-unit>
+      <trans-unit id="basket_header_total" resname="basket_header_total" approved="yes">
+        <source>Total</source>
+        <target state="final">Summe</target>
+      </trans-unit>
+      <trans-unit id="basket_price_total" resname="basket_price_total" approved="yes">
+        <source>incl. all costs</source>
+        <target state="final">inkl. Versand- und Bezahlkosten</target>
+      </trans-unit>
+      <trans-unit id="basket_pricetax_total_csv" resname="basket_pricetax_total_csv" approved="yes">
+        <source>sales gross</source>
+        <target state="final">Umsatz Brutto</target>
+      </trans-unit>
+      <trans-unit id="basket_price_goods_total" resname="basket_price_goods_total" approved="yes">
+        <source>excl. Shipping/payment</source>
+        <target state="final">exkl. Versand- und Bezahlkosten</target>
+      </trans-unit>
+      <trans-unit id="basket_billing_name_csv" resname="basket_billing_name_csv" approved="yes">
+        <source>customer name</source>
+        <target state="final">Kundenname</target>
+      </trans-unit>
+      <trans-unit id="basket_delivery_name_csv" resname="basket_delivery_name_csv" approved="yes">
+        <source>receiver name</source>
+        <target state="final">Empfängername</target>
+      </trans-unit>
+      <trans-unit id="basket_billing_cnum_csv" resname="basket_billing_cnum_csv" approved="yes">
+        <source>customer number</source>
+        <target state="final">Kundennummer</target>
+      </trans-unit>
+      <trans-unit id="basket_billing_country_csv" resname="basket_billing_country_csv" approved="yes">
+        <source>country</source>
+        <target state="final">Land</target>
+      </trans-unit>
+      <trans-unit id="basket_order_bill_no_csv" resname="basket_order_bill_no_csv" approved="yes">
+        <source>bill number</source>
+        <target state="final">Rechnungsnummer</target>
+      </trans-unit>
+      <trans-unit id="basket_order_uid_csv" resname="basket_order_uid_csv" approved="yes">
+        <source>order number</source>
+        <target state="final">Bestellnummer</target>
+      </trans-unit>
+      <trans-unit id="basket_order_crdate_csv" resname="basket_order_crdate_csv" approved="yes">
+        <source>voucher date</source>
+        <target state="final">Belegdatum</target>
+      </trans-unit>
+      <trans-unit id="basket_billing_prefix_csv" resname="basket_billing_prefix_csv" approved="yes">
+        <source>bill </source>
+        <target state="final">Rechnung </target>
+      </trans-unit>
+      <trans-unit id="basket_delivery_prefix_csv" resname="basket_delivery_prefix_csv" approved="yes">
+        <source>delivery </source>
+        <target state="final">Lieferung </target>
+      </trans-unit>
+      <trans-unit id="basket_payment_prefix_csv" resname="basket_payment_prefix_csv" approved="yes">
+        <source>payment </source>
+        <target state="final">Bezahlung </target>
+      </trans-unit>
+      <trans-unit id="basket_shipping_prefix_csv" resname="basket_shipping_prefix_csv" approved="yes">
+        <source>shipping </source>
+        <target state="final">Versand </target>
+      </trans-unit>
+      <trans-unit id="basket_minprice_error" resname="basket_minprice_error" approved="yes">
+        <source>You have not reached the minimum order quantity of 100 EUR. Please update your cart.</source>
+        <target state="final">Sie haben die Mindestbestellmenge von 100 EUR nicht erreicht. Bitte aktualisieren Sie Ihren Warenkorb.</target>
+      </trans-unit>
+      <trans-unit id="basket_info_question" resname="basket_info_question" approved="yes">
+        <source>Questions or customer wishes regarding your order.</source>
+        <target state="final">Fragen zu Ihrer Bestellung oder spezielle Wünsche zur Lieferung.</target>
+      </trans-unit>
+      <trans-unit id="basket_shipping_handling" resname="basket_shipping_handling" approved="yes">
+        <source>Shipping and packing</source>
+        <target state="final">Versand und Verpackung</target>
+      </trans-unit>
+      <trans-unit id="basket_shipping_payment" resname="basket_shipping_payment" approved="yes">
+        <source>Shipping and payment</source>
+        <target state="final">Versand und Bezahlung</target>
+      </trans-unit>
+      <trans-unit id="basket_shipping_billing" resname="basket_shipping_billing" approved="yes">
+        <source>Shipping and billing</source>
+        <target state="final">Rechnung und Versand</target>
+      </trans-unit>
+      <trans-unit id="basket_payment_checkout" resname="basket_payment_checkout" approved="yes">
+        <source>Go to pay</source>
+        <target state="final">zur Kasse</target>
+      </trans-unit>
+      <trans-unit id="basket_payment_select" resname="basket_payment_select" approved="yes">
+        <source>Method of payment:</source>
+        <target state="final">Zahlungsmethode</target>
+      </trans-unit>
+      <trans-unit id="basket_payment" resname="basket_payment" approved="yes">
+        <source>Method of payment:</source>
+        <target state="final">Zahlungsmethode</target>
+      </trans-unit>
+      <trans-unit id="basket_payment_total" resname="basket_payment_total" approved="yes">
+        <source>Total amount:</source>
+        <target state="final">Gesamtbetrag</target>
+      </trans-unit>
+      <trans-unit id="basket_payment_invoice" resname="basket_payment_invoice" approved="yes">
+        <source>Invoice amount:</source>
+        <target state="final">Rechnungsbetrag</target>
+      </trans-unit>
+      <trans-unit id="basket_payment_memo" resname="basket_payment_memo" approved="yes">
+        <source>Message:</source>
+        <target state="final">Nachricht</target>
+      </trans-unit>
+      <trans-unit id="basket_payment_shipping_date" resname="basket_payment_shipping_date" approved="yes">
+        <source>Required date of delivery:</source>
+        <target state="final">gewünschtes Lieferdatum</target>
+      </trans-unit>
+      <trans-unit id="basket_payment_comment" resname="basket_payment_comment" approved="yes">
+        <source>Comment:</source>
+        <target state="final">Kommentar</target>
+      </trans-unit>
+      <trans-unit id="basket_payment_email_comment" resname="basket_payment_email_comment" approved="yes">
+        <source>(The order confirmation will be sent to this e-mail address)</source>
+        <target state="final">(An diese Email-Adresse wird die Bestätigung Ihrer Bestellung geschickt!)</target>
+      </trans-unit>
+      <trans-unit id="basket_payment_add_comment" resname="basket_payment_add_comment" approved="yes">
+        <source>You can add a comment to your order here:</source>
+        <target state="final">Hier können Sie Ihrer Bestellung einen Kommentar hinzufügen</target>
+      </trans-unit>
+      <trans-unit id="basket_payment_select_payment" resname="basket_payment_select_payment" approved="yes">
+        <source>Select the shipping mode and payment method.</source>
+        <target state="final">Bitte wählen Sie den Versand- und Zahlungsmodus aus.</target>
+      </trans-unit>
+      <trans-unit id="basket_right_of_revocation" resname="basket_right_of_revocation" approved="yes">
+        <source>Right of revocation</source>
+        <target state="final">Widerrufsbelehrung</target>
+      </trans-unit>
+      <trans-unit id="basket_salutation" resname="basket_salutation" approved="yes">
+        <source>Salutation</source>
+        <target state="final">Anrede</target>
+      </trans-unit>
+      <trans-unit id="basket_shipping_methods" resname="basket_shipping_methods" approved="yes">
+        <source>Shipping methods</source>
+        <target state="final">Versandarten</target>
+      </trans-unit>
+      <trans-unit id="basket_shipping_price" resname="basket_shipping_price" approved="yes">
+        <source>Type of shipment:</source>
+        <target state="final">Versandmethode</target>
+      </trans-unit>
+      <trans-unit id="basket_terms" resname="basket_terms" approved="yes">
+        <source>I have read and accept &quot;the general terms</source>
+        <target state="final">"Die Allgemeinen Geschäftsbedingungen"</target>
+      </trans-unit>
+      <trans-unit id="basket_terms_and" resname="basket_terms_and" approved="yes">
+        <source>and the</source>
+        <target state="final">und die</target>
+      </trans-unit>
+      <trans-unit id="basket_terms_revocation" resname="basket_terms_revocation" approved="yes">
+        <source>revocation conditions</source>
+        <target state="final">Widerrufsbelehrung</target>
+      </trans-unit>
+      <trans-unit id="basket_terms_ack" resname="basket_terms_ack" approved="yes">
+        <source>Please confirm that you have read and accepted the general terms and conditions.</source>
+        <target state="final">Sie bestätigen hiermit, dass Sie die AGB und die Widerrufsbelehrung gelesen haben und diese akzeptieren.</target>
+      </trans-unit>
+      <trans-unit id="basket_terms_read" resname="basket_terms_read">
+        <source>and I accept them.</source>
+        <target state="needs-translation">and I accept them.</target>
+      </trans-unit>
+      <trans-unit id="basket_privacy_policy" resname="basket_privacy_policy" approved="yes">
+        <source>Privacy Policy</source>
+        <target state="final">Datenschutzerklärung</target>
+      </trans-unit>
+      <trans-unit id="basket_privacy_policy_agree_1" resname="basket_privacy_policy_agree_1" approved="yes">
+        <source>I have read and agree to the privacy policy.</source>
+        <target state="final">Ich habe die Datenschutzrichtlinie gelesen und akzeptiere sie.</target>
+      </trans-unit>
+      <trans-unit id="basket_privacy_policy_agree_2" resname="basket_privacy_policy_agree_2" approved="yes">
+        <source>I agree for any data I transmit through this site, that you can use them in accordance with the Privacy Policy.</source>
+        <target state="final">Ich stimme für alle von mir über diese Webseite übertragenen Daten zu, dass Sie diese gemäß der Datenschutzrichtlinie verwenden dürfen.</target>
+      </trans-unit>
+      <trans-unit id="basket_privacy_policy_hint" resname="basket_privacy_policy_hint" approved="yes">
+        <source>Hint</source>
+        <target state="final">Hinweis</target>
+      </trans-unit>
+      <trans-unit id="basket_privacy_policy_hint_1" resname="basket_privacy_policy_hint_1" approved="yes">
+        <source>You have the right to renounce the agreement to the usage of your personal data at any time via email.</source>
+        <target state="final">Sie haben das Recht die Zustimmung zur Nutzung Ihrer Daten jederzeit per Email zu widerrufen.</target>
+      </trans-unit>
+      <trans-unit id="basket_required_message_error" resname="basket_required_message_error" approved="yes">
+        <source>Error in the entry</source>
+        <target state="final">Fehler bei der Eingabe</target>
+      </trans-unit>
+      <trans-unit id="basket_required_message_missing" resname="basket_required_message_missing" approved="yes">
+        <source>You have not completed all the required fields for your address or you have not accepted the general terms and conditions!</source>
+        <target state="final">Sie haben nicht alle erforderlichen Felder mit Ihren Adressinformationen ausgefüllt, oder die AGB nicht akzeptiert!</target>
+      </trans-unit>
+      <trans-unit id="basket_required_message_fix" resname="basket_required_message_fix" approved="yes">
+        <source>Please correct your entries!</source>
+        <target state="final">Bitte korrigieren Sie Ihre Angaben!</target>
+      </trans-unit>
+      <trans-unit id="basket_required_button_fix" resname="basket_required_button_fix" approved="yes">
+        <source>Correct entries</source>
+        <target state="final">Angaben korrigieren</target>
+      </trans-unit>
+      <trans-unit id="basket_delete_item" resname="basket_delete_item" approved="yes">
+        <source>To delete an item, just enter &quot;0&quot; for the order quantity and click on &quot;Update shopping cart&quot; below.</source>
+        <target state="final">Zum Löschen eines Artikels bitte nur bei der Bestellmenge '0' eintragen und unten auf Warenkorb aktualisieren klicken!</target>
+      </trans-unit>
+      <trans-unit id="basket_delete_x_item" resname="basket_delete_x_item" approved="yes">
+        <source>To delete an item, just click on the X icon beside of the item!</source>
+        <target state="final">Zum Löschen eines Artikels auf das X Symbol neben dem Artikel klicken!</target>
+      </trans-unit>
+      <trans-unit id="basket_change_amount" resname="basket_change_amount" approved="yes">
+        <source>If you want to change the order quantity, just enter the required quantity in &quot;Quantity&quot; and click on &quot;Update shopping cart&quot; below.</source>
+        <target state="final">Falls Sie die Menge ändern möchten, geben Sie die gewünschte Anzahl ein und klicken auf "Warenkorb aktualisieren".</target>
+      </trans-unit>
+      <trans-unit id="product_in_basket" resname="product_in_basket" approved="yes">
+        <source>The following items are in your cart</source>
+        <target state="final">Folgende Artikel befinden sich im Warenkorb</target>
+      </trans-unit>
+      <trans-unit id="product_ordered" resname="product_ordered" approved="yes">
+        <source>You have ordered the following items</source>
+        <target state="final">Sie haben folgende Artikel bestellt</target>
+      </trans-unit>
+      <trans-unit id="basket_shipping_information" resname="basket_shipping_information" approved="yes">
+        <source>If your order should be delivered to different address, please enter the full delivery address here.</source>
+        <target state="final">Wenn Ihre Bestellung zu einer anderen Adresse geliefert werden soll, so geben Sie hier bitte die vollständige Lieferadresse an.</target>
+      </trans-unit>
+      <trans-unit id="basket_payment_bic" resname="basket_payment_bic">
+        <source>BIC</source>
+        <target state="needs-translation">BIC</target>
+      </trans-unit>
+      <trans-unit id="basket_payment_iban" resname="basket_payment_iban">
+        <source>IBAN</source>
+        <target state="needs-translation">IBAN</target>
+      </trans-unit>
+      <trans-unit id="basket_payment_account_holder" resname="basket_payment_account_holder" approved="yes">
+        <source>Account Holder</source>
+        <target state="final">Kontoinhaber</target>
+      </trans-unit>
+      <trans-unit id="shipping_add_text" resname="shipping_add_text">
+        <source>Plus shipping costs, according to our freight agreement/road toll allowance!</source>
+        <target state="needs-translation">Plus shipping costs, according to our freight agreement/road toll allowance!</target>
+      </trans-unit>
+      <trans-unit id="shipping_end_text" resname="shipping_end_text">
+        <source>All deliveries are completed with the current freight agreement/road toll allowance not included</source>
+        <target state="needs-translation">All deliveries are completed with the current freight agreement/road toll allowance not included</target>
+      </trans-unit>
+      <trans-unit id="shipping_weight_text" resname="shipping_weight_text">
+        <source>Total weight of your order</source>
+        <target state="needs-translation">Total weight of your order</target>
+      </trans-unit>
+      <trans-unit id="basket_payment_20" resname="basket_payment_20" approved="yes">
+        <source>advance payment</source>
+        <target state="final">Scheck/Vorkasse</target>
+      </trans-unit>
+      <trans-unit id="basket_payment_60" resname="basket_payment_60" approved="yes">
+        <source>credit card</source>
+        <target state="final">Kreditkarte</target>
+      </trans-unit>
+      <trans-unit id="basket_amount_payable" resname="basket_amount_payable" approved="yes">
+        <source>amount payable</source>
+        <target state="final">zu zahlender Betrag</target>
+      </trans-unit>
+      <trans-unit id="basket_sender_10" resname="basket_sender_10">
+        <source>DHL</source>
+        <target state="needs-translation">DHL</target>
+      </trans-unit>
+      <trans-unit id="basket_weight_total" resname="basket_weight_total" approved="yes">
+        <source>total weigth</source>
+        <target state="final">Gesamtgewicht</target>
+      </trans-unit>
+      <trans-unit id="basket_button_continue" resname="basket_button_continue" approved="yes">
+        <source>continue checkout</source>
+        <target state="final">weiter</target>
+      </trans-unit>
+      <trans-unit id="vat" resname="vat" approved="yes">
+        <source>VAT</source>
+        <target state="final">MwSt:</target>
+      </trans-unit>
+      <trans-unit id="no_vat" resname="no_vat" approved="yes">
+        <source>Net</source>
+        <target state="final">netto:</target>
+      </trans-unit>
+      <trans-unit id="incl_vat" resname="incl_vat" approved="yes">
+        <source>Including VAT</source>
+        <target state="final">incl. MwSt</target>
+      </trans-unit>
+      <trans-unit id="included_vat" resname="included_vat">
+        <source>Included VAT</source>
+        <target state="needs-translation">Included VAT</target>
+      </trans-unit>
+      <trans-unit id="includes" resname="includes" approved="yes">
+        <source>includes</source>
+        <target state="final">enthält</target>
+      </trans-unit>
+      <trans-unit id="plus" resname="plus" approved="yes">
+        <source>Plus</source>
+        <target state="final">zzgl.</target>
+      </trans-unit>
+      <trans-unit id="shipping" resname="shipping" approved="yes">
+        <source>shipping</source>
+        <target state="final">Versand</target>
+      </trans-unit>
+      <trans-unit id="p_old_price" resname="p_old_price" approved="yes">
+        <source>Old price</source>
+        <target state="final">Alter Preis</target>
+      </trans-unit>
+      <trans-unit id="p_discount" resname="p_discount" approved="yes">
+        <source>Discount</source>
+        <target state="final">Rabatt</target>
+      </trans-unit>
+      <trans-unit id="p_discount_price" resname="p_discount_price" approved="yes">
+        <source>Discount price</source>
+        <target state="final">Rabatt Preis</target>
+      </trans-unit>
+      <trans-unit id="p_unit_price" resname="p_unit_price" approved="yes">
+        <source>Unit price</source>
+        <target state="final">Einzelpreis</target>
+      </trans-unit>
+      <trans-unit id="p_catalogue_price" resname="p_catalogue_price" approved="yes">
+        <source>Catalogue price</source>
+        <target state="final">Listenpreis</target>
+      </trans-unit>
+      <trans-unit id="p_acccessory" resname="p_acccessory">
+        <source>Accessories</source>
+        <target state="needs-translation">Accessories</target>
+      </trans-unit>
+      <trans-unit id="p_category" resname="p_category" approved="yes">
+        <source>Category</source>
+        <target state="final">Kategorie</target>
+      </trans-unit>
+      <trans-unit id="p_currency" resname="p_currency">
+        <source>EUR</source>
+        <target state="needs-translation">EUR</target>
+      </trans-unit>
+      <trans-unit id="p_color" resname="p_color" approved="yes">
+        <source>Colour</source>
+        <target state="final">Farbe</target>
+      </trans-unit>
+      <trans-unit id="p_color2" resname="p_color2" approved="yes">
+        <source>Colour 2</source>
+        <target state="final">Farbe2</target>
+      </trans-unit>
+      <trans-unit id="p_color3" resname="p_color3" approved="yes">
+        <source>Colour 3</source>
+        <target state="final">Farbe3</target>
+      </trans-unit>
+      <trans-unit id="p_color4" resname="p_color4" approved="yes">
+        <source>Colour 4</source>
+        <target state="final">Farbe4</target>
+      </trans-unit>
+      <trans-unit id="p_color5" resname="p_color5" approved="yes">
+        <source>Colour 5</source>
+        <target state="final">Farbe5</target>
+      </trans-unit>
+      <trans-unit id="p_size" resname="p_size" approved="yes">
+        <source>Size</source>
+        <target state="final">Größe</target>
+      </trans-unit>
+      <trans-unit id="p_size2" resname="p_size2">
+        <source>Size 2</source>
+        <target state="needs-translation">Size 2</target>
+      </trans-unit>
+      <trans-unit id="p_size3" resname="p_size3">
+        <source>Size 3</source>
+        <target state="needs-translation">Size 3</target>
+      </trans-unit>
+      <trans-unit id="p_size4" resname="p_size4">
+        <source>Size 4</source>
+        <target state="needs-translation">Size 4</target>
+      </trans-unit>
+      <trans-unit id="p_width" resname="p_width" approved="yes">
+        <source>Width</source>
+        <target state="final">Breite</target>
+      </trans-unit>
+      <trans-unit id="p_height" resname="p_height" approved="yes">
+        <source>Height</source>
+        <target state="final">Höhe</target>
+      </trans-unit>
+      <trans-unit id="p_width_height" resname="p_width_height" approved="yes">
+        <source>Width and Height</source>
+        <target state="final">Breite und Höhe</target>
+      </trans-unit>
+      <trans-unit id="p_gradings" resname="p_gradings" approved="yes">
+        <source>Model</source>
+        <target state="final">Ausführung</target>
+      </trans-unit>
+      <trans-unit id="p_description" resname="p_description" approved="yes">
+        <source>Description</source>
+        <target state="final">Beschreibung</target>
+      </trans-unit>
+      <trans-unit id="p_description2" resname="p_description2">
+        <source>Description 2</source>
+        <target state="needs-translation">Description 2</target>
+      </trans-unit>
+      <trans-unit id="p_description3" resname="p_description3">
+        <source>Description 3</source>
+        <target state="needs-translation">Description 3</target>
+      </trans-unit>
+      <trans-unit id="p_material" resname="p_material">
+        <source>Material</source>
+        <target state="needs-translation">Material</target>
+      </trans-unit>
+      <trans-unit id="p_quality" resname="p_quality" approved="yes">
+        <source>Quality</source>
+        <target state="final">Qualität</target>
+      </trans-unit>
+      <trans-unit id="p_form" resname="p_form">
+        <source>Form</source>
+        <target state="needs-translation">Form</target>
+      </trans-unit>
+      <trans-unit id="p_form2" resname="p_form2">
+        <source>Form 2</source>
+        <target state="needs-translation">Form 2</target>
+      </trans-unit>
+      <trans-unit id="p_type" resname="p_type" approved="yes">
+        <source>Type</source>
+        <target state="final">Art</target>
+      </trans-unit>
+      <trans-unit id="p_pattern" resname="p_pattern" approved="yes">
+        <source>Pattern</source>
+        <target state="final">Muster</target>
+      </trans-unit>
+      <trans-unit id="p_surface" resname="p_surface" approved="yes">
+        <source>Surface</source>
+        <target state="final">Oberfläche</target>
+      </trans-unit>
+      <trans-unit id="p_angular" resname="p_angular" approved="yes">
+        <source>Angular</source>
+        <target state="final">Winkel</target>
+      </trans-unit>
+      <trans-unit id="p_time" resname="p_time" approved="yes">
+        <source>Time</source>
+        <target state="final">Zeit</target>
+      </trans-unit>
+      <trans-unit id="p_time2" resname="p_time2" approved="yes">
+        <source>Time 2</source>
+        <target state="final">Zeit 2</target>
+      </trans-unit>
+      <trans-unit id="p_guarantee" resname="p_guarantee" approved="yes">
+        <source>Guarantee</source>
+        <target state="final">Garantie</target>
+      </trans-unit>
+      <trans-unit id="p_elements" resname="p_elements" approved="yes">
+        <source>Elements</source>
+        <target state="final">Elemente</target>
+      </trans-unit>
+      <trans-unit id="p_boundary" resname="p_boundary" approved="yes">
+        <source>Boundary</source>
+        <target state="final">Umgebung</target>
+      </trans-unit>
+      <trans-unit id="p_costs" resname="p_costs" approved="yes">
+        <source>Costs</source>
+        <target state="final">Kosten</target>
+      </trans-unit>
+      <trans-unit id="p_datasheet" resname="p_datasheet" approved="yes">
+        <source>Data sheet</source>
+        <target state="final">Datenblatt</target>
+      </trans-unit>
+      <trans-unit id="p_www" resname="p_www" approved="yes">
+        <source>Manufacturer website</source>
+        <target state="final">Hersteller Webseite</target>
+      </trans-unit>
+      <trans-unit id="p_instock" resname="p_instock" approved="yes">
+        <source>in stock</source>
+        <target state="final">Verfügbarkeit</target>
+      </trans-unit>
+      <trans-unit id="p_piece" resname="p_piece" approved="yes">
+        <source>Item</source>
+        <target state="final">Stück</target>
+      </trans-unit>
+      <trans-unit id="p_via_email" resname="p_via_email" approved="yes">
+        <source>via E-mail</source>
+        <target state="final">per e-Mail</target>
+      </trans-unit>
+      <trans-unit id="p_via_telephone" resname="p_via_telephone" approved="yes">
+        <source>via telephone</source>
+        <target state="final">über Telefon</target>
+      </trans-unit>
+      <trans-unit id="p_email" resname="p_email" approved="yes">
+        <source>E-mail request for item</source>
+        <target state="final">e-Mail Anfrage zum Artikel</target>
+      </trans-unit>
+      <trans-unit id="p_email_body" resname="p_email_body" approved="yes">
+        <source>I have seen the following item</source>
+        <target state="final">Ich habe folgenden Artikel gesehen</target>
+      </trans-unit>
+      <trans-unit id="p_email_subject" resname="p_email_subject" approved="yes">
+        <source>E-mail request for item</source>
+        <target state="final">e-Mail Anfrage zum Artikel</target>
+      </trans-unit>
+      <trans-unit id="p_email_question" resname="p_email_question" approved="yes">
+        <source>My questions</source>
+        <target state="final">Meine Fragen:</target>
+      </trans-unit>
+      <trans-unit id="p_email_sender" resname="p_email_sender">
+        <source>Absender</source>
+        <target state="needs-translation">Absender</target>
+      </trans-unit>
+      <trans-unit id="p_email_recipient" resname="p_email_recipient">
+        <source>Empfänger</source>
+        <target state="needs-translation">Empfänger</target>
+      </trans-unit>
+      <trans-unit id="p_is_single" resname="p_is_single" approved="yes">
+        <source>Single product, which can only be selected once.</source>
+        <target state="final">Einzelprodukt, das nur einmal gewählt werden kann.</target>
+      </trans-unit>
+      <trans-unit id="p_related" resname="p_related" approved="yes">
+        <source>Related products</source>
+        <target state="final">verwandte Produkte</target>
+      </trans-unit>
+      <trans-unit id="p_delivery_status" resname="p_delivery_status" approved="yes">
+        <source>Delivery status</source>
+        <target state="final">Lieferstatus</target>
+      </trans-unit>
+      <trans-unit id="p_delivery_available_demand" resname="p_delivery_available_demand" approved="yes">
+        <source>No delivery at the moment.</source>
+        <target state="final">Momentan leider nicht lieferbar.</target>
+      </trans-unit>
+      <trans-unit id="p_delivery_available_immediate" resname="p_delivery_available_immediate" approved="yes">
+        <source>Delivery within 24 hours (1 business day) after payment</source>
+        <target state="final">Lieferung innerhalb von 24 Stunden (1 Werktag) nach Zahlungseingang</target>
+      </trans-unit>
+      <trans-unit id="p_delivery_available_short" resname="p_delivery_available_short" approved="yes">
+        <source>Delivery within 48 hours (2 business days) after payment</source>
+        <target state="final">Lieferung innerhalb von 48 Stunden (2 Werktage) nach Zahlungseingang</target>
+      </trans-unit>
+      <trans-unit id="p_order_date" resname="p_order_date" approved="yes">
+        <source>Order date</source>
+        <target state="final">Bestelldatum</target>
+      </trans-unit>
+      <trans-unit id="p_checkbox1" resname="p_checkbox1">
+        <source>Checkbox 1 Text</source>
+        <target state="needs-translation">Checkbox 1 Text</target>
+      </trans-unit>
+      <trans-unit id="p_checkbox1_value" resname="p_checkbox1_value">
+        <source>Checkbox 1 Value</source>
+        <target state="needs-translation">Checkbox 1 Value</target>
+      </trans-unit>
+      <trans-unit id="list_buy_now" resname="list_buy_now" approved="yes">
+        <source>Into the shopping cart.</source>
+        <target state="final">in den Warenkorb</target>
+      </trans-unit>
+      <trans-unit id="list_detail" resname="list_detail" approved="yes">
+        <source>Item details</source>
+        <target state="final">Produktdetails</target>
+      </trans-unit>
+      <trans-unit id="list_next_page" resname="list_next_page" approved="yes">
+        <source>Next page</source>
+        <target state="final">nächste Seite</target>
+      </trans-unit>
+      <trans-unit id="list_prev_page" resname="list_prev_page" approved="yes">
+        <source>Previous page</source>
+        <target state="final">vorherige Seite</target>
+      </trans-unit>
+      <trans-unit id="list_back_to_list" resname="list_back_to_list" approved="yes">
+        <source>Back to list</source>
+        <target state="final">zurück zur Liste</target>
+      </trans-unit>
+      <trans-unit id="list_item_number" resname="list_item_number" approved="yes">
+        <source>Item no.</source>
+        <target state="final">Artikel Nr.</target>
+      </trans-unit>
+      <trans-unit id="list_item_price" resname="list_item_price" approved="yes">
+        <source>Price</source>
+        <target state="final">Preis</target>
+      </trans-unit>
+      <trans-unit id="list_item_deposit" resname="list_item_deposit" approved="yes">
+        <source>Deposit</source>
+        <target state="final">Pfand</target>
+      </trans-unit>
+      <trans-unit id="list_item_quantity" resname="list_item_quantity" approved="yes">
+        <source>Quantity</source>
+        <target state="final">Menge</target>
+      </trans-unit>
+      <trans-unit id="list_item_notfound" resname="list_item_notfound" approved="yes">
+        <source>No item has been found for this category. Choose another subcategory.</source>
+        <target state="final">In dieser Kategorie sind keine Produkte. Bitte treffen Sie eine andere Auswahl.</target>
+      </trans-unit>
+      <trans-unit id="list_address_notfound" resname="list_address_notfound" approved="yes">
+        <source>No address has been found for this category. Choose another filter option.</source>
+        <target state="final">Unter dieser Kategorie gibt es keine Adresse. Treffen Sie eine andere Auswahl.</target>
+      </trans-unit>
+      <trans-unit id="single_next_product" resname="single_next_product" approved="yes">
+        <source>Next product</source>
+        <target state="final">nächstes Produkt</target>
+      </trans-unit>
+      <trans-unit id="single_prev_product" resname="single_prev_product" approved="yes">
+        <source>Previous Product</source>
+        <target state="final">vorheriges Produkt</target>
+      </trans-unit>
+      <trans-unit id="search_item_notfound" resname="search_item_notfound" approved="yes">
+        <source>This item cannot be found.</source>
+        <target state="final">Es wurden keine Artikel gefunden.</target>
+      </trans-unit>
+      <trans-unit id="search_button" resname="search_button" approved="yes">
+        <source>Search</source>
+        <target state="final">Suchen</target>
+      </trans-unit>
+      <trans-unit id="search_for" resname="search_for" approved="yes">
+        <source>Search for</source>
+        <target state="final">Suche nach</target>
+      </trans-unit>
+      <trans-unit id="error_not_logged_in" resname="error_not_logged_in" approved="yes">
+        <source>You are not logged onto the system.</source>
+        <target state="final">Um den Merkzettel zu sehen melden Sie sich bitte an.</target>
+      </trans-unit>
+      <trans-unit id="person_cards_number" resname="person_cards_number" approved="yes">
+        <source>card number</source>
+        <target state="final">vierstellige Kartennummer</target>
+      </trans-unit>
+      <trans-unit id="person_cards_secure_code" resname="person_cards_secure_code" approved="yes">
+        <source>Security code</source>
+        <target state="final">Sicherheitscode</target>
+      </trans-unit>
+      <trans-unit id="person_cards_lasting" resname="person_cards_lasting" approved="yes">
+        <source>Valid to (Month/Year)</source>
+        <target state="final">Gültigkeit bis (Monat/Jahr)</target>
+      </trans-unit>
+      <trans-unit id="person_cards_owner" resname="person_cards_owner" approved="yes">
+        <source>Name on card</source>
+        <target state="final">Karteninhaber (Vor- und Nachname)</target>
+      </trans-unit>
+      <trans-unit id="person_cards_cc_type_title" resname="person_cards_cc_type_title" approved="yes">
+        <source>Choose Card</source>
+        <target state="final">Kreditkarte auswählen</target>
+      </trans-unit>
+      <trans-unit id="person_cards_cc_type_1" resname="person_cards_cc_type_1">
+        <source>American Express</source>
+        <target state="needs-translation">American Express</target>
+      </trans-unit>
+      <trans-unit id="person_cards_cc_type_2" resname="person_cards_cc_type_2">
+        <source>Diners Club</source>
+        <target state="needs-translation">Diners Club</target>
+      </trans-unit>
+      <trans-unit id="person_cards_cc_type_3" resname="person_cards_cc_type_3">
+        <source>Master Card</source>
+        <target state="needs-translation">Master Card</target>
+      </trans-unit>
+      <trans-unit id="person_cards_cc_type_4" resname="person_cards_cc_type_4">
+        <source>VISA</source>
+        <target state="needs-translation">VISA</target>
+      </trans-unit>
+      <trans-unit id="memo_not_logged_in" resname="memo_not_logged_in">
+        <source>You are not logged onto the system.</source>
+        <target state="needs-translation">You are not logged onto the system.</target>
+      </trans-unit>
+      <trans-unit id="sellers_salutation" resname="sellers_salutation" approved="yes">
+        <source>Kind regards</source>
+        <target state="final">Mit freundlichen Grüßen,</target>
+      </trans-unit>
+      <trans-unit id="sellers_company" resname="sellers_company" approved="yes">
+        <source>company of the seller</source>
+        <target state="final">Firma</target>
+      </trans-unit>
+      <trans-unit id="sellers_name" resname="sellers_name" approved="yes">
+        <source>name of the seller</source>
+        <target state="final">Name des Verkäufers</target>
+      </trans-unit>
+      <trans-unit id="sellers_address" resname="sellers_address" approved="yes">
+        <source>address of the seller</source>
+        <target state="final">Straße des Verkäufers</target>
+      </trans-unit>
+      <trans-unit id="sellers_city" resname="sellers_city" approved="yes">
+        <source>city of the seller</source>
+        <target state="final">Postleitzahl und Stadt des Verkäufers</target>
+      </trans-unit>
+      <trans-unit id="sellers_country" resname="sellers_country" approved="yes">
+        <source>county of the seller</source>
+        <target state="final">Land des Verkäufers</target>
+      </trans-unit>
+      <trans-unit id="sellers_phone" resname="sellers_phone" approved="yes">
+        <source>telephone of the seller</source>
+        <target state="final">Telefon des Verkäufers</target>
+      </trans-unit>
+      <trans-unit id="sellers_fax" resname="sellers_fax" approved="yes">
+        <source>fax of the seller</source>
+        <target state="final">Faxnummer des Verkäufers</target>
+      </trans-unit>
+      <trans-unit id="sellers_email" resname="sellers_email" approved="yes">
+        <source>e-mail of the seller</source>
+        <target state="final">E-Mail des Verkäufers</target>
+      </trans-unit>
+      <trans-unit id="sellers_internet" resname="sellers_internet" approved="yes">
+        <source>internet address of the seller</source>
+        <target state="final">Internetaddresse des Verkäufers</target>
+      </trans-unit>
+      <trans-unit id="sellers_internet_other" resname="sellers_internet_other" approved="yes">
+        <source>internet addresses of the seller</source>
+        <target state="final">andere Internetaddressen des Verkäufers</target>
+      </trans-unit>
+      <trans-unit id="sellers_hrb" resname="sellers_hrb" approved="yes">
+        <source>Registration court of the seller</source>
+        <target state="final">Handelsregister Teil B (AG, GmbH)</target>
+      </trans-unit>
+      <trans-unit id="sellers_executive" resname="sellers_executive" approved="yes">
+        <source>Managing Director of the seller</source>
+        <target state="final">Geschäftsführer Name</target>
+      </trans-unit>
+      <trans-unit id="sellers_vat_id" resname="sellers_vat_id" approved="yes">
+        <source>EU VAT No of the seller</source>
+        <target state="final">USt-ID des Verkäufers</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation" resname="order_confirmation" approved="yes">
+        <source>Order confirmation</source>
+        <target state="final">Bestellbestätigung</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_thanks" resname="order_confirmation_thanks" approved="yes">
+        <source>Thank you for your order!</source>
+        <target state="final">Vielen Dank für Ihre Bestellung</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_next_steps" resname="order_confirmation_next_steps" approved="yes">
+        <source>The next steps</source>
+        <target state="final">Die nächsten Schritte</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_articles_delivery" resname="order_confirmation_articles_delivery" approved="yes">
+        <source>The delivery of the articles will take place in the next 14 days.</source>
+        <target state="final">Die Auslieferung der Artikel erfolgt innerhalb von 14 Tagen.</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_complete" resname="order_confirmation_complete" approved="yes">
+        <source>Your order is now complete and has the following order number:</source>
+        <target state="final">Ihre Bestellung ist nun abgeschlossen und hat folgende Bestellnummer:</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_email" resname="order_confirmation_email" approved="yes">
+        <source>The order confirmation will be sent to the following e-mail address:</source>
+        <target state="final">Die Bestellbestätigung wird an folgende Emailadresse geschickt:</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_payment" resname="order_confirmation_payment" approved="yes">
+        <source>Method of payment</source>
+        <target state="final">Zahlungsart</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_10" resname="order_confirmation_10" approved="yes">
+        <source>To be agreed</source>
+        <target state="final">Nach Absprache</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_10_text" resname="order_confirmation_10_text" approved="yes">
+        <source>Please contact us</source>
+        <target state="final">Bitte setzen Sie sich mit uns in Verbindung</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_15" resname="order_confirmation_15" approved="yes">
+        <source>Direct Debit</source>
+        <target state="final">Lastschrift</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_15_text" resname="order_confirmation_15_text" approved="yes">
+        <source>The amount will be withdrawn from your account.</source>
+        <target state="final">Der Betrag wird von Ihrem Konto abgebucht.</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_20" resname="order_confirmation_20" approved="yes">
+        <source>Payment in advance</source>
+        <target state="final">Vorkasse</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_20_text" resname="order_confirmation_20_text" approved="yes">
+        <source>Please transfer the invoice amount to the following bank account:</source>
+        <target state="final">Bitte überweisen Sie den Rechnungsbetrag auf folgendes Konto</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_20_owner" resname="order_confirmation_20_owner" approved="yes">
+        <source>Account holder: </source>
+        <target state="final">Kontoinhaber</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_20_account" resname="order_confirmation_20_account" approved="yes">
+        <source>Account number: </source>
+        <target state="final">Kontonummer</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_20_bank_no" resname="order_confirmation_20_bank_no" approved="yes">
+        <source>Bank identification code: </source>
+        <target state="final">BLZ</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_20_bank" resname="order_confirmation_20_bank" approved="yes">
+        <source>Bank: </source>
+        <target state="final">Bank</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_20_bic" resname="order_confirmation_20_bic" approved="yes">
+        <source>BIC: </source>
+        <target state="final">BIC</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_20_iban" resname="order_confirmation_20_iban" approved="yes">
+        <source>IBAN: </source>
+        <target state="final">IBAN</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_30" resname="order_confirmation_30" approved="yes">
+        <source>Surname:</source>
+        <target state="final">Nachnahme</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_30_text" resname="order_confirmation_30_text" approved="yes">
+        <source>The product will be delivered to you directly. Payable on receipt.</source>
+        <target state="final">Die Ware wird Ihnen direkt zugesandt. Sie bezahlen die Ware bei Erhalt.</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_40" resname="order_confirmation_40" approved="yes">
+        <source>Invoice:</source>
+        <target state="final">Rechnung</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_40_text" resname="order_confirmation_40_text" approved="yes">
+        <source>The ordered item will be delivered with an invoice.</source>
+        <target state="final">Die bestellte Ware wird Ihnen auf Rechnung zugesandt.</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_50" resname="order_confirmation_50" approved="yes">
+        <source>Cash payment:</source>
+        <target state="final">Barzahlung</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_50_text" resname="order_confirmation_50_text" approved="yes">
+        <source>We only accept cash payment on collection!</source>
+        <target state="final">Wir akzeptieren nur Barzahlung bei Abholung!</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_50_button_text" resname="order_confirmation_50_button_text">
+        <source>Complete the ordering process by paying by credit card</source>
+        <target state="translated">Bestellprozess durch Zahlung mit Kreditkarte abschließen</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_90" resname="order_confirmation_90">
+        <source>PayPal</source>
+        <target state="needs-translation">PayPal</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_90_text" resname="order_confirmation_90_text" approved="yes">
+        <source>To complete the ordering process by PayPal click here </source>
+        <target state="final">Die Bestellung wurde per PayPal bezahlt.</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_delivery_order_status" resname="order_confirmation_delivery_order_status" approved="yes">
+        <source>Delivery and order status:</source>
+        <target state="final">Liefer- und Bestellstatus</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_goods_remain" resname="order_confirmation_goods_remain" approved="yes">
+        <source>The goods remain our property until full payment has been effected.</source>
+        <target state="final">Die Ware bleibt bis zur vollständigen Bezahlung unser Eigentum.</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_date_of_order" resname="order_confirmation_date_of_order" approved="yes">
+        <source>Date of your order:</source>
+        <target state="final">Ihr Bestelldatum</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_view_status_with_code" resname="order_confirmation_view_status_with_code" approved="yes">
+        <source>You can check your order status at anytime using your order status code:</source>
+        <target state="final">Sie können Ihren Bestellstatus jederzeit mittels Ihres Bestellstatus-Codes überprüfen</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_check_order_status" resname="order_confirmation_check_order_status" approved="yes">
+        <source>Check order status!</source>
+        <target state="final">Bestellstatus überprüfen!</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_order_status" resname="order_confirmation_order_status" approved="yes">
+        <source>ORDER STATUS:</source>
+        <target state="final">BESTELLSTATUS</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_status_address" resname="order_confirmation_status_address" approved="yes">
+        <source>You can view the status of your order at this address</source>
+        <target state="final">Sie können den Status Ihrer Bestellung an dieser Adresse einsehen</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_your_order" resname="order_confirmation_your_order" approved="yes">
+        <source>Thank you for your order</source>
+        <target state="final">Ihre Bestellung</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_your_order_uid" resname="order_confirmation_your_order_uid" approved="yes">
+        <source>order number</source>
+        <target state="final">Bestellnummer</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_new_order" resname="order_confirmation_new_order" approved="yes">
+        <source>new order</source>
+        <target state="final">Neue Bestellung</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_your_order_details" resname="order_confirmation_your_order_details" approved="yes">
+        <source>order details:</source>
+        <target state="final">Einzelheiten der Bestellung</target>
+      </trans-unit>
+      <trans-unit id="memo_no_product" resname="memo_no_product" approved="yes">
+        <source>There are no products in the leaflet.</source>
+        <target state="final">Sie haben kein Produkt in den in den Merkzettel gelegt.</target>
+      </trans-unit>
+      <trans-unit id="method_hint" resname="method_hint">
+        <source>Your data is transmitted securely via an encoded connection.</source>
+        <target state="needs-translation">Your data is transmitted securely via an encoded connection.</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_owner" resname="order_confirmation_owner">
+        <source>Account holder </source>
+        <target state="needs-translation">Account holder </target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_account" resname="order_confirmation_account">
+        <source>Account number </source>
+        <target state="needs-translation">Account number </target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_bank_no" resname="order_confirmation_bank_no">
+        <source>Bank sort code </source>
+        <target state="translated">Bankleitzahl </target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_bank" resname="order_confirmation_bank">
+        <source>Bank </source>
+        <target state="needs-translation">Bank </target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_bic" resname="order_confirmation_bic">
+        <source>BIC </source>
+        <target state="needs-translation">BIC </target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_iban" resname="order_confirmation_iban">
+        <source>IBAN </source>
+        <target state="needs-translation">IBAN </target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_order_uid" resname="order_confirmation_order_uid" approved="yes">
+        <source>It is essential to state your order number:</source>
+        <target state="final">Bitte Ihre Bestellnummer unbedingt angeben</target>
+      </trans-unit>
+      <trans-unit id="basket_voucher" resname="basket_voucher" approved="yes">
+        <source>Voucher:</source>
+        <target state="final">Gutschein:</target>
+      </trans-unit>
+      <trans-unit id="basket_voucher_price_act" resname="basket_voucher_price_act" approved="yes">
+        <source>Discount:</source>
+        <target state="final">Preisnachlass:</target>
+      </trans-unit>
+      <trans-unit id="basket_voucher_wrong_code" resname="basket_voucher_wrong_code" approved="yes">
+        <source>The voucher code you entered seems to be wrong. Please try again.</source>
+        <target state="final">Der eingegebene Gutscheincode ist falsch. Bitte versuchen Sie es nocheinmal.</target>
+      </trans-unit>
+      <trans-unit id="basket_voucher_done" resname="basket_voucher_done" approved="yes">
+        <source>You have already redeemed this voucher code!</source>
+        <target state="final">Sie haben Ihren Gutschein bereits eingelöst!</target>
+      </trans-unit>
+      <trans-unit id="basket_found" resname="basket_found" approved="yes">
+        <source>Found at -my internet address - </source>
+        <target state="final">Gefunden bei -meine Internetadresse- </target>
+      </trans-unit>
+      <trans-unit id="basket_voucher_calculate" resname="basket_voucher_calculate">
+        <source>Calculate new price</source>
+        <target state="needs-translation">Calculate new price</target>
+      </trans-unit>
+      <trans-unit id="basket_shipping_price_choice" resname="basket_shipping_price_choice" approved="yes">
+        <source>Shipping costs:</source>
+        <target state="final">Versandkosten:</target>
+      </trans-unit>
+      <trans-unit id="basket_tipafriend" resname="basket_tipafriend" approved="yes">
+        <source>Recommend a friend.</source>
+        <target state="final">Einem Freund weiter empfehlen.</target>
+      </trans-unit>
+      <trans-unit id="basket_change_item" resname="basket_change_item" approved="yes">
+        <source>If you want to change the order quantity, just enter the required quantity in &quot;Quantity&quot; and click on &quot;Update shopping basket&quot; below.</source>
+        <target state="final">Falls Sie die Anzahl ändern möchten, geben Sie die gewünschte Menge ein und klicken auf "Warenkorb aktualisieren".</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_info" resname="order_confirmation_info" approved="yes">
+        <source>Your data is transmitted securely via an encoded connection.</source>
+        <target state="final">Ihre Daten werden sicher über eine verschlüsselte Verbindung übertragen.</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_hint" resname="order_confirmation_hint" approved="yes">
+        <source>By making the payment you complete the ordering process!</source>
+        <target state="final">Durch die Bezahlung schließen Sie den Bestellvorgang ab!</target>
+      </trans-unit>
+      <trans-unit id="basket_artno" resname="basket_artno">
+        <source>Art.no.</source>
+        <target state="needs-translation">Art.no.</target>
+      </trans-unit>
+      <trans-unit id="basket_fax" resname="basket_fax" approved="yes">
+        <source>Fax No.</source>
+        <target state="final">Fax</target>
+      </trans-unit>
+      <trans-unit id="basket_name_prename" resname="basket_name_prename" approved="yes">
+        <source>Prename</source>
+        <target state="final">Vorname*</target>
+      </trans-unit>
+      <trans-unit id="basket_address_plus" resname="basket_address_plus" approved="yes">
+        <source>Addition to address</source>
+        <target state="final">Adresszusatz</target>
+      </trans-unit>
+      <trans-unit id="bank_receiver" resname="bank_receiver">
+        <source>Account owner</source>
+        <target state="needs-translation">Account owner</target>
+      </trans-unit>
+      <trans-unit id="p_currency_no_tax" resname="p_currency_no_tax">
+        <source>EUR</source>
+        <target state="needs-translation">EUR</target>
+      </trans-unit>
+      <trans-unit id="order_status_wrong_number" resname="order_status_wrong_number" approved="yes">
+        <source>The order code does not exist! Please verify and try again!</source>
+        <target state="final">Der Bestellstatus-Code existiert nicht! Bitte stellen Sie die Richtigkeit sicher und versuchen es noch einmal!</target>
+      </trans-unit>
+      <trans-unit id="order_status_view" resname="order_status_view" approved="yes">
+        <source>View order status</source>
+        <target state="final">Bestellstatus einsehen</target>
+      </trans-unit>
+      <trans-unit id="order_status_use_number" resname="order_status_use_number" approved="yes">
+        <source>Please use that number for the further communication with us.</source>
+        <target state="final">Bitte benutzen Sie diese Nummer als Referenz,  mit uns Kontakt aufnehmen.</target>
+      </trans-unit>
+      <trans-unit id="order_status_tracking" resname="order_status_tracking" approved="yes">
+        <source>You can check your order status with this number: click here to show the  current status.</source>
+        <target state="final">Sie können Ihre Bestellung jederzeit überprüfen und den Stand der Bearbeitung verfolgen,  die Auftragstatusnummer auf folgender Seite eingeben</target>
+      </trans-unit>
+      <trans-unit id="order_party_change_button" resname="order_party_change_button" approved="yes">
+        <source>Select party</source>
+        <target state="final">Person auswählen</target>
+      </trans-unit>
+      <trans-unit id="order_group_change_button" resname="order_group_change_button" approved="yes">
+        <source>Select group</source>
+        <target state="final">Gruppe auswählen</target>
+      </trans-unit>
+      <trans-unit id="order_view_change_button" resname="order_view_change_button" approved="yes">
+        <source>Select order view</source>
+        <target state="final">Bestellanzeige auswählen</target>
+      </trans-unit>
+      <trans-unit id="order_view_crdate_max" resname="order_view_crdate_max" approved="yes">
+        <source>End time</source>
+        <target state="final">Endezeit</target>
+      </trans-unit>
+      <trans-unit id="order_view_crdate_min" resname="order_view_crdate_min" approved="yes">
+        <source>Start time</source>
+        <target state="final">Startzeit</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_bill" resname="tracking_status_bill" approved="yes">
+        <source>Your invoice #:</source>
+        <target state="final">Ihre Rechnungs #</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_order" resname="tracking_status_order" approved="yes">
+        <source>Your order #:</source>
+        <target state="final">Ihre Bestellung #</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_status" resname="tracking_status_status" approved="yes">
+        <source>has the following status</source>
+        <target state="final">hat folgenden Status</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_status_text" resname="tracking_status_status_text" approved="yes">
+        <source>(see last line for current status)</source>
+        <target state="final">(siehe letzte Zeile für aktuellsten Stand)</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_data" resname="tracking_status_data" approved="yes">
+        <source>Additional data for status change:</source>
+        <target state="final">Zusätzliche Daten für die Statusänderung:</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_date" resname="tracking_status_date" approved="yes">
+        <source>Date/time:</source>
+        <target state="final">Datum/Zeit</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_code" resname="tracking_status_code" approved="yes">
+        <source>order status code</source>
+        <target state="final">Auftragsnummer</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_action" resname="tracking_status_action" approved="yes">
+        <source>Action:</source>
+        <target state="final">Aktion</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_comment" resname="tracking_status_comment" approved="yes">
+        <source>Comment:</source>
+        <target state="final">Kommentar</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_choose_order" resname="tracking_status_choose_order" approved="yes">
+        <source>Select order</source>
+        <target state="final">Bestellung wählen</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_choose_order_button" resname="tracking_status_choose_order_button" approved="yes">
+        <source>Select</source>
+        <target state="final">auswählen</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_change" resname="tracking_status_change" approved="yes">
+        <source>Change order status</source>
+        <target state="final">Bestellstatus ändern</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_change_button" resname="tracking_status_change_button" approved="yes">
+        <source>Add order status</source>
+        <target state="final">Bestellstatus hinzufügen</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_order_comment" resname="tracking_status_order_comment" approved="yes">
+        <source>Comment on new order status</source>
+        <target state="final">Kommentar zum neuen Bestellstatus</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_password" resname="tracking_status_password" approved="yes">
+        <source>Password:</source>
+        <target state="final">Passwort</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_password_button" resname="tracking_status_password_button" approved="yes">
+        <source>Enter password</source>
+        <target state="final">Passwort eingeben</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_email" resname="tracking_status_email" approved="yes">
+        <source>E-mail notification:</source>
+        <target state="final">Email-Benachrichtigung</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_email_text" resname="tracking_status_email_text" approved="yes">
+        <source>If you want to be informed of your order status as soon as it has been changed, check the following:</source>
+        <target state="final">Wenn Sie sich über den Status Ihrer Bestellung informieren lassen wollen sobald sich der Status geändert hat, dann überprüfen Sie bitte folgendes</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_email_checkbox" resname="tracking_status_email_checkbox" approved="yes">
+        <source>The message about the ordering procedure.</source>
+        <target state="final">Nachricht über Ablauf des Bestellvorgangs erhalten.</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_email_button" resname="tracking_status_email_button" approved="yes">
+        <source>Update</source>
+        <target state="final">Aktualisieren</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_message" resname="tracking_status_message" approved="yes">
+        <source>Message to SHOP:</source>
+        <target state="final">Nachricht an SHOP</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_message_text" resname="tracking_status_message_text" approved="yes">
+        <source>Here you can send us a message about your order.</source>
+        <target state="final">Hier können Sie uns eine Nachricht bezüglich Ihrer Bestellung schicken.</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_message_subject" resname="tracking_status_message_subject" approved="yes">
+        <source>Select subject:</source>
+        <target state="final">Betreff auswählen</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_message_1" resname="tracking_status_message_1" approved="yes">
+        <source>Customer order sent</source>
+        <target state="final">Bestellung vom Kunden abgeschickt</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_message_2" resname="tracking_status_message_2" approved="yes">
+        <source>Order from shop received and accepted</source>
+        <target state="final">Bestellung vom Shop erhalten und angenommen</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_message_10" resname="tracking_status_message_10" approved="yes">
+        <source>Shop is waiting for goods delivery from third party </source>
+        <target state="final">Warten auf Warenlieferung eines Dritten</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_message_11" resname="tracking_status_message_11" approved="yes">
+        <source>Shop is waiting for customer payment</source>
+        <target state="final">Warten auf Bezahlung vom Kunden</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_message_12" resname="tracking_status_message_12" approved="yes">
+        <source>Shop is waiting for customer order</source>
+        <target state="final">Bestellung wird für den Versand vorbereitet</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_message_13" resname="tracking_status_message_13" approved="yes">
+        <source>Order has been paid</source>
+        <target state="final">Bestellung wurde bezahlt</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_message_20" resname="tracking_status_message_20" approved="yes">
+        <source>Goods have been delivered to customer</source>
+        <target state="final">Waren an Kunden geliefert</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_message_21" resname="tracking_status_message_21" approved="yes">
+        <source>Vouchers have been delivered to customer</source>
+        <target state="final">Geschenkgutscheine an Kunden geliefert</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_message_30" resname="tracking_status_message_30" approved="yes">
+        <source>Other messages from shop</source>
+        <target state="final">Andere Meldung vom Shop</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_message_31" resname="tracking_status_message_31" approved="yes">
+        <source>An invoice has been issued</source>
+        <target state="final">Eine Rechnung ist erstellt worden</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_message_32" resname="tracking_status_message_32" approved="yes">
+        <source>An invoice has been sent.</source>
+        <target state="final">Eine Rechnung ist verschickt worden.</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_message_33" resname="tracking_status_message_33" approved="yes">
+        <source>This order is tax-free.</source>
+        <target state="final">Diese Bestellung gilt als steuerfrei.</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_message_50" resname="tracking_status_message_50" approved="yes">
+        <source>Customer requires the order to be cancelled</source>
+        <target state="final">Kunde wünscht die Stornierung der Bestellung</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_message_51" resname="tracking_status_message_51" approved="yes">
+        <source>Message from customer to shop</source>
+        <target state="final">Nachricht von Kunde an den Shop</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_message_52" resname="tracking_status_message_52" approved="yes">
+        <source>Customer requires the invoice including tax</source>
+        <target state="final">Kunde wünscht Rechnung inkl.Steuer</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_message_53" resname="tracking_status_message_53" approved="yes">
+        <source>Customer requires a tax-free invoice</source>
+        <target state="final">Kunde wünscht steuerfreie Rechnung</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_message_60" resname="tracking_status_message_60" approved="yes">
+        <source>Voucher message to the recipient</source>
+        <target state="final">Sende Geschenkgutein Nachricht an den Empfänger</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_message_100" resname="tracking_status_message_100" approved="yes">
+        <source>Order dispatched</source>
+        <target state="final">Bestellung versendet</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_message_101" resname="tracking_status_message_101" approved="yes">
+        <source>Order completed</source>
+        <target state="final">Bestellung geschlossen</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_message_200" resname="tracking_status_message_200" approved="yes">
+        <source>Order cancelled</source>
+        <target state="final">Bestellung storniert</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_message_subject_comment" resname="tracking_status_message_subject_comment" approved="yes">
+        <source>Remarks:</source>
+        <target state="final">Bemerkung</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_message_button" resname="tracking_status_message_button" approved="yes">
+        <source>Send message</source>
+        <target state="final">Nachricht senden</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_order_original" resname="tracking_status_order_original" approved="yes">
+        <source>Order confirmation - original:</source>
+        <target state="final">Bestellbestätigung - Original</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_number" resname="tracking_status_number" approved="yes">
+        <source>Enter order status code:</source>
+        <target state="final">Bestellstatus-Code eingeben</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_header" resname="tracking_status_header" approved="yes">
+        <source>order status</source>
+        <target state="final">Auftragsstatus</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_code_enter" resname="tracking_status_code_enter" approved="yes">
+        <source>Enter your order status code.</source>
+        <target state="final">Geben Sie Ihre Auftragsstatusnummer ein.</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_code_wrong" resname="tracking_status_code_wrong" approved="yes">
+        <source>The order status code does not exist. Make sure that the code is entered correctly. Try it again.</source>
+        <target state="final">Die Auftragsstatusnummer existiert nicht! Gehen Sie sicher, dass es die richtige Nummer ist und versuchen Sie es erneut!.</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_number_button" resname="tracking_status_number_button" approved="yes">
+        <source>View status</source>
+        <target state="final">Status sehen</target>
+      </trans-unit>
+      <trans-unit id="tracking_email_status_label" resname="tracking_email_status_label" approved="yes">
+        <source>Order status </source>
+        <target state="final">Bestellstatus </target>
+      </trans-unit>
+      <trans-unit id="tracking_email_status" resname="tracking_email_status" approved="yes">
+        <source>Status:</source>
+        <target state="final">Status</target>
+      </trans-unit>
+      <trans-unit id="tracking_email_time" resname="tracking_email_time" approved="yes">
+        <source>Time:</source>
+        <target state="final">Zeit</target>
+      </trans-unit>
+      <trans-unit id="tracking_email_info" resname="tracking_email_info" approved="yes">
+        <source>ORDER INFORMATION</source>
+        <target state="final">BESTELLINFORMATION</target>
+      </trans-unit>
+      <trans-unit id="tracking_email_comment" resname="tracking_email_comment" approved="yes">
+        <source>Remarks:</source>
+        <target state="final">Bemerkung</target>
+      </trans-unit>
+      <trans-unit id="tracking_email_status_view" resname="tracking_email_status_view" approved="yes">
+        <source>Click on your data to view:</source>
+        <target state="final">Klicken Sie um Ihre Daten jetzt einzusehen:</target>
+      </trans-unit>
+      <trans-unit id="tracking_email_status_changed" resname="tracking_email_status_changed" approved="yes">
+        <source>The status of your order has been changed:</source>
+        <target state="final">Der Status Ihrer Bestellung wurde geändert:</target>
+      </trans-unit>
+      <trans-unit id="tracking_email_view_information" resname="tracking_email_view_information" approved="yes">
+        <source>You can view the order status at anytime and change order information if required using your order status code:</source>
+        <target state="final">Mit Ihrem Bestellstatus-Code können Sie jederzeit den Bestellstatus einsehen und evtl. Bestellinformationen ändern</target>
+      </trans-unit>
+      <trans-unit id="new_user_name" resname="new_user_name" approved="yes">
+        <source>Your user name is as follows:</source>
+        <target state="final">Ihr Benutzername lautet</target>
+      </trans-unit>
+      <trans-unit id="new_user_password" resname="new_user_password" approved="yes">
+        <source>Your password is as follows:</source>
+        <target state="final">Ihr Passwort lautet</target>
+      </trans-unit>
+      <trans-unit id="new_user_access_data" resname="new_user_access_data" approved="yes">
+        <source>Your access data for </source>
+        <target state="final">Ihre Zugangsdaten bei </target>
+      </trans-unit>
+      <trans-unit id="new_user_welcome" resname="new_user_welcome" approved="yes">
+        <source>We are delighted to welcome you as a new customer.</source>
+        <target state="final">Wir freuen uns, Sie bei uns als neuen Kunden begrüßen zu dürfen.</target>
+      </trans-unit>
+      <trans-unit id="new_user_login" resname="new_user_login" approved="yes">
+        <source>For future orders you can log on with your user name and your password.</source>
+        <target state="final">In zukünftigen Bestellungen können Sie sich mit Ihrem Benutzernamen und Ihrem Passwort anmelden, um zu bestellen.</target>
+      </trans-unit>
+      <trans-unit id="new_user_keep_email" resname="new_user_keep_email" approved="yes">
+        <source>Please keep this e-mail in a safe place.</source>
+        <target state="final">Bitte bewahren Sie diese E-Mail gut auf.</target>
+      </trans-unit>
+      <trans-unit id="register_now" resname="register_now" approved="yes">
+        <source>If you have not registered yet start with your declaration now in the shop</source>
+        <target state="final">Falls Sie noch nicht registriert sind, nehmen Sie Ihre Anmeldung im Shop jetzt vor</target>
+      </trans-unit>
+      <trans-unit id="gift_code" resname="gift_code" approved="yes">
+        <source>Gift coupon code</source>
+        <target state="final">Code des Geschenkgutscheins</target>
+      </trans-unit>
+      <trans-unit id="gift_redeem" resname="gift_redeem" approved="yes">
+        <source>Cash in gift code.</source>
+        <target state="final">Geschenkgutschein einlösen</target>
+      </trans-unit>
+      <trans-unit id="gift_code_redeemed" resname="gift_code_redeemed" approved="yes">
+        <source>This gift code has been cashed into voucher points</source>
+        <target state="final">Dieser Gutscheincode wurde umgewandelt in folgende Kontopunkte</target>
+      </trans-unit>
+      <trans-unit id="gift_codes_redeemed" resname="gift_codes_redeemed" approved="yes">
+        <source>You gift codes have been redeemed into the following voucher points</source>
+        <target state="final">Ihre eingelöste(n) Gutscheinpunkt(e) wurden in folgende Kontopunkte umgewandelt</target>
+      </trans-unit>
+      <trans-unit id="gift_sender_name" resname="gift_sender_name" approved="yes">
+        <source>Sender name</source>
+        <target state="final">Absender Name</target>
+      </trans-unit>
+      <trans-unit id="gift_sender_email" resname="gift_sender_email" approved="yes">
+        <source>Sender email</source>
+        <target state="final">Absender Email</target>
+      </trans-unit>
+      <trans-unit id="gift_recipient_name" resname="gift_recipient_name" approved="yes">
+        <source>Recipient name</source>
+        <target state="final">Empfänger Name</target>
+      </trans-unit>
+      <trans-unit id="gift_recipient_email" resname="gift_recipient_email" approved="yes">
+        <source>Recipient email</source>
+        <target state="final">Empfänger Email</target>
+      </trans-unit>
+      <trans-unit id="voucher_received" resname="voucher_received" approved="yes">
+        <source>You have received a voucher code.</source>
+        <target state="final">Sie haben ein Gutschein Zertifikat erhalten.</target>
+      </trans-unit>
+      <trans-unit id="voucher_unique" resname="voucher_unique" approved="yes">
+        <source>Unique voucher code</source>
+        <target state="final">Einmaliger Gutscheincode</target>
+      </trans-unit>
+      <trans-unit id="voucher_value_euro" resname="voucher_value_euro" approved="yes">
+        <source>Value of the voucher in Euro</source>
+        <target state="final">Wert des Gutscheins in Euro</target>
+      </trans-unit>
+      <trans-unit id="text_message_shipping_10" resname="text_message_shipping_10">
+        <source>Shipping to countries #10</source>
+        <target state="needs-translation">Shipping to countries #10</target>
+      </trans-unit>
+      <trans-unit id="text_message_shipping_20" resname="text_message_shipping_20">
+        <source>Shipping to countries #20</source>
+        <target state="needs-translation">Shipping to countries #20</target>
+      </trans-unit>
+      <trans-unit id="text_message_shipping_30" resname="text_message_shipping_30">
+        <source>Shipping to countries #30</source>
+        <target state="needs-translation">Shipping to countries #30</target>
+      </trans-unit>
+      <trans-unit id="text_message_payment_10" resname="text_message_payment_10">
+        <source>Payment method #10</source>
+        <target state="needs-translation">Payment method #10</target>
+      </trans-unit>
+      <trans-unit id="text_message_payment_20" resname="text_message_payment_20">
+        <source>Payment method #20</source>
+        <target state="needs-translation">Payment method #20</target>
+      </trans-unit>
+      <trans-unit id="text_message_payment_30" resname="text_message_payment_30">
+        <source>Payment method #30</source>
+        <target state="needs-translation">Payment method #30</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
