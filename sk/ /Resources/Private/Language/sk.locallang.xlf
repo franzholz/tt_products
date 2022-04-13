@@ -3,33 +3,42 @@
   <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/locallang.xlf" date="2021-11-23T20:33:04Z" product-name="tt_products" target-language="sk">
     <header/>
     <body>
-      <trans-unit id="plugins_title" xml:space="preserve">
-				<source>Shop System</source>
-			<target state="needs-translation">Shop System</target></trans-unit>
-      <trans-unit id="plugins_description" xml:space="preserve" approved="yes">
-				<source>Add a shopping system plugin to the page. This makes it possible to sell products in multiple languages.</source>
-			<target state="final">Pridá na stránku zoznam produktov e-obchode. Toto je čas  e-obchodu. Stránka musí obsahova produkty zapísané v databáze.</target></trans-unit>
-      <trans-unit id="m_default" xml:space="preserve">
-				<source>default</source>
-			<target state="needs-translation">default</target></trans-unit>
-      <trans-unit id="m_ext" xml:space="preserve">
-				<source>extended</source>
-			<target state="needs-translation">extended</target></trans-unit>
-      <trans-unit id="m_variants" xml:space="preserve">
-				<source>variants</source>
-			<target state="needs-translation">variants</target></trans-unit>
-      <trans-unit id="pageModule.plugin" xml:space="preserve">
-				<source>Shop System: Products, Articles, Product Categories, Orders</source>
-			<target state="needs-translation">Shop System: Products, Articles, Product Categories, Orders</target></trans-unit>
-      <trans-unit id="moduleFunction.tx_ttproducts_modfunc1" xml:space="preserve">
-				<source>Move Items (tt_products)</source>
-			<target state="needs-translation">Move Items (tt_products)</target></trans-unit>
-      <trans-unit id="moduleFunction.tx_ttproducts_modfunc2" xml:space="preserve">
-				<source>Create Records in Alternative Languages (tt_products)</source>
-			<target state="needs-translation">Create Records in Alternative Languages (tt_products)</target></trans-unit>
-      <trans-unit id="moduleFunction.tx_ttproducts_modfunc3" xml:space="preserve">
-				<source>Import images into FAL (tt_products)</source>
-			<target state="needs-translation">Import images into FAL (tt_products)</target></trans-unit>
+      <trans-unit id="plugins_title" resname="plugins_title">
+        <source>Shop System</source>
+        <target state="needs-translation">Shop System</target>
+      </trans-unit>
+      <trans-unit id="plugins_description" resname="plugins_description" approved="yes">
+        <source>Add a shopping system plugin to the page. This makes it possible to sell products in multiple languages.</source>
+        <target state="final">Pridá na stránku zoznam produktov e-obchode. Toto je čas  e-obchodu. Stránka musí obsahova produkty zapísané v databáze.</target>
+      </trans-unit>
+      <trans-unit id="m_default" resname="m_default">
+        <source>default</source>
+        <target state="needs-translation">default</target>
+      </trans-unit>
+      <trans-unit id="m_ext" resname="m_ext">
+        <source>extended</source>
+        <target state="needs-translation">extended</target>
+      </trans-unit>
+      <trans-unit id="m_variants" resname="m_variants">
+        <source>variants</source>
+        <target state="needs-translation">variants</target>
+      </trans-unit>
+      <trans-unit id="pageModule.plugin" resname="pageModule.plugin">
+        <source>Shop System: Products, Articles, Product Categories, Orders</source>
+        <target state="needs-translation">Shop System: Products, Articles, Product Categories, Orders</target>
+      </trans-unit>
+      <trans-unit id="moduleFunction.tx_ttproducts_modfunc1" resname="moduleFunction.tx_ttproducts_modfunc1">
+        <source>Move Items (tt_products)</source>
+        <target state="needs-translation">Move Items (tt_products)</target>
+      </trans-unit>
+      <trans-unit id="moduleFunction.tx_ttproducts_modfunc2" resname="moduleFunction.tx_ttproducts_modfunc2">
+        <source>Create Records in Alternative Languages (tt_products)</source>
+        <target state="needs-translation">Create Records in Alternative Languages (tt_products)</target>
+      </trans-unit>
+      <trans-unit id="moduleFunction.tx_ttproducts_modfunc3" resname="moduleFunction.tx_ttproducts_modfunc3">
+        <source>Import images into FAL (tt_products)</source>
+        <target state="needs-translation">Import images into FAL (tt_products)</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
