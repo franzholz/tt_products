@@ -112,7 +112,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 		$pibaseObj = GeneralUtility::makeInstance('' . $pibaseClass);
 
 		// Save the original flexform in case if we need it later as USER_INT
-		$cObj->data['_original_pi_flexform'] = $cObj->data['pi_flexform'];
+		$cObj->data['_original_pi_flexform'] = $cObj->data['pi_flexform'] ?? '';
 		PluginApi::initFlexform($cObj);
 
 		$flexformArray = PluginApi::getFlexform();
@@ -964,7 +964,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 			}
 
 			if ($contentTmp == 'error') {
-				$fileName = 'EXT:' . TT_PRODUCTS_EXT . '/template/products_help.tmpl';
+                $fileName = 'EXT:' . TT_PRODUCTS_EXT . '/template/products_help.tmpl';
                 $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
                 $fileName = $sanitizer->sanitize($fileName);
 

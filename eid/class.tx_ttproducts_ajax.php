@@ -51,6 +51,7 @@ class tx_ttproducts_ajax implements \TYPO3\CMS\Core\SingletonInterface {
 	public function init () {
 		$result = false;
 		if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded(TAXAJAX_EXT)) {
+ 
 			$this->taxajax = GeneralUtility::makeInstance('tx_taxajax');
 
 			// Encoding of the response to FE charset
@@ -87,20 +88,19 @@ class tx_ttproducts_ajax implements \TYPO3\CMS\Core\SingletonInterface {
 		$piVarSingle = 'product',
 		$piVarCat = 'cat'
 	) {
-			// Encoding of the response to utf-8.
-		// $this->taxajax->setCharEncoding('utf-8');
 			// Do you want messages in the status bar?
 		// $this->taxajax->statusMessagesOn();
-
-			// Decode form vars from utf8
-		// $this->taxajax->decodeUTF8InputOn();
 
 			// Turn only on during testing
 		if ($debug) {
 			$this->taxajax->debugOn();
+			$filepath = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/typo3temp/var/log/taxajax.log';
+			$this->taxajax->setLogFile($filepath);
+			$this->taxajax->errorHandlerOn();
 		} else {
 			$this->taxajax->debugOff();
 		}
+
 		$this->taxajax->setWrapperPrefix('');
 
         $addQueryString = [

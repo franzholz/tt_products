@@ -724,7 +724,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view {
 		foreach($theImgCode as $k1 => $val) {
 
 			$bIsSpecial = true;
-			if (strstr($k1, ':') === false) {
+			if (strpos($k1, ':') === false) {
 				$bIsSpecial = false;
 			} else {
 				$c--; // the former index mus be used again

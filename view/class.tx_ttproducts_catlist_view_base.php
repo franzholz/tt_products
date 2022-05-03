@@ -128,8 +128,6 @@ abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\Single
 		&$catArray,
 		$categoryRootArray
 	) {
-// debug ($categoryRootArray, 'setDepths $categoryRootArray');
-
 		$depth = 1;
 		$childlessArray = [];
 		foreach($categoryArray as $category => $row) {

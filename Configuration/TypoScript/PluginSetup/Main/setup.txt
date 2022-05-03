@@ -118,7 +118,6 @@ plugin.tt_products {
   quantityIsFloat = {$plugin.tt_products.quantityIsFloat}
 
   CSS {
-    file = EXT:tt_products/template/tt_products_example.css
     tt_products.ALL.row.even = {$plugin.tt_products.CSSRowEven}
     tt_products.ALL.row.uneven = {$plugin.tt_products.CSSRowUneven}
     tt_products.ALL.itemSingleWrap = <div class="###UNEVEN###">|</div>
