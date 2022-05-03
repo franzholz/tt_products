@@ -700,6 +700,7 @@ class tx_ttproducts_api {
 			$accountUid = $account->getUid();
 
 			$csv = GeneralUtility::makeInstance('tx_ttproducts_csv');
+            
             $csvfilepath = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/' . $conf['CSVdestination'];
 
 			$csv->create(

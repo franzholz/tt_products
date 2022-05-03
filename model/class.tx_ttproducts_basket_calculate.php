@@ -730,7 +730,7 @@ class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterfa
 			$conf,
 			$iso3Seller,
 			$iso3Buyer,
-			$this->calculatedArray['count'],
+			$this->calculatedArray['count'] ?? 0,
 			$this->calculatedArray['priceTax']['goodstotal']['ALL'],
 			$this->calculatedArray,
 			$itemArray
@@ -744,7 +744,7 @@ class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterfa
 			$conf,
 			$iso3Seller,
 			$iso3Buyer,
-			$this->calculatedArray['count'],
+			$this->calculatedArray['count'] ?? 0,
 			$this->calculatedArray['priceTax']['goodstotal']['ALL'],
 			$shippingRow,
 			$paymentRow,

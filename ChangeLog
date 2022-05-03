@@ -1,3 +1,6 @@
+2022-05-03 Franz Holzinger <franz@ttproducts.de>
+    * bugfixes PHP 7.4 and PHP 8
+
 2022-04-08 Franz Holzinger <franz@ttproducts.de>
     * bugfix: The country select boxes must be shown for a logged in FE user if no delivery country has been chosen yet.
 

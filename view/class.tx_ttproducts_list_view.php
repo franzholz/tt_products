@@ -1267,8 +1267,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 			}
 
 			if ($t['categoryAndItemsFrameWork'] != '') {
-				$dum = strstr($t['item'], 'ITEM_SINGLE_POST_HTML');
-				$bItemPostHtml = (strstr($t['item'], 'ITEM_SINGLE_POST_HTML') != false);
+				$bItemPostHtml = (strpos($t['item'], 'ITEM_SINGLE_POST_HTML') !== false);
 					// Get products count
 				$selectConf = [];
 				$allowedPages = ($pid ? $pid : $this->pidListObj->getPidlist());
@@ -1895,7 +1894,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 					$bFormPerItem = true;
 				}
 				$bUseDAM = false;
-				if (strstr($itemLower, '###dam_field_name###') !== false) {
+				if (strpos($itemLower, '###dam_field_name###') !== false) {
 					$bUseDAM = true;
 				}
 
@@ -2629,7 +2628,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 								}
 							}
 						}
-debug ($imageWrap, '$imageWrap vor getModelMarkerArray');
+
 						$itemTableView->getModelMarkerArray(
 							$row,
 							$itemTableViewArray[$itemTable->getType()]->getMarker(),

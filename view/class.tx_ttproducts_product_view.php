@@ -299,13 +299,14 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
 					$addressRow = $addressObj->get($addressUid);
 				}
 				$adressMarkerArray = [];
+				$tmp = '';
 				$addressViewObj->getRowMarkerArray(
 					'address',
 					$addressRow,
 					'',
 					$adressMarkerArray,
-					$tmp = '',
-					$tmp = '',
+					$tmp,
+					$tmp,
 					$tagArray,
 					$theCode,
 					$basketExtra,
@@ -320,7 +321,6 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
 					$linkWrap,
 					$bEnableTaxZero
 				);
-
 				if (is_array($adressMarkerArray)) {
 					$markerArray = array_merge($markerArray, $adressMarkerArray);
 				}
@@ -350,7 +350,7 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
 									$markerArray['###' . $index . '###'] = $pageRow[$fieldName];
 								}
 							}
-							if (strstr($index, $markerKey) === false) {
+							if (strpos($index, $markerKey) === false) {
 								continue;
 							}
 							$fieldPos = strrpos($index, '_');
@@ -379,7 +379,7 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
 			}
 
 			foreach ($tagArray as $key => $val) {
-				if (strstr($key,'PRODUCT_NOTE_UID') !== false) {
+				if (strpos($key,'PRODUCT_NOTE_UID') !== false) {
 					if (!isset($markerArray['###' . $key . '###'])) {
 						$markerArray['###' . $key . '###'] = '';
 					}
