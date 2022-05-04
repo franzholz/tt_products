@@ -453,10 +453,11 @@ class tx_ttproducts_model_control {
 			$contentObj = $tablesObj->get('tt_content',false);
 			$contentRow = $contentObj->get($searchVars['uid']);
 
-			if($contentRow['pi_flexform'] != '') {
-
+			if(
+                isset($contentRow['pi_flexform']) &&
+                $contentRow['pi_flexform'] != ''
+            ) {
 				$contentRow['pi_flexform'] = GeneralUtility::xml2array($contentRow['pi_flexform']);
-// 				GeneralUtility::requireOnce(PATH_BE_TTPRODUCTS . 'control/class.tx_ttproducts_control_search.php');
 				$searchObj = GeneralUtility::makeInstance('tx_ttproducts_control_search');	// fetch and store it as persistent object
 				$controlConfig = $searchObj->getControlConfig($cObj, $cnf->conf, $contentRow);
 

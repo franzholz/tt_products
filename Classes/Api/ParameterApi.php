@@ -472,7 +472,7 @@ class ParameterApi implements \TYPO3\CMS\Core\SingletonInterface {
             $contentObj = $tablesObj->get('tt_content', false);
             $contentRow = $contentObj->get($searchVars['uid']);
 
-            if($contentRow['pi_flexform'] != '') {
+            if(isset($contentRow['pi_flexform']) && $contentRow['pi_flexform'] != '') {
 
                 $contentRow['pi_flexform'] = GeneralUtility::xml2array($contentRow['pi_flexform']);
                 $searchObj = GeneralUtility::makeInstance('tx_ttproducts_control_search');	// fetch and store it as persistent object

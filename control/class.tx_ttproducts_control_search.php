@@ -86,7 +86,7 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 		);
 
 		// $pibaseObj->pi_initPIflexForm();
-		$this->cObj->data['pi_flexform'] = GeneralUtility::xml2array($this->cObj->data['pi_flexform']);
+		$this->cObj->data['pi_flexform'] = GeneralUtility::xml2array($this->cObj->data['pi_flexform'] ?? '');
 		$newConfig = $this->getControlConfig($this->cObj, $conf, $this->cObj->data);
 		$config = array_merge($config, $newConfig);
 		$this->codeArray = GeneralUtility::trimExplode(',', $config['code'],1);
@@ -119,14 +119,14 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$ctrlArray = $parameterApi->getParameterTable();
 
-		$config = array();
+		$config = [];
         $config['code'] =
             \JambageCom\Div2007\Utility\ConfigUtility::getSetupOrFFvalue(
                 $cObj,
                 $conf['code'],
                 $conf['code.'],
                 $conf['defaultCode'],
-                $row['pi_flexform'],
+                $row['pi_flexform'] ?? '',
                 'display_mode',
                 true
             );
@@ -144,7 +144,7 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 		);
 
 		foreach ($flexformConfigArray as $flexformConfig) {
-			$tmpConfig = \JambageCom\Div2007\Utility\FlexformUtility::get($row['pi_flexform'], $flexformConfig);
+			$tmpConfig = \JambageCom\Div2007\Utility\FlexformUtility::get($row['pi_flexform'] ?? '', $flexformConfig);
 			$config[$flexformConfig] = $tmpConfig;
 		}
 		$config['local_table'] = $cnf->getTableName($ctrlArray[$config['local_param']]);
@@ -171,7 +171,7 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 		$pibaseObj = GeneralUtility::makeInstance($pibaseClass);
 		$subpartmarkerObj = GeneralUtility::makeInstance('tx_ttproducts_subpartmarker');
 		$searchViewObj = GeneralUtility::makeInstance('tx_ttproducts_search_view');
-		$error_code = array();
+		$error_code = [];
 		$errorMessage = '';
 
 		foreach($this->codeArray as $theCode) {
@@ -218,7 +218,7 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 						$this->config['columns'],
 						2,
 						'field' . $this->cObj->data['uid'],
-						$tmp = array(),
+						$tmp = [],
 						$error_code
 					);
 				break;
@@ -231,7 +231,7 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 					)	{
 						$keyfieldConf = $tableConf['view.']['valueArray.'];
 					} else {
-						$keyfieldConf = array();
+						$keyfieldConf = [];
 					}
 					$contentTmp = $searchViewObj->printKeyField(
 						$pibaseObj,
