@@ -85,8 +85,5 @@ class tx_ttproducts_javascript_marker implements \TYPO3\CMS\Core\SingletonInterf
 }
 
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/marker/class.tx_ttproducts_javascript_marker.php'])	{
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/marker/class.tx_ttproducts_javascript_marker.php']);
-}
 
 

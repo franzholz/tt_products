@@ -94,8 +94,3 @@ class tx_ttproducts_pi_search_base extends \TYPO3\CMS\Frontend\Plugin\AbstractPl
 	}
 }
 
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/pi_search/class.tx_ttproducts_pi_search_base.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/pi_search/class.tx_ttproducts_pi_search_base.php']);
-}
-

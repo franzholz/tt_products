@@ -608,8 +608,3 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
 	} // getItemMarkerArray
 }
 
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_basketitem_view.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_basketitem_view.php']);
-}
-
