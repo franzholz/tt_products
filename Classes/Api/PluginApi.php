@@ -157,11 +157,15 @@ class PluginApi {
         return $result;
     }
 
-	static public function initFlexform (
-		$cObj
-	) {
-		self::$flexformArray = GeneralUtility::xml2array($cObj->data['pi_flexform']);
-	}
+    static public function initFlexform (
+        $cObj
+    ) {
+        if (isset($cObj->data['pi_flexform'])) {
+            self::$flexformArray = GeneralUtility::xml2array($cObj->data['pi_flexform']);
+        } else {
+            self::$flexformArray = [];
+        }
+    }
 
 	static public function getFlexform () {
 		return self::$flexformArray;

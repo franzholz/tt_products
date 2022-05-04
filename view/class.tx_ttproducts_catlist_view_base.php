@@ -710,8 +710,3 @@ abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\Single
 	} // printView
 }
 
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_catlist_view_base.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_catlist_view_base.php']);
-}
-

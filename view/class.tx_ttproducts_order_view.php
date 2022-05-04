@@ -1048,11 +1048,6 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
         }
 
         return $result;
-	}
-}
-
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_order_view.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_order_view.php']);
+    }
 }
 
