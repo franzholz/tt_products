@@ -144,13 +144,13 @@ class tx_ttproducts_category extends tx_ttproducts_category_base {
 		$orderBy,
 		$category = 0
 	) {
-		$rowArray = array();
+		$rowArray = [];
 		if ($this->parentField != '') {
 			$where = $this->parentField . '=' . intval($category);
 			$rowArray = $this->get('', $pid, false, $where, '', $orderBy, '', 'uid');
 		}
 
-		$resultArray = array();
+		$resultArray = [];
 		$result = '';
 		if (isset($rowArray) && is_array($rowArray)) {
 			foreach($rowArray as $row) {
@@ -168,7 +168,7 @@ class tx_ttproducts_category extends tx_ttproducts_category_base {
 		$pid
 	) {
 		$bRootfound = false;
-		$rc = array();
+		$rc = [];
 
 		if ($uid) {
 			$tableObj = $this->getTableObj();
@@ -225,7 +225,7 @@ class tx_ttproducts_category extends tx_ttproducts_category_base {
 		}
 
 		if (!$bRootfound) {
-			$rc = array();
+			$rc = [];
 		}
 		return $rc;
 	}
@@ -237,13 +237,13 @@ class tx_ttproducts_category extends tx_ttproducts_category_base {
 		$orderBy = ''
 	) {
 		$bUseReference = false;
-		$relatedArray = array();
+		$relatedArray = [];
 		$uidArray = $rootArray = GeneralUtility::trimExplode(',', $rootUids);
 		$tableObj = $this->getTableObj();
 		$rootLine = $this->getRootline($uidArray, $currentCat, $pid);
 
 		if (empty($rootLine)) {
-			$rootLine = array();
+			$rootLine = [];
 		}
 
 		foreach ($rootLine as $k => $row) {
@@ -310,8 +310,8 @@ class tx_ttproducts_category extends tx_ttproducts_category_base {
 		}
 
 		if ($bUseReference && count($relatedArray)) { // remove copies of the referenced category
-			$finalUidKeyArray = array();
-			$fixedRelatedArray = array();
+			$finalUidKeyArray = [];
+			$fixedRelatedArray = [];
 			foreach ($relatedArray as $uid => $row) {
 				if ($row[$this->referenceField]) {
 					$uid = $row[$this->referenceField];
@@ -458,7 +458,7 @@ class tx_ttproducts_category extends tx_ttproducts_category_base {
 	}
 
 	public function getChildUidArray ($uid) {
-		$rcArray = array();
+		$rcArray = [];
 		return $rcArray;
 	}
 
@@ -469,7 +469,7 @@ class tx_ttproducts_category extends tx_ttproducts_category_base {
 	 *
 	 */
 	public function getSubcategories ($row) {
-		return array();
+		return [];
 	}
 
 	public function getRelationArray (
@@ -478,7 +478,7 @@ class tx_ttproducts_category extends tx_ttproducts_category_base {
 		$rootUids = '',
 		$allowedCats = ''
 	) {
-		$relationArray = array();
+		$relationArray = [];
 		$rootArray = GeneralUtility::trimExplode(',', $rootUids);
 		$catArray = GeneralUtility::trimExplode(',', $allowedCats);
 		$excludeArray = GeneralUtility::trimExplode (',', $excludeCats);
@@ -489,13 +489,18 @@ class tx_ttproducts_category extends tx_ttproducts_category_base {
 			}
 		}
 
-		if (is_array($dataArray)) {
+		if (is_array($dataArray) && !empty($dataArray)) {
 			foreach ($dataArray as $row) {	// separate loop to keep the sorting order
-				$relationArray[$row['uid']] = array();
+                if (!empty($row)) {
+                    $relationArray[$row['uid']] = [];
+                }
 			}
 
 			foreach ($dataArray as $row) {
-				$uid = $row['uid'];
+                $uid = 0;
+                if (!empty($row)) {
+                    $uid = $row['uid'];
+                }
 				if (
 					(!$uid) ||
 					(
@@ -543,7 +548,7 @@ class tx_ttproducts_category extends tx_ttproducts_category_base {
 					if (
 						!isset($relationArray[$parentId]['child_category'])
 					) {
-						$relationArray[$parentId]['child_category'] = array();
+						$relationArray[$parentId]['child_category'] = [];
 					}
 					$relationArray[$parentId]['child_category'][] = (int) $uid;
 				}
