@@ -81,7 +81,7 @@ class TaxajaxController {
         $errorCode = '';
         $SOBE->init($conf, $config, $ajax, $tmp = '', $errorCode);
 
-        if($_POST['xajax']) {
+        if(!empty($_POST['xajax'])) {
 
             $ajax->taxajax->processRequests();
 
