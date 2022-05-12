@@ -71,7 +71,7 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base {
 			$this->getTableObj()->setTCAFieldArray('static_taxes');
 
 			$requiredFields = 'uid,pid';
-			if ($this->tableconf['requiredFields'])	{
+			if (!empty($this->tableconf['requiredFields']))	{
 				$tmp = $tableconf['requiredFields'];
 				$requiredFields = ($tmp ? $tmp : $requiredFields);
 			}

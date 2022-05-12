@@ -599,7 +599,7 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
 		$tablename = $this->getTablename();
 		$tableConf = $this->getTableConf($theCode);
 		$fields = '';
-		if (isset($tableConf['requiredFields'])) {
+		if (!empty($tableConf['requiredFields'])) {
 			$fields = $tableConf['requiredFields'];
 		} else {
 			$fields = 'uid,pid';

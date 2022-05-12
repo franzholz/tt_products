@@ -42,7 +42,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use JambageCom\Div2007\Utility\FrontendUtility;
 
 class tx_ttproducts_voucher extends tx_ttproducts_table_base {
-	protected $amount;
+	protected $amount = 0;
 	protected $amountType;
 	protected $voucherCode;
 	protected $bValid = false;
@@ -59,7 +59,7 @@ class tx_ttproducts_voucher extends tx_ttproducts_table_base {
 		if ($result) {
 			$usedVoucherCodeArray = tx_ttproducts_control_session::readSession('vo');
 
-			if (isset($usedVoucherCodeArray) && is_array($usedVoucherCodeArray)) {
+			if (!empty($usedVoucherCodeArray)) {
 				$voucherCode = key($usedVoucherCodeArray);
 				$voucherArray = current($usedVoucherCodeArray);
 				$amount = $voucherArray['amount'];
@@ -342,7 +342,7 @@ class tx_ttproducts_voucher extends tx_ttproducts_table_base {
 
 
 	public function doProcessing ($recs) {
-		$voucherCode = $recs['tt_products']['vouchercode'];
+		$voucherCode = $recs['tt_products']['vouchercode'] ?? '';
 		$this->setVoucherCode($voucherCode);
 		$cObj = FrontendUtility::getContentObjectRenderer();
 

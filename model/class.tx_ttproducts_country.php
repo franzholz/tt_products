@@ -64,7 +64,7 @@ class tx_ttproducts_country extends tx_ttproducts_table_base {
 			$this->getTableObj()->setTCAFieldArray('static_countries');
 
 			$requiredFields = 'uid,pid';
-			if ($this->tableconf['requiredFields']) {
+			if (!empty($this->tableconf['requiredFields'])) {
 				$tmp = $this->tableconf['requiredFields'];
 				$requiredFields = ($tmp ? $tmp : $requiredFields);
 			}
@@ -89,7 +89,8 @@ class tx_ttproducts_country extends tx_ttproducts_table_base {
 
     public function isoGet ($country_code, $where = '', $fields = '') {
 
-        if (!$fields) {
+        $rc = '';
+		if (!$fields && isset($this->dataArray[$country_code])) {
 			$rc = $this->dataArray[$country_code];
 		}
 		if (!$rc || $where) {

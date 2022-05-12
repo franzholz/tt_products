@@ -249,7 +249,7 @@ class tx_ttproducts_dam extends tx_ttproducts_article_base {
 		$tableConf = $this->getTableConf($theCode);
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 
-		if ($tableConf['requiredFields']) {
+		if (!empty($tableConf['requiredFields'])) {
 			$requiredFields = $tableConf['requiredFields'];
 		} else {
 			$requiredFields = 'uid,pid,parent_id,category,file_mime_type,file_name,file_path';

@@ -28,12 +28,12 @@
     "typo3/cms-core": "^10.4 || ^11.5",
     "jambagecom/div2007": "^1.14",
     "jambagecom/table": "^0.7 || ^0.8",
-    "jambagecom/tsparser": "^0.2.5 || ^0.3"
+    "jambagecom/tsparser": "^0.2.5 || ^0.3",
+    "friendsoftypo3/typo3db-legacy": "^1"
   },
   "suggest": {
     "friendsoftypo3/func": "^9.0",
     "jambagecom/addons-em": "^0.2",
-    "friendsoftypo3/typo3db-legacy": "^1",
     "jambagecom/taxajax": "^0.4 || ^0.5",
     "sjbr/static-info-tables": "^6.7 || ^6.8 || ^6.9 || ^11.5"
   },

@@ -1400,6 +1400,12 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 		$itemTableConf = $cnfObj->getTableConf($funcTablename, $theCode);
 		$viewTableObj = $tablesObj->get($funcTablename, false);
 		$orderBy = $viewTableObj->getTableObj()->transformOrderby($itemTableConf['orderBy']);
+		$calculObj = GeneralUtility::makeInstance('tx_ttproducts_basket_calculate');
+        $calculatedArray = [
+            'count' => 0,
+            'weight' => 0
+        ];
+		$calculObj->setBaseCalculatedArray($calculatedArray);
 
 		$uidArr = array();
 
@@ -1472,11 +1478,6 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 		$maxTax = 0;
 		$taxObj = GeneralUtility::makeInstance('tx_ttproducts_field_tax');
 		$uidArray = array();
-		$calculObj = GeneralUtility::makeInstance('tx_ttproducts_basket_calculate');
-        $calculatedArray = [
-            'count' => 0,
-            'weight' => 0
-        ];
 		$categoryQuantity = array();
 		$categoryArray = array();
         $bEnableTaxZero = true; // Die Produkte im Warenkorb werden sofort umgerechnet, damit sie die korrigierten Steuern und Preise enthalten. Hier ist die Steuer 0 erlaubt und darf später nicht mehr durch TAXpercentage überschrieben werden.

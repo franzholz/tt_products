@@ -93,7 +93,7 @@ class OldTaxajaxController {
         $errorCode = '';
         $SOBE->init($conf, $config, $ajax, $tmp = '', $errorCode);
 
-        if($_POST['xajax']) {
+        if(!empty($_POST['xajax'])) {
             global $trans;
 
             $trans = $this;

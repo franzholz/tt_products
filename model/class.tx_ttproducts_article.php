@@ -132,7 +132,7 @@ class tx_ttproducts_article extends tx_ttproducts_article_base {
 		$tableConf = $this->getTableConf($theCode);
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$rc = array();
-		if ($tableConf['requiredFields']!='') {
+		if (!empty($tableConf['requiredFields'])) {
 			$requiredFields = $tableConf['requiredFields'];
 		} else {
 			$requiredFields = 'uid,pid,category,price,price2,directcost';

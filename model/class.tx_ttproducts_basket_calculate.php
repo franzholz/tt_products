@@ -172,6 +172,7 @@ class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterfa
 		$this->calculatedArray['price2Tax']['goodstotal']['ALL'] = 0;
 		$this->calculatedArray['price2NoTax']['goodstotal']['ALL'] = 0;
 		$this->calculatedArray['categoryPriceNoTax']['goodstotal']['ALL'] = [];
+        $this->calculatedArray['deposittax']['goodstotal']['ALL'] = 0;
         $this->calculatedArray['depositnotax']['goodstotal']['ALL'] = 0;
         $this->calculatedArray['noDiscountPriceTax']['goodstotal']['ALL'] = 0;
         $this->calculatedArray['noDiscountPriceNoTax']['goodstotal']['ALL'] = 0;
@@ -575,22 +576,22 @@ class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterfa
 			} // foreach ($itemArray
 
 			PaymentShippingHandling::getScriptPrices(
-				'payment',
-				$basketExtra,
 				$this->calculatedArray,
-				$itemArray
+				$itemArray,
+				$basketExtra,
+				'payment'
 			);
 			PaymentShippingHandling::getScriptPrices(
-				'shipping',
-				$basketExtra,
 				$this->calculatedArray,
-				$itemArray
+				$itemArray,
+				$basketExtra,
+				'shipping'
 			);
 			PaymentShippingHandling::getScriptPrices(
-				'handling',
-				$basketExtra,
 				$this->calculatedArray,
-				$itemArray
+				$itemArray,
+				$basketExtra,
+				'handling'
 			);
 			$this->calculatedArray['maxtax']['goodstotal']['ALL'] = $maxTax;
 

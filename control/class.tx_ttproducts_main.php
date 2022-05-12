@@ -243,7 +243,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 		}
 
 		if (!$bRunAjax && \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('taxajax')) {
-			if($_POST['xajax']) {
+			if(!empty($_POST['xajax'])) {
 				global $trans;
 				$trans = $this;
 				$this->ajax->taxajax->processRequests();
@@ -989,7 +989,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 						$contentTmp,
 						$theCode,
 						$pibaseObj->prefixId,
-						$cObj->data['uid']
+						$cObj->data['uid'] ?? ''
 					);
 			} else if (!$bErrorFound) {
 				$content .= $contentTmp;

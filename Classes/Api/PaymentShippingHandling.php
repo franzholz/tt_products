@@ -89,10 +89,10 @@ class PaymentShippingHandling {
 
 
 	static public function getScriptPrices (
-		$pskey = 'shipping',
-		$basketExtra,
 		&$calculatedArray,
-		&$itemArray
+		&$itemArray,
+		$basketExtra,
+		$pskey = 'shipping'
 	) {
 		$hookVar = 'scriptPrices';
 		if (
@@ -110,10 +110,10 @@ class PaymentShippingHandling {
 				if (method_exists($hookObj, 'getScriptPrices')) {
 					$tmpArray =
 						$hookObj->getScriptPrices(
-							$pskey,
-							$basketExtra,
 							$calculatedArray,
-							$itemArray
+							$itemArray,
+							$basketExtra,
+							$pskey
 						);
 				}
 			}
@@ -472,7 +472,7 @@ class PaymentShippingHandling {
 		$cObj = FrontendUtility::getContentObjectRenderer();
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 		$active = $basketExtra[$pskey] ?? '';
-		$activeArray = is_array($active) ? $active : [$active];
+        $activeArray = is_array($active) ? $active : (empty($active) ? [] : [$active]);
 		$bUseXHTML = $GLOBALS['TSFE']->config['config']['xhtmlDoctype'] != '';
 		$selectedText = ($bUseXHTML ? 'selected="selected"' : 'selected');
 		$type = 0;
@@ -481,10 +481,10 @@ class PaymentShippingHandling {
         $htmlInputAddition = '';
 
         if ($subkey != '') {
-            $confArray = $conf[$pskey . '.'][$subkey . '.'];
+            $confArray = $conf[$pskey . '.'][$subkey . '.'] ?? '';
             $htmlInputAddition = '[' . $subkey . ']';
         } else {
-            $confArray = $conf[$pskey . '.'];
+            $confArray = $conf[$pskey . '.'] ?? '';
         }
 
         if (
@@ -566,6 +566,10 @@ class PaymentShippingHandling {
 						intval($item['showLimit']) == 0
 					)
 				) {
+                    if (empty($activeArray)) { 
+                    // TODO: Make it configurable if the first item of the payment/shipping setup shall automatically be made active.
+                        $activeArray = [$key];
+                    }
 					$addItems = [];
 					$itemTable = '';
 					$itemTableView = '';
@@ -1086,8 +1090,8 @@ class PaymentShippingHandling {
 // 				}
 
 				if (!empty($row['bulkily'])) {
-					$value = floatval($basketExtra['shipping.']['bulkilyAddition']) * $actItem['count'];
-					$row['tax'] = floatval($basketExtra['shipping.']['bulkilyFeeTax']);
+					$value = floatval($basketExtra['shipping.']['bulkilyAddition'] ?? '') * $actItem['count'];
+					$row['tax'] = floatval($basketExtra['shipping.']['bulkilyFeeTax'] ?? 0);
 					$priceShippingTax +=
 						self::$priceObj->getPrice(
 							$basketExtra,
@@ -1524,7 +1528,7 @@ class PaymentShippingHandling {
 		);
 
 		$pskeyConf = [];
-		if (isset($conf['payment.'])) {
+		if (!empty($conf['payment.'])) {
 			$pskeyConf = $conf['payment.'];
 		}
 		self::getPrices(
@@ -1715,7 +1719,7 @@ class PaymentShippingHandling {
 		$result = '';
 
 		if (
-			is_array($basketExtra[$pskey . '.']) &&
+			!empty($basketExtra[$pskey . '.']) &&
 			isset($basketExtra[$pskey . '.']['replaceTAXpercentage'])
 		) {
 			$result = doubleval($basketExtra[$pskey . '.']['replaceTAXpercentage']);
@@ -1751,9 +1755,11 @@ class PaymentShippingHandling {
 	 */
 	static public function getWhere ($basketExtra, $tablename) {
 
+        $result = '';
+
 		if (
-			is_array($basketExtra['shipping.']) &&
-			isset($basketExtra['shipping.']['where.'])
+			isset($basketExtra['shipping.']) &&
+			!empty($basketExtra['shipping.']['where.'])
 		) {
 			switch ($tablename) {
 				case 'static_countries':
