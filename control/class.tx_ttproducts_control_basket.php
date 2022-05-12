@@ -246,7 +246,7 @@ class tx_ttproducts_control_basket {
 		}
 
 		// overwrite payment from shipping
-		if (is_array($basketExtra['shipping.']) &&
+		if (isset($basketExtra['shipping.']) &&
 			!empty($basketExtra['shipping.']['replacePayment.'])
         ) {
 			if (!$conf['payment.']) {
@@ -674,7 +674,7 @@ class tx_ttproducts_control_basket {
 
         if (
             $staticInfoApi->isActive() &&
-            $infoArray['billing']['country_code'] != ''
+            !empty($infoArray['billing']['country_code'])
         ) {
             $infoArray['billing']['country'] =
                 $staticInfoApi->getStaticInfoName(
@@ -733,7 +733,7 @@ class tx_ttproducts_control_basket {
 		$result = false;
 
 		if (
-			$infoArray['billing']['country_code'] != '' &&
+			!empty($infoArray['billing']['country_code']) &&
 			(
 				$infoArray['delivery']['zip'] == '' ||
 				(
@@ -765,7 +765,7 @@ class tx_ttproducts_control_basket {
 
 			if (
 				$useStaticInfoCountry &&
-				!$infoArray['billing']['country_code']
+				empty($infoArray['billing']['country_code'])
 			) {
 				$infoArray['billing']['country_code'] =
 					$GLOBALS['TSFE']->fe_user->user['static_info_country'];

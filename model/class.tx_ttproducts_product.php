@@ -110,7 +110,7 @@ class tx_ttproducts_product extends tx_ttproducts_article_base {
 
 			if (is_array($eInfo)) {
 				$sittVersion = $eInfo['version'];
-				if (version_compare($sittVersion, '0.3.0', '>=')) {
+				if (version_compare($sittVersion, '0.3.0', '>=') && !empty($tableConf['requiredFields'])) {
 					$tableConf['requiredFields'] = str_replace(',tax,', ',tax_id,taxcat_id,', $tableConf['requiredFields']);
 				}
 			}

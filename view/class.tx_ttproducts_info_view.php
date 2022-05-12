@@ -381,12 +381,12 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 			$bReady = false;
 			$whereCountries = $this->getWhereAllowedCountries($basketExtra);
 			$countryCodeArray = [];
-			$countryCodeArray['billing'] = ($this->infoArray['billing']['country_code'] != '' ? $this->infoArray['billing']['country_code'] : ($GLOBALS['TSFE']->fe_user->user['static_info_country'] != '' ? $GLOBALS['TSFE']->fe_user->user['static_info_country'] : false));
-            $countryCodeArray['delivery'] = ($this->infoArray['delivery']['country_code'] != '' ? $this->infoArray['delivery']['country_code'] : ($GLOBALS['TSFE']->fe_user->user['static_info_country'] != '' ? $GLOBALS['TSFE']->fe_user->user['static_info_country'] : false));
+			$countryCodeArray['billing'] = (!empty($this->infoArray['billing']['country_code']) ? $this->infoArray['billing']['country_code'] : ($GLOBALS['TSFE']->fe_user->user['static_info_country'] != '' ? $GLOBALS['TSFE']->fe_user->user['static_info_country'] : false));
+            $countryCodeArray['delivery'] = (!empty($this->infoArray['delivery']['country_code']) ? $this->infoArray['delivery']['country_code'] : (!empty($GLOBALS['TSFE']->fe_user->user['static_info_country']) ? $GLOBALS['TSFE']->fe_user->user['static_info_country'] : false));
 
 			$zoneCodeArray = [];
-			$zoneCodeArray['billing'] = ($this->infoArray['billing']['zone'] != '' ? $this->infoArray['billing']['zone'] : ($GLOBALS['TSFE']->fe_user->user['zone'] != '' ? $GLOBALS['TSFE']->fe_user->user['zone'] : false));
-			$zoneCodeArray['delivery'] = ($this->infoArray['delivery']['zone'] != '' ? $this->infoArray['delivery']['zone'] : ($GLOBALS['TSFE']->fe_user->user['zone'] != '' ? $GLOBALS['TSFE']->fe_user->user['zone'] : false));
+			$zoneCodeArray['billing'] = (!empty($this->infoArray['billing']['zone']) ? $this->infoArray['billing']['zone'] : ($GLOBALS['TSFE']->fe_user->user['zone'] != '' ? $GLOBALS['TSFE']->fe_user->user['zone'] : false));
+			$zoneCodeArray['delivery'] = (!empty($this->infoArray['delivery']['zone']) ? $this->infoArray['delivery']['zone'] : (!empty($GLOBALS['TSFE']->fe_user->user['zone']) ? $GLOBALS['TSFE']->fe_user->user['zone'] : false));
 
             if (
                 $countryCodeArray['billing'] === false &&
@@ -445,7 +445,7 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 					$markerArray['###PERSON_COUNTRY_FIRST_HIDDEN###'] = '<input type="hidden" name="recs[personinfo][country_code]" size="3" value="'.current(array_keys($countryArray)).'">';
 
 					$markerArray['###PERSON_COUNTRY###'] =
-						$staticInfoApi->getStaticInfoName($countryCodeArray['billing'],'COUNTRIES','','');
+						$staticInfoApi->getStaticInfoName($countryCodeArray['billing'], 'COUNTRIES', '', '');
 					unset($outSelectedArray);
 
 					$markerArray['###DELIVERY_COUNTRY_CODE###'] =

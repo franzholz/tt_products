@@ -64,7 +64,7 @@ class tx_ttproducts_page extends tx_ttproducts_category_base {
 	// 			'deleted' => 'deleted', 'hidden'=>'hidden', 'starttime' => 'starttime', 'endtime' => 'endtime'));
 
 			$requiredFields = 'uid,pid,title,subtitle,media,shortcut';
-			if ($this->tableconf['requiredFields']) {
+			if (!empty($this->tableconf['requiredFields'])) {
 				$tmp = $this->tableconf['requiredFields'];
 				$requiredFields = ($tmp ? $tmp : $requiredFields);
 			}

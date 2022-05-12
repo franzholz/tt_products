@@ -82,11 +82,11 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
 		}
 
 		$tmp = $cObj->stdWrap($conf['pid_list'], $conf['pid_list.'] ?? '');
-		$pid_list = ($cObj->data['pages'] ? $cObj->data['pages'] : (!empty($conf['pid_list.']) ? trim($tmp) : ''));
+		$pid_list = ($cObj->data['pages'] ?? (!empty($conf['pid_list.']) ? trim($tmp) : ''));
 		$pid_list = ($pid_list ? $pid_list : $conf['pid_list']);
 		$config['pid_list'] = (isset($pid_list) ? $pid_list : $config['storeRootPid']);
 
-		$recursive = ($cObj->data['recursive'] ? $cObj->data['recursive']: $conf['recursive']);
+		$recursive = ($cObj->data['recursive'] ?? $conf['recursive']);
 		$config['recursive'] = tx_div2007_core::intInRange($recursive, 0, 100);
 
 		if (is_object($pObj)) {

@@ -53,7 +53,7 @@ class tx_ttproducts_control_access implements \TYPO3\CMS\Core\SingletonInterface
 			throw new exception('ERROR in tt_products: The setup "update_code" must not be empty');
 		}
 
-		$updateCode = trim(GeneralUtility::_GP('update_code'));
+		$updateCode = GeneralUtility::_GP('update_code') ?? '';
 		$bRequireBEAdmin = ($conf['shopAdmin'] == 'BE');
         $bIsAllowed = self::isAllowed($bRequireBEAdmin);
 
@@ -68,7 +68,7 @@ class tx_ttproducts_control_access implements \TYPO3\CMS\Core\SingletonInterface
 			$updateCode = ''; // the update code must not be used if it is wrong
 		}
 
-		$trackingCode = trim(GeneralUtility::_GP('tracking'));
+		$trackingCode = GeneralUtility::_GP('tracking') ?? '';
 	}
 
 
@@ -89,7 +89,7 @@ class tx_ttproducts_control_access implements \TYPO3\CMS\Core\SingletonInterface
 		$result = false;
 
 		if (self::isAllowed($bRequireBEAdmin)) {
-			$updateCode = trim(GeneralUtility::_GP('update_code'));
+			$updateCode = GeneralUtility::_GP('update_code') ?? '';
 
 			if ($updateCode == $password) {
 				$result = true;	// Means that the administrator of the website is authenticated.

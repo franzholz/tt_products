@@ -64,7 +64,7 @@ class tx_ttproducts_address extends tx_ttproducts_category_base {
 			$tableObj->setNewFieldArray();
 			$requiredFields = 'uid,pid,title';
 
-			if ($tableconf['requiredFields']) {
+			if (!empty($tableconf['requiredFields'])) {
 				$tmp = $tableconf['requiredFields'];
 				$requiredFields = ($tmp ? $tmp : $requiredFields);
 			}

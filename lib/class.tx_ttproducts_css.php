@@ -58,7 +58,7 @@ class tx_ttproducts_css implements \TYPO3\CMS\Core\SingletonInterface {
 			isset($this->conf) &&
 			is_array($this->conf) &&
 			$this->isCssStyled &&
-			$this->conf['file'] != ''
+			!empty($this->conf['file'])
 		) {
 			$result = true;
 		} else {
