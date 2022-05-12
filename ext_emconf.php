@@ -23,6 +23,7 @@ $EM_CONF[$_EXTKEY] = [
       'php' => '7.4.0-8.1.99',
       'table' => '0.7.5-0.0.0',
       'tsparser' => '0.2.5-0.0.0',
+      'typo3db_legacy' => '1.0.0-1.1.99',
       'typo3' => '10.4.0-11.5.99',
     ],
     'conflicts' => 
@@ -33,7 +34,6 @@ $EM_CONF[$_EXTKEY] = [
       'addons_em' => '0.1.0-0.0.0',
       'func' => '',
       'static_info_tables_taxes' => '0.3.0-0.4.0',
-      'typo3db_legacy' => '1.0.0-1.1.99',
       'taxajax' => ''
     ],
   ]
