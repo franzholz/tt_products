@@ -473,7 +473,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view {
 				$count++;
 			}	// foreach
 		} else if (
-			$this->conf['noImageAvailable'] != '' &&
+			!empty($this->conf['noImageAvailable']) &&
 			$this->conf['noImageAvailable'] != '{$plugin.tt_products.file.noImageAvailable}'
 		) {	// if (count($imageArray))
 			$imageConf = $this->conf[$imageRenderObj . '.'];
@@ -626,7 +626,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view {
 
 					if ($generate == 'generatePath') {
 						$dirname = $conftableConf['generatePath.']['base'];
-						if ($dirname != '' && $nameArray['generatePath'] != '') {
+						if ($dirname != '' && !empty($nameArray['generatePath'])) {
 							$dirname .= '/';
 						}
 						$dirname .= $nameArray['generatePath'];

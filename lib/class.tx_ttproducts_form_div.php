@@ -55,7 +55,7 @@ class tx_ttproducts_form_div {
 		$keyMarkerArray = ''
 	) {
 		$result = false;
-		$useXHTML = $GLOBALS['TSFE']->config['config']['xhtmlDoctype'] != '';
+		$useXHTML = !empty($GLOBALS['TSFE']->config['config']['xhtmlDoctype']);
 		$parser = tx_div2007_core::newHtmlParser(false);
 		$flags = ENT_QUOTES;
 
@@ -202,7 +202,7 @@ class tx_ttproducts_form_div {
 	}
 
 	static protected function getAttributeString ($mainAttributeArray) {
-		$useXHTML = $GLOBALS['TSFE']->config['config']['xhtmlDoctype'] != '';
+		$useXHTML = !empty($GLOBALS['TSFE']->config['config']['xhtmlDoctype']);
 		$resultArray = array();
 
 		if (is_array($mainAttributeArray) && count($mainAttributeArray)) {
@@ -231,7 +231,7 @@ class tx_ttproducts_form_div {
 		$preMainAttributes = '',
 		$mainAttributes = ''
 	) {
-		$useXHTML = $GLOBALS['TSFE']->config['config']['xhtmlDoctype'] != '';
+		$useXHTML = !empty($GLOBALS['TSFE']->config['config']['xhtmlDoctype']);
 		$attributeTextArray = array();
 		$attributeArray = array();
 		$attributeArray['pre'] = $preMainAttributes;

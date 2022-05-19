@@ -37,8 +37,8 @@
  */
 
 
+use TYPO3\CMS\Core\Charset\CharsetConverter;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-
 
 
 class tx_ttproducts_fpdf_view {
@@ -69,12 +69,6 @@ class tx_ttproducts_fpdf_view {
 	) {
 		$result = false;
 		$renderCharset = 'UTF-8';
-
-		if (
-			$GLOBALS['TSFE']->renderCharset != ''
-		) {
-			$renderCharset = $GLOBALS['TSFE']->renderCharset;
-		}
 
 // require_once '/path/to/src/PhpWord/Autoloader.php';
 // \PhpOffice\PhpWord\Autoloader::register();
@@ -140,7 +134,7 @@ class tx_ttproducts_fpdf_view {
 			$basketRecs
 		);
 
-		$csConvObj = $GLOBALS['TSFE']->csConvObj;
+		$csConvObj = GeneralUtility::makeInstance(CharsetConverter::class);
 		$header = $csConvObj->conv(
 			$header,
 			$renderCharset,

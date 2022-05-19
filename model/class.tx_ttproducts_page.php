@@ -273,7 +273,7 @@ class tx_ttproducts_page extends tx_ttproducts_category_base {
             if (MathUtility::canBeInterpretedAsInteger($conf) && $conf > 0) {
 				$result = $conf;
 			} else {
-				$result = ($rootRow['uid'] ?? $GLOBALS['TSFE']->id);
+				$result = (!empty($rootRow['uid']) ? $rootRow['uid'] : $GLOBALS['TSFE']->id);
 				$result = intval($result);
 			}
 		}

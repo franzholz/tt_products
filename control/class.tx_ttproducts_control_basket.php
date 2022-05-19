@@ -294,7 +294,8 @@ class tx_ttproducts_control_basket {
 							unset($conf['payment.'][$key . '.']);
 						}
 					}
-					if (($val['visibleForGroupID'] != '') &&
+					if (
+                        !empty($val['visibleForGroupID']) &&
 						(!$tablesObj->get('fe_users')->isUserInGroup($GLOBALS['TSFE']->fe_user->user, $val['visibleForGroupID']))) {
 						unset($conf['payment.'][$key . '.']);
 					}
@@ -735,9 +736,9 @@ class tx_ttproducts_control_basket {
 		if (
 			!empty($infoArray['billing']['country_code']) &&
 			(
+                !isset($infoArray['delivery']['zip']) ||
 				$infoArray['delivery']['zip'] == '' ||
 				(
-					$infoArray['delivery']['zip'] != '' &&
 					$infoArray['delivery']['zip'] == $infoArray['billing']['zip']
 				)
 			)
@@ -778,6 +779,7 @@ class tx_ttproducts_control_basket {
 						chr(10),
 						$GLOBALS['TSFE']->fe_user->user['address'] . chr(10) .
 							(
+                                isset($GLOBALS['TSFE']->fe_user->user['house_no']) &&
 								$GLOBALS['TSFE']->fe_user->user['house_no'] != '' ?
 									$GLOBALS['TSFE']->fe_user->user['house_no'] . chr(10) :
 									''

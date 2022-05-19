@@ -267,7 +267,7 @@ abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\Single
 		$t['browseFrameWork'] = $templateService->getSubpart($t['listFrameWork'], $subpartmarkerObj->spMarker('###LINK_BROWSE###'));
 		$markerArray['###BROWSE_LINKS###']='';
 
-		if ($t['browseFrameWork'] != '') {
+		if (!empty($t['browseFrameWork'])) {
 			$pibaseObj = GeneralUtility::makeInstance('' . $this->pibaseClass);
 			$languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
 			$tableConfArray = $this->getTableConfArray();
@@ -422,7 +422,7 @@ abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\Single
 			$depth = 0;
 			$allMarkers = $this->getTemplateMarkers($t);
 
-			if ($allMarkers['BROWSE_LINKS'] != '') {
+			if (!empty($allMarkers['BROWSE_LINKS'])) {
 				$ctrlArray['bUseBrowser'] = true;
 			}
 

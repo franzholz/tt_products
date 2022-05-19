@@ -141,7 +141,7 @@ class tx_ttproducts_account extends tx_ttproducts_table_base {
 		}
 
 		if (
-			$acArray['owner_name'] != '' &&
+			!empty($acArray['owner_name']) &&
 			$acArray[$accountField] &&
 			$GLOBALS['TSFE']->sys_page->getPage_noCheck($pid)
 		) {

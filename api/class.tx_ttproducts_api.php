@@ -804,13 +804,13 @@ class tx_ttproducts_api {
 						if (
                             \JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn() &&
                             !empty($GLOBALS['TSFE']->fe_user->user) &&
-							trim($GLOBALS['TSFE']->fe_user->user['username']) != '' &&
+							!empty($GLOBALS['TSFE']->fe_user->user['username']) &&
 							$toConfig['table'] == 'fe_users' &&
-							$toConfig['field'] != '' &&
-							$toConfig['foreign_table'] != '' &&
-							$toConfig['foreign_field'] != '' &&
-							$toConfig['foreign_email_field'] != '' &&
-							$GLOBALS['TSFE']->fe_user->user[$toConfig['field']] != ''
+							!empty($toConfig['field']) &&
+							!empty($toConfig['foreign_table']) &&
+							!empty($toConfig['foreign_field']) &&
+							!empty($toConfig['foreign_email_field']) &&
+							!empty($GLOBALS['TSFE']->fe_user->user[$toConfig['field']])
 						) {
 							$where_clause =
 								$toConfig['foreign_table'] . '.' .
@@ -828,7 +828,7 @@ class tx_ttproducts_api {
 
 							if (isset($recordArray) && is_array($recordArray)) {
 								foreach ($recordArray as $record) {
-									if ($record[$toConfig['foreign_email_field']] != '') {
+									if (!empty($record[$toConfig['foreign_email_field']])) {
 										$emailControlArray[$suffix][$shippingPoint]['recipient'][] = $record[$toConfig['foreign_email_field']];
 									}
 								}
@@ -902,7 +902,7 @@ class tx_ttproducts_api {
 
 					if ($shippingPoint != 'none') {
 						$emailControlArray[$suffix][$shippingPoint]['recipient'] = array_unique(GeneralUtility::trimExplode(',', $emailConfig['to']));
-						if ($emailConfig['subject'] != '') {
+						if (!empty($emailConfig['subject'])) {
 							$emailControlArray[$suffix][$shippingPoint]['subject'] = $emailConfig['subject'];
 						}
 					}
@@ -1006,13 +1006,13 @@ class tx_ttproducts_api {
 						if (isset($emailRow) && is_array($emailRow)) {
 							$email = $emailRow['email'];
 							$emailArray = array();
-							if ($emailRow['name'] != '') {
+							if (!empty($emailRow['name'])) {
 								$emailArray = array($email => $emailArray['name']);
 							} else {
 								$emailArray = array($email);
 							}
 
-							if ($emailRow['suffix'] != '') {
+							if (!empty($emailRow['suffix'])) {
 								$suffix = strtolower($emailRow['suffix']);
 							}
 
@@ -1175,7 +1175,7 @@ class tx_ttproducts_api {
                                 );
                             }
 
-                            $subject = ($suffixControlArray['subject'] ?? $subject);
+                            $subject = (!empty($suffixControlArray['subject']) ? $suffixControlArray['subject'] : $subject);
                             $HTMLmailContent = '';
                             if ($basketHtml != '') {
                                 $HTMLmailContent =
@@ -1252,7 +1252,7 @@ class tx_ttproducts_api {
 							}
 						}
 
-						if ($emailControlArray['shop']['none']['content'] != '') {
+						if (!empty($emailControlArray['shop']['none']['content'])) {
 							$emailKey = 'shop';
 						} else {
 							$emailKey = 'customer';

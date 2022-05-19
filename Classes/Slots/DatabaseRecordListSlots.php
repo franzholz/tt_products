@@ -59,7 +59,7 @@ class DatabaseRecordListSlots
                 $newValue = '';
 
                 if (
-                    $csvRow['ac_uid'] != '' &&
+                    !empty($csvRow['ac_uid']) &&
                     $csvRow['ac_uid'] != ':'
                 ) {
                     $valueArray = explode (':', $csvRow['ac_uid']);

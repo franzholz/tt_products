@@ -92,7 +92,7 @@ class tx_ttproducts_field_price_view extends tx_ttproducts_field_base_view {
 	);
 
     static public function getConvertedPriceFieldArray ($priceType) {
-        $priceFieldArray = array();
+        $priceFieldArray = [];
         if (
             isset(self::$convertArray[$priceType]) &&
             is_array(self::$convertArray[$priceType])
@@ -118,7 +118,7 @@ class tx_ttproducts_field_price_view extends tx_ttproducts_field_base_view {
 			$cObj = FrontendUtility::getContentObjectRenderer();
 
 			$ptconf = $conf['priceTagObj.'];
-			$markContentArray = array();
+			$markContentArray = [];
 			$markContentArray['###PRICE###'] = $priceText;
 			$markContentArray['###TAX_INCL_EXCL###'] = ($taxInclExcl ? $languageObj->getLabel($taxInclExcl) : '');
 
@@ -243,7 +243,7 @@ class tx_ttproducts_field_price_view extends tx_ttproducts_field_base_view {
 		if ($priceMarkerPrefix != '') {
 			$priceMarkerPrefix .= '_';
 		}
-		$priceMarkerArray = array();
+		$priceMarkerArray = [];
 		$modelObj = $this->getModelObj();
 		$taxFromShipping = PaymentShippingHandling::getReplaceTaxPercentage($basketExtra);
 		$taxInclExcl =
@@ -254,7 +254,7 @@ class tx_ttproducts_field_price_view extends tx_ttproducts_field_base_view {
 					'tax_zero' :
 					'tax_included'
 			);
-		$taxInfoArray = array();
+		$taxInfoArray = [];
 
 		$priceTaxArray =
 			$modelObj->getPriceTaxArray(
@@ -356,7 +356,7 @@ class tx_ttproducts_field_price_view extends tx_ttproducts_field_base_view {
 				'tax_zero' :
 				'tax_included'
 			);
-		$taxInfoArray = array();
+		$taxInfoArray = [];
 // tt-products-single-1-pricetax
 		$priceArray = $modelObj->getPriceTaxArray(
 			$taxInfoArray,

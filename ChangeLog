@@ -1,3 +1,7 @@
+2022-05-19 Franz Holzinger <franz@ttproducts.de>
+    * fix issues with wrong usage of double question mark ?? (Null Coalescing) operator
+    * fix PHP 8 issues
+
 2022-05-12 Franz Holzinger <franz@ttproducts.de>
     * backwards compatibility: Use the first value of a payment/shipping setup as active, if the user did not select anything before.
 

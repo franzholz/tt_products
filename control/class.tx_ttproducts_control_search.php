@@ -223,7 +223,7 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 					);
 				break;
 				case 'KEYFIELD':
-					$functablename = ($this->config['foreign_table'] != '' ? $this->config['foreign_table'] : $this->config['local_table']);
+					$functablename = ($this->config['foreign_table'] ?? $this->config['local_table']);
 					$tableConf = $cnf->getTableConf($functablename, $theCode);
 
 					if (isset($tableConf['view.']) && is_array($tableConf['view.']) &&

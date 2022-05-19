@@ -166,7 +166,7 @@ class tx_ttproducts_product extends tx_ttproducts_article_base {
 			foreach ($selectableFieldArray as $field) {
 				if (
 					$row[$field] == '' &&
-					$variantRow[$field] != ''
+					!empty($variantRow[$field])
 				) {
 					$row[$field] = $variantRow[$field];
 				}
@@ -200,7 +200,11 @@ class tx_ttproducts_product extends tx_ttproducts_article_base {
 		$variantSeparator = $variant->getSplitSeparator();
 
 		foreach ($variant->conf as $k => $field) {
-			if ($productRow[$field] && $field != $variant->additionalField) {
+			if (
+                isset($productRow[$field]) &&
+                strlen($productRow[$field]) &&
+                $field != $variant->additionalField
+            ) {
 
 // 			[\h]+
 				$fieldArray[$field] =
@@ -221,17 +225,21 @@ class tx_ttproducts_product extends tx_ttproducts_article_base {
 			foreach ($articleRows as $k => $row) {
 				$bFits = true;
 				foreach ($fieldArray as $field => $valueArray) {
- 					$rowFieldArray =
-						preg_split(
-							'/[\h]*' . $variantSeparator . '[\h]*/',
-							$row[$field],
-							-1,
-							PREG_SPLIT_NO_EMPTY
-						);
+                    $rowFieldArray = [];
+                    if (isset($row[$field]) && strlen($row[$field])) {
+                        $rowFieldArray =
+                            preg_split(
+                                '/[\h]*' . $variantSeparator . '[\h]*/',
+                                $row[$field],
+                                -1,
+                                PREG_SPLIT_NO_EMPTY
+                            );
+                        }
 
 					$intersectArray = array_intersect($valueArray, $rowFieldArray);
 					if (
-						$row[$field] &&
+						isset($row[$field]) &&
+						strlen($row[$field]) &&
 						!count($intersectArray) &&
 						$field != 'additional'
 					) {

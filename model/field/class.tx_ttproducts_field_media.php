@@ -154,7 +154,7 @@ class tx_ttproducts_field_media extends tx_ttproducts_field_base {
 						$fileArray[$sysfileRow['uid']] = array_merge($fileInfo, $sysfileRow);
 						$keepFields = ['title', 'description', 'alternative'];
 						foreach ($keepFields as $keepField) {
-                            if ($sysfileRow[$keepField] == '' && $fileInfo[$keepField] != '') {
+                            if (empty($sysfileRow[$keepField]) && !empty($fileInfo[$keepField])) {
                                 $fileArray[$sysfileRow['uid']][$keepField] = $fileInfo[$keepField];
                             }
 						}

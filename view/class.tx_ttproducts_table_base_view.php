@@ -278,7 +278,7 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
 							$fieldArray = array($fieldname => array($comparator, intval($comparand)));
 
 							foreach ($fieldArray as $field => $fieldCondition) {
-								$comparator = $comparatorArray[$fieldCondition[0]];
+								$comparator = $comparatorArray[$fieldCondition['0']];
 
 								if (isset($row[$field]) && $comparator != '') {
 									$evalString = "return $row[$field]$comparator$fieldCondition[1];";

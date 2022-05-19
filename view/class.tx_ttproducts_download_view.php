@@ -226,7 +226,8 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view {
 						$currentOrderUid = 0;
 						foreach($multiOrderArray as $orderRow) {
 							if (
-								$orderRow['edit_variants'] != '' &&
+                                isset($orderRow['edit_variants']) &&
+								strlen($orderRow['edit_variants']) &&
 								strpos($orderRow['edit_variants'], 'domain:') !== false
 							) {
 // andere Varianten erlauben
@@ -238,7 +239,11 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view {
 										PREG_SPLIT_NO_EMPTY
 									);
 
-								if ($selectedDomain != '' && is_array($editVariants) && count($editVariants)) {
+                                if (
+                                    $selectedDomain != '' && 
+                                    is_array($editVariants) &&
+                                    count($editVariants)
+                                ) {
 									$editVariantComparator = 'domain:' . $selectedDomain;
 									foreach($editVariants as $editVariant) {
 

@@ -631,7 +631,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 			$itemTableViewArray['article'] = $articleViewObj;
 		} else if (
 			$itemTable->getType() == 'article' ||
-			$itemTable->getType() == 'dam' && $conf['productDAMCategoryID'] != '' ||
+			$itemTable->getType() == 'dam' && !empty($conf['productDAMCategoryID']) ||
 			$itemTable->getType() == 'download' ||
 			$itemTable->getType() == 'fal'
 		) {
@@ -914,7 +914,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
         ) {
 			$formNameSetup = $conf['form.'][$theCode . '.']['data.']['name'];
 		}
-		$formName = ($formNameSetup ?? $formName);
+		$formName = (!empty($formNameSetup) ? $formNameSetup : $formName);
 
 		if ($htmlSwords && (in_array($theCode, array('LIST', 'SEARCH')))) {
 				//extend standard search fields with user setup
@@ -1088,7 +1088,6 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
         if ($calllevel == 0) {
 
 			$begin_at = ($piVars[$pointerParam] ?? 0) * $limit;
-// 			$begin_at = (($begin_at ?? GeneralUtility::_GP($pointerParam)) * $limit);
 		}
         $begin_at = tx_div2007_core::intInRange($begin_at, 0, 100000);
 
@@ -1338,7 +1337,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 							$selectConf['from'] .= $delimiter . $sqlFrom;
 						}
 					}
-					if ($sqlTableArray['where'] != '') {
+					if (!empty($sqlTableArray['where'])) {
 						$tmpWhere = implode(' AND ', $sqlTableArray['where']);
 						if ($tmpWhere != '') {
 							$selectConf['where'] = '(' . $selectConf['where'] . ') AND ' . $tmpWhere;
@@ -1531,7 +1530,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 					}
 					$catTables = $categoryTable->getTableObj()->getAdditionalTables(array($categoryTable->getTableObj()->getLangName()));
 
-					if ($selectConf['from'] != '') {
+					if (!empty($selectConf['from'])) {
 						$tmpDelim = ',';
 					}
 					if ($catTables!='') {
@@ -1609,11 +1608,11 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 					}
 
 					if ($mmTablename != '') {
-						$selectConf['from'] = ($selectConf['from'] != '' ? $selectConf['from'] . ',' . $mmTablename : $mmTablename);
+						$selectConf['from'] = (!empty($selectConf['from']) ? $selectConf['from'] . ',' . $mmTablename : $mmTablename);
 						$whereProducts = ' AND ' . $whereMM . $whereProducts;
 					}
 					if ($viewedTablename != '') {
-						$selectConf['from'] = ($selectConf['from'] != '' ? $selectConf['from'] . ',' . $viewedTablename : $viewedTablename);
+						$selectConf['from'] = (!empty($selectConf['from']) ? $selectConf['from'] . ',' . $viewedTablename : $viewedTablename);
 					}
 					if ($orderByProducts != '') {
 						$selectConf['orderBy'] = $orderByProducts;
@@ -1669,7 +1668,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 						true
 					);
 
-				if ($selectCountConf['groupBy'] != '') {
+				if (!empty($selectCountConf['groupBy'])) {
 					$queryParts['SELECT'] = 'count(DISTINCT ' . $selectCountConf['groupBy'] . ')';
 					unset($queryParts['GROUPBY']);
 				}
@@ -1740,7 +1739,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 					true
 				);
 
-				if ($selectConf['groupBy'] != '') {
+				if (!empty($selectConf['groupBy'])) {
 					$queryParts['SELECT'] .= ',count(' . $selectConf['groupBy'] . ') sql_groupby_count';
 				}
 
@@ -2114,7 +2113,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 							$categorySubpartArray = [];
 							$categoryWrappedSubpartArray = [];
 
-							if ($where != '' || $conf['displayListCatHeader']) { // Todo: displayListCatHeader is always 1 because of if before
+							if ($where != '' || !empty($conf['displayListCatHeader'])) { // Todo: displayListCatHeader is always 1 because of if before
                                 $tmp = [];
 								$categoryTableView->getMarkerArray(
 									$categoryMarkerArray,
@@ -2692,7 +2691,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 									if (
 										isset($parentRow) &&
 										is_array($parentRow) &&
-										$parentRow['catid'] != ''
+										!empty($parentRow['catid'])
 									) {
 										$tagArray[] = $parentRow['catid'];
 									}
@@ -2886,9 +2885,9 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 						}
 						$markerArray['###FORM_ONSUBMIT###'] = 'return checkParams (document.'.$markerArray['###FORM_NAME###'].');';
 						$rowEven = $cssConf['row.']['even'] ?? '';
-						$rowEven = ($rowEven ?? $conf['CSSRowEven']); // backwards compatible
+						$rowEven = (!empty($rowEven) ? $rowEven : $conf['CSSRowEven']); // backwards compatible
 						$rowUneven = $cssConf['row.']['uneven'] ?? '';
-						$rowUneven = ($rowUneven ?? $conf['CSSRowUneven']); // backwards compatible
+						$rowUneven = (!empty($rowUneven) ? $rowUneven : $conf['CSSRowUneven']); // backwards compatible
 						// alternating css-class eg. for different background-colors
 						$evenUneven = (($iCount & 1) == 0 ? $rowEven : $rowUneven);
 						$temp='';

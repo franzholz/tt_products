@@ -228,10 +228,12 @@ class tx_ttproducts_tables implements \TYPO3\CMS\Core\SingletonInterface {
 		$aliasPostfix,
 		&$sqlArray
 	) {
-		if ($foreignTableInfoArray['mmtable'] == '' && $foreignTableInfoArray['foreign_table'] != '') {
-			$fieldname = $foreignTableInfoArray['table_field'];
-
-			$tablename = $foreignTableInfoArray['table'];
+		if (
+            empty($foreignTableInfoArray['mmtable']) && 
+            !empty($foreignTableInfoArray['foreign_table'])
+        ) {
+            $fieldname = $foreignTableInfoArray['table_field'];
+            $tablename = $foreignTableInfoArray['table'];
 			if (isset($tableAliasArray[$tablename])) {
 				$tablealiasname = $tableAliasArray[$tablename];
 			} else {

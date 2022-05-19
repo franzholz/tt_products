@@ -401,8 +401,14 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
 				$api = $conf['RATING.']['api'];
 			}
 
-			if ($extKey != '' && \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($extKey) && $api != '' && class_exists($api)) {
-				$apiObj = GeneralUtility::makeInstance($api);
+            if (
+                $extKey != '' &&
+                \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($extKey) && 
+                $api != '' &&
+                class_exists($api)
+            )
+            {
+                $apiObj = GeneralUtility::makeInstance($api);
 				if (method_exists($apiObj, 'getDefaultConfig')) {
 					$ratingConf = $apiObj->getDefaultConfig();
 					if (isset($ratingConf) && is_array($ratingConf)) {

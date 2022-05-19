@@ -42,7 +42,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
 class tx_ttproducts_article extends tx_ttproducts_article_base {
-	public $fields = array();
+	public $fields = [];
 	public $tt_products; // element of class tx_table_db to get the parent product
 	public $marker = 'ARTICLE';
 	public $type = 'article';
@@ -60,7 +60,7 @@ class tx_ttproducts_article extends tx_ttproducts_article_base {
 
 		if ($result) {
 			$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-			$tableConfig = array();
+			$tableConfig = [];
 			$tableConfig['orderBy'] = $cnf->conf['orderBy'] ?? '';
 
 			if (!$tableConfig['orderBy']) {
@@ -77,7 +77,7 @@ class tx_ttproducts_article extends tx_ttproducts_article_base {
 
 
 	public function &getWhereArray ($prodUid, $where, $orderBy = '') { // Todo: consider the $orderBy
-		$rowArray = array();
+		$rowArray = [];
 		$enableWhere = $this->getTableObj()->enableFields();
 		$where = ($where ? $where . ' ' . $enableWhere : '1=1 ' . $enableWhere);
 		$alias = $this->getAlias();
@@ -131,7 +131,7 @@ class tx_ttproducts_article extends tx_ttproducts_article_base {
 	public function getRequiredFieldArray ($theCode = '') {
 		$tableConf = $this->getTableConf($theCode);
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-		$rc = array();
+		$rc = [];
 		if (!empty($tableConf['requiredFields'])) {
 			$requiredFields = $tableConf['requiredFields'];
 		} else {

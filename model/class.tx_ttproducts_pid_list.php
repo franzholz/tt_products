@@ -45,7 +45,7 @@ use JambageCom\Div2007\Utility\FrontendUtility;
 class tx_ttproducts_pid_list {
 	protected $pid_list;				// list of page ids
 	protected $recursive;
-	protected $pageArray = array();		// pid_list as array
+	protected $pageArray = [];		// pid_list as array
 	protected $allPages = false;
 
 
@@ -72,10 +72,10 @@ class tx_ttproducts_pid_list {
 	/**
 	 * Gets the pid_list internal var or the child pid_list of the page id as parameter
 	 */
-	public function getPidlist ($pid='') {
+	public function getPidlist ($pid = '') {
 		$rc = '';
 		if ($pid) {
-			$this->applyRecursive(1,$pid,false);
+			$this->applyRecursive(1, $pid, false);
 			$rc = $pid;
 		} else {
 			$rc = $this->pid_list;

@@ -230,9 +230,8 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 			$checkFieldsExpr = $this->getFieldChecks($type);
 			if (($checkFieldsExpr) && (is_array($checkFieldsExpr))) {
 				foreach ($checkFieldsExpr as $fName => $checkExpr) {
-					if (trim($this->infoArray[$type][$fName]) != '') {
+					if (!empty($this->infoArray[$type][$fName])) {
 						if (
-                            isset($this->infoArray[$type][$fName]) &&
                             preg_match('/' . $checkExpr . '/', $this->infoArray[$type][$fName]) == 0
                         ) {
 							$result = $fName;
@@ -381,7 +380,7 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 			$bReady = false;
 			$whereCountries = $this->getWhereAllowedCountries($basketExtra);
 			$countryCodeArray = [];
-			$countryCodeArray['billing'] = (!empty($this->infoArray['billing']['country_code']) ? $this->infoArray['billing']['country_code'] : ($GLOBALS['TSFE']->fe_user->user['static_info_country'] != '' ? $GLOBALS['TSFE']->fe_user->user['static_info_country'] : false));
+			$countryCodeArray['billing'] = (!empty($this->infoArray['billing']['country_code']) ? $this->infoArray['billing']['country_code'] : ($GLOBALS['TSFE']->fe_user->user['static_info_country'] ?? false));
             $countryCodeArray['delivery'] = (!empty($this->infoArray['delivery']['country_code']) ? $this->infoArray['delivery']['country_code'] : (!empty($GLOBALS['TSFE']->fe_user->user['static_info_country']) ? $GLOBALS['TSFE']->fe_user->user['static_info_country'] : false));
 
 			$zoneCodeArray = [];
@@ -390,8 +389,8 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 
             if (
                 $countryCodeArray['billing'] === false &&
-                $this->infoArray['billing']['country'] != '' &&
-                $this->infoArray['delivery']['country'] != ''
+                !empty($this->infoArray['billing']['country']) &&
+                !empty($this->infoArray['delivery']['country'])
             ) {
                 // nothing to do
                 $bReady = true;
@@ -625,7 +624,7 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 				}
 
 				$where_clause = '';
-				if ($tablename == 'fe_users' && $this->conf['UIDstoreGroup'] != '') {
+				if ($tablename == 'fe_users' && !empty($this->conf['UIDstoreGroup'])) {
 
 					$orChecks = [];
 					$memberGroups = GeneralUtility::trimExplode(',', $this->conf['UIDstoreGroup']);
