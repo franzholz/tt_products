@@ -77,7 +77,7 @@ class tx_ttproducts_activity_finalize implements \TYPO3\CMS\Core\SingletonInterf
 		if (in_array('shop', $suffixArray)) {
 			$emailControlArray['shop']['none']['from'] = $fromArray['shop'];
 
-			if ($conf['orderEmail_to'] != '') {
+			if (!empty($conf['orderEmail_to'])) {
 				$emailControlArray['shop']['none']['recipient'][] = $conf['orderEmail_to'];
 			}
 		}
@@ -242,7 +242,7 @@ class tx_ttproducts_activity_finalize implements \TYPO3\CMS\Core\SingletonInterf
 		}
 
 		if (
-			$infoViewObj->infoArray['billing']['email'] != '' &&
+			!empty($infoViewObj->infoArray['billing']['email']) &&
 			!\JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn() &&
 			(
                 empty($GLOBALS['TSFE']->fe_user->user) ||
@@ -277,7 +277,7 @@ class tx_ttproducts_activity_finalize implements \TYPO3\CMS\Core\SingletonInterf
 
 							if (
                                 \JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn() &&
-                                $GLOBALS['TSFE']->fe_user->user[$feuserField] != ''
+                                !empty($GLOBALS['TSFE']->fe_user->user[$feuserField])
                             ) {
 								$memoItems = $GLOBALS['TSFE']->fe_user->user[$feuserField];
 							}

@@ -64,7 +64,7 @@ class tx_ttproducts_pi1 implements \TYPO3\CMS\Core\SingletonInterface {
 		$pibaseObj = GeneralUtility::makeInstance('tx_ttproducts_pi1_base');
 		$pibaseObj->cObj = $this->cObj;
 
-		if ($conf['templateFile'] != '' || $conf['templateFile.'] != '') {
+		if (!empty($conf['templateFile']) || !empty($conf['templateFile.'])) {
 			$content = $pibaseObj->main($content, $conf);
 		} else {
             $errorText = $GLOBALS['TSFE']->sL(

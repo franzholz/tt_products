@@ -227,7 +227,7 @@ class tx_ttproducts_pdf implements \TYPO3\CMS\Core\SingletonInterface {
 		$tempContentArray = preg_split('/[\n]+/', $tempContent);
 		$dataArray = array();
 		foreach ($tempContentArray as $tmpContent) {
-			if (trim($tmpContent) != '') {
+			if (isset($tmpContent) && trim($tmpContent) != '') {
 				$dataArray[] = preg_split('/\|/', $tmpContent, -1, PREG_SPLIT_NO_EMPTY);
 			}
 		}

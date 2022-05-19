@@ -94,7 +94,7 @@ class ImportFalUtility {
                     foreach ($rowArray as $k => $row) {
     //                  if ($k != 3) continue; // Test
 
-                        if ($row[$imageFieldname] != '') {
+                        if (!empty($row[$imageFieldname])) {
                             $imageArray = explode(',', $row[$imageFieldname]);
                             $sysfileRowArray = array();
                             if (intval($row[$imageFalFieldname]) != 0) {

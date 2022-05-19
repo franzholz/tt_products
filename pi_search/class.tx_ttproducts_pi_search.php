@@ -57,7 +57,7 @@ class tx_ttproducts_pi_search {
 		$pibaseObj = GeneralUtility::makeInstance('tx_ttproducts_pi_search_base');
 		$pibaseObj->cObj = $this->cObj;
 
-		if ($conf['templateFile'] != '') {
+		if (!empty($conf['templateFile'])) {
 
 			$content = $pibaseObj->main($content, $conf);
 		} else {

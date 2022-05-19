@@ -67,7 +67,7 @@ class tx_ttproducts_control_view {
 							foreach ($typeConf as $numberx => $numberConf) {
 								$number = substr($numberx, 0, strpos($numberx, '.'));
 								$markerkey = strtoupper($type) . $number;
-								if ($allMarkers[$markerkey] != '') {
+								if (!empty($allMarkers[$markerkey])) {
 									$allValueArray[$type . $separator . $number] = $numberConf;
 								}
 							}

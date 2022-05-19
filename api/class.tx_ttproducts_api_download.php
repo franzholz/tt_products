@@ -64,7 +64,7 @@ class tx_ttproducts_api_download {
 		$content = $fileObj->getContents();
 		$properties = $fileObj->getProperties();
 
-		if ($properties['mime_type'] != '') {
+		if (!empty($properties['mime_type'])) {
 			$mimeType = $properties['mime_type'];
 		}
 

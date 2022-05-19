@@ -473,7 +473,7 @@ class PaymentShippingHandling {
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 		$active = $basketExtra[$pskey] ?? '';
         $activeArray = is_array($active) ? $active : (empty($active) ? [] : [$active]);
-		$bUseXHTML = $GLOBALS['TSFE']->config['config']['xhtmlDoctype'] != '';
+		$bUseXHTML = !empty($GLOBALS['TSFE']->config['config']['xhtmlDoctype']);
 		$selectedText = ($bUseXHTML ? 'selected="selected"' : 'selected');
 		$type = 0;
 		$wrap = '';

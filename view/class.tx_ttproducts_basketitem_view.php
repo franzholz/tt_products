@@ -220,7 +220,7 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
 		$keyAdditional = $viewTable->variant->getAdditionalKey();
 		$selectableArray = $viewTable->variant->getSelectableArray();
 		$basketExt = tx_ttproducts_control_basket::getBasketExt();
-		$bUseXHTML = $GLOBALS['TSFE']->config['config']['xhtmlDoctype'] != '';
+		$bUseXHTML = empty($GLOBALS['TSFE']->config['config']['xhtmlDoctype']);
         $imageObj = GeneralUtility::makeInstance('tx_ttproducts_field_image_view');
 
 		$variantSeparator = $viewTable->getVariant()->getSplitSeparator();
@@ -248,7 +248,7 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
 				if (isset($fieldArray) && is_array($fieldArray)) {
 
 					foreach($fieldArray as $k => $field) {
-						$variantValue = $row[$field];
+						$variantValue = $row[$field] ?? '';
 						$prodTmpRow =
 							preg_split(
 								'/[\h]*' . $variantSeparator . '[\h]*/',
@@ -298,7 +298,7 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
 		$bUseRadioBox =
 			is_array($radioInputArray) &&
 			count($radioInputArray) > 0 &&
-			$radioInputArray['name'] != '';
+			!empty($radioInputArray['name']);
 
 		$jsTableName = str_replace('_', '-', $productFuncTablename);
 		$basketQuantityName =
@@ -311,7 +311,7 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
 				$callFunctableArray
 			);
 
-		$attributeFieldName = ($bUseRadioBox && $radioInputArray['name'] != '' ? $radioInputArray['name'] : $basketQuantityName);
+		$attributeFieldName = ($bUseRadioBox && !empty($radioInputArray['name']) ? $radioInputArray['name'] : $basketQuantityName);
 		$markerArray['###FIELD_NAME###'] = htmlspecialchars($attributeFieldName);
 
 			// check need for comments
@@ -536,7 +536,7 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
 		if ($bUseRadioBox) {
 
 			$params = 'type="' . $radioInputArray['type'] . '"';
-			$params .= ($radioInputArray['params'] != '' ? ' ' . $radioInputArray['params'] : '');
+			$params .= (!empty($radioInputArray['params']) ? ' ' . $radioInputArray['params'] : '');
 			if ($radioInputArray['checked'] == $uid) {
 				$params .= ' ' . ($bUseXHTML ? 'checked="checked"' : 'checked');
 			}

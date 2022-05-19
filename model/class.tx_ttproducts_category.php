@@ -411,13 +411,13 @@ class tx_ttproducts_category extends tx_ttproducts_category_base {
 			$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 
 			if ($this->getFuncTablename() == 'tt_products_cat') {
-				$cat = $cnf->conf['defaultCategoryID'];
-				$catConfig = $cnf->config['defaultCategoryID'];
+				$cat = $cnf->conf['defaultCategoryID'] ?? '';
+				$catConfig = $cnf->config['defaultCategoryID'] ?? '';
 			}
 
 			if ($this->getFuncTablename() == 'tx_dam_cat') {
-				$cat = $cnf->conf['defaultDAMCategoryID'];
-				$catConfig = $cnf->config['defaultDAMCategoryID'];
+				$cat = $cnf->conf['defaultDAMCategoryID'] ?? '';
+				$catConfig = $cnf->config['defaultDAMCategoryID'] ?? '';
 			}
 
 			if (strlen($catConfig)) {

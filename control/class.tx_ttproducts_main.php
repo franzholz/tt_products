@@ -1022,7 +1022,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 			$cssObj = GeneralUtility::makeInstance('tx_ttproducts_css');
 			$result = '';
 
-			if ($cssObj->isCSSStyled() && !$cssObj->getIncluded() && $cssObj->conf['file'] != '') {
+			if ($cssObj->isCSSStyled() && !$cssObj->getIncluded() && !empty($cssObj->conf['file'])) {
                 $fileName = $cssObj->conf['file'];
                 $incFile = '';
 
@@ -1153,7 +1153,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 				 		);
 						$orderRecord = GeneralUtility::_GP('orderRecord');
 						if (
-							$_REQUEST['userNotification'] != '' &&
+							!empty($_REQUEST['userNotification']) &&
 							isset($orderRecord) &&
 							is_array($orderRecord)
 						) {

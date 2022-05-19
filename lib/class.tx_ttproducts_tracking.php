@@ -185,7 +185,7 @@ class tx_ttproducts_tracking implements \TYPO3\CMS\Core\SingletonInterface {
 		&$orderRecord,
 		$bValidUpdateCode
 	) {
-		$bUseXHTML = $GLOBALS['TSFE']->config['config']['xhtmlDoctype'] != '';
+		$bUseXHTML = !empty($GLOBALS['TSFE']->config['config']['xhtmlDoctype']);
 
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 		$orderObj = $tablesObj->get('sys_products_orders');

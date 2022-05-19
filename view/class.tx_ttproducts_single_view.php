@@ -643,7 +643,8 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
                         ) &&
                         (
                             $this->conf['NoSingleViewOnList'] ||
-                            $this->conf['PIDitemDisplay'] != '' &&
+
+                            !empty($this->conf['PIDitemDisplay']) &&
                             $this->conf['PIDitemDisplay'] != '{$plugin.tt_products.PIDitemDisplay}'
                         )
                     ) {

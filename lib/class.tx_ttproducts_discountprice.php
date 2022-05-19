@@ -53,7 +53,7 @@ class tx_ttproducts_discountprice extends tx_ttproducts_pricecalc_base implement
 				$result = true;
 			} else {
 				foreach ($gr_list as $k1 => $val) {
-					if (((float) $val > 0) && ($getDiscount == 0) && $GLOBALS['TSFE']->fe_user->groupData['title'] != '') {
+					if (((float) $val > 0) && ($getDiscount == 0) && !empty($GLOBALS['TSFE']->fe_user->groupData['title'])) {
 						$result = (strcmp($GLOBALS['TSFE']->fe_user->groupData['title'], $conf['discountGroupName']) == 0);
 					}
 				}
@@ -321,10 +321,10 @@ class tx_ttproducts_discountprice extends tx_ttproducts_pricecalc_base implement
 									foreach($prodConfArray as $k3 => $rangeConf) {
 
 										if (
-											substr($k3, -1) == '.'
-											&& isset($rangeConf) && is_array($rangeConf)
-											&& $rangeConf['range'] != ''
-											&& $rangeConf['price'] != ''
+											substr($k3, -1) == '.' &&
+                                            isset($rangeConf) && is_array($rangeConf) &&
+											!empty($rangeConf['range']) &&
+											!empty($rangeConf['price'])
 										) {
 
 											$rangeArray = GeneralUtility::trimExplode(',', $rangeConf['range']);

@@ -79,8 +79,8 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base {
 			}
 			$tableDesc = $this->getTableDesc();
 
-			$this->fieldArray['address'] = ($tableDesc['address'] ?? 'address');
-			$this->fieldArray['itemnumber'] = ($tableDesc['itemnumber'] ?? 'itemnumber');
+			$this->fieldArray['address'] = (!empty($tableDesc['address']) ? $tableDesc['address'] : 'address');
+			$this->fieldArray['itemnumber'] = (!empty($tableDesc['itemnumber']) ? $tableDesc['itemnumber'] : 'itemnumber');
 
 			if (
 				$type == 'product' ||
@@ -448,6 +448,9 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base {
 									($bAddValues == true) &&
 									in_array($field, $mergeAppendArray)
 								) {
+                                    if (!isset($targetRow[$field])) {
+                                        $targetRow[$field] = '';
+                                    }
 									$targetRow[$field] .= ' ' . $value;
 								} else {
 									$targetRow[$field] = $value;

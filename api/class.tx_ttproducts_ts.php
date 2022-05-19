@@ -116,7 +116,7 @@ class tx_ttproducts_ts implements \TYPO3\CMS\Core\SingletonInterface {
 				if (
 					$row['CType'] == 'list' &&
 					$row['list_type'] == '5' &&
-					$row['pi_flexform'] != ''
+					!empty($row['pi_flexform'])
 				) {
 					$flexformArray = GeneralUtility::xml2array($row['pi_flexform']);
 					$codes =

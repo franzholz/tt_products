@@ -87,7 +87,7 @@ class tx_ttproducts_fpdf extends FPDF {
 
 	private function addEmptyColumns ($bLastLine) {
 
-		$row = array();
+		$row = [];
 		$row['1'] = '';
 		$row['2'] = '';
 		$row['3'] = '';
@@ -155,7 +155,7 @@ class tx_ttproducts_fpdf extends FPDF {
 					$subStringCount = intval ($l2 / ($widthArray[$k2] - 10)) + 1;
 					$averageStringLength = strlen($v2) / $subStringCount;
 					if (!isset($additonalRow)) {
-						$additonalRow = array();
+						$additonalRow = [];
 					}
 
 					$startPosition = 0;
@@ -225,10 +225,13 @@ class tx_ttproducts_fpdf extends FPDF {
 	public function Body () {
 		// $xPos = $this->GetX();
 		$tempContent = tx_div2007_core::getSubpart($this->body, '###PDF_TABLE_1###');
+		if (empty($tempContent)) {
+            return false;
+		}
 		$tempContentArray = preg_split('/[\n]+/', $tempContent);
-		$dataArray = array();
+		$dataArray = [];
 		foreach ($tempContentArray as $tmpContent) {
-			if (trim($tmpContent) != '') {
+			if (isset($tmpContent) && trim($tmpContent) != '') {
 				$dataArray[] = preg_split('/\|/', $tmpContent, -1, PREG_SPLIT_NO_EMPTY);
 			}
 		}
@@ -238,9 +241,9 @@ class tx_ttproducts_fpdf extends FPDF {
 
 		$restBody = tx_div2007_core::substituteMarkerArrayCached(
 				$this->body,
-				array(),
+				[],
 				array('###PDF_TABLE_1###' => ''),
-				array()
+				[]
 			);
 
 		// $this->SetX($xPos);

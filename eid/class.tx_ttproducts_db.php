@@ -358,7 +358,7 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 				}
 			}
 
-			$this->ajax->setConf($data['conf']);
+			$this->ajax->setConf($data['conf'] ?? []);
 		}
 
 		if ($validEditVariant === true) {
@@ -430,7 +430,10 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 		$articleTcaColumns = $GLOBALS['TCA']['tt_products_articles']['columns'];
 
 		foreach ($rowArray as $functablename => $row) { // tt-products-list-1-size
-			if (!is_object($tableObjArray[$functablename])) {
+			if (
+                !isset($tableObjArray[$functablename]) ||
+                !is_object($tableObjArray[$functablename])
+            ) {
 				$suffix = '-from-tt-products-articles';
 			} else {
 				$suffix = '';
@@ -527,6 +530,7 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 							$class
 						) {
 							$tmpArray = [];
+							$tmp = '';
 							$fieldViewObj = $itemTableView->getObj($class);
 							$linkWrap = false;
 							$modifiedValue =
@@ -600,7 +604,7 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 									isset($categoryArray) &&
 									is_array($categoryArray) &&
 									!isset($categoryArray[$currentCat]) &&
-									is_array($conf['listImageRoot.'])
+									isset($conf['listImageRoot.'])
 								) {
 									$imageRenderObj = 'listImageRoot';
 								}
@@ -645,7 +649,7 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 									$theCode,
 									$imageRow,
 									$imageArray,
-									$tmpArray,
+									$fieldMarkerArray,
 									$dirname,
 									$mediaNum,
 									$imageRenderObj,

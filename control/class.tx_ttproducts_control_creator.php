@@ -82,11 +82,11 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
 		}
 
 		$tmp = $cObj->stdWrap($conf['pid_list'], $conf['pid_list.'] ?? '');
-		$pid_list = ($cObj->data['pages'] ?? (!empty($conf['pid_list.']) ? trim($tmp) : ''));
+		$pid_list = (!empty($cObj->data['pages']) ? $cObj->data['pages'] : (!empty($conf['pid_list.']) ? trim($tmp) : ''));
 		$pid_list = ($pid_list ? $pid_list : $conf['pid_list']);
 		$config['pid_list'] = (isset($pid_list) ? $pid_list : $config['storeRootPid']);
 
-		$recursive = ($cObj->data['recursive'] ?? $conf['recursive']);
+		$recursive = (!empty($cObj->data['recursive']) ? $cObj->data['recursive'] : $conf['recursive']);
 		$config['recursive'] = tx_div2007_core::intInRange($recursive, 0, 100);
 
 		if (is_object($pObj)) {
@@ -95,7 +95,7 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
 			$pLangObj = $this;
 		}
         $languageObj = static::getLanguageObj($pLangObj, $cObj, $conf);
- 		$config['LLkey'] = $languageObj->getLocalLangKey(); /* $pibaseObj->LLkey; */
+ 		$config['LLkey'] = $languageObj->getLocalLangKey();
 
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 		$markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
@@ -179,7 +179,9 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
 		);
 
 		$templateObj = GeneralUtility::makeInstance('tx_ttproducts_template');
-		$templateObj->setTemplateSuffix($config['templateSuffix']);
+		if (isset($config['templateSuffix'])) {
+            $templateObj->setTemplateSuffix($config['templateSuffix']);
+        }
 
 			// Call all init hooks
 		if (

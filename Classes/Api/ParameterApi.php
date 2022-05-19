@@ -365,7 +365,7 @@ class ParameterApi implements \TYPO3\CMS\Core\SingletonInterface {
 
                                             $tableConfArray[$ftname]['filter.']['where.']['field.'][$field] = $preFilter . $key . ($preFilter != '' ? ')' : '');
 
-                                            if ($fitRow['delimiter'] != '') {
+                                            if (!empty($fitRow['delimiter'])) {
                                                 $tableConfArray[$ftname]['filter.']['delimiter.']['field.'][$field] = $fitRow['delimiter'];
                                             }
                                         }
@@ -378,7 +378,7 @@ class ParameterApi implements \TYPO3\CMS\Core\SingletonInterface {
                                     $fitRow = $funcViewConfArray[$type.'.'][$k.'.'];
                                     $field = $fitRow['field'];
                                     $tableConfArray[$ftname]['filter.']['where.']['field.'][$field] = $v;
-                                    if ($fitRow['delimiter'] != '') {
+                                    if (!empty($fitRow['delimiter'])) {
                                         $tableConfArray[$ftname]['filter.']['delimiter.']['field.'][$field] = $fitRow['delimiter'];
                                     }
                                 }
@@ -659,7 +659,7 @@ class ParameterApi implements \TYPO3\CMS\Core\SingletonInterface {
                                 $tablesObj->prepareSQL($foreignTableInfo,$tableAliasArray,$aliasPostfix,$newSqlTableArray);
                             }
                             $sqlTableArray[$position][$sqlTableIndex] = $cnf->getTableName($paramsTableArray[$searchParam]);
-                            if ($foreignTableInfo['where'] != '') {
+                            if (!empty($foreignTableInfo['where'])) {
                                 $sqlTableArray['where'][$sqlTableIndex] = $foreignTableInfo['where'];
                             }
                             if (isset($newSqlTableArray) && is_array($newSqlTableArray)) {

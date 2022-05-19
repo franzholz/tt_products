@@ -111,7 +111,7 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 		foreach ($commandArray as $command) {
 
-			$pidBasket = ($this->conf['PID' . $command] ?? $GLOBALS['TSFE']->id);
+			$pidBasket = (!empty($this->conf['PID' . $command]) ? $this->conf['PID' . $command] : $GLOBALS['TSFE']->id);
 			$pageLink = FrontendUtility::getTypoLink_URL(
 				$cObj,
 				$pidBasket,

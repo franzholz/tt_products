@@ -1111,7 +1111,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 					$activity = 'info';
 				}
 				if ($activity) {
-					$bUseXHTML = $GLOBALS['TSFE']->config['config']['xhtmlDoctype'] != '';
+					$bUseXHTML = !empty($GLOBALS['TSFE']->config['config']['xhtmlDoctype']);
 					$hiddenFields .= '<input type="hidden" name="' . TT_PRODUCTS_EXT . '[activity][' . $activity . ']" value="1" ' . ($bUseXHTML ? '/' : '') . '>';
 				}
 			}

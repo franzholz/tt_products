@@ -63,7 +63,7 @@ class tx_ttproducts_pi_int implements \TYPO3\CMS\Core\SingletonInterface {
 		tx_div2007_core::mergeRecursiveWithOverrule($confMain, $conf);
 		$conf = $confMain;
 
-		if ($conf['templateFile'] != '') {
+		if (!empty($conf['templateFile'])) {
 
 			$content = $pibaseObj->main($content, $conf);
         } else {
