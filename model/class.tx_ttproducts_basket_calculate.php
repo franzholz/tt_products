@@ -286,9 +286,10 @@ class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterfa
 			$pricetablesCalculator = GeneralUtility::makeInstance('tx_ttproducts_pricetablescalc');
 			$discountArray = [];
 
+			$tmp = '';
 			$pricetablesCalculator->getCalculatedData(
 				$itemArray,
-				$tmp = '',
+				$tmp,
 				'calc',
 				$priceReduction,
 				$discountArray,

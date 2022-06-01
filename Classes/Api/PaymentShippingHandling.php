@@ -803,7 +803,7 @@ class PaymentShippingHandling {
 
 			$minPrice = 0;
 			$priceNew = 0;
-			if ($confArray['WherePIDMinPrice.']) {
+			if (isset($confArray['WherePIDMinPrice.'])) {
 					// compare PIDList with values set in priceTaxWherePIDMinPrice in the SETUP
 					// if they match, get the min. price
 					// if more than one entry for priceTaxWherePIDMinPrice exists, the highest is value will be taken into account

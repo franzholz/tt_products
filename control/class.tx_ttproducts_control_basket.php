@@ -304,7 +304,7 @@ class tx_ttproducts_control_basket {
 			ksort($conf['payment.']);
 			reset($conf['payment.']);
             $k = 0;
-            if (isset($basketRec['tt_products'])) {
+            if (isset($basketRec['tt_products']['payment'])) {
                 $k = intval($basketRec['tt_products']['payment']);
             }
             if (

@@ -391,7 +391,8 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
 				// check need for rating
 			if (
 				(
-					$tagArray['RATING'] || $tagArray['RATING_STATIC']
+					isset($tagArray['RATING']) ||
+					isset($tagArray['RATING_STATIC'])
 				) &&
 				isset($conf['RATING']) && isset($conf['RATING.'])
 			) {
