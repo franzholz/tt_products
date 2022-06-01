@@ -382,12 +382,13 @@ class tx_ttproducts_api {
 					$parts = explode(chr(10), $emailContent, 2);
 					$subject = trim($parts[0]);
 					$plain_message = trim($parts[1]);
+					$tmp = '';
 
 					\JambageCom\Div2007\Utility\MailUtility::send(
 						$infoArray['billing']['email'],
 						$apostrophe . $subject . $apostrophe,
 						$plain_message,
-						$tmp = '',
+						$tmp,
 						$fromArray['shop']['email'],
 						$fromArray['shop']['name'],
 						'',

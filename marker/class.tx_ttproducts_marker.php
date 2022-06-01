@@ -162,7 +162,7 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
 		$markerArray['###GC3###'] = $cObj->stdWrap($conf['color3'] ?? '', $conf['color3.'] ?? '');
 		$markerArray['###DOMAIN###'] = $conf['domain'];
 		$markerArray['###PATH_FE_REL###'] = \TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath(PATH_BE_TTPRODUCTS);
-		$markerArray['###PATH_FE_ICONS###'] = \TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath(PATH_BE_TTPRODUCTS . 'res/icons/fe/');
+		$markerArray['###PATH_FE_ICONS###'] =  PATH_FE_TTPRODUCTS_REL . 'Resources/Public/Images/';
 
 		if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded(ADDONS_EXT)) {
             $markerArray['###PATH_FE_REL###'] = PATH_FE_ADDONS_TT_PRODUCTS_REL;

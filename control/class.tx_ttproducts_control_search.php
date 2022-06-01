@@ -178,10 +178,11 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 
 			$theCode = (string) trim($theCode);
 			$contentTmp = '';
+			$tmp = '';
 			$templateCode =
 				$templateObj->get(
 					$theCode,
-					$tmp = '',
+					$tmp,
 					$errorCode
 				);
 

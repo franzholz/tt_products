@@ -128,11 +128,12 @@ class tx_ttproducts_email_div {
 				$parts = explode(chr(10), $emailContent, 2);
 				$subject = trim($parts[0]);
 				$plain_message = trim($parts[1]);
+				$tmp = '';
                 \JambageCom\Div2007\Utility\MailUtility::send(
                     implode($recipients, ','),
                     $subject,
                     $plain_message,
-                    $tmp = '',
+                    $tmp,
                     $senderemail,
                     $sendername,
                     '',
@@ -237,11 +238,12 @@ class tx_ttproducts_email_div {
                     }
 				} else {		// ... else just plain text...
                     if (version_compare(TYPO3_version, '10.0.0', '<')) {
+                        $tmp = '';
                         tx_div2007_email::sendMail(
                             $recipients,
                             $subject,
                             $emailContent,
-                            $tmp = '',
+                            $tmp,
                             $senderemail,
                             $sendername,
                             $conf['GiftAttachment'],
@@ -253,11 +255,12 @@ class tx_ttproducts_email_div {
                             'sendMail'
                         );
                     } else {
+                        $tmp = '';
                         \JambageCom\Div2007\Utility\MailUtility::send(
                             $recipients,
                             $subject,
                             $emailContent,
-                            $tmp = '',
+                            $tmp,
                             $senderemail,
                             $sendername,
                             $conf['GiftAttachment'],

@@ -199,12 +199,13 @@ class tx_ttproducts_activity_finalize implements \TYPO3\CMS\Core\SingletonInterf
 								) {
 									foreach ($emailControlArray['shop']['none']['recipient'] as $key => $recipient) {
                                         if (version_compare(TYPO3_version, '10.0.0', '<')) {
+                                            $tmp = '';
                                             // $headers variable removed everywhere!
                                             \JambageCom\Div2007\Utility\MailUtility::send(
                                                 $recipient,
                                                 $subject,
                                                 $content,
-                                                $tmp = '',	// no HTML order confirmation email for shop admins
+                                                $tmp,	// no HTML order confirmation email for shop admins
                                                 $emailControlArray['shop']['none']['from']['email'],
                                                 $emailControlArray['shop']['none']['from']['name'],
                                                 '',
@@ -216,11 +217,12 @@ class tx_ttproducts_activity_finalize implements \TYPO3\CMS\Core\SingletonInterf
                                                 'sendMail'
                                             );
                                         } else {
+                                            $tmp = '';
                                             \JambageCom\Div2007\Utility\MailUtility::send(
                                                 $recipient,
                                                 $subject,
                                                 $content,
-                                                $tmp = '',	// no HTML order confirmation email for shop admins
+                                                $tmp,	// no HTML order confirmation email for shop admins
                                                 $emailControlArray['shop']['none']['from']['email'],
                                                 $emailControlArray['shop']['none']['from']['name'],
                                                 '',

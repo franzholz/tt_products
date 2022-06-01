@@ -909,7 +909,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 						$conf['PIDitemDisplay'],
 						$conf['PIDitemDisplay.'] ?? '',
 						$row,
-						$GLOBALS['TSFE']->rootLine[1]
+						$GLOBALS['TSFE']->rootLine[1] ?? ''
 					);
 					$addQueryString = array();
 					$addQueryString[$itemTable->type] = intval($row['uid']);

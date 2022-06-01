@@ -79,7 +79,8 @@ class TaxajaxController {
 
         $SOBE = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_ttproducts_db');
         $errorCode = '';
-        $SOBE->init($conf, $config, $ajax, $tmp = '', $errorCode);
+        $tmp = '';
+        $SOBE->init($conf, $config, $ajax, $tmp, $errorCode);
 
         if(!empty($_POST['xajax'])) {
 
