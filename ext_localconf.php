@@ -11,6 +11,15 @@ call_user_func(function () {
         define('PATH_BE_TTPRODUCTS', \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath(TT_PRODUCTS_EXT));
     }
 
+    if (!defined ('PATH_FE_TTPRODUCTS_REL')) {
+        define(
+            'PATH_FE_TTPRODUCTS_REL',
+            \TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix(
+                \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath(TT_PRODUCTS_EXT)
+            )
+        );
+    }
+
     if (!defined ('PATH_TTPRODUCTS_ICON_TABLE_REL')) {
         define('PATH_TTPRODUCTS_ICON_TABLE_REL', 'EXT:' . TT_PRODUCTS_EXT . '/Resources/Public/Icons/');
     }
