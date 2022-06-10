@@ -441,7 +441,7 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
 			$extKey = '';
 				// check need for comments
 			if (
-				$tagArray['COMMENT'] &&
+				isset($tagArray['COMMENT']) &&
 				isset($conf['COMMENT']) &&
 				isset($conf['COMMENT.'])
 			) {

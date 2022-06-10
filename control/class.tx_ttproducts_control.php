@@ -626,7 +626,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 				}
 			}
 
-			if ($bNeedsMinCheck && $basketConf['type'] == 'price') {
+			if ($bNeedsMinCheck && isset($basketConf['type']) && $basketConf['type'] == 'price') {
 				$value = $calculatedArray['priceTax'][$basketConf['collect']];
 
 				if (
@@ -1703,20 +1703,20 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 						break;
 					case 'PAYMENT':
                         if (
-                            $activityArray['products_finalize']
+                            !empty($activityArray['products_finalize'])
                         ) {
                             $codeActivityArray['products_finalize'] = true;
                         } else {
                             $codeActivityArray['products_payment'] = true;
                         }
 
-                        if ($activityArray['products_verify']) {
+                        if (!empty($activityArray['products_verify'])) {
                             $bBasketCode = true; // damit verify gesetzt bleibt, wenn vorhanden
                         }
 						break;
 					case 'FINALIZE':
 						$codeActivityArray['products_finalize'] = true;
-                        if ($activityArray['products_verify']) {
+                        if (!empty($activityArray['products_verify'])) {
                             $bBasketCode = true;
                         }
 						break;

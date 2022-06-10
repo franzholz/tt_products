@@ -957,7 +957,7 @@ class tx_ttproducts_api {
 					);
 
 					// Remove image tags to the products:
-				if ($conf['orderEmail_htmlmail.']['removeImagesWithPrefix']) {
+				if (!empty($conf['orderEmail_htmlmail.']['removeImagesWithPrefix'])) {
 					$htmlParser = tx_div2007_core::newHtmlParser();
 					$htmlMailParts = $htmlParser->splitTags('img', $customerHTMLmailContent);
 

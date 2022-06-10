@@ -704,7 +704,7 @@ class tx_ttproducts_control_basket {
 			is_array($_REQUEST['recs']) &&
 			isset($_REQUEST['recs']['personinfo']) &&
 			is_array($_REQUEST['recs']['personinfo']) &&
-			!$_REQUEST['recs']['personinfo']['agb']
+			empty($_REQUEST['recs']['personinfo']['agb'])
 		) {
 			$infoArray['billing']['agb'] = false;
 		}

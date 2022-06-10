@@ -350,7 +350,7 @@ class tx_ttproducts_tracking implements \TYPO3\CMS\Core\SingletonInterface {
 
 					if ($bValidUpdateCode || ($val >= 50 && $val < 59)) {// Numbers 50-59 are usermessages.
 						$recipient = $this->conf['orderEmail_to'];
-						if ($orderRow['email'] && ($orderRow['email_notify'])) {
+						if (!empty($orderRow['email']) && !empty($orderRow['email_notify'])) {
 							$recipient .= ',' . $orderRow['email'];
 						}
 						$templateMarker = 'TRACKING_EMAILNOTIFY_TEMPLATE';
