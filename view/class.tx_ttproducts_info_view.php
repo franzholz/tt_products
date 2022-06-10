@@ -135,6 +135,7 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 				if (
 					isset($this->infoArray['billing'][$fName]) &&
 					(
+                        !isset($this->infoArray['delivery'][$fName]) ||
 						$this->infoArray['delivery'][$fName] == '' ||
 						(
 							$this->infoArray['delivery'][$fName] == '0' && !$address

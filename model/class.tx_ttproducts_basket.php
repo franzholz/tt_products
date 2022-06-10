@@ -86,7 +86,7 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
             GeneralUtility::_POST('products_payment') ||
             GeneralUtility::_POST('products_payment_x') ||
             isset($gpVars['activity']) &&
-            $gpVars['activity']['payment'];
+            !empty($gpVars['activity']['payment']);
 
         if (    // use AGB checkbox if coming from INFO
             $payment &&
@@ -95,8 +95,8 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
             isset($_REQUEST['recs']['personinfo']) &&
             is_array($_REQUEST['recs']['personinfo'])
         ) {
-            $bAgbSet = $this->recs['personinfo']['agb'];
-            $this->recs['personinfo']['agb'] = (boolean) $_REQUEST['recs']['personinfo']['agb'];
+            $bAgbSet = $this->recs['personinfo']['agb'] ?? false;
+            $this->recs['personinfo']['agb'] = $_REQUEST['recs']['personinfo']['agb'] ?? false;
             if ($bAgbSet != $this->recs['personinfo']['agb']) {
                 tx_ttproducts_control_session::writeSession('recs', $this->recs);   // store this change
             }
