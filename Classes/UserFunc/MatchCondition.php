@@ -50,7 +50,11 @@ class MatchCondition {
     ) {
         $result = false;
 
-        if (isset($params) && is_array($params)) {
+        if (
+            isset($params) && 
+            is_array($params) &&
+            (TYPO3_MODE == 'FE')
+        ) {
             \tx_ttproducts_control_basket::storeNewRecs();
             $recs = \tx_ttproducts_control_basket::getStoredRecs();
             \tx_ttproducts_control_basket::setRecs($recs);

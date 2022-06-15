@@ -100,7 +100,7 @@ class tx_ttproducts_control_basket {
 		if (!self::$bHasBeenInitialised) {
             self::setRecs($recs);
 
-			if (is_object($GLOBALS['TSFE'])) {
+			if (isset($GLOBALS['TSFE']) && is_object($GLOBALS['TSFE'])) {
 				self::setBasketExt(self::getStoredBasketExt());
 				$basketExtra = self::getBasketExtras($tablesObj, $recs, $conf);
 				self::setBasketExtra($basketExtra);
@@ -757,6 +757,7 @@ class tx_ttproducts_control_basket {
 		$useStaticInfoCountry
 	) {
 		if (
+            isset($GLOBALS['TSFE']) &&
 			\JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn() &&
 			\JambageCom\TtProducts\Api\ControlApi::isOverwriteMode($infoArray)
 		) {

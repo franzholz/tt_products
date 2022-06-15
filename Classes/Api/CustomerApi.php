@@ -101,7 +101,7 @@ class CustomerApi {
 			) {
 				$requiredInfoFields[$type] = $requiredInfoFieldArray[$type];
 			} else {
-				$requiredInfoFields[$type] = trim($conf['requiredInfoFields']);
+				$requiredInfoFields[$type] = trim($conf['requiredInfoFields'] ?? '');
 			}
 
 			$addRequiredInfoFields =

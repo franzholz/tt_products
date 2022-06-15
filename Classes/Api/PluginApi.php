@@ -254,6 +254,7 @@ class PluginApi {
 		$config['displayCurrentRecord'] = $conf['displayCurrentRecord'] ?? '';
 
 		if (
+            empty($conf['TAXmode']) ||
 			$conf['TAXmode'] == '' ||
 			$conf['TAXmode'] == '{$plugin.tt_products.TAXmode}'
 		) {

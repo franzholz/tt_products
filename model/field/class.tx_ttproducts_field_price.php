@@ -136,7 +136,7 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base {
 		$this->setTaxIncluded($this->priceConf['TAXincluded']);
 		$this->bHasBeenInitialised = true;
 
-		$this->taxMode = intval($this->priceConf['TAXmode']);
+		$this->taxMode = intval($this->priceConf['TAXmode'] ?? 1);
 		if (!$this->taxMode) {
 			$this->taxMode = 1;
 		}

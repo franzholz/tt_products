@@ -65,7 +65,7 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
 	 */
 	public function init ($conf, $piVars) {
 		$this->markerArray = array('CATEGORY', 'PRODUCT', 'ARTICLE');
-		$markerFile = $conf['markerFile'];
+		$markerFile = $conf['markerFile'] ?? '';
 		$languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
         $language = $languageObj->getLanguage();
 		$defaultMarkerFile = 'EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_marker.xlf';
@@ -160,7 +160,7 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
 		$markerArray['###GC1###'] = $cObj->stdWrap($conf['color1'] ?? '', $conf['color1.'] ?? '');
 		$markerArray['###GC2###'] = $cObj->stdWrap($conf['color2'] ?? '', $conf['color2.'] ?? '');
 		$markerArray['###GC3###'] = $cObj->stdWrap($conf['color3'] ?? '', $conf['color3.'] ?? '');
-		$markerArray['###DOMAIN###'] = $conf['domain'];
+		$markerArray['###DOMAIN###'] = $conf['domain'] ?? '';
 		$markerArray['###PATH_FE_REL###'] = \TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath(PATH_BE_TTPRODUCTS);
 		$markerArray['###PATH_FE_ICONS###'] =  PATH_FE_TTPRODUCTS_REL . 'Resources/Public/Images/';
 
@@ -175,9 +175,9 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
 			'memo'
 		);
 		foreach ($pidMarkerArray as $k => $function) {
-			$markerArray['###PID_' . strtoupper($function) . '###'] = intval($conf['PID' . $function]);
+			$markerArray['###PID_' . strtoupper($function) . '###'] = intval($conf['PID' . $function] ?? 0);
 		}
-		$markerArray['###SHOPADMIN_EMAIL###'] = $conf['orderEmail_from'];
+		$markerArray['###SHOPADMIN_EMAIL###'] = $conf['orderEmail_from'] ?? 'undefined';
 		$lang =  GeneralUtility::_GET('L');
 
 		if ($lang != '') {
@@ -191,7 +191,7 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
 
 		$backPID = $piVars['backPID'] ?? '';
 		$backPID = ($backPID ? $backPID : GeneralUtility::_GP('backPID'));
-		$backPID = ($backPID  ? $backPID : ($conf['PIDlistDisplay'] ? $conf['PIDlistDisplay'] : $GLOBALS['TSFE']->id));
+		$backPID = ($backPID  ? $backPID : (!empty($conf['PIDlistDisplay']) ? $conf['PIDlistDisplay'] : $GLOBALS['TSFE']->id ?? 0));
 		$markerArray['###BACK_PID###'] = $backPID;
 
 			// Call all addGlobalMarkers hooks at the end of this method
@@ -236,7 +236,7 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
 			$langArray = array();
 		}
 
-		if (is_array($conf['marks.'])) {
+		if (isset($conf['marks.'])) {
 
 				// Substitute Marker Array from TypoScript Setup
 			foreach ($conf['marks.'] as $key => $value) {

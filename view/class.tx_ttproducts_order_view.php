@@ -1025,6 +1025,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
         $result = '';
 		$from = '';
 		$where = '';
+		$whereProducts = '';
 		$uids = $row['uid'];
 		$orderBy = '';
 		$pid_list = '';
