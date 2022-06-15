@@ -71,22 +71,28 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
 			}
 		}
 
-		if ($conf['pid_list'] == '{$plugin.tt_products.pid_list}') {
+		if (
+            !isset($conf['pid_list']) ||
+            $conf['pid_list'] == '{$plugin.tt_products.pid_list}'
+        ) {
 			$conf['pid_list'] = '';
 		}
 
-		if ($conf['errorLog'] == '{$plugin.tt_products.file.errorLog}') {
+		if (
+            !isset($conf['errorLog']) ||
+            $conf['errorLog'] == '{$plugin.tt_products.file.errorLog}'
+        ) {
 			$conf['errorLog'] = '';
 		} else if ($conf['errorLog']) {
 			$conf['errorLog'] = GeneralUtility::resolveBackPath(PATH_typo3conf . '../' . $conf['errorLog']);
 		}
 
-		$tmp = $cObj->stdWrap($conf['pid_list'], $conf['pid_list.'] ?? '');
+		$tmp = $cObj->stdWrap($conf['pid_list'] ?? '', $conf['pid_list.'] ?? '');
 		$pid_list = (!empty($cObj->data['pages']) ? $cObj->data['pages'] : (!empty($conf['pid_list.']) ? trim($tmp) : ''));
-		$pid_list = ($pid_list ? $pid_list : $conf['pid_list']);
-		$config['pid_list'] = (isset($pid_list) ? $pid_list : $config['storeRootPid']);
+		$pid_list = ($pid_list ? $pid_list : $conf['pid_list'] ?? '');
+		$config['pid_list'] = (isset($pid_list) ? $pid_list : $config['storeRootPid'] ?? 0);
 
-		$recursive = (!empty($cObj->data['recursive']) ? $cObj->data['recursive'] : $conf['recursive']);
+		$recursive = (!empty($cObj->data['recursive']) ? $cObj->data['recursive'] : $conf['recursive'] ?? 99);
 		$config['recursive'] = tx_div2007_core::intInRange($recursive, 0, 100);
 
 		if (is_object($pObj)) {
@@ -112,7 +118,7 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
 			$conf,
 			$tablesObj,
 			$config['pid_list'],
-			$conf['useArticles'],
+			$conf['useArticles'] ?? 3,
 			$recs,
 			$basketRec
 		);
@@ -120,7 +126,7 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
 		// corrections in the Setup:
 		if (
 			\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('voucher') &&
-			isset($conf['gift.']) &&
+			isset($conf['gift.']['type']) &&
 			$conf['gift.']['type'] == 'voucher'
 		) {
 			$conf['table.']['voucher'] = 'tx_voucher_codes';
@@ -135,7 +141,7 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
 
 		\JambageCom\TtProducts\Api\ControlApi::init($conf, $cObj);
 		$infoArray = tx_ttproducts_control_basket::getStoredInfoArray();
-		if ($conf['useStaticInfoCountry']) {
+		if (!empty($conf['useStaticInfoCountry'])) {
 			tx_ttproducts_control_basket::setCountry(
 				$infoArray,
 				tx_ttproducts_control_basket::getBasketExtra()
@@ -144,8 +150,8 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
 
 		tx_ttproducts_control_basket::addLoginData(
 			$infoArray,
-			$conf['loginUserInfoAddress'],
-			$conf['useStaticInfoCountry']
+			$conf['loginUserInfoAddress'] ?? 0,
+			$conf['useStaticInfoCountry'] ?? 0
 		);
 
 		tx_ttproducts_control_basket::setInfoArray($infoArray);

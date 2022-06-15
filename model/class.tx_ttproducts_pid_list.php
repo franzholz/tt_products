@@ -115,6 +115,10 @@ class tx_ttproducts_pid_list {
 	 * @return	[type]		...
 	 */
 	public function applyRecursive ($recursive, &$pids, $bStore = false) {
+        if (TYPO3_MODE == 'BE') {
+            return;
+        }
+ 
 		$cObj = FrontendUtility::getContentObjectRenderer();
 
 		if ($pids == -1) {
@@ -128,7 +132,7 @@ class tx_ttproducts_pid_list {
 		}
 
 		if (!$pid_list && !$this->allPages) {
-			$pid_list = $GLOBALS['TSFE']->id;
+			$pid_list = $GLOBALS['TSFE']->id ?? 0;
 		}
 
 		if ($recursive && !$this->allPages) {
@@ -139,7 +143,8 @@ class tx_ttproducts_pid_list {
 
 			$pid_list_arr = explode(',', $pid_list);
 			foreach ($pid_list_arr as $val) {
-				$pidSub = $cObj->getTreeList($val, $recursive);
+                $pidSub = $cObj->getTreeList($val, $recursive);
+
 				if ($pidSub != '') {
 					$pidSubArray[] = $pidSub;
 				}

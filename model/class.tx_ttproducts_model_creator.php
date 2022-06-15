@@ -56,7 +56,7 @@ class tx_ttproducts_model_creator implements \TYPO3\CMS\Core\SingletonInterface 
 		$bUseStaticTaxes = false;
 
 		if (
-			$conf['useStaticTaxes'] &&
+			!empty($conf['useStaticTaxes']) &&
 			$useStaticInfoTables
 		) {
 			if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('static_info_tables_taxes')) {
