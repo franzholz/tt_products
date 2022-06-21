@@ -340,7 +340,8 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base {
 		$result = 0;
 
 		if (
-			\TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($priceNo)
+            empty($priceNo) &&
+			\TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($this->priceConf['priceNoReseller'])
 		) {
 				// get reseller group number
 			$priceNo = intval($this->priceConf['priceNoReseller']);
