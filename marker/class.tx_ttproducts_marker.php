@@ -220,13 +220,16 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
 		if(isset($langArray) && is_array($langArray)) {
 			foreach ($langArray as $key => $value) {
 				if (
-					is_array($value)
+					is_array($value) &&
+					isset($value[0])
 				) {
-					if ($value[0]['target']) {
+					if (!empty($value[0]['target'])) {
 						$value = $value[0]['target'];
 					} else {
 						$value = $value[0]['source'];
 					}
+				} else {
+                    $value = '';
 				}
 
 				$langArray[$key] = $value;

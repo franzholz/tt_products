@@ -1,3 +1,8 @@
+
+
+2022-06-21 Franz Holzinger <franz@ttproducts.de>
+    * bugfix: consider the priceNoReseller
+
 2022-06-15 Franz Holzinger <franz@ttproducts.de>
     * bugfix: Backend order data need TypoScript which is based on the id in the page browser
 
