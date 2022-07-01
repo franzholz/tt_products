@@ -14,6 +14,7 @@ plugin.tt_products >
 plugin.tt_products = USER
 plugin.tt_products {
   userFunc = tx_ttproducts_pi1->main
+  transmissionSecurity = {$plugin.tt_products.transmissionSecurity}
   test = nothing
   templateFile = {$plugin.tt_products.file.templateFile}
   defaultSetup = 1

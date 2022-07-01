@@ -799,8 +799,10 @@ class PaymentShippingHandling {
 	) {
         $resetPrice = false;
 
-		if (is_array($confArray)) {
-
+		if (
+            is_array($confArray) &&
+            isset($confArray['type'])
+        ) {
 			$minPrice = 0;
 			$priceNew = 0;
 			if (isset($confArray['WherePIDMinPrice.'])) {
@@ -821,7 +823,9 @@ class PaymentShippingHandling {
 			}
 			krsort($confArray);
 
-			if ($confArray['type'] == 'count') {
+			if (
+                $confArray['type'] == 'count'
+            ) {
 				foreach ($confArray as $k1 => $price1) {
 					if (
 						MathUtility::canBeInterpretedAsInteger($k1) &&

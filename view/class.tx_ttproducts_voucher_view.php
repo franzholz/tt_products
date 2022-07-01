@@ -75,7 +75,7 @@ class tx_ttproducts_voucher_view extends tx_ttproducts_table_base_view {
 			$subpartArray['###SUB_VOUCHERCODE_DISCOUNTWRONG###'] = '';
 			$wrappedSubpartArray['###SUB_VOUCHERCODE_DISCOUNT###'] = array();
 		} else {
-			if (isset($code)) {
+			if (!empty($code)) {
 				$tmp = $languageObj->getLabel('voucher_invalid');
 				$tmpArray = explode('|', $tmp);
 				$subpartArray['###SUB_VOUCHERCODE_DISCOUNT###'] = $tmpArray[0] . htmlspecialchars($modelObj->getVoucherCode()) . $tmpArray[1];
