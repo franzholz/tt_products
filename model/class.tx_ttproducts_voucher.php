@@ -365,8 +365,9 @@ class tx_ttproducts_voucher extends tx_ttproducts_table_base {
 
 		if (
 			$voucherCode &&
-			!$this->isVoucherCodeUsed($voucherCode)
-		) {
+			!$this->isVoucherCodeUsed($voucherCode) &&
+            $GLOBALS['TSFE']->fe_user->user['uid']
+        ) {
 			$uid_voucher = '';
 			$voucherfieldArray = array();
 			$whereGeneral = '';
