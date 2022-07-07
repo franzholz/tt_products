@@ -352,7 +352,21 @@ class tx_ttproducts_control_basket {
                 $valueArray = GeneralUtility::trimExplode('-', $basketRec['tt_products'][$pskey]);
             }
             $k = intval($valueArray[0]);
+        } else {
+            foreach ($confArray as $confKey => $confValue) {
+                if (strpos($confKey, '.') == strlen($confKey) - 1) {
+                    $currentKey = substr($confKey, 0, strlen($confKey) - 1);
+
+                    if (
+                        MathUtility::canBeInterpretedAsInteger($currentKey)
+                    ) {
+                        $k = $currentKey;
+                        break;
+                    }
+                }
+            }
         }
+
 		if (!self::checkExtraAvailable($confArray[$k . '.'] ?? [])) {
 			$temp = self::cleanConfArr($confArray, 1);
 			$valueArray[0] = $k = intval(key($temp));

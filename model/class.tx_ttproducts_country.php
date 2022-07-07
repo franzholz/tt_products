@@ -96,7 +96,7 @@ class tx_ttproducts_country extends tx_ttproducts_table_base {
 		if (!$rc || $where) {
             $pageRepository = \JambageCom\Div2007\Utility\CompatibilityUtility::getPageRepository();
 
-			if ($country_code) {
+			if (!empty($country_code)) {
 				$whereString = 'cn_iso_3 = ' . $GLOBALS['TYPO3_DB']->fullQuoteStr($country_code, $this->getTableObj()->name);
 			} else {
 				$whereString = '1=1';
@@ -118,7 +118,7 @@ class tx_ttproducts_country extends tx_ttproducts_table_base {
 			 	}
 			} else {
 				while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
-					$rc[]= $this->dataArray[$row['uid']] = $row;
+					$rc[] = $this->dataArray[$row['uid']] = $row;
 				}
 			}
 			$GLOBALS['TYPO3_DB']->sql_free_result($res);
