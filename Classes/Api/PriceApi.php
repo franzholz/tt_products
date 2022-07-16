@@ -52,7 +52,10 @@ class PriceApi {
 		$bUseExt = false
 	) {
 		$calculatedValue = 0;
-		$value = $sourceRow[$field];
+		$value = 0;
+		if (isset($sourceRow[$field])) {
+            $value = $sourceRow[$field];
+        }
 		if (
 			$field == 'price' &&
 			$calculationField != ''

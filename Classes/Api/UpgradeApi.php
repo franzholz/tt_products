@@ -111,7 +111,7 @@ class UpgradeApi implements LoggerAwareInterface {
             ->execute()
             ->fetchAll();
     
-        if (is_array($affectedRows)) {
+        if (!empty($affectedRows)) {
             $row = $affectedRows['0'];
             if (
                 isset($row[$uidLocalOldField]) &&

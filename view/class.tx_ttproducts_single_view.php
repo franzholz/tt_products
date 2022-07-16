@@ -1456,7 +1456,7 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
 		} else {
 			$errorCode[0] = 'wrong_parameter';
 			$errorCode[1] = ($this->type ? $this->type : 'product');
-			$errorCode[2] = intval($this->uidArray[$this->type]);
+			$errorCode[2] = intval($this->uidArray[$this->type] ?? 0);
 			$errorCode[3] = $this->pidListObj->getPidlist();
 		}
 		return $content;
