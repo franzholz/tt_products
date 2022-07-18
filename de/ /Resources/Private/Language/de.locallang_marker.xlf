@@ -369,11 +369,11 @@
       </trans-unit>
       <trans-unit id="basket_terms" resname="basket_terms" approved="yes">
         <source>I have read and accept &quot;the general terms</source>
-        <target state="final">"Die Allgemeinen Geschäftsbedingungen"</target>
+        <target state="final">Ich habe die "Die Allgemeinen Geschäftsbedingungen" gelesen und akzeptiert</target>
       </trans-unit>
-      <trans-unit id="basket_terms_and" resname="basket_terms_and" approved="yes">
+      <trans-unit id="basket_terms_and" resname="basket_terms_and">
         <source>and the</source>
-        <target state="final">und die</target>
+        <target state="translated">und die</target>
       </trans-unit>
       <trans-unit id="basket_terms_revocation" resname="basket_terms_revocation" approved="yes">
         <source>revocation conditions</source>
