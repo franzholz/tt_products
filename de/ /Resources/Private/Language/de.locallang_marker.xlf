@@ -367,13 +367,13 @@
         <source>Type of shipment:</source>
         <target state="final">Versandmethode</target>
       </trans-unit>
-      <trans-unit id="basket_terms" resname="basket_terms" approved="yes">
+      <trans-unit id="basket_terms" resname="basket_terms">
         <source>I have read and accept &quot;the general terms</source>
-        <target state="final">Ich habe die "Die Allgemeinen Geschäftsbedingungen" gelesen und akzeptiert</target>
+        <target state="translated">Ich habe die "Die Allgemeinen Geschäftsbedingungen" gelesen und akzeptiert</target>
       </trans-unit>
-      <trans-unit id="basket_terms_and" resname="basket_terms_and">
+      <trans-unit id="basket_terms_and" resname="basket_terms_and" approved="yes">
         <source>and the</source>
-        <target state="translated">und die</target>
+        <target state="final">und die</target>
       </trans-unit>
       <trans-unit id="basket_terms_revocation" resname="basket_terms_revocation" approved="yes">
         <source>revocation conditions</source>
@@ -383,9 +383,9 @@
         <source>Please confirm that you have read and accepted the general terms and conditions.</source>
         <target state="final">Sie bestätigen hiermit, dass Sie die AGB und die Widerrufsbelehrung gelesen haben und diese akzeptieren.</target>
       </trans-unit>
-      <trans-unit id="basket_terms_read" resname="basket_terms_read">
+      <trans-unit id="basket_terms_read" resname="basket_terms_read" approved="yes">
         <source>and I accept them.</source>
-        <target state="needs-translation">and I accept them.</target>
+        <target state="final">und ich akzeptiere sie.</target>
       </trans-unit>
       <trans-unit id="basket_privacy_policy" resname="basket_privacy_policy" approved="yes">
         <source>Privacy Policy</source>
