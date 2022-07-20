@@ -194,14 +194,14 @@ class tx_ttproducts_control_basket {
 
 		foreach ($pskeyArray as $pskey => $bIsMulti) {
 
-			if (!empty($conf[$pskey . '.'])) {
+			if (!empty($conf[$pskey . '.'])) {        
 				if ($bIsMulti) {
 					ksort($conf[$pskey . '.']);
 
 					foreach ($conf[$pskey . '.'] as $k => $confArray) {
 
 						if (strpos($k, '.') == strlen($k) - 1) {
-							$k1 = substr($k,0,strlen($k) - 1);
+							$k1 = substr($k, 0, strlen($k) - 1);
 
 							if (
 								MathUtility::canBeInterpretedAsInteger($k1)
@@ -343,8 +343,10 @@ class tx_ttproducts_control_basket {
         $valueArray = [];
         $k = 0;
         if (
-            isset($basketRec['tt_products']) &&
-            is_array($basketRec['tt_products'])
+            $subkey != '' &&
+            isset($basketRec['tt_products'][$pskey][$subkey]) ||
+            $subkey == '' &&
+            isset($basketRec['tt_products'][$pskey])
         ) {
             if ($subkey != '') {
                 $valueArray = GeneralUtility::trimExplode('-', $basketRec['tt_products'][$pskey][$subkey]);

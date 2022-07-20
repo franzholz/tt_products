@@ -1,4 +1,5 @@
-
+2022-07-20 Franz Holzinger <franz@ttproducts.de>
+    * bugfix: Default shipping setup for basketExtra must be still calculated if no tt_products basketRec has been set yet for shipping. A former basketRec for tt_products is not enough.
 
 2022-06-21 Franz Holzinger <franz@ttproducts.de>
     * bugfix: consider the priceNoReseller
