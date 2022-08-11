@@ -583,7 +583,15 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Cor
 										PREG_SPLIT_NO_EMPTY
 									);
 							}
-							$variantValue = $variantRowArray[$field][$variantIndex];
+
+                            $variantValue = '';
+                            if (
+                                isset($variantRowArray[$field]) &&
+                                is_array($variantRowArray[$field]) &&
+                                isset($variantRowArray[$field][$variantIndex])
+                            ) {
+                                $variantValue = $variantRowArray[$field][$variantIndex];
+                            }
 
 							if (!in_array($variantValue, $valueArray)) {
 								$bMatches = false;
