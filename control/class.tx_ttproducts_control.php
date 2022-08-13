@@ -194,7 +194,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 		) {
 			if (
 				count($codeActivities) > 2 ||
-				!$codeActivities['products_overview']
+				empty($codeActivities['products_overview'])
 			) {
 				$codeActivities['products_basket'] = false;
 			}
