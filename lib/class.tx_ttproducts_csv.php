@@ -86,7 +86,7 @@ class tx_ttproducts_csv implements \TYPO3\CMS\Core\SingletonInterface {
 			}
 
 			// Generate shipping/payment information and delivery note
-			$csvlineshipping = '"' . $basketExtra['shipping.']['title'] . '";"' .
+			$csvlineshipping = '"' . ($basketExtra['shipping.']['title'] ?? '') . '";"' .
 				$priceViewObj->priceFormat($calculatedArray['priceTax']['shipping']) . '";"' .
 				$priceViewObj->priceFormat($calculatedArray['priceNoTax']['shipping']) . '"';
 
