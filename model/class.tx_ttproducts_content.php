@@ -51,7 +51,7 @@ class tx_ttproducts_content extends tx_ttproducts_table_base {
 	public function init ($functablename) {
 		$result = parent::init($functablename);
 
-		$this->getTableObj()->setDefaultFieldArray(array('uid'=>'uid', 'pid'=>'pid', 't3ver_oid'=>'t3ver_oid', 't3ver_id' => 't3ver_id', 't3ver_label' => 't3ver_label', 'tstamp'=>'tstamp', 'sorting'=> 'sorting',
+		$this->getTableObj()->setDefaultFieldArray(array('uid'=>'uid', 'pid'=>'pid', 't3ver_oid'=>'t3ver_oid', 'tstamp'=>'tstamp', 'sorting'=> 'sorting',
 		'deleted' => 'deleted', 'hidden'=>'hidden', 'starttime' => 'starttime', 'endtime' => 'endtime', 'fe_group' => 'fe_group'));
 		$this->getTableObj()->setTCAFieldArray('tt_content');
 

@@ -60,9 +60,6 @@ class tx_ttproducts_page extends tx_ttproducts_category_base {
 			$this->tableconf = $cnf->getTableConf('pages');
 			$this->pageAsCategory = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['pageAsCategory'];
 
-	//		$this->table->setDefaultFieldArray(array('uid'=>'uid', 'pid'=>'pid', 't3ver_oid'=>'t3ver_oid', 't3ver_id' => 't3ver_id', 't3ver_label' => 't3ver_label', 'tstamp'=>'tstamp', 'hidden'=>'hidden', 'sorting'=> 'sorting',
-	// 			'deleted' => 'deleted', 'hidden'=>'hidden', 'starttime' => 'starttime', 'endtime' => 'endtime'));
-
 			$requiredFields = 'uid,pid,title,subtitle,media,shortcut';
 			if (!empty($this->tableconf['requiredFields'])) {
 				$tmp = $this->tableconf['requiredFields'];

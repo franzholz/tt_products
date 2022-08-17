@@ -51,15 +51,6 @@ $result = array(
 		'searchFields' => 'uid,title,subtitle,itemnumber,ean,note,note2,www',
 	),
 	'columns' => array (
-		't3ver_label' => array (
-            'label'  => DIV2007_LANGUAGE_LGL . 'versionLabel',
-			'config' => array (
-				'type' => 'input',
-				'size' => '30',
-				'max'  => '30',
-				'default' => ''
-			)
-		),
 		'sorting' => array (
 			'config' => array (
 				'type' => 'passthrough',

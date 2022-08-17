@@ -33,15 +33,6 @@ $result = array (
 		'searchFields' => 'uid,title,subtitle,catid,keyword,note,note2',
 	),
 	'columns' => array (
-		't3ver_label' => array (
-			'label'  => DIV2007_LANGUAGE_PATH . 'locallang_general.xml:LGL.versionLabel',
-			'config' => array (
-				'type' => 'input',
-				'size' => '30',
-				'max'  => '30',
-				'default' => ''
-			)
-		),
 		'sorting' => Array (
 			'config' => Array (
 				'type' => 'passthrough',

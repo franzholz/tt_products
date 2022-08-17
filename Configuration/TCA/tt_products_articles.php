@@ -36,15 +36,6 @@ $result = array (
         'searchFields' => 'title,subtitle,itemnumber,keyword,note,note2',
     ),
     'columns' => array (
-        't3ver_label' => array (
-            'label'  => DIV2007_LANGUAGE_PATH . 'locallang_general.xml:LGL.versionLabel',
-            'config' => array (
-                'type' => 'input',
-                'size' => '30',
-                'max'  => '30',
-                'default' => ''
-            )
-        ),
         'tstamp' => array (
             'exclude' => 1,
             'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tstamp',
