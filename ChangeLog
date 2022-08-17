@@ -1,3 +1,8 @@
+2022-08-17 Franz Holzinger <franz@ttproducts.de>
+    * Breaking no.88143: Version-related database field “t3ver_id” removed
+    * Breaking no.87193: Deprecated functionality removed: database field “t3ver_label“ removed
+    * Add workspace fields “t3ver_wsid“, “t3ver_state“ and “t3ver_move_id“
+
 2022-07-20 Franz Holzinger <franz@ttproducts.de>
     * bugfix: Default shipping setup for basketExtra must be still calculated if no tt_products basketRec has been set yet for shipping. A former basketRec for tt_products is not enough.
 

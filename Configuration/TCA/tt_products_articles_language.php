@@ -31,15 +31,6 @@ $result = array (
         'searchFields' => 'title,subtitle,itemnumber,keyword,note,note2',
     ),
     'columns' => array (
-        't3ver_label' => array (
-            'label'  => DIV2007_LANGUAGE_PATH . 'locallang_general.xml:LGL.versionLabel',
-            'config' => array (
-                'type' => 'input',
-                'size' => '30',
-                'max'  => '30',
-                'default' => ''
-            )
-        ),
         'sys_language_uid' => array (
             'exclude' => 0,
             'label' => DIV2007_LANGUAGE_LGL . 'language',
