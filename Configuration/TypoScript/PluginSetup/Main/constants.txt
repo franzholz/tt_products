@@ -350,7 +350,7 @@ plugin.tt_products {
   CSVdestination = ../csvorders/
     # cat=plugin.products//; type=string; label=Order CSV export fields: Product database fields to export (Comma seperated)
   CSVfields = tstamp,title,price,price2,itemnumber,category,inStock,tax,weight,bulkily,offer,highlight,directcost,subtitle
-    # cat=plugin.products//; type=boolean; label=Choose your CSV format: Write all additional information in one line behind the first ordered product. This is good if you want to import this files somewhere. If you not check this, the CSV is formatted for best view in Excel for example
+    # cat=plugin.products//; type=boolean; label=Choose your CSV format: Write all additional information in one line behind the first ordered product. This is good if you want to import these files somewhere. If you not check this, the CSV is formatted for best view in Excel for example
   CSVinOneLine = 0
 
     # cat=plugin.products//; type=string; label=Search fields: fields to be considered for a search
