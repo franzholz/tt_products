@@ -291,6 +291,7 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base {
 
 	public function getCategoryArray ($uidArray) {
 		$result = array();
+        $pageRepository = \JambageCom\Div2007\Utility\CompatibilityUtility::getPageRepository();
 
 		$isValid = true;
 		foreach ($uidArray as $uid) {
@@ -303,10 +304,7 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base {
 
 		if ($isValid) {
 			$uids = implode(',', $uidArray);
-			$where = 'uid_local IN (' . $uids . ')' .
-				\JambageCom\Div2007\Utility\TableUtility::enableFields(
-					'tt_products_products_mm_tax_categories'
-				);
+			$where = 'uid_local IN (' . $uids . ')' . $pageRepository->enableFields('tt_products_products_mm_tax_categories');
 			$rowArray =
 				$GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
 					'*',
