@@ -23,7 +23,7 @@ plugin.tt_products {
   errorLog = {$plugin.tt_products.file.errorLog}
   templateStyle = css-styled
   pid_list = {$plugin.tt_products.pid_list}
-  code.field = select_key
+  code.field = 
   defaultCode = HELP
   defaultImageDir =
   wrapInBaseClass = 1

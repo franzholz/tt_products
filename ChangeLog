@@ -1,3 +1,6 @@
+2022-09-09 Franz Holzinger <franz@ttproducts.de>
+    * compatibility TYPO3 8.7: deprecation no 77934: The field `select_key` of the table `tt_content` is not used in the core and has been removed.
+
 2022-08-17 Franz Holzinger <franz@ttproducts.de>
     * Breaking no.88143: Version-related database field “t3ver_id” removed
     * Breaking no.87193: Deprecated functionality removed: database field “t3ver_label“ removed
