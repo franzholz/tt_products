@@ -6,9 +6,9 @@
 
 $EM_CONF[$_EXTKEY] = [
   'title' => 'Shop System',
-  'description' => 'Advanced versions at ttproducts.de. Documented in the E-Book "Der TYPO3-Webshop" - Shop with listing in multiple languages, with order tracking, photo gallery, DAM, product variants, credit card payment and bank accounts, bill, creditpoint, voucher system and gift certificates.',
+  'description' => 'Advanced versions at ttproducts.de. Documented in the E-Book "Der TYPO3-Webshop" - Shop with listing in multiple languages, with order tracking, product variants, support for transactor extension, bill, creditpoint and voucher system.',
   'state' => 'stable',
-  'version' => '2.14.6',
+  'version' => '2.14.7',
   'manual' => true,
   'author' => 'Franz Holzinger',
   'author_company' => 'jambage.com',
