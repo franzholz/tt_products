@@ -527,6 +527,7 @@ plugin.tt_products {
   SINGLECTRL = USER_INT
   SINGLECTRL {
     userFunc = tx_ttproducts_control_user_int->singleCtrl
+    active = 0
 	trigger {
 		10 = sys_products_fe_users_mm_visited_products
 		20 = sys_products_visited_products
