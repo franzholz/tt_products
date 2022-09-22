@@ -47,8 +47,10 @@ class tx_ttproducts_control_single implements \TYPO3\CMS\Core\SingletonInterface
 	 * @access private
 	 */
 	function triggerEvents ($conf) {
-		if (isset($conf['trigger.'])) {
-
+		if (
+            !empty($conf['active']) &&
+            isset($conf['trigger.'])
+        ) {
 			$triggerConf = $conf['trigger.'];
 			$piVars = tx_ttproducts_model_control::getPiVars();
 			$piVar = tx_ttproducts_model_control::getPiVar('tt_products');

@@ -1,3 +1,6 @@
+2022-09-22 Franz Holzinger <franz@ttproducts.de>
+    * feature: add active setup to SINGLECTRL setup for call of singleCtrl in order to turn it off by default. By this the table sys_products_visited_products is not written any more.
+
 2022-09-09 Franz Holzinger <franz@ttproducts.de>
     * compatibility TYPO3 8.7: deprecation no 77934: The field `select_key` of the table `tt_content` is not used in the core and has been removed.
 
