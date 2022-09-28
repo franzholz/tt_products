@@ -13,7 +13,7 @@
       </trans-unit>
       <trans-unit id="extmng.slugBehaviour" resname="extmng.slugBehaviour">
         <source>Slug behaviour: uniqueInSite: The same slug can be used for tt_products in different sites. Use this setting *only* if no tt_products records are shared between sites. "unique" means that another identical product title will lead to a different slug name than for the first product.</source>
-        <target state="needs-translation">Slug behaviour: uniqueInSite: The same slug can be used for tt_products in different sites. Use this setting *only* if no tt_products records are shared between sites. "unique" means that another identical product title will lead to a different slug name than for the first product.</target>
+        <target state="translated">Url-Segment Verhalten: uniqueInSite: Das selbe Url-Segment kann für Produkte in verschiedenen Sites verwendet werden. Diese Einstellung ist *nur* zu verwenden, wenn keine Produkt-Datensätzen von mehreren Sites gemeinsam genutzt werden. "unique" bedeutet, dass das Url-Segment eines News-Datensatzes für die gesamte Typo3 Instanz einzigartig ist.</target>
       </trans-unit>
       <trans-unit id="tt_products" resname="tt_products">
         <source>Products</source>
@@ -101,7 +101,7 @@
       </trans-unit>
       <trans-unit id="tt_products.ean" resname="tt_products.ean">
         <source>EAN Code:</source>
-        <target state="needs-translation">EAN Code:</target>
+        <target state="translated">EAN-Code:</target>
       </trans-unit>
       <trans-unit id="tt_products.shipping_point" resname="tt_products.shipping_point">
         <source>Shipping point:</source>
@@ -125,11 +125,11 @@
       </trans-unit>
       <trans-unit id="tt_products.www" resname="tt_products.www">
         <source>WWW URL</source>
-        <target state="needs-translation">WWW URL</target>
+        <target state="translated">WWW-URL</target>
       </trans-unit>
       <trans-unit id="tt_products.tax_free" resname="tt_products.tax_free">
         <source>Tax-free:</source>
-        <target state="needs-translation">Tax-free:</target>
+        <target state="translated">Steuerfrei:</target>
       </trans-unit>
       <trans-unit id="tt_products.tax" resname="tt_products.tax">
         <source>Tax:</source>
@@ -225,7 +225,7 @@
       </trans-unit>
       <trans-unit id="tt_products.form" resname="tt_products.form">
         <source>Form (Variant 16):</source>
-        <target state="needs-translation">Form (Variant 16):</target>
+        <target state="translated">Form (Variante 16):</target>
       </trans-unit>
       <trans-unit id="tt_products.form2" resname="tt_products.form2">
         <source>2nd Form (Variant 17):</source>
@@ -277,7 +277,7 @@
       </trans-unit>
       <trans-unit id="tt_products.additional_type" resname="tt_products.additional_type">
         <source>internal additional type:</source>
-        <target state="needs-translation">internal additional type:</target>
+        <target state="translated">interner zusätzlicher Typ:</target>
       </trans-unit>
       <trans-unit id="tt_products.additional" resname="tt_products.additional">
         <source>Additional (Variant 5):</source>
@@ -313,7 +313,7 @@
       </trans-unit>
       <trans-unit id="tt_products.damcat" resname="tt_products.damcat">
         <source>DAM category for product:</source>
-        <target state="needs-translation">DAM category for product:</target>
+        <target state="translated">DAM-Kategorie für Produkt:</target>
       </trans-unit>
       <trans-unit id="tt_products.syscat" resname="tt_products.syscat">
         <source>System category for product:</source>
