@@ -191,9 +191,9 @@
         <source>The voucher code | is not accepted.</source>
         <target state="final">Der Gutschein | wird nicht akzeptiert.</target>
       </trans-unit>
-      <trans-unit id="voucher_invalid_amount" resname="voucher_invalid_amount">
+      <trans-unit id="voucher_invalid_amount" resname="voucher_invalid_amount" approved="yes">
         <source>The total sum of the products in the basket is too small to be able to use the voucher code %s.</source>
-        <target state="translated">Die Gesamtsumme der Artikel im Warenkorb ist zu klein, um den Gutscheincode %s verwenden zu können.</target>
+        <target state="final">Die Gesamtsumme der Artikel im Warenkorb ist zu klein, um den Gutscheincode %s verwenden zu können.</target>
       </trans-unit>
       <trans-unit id="voucher_payment_article" resname="voucher_payment_article" approved="yes">
         <source>Discount</source>
@@ -275,9 +275,9 @@
         <source>first order</source>
         <target state="final">1. Bestellung</target>
       </trans-unit>
-      <trans-unit id="download" resname="download">
+      <trans-unit id="download" resname="download" approved="yes">
         <source>Download</source>
-        <target state="translated">Herunterladen</target>
+        <target state="final">Herunterladen</target>
       </trans-unit>
       <trans-unit id="download_requires_felogin" resname="download_requires_felogin" approved="yes">
         <source>You must be logged in the Front End in order to download.</source>
