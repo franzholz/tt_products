@@ -367,9 +367,9 @@
         <source>Type of shipment:</source>
         <target state="final">Versandmethode</target>
       </trans-unit>
-      <trans-unit id="basket_terms" resname="basket_terms">
+      <trans-unit id="basket_terms" resname="basket_terms" approved="yes">
         <source>I have read and accept &quot;the general terms</source>
-        <target state="translated">Ich habe die "Die Allgemeinen Geschäftsbedingungen" gelesen und akzeptiert</target>
+        <target state="final">Ich habe die "Die Allgemeinen Geschäftsbedingungen" gelesen und akzeptiert</target>
       </trans-unit>
       <trans-unit id="basket_terms_and" resname="basket_terms_and" approved="yes">
         <source>and the</source>
@@ -1023,9 +1023,9 @@
         <source>We only accept cash payment on collection!</source>
         <target state="final">Wir akzeptieren nur Barzahlung bei Abholung!</target>
       </trans-unit>
-      <trans-unit id="order_confirmation_50_button_text" resname="order_confirmation_50_button_text">
+      <trans-unit id="order_confirmation_50_button_text" resname="order_confirmation_50_button_text" approved="yes">
         <source>Complete the ordering process by paying by credit card</source>
-        <target state="translated">Bestellprozess durch Zahlung mit Kreditkarte abschließen</target>
+        <target state="final">Bestellprozess durch Zahlung mit Kreditkarte abschließen</target>
       </trans-unit>
       <trans-unit id="order_confirmation_90" resname="order_confirmation_90">
         <source>PayPal</source>
@@ -1095,9 +1095,9 @@
         <source>Account number </source>
         <target state="needs-translation">Account number </target>
       </trans-unit>
-      <trans-unit id="order_confirmation_bank_no" resname="order_confirmation_bank_no">
+      <trans-unit id="order_confirmation_bank_no" resname="order_confirmation_bank_no" approved="yes">
         <source>Bank sort code </source>
-        <target state="translated">Bankleitzahl </target>
+        <target state="final">Bankleitzahl </target>
       </trans-unit>
       <trans-unit id="order_confirmation_bank" resname="order_confirmation_bank">
         <source>Bank </source>
