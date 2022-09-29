@@ -103,6 +103,10 @@
         <source>EAN Code:</source>
         <target state="needs-translation">EAN Code:</target>
       </trans-unit>
+      <trans-unit id="tt_products.doi" resname="tt_products.doi">
+        <source>Digital Object Identifier:</source>
+        <target state="needs-translation">Digital Object Identifier:</target>
+      </trans-unit>
       <trans-unit id="tt_products.shipping_point" resname="tt_products.shipping_point">
         <source>Shipping point:</source>
         <target state="needs-translation">Shipping point:</target>
@@ -540,8 +544,8 @@
         <target state="needs-translation">Product attribute using it.</target>
       </trans-unit>
       <trans-unit id="tt_products_attribute_mm_graduated_price.uid_foreign" resname="tt_products_attribute_mm_graduated_price.uid_foreign">
-        <source>Price formula.</source>
-        <target state="needs-translation">Price formula.</target>
+        <source>Price formula</source>
+        <target state="needs-translation">Price formula</target>
       </trans-unit>
       <trans-unit id="tt_products_emails" resname="tt_products_emails">
         <source>Products emails</source>
@@ -676,12 +680,12 @@
         <target state="needs-translation">Product using it.</target>
       </trans-unit>
       <trans-unit id="tt_products_mm_graduated_price.graduated_price_uid" resname="tt_products_mm_graduated_price.graduated_price_uid">
-        <source>Price formula.</source>
-        <target state="needs-translation">Price formula.</target>
+        <source>Price formula</source>
+        <target state="needs-translation">Price formula</target>
       </trans-unit>
       <trans-unit id="tt_products_mm_graduated_price.uid_foreign" resname="tt_products_mm_graduated_price.uid_foreign">
-        <source>Price formula.</source>
-        <target state="needs-translation">Price formula.</target>
+        <source>Price formula</source>
+        <target state="needs-translation">Price formula</target>
       </trans-unit>
       <trans-unit id="tt_products_products_mm_articles" resname="tt_products_products_mm_articles">
         <source>Relation products to articles</source>
