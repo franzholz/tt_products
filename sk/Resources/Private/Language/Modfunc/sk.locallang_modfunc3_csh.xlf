@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xliff xmlns:t3="http://typo3.org/schemas/xliff" version="1.0">
+  <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/Modfunc/locallang_modfunc3_csh.xlf" date="2017-07-08T17:08:00Z" product-name="import" target-language="sk">
+    <header/>
+    <body>
+      <trans-unit id="tt_products.func3.importFalWizard">
+        <source>Execute the FAL Import Wizard</source>
+        <target state="needs-translation">Execute the FAL Import Wizard</target>
+      </trans-unit>
+      <trans-unit id="tt_products.func3.alttitle">
+        <source>Import FAL wizard for tt_products tables</source>
+        <target state="needs-translation">Import FAL wizard for tt_products tables</target>
+      </trans-unit>
+      <trans-unit id="tt_products.func3.description" xml:space="preserve">
+                <source>Enables you to import the images into FAL for all tables of tt_products.</source>
+            <target state="needs-translation">Enables you to import the images into FAL for all tables of tt_products.</target></trans-unit>
+    </body>
+  </file>
+</xliff>
