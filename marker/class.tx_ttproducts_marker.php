@@ -261,8 +261,15 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
 						break;
 					}
 				} else {
-					if(isset($conf['marks.'][$key . '.']) && is_array($conf['marks.'][$key . '.'])) {
-						$out = $cObj->cObjGetSingle($conf['marks.'][$key], $conf['marks.'][$key . '.']);
+					if(
+                        isset($conf['marks.'][$key . '.']) &&
+                        is_array($conf['marks.'][$key . '.'])
+                    ) {
+						$out = $cObj->cObjGetSingle(
+                            $conf['marks.'][$key],
+                            $conf['marks.'][$key . '.'],
+                            $key
+                        );
 					} else {
 						$langArray[$key] = $value;
 						$out = $value;
