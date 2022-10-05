@@ -48,6 +48,18 @@ call_user_func(function () {
         define('EXTERNAL_FIELD_PREFIX', 'tx_ttproducts_');
     }
 
+    if (!defined('DIV2007_LANGUAGE_LGL')) {
+        define('DIV2007_LANGUAGE_LGL', 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.');
+    }
+
+    if (!defined('DIV2007_LANGUAGE_PATH')) {
+        define('DIV2007_LANGUAGE_PATH', 'LLL:EXT:core/Resources/Private/Language/');
+    }
+
+    if (!defined('DIV2007_LANGUAGE_SUBPATH')) {
+        define('DIV2007_LANGUAGE_SUBPATH', '/Resources/Private/Language/');
+    }
+
     // The autoloader does not work in ext_localconf.php and in the folder Configuratin/TCA
     require_once(PATH_BE_TTPRODUCTS . 'control/class.tx_ttproducts_control_address.php');
 
