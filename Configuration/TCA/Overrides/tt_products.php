@@ -330,28 +330,30 @@ call_user_func(function () {
         // nothing. This is the default behaviour
     }
 
-    $GLOBALS['TCA'][$table]['columns']['address'] = array (
-        'exclude' => 1,
-        'label' => DIV2007_LANGUAGE_LGL . 'address',
-        'config' => array (
-            'type' => 'group',
-            'internal_type' => 'db',
-            'allowed' => $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['addressTable'],
-            'size' => 1,
-            'minitems' => 0,
-            'maxitems' => 1,
-            'default' => 0
-        )
-    );
+    if (!empty($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['addressTable'])) {
+        $GLOBALS['TCA'][$table]['columns']['address'] = ·[
+            'exclude' => 1,
+            'label' => DIV2007_LANGUAGE_LGL . 'address',
+            'config' => [
+                'type' => 'group',
+                'internal_type' => 'db',
+                'allowed' => $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['addressTable'],
+                'size' => 1,
+                'minitems' => 0,
+                'maxitems' => 1,
+                'default' => 0
+            ]
+        ];
 
-    $newFields = 'address';
+        $newFields = 'address';
 
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes(
-        $table,
-        $newFields,
-        '',
-        'before:price'
-    );
+        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes(
+            $table,
+            $newFields,
+            '',
+            'before:price'
+        );
+    }
 
     $orderBySortingTablesArray = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['orderBySortingTables']);
     if (

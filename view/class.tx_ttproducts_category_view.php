@@ -104,9 +104,10 @@ class tx_ttproducts_category_view extends tx_ttproducts_category_base_view {
 		}
 
 		$catTitle = $pageCatTitle;
-		if (($row['title'])) {
-			$catTitle .= ($this->tableconf['separator'] . $row['title']);
-		}
+        if (($row['title'])) {
+            $tableconf = $modelObj->getTableConf($theCode);
+            $catTitle .= (($tableconf['separator'] ?? '') . $row['title']);
+        }
 		$this->setMarkerArrayCatTitle($markerArray, $catTitle, $prefix);
 		parent::getRowMarkerArray(
 			$functablename,

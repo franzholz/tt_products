@@ -799,6 +799,7 @@ class tx_ttproducts_product extends tx_ttproducts_article_base {
 			foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['prodCategory'] as $classRef) {
 				$hookObj = GeneralUtility::makeInstance($classRef);
 				if (method_exists($hookObj, 'addWhereCat')) {
+                    $operator = '';
 					$whereNew =
 						$hookObj->addWhereCat(
 							$this,

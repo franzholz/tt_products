@@ -701,15 +701,28 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
 						}
 					}
 
-					$insertFields = array (
-						'uid_local' => intval($orderUid),
-						'sys_products_orders_qty' => intval($actItem['count']),
-						'variants' => $variants,
-						'edit_variants' => $editVariants,
-						'fal_variants' => $falVariants,
-						'uid_foreign' => intval($actItem['rec']['uid']),
-						'tablenames' => $productTablename . ',' . $articleTablename
-					);
+                    $time = time();
+                    if (!empty($GLOBALS['TYPO3_CONF_VARS']['SYS']['serverTimeZone'])) {
+                        $time += ($GLOBALS['TYPO3_CONF_VARS']['SYS']['serverTimeZone'] * 3600);
+                    }
+
+                    $pid = intval($this->conf['PID_sys_products_orders']);
+                    if (!$pid) {
+                        $pid = intval($GLOBALS['TSFE']->id);
+                    }
+
+                    $insertFields = [
+                        'pid' => intval($pid),
+                        'tstamp' => $time,
+                        'crdate' => $time,
+                        'uid_local' => intval($orderUid),
+                        'sys_products_orders_qty' => intval($actItem['count']),
+                        'variants' => $variants,
+                        'edit_variants' => $editVariants,
+                        'fal_variants' => $falVariants,
+                        'uid_foreign' => intval($actItem['rec']['uid']),
+                        'tablenames' => $productTablename . ',' . $articleTablename
+                    ];
 
 					if (
 						$this->conf['useArticles'] == 1 ||
