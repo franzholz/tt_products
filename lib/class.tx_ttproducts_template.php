@@ -83,7 +83,8 @@ class tx_ttproducts_template implements \TYPO3\CMS\Core\SingletonInterface {
 		if (
 			(!$templateFile || empty($templateCode))
 		) {
-			if ($conf['templateFile.'][$theCode]) {
+            $tmplText = '';
+			if (!empty($conf['templateFile.'][$theCode])) {
 				$tmplText = $theCode . '.';
 			}
 			$tmplText .= 'templateFile';

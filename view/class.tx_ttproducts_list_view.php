@@ -728,11 +728,6 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 				$where .= ' AND ' . $dam_where;
 			}
 		}
-		$tableConfArray[$functablename] = $cnfObj->getTableConf($functablename, $theCode); // $productsConf
-
-		if ($allowedItems != '') { // formerly: !$tableConfArray[$functablename]['orderBy'] &&
-			$tableConfArray[$functablename]['orderBy'] = 'FIELD(' . $prodAlias . '.uid, ' . $allowedItems . ')';
-		}
 
 		// if parameter 'newitemdays' is specified, only new items from the last X days are displayed
 		$newitemdays = '';
@@ -817,6 +812,9 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 						);
 				}
 			}
+		}
+		if ($allowedItems != '') { // formerly: !$tableConfArray[$functablename]['orderBy'] &&
+			$tableConfArray[$functablename]['orderBy'] = 'FIELD(' . $prodAlias . '.uid, ' . $allowedItems . ')';
 		}
 
 		$whereAddress = '';

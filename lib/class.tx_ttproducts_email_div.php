@@ -130,7 +130,7 @@ class tx_ttproducts_email_div {
 				$plain_message = trim($parts[1]);
 				$tmp = '';
                 \JambageCom\Div2007\Utility\MailUtility::send(
-                    implode($recipients, ','),
+                    implode(',', $recipients),
                     $subject,
                     $plain_message,
                     $tmp,

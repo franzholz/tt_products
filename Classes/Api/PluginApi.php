@@ -370,14 +370,17 @@ class PluginApi {
 				$uid,
 				$conf['useArticles']
 			);
-		$funcArray = $addListArray[$subtype];
+		$funcArray = $addListArray[$subtype] ?? [];
 		$pid = $GLOBALS['TSFE']->id;
 		$paramUidArray['product'] = $uid;
 
 		$relatedItemObj = $itemObj;
 		$parentFuncTablename = '';
 
-		if ($funcTablename != $funcArray['functablename']) {
+		if (
+            !empty($funcArray) &&
+            $funcTablename != $funcArray['functablename']
+        ) {
 			$relatedItemObj = $tablesObj->get($funcArray['functablename'], false);
 			$parentFuncTablename = $funcArray['functablename'];
 		}
