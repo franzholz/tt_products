@@ -331,7 +331,7 @@ call_user_func(function () {
     }
 
     if (!empty($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['addressTable'])) {
-        $GLOBALS['TCA'][$table]['columns']['address'] = ·[
+        $GLOBALS['TCA'][$table]['columns']['address'] = [
             'exclude' => 1,
             'label' => DIV2007_LANGUAGE_LGL . 'address',
             'config' => [
