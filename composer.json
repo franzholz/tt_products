@@ -28,7 +28,7 @@
     "typo3/cms-core": "^10.4 || ^11.5",
     "jambagecom/div2007": "^1.14",
     "jambagecom/table": "^0.11",
-    "jambagecom/tsparser": "",
+    "jambagecom/tsparser": "^0.9.0",
     "friendsoftypo3/typo3db-legacy": "^1"
   },
   "suggest": {
