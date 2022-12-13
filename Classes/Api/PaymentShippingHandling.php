@@ -633,7 +633,6 @@ class PaymentShippingHandling {
 						isset($addItems) &&
 						is_array($addItems)
 					) {
-
 						if ($type) {	// radio
 
 							foreach($addItems as $k1 => $row) {

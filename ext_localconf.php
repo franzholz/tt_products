@@ -97,8 +97,8 @@ call_user_func(function () {
         }
     }
 
-    $extensionConfiguration = array();
-    $originalConfiguration = array();
+    $extensionConfiguration = [];
+    $originalConfiguration = [];
 
     $extensionConfiguration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
         \TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class
@@ -135,7 +135,7 @@ call_user_func(function () {
         $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT] =
             array_merge($extensionConfiguration, $originalConfiguration);
     } else if (!isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT])) {
-        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT] = array();
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT] = [];
     }
 
     $extensionConfiguration = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT];

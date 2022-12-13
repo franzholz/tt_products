@@ -172,7 +172,6 @@ class tx_ttproducts_billdelivery implements \TYPO3\CMS\Core\SingletonInterface {
 				);
 			} else if ($generationType == 'html') {
 				$subpart = $typeCode . '_TEMPLATE';
-
 				$content = $basketView->getView(
 					$errorCode,
 					$templateCode,
