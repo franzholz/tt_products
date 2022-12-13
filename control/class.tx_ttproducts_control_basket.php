@@ -50,10 +50,10 @@ abstract class BasketRecsIndex {
 
 
 class tx_ttproducts_control_basket {
-	static protected $recs = array();
-	static protected $basketExt = array();	// "Basket Extension" - holds extended attributes
-	static protected $basketExtra = array();	// initBasket() uses this for additional information like the current payment/shipping methods
-	static protected $infoArray = array();
+	static protected $recs = [];
+	static protected $basketExt = [];	// "Basket Extension" - holds extended attributes
+	static protected $basketExtra = [];	// initBasket() uses this for additional information like the current payment/shipping methods
+	static protected $infoArray = [];
 	static private $pidListObj;
 	static private $bHasBeenInitialised = false;
 	static private $funcTablename;			// tt_products or tt_products_articles
@@ -66,7 +66,7 @@ class tx_ttproducts_control_basket {
             $transmissionSecurity
         ) {
         // TODO  transmission security
-            $errorCode = array();
+            $errorCode = [];
             $errorMessage = '';
             $security = GeneralUtility::makeInstance(\JambageCom\Div2007\Security\TransmissionSecurity::class);
             $decryptionResult = $security->decryptIncomingFields(
@@ -94,8 +94,8 @@ class tx_ttproducts_control_basket {
 		$tablesObj,
 		$pid_list,
 		$useArticles,
-		array $recs = array(),
-		array $basketRec = array()
+		array $recs = [],
+		array $basketRec = []
 	) {
 		if (!self::$bHasBeenInitialised) {
             self::setRecs($recs);
@@ -106,8 +106,8 @@ class tx_ttproducts_control_basket {
 				self::setBasketExtra($basketExtra);
 			} else {
 				self::setRecs($recs);
-				self::setBasketExt(array());
-				self::setBasketExtra(array());
+				self::setBasketExt([]);
+				self::setBasketExtra([]);
 			}
 
 			self::$pidListObj = GeneralUtility::makeInstance('tx_ttproducts_pid_list');
@@ -139,7 +139,7 @@ class tx_ttproducts_control_basket {
 
 
 	static public function cleanConfArr ($confArray, $checkShow = 0) {
-		$outArr = array();
+		$outArr = [];
 		if (is_array($confArray)) {
 			foreach($confArray as $key => $val) {
 				if (
@@ -184,11 +184,11 @@ class tx_ttproducts_control_basket {
 	 */
 	static public function getBasketExtras ($tablesObj, $basketRec, &$conf) {
 
-		$basketExtra = array();
+		$basketExtra = [];
 
 // 		$conf = $cnfObj->getConf();
 		// handling and shipping
-		$pskeyArray = array('shipping' => false, 'handling' => true);	// keep this order, because shipping can unable some payment and handling configuration
+		$pskeyArray = ['shipping' => false, 'handling' => true];	// keep this order, because shipping can unable some payment and handling configuration
 		$excludePayment = '';
 		$excludeHandling = '';
 
@@ -250,7 +250,7 @@ class tx_ttproducts_control_basket {
 			!empty($basketExtra['shipping.']['replacePayment.'])
         ) {
 			if (!$conf['payment.']) {
-				$conf['payment.'] = array();
+				$conf['payment.'] = [];
 			}
 
 			foreach ($basketExtra['shipping.']['replacePayment.'] as $k1 => $replaceArray) {
@@ -277,36 +277,41 @@ class tx_ttproducts_control_basket {
 			}
 
 			$confArray = self::cleanConfArr($conf['payment.']);
-			foreach($confArray as $key => $val) {
-				if ($val['show'] || !isset($val['show'])) {
+			foreach($confArray as $confKey => $val) {
+//                 if (
+//                     ($val['show'] || !isset($val['show']))
+//                 ) {
+                if (
+                    isset($val['type']) &&
+                    $val['type'] == 'fe_users'
+                ) {
                     if (
-                        isset($val['type']) &&
-                        $val['type'] == 'fe_users'
+                        \JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn() &&
+                        is_array($GLOBALS['TSFE']->fe_user->user)
                     ) {
-						if (
-                            \JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn() &&
-                            is_array($GLOBALS['TSFE']->fe_user->user)
-                        ) {
-							$paymentField = $tablesObj->get('fe_users')->getFieldName('payment');
-							$paymentMethod = $GLOBALS['TSFE']->fe_user->user[$paymentField];
-							$conf['payment.'][$key . '.']['title'] = $paymentMethod;
-						} else {
-							unset($conf['payment.'][$key . '.']);
-						}
-					}
-					if (
-                        !empty($val['visibleForGroupID']) &&
-						(!$tablesObj->get('fe_users')->isUserInGroup($GLOBALS['TSFE']->fe_user->user, $val['visibleForGroupID']))) {
-						unset($conf['payment.'][$key . '.']);
-					}
-				}
+                        $paymentField = $tablesObj->get('fe_users')->getFieldName('payment');
+                        $paymentMethod = $GLOBALS['TSFE']->fe_user->user[$paymentField];
+                        $conf['payment.'][$confKey . '.']['title'] = $paymentMethod;
+                    } else {
+                        unset($conf['payment.'][$confKey . '.']);
+                    }
+                }
+                if (
+                    !empty($val['visibleForGroupID']) &&
+                    (!$tablesObj->get('fe_users')->isUserInGroup($GLOBALS['TSFE']->fe_user->user, $val['visibleForGroupID']))) {
+                    unset($conf['payment.'][$confKey . '.']);
+                }
+// 				}
 			}
 			ksort($conf['payment.']);
 			reset($conf['payment.']);
             $k = 0;
             if (isset($basketRec['tt_products']['payment'])) {
                 $k = intval($basketRec['tt_products']['payment']);
+            } else if (count($confArray) == 1) {
+                $k = key($confArray);
             }
+
             if (
                 $k &&
                 isset($conf['payment.'][$k . '.']) &&
@@ -315,8 +320,9 @@ class tx_ttproducts_control_basket {
                 $temp = static::cleanConfArr($conf['payment.'], 1);
                 $k = intval(key($temp));
             }
+
             if ($k) {
-                $basketExtra['payment'] = array($k);
+                $basketExtra['payment'] = [$k];
                 if (isset($conf['payment.'][$k . '.'])) {
                     $basketExtra['payment.'] = $conf['payment.'][$k . '.'];
                 }
@@ -469,7 +475,7 @@ class tx_ttproducts_control_basket {
 
 	static public function setRecs ($recs) {
 
-		$newRecs = array();
+		$newRecs = [];
  		$allowedTags = '<br><a><b><td><tr><div>';
 
 		foreach ($recs as $type => $valueArray) {
@@ -487,7 +493,7 @@ class tx_ttproducts_control_basket {
 
 
 	static public function getStoredRecs () {
-		$result = array();
+		$result = [];
 
         $recs = tx_ttproducts_control_session::readSession('recs');
         if (!empty($recs)) {
@@ -643,17 +649,17 @@ class tx_ttproducts_control_basket {
 	static public function getStoredInfoArray () {
 		$formerBasket = self::getRecs();
 
-		$infoArray = array();
+		$infoArray = [];
 
 		if (isset($formerBasket) && is_array($formerBasket)) {
 			$infoArray['billing'] = $formerBasket['personinfo'] ?? '';
 			$infoArray['delivery'] = $formerBasket['delivery'] ?? '';
 		}
 		if (!$infoArray['billing']) {
-			$infoArray['billing'] = array();
+			$infoArray['billing'] = [];
 		}
 		if (!$infoArray['delivery']) {
-			$infoArray['delivery'] = array();
+			$infoArray['delivery'] = [];
 		}
 		return $infoArray;
 	}
@@ -940,7 +946,7 @@ class tx_ttproducts_control_basket {
 			!isset($valArray) ||
 			!is_array($valArray)
 		) {
-			$valArray = array();
+			$valArray = [];
 		}
 		self::store('ctrl', $valArray);
 	}

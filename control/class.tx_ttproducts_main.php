@@ -225,7 +225,6 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 		}
 
 		// ### central initialization ###
-
 		if (!$bRunAjax) {
 			$db = GeneralUtility::makeInstance('tx_ttproducts_db');
 			$result =

@@ -49,8 +49,8 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
 		$cObj,
 		$ajax,
 		&$errorCode,
-		array $recs = array(),
-		array $basketRec = array()
+		array $recs = [],
+		array $basketRec = []
 	) {
         if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
             $staticInfoApi = GeneralUtility::makeInstance(\JambageCom\Div2007\Api\StaticInfoTablesApi::class);
@@ -212,7 +212,7 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
     static public function getLanguageObj ($pLangObj, $cObj, $conf) {
 
         $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
-        $confLocalLang = array();
+        $confLocalLang = [];
         if (isset($conf['_LOCAL_LANG.'])) {
             $confLocalLang = $conf['_LOCAL_LANG.'];
         }

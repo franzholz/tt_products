@@ -46,7 +46,7 @@ class tx_ttproducts_api {
 	static public function roundPrice ($value, $format) {
 
 		$result = $oldValue = $value;
-		$priceRoundFormatArray = array();
+		$priceRoundFormatArray = [];
 		$dotPos = strpos($value, '.');
 		$floatLen = strlen($value) - $dotPos - 1;
 
@@ -318,7 +318,7 @@ class tx_ttproducts_api {
                 debug ($tmp, 'no FE user could be generated!'); // keep this
             }
 			$tableFieldArray = $tablesObj->get('fe_users')->getTableObj()->tableFieldArray;
-			$insertFields = array(	// TODO: check with TCA
+			$insertFields = [	// TODO: check with TCA
 				'pid' => intval($pid),
 				'tstamp' => time(),
 				'crdate' => time(),
@@ -326,7 +326,7 @@ class tx_ttproducts_api {
 				'password' => $password,
 				'usergroup' => $conf['memberOfGroup'],
 				'uid' => $infoArray['billing']['feusers_uid'],
-			);
+			];
 
 			foreach ($tableFieldArray as $fieldname => $value) {
 				$fieldvalue = $infoArray['billing'][$fieldname];
@@ -367,14 +367,14 @@ class tx_ttproducts_api {
 						$calculatedArray,
 						false,
 						'EMAIL_NEWUSER_TEMPLATE',
-						array(),
+						[],
 						'',
-						array(),
+						[],
                         $notOverwritePriceIfSet = true,
-						array(),
-						array(),
-						array(),
-						array()
+						[],
+						[],
+						[],
+						[]
 					)
 				);
 
@@ -514,7 +514,7 @@ class tx_ttproducts_api {
 		$infoViewObj = GeneralUtility::makeInstance('tx_ttproducts_info_view');
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables'); // init ok
 		$billdeliveryObj = GeneralUtility::makeInstance('tx_ttproducts_billdelivery');
-		$fileArray = array(); // bill or delivery
+		$fileArray = []; // bill or delivery
 		$voucherCount = 0;
 
 		$activityFinalize = GeneralUtility::makeInstance('tx_ttproducts_activity_finalize');
@@ -549,7 +549,7 @@ class tx_ttproducts_api {
 		) {
 			return false; // the order has already been processed before
 		}
-		$orderObj->updateRecord($orderUid, array('hidden' =>  0)); // mark this order immediately as unhidden in order to let no instant message from the gateway execute the following PHP code twice
+		$orderObj->updateRecord($orderUid, ['hidden' =>  0]); // mark this order immediately as unhidden in order to let no instant message from the gateway execute the following PHP code twice
 
 		$instockTableArray = '';
 		$customerEmail = $infoViewObj->getCustomerEmail();
@@ -557,7 +557,7 @@ class tx_ttproducts_api {
 
 
 /*
-		$defaultFromArray = array();
+		$defaultFromArray = [];
 		$defaultFromArray['shop'] = array(
 			'email' => $conf['orderEmail_from'],
 			'name' => $conf['orderEmail_fromName']
@@ -592,8 +592,8 @@ class tx_ttproducts_api {
 					'',
 					$itemArray,
                     $notOverwritePriceIfSet = true,
-					array('0' => $orderArray),
-					array(),
+					['0' => $orderArray],
+					[],
 					$basketExtra,
 					$basketRecs
 				);
@@ -614,11 +614,8 @@ class tx_ttproducts_api {
 				$conf[$type . '.']['generation'] == 'auto'
 			) {
 				if (
-                    isset($orderArray['bill_no']) &&
-                    (
-                        $type == 'bill' &&
-                        !$orderRow['bill_no']
-                    )
+                    $type == 'bill' &&
+                    !$orderRow['bill_no']
 				) {
 					$newBillNumber = self::generateBillNo(
 						$orderUid,
@@ -640,7 +637,8 @@ class tx_ttproducts_api {
 						$type,
 						$conf[$type . '.']
 					);
-				if ($absFilename) {
+
+                if ($absFilename) {
 					$fileArray[$type] = $absFilename;
 				}
 			}
@@ -654,7 +652,7 @@ class tx_ttproducts_api {
 			$conf['whereGift'] != ''
 		) {
 			$voucherCount = 0;
-			$codeArray = array();
+			$codeArray = [];
 			tx_ttproducts_voucher::generate($voucherCount, $codeArray, $orderUid, $itemArray, $conf['whereGift']);
 		}
 
@@ -667,7 +665,7 @@ class tx_ttproducts_api {
 			$basketExtra,
 			$calculatedArray,
 			'',
-			array(), // TODO: $giftServiceArticleArray,
+			[], // TODO: $giftServiceArticleArray,
 			'', // TODO: $vouchercode
 			$usedCreditpoints,
 			$voucherCount,
@@ -739,8 +737,8 @@ class tx_ttproducts_api {
 						'',
 						$itemArray,
                         $notOverwritePriceIfSet = true,
-						array('0' => $orderArray),
-						array(),
+						['0' => $orderArray],
+						[],
 						$basketExtra,
 						$basketRecs
 					)
@@ -837,7 +835,7 @@ class tx_ttproducts_api {
 						}
 					}
 
-					$emailControlArray[$suffix][$shippingPoint]['attachmentFile'] = array();
+					$emailControlArray[$suffix][$shippingPoint]['attachmentFile'] = [];
 
 					if (!empty($emailConfig['to'])) {
 						$emailArray = GeneralUtility::trimExplode(',', $emailConfig['to']);
@@ -895,10 +893,10 @@ class tx_ttproducts_api {
 					} else if ($emailConfig['from'] == 'customer') {
 						$emailControlArray[$suffix][$shippingPoint]['from'] = $defaultFromArray['customer'];
 					} else if (isset($emailConfig['from.'])) {
-						$emailControlArray[$suffix][$shippingPoint]['from'] = array(
+						$emailControlArray[$suffix][$shippingPoint]['from'] = [
 							'email' => $emailConfig['from.']['email'],
 							'name' => $emailConfig['from.']['name']
-						);
+						];
 					}
 
 					if ($shippingPoint != 'none') {
@@ -986,8 +984,8 @@ class tx_ttproducts_api {
 				}
 			}
 
-			$categoryInserted = array();
-			$shippingPointInserted = array();
+			$categoryInserted = [];
+			$shippingPointInserted = [];
 
 			// send distributor emails from email entered at the category level
 			foreach ($itemArray as $sort => $actItemArray) {
@@ -1006,11 +1004,11 @@ class tx_ttproducts_api {
 
 						if (isset($emailRow) && is_array($emailRow)) {
 							$email = $emailRow['email'];
-							$emailArray = array();
+							$emailArray = [];
 							if (!empty($emailRow['name'])) {
-								$emailArray = array($email => $emailArray['name']);
+								$emailArray = [$email => $emailArray['name']];
 							} else {
-								$emailArray = array($email);
+								$emailArray = [$email];
 							}
 
 							if (!empty($emailRow['suffix'])) {
@@ -1130,8 +1128,8 @@ class tx_ttproducts_api {
 									'',
 									$basketItemArray,
                                     $notOverwritePriceIfSet = true,
-									array('0' => $orderArray),
-									array(),
+									['0' => $orderArray],
+									[],
 									$basketExtra,
 									$basketRecs
 								);
@@ -1153,8 +1151,8 @@ class tx_ttproducts_api {
                                         '',
                                         $basketItemArray,
                                         $notOverwritePriceIfSet = true,
-                                        array('0' => $orderArray),
-                                        array(),
+                                        ['0' => $orderArray],
+                                        [],
                                         $basketExtra,
                                         $basketRecs
                                     );
@@ -1193,7 +1191,7 @@ class tx_ttproducts_api {
                                     );
                             }
 
-							$fromArray = array();
+							$fromArray = [];
 
 							if (
 								isset($suffixControlArray['from'])
@@ -1237,11 +1235,11 @@ class tx_ttproducts_api {
 			if (is_array($finalizeConf) && count($finalizeConf)) {
 
 				foreach ($finalizeConf as $k => $confpart) {
-					$reducedItemArray = array();
+					$reducedItemArray = [];
 
 					if (isset($confpart['pid']) && isset($confpart['email'])) {
 						foreach ($itemArray as $sort => $actItemArray) {
-							$reducedActItemArray = array();
+							$reducedActItemArray = [];
 							foreach ($actItemArray as $k1 => $actItem) {
 								$row = $actItem['rec'];
 								if ($row['pid'] == $confpart['pid']) {
@@ -1277,8 +1275,8 @@ class tx_ttproducts_api {
 									'',
 									$reducedItemArray,
                                     $notOverwritePriceIfSet = true,
-									array('0' => $orderArray),
-									array(),
+									['0' => $orderArray],
+									[],
 									$basketExtra,
 									$basketRecs
 								)
@@ -1308,8 +1306,8 @@ class tx_ttproducts_api {
 										'',
 										$reducedItemArray,
                                         $notOverwritePriceIfSet = true,
-										array('0' => $orderArray),
-										array(),
+										['0' => $orderArray],
+										[],
 										$basketExtra,
 										$basketRecs
 									)

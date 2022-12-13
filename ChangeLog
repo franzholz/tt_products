@@ -1,3 +1,7 @@
+2022-12-13 Franz Holzinger <franz@ttproducts.de>
+    * feature: Support to have no payment selector if only one payment option is available.
+    * bugfix: automatic bill generation
+
 2022-09-22 Franz Holzinger <franz@ttproducts.de>
     * feature: add active setup to SINGLECTRL setup for call of singleCtrl in order to turn it off by default. By this the table sys_products_visited_products is not written any more.
 
