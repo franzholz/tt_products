@@ -64,8 +64,8 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$recursive
 	) {
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-		$this->conf = $cnf->conf;
-		$this->config = $cnf->config;
+		$this->conf = $cnf->getConf();
+		$this->config = $cnf->getConfig();
 
 		if (count($uidArray)) {
 			$this->uidArray = $uidArray;

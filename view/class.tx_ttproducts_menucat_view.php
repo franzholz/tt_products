@@ -96,6 +96,8 @@ class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base {
 			$maxDepth = $categoryTable->getDepth($theCode);
 
 			$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
+            $conf = $cnf->getConf();
+            $config = $cnf->getConfig();
 
 			$content='';
 			$out='';
@@ -134,7 +136,7 @@ class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base {
 
 			while ($depth > 0 && $iCount < 500) {
 				$iCount++;
-				$cssClassArray = array('w' . $iCount);
+				$cssClassArray = ['w' . $iCount];
 
 				if (!is_array($catArray[$depth])) {
                     continue;
@@ -177,8 +179,8 @@ class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base {
 					} else {
 						$pageObj = $tablesObj->get('pages');
 						$pid = $pageObj->getPID(
-							$this->conf['PIDlistDisplay'],
-							$this->conf['PIDlistDisplay.'],
+							$conf['PIDlistDisplay'],
+							$conf['PIDlistDisplay.'],
 							$row
 						);
 					}
@@ -190,7 +192,7 @@ class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base {
 						$categoryTableView->getMarker(),
 						$actCategory,
 						$row['pid'],
-						$cnf->config['limitImage'],
+						$config['limitImage'],
 						'listcatImage',
 						$viewCatTagArray,
 						[],

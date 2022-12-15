@@ -61,7 +61,7 @@ abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base
 		$cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$conf = $cnfObj->getConf();
 
-		$title = $cObj->cObjGetSingle($conf['categoryHeader'] ?? '', $this->conf['categoryHeader.'] ?? '', 'categoryHeader');
+		$title = $cObj->cObjGetSingle($conf['categoryHeader'] ?? '', $conf['categoryHeader.'] ?? '', 'categoryHeader');
 		$markerArray['###' . $prefix . $this->marker . '_TITLE###'] = $title;
 	}
 
@@ -161,6 +161,8 @@ abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base
 		$id,
 		$prefix
 	) {
+		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
+		$config = $cnf->getConfig();
 
 		if (is_array($parentArray) && count($parentArray)) {
 			$currentRow = $row;
@@ -187,7 +189,7 @@ abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base
 						'',
 						$parentCategory,
 						$parentPid,
-						$this->config['limitImage'],
+						$config['limitImage'],
 						'listcatImage',
 						$viewCatTagArray,
 						$tmp,

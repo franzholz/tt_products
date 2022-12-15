@@ -63,7 +63,9 @@ class tx_ttproducts_card_view extends tx_ttproducts_table_base_view {
 
         $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
         $cObj = FrontendUtility::getContentObjectRenderer();
-		$ccNumberArray = array();
+		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
+		$conf = $cnf->getConf();
+		$ccNumberArray = [];
 		$ccTypeTextSelected = '';
 
 		if (count($allowedArray)) {
@@ -132,10 +134,10 @@ class tx_ttproducts_card_view extends tx_ttproducts_table_base_view {
 		$markerArray['###PERSON_CARDS_ENDTIME_YY###'] = $year;
 		$markerArray['###PERSON_CARDS_ENDTIME_YY_SELECT###'] = '';
 		$markerArray['###PERSON_CARDS_ENDTIME_MM_SELECT###'] = '';
-		$markerArray['###PERSON_CARDS_ENDTIME###'] = isset($row['endtime']) ? $cObj->stdWrap($row['endtime'],$this->conf['cardEndDate_stdWrap.']) : '';
+		$markerArray['###PERSON_CARDS_ENDTIME###'] = isset($row['endtime']) ? $cObj->stdWrap($row['endtime'], $conf['cardEndDate_stdWrap.']) : '';
 
-		if (isset($this->conf['payment.']['creditcardSelect.'])) {
-			$mmArray = $this->conf['payment.']['creditcardSelect.']['mm.'];
+		if (isset($conf['payment.']['creditcardSelect.'])) {
+			$mmArray = $conf['payment.']['creditcardSelect.']['mm.'];
 			if (is_array($mmArray)) {
 				$valueArray = tx_ttproducts_form_div::fetchValueArray($mmArray['valueArray.']);
 				$markerArray['###PERSON_CARDS_ENDTIME_MM_SELECT###'] =
@@ -148,7 +150,7 @@ class tx_ttproducts_card_view extends tx_ttproducts_table_base_view {
 						true
 					);
 			}
-			$yyArray = $this->conf['payment.']['creditcardSelect.']['yy.'];
+			$yyArray = $conf['payment.']['creditcardSelect.']['yy.'];
 			if (is_array($yyArray)) {
 				$valueArray = tx_ttproducts_form_div::fetchValueArray($yyArray['valueArray.']);
 				$markerArray['###PERSON_CARDS_ENDTIME_YY_SELECT###'] =

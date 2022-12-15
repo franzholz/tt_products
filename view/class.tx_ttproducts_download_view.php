@@ -77,7 +77,7 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view {
 	) {
 		$error = false;
 		$cObj = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
-		$cObj->start(array());
+		$cObj->start([]);
 
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 		$functablename = 'tt_products';
@@ -85,7 +85,7 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view {
 		$itemTable = $itemTableView->getModelObj();
 		$orderObj = $tablesObj->get('sys_products_orders');
 		$variantSeparator = $itemTable->getVariant()->getSplitSeparator();
-		$t = array();
+		$t = [];
 
 		if (isset($tagArray['DOWNLOAD_SINGLE'])) {
 			$t['item'] = tx_div2007_core::getSubpart($templateCode, '###DOWNLOAD_SINGLE###');
@@ -122,7 +122,7 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view {
 				$content = '';
 				$marker = $parentMarker . '_' . $this->getMarker() . '_' . strtoupper($row['marker']);
 
-				$selectValueArray = array();
+				$selectValueArray = [];
 				$selectedKey = 0;
 				$productUid = 0;
 
@@ -173,7 +173,7 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view {
 							$selectedKey,
 							true,
 							true,
-							array(),
+							[],
 							'select',
 							array('title' => 'Auswahl der Domäne', 'onchange' => 'submit();')
 						);
@@ -203,7 +203,7 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view {
 					$path = $path . $row['path'] . '/';
 
 					// $directLink = TYPO3_SITE_SCRIPT;
-					$paramArray = array();
+					$paramArray = [];
 					if ($bValidUpdateCode) {
 						$paramArray['update_code'] = $updateCode;
 					} else if ($trackingCode != '') {
@@ -327,7 +327,7 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view {
 						$markerArray['###' . $markerLink . '###'] = $content;
 					}
 
-					$fieldArray = array('author', 'edition', 'note', 'title');
+					$fieldArray = ['author', 'edition', 'note', 'title'];
 
 					foreach ($fieldArray as $field) {
 						$fieldMarker = $downloadMarker . '_' . strtoupper($field);
@@ -335,7 +335,7 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view {
 						if (isset($tagArray[$fieldMarker])) {
 							$value = $row[$field];
 							if ($field == 'note') {
-								$value = ($this->conf['nl2brNote'] ? nl2br($value) : $value);
+								$value = ($conf['nl2brNote'] ? nl2br($value) : $value);
 
 									// Extension CSS styled content
 								if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('css_styled_content')) {
@@ -344,11 +344,11 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view {
 											$cObj,
 											$value
 										);
-								} else if (is_array($this->conf['parseFunc.'])) {
+								} else if (is_array($conf['parseFunc.'])) {
 									$value =
 										$cObj->parseFunc(
 											$value,
-											$this->conf['parseFunc.']
+											$conf['parseFunc.']
 										);
 								}
 							}
@@ -367,12 +367,12 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view {
 
 		$this->setMarkersEmpty(
 			$tagArray,
-			array($parentMarker . '_' . $this->getMarker()),
+			[$parentMarker . '_' . $this->getMarker()],
 			$markerArray
 		);
 
 		if (!isset($subpartArray['###DOWNLOAD_SINGLE###'])) {
-			$wrappedSubpartArray['###DOWNLOAD_SINGLE###'] = array('', '');
+			$wrappedSubpartArray['###DOWNLOAD_SINGLE###'] = ['', ''];
 		}
 	}
 }

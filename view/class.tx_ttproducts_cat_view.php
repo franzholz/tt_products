@@ -61,8 +61,8 @@ class tx_ttproducts_cat_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$this->pibase = $pibase;
 		$this->cObj = $pibase->cObj;
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-		$this->conf = $cnf->conf;
-		$this->config = $cnf->config;
+		$this->conf = $cnf->getConf();
+		$this->config = $cnf->getConfig();
 
 		$this->pid = $pid;
 		$this->urlObj = GeneralUtility::makeInstance('tx_ttproducts_url_view');

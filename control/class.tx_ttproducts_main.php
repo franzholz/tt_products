@@ -46,11 +46,11 @@ use JambageCom\TtProducts\Api\PluginApi;
 class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 		// Internal
 	public $uid_list = '';			// List of existing uid's from the basket, set by initBasket()
-	public $orderRecord = array();		// Will hold the order record if fetched.
+	public $orderRecord = [];		// Will hold the order record if fetched.
 
 		// Internal: init():
 	public $conf;
-	public $tt_product_single = array();
+	public $tt_product_single = [];
 	public $control;			// object for the control of the application
 	public $singleView;			// single view object
 	public $memoView;			// memo view and data object
@@ -106,7 +106,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 	) {
 		$result = true;
 		$this->setSingleFromList(false);
-		$this->tt_product_single = array();
+		$this->tt_product_single = [];
         $piVars = tx_ttproducts_model_control::getPiVars();
 
 		$pibaseObj = GeneralUtility::makeInstance('' . $pibaseClass);
@@ -434,7 +434,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 				$errorMessage = str_replace('|', 'plugin.tt_products.templateFile', $errorText);
 			}
 
-			$addressArray = array();
+			$addressArray = [];
 			$addressObj = $tablesObj->get('address', false);
 			if (is_object($addressObj)) {
 				$addressArray = $addressObj->fetchAddressArray($itemArray);
@@ -839,7 +839,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 					if (!$test) continue 2;
 
 					$scriptPath = '';
-					$defaultSettings = array();
+					$defaultSettings = [];
 
 					$buildScriptOptions = $defaultSettings;
 					$paramString = '';
@@ -925,7 +925,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 
 			if (!empty($errorCode[0])) {
 
-				$errorConf = array();
+				$errorConf = [];
 				if (isset($this->conf['error.'])) {
 					$errorConf = $this->conf['error.'];
 					$urlObj = GeneralUtility::makeInstance('tx_ttproducts_url_view');
@@ -949,7 +949,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 								false
 							),
 							'',
-							array()
+							[]
 						);
 
 						if ($url != '') {
@@ -959,7 +959,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 				}
 
 				$contentTmp .= \JambageCom\Div2007\Utility\ErrorUtility::getMessage($languageObj, $errorCode);
-				$errorCode = array();
+				$errorCode = [];
 			}
 
 			if ($contentTmp == 'error') {
@@ -1232,7 +1232,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
             FrontendUtility::getTypoLink_URL(
                 $cObj,
                 $GLOBALS['TSFE']->id,
-                $urlObj->getLinkParams('', array(), true)
+                $urlObj->getLinkParams('', [], true)
             );
 
 		$content = $parser->substituteMarkerArray($content, $markerArray);
@@ -1377,7 +1377,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 				$this->pageAsCategory,
 				$basketExtra,
 				$basketRecs,
-				array()
+				[]
 			);
 		}
 

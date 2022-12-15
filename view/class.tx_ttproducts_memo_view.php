@@ -62,7 +62,7 @@ class tx_ttproducts_memo_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$this->useArticles = $useArticles;
 // 		$fe_user_uid = $GLOBALS['TSFE']->fe_user->user['uid'];
 
-		$this->memoItems = array();
+		$this->memoItems = [];
 
 		if (
 			tx_ttproducts_control_memo::bUseFeuser($conf) ||
@@ -89,6 +89,8 @@ class tx_ttproducts_memo_view implements \TYPO3\CMS\Core\SingletonInterface {
 	) {
 		$markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
 		$content = '';
+		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
+		$config = $cnf->getConfig();
 
 		if (
 			tx_ttproducts_control_memo::bUseFeuser($conf) ||
@@ -100,7 +102,7 @@ class tx_ttproducts_memo_view implements \TYPO3\CMS\Core\SingletonInterface {
 				$listView = GeneralUtility::makeInstance('tx_ttproducts_list_view');
 				$listView->init(
 					$pid,
-					array(),
+					[],
 					$this->pid_list,
 					99
 				);
@@ -121,7 +123,7 @@ class tx_ttproducts_memo_view implements \TYPO3\CMS\Core\SingletonInterface {
 					$templateCode,
 					$theCode,
 					$theTable,
-					($this->memoItems ? implode(',', $this->memoItems) : array()),
+					($this->memoItems ? implode(',', $this->memoItems) : []),
 					false,
 					'',
 					$errorCode,
@@ -129,7 +131,7 @@ class tx_ttproducts_memo_view implements \TYPO3\CMS\Core\SingletonInterface {
 					$GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['pageAsCategory'],
 					tx_ttproducts_control_basket::getBasketExtra(),
 					tx_ttproducts_control_basket::getRecs(),
-					array(),
+					[],
 					0
 				);
 			} else {
@@ -149,7 +151,7 @@ class tx_ttproducts_memo_view implements \TYPO3\CMS\Core\SingletonInterface {
 			$content = tx_ttproducts_api::getErrorOut(
 				$theCode,
 				$templateCode,
-				$subpartmarkerObj->spMarker('###' . $templateArea . $this->config['templateSuffix'] . '###'),
+				$subpartmarkerObj->spMarker('###' . $templateArea . $config['templateSuffix'] . '###'),
 				$subpartmarkerObj->spMarker('###' . $templateArea . '###'),
 				$errorCode
 			) ;
