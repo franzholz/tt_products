@@ -1000,14 +1000,14 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
                                 ''
                             ),
                             '',
-                            array('useCacheHash' => true)
+                            ['useCacheHash' => true]
                         );
 
 					$wrappedSubpartArray['###LINK_ITEM###'] =
-						array(
+						[
 							'<a class="singlelink" href="' . htmlspecialchars($tempUrl) . '"' . $css_current . '>',
 							'</a>'
-						);
+						];
 
 					if (is_object($itemTableView->getVariant())) {
 						$itemTableView->getVariant()->removeEmptyMarkerSubpartArray(
@@ -1118,7 +1118,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 			$markerArray['###HIDDENFIELDS###'] = $hiddenFields;
 			$pid = ($conf['PIDbasket'] ? $conf['PIDbasket'] : $GLOBALS['TSFE']->id);
 
-			$confCache = array('useCacheHash' => false);
+			$confCache = ['useCacheHash' => false];
 
 			$excludeList = '';
 
@@ -1151,7 +1151,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 					'UTF-8'
 				);
 
-			$wrappedSubpartArray['###LINK_BASKET###'] = array('<a href="' . $htmlUrl . '">', '</a>');
+			$wrappedSubpartArray['###LINK_BASKET###'] = ['<a href="' . $htmlUrl . '">', '</a>'];
 
 			PaymentShippingHandling::getMarkerArray(
 				$theCode,
@@ -1416,10 +1416,10 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 					)
 				);
 
-			$wrappedSubpartArray['###LINK_AGB###'] = array(
+			$wrappedSubpartArray['###LINK_AGB###'] = [
 				'<a href="' . htmlspecialchars($tempUrl) . '" target="' . $conf['AGBtarget'] . '">',
 				'</a>'
-			);
+			];
 
             $pidPrivacy = intval($conf['PIDprivacy']);
             $tempUrl =
@@ -1456,10 +1456,10 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 					)
 				);
 
-			$wrappedSubpartArray['###LINK_REVOCATION###'] = array(
+			$wrappedSubpartArray['###LINK_REVOCATION###'] = [
 				'<a href="' . htmlspecialchars($tempUrl) . '" target="' . $conf['AGBtarget'] . '">',
 				'</a>'
-			);
+			];
 
 				// Final substitution:
 			if (!\JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn()) {		// Remove section for FE_USERs only, if there are no fe_user
@@ -1485,7 +1485,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 				$parentArray
 			);
 
-			$priceCalcMarkerArray = array(
+			$priceCalcMarkerArray = [
 				'PRICE_TOTAL_TAX' =>
 					$calculatedArray['priceTax']['total']['ALL'] +
 					$calculatedArray['deposittax']['goodstotal']['ALL'],
@@ -1535,7 +1535,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 							)
 						)
 					)
-			);
+			];
 
 			foreach ($priceCalcMarkerArray as $markerKey => $value) {
 				$markerArray['###' . $markerKey . '###'] = (is_int($value) ? $value : $priceViewObj->priceFormat($value));
@@ -1754,7 +1754,6 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 					$subpartArray,
 					$wrappedSubpartArray
 				);
-
 			$out =
 				$parser->substituteMarkerArray(
 					$frameWork,
