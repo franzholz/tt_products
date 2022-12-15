@@ -130,6 +130,9 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 		$orderArray
 	) {
         $cObj = FrontendUtility::getContentObjectRenderer();
+		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
+		$conf = $cnf->conf;
+
 		if (
 			isset($orderArray) &&
 			is_array($orderArray) &&
@@ -146,7 +149,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
             $markerArray['###ORDER_DATE###'] =
 				$cObj->stdWrap(
 					$orderArray['crdate'],
-					$this->conf['orderDate_stdWrap.'] ?? ''
+					$conf['orderDate_stdWrap.'] ?? ''
 				);
 			$markerArray['###ORDER_TRACKING_NO###'] = htmlspecialchars($orderArray['tracking_code']);
 			$markerArray['###ORDER_BILL_NO###'] = $orderArray['bill_no'] ?? '';
@@ -180,6 +183,8 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 		}
 		$cObj = FrontendUtility::getContentObjectRenderer();
         $parser = tx_div2007_core::newHtmlParser(false);
+		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
+		$conf = $cnf->conf;
 
         $res =
 			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
@@ -199,13 +204,14 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 			$tot_creditpoints_spended = 0;
 			$tot_creditpoints_gifts = 0;
 			$orderlistc = '';
-			$this->orders = array();
+			$this->orders = [];
 			$orderitem = tx_div2007_core::getSubpart($frameWork, '###ORDER_ITEM###');
 			$tablename = 'fe_users';
 
 			while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
 				$markerArray['###TRACKING_CODE###'] = $row['tracking_code'];
-				$markerArray['###ORDER_DATE###'] = $cObj->stdWrap($row['crdate'], $this->conf['orderDate_stdWrap.'] ?? '');
+				$markerArray['###ORDER_DATE###'] = $cObj->stdWrap($row['crdate'], $conf['orderDate_stdWrap.'] ?? '');
+
 				$markerArray['###ORDER_NUMBER###'] = $orderObj->getNumber($row['uid']);
 				$markerArray['###ORDER_CREDITS###'] = $row['creditpoints_saved'] + $row['creditpoints_gifts'] - $row['creditpoints_spended'] - $row['creditpoints'];
 				$markerArray['###ORDER_AMOUNT###'] = $priceViewObj->printPrice($priceViewObj->priceFormat($row['amount']));
@@ -267,7 +273,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 			$markerArray['###CALC_DATE###'] = date('d M Y');
 			$listFrameWork = tx_div2007_core::getSubpart($frameWork, '###ORDER_LIST###');
 
-			$listSubpartArray = array();
+			$listSubpartArray = [];
 			$listSubpartArray['###ORDER_ITEM###'] = $orderlistc;
 			$listContent = tx_div2007_core::substituteMarkerArrayCached(
 				$listFrameWork,
@@ -325,7 +331,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 			count($productRowArray) &&
 			strpos($frameWork, '###ORDER_PRODUCT_UID###') !== false
 		) {
-			$productUidArray = array();
+			$productUidArray = [];
 			foreach ($productRowArray as $productRow) {
 				$productUidArray[$productRow['uid']] = $productRow['uid'];
 			}
@@ -334,7 +340,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 			$listView = GeneralUtility::makeInstance('tx_ttproducts_list_view');
 			$listView->init(
 				$pid,
-				array(),
+				[],
 				$pid_list,
 				0
 			);
@@ -350,15 +356,15 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 				$error_code,
 				$subpartMarker,
 				$pageAsCategory,
-				array(),
-				array(),
-				array(),
+				[],
+				[],
+				[],
 				0,
-				array(),
-				array(),
-				array(),
+				[],
+				[],
+				[],
 				'',
-				array(),
+				[],
 				$notOverwritePriceIfSet,
 				$multiOrderArray,
 				$productRowArray,
@@ -434,7 +440,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 		$feuserRowArray = $feusersObj->get('', $pid_list . ',' . intval($feusersObj->getPid()));
 
 		if (is_array($feuserRowArray) && count($feuserRowArray)) {
-			$valueArray = array();
+			$valueArray = [];
 			$valueArray[] = '';
 
 			foreach ($feuserRowArray as $uid => $row) {
@@ -453,7 +459,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 				$selectedKey,
 				true,
 				false,
-				array(),
+				[],
 				$type
 			);
 			$result = $text;
@@ -589,7 +595,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 						'fe_groups',
 						$where
 					);
-				$valueArray = array();
+				$valueArray = [];
 				$valueArray[] = '';
 
 				foreach ($feGroupArray as $uid => $row) {
@@ -607,7 +613,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 					$selectedKey,
 					true,
 					false,
-					array(),
+					[],
 					$type
 				);
 				$markerArray['###' . $markerKey . '###'] = $text;
@@ -618,7 +624,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 		$markerKey = 'VIEW_SELECT';
 
 		if (strpos($frameWork, '###' . $markerKey . '###') !== false) {
-			$valueArray = array();
+			$valueArray = [];
 			$valueArray['0'] = $languageObj->getLabel('orders_view_orders');
 			$valueArray['1'] = $languageObj->getLabel('orders_view_products');
 
@@ -632,7 +638,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 				$selectedKey,
 				true,
 				false,
-				array(),
+				[],
 				$type
 			);
 			$markerArray['###' . $markerKey . '###'] = $text;
@@ -654,7 +660,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 					) {
 						$layout = $panelConf['layout'];
 						$panelMarker = strtoupper($panelConf['marker']);
-						$elementMarkerArray = array();
+						$elementMarkerArray = [];
 
 						foreach ($panelConf['elements.'] as $k2 => $elementConf) {
 							if (
@@ -899,8 +905,8 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 			$piVars,
 			$prefix
 		);
-		$subpartArray = array();
-		$wrappedSubpartArray = array();
+		$subpartArray = [];
+		$wrappedSubpartArray = [];
 
 		tx_ttproducts_admin_control_view::getSubpartArrays(
 			$bIsAllowed,
@@ -1029,8 +1035,8 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 		$uids = $row['uid'];
 		$orderBy = '';
 		$pid_list = '';
-		$productRowArray = array();
-		$multiOrderArray = array();
+		$productRowArray = [];
+		$multiOrderArray = [];
 
 		$this->getModelObj()->getOrderedProducts(
 			$from,
