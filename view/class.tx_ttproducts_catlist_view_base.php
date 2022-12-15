@@ -68,8 +68,8 @@ abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\Single
 		$this->pibase = GeneralUtility::makeInstance('' . $pibaseClass);
         $this->cObj = $cObj;
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-		$this->conf = $cnf->conf;
-		$this->config = $cnf->config;
+		$this->conf = $cnf->getConf();
+		$this->config = $cnf->getConfig();
 		$this->pid = $pid;
 
 		$this->urlObj = GeneralUtility::makeInstance('tx_ttproducts_url_view');

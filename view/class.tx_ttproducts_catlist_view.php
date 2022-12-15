@@ -532,7 +532,9 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base {
 		$basketRecs
 	) {
 		$pibaseObj = GeneralUtility::makeInstance('' . $this->pibaseClass);
-		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
+		$cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
+		$conf = $cnfObj->getConf();
+		$config = $cnfObj->getConfig();
 		$css = 'class="w' . $iCount . '"';
 		$css = ($actCategory == $currentCat ? 'class="act"' : $css);
 		$prefixId = tx_ttproducts_model_control::getPrefixId();
@@ -543,7 +545,7 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base {
 		$categoryTable = $categoryTableView->getModelObj();
 
 		$cssConf =
-			$cnf->getCSSConf(
+			$cnfObj->getCSSConf(
 				$functablename,
 				$theCode
 			);
@@ -559,8 +561,8 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base {
 
 		$pid =
 			$pageObj->getPID(
-				$this->conf['PIDlistDisplay'],
-				$this->conf['PIDlistDisplay.'],
+				$conf['PIDlistDisplay'],
+				$conf['PIDlistDisplay.'],
 				$row
 			);
 		$addQueryString = array($categoryTableView->getPivar() => $actCategory);
@@ -590,7 +592,7 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base {
 			'',
 			$actCategory,
 			$row['pid'],
-			$this->config['limitImage'],
+			$config['limitImage'],
 			'listcatImage',
 			$viewCatTagArray,
 			[],
