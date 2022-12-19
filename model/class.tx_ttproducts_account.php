@@ -45,7 +45,7 @@ class tx_ttproducts_account extends tx_ttproducts_table_base {
 	public $conf;
 	public $acArray;	// credit card data
 	public $bIsAllowed = false; // enable of bank ACCOUNTS
-	public $requiredFieldArray = array('owner_name', 'iban', 'ac_number', 'bic');
+	public $requiredFieldArray = ['owner_name', 'iban', 'ac_number', 'bic'];
 	public $tablename = 'sys_products_accounts';
 	public $asterisk = '********';
 	public $useAsterisk = false;
@@ -58,13 +58,13 @@ class tx_ttproducts_account extends tx_ttproducts_table_base {
 
 		if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['sepa']) {
 			$this->sepa = true;
-			$this->requiredFieldArray = array('owner_name', 'iban');
+			$this->requiredFieldArray = ['owner_name', 'iban'];
 			if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['bic']) {
 				$this->requiredFieldArray[] = 'bic';
 			}
 		} else {
 			$this->sepa = false;
-			$this->requiredFieldArray = array('owner_name', 'ac_number', 'bic');
+			$this->requiredFieldArray = ['owner_name', 'ac_number', 'bic'];
 		}
 		$basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
 		$formerBasket = $basketObj->recs;
@@ -76,7 +76,7 @@ class tx_ttproducts_account extends tx_ttproducts_table_base {
 		}
 
 		$result = parent::init('sys_products_accounts');
-		$this->acArray = array();
+		$this->acArray = [];
 		$this->acArray = $formerBasket['account'] ?? '';
 		if (isset($bIsAllowed)) {
 			$this->bIsAllowed = $bIsAllowed;
@@ -94,7 +94,7 @@ class tx_ttproducts_account extends tx_ttproducts_table_base {
 		if ($bNumberRecentlyModified) {
 			$acArray = tx_ttproducts_control_session::readSession('ac');
 			if (!$acArray) {
-				$acArray = array();
+				$acArray = [];
 			}
 			$acArray['ac_uid'] = $this->create($acArray['ac_uid'], $this->acArray);
 			$GLOBALS['TSFE']->fe_user->setKey('ses', 'ac', $acArray);
@@ -181,7 +181,7 @@ class tx_ttproducts_account extends tx_ttproducts_table_base {
 
 
 	public function getRow ($uid, $bFieldArrayAll = false) {
-		$result = array();
+		$result = [];
 		if ($bFieldArrayAll) {
 			foreach ($this->requiredFieldArray as $k => $field) {
 				$result[$field] = '';
@@ -248,14 +248,14 @@ class tx_ttproducts_account extends tx_ttproducts_table_base {
         }
 
 		$iban = strtolower(str_replace(' ', '', $iban));
-		$Countries = array(
+		$Countries = [
 			'al' => 28, 'ad' => 24, 'at' => 20, 'az' => 28, 'bh' => 22, 'be' => 16, 'ba' => 20, 'br' => 29, 'bg' => 22, 'cr' => 21, 'hr' => 21, 'cy' => 28, 'cz' => 24, 'dk' => 18, 'do' => 28,
 			'ee' => 20, 'fo '=> 18, 'fi' => 18, 'fr' => 27, 'ge' => 22, 'de' => 22, 'gi' => 23, 'gr' => 27, 'gl' => 18, 'gt' => 28, 'hu' => 28, 'is' => 26, 'ie' => 22, 'il' => 23, 'it' => 27,
 			'jo' => 30, 'kz' => 20, 'kw' => 30, 'lv' => 21, 'lb' => 28, 'li' => 21, 'lt' => 20, 'lu' => 20, 'mk' => 19, 'mt' =>31, 'mr' => 27, 'mu' => 30, 'mc' => 27, 'md' => 24, 'me' => 22, 'nl' => 18, 'no' => 15, 'pk' => 24, 'ps' => 29,
-			'pl' => 28, 'pt' => 25, 'qa' => 29, 'ro' => 24, 'sm' => 27, 'sa' => 24, 'rs' => 22, 'sk' => 24, 'si' => 19, 'es' => 24, 'se' => 24, 'ch' => 21, 'tn' => 24, 'tr' => 26, 'ae' => 23, 'gb' => 22, 'vg' => 24);
+			'pl' => 28, 'pt' => 25, 'qa' => 29, 'ro' => 24, 'sm' => 27, 'sa' => 24, 'rs' => 22, 'sk' => 24, 'si' => 19, 'es' => 24, 'se' => 24, 'ch' => 21, 'tn' => 24, 'tr' => 26, 'ae' => 23, 'gb' => 22, 'vg' => 24];
 		$Chars =
-			array(
-				'a' => 10, 'b' => 11, 'c' => 12, 'd' => 13, 'e' => 14, 'f' => 15, 'g' => 16, 'h' => 17, 'i' =>  18, 'j' => 19, 'k' => 20, 'l' => 21, 'm' => 22, 'n' => 23, 'o' => 24, 'p' => 25, 'q' => 26, 'r' => 27, 's' => 28, 't' => 29, 'u' => 30, 'v' => 31, 'w' => 32, 'x' => 33, 'y' => 34, 'z' => 35);
+			[
+				'a' => 10, 'b' => 11, 'c' => 12, 'd' => 13, 'e' => 14, 'f' => 15, 'g' => 16, 'h' => 17, 'i' =>  18, 'j' => 19, 'k' => 20, 'l' => 21, 'm' => 22, 'n' => 23, 'o' => 24, 'p' => 25, 'q' => 26, 'r' => 27, 's' => 28, 't' => 29, 'u' => 30, 'v' => 31, 'w' => 32, 'x' => 33, 'y' => 34, 'z' => 35];
 
 		if(strlen($iban) == $Countries[substr($iban, 0, 2)]) {
 
@@ -263,7 +263,7 @@ class tx_ttproducts_account extends tx_ttproducts_table_base {
 			$MovedCharArray = str_split($MovedChar);
 			$NewString = '';
 
-			foreach($MovedCharArray AS $key => $value){
+			foreach($MovedCharArray as $key => $value){
 				if(!is_numeric($MovedCharArray[$key])){
 					$MovedCharArray[$key] = $Chars[$MovedCharArray[$key]];
 				}

@@ -48,7 +48,7 @@ class tx_ttproducts_ts implements \TYPO3\CMS\Core\SingletonInterface {
 		$where = 'pid = ' . $uid . $enableFields;
 
 		$rows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows('uid', 'pages', $where);
-		$childs = array();
+		$childs = [];
 
 		if (isset($rows) && is_array($rows) && count($rows)) {
 			foreach ($rows as $row) {

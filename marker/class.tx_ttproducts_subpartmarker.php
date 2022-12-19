@@ -66,7 +66,7 @@ class tx_ttproducts_subpartmarker implements \TYPO3\CMS\Core\SingletonInterface 
 	 * Returning template subpart array
 	 */
 	public function getTemplateSubParts ($templateCode, $subItemMarkerArray) {
-		$rc = array();
+		$rc = [];
 		foreach ($subItemMarkerArray as $key => $subItemMarker) {
 			$rc[$subItemMarker] = substr($this->spMarker('###'.$subItemMarker . '_TEMPLATE###'), 3, -3);
 		}

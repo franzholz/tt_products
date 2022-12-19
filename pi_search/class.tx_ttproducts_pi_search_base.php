@@ -63,9 +63,9 @@ class tx_ttproducts_pi_search_base extends \TYPO3\CMS\Frontend\Plugin\AbstractPl
 
 		$confMain = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
 		$this->conf = array_merge($confMain, $conf);
-		$config = array();
+		$config = [];
 		$mainObj = GeneralUtility::makeInstance('tx_ttproducts_control_search');	// fetch and store it as persistent object
-		$errorCode = array();
+		$errorCode = [];
 		$bDoProcessing =
 			$mainObj->init(
 				$this->conf,

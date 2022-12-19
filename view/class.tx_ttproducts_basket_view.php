@@ -421,11 +421,11 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 				$feuserWrappedSubpartArray
 			);
 
-		$subpartEmptyArray = array(
+		$subpartEmptyArray = [
 			'EMAIL_PLAINTEXT_TEMPLATE_SHOP',
 			'EMAIL_HTML_TEMPLATE_SHOP',
 			'BASKET_ORDERCONFIRMATION_NOSAVE_TEMPLATE'
-		);
+		];
 
 		if (
 			!$t['basketFrameWork'] &&
@@ -478,10 +478,10 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 			$currentP='';
 			$itemsOut='';
 			$viewTagArray = [];
-			$markerFieldArray = array('BULKILY_WARNING' => 'bulkily',
+			$markerFieldArray = ['BULKILY_WARNING' => 'bulkily',
 				'PRODUCT_SPECIAL_PREP' => 'special_preparation',
 				'PRODUCT_ADDITIONAL_SINGLE' => 'additional',
-				'PRODUCT_LINK_DATASHEET' => 'datasheet');
+				'PRODUCT_LINK_DATASHEET' => 'datasheet'];
 			$parentArray = [];
 			$fieldsArray = $markerObj->getMarkerFields(
 				$t['item'],
@@ -581,11 +581,11 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 					if ($minQuantity != '0.00' && $quantity < $minQuantity) {
 						$quantityArray['minimum'][] =
-							array(
+							[
 								'rec' => $row,
 								'limitQuantity' => $minQuantity,
 								'quantity' => $quantity
-							);
+							];
 					}
 					if ($maxQuantity != '0.00' && $quantity > $maxQuantity) {
 						$quantityArray['maximum'][] =
@@ -670,7 +670,6 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 					$bInputDisabled = ($row['inStock'] <= 0);
 
-					// $extRow = array('extTable' => $row['extTable'], 'extUid' => $row['extUid']);
 					$basketItemView->getItemMarkerArray(
 						$funcTablename,
 						false,
@@ -1435,10 +1434,10 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
                         ''
                     )
                 );
-            $wrappedSubpartArray['###LINK_PRIVACY###'] = array(
+            $wrappedSubpartArray['###LINK_PRIVACY###'] = [
                 '<a href="' . htmlspecialchars($tempUrl) . '" target="' . $conf['AGBtarget'] . '">',
                 '</a>'
-            );
+            ];
 
 			$pidRevocation = intval($conf['PIDrevocation']);
 
@@ -1621,9 +1620,9 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 								$priceArray['priceNoTax'] = $value;
 								$priceArray['priceTax'] = $priceArray['priceNoTax'] * (1 + $theTax);
 								$priceArray['onlyTax'] = $priceArray['priceTax'] - $priceArray['priceNoTax'];
-								$priceCalcMarkerArray2 = array(
+								$priceCalcMarkerArray2 = [
 									'PRICE_TOTAL_ONLY_TAX' => $priceArray['onlyTax']
-								);
+								];
 
 								foreach ($priceCalcMarkerArray2 as $markerKey => $value) {
 									$markerArray['###STATICTAX_' . ($taxId) . '_' . ($k + 1) . '_' . $markerKey . '###'] = $countryMarkerArray['###' . $markerKey . '###'] = $priceViewObj->priceFormat($value);

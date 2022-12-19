@@ -54,7 +54,7 @@ class tx_ttproducts_field_foreign_table_view extends tx_ttproducts_field_base_vi
 		&$wrappedSubpartArray,
 		&$tagArray,
 		$theCode = '',
-		$basketExtra = array(),
+		$basketExtra = [],
 		$basketRecs,
 		$id = '1'
 	) {
@@ -89,7 +89,7 @@ class tx_ttproducts_field_foreign_table_view extends tx_ttproducts_field_base_vi
 		$itemTableObj = $tablesObj->get($functablename, false);
 		$tablename = $itemTableObj->getTablename();
 		$foreigntablename = '';
-		$rowMarkerArray = array();
+		$rowMarkerArray = [];
 		if ($GLOBALS['TCA'][$tablename]['columns'][$fieldname]['config']['type'] == 'group') {
 
 			$foreigntablename = $GLOBALS['TCA'][$tablename]['columns'][$fieldname]['config']['allowed'];
@@ -115,8 +115,8 @@ class tx_ttproducts_field_foreign_table_view extends tx_ttproducts_field_base_vi
 					$foreignRow,
 					'',
 					$rowMarkerArray,
-					$tmp=array(),
-					$tmp=array(),
+					$tmp=[],
+					$tmp=[],
 					$tagArray,
 					$theCode,
 					$basketExtra,

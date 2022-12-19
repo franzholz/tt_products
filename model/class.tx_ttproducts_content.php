@@ -41,9 +41,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
 class tx_ttproducts_content extends tx_ttproducts_table_base {
-	var $dataArray=array(); // array of read in contents
-	var $dataPageArray=array(); // array of read in contents with page id as index
-	var $table;		 // object of the type tx_table_db
+	public $dataArray = []; // array of read in contents
+	public $dataPageArray = []; // array of read in contents with page id as index
+	public $table;		 // object of the type tx_table_db
 
 	/**
 	 * Getting all tt_products_cat categories into internal array
@@ -51,28 +51,12 @@ class tx_ttproducts_content extends tx_ttproducts_table_base {
 	public function init ($functablename) {
 		$result = parent::init($functablename);
 
-		$this->getTableObj()->setDefaultFieldArray(array('uid'=>'uid', 'pid'=>'pid', 't3ver_oid'=>'t3ver_oid', 'tstamp'=>'tstamp', 'sorting'=> 'sorting',
-		'deleted' => 'deleted', 'hidden'=>'hidden', 'starttime' => 'starttime', 'endtime' => 'endtime', 'fe_group' => 'fe_group'));
+		$this->getTableObj()->setDefaultFieldArray(['uid'=>'uid', 'pid'=>'pid', 't3ver_oid'=>'t3ver_oid', 'tstamp'=>'tstamp', 'sorting'=> 'sorting',
+		'deleted' => 'deleted', 'hidden'=>'hidden', 'starttime' => 'starttime', 'endtime' => 'endtime', 'fe_group' => 'fe_group']);
 		$this->getTableObj()->setTCAFieldArray('tt_content');
 
 		return $result;
 	} // init
-
-// 	function get ($uid=0,$pid=0,$bStore=true,$where_clause='',$limit='',$fields='',$bCount=false) {
-// 		$rc = $this->dataArray[$uid];
-// 		if (!$rc) {
-// 			$sql = GeneralUtility::makeInstance('tx_table_db_access');
-// 			$sql->prepareFields($this->getTableObj(), 'select', '*');
-// 			$sql->prepareWhereFields($this->getTableObj(), 'uid', '=', intval($uid));
-// 			$this->getTableObj()->enableFields();
-// 			// Fetching the category
-// 			$res = $sql->exec_SELECTquery();
-// 			$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
-// 			$GLOBALS['TYPO3_DB']->sql_free_result($res);
-// 			$rc = $this->dataArray[$row['uid']] = $row;
-// 		}
-// 		return $rc;
-// 	}
 
 	public function getFromPid ($pid) {
 		$rcArray = $this->dataPageArray[$pid];
@@ -98,7 +82,7 @@ class tx_ttproducts_content extends tx_ttproducts_table_base {
 			}
 			$GLOBALS['TYPO3_DB']->sql_free_result($res);
 			$tmp = $this->dataPageArray[$pid];
-			$rcArray = (is_array($tmp) ? $tmp : array());
+			$rcArray = (is_array($tmp) ? $tmp : []);
 		}
 		return $rcArray;
 	}

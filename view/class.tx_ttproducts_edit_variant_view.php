@@ -92,7 +92,7 @@ class tx_ttproducts_edit_variant_view implements tx_ttproducts_edit_variant_view
 
 				$ajaxFunction = tx_ttproducts_control_basket::getAjaxVariantFunction($row, $functablename, $theCode);
 				$splitArray = preg_split('/ *= */', $mainAttributes);
-				$mainAttributesArray = array();
+				$mainAttributesArray = [];
 
 				if (isset($splitArray) && is_array($splitArray)) {
 					$lastKey = 0;
@@ -169,7 +169,7 @@ class tx_ttproducts_edit_variant_view implements tx_ttproducts_edit_variant_view
 				if (isset($tagArray[$marker])) {
 					$subpartMarker = '###' . $marker . '###';
 					// $wrappedSubpartArray[$subpartMarker] = '';
-					$markerArray = array();
+					$markerArray = [];
 					$this->getMarkerArray(
 						$bEditable,
 						$row,

@@ -77,8 +77,8 @@ class tx_ttproducts_variant_view implements tx_ttproducts_variant_view_int, \TYP
 		$bHasAdditional,
 		$bGiftService
 	) {
-		$areaArray = array();
-		$remMarkerArray = array();
+		$areaArray = [];
+		$remMarkerArray = [];
 		$variantConf = $this->modelObj->conf;
 
         $maxKey = 0;

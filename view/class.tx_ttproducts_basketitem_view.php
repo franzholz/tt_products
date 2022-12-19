@@ -125,7 +125,7 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
 			$wrappedSubpartArray
 		);
 
-		$addQueryString = array();
+		$addQueryString = [];
 		$uid = $row['uid'];
 		$pid = $GLOBALS['TSFE']->id;
 		$cmdArray = tx_ttproducts_control_basket::getCmdArray();
@@ -162,10 +162,10 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
 					);
 
 					$wrappedSubpartArray['###LINK_BASKET_' . $upperCmd . '###'] =
-						array(
+						[
 							'<a href="' . htmlspecialchars($pageLink) . '"' . $css_current . '>',
 							'</a>'
-						);
+						];
 					unset($addQueryString[$basketVar]);
 				} else {
 					$subpartArray['###LINK_BASKET_' . $upperCmd . '###'] = '';
@@ -199,11 +199,11 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
 		$id = '1',
 		$bSelect = true,
 		$charset = '',
-		$externalRow = array(),
+		$externalRow = [],
 		$parentFuncTablename = '',
-		$parentRow = array(),
-		$callFunctableArray = array(),  // deprecated
-		$filterRowArray = array()
+		$parentRow = [],
+		$callFunctableArray = [],  // deprecated
+		$filterRowArray = []
 	) {
 		$productFuncTablename = 'tt_products';
 		$basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
@@ -323,7 +323,7 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
 			isset($conf['BASKETQTY.']['userFunc'])
 		) {
 			$cObjectType = $conf['BASKETQTY'];
-			$basketConf = array();
+			$basketConf = [];
 			$basketConf['ref'] = $uid;
 			$basketConf['row'] = $row;
 			$basketConf['variant'] = $variant;
@@ -331,7 +331,7 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
 			$cObjectType = $conf['BASKETQTY'];
 
 			$cObj = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
-			$cObj->start(array());
+			$cObj->start([]);
 			$markerArray['###FIELD_QTY###'] = $cObj->cObjGetSingle($cObjectType, $basketConf);
 		} else {
 			if (
@@ -420,7 +420,7 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
 								isset($theFormConf['layout'])
 							) {
 								$imageConf = $theFormConf['image.'];
-								$imageFileArray = array();
+								$imageFileArray = [];
 								foreach ($prodTmpRow as $k2 => $variantVal) {
 									$tmpImgCode = '';
 									foreach ($theFormConf['imageImport.'] as $k3 => $imageImport) {
@@ -478,7 +478,7 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
 							$selectedKey = $presetVariantArray[$field];
 						}
 						$viewTable->getTableObj()->substituteMarkerArray($prodTranslatedRow);
-						$dataArray = array();
+						$dataArray = [];
 						$layout = '';
 						$header = '';
 
@@ -502,7 +502,7 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
 								$selectedKey,
 								false,
 								false,
-								array(),
+								[],
 								$type,
 								$dataArray,
 								$header,

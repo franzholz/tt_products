@@ -113,7 +113,7 @@ class MoveItemsWizardModuleFunctionController {
                 'EXT:' . TT_PRODUCTS_EXT . '/Resources/Private/Templates/MoveItemsFinished.html'
             ));
             $moveResult = false;
-            $infoArray = array();
+            $infoArray = [];
 
             if (
                 isset($_REQUEST['id']) &&
@@ -134,13 +134,13 @@ class MoveItemsWizardModuleFunctionController {
             if (
                 $moveResult
             ) {
-                $rows = array();
+                $rows = [];
                 if (isset($infoArray['rows'])) {
                     $rows = $infoArray['rows'];
                 }
                 $information = '';
 
-                $tableArray = array('tt_products', 'tt_products_articles');
+                $tableArray = ['tt_products', 'tt_products_articles'];
                 foreach ($tableArray as $table) {
                     if (
                         isset($rows[$table]) &&

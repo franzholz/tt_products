@@ -90,7 +90,7 @@ class tx_ttproducts_csv implements \TYPO3\CMS\Core\SingletonInterface {
 				$priceViewObj->priceFormat($calculatedArray['priceTax']['shipping']) . '";"' .
 				$priceViewObj->priceFormat($calculatedArray['priceNoTax']['shipping']) . '"';
 
-			$accountRow = array();
+			$accountRow = [];
 			if ($accountUid) {
 				$accountRow = $accountObj->getRow($accountUid, 0, true);
 				if (is_array($accountRow) && count($accountRow)) {

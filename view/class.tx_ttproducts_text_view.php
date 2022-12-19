@@ -57,7 +57,7 @@ class tx_ttproducts_text_view extends tx_ttproducts_table_base_view {
 		$parentMarker,
 		$tagArray
 	) {
-		$bFoundTagArray = array();
+		$bFoundTagArray = [];
         $cObj = \JambageCom\TtProducts\Api\ControlApi::getCObj();
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$conf = $cnf->getConf();

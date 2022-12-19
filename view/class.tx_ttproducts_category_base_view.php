@@ -86,10 +86,10 @@ abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base
 		$linkMarker
 	) {
         $cObj = FrontendUtility::getContentObjectRenderer();
-		$addQueryString = array();
+		$addQueryString = [];
 		$addQueryString[$this->piVar] = $row['uid'];
 		$wrappedSubpartArray['###' . $linkMarker . '###'] =
-			array(
+			[
 				'<a href="' .
 					htmlspecialchars(
 						FrontendUtility::getTypoLink_URL(
@@ -105,12 +105,12 @@ abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base
 								$this->piVar
 							),
 							'',
-							array('useCacheHash' => true)
+							['useCacheHash' => true]
 						)
 					)
 			. '">',
 				'</a>'
-			);
+            ];
 	}
 
 
@@ -134,7 +134,7 @@ abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base
 		$imageNum = 0,
 		$imageRenderObj = 'image',
 		&$viewCatTagArray,
-		$forminfoArray = array(),
+		$forminfoArray = [],
 		$pageAsCategory = 0,
 		$theCode,
 		$basketExtra,
@@ -153,7 +153,7 @@ abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base
 		$imageNum = 0,
 		$imageRenderObj = 'image',
 		&$viewCatTagArray,
-		$forminfoArray = array(),
+		$forminfoArray = [],
 		$pageAsCategory = 0,
 		$code,
 		$basketExtra,
@@ -208,7 +208,7 @@ abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base
 
 
 	public function addAllCatTagsMarker (&$markerArray, $tagArray, $prefix) {
-		$outArray = array();
+		$outArray = [];
 
 		if (isset($tagArray) && is_array($tagArray)) {
 			foreach ($tagArray as $tag) {

@@ -43,7 +43,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class tx_ttproducts_orderaddress_view extends tx_ttproducts_table_base_view {
 	public $dataArray; // array of read in frontend users
 	public $table;		 // object of the type tx_table_db
-	public $fields = array();
+	public $fields = [];
 	public $tableconf;
 	public $piVar = 'fe';
 	public $marker = 'FEUSER';
@@ -74,7 +74,7 @@ class tx_ttproducts_orderaddress_view extends tx_ttproducts_table_base_view {
                         }
 
 						if (GeneralUtility::inList($GLOBALS['TSFE']->gr_list, $comparatorNumber)) {
-							$wrappedSubpartArray['###FE_GROUP_' . $groupNumber . '_TEMPLATE###'] = array('', '');
+							$wrappedSubpartArray['###FE_GROUP_' . $groupNumber . '_TEMPLATE###'] = ['', ''];
 						} else {
 							$subpartArray['###FE_GROUP_' . $groupNumber . '_TEMPLATE###'] = '';
 						}
@@ -87,7 +87,7 @@ class tx_ttproducts_orderaddress_view extends tx_ttproducts_table_base_view {
                     is_array($GLOBALS['TSFE']->fe_user->user) &&
                     isset($GLOBALS['TSFE']->fe_user->user['uid'])
                 ) {
-					$wrappedSubpartArray['###LOGIN_TEMPLATE###'] = array('', '');
+					$wrappedSubpartArray['###LOGIN_TEMPLATE###'] = ['', ''];
 				} else {
 					$subpartArray['###LOGIN_TEMPLATE###'] = '';
 				}
@@ -99,7 +99,7 @@ class tx_ttproducts_orderaddress_view extends tx_ttproducts_table_base_view {
                 ) {
 					$subpartArray['###NOLOGIN_TEMPLATE###'] = '';
 				} else {
-					$wrappedSubpartArray['###NOLOGIN_TEMPLATE###'] = array('', '');
+					$wrappedSubpartArray['###NOLOGIN_TEMPLATE###'] = ['', ''];
 				}
             }
 		}
@@ -112,10 +112,10 @@ class tx_ttproducts_orderaddress_view extends tx_ttproducts_table_base_view {
 				$this->getModelObj()->getCondition() ||
 				!$this->getModelObj()->getConditionRecord()
 			) {
-				$wrappedSubpartArray['###FE_CONDITION1_TRUE_TEMPLATE###'] = array('', '');
+				$wrappedSubpartArray['###FE_CONDITION1_TRUE_TEMPLATE###'] = ['', ''];
 				$subpartArray['###FE_CONDITION1_FALSE_TEMPLATE###'] = '';
 			} else {
-				$wrappedSubpartArray['###FE_CONDITION1_FALSE_TEMPLATE###'] = array('', '');
+				$wrappedSubpartArray['###FE_CONDITION1_FALSE_TEMPLATE###'] = ['', ''];
 				$subpartArray['###FE_CONDITION1_TRUE_TEMPLATE###'] = '';
 			}
 		}
@@ -143,7 +143,7 @@ class tx_ttproducts_orderaddress_view extends tx_ttproducts_table_base_view {
 	) {
 		global $TCA;
 
-		$fieldOutputArray = array();
+		$fieldOutputArray = [];
 		$modelObj = $this->getModelObj();
 		$selectInfoFields = $modelObj->getSelectInfoFields();
 		$languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
@@ -159,9 +159,9 @@ class tx_ttproducts_orderaddress_view extends tx_ttproducts_table_base_view {
 						(is_array($row) && isset($row[$field]) ? $row[$field] : ''),
 						true,
 						true,
-						array(),
+						[],
 						'select',
-						array('id' => 'field_' . $type . '_' . $field) /* Add ID for field to be able to use labels. */
+						['id' => 'field_' . $type . '_' . $field] /* Add ID for field to be able to use labels. */
 					);
 			}
 		} else {

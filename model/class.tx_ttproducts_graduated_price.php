@@ -42,12 +42,12 @@ use JambageCom\Div2007\Utility\TableUtility;
 
 class tx_ttproducts_graduated_price {
 	protected $bHasBeenInitialised = false;
-	public $mmArray = array();
-	public $dataArray = array(); // array of read in products
+	public $mmArray = [];
+	public $dataArray = []; // array of read in products
 	public $functablename = 'tt_products_graduated_price';
 	public $mm_table = ''; // mm table
 	protected $parentObject = false;
-	protected $foreignConfig = array();
+	protected $foreignConfig = [];
 
 
 
@@ -132,7 +132,7 @@ class tx_ttproducts_graduated_price {
 			isset($this->mmArray[$uid]) &&
 			is_array($this->mmArray[$uid])
 		) {
-			$result = array();
+			$result = [];
 			foreach ($this->mmArray[$uid] as $v) {
 				$result[] = $this->dataArray[$v];
 			}
@@ -185,8 +185,8 @@ class tx_ttproducts_graduated_price {
 					$limit
 				);
 
-			$result = array();
-			$newDataArray = array();
+			$result = [];
+			$newDataArray = [];
 
 			while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
 				$result[] = $this->dataArray[$row['uid']] = $newDataArray[$row['uid']] = $row;

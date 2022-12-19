@@ -69,7 +69,7 @@ class tx_ttproducts_article extends tx_ttproducts_article_base {
 
 			$tableObj = $this->getTableObj();
 			$tableObj->setConfig($tableConfig);
-			$tableObj->addDefaultFieldArray(array('sorting' => 'sorting'));
+			$tableObj->addDefaultFieldArray(['sorting' => 'sorting']);
 		}
 
 		return $result;
@@ -83,7 +83,7 @@ class tx_ttproducts_article extends tx_ttproducts_article_base {
 		$alias = $this->getAlias();
 		$fromJoin = '';
 
-		if (in_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['articleMode'], array(1, 2))) {
+		if (in_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['articleMode'], [1, 2])) {
 
 			$finalWhere = 'tt_products_products_mm_articles.uid_local=' . intval($prodUid) . ' AND tt_products_products_mm_articles.deleted=0 AND tt_products_products_mm_articles.hidden=0' . ($where!='' ? ' AND '.$where : '');
 			$mmTable = 'tt_products_products_mm_articles';

@@ -43,11 +43,11 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
 class tx_ttproducts_voucher_view extends tx_ttproducts_table_base_view {
-	var $amount;
-	var $code;
-	var $bValid;
-	var $marker = 'VOUCHER';
-	var $usedCodeArray = array();
+	public $amount;
+	public $code;
+	public $bValid;
+	public $marker = 'VOUCHER';
+	public $usedCodeArray = [];
 
 
 	/**
@@ -66,20 +66,20 @@ class tx_ttproducts_voucher_view extends tx_ttproducts_table_base_view {
 		$languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
 		$subpartArray['###SUB_VOUCHERCODE###'] = '';
 		$code = $modelObj->getVoucherCode();
-        $wrappedSubpartArray['###SUB_VOUCHERCODE_START###'] = array();
+        $wrappedSubpartArray['###SUB_VOUCHERCODE_START###'] = [];
 
 		if (
 			$modelObj->getValid() &&
 			$code != ''
 		) {
 			$subpartArray['###SUB_VOUCHERCODE_DISCOUNTWRONG###'] = '';
-			$wrappedSubpartArray['###SUB_VOUCHERCODE_DISCOUNT###'] = array();
+			$wrappedSubpartArray['###SUB_VOUCHERCODE_DISCOUNT###'] = [];
 		} else {
 			if (!empty($code)) {
 				$tmp = $languageObj->getLabel('voucher_invalid');
 				$tmpArray = explode('|', $tmp);
 				$subpartArray['###SUB_VOUCHERCODE_DISCOUNT###'] = $tmpArray[0] . htmlspecialchars($modelObj->getVoucherCode()) . $tmpArray[1];
-				$wrappedSubpartArray['###SUB_VOUCHERCODE_DISCOUNTWRONG###'] = array();
+				$wrappedSubpartArray['###SUB_VOUCHERCODE_DISCOUNTWRONG###'] = [];
 			} else {
 				$subpartArray['###SUB_VOUCHERCODE_DISCOUNT###'] = '';
 				$subpartArray['###SUB_VOUCHERCODE_DISCOUNTWRONG###'] = '';

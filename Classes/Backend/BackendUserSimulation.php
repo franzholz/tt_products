@@ -40,7 +40,7 @@ class BackendUserSimulation extends \TYPO3\CMS\Core\Authentication\AbstractUserA
 	 * @var array
 	 * @todo Define visibility
 	 */
-	public $workspaceRec = array();
+	public $workspaceRec = [];
 
 	/**
 	 * Contains last error message
@@ -87,7 +87,7 @@ class BackendUserSimulation extends \TYPO3\CMS\Core\Authentication\AbstractUserA
 	 * @param string $readPerms Content of "->getPagePermsClause(1)" (read-permissions). If not set, they will be internally calculated (but if you have the correct value right away you can save that database lookup!)
 	 * @param bool|int $exitOnError If set, then the function will exit with an error message.
 	 * @throws \RuntimeException
-	 * @return int|NULL The page UID of a page in the rootline that matched a mount point
+	 * @return int|null The page UID of a page in the rootline that matched a mount point
 	 * @todo Define visibility
 	 */
 	public function isInWebMount ($id, $readPerms = '', $exitOnError = 0) {
@@ -219,7 +219,7 @@ class BackendUserSimulation extends \TYPO3\CMS\Core\Authentication\AbstractUserA
 			// Getting Root-ts if not sent
 			$config = $this->userTS;
 		}
-		$TSConf = array('value' => NULL, 'properties' => NULL);
+		$TSConf = ['value' => null, 'properties' => null];
 		$parts = GeneralUtility::trimExplode('.', $objectString, true, 2);
 		$key = $parts[0];
 		if (strlen($key) > 0) {
@@ -286,7 +286,7 @@ class BackendUserSimulation extends \TYPO3\CMS\Core\Authentication\AbstractUserA
 			$userId = $this->user['uid'];
 		}
 
-		$fields_values = array(
+		$fields_values = [
 			'userid' => (int)$userId,
 			'type' => (int)$type,
 			'action' => (int)$action,
@@ -301,7 +301,7 @@ class BackendUserSimulation extends \TYPO3\CMS\Core\Authentication\AbstractUserA
 			'event_pid' => (int)$event_pid,
 			'NEWid' => $NEWid,
 			'workspace' => $this->workspace
-		);
+		];
 		$this->db->exec_INSERTquery('sys_log', $fields_values);
 		return $this->db->sql_insert_id();
 	}
@@ -316,7 +316,7 @@ class BackendUserSimulation extends \TYPO3\CMS\Core\Authentication\AbstractUserA
 	 * @todo Define visibility
 	 */
 	public function simplelog ($message, $extKey = '', $error = 0) {
-		return $this->writelog(4, 0, $error, 0, ($extKey ? '[' . $extKey . '] ' : '') . $message, array());
+		return $this->writelog(4, 0, $error, 0, ($extKey ? '[' . $extKey . '] ' : '') . $message, []);
 	}
 
 	/**
@@ -366,7 +366,7 @@ This is a dump of the failures:
 				$mail->setTo($email)->setFrom($from)->setSubject($subject)->setBody($email_body);
 				$mail->send();
 				// Logout written to log
-				$this->writelog(255, 4, 0, 3, 'Failure warning (%s failures within %s seconds) sent by email to %s', array($this->db->sql_num_rows($res), $secondsBack, $email));
+				$this->writelog(255, 4, 0, 3, 'Failure warning (%s failures within %s seconds) sent by email to %s', [$this->db->sql_num_rows($res), $secondsBack, $email]);
 				$this->db->sql_free_result($res);
 			}
 		}

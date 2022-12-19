@@ -154,7 +154,7 @@ class tx_ttproducts_creditpoints_div {
 				$uid_voucher = $row['uid'];
 			}
 			if ($uid_voucher) {
-				$fieldsArrayFeUserCredit = array();
+				$fieldsArrayFeUserCredit = [];
 				$fieldsArrayFeUserCredit['tt_products_creditpoints'] = $ttproductscreditpoints + $creditpoints;
 
 				$GLOBALS['TYPO3_DB']->exec_UPDATEquery(

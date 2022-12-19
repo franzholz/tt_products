@@ -115,7 +115,7 @@ class tx_ttproducts_field_creditpoints extends tx_ttproducts_field_base {
 			$creditpointsTotal = $this->getBasketTotal();
 
 			if ($creditpointsTotal) {
-				$fieldsArrayFeUsers = array();
+				$fieldsArrayFeUsers = [];
 				$fieldsArrayFeUsers['tt_products_creditpoints'] = $GLOBALS['TSFE']->fe_user->user['tt_products_creditpoints'] - $creditpointsTotal;
 				if ($fieldsArrayFeUsers['tt_products_creditpoints'] < 0) {
 					$fieldsArrayFeUsers['tt_products_creditpoints'] = 0;

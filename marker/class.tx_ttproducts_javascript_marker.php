@@ -66,7 +66,7 @@ class tx_ttproducts_javascript_marker implements \TYPO3\CMS\Core\SingletonInterf
 		if (isset($conf['javaScript.'])) {
 			$javaScriptObj = GeneralUtility::makeInstance('tx_ttproducts_javascript');
 
-			$jsItemMarkerArray = array();
+			$jsItemMarkerArray = [];
 			foreach ($itemMarkerArray as $marker => $value) {
 				$jsItemMarkerArray[$marker] = $javaScriptObj->jsspecialchars($value);
 			}
@@ -75,7 +75,7 @@ class tx_ttproducts_javascript_marker implements \TYPO3\CMS\Core\SingletonInterf
 				$marker = rtrim($key, '.');
 				$jsText =
 					$parser->substituteMarkerArray($confJS['value'], $jsItemMarkerArray);
-				$paramsArray = array($marker => $jsText);
+				$paramsArray = [$marker => $jsText];
 				$javaScriptObj->set('direct', $paramsArray, $cObj->currentRecord);
 				$marker = '###' . $this->marker . '_' . strtoupper($marker) . '###';
 				$markerArray[$marker] = '';

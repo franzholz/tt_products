@@ -45,14 +45,14 @@ use JambageCom\Div2007\Utility\SystemCategoryUtility;
 
 
 class tx_ttproducts_product extends tx_ttproducts_article_base {
-	public $relatedArray = array(); // array of related products
+	public $relatedArray = []; // array of related products
 	public $marker = 'PRODUCT';
 	public $type = 'product';
 	public $piVar='product';
-	public $articleArray = array();
+	public $articleArray = [];
 	protected $tableAlias = 'product';
 	protected $allowedTypeArray =
-			array(
+			[
 				'accessories',
 				'articles',
                 'all_downloads',
@@ -60,7 +60,7 @@ class tx_ttproducts_product extends tx_ttproducts_article_base {
 				'partial_downloads',
 				'products',
 				'productsbysystemcategory'
-			);
+			];
 
 
 	/**
@@ -73,7 +73,7 @@ class tx_ttproducts_product extends tx_ttproducts_article_base {
 
 		if ($result) {
 			$cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
-			$tableConfig = array();
+			$tableConfig = [];
 			$tableConfig['orderBy'] = $cnfObj->conf['orderBy'] ?? '';
 
 			if (!$tableConfig['orderBy']) {
@@ -82,7 +82,7 @@ class tx_ttproducts_product extends tx_ttproducts_article_base {
 
 			$tableObj = $this->getTableObj();
 			$tableObj->setConfig($tableConfig);
-			$tableObj->addDefaultFieldArray(array('sorting' => 'sorting'));
+			$tableObj->addDefaultFieldArray(['sorting' => 'sorting']);
 
 	// 		$requiredFields = 'uid,pid,category,price,price2,directcost,tax';
 	// 		$tableconf = $cnfObj->getTableConf($functablename);
@@ -92,7 +92,7 @@ class tx_ttproducts_product extends tx_ttproducts_article_base {
 	// 		}
 
 			foreach ($this->allowedTypeArray as $type) {
-				$this->relatedArray[$type] = array();
+				$this->relatedArray[$type] = [];
 			}
 		}
 
@@ -194,7 +194,7 @@ class tx_ttproducts_product extends tx_ttproducts_article_base {
 		$productRow,
 		$articleRows
 	) {
-		$fieldArray = array();
+		$fieldArray = [];
 
 		$variant = $this->getVariant();
 		$variantSeparator = $variant->getSplitSeparator();
@@ -217,11 +217,11 @@ class tx_ttproducts_product extends tx_ttproducts_article_base {
 			}
 		}
 
-		$articleRow = array();
+		$articleRow = [];
 
 		if (count($fieldArray)) {
 
-			$bFitArticleRowArray = array();
+			$bFitArticleRowArray = [];
 			foreach ($articleRows as $k => $row) {
 				$bFits = true;
 				foreach ($fieldArray as $field => $valueArray) {
@@ -304,7 +304,7 @@ class tx_ttproducts_product extends tx_ttproducts_article_base {
 				$articleNo = tx_ttproducts_control_product::getActiveArticleNo();
 			}
 		} else {
-			$presetVariantArray = array();
+			$presetVariantArray = [];
 		}
 
 		if ($articleNo === false) {
@@ -320,14 +320,14 @@ class tx_ttproducts_product extends tx_ttproducts_article_base {
 			$articleRow = $articleObj->get($articleNo);
 			$variantRow =
 				$this->getVariant()->getVariantValuesByArticle(
-					array($articleRow),
+					[$articleRow],
 					$row,
 					true
 				);
 			$currentRow = array_merge($row, $variantRow);
 		}
 
-		$whereArray = array();
+		$whereArray = [];
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 		$articleObj = $tablesObj->get('tt_products_articles');
 
@@ -394,7 +394,7 @@ class tx_ttproducts_product extends tx_ttproducts_article_base {
 		$priceRow = $row;
 
 		if (
-			in_array($useArticles, array(1, 3)) &&
+			in_array($useArticles, [1, 3]) &&
 			$funcTablename == 'tt_products' &&
 			isset($row['ext']['tt_products_articles']) &&
 			is_array($row['ext']['tt_products_articles'])
@@ -402,7 +402,7 @@ class tx_ttproducts_product extends tx_ttproducts_article_base {
 			$articleObj = $tablesObj->get('tt_products_articles');
 			reset($row['ext']['tt_products_articles']);
 			$articleInfo = current($row['ext']['tt_products_articles']);
-			$articleRowArray = array();
+			$articleRowArray = [];
 
 			foreach ($row['ext']['tt_products_articles'] as $extRow) {
 
@@ -470,11 +470,11 @@ class tx_ttproducts_product extends tx_ttproducts_article_base {
 
 		$systemCategoryTablename = 'sys_category';
 
-		$uidArray = array();
+		$uidArray = [];
 		if (
 			MathUtility::canBeInterpretedAsInteger($uid)
 		) {
-			$uidArray = array($uid);
+			$uidArray = [$uid];
 		} else if (is_array($uid)) {
 			$uidArray = $uid;
 		}
@@ -513,7 +513,7 @@ class tx_ttproducts_product extends tx_ttproducts_article_base {
 		$type,
 		$orderBy = ''
 	) {
-		$rcArray = array();
+		$rcArray = [];
 		$parentFuncTablename = '';
 
 		if (
@@ -524,7 +524,7 @@ class tx_ttproducts_product extends tx_ttproducts_article_base {
 				$relatedArticles = $this->getArticleRows($uid, '', $orderBy);
 
 				if (is_array($relatedArticles) && ($relatedArticles)) {
-					$rowArray = array();
+					$rowArray = [];
 					foreach ($relatedArticles as $k => $articleRow) {
 						$rcArray[] = $articleRow['uid'];
 					}
@@ -540,13 +540,13 @@ class tx_ttproducts_product extends tx_ttproducts_article_base {
 					if ($type == 'productsbysystemcategory') {
 						$rcArray = $this->getSystemCategories($uid, $orderBy);
 					} else {
-						$mmTable = array(
-							'accessories' => array('table' =>  'tt_products_accessory_products_products_mm'),
-                            'all_downloads' => array('table' =>  'tt_products_products_mm_downloads'),
-							'complete_downloads' => array('table' =>  'tt_products_products_mm_downloads'),
-							'partial_downloads' => array('table' =>  'tt_products_products_mm_downloads'),
-							'products' => array('table' =>  'tt_products_related_products_products_mm')
-						);
+						$mmTable = [
+							'accessories' => ['table' =>  'tt_products_accessory_products_products_mm'],
+                            'all_downloads' => ['table' =>  'tt_products_products_mm_downloads'],
+							'complete_downloads' => ['table' =>  'tt_products_products_mm_downloads'],
+							'partial_downloads' => ['table' =>  'tt_products_products_mm_downloads'],
+							'products' => ['table' =>  'tt_products_related_products_products_mm']
+						];
 
 						if (
 							MathUtility::canBeInterpretedAsInteger($uid)
@@ -556,8 +556,8 @@ class tx_ttproducts_product extends tx_ttproducts_article_base {
 							$where = 'uid_local IN (' . implode(',', $uid) . ')';
 						}
 
-						$falUidArray = array();
- 						$downloadUidArray = array();
+						$falUidArray = [];
+ 						$downloadUidArray = [];
                         if (
                             isset($multiOrderArray) &&
                             is_array($multiOrderArray) &&
@@ -617,7 +617,7 @@ class tx_ttproducts_product extends tx_ttproducts_article_base {
 						$type == 'partial_downloads'
 					) {
 
-						$uidArray = array();
+						$uidArray = [];
 						foreach ($rowArray as $k => $row) {
 							$uidArray[] = $row['uid_foreign'];
 						}
@@ -686,7 +686,7 @@ class tx_ttproducts_product extends tx_ttproducts_article_base {
 										isset($fileRowArray) &&
 										is_array($fileRowArray)
 									) {
-										$downloadRow['childs'] = array();
+										$downloadRow['childs'] = [];
 										foreach ($fileRowArray as $fileRow) {
 											$childUid = $fileRow['uid'];
 											$downloadRow['childs'][] = $childUid;
@@ -726,7 +726,7 @@ class tx_ttproducts_product extends tx_ttproducts_article_base {
 		$itemArray,
 		$useArticles
 	) {
-		$instockTableArray = array();
+		$instockTableArray = [];
 		$cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 
@@ -820,8 +820,8 @@ class tx_ttproducts_product extends tx_ttproducts_article_base {
 				}
 			}
 		} else {
-			$catArray = array();
-			$categoryAndArray = array();
+			$catArray = [];
+			$categoryAndArray = [];
 
 			if($cat || $cat == '0') {
 				$catArray = GeneralUtility::intExplode(',', $cat);
@@ -852,7 +852,7 @@ class tx_ttproducts_product extends tx_ttproducts_article_base {
 		&$selectConf,
 		$aliasArray
 	) {
-		$tableNameArray = array();
+		$tableNameArray = [];
 
 			// Call all addWhere hooks for categories at the end of this method
 		if (
@@ -878,7 +878,7 @@ class tx_ttproducts_product extends tx_ttproducts_article_base {
 		$cat,
 		&$selectConf
 	) {
-		$tableNameArray = array();
+		$tableNameArray = [];
 
 			// Call all addWhere hooks for categories at the end of this method
 		if (
@@ -900,7 +900,7 @@ class tx_ttproducts_product extends tx_ttproducts_article_base {
 
 
 	public function getPageUidsCat ($cat) {
-		$uidArray = array();
+		$uidArray = [];
 
 			// Call all addWhere hooks for categories at the end of this method
 		if (
@@ -961,7 +961,7 @@ class tx_ttproducts_product extends tx_ttproducts_article_base {
 			isset($this->conf['discountFieldMode']) &&
 			in_array(
 				$conf['discountFieldMode'],
-				array('1', '2')
+				['1', '2']
 			)
 		) {
 			$categoryfunctablename = 'tt_products_cat';

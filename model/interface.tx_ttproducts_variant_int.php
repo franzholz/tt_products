@@ -52,7 +52,7 @@ interface tx_ttproducts_variant_int {
 	public function getVariantFromRow ($row);
 	public function getVariantFromProductRow ($row, $variantRow, $useArticles);
 	public function getVariantFromRawRow ($row);
-	public function getVariantRow($row='',$varianArray=array());
+	public function getVariantRow($row='',$varianArray = []);
 	public function getTableUid ($table, $uid);
 	public function getSelectableArray();
 	public function getVariantValuesByArticle($articleRowArray, $productRow,$withSemicolon = false);

@@ -140,7 +140,7 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 						(
 							$this->infoArray['delivery'][$fName] == '0' && !$address
 						) ||
-                        in_array($fName, array('country', 'country_code', 'zone'))
+                        in_array($fName, ['country', 'country_code', 'zone'])
 					)
 				) {
 					$this->infoArray['delivery'][$fName] = $this->infoArray['billing'][$fName];
@@ -308,14 +308,14 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$conf = $cnfObj->getConf();
 
 		$resultArray = [];
-		$resultArray['shop'] = array(
+		$resultArray['shop'] = [
 			'email' => $conf['orderEmail_from'],
 			'name' => $conf['orderEmail_fromName']
-		);
-		$resultArray['customer'] = array(
+		];
+		$resultArray['customer'] = [
 			'email' => $customerEmail,
 			'name' => $this->infoArray['billing']['name']
-		);
+		];
 
 		return $resultArray;
 	}
@@ -505,12 +505,12 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 				$markerArray['###PERSON_ZONE_DISPLAY###'] =
 					tx_div2007_staticinfotables::getTitleFromIsoCode(
 						'static_country_zones',
-						array($zoneCodeArray['billing'], $countryCodeArray['billing'])
+						[$zoneCodeArray['billing'], $countryCodeArray['billing']]
 					);
 				$markerArray['###DELIVERY_ZONE_DISPLAY###'] =
 					tx_div2007_staticinfotables::getTitleFromIsoCode(
 						'static_country_zones',
-						array($zoneCodeArray['delivery'], $countryCodeArray['delivery'])
+						[$zoneCodeArray['delivery'], $countryCodeArray['delivery']]
 					);
 			}
 
@@ -658,11 +658,11 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 						);
 
 					$actUidStore = $this->infoArray['delivery']['store'];
-					$tableFieldArray = array(
-						'tx_party_addresses' => array('post_code', 'locality', 'remarks'),
-						'tt_address' => array('zip', 'city', 'name', 'address'),
-						'fe_users' => array('zip', 'city', 'name', 'address')
-					);
+					$tableFieldArray = [
+						'tx_party_addresses' => ['post_code', 'locality', 'remarks'],
+						'tt_address' => ['zip', 'city', 'name', 'address'],
+						'fe_users' => ['zip', 'city', 'name', 'address']
+					];
 					$valueArray = [];
 					if ($addressArray && isset($tableFieldArray[$tablename]) && is_array($tableFieldArray[$tablename])) {
 						foreach ($addressArray as $uid => $row) {

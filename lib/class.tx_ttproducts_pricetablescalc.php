@@ -51,7 +51,7 @@ class tx_ttproducts_pricetablescalc extends tx_ttproducts_pricecalc_base {
 		$markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
 		$conf = $cnf->getConf();
 		$tagArray = $markerObj->getAllMarkers($formula);
-		$markerArray = array();
+		$markerArray = [];
 
 		if (isset($conf['graduate.']) && is_array($conf['graduate.'])) {
 			$bIsValid = false;
@@ -217,7 +217,7 @@ class tx_ttproducts_pricetablescalc extends tx_ttproducts_pricecalc_base {
 			$articleTable = $tablesObj->get('tt_products_articles', false);
 		}
 
-		$prodArray = array();
+		$prodArray = [];
 		// loop over all items in the basket indexed by sort string
 		foreach ($itemArray as $sort => $actItemArray) {
 

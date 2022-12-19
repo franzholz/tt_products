@@ -102,7 +102,7 @@ class tx_ttproducts_config implements \TYPO3\CMS\Core\SingletonInterface {
 
 
 	public function getTableDesc ($functablename, $type = '') {
-		$tableDesc = array();
+		$tableDesc = [];
 		if (
 			isset($this->conf['table.']) &&
 			isset($this->conf['table.'][$functablename . '.'])
@@ -134,7 +134,7 @@ class tx_ttproducts_config implements \TYPO3\CMS\Core\SingletonInterface {
 
 
 	public function getSpecialConf ($type, $tablename = '', $theCode = '') {
-		$specialConf = array();
+		$specialConf = [];
 
 		if (isset($this->conf[$type . '.'])) {
 
@@ -210,7 +210,7 @@ class tx_ttproducts_config implements \TYPO3\CMS\Core\SingletonInterface {
 
 	public function getTypeConf ($type, $feature, $detail = '') {
 
-		$rc = array();
+		$rc = [];
 
 		if (isset($this->conf[$type . '.'])) {
 			if ($detail != '') {
@@ -274,7 +274,7 @@ class tx_ttproducts_config implements \TYPO3\CMS\Core\SingletonInterface {
 	}
 
 	public function getTranslationFields ($tableConf) {
-		$fieldArray = array();
+		$fieldArray = [];
 		if (isset($tableConf['language.']) && is_array($tableConf['language.']) && isset($tableConf['language.']['type']) && $tableConf['language.']['type'] == 'field') {
 			$langConf = $tableConf['language.']['field.'];
 			if (is_array($langConf)) {
@@ -288,9 +288,9 @@ class tx_ttproducts_config implements \TYPO3\CMS\Core\SingletonInterface {
 
 
 	public function getImageFields ($tableConf) {
-		$retArray = array();
+		$retArray = [];
 
-		$generateArray = array('generateImage', 'generatePath');
+		$generateArray = ['generateImage', 'generatePath'];
 		foreach ($generateArray as $k => $generate) {
 			if (is_array($tableConf) && isset($tableConf[$generate . '.']) && is_array($tableConf[$generate . '.'])) {
 				$genPartArray = $tableConf[$generate . '.'];
@@ -329,9 +329,9 @@ class tx_ttproducts_config implements \TYPO3\CMS\Core\SingletonInterface {
 
 
 	public function getColumnFields ($tableConf) {
-		$retArray = array();
+		$retArray = [];
 
-		$generateArray = array('generateColumn');
+		$generateArray = ['generateColumn'];
 		if (is_array($tableConf)) {
             foreach ($generateArray as $k => $generate) {
                 if (isset($tableConf[$generate . '.']) && is_array($tableConf[$generate . '.'])) {
@@ -353,7 +353,7 @@ class tx_ttproducts_config implements \TYPO3\CMS\Core\SingletonInterface {
 
 
 	public function getAJAXConf () {
-		$result = array();
+		$result = [];
 		if (isset($this->conf['ajax.']) && is_array($this->conf['ajax.']['conf.'])) {
 			$result = $this->conf['ajax.']['conf.'];
 		}

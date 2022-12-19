@@ -58,11 +58,11 @@ class BasketApi {
 			$cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
 			$cnfObj->init(
 				$conf,
-				array()
+				[]
 			);
 
 			$cObj = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');	// Local cObj.
-			$cObj->start(array());
+			$cObj->start([]);
             $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 
 			$uid = intval($basketConf['ref']);
@@ -79,7 +79,7 @@ class BasketApi {
 				$funcTablename = 'tt_products';
 				$productTable = $tablesObj->get($funcTablename);
 				$variantRow =
-					$productTable->variant->getVariantRow($row, array());
+					$productTable->variant->getVariantRow($row, []);
 				$variant =
 					$productTable->variant->getVariantFromProductRow(
 						$row,
@@ -124,7 +124,7 @@ class BasketApi {
 
         if (isset($basketExt) && is_array($basketExt)) {
 
-            $uidArr = array();
+            $uidArr = [];
 
             foreach($basketExt as $uidTmp => $tmp) {
                 if ($uidTmp != 'gift' && !in_array($uidTmp, $uidArr)) {
@@ -228,19 +228,19 @@ class BasketApi {
 	 */
 	static public function getBasketRec (
 		$row,
-		$typeArray = array(
+		$typeArray = [
 			'payment',
 			'shipping',
 			'handling'
-		)
+		]
 	) {
-		$extraArray = array();
+		$extraArray = [];
 		foreach ($typeArray as $type) {
 			$tmpArray = GeneralUtility::trimExplode(':', $row[$type]);
 			$extraArray[$type] = $tmpArray['0'];
 		}
 
-		$basketRec = array('tt_products' => $extraArray);
+		$basketRec = ['tt_products' => $extraArray];
 
 		return $basketRec;
 	}

@@ -46,9 +46,9 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
 	public $conf;
 	public $config;
 	public $tableObj;	// object of the type tx_table_db
-	public $defaultFieldArray = array('uid' => 'uid', 'pid' => 'pid'); // fields which must always be read in
-	public $relatedFromTableArray = array();
-	public $fieldArray = array(); // field replacements
+	public $defaultFieldArray = ['uid' => 'uid', 'pid' => 'pid']; // fields which must always be read in
+	public $relatedFromTableArray = [];
+	public $fieldArray = []; // field replacements
 	protected $insertRowArray;	// array of stored insert records
 	protected $insertKey;		// array for insertion
 
@@ -118,7 +118,7 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
 		$this->tableDesc = $cnf->getTableDesc($functablename);
 
         $checkDefaultFieldArray =
-            array(
+            [
                 'crdate' => 'crdate',
                 'deleted' => 'deleted',
                 'endtime' => 'endtime',
@@ -126,7 +126,7 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
                 'hidden' => 'hidden',
                 'starttime' => 'starttime',
                 'tstamp' => 'tstamp'
-            );
+            ];
 
 		if (isset($GLOBALS['TCA'][$tablename]['ctrl']) && is_array($GLOBALS['TCA'][$tablename]['ctrl'])) {
 			foreach ($checkDefaultFieldArray as $theField) {
@@ -186,7 +186,7 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
 	}
 
 	public function clear () {
-		$this->dataArray = array();
+		$this->dataArray = [];
 	}
 
 	public function setLabelFieldname ($labelfieldname) {
@@ -239,7 +239,7 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
 			if (!$pid || ($pid && $this->dataArray[$uid]['pid'] == $pid)) {
 				$rc = $this->dataArray[$uid];
 			} else {
-				$rc = array();
+				$rc = [];
 			}
 		}
 
@@ -299,10 +299,10 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
 
 			if ($res !== false) {
 
-				$rc = array();
+				$rc = [];
 
 				while ($dbRow = $GLOBALS['TYPO3_DB']->sql_fetch_row($res)) {
-					$row = array();
+					$row = [];
 					foreach ($dbRow as $index => $value) {
 						if ($res instanceof mysqli_result) {
 							$fieldObject = mysqli_fetch_field_direct($res, $index);
@@ -349,7 +349,7 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
 				}
 
 				if (!$rc) {
-					$rc = array();
+					$rc = [];
 				}
 			} else {
 				$rc = false;
@@ -481,7 +481,7 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
                 $this->orderBy != $tableConf['orderBy']
             ) {
 				$this->orderBy = $tableConf['orderBy'];
-				$this->dataArray = array();
+				$this->dataArray = [];
 			}
 
 			$requiredFields = $this->getRequiredFields($theCode);
@@ -494,7 +494,7 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
 				$tableConf['language.']['type'] == 'field' &&
 				isset($tableConf['language.']['field.'])
 				) {
-				$addRequiredFields = array();
+				$addRequiredFields = [];
 				$addRequiredFields = $tableConf['language.']['field.'];
 				$this->getTableObj()->addRequiredFieldArray($addRequiredFields);
 			}
@@ -586,7 +586,7 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
 
 	public function getKeyFieldArray ($theCode = '') {
 		$tableConf = $this->getTableConf($theCode);
-		$rc = array();
+		$rc = [];
 		if (isset($tableConf['keyfield.']) && is_array($tableConf['keyfield.'])) {
 			$rc = $tableConf['keyfield.'];
 		}
@@ -605,7 +605,7 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
 			$fields = 'uid,pid';
 		}
 
-		$requiredFieldArray = array();
+		$requiredFieldArray = [];
 		$defaultFieldArray = $tableObj->getDefaultFieldArray();
 		$noTcaFieldArray = $tableObj->getNoTcaFieldArray();
 
@@ -637,7 +637,7 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
 		) {
 			$rc = $tableConf['language.']['field.'];
 		} else {
-			$rc = array();
+			$rc = [];
 		}
 		return $rc;
 	}
@@ -647,7 +647,7 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
 	}
 
 	public function reset () {
-		$this->insertRowArray = array();
+		$this->insertRowArray = [];
 		$this->setInsertKey(0);
 	}
 

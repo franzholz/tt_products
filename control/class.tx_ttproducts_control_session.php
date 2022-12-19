@@ -82,7 +82,7 @@ class tx_ttproducts_control_session {
 	* @return	array	session data
 	*/
 	static public function readSessionData ($readAll = false) {
-		$sessionData = array();
+		$sessionData = [];
 		$extKey = TT_PRODUCTS_EXT;
 		$allSessionData = static::readSession('feuser');
 

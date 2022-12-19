@@ -70,7 +70,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 	 *
 	 * @var array
 	 */
-	static protected $uncachedCodes = array(
+	static protected $uncachedCodes = [
 		'BASKET',
 		'BILL',
 		'DELIVERY',
@@ -85,7 +85,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 		'PAYMENT',
 		'SEARCH',
 		'TRACKING'
-	);
+	];
 
 
 	/**
@@ -260,7 +260,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 			$this->tt_product_single['product'] = $row['uid'];
 		} else {
 			$error_detail = '';
-			$paramArray = array('product', 'article', 'dam', 'fal');
+			$paramArray = ['product', 'article', 'dam', 'fal'];
 			$paramVal = '';
 
 			foreach ($paramArray as $param) {
@@ -338,7 +338,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 		$globalMarkerArray = $markerObj->getGlobalMarkerArray();
 
 		if (!count($this->codeArray) && !$bRunAjax) {
-			$this->codeArray = array('HELP');
+			$this->codeArray = ['HELP'];
 		}
 
 		if ((\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('taxajax'))) {
@@ -504,7 +504,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 						if (isset($piVars[$piVar])) {
 							$currentArray = GeneralUtility::trimExplode(',', $piVars[$piVar]);
 						} else {
-							$currentArray = array('0');
+							$currentArray = ['0'];
 						}
 
 						if ($hideIds != '') {
@@ -596,7 +596,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 				case 'SELECTCAT':
 				case 'SELECTDAMCAT':
 				case 'SELECTAD':
-					$codeTemplateArray = array(
+					$codeTemplateArray = [
 						'SELECTCAT' => 'ITEM_CATEGORY_SELECT_TEMPLATE',
 						'SELECTDAMCAT' => 'ITEM_DAMCATSELECT_TEMPLATE',
 						'SELECTAD' => 'ITEM_ADDRESS_SELECT_TEMPLATE',
@@ -606,7 +606,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 						'MENUCAT' => 'ITEM_CATEGORY_MENU_TEMPLATE',
 						'MENUDAMCAT' => 'ITEM_DAMCATMENU_TEMPLATE',
 						'MENUAD' => 'ITEM_ADDRESS_MENU_TEMPLATE',
-					);
+					];
 
 					if (substr($theCode, -2, 2) == 'AD') {
 						$tablename = '';
@@ -814,7 +814,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 						$config['pid_list'],
 						$config['recursive']
 					);
-					$tableInfoArray = array('SINGLECAT' => 'tt_products_cat', 'SINGLEDAMCAT' => 'tx_dam_cat', 'SINGLEAD' => 'address');
+					$tableInfoArray = ['SINGLECAT' => 'tt_products_cat', 'SINGLEDAMCAT' => 'tx_dam_cat', 'SINGLEAD' => 'address'];
 					$functablename = $tableInfoArray[$theCode];
 					$uid = $piVars[tx_ttproducts_model_control::getPivar($functablename)];
 
@@ -854,7 +854,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 					$outputPath .= '/typo3temp/tt_products/';
 					$filename = $outputPath . 'testseite.pdf';
 
-					$urls = array('http://demosite.jambage.com/index.php?id=5');
+					$urls = ['https://demosite.jambage.com/index.php?id=5'];
 					$scriptCall =
 						$scriptPath . 'wkhtmltopdf ' .
 							$paramsString . ' ' .

@@ -62,13 +62,13 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 	public function getSingleExcludeList ($excludeList) {
 		$excludeListArray = GeneralUtility::trimExplode(',', $excludeList);
 		$singleExcludeListArray =
-			array(
+			[
 				'article',
 				'product',
 				'variants',
 				'dam',
 				'fal'
-			);
+			];
 		$singleExcludeListArray = array_merge($excludeListArray, $singleExcludeListArray);
 
 		if (!$singleExcludeListArray[0]) {
@@ -89,13 +89,13 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 	 */
 	public function getWrappedSubpartArray (
 		&$wrappedSubpartArray,
-		$addQueryString = array(),
+		$addQueryString = [],
 		$css_current = '',
 		$bUseBackPid = true
 	) {
         $cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
 		$commandArray =
-			array(
+			[
 				'basket',
 				'info',
 				'payment',
@@ -107,7 +107,7 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 				'billing',
 				'delivery',
 				'agb'
-			);
+			];
 
 		foreach ($commandArray as $command) {
 
@@ -123,7 +123,7 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 				)
 			);
 			$wrappedSubpartArray['###LINK_' . strtoupper($command) . '###'] =
-				array('<a href="' . htmlspecialchars($pageLink) . '"' . $css_current . '>', '</a>');
+				['<a href="' . htmlspecialchars($pageLink) . '"' . $css_current . '>', '</a>'];
 		}
 	}
 
@@ -134,7 +134,7 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 	public function addURLMarkers (
 		$pidNext,
 		$markerArray,
-		$addQueryString = array(),
+		$addQueryString = [],
 		$excludeList = '',
 		$bUseBackPid = true,
 		$backPid = 0,
@@ -142,8 +142,8 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 	) {
         $cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
 		$charset = 'UTF-8';
-		$urlMarkerArray = array();
-		$conf = array('useCacheHash' => true);
+		$urlMarkerArray = [];
+		$conf = ['useCacheHash' => true];
 		$target = '';
 
 		// disable caching as soon as someone enters products into the basket, enters user data etc.
@@ -163,16 +163,16 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 			$urlExcludeList = $singleExcludeList;
 		}
 
-		$urlConfig = array(
-			'FORM_URL' => array(
+		$urlConfig = [
+			'FORM_URL' => [
 					'pid' => $formUrlPid,
 					'excludeList' => $urlExcludeList
-				),
-			'FORM_URL_CURRENT' => array(
+				],
+			'FORM_URL_CURRENT' => [
 					'pid' => $GLOBALS['TSFE']->id,
 					'excludeList' => $excludeList
-				)
-		);
+				]
+		];
 
 		foreach ($urlConfig as $markerKey => $keyConfig) {
 			$url = FrontendUtility::getTypoLink_URL(
@@ -194,7 +194,7 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 		}
 
 		$commandArray =
-			array(
+			[
 				'basket',
 				'info',
 				'payment',
@@ -211,7 +211,7 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 				'user3',
 				'user4',
 				'user5'
-			);
+			];
 
 		foreach ($commandArray as $command) {
 			$linkPid = (!empty($this->conf['PID' . $command]) ? $this->conf['PID' . $command] : $basketPid);
@@ -308,7 +308,7 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 	 */
 	public function getLinkParams (
 		$excludeList = '',
-		$addQueryString = array(),
+		$addQueryString = [],
 		$bUsePrefix = false,
 		$bUseBackPid = true,
 		$backPid = 0,
@@ -317,7 +317,7 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 	) {
 		$prefixId = tx_ttproducts_model_control::getPrefixId();
 
-		$queryString = array();
+		$queryString = [];
 		if ($bUseBackPid) {
 			if (!$backPid) {
 				$backPid = $GLOBALS['TSFE']->id;
@@ -368,7 +368,7 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 // 		}
 
 		if ($bUsePrefix) {
-			$excludeListArray = array();
+			$excludeListArray = [];
 			$tmpArray = GeneralUtility::trimExplode(',', $excludeList);
 			if (isset($tmpArray) && is_array($tmpArray) && $tmpArray['0']) {
 				foreach($tmpArray as $param) {

@@ -46,9 +46,9 @@ class tx_ttproducts_form_div {
 		$selectedKey,
 		$bSelectTags = true,
 		$bTranslateText = true,
-		$allowedArray = array(),
+		$allowedArray = [],
 		$type = 'select',
-		$mainAttributeArray = array(),
+		$mainAttributeArray = [],
 		$header = '',
 		$layout = '',
 		$imageFileArray = '',
@@ -62,7 +62,7 @@ class tx_ttproducts_form_div {
 		if (is_array($valueArray)) {
 			$totaltext = '';
 			if ($header != '') {
-				$newValueArray = array();
+				$newValueArray = [];
 				$newValueArray['-1'] = $header;
 				foreach ($valueArray as $k => $v) {
 					$newValueArray[$k] = $v;
@@ -97,8 +97,8 @@ class tx_ttproducts_form_div {
 					$nameText = trim($text);
 					$valueText = $selectKey;
 					$selectedText = '';
-					$paramArray = array();
-					$preParamArray = array();
+					$paramArray = [];
+					$preParamArray = [];
 
 					if ($key == -1) {
 						$selectedText = ($useXHTML ? ' disabled="disabled"' : ' disabled');
@@ -122,7 +122,7 @@ class tx_ttproducts_form_div {
 
 					switch ($type) {
 						case 'select':
-							$inputTextArray = array('<option value="' . htmlspecialchars($valueText, $flags) . '"' . $selectedText . '>', '</option>');
+							$inputTextArray = ['<option value="' . htmlspecialchars($valueText, $flags) . '"' . $selectedText . '>', '</option>'];
 							break;
 						case 'checkbox':
 						case 'radio':
@@ -132,7 +132,7 @@ class tx_ttproducts_form_div {
 							if ($layout == '') {
 								$inputText .=  ' ' . $nameText . '<br ' . ($useXHTML ? '/' : '') . '>';
 							}
-							$inputTextArray = array($inputText);
+							$inputTextArray = [$inputText];
 							break;
 						default:
 							return false;
@@ -178,14 +178,14 @@ class tx_ttproducts_form_div {
 
 	// fetches the valueArray needed for the functions of this class from a valueArray setup
 	static public function fetchValueArray ($confArray) {
-		$resultArray = array();
+		$resultArray = [];
 		if (is_array($confArray)) {
 			foreach ($confArray as $k => $vArray) {
 				$resultArray[] =
-					array(
+					[
 						0 => $vArray['label'],
 						1 => $vArray['value']
-					);
+					];
 			}
 		}
 		return $resultArray;
@@ -193,7 +193,7 @@ class tx_ttproducts_form_div {
 
 
 	static public function getKeyValueArray ($valueArray) {
-		$resultArray = array();
+		$resultArray = [];
 
 		foreach ($valueArray as $k => $row) {
 			$resultArray[$row[1]] = $row[0];
@@ -203,7 +203,7 @@ class tx_ttproducts_form_div {
 
 	static protected function getAttributeString ($mainAttributeArray) {
 		$useXHTML = !empty($GLOBALS['TSFE']->config['config']['xhtmlDoctype']);
-		$resultArray = array();
+		$resultArray = [];
 
 		if (is_array($mainAttributeArray) && count($mainAttributeArray)) {
 
@@ -232,11 +232,11 @@ class tx_ttproducts_form_div {
 		$mainAttributes = ''
 	) {
 		$useXHTML = !empty($GLOBALS['TSFE']->config['config']['xhtmlDoctype']);
-		$attributeTextArray = array();
-		$attributeArray = array();
+		$attributeTextArray = [];
+		$attributeArray = [];
 		$attributeArray['pre'] = $preMainAttributes;
 		$attributeArray['post'] = $mainAttributes;
-		$spaceArray = array();
+		$spaceArray = [];
 		$spaceArray['pre'] = ($preMainAttributes != '' ? ' ' : '');
 		$spaceArray['post'] = ($mainAttributes != '' ? ' ' : '');
 

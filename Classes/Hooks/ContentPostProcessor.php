@@ -51,7 +51,7 @@ class ContentPostProcessor {
         $piVar = \tx_ttproducts_model_control::getPiVar($funcTablename);
 
         $productUid = 0;
-        $row = array();
+        $row = [];
 
         if (
             isset($piVars) &&

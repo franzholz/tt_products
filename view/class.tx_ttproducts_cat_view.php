@@ -89,7 +89,7 @@ class tx_ttproducts_cat_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$subpartmarkerObj = GeneralUtility::makeInstance('tx_ttproducts_subpartmarker');
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
-		$variantFieldArray = array();
+		$variantFieldArray = [];
 		$piVars = tx_ttproducts_model_control::getPiVars();
 
 		if ($this->config['displayCurrentRecord']) {
@@ -116,9 +116,9 @@ class tx_ttproducts_cat_view implements \TYPO3\CMS\Core\SingletonInterface {
 		if ($row) {
 			// $this->uid = intval ($row['uid']); // store the uid for later usage here
 
-			$markerArray = array();
-			$subpartArray = array();
-			$wrappedSubpartArray = array();
+			$markerArray = [];
+			$subpartArray = [];
+			$wrappedSubpartArray = [];
 			$pageObj = $tablesObj->get('pages');
 
 			if ($this->config['displayCurrentRecord']) {
@@ -147,9 +147,9 @@ class tx_ttproducts_cat_view implements \TYPO3\CMS\Core\SingletonInterface {
 			);
 
 			$itemFrameWork = tx_div2007_core::substituteMarkerArrayCached($itemFrameWork, $markerArray, $subpartArray, $wrappedSubpartArray);
-			$markerFieldArray = array();
-			$viewTagArray = array();
-			$parentArray = array();
+			$markerFieldArray = [];
+			$viewTagArray = [];
+			$parentArray = [];
 			$fieldsArray = $markerObj->getMarkerFields(
 				$itemFrameWork,
 				$tableObj->getTableObj()->tableFieldArray,
@@ -170,7 +170,7 @@ class tx_ttproducts_cat_view implements \TYPO3\CMS\Core\SingletonInterface {
 			$javaScriptObj->set('fetchdata', $param);*/
 			$bUseBackPid = true;
 
-			$addQueryString = array();
+			$addQueryString = [];
 			$linkPid = $pid;
 			if ($bUseBackPid && $backPID) {
 				$linkPid = $backPID;
@@ -192,38 +192,14 @@ class tx_ttproducts_cat_view implements \TYPO3\CMS\Core\SingletonInterface {
 					$linkPid,
 					$queryString,
 					'',
-					array(
+					[
 						'useCacheHash' => true
-					)
+					]
 				);
-				$wrappedSubpartArray['###LINK_ITEM###'] = array(
+				$wrappedSubpartArray['###LINK_ITEM###'] = [
 					'<a class="listlink" href="' . htmlspecialchars($linkUrl) . '">',
 					'</a>'
-				);
-
-// 				$wrappedSubpartArray['###LINK_ITEM###'] = array(
-// 						'<a href="'
-// 						. htmlspecialchars(
-// 							$this->pibase->pi_getPageLink(
-// 								$linkPid,
-// 								'',
-// 								$this->urlObj->getLinkParams(
-// 									'',
-// 									$addQueryString,
-// 									true,
-// 									$bUseBackPid,
-//									0,
-// 									'product',
-// 									$tableViewObj->piVar
-// 								),
-// 								array(
-// 									'useCacheHash' => true
-// 								)
-// 							)
-// 						)
-// 						.'">',
-// 					'</a>'
-// 				);
+				];
 			}
 			if (isset($viewCatTagArray['LINK_CATEGORY'])) {
 				$catListPid = $pageObj->getPID(
@@ -242,7 +218,7 @@ class tx_ttproducts_cat_view implements \TYPO3\CMS\Core\SingletonInterface {
 				);
 			}
 
-			$viewParentCatTagArray = array();
+			$viewParentCatTagArray = [];
 			$tableViewObj->getParentMarkerArray (
 				$parentArray,
 				$row,
@@ -252,7 +228,7 @@ class tx_ttproducts_cat_view implements \TYPO3\CMS\Core\SingletonInterface {
 				$this->config['limitImage'],
 				'listcatImage',
 				$viewParentCatTagArray,
-				array(),
+				[],
 				($functablename == 'pages'),
 				$theCode,
 				tx_ttproducts_control_basket::getBasketExtra(),
@@ -290,7 +266,7 @@ class tx_ttproducts_cat_view implements \TYPO3\CMS\Core\SingletonInterface {
 				10,
 				'image',
 				$viewTagArray,
-				array(),
+				[],
 				$pageAsCategory,
 				$theCode,
 				tx_ttproducts_control_basket::getBasketExtra(),
@@ -300,9 +276,9 @@ class tx_ttproducts_cat_view implements \TYPO3\CMS\Core\SingletonInterface {
 				''
 			);
 
-			$subpartArray = array();
+			$subpartArray = [];
 			$markerArray['###FORM_NAME###'] = $forminfoArray['###FORM_NAME###'];
-			$addQueryString = array();
+			$addQueryString = [];
 			if ($pid == $GLOBALS['TSFE']->id) {
 				$addQueryString[$tableViewObj->getPivar()] = $uid;
 			}
@@ -350,7 +326,7 @@ class tx_ttproducts_cat_view implements \TYPO3\CMS\Core\SingletonInterface {
 			$resprev = $tableObj->getTableObj()->exec_SELECTquery('*', $queryprev, '', $GLOBALS['TYPO3_DB']->stripOrderBy($prevOrderby));
 
 			if ($rowprev = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($resprev) ) {
-				$addQueryString = array();
+				$addQueryString = [];
 				$addQueryString[$tableViewObj->getPivar()] = $rowprev['uid'];
 
 				if ($bUseBackPid) {
@@ -371,36 +347,14 @@ class tx_ttproducts_cat_view implements \TYPO3\CMS\Core\SingletonInterface {
 					$GLOBALS['TSFE']->id,
 					$queryString,
 					'',
-					array(
+					[
 						'useCacheHash' => true
-					)
+					]
 				);
-				$wrappedSubpartArray['###LINK_PREV_SINGLE###'] = array(
+				$wrappedSubpartArray['###LINK_PREV_SINGLE###'] = [
 					'<a href="' . htmlspecialchars($linkUrl) . '">',
 					'</a>'
-				);
-
-// 				$wrappedSubpartArray['###LINK_PREV_SINGLE###']= array(
-// 					'<a href="' .
-// 					htmlspecialchars(
-// 						$this->pibase->pi_getPageLink(
-// 							$GLOBALS['TSFE']->id,
-// 							'',
-// 							$this->urlObj->getLinkParams(
-// 								'',
-// 								$addQueryString,
-// 								true,
-// 								$bUseBackPid,
-// 								0,
-// 								'product',
-// 								''
-// 							),
-// 							array(
-// 								'useCacheHash' => true
-// 							)
-// 						)
-// 					) . '">',
-// 					'</a>');
+				];
 			} else	{
 				$subpartArray['###LINK_PREV_SINGLE###']='';
 			}
@@ -411,7 +365,7 @@ class tx_ttproducts_cat_view implements \TYPO3\CMS\Core\SingletonInterface {
 			$resnext = $tableObj->getTableObj()->exec_SELECTquery('*', $querynext, '', $GLOBALS['TYPO3_DB']->stripOrderBy($nextOrderby));
 
 			if ($rownext = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($resnext)) {
-				$addQueryString=array();
+				$addQueryString=[];
 				$addQueryString[$this->type] = $rownext['uid'];
 				$addQueryString['backPID'] = $backPID;
 				if ($bUseBackPid) {
@@ -435,34 +389,14 @@ class tx_ttproducts_cat_view implements \TYPO3\CMS\Core\SingletonInterface {
 					$GLOBALS['TSFE']->id,
 					$queryString,
 					'',
-					array(
+					[
 						'useCacheHash' => true
-					)
+					]
 				);
-				$wrappedSubpartArray['###LINK_NEXT_SINGLE###'] = array(
+				$wrappedSubpartArray['###LINK_NEXT_SINGLE###'] = [
 					'<a href="' . htmlspecialchars($linkUrl) . '">',
 					'</a>'
-				);
-
-// 				$wrappedSubpartArray['###LINK_NEXT_SINGLE###'] = array(
-// 					'<a href="' .
-// 						htmlspecialchars(
-// 							$this->pibase->pi_getPageLink(
-// 								$GLOBALS['TSFE']->id,
-// 								'',
-// 								$this->urlObj->getLinkParams(
-// 									'',
-// 									$addQueryString,
-// 									true,
-// 									$bUseBackPid,
-// 									0,
-// 									'product',
-// 									''
-// 								),
-// 								array('useCacheHash' => true)
-// 							)
-// 						) . '">',
-// 					'</a>');
+				];
 			} else {
 				$subpartArray['###LINK_NEXT_SINGLE###'] = '';
 			}

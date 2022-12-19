@@ -56,8 +56,8 @@ class tx_ttproducts_fal_view extends tx_ttproducts_article_base_view {
         &$wrappedSubpartArray,
         $tagArray,
         $theCode = '',
-        $basketExtra = array(),
-        $basketRecs = array(),
+        $basketExtra = [],
+        $basketRecs = [],
         $id = ''
     ) {
         parent::getItemSubpartArrays(
@@ -95,10 +95,10 @@ class tx_ttproducts_fal_view extends tx_ttproducts_article_base_view {
         $imageNum = 0,
         $imageRenderObj = 'image',
         $tagArray,
-        $forminfoArray = array(),
+        $forminfoArray = [],
         $theCode = '',
-        $basketExtra = array(),
-        $basketRecs = array(),
+        $basketExtra = [],
+        $basketRecs = [],
         $id = '',
         $prefix = '',
         $suffix = '',
@@ -106,8 +106,8 @@ class tx_ttproducts_fal_view extends tx_ttproducts_article_base_view {
         $bHtml = true,
         $charset = '',
         $hiddenFields = '',
-        $multiOrderArray = array(),
-        $productRowArray = array(),
+        $multiOrderArray = [],
+        $productRowArray = [],
         $bEnableTaxZero = false
     ) {
         parent::getModelMarkerArray(
@@ -138,8 +138,8 @@ class tx_ttproducts_fal_view extends tx_ttproducts_article_base_view {
         $markerLink = $downloadMarker . '_' . strtoupper('download_link');
         if (isset($tagArray[$markerLink])) {
             $cObj = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
-            $cObj->start(array());
-            $paramArray = array();
+            $cObj->start([]);
+            $paramArray = [];
             $postVar = tx_ttproducts_control_command::getCommandVar();
             $orderPivar = tx_ttproducts_model_control::getPiVar('sys_products_orders');
             $prefixId = tx_ttproducts_model_control::getPrefixId();

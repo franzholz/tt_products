@@ -39,7 +39,7 @@
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_tables implements \TYPO3\CMS\Core\SingletonInterface {
-	protected $tableClassArray = array(
+	protected $tableClassArray = [
 		'address' => 'tx_ttproducts_address',
 		'fe_users' => 'tx_ttproducts_orderaddress',
 		'pages' => 'tx_ttproducts_page',
@@ -60,15 +60,15 @@ class tx_ttproducts_tables implements \TYPO3\CMS\Core\SingletonInterface {
 		'tx_dam' => 'tx_ttproducts_dam',
 		'tx_dam_cat' => 'tx_ttproducts_damcategory',
 		'voucher' => 'tx_ttproducts_voucher',
-	);
-	protected $needExtensionArray = array(
+	];
+	protected $needExtensionArray = [
 		'static_banks_de' => 'static_info_tables_banks_de',
 		'static_countries' => 'static_info_tables',
 		'sys_file_reference' => 'filelist',
 		'tx_dam' => 'dam',
 		'tx_dam_cat' => 'dam'
-	);
-	protected $usedObjectArray = array();
+	];
+	protected $usedObjectArray = [];
 
 
 	public function getTableClassArray () {
@@ -98,8 +98,8 @@ class tx_ttproducts_tables implements \TYPO3\CMS\Core\SingletonInterface {
 
 	/* set the $bView to true if you want to get the view class */
 	public function get ($functablename, $bView = false, $bInit = true) {
-		$classNameArray = array();
-		$tableObjArray = array();
+		$classNameArray = [];
+		$tableObjArray = [];
 		$resultInit = true;
 
 		$classNameArray['model'] = $this->getTableClass($functablename, false);

@@ -307,7 +307,7 @@ class ParameterApi implements \TYPO3\CMS\Core\SingletonInterface {
         if (isset($viewConfArray) && is_array($viewConfArray)) {
 
             $controlArray = $this->getControlArray();
-            $typeArray = array('sortSelect', 'filterSelect', 'filterInput');
+            $typeArray = ['sortSelect', 'filterSelect', 'filterInput'];
             $typeSelectArray = array('sortSelect', 'filterSelect');
 
             foreach ($viewConfArray as $ftname => $funcViewConfArray) {
@@ -523,7 +523,7 @@ class ParameterApi implements \TYPO3\CMS\Core\SingletonInterface {
             $sqlTableArray['local'] = [];
             $sqlTableArray['where'] = [];
 
-            $loopArray = array('local', 'foreign');
+            $loopArray = ['local', 'foreign'];
             $bUseSearchboxCat = false;
             $theTable = $cnf->getTableName($paramsTableArray[$searchParamArray['local']]);
 

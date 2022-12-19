@@ -51,9 +51,8 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
 	public $globalMarkerArray;
 	public $urlArray;
 	private $langArray;
-	private $errorCode = array();
-	private $specialArray = array('eq', 'ne', 'lt', 'le', 'gt', 'ge', 'id', 'fn');
-// 	private $idArray = array('uid');
+	private $errorCode = [];
+	private $specialArray = ['eq', 'ne', 'lt', 'le', 'gt', 'ge', 'id', 'fn'];
 
 	/**
 	 * Initialized the marker object
@@ -64,7 +63,7 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
 	 * @return	  void
 	 */
 	public function init ($conf, $piVars) {
-		$this->markerArray = array('CATEGORY', 'PRODUCT', 'ARTICLE');
+		$this->markerArray = ['CATEGORY', 'PRODUCT', 'ARTICLE'];
 		$markerFile = $conf['markerFile'] ?? '';
 		$languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
         $language = $languageObj->getLanguage();
@@ -134,7 +133,7 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
 		return $this->globalMarkerArray;
 	}
 
-	public function replaceGlobalMarkers (&$content, $markerArray = array()) {
+	public function replaceGlobalMarkers (&$content, $markerArray = []) {
 		$globalMarkerArray = $this->getGlobalMarkerArray();
 		$markerArray = array_merge($globalMarkerArray, $markerArray);
 		$result = tx_div2007_core::substituteMarkerArrayCached($content, $markerArray);
@@ -146,7 +145,7 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
 	 */
 	public function setGlobalMarkerArray ($conf, $piVars, $locallang, $LLkey) {
         $cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
-		$markerArray = array();
+		$markerArray = [];
 		$language = $GLOBALS['TSFE']->config['config']['language'] ?? '';
 		if ($language == '') {
 			$language = 'default';
@@ -168,12 +167,12 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
             $markerArray['###PATH_FE_REL###'] = PATH_FE_ADDONS_TT_PRODUCTS_REL;
             $markerArray['###PATH_FE_ICONS###'] = PATH_FE_ADDONS_TT_PRODUCTS_ICON_REL;
 		}
-		$pidMarkerArray = array(
+		$pidMarkerArray = [
 			'agb', 'basket', 'billing', 'delivery', 'finalize', 'info', 'itemDisplay',
 			'listDisplay', 'payment', 'revocation',
 			'search', 'storeRoot', 'thanks', 'tracking',
 			'memo'
-		);
+		];
 		foreach ($pidMarkerArray as $k => $function) {
 			$markerArray['###PID_' . strtoupper($function) . '###'] = intval($conf['PID' . $function] ?? 0);
 		}
@@ -236,7 +235,7 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
 				$markerArray['###' . strtoupper($key) . '###'] = $value;
 			}
 		} else {
-			$langArray = array();
+			$langArray = [];
 		}
 
 		if (isset($conf['marks.'])) {
@@ -284,7 +283,7 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
 	} // setGlobalMarkerArray
 
 	public function reduceMarkerArray ($templateCode, $markerArray) {
-		$result = array();
+		$result = [];
 
 		$tagArray = $this->getAllMarkers($templateCode);
 
@@ -299,7 +298,7 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
 
 	public function getAllMarkers ($templateCode) {
 
-		$treffer = array();
+		$treffer = [];
 		$tagArray = false;
 
 		preg_match_all('/###([\w:-]+)###/', $templateCode, $treffer);
@@ -333,13 +332,13 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
 		&$tagArray,
 		&$parentArray
 	) {
-		$retArray = (count($requiredFieldArray) ? $requiredFieldArray : array());
+		$retArray = (count($requiredFieldArray) ? $requiredFieldArray : []);
 		// obligatory fields uid and pid
 
 		$prefix = $prefixParam . '_';
 		$prefixLen = strlen($prefix);
 
-		$bFieldaddedArray = array();
+		$bFieldaddedArray = [];
 
 		$tagArray = $this->getAllMarkers($templateCode);
 
@@ -389,7 +388,7 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
                             !$colon &&
                             !isset($tableFieldArray[$field])
                         ) {
-							$newFieldPartArray = array();
+							$newFieldPartArray = [];
 							foreach ($fieldPartArray as $k => $v) {
 								if (in_array($v, $this->specialArray)) {
 									break;
@@ -447,7 +446,7 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
 			}
 			$tagArray = $retTagArray;
 		} else {
-            $tagArray = array();
+            $tagArray = [];
 		}
 
 		$parentArray = array_unique($parentArray);

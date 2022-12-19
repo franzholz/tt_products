@@ -68,7 +68,7 @@ class TaxajaxController {
         $GLOBALS['TSFE']->getConfigArray($request);
 
         $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
-        $config = array();
+        $config = [];
         $config['LLkey'] = '';
 
         // tt_products specific parts

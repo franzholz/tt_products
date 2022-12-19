@@ -75,8 +75,6 @@ class tx_ttproducts_field_datafield_view extends tx_ttproducts_field_base_view {
 	) {
         $cObj = FrontendUtility::getContentObjectRenderer();
 		if (isset($tagArray[$marker])) {
-			// $wrappedSubpartArray['###' . $marker . '###'] = array('<a href="' . $dirname . '/' . $dataFile . '">','</a>');
-
 			if (
 				isset($tableConf['fieldLink.']) &&
 				is_array($tableConf['fieldLink.']) &&
@@ -84,7 +82,7 @@ class tx_ttproducts_field_datafield_view extends tx_ttproducts_field_base_view {
 			) {
 				$typolinkConf = $tableConf['fieldLink.'][$fieldname.'.'];
 			} else {
-				$typolinkConf = array();
+				$typolinkConf = [];
 			}
 			$typolinkConf['parameter'] = ($dirname != '' ? $dirname . '/' : '') . $dataFile;
 			$linkTxt = microtime();
@@ -131,8 +129,8 @@ class tx_ttproducts_field_datafield_view extends tx_ttproducts_field_base_view {
 		&$wrappedSubpartArray,
 		&$tagArray,
 		$theCode = '',
-		$basketExtra = array(),
-		$basketRecs = array(),
+		$basketExtra = [],
+		$basketRecs = [],
 		$id = '1'
 	) {
         $funcFieldname = $this->getFuncFieldname($row, $fieldname);
@@ -197,56 +195,10 @@ class tx_ttproducts_field_datafield_view extends tx_ttproducts_field_base_view {
                     strpos($value, $markerKey . '_LINK_' . $upperField) !== false &&
                     empty($wrappedSubpartArray[$keyMarker])
                 ) {
-                    $wrappedSubpartArray[$keyMarker] =  array('<!--', '-->');
+                    $wrappedSubpartArray[$keyMarker] =  ['<!--', '-->'];
                 }
             }
         }
-
-
-// 		if (isset($row[$fieldname])) {
-// 			$dirname = $this->getModelObj()->getDirname($row, $fieldname);
-// 			$dataFileArray = GeneralUtility::trimExplode(',', $row[$fieldname]);
-// 			$upperField = strtoupper($fieldname);
-// 
-// 			if (count($dataFileArray) && $dataFileArray[0]) {
-// 				foreach ($dataFileArray as $k => $dataFile) {
-// 
-// 					$marker = $markerKey . '_LINK_' . $upperField . ($k+1);
-// 					$this->getLinkArray(
-// 						$wrappedSubpartArray,
-// 						$tagArray,
-// 						$marker,
-// 						$dirname,
-// 						$dataFile,
-// 						$fieldname,
-// 						$tableConf
-// 					);
-// 				}
-// 				$marker = $markerKey.'_LINK_'.$upperField;
-// 
-// 				$this->getLinkArray(
-// 					$wrappedSubpartArray,
-// 					$tagArray,
-// 					$marker,
-// 					$dirname,
-// 					$dataFileArray[0],
-// 					$fieldname,
-// 					$tableConf
-// 				);
-// 
-// 	// 			$wrappedSubpartArray[$marker] = array('<a href="'.$dirname.'/'.$dataFileArray[0].'">','</a>');
-// 			}
-// 		}
-// 
-// 		if ($upperField != '') {
-//             // empty all image fields with no available image
-//             foreach ($tagArray as $value => $k1) {
-//                 $keyMarker = '###'.$value.'###';
-//                 if (strpos($value, $markerKey . '_LINK_' . $upperField) !== false && !$wrappedSubpartArray[$keyMarker]) {
-//                     $wrappedSubpartArray[$keyMarker] =  array('<!--','-->');
-//                 }
-//             }
-//         }
 	}
 
 
