@@ -38,7 +38,7 @@
 
 
 class tx_ttproducts_variant_dummy implements tx_ttproducts_variant_int, \TYPO3\CMS\Core\SingletonInterface {
-	private $selectableArray = array();
+	private $selectableArray = [];
 	public $conf;	// reduced local conf
 
 	/**
@@ -103,7 +103,7 @@ class tx_ttproducts_variant_dummy implements tx_ttproducts_variant_int, \TYPO3\C
 	public function getVariantFromRawRow ($row) {
 	}
 
-	public function getVariantRow($row = '', $varianArray = array()) {
+	public function getVariantRow($row = '', $varianArray = []) {
 	}
 
 	public function getTableUid ($table, $uid) {
