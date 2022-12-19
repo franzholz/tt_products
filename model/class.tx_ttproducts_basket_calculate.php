@@ -229,7 +229,7 @@ class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterfa
 		} else if (!isset($shippingTax)) {
 			$shippingTax = $maxTax;
 		}
-		$shippingRow = array('tax' => floatval($shippingTax));
+		$shippingRow = ['tax' => floatval($shippingTax)];
 
 		if (
 			isset($itemArray) &&
@@ -632,12 +632,12 @@ class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterfa
 
 			if ($conf['TAXmode'] == '1') {
 				$controlCalcArray =
-					array(
+					[
 						'priceTax' => 'priceNoTax',
 						'price0Tax' => 'price0NoTax',
 						'price2Tax' => 'price2NoTax',
 						'deposittax' => 'depositnotax'
-					);
+					];
 
 				$taxRow = [];
 				foreach ($controlCalcArray as $keyTax => $keyNoTax) {
@@ -667,7 +667,7 @@ class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterfa
 					}
 				}
 
-				$controlCatCalcCatArray = array('categoryPriceTax' => 'categoryPriceNoTax');
+				$controlCatCalcCatArray = ['categoryPriceTax' => 'categoryPriceNoTax'];
 				foreach ($controlCatCalcCatArray as $keyTax => $keyNoTax) {
 					$priceTaxArray = [];
 					$priceTax = 0;
@@ -724,7 +724,7 @@ class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterfa
 		} else if ($paymentTax == '') {
 			$paymentTax = $maxTax;
 		}
-		$paymentRow = array('tax' => floatval($paymentTax));
+		$paymentRow = ['tax' => floatval($paymentTax)];
 
 		PaymentShippingHandling::getHandlingData(
 			$basketExtra,
@@ -784,9 +784,9 @@ class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterfa
 	// Todo: consider the $roundFormat parameter .XXXXXXXXXX
 		$calculatedArray = $this->getCalculatedArray();
 		$baseCountryArray =
-			array(
+			[
 				'ALL'
-			);
+			];
 		if ($getShopCountryCode != '') {
 			$baseCountryArray[] = $getShopCountryCode;
 		}

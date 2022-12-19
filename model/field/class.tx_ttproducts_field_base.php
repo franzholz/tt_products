@@ -61,8 +61,8 @@ abstract class tx_ttproducts_field_base implements tx_ttproducts_field_int, \TYP
 		&$taxInfoArray,
 		array $row,
 		$fieldname,
-		$basketExtra = array(),
-		$basketRecs = array(),
+		$basketExtra = [],
+		$basketRecs = [],
 		$bEnableTaxZero = false
 	) {
 		$result = false;

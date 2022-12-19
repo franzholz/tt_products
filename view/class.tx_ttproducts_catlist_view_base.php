@@ -184,9 +184,6 @@ abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\Single
 		ksort($catArray);
 	}
 
-// if (is_array($rootArray) && count($rootArray)) {
-// 		$catArray[(int) $depth] = $rootArray;
-// 	}
 
 	public function getTableConfArray () {
 		return $this->tableConfArray;
@@ -296,7 +293,7 @@ abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\Single
 			$browseObj->init(
 				$conf,
 				$piVars,
-				array(),
+				[],
 				false,	// no autocache used yet
 				tx_ttproducts_control_pibase::$pi_USER_INT_obj,
 				$resCount,
@@ -372,7 +369,7 @@ abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\Single
 		$ctrlArray['bUseBrowser'] = false;
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 
-		$functableArray = array($functablename);
+		$functableArray = [$functablename];
 		$tableConfArray = [];
 		$viewConfArray = [];
 		$searchVars = $piVars[tx_ttproducts_model_control::getSearchboxVar()];

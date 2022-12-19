@@ -67,7 +67,7 @@ class tx_ttproducts_edit_variant implements \TYPO3\CMS\Core\SingletonInterface {
 
 	public function getFieldArray () {
 
-		$result = array();
+		$result = [];
 		$cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$conf = $cnfObj->conf;
 
@@ -98,7 +98,7 @@ class tx_ttproducts_edit_variant implements \TYPO3\CMS\Core\SingletonInterface {
 
 	public function getVariantFromRawRow ($row) {
 		$fieldArray = $this->getFieldArray();
-		$variantArray = array();
+		$variantArray = [];
 
 		foreach ($row as $field => $value) {
 			if (in_array($field, $fieldArray)) {
@@ -155,7 +155,7 @@ class tx_ttproducts_edit_variant implements \TYPO3\CMS\Core\SingletonInterface {
 				case 'wwwURL':
 					if ($dataValue) {
 						$url = 'http://' . $dataValue;
-						$report = array();
+						$report = [];
 
 						if (
 							!GeneralUtility::isValidUrl($url) ||
@@ -176,9 +176,9 @@ class tx_ttproducts_edit_variant implements \TYPO3\CMS\Core\SingletonInterface {
 	public function checkValid (array $config, array $row) {
 
 		$result = true;
-		$checkedArray = array();
-		$rowConfig = array();
-		$resultArray = array();
+		$checkedArray = [];
+		$rowConfig = [];
+		$resultArray = [];
 
 		foreach ($config as $k => $rowConfig) {
 
@@ -277,7 +277,7 @@ class tx_ttproducts_edit_variant implements \TYPO3\CMS\Core\SingletonInterface {
 					}
 
 					if ($bIsValid) {
-						$mergeKeyArray = array('params');
+						$mergeKeyArray = ['params'];
 						if (isset($defaultConfig) && is_array($defaultConfig)) {
 							foreach ($defaultConfig as $k2 => $config2) {
 								if (in_array($k2, $mergeKeyArray)) {

@@ -98,7 +98,7 @@ class tx_ttproducts_address extends tx_ttproducts_category_base {
 		$rootUids = '',
 		$allowedCats = ''
 	) {
-		$relationArray = array();
+		$relationArray = [];
 		$rootArray = GeneralUtility::trimExplode(',', $rootUids);
 
 		if (is_array($dataArray)) {
@@ -115,7 +115,7 @@ class tx_ttproducts_address extends tx_ttproducts_category_base {
 				if (strpos($labelField, 'userFunc:') !== false) {
 					$pos = strpos($labelField, ':');
 					$labelFunc = substr($labelField, $pos + 1);
-					$params = array('table' => $this->getTablename(), 'row' => $row);
+					$params = ['table' => $this->getTablename(), 'row' => $row];
 					$label = GeneralUtility::callUserFunction($labelFunc, $params, $this);
 				} else {
 					$label = $row[$labelField];
@@ -132,7 +132,7 @@ class tx_ttproducts_address extends tx_ttproducts_category_base {
 
 
 	public function fetchAddressArray ($itemArray) {
-		$result = array();
+		$result = [];
 
 		foreach ($itemArray as $sort => $actItemArray) {
 			foreach ($actItemArray as $k1 => $actItem) {

@@ -41,10 +41,10 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_card extends tx_ttproducts_table_base {
 	var $ccArray;	// credit card data
-	var $allowedArray = array(); // allowed uids of credit cards
-	var $inputFieldArray = array('cc_type', 'cc_number_1','cc_number_2','cc_number_3', 'cc_number_4', 'owner_name', 'cvv2', 'endtime_mm', 'endtime_yy');
-	var $sizeArray = array('cc_type' => 4, 'cc_number_1' => 4,'cc_number_2' => 4,'cc_number_3' => 4, 'cc_number_4' => 4, 'owner_name' => 0, 'cvv2' => 4, 'endtime_mm' => 2, 'endtime_yy'  => 2);
-	var $asteriskArray = array(2 => '**', 4 => '****');
+	var $allowedArray = []; // allowed uids of credit cards
+	var $inputFieldArray = ['cc_type', 'cc_number_1','cc_number_2','cc_number_3', 'cc_number_4', 'owner_name', 'cvv2', 'endtime_mm', 'endtime_yy'];
+	var $sizeArray = ['cc_type' => 4, 'cc_number_1' => 4,'cc_number_2' => 4,'cc_number_3' => 4, 'cc_number_4' => 4, 'owner_name' => 0, 'cvv2' => 4, 'endtime_mm' => 2, 'endtime_yy'  => 2];
+	var $asteriskArray = [2 => '**', 4 => '****'];
 
 
 	public function init ($functablename) {
@@ -79,7 +79,7 @@ class tx_ttproducts_card extends tx_ttproducts_table_base {
 
 			$ccArray = tx_ttproducts_control_session::readSession('cc');
 			if (!$ccArray) {
-				$ccArray = array();
+				$ccArray = [];
 			}
 
 			$allowedTags = '';
@@ -133,14 +133,14 @@ class tx_ttproducts_card extends tx_ttproducts_table_base {
 		if ($ccArray['cc_number_1'] && $GLOBALS['TSFE']->sys_page->getPage_noCheck($pid)) {
 			$time = time();
 			$timeArray =
-				array(
+				[
 					'hour' => 0, // hour
 					'minute' => 0, // minute
 					'second' => 0, // second
 					'month' => intval($ccArray['endtime_mm']), // month
 					'day' => 28, // day
 					'year' => intval($ccArray['endtime_yy']) // year
-				);
+				];
 			$endtime = mktime ($timeArray['hour'], $timeArray['minute'], $timeArray['second'], $timeArray['month'], $timeArray['day'], $timeArray['year']);
 
 			if (!empty($GLOBALS['TYPO3_CONF_VARS']['SYS']['serverTimeZone'])) {
@@ -178,7 +178,7 @@ class tx_ttproducts_card extends tx_ttproducts_table_base {
                         }
                     }
 				}
-				$fieldArray = array('cc_type', 'owner_name', 'cvv2');
+				$fieldArray = ['cc_type', 'owner_name', 'cvv2'];
 
 				foreach ($fieldArray as $k => $field) {
 					if (isset($ccArray[$field]) && strcmp($ccArray[$field], $this->asteriskArray[$this->sizeArray[$field]]) == 0) {
@@ -195,14 +195,14 @@ class tx_ttproducts_card extends tx_ttproducts_table_base {
 				}
 
 				$timeArray =
-					array(
+					[
 						'hour' => 0, // hour
 						'minute' => 0, // minute
 						'second' => 0, // second
 						'month' => intval($ccArray['endtime_mm']), // month
 						'day' => 28, // day
 						'year' => intval($ccArray['endtime_yy']) // year
-					);
+					];
 				$endtime = mktime($timeArray['hour'], $timeArray['minute'], $timeArray['second'], $timeArray['month'], $timeArray['day'], $timeArray['year']);
 
 				if (!empty($GLOBALS['TYPO3_CONF_VARS']['SYS']['serverTimeZone'])) {
@@ -238,7 +238,7 @@ class tx_ttproducts_card extends tx_ttproducts_table_base {
 
 
 	public function getRow ($uid, $bFieldArrayAll = false) {
-		$rcArray = array();
+		$rcArray = [];
 		if ($bFieldArrayAll) {
 			foreach ($this->inputFieldArray as $k => $field) {
 				$rcArray[$field] = '';

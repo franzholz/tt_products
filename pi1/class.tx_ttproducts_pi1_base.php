@@ -68,9 +68,9 @@ class tx_ttproducts_pi1_base extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin i
 		tx_ttproducts_model_control::setPrefixId($this->prefixId);
 
 		$this->conf = $conf;
-		$config = array();
+		$config = [];
 		$mainObj = GeneralUtility::makeInstance('tx_ttproducts_main');	// fetch and store it as persistent object
-		$errorCode = array();
+		$errorCode = [];
 		$bDoProcessing =
 			$mainObj->init(
 				$conf,

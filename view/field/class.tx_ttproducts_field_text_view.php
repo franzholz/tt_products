@@ -64,7 +64,7 @@ class tx_ttproducts_field_text_view extends tx_ttproducts_field_base_view {
 		$linkWrap = false,
 		$bEnableTaxZero = false
 	) {
-		$htmlentitiesArray = array();
+		$htmlentitiesArray = [];
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$tableconf = $cnf->getTableConf($functablename, $theCode);
 

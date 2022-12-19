@@ -139,7 +139,7 @@ class tx_ttproducts_pid_list {
 			// get pid-list if recursivity is enabled
 			$recursive = intval($recursive);
 			$this->recursive = $recursive;
-			$pidSubArray = array();
+			$pidSubArray = [];
 
 			$pid_list_arr = explode(',', $pid_list);
 			foreach ($pid_list_arr as $val) {

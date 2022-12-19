@@ -67,7 +67,7 @@ class TransactorListener {
         }
 
         $callingClassName3 = \TYPO3\CMS\Core\Core\Bootstrap::class;
-        $bootStrap = call_user_func(array($callingClassName3, 'getInstance'));
+        $bootStrap = call_user_func([$callingClassName3, 'getInstance']);
         $bootStrap->loadExtensionTables(true);
 
         if ($GLOBALS['LANG'] === null) {
@@ -81,12 +81,12 @@ class TransactorListener {
         $referenceId = $transactionRow['reference'];
 
         $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tt_products.'];
-        $config = array();
+        $config = [];
         $config['LLkey'] = '';
         $errorCode = '';
 
         $cObj = FrontendUtility::getContentObjectRenderer(
-            array(),
+            [],
             'tt_products'
         );
 
@@ -115,7 +115,7 @@ class TransactorListener {
                 $cObj,
                 '',
                 $errorCode,
-                array(),
+                [],
                 $basketRec
             );
 
@@ -140,8 +140,8 @@ class TransactorListener {
         if ($orderUid && $referenceId) {
 
             if (isset($orderRow) && is_array($orderRow) && $orderRow['hidden']) {
-                $calculatedArray = array();
-                $infoArray = array();
+                $calculatedArray = [];
+                $infoArray = [];
 
                 $itemArray = $orderObj->getItemArray(
                     $orderRow,
@@ -159,7 +159,7 @@ class TransactorListener {
                 $addressObj = $tablesObj->get('address', false);
 
                 $addressArray = $addressObj->fetchAddressArray($itemArray);
-                $mainMarkerArray = array();
+                $mainMarkerArray = [];
                 $mainMarkerArray['###MESSAGE_PAYMENT_SCRIPT###'] = '';
 
                 if (
@@ -204,7 +204,7 @@ class TransactorListener {
                     $errorMessage = '';
                     $basketView = GeneralUtility::makeInstance('tx_ttproducts_basket_view');
                     $basketView->init(
-                        array(),
+                        [],
                         $conf['useArtcles'],
                         $errorCode
                     );

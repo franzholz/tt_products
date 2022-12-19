@@ -117,7 +117,7 @@ class tx_ttproducts_pdf_view {
 					// loop over all items in the basket indexed by sorting text
 					foreach ($itemArray as $sort => $actItemArray) {
 						foreach ($actItemArray as $k1 => $actItem) {
-							$extArray = array();
+							$extArray = [];
 							$lineCount++;
 							$row = $actItem['rec'];
 
@@ -141,7 +141,7 @@ class tx_ttproducts_pdf_view {
 								isset($extArray['records']) &&
 								is_array($extArray['records'])
 							) {
-								$newTitleArray = array();
+								$newTitleArray = [];
 								$externalRowArray = $extArray['records'];
 
 								foreach ($externalRowArray as $tablename => $externalRow) {
@@ -206,8 +206,8 @@ class tx_ttproducts_pdf_view {
 					}
 
 					$document->setValue('pricetaxtotal', $priceViewObj->priceFormat($calculatedArray['priceTax']['total']['ALL']));
-					$typeArray = array('payment', 'shipping');
-					$fieldArray = array('title', 'price');
+					$typeArray = ['payment', 'shipping'];
+					$fieldArray = ['title', 'price'];
 					foreach ($typeArray as $type) {
 						foreach ($fieldArray as $field) {
 							$value = '';

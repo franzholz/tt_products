@@ -47,16 +47,16 @@ call_user_func(function () {
     if ($bSelectTaxMode) {
         $whereTaxCategory = \TYPO3\CMS\Backend\Utility\BackendUtility::BEenableFields('static_tax_categories');
 
-        $temporaryColumns = array ();
-        $addFields = array();
+        $temporaryColumns = [];
+        $addFields = [];
         $newFields = '';
         $firstField = '';
 
         if (\TYPO3\CMS\Core\Utility\GeneralUtility::inList($taxFields, 'taxcat_id')) {
-            $temporaryColumns['taxcat_id'] = array(
+            $temporaryColumns['taxcat_id'] = [
                 'exclude' => '0',
                 'label' => 'LLL:EXT:' . STATIC_INFO_TABLES_TAXES_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:static_tax_categories',
-                'config' => array(
+                'config' => [
                     'size' => 30,
                     'minitems' => 0,
                     'maxitems' => 100,
@@ -65,41 +65,41 @@ call_user_func(function () {
                     'foreign_table' => 'static_tax_categories',
                     'foreign_table_where' => $whereTaxCategory . ' ORDER BY static_tax_categories.uid',
                     'MM' => 'tt_products_products_mm_tax_categories',
-                    'treeConfig' => array(
+                    'treeConfig' => [
                         'parentField' => 'parentid',
-                        'appearance' => array(
+                        'appearance' => [
                             'expandAll' => 0,
                             'showHeader' => true,
                             'maxLevels' => 99,
-                        )
-                    ),
+                        ]
+                    ],
                     'exclude' => 1,
                     'default' => 0
-                )
-            );
+                ]
+            ];
             $addFields[] = 'taxcat_id';
             $firstField = 'taxcat_id';
         }
 
 
         if (\TYPO3\CMS\Core\Utility\GeneralUtility::inList($taxFields, 'tax_id')) {
-            $temporaryColumns['tax_id'] = array(
+            $temporaryColumns['tax_id'] = [
                 'exclude' => 0,
                 'label' => 'LLL:EXT:' . STATIC_INFO_TABLES_TAXES_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:static_taxes.tx_rate_id',
-                'config' => array (
+                'config' => [
                     'type' => 'select',
                     'renderType' => 'selectSingle',
-                    'items' => array (
-                        array('LLL:EXT:' . STATIC_INFO_TABLES_TAXES_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:static_taxes.tx_rate_id.I.0', '0'),
-                        array('LLL:EXT:' . STATIC_INFO_TABLES_TAXES_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:static_taxes.tx_rate_id.I.1', '1'),
-                        array('LLL:EXT:' . STATIC_INFO_TABLES_TAXES_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:static_taxes.tx_rate_id.I.2', '2'),
-                        array('LLL:EXT:' . STATIC_INFO_TABLES_TAXES_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:static_taxes.tx_rate_id.I.3', '3'),
-                        array('LLL:EXT:' . STATIC_INFO_TABLES_TAXES_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:static_taxes.tx_rate_id.I.4', '4'),
-                        array('LLL:EXT:' . STATIC_INFO_TABLES_TAXES_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:static_taxes.tx_rate_id.I.5', '5'),
-                    ),
+                    'items' => [
+                        ['LLL:EXT:' . STATIC_INFO_TABLES_TAXES_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:static_taxes.tx_rate_id.I.0', '0'],
+                        ['LLL:EXT:' . STATIC_INFO_TABLES_TAXES_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:static_taxes.tx_rate_id.I.1', '1'],
+                        ['LLL:EXT:' . STATIC_INFO_TABLES_TAXES_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:static_taxes.tx_rate_id.I.2', '2'],
+                        ['LLL:EXT:' . STATIC_INFO_TABLES_TAXES_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:static_taxes.tx_rate_id.I.3', '3'],
+                        ['LLL:EXT:' . STATIC_INFO_TABLES_TAXES_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:static_taxes.tx_rate_id.I.4', '4'],
+                        ['LLL:EXT:' . STATIC_INFO_TABLES_TAXES_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:static_taxes.tx_rate_id.I.5', '5'],
+                    ],
                     'default' => 0
-                )
-            );
+                ]
+            ];
 
             $addFields[] = 'tax_id';
             if ($firstField == '') {
@@ -138,10 +138,10 @@ call_user_func(function () {
 
     switch ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['articleMode']) {
         case '1':
-            $GLOBALS['TCA'][$table]['columns']['article_uid'] = array (
+            $GLOBALS['TCA'][$table]['columns']['article_uid'] = [
                 'exclude' => 1,
                 'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.article_uid',
-                'config' => array (
+                'config' => [
                     'type' => 'group',
                     'internal_type' => 'db',
                     'allowed' => 'tt_products_articles',
@@ -153,8 +153,8 @@ call_user_func(function () {
                     'minitems' => 0,
                     'maxitems' => 1000,
                     'default' => 0
-                )
-            );
+                ]
+            ];
             break;
         case '2':
             // leave the settings of article_uid
@@ -184,7 +184,7 @@ call_user_func(function () {
 
         if (
             !empty($orderBySortingTablesArray) &&
-            in_array('sys_category', $orderBySortingTablesArray)
+            in_['sys_category', $orderBySortingTablesArray)
         ) {
             $sysCategoryOrderBy = 'sys_category.sorting ASC';
         }
@@ -223,56 +223,56 @@ call_user_func(function () {
     // TODO.
     $palleteAddition = '';
 
-    $GLOBALS['TCA'][$table]['columns']['image_uid'] = array (
+    $GLOBALS['TCA'][$table]['columns']['image_uid'] = [
         'exclude' => 1,
         'label' => DIV2007_LANGUAGE_LGL . 'image',
         'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
             'image_uid',
-            array(
-                'appearance' => array(
+            [
+                'appearance' => [
                     'createNewRelationLinkTitle' => 'LLL:EXT:cms/locallang_ttc.xlf:images.addFileReference',
                     'collapseAll' => true,
-                ),
-                'foreign_types' => array(
-                    '0' => array(
+                ],
+                'foreign_types' => [
+                    '0' => [
                         'showitem' => '
                             --palette--;' . DIV2007_LANGUAGE_PATH . 'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
                             --palette--;;filePalette' . $palleteAddition
-                    ),
-                    \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => array(
+                    ],
+                    \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => [
                         'showitem' => '
                             --palette--;' . DIV2007_LANGUAGE_PATH . 'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
                             --palette--;;filePalette' . $palleteAddition
-                    ),
-                )
-            ),
+                    ],
+                ]
+            ],
             $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']
         )
     );
 
-    $GLOBALS['TCA'][$table]['columns']['smallimage_uid'] = array (
+    $GLOBALS['TCA'][$table]['columns']['smallimage_uid'] = [
         'exclude' => 1,
         'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.smallimage',
         'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
             'smallimage_uid',
-            array(
-                'appearance' => array(
+            [
+                'appearance' => [
                     'createNewRelationLinkTitle' => 'LLL:EXT:cms/locallang_ttc.xlf:images.addFileReference',
                     'collapseAll' => true,
-                ),
-                'foreign_types' => array(
-                    '0' => array(
+                ],
+                'foreign_types' => [
+                    '0' => [
                         'showitem' => '
                             --palette--;' . DIV2007_LANGUAGE_PATH . 'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
                             --palette--;;filePalette' . $palleteAddition
-                    ),
-                    \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => array(
+                    ],
+                    \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => [
                         'showitem' => '
                             --palette--;' . DIV2007_LANGUAGE_PATH . 'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
                             --palette--;;filePalette' . $palleteAddition
-                    ),
-                )
-            ),
+                    ],
+                ]
+            ],
             $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']
         )
     );
@@ -358,7 +358,7 @@ call_user_func(function () {
     $orderBySortingTablesArray = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['orderBySortingTables']);
     if (
         !empty($orderBySortingTablesArray) &&
-        in_array($table, $orderBySortingTablesArray)
+        in_[$table, $orderBySortingTablesArray)
     ) {
         $GLOBALS['TCA'][$table]['ctrl']['sortby'] = 'sorting';
     }

@@ -78,7 +78,7 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base {
 		'discountbyproductwnotax',
 	);
 
-	static protected $convertArray = array(
+	static protected $convertArray = [
 		'tax' => 'priceTax',
 		'notax' => 'priceNoTax',
 		'0tax' => 'price0Tax',
@@ -91,8 +91,8 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base {
 		'unotax' => 'priceUnitNoTax',
 		'wtax' => 'priceWeightUnitTax',
 		'wnotax' => 'priceWeightUnitNoTax',
-	);
-	static protected $fieldConvertArray = array(
+	];
+	static protected $fieldConvertArray = [
 		'tax' => 'pricetax',
 		'notax' => 'pricenotax',
 		'onlytax' => 'priceonlytax',
@@ -107,9 +107,9 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base {
 		'wnotax' => 'weightunitpricenotax',
 		'skontotax' => 'pricetaxdiscount',
 		'skontonotax' => 'pricenotaxdiscount',
-	);
+	];
 
-	static protected $fieldKeepArray = array(
+	static protected $fieldKeepArray = [
 		'taxperc',
 		'calc',
 		'skontotaxperc',
@@ -122,7 +122,7 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base {
 		'surchargenotax',
 		'surcharge2tax',
 		'surcharge2notax',
-	);
+	];
 
 
 	public function preInit ($priceConf) {
@@ -467,7 +467,7 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base {
         $notOverwritePriceIfSet = true
 	) {
 		$internalRow = $row;
-		$priceArray = array();
+		$priceArray = [];
 		$bIsZeroTax = false;
 
         if (
@@ -807,7 +807,7 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base {
 					$priceArray[$priceNum . 'skontotax'],
 					$priceArray[$priceNum . 'skontotaxperc']
 				);
-			} else if (in_array($fieldname, array('directcost', 'deposit'))) {
+			} else if (in_array($fieldname, ['directcost', 'deposit'])) {
 				$priceArray[$fieldname . 'tax'] =
 					$this->getPrice(
 						$basketExtra,
@@ -865,7 +865,7 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base {
 
 
 	static public function convertOldPriceArray ($row) {
-		$result = array();
+		$result = [];
 
 		foreach (self::$convertArray as $newField => $oldField) {
 			if (isset($row[$newField])) {
@@ -877,7 +877,7 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base {
 
 
 	static public function convertNewPriceArray ($row) {
-		$result = array();
+		$result = [];
 
 		foreach (self::$convertArray as $newField => $oldField) {
 			if (isset($row[$oldField])) {
@@ -888,7 +888,7 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base {
 	}
 
 	static public function getWithoutTaxedPrices ($record) {
-		$newRecord = array();
+		$newRecord = [];
 		foreach ($record as $field => $value) {
 			$hasTax = strpos($field, 'tax');
 			if (!$hasTax) {

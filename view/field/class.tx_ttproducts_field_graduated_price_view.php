@@ -53,7 +53,7 @@ class tx_ttproducts_field_graduated_price_view extends tx_ttproducts_field_base_
 		&$wrappedSubpartArray,
 		$tagArray,
 		$theCode = '',
-		$basketExtra = array(),
+		$basketExtra = [],
 		$basketRecs,
 		$id = '1'
 	) {

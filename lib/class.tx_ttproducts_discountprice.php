@@ -115,8 +115,8 @@ class tx_ttproducts_discountprice extends tx_ttproducts_pricecalc_base implement
 
 		$additive = 0;
 		$countTotal = 0;
-		$countedItems = array();
-		$newPriceItems = array();
+		$countedItems = [];
+		$newPriceItems = [];
 
 		ksort($conf);
 		$calctype = '';
@@ -213,7 +213,7 @@ class tx_ttproducts_discountprice extends tx_ttproducts_pricecalc_base implement
 								}
 								$prodConfArray = $prodConf;
 								krsort($prodConfArray);
-								$countedItems[$k1][] = array('sort' => $sort, 'item' => $k2, 'active' => false, 'price' => '');	// collect the not yet active items
+								$countedItems[$k1][] = ['sort' => $sort, 'item' => $k2, 'active' => false, 'price' => ''];	// collect the not yet active items
 
 								foreach ($prodConfArray as $k3 => $v3) {
 									if ($k3 === 'type') {
@@ -268,12 +268,12 @@ class tx_ttproducts_discountprice extends tx_ttproducts_pricecalc_base implement
 								(!$uid || $row['uid'] == $uid)
 							) {
 								$countedItems[$k1][] =
-									array(
+									[
 										'sort' => $sort,
 										'item' => $k2,
 										'active' => false,
 										'price' => ''
-									);
+									];
 							}
 						break;
 						case 'price':
@@ -304,7 +304,7 @@ class tx_ttproducts_discountprice extends tx_ttproducts_pricecalc_base implement
 								if ($prodType == 'percent') {
 									$prodValue = ($taxIncluded ? $actItem['priceTax'] : $actItem['priceNoTax']) * (1 - $prodValue / 100);
 								}
-								$newPriceItems[$k1][] = array('sort' => $sort, 'item' => $k2, 'price' => $prodValue);
+								$newPriceItems[$k1][] = ['sort' => $sort, 'item' => $k2, 'price' => $prodValue];
 							}
 						break;
 						case 'value':
@@ -361,7 +361,7 @@ class tx_ttproducts_discountprice extends tx_ttproducts_pricecalc_base implement
 									}
 
 									if ($bRangeValid) {
-										$newPriceItems[$k1][] = array('sort' => $sort, 'item' => $k2, 'price' => $priceValue, 'add' => $bAdd);
+										$newPriceItems[$k1][] = ['sort' => $sort, 'item' => $k2, 'price' => $priceValue, 'add' => $bAdd];
 									}
 								}
 							}
@@ -378,7 +378,7 @@ class tx_ttproducts_discountprice extends tx_ttproducts_pricecalc_base implement
 
 						if (is_array($countedItems[$k1])) {
 							$additionalCount = 0;
-							$activateArray = array();
+							$activateArray = [];
 
 							foreach ($countedItems[$k1] as $k2 => $countedItemsRow) {
 								if ($countedItemsRow['active'] === false) {

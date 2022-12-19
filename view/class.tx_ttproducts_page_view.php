@@ -41,7 +41,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
 class tx_ttproducts_page_view extends tx_ttproducts_category_base_view {
-	var $noteArray = array(); 	// array of pages with notes
+	var $noteArray = []; 	// array of pages with notes
 	var $piVar = 'pid';
 	var $pageAsCategory;		// > 0 if pages are used as categories
 
@@ -65,7 +65,7 @@ class tx_ttproducts_page_view extends tx_ttproducts_category_base_view {
 		$imageNum=0,
 		$imageRenderObj = 'image',
 		&$viewCatTagArray,
-		$forminfoArray = array(),
+		$forminfoArray = [],
 		$pageAsCategory = 0,
 		$theCode,
 		$basketExtra,

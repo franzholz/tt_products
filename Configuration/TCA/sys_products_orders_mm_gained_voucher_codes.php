@@ -18,12 +18,12 @@ $result = array (
         'iconfile' => PATH_TTPRODUCTS_ICON_TABLE_REL . 'tt_products_relations.gif',
         'hideTable' => true,
     ),
-    'types' => array(
-        '0' => array(
+    'types' => [
+        '0' => [
             'showitem' => ''
-        )
-    ),
-    'columns' => array()
+        ]
+    ],
+    'columns' => []
 );
 
 

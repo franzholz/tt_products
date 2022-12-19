@@ -39,7 +39,7 @@
 
 
 class tx_ttproducts_field_creditpoints_view extends tx_ttproducts_field_base_view {
-	protected $addedFieldArray = array('creditpoints_missing', 'creditpoints_remaining');
+	protected $addedFieldArray = ['creditpoints_missing', 'creditpoints_remaining'];
 
 	public function modifyItemSubpartRow ($fieldname, $row, &$addedFieldArray) {
 		$modelObj = $this->getModelObj();
@@ -75,7 +75,7 @@ class tx_ttproducts_field_creditpoints_view extends tx_ttproducts_field_base_vie
 		$linkWrap = false,
 		$bEnableTaxZero = false
 	) {
-		$modifiedRow = array();
+		$modifiedRow = [];
 		$value =
 			$this->getModelObj()->getFieldValue(
 				$dummy,

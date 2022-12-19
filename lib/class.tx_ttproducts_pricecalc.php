@@ -67,7 +67,7 @@ class tx_ttproducts_pricecalc extends tx_ttproducts_pricecalc_base {
 			if (!is_array($priceCalcTemp)) {
 				continue;
 			}
-			$countedItems = array();
+			$countedItems = [];
 			$pricefor1 = doubleval($priceCalcTemp['prod.']['1']);
 			$dumCount = 0;
 

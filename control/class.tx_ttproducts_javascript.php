@@ -46,7 +46,7 @@ class tx_ttproducts_javascript implements \TYPO3\CMS\Core\SingletonInterface {
 	public $bCopyrightShown;
 	public $copyright;
 	public $fixInternetExplorer;
-	private $bIncludedArray = array();
+	private $bIncludedArray = [];
 
 
 	public function init ($ajax) {
@@ -154,9 +154,9 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
 		$currentRecord = '',
 		$count = 0,
 		$catid = 'cat',
-		$parentFieldArray = array(),
-		$piVarArray = array(),
-		$fieldArray = array(),
+		$parentFieldArray = [],
+		$piVarArray = [],
+		$fieldArray = [],
 		$method = 'clickShow'
 	) {
 		$bDirectHTML = false;
@@ -175,7 +175,7 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
 
 		if (
 			!is_object($this->ajax) &&
-			in_array($fieldname, array('fetchdata'))
+			in_array($fieldname, ['fetchdata'])
 		) {
 			$fieldname = 'error';
 		}

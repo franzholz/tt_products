@@ -61,7 +61,7 @@ class tx_ttproducts_dam extends tx_ttproducts_article_base {
 		if ($result) {
 			$this->tableArray = &$tableArray;
 			$tableObj = $this->getTableObj();
-			$tableObj->addDefaultFieldArray(array('sorting' => 'sorting'));
+			$tableObj->addDefaultFieldArray(['sorting' => 'sorting']);
 
 			$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 			$tablename = $cnf->getTableName($functablename);
@@ -78,7 +78,7 @@ class tx_ttproducts_dam extends tx_ttproducts_article_base {
 		$type,
 		$orderBy = ''
 	) {
-		$rcArray = array();
+		$rcArray = [];
 		if ($type == 'products') {
 			$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 			$productTable = $tablesObj->get('tt_products', false);
@@ -185,7 +185,7 @@ class tx_ttproducts_dam extends tx_ttproducts_article_base {
 	}
 
 	public function addConfCat ($catObject, &$selectConf, $aliasArray) {
-		$tableNameArray = array();
+		$tableNameArray = [];
 
 			// Call all addWhere hooks for DAM categories at the end of this method
 		if (
@@ -207,7 +207,7 @@ class tx_ttproducts_dam extends tx_ttproducts_article_base {
 	}
 
 	public function addselectConfCat ($catObject, $cat, &$selectConf) {
-		$tableNameArray = array();
+		$tableNameArray = [];
 
 			// Call all addWhere hooks for DAM categories at the end of this method
 		if (
@@ -228,7 +228,7 @@ class tx_ttproducts_dam extends tx_ttproducts_article_base {
 	}
 
 	public function getPageUidsCat ($cat) {
-		$uidArray = array();
+		$uidArray = [];
 
 			// Call all addWhere hooks for DAM categories at the end of this method
 		if (

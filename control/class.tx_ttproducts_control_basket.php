@@ -406,7 +406,7 @@ class tx_ttproducts_control_basket {
 
 
 	static public function getCmdArray () {
-		$result = array('delete');
+		$result = ['delete'];
 
 		return $result;
 	}

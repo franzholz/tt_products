@@ -64,7 +64,7 @@ class tx_ttproducts_category_view extends tx_ttproducts_category_base_view {
 		$imageNum = 0,
 		$imageRenderObj = 'image',
 		&$viewCatTagArray,
-		$forminfoArray = array(),
+		$forminfoArray = [],
 		$pageAsCategory = 0,
 		$theCode,
 		$basketExtra,

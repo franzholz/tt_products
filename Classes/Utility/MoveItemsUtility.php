@@ -48,16 +48,16 @@ class MoveItemsUtility {
         $age
     ) {
         $result = true;
-        $infoArray = array();
+        $infoArray = [];
 
         if($currId && $destId) {
-            $infoArray['rows'] = array();
-            $fieldsArray = array();
+            $infoArray['rows'] = [];
+            $fieldsArray = [];
             $fieldsArray['pid'] = intval($destId);
             $day = 24 * 60 * 60;
             $time = time();
             $tstamplimit = $time - $age * $day;
-            $tableArray = array('tt_products', 'tt_products_articles');
+            $tableArray = ['tt_products', 'tt_products_articles'];
 
             foreach ($tableArray as $table) {
 

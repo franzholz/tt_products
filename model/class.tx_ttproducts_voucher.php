@@ -47,7 +47,7 @@ class tx_ttproducts_voucher extends tx_ttproducts_table_base {
 	protected $voucherCode;
 	protected $bValid = false;
 	protected $marker = 'VOUCHER';
-	protected $usedVoucherCodeArray = array();
+	protected $usedVoucherCodeArray = [];
 
 	/**
 	 * Getting all voucher codes into internal array
@@ -73,7 +73,7 @@ class tx_ttproducts_voucher extends tx_ttproducts_table_base {
 		return $result;
 	} // init
 
-	static public function generate (&$voucherCount = 0, &$codeArray = array(), $orderUid, $itemArray, $whereGift) {
+	static public function generate (&$voucherCount = 0, &$codeArray = [], $orderUid, $itemArray, $whereGift) {
 		$result = false;
 
 		if (class_exists('tx_voucher_api')) {
@@ -86,7 +86,7 @@ class tx_ttproducts_voucher extends tx_ttproducts_table_base {
 					) {
 						$count = intval($actItem['count']);
 						for ($i = 0; $i < $count; $i++) {
-							$voucherRow = array();
+							$voucherRow = [];
 							$voucherRow['hidden'] = '1';
 							$voucherRow['amount'] = $actItem['priceTax'];
 							$voucherRow['tax'] = $actItem['tax'];
@@ -96,7 +96,7 @@ class tx_ttproducts_voucher extends tx_ttproducts_table_base {
 							if ($inserted) {
 								$uid = $voucherRow['uid'];
 								$codeArray[] = $voucherRow['code'];
-								$newRow = array();
+								$newRow = [];
 								$newRow['crdate'] = $voucherRow['crdate'];
 								$newRow['tstamp'] = $voucherRow['tstamp'];
 								$newRow['uid_local'] = $orderUid;
@@ -144,7 +144,7 @@ class tx_ttproducts_voucher extends tx_ttproducts_table_base {
 
 	static public function unhideGifts (array &$uidArray, $orderRow, $whereGift) {
 		$result = false;
-		$uidArray = array();
+		$uidArray = [];
 
 		if ($orderRow['gained_voucher'] > 0) {
 			$table = 'sys_products_orders_mm_gained_voucher_codes';
@@ -161,7 +161,7 @@ class tx_ttproducts_voucher extends tx_ttproducts_table_base {
 				$table = 'tx_voucher_codes';
 
 				foreach ($voucherRelationRows as $voucherRelationRow) {
-					$updateRow = array();
+					$updateRow = [];
 					$updateRow['hidden'] = '0';
 					$uid = intval($voucherRelationRow['uid_foreign']);
 					$uidArray[] = $uid;
@@ -326,7 +326,7 @@ class tx_ttproducts_voucher extends tx_ttproducts_table_base {
 				$voucherTable != 'fe_users' &&
 				!$row['reusable']
 			) {
-				$updateArray = array();
+				$updateArray = [];
 				$where = $whereGeneral;
 				if ($voucherTable == 'fe_users') {
 					$where = 'uid="' . $row['uid'] . '"';
@@ -369,15 +369,15 @@ class tx_ttproducts_voucher extends tx_ttproducts_table_base {
             $GLOBALS['TSFE']->fe_user->user['uid']
         ) {
 			$uid_voucher = '';
-			$voucherfieldArray = array();
+			$voucherfieldArray = [];
 			$whereGeneral = '';
 			$voucherTable = $this->getVoucherTableName();
             if ($voucherTable == 'fe_users') {
-                $voucherfieldArray = array('uid', 'tt_products_vouchercode');
+                $voucherfieldArray = ['uid', 'tt_products_vouchercode'];
                 $whereGeneral = $voucherTable . '.uid=' . intval($GLOBALS['TSFE']->fe_user->user['uid']);
                 $whereGeneral .= ' AND ' . $voucherTable . '.tt_products_vouchercode=' . $TYPO3_DB->fullQuoteStr($voucherCode, $voucherTable);
 			} else {
-				$voucherfieldArray = array('starttime', 'endtime', 'title', 'fe_users_uid', 'reusable', 'code', 'amount', 'amount_type', 'note');
+				$voucherfieldArray = ['starttime', 'endtime', 'title', 'fe_users_uid', 'reusable', 'code', 'amount', 'amount_type', 'note'];
 				$whereGeneral = '(fe_users_uid="' . intval($GLOBALS['TSFE']->fe_user->user['uid']) . '" OR fe_users_uid=0) ';
 				$whereGeneral .= 'AND code=' . $GLOBALS['TYPO3_DB']->fullQuoteStr($voucherCode, $voucherTable);
 			}

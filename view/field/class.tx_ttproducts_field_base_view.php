@@ -114,7 +114,7 @@ abstract class tx_ttproducts_field_base_view implements tx_ttproducts_field_view
 		$markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
 		$upperField = strtoupper($fieldname);
 		$templateAreaList = $markerKey . '_' . $upperField . '_LIST';
-		$t = array();
+		$t = [];
 		$t['listFrameWork'] = tx_div2007_core::getSubpart($templateCode, '###' . $templateAreaList . '###');
 		$templateAreaSingle = $markerKey . '_' . $upperField . '_SINGLE';
 		$t['singleFrameWork'] = tx_div2007_core::getSubpart($t['listFrameWork'], '###' . $templateAreaSingle . '###');
@@ -129,9 +129,9 @@ abstract class tx_ttproducts_field_base_view implements tx_ttproducts_field_view
 
 				$content = '';
 				foreach($valueArray as $key => $value) {
-					$repeatedMarkerArray = array();
-					$repeatedSubpartArray = array();
-					$repeatedWrappedSubpartArray = array();
+					$repeatedMarkerArray = [];
+					$repeatedSubpartArray = [];
+					$repeatedWrappedSubpartArray = [];
 
 					$resultRowMarker = $this->getRepeatedRowMarkerArray(
 						$repeatedMarkerArray,
@@ -174,9 +174,9 @@ abstract class tx_ttproducts_field_base_view implements tx_ttproducts_field_view
 
 				$newContent = tx_div2007_core::substituteMarkerArrayCached(
 					$t['listFrameWork'],
-					array(),
-					array('###' . $templateAreaSingle . '###' => $content),
-					array()
+					[],
+					['###' . $templateAreaSingle . '###' => $content],
+					[]
 				);
 			}
 		}

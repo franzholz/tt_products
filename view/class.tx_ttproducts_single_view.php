@@ -158,7 +158,7 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
 		}
 		$funcTablename = $itemTableArray[$this->type]->getFuncTablename();
 
-		$rowArray = array('product' => [], 'article' => [], 'dam' => []);
+		$rowArray = ['product' => [], 'article' => [], 'dam' => []];
 		$itemTableConf = $rowArray;
 		$itemTableLangFields = $rowArray;
 		$content = '';
@@ -367,11 +367,11 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
 				$wrappedSubpartArray
 			);
 			
-			$markerFieldArray = array(
+			$markerFieldArray = [
 				'BULKILY_WARNING' => 'bulkily',
 				'PRODUCT_SPECIAL_PREP' => 'special_preparation',
 				'PRODUCT_ADDITIONAL_SINGLE' => 'additional',
-				'PRODUCT_LINK_DATASHEET' => 'datasheet');
+				'PRODUCT_LINK_DATASHEET' => 'datasheet'];
 			$viewTagArray = [];
 			$parentArray = [];
 
@@ -386,7 +386,7 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
 			);
 
 			$articleViewTagArray = [];
-			if ($this->type == 'product' && in_array($useArticles, array(1, 3))) {
+			if ($this->type == 'product' && in_array($useArticles, [1, 3])) {
 				$markerFieldArray = [];
 				$articleParentArray = [];
 				$articleFieldsArray = $markerObj->getMarkerFields(
@@ -453,7 +453,7 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 			// $variant = $itemTableArray[$this->type]->variant->getFirstVariantRow();
 
-			$forminfoArray = array('###FORM_NAME###' => 'item_' . $this->uid);
+			$forminfoArray = ['###FORM_NAME###' => 'item_' . $this->uid];
 
 			if ($this->type == 'product' && \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('taxajax')) {
 
@@ -668,10 +668,10 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
                         $linkPid,
                         $queryString,
                         '', // no product parameter if it returns to the list view
-                        array('useCacheHash' => true)
+                        ['useCacheHash' => true]
                     );
 					$linkUrl = htmlspecialchars($linkUrl);
-					$wrappedSubpartArray['###LINK_ITEM###'] = array('<a class="singlelink" href="' . $linkUrl . '">', '</a>');
+					$wrappedSubpartArray['###LINK_ITEM###'] = ['<a class="singlelink" href="' . $linkUrl . '">', '</a>'];
 				}
 
 				if (isset($viewCatTagArray['LINK_CATEGORY'])) {
@@ -732,7 +732,7 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
 					);
 				}
 
-				if ($this->type == 'product' && in_array($useArticles, array(1, 3))) {
+				if ($this->type == 'product' && in_array($useArticles, [1, 3])) {
 					// get the article uid with these colors, sizes and gradings
 
 					$articleRow = $itemTableArray['product']->getArticleRow($row, 'SINGLE', true);
@@ -1059,7 +1059,6 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
                     )
                 );
 
-				// $markerArray = $this->marker->addURLMarkers($this->pid,$markerArray, array('tt_products' => $this->uid)); // Applied it here also...
 				$markerArray = $urlObj->addURLMarkers(
 					$pid,
 					$markerArray,
@@ -1220,9 +1219,9 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
                             $viewCatViewTable->getPivar()
                         ),
                         '',
-                        array(
+                        [
                             'useCacheHash' => true
-                        )
+                        ]
                     );
 
 					$wrappedSubpartArray['###LINK_PREV_SINGLE###'] =
@@ -1268,15 +1267,15 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
                             $viewCatViewTable->getPivar()
                         ),
                         '',
-                        array(
+                        [
                             'useCacheHash' => true
-                        )
+                        ]
                     );
 					$wrappedSubpartArray['###LINK_NEXT_SINGLE###'] =
-						array(
+						[
 							'<a href="' . htmlspecialchars($nextUrl) . '">',
 							'</a>'
-						);
+						];
 				} else {
 					$subpartArray['###LINK_NEXT_SINGLE###'] = '';
 				}
@@ -1357,20 +1356,6 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 				if ($listMarkerArray && is_array($listMarkerArray)) {
 					$quantityMarkerArray = [];
-
-// 					if ($this->type == 'dam') {
-// 						$itemArray = [];
-// 						$itemArray[] = $row;
-// 						$relatedListView->getQuantityMarkerArray(
-// 							$theCode,
-// 							$itemTableArray[$this->type]->getFuncTablename(),
-// 							$itemTableViewArray[$this->type]->getMarker(),
-// 							$itemArray,
-// 							$useArticles,
-// 							$quantityMarkerArray,
-// 							$mergeTagArray
-// 						);
-// 					}
 
 					foreach ($listMarkerArray as $marker => $markerValue) {
 						$markerValue = $parser->substituteMarkerArray($markerValue, $markerArray);

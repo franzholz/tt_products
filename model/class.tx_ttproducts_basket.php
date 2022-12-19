@@ -426,12 +426,12 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 
 				if ($validEditVariant !== true) {
 					$result[$row['uid']] =
-						array(
+						[
 							'rec' => $row,
 							'index1' => $sort,
 							'index2' => $k1,
 							'error' => $validEditVariant
-						);
+						];
 				}
 			}
 		}
@@ -853,7 +853,7 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 							$subExtArray = $extArray[$functablename];
 							if (isset($subExtArray) && is_array($subExtArray)) {
 								foreach ($functableRowArray as $subRow) {
-									$extItem = array('uid' => $subRow['uid']);
+									$extItem = ['uid' => $subRow['uid']];
 									if (in_array($extItem, $subExtArray)) {
 										$rc[$uid][$functablename][$subRow['uid']] = $actItem['count'];
 									}
@@ -1197,10 +1197,10 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 		$extTable = $funcTablename;
 		$extUid = $uid;
 		$extArray =
-			array(
+			[
 				'uid' => $extUid,
 				'vars' => $bextVars
-			);
+			];
 		$currRow['ext'][$extTable][] = $extArray;
 
 		foreach ($bextVarArray as $k => $bextVar) {
@@ -1213,7 +1213,7 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 				$extUid = intval($bextVarArray[$k + 1]);
 				$damObj = $tablesObj->get('tx_dam');
 				$damObj->modifyItemRow($currRow, $extUid);
-				$currRow['ext'][$extTable][] = array('uid' => $extUid);
+				$currRow['ext'][$extTable][] = ['uid' => $extUid];
 			}
 
 			if (strpos($bextVar, 'editVariant:') === 0) {
@@ -1265,7 +1265,7 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 		$currRow['ext']['extVarLine'] = $bextVarLine;
 
 		if (
-			in_array($useArticles, array(1, 3)) &&
+			in_array($useArticles, [1, 3]) &&
 			$funcTablename == 'tt_products'
 		) {
 			// get the article uid with these colors, sizes and gradings
@@ -1300,7 +1300,7 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 
 						// use the fields of the article instead of the product
 					// $viewTableObj->mergeAttributeFields($currRow, $articleRow, false, true); Preis wird sonst doppelt addiert!
-					$currRow['ext']['tt_products_articles'][] = array('uid' => $articleRow['uid']);
+					$currRow['ext']['tt_products_articles'][] = ['uid' => $articleRow['uid']];
 				}
 			}
 		} else if ($useArticles == 2) {

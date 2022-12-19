@@ -114,8 +114,8 @@ class CreateLanguagesWizardModuleFunctionController
                 'EXT:' . TT_PRODUCTS_EXT . '/Resources/Private/Templates/CreateLanguagesFinished.html'
             ));
             $createResult = false;
-            $errorLanguageCodeArray = array();
-            $infoArray = array();
+            $errorLanguageCodeArray = [];
+            $infoArray = [];
 
             if (
                 isset($_REQUEST['id'])
@@ -131,13 +131,13 @@ class CreateLanguagesWizardModuleFunctionController
             if (
                 $createResult
             ) {
-                $rows = array();
+                $rows = [];
                 if (isset($infoArray['rows'])) {
                     $rows = $infoArray['rows'];
                 }
                 $information = '';
 
-                $tableArray = array('tt_products_texts');
+                $tableArray = ['tt_products_texts'];
                 foreach ($tableArray as $table) {
                     if (
                         isset($rows[$table]) &&

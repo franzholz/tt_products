@@ -128,7 +128,7 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base {
 
 		if (is_array($this->getTableObj()->tableFieldArray[$instockField])) {
 			$uid = intval($uid);
-			$fieldsArray = array();
+			$fieldsArray = [];
 			$fieldsArray[$instockField] = $instockField.'-'.$count;
 			$res = $GLOBALS['TYPO3_DB']->exec_UPDATEquery($this->getTableObj()->name, 'uid=\'' . $uid . '\'', $fieldsArray, $instockField);
 		}
@@ -215,7 +215,7 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base {
 	public function getWhere ($where, $theCode = '', $orderBy = '') {
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$tableconf = $cnf->getTableConf($this->getFuncTablename(), $theCode);
-		$rc = array();
+		$rc = [];
 		$where = ($where ? $where : '1=1 ') . $this->getTableObj()->enableFields();
 
 		// Fetching the products
@@ -238,7 +238,7 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base {
 		$where = '';
 
 		$tableConf = $this->getTableConf($theCode);
-		$replaceConf = array();
+		$replaceConf = [];
 
 		$bUseLanguageTable = $this->bUseLanguageTable($tableConf);
 		$charRegExp = $this->getCharRegExp($tableConf, $replaceConf);
@@ -270,7 +270,7 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base {
 	public function getCharRegExp ($tableConf, &$replaceConf) {
 
 		$result = '';
-		$replaceConf = array();
+		$replaceConf = [];
 
 		if (isset($tableConf['charRegExp'])) {
 			$result = $tableConf['charRegExp'];
@@ -356,10 +356,10 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base {
 		$bUseExt = false,
         $mergePrices = true
 	) {
-		$fieldArray = array();
-		$fieldArray['data'] = array('itemnumber', 'image', 'smallimage');
-		$fieldArray['number'] = array('weight', 'inStock');
-		$fieldArray['price'] = array('price', 'price2', 'deposit', 'directcost');
+		$fieldArray = [];
+		$fieldArray['data'] = ['itemnumber', 'image', 'smallimage'];
+		$fieldArray['number'] = ['weight', 'inStock'];
+		$fieldArray['price'] = ['price', 'price2', 'deposit', 'directcost'];
 		if (
 			$calculationField != '' &&
 			isset($sourceRow[$calculationField])
@@ -378,7 +378,7 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base {
 			$mergeAppendArray = GeneralUtility::trimExplode(',', $tableDesc['conf.']['mergeAppendFields']);
 			$fieldArray['text'] = $mergeAppendArray;
 		} else {
-			$mergeAppendArray = array();
+			$mergeAppendArray = [];
 		}
 
 		$fieldArray['text'][] = 'title';

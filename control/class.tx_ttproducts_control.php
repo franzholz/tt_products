@@ -401,7 +401,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 						$templateFilename,
 						$basketObj->getItemArray(),
                         $notOverwritePriceIfSet = true,
-						array('0' => $orderArray),
+						['0' => $orderArray],
 						$productRowArray,
 						$basketExtra,
 						$basketRecs
@@ -464,7 +464,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
                             '',
                             []
                         );
-					$agencyParams = array('agency[backURL]' => $agencyBackUrl);
+					$agencyParams = ['agency[backURL]' => $agencyBackUrl];
 					$addParams =
 						$this->urlObj->getLinkParams(
 							'',
@@ -504,7 +504,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
                             []
                         );
 
-					$srfeuserParams = array('tx_srfeuserregister_pi1[backURL]' => $srfeuserBackUrl);
+					$srfeuserParams = ['tx_srfeuserregister_pi1[backURL]' => $srfeuserBackUrl];
 					$addParams = $this->urlObj->getLinkParams('', $srfeuserParams, true);
 // 					$markerArray['###FORM_URL_INFO###'] = $this->pibase->pi_getPageLink($editPID, '', $addParams);
                     $markerArray['###FORM_URL_INFO###'] =
@@ -611,15 +611,15 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 					$bNeedsMinCheck =
 						in_array(
 							$activity,
-							array(
+							[
 								'products_info',
 								'products_payment',
 								'products_customized_payment',
 								'products_verify',
 								'products_finalize',
 								'unknown'
-						)
-					);
+                            ]
+                        );
 				}
 				if ($bNeedsMinCheck) {
 					break;
@@ -802,7 +802,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 					$templateFilename,
 					$basketObj->getItemArray(),
                     $notOverwritePriceIfSet = true,
-					array('0' => $orderArray),
+					['0' => $orderArray],
 					$productRowArray,
 					$basketExtra,
 					$basketRecs
@@ -981,7 +981,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 		$markerArray['###ERROR_DETAILS###'] = '';
 		$conf = $cnf->getConf();
 
-		$pidTypeArray = array('PIDthanks', 'PIDfinalize', 'PIDpayment', 'PIDbasket');
+		$pidTypeArray = ['PIDthanks', 'PIDfinalize', 'PIDpayment', 'PIDbasket'];
 		$pidArray = [];
 		foreach ($pidTypeArray as $pidType) {
 			if (
@@ -1187,7 +1187,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
                                         class_exists($callingClassName) &&
                                         method_exists($callingClassName, 'checkRequired')
                                     ) {
-                                        $parameters = array(
+                                        $parameters = [
                                             $referenceId,
                                             $basketExtra['payment.']['handleLib'] ?? '',
                                             $basketExtra['payment.']['handleLib.'] ?? [],
@@ -1201,7 +1201,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
                                             $orderNumber,
                                             $this->conf['orderEmail_to'],
                                             $cardRow
-                                        );
+                                        ];
 
                                         $paymentErrorMsg = call_user_func_array(
                                             $callingClassName . '::checkRequired',
@@ -1498,7 +1498,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 						$templateFilename,
 						$basketObj->getItemArray(),
                         $notOverwritePriceIfSet = true,
-						array('0' => $orderArray),
+						['0' => $orderArray],
 						$productRowArray,
 						$basketExtra,
 						$basketRecs
@@ -1525,7 +1525,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 					$templateFilename,
 					$basketObj->getItemArray(),
                     $notOverwritePriceIfSet = true,
-					array('0' => $orderArray),
+					['0' => $orderArray],
 					$productRowArray,
 					$basketExtra,
 					$basketRecs
@@ -1622,7 +1622,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 			$errorCode
 		);
 
-		$activityVarsArray = array(
+		$activityVarsArray = [
 			'clear_basket' => 'products_clear_basket',
 			'customized_payment' => 'products_customized_payment',
 			'basket' => 'products_basket',
@@ -1632,7 +1632,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 			'payment' => 'products_payment',
 			'redeem_gift' => 'products_redeem_gift',
 			'verify' => 'products_verify'
-		);
+		];
 
 		$update = GeneralUtility::_POST('products_update') || GeneralUtility::_POST('products_update_x');
 		$info = GeneralUtility::_POST('products_info') || GeneralUtility::_POST('products_info_x');

@@ -42,12 +42,12 @@ use TYPO3\CMS\Core\Utility\MathUtility;
 
 
 class tx_ttproducts_sql {
-	static public $comparatorConversionArray = array(
+	static public $comparatorConversionArray = [
 		'le' => '<=',
 		'lt' => '<',
 		'ge' => '>=',
 		'gt' => '>'
-	);
+	];
 
 
 	static public function transformComparator ($comparator) {
@@ -169,7 +169,7 @@ class tx_ttproducts_sql {
                     }
                 }
                 if ($position !== false) {
-                    $args = array();
+                    $args = [];
                     $args['0'] = trim(substr($condition, 0, $position));
                     $args['1'] = trim(substr($condition, $position + strlen($comparator)));
                     $comparand1 = '';

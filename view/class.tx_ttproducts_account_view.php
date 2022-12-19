@@ -55,7 +55,7 @@ class tx_ttproducts_account_view extends tx_ttproducts_table_base_view {
 	public function getMarkerArray ($row, &$markerArray, $bIsAllowed) {
 		global $TCA;
 
-		$viewRow = array();
+		$viewRow = [];
 		$modelObj = $this->getModelObj();
 
 		if ($bIsAllowed) {

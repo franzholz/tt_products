@@ -63,7 +63,7 @@ class tx_ttproducts_field_media extends tx_ttproducts_field_base {
 		$imageField,
 		$fal = true
 	) {
-		$fileArray = array();
+		$fileArray = [];
 
 		if (
 			strpos($imageField, '_uid') &&
@@ -72,7 +72,7 @@ class tx_ttproducts_field_media extends tx_ttproducts_field_base {
 			$theTablename = $tablename;
 			$where_clause = '1=1';
 			$skip = false;
-			$sysfileRowArray = array();
+			$sysfileRowArray = [];
 
 			if (
 				$tablename == 'tt_products' &&
@@ -82,7 +82,7 @@ class tx_ttproducts_field_media extends tx_ttproducts_field_base {
 				is_array($imageRow['ext']['tt_products_articles']) &&
 				!empty($imageRow['ext']['tt_products_articles'])
 			) {
-				$uidArray = array();
+				$uidArray = [];
 				$theTablename = 'tt_products_articles';
 				foreach ($imageRow['ext']['tt_products_articles'] as $key => $row) {
 					if (isset($row['uid']) && $row['uid']) {
@@ -164,7 +164,7 @@ class tx_ttproducts_field_media extends tx_ttproducts_field_base {
 				}
 			}
 		} else {
-			$fileArray = ($imageRow[$imageField] ? explode(',', $imageRow[$imageField]) : array());
+			$fileArray = ($imageRow[$imageField] ? explode(',', $imageRow[$imageField]) : []);
 			$tmp = count($fileArray);
 
 			if (
@@ -190,26 +190,26 @@ class tx_ttproducts_field_media extends tx_ttproducts_field_base {
 
 		$mediaNum = $tableConf['limitImage'] ?? '';
 		if (!$mediaNum) {
-			$codeTypeArray = array(	// Todo: make this configurable
+			$codeTypeArray = [	// Todo: make this configurable
 				'list' =>
-					array(
-						'real' => array('SEARCH', 'MEMO'),
-						'part' => array('LIST', 'MENU'),
+					[
+						'real' => ['SEARCH', 'MEMO'],
+						'part' => ['LIST', 'MENU'],
 						'num' => $this->conf['limitImage']
 					),
 				'basket' =>
-					array(
-						'real' => array('OVERVIEW', 'BASKET', 'FINALIZE', 'INFO', 'PAYMENT', 'TRACKING', 'BILL', 'DELIVERY', 'EMAIL'),
-						'part' =>	array() ,
+					[
+						'real' => ['OVERVIEW', 'BASKET', 'FINALIZE', 'INFO', 'PAYMENT', 'TRACKING', 'BILL', 'DELIVERY', 'EMAIL'],
+						'part' =>	[] ,
 						'num' => 1
-					),
+					],
 				'single' =>
-					array(
-						'real' => array(),
-						'part' => array('SINGLE'),
+					[
+						'real' => [],
+						'part' => ['SINGLE'],
 						'num' => $this->conf['limitImageSingle']
-					)
-			);
+					]
+			];
 
 			foreach ($codeTypeArray as $type => $codeArray) {
 				$realArray = $codeArray['real'];

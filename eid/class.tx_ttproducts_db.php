@@ -58,9 +58,9 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 		if (isset($ajax) && is_object($ajax)) {
 			$this->ajax = $ajax;
 
-			$ajax->taxajax->registerFunction(array(TT_PRODUCTS_EXT . '_fetchRow', $this, 'fetchRow'));
-			$ajax->taxajax->registerFunction(array(TT_PRODUCTS_EXT . '_commands', $this, 'commands'));
-			$ajax->taxajax->registerFunction(array(TT_PRODUCTS_EXT . '_showArticle', $this, 'showArticle'));
+			$ajax->taxajax->registerFunction([TT_PRODUCTS_EXT . '_fetchRow', $this, 'fetchRow']);
+			$ajax->taxajax->registerFunction([TT_PRODUCTS_EXT . '_commands', $this, 'commands']);
+			$ajax->taxajax->registerFunction([TT_PRODUCTS_EXT . '_showArticle', $this, 'showArticle']);
 		}
 
 		if (
@@ -570,7 +570,7 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 						$fieldId = substr($field, 0, $position);
 					} else {
 						if (
-							in_array($field, array('image', 'smallimage')) &&
+							in_array($field, ['image', 'smallimage']) &&
 							$useFal
 						) {
 							continue;
@@ -838,7 +838,7 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 			isset($contentRow['uid'])
 		) {
 			$code = 'LIST';
-			$mainObj->codeArray = array($code);
+			$mainObj->codeArray = [$code];
 			$tagId = 'tt-products-' . strtolower($code) . '-' . $contentRow['uid'];
 		} else {
 			$content = 'Missing content data row';

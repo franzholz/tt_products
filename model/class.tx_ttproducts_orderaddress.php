@@ -44,7 +44,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class tx_ttproducts_orderaddress extends tx_ttproducts_table_base {
 	var $dataArray; // array of read in frontend users
 	var $table;		 // object of the type tx_table_db
-	var $fields = array();
+	var $fields = [];
 	var $tableconf;
 	var $piVar = 'fe';
 
@@ -84,7 +84,7 @@ class tx_ttproducts_orderaddress extends tx_ttproducts_table_base {
 
 
 	public function getSelectInfoFields() {
-		$result = array('salutation', 'tt_products_business_partner', 'tt_products_organisation_form');
+		$result = ['salutation', 'tt_products_business_partner', 'tt_products_organisation_form'];
 
 		return $result;
 	}

@@ -54,7 +54,7 @@ class tx_ttproducts_text extends tx_ttproducts_table_base {
 		$tableConf = $cnf->getTableConf($functablename, $theCode);
 		$fallback = $cnf->getFallback($tableConf);
 
-		$resultArray = array();
+		$resultArray = [];
 		$tagWhere = '';
 
 		if (is_array($tagMarkerArray) && count($tagMarkerArray)) {

@@ -49,7 +49,7 @@ class tx_ttproducts_gifts_div {
 	 * @return  array	all gift numbers for this product
 	 */
 	static public function getGiftNumbers ($uid, $variant, $basketExt) {
-		$giftArray = array();
+		$giftArray = [];
 
 		if ($basketExt['gift']) {
 			foreach ($basketExt['gift'] as $giftnumber => $giftItem) {
@@ -117,7 +117,7 @@ class tx_ttproducts_gifts_div {
 			}
 
 			// Saving gift order data
-			$insertFields = array(
+			$insertFields = [
 				'pid' => intval($pid),
 				'tstamp' => time(),
 				'crdate' => time(),
@@ -130,18 +130,18 @@ class tx_ttproducts_gifts_div {
 				'deliveryemail' => $rec['deliveryemail'],
 				'note'			=> $rec['note'],
 				'amount'		=> $amount,
-			);
+			];
 			// Saving the gifts order record
 
 			$GLOBALS['TYPO3_DB']->exec_INSERTquery('tt_products_gifts', $insertFields);
 			$newId = $GLOBALS['TYPO3_DB']->sql_insert_id();
-			$insertFields = array();
+			$insertFields = [];
 			$insertFields['uid_local'] = $newId;
 			$variantFields = $productObj->variant->getFieldArray();
 
 			foreach ($rec['item'] as $productid => $product) {
 				foreach ($product as $variant => $count) {
-					$row = array();
+					$row = [];
 					$productObj->variant->modifyRowFromVariant ($row, $variant);
 
 					$query='uid_product=\'' . intval($productid) . '\'';
@@ -204,7 +204,7 @@ class tx_ttproducts_gifts_div {
 
 
 	static public function deleteGiftNumber ($giftnumber) {
-		$giftArray = array();
+		$giftArray = [];
 		$basketExt = tx_ttproducts_control_basket::getBasketExt();
 
 		if (

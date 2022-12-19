@@ -47,22 +47,22 @@ class CreateLanguagesUtility {
         $currId
     ) {
         $result = true;
-        $infoArray = array();
+        $infoArray = [];
 
         if($currId) {
-            $tableArray = array('tt_products_texts' => 'tt_products_texts_language');
+            $tableArray = ['tt_products_texts' => 'tt_products_texts_language'];
                 // Initializes the module. Done in this function because we may need to re-initialize if data is submitted!
-            $standardFields = array('pid', 'cruser_id', 'hidden', 'starttime', 'endtime', 'fe_group');
+            $standardFields = ['pid', 'cruser_id', 'hidden', 'starttime', 'endtime', 'fe_group'];
 
-            $infoArray['rows'] = array();
+            $infoArray['rows'] = [];
             $time = time();
-            $fieldsArray = array();
+            $fieldsArray = [];
             $pid = intval($currId);
 
             foreach ($tableArray as $table => $languageTable) {
                 $fieldsArray['tstamp'] = $fieldsArray['crdate'] = $time;
-                $uidNotFoundArray = array();
-                $errorLanguageCodeArray[$table] = array();
+                $uidNotFoundArray = [];
+                $errorLanguageCodeArray[$table] = [];
 
                 $rowArray = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
                     '*',
@@ -116,7 +116,7 @@ class CreateLanguagesUtility {
 
                                     if ($currentRow) {
                                         if ($currentRow['parentid'] == 0) {
-                                            $updateArray = array();
+                                            $updateArray = [];
                                             $updateArray['parentid'] = $insertArray['parentid'];
                                             $updateArray['parenttable'] = $insertArray['parenttable'];
                                             $updateArray['tstamp'] = $insertArray['tstamp'];
@@ -139,7 +139,7 @@ class CreateLanguagesUtility {
 
                                     if ($updateForeignRow) {
                                         $where = 'uid=' . $foreignRow['uid'];
-                                        $updateArray = array();
+                                        $updateArray = [];
                                         $updateArray['tstamp'] = $insertArray['tstamp'];
                                         $updateArray['text_uid'] += 1;
                                         $GLOBALS['TYPO3_DB']->exec_UPDATEquery(

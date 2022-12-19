@@ -53,7 +53,7 @@ class tx_ttproducts_control_view {
 	function getMarkerArray (&$markerArray, &$allMarkers, $tableConfArray) {
 		if (isset($tableConfArray) && is_array($tableConfArray)) {
             $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
-			$allValueArray = array();
+			$allValueArray = [];
 			$controlArray = tx_ttproducts_model_control::getControlArray();
 			$separator = ';';
 
@@ -84,7 +84,7 @@ class tx_ttproducts_control_view {
 					$valueArray = tx_ttproducts_form_div::fetchValueArray($xValueArray['valueArray.']);
 					$attributeArray = $xValueArray['attribute.'];
 
-					if (in_array($type, array('sortSelect', 'filterSelect'))) {
+					if (in_array($type, ['sortSelect', 'filterSelect'])) {
 						$out = tx_ttproducts_form_div::createSelect(
 							$languageObj,
 							$valueArray,
@@ -92,7 +92,7 @@ class tx_ttproducts_control_view {
 							$controlArray[$keyArray[0]][$keyArray[1]],
 							true,
 							true,
-							array(),
+							[],
 							'select',
 							$attributeArray,
 							''

@@ -88,7 +88,7 @@ class PriceApi {
 
 			if ($bUseExt) {
 				if (!isset($targetRow['ext'])) {
-					$targetRow['ext'] = array();
+					$targetRow['ext'] = [];
 				}
 				if (!isset($targetRow['ext']['addedPrice'])) {
                     $targetRow['ext']['addedPrice'] = 0;

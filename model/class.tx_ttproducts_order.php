@@ -578,12 +578,12 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
 
 			// Default status_log entry
 		$status_log = [];
-		$status_log['0'] = array(
+		$status_log['0'] = [
 			'time' => time(),
 			'info' => $this->conf['statusCodes.'][$status],
 			'status' => $status,
 			'comment' => $deliveryInfo['note']
-		);
+		];
 		if (!empty($GLOBALS['TYPO3_CONF_VARS']['SYS']['serverTimeZone'])) {
 			$status_log['0']['time'] += ($GLOBALS['TYPO3_CONF_VARS']['SYS']['serverTimeZone'] * 3600);
 		}

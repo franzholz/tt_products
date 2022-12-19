@@ -565,9 +565,9 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base {
 				$conf['PIDlistDisplay.'],
 				$row
 			);
-		$addQueryString = array($categoryTableView->getPivar() => $actCategory);
+		$addQueryString = [$categoryTableView->getPivar() => $actCategory];
 
-		$urlParameters = array($prefixId => $addQueryString);
+		$urlParameters = [$prefixId => $addQueryString];
 
 		$linkConf = [];
 		$linkConf['parameter'] = $pid;
@@ -576,7 +576,7 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base {
 
 		$pibaseObj->cObj->typolink('', $linkConf);
 		$linkUrl = $pibaseObj->cObj->lastTypoLinkUrl;
-		$linkOutArray = array('<a href="' . htmlspecialchars($linkUrl) . '" ' . $css . '>', '</a>');
+		$linkOutArray = ['<a href="' . htmlspecialchars($linkUrl) . '" ' . $css . '>', '</a>'];
 
 		$linkOut =
 			$linkOutArray[0] .

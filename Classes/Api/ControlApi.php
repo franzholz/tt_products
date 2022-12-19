@@ -41,7 +41,7 @@ namespace JambageCom\TtProducts\Api;
 
 
 class ControlApi {
-	static protected $conf = array();
+	static protected $conf = [];
     static protected $cObj = null;
 
     static public function init ($conf, $cObj) {

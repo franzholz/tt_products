@@ -49,7 +49,7 @@ class tx_ttproducts_activity_finalize implements \TYPO3\CMS\Core\SingletonInterf
 		$conf,
 		$fromArray
 	) {
-		$suffixArray = array();
+		$suffixArray = [];
 		if (is_array($conf['orderEmail.'])) {
 			foreach ($conf['orderEmail.'] as $k => $emailConfig) {
 				$suffix = strtolower($emailConfig['suffix']);
@@ -58,9 +58,9 @@ class tx_ttproducts_activity_finalize implements \TYPO3\CMS\Core\SingletonInterf
 		}
 
 		if (in_array('customer', $suffixArray)) {
-			$emailControlArray = array();
+			$emailControlArray = [];
 			$emailControlArray['customer']['none']['template'] = 'EMAIL_PLAINTEXT_TEMPLATE'; // keep this on first position of the array
-			$emailControlArray['customer']['none']['recipient'] = array();
+			$emailControlArray['customer']['none']['recipient'] = [];
 			if ($fromArray['customer']['email']) {
 				$emailControlArray['customer']['none']['recipient'][] = $fromArray['customer']['email'];
 			}
@@ -141,8 +141,8 @@ class tx_ttproducts_activity_finalize implements \TYPO3\CMS\Core\SingletonInterf
 				'',
 				$basketObj->getItemArray(),
                 $notOverwritePriceIfSet = false,
-				array('0' => $orderArray),
-				array(),
+				['0' => $orderArray],
+				[],
 				tx_ttproducts_control_basket::getBasketExtra()
 			);
 

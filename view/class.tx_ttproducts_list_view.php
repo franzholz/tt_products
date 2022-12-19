@@ -187,7 +187,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 		}
 
 		foreach ($catArray as $displayCat) {
-			$totalRootLineArray = $catObj->getLineArray($currentCat, array(0));
+			$totalRootLineArray = $catObj->getLineArray($currentCat, [0]);
 
 			if (($displayCat != $currentCat) && !in_array($displayCat, $totalRootLineArray)) {
 				break;
@@ -358,7 +358,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 			);
 			if ($t['browseFrameWork'] != '') {
 
-				$wrappedSubpartArray['###LINK_BROWSE###'] = array('', '');
+				$wrappedSubpartArray['###LINK_BROWSE###'] = ['', ''];
 
 				if (is_array($browserConf)) {
 					$addQueryString = [];
@@ -457,7 +457,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
         $whereProduct = '';
 		$itemArray = [];
 
-		$viewedCodeArray = array('LISTAFFORDABLE', 'LISTVIEWEDITEMS', 'LISTVIEWEDMOST', 'LISTVIEWEDMOSTOTHERS');
+		$viewedCodeArray = ['LISTAFFORDABLE', 'LISTVIEWEDITEMS', 'LISTVIEWEDMOST', 'LISTVIEWEDMOSTOTHERS'];
 		$bUseCache = true;
 		$prefixId = tx_ttproducts_model_control::getPrefixId();
 		$basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
@@ -567,11 +567,11 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$where = '';
 
 		$formName = 'ShopListForm';
-		$formNameArray = array( // TODO all possible CODEs must have their own form names
+		$formNameArray = [ // TODO all possible CODEs must have their own form names
 			'LISTRELATEDPARTIALDOWNLOAD' => 'PartialDownloadForm',
 			'LISTRELATEDCOMPLETEDOWNLOAD' => 'CompleteDownloadForm',
             'LISTRELATEDALLDOWNLOAD' => 'AllDownloadForm'
-		);
+		];
 
 		if (isset($formNameArray[$theCode])) {
 			$formName = $formNameArray[$theCode];
@@ -601,7 +601,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$keyFieldArray = $itemTable->getKeyFieldArray($theCode);
 		$tableConfArray = [];
 		$viewConfArray = [];
-		$functableArray = array($functablename, $categoryfunctablename);
+		$functableArray = [$functablename, $categoryfunctablename];
 		tx_ttproducts_model_control::getTableConfArrays(
 			$cObj,
 			$functableArray,
@@ -623,7 +623,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 		if (
 			$itemTable->getType() == 'product' &&
-			in_array($useArticles, array(1, 3))
+			in_array($useArticles, [1, 3])
 		) {
 			$articleViewObj = $tablesObj->get('tt_products_articles', true);
 			$articleTable = $articleViewObj->getModelObj();
@@ -652,7 +652,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 			$itemTable->getType() == 'product' &&
 			(
 				$bEditableVariants ||
-				in_array($useArticles, array(1, 2, 3))
+				in_array($useArticles, [1, 2, 3])
 			)
 		) {
 			tx_ttproducts_control_product::addAjax(
@@ -914,7 +914,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 		}
 		$formName = (!empty($formNameSetup) ? $formNameSetup : $formName);
 
-		if ($htmlSwords && (in_array($theCode, array('LIST', 'SEARCH')))) {
+		if ($htmlSwords && (in_array($theCode, ['LIST', 'SEARCH']))) {
 				//extend standard search fields with user setup
 			$searchFieldList =
 				trim($conf['stdSearchFieldExt']) ?
@@ -1156,7 +1156,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 				$linkMemoConf = $linkConfArray['FORM_MEMO.'];
 			}
 
-			$linkMemoConf = array_merge( array('useCacheHash' => $bUseCache), $linkMemoConf);
+			$linkMemoConf = array_merge( ['useCacheHash' => $bUseCache], $linkMemoConf);
 			$markerArray['###FORM_MEMO###'] =
 				htmlspecialchars(
 					FrontendUtility::getTypoLink_URL(
@@ -1375,7 +1375,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 				if ($itemTable->getType() == 'article') { // ($itemTable === $this->tt_products_articles)
 					$orderByCat = '';	// articles do not have a direct category
 					$tmpArray = GeneralUtility::trimExplode(',', $selectConf['orderBy']);
-					$tmpArray = array_diff($tmpArray, array('category'));
+					$tmpArray = array_diff($tmpArray, ['category']);
 					$selectConf['orderBy'] = implode (',', $tmpArray);
 				}
 				if ($itemTable->fieldArray['itemnumber']) {
@@ -1383,12 +1383,12 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 				}
 				$selectConf['orderBy'] = $itemTable->getTableObj()->transformOrderby($selectConf['orderBy']);
 
-				$productMarkerFieldArray = array(
+				$productMarkerFieldArray = [
 					'BULKILY_WARNING' => 'bulkily',
 					'PRODUCT_SPECIAL_PREP' => 'special_preparation',
 					'PRODUCT_ADDITIONAL_SINGLE' => 'additional',
 					'PRODUCT_LINK_DATASHEET' => 'datasheet'
-				);
+				];
 				$markerFieldArray = [];
 				if ($itemTable->getType() == 'product') {
 					$markerFieldArray = $productMarkerFieldArray;
@@ -1408,7 +1408,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 				if (
 					$itemTable->getType() == 'product' &&
-					in_array($useArticles, array(1, 2, 3))
+					in_array($useArticles, [1, 2, 3])
 				) {
 					$markerFieldArray = [];
 					$articleViewTagArray = [];
@@ -1526,7 +1526,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 						// LEFT OUTER JOIN tt_products_cat ON tt_products.category = tt_products_cat.uid
 						$selectConf['leftjoin'] = $categoryTable->getTableObj()->name . ' ' . $catAlias . ' ON ' . $catAlias . '.uid=' . $prodAlias . '.category';
 					}
-					$catTables = $categoryTable->getTableObj()->getAdditionalTables(array($categoryTable->getTableObj()->getLangName()));
+					$catTables = $categoryTable->getTableObj()->getAdditionalTables([$categoryTable->getTableObj()->getLangName()]);
 
 					if (!empty($selectConf['from'])) {
 						$tmpDelim = ',';
