@@ -1137,7 +1137,7 @@
       </trans-unit>
       <trans-unit id="basket_voucher_calculate" resname="basket_voucher_calculate">
         <source>Calculate new price</source>
-        <target state="needs-translation">Calculate new price</target>
+        <target state="translated">Neuen Preis berechnen</target>
       </trans-unit>
       <trans-unit id="basket_shipping_price_choice" resname="basket_shipping_price_choice" approved="yes">
         <source>Shipping costs:</source>
@@ -1161,7 +1161,7 @@
       </trans-unit>
       <trans-unit id="basket_artno" resname="basket_artno">
         <source>Art.no.</source>
-        <target state="needs-translation">Art.no.</target>
+        <target state="translated">Artikelnummer</target>
       </trans-unit>
       <trans-unit id="basket_fax" resname="basket_fax" approved="yes">
         <source>Fax No.</source>
@@ -1177,11 +1177,11 @@
       </trans-unit>
       <trans-unit id="bank_receiver" resname="bank_receiver">
         <source>Account owner</source>
-        <target state="needs-translation">Account owner</target>
+        <target state="translated">Konteninhaber</target>
       </trans-unit>
       <trans-unit id="p_currency_no_tax" resname="p_currency_no_tax">
         <source>EUR</source>
-        <target state="needs-translation">EUR</target>
+        <target state="translated">EUR</target>
       </trans-unit>
       <trans-unit id="order_status_wrong_number" resname="order_status_wrong_number" approved="yes">
         <source>The order code does not exist! Please verify and try again!</source>
@@ -1529,27 +1529,27 @@
       </trans-unit>
       <trans-unit id="text_message_shipping_10" resname="text_message_shipping_10">
         <source>Shipping to countries #10</source>
-        <target state="needs-translation">Shipping to countries #10</target>
+        <target state="translated">Versand in Länder #10</target>
       </trans-unit>
       <trans-unit id="text_message_shipping_20" resname="text_message_shipping_20">
         <source>Shipping to countries #20</source>
-        <target state="needs-translation">Shipping to countries #20</target>
+        <target state="translated">Versand in Länder #20</target>
       </trans-unit>
       <trans-unit id="text_message_shipping_30" resname="text_message_shipping_30">
         <source>Shipping to countries #30</source>
-        <target state="needs-translation">Shipping to countries #30</target>
+        <target state="translated">Versand in Länder #30</target>
       </trans-unit>
       <trans-unit id="text_message_payment_10" resname="text_message_payment_10">
         <source>Payment method #10</source>
-        <target state="needs-translation">Payment method #10</target>
+        <target state="translated">Bezahlverfahren</target>
       </trans-unit>
       <trans-unit id="text_message_payment_20" resname="text_message_payment_20">
         <source>Payment method #20</source>
-        <target state="needs-translation">Payment method #20</target>
+        <target state="translated">Bezahlverfahren</target>
       </trans-unit>
       <trans-unit id="text_message_payment_30" resname="text_message_payment_30">
         <source>Payment method #30</source>
-        <target state="needs-translation">Payment method #30</target>
+        <target state="translated">Bezahl Methode:</target>
       </trans-unit>
     </body>
   </file>
