@@ -37,8 +37,6 @@
  *
  */
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-
 
 
 class tx_ttproducts_country_view extends tx_ttproducts_table_base_view {

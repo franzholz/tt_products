@@ -37,6 +37,7 @@
  */
 
 use JambageCom\Div2007\Utility\FrontendUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
 class tx_ttproducts_text_view extends tx_ttproducts_table_base_view {
