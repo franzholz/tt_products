@@ -184,7 +184,7 @@ call_user_func(function () {
 
         if (
             !empty($orderBySortingTablesArray) &&
-            in_['sys_category', $orderBySortingTablesArray)
+            in_array('sys_category', $orderBySortingTablesArray)
         ) {
             $sysCategoryOrderBy = 'sys_category.sorting ASC';
         }
@@ -358,7 +358,7 @@ call_user_func(function () {
     $orderBySortingTablesArray = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['orderBySortingTables']);
     if (
         !empty($orderBySortingTablesArray) &&
-        in_[$table, $orderBySortingTablesArray)
+        in_array($table, $orderBySortingTablesArray)
     ) {
         $GLOBALS['TCA'][$table]['ctrl']['sortby'] = 'sorting';
     }
