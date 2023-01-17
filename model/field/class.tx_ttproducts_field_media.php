@@ -196,7 +196,7 @@ class tx_ttproducts_field_media extends tx_ttproducts_field_base {
 						'real' => ['SEARCH', 'MEMO'],
 						'part' => ['LIST', 'MENU'],
 						'num' => $this->conf['limitImage']
-					),
+					],
 				'basket' =>
 					[
 						'real' => ['OVERVIEW', 'BASKET', 'FINALIZE', 'INFO', 'PAYMENT', 'TRACKING', 'BILL', 'DELIVERY', 'EMAIL'],
