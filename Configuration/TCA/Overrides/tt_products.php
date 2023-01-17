@@ -248,7 +248,7 @@ call_user_func(function () {
             ],
             $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']
         )
-    );
+    ];
 
     $GLOBALS['TCA'][$table]['columns']['smallimage_uid'] = [
         'exclude' => 1,
@@ -275,7 +275,7 @@ call_user_func(function () {
             ],
             $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']
         )
-    );
+    ];
 
     if (
         $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['falDatasheet'] ||
