@@ -1347,7 +1347,7 @@ class PaymentShippingHandling {
 				);
 		}
 
-		$calculationScript = $basketConf['calculationScript'];
+		$calculationScript = $basketConf['calculationScript'] ?? '';
 		if ($calculationScript != '') {
             $calcScript = '';
             $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
@@ -1730,7 +1730,7 @@ class PaymentShippingHandling {
 
 		if (
 			$itemTax != '' &&
-			is_array($basketExtra[$pskey . '.']) &&
+			!empty($basketExtra[$pskey . '.']) &&
 			isset($basketExtra[$pskey . '.']['replaceTAXpercentage.']) &&
 			is_array($basketExtra[$pskey . '.']['replaceTAXpercentage.'])
 		) {

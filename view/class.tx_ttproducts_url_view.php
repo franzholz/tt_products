@@ -91,7 +91,7 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 		&$wrappedSubpartArray,
 		$addQueryString = [],
 		$css_current = '',
-		$bUseBackPid = true
+		$useBackPid = true
 	) {
         $cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
 		$commandArray =

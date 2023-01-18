@@ -781,6 +781,8 @@ class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterfa
 		$creditpoints,
 		$getShopCountryCode
 	) {
+		$creditpointsObj = GeneralUtility::makeInstance('tx_ttproducts_field_creditpoints');
+
 	// Todo: consider the $roundFormat parameter .XXXXXXXXXX
 		$calculatedArray = $this->getCalculatedArray();
 		$baseCountryArray =
@@ -791,7 +793,7 @@ class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterfa
 			$baseCountryArray[] = $getShopCountryCode;
 		}
 
-		$calculatedArray['priceTax']['creditpoints'] = $calculatedArray['priceNoTax']['creditpoints'] = $creditpointsObj * $pricefactor;
+		$calculatedArray['priceTax']['creditpoints'] = $calculatedArray['priceNoTax']['creditpoints'] = $creditpointsObj->getBasketTotal() * $pricefactor;
 
 		foreach ($calculatedArray['priceNoTax']['goodstotal'] as $countryCode => $value) {
 			$calculatedArray['priceNoTax']['total'][$countryCode] = round($value, 2);
