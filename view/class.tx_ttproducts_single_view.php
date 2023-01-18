@@ -570,7 +570,7 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
 				$categoryJoin = '';
 				$whereCat = '';
 				if ($cat) {
-					$currentCat = $piVars[$viewCatViewTable->getPivar()];
+					$currentCat = $piVars[$viewCatViewTable->getPivar()] ?? '';
 					$currentCatArray = [];
 
 					if ($currentCat != '') {

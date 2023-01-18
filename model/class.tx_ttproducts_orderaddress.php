@@ -71,7 +71,10 @@ class tx_ttproducts_orderaddress extends tx_ttproducts_table_base {
 			$this->getTableObj()->setTCAFieldArray($tablename);
 			$this->fieldArray['payment'] = ($this->tableconf['payment'] ?? '');
 			$requiredFields = 'uid,pid,email' . ($this->fieldArray['payment'] ? ',' . $this->fieldArray['payment'] : '');
-			if (is_array($this->tableconf['ALL.'])) {
+            if (
+                isset($this->tableconf['ALL.']) &&
+                is_array($this->tableconf['ALL.'])
+            ) {
 				$tmp = $this->tableconf['ALL.']['requiredFields'];
 				$requiredFields = ($tmp ? $tmp : $requiredFields);
 			}

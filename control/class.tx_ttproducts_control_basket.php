@@ -255,8 +255,12 @@ class tx_ttproducts_control_basket {
 
 			foreach ($basketExtra['shipping.']['replacePayment.'] as $k1 => $replaceArray) {
 				foreach ($replaceArray as $k2 => $value2) {
-					if (is_array($value2)) {
-						$conf['payment.'][$k1][$k2] = array_merge($conf['payment.'][$k1][$k2], $value2);
+                    if (
+                        is_array($value2) &&
+                        isset($conf['payment.'][$k1][$k2]) &&
+                        is_array($conf['payment.'][$k1][$k2])
+                    ) {
+                        $conf['payment.'][$k1][$k2] = array_merge($conf['payment.'][$k1][$k2], $value2);
 					} else {
 						$conf['payment.'][$k1][$k2] = $value2;
 					}
@@ -265,7 +269,7 @@ class tx_ttproducts_control_basket {
 		}
 
 			// payment
-		if ($conf['payment.']) {
+		if (!empty($conf['payment.'])) {
 
 			if ($excludePayment) {
 				$exclArr = GeneralUtility::intExplode(',', $excludePayment);
