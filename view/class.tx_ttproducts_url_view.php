@@ -136,7 +136,7 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$markerArray,
 		$addQueryString = [],
 		$excludeList = '',
-		$bUseBackPid = true,
+		$useBackPid = true,
 		$backPid = 0,
 		$bExcludeSingleVar = true
 	) {
@@ -153,7 +153,7 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$formUrlPid = ($pidNext ? $pidNext : $GLOBALS['TSFE']->id);
 		$singleExcludeList = $this->getSingleExcludeList($excludeList);
 
-		$bUseBackPid = ($bUseBackPid && $pidNext && $pidNext != $GLOBALS['TSFE']->id);
+		$useBackPid = ($useBackPid && $pidNext && $pidNext != $GLOBALS['TSFE']->id);
 
 		$urlExcludeList = $excludeList;
 		if (
@@ -266,7 +266,7 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 						$addQueryString,
 						$excludeList,
 						$singleExcludeList,
-						$bUseBackPid,
+						$useBackPid,
 						$backPid,
 						$bExcludeSingleVar
 					);
@@ -310,7 +310,7 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$excludeList = '',
 		$addQueryString = [],
 		$bUsePrefix = false,
-		$bUseBackPid = true,
+		$useBackPid = true,
 		$backPid = 0,
 		$piVarSingle = 'product',
 		$piVarCat = 'cat'
@@ -318,7 +318,7 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$prefixId = tx_ttproducts_model_control::getPrefixId();
 
 		$queryString = [];
-		if ($bUseBackPid) {
+		if ($useBackPid) {
 			if (!$backPid) {
 				$backPid = $GLOBALS['TSFE']->id;
 			}
@@ -418,7 +418,7 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 						$excludeList,
 						$addQueryString,
 						$bUsePrefix,
-						$bUseBackPid,
+						$useBackPid,
 						$piVarSingle,
 						$piVarCat
 					);

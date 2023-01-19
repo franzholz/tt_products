@@ -124,7 +124,7 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$basketRecs =  tx_ttproducts_control_basket::getRecs();
 		$prodRow = [];
 
-		$bUseBackPid = true;
+		$useBackPid = true;
 		$viewControlConf = $cnf->getViewControlConf('SINGLE');
 
 		if (count($viewControlConf)) {
@@ -140,7 +140,7 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
 			}
 		}
 
-		$bUseBackPid = (isset($viewParamConf) && $viewParamConf['use'] == 'backPID' ? true : false);
+		$useBackPid = (isset($viewParamConf) && $viewParamConf['use'] == 'backPID' ? true : false);
 
 		$itemTableArray = [];
 		$itemTableArray['product'] = $tablesObj->get('tt_products');
@@ -314,7 +314,7 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
 			$urlObj->getWrappedSubpartArray(
 				$wrappedSubpartArray,[],
 				'',
-				$bUseBackPid
+				$useBackPid
 			);
 
 			$excludeList = '';
@@ -341,7 +341,7 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
 				$excludeList,
 				[],
 				'',
-				$bUseBackPid
+				$useBackPid
 			);
 
 			if (!$itemFrameWork) {
@@ -355,7 +355,7 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
 			$viewTagArray = $markerObj->getAllMarkers($itemFrameWork);
 			$tablesObj->get('fe_users', true)->getWrappedSubpartArray(
 				$viewTagArray,
-				$bUseBackPid,
+				$useBackPid,
 				$subpartArray,
 				$wrappedSubpartArray
 			);
@@ -586,7 +586,7 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
 						$catMMTable = $viewCatTable->getMMTablename();
 
 						if (!empty($currentCatArray)) {
-							// $bUseBackPid = false;
+							// $useBackPid = false;
 							$cat = $currentCat;
 							if ($catMMTable) {
 								$categoryJoin = $itemTableArray[$this->type]->getTablename() . ' ' . $itemTableArray[$this->type]->getAlias().' INNER JOIN ' . $viewCatTable->getMMTablename() . ' M ON ' . $itemTableArray[$this->type]->getAlias().'.uid=M.uid_local';
@@ -612,7 +612,7 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
 					$linkPid = $pid;
 				}
 
-				if ($bUseBackPid && $backPID) {
+				if ($useBackPid && $backPID) {
 					$linkPid = $backPID;
 				}
 
@@ -622,7 +622,7 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
                     // if the page remains the same then the product parameter will still be needed if there is no list view
                     $addQueryString[$this->type] = $this->uid;
                 }
-                if ($bUseBackPid && $backPID) {
+                if ($useBackPid && $backPID) {
                     $addQueryString['backPID'] = $backPID;
                 }
 
@@ -638,7 +638,7 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
                         (
                             (
                                 $linkPid == $GLOBALS['TSFE']->id
-//                              !$bUseBackPid
+//                              !$useBackPid
                             )
                         ) &&
                         (
@@ -658,7 +658,7 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
 							$excludeListLinkItem,
 							$addQueryString,
 							true,
-							$bUseBackPid,
+							$useBackPid,
 							0,
 							'',
 							$viewCatViewTable->getPivar()
@@ -1050,7 +1050,7 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
                             $excludeList,
                             [],
                             true,
-                            $bUseBackPid,
+                            $useBackPid,
                             0,
                             $itemTableViewArray[$this->type]->getPivar()
                         ),
@@ -1064,7 +1064,7 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
 					$markerArray,
 					$addQueryString,
 					$excludeList,
-					$bUseBackPid,
+					$useBackPid,
 					0
 				); // Applied it here also...
 
@@ -1201,7 +1201,7 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
 					$addQueryString=[];
 					$addQueryString[$this->type] = $rowprev['uid'];
 
-					if ($bUseBackPid) {
+					if ($useBackPid) {
 						$addQueryString['backPID'] = $backPID;
 					} else if ($cat) {
 						$addQueryString[$viewCatViewTable->getPivar()] = $cat;
@@ -1213,7 +1213,7 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
                             $excludeList,
                             $addQueryString,
                             true,
-                            $bUseBackPid,
+                            $useBackPid,
                             0,
                             $itemTableViewArray[$this->type]->getPivar(),
                             $viewCatViewTable->getPivar()
@@ -1249,7 +1249,7 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
 				if ($rownext = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($resnext) ) {
 					$addQueryString=[];
 					$addQueryString[$this->type] = $rownext['uid'];
-					if ($bUseBackPid) {
+					if ($useBackPid) {
 						$addQueryString['backPID'] = $backPID;
 					} else if ($cat) {
 						$addQueryString[$viewCatViewTable->getPivar()] = $cat;
@@ -1261,7 +1261,7 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
                             $excludeList,
                             $addQueryString,
                             true,
-                            $bUseBackPid,
+                            $useBackPid,
                             0,
                             $itemTableViewArray[$this->type]->getPivar(),
                             $viewCatViewTable->getPivar()

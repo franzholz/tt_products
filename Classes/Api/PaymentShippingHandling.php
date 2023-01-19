@@ -299,7 +299,7 @@ class PaymentShippingHandling {
 		$pskey,
 		$subkey,
 		$pid,
-		$bUseBackPid,
+		$useBackPid,
 		$calculatedArray,
 		$basketExtra
 	) {
@@ -326,7 +326,7 @@ class PaymentShippingHandling {
 				$subkey,
 				$calculatedArray,
 				$pid,
-				$bUseBackPid,
+				$useBackPid,
 				$basketExtra
 			);
 
@@ -356,7 +356,7 @@ class PaymentShippingHandling {
 		$theCode,
 		&$markerArray,
 		$pid,
-		$bUseBackPid,
+		$useBackPid,
 		$calculatedArray,
 		$basketExtra
 	) {
@@ -371,7 +371,7 @@ class PaymentShippingHandling {
 			'payment',
 			'',
 			$pid,
-			$bUseBackPid,
+			$useBackPid,
 			$calculatedArray,
 			$basketExtra
 		);
@@ -383,7 +383,7 @@ class PaymentShippingHandling {
 			'shipping',
 			'',
 			$pid,
-			$bUseBackPid,
+			$useBackPid,
 			$calculatedArray,
 			$basketExtra
 		);
@@ -410,7 +410,7 @@ class PaymentShippingHandling {
 							'handling',
 							$k1,
 							$pid,
-							$bUseBackPid,
+							$useBackPid,
 							$calculatedArray,
 							$basketExtra
 						);
@@ -456,7 +456,7 @@ class PaymentShippingHandling {
 		$subkey,
 		$calculatedArray,
 		$pid,
-		$bUseBackPid,
+		$useBackPid,
 		&$basketExtra
 	) {
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');

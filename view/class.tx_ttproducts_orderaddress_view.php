@@ -53,7 +53,7 @@ class tx_ttproducts_orderaddress_view extends tx_ttproducts_table_base_view {
 
 	public function getWrappedSubpartArray (
 		$viewTagArray,
-		$bUseBackPid,
+		$useBackPid,
 		&$subpartArray,
 		&$wrappedSubpartArray
 	) {
