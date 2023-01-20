@@ -141,7 +141,7 @@ class tx_ttproducts_cat_view implements \TYPO3\CMS\Core\SingletonInterface {
 			$viewTagArray = $markerObj->getAllMarkers($itemFrameWork);
 			$tablesObj->get('fe_users', true)->getWrappedSubpartArray(
 				$viewTagArray,
-				$bUseBackPid,
+				$useBackPid,
 				$subpartArray,
 				$wrappedSubpartArray
 			);
@@ -168,11 +168,11 @@ class tx_ttproducts_cat_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 /*			$param = array($functablename => $variantFieldArray);
 			$javaScriptObj->set('fetchdata', $param);*/
-			$bUseBackPid = true;
+			$useBackPid = true;
 
 			$addQueryString = [];
 			$linkPid = $pid;
-			if ($bUseBackPid && $backPID) {
+			if ($useBackPid && $backPID) {
 				$linkPid = $backPID;
 			}
 
@@ -182,7 +182,7 @@ class tx_ttproducts_cat_view implements \TYPO3\CMS\Core\SingletonInterface {
 						'',
 						$addQueryString,
 						true,
-						$bUseBackPid,
+						$useBackPid,
 						0,
 						'product',
 						$tableViewObj->piVar
@@ -329,7 +329,7 @@ class tx_ttproducts_cat_view implements \TYPO3\CMS\Core\SingletonInterface {
 				$addQueryString = [];
 				$addQueryString[$tableViewObj->getPivar()] = $rowprev['uid'];
 
-				if ($bUseBackPid) {
+				if ($useBackPid) {
 					$addQueryString['backPID'] = $backPID;
 				}
 				$queryString =
@@ -337,7 +337,7 @@ class tx_ttproducts_cat_view implements \TYPO3\CMS\Core\SingletonInterface {
 						'',
 						$addQueryString,
 						true,
-						$bUseBackPid,
+						$useBackPid,
 						0,
 						'product',
 						''
@@ -368,7 +368,7 @@ class tx_ttproducts_cat_view implements \TYPO3\CMS\Core\SingletonInterface {
 				$addQueryString=[];
 				$addQueryString[$this->type] = $rownext['uid'];
 				$addQueryString['backPID'] = $backPID;
-				if ($bUseBackPid) {
+				if ($useBackPid) {
 					$addQueryString['backPID'] = $backPID;
 				} else if ($cat) {
 					$addQueryString[$viewCatTable->getPivar()] = $linkCat;
@@ -379,7 +379,7 @@ class tx_ttproducts_cat_view implements \TYPO3\CMS\Core\SingletonInterface {
 						'',
 						$addQueryString,
 						true,
-						$bUseBackPid,
+						$useBackPid,
 						0,
 						'product',
 						''

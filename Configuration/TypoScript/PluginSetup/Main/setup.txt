@@ -496,18 +496,18 @@ plugin.tt_products {
     }
     0.image < .image
     0.image {
-        file = EXT:tt_products/res/icons/fe/availableDemand.gif
+        file = EXT:tt_products/Resources/Public/Images/availableDemand.gif
         file.maxW = {$plugin.tt_products.maxW_single}
     }
     1 < plugin.tt_products.conf.tt_products.ALL.delivery.0
     1.text.10.value = ###P_DELIVERY_AVAILABLE_IMMEDIATE###
     1.image {
-        file = EXT:tt_products/res/icons/fe/availableImmediate.gif
+        file = EXT:tt_products/Resources/Public/Images/availableImmediate.gif
     }
     2 < plugin.tt_products.conf.tt_products.ALL.delivery.0
     2.text.10.value = ###P_DELIVERY_AVAILABLE_SHORT###
     2.image {
-        file = EXT:tt_products/res/icons/fe/availableShort.gif
+        file = EXT:tt_products/Resources/Public/Images/availableShort.gif
     }
   }
 

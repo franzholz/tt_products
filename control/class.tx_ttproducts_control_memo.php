@@ -299,7 +299,7 @@ class tx_ttproducts_control_memo {
 		$excludeList = '',
 		$addQueryString = [],
 		$css_current = '',
-		$bUseBackPid = true
+		$useBackPid = true
 	) {
 		$cmdArray = ['add', 'del'];
 
@@ -313,7 +313,7 @@ class tx_ttproducts_control_memo {
                     $excludeList,
                     $addQueryString,
                     true,
-                    $bUseBackPid
+                    $useBackPid
                 )
             );
 

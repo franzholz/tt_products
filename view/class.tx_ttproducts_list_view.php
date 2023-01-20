@@ -507,7 +507,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 			}
 		}
 
-		$bUseBackPid = (isset($viewParamConf) && $viewParamConf['use'] == 'backPID' ? true : false);
+		$useBackPid = (isset($viewParamConf) && $viewParamConf['use'] == 'backPID' ? true : false);
 		if (PluginApi::isRelatedCode($theCode)) {
 			$backPid = $config['backPID']; // stay with the current backPid
 		}
@@ -1028,7 +1028,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 					$ignoreArray = GeneralUtility::trimExplode(',', $viewParamConf['ignore']);
 					foreach($ignoreArray as $ignoreParam) {
 						if ($ignoreParam == 'backPID') {
-							$bUseBackPid = false;
+							$useBackPid = false;
 						}
 						$excludeList .= ',' . $prefixId . '[' . $ignoreParam . ']';
 					}
@@ -1040,7 +1040,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 						[],
 						$addQueryString,
 						$excludeList,
-						$bUseBackPid,
+						$useBackPid,
 						$backPid
 					);
 
@@ -1139,7 +1139,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 					$markerArray,
 					$addQueryString,
 					$excludeList,
-					$bUseBackPid,
+					$useBackPid,
 					$backPid
 				); // clickIntoBasket
 
@@ -1166,7 +1166,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 							$excludeList,
 							[],
 							true,
-							$bUseBackPid,
+							$useBackPid,
 							$backPid,
 							$itemTableView->getPivar()
 						),
@@ -1180,13 +1180,13 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 				$wrappedSubpartArray,
 				[],
 				'',
-				$bUseBackPid
+				$useBackPid
 			);
 			$subpartArray = [];
 			$viewTagArray = $markerObj->getAllMarkers($t['listFrameWork']);
 			$tablesObj->get('fe_users', true)->getWrappedSubpartArray(
 				$viewTagArray,
-				$bUseBackPid,
+				$useBackPid,
 				$subpartArray,
 				$wrappedSubpartArray
 			);
@@ -2333,7 +2333,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 						$addQueryString[$itemTableView->getPivar()] = intval($row['uid']);
 						$piVarCat = $piVars[$categoryPivar] ?? '';
-						$bUseBackPid = $bUseBackPid && ($pid != $GLOBALS['TSFE']->id);
+						$useBackPid = $useBackPid && ($pid != $GLOBALS['TSFE']->id);
 						$nextcat = $cat;
 
 						if (
@@ -2349,7 +2349,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 								$conf['PIDlistDisplay'] &&
 								!PluginApi::isRelatedCode($theCode)
 							) {
-								$bUseBackPid = false;
+								$useBackPid = false;
 							}
 							$cat = $piVarCat;
 						}
@@ -2372,7 +2372,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 							$excludeList,
 							$addQueryString,
 							true,
-							$bUseBackPid,
+							$useBackPid,
 							$backPid,
 							$itemTableView->getPivar(),
 							$categoryPivar
@@ -2419,7 +2419,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 							$excludeList,
 							[],
 							'',
-							$bUseBackPid
+							$useBackPid
 						);
 
 						if (is_array($mergeRow) && count($mergeRow)) {
@@ -2859,7 +2859,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 								$markerArray,
 								$addQueryString,
 								'',
-								$bUseBackPid,
+								$useBackPid,
 								$backPid
 							); // clickIntoBasket
 						$oldFormCount = $formCount;
@@ -3202,7 +3202,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 					$markerArray,
 					$addQueryString,
 					$excludeList,
-					$bUseBackPid,
+					$useBackPid,
 					$backPid
 				); // clickIntoBasket
 

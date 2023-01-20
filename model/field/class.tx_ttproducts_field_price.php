@@ -793,6 +793,7 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base {
 				$priceArray[$priceNum . 'onlytax'] = $priceArray[$priceNum . 'tax'] - $priceArray[$priceNum . 'notax'];
 
 				$relativePrice = $price0tax;
+				$priceNumTax = '';
 				if ($discountPriceMode == 0) {
 					$relativePrice = $price0tax;
 					$priceNumTax = $priceArray[$priceNum . 'tax'];

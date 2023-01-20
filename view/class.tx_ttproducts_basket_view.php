@@ -302,7 +302,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 			}
 		}
 
-		$bUseBackPid =
+		$useBackPid =
 			(
 				isset($viewParamConf) && $viewParamConf['use'] == 'backPID' ?
 					true :
@@ -360,7 +360,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$orderAddressObj = $orderAddressViewObj->getModelObj();
 		$orderAddressViewObj->getWrappedSubpartArray(
 			$viewTagArray,
-			$bUseBackPid,
+			$useBackPid,
 			$feuserSubpartArray,
 			$feuserWrappedSubpartArray
 		);
@@ -994,7 +994,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
                                 '',
                                 $addQueryString,
                                 true,
-                                $bUseBackPid,
+                                $useBackPid,
                                 0,
                                 ''
                             ),
@@ -1023,7 +1023,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 					$orderAddressViewObj->getModelObj()->setCondition($row, $funcTablename);
 					$orderAddressViewObj->getWrappedSubpartArray(
 						$viewTagArray,
-						$bUseBackPid,
+						$useBackPid,
 						$subpartArray,
 						$wrappedSubpartArray
 					
@@ -1136,7 +1136,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 					$excludeList,
 					[],
 					true,
-					$bUseBackPid,
+					$useBackPid,
 					0,
 					''
 				),
@@ -1156,7 +1156,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 				$theCode,
 				$markerArray,
 				$pid,
-				$bUseBackPid,
+				$useBackPid,
 				$calculatedArray,
 				$basketExtra
 			);
@@ -1201,7 +1201,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 				$markerArray,
 				[],
 				'',
-				$bUseBackPid,
+				$useBackPid,
 				0
 			); // Applied it here also...
 
@@ -1409,7 +1409,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 						$singleExcludeList,
 						$addQueryString,
 						true,
-						$bUseBackPid,
+						$useBackPid,
 						0,
 						''
 					)
@@ -1429,7 +1429,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
                         $singleExcludeList,
                         $addQueryString,
                         true,
-                        $bUseBackPid,
+                        $useBackPid,
                         0,
                         ''
                     )
@@ -1449,7 +1449,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 						$singleExcludeList,
 						$addQueryString,
 						true,
-						$bUseBackPid,
+						$useBackPid,
 						0,
 						''
 					)
@@ -1734,7 +1734,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 			);
 			$orderAddressViewObj->getWrappedSubpartArray(
 				$viewTagArray,
-				$bUseBackPid,
+				$useBackPid,
 				$subpartArray,
 				$wrappedSubpartArray
 			);
