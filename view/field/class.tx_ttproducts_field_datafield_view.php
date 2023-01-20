@@ -133,6 +133,7 @@ class tx_ttproducts_field_datafield_view extends tx_ttproducts_field_base_view {
 		$basketRecs = [],
 		$id = '1'
 	) {
+        $upperField = '';
         $funcFieldname = $this->getFuncFieldname($row, $fieldname);
         if ($funcFieldname != '') {
 

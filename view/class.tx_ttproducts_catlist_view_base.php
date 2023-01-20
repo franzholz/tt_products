@@ -372,7 +372,7 @@ abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\Single
 		$functableArray = [$functablename];
 		$tableConfArray = [];
 		$viewConfArray = [];
-		$searchVars = $piVars[tx_ttproducts_model_control::getSearchboxVar()];
+		$searchVars = $piVars[tx_ttproducts_model_control::getSearchboxVar()] ?? '';
 		tx_ttproducts_model_control::getTableConfArrays(
 			$pibaseObj->cObj,
 			$functableArray,

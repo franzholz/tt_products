@@ -319,8 +319,8 @@ class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterfa
 					$bEnableTaxZero =
 						tx_ttproducts_gifts_div::useTaxZero(
 							$row,
-							$conf['gift.'],
-							$conf['whereGift']
+							$conf['gift.'] ?? '',
+							$conf['whereGift'] ?? ''
 						);
 
 					if ($actItem[$calculationAdditionField] > 0) {
@@ -396,7 +396,7 @@ class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterfa
 						$priceObj->getPrice(
 							$basketExtra,
 							$basketRecs,
-							$row['price0tax'] * $actItem['count'],
+							$row['oldpricenotax'] * $actItem['count'],
 							true,
 							$row,
 							$conf['TAXincluded'],
@@ -406,7 +406,7 @@ class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterfa
 						$priceObj->getPrice(
 							$basketExtra,
 							$basketRecs,
-							$row['price0tax'] * $actItem['count'],
+							$row['oldpricenotax'] * $actItem['count'],   // $price0Tax
 							false,
 							$row,
 							$conf['TAXincluded'],
