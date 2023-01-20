@@ -449,7 +449,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 
 			$piVar = tx_ttproducts_model_control::getPiVar('orderaddress');
 
-			$selectedKey = $piVars[$piVar];
+			$selectedKey = $piVars[$piVar] ?? 0;
 			$type = 'select';
 			$tagName = $prefix . '[' . $piVar . ']';
 			$text = tx_ttproducts_form_div::createSelect(
@@ -603,7 +603,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 				}
 
 				$piVar = tx_ttproducts_model_control::getPiVar('fegroup');
-				$selectedKey = $piVars[$piVar];
+				$selectedKey = $piVars[$piVar] ?? 0;
 				$type = 'select';
 				$tagName = $prefix . '[' . $piVar . ']';
 				$text = tx_ttproducts_form_div::createSelect(
@@ -629,7 +629,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 			$valueArray['1'] = $languageObj->getLabel('orders_view_products');
 
 			$piVar = tx_ttproducts_model_control::getOrderViewVar();
-			$selectedKey = $piVars[$piVar];
+			$selectedKey = $piVars[$piVar] ?? 0;
 			$type = 'select';
 			$text = tx_ttproducts_form_div::createSelect(
 				$languageObj,
@@ -712,7 +712,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 				if (
 					strpos($frameWork, '###' . $markerkey . '_SELECT###') !== false
 				) {
-					$selectedKey = $piVars[$orderPiVar][$fieldPiVar][$piVarType];
+					$selectedKey = $piVars[$orderPiVar][$fieldPiVar][$piVarType] ?? 0;
 					$type = 'input';
 					$tagName = $prefix . '[' . $orderPiVar . ']' . '[' . $fieldPiVar . ']' . '[' . $piVarType . ']';
 
@@ -767,7 +767,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 					$from = $functablename . ' ' . $orderAlias . ' LEFT JOIN fe_users ON ' . $orderAlias . '.feusers_uid = fe_users.uid';
 					$where = 'fe_users.usergroup = ' . $fegroups_uid;
 				}
-				$whereArray = $piVars[tx_ttproducts_model_control::getPiVar($functablename)];
+				$whereArray = $piVars[tx_ttproducts_model_control::getPiVar($functablename)] ?? '';
 
 				if (is_array($whereArray)) {
 					foreach ($whereArray as $field => $value) {

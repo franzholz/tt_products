@@ -268,7 +268,7 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
 		}
 
 			// Subst. fields
-		$markerArray['###' . $this->getMarker() . '_UNIT###'] = $row['unit'];
+		$markerArray['###' . $this->getMarker() . '_UNIT###'] = $row['unit'] ?? '';
 		$markerArray['###' . $this->getMarker() . '_UNIT_FACTOR###'] = $row['unit_factor'] ?? '0';
 		$markerArray['###' . $this->getMarker() . '_WWW###'] = $row['www'] ?? '';
 		$markerArray['###BULKILY_WARNING###'] = !empty($row['bulkily']) ? $conf['bulkilyWarning'] : '';

@@ -676,7 +676,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 		}
 		$whereArray = '';
 		if (!empty($piVars[tx_ttproducts_model_control::getPiVar($functablename)])) {
-            $whereArray = $piVars[tx_ttproducts_model_control::getPiVar($functablename)];#
+            $whereArray = $piVars[tx_ttproducts_model_control::getPiVar($functablename)];
         }
 
 		if (is_array($whereArray)) {
@@ -2559,7 +2559,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 								$theCode,
 								$basketExtra,
 								$basketRecs,
-                                $bIsGift,
+                                false, // $enableTaxZero neu
                                 $notOverwritePriceIfSet
 							);
 							$markerArray = array_merge($markerArray, $currPriceMarkerArray);

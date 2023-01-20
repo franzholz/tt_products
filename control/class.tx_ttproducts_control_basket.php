@@ -576,7 +576,7 @@ class tx_ttproducts_control_basket {
     static public function generatedBasketExtFromRow ($row, $count) {
         $basketExt = [];
 
-        $extArray = $row['ext'];
+        $extArray = $row['ext'] ?? [];
         $extVarLine = isset($extArray['extVarLine']) ? $extArray['extVarLine'] : '';
         $basketExt[$row['uid']][$extVarLine] = $count;
 

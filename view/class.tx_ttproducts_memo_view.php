@@ -56,8 +56,6 @@ class tx_ttproducts_memo_view implements \TYPO3\CMS\Core\SingletonInterface {
 		) {
 		$cObj = FrontendUtility::getContentObjectRenderer();
 
-		$piVars = tx_ttproducts_model_control::getPiVars();
-
 		$this->pid_list = $pid_list;
 		$this->useArticles = $useArticles;
 // 		$fe_user_uid = $GLOBALS['TSFE']->fe_user->user['uid'];

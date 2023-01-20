@@ -158,7 +158,8 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view {
 						isset($piVars[$piVar]) &&
 						is_array($piVars[$piVar]) &&
 						isset($piVars[$piVar][$productUid]) &&
-						is_array($piVars[$piVar][$productUid])
+						is_array($piVars[$piVar][$productUid]) &&
+						isset($piVars[$piVar][$productUid][$row['uid']])
 					) {
 						$selectedKey = $piVars[$piVar][$productUid][$row['uid']];
 					}

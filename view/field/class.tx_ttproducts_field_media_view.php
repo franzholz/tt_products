@@ -665,9 +665,8 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view {
 		$specialConf = [];
 		$tempImageConf = '';
 
-		if (is_array($tableConf) &&
-			is_array($tableConf['image.'])) {
-			$tempImageConf = &$tableConf['image.'];
+		if (isset($tableConf['image.'])) {
+			$tempImageConf = $tableConf['image.'];
 		}
 
 		if (is_array($tempImageConf)) {
@@ -686,7 +685,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view {
 					if (!is_array($specialConf[$tagKey])) {
 						$specialConf[$tagKey] = [];
 					}
-					$specialConf[$tagKey][$specialConfType] = &$tempImageConf[$specialConfType . '.'];
+					$specialConf[$tagKey][$specialConfType] = $tempImageConf[$specialConfType . '.'];
 				}
 			}
 		}

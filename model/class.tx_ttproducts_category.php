@@ -170,7 +170,10 @@ class tx_ttproducts_category extends tx_ttproducts_category_base {
 		$bRootfound = false;
 		$rc = [];
 
-		if ($uid) {
+        if (
+            $uid &&
+            $this->parentField != ''
+        ) {
 			$tableObj = $this->getTableObj();
 			$rc = $rowArray = $this->get($uid . ' ', $pid, false);
 			$orderBy = $this->tableconf['orderBy'];
@@ -286,8 +289,8 @@ class tx_ttproducts_category extends tx_ttproducts_category_base {
 
 					while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
 						if (
-							!empty(is_array($tableObj->langArray)) &&
-							$tableObj->langArray[$row[$labelFieldname]]
+							is_array($tableObj->langArray) &&
+							!empty($tableObj->langArray[$row[$labelFieldname]])
 						) {
 							$row[$labelFieldname] = $tableObj->langArray[$row[$labelFieldname]];
 						}
@@ -435,7 +438,8 @@ class tx_ttproducts_category extends tx_ttproducts_category_base {
 			$catArray = array_unique($catArray);
 
 			if (
-				is_array($tableConf['special.']) &&
+				!empty($tableConf['special.']) &&
+				isset($tableConf['special.']['all']) &&
 				(
 					MathUtility::canBeInterpretedAsInteger($tableConf['special.']['all']) &&
 					in_array($tableConf['special.']['all'], $catArray) ||
@@ -444,7 +448,8 @@ class tx_ttproducts_category extends tx_ttproducts_category_base {
 			) 	{
 				$cat = '';	// no filter shall be used
 			} else if (
-				is_array($tableConf['special.']) &&
+				!empty($tableConf['special.']) &&
+				isset($tableConf['special.']['no']) &&
 				MathUtility::canBeInterpretedAsInteger($tableConf['special.']['no']) &&
 				in_array($tableConf['special.']['no'], $catArray)
 			) {

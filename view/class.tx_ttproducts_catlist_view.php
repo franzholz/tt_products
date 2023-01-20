@@ -81,7 +81,7 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base {
 
 		if ($ctrlArray['bUseBrowser'] && !empty($ctrlArray['limit'])) {
 			$piVars = tx_ttproducts_model_control::getPiVars();
-			$childStart = $piVars['pointer'] * $ctrlArray['limit'];
+			$childStart = ($piVars['pointer'] ?? 0) * $ctrlArray['limit'];
 			$childEnd = $childStart + $ctrlArray['limit'] - 1;
 
 			if ($childEnd > $childEndMax) {
