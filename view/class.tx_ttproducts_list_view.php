@@ -769,7 +769,13 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$bUseSearchboxArray = [];
 		$latest = '';
 
-		if (isset($searchVars['local']) || isset($searchVars['uid'])) {
+		if (
+            !empty($searchVars) &&
+            (
+                isset($searchVars['local']) ||
+                isset($searchVars['uid'])
+            )
+        ) {
 			tx_ttproducts_model_control::getSearchInfo(
 				$cObj,
 				$searchVars,

@@ -421,7 +421,7 @@ class tx_ttproducts_model_control {
 
 	static public function getSearchInfo (
 		$cObj,
-		$searchVars,
+		array $searchVars,
 		$functablename,
 		$tablename,
 		&$searchboxWhere,
@@ -430,8 +430,6 @@ class tx_ttproducts_model_control {
 		&$sqlTableIndex,
 		&$latest
 	) {
-		global $TCA;
-
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 
@@ -483,8 +481,12 @@ class tx_ttproducts_model_control {
 			}
 		}
 
-//		$tmpArray = GeneralUtility::trimExplode('|',$searchVars['local']);
-		$tmpArray[0] = (is_array($searchVars['local']) ? key($searchVars['local']) : $searchVars['local']);
+        $tmpArray = [];
+		$tmpArray[0] = (
+                is_array($searchVars['local']) ? 
+                key($searchVars['local']) : 
+                $searchVars['local']
+            );
 		if (is_array($searchVars['local'])) {
 			$tmpArray[0] = key($searchVars['local']);
 			$localParam = current($searchVars['local']);
@@ -579,8 +581,8 @@ class tx_ttproducts_model_control {
 
 					if ($searchTablename != '') {
 
-						$field = ($searchField!='' && isset($TCA[$searchTablename]['columns'][$searchField]) ? $searchField : 'title');
-						$configArray = $TCA[$searchTablename]['columns'][$field]['config'];
+						$field = ($searchField!='' && isset($GLOBALS['TCA'][$searchTablename]['columns'][$searchField]) ? $searchField : 'title');
+						$configArray = $GLOBALS['TCA'][$searchTablename]['columns'][$field]['config'];
 
 						if (isset($configArray) && is_array($configArray) || in_array($field,$enableFieldArray)) {
 							if ($configArray['eval'] == 'date') {
