@@ -396,17 +396,19 @@ abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\Single
 		$sqlTableArray = [];
 		$sqlTableIndex = 0;
 		$latest = '';
-		tx_ttproducts_model_control::getSearchInfo(
-			$this->cObj,
-			$searchVars,
-			$functablename,
-			$tablename,
-			$searchboxWhere,
-			$bUseSearchboxArray,
-			$sqlTableArray,
-			$sqlTableIndex,
-			$latest
-		);
+		if (!empty($searchVars)) {
+            tx_ttproducts_model_control::getSearchInfo(
+                $this->cObj,
+                $searchVars,
+                $functablename,
+                $tablename,
+                $searchboxWhere,
+                $bUseSearchboxArray,
+                $sqlTableArray,
+                $sqlTableIndex,
+                $latest
+            );
+		}
 		$orderBy = $GLOBALS['TYPO3_DB']->stripOrderBy($tableConf['orderBy']);
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 
