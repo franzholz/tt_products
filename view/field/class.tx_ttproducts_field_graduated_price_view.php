@@ -57,8 +57,6 @@ class tx_ttproducts_field_graduated_price_view extends tx_ttproducts_field_base_
 		$basketRecs,
 		$id = '1'
 	) {
-		global $TCA;
-
 		$bTaxIncluded = $this->conf['TAXincluded'];
 		$bEnableTaxZero = 0;
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');

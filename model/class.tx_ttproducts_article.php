@@ -54,8 +54,6 @@ class tx_ttproducts_article extends tx_ttproducts_article_base {
 	 * Getting all tt_products_cat categories into internal array
 	 */
 	public function init ($functablename) {
-		global $TCA;
-
 		$result = parent::init($functablename);
 
 		if ($result) {

@@ -57,8 +57,6 @@ class tx_ttproducts_field_tax_view extends tx_ttproducts_field_base_view {
 		$basketRecs,
 		$id = '1'
 	) {
-		global $TCA;
-
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 		$staticTaxViewObj = $tablesObj->get('static_taxes', true);
 
