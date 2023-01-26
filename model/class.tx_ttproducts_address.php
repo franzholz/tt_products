@@ -46,6 +46,8 @@ class tx_ttproducts_address extends tx_ttproducts_category_base {
 	 * Getting all address values into internal array
 	 */
 	public function init ($functablename) {
+		global $TCA;
+
 		$result = parent::init($functablename);
 		if ($result) {
 			$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');

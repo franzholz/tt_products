@@ -77,6 +77,8 @@ class tx_ttproducts_basketitem implements \TYPO3\CMS\Core\SingletonInterface {
 		&$minQuantity,
 		&$maxQuantity
 	) {
+		global $TCA;
+
 		$row = $item['rec'];
 		$minQuantity = $row['basketminquantity'];
 		$maxQuantity = $row['basketmaxquantity'];

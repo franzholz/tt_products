@@ -63,10 +63,11 @@ class tx_ttproducts_sql {
 
 
 	static public function getWhere4Field($tablename, $field, $comparator, $comparand) {
+		global $TCA;
 		$result = '';
 
-		if (isset($GLOBALS['TCA'][$tablename]) && isset($GLOBALS['TCA'][$tablename]['columns'][$field])) {
-			$tcaConf = $GLOBALS['TCA'][$tablename]['columns'][$field]['config'];
+		if (isset($TCA[$tablename]) && isset($TCA[$tablename]['columns'][$field])) {
+			$tcaConf = $TCA[$tablename]['columns'][$field]['config'];
 			if ($tcaConf['eval'] == 'date') {
 				$valueString = self::convertDate($comparand);
 				if ($valueString === false) {

@@ -141,6 +141,8 @@ class tx_ttproducts_orderaddress_view extends tx_ttproducts_table_base_view {
 		$bSelect,
 		$type
 	) {
+		global $TCA;
+
 		$fieldOutputArray = [];
 		$modelObj = $this->getModelObj();
 		$selectInfoFields = $modelObj->getSelectInfoFields();
@@ -152,7 +154,7 @@ class tx_ttproducts_orderaddress_view extends tx_ttproducts_table_base_view {
 				$fieldOutputArray[$field] =
 					tx_ttproducts_form_div::createSelect(
 						$languageObj,
-						$GLOBALS['TCA'][$tablename]['columns'][$field]['config']['items'],
+						$TCA[$tablename]['columns'][$field]['config']['items'],
 						'recs[' . $type . '][' . $field . ']',
 						(is_array($row) && isset($row[$field]) ? $row[$field] : ''),
 						true,
@@ -165,7 +167,7 @@ class tx_ttproducts_orderaddress_view extends tx_ttproducts_table_base_view {
 		} else {
 			foreach ($selectInfoFields as $field) {
 				$tablename = $modelObj->getTCATableFromField($field);
-				$itemConfig = $GLOBALS['TCA'][$tablename]['columns'][$field]['config']['items'];
+				$itemConfig = $TCA[$tablename]['columns'][$field]['config']['items'];
 
 				if (
                     isset($row[$field]) &&

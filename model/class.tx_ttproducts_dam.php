@@ -54,6 +54,8 @@ class tx_ttproducts_dam extends tx_ttproducts_article_base {
 	 * DAM elements
 	 */
 	public function init ($functablename) {
+		global $TCA;
+
 		$result = parent::init($functablename);
 
 		if ($result) {

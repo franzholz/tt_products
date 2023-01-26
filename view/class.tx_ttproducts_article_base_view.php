@@ -146,6 +146,8 @@ abstract class tx_ttproducts_article_base_view extends tx_ttproducts_table_base_
         $id = '',
         $checkPriceZero = false
     ) {
+		global $TCA;
+
 		parent::getItemSubpartArrays(
 			$templateCode,
 			$functablename,

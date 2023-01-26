@@ -54,6 +54,8 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 
 
 	public function init (&$content, &$conf, &$config, $cObj, $pibaseClass, &$error_code) {
+		global $TCA;
+
 		$pibaseObj = GeneralUtility::makeInstance($pibaseClass);
 		$this->cObj = $cObj;
 		$parameterApi = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\ParameterApi::class);
