@@ -600,8 +600,8 @@ class ParameterApi implements \TYPO3\CMS\Core\SingletonInterface {
 
                     if ($searchTablename != '') {
 
-                        $field = ($searchField!='' && isset($TCA[$searchTablename]['columns'][$searchField]) ? $searchField : 'title');
-                        $configArray = $TCA[$searchTablename]['columns'][$field]['config'];
+                        $field = ($searchField!='' && isset($GLOBALS['TCA'][$searchTablename]['columns'][$searchField]) ? $searchField : 'title');
+                        $configArray = $GLOBALS['TCA'][$searchTablename]['columns'][$field]['config'];
 
                         if (isset($configArray) && is_array($configArray) || in_array($field,$enableFieldArray)) {
                             if ($configArray['eval'] == 'date') {
