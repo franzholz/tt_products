@@ -288,7 +288,7 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view {
 								$foldername = basename($file);
 
 								$content .= '<a href="' . htmlspecialchars($url) . '" title="' .
-									$GLOBALS['TSFE']->sL(DIV2007_LANGUAGE_PATH . 'locallang_common.xml:download') . ' ' . $foldername . '">' .
+									$GLOBALS['TSFE']->sL(DIV2007_LANGUAGE_PATH . 'locallang_common.xlf:download') . ' ' . $foldername . '">' .
 								$foldername . '<img src="' . $downloadImageFile . '">' . '</a>';
 							} else {
 								$paramArray[$postVar . '[fal]'] = $k;
@@ -300,7 +300,7 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view {
 								$filename = basename($file);
 
 								$content .= '<a href="' . htmlspecialchars($url) . '" title="' .
-									$GLOBALS['TSFE']->sL(DIV2007_LANGUAGE_PATH . 'locallang_common.xml:download') . ' ' . $filename . '">' . $filename . '<img src="' . $downloadImageFile . '">' . '</a>';
+									$GLOBALS['TSFE']->sL(DIV2007_LANGUAGE_PATH . 'locallang_common.xlf:download') . ' ' . $filename . '">' . $filename . '<img src="' . $downloadImageFile . '">' . '</a>';
 							}
 						}
 					}
