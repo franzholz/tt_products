@@ -59,8 +59,7 @@ class tx_ttproducts_pi_int implements \TYPO3\CMS\Core\SingletonInterface {
 		$pibaseObj = GeneralUtility::makeInstance('tx_ttproducts_pi_int_base');
 		$pibaseObj->cObj = $this->cObj;
 		$confMain = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
-// 		$conf = GeneralUtility::array_merge_recursive_overrule($confMain, $conf);
-		tx_div2007_core::mergeRecursiveWithOverrule($confMain, $conf);
+        \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($confMain, $conf);
 		$conf = $confMain;
 
 		if (!empty($conf['templateFile'])) {

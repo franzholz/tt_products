@@ -38,6 +38,7 @@
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 
 use JambageCom\Div2007\Utility\FrontendUtility;
 
@@ -119,7 +120,9 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 		$flexformTyposcript = \JambageCom\Div2007\Utility\FlexformUtility::get($flexformArray, 'myTS');
 
 		if($flexformTyposcript) {
-			$tsparser = tx_div2007_core::newTsParser();
+			$tsparser = GeneralUtility::makeInstance(
+                \TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser::class
+            );
 			// Copy conf into existing setup
 			$tsparser->setup = $conf;
 			// Parse the new Typoscript
@@ -266,7 +269,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 			foreach ($paramArray as $param) {
 				$paramVal = ($piVars[$param] ?? '');
 				if ($paramVal) {
-					$bParamValIsInt = \TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($paramVal);
+					$bParamValIsInt = MathUtility::canBeInterpretedAsInteger($paramVal);
 
 					if ($bParamValIsInt) {
 						$this->tt_product_single[$param] = intval($paramVal);

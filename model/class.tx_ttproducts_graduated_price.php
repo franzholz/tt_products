@@ -37,6 +37,8 @@
  *
  */
 
+use TYPO3\CMS\Core\Utility\MathUtility;
+
 use JambageCom\Div2007\Utility\TableUtility;
 
 
@@ -150,7 +152,7 @@ class tx_ttproducts_graduated_price {
 				if (is_array($uid)) {
 					foreach ($uid as $v) {
 						if (
-							!\TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($v)
+							!MathUtility::canBeInterpretedAsInteger($v)
 						) {
 							return 'ERROR: not integer ' . $v;
 						}

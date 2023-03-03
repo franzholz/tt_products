@@ -39,6 +39,7 @@
 
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 
 use JambageCom\Div2007\Utility\ExtensionUtility;
 
@@ -188,7 +189,7 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base {
 
 				if (
 					$tableconf['countryReference'] == 'uid' &&
-					\TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($storeRow[$staticInfoCountryField])
+					MathUtility::canBeInterpretedAsInteger($storeRow[$staticInfoCountryField])
 				) {
 					$countryObj = $tablesObj->get('static_countries');
 					if (is_object($countryObj)) {
@@ -295,7 +296,7 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base {
 
 		$isValid = true;
 		foreach ($uidArray as $uid) {
-			if (!\TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($uid)) {
+			if (!MathUtility::canBeInterpretedAsInteger($uid)) {
 				$isValid = false;
 				$result = false;
 				break;

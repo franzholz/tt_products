@@ -38,6 +38,7 @@
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 
 
 class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterface {
@@ -93,7 +94,7 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
 		$config['pid_list'] = (isset($pid_list) ? $pid_list : $config['storeRootPid'] ?? 0);
 
 		$recursive = (!empty($cObj->data['recursive']) ? $cObj->data['recursive'] : $conf['recursive'] ?? 99);
-		$config['recursive'] = tx_div2007_core::intInRange($recursive, 0, 100);
+		$config['recursive'] = MathUtility::forceIntegerInRange($recursive, 0, 100);
 
 		if (is_object($pObj)) {
 			$pLangObj = $pObj;

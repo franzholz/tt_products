@@ -45,7 +45,7 @@ namespace JambageCom\TtProducts\Api;
 
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use \TYPO3\CMS\Core\Utility\MathUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 
 use JambageCom\Div2007\Utility\ExtensionUtility;
 use JambageCom\Div2007\Utility\FrontendUtility;
@@ -612,15 +612,6 @@ class PaymentShippingHandling {
 										'',
 										implode(',', $fieldsArray)
 									);
-
-								if (isset($addItems) && is_array($addItems)) {
-									foreach ($addItems as $k1 => $row) {
-										foreach ($row as $field => $v) {
-											$addItems[$k1][$field] =
-												\tx_div2007_core::csConv($v, $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['static_info_tables']['charset']);
-										}
-									}
-								}
 							}
 						}
 					}

@@ -38,6 +38,7 @@
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 
 
 
@@ -285,7 +286,7 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base {
 						strpos($k, '.') == strlen($k) - 1
 					) {
 						$k1 = substr($k, 0, strlen($k) - 1);
-						if (\TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($k1)) {
+						if (MathUtility::canBeInterpretedAsInteger($k1)) {
 							$replaceConf = array_merge($replaceConf, $lineReplaceConf);
 						}
 					}
