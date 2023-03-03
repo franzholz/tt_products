@@ -37,6 +37,9 @@
  *
  */
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
+
 class tx_ttproducts_form_div {
 
 	static public function createSelect (
