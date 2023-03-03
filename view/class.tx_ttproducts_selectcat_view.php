@@ -58,6 +58,7 @@ class tx_ttproducts_selectcat_view extends tx_ttproducts_catlist_view_base {
 		$basketExtra,
 		$basketRecs
 	) {
+        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 		$content = '';
 		$out = '';
 		$where = '';
@@ -292,7 +293,7 @@ class tx_ttproducts_selectcat_view extends tx_ttproducts_catlist_view_base {
 			}
 
 			$out =
-				tx_div2007_core::substituteMarkerArrayCached(
+				$templateService->substituteMarkerArrayCached(
 					$t['listFrameWork'],
 					$markerArray,
 					$subpartArray,

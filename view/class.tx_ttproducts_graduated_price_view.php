@@ -137,13 +137,13 @@ class tx_ttproducts_graduated_price_view extends tx_ttproducts_table_base_view {
         $pObj,            
 		$id = '1'
 	) {
+        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 		$subpartmarkerObj = GeneralUtility::makeInstance('tx_ttproducts_subpartmarker');
 		$local_cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
-        $parser = tx_div2007_core::newHtmlParser(false);
 
 		$t = [];
-		$t['listFrameWork'] = tx_div2007_core::getSubpart($templateCode,'###GRADPRICE_FORMULA_ITEMS###');
-		$t['itemFrameWork'] = tx_div2007_core::getSubpart($t['listFrameWork'], '###ITEM_FORMULA###');
+		$t['listFrameWork'] = $templateService->getSubpart($templateCode,'###GRADPRICE_FORMULA_ITEMS###');
+		$t['itemFrameWork'] = $templateService->getSubpart($t['listFrameWork'], '###ITEM_FORMULA###');
 
         $priceFormulaArray = $pObj->getModelObj()->getGraduatedPriceObject()->getFormulasByItem($row['uid']);
 
@@ -162,8 +162,8 @@ class tx_ttproducts_graduated_price_view extends tx_ttproducts_table_base_view {
 						$itemMarkerArray
 					);
 
-					$formulaContent = $parser->substituteMarkerArray($t['itemFrameWork'], $itemMarkerArray);
-					$content .= $parser->substituteSubpart($t['listFrameWork'], '###ITEM_FORMULA###', $formulaContent) ;
+					$formulaContent = $templateService->substituteMarkerArray($t['itemFrameWork'], $itemMarkerArray);
+					$content .= $templateService->substituteSubpart($t['listFrameWork'], '###ITEM_FORMULA###', $formulaContent) ;
 				}
 			}
 			$subpartArray['###GRADPRICE_FORMULA_ITEMS###'] = $content;

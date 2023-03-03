@@ -101,6 +101,7 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$pageAsCategory,
 		$templateSuffix = ''
 	) {
+        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 		$basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
 		$markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
@@ -110,8 +111,6 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
 		$urlObj = GeneralUtility::makeInstance('tx_ttproducts_url_view');
         $cObj = \JambageCom\TtProducts\Api\ControlApi::getCObj();
-
-        $parser = tx_div2007_core::newHtmlParser(false);
 
 		$piVars = tx_ttproducts_model_control::getPiVars();
 		$conf = $cnf->getConf();
@@ -291,7 +290,7 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 			// Add the template suffix
 			$subPartMarker = $subPartMarker.$templateSuffix;
-			$itemFrameWork = tx_div2007_core::getSubpart($templateCode, $subpartmarkerObj->spMarker('###' . $subPartMarker . '###'));
+			$itemFrameWork = $templateService->getSubpart($templateCode, $subpartmarkerObj->spMarker('###' . $subPartMarker . '###'));
 			$checkExpression = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['templateCheck'];
 			if (!empty($checkExpression)) {
 				$wrongPounds = preg_match_all($checkExpression, $itemFrameWork, $matches);
@@ -306,7 +305,7 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
 			}
 
 			$t = [];
-			$t['categoryFrameWork'] = tx_div2007_core::getSubpart(
+			$t['categoryFrameWork'] = $templateService->getSubpart(
 				$itemFrameWork,
 				'###ITEM_CATEGORY###'
 			);
@@ -360,7 +359,7 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
 				$wrappedSubpartArray
 			);
 
-			$itemFrameWork = tx_div2007_core::substituteMarkerArrayCached(
+			$itemFrameWork = $templateService->substituteMarkerArrayCached(
 				$itemFrameWork,
 				$markerArray,
 				$subpartArray,
@@ -536,7 +535,7 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
 								''
 							);
 							$subpartArray['###ITEM_CATEGORY###'] .=
-								tx_div2007_core::substituteMarkerArrayCached(
+								$templateService->substituteMarkerArrayCached(
 									$t['categoryFrameWork'],
 									$categoryMarkerArray,
 									[],
@@ -1358,7 +1357,7 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
 					$quantityMarkerArray = [];
 
 					foreach ($listMarkerArray as $marker => $markerValue) {
-						$markerValue = $parser->substituteMarkerArray($markerValue, $markerArray);
+						$markerValue = $templateService->substituteMarkerArray($markerValue, $markerArray);
 						$markerArray[$marker] = $markerValue;
 					}
 				}
@@ -1425,7 +1424,7 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
                 $markerArray = $markerObj->reduceMarkerArray($itemFrameWork, $markerArray);
 
 					// Substitute
-				$content = tx_div2007_core::substituteMarkerArrayCached(
+				$content = $templateService->substituteMarkerArrayCached(
 					$itemFrameWork,
 					$markerArray,
 					$subpartArray,

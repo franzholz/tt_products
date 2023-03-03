@@ -179,7 +179,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 		&$subpartArray,
 		&$wrappedSubpartArray
 	) {
-        $parser = tx_div2007_core::newHtmlParser(false);
+        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 		$basketConfArray = [];
 		// check the basket limits
 		$basketConfArray['minimum'] = $cnf->getBasketConf('minPrice');
@@ -187,7 +187,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$priceSuccessArray = [];
 		$priceSuccessArray['minimum'] = true;
 		$priceSuccessArray['maximum'] = true;
-		$boundaryArray = array('minimum', 'maximum');
+		$boundaryArray = ['minimum', 'maximum'];
 
 		foreach ($boundaryArray as $boundaryType) {
 			switch ($boundaryType) {
@@ -216,8 +216,8 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 					)
 				) {
 					$subpartArray['###MESSAGE_' . $markerKey . '###'] = '';
-					$tmpSubpart = tx_div2007_core::getSubpart($templateCode, '###MESSAGE_' . $markerKey . '_ERROR###');
-					$subpartArray['###MESSAGE_' . $markerKey . '_ERROR###'] = $parser->substituteMarkerArray($tmpSubpart,  $markerArray);
+					$tmpSubpart = $templateService->getSubpart($templateCode, '###MESSAGE_' . $markerKey . '_ERROR###');
+					$subpartArray['###MESSAGE_' . $markerKey . '_ERROR###'] = $templateService->substituteMarkerArray($tmpSubpart,  $markerArray);
 					$priceSuccessArray[$boundaryType] = false;
 				}
 			}
@@ -225,8 +225,8 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 			if ($priceSuccessArray[$boundaryType]) {
 
 				$subpartArray['###MESSAGE_' . $markerKey . '_ERROR###'] = '';
-				$tmpSubpart = tx_div2007_core::getSubpart($templateCode, '###MESSAGE_' . $markerKey . '###');
-				$subpartArray['###MESSAGE_' . $markerKey . '###'] = $parser->substituteMarkerArray($tmpSubpart, $markerArray);
+				$tmpSubpart = $templateService->getSubpart($templateCode, '###MESSAGE_' . $markerKey . '###');
+				$subpartArray['###MESSAGE_' . $markerKey . '###'] = $templateService->substituteMarkerArray($tmpSubpart, $markerArray);
 			}
 		} // foreach
 
@@ -269,6 +269,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 				Any pre-preparred fields can be set in $mainMarkerArray, which is substituted in the subpart before the item-and-categories part is substituted.
 			*/
 		$out = '';
+		$templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 		$calculationField = \JambageCom\TtProducts\Model\Field\FieldInterface::PRICE_CALCULATED;
 		$basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
 		$markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
@@ -280,8 +281,6 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$itemObj = GeneralUtility::makeInstance('tx_ttproducts_basketitem');
 		$basketItemView = GeneralUtility::makeInstance('tx_ttproducts_basketitem_view');
 		$cObj = FrontendUtility::getContentObjectRenderer();
-        $parser = tx_div2007_core::newHtmlParser(false);
-
 		$taxObj = GeneralUtility::makeInstance('tx_ttproducts_field_tax');
 		$piVars = tx_ttproducts_model_control::getPiVars();
 		$articleViewTagArray = [];
@@ -335,7 +334,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$t = [];
 
 		$tempContent =
-			tx_div2007_core::getSubpart(
+			$templateService->getSubpart(
 				$templateCode,
 				$subpartmarkerObj->spMarker(
 					'###' . $subpartMarker . $config['templateSuffix'] . '###'
@@ -344,7 +343,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 		if (!$tempContent) {
 			$tempContent =
-				tx_div2007_core::getSubpart(
+				$templateService->getSubpart(
 					$templateCode,
 					$subpartmarkerObj->spMarker(
 						'###' . $subpartMarker . '###'
@@ -407,14 +406,14 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$markerArray = array_merge($markerArray, $globalMarkerArray);
 
 		$tempContent =
-			tx_div2007_core::substituteMarkerArrayCached(
+			$templateService->substituteMarkerArrayCached(
 				$tempContent,
 				$markerArray,
 				$feuserSubpartArray  // The emptied subparts must be considered before the wrapped subparts are added because TYPO3 does not support nested subparts.
 			);
 
 		$t['basketFrameWork'] =
-			tx_div2007_core::substituteMarkerArrayCached(
+			$templateService->substituteMarkerArrayCached(
 				$tempContent,
 				[],
 				[],
@@ -457,23 +456,23 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 				// If there is a specific section for the billing address if user is logged in (used because the address may then be hardcoded from the database
 			if (
 				trim(
-					tx_div2007_core::getSubpart(
+					$templateService->getSubpart(
 						$t['basketFrameWork'],
 						'###BILLING_ADDRESS_LOGIN###'
 					)
 				)
 			) {
 				if (\JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn() && $conf['lockLoginUserInfo']) {
-					$t['basketFrameWork'] = $parser->substituteSubpart($t['basketFrameWork'], '###BILLING_ADDRESS###', '');
+					$t['basketFrameWork'] = $templateService->substituteSubpart($t['basketFrameWork'], '###BILLING_ADDRESS###', '');
 				} else {
-					$t['basketFrameWork'] = $parser->substituteSubpart($t['basketFrameWork'], '###BILLING_ADDRESS_LOGIN###', '');
+					$t['basketFrameWork'] = $templateService->substituteSubpart($t['basketFrameWork'], '###BILLING_ADDRESS_LOGIN###', '');
 				}
 			}
-			$t['categoryFrameWork'] = tx_div2007_core::getSubpart($t['basketFrameWork'], '###ITEM_CATEGORY###');
-			$t['itemFrameWork'] = tx_div2007_core::getSubpart($t['basketFrameWork'], '###ITEM_LIST###');
+			$t['categoryFrameWork'] = $templateService->getSubpart($t['basketFrameWork'], '###ITEM_CATEGORY###');
+			$t['itemFrameWork'] = $templateService->getSubpart($t['basketFrameWork'], '###ITEM_LIST###');
 
-			$t['item'] = tx_div2007_core::getSubpart($t['itemFrameWork'], '###ITEM_SINGLE###');
-			$t['taxes'] = tx_div2007_core::getSubpart($t['basketFrameWork'], '###COUNTRY_TAXRATES###');
+			$t['item'] = $templateService->getSubpart($t['itemFrameWork'], '###ITEM_SINGLE###');
+			$t['taxes'] = $templateService->getSubpart($t['basketFrameWork'], '###COUNTRY_TAXRATES###');
 
 			$currentP='';
 			$itemsOut='';
@@ -615,7 +614,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 					if ($currentPnew != $currentP) {
 						if ($itemsOut) {
 							$out .=
-								$parser->substituteSubpart(
+								$templateService->substituteSubpart(
 									$t['itemFrameWork'],
 									'###ITEM_SINGLE###',
 									$itemsOut
@@ -660,7 +659,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
  							$markerArray['###PRICE_GOODS_NO_TAX###'] = $priceViewObj->priceFormat($categoryPriceNoTax);
  							$markerArray['###PRICE_GOODS_ONLY_TAX###'] = $priceViewObj->priceFormat($categoryPriceTax - $categoryPriceNoTax);
 
-							$out .= $parser->substituteMarkerArray($t['categoryFrameWork'], $markerArray);
+							$out .= $templateService->substituteMarkerArray($t['categoryFrameWork'], $markerArray);
 						}
 					}
 						// Fill marker arrays
@@ -1030,14 +1029,14 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 					);
 
 				// workaround for TYPO3 bug #44270
-					$tempContent = tx_div2007_core::substituteMarkerArrayCached(
+					$tempContent = $templateService->substituteMarkerArrayCached(
 						$t['item'],
 						[],
 						$subpartArray,
 						$wrappedSubpartArray
 					);
 
-					$tempContent = $parser->substituteMarkerArray(
+					$tempContent = $templateService->substituteMarkerArray(
 						$tempContent,
 						$markerArray
 					);
@@ -1047,7 +1046,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 				if ($itemsOut) {
 					$tempContent =
-						$parser->substituteSubpart(
+						$templateService->substituteSubpart(
 							$t['itemFrameWork'],
 							'###ITEM_SINGLE###',
 							$itemsOut
@@ -1348,7 +1347,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 				if (is_array($subQuantityArray) && count($subQuantityArray)) {
 					$subpartArray['###MESSAGE_' . $markerkey . '###'] = '';
 					$tmpSubpart =
-						tx_div2007_core::getSubpart(
+						$templateService->getSubpart(
 							$t['basketFrameWork'],
 							'###MESSAGE_' . $markerkey . '_ERROR###'
 						);
@@ -1362,15 +1361,15 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 					$errorOut = tx_div2007_error::getMessage($languageObj, $quantityCode);
 					$markerArray['###ERROR_' . $markerkey . '###'] = $errorOut;
-					$subpartArray['###MESSAGE_' . $markerkey . '_ERROR###'] = $parser->substituteMarkerArray($tmpSubpart, $markerArray);
+					$subpartArray['###MESSAGE_' . $markerkey . '_ERROR###'] = $templateService->substituteMarkerArray($tmpSubpart, $markerArray);
 				} else {
 					$subpartArray['###MESSAGE_' . $markerkey . '_ERROR###'] = '';
 					$tmpSubpart =
-						tx_div2007_core::getSubpart(
+						$templateService->getSubpart(
 							$t['basketFrameWork'],
 							'###MESSAGE_' . $markerkey . '###'
 						);
-					$subpartArray['###MESSAGE_' . $markerkey . '###'] = $parser->substituteMarkerArray($tmpSubpart, $markerArray);
+					$subpartArray['###MESSAGE_' . $markerkey . '###'] = $templateService->substituteMarkerArray($tmpSubpart, $markerArray);
 				}
 			}
 
@@ -1629,7 +1628,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 								}
 
 								$countryMarkerArray['###COUNTRY_CODE###'] = $countryCode;
-								$tempContent = tx_div2007_core::substituteMarkerArrayCached(
+								$tempContent = $templateService->substituteMarkerArrayCached(
 									$t['taxes'],
 									$countryMarkerArray,
 									$countrySubpartArray,
@@ -1719,7 +1718,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 			}
 
 			$frameWork =
-				$parser->substituteSubpart(
+				$templateService->substituteSubpart(
 					$t['basketFrameWork'],
 					'###ITEM_CATEGORY_AND_ITEMS###',
 					$out
@@ -1747,14 +1746,14 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
  // workaround for TYPO3 bug #44270
 				// substitute the main subpart with the rendered content.
 			$frameWork =
-				tx_div2007_core::substituteMarkerArrayCached(
+				$templateService->substituteMarkerArrayCached(
 					$frameWork,
 					[],
 					$subpartArray,
 					$wrappedSubpartArray
 				);
 			$out =
-				$parser->substituteMarkerArray(
+				$templateService->substituteMarkerArray(
 					$frameWork,
 					$markerArray
 				); // workaround for TYPO3 bug

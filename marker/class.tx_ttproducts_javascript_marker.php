@@ -61,7 +61,7 @@ class tx_ttproducts_javascript_marker implements \TYPO3\CMS\Core\SingletonInterf
 
 		$cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$conf = $cnfObj->getConf();
-        $parser = tx_div2007_core::newHtmlParser(false);
+		$templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 
 		if (isset($conf['javaScript.'])) {
 			$javaScriptObj = GeneralUtility::makeInstance('tx_ttproducts_javascript');
@@ -74,7 +74,7 @@ class tx_ttproducts_javascript_marker implements \TYPO3\CMS\Core\SingletonInterf
 			foreach ($conf['javaScript.'] as $key => $confJS) {
 				$marker = rtrim($key, '.');
 				$jsText =
-					$parser->substituteMarkerArray($confJS['value'], $jsItemMarkerArray);
+					$templateService->substituteMarkerArray($confJS['value'], $jsItemMarkerArray);
 				$paramsArray = [$marker => $jsText];
 				$javaScriptObj->set('direct', $paramsArray, $cObj->currentRecord);
 				$marker = '###' . $this->marker . '_' . strtoupper($marker) . '###';
@@ -83,7 +83,5 @@ class tx_ttproducts_javascript_marker implements \TYPO3\CMS\Core\SingletonInterf
 		}
 	}
 }
-
-
 
 

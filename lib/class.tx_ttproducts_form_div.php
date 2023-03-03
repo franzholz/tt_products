@@ -55,8 +55,8 @@ class tx_ttproducts_form_div {
 		$keyMarkerArray = ''
 	) {
 		$result = false;
+		$templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 		$useXHTML = !empty($GLOBALS['TSFE']->config['config']['xhtmlDoctype']);
-		$parser = tx_div2007_core::newHtmlParser(false);
 		$flags = ENT_QUOTES;
 
 		if (is_array($valueArray)) {
@@ -143,13 +143,13 @@ class tx_ttproducts_form_div {
 						$totaltext .= $inputTextArray['0'] . ($type == 'select' ? $nameText : '') . $inputTextArray['1'];
 					} else {
 						// $tmpText = str_replace('###INPUT###', $inputText, $layout);
-						$tmpText = $parser->substituteSubpart($layout, '###INPUT###', $inputTextArray);
+						$tmpText = $templateService->substituteSubpart($layout, '###INPUT###', $inputTextArray);
 
 						if (is_array($imageFileArray) && isset($imageFileArray[$key])) {
 							$tmpText = str_replace('###IMAGE###', $imageFileArray[$key], $tmpText);
 						}
 						if (is_array($keyMarkerArray) && isset($keyMarkerArray[$key])) {
-							$tmpText = $parser->substituteMarkerArray(
+							$tmpText = $templateService->substituteMarkerArray(
 								$tmpText,
 								$keyMarkerArray[$key]
 							);

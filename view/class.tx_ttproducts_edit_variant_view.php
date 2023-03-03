@@ -153,6 +153,7 @@ class tx_ttproducts_edit_variant_view implements tx_ttproducts_edit_variant_view
 		&$wrappedSubpartArray
 	) {
 // 		###edit_variant1###
+        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 		$editConf = $this->getModelObj()->getValidConfig($row);
 
 		if (isset($editConf) && is_array($editConf)) {
@@ -181,7 +182,7 @@ class tx_ttproducts_edit_variant_view implements tx_ttproducts_edit_variant_view
 
 					$subpartContent = $cObj->getSubpart($templateCode, $subpartMarker);
 					$content =
-						tx_div2007_core::substituteMarkerArrayCached(
+						$templateService->substituteMarkerArrayCached(
 							$subpartContent,
 							$markerArray
 						);

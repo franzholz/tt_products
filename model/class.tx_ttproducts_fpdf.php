@@ -37,7 +37,7 @@
  */
 
 
-// require(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('fpdf') . 'class.tx_fpdf.php');
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
 class tx_ttproducts_fpdf extends FPDF {
@@ -223,8 +223,9 @@ class tx_ttproducts_fpdf extends FPDF {
 	}
 
 	public function Body () {
+        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 		// $xPos = $this->GetX();
-		$tempContent = tx_div2007_core::getSubpart($this->body, '###PDF_TABLE_1###');
+		$tempContent = $templateService->getSubpart($this->body, '###PDF_TABLE_1###');
 		if (empty($tempContent)) {
             return false;
 		}
@@ -239,7 +240,7 @@ class tx_ttproducts_fpdf extends FPDF {
 		unset($dataArray['0']);
 		$this->ImprovedTable($header, $dataArray);
 
-		$restBody = tx_div2007_core::substituteMarkerArrayCached(
+		$restBody = $templateService->substituteMarkerArrayCached(
 				$this->body,
 				[],
 				array('###PDF_TABLE_1###' => ''),

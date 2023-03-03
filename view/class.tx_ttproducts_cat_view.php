@@ -82,6 +82,7 @@ class tx_ttproducts_cat_view implements \TYPO3\CMS\Core\SingletonInterface {
 		&$error_code,
 		$templateSuffix = ''
 	) {
+        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 		$tableViewObj = $tablesObj->get($functablename, true);
 		$tableObj = $tableViewObj->getModelObj();
@@ -129,7 +130,7 @@ class tx_ttproducts_cat_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 			// Add the template suffix
 			$subPartMarker = substr($subPartMarker, 0, -3) . $templateSuffix . '###';
-			$itemFrameWork = tx_div2007_core::getSubpart($templateCode, $subpartmarkerObj->spMarker($subPartMarker));
+			$itemFrameWork = $templateService->getSubpart($templateCode, $subpartmarkerObj->spMarker($subPartMarker));
 			if (!$itemFrameWork) {
 				$templateObj = GeneralUtility::makeInstance('tx_ttproducts_template');
 				$error_code[0] = 'no_subtemplate';
@@ -146,7 +147,7 @@ class tx_ttproducts_cat_view implements \TYPO3\CMS\Core\SingletonInterface {
 				$wrappedSubpartArray
 			);
 
-			$itemFrameWork = tx_div2007_core::substituteMarkerArrayCached($itemFrameWork, $markerArray, $subpartArray, $wrappedSubpartArray);
+			$itemFrameWork = $templateService->substituteMarkerArrayCached($itemFrameWork, $markerArray, $subpartArray, $wrappedSubpartArray);
 			$markerFieldArray = [];
 			$viewTagArray = [];
 			$parentArray = [];
@@ -404,7 +405,7 @@ class tx_ttproducts_cat_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 				// Substitute
 			$content =
-				tx_div2007_core::substituteMarkerArrayCached(
+				$templateService->substituteMarkerArrayCached(
 					$itemFrameWork,
 					$markerArray,
 					$subpartArray,

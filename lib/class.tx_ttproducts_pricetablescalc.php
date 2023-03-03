@@ -47,6 +47,7 @@ class tx_ttproducts_pricetablescalc extends tx_ttproducts_pricecalc_base {
 
 	public function calculateValue ($formula, $row) {
 		$result = false;
+		$templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
 		$conf = $cnf->getConf();
@@ -82,7 +83,7 @@ class tx_ttproducts_pricetablescalc extends tx_ttproducts_pricecalc_base {
 			}
 		}
 
-		$formula = tx_div2007_core::substituteMarkerArrayCached($formula, $markerArray);
+		$formula = $templateService->substituteMarkerArrayCached($formula, $markerArray);
 		$formula = trim($formula);
 		$len = strlen($formula);
 		$lastChar = substr($formula, -1, 1);

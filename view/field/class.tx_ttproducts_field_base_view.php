@@ -109,15 +109,16 @@ abstract class tx_ttproducts_field_base_view implements tx_ttproducts_field_view
 		$theCode = '',
 		$id = '1'
 	) {
+        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 		$result = false;
 		$newContent = '';
 		$markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
 		$upperField = strtoupper($fieldname);
 		$templateAreaList = $markerKey . '_' . $upperField . '_LIST';
 		$t = [];
-		$t['listFrameWork'] = tx_div2007_core::getSubpart($templateCode, '###' . $templateAreaList . '###');
+		$t['listFrameWork'] = $templateService->getSubpart($templateCode, '###' . $templateAreaList . '###');
 		$templateAreaSingle = $markerKey . '_' . $upperField . '_SINGLE';
-		$t['singleFrameWork'] = tx_div2007_core::getSubpart($t['listFrameWork'], '###' . $templateAreaSingle . '###');
+		$t['singleFrameWork'] = $templateService->getSubpart($t['listFrameWork'], '###' . $templateAreaSingle . '###');
 
 		if ($t['singleFrameWork'] != '') {
 			$repeatedTagArray = $markerObj->getAllMarkers($t['singleFrameWork']);
@@ -159,7 +160,7 @@ abstract class tx_ttproducts_field_base_view implements tx_ttproducts_field_view
 						$tagArray
 					);
 
-					$newContent = tx_div2007_core::substituteMarkerArrayCached(
+					$newContent = $templateService->substituteMarkerArrayCached(
 						$t['singleFrameWork'],
 						$repeatedMarkerArray,
 						$repeatedSubpartArray,
@@ -172,7 +173,7 @@ abstract class tx_ttproducts_field_base_view implements tx_ttproducts_field_view
 					}
 				}
 
-				$newContent = tx_div2007_core::substituteMarkerArrayCached(
+				$newContent = $templateService->substituteMarkerArrayCached(
 					$t['listFrameWork'],
 					[],
 					['###' . $templateAreaSingle . '###' => $content],

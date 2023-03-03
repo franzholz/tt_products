@@ -155,9 +155,8 @@ class PaymentShippingHandling {
 		&$wrappedSubpartArray,
 		$framework
 	) {
+        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 		$cObj = FrontendUtility::getContentObjectRenderer();
-        $parser = \tx_div2007_core::newHtmlParser(false);
-
 		$markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$conf = $cnf->getConf();
@@ -204,11 +203,11 @@ class PaymentShippingHandling {
 						$psKey .= '_';
 					}
 					$psKey .= $value;
-					$subFrameWork = \tx_div2007_core::getSubpart($framework, '###' . $markerPrefix . '###');
+					$subFrameWork = $templateService->getSubpart($framework, '###' . $markerPrefix . '###');
 
 					if ($subFrameWork != '') {
-						$tmpSubpartArray[$pskey] = \tx_div2007_core::getSubpart($subFrameWork, '###MESSAGE_' . $marker . '_' . $psKey . '###');
-						$psMessageArray[$pskey] .= $parser->substituteMarkerArray($tmpSubpartArray[$pskey], $markerArray);
+						$tmpSubpartArray[$pskey] = $templateService->getSubpart($subFrameWork, '###MESSAGE_' . $marker . '_' . $psKey . '###');
+						$psMessageArray[$pskey] .= $templateService->substituteMarkerArray($tmpSubpartArray[$pskey], $markerArray);
 					}
 					$subpartArray['###MESSAGE_' . $marker . '_NE_' . $psKey . '###'] = '';
 				}
@@ -276,9 +275,9 @@ class PaymentShippingHandling {
 
 					if ($bCheckNE && strpos($k3, '_NE_') !== false) {
 						$wrappedSubpartArray['###' . $k3 . '###'] = '';
-						$tmpSubpartArray[$pskey] = \tx_div2007_core::getSubpart($framework, '###' . $k3 . '###');
+						$tmpSubpartArray[$pskey] = $templateService->getSubpart($framework, '###' . $k3 . '###');
 						$psMessageArray[$pskey] .=
-							\tx_div2007_core::substituteMarkerArrayCached(
+							$templateService->substituteMarkerArrayCached(
 								$tmpSubpartArray[$pskey],
 								$markerArray
 							);
@@ -459,6 +458,7 @@ class PaymentShippingHandling {
 		$useBackPid,
 		&$basketExtra
 	) {
+        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$conf = $cnf->getConf();
 
@@ -656,7 +656,7 @@ class PaymentShippingHandling {
 											$fieldsArray
 										);
 										if (strpos($title, '###') !== false) {
-											$title = \tx_div2007_core::substituteMarkerArrayCached($title, $markerArray);
+											$title = $templateService->substituteMarkerArrayCached($title, $markerArray);
 										}
 									}
 
@@ -691,7 +691,7 @@ class PaymentShippingHandling {
 									$markerArray
 								);
 
-								$out .= \tx_div2007_core::substituteMarkerArrayCached($template, $markerArray) . chr(10);
+								$out .= $templateService->substituteMarkerArrayCached($template, $markerArray) . chr(10);
 							}
 						} else {
 							foreach ($addItems as $k1 => $row) {
@@ -703,7 +703,7 @@ class PaymentShippingHandling {
 										$markerArray,
 										$fieldsArray
 									);
-									$title = \tx_div2007_core::substituteMarkerArrayCached($item['title'], $markerArray);
+									$title = $templateService->substituteMarkerArrayCached($item['title'], $markerArray);
 									$title = htmlentities($title, ENT_QUOTES, 'UTF-8');
 									$value = $key . '-' . $row['uid'];
 									if ($value == implode('-', $activeArray)) {
@@ -746,7 +746,7 @@ class PaymentShippingHandling {
 			foreach ($viewTagArray as $tag => $v) {
 				$markerArray['###' . $tag . '###'] = '?';
 			}
-			$actTitle = \tx_div2007_core::substituteMarkerArrayCached($actTitle, $markerArray);
+			$actTitle = $templateService->substituteMarkerArrayCached($actTitle, $markerArray);
 		}
 
 		if ($subkey != '') {

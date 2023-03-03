@@ -185,8 +185,8 @@ class tx_ttproducts_tracking implements \TYPO3\CMS\Core\SingletonInterface {
 		&$orderRecord,
 		$bValidUpdateCode
 	) {
+        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 		$bUseXHTML = !empty($GLOBALS['TSFE']->config['config']['xhtmlDoctype']);
-
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 		$orderObj = $tablesObj->get('sys_products_orders');
 		$markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
@@ -425,7 +425,7 @@ class tx_ttproducts_tracking implements \TYPO3\CMS\Core\SingletonInterface {
 		}
 
 			// Getting the template stuff and initialize order data.
-		$template = tx_div2007_core::getSubpart($templateCode, '###TRACKING_DISPLAY_INFO###');
+		$template = $templateService->getSubpart($templateCode, '###TRACKING_DISPLAY_INFO###');
 		$this->searchOrderStatus($status_log, $orderPaid, $orderClosed);
 
 		$globalMarkerArray = &$markerObj->getGlobalMarkerArray();
@@ -437,11 +437,11 @@ class tx_ttproducts_tracking implements \TYPO3\CMS\Core\SingletonInterface {
 			$subpartArray = [];
 			$subpartArray['###STATUS_CODE_60###'] = '';
 
-			$template = tx_div2007_core::substituteMarkerArrayCached($template, $markerArray, $subpartArray);
+			$template = $templateService->substituteMarkerArrayCached($template, $markerArray, $subpartArray);
 		}
 
 			// Status:
-		$statusItemOut = tx_div2007_core::getSubpart($template, '###STATUS_ITEM###');
+		$statusItemOut = $templateService->getSubpart($template, '###STATUS_ITEM###');
 		$statusItemOut_c='';
 
 		if (is_array($status_log)) {
@@ -453,11 +453,11 @@ class tx_ttproducts_tracking implements \TYPO3\CMS\Core\SingletonInterface {
 				$info = $statusCodeArray[$v['status']];
 				$markerArray['###ORDER_STATUS_INFO###'] = ($info ? $info : $v['info']);
 				$markerArray['###ORDER_STATUS_COMMENT###'] = nl2br($v['comment']);
-				$statusItemOut_c .= tx_div2007_core::substituteMarkerArrayCached($statusItemOut, $markerArray);
+				$statusItemOut_c .= $templateService->substituteMarkerArrayCached($statusItemOut, $markerArray);
 			}
 		}
 
-		$markerArray=$globalMarkerArray;
+		$markerArray = $globalMarkerArray;
 		$subpartArray = [];
 		$wrappedSubpartArray=[];
 		$markerArray['###OTHER_ORDERS_OPTIONS###'] = '';
@@ -480,7 +480,7 @@ class tx_ttproducts_tracking implements \TYPO3\CMS\Core\SingletonInterface {
 		$viewTagArray = [];
 		$parentArray = [];
 		$t = [];
-		$t['orderFrameWork'] = tx_div2007_core::getSubpart($template, '###ORDER_ITEM###');
+		$t['orderFrameWork'] = $templateService->getSubpart($template, '###ORDER_ITEM###');
 		$fieldsArray = $markerObj->getMarkerFields(
 			$t['orderFrameWork'],
 			$orderObj->getTableObj()->tableFieldArray,
@@ -507,7 +507,7 @@ class tx_ttproducts_tracking implements \TYPO3\CMS\Core\SingletonInterface {
 			);
 
 			$subpartArray['###ORDER_ITEM###'] =
-                tx_div2007_core::substituteMarkerArrayCached(
+                $templateService->substituteMarkerArrayCached(
                     $t['orderFrameWork'],
                     $orderMarkerArray
                 );
@@ -770,7 +770,7 @@ class tx_ttproducts_tracking implements \TYPO3\CMS\Core\SingletonInterface {
 			}
 		}
 
-		$content = tx_div2007_core::substituteMarkerArrayCached($template, $markerArray, $subpartArray, $wrappedSubpartArray);
+		$content = $templateService->substituteMarkerArrayCached($template, $markerArray, $subpartArray, $wrappedSubpartArray);
 
 		return $content;
 	} // getTrackingInformation

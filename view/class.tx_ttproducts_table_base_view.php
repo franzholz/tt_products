@@ -470,8 +470,8 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
 		array $markerArray,
 		&$theMarkerArray
 	) {
+        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
         $local_cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
-        $parser = tx_div2007_core::newHtmlParser(false);
 
 		$newRow = [];
 		foreach ($row as $field => $value) {
@@ -487,7 +487,7 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
 				);
 
 				$value =
-					$parser->substituteMarkerArray(
+					$templateService->substituteMarkerArray(
 						$fieldContent,
 						$fieldMarkerArray
 					);
