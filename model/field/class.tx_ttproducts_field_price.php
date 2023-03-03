@@ -38,6 +38,7 @@
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 
 
 use \JambageCom\TtProducts\Model\Field\FieldInterface;
@@ -345,7 +346,7 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base {
 		if (
             empty($priceNo) &&
             isset($this->priceConf['priceNoReseller']) &&
-			\TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($this->priceConf['priceNoReseller'])
+			MathUtility::canBeInterpretedAsInteger($this->priceConf['priceNoReseller'])
 		) {
 				// get reseller group number
 			$priceNo = intval($this->priceConf['priceNoReseller']);

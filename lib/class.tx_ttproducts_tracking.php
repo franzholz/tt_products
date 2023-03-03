@@ -39,6 +39,7 @@
 
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 
 
 
@@ -66,7 +67,7 @@ class tx_ttproducts_tracking implements \TYPO3\CMS\Core\SingletonInterface {
 		) {
 			foreach ($this->conf['statusCodes.'] as $k => $v) {
 				if (
-					\TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($k)
+					MathUtility::canBeInterpretedAsInteger($k)
 				) {
 					$statusCodeArray[$k] = $v;
 				}
@@ -85,7 +86,7 @@ class tx_ttproducts_tracking implements \TYPO3\CMS\Core\SingletonInterface {
 							if (($pos = strpos($k, $statusMessage)) === 0) {
 								$rest = substr($k, $len);
 								if (
-									\TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($rest)
+									MathUtility::canBeInterpretedAsInteger($rest)
 								) {
 									$statusCodeArray[$rest] = $v;
 								}

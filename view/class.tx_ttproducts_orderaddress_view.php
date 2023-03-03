@@ -37,6 +37,7 @@
  *
  */
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 
 
 
@@ -67,7 +68,7 @@ class tx_ttproducts_orderaddress_view extends tx_ttproducts_table_base_view {
 				if ($offset > 0) {
 					$groupNumber = substr($tagPart1, 0, $offset);
 
-					if (\TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($groupNumber)) {
+					if (MathUtility::canBeInterpretedAsInteger($groupNumber)) {
                         $comparatorNumber = $groupNumber;
                         if (!$comparatorNumber) {
                             $comparatorNumber = -1; // Also a logged in Front End User has group 0! 

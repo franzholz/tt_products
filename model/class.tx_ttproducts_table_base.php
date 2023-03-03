@@ -38,6 +38,7 @@
 
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 
 
 
@@ -230,7 +231,7 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
 		$alias = $this->getAlias() . $aliasPostfix;
 
 		if (
-			\TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($uid) &&
+			MathUtility::canBeInterpretedAsInteger($uid) &&
 			isset($this->dataArray[$uid]) &&
 			is_array($this->dataArray[$uid]) &&
 			!$where_clause &&
@@ -337,7 +338,7 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
 
 				$GLOBALS['TYPO3_DB']->sql_free_result($res);
 				if (
-					\TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($uid)
+					MathUtility::canBeInterpretedAsInteger($uid)
 				) {
 					reset($rc);
 					$rc = current ($rc);

@@ -37,6 +37,7 @@
  *
  */
 
+use TYPO3\CMS\Core\Utility\MathUtility;
 
 class tx_ttproducts_control_address {
 
@@ -66,7 +67,7 @@ class tx_ttproducts_control_address {
 
 				$testIntResult = false;
 				if (class_exists('tx_div2007_core')) {
-					$testIntResult = \TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($extKey);
+					$testIntResult = MathUtility::canBeInterpretedAsInteger($extKey);
 				} else { // workaround for bug #55727
 					$result = false;
 					$callingClassName = '\\TYPO3\\CMS\\Core\\Utility\\MathUtility';

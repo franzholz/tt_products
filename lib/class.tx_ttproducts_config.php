@@ -149,7 +149,7 @@ class tx_ttproducts_config implements \TYPO3\CMS\Core\SingletonInterface {
 					isset($this->conf[$type . '.'][$tablename . '.'][$theCode . '.'])
 				) {
 					$tempConf = $this->conf[$type . '.'][$tablename . '.'][$theCode . '.'];
-					tx_div2007_core::mergeRecursiveWithOverrule($specialConf, $tempConf);
+					\TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($specialConf, $tempConf);
 				}
 				if (
                     isset($specialConf['orderBy']) &&
@@ -166,7 +166,7 @@ class tx_ttproducts_config implements \TYPO3\CMS\Core\SingletonInterface {
 					isset($this->conf[$type . '.'][$theCode . '.'])
 				) {
 					$tempConf = $this->conf[$type . '.'][$theCode . '.'];
-					tx_div2007_core::mergeRecursiveWithOverrule($specialConf, $tempConf);
+					\TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($specialConf, $tempConf);
 				}
 			}
 		}

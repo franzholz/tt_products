@@ -37,6 +37,7 @@
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 
 
 
@@ -238,7 +239,7 @@ abstract class tx_ttproducts_category_base extends tx_ttproducts_table_base {
 		foreach ($categoryArray as $uid => $row) {
 			if (
 				(
-					\TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($uid)
+					MathUtility::canBeInterpretedAsInteger($uid)
 				) &&
 				(
 					in_array($uid, $rootCatArray) ||

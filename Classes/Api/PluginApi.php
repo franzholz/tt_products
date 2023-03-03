@@ -40,6 +40,7 @@ namespace JambageCom\TtProducts\Api;
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 
 use JambageCom\Div2007\Utility\ExtensionUtility;
 use JambageCom\Div2007\Utility\FrontendUtility;
@@ -241,13 +242,13 @@ class PluginApi {
 		$config['templateSuffix'] = ($templateSuffix ? $templateSuffix : $config['templateSuffix']);
 		$config['templateSuffix'] = ($config['templateSuffix'] ? '_' . $config['templateSuffix'] : '');
 		$config['limit'] = $conf['limit'] ? $conf['limit'] : 50;
-		$config['limitImage'] = \tx_div2007_core::intInRange($conf['limitImage'], 0, 50, 1);
+		$config['limitImage'] = MathUtility::forceIntegerInRange($conf['limitImage'], 0, 50, 1);
 		$config['limitImage'] = $config['limitImage'] ? $config['limitImage'] : 1;
-		$config['limitImageSingle'] = \tx_div2007_core::intInRange($conf['limitImageSingle'], 0, 50, 1);
+		$config['limitImageSingle'] = MathUtility::forceIntegerInRange($conf['limitImageSingle'], 0, 50, 1);
 		$config['limitImageSingle'] = $config['limitImageSingle'] ? $config['limitImageSingle'] : 1;
 
 		if (!empty($conf['priceNoReseller'])) {
-			$config['priceNoReseller'] = \tx_div2007_core::intInRange($conf['priceNoReseller'], 2, 10);
+			$config['priceNoReseller'] = MathUtility::forceIntegerInRange($conf['priceNoReseller'], 2, 10);
 		}
 
 			// If the current record should be displayed.
@@ -324,9 +325,8 @@ class PluginApi {
 
 		if (!self::$bHasBeenInitialised) {
 			$conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
-			\tx_div2007_core::mergeRecursiveWithOverrule($conf, $pluginConf);
+            \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($conf, $pluginConf);
 			$config = [];
-
 			$cObj = FrontendUtility::getContentObjectRenderer([]);
 
 			self::init2(

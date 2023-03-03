@@ -38,6 +38,8 @@
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
+
 use JambageCom\Div2007\Utility\FrontendUtility;
 
 
@@ -120,12 +122,12 @@ class tx_ttproducts_control_memo {
 			}
 
 			foreach ($piVars['memo'] as $k => $v) {
-				if (\TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($k) && $k != '' && $v) {
+				if (MathUtility::canBeInterpretedAsInteger($k) && $k != '' && $v) {
 					$memoArray['addmemo'][] = intval($k);
 				} else if ($k == 'uids') {
 					$uidArray = explode(',', $v);
 					foreach ($uidArray as $uid) {
-						if (\TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($uid) && $uid != '' && in_array($uid, $memoItems)) {
+						if (MathUtility::canBeInterpretedAsInteger($uid) && $uid != '' && in_array($uid, $memoItems)) {
 							$memoArray['delmemo'][] = $uid;
 						}
 					}

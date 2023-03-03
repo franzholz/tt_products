@@ -37,6 +37,7 @@
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 
 
 class tx_ttproducts_basketitem implements \TYPO3\CMS\Core\SingletonInterface {
@@ -56,7 +57,7 @@ class tx_ttproducts_basketitem implements \TYPO3\CMS\Core\SingletonInterface {
 		$result = $item['count'];
 		if (
 			$overwriteAmount != 'basket' &&
-			\TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($overwriteAmount)
+			MathUtility::canBeInterpretedAsInteger($overwriteAmount)
 		) {
 			$result = intval($overwriteAmount);
 		}

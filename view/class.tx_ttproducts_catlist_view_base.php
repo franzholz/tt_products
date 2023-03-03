@@ -38,6 +38,7 @@
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 
 use JambageCom\Div2007\Utility\FrontendUtility;
 
@@ -545,7 +546,7 @@ abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\Single
 					}
 					$rootCat = $startCat;
 					if (
-						\TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($rootCat)
+						MathUtility::canBeInterpretedAsInteger($rootCat)
 					) {
 						$allowedCatArray[] = $rootCat;
 					}

@@ -38,6 +38,7 @@
 
  
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 
 
 class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Core\SingletonInterface {
@@ -552,7 +553,7 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Cor
 					$field = $selectableFieldArray[$k];
 
 					if (
-						!\TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($variantIndex) &&
+						!MathUtility::canBeInterpretedAsInteger($variantIndex) &&
 						isset($variantRowArray[$field]) &&
 						is_array($variantRowArray[$field])
 					) {

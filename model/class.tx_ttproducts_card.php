@@ -38,6 +38,9 @@
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
+
+
 
 class tx_ttproducts_card extends tx_ttproducts_table_base {
 	var $ccArray;	// credit card data
@@ -281,7 +284,7 @@ class tx_ttproducts_card extends tx_ttproducts_table_base {
 
 			$testVal = $this->ccArray[$field] ?? '';
 			if (
-				!\TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($testVal) &&
+				!MathUtility::canBeInterpretedAsInteger($testVal) &&
 				!$testVal
 			) {
 				$rc = $field;

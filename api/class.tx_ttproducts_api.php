@@ -39,7 +39,7 @@
 
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-
+use TYPO3\CMS\Core\Utility\MathUtility;
 
 class tx_ttproducts_api {
 
@@ -184,7 +184,7 @@ class tx_ttproducts_api {
 						$lowestValuePart = (intval($finalAddition) / ($faktor * 10));
 					}
 				} else if (
-					\TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($floatValue)
+					MathUtility::canBeInterpretedAsInteger($floatValue)
 				) {
 					$floatPart =  $floatValue * $faktor * 10;
 					$lowestValuePart = (intval($floatPart) / ($faktor * 10));

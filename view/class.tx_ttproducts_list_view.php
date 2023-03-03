@@ -40,6 +40,7 @@
 
  
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 
 use JambageCom\Div2007\Utility\BrowserUtility;
 use JambageCom\Div2007\Utility\FrontendUtility;
@@ -207,7 +208,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 		if (is_array($displayConf[$type])) {
 			foreach ($displayConf[$type] as $k => $val) {
 				if (
-					\TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($k) &&
+					MathUtility::canBeInterpretedAsInteger($k) &&
 					$depth >= $k
 				) {
 					$result = $val;
@@ -1091,7 +1092,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 			$begin_at = ($piVars[$pointerParam] ?? 0) * $limit;
 		}
-        $begin_at = tx_div2007_core::intInRange($begin_at, 0, 100000);
+        $begin_at = MathUtility::forceIntegerInRange($begin_at, 0, 100000);
 
 		if ($theCode == 'SINGLE') {
 			$begin_at = ''; // no page browser in single view for related products
@@ -1703,7 +1704,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 					// range check to current productsCount
 				$begin_at_start = (($begin_at >= $productsCount) ? ($productsCount >= $limit ? $productsCount - $limit : $productsCount) : $begin_at);
-				$begin_at = tx_div2007_core::intInRange($begin_at_start, 0);
+				$begin_at = MathUtility::forceIntegerInRange($begin_at_start, 0);
 
 				if ($latest > 0) {
 					$start = $productsCount - $latest;
@@ -2050,7 +2051,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 								$confDisplayColumns = $this->getDisplayInfo($displayConf, 'columns', $depth, !count($childCatArray));
 								$displayColumns =
 									(
-										\TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($confDisplayColumns) ?
+										MathUtility::canBeInterpretedAsInteger($confDisplayColumns) ?
 											$confDisplayColumns :
 											$displayColumns
 									);

@@ -42,6 +42,7 @@
 
  
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 
 
 class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
@@ -237,7 +238,7 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 
 			foreach($basketExtRaw as $uid => $basketItem) {
 				if (
-					\TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($uid)
+					MathUtility::canBeInterpretedAsInteger($uid)
 				) {
 					if (isset($basketItem['quantity'])) {
 						if (
@@ -329,7 +330,7 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 							$tmpCount > 0 &&
 							(
 								$this->conf['quantityIsFloat'] ||
-								\TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($tmpCount)
+								MathUtility::canBeInterpretedAsInteger($tmpCount)
 							)
 						) {
 							$basketExtNew[$tmpUid][$tmpExtVar] = $basketExt[$tmpUid][$tmpExtVar];
@@ -674,8 +675,8 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 		$row = $prodTable->get($uid);
 
 		if($row['basketmaxquantity'] > 0 && $quantity > $row['basketmaxquantity']) {
-			$basketmaxquantity = tx_div2007_core::intval_positive($row['basketmaxquantity']);
-			$count = tx_div2007_core::intInRange($quantity, 0, $basketmaxquantity, 0);
+			$basketmaxquantity = MathUtility::convertToPositiveInteger($row['basketmaxquantity']);
+			$count = MathUtility::forceIntegerInRange($quantity, 0, $basketmaxquantity, 0);
 			$quantity = $count; // reduce the quantitiy to the product's maximum allowed quantity
 		}
 
@@ -684,7 +685,7 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 			!$this->conf['alwaysInStock'] &&
 			!empty($uid)
 		) {
-			$count = tx_div2007_core::intInRange($quantity, 0, $row['inStock'], 0);
+			$count = MathUtility::forceIntegerInRange($quantity, 0, $row['inStock'], 0);
 		} elseif ($this->conf['basketMaxQuantity'] == 'creditpoint' && !empty($uid)) {
 			$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 			$creditpointsObj = GeneralUtility::makeInstance('tx_ttproducts_field_creditpoints');
@@ -713,7 +714,7 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 				$count = $this->conf['basketMaxQuantity'];
 			}
 		} else {
-			$count = tx_div2007_core::intInRange($quantity, 0, $this->conf['basketMaxQuantity'], 0);
+			$count = MathUtility::forceIntegerInRange($quantity, 0, $this->conf['basketMaxQuantity'], 0);
 		}
 
 		return $count;
