@@ -211,12 +211,12 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
         $notOverwritePriceIfSet = true
 	) {
 			// Returns a markerArray ready for substitution with information for the tt_producst record, $row
+        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 		$modelObj = $this->getModelObj();
 		$cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$conf = $cnfObj->getConf();
 		$cObj = FrontendUtility::getContentObjectRenderer();
-        $parser = tx_div2007_core::newHtmlParser(false);
 		parent::getModelMarkerArray(
 			$row,
 			$markerParam,
@@ -493,7 +493,7 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
 		}
 
 		if (!empty($row['special_preparation'])) {
-			$markerArray['###' . $this->getMarker() . '_SPECIAL_PREP###'] = $parser->substituteMarkerArray($conf['specialPreparation'], $markerArray);
+			$markerArray['###' . $this->getMarker() . '_SPECIAL_PREP###'] = $templateService->substituteMarkerArray($conf['specialPreparation'], $markerArray);
 		} else {
 			$markerArray['###' . $this->getMarker() . '_SPECIAL_PREP###'] = '';
 		}

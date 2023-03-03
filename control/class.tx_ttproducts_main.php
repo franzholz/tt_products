@@ -316,7 +316,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 		$conf = $cnf->getConf();
 		$config = $cnf->getConfig();
         $piVars = tx_ttproducts_model_control::getPiVars();
-        $parser = tx_div2007_core::newHtmlParser(false);
+        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 
 		if (!empty($conf['no_cache']) && $this->convertToUserInt($cObj)) {
 			// Compatibility with previous versions where users could set
@@ -917,7 +917,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 
 			if ($contentTmp != '') {
 				$contentTmp =
-					$parser->substituteMarkerArray(
+					$templateService->substituteMarkerArray(
 						$contentTmp,
 						$globalMarkerArray
 					);
@@ -1118,8 +1118,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 		$markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
 
         $cObj = \JambageCom\TtProducts\Api\ControlApi::getCObj();
-        $parser = tx_div2007_core::newHtmlParser(false);
-
+        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 		$globalMarkerArray = $markerObj->getGlobalMarkerArray();
 
 		$trackingTemplateCode = &$templateCode;
@@ -1210,7 +1209,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 
 		if ($subpartMarker) {
 			$content =
-				tx_div2007_core::getSubpart(
+				$templateService->getSubpart(
 					$trackingTemplateCode,
 					$subpartmarkerObj->spMarker($subpartMarker)
 				);
@@ -1223,7 +1222,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 			}
 
 			if (!$bIsAllowed) {
-				$content = $parser->substituteSubpart($content, '###ADMIN_CONTROL###', '');
+				$content = $templateService->substituteSubpart($content, '###ADMIN_CONTROL###', '');
 			}
 		}
 
@@ -1235,7 +1234,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
                 $urlObj->getLinkParams('', [], true)
             );
 
-		$content = $parser->substituteMarkerArray($content, $markerArray);
+		$content = $templateService->substituteMarkerArray($content, $markerArray);
 		return $content;
 	}  // products_tracking
 

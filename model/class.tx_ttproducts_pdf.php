@@ -36,6 +36,7 @@
  *
  */
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
 class tx_ttproducts_pdf implements \TYPO3\CMS\Core\SingletonInterface {
@@ -222,8 +223,10 @@ class tx_ttproducts_pdf implements \TYPO3\CMS\Core\SingletonInterface {
 	}
 
 	public function Body () {
+        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+
 		// $xPos = $this->GetX();
-		$tempContent = tx_div2007_core::getSubpart($this->body, '###PDF_TABLE_1###');
+		$tempContent = $templateService->getSubpart($this->body, '###PDF_TABLE_1###');
 		$tempContentArray = preg_split('/[\n]+/', $tempContent);
 		$dataArray = [];
 		foreach ($tempContentArray as $tmpContent) {
@@ -235,7 +238,7 @@ class tx_ttproducts_pdf implements \TYPO3\CMS\Core\SingletonInterface {
 		unset($dataArray['0']);
 		$this->ImprovedTable($header, $dataArray);
 
-		$restBody = tx_div2007_core::substituteMarkerArrayCached(
+		$restBody = $templateService->substituteMarkerArrayCached(
 				$this->body,
 				[],
 				['###PDF_TABLE_1###' => ''],

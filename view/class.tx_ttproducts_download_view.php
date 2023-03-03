@@ -78,7 +78,7 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view {
 		$error = false;
 		$cObj = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
 		$cObj->start([]);
-
+		$templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 		$functablename = 'tt_products';
 		$itemTableView = $tablesObj->get($functablename, true);
@@ -88,7 +88,7 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view {
 		$t = [];
 
 		if (isset($tagArray['DOWNLOAD_SINGLE'])) {
-			$t['item'] = tx_div2007_core::getSubpart($templateCode, '###DOWNLOAD_SINGLE###');
+			$t['item'] = $templateService->getSubpart($templateCode, '###DOWNLOAD_SINGLE###');
 		}
 
 // 			<!-- ###DOWNLOAD_SINGLE### begin -->
@@ -357,7 +357,7 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view {
 						}
 					}
 
-					$out = tx_div2007_core::substituteMarkerArrayCached($t['item'], $markerArray);
+					$out = $templateService->substituteMarkerArrayCached($t['item'], $markerArray);
 
 					$subpartArray['###DOWNLOAD_SINGLE###'] .= $out;
 				}

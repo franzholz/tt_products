@@ -181,8 +181,8 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 		if ($from == '') {
 			$from = 'sys_products_orders';
 		}
+		$templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 		$cObj = FrontendUtility::getContentObjectRenderer();
-        $parser = tx_div2007_core::newHtmlParser(false);
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$conf = $cnf->conf;
 
@@ -205,7 +205,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 			$tot_creditpoints_gifts = 0;
 			$orderlistc = '';
 			$this->orders = [];
-			$orderitem = tx_div2007_core::getSubpart($frameWork, '###ORDER_ITEM###');
+			$orderitem = $templateService->getSubpart($frameWork, '###ORDER_ITEM###');
 			$tablename = 'fe_users';
 
 			while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
@@ -227,7 +227,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 
 				// total amount of creditpoints from gifts
 				$tot_creditpoints_gifts += $row['creditpoints_gifts'];
-				$orderlistc .= $parser->substituteMarkerArray($orderitem, $markerArray);
+				$orderlistc .= $templateService->substituteMarkerArray($orderitem, $markerArray);
 			}
 
 			if (strpos($frameWork, '###CREDIT_POINTS_VOUCHER###') !== false) {
@@ -271,11 +271,11 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 			$markerArray['###CREDIT_POINTS_TOTAL###'] = number_format($totalcreditpoints, 0);
 			$markerArray['###CREDIT_POINTS_VOUCHER###'] = $num_rows;
 			$markerArray['###CALC_DATE###'] = date('d M Y');
-			$listFrameWork = tx_div2007_core::getSubpart($frameWork, '###ORDER_LIST###');
+			$listFrameWork = $templateService->getSubpart($frameWork, '###ORDER_LIST###');
 
 			$listSubpartArray = [];
 			$listSubpartArray['###ORDER_ITEM###'] = $orderlistc;
-			$listContent = tx_div2007_core::substituteMarkerArrayCached(
+			$listContent = $templateService->substituteMarkerArrayCached(
 				$listFrameWork,
 				$markerArray,
 				$listSubpartArray
@@ -386,6 +386,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 		$validFeUser,
 		&$error_code
 	) {
+        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 		$subpartmarkerObj = GeneralUtility::makeInstance('tx_ttproducts_subpartmarker');
 
 		if (
@@ -402,7 +403,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 			// nothing
 		}
 
-		$frameWork = tx_div2007_core::getSubpart(
+		$frameWork = $templateService->getSubpart(
 			$templateCode,
 			$subpartmarkerObj->spMarker('###' . $subPartMarker . '###')
 		);
@@ -491,6 +492,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 		$trackingCode,
 		&$error_code
 	) {
+        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$orderObj = $this->getModelObj(); // order
 		$languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
@@ -677,7 +679,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 						}
 
 						$panelContent =
-							tx_div2007_core::substituteMarkerArrayCached(
+							$templateService->substituteMarkerArrayCached(
 								$layout,
 								$elementMarkerArray
 							);
@@ -857,7 +859,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 			}
 		}
 		$markerArray['###HIDDENFIELDS###'] = $hiddenFields;
-		$content = tx_div2007_core::substituteMarkerArrayCached(
+		$content = $templateService->substituteMarkerArrayCached(
 			$frameWork,
 			$markerArray,
 			$subpartArray,
@@ -883,6 +885,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
         $onlyProductsWithFalOrders,
 		&$error_code
 	) {
+        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$orderObj = $this->getModelObj();
 
@@ -1015,7 +1018,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 			$subpartArray['###ORDER_PRODUCT_LIST###'] = '';
 		}
 
-		$content = tx_div2007_core::substituteMarkerArrayCached(
+		$content = $templateService->substituteMarkerArrayCached(
 			$frameWork,
 			$markerArray,
 			$subpartArray,

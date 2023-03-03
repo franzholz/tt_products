@@ -339,8 +339,7 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$bHtml,
 		$bSelectSalutation
 	) {
-        $parser = tx_div2007_core::newHtmlParser(false);
-
+        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$conf = $cnf->getConf();
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
@@ -673,7 +672,7 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 								foreach ($row as $field => $value) {
 									$boxMarkerArray['###' . strtoupper($field) . '###'] = $value;
 								}
-								$boxContent = $parser->substituteMarkerArray($layout, $boxMarkerArray);
+								$boxContent = $templateService->substituteMarkerArray($layout, $boxMarkerArray);
 							} else {
 								$partRow = [];
 								foreach ($tableFieldArray[$tablename] as $field) {

@@ -59,12 +59,12 @@ class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base {
 	) {
 		$t = [];
 		$ctrlArray = [];
+		$templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 		$basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
 		$pibaseObj = GeneralUtility::makeInstance('' . $this->pibaseClass);
 		$javaScriptMarker = GeneralUtility::makeInstance('tx_ttproducts_javascript_marker');
 		$prefixId = tx_ttproducts_model_control::getPrefixId();
 		$cObj = \JambageCom\TtProducts\Api\ControlApi::getCObj();
-        $parser = tx_div2007_core::newHtmlParser(false);
 
 		parent::getPrintViewArrays(
 			$functablename,
@@ -225,7 +225,7 @@ class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base {
 					}
 
 					$theLinkWrap =
-						$parser->substituteMarkerArray(
+						$templateService->substituteMarkerArray(
 							$theLinkWrap,
 							$linkMarkerArray
 						);
@@ -241,7 +241,7 @@ class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base {
 
 					if ($t['linkCategoryFrameWork']) {
 						$categoryOut =
-							$parser->substituteMarkerArray(
+							$templateService->substituteMarkerArray(
 								$t['linkCategoryFrameWork'],
 								$markerArray
 							);
@@ -291,7 +291,7 @@ class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base {
 
 			$this->urlObj->getWrappedSubpartArray($wrappedSubpartArray);
 			$subpartArray['###CATEGORY_SINGLE###'] = $out;
-			$out = tx_div2007_core::substituteMarkerArrayCached(
+			$out = $templateService->substituteMarkerArrayCached(
 				$t['listFrameWork'],
 				$markerArray,
 				$subpartArray,

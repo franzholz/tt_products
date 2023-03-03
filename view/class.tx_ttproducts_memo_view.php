@@ -85,6 +85,7 @@ class tx_ttproducts_memo_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$pid,
 		&$errorCode
 	) {
+        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 		$markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
 		$content = '';
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
@@ -137,7 +138,7 @@ class tx_ttproducts_memo_view implements \TYPO3\CMS\Core\SingletonInterface {
 				$cObj = FrontendUtility::getContentObjectRenderer();
 
 				$templateArea = 'MEMO_EMPTY';
-				$content = tx_div2007_core::getSubpart($templateCode,$subpartmarkerObj->spMarker('###'.$templateArea.'###'));
+				$content = $templateService->getSubpart($templateCode,$subpartmarkerObj->spMarker('###'.$templateArea.'###'));
 				$content = $markerObj->replaceGlobalMarkers($content);
 			}
 		} else if (tx_ttproducts_control_memo::bIsAllowed('fe_users', $conf)) {

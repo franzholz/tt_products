@@ -134,9 +134,10 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
 	}
 
 	public function replaceGlobalMarkers (&$content, $markerArray = []) {
+        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 		$globalMarkerArray = $this->getGlobalMarkerArray();
 		$markerArray = array_merge($globalMarkerArray, $markerArray);
-		$result = tx_div2007_core::substituteMarkerArrayCached($content, $markerArray);
+		$result = $templateService->substituteMarkerArrayCached($content, $markerArray);
 		return $result;
 	}
 

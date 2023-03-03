@@ -588,6 +588,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 		&$bFinalize,
 		&$bFinalVerify
 	) {
+        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 		$empty = '';
 		$cObj = \JambageCom\TtProducts\Api\ControlApi::getCObj();
 		$basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
@@ -644,13 +645,13 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 		if ($checkBasket && $bBasketEmpty) {
 			$contentEmpty = '';
 			if ($this->activityArray['products_overview']) {
-				$contentEmpty = tx_div2007_core::getSubpart(
+				$contentEmpty = $templateService->getSubpart(
 					$templateCode,
 					$subpartmarkerObj->spMarker('###BASKET_OVERVIEW_EMPTY' . $this->config['templateSuffix'] . '###')
 				);
 
 				if (!$contentEmpty) {
-					$contentEmpty = tx_div2007_core::getSubpart(
+					$contentEmpty = $templateService->getSubpart(
 						$templateCode,
 						$subpartmarkerObj->spMarker('###BASKET_OVERVIEW_EMPTY###')
 					);
@@ -957,6 +958,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
         $cardRow = [];
         $accountObj = null;
 
+        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$basketView = GeneralUtility::makeInstance('tx_ttproducts_basket_view');
 		$infoViewObj = GeneralUtility::makeInstance('tx_ttproducts_info_view');
@@ -966,7 +968,6 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 		$basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
 		$languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
 		$templateObj = GeneralUtility::makeInstance('tx_ttproducts_template');
-        $parser = tx_div2007_core::newHtmlParser(false);
 		$orderUid = false;
         $orderNumber = '';
 
@@ -1406,7 +1407,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 						$addQueryString
 					);
 				$markerArray = array_merge($markerArray, $overwriteMarkerArray);
-				$content = $parser->substituteMarkerArray($content . $newContent, $markerArray);
+				$content = $templateService->substituteMarkerArray($content . $newContent, $markerArray);
 			}
 		} // foreach ($activityArray as $activity=>$value)
 
@@ -1566,7 +1567,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 				$markerArray = array_merge($mainMarkerArray, $urlMarkerArray);
 
 				$content .= $requiredOut;
-				$content = $parser->substituteMarkerArray(
+				$content = $templateService->substituteMarkerArray(
 					$content,
 					$markerArray
 				);

@@ -101,8 +101,7 @@ class tx_ttproducts_activity_finalize implements \TYPO3\CMS\Core\SingletonInterf
 		&$errorCode,
 		&$errorMessage
 	) {
-        $parser = tx_div2007_core::newHtmlParser(false);
-
+        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 		$cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
 		$markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
@@ -148,7 +147,7 @@ class tx_ttproducts_activity_finalize implements \TYPO3\CMS\Core\SingletonInterf
 
 		$markerArray = array_merge($mainMarkerArray, $markerObj->getGlobalMarkerArray());
 		$markerArray['###CUSTOMER_RECIPIENTS_EMAIL###'] = $infoViewObj->getCustomerEmail();
-		$orderConfirmationHTML = $parser->substituteMarkerArray(
+		$orderConfirmationHTML = $templateService->substituteMarkerArray(
 			$orderConfirmationHTML,
 			$markerArray
 		);

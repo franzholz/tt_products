@@ -208,6 +208,7 @@ class tx_ttproducts_api {
 		$alternativeSubpartMarker,
 		&$errorCode
 	) {
+        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 		$result = false;
 
 		if (
@@ -248,7 +249,7 @@ class tx_ttproducts_api {
 					strpos($errorTemplateCode, $subpartMarker) !== false
 				) {
 					$errorOut =
-						tx_div2007_core::getSubpart(
+						$templateService->getSubpart(
 							$errorTemplateCode,
 							$subpartMarker
 						);
@@ -257,7 +258,7 @@ class tx_ttproducts_api {
 					strpos($errorTemplateCode, $alternativeSubpartMarker) !== false
 				) {
 					$errorOut =
-						tx_div2007_core::getSubpart(
+						$templateService->getSubpart(
 							$errorTemplateCode,
 							$alternativeSubpartMarker
 						);
@@ -426,7 +427,7 @@ class tx_ttproducts_api {
 		&$subject,
 		&$text
 	) {
-        $parser = tx_div2007_core::newHtmlParser(true);
+        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 		$parts = preg_split('/[\n\r]+/', $templateCode, 2);	// First line is subject
 		$subject = trim($parts[0]);
 		$text = trim($parts[1]);
@@ -434,7 +435,7 @@ class tx_ttproducts_api {
 		if (empty($text)) {	// the user did not use the subject field
 			$text = $subject;
 		}
-		$text = $parser->substituteMarkerArrayCached($text, $markerArray);
+		$text = $templateService->substituteMarkerArrayCached($text, $markerArray);
 		if (empty($subject)) {
 			$subject = $defaultSubject;
 		}
@@ -507,6 +508,7 @@ class tx_ttproducts_api {
 		$bDebug,
 		&$errorMessage
 	) {
+        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
         $result = true;
 		$cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config'); // init ok
 // $markerObj  init ok
@@ -524,7 +526,6 @@ class tx_ttproducts_api {
 		$cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
 		$conf = $cnfObj->getConf();
 		$customerEmailHTML = '';
-        $parser = tx_div2007_core::newHtmlParser(true);
 
 		$orderRow =
 			$orderObj->get(
@@ -940,23 +941,23 @@ class tx_ttproducts_api {
 			($posEmailPlaintext !== false || $conf['orderEmail_htmlmail'])
 		) {
 			if ($conf['orderEmail_htmlmail']) {	// If htmlmail lib is included, then generate a nice HTML-email
-				$HTMLmailShell = tx_div2007_core::getSubpart($templateCode, '###EMAIL_HTML_SHELL###');
+				$HTMLmailShell = $templateService->getSubpart($templateCode, '###EMAIL_HTML_SHELL###');
 
 				$customerHTMLmailContent =
-					$parser->substituteMarker(
+					$templateService->substituteMarker(
 						$HTMLmailShell,
 						'###HTML_BODY###',
 						$customerEmailHTML
 					);
 				$customerHTMLmailContent =
-					$parser->substituteMarkerArray(
+					$templateService->substituteMarkerArray(
 						$customerHTMLmailContent,
 						$markerArray
 					);
 
 					// Remove image tags to the products:
 				if (!empty($conf['orderEmail_htmlmail.']['removeImagesWithPrefix'])) {
-					$htmlParser = tx_div2007_core::newHtmlParser();
+                    $htmlParser = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Html\HtmlParser::class);
 					$htmlMailParts = $htmlParser->splitTags('img', $customerHTMLmailContent);
 
 					foreach($htmlMailParts as $kkk => $vvv) {
@@ -1178,14 +1179,14 @@ class tx_ttproducts_api {
                             $HTMLmailContent = '';
                             if ($basketHtml != '') {
                                 $HTMLmailContent =
-                                    $parser->substituteMarker(
+                                    $templateService->substituteMarker(
                                         $HTMLmailShell,
                                         '###HTML_BODY###',
                                         $basketHtml
                                     );
 
                                 $HTMLmailContent =
-                                    $parser->substituteMarkerArray(
+                                    $templateService->substituteMarkerArray(
                                         $HTMLmailContent,
                                         $markerArray
                                     );
@@ -1314,14 +1315,14 @@ class tx_ttproducts_api {
 								);
 
 							$HTMLmailContent =
-								$parser->substituteMarker(
+								$templateService->substituteMarker(
 									$HTMLmailShell,
 									'###HTML_BODY###',
 									$reducedBasketHtml
 								);
 
 							$HTMLmailContent =
-								$parser->substituteMarkerArray(
+								$templateService->substituteMarkerArray(
 									$HTMLmailContent,
 									$markerArray
 								);

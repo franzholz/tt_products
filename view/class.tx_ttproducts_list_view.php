@@ -107,10 +107,11 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$oldFormCount,
 		&$formCount
 	) {
+        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 		$subpartArray = [];
 		$subpartArray['###ITEM_CATEGORY###'] = $categoryOut;
 		$subpartArray[$itemListSubpart] = $itemListOut;
-		$rc = tx_div2007_core::substituteMarkerArrayCached($categoryAndItemsFrameWork, [], $subpartArray);
+		$rc = $templateService->substituteMarkerArrayCached($categoryAndItemsFrameWork, [], $subpartArray);
 		if ($formCount == $oldFormCount) {
 			$formCount++; // next form must have another name
 		}
@@ -127,15 +128,14 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 		&$productMarkerArray,
 		&$categoryMarkerArray
 	) {
+        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 		$cObj = FrontendUtility::getContentObjectRenderer();
-        $parser = tx_div2007_core::newHtmlParser(false);
-
 		$markerArray = array_merge($productMarkerArray, $categoryMarkerArray);
-		$productOut = $parser->substituteMarkerArray($productFrameWork, $markerArray);
+		$productOut = $templateService->substituteMarkerArray($productFrameWork, $markerArray);
 		$subpartArray = [];
 		$subpartArray['###ITEM_PRODUCT###'] = $productOut;
 		$subpartArray['###ITEM_LIST###'] = $itemListOut;
-		$rc = tx_div2007_core::substituteMarkerArrayCached($productAndItemsFrameWork, [], $subpartArray);
+		$rc = $templateService->substituteMarkerArrayCached($productAndItemsFrameWork, [], $subpartArray);
 		$categoryOut = '';
 		$itemListOut = '';	// Clear the item-code var
 
@@ -442,13 +442,11 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 		}
 
 		$basketExt = tx_ttproducts_control_basket::getBasketExt();
-
+        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 		$cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$conf = $cnfObj->getConf();
 		$config = $cnfObj->getConfig();
 		$cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
-        $parser = tx_div2007_core::newHtmlParser(false);
-
 		$languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
 		$backPid = 0;
 		$templateObj = GeneralUtility::makeInstance('tx_ttproducts_template');
@@ -995,7 +993,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 				$searchTemplateArea = 'ITEM_SEARCH';
 					// Get search subpart
 				$t['search'] =
-					tx_div2007_core::getSubpart(
+					$templateService->getSubpart(
 						$templateCode,
 						$subpartmarkerObj->spMarker('###' . $searchTemplateArea . '###' . $templateObj->getTemplateSuffix())
 					);
@@ -1056,7 +1054,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 				$markerArray['###SWORD###'] = $htmlSwords;
 				$markerArray['###SWORD_NAME###'] = $prefixId . '[sword]';
 				$markerArray['###SWORDS###'] = $htmlSwords; // for backwards compatibility
-				$out = tx_div2007_core::substituteMarkerArrayCached($out, $markerArray);
+				$out = $templateService->substituteMarkerArrayCached($out, $markerArray);
 				if ($formName) {
 						// Add to content
 					$content .= $out;
@@ -1107,7 +1105,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 				$sword
 			)
 		) {
-			$t['listFrameWork'] = tx_div2007_core::getSubpart(
+			$t['listFrameWork'] = $templateService->getSubpart(
 				$templateCode,
 				$subpartmarkerObj->spMarker('###' . $templateArea . '###')
 			);
@@ -1209,24 +1207,24 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 				// add Global Marker Array
 			$markerArray = array_merge($markerArray, $globalMarkerArray);
 
-			$t['listFrameWork'] = tx_div2007_core::substituteMarkerArrayCached(
+			$t['listFrameWork'] = $templateService->substituteMarkerArrayCached(
 				$t['listFrameWork'],
 				$markerArray,
 				$subpartArray,
 				$wrappedSubpartArray
 			);
 
-			$t['categoryAndItemsFrameWork'] = tx_div2007_core::getSubpart($t['listFrameWork'], '###ITEM_CATEGORY_AND_ITEMS###');
-			$t['categoryFrameWork'] = tx_div2007_core::getSubpart(
+			$t['categoryAndItemsFrameWork'] = $templateService->getSubpart($t['listFrameWork'], '###ITEM_CATEGORY_AND_ITEMS###');
+			$t['categoryFrameWork'] = $templateService->getSubpart(
 				$t['categoryAndItemsFrameWork'],
 				'###ITEM_CATEGORY###'
 			);
 			if ($itemTable->getType() == 'article') {
-				$t['productAndItemsFrameWork'] = tx_div2007_core::getSubpart($t['listFrameWork'],'###ITEM_PRODUCT_AND_ITEMS###');
-				$t['productFrameWork'] = tx_div2007_core::getSubpart($t['productAndItemsFrameWork'], '###ITEM_PRODUCT###');
+				$t['productAndItemsFrameWork'] = $templateService->getSubpart($t['listFrameWork'],'###ITEM_PRODUCT_AND_ITEMS###');
+				$t['productFrameWork'] = $templateService->getSubpart($t['productAndItemsFrameWork'], '###ITEM_PRODUCT###');
 			}
-			$t['itemFrameWork'] = tx_div2007_core::getSubpart($t['categoryAndItemsFrameWork'],'###ITEM_LIST###');
-			$t['item'] = tx_div2007_core::getSubpart($t['itemFrameWork'], '###ITEM_SINGLE###');
+			$t['itemFrameWork'] = $templateService->getSubpart($t['categoryAndItemsFrameWork'],'###ITEM_LIST###');
+			$t['item'] = $templateService->getSubpart($t['itemFrameWork'], '###ITEM_SINGLE###');
 
 			if (
 				isset($damJoinTableArray) &&
@@ -1234,7 +1232,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 				in_array('address', $damJoinTableArray)
 			) {
 				$t['itemheader'] = [];
-				$t['itemheader']['address'] = tx_div2007_core::getSubpart($t['itemFrameWork'],'###ITEM_ADDRESS###');
+				$t['itemheader']['address'] = $templateService->getSubpart($t['itemFrameWork'],'###ITEM_ADDRESS###');
 				if ($t['itemheader']['address'] != '') {
 					$headerField = $itemTable->getField('address');
 					$headerFieldIndex = 0;
@@ -1851,14 +1849,14 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 				$markerFramework = 'listFrameWork';
 				$t[$markerFramework] =
-					tx_div2007_core::substituteMarkerArrayCached(
+					$templateService->substituteMarkerArrayCached(
 						$t[$markerFramework],
 						$markerArray,
 						[],
 						[]
 					);
 				$t['itemFrameWork'] =
-					tx_div2007_core::substituteMarkerArrayCached(
+					$templateService->substituteMarkerArrayCached(
 						$t['itemFrameWork'],
 						$markerArray,
 						[],
@@ -1989,7 +1987,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 										'',
 										$theCode == 'LISTGIFTS'
 									);
-									$headerItemsOutArray[$headertable] =tx_div2007_core::substituteMarkerArrayCached(
+									$headerItemsOutArray[$headertable] = $templateService->substituteMarkerArrayCached(
 										$t['itemheader']['address'],
 										$headerMarkerArray,
 										[],
@@ -2172,7 +2170,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 										);
 									}
 
-									$categoryOut = tx_div2007_core::substituteMarkerArrayCached(
+									$categoryOut = $templateService->substituteMarkerArrayCached(
 										$t['categoryFrameWork'],
 										$categoryMarkerArray,
 										$categorySubpartArray,
@@ -2625,8 +2623,8 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 								$quantityMarkerArray = [];
 
 								foreach ($listMarkerArray as $marker => $markerValue) {
-									$markerValue = $parser->substituteMarkerArray($markerValue, $markerArray);
-									$markerValue = $parser->substituteMarkerArray($markerValue, $quantityMarkerArray);
+									$markerValue = $templateService->substituteMarkerArray($markerValue, $markerArray);
+									$markerValue = $templateService->substituteMarkerArray($markerValue, $quantityMarkerArray);
 									$markerArray[$marker] = $markerValue;
 								}
 							}
@@ -2809,7 +2807,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 							$tmpMarkerArray['###DAM_UID###'] = $row['uid'];
 
 							foreach ($productDAMMarkerArray as $marker => $v) {
-								$markerArray[$marker] = $parser->substituteMarkerArray(
+								$markerArray[$marker] = $templateService->substituteMarkerArray(
 									$v,
 									$tmpMarkerArray
 								);
@@ -2949,7 +2947,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 						$tempContent = '';
 
 						if ($t['item'] != '') {
-							$tempContent .= tx_div2007_core::substituteMarkerArrayCached(
+							$tempContent .= $templateService->substituteMarkerArrayCached(
 								$t['item'],
 								$markerArray,
 								$subpartArray,
@@ -2976,11 +2974,11 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 								if ($bHeaderFieldChanged) {
 									foreach ($headerItemsOutArray as $headerTable => $headerItemsOut) {
 										$marker = $headerTableObjArray['address']->getMarker();
-										$subpartArray['###ITEM_' . $marker . '###'] = tx_div2007_core::substituteMarkerArrayCached($headerItemsOut, $markerArray);
+										$subpartArray['###ITEM_' . $marker . '###'] = $templateService->substituteMarkerArrayCached($headerItemsOut, $markerArray);
 									}
 								}
 								$subpartArray['###ITEM_SINGLE###'] = $itemsOut;
-								$itemListOut .= tx_div2007_core::substituteMarkerArrayCached($t['itemFrameWork'], $markerArray, $subpartArray, $wrappedSubpartArray);
+								$itemListOut .= $templateService->substituteMarkerArrayCached($t['itemFrameWork'], $markerArray, $subpartArray, $wrappedSubpartArray);
 								$itemsOut = '';
 							}
 							$iColCount = 0; // restart in the first column
@@ -3061,7 +3059,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 								$subpartArray = [];
 								$subpartArray['###ITEM_SINGLE###'] = $itemsOut;
 
-								$itemListNewOut = tx_div2007_core::substituteMarkerArrayCached(
+								$itemListNewOut = $templateService->substituteMarkerArrayCached(
 									$t['itemFrameWork'],
 									$markerArray,
 									$subpartArray,
@@ -3104,7 +3102,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 									$t['categoryFrameWork']
 								)	{
 									$catTitle = $categoryTableView->getMarkerArrayCatTitle($categoryMarkerArray);
-									$categoryOut = $parser->substituteMarkerArray($t['categoryFrameWork'], $categoryMarkerArray);
+									$categoryOut = $templateService->substituteMarkerArray($t['categoryFrameWork'], $categoryMarkerArray);
 								}
 
 								if (
@@ -3117,7 +3115,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 									$markerArray['###ITEM_SINGLE_POST_HTML###'] = '';
 									$subpartArray['###ITEM_SINGLE###'] = '';
 									$itemListOut =
-										tx_div2007_core::substituteMarkerArrayCached(
+										$templateService->substituteMarkerArrayCached(
 											$t['itemFrameWork'],
 											$categoryMarkerArray,
 											$subpartArray,
@@ -3232,7 +3230,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 				$memoViewObj->getHiddenFields($uidArray, $markerArray, $bUseCheckBox);
 			}
 
-			$out = tx_div2007_core::substituteMarkerArrayCached(
+			$out = $templateService->substituteMarkerArrayCached(
 				$t['listFrameWork'],
 				$markerArray,
 				$subpartArray,
@@ -3264,7 +3262,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 			$markerArray['###BROWSE_LINKS###'] = '';
 
 			$out =
-				tx_div2007_core::substituteMarkerArrayCached(
+				$templateService->substituteMarkerArrayCached(
 					$t['listFrameWork'],
 					$markerArray,
 					$subpartArray
@@ -3295,7 +3293,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 		}
 
 		if ($contentEmpty != '') {
-			$contentEmpty = $parser->substituteMarkerArray($contentEmpty, $globalMarkerArray);
+			$contentEmpty = $templateService->substituteMarkerArray($contentEmpty, $globalMarkerArray);
 		}
 		$content .= $contentEmpty;
 
