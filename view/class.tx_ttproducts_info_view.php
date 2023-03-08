@@ -41,6 +41,8 @@
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 use JambageCom\Div2007\Utility\ExtensionUtility;
+use JambageCom\Div2007\Utility\StaticInfoTablesUtility;
+
 use JambageCom\TtProducts\Api\CustomerApi;
 
 
@@ -502,14 +504,20 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 				}
 
 				$markerArray['###PERSON_ZONE_DISPLAY###'] =
-					tx_div2007_staticinfotables::getTitleFromIsoCode(
+					StaticInfoTablesUtility::getTitleFromIsoCode(
 						'static_country_zones',
-						[$zoneCodeArray['billing'], $countryCodeArray['billing']]
+						[
+                            $zoneCodeArray['billing'],
+                            $countryCodeArray['billing']
+                        ]
 					);
 				$markerArray['###DELIVERY_ZONE_DISPLAY###'] =
-					tx_div2007_staticinfotables::getTitleFromIsoCode(
+					StaticInfoTablesUtility::getTitleFromIsoCode(
 						'static_country_zones',
-						[$zoneCodeArray['delivery'], $countryCodeArray['delivery']]
+						[
+                            $zoneCodeArray['delivery'],
+                            $countryCodeArray['delivery']
+                        ]
 					);
 			}
 
