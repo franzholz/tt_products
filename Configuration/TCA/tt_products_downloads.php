@@ -247,15 +247,5 @@ $result = array (
     )
 );
 
-
-if (
-    defined('TYPO3_version') &&
-    version_compare(TYPO3_version, '10.0.0', '<')
-) {
-    $result['interface'] = [];
-    $result['interface']['showRecordFieldList'] =   
-        'hidden,title,marker,note,path,edition,author,price_enable,price,file_uid';
-}
-
 return $result;
 

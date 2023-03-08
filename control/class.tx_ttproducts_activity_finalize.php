@@ -197,42 +197,22 @@ class tx_ttproducts_activity_finalize implements \TYPO3\CMS\Core\SingletonInterf
 									isset($emailControlArray['shop']['none']['recipient']) && is_array($emailControlArray['shop']['none']['recipient'])
 								) {
 									foreach ($emailControlArray['shop']['none']['recipient'] as $key => $recipient) {
-                                        if (version_compare(TYPO3_version, '10.0.0', '<')) {
-                                            $tmp = '';
-                                            // $headers variable removed everywhere!
-                                            \JambageCom\Div2007\Utility\MailUtility::send(
-                                                $recipient,
-                                                $subject,
-                                                $content,
-                                                $tmp,	// no HTML order confirmation email for shop admins
-                                                $emailControlArray['shop']['none']['from']['email'],
-                                                $emailControlArray['shop']['none']['from']['name'],
-                                                '',
-                                                $emailControlArray['shop']['none']['cc'],
-                                                $emailControlArray['shop']['none']['bcc'],
-                                                $emailControlArray['shop']['none']['returnPath'],
-                                                $emailControlArray['shop']['none']['replyTo'],
-                                                TT_PRODUCTS_EXT,
-                                                'sendMail'
-                                            );
-                                        } else {
-                                            $tmp = '';
-                                            \JambageCom\Div2007\Utility\MailUtility::send(
-                                                $recipient,
-                                                $subject,
-                                                $content,
-                                                $tmp,	// no HTML order confirmation email for shop admins
-                                                $emailControlArray['shop']['none']['from']['email'],
-                                                $emailControlArray['shop']['none']['from']['name'],
-                                                '',
-                                                $emailControlArray['shop']['none']['cc'],
-                                                $emailControlArray['shop']['none']['bcc'],
-                                                $emailControlArray['shop']['none']['returnPath'],
-                                                $emailControlArray['shop']['none']['replyTo'],
-                                                TT_PRODUCTS_EXT,
-                                                'sendMail'
-                                            );
-                                        }
+                                        $tmp = '';
+                                        \JambageCom\Div2007\Utility\MailUtility::send(
+                                            $recipient,
+                                            $subject,
+                                            $content,
+                                            $tmp,	// no HTML order confirmation email for shop admins
+                                            $emailControlArray['shop']['none']['from']['email'],
+                                            $emailControlArray['shop']['none']['from']['name'],
+                                            '',
+                                            $emailControlArray['shop']['none']['cc'],
+                                            $emailControlArray['shop']['none']['bcc'],
+                                            $emailControlArray['shop']['none']['returnPath'],
+                                            $emailControlArray['shop']['none']['replyTo'],
+                                            TT_PRODUCTS_EXT,
+                                            'sendMail'
+                                        );
 									}
 								}
 							}

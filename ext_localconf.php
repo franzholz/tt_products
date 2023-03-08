@@ -88,13 +88,7 @@ call_user_func(function () {
     if (
         TYPO3_MODE == 'FE' && \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded(TAXAJAX_EXT)
     ) {
-        if (
-            version_compare(TYPO3_version, '10.4.0', '>=')
-        ) {
-            $GLOBALS['TYPO3_CONF_VARS']['FE']['taxajax_include'][TT_PRODUCTS_EXT] =  \JambageCom\TtProducts\Controller\TaxajaxController::class . '::processRequest';
-        } else {
-            $GLOBALS['TYPO3_CONF_VARS']['FE']['taxajax_include'][TT_PRODUCTS_EXT] =  \JambageCom\TtProducts\Controller\OldTaxajaxController::class . '::processRequest';
-        }
+        $GLOBALS['TYPO3_CONF_VARS']['FE']['taxajax_include'][TT_PRODUCTS_EXT] =  \JambageCom\TtProducts\Controller\TaxajaxController::class . '::processRequest';
     }
 
     $extensionConfiguration = [];
@@ -112,21 +106,12 @@ call_user_func(function () {
     }
 
     if (
-        version_compare(TYPO3_version, '10.0.0', '>=') &&
         (
             !isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude']) ||
             !is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude'])
         )
     ) {
         $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude'] = [];
-    } else if (
-        version_compare(TYPO3_version, '10.0.0', '<') &&
-        (
-            !isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude.']) ||
-            !is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude.'])
-        )
-    ) {
-        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude.'] = [];
     }
 
     if (
@@ -141,25 +126,18 @@ call_user_func(function () {
     $extensionConfiguration = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT];
 
     if (isset($extensionConfiguration) && is_array($extensionConfiguration)) {
-        $excludeConf =  
-            (version_compare(TYPO3_version, '10.0.0', '>=') ? 
-                $extensionConfiguration['exclude'] :
-                $extensionConfiguration['exclude.']
-            );
-        if (isset($excludeConf) && is_array($excludeConf)) {
+        if (
+            isset($extensionConfiguration['exclude']) && is_array($extensionConfiguration['exclude'])
+        ) {
             $excludeArray = [];
-            foreach ($excludeConf as $tablename => $excludefields) {
+            foreach ($extensionConfiguration['exclude'] as $tablename => $excludefields) {
                 if ($excludefields != '' && is_string($excludefields)) {
                     $excludeArray[$tablename] = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $excludefields);
                 }
             }
 
             if (count($excludeArray)) {
-                if (version_compare(TYPO3_version, '10.0.0', '>=')) {
-                    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude'] = $excludeArray;
-                } else {
-                    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude.'] = $excludeArray;
-                }
+                $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude'] = $excludeArray;
             }
         }
     }
@@ -185,7 +163,6 @@ call_user_func(function () {
         $listType = TT_PRODUCTS_EXT . '_pi_search';
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['list_type_Info'][$listType][] = 'JambageCom\\TtProducts\\Hooks\\CmsBackend->pmDrawItem';
     }
-
 
     if (TYPO3_MODE == 'FE') { // hooks for FE extensions
 

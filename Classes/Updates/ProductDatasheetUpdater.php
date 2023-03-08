@@ -119,7 +119,7 @@ class ProductDatasheetUpdater implements UpgradeWizardInterface, ConfirmableInte
             false,
             $confirm,
             $deny,
-            ($elementCount > 0 && version_compare(TYPO3_version, '10.0.0', '>='))
+            ($elementCount > 0)
         );
 
         return $result;

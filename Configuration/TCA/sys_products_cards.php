@@ -89,13 +89,4 @@ $result = array (
     )
 );
 
-if (
-    defined('TYPO3_version') &&
-    version_compare(TYPO3_version, '10.0.0', '<')
-) {
-    $result['interface'] = [];
-    $result['interface']['showRecordFieldList'] =   
-        'cc_number,owner_name,cc_type,cvv2,endtime';
-}
-
 return $result;

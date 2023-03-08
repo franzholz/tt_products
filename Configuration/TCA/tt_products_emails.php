@@ -149,13 +149,5 @@ $result = array (
 
 );
 
-if (
-    defined('TYPO3_version') &&
-    version_compare(TYPO3_version, '10.0.0', '<')
-) {
-    $result['interface'] = [];
-    $result['interface']['showRecordFieldList'] = 'name,email,suffix,tstamp, crdate, hidden,starttime,endtime,fe_group';
-}
-
 return $result;
 

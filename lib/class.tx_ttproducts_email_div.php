@@ -204,75 +204,38 @@ class tx_ttproducts_email_div {
 						$markerObj->getGlobalMarkerArray()
 					);
 
-                    if (version_compare(TYPO3_version, '10.0.0', '<')) {
-                        tx_div2007_email::sendMail(
-                            $recipients,
-                            $subject,
-                            $emailContent,
-                            $HTMLmailContent,
-                            $senderemail,
-                            $sendername,
-                            $conf['GiftAttachment'],
-                            '',
-                            '',
-                            $senderemail,
-                            '',
-                            TT_PRODUCTS_EXT,
-                            'sendMail'
-                        );
-                    } else {
-                        \JambageCom\Div2007\Utility\MailUtility::send(
-                            $recipients,
-                            $subject,
-                            $emailContent,
-                            $HTMLmailContent,
-                            $senderemail,
-                            $sendername,
-                            $conf['GiftAttachment'],
-                            '',
-                            '',
-                            $senderemail,
-                            '',
-                            TT_PRODUCTS_EXT,
-                            'sendMail'
-                        );
-                    }
-				} else {		// ... else just plain text...
-                    if (version_compare(TYPO3_version, '10.0.0', '<')) {
-                        $tmp = '';
-                        tx_div2007_email::sendMail(
-                            $recipients,
-                            $subject,
-                            $emailContent,
-                            $tmp,
-                            $senderemail,
-                            $sendername,
-                            $conf['GiftAttachment'],
-                            '',
-                            '',
-                            $senderemail,
-                            '',
-                            TT_PRODUCTS_EXT,
-                            'sendMail'
-                        );
-                    } else {
-                        $tmp = '';
-                        \JambageCom\Div2007\Utility\MailUtility::send(
-                            $recipients,
-                            $subject,
-                            $emailContent,
-                            $tmp,
-                            $senderemail,
-                            $sendername,
-                            $conf['GiftAttachment'],
-                            '',
-                            '',
-                            $senderemail,
-                            '',
-                            TT_PRODUCTS_EXT,
-                            'sendMail'
-                        );
-                    }
+                    \JambageCom\Div2007\Utility\MailUtility::send(
+                        $recipients,
+                        $subject,
+                        $emailContent,
+                        $HTMLmailContent,
+                        $senderemail,
+                        $sendername,
+                        $conf['GiftAttachment'],
+                        '',
+                        '',
+                        $senderemail,
+                        '',
+                        TT_PRODUCTS_EXT,
+                        'sendMail'
+                    );
+                } else {		// ... else just plain text...
+                    $tmp = '';
+                    \JambageCom\Div2007\Utility\MailUtility::send(
+                        $recipients,
+                        $subject,
+                        $emailContent,
+                        $tmp,
+                        $senderemail,
+                        $sendername,
+                        $conf['GiftAttachment'],
+                        '',
+                        '',
+                        $senderemail,
+                        '',
+                        TT_PRODUCTS_EXT,
+                        'sendMail'
+                    );
 				}
 			}
 		}

@@ -34,18 +34,16 @@ call_user_func(function () {
         ];
     }
 
-    $excludeArray =  
-        (version_compare(TYPO3_version, '10.0.0', '>=') ? 
-            $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude'] :
-            $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude.']
-        );
-            
     $GLOBALS['TCA'][$table]['columns']['slug']['config']['eval'] = $configuration->getSlugBehaviour();
+
+    $excludeArray =  
+        ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude']);
 
     if (
         isset($excludeArray) &&
         is_array($excludeArray) &&
-        isset($excludeArray[$table])
+        isset($excludeArray[$table]) &&
+        is_array($excludeArray[$table])
     ) {
         \JambageCom\Div2007\Utility\TcaUtility::removeField(
             $GLOBALS['TCA'][$table],
@@ -54,9 +52,5 @@ call_user_func(function () {
     }
 
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToInsertRecords($table);
-    
-    if (version_compare(TYPO3_version, '10.4.0', '<')) {
-        $GLOBALS['TCA'][$table]['columns']['fe_group']['config']['enableMultiSelectFilterTextfield'] = true;
-    }
 });
 

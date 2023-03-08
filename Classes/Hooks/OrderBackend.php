@@ -127,18 +127,11 @@ class OrderBackend implements \TYPO3\CMS\Core\SingletonInterface {
         $row   = [];
         $config = [];
 
-		if (version_compare(TYPO3_version, '10.0.0', '<')) {
-
-            $table = $parameterArray['table'];
-            $field = $parameterArray['field'];
-            $row   = $parameterArray['row'];
-        } else {
-            $data = $parameterArray;
-            $table = $data['tableName'];
-            $field = $data['fieldName'];
-            $row   = $data['databaseRow'];
-            $parameterArray = $data['parameterArray'];
-        }
+        $data = $parameterArray;
+        $table = $data['tableName'];
+        $field = $data['fieldName'];
+        $row   = $data['databaseRow'];
+        $parameterArray = $data['parameterArray'];
         
                 // Field configuration from TCA:
         $config = $parameterArray['fieldConf']['config'];

@@ -327,16 +327,11 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
 
 		$tablename = $this->getTablename();
 		$fieldsArray['hidden'] = 1;
-        $excludeArray =  
-            (version_compare(TYPO3_version, '10.0.0', '>=') ? 
-                $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude'] :
-                $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude.']
-            );
         $excludeFieldArray = [];
 
         if (
-            isset($excludeArray) &&
-            is_array($excludeArray) &&
+            isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude']) &&
+            is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude']) &&
             isset($excludeArray[$tablename])
         ) {
             $excludeFieldArray = $excludeArray[$tablename];

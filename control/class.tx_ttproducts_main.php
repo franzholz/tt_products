@@ -1047,10 +1047,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 		}
 
         $showConfigurationError = 
-            (version_compare(TYPO3_version, '10.0.0', '>=') ? 
-                $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['error']['configuration'] :
-                $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['error.']['configuration']
-            );
+            $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['error']['configuration'];
 
 
 		if ($showConfigurationError && !$conf['defaultSetup']) {
