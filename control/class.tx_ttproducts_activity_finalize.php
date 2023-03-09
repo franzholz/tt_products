@@ -301,9 +301,9 @@ class tx_ttproducts_activity_finalize implements \TYPO3\CMS\Core\SingletonInterf
 				$addressArray,
 				$basketExtra,
 				$basketRecs,
-				$basketExt['gift'],
+				$basketExt['gift'] ?? '',
 				$usedCreditpoints,
-				$conf['debug'],
+				$conf['debug'] ?? '',
 				$errorMessage
 			);
 		}

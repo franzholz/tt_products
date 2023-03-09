@@ -342,7 +342,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view {
 			$count = 0;
 			foreach($imageArray as $c => $val) {
 				$imageConf = $imageConfStart;
-				$imageConfFile = $imageConf['file'];
+				$imageConfFile = $imageConf['file'] ?? '';
 				if ($count == $mediaNum) {
 					break;
 				}
