@@ -106,7 +106,7 @@ class tx_ttproducts_billdelivery implements \TYPO3\CMS\Core\SingletonInterface {
 
 		$typeCode = strtoupper($type);
 		$result = false;
-		$generationType = strtolower($generationConf['type']);
+		$generationType = strtolower($generationConf['type'] ?? '');
 		$billGeneratedFromHook = false;
 
 		// Hook

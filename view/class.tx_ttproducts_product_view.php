@@ -121,7 +121,7 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
 				$this->getMarker(),
 				$functablename,
 				$row,
-				($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['falDatasheet'] ?  'datasheet_uid' : 'datasheet'),
+				'datasheet_uid',
 				$this->getModelObj()->getTableConf($theCode),
 				$subpartArray,
 				$wrappedSubpartArray,
@@ -242,7 +242,7 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
             $notOverwritePriceIfSet
 		);
 // Todo: das mit datasheet hier löschen
-        $datasheetField = ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['falDatasheet'] ?  'datasheet_uid' : 'datasheet');
+        $datasheetField = 'datasheet_uid';
         if (!empty($row[$datasheetField])) {
             $datafieldViewObj = $this->getFieldObj('datasheet');
 		}

@@ -38,6 +38,7 @@
  */
 
 
+use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 use JambageCom\Div2007\Utility\ExtensionUtility;
@@ -210,6 +211,8 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 	 */
 	public function checkRequired ($type, $basketExtra) {
 
+        $result = '';
+
 		if (
 			tx_ttproducts_control_basket::needsDeliveryAddresss($basketExtra) ||
 			$type == 'billing'
@@ -346,6 +349,8 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$conf = $cnf->getConf();
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 		$languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
+        $context = GeneralUtility::makeInstance(Context::class);
+
 		$fields = CustomerApi::getFields();
 		$infoFields = GeneralUtility::trimExplode(',', $fields); // Fields...
 		$orderAddressViewObj = $tablesObj->get('fe_users', true);
@@ -382,12 +387,26 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 			$bReady = false;
 			$whereCountries = $this->getWhereAllowedCountries($basketExtra);
 			$countryCodeArray = [];
-			$countryCodeArray['billing'] = (!empty($this->infoArray['billing']['country_code']) ? $this->infoArray['billing']['country_code'] : ($GLOBALS['TSFE']->fe_user->user['static_info_country'] ?? false));
-            $countryCodeArray['delivery'] = (!empty($this->infoArray['delivery']['country_code']) ? $this->infoArray['delivery']['country_code'] : (!empty($GLOBALS['TSFE']->fe_user->user['static_info_country']) ? $GLOBALS['TSFE']->fe_user->user['static_info_country'] : false));
+			$countryCodeArray['billing'] = ($this->infoArray['billing']['country_code'] ?: $context->getPropertyFromAspect('frontend.user', 'isLoggedIn') && ($context->getPropertyFromAspect('frontend.user', 'isLoggedIn') && !empty($GLOBALS['TSFE']->fe_user->user['static_info_country']) ? $GLOBALS['TSFE']->fe_user->user['static_info_country'] : false));
+            $countryCodeArray['delivery'] = ($this->infoArray['delivery']['country_code'] ?: ($context->getPropertyFromAspect('frontend.user', 'isLoggedIn') &&  !empty($GLOBALS['TSFE']->fe_user->user['static_info_country']) ? $GLOBALS['TSFE']->fe_user->user['static_info_country'] : false));
 
-			$zoneCodeArray = [];
-			$zoneCodeArray['billing'] = (!empty($this->infoArray['billing']['zone']) ? $this->infoArray['billing']['zone'] : ($GLOBALS['TSFE']->fe_user->user['zone'] != '' ? $GLOBALS['TSFE']->fe_user->user['zone'] : false));
-			$zoneCodeArray['delivery'] = (!empty($this->infoArray['delivery']['zone']) ? $this->infoArray['delivery']['zone'] : (!empty($GLOBALS['TSFE']->fe_user->user['zone']) ? $GLOBALS['TSFE']->fe_user->user['zone'] : false));
+            $zoneCodeArray = [];
+            $zoneCodeArray['billing'] = (
+                !empty($this->infoArray['billing']['zone']) ? 
+                    $this->infoArray['billing']['zone'] : (
+                        $context->getPropertyFromAspect('frontend.user', 'isLoggedIn') && !empty($GLOBALS['TSFE']->fe_user->user['zone']) ? 
+                            $GLOBALS['TSFE']->fe_user->user['zone'] : 
+                            false
+                    )
+                );
+            $zoneCodeArray['delivery'] = (
+                !empty($this->infoArray['delivery']['zone']) ? 
+                    $this->infoArray['delivery']['zone'] : (
+                        $context->getPropertyFromAspect('frontend.user', 'isLoggedIn') && !empty($GLOBALS['TSFE']->fe_user->user['zone']) ? 
+                            $GLOBALS['TSFE']->fe_user->user['zone'] :
+                            false
+                        )
+                );
 
             if (
                 $countryCodeArray['billing'] === false &&
@@ -592,8 +611,8 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
         }
 
 			// Desired delivery date.
-		$markerArray['###DELIVERY_DESIRED_DATE###'] = $this->infoArray['delivery']['desired_date'];
-		$markerArray['###DELIVERY_DESIRED_TIME###'] = $this->infoArray['delivery']['desired_time'];
+		$markerArray['###DELIVERY_DESIRED_DATE###'] = $this->infoArray['delivery']['desired_date'] ?? '';
+		$markerArray['###DELIVERY_DESIRED_TIME###'] = $this->infoArray['delivery']['desired_time'] ?? '';
 		$markerArray['###DELIVERY_STORE_SELECT###'] = '';
 
 		$shippingType = \JambageCom\TtProducts\Api\PaymentShippingHandling::get(

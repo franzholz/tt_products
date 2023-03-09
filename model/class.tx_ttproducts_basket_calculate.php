@@ -323,7 +323,7 @@ class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterfa
 							$conf['whereGift'] ?? ''
 						);
 
-					if ($actItem[$calculationAdditionField] > 0) {
+					if (!empty($actItem[$calculationAdditionField])) {
 						if (isset($actItem[$calculationField])) {
 							$actItem[$calculationField] += $actItem[$calculationAdditionField];
 						} else {

@@ -13,6 +13,8 @@ if (!$imageFolder) {
 	$imageFolder = 'uploads/pics';
 }
 
+$palleteAddition = '';
+
 $result = array(
 	'ctrl' => array(
 		'title' =>'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products',
@@ -556,23 +558,84 @@ $result = array(
 				'default' => 0
 			)
 		),
-		'datasheet' => array (
-			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.datasheet',
-			'config' => array (
-				'type' => 'group',
-				'internal_type' => 'file',
-				'allowed' => 'doc,htm,html,pdf,sxw,txt,xls,gif,jpg,png',
-                'max_size' => 
-                isset($GLOBALS['TYPO3_CONF_VARS']['BE']['maxFileSize']) ? $GLOBALS['TYPO3_CONF_VARS']['BE']['maxFileSize'] : 0,
-				'uploadfolder' => 'uploads/tx_ttproducts/datasheet',
-				'size' => '5',
-				'maxitems' => '20',
-				'minitems' => '0',
-				'eval' => 'null',
-				'default' => '',
-			)
-		),
+        'image_uid' => [
+            'exclude' => 1,
+            'label' => DIV2007_LANGUAGE_LGL . 'image',
+            'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
+                'image_uid',
+                [
+                    'appearance' => [
+                        'createNewRelationLinkTitle' => 'LLL:EXT:cms/locallang_ttc.xlf:images.addFileReference',
+                        'collapseAll' => true,
+                    ],
+                    'foreign_types' => [
+                        '0' => [
+                            'showitem' => '
+                                --palette--;' . DIV2007_LANGUAGE_PATH . 'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
+                                --palette--;;filePalette' . $palleteAddition
+                        ],
+                        \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => [
+                            'showitem' => '
+                                --palette--;' . DIV2007_LANGUAGE_PATH . 'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
+                                --palette--;;filePalette' . $palleteAddition
+                        ],
+                    ]
+                ],
+                $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']
+            )
+        ],
+        'smallimage_uid' => [
+            'exclude' => 1,
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.smallimage',
+            'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
+                'smallimage_uid',
+                [
+                    'appearance' => [
+                        'createNewRelationLinkTitle' => 'LLL:EXT:cms/locallang_ttc.xlf:images.addFileReference',
+                        'collapseAll' => true,
+                    ],
+                    'foreign_types' => [
+                        '0' => [
+                            'showitem' => '
+                                --palette--;' . DIV2007_LANGUAGE_PATH . 'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
+                                --palette--;;filePalette' . $palleteAddition
+                        ],
+                        \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => [
+                            'showitem' => '
+                                --palette--;' . DIV2007_LANGUAGE_PATH . 'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
+                                --palette--;;filePalette' . $palleteAddition
+                        ],
+                    ]
+                ],
+                $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']
+            )
+        ],
+        'datasheet_uid' => [
+            'exclude' => 1,
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.datasheet',
+            'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
+                'datasheet_uid',
+                [
+                    'appearance' => [
+                        'createNewRelationLinkTitle' => 'LLL:EXT:cms/locallang_ttc.xlf:images.addFileReference',
+                        'collapseAll' => true,
+                    ],
+                    'foreign_types' => [
+                        '0' => [
+                            'showitem' => '
+                                --palette--;' . DIV2007_LANGUAGE_PATH . 'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
+                                --palette--;;filePalette' . $palleteAddition
+                        ],
+                        \TYPO3\CMS\Core\Resource\File::FILETYPE_APPLICATION => [
+                            'showitem' => '
+                                --palette--;' . DIV2007_LANGUAGE_PATH . 'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
+                                --palette--;;filePalette' . $palleteAddition
+                        ],
+                    ]
+                ],
+                $GLOBALS['TYPO3_CONF_VARS']['SYS']['mediafile_ext']
+            )
+        ],
 		'weight' => array (
 			'exclude' => 1,
 			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.weight',
@@ -871,39 +934,6 @@ $result = array(
 				'default' => 0
 			)
 		),
-		'image' => array (
-			'exclude' => 1,
-			'label' => DIV2007_LANGUAGE_LGL . 'image',
-			'config' => array (
-				'type' => 'group',
-				'internal_type' => 'file',
-				'allowed' => $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'],
-                'max_size' => 
-                isset($GLOBALS['TYPO3_CONF_VARS']['BE']['maxFileSize']) ? $GLOBALS['TYPO3_CONF_VARS']['BE']['maxFileSize'] : 0,
-				'uploadfolder' => $imageFolder,
-				'size' => '5',
-				'maxitems' => '30',
-				'minitems' => '0',
-				'default' => '',
-			)
-		),
-		'smallimage' => array (
-			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.smallimage',
-			'config' => array (
-				'type' => 'group',
-				'internal_type' => 'file',
-				'allowed' => $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'],
-                'max_size' => 
-                isset($GLOBALS['TYPO3_CONF_VARS']['BE']['maxFileSize']) ? $GLOBALS['TYPO3_CONF_VARS']['BE']['maxFileSize'] : 0,
-				'uploadfolder' => $imageFolder,
-				'size' => '5',
-				'maxitems' => '30',
-				'minitems' => '0',
-				'eval' => 'null',
-				'default' => '',
-			)
-		),
 		'shipping' => array (
 			'exclude' => 1,
 			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.shipping',
@@ -999,7 +1029,7 @@ $result = array(
                 ),
 
                 'showitem' => 'title,--palette--;;7, itemnumber,--palette--;;2, slug, price,--palette--;;3, tax,--palette--;;4, deposit,--palette--;;5,offer,--palette--;;6,weight,--palette--;;8,tstamp, crdate, hidden,--palette--;;1,' .
-                    '--div--;LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.descriptions,note, note2,note_uid,text_uid,image,smallimage,datasheet,'.
+                    '--div--;LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.descriptions,note, note2,note_uid,text_uid,image_uid,smallimage_uid,datasheet_uid,'.
                     '--div--;LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.categorydiv, category, syscat,' .
                     '--div--;LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.variants,color,color2,--palette--;;9,size,size2,--palette--;;10,description,gradings,material,quality,--palette--;;,additional,--palette--;;11,'.
                     '--div--;LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.graduated,graduated_price_enable,graduated_price_round,graduated_price_uid,'.

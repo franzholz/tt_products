@@ -210,7 +210,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 
 		if (is_array($activities)) {
 			foreach ($activityArray as $k => $activity) {
-				if ($activities[$activity]) {
+				if (!empty($activities[$activity])) {
 					$retActivities[$activity] = true;
 				}
 			}
@@ -975,6 +975,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 		$checkAllowed = false;
 		$checkBasket = false;
 		$checkEditVariants = false;
+		$giftRequired = false;
         $bBasketEmpty = $basketObj->isEmpty();
 		$orderArray = tx_ttproducts_control_basket::getStoredOrder();
 		$productRowArray = []; // Todo: make this a parameter

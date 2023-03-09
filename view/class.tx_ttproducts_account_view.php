@@ -62,7 +62,7 @@ class tx_ttproducts_account_view extends tx_ttproducts_table_base_view {
 
 		$fieldArray = $modelObj->requiredFieldArray;
 		foreach ($fieldArray as $field) {
-			$markerArray['###PERSON_ACCOUNTS_' . strtoupper($field) . '###'] = $viewRow[$field];
+			$markerArray['###PERSON_ACCOUNTS_' . strtoupper($field) . '###'] = $viewRow[$field] ?? '';
 		}
 	} // getMarkerArray
 }

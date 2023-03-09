@@ -54,34 +54,24 @@ class tx_ttproducts_field_datafield extends tx_ttproducts_field_base {
     public function getDataFileArray ($tableName, $row, $fieldName) 
     {
         $result = [];
-        if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['falDatasheet']) {
-            $fileRecords = \JambageCom\Div2007\Utility\FileAbstractionUtility::getFileRecords(
-                $tableName,
-                $fieldName,
-                [$row['uid']]
-            );
+        $fileRecords = \JambageCom\Div2007\Utility\FileAbstractionUtility::getFileRecords(
+            $tableName,
+            $fieldName,
+            [$row['uid']]
+        );
 
-            if (!empty($fileRecords)) {
-                foreach ($fileRecords as $fileRecord) {
-                    $fileReferenceUid = $fileRecord['uid'];
-                    $fileObj = null;
-                    $fileInfo = null;
-                    \JambageCom\Div2007\Utility\FileAbstractionUtility::getFileInfo(
-                        $fileObj,
-                        $fileInfo,
-                        $fileReferenceUid
-                    );
+        if (!empty($fileRecords)) {
+            foreach ($fileRecords as $fileRecord) {
+                $fileReferenceUid = $fileRecord['uid'];
+                $fileObj = null;
+                $fileInfo = null;
+                \JambageCom\Div2007\Utility\FileAbstractionUtility::getFileInfo(
+                    $fileObj,
+                    $fileInfo,
+                    $fileReferenceUid
+                );
 
-                    $result[] = 'fileadmin/' . $fileInfo['identifier'];
-                }
-            }
-        } else if (!empty($row[$fieldName])) {
-        // only for old method by group selection without FAL
-            $dirname = $this->getDirname($row, $fieldName);
-            $files = GeneralUtility::trimExplode(',', $row[$fieldName]);
-            
-            foreach ($files as $file) {
-                $result[] = $dirname . $file;
+                $result[] = 'fileadmin/' . $fileInfo['identifier'];
             }
         }
         return $result;

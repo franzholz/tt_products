@@ -143,7 +143,7 @@ class tx_ttproducts_form_div {
 					}
 
 					if ($layout == '') {
-						$totaltext .= $inputTextArray['0'] . ($type == 'select' ? $nameText : '') . $inputTextArray['1'];
+						$totaltext .= ($inputTextArray[0] ?? '') . ($type == 'select' ? $nameText : '') . ($inputTextArray[1] ?? '');
 					} else {
 						// $tmpText = str_replace('###INPUT###', $inputText, $layout);
 						$tmpText = $templateService->substituteSubpart($layout, '###INPUT###', $inputTextArray);

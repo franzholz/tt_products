@@ -51,11 +51,7 @@ class tx_ttproducts_field_datafield_view extends tx_ttproducts_field_base_view {
 
         if (
             (
-                $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['falDatasheet'] && 
                 $uidPosition
-                || 
-                !$GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['falDatasheet'] &&
-                $uidPosition === false
             ) &&
             isset($row[$fieldname])
         ) {

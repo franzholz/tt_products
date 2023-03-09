@@ -255,41 +255,8 @@ call_user_func(function () {
         )
     ];
 
-    $GLOBALS['TCA'][$table]['columns']['datasheet_uid'] = [
-        'exclude' => 1,
-        'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.datasheet',
-        'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
-            'datasheet_uid',
-            [
-                'appearance' => [
-                    'createNewRelationLinkTitle' => 'LLL:EXT:cms/locallang_ttc.xlf:images.addFileReference',
-                    'collapseAll' => true,
-                ],
-                'foreign_types' => [
-                    '0' => [
-                        'showitem' => '
-                            --palette--;' . DIV2007_LANGUAGE_PATH . 'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                            --palette--;;filePalette' . $palleteAddition
-                    ],
-                    \TYPO3\CMS\Core\Resource\File::FILETYPE_APPLICATION => [
-                        'showitem' => '
-                            --palette--;' . DIV2007_LANGUAGE_PATH . 'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                            --palette--;;filePalette' . $palleteAddition
-                    ],
-                ]
-            ],
-            $GLOBALS['TYPO3_CONF_VARS']['SYS']['mediafile_ext']
-        )
-    ];
-
     $GLOBALS['TCA'][$table]['ctrl']['thumbnail'] = 'image_uid';
 
-    $GLOBALS['TCA'][$table]['types']['0']['showitem'] = str_replace(',image,', ',image_uid,', $GLOBALS['TCA'][$table]['types']['0']['showitem']);
-    $GLOBALS['TCA'][$table]['types']['0']['showitem'] = str_replace(',smallimage,', ',smallimage_uid,', $GLOBALS['TCA'][$table]['types']['0']['showitem']);
-
-    unset($GLOBALS['TCA'][$table]['columns']['image']);
-    unset($GLOBALS['TCA'][$table]['columns']['smallimage']);
-    unset($GLOBALS['TCA'][$table]['columns']['datasheet']);
         // nothing. This is the default behaviour
 
     if (!empty($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['addressTable'])) {

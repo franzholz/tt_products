@@ -143,7 +143,6 @@ class tx_ttproducts_pricetablescalc extends tx_ttproducts_pricecalc_base {
 		return $result;
 	}
 
-
 	public function getDiscountPrice ($graduatedPriceObj, $row, $priceProduct, $count) {
 
 		$result = false;

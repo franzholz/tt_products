@@ -377,7 +377,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
 				$deliveryInfo['name'] = $deliveryInfo['last_name'] . ' ' . $deliveryInfo['first_name'];
 			}
 
-			if (empty($deliveryInfo['date_of_birth'])) {
+			if (!empty($deliveryInfo['date_of_birth'])) {
 				$dateBirth = tx_ttproducts_sql::convertDate($deliveryInfo['date_of_birth']);
 			}
 
@@ -425,7 +425,9 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
             ) {
 				$fieldsArray['giftservice'] = $deliveryInfo['giftservice'] . '||' . implode(',',$giftServiceArticleArray);
 			}
-			$fieldsArray['foundby'] = $deliveryInfo['foundby'];
+			if (!empty($deliveryInfo['foundby'])) {
+                $fieldsArray['foundby'] = $deliveryInfo['foundby'];
+			}
 			$fieldsArray['client_ip'] = GeneralUtility::getIndpEnv('REMOTE_ADDR');
 			$fieldsArray['cc_uid'] = intval($cardUid);
 			$fieldsArray['ac_uid'] = intval($accountUid);
@@ -576,9 +578,9 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
 		$status_log = [];
 		$status_log['0'] = [
 			'time' => time(),
-			'info' => $this->conf['statusCodes.'][$status],
+			'info' => $this->conf['statusCodes.'][$status] ?? '',
 			'status' => $status,
-			'comment' => $deliveryInfo['note']
+			'comment' => $deliveryInfo['note'] ?? ''
 		];
 		if (!empty($GLOBALS['TYPO3_CONF_VARS']['SYS']['serverTimeZone'])) {
 			$status_log['0']['time'] += ($GLOBALS['TYPO3_CONF_VARS']['SYS']['serverTimeZone'] * 3600);

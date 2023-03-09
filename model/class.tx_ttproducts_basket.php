@@ -565,7 +565,10 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 								}
 							}
 
-							if (is_array($basketExt['gift'])) {
+							if (
+                                isset($basketExt['gift']) &&
+                                is_array($basketExt['gift'])
+                            ) {
 								$count = count($basketExt['gift']);
 								$giftCount = 0;
 								$restQuantity = $quantity;
