@@ -1,5 +1,5 @@
 <?php
-defined('TYPO3_MODE') || die('Access denied.');
+defined('TYPO3') || die('Access denied.');
 
 // ******************************************************************
 // This is the standard TypoScript products downloads table, tt_products_downloads
@@ -246,16 +246,6 @@ $result = array (
         '1' => array('showitem' => 'starttime,endtime,fe_group'),
     )
 );
-
-
-if (
-    defined('TYPO3_version') &&
-    version_compare(TYPO3_version, '10.0.0', '<')
-) {
-    $result['interface'] = [];
-    $result['interface']['showRecordFieldList'] =   
-        'hidden,title,marker,note,path,edition,author,price_enable,price,file_uid';
-}
 
 return $result;
 

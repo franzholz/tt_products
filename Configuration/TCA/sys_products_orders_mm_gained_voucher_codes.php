@@ -1,5 +1,5 @@
 <?php
-defined('TYPO3_MODE') || die('Access denied.');
+defined('TYPO3') || die('Access denied.');
 
 // ******************************************************************
 // order to voucher codes table, sys_products_orders_mm_gained_voucher_codes
@@ -26,15 +26,6 @@ $result = array (
     'columns' => []
 );
 
-
-if (
-    defined('TYPO3_version') &&
-    version_compare(TYPO3_version, '10.0.0', '<')
-) {
-    $result['interface'] = [];
-    $result['interface']['showRecordFieldList'] =   
-        'uid_local,uid_foreign';
-}
 
 return $result;
 

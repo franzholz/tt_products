@@ -1,5 +1,5 @@
 <?php
-defined('TYPO3_MODE') || die('Access denied.');
+defined('TYPO3') || die('Access denied.');
 
 $imageFolder = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['imageFolder'];
 if (!$imageFolder) {
@@ -333,14 +333,5 @@ $result = array (
 		'2' => array('showitem' => 'subtitle, keyword, itemnumber, www'),
 	)
 );
-
-if (
-    defined('TYPO3_version') &&
-    version_compare(TYPO3_version, '10.0.0', '<')
-) {
-    $result['interface'] = [];
-    $result['interface']['showRecordFieldList'] =   
-        'sys_language_uid,hidden,starttime,endtime,prod_uid,title,subtitle,keyword,unit,note,note2,datasheet,www,image,smallimage';
-}
 
 return $result;

@@ -1,5 +1,5 @@
 <?php
-defined('TYPO3_MODE') || die('Access denied.');
+defined('TYPO3') || die('Access denied.');
 
 $configuration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\JambageCom\TtProducts\Domain\Model\Dto\EmConfiguration::class);
 
@@ -244,15 +244,6 @@ $result = array (
         '2' => array('showitem' => 'subtitle,keyword'),
     )
 );
-
-if (
-    defined('TYPO3_version') &&
-    version_compare(TYPO3_version, '10.0.0', '<')
-) {
-    $result['interface'] = [];
-    $result['interface']['showRecordFieldList'] =   
-        'sys_language_uid,hidden,starttime,endtime,fe_group,article_uid,title,subtitle,keyword,note,note2';
-}
 
 return $result;
 

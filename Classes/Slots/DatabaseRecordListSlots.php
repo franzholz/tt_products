@@ -37,14 +37,10 @@ class DatabaseRecordListSlots
             isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT])
         ) {
             $useCsv = 
-                (version_compare(TYPO3_version, '10.0.0', '>=') ? 
+                (
                     isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['backend']) &&
                     isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['backend']['csv']) &&
-                    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['backend']['csv'][$table] == 'iban'  :
-                    
-                    isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['backend.']) &&
-                    isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['backend.']['csv.']) &&
-                    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['backend.']['csv.'][$table] == 'iban'
+                    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['backend']['csv'][$table] == 'iban' 
                 );
         }
 

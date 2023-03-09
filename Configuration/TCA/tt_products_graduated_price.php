@@ -1,5 +1,5 @@
 <?php
-defined('TYPO3_MODE') || die('Access denied.');
+defined('TYPO3') || die('Access denied.');
 
 // ******************************************************************
 // graduated price calculation table, tt_products_graduated_price
@@ -183,14 +183,6 @@ if (
     in_array($table, $orderBySortingTablesArray)
 ) {
     $result['ctrl']['sortby'] = 'sorting';
-}
-
-if (
-    defined('TYPO3_version') &&
-    version_compare(TYPO3_version, '10.0.0', '<')
-) {
-    $result['interface'] = [];
-    $result['interface']['showRecordFieldList'] = 'title,formula,startamount,note,parentid';
 }
 
 return $result;

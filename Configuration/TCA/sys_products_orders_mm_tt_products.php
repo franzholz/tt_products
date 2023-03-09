@@ -1,5 +1,5 @@
 <?php
-defined('TYPO3_MODE') || die('Access denied.');
+defined('TYPO3') || die('Access denied.');
 
 
 // ******************************************************************
@@ -65,15 +65,6 @@ $result = array (
         '0' => array('showitem' => 'hidden,--palette--;;1, uid_local, uid_foreign')
     )
 );
-
-if (
-    defined('TYPO3_version') &&
-    version_compare(TYPO3_version, '10.0.0', '<')
-) {
-    $result['interface'] = [];
-    $result['interface']['showRecordFieldList'] =   
-        'uid_local,graduated_price_uid';
-}
 
 return $result;
 

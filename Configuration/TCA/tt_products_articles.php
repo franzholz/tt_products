@@ -1,5 +1,5 @@
 <?php
-defined('TYPO3_MODE') || die('Access denied.');
+defined('TYPO3') || die('Access denied.');
 
 $imageFolder = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['imageFolder'];
 if (!$imageFolder) {
@@ -584,13 +584,5 @@ $result = array (
     )
 );
 
-if (
-    defined('TYPO3_version') &&
-    version_compare(TYPO3_version, '10.0.0', '<')
-) {
-    $result['interface'] = [];
-    $result['interface']['showRecordFieldList'] =   
-        'hidden,starttime,endtime,fe_group,title,subtitle,keyword,itemnumber,price,price2,graduated_price_enable,graduated_price_round,graduated_price_uid,weight,inStock,basketminquantity,basketmaxquantity,color,color2,color3,size,size2,size3,description,gradings,material,quality,note,note2,image,smallimage';
-}
 
 return $result;

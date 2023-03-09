@@ -603,12 +603,8 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
                     $pageRenderer = $this->getPageRenderer();
                     $pageRenderer->addHeaderData($code);
 				} else {
-                    if (version_compare(TYPO3_version, '10.4.0', '>=')) {
-                        $assetCollector = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Page\AssetCollector::class);
-                        $assetCollector->addInlineJavaScript($JSfieldname, $code, [], ['priority' => true]);
-                    } else {
-                        $GLOBALS['TSFE']->setJS($JSfieldname, $code);
-                    }
+                    $assetCollector = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Page\AssetCollector::class);
+                    $assetCollector->addInlineJavaScript($JSfieldname, $code, [], ['priority' => true]);
 				}
 			}
 		}

@@ -134,14 +134,7 @@ class ImportFalUtility {
 //                                         $fileRepository->addToIndex($file);
                                     }
 
-                                    if (
-                                        version_compare(TYPO3_version, '10.4.0', '<')
-                                    ) {
-                                        $resourceFactory = ResourceFactory::getInstance();
-                                    } else {
-                                        $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
-                                    }
-
+                                    $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
                                     $file = $resourceFactory->getFileObjectFromCombinedIdentifier($fileIdentifier);
                                     if ($file instanceof \TYPO3\CMS\Core\Resource\File) {
                                         $fileUid = $file->getUid();

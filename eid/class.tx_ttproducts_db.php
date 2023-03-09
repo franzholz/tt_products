@@ -126,7 +126,6 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 		$basketExtra = tx_ttproducts_control_basket::getBasketExtra();
 		$basketRecs = tx_ttproducts_control_basket::getRecs();
 		$funcTablename = tx_ttproducts_control_basket::getFuncTablename();
-		$useFal = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['fal'] ||  version_compare(TYPO3_version, '10.4.0', '>=');
 
 			// price
 		$priceObj = GeneralUtility::makeInstance('tx_ttproducts_field_price');
@@ -314,38 +313,6 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 									);
 							}
 
-							if (
-								!$useFal &&
-								isset($rowArticle) &&
-								is_array($rowArticle)
-							) {
-								if (
-									isset($rowArticle['image']) &&
-									!$rowArticle['image'] &&
-									isset($rowArray[$table]['image'])
-								) {
-									$rowArticle['image'] = $rowArray[$table]['image'];
-									$modifiedRow['image'] = $rowArticle['image'];
-								}
-
-								$articleConf =
-									$cnfObj->getTableConf('tt_products_articles', $theCode);
-
-								if (
-									isset($articleConf['fieldIndex.']) && is_array($articleConf['fieldIndex.']) &&
-									isset($articleConf['fieldIndex.']['image.']) && is_array($articleConf['fieldIndex.']['image.'])
-								) {
-									$prodImageArray =
-										GeneralUtility::trimExplode(',', $rowArray[$table]['image']);
-									$artImageArray = GeneralUtility::trimExplode(',', $rowArticle['image']);
-									$tmpDestArray = $prodImageArray;
-									foreach($articleConf['fieldIndex.']['image.'] as $kImage => $vImage) {
-										$tmpDestArray[$vImage - 1] = $artImageArray[$kImage - 1];
-									}
-									$modifiedRow['image'] = implode (',', $tmpDestArray);
-								}
-							}
-
  							$itemTable->getTableObj()->substituteMarkerArray(
 								$modifiedRow
 							);
@@ -405,7 +372,6 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 		$config = $cnfObj->getConfig();
 		$conf =  $cnfObj->getConf();
         $bUseXHTML = \JambageCom\Div2007\Utility\HtmlUtility::useXHTML();
-		$useFal = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['fal'] ||  version_compare(TYPO3_version, '10.4.0', '>=');
 
 		$theCode = strtoupper($view);
 		$imageObj = GeneralUtility::makeInstance('tx_ttproducts_field_image');
@@ -564,14 +530,10 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 				if (!in_array($field, $variantArray)) {
 
 					if (($position = strpos($field, '_uid')) !== false) {
-						if (!$useFal) {
-							continue;
-						}
 						$fieldId = substr($field, 0, $position);
 					} else {
 						if (
-							in_array($field, ['image', 'smallimage']) &&
-							$useFal
+							in_array($field, ['image', 'smallimage'])
 						) {
 							continue;
 						}

@@ -1,5 +1,5 @@
 <?php
-defined('TYPO3_MODE') || die('Access denied.');
+defined('TYPO3') || die('Access denied.');
 
 // ******************************************************************
 // These are the credit cards data used for orders
@@ -88,14 +88,5 @@ $result = array (
         '1' => array('showitem' => '')
     )
 );
-
-if (
-    defined('TYPO3_version') &&
-    version_compare(TYPO3_version, '10.0.0', '<')
-) {
-    $result['interface'] = [];
-    $result['interface']['showRecordFieldList'] =   
-        'cc_number,owner_name,cc_type,cvv2,endtime';
-}
 
 return $result;

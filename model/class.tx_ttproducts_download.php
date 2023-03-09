@@ -184,14 +184,7 @@ class tx_ttproducts_download extends tx_ttproducts_article_base {
 						continue;
 					}
 
-                    if (
-                        version_compare(TYPO3_version, '10.4.0', '<')
-                    ) {
-                        $resourceFactory = ResourceFactory::getInstance();
-                    } else {
-                        $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
-                    }
-
+                    $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
 					$fileObj = $resourceFactory->getFileReferenceObject($sysfileRow['uid']);
 					$fileInfo = $storage->getFileInfo($fileObj);
                     $fileArray[$sysfileRow['uid']] = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/' . 'fileadmin' . $fileInfo['identifier'];

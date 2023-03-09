@@ -1,5 +1,5 @@
 <?php
-defined('TYPO3_MODE') || die('Access denied.');
+defined('TYPO3') || die('Access denied.');
 
 call_user_func(function () {
     $table = 'tt_products_articles';
@@ -14,12 +14,6 @@ call_user_func(function () {
 
     switch ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['articleMode']) {
         case '0':
-            if (
-                defined('TYPO3_version') &&
-                version_compare(TYPO3_version, '10.0.0', '<')
-            ) {
-                $GLOBALS['TCA'][$table]['interface']['showRecordFieldList'] = str_replace(',subtitle,', ',subtitle,uid_product,', $GLOBALS['TCA'][$table]['interface']['showRecordFieldList']);
-            }
             $GLOBALS['TCA'][$table]['columns']['uid_product'] = array (
                 'exclude' => 1,
                 'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_articles.uid_product',
@@ -52,31 +46,6 @@ call_user_func(function () {
         $GLOBALS['TCA'][$table]['ctrl']['sortby'] = 'sorting';
     }
 
-    $excludeArray =  
-        (version_compare(TYPO3_version, '10.0.0', '>=') ? 
-            $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude'] :
-            $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude.']
-        );
-
-    $GLOBALS['TCA'][$table]['columns']['slug']['config']['eval'] = $configuration->getSlugBehaviour();
-
-    if (
-        isset($excludeArray) &&
-        is_array($excludeArray) &&
-        isset($excludeArray[$table])
-    ) {
-        \JambageCom\Div2007\Utility\TcaUtility::removeField(
-            $GLOBALS['TCA'][$table],
-            $excludeArray[$table]
-        );
-    }
-
-    if (
-        defined('TYPO3_version') &&
-        version_compare(TYPO3_version, '10.0.0', '<')
-    ) {
-        $GLOBALS['TCA'][$table]['interface']['showRecordFieldList'] .= ',image_uid,smallimage_uid';
-    }
 
     $GLOBALS['TCA'][$table]['columns']['image_uid'] = array (
         'exclude' => 1,
@@ -132,25 +101,31 @@ call_user_func(function () {
         )
     );
 
-    if (
-        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['fal'] ||
-        version_compare(TYPO3_version, '10.4.0', '>=')
-    ) {
-        $GLOBALS['TCA'][$table]['ctrl']['thumbnail'] = 'image_uid';    
+    $GLOBALS['TCA'][$table]['ctrl']['thumbnail'] = 'image_uid';    
 
-        $GLOBALS['TCA'][$table]['types']['1']['showitem'] = str_replace(',image,', ',image_uid,', $GLOBALS['TCA'][$table]['types']['1']['showitem']);
-        $GLOBALS['TCA'][$table]['types']['1']['showitem'] = str_replace(',smallimage,', ',smallimage_uid,', $GLOBALS['TCA'][$table]['types']['1']['showitem']);
+    $GLOBALS['TCA'][$table]['types']['1']['showitem'] = str_replace(',image,', ',image_uid,', $GLOBALS['TCA'][$table]['types']['1']['showitem']);
+    $GLOBALS['TCA'][$table]['types']['1']['showitem'] = str_replace(',smallimage,', ',smallimage_uid,', $GLOBALS['TCA'][$table]['types']['1']['showitem']);
 
-        unset($GLOBALS['TCA'][$table]['columns']['image']);
-        unset($GLOBALS['TCA'][$table]['columns']['smallimage']);
-    } else {
-        $GLOBALS['TCA'][$table]['types']['1']['showitem'] = str_replace(',image,', ',image,image_uid,', $GLOBALS['TCA'][$table]['types']['1']['showitem']);
-        $GLOBALS['TCA'][$table]['types']['1']['showitem'] = str_replace(',smallimage,', ',smallimage,smallimage_uid,', $GLOBALS['TCA'][$table]['types']['1']['showitem']);
-    }
+    unset($GLOBALS['TCA'][$table]['columns']['image']);
+    unset($GLOBALS['TCA'][$table]['columns']['smallimage']);
 
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToInsertRecords($table);
-    if (version_compare(TYPO3_version, '10.4.0', '<')) {
-        $GLOBALS['TCA'][$table]['columns']['fe_group']['config']['enableMultiSelectFilterTextfield'] = true;
+    
+    $GLOBALS['TCA'][$table]['columns']['slug']['config']['eval'] = $configuration->getSlugBehaviour();
+
+    $excludeArray =  
+        ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude']);
+
+    if (
+        isset($excludeArray) &&
+        is_array($excludeArray) &&
+        isset($excludeArray[$table]) &&
+        is_array($excludeArray[$table])
+    ) {
+        \JambageCom\Div2007\Utility\TcaUtility::removeField(
+            $GLOBALS['TCA'][$table],
+            $excludeArray[$table]
+        );
     }
 });
 

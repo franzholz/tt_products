@@ -569,15 +569,8 @@ class UpgradeApi implements LoggerAwareInterface {
                 $sourcePath = $GLOBALS['TCA'][$table]['columns'][$oldField]['config']['uploadfolder'];
             }
         }
-        
-        if (
-            version_compare(TYPO3_version, '10.4.0', '<')
-        ) {
-            $resourceFactory = ResourceFactory::getInstance();
-        } else {
-            $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
-        }
 
+        $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
         $defaultStorage = $resourceFactory->getDefaultStorage();
         if (!is_object($defaultStorage)) {
             $storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\StorageRepository::class);
