@@ -1,6 +1,8 @@
 
 2023-03-09 Franz Holzinger <franz@ttproducts.de>
     * compatibility Deprecation no.92947: replace TYPO3_MODE by TYPO3 
+    * bugfix: datasheet_uid
+    * compatibility: remove code < TYPO3 10
 
 2023-03-08 Franz Holzinger <franz@ttproducts.de>
     * compatibility: replace class tx_div2007_staticinfotables by JambageCom\Div2007\Utility\StaticInfoTablesUtility.
