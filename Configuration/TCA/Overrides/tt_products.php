@@ -201,60 +201,6 @@ call_user_func(function () {
     // TODO.
     $palleteAddition = '';
 
-    $GLOBALS['TCA'][$table]['columns']['image_uid'] = [
-        'exclude' => 1,
-        'label' => DIV2007_LANGUAGE_LGL . 'image',
-        'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
-            'image_uid',
-            [
-                'appearance' => [
-                    'createNewRelationLinkTitle' => 'LLL:EXT:cms/locallang_ttc.xlf:images.addFileReference',
-                    'collapseAll' => true,
-                ],
-                'foreign_types' => [
-                    '0' => [
-                        'showitem' => '
-                            --palette--;' . DIV2007_LANGUAGE_PATH . 'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                            --palette--;;filePalette' . $palleteAddition
-                    ],
-                    \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => [
-                        'showitem' => '
-                            --palette--;' . DIV2007_LANGUAGE_PATH . 'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                            --palette--;;filePalette' . $palleteAddition
-                    ],
-                ]
-            ],
-            $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']
-        )
-    ];
-
-    $GLOBALS['TCA'][$table]['columns']['smallimage_uid'] = [
-        'exclude' => 1,
-        'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.smallimage',
-        'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
-            'smallimage_uid',
-            [
-                'appearance' => [
-                    'createNewRelationLinkTitle' => 'LLL:EXT:cms/locallang_ttc.xlf:images.addFileReference',
-                    'collapseAll' => true,
-                ],
-                'foreign_types' => [
-                    '0' => [
-                        'showitem' => '
-                            --palette--;' . DIV2007_LANGUAGE_PATH . 'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                            --palette--;;filePalette' . $palleteAddition
-                    ],
-                    \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => [
-                        'showitem' => '
-                            --palette--;' . DIV2007_LANGUAGE_PATH . 'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                            --palette--;;filePalette' . $palleteAddition
-                    ],
-                ]
-            ],
-            $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']
-        )
-    ];
-
     $GLOBALS['TCA'][$table]['ctrl']['thumbnail'] = 'image_uid';
 
         // nothing. This is the default behaviour
