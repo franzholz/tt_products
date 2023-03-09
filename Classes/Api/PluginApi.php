@@ -42,6 +42,7 @@ namespace JambageCom\TtProducts\Api;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
+use JambageCom\Div2007\Utility\ErrorUtility;
 use JambageCom\Div2007\Utility\ExtensionUtility;
 use JambageCom\Div2007\Utility\FrontendUtility;
 
@@ -305,7 +306,7 @@ class PluginApi {
 
 		if ($errorCode[0]) {
             $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
-			$result .= \tx_div2007_error::getMessage($languageObj, $errorCode);
+			$result .= ErrorUtility::getMessage($languageObj, $errorCode);
 		}
 
 		return $result;
