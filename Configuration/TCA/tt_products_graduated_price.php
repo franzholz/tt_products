@@ -1,5 +1,5 @@
 <?php
-defined('TYPO3_MODE') || die('Access denied.');
+defined('TYPO3') || die('Access denied.');
 
 // ******************************************************************
 // graduated price calculation table, tt_products_graduated_price

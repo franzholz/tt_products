@@ -1,5 +1,5 @@
 <?php
-defined('TYPO3_MODE') || die('Access denied.');
+defined('TYPO3') || die('Access denied.');
 
 // ******************************************************************
 // order to voucher codes table, sys_products_orders_mm_gained_voucher_codes

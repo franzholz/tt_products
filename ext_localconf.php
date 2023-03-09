@@ -1,5 +1,5 @@
 <?php
-defined('TYPO3_MODE') || die('Access denied.');
+defined('TYPO3') || die('Access denied.');
 
 if (!defined ('TT_PRODUCTS_EXT')) {
     define('TT_PRODUCTS_EXT', 'tt_products');

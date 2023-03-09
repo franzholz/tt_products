@@ -1,5 +1,5 @@
 <?php
-defined('TYPO3_MODE') || die('Access denied.');
+defined('TYPO3') || die('Access denied.');
 
 $imageFile = PATH_TTPRODUCTS_ICON_TABLE_REL . 'tt_products.gif';
 

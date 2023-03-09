@@ -1,5 +1,5 @@
 <?php
-defined('TYPO3_MODE') || die('Access denied.');
+defined('TYPO3') || die('Access denied.');
 
 // ******************************************************************
 // This is the standard TypoScript products downloads table, tt_products_downloads
