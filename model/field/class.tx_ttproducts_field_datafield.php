@@ -59,7 +59,6 @@ class tx_ttproducts_field_datafield extends tx_ttproducts_field_base {
             $fieldName,
             [$row['uid']]
         );
-
         if (!empty($fileRecords)) {
             foreach ($fileRecords as $fileRecord) {
                 $fileReferenceUid = $fileRecord['uid'];
@@ -70,12 +69,10 @@ class tx_ttproducts_field_datafield extends tx_ttproducts_field_base {
                     $fileInfo,
                     $fileReferenceUid
                 );
-
                 $result[] = 'fileadmin/' . $fileInfo['identifier'];
             }
         }
         return $result;
     }
-
 }
 

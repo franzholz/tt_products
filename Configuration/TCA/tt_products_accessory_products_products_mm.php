@@ -3,7 +3,7 @@ defined('TYPO3') || die('Access denied.');
 
 
 // ******************************************************************
-// order to voucher codes table, tt_products_accessory_products_products_mm
+// products to accessory products table, tt_products_accessory_products_products_mm
 // ******************************************************************
 $result = array (
     'ctrl' => array (
@@ -25,7 +25,7 @@ $result = array (
             'config' => array (
                 'type' => 'select',
                 'renderType' => 'selectSingle',
-                'foreign_table' => 'sys_products_orders',
+                'foreign_table' => 'tt_products',
                 'maxitems' => 1,
                 'default' => 0
             )
@@ -35,7 +35,7 @@ $result = array (
             'config' => array (
                 'type' => 'select',
                 'renderType' => 'selectSingle',
-                'foreign_table' => 'tx_voucher_codes',
+                'foreign_table' => 'tt_products',
                 'maxitems' => 1,
                 'default' => 0
             )

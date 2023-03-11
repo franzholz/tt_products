@@ -241,31 +241,6 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
 			$bEnableTaxZero,
             $notOverwritePriceIfSet
 		);
-// Todo: das mit datasheet hier löschen
-        $datasheetField = 'datasheet_uid';
-        if (!empty($row[$datasheetField])) {
-            $datafieldViewObj = $this->getFieldObj('datasheet');
-		}
-		if (isset($datafieldViewObj) && is_object($datafieldViewObj)) {
-			$datafieldViewObj->getRowMarkerArray(
-				$modelObj->getFuncTablename(),
-				$datasheetField,
-				$row,
-				$markerParam . '_DATASHEET',
-				$markerArray,
-				$tagArray,
-				$theCode,
-				$id,
-				$basketExtra,
-				$basketRecs,
-				$tmp,
-				false,
-				'',
-				'',
-				'',
-				'datasheetIcon'
-			);
-		}
 
 			// Subst. fields
 		$markerArray['###' . $this->getMarker() . '_UNIT###'] = $row['unit'] ?? '';

@@ -650,7 +650,7 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
 					$classname = $this->getFieldClass($field);
 				}
 				
-				$modifiedRow = array($field => $value);
+				$modifiedRow = [$field => $value];
 
 				if (
 					$classname
