@@ -377,6 +377,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
 				$deliveryInfo['name'] = $deliveryInfo['last_name'] . ' ' . $deliveryInfo['first_name'];
 			}
 
+			$dateBirth = '';
 			if (!empty($deliveryInfo['date_of_birth'])) {
 				$dateBirth = tx_ttproducts_sql::convertDate($deliveryInfo['date_of_birth']);
 			}
@@ -412,11 +413,11 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
 			$fieldsArray['payment'] = $payment;
 			$fieldsArray['shipping'] = $shipping;
 			$fieldsArray['amount'] = $amount;
-			$fieldsArray['note'] = $deliveryInfo['note'];
+			$fieldsArray['note'] = $deliveryInfo['note'] ?? '';
 			if (!empty($dateBirth)) {
 				$fieldsArray['date_of_birth'] = $dateBirth;
 			}
-			$fieldsArray['radio1'] = $deliveryInfo['radio1'];
+			$fieldsArray['radio1'] = $deliveryInfo['radio1'] ?? '';
 
 			if (
                 isset($giftServiceArticleArray) && 
@@ -450,7 +451,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
 			$fieldsArrayFeUsers = [];
 			$uid_voucher = ''; // define it here
 
-			if ($dateBirth) {
+			if (!empty($dateBirth)) {
 				$fieldsArrayFeUsers['date_of_birth'] = $dateBirth;
 			}
 

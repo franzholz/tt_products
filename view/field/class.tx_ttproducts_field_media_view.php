@@ -672,14 +672,18 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view {
 		if (is_array($tempImageConf)) {
 			foreach ($tagArray as $key => $value) {
 				$keyArray = GeneralUtility::trimExplode (':', $key);
-				$specialConfType = strtolower($keyArray[1]);
+				$specialConfType = '';
+				if (isset($keyArray[1])) {
+                    $specialConfType = strtolower($keyArray[1]);
+                }
 				$tagKey = $keyArray[0];
 				if ($specialConfType &&
 					(
+						!isset($specialConf[$tagKey]) ||
 						!is_array($specialConf[$tagKey]) ||
 						!isset($specialConf[$tagKey][$specialConfType])
 					) &&
-					is_array($tempImageConf[$specialConfType . '.'])
+					isset($tempImageConf[$specialConfType . '.'])
 				) {
 					// add the special configuration
 					if (!is_array($specialConf[$tagKey])) {

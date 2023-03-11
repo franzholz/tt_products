@@ -690,6 +690,7 @@ class tx_ttproducts_api {
 				$basketExtGift
 			);
 		}
+		$theCode = 'FINALIZE';
 		$orderObj->createMM($orderUid, $itemArray, $theCode);
 		$addcsv = '';
 

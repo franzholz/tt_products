@@ -111,6 +111,7 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
 			}
 		}
 
+        $cObj = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 		$viewTableView = $tablesObj->get($productFuncTablename, true);
 		$urlObj = GeneralUtility::makeInstance('tx_ttproducts_url_view');
@@ -151,7 +152,7 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
 					$addQueryString[$basketVar] = md5($extArray['extVarLine']);
 
 					$pageLink = FrontendUtility::getTypoLink_URL(
-						$local_cObj,
+						$cObj,
 						$pid,
 						$urlObj->getLinkParams(
 							'',
