@@ -514,6 +514,7 @@ class tx_ttproducts_product extends tx_ttproducts_article_base {
 		$orderBy = ''
 	) {
 		$rcArray = [];
+        $rowArray = [];
 		$parentFuncTablename = '';
 
 		if (
@@ -531,7 +532,8 @@ class tx_ttproducts_product extends tx_ttproducts_article_base {
 				}
 			} else {
 				if (
-					MathUtility::canBeInterpretedAsInteger($uid)
+					MathUtility::canBeInterpretedAsInteger($uid) &&
+					isset($this->relatedArray[$type][$uid])
 				) {
 					$rowArray = $this->relatedArray[$type][$uid];
 				}

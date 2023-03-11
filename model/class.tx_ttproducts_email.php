@@ -62,7 +62,7 @@ class tx_ttproducts_email extends tx_ttproducts_table_base {
 
 
 	function getEmail ($uid) {
-		$rc = $this->emailArray[$uid];
+		$rc = $this->emailArray[$uid] ?? '';
 		if ($uid && !$rc) {
 			$sql = GeneralUtility::makeInstance('tx_table_db_access');
 			$sql->prepareFields($this->getTableObj(), 'select', '*');
