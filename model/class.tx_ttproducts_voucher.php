@@ -157,7 +157,10 @@ class tx_ttproducts_voucher extends tx_ttproducts_table_base {
 					$where_clause
 				);
 
-            if (is_array($voucherRelationRows)) {
+            if (
+                is_array($voucherRelationRows) &&
+                \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('voucher')
+            ) {
 				$table = 'tx_voucher_codes';
 
 				foreach ($voucherRelationRows as $voucherRelationRow) {
