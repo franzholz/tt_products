@@ -216,7 +216,6 @@ class tx_ttproducts_field_datafield_view extends tx_ttproducts_field_base_view {
 		$upperField = strtoupper($fieldname);
 		$marker = $markerKey . '_' . $upperField;
 
-	// Bildgröße von PRODUCT_DATASHEET
 		$imageRenderObj = 'datasheetIcon';
 		$imageConf = $this->conf[$imageRenderObj . '.'];
 
@@ -312,7 +311,6 @@ class tx_ttproducts_field_datafield_view extends tx_ttproducts_field_base_view {
 
 				if ($imageFilename != '') {
 					$imageConf['file'] = $imageFilename;
-// 					$iconImgCode = $this->cObj->IMAGE($imageConf);
                     $iconImgCode =
                         $imageObj->getImageCode(
                             $imageConf,
@@ -363,18 +361,30 @@ class tx_ttproducts_field_datafield_view extends tx_ttproducts_field_base_view {
 		$linkWrap = false,
 		$bEnableTaxZero = false
 	) {
+        $funcFieldname = $this->getFuncFieldname($row, $fieldname);
 		$val = $row[$fieldname];
-		$marker1 = 'ICON_' . strtoupper($fieldname);
+		$dataFileArray = [];
+        $fileArray = [];
+		$marker1 = 'ICON_' . strtoupper($funcFieldname);
 		$marker2 = $markerKey . '1';
 
-		if (!empty($imageRenderObj) && $val && (isset($tagArray[$marker1]) || isset($tagArray[$marker2]))) {
-
+		if (
+            !empty($imageRenderObj) && 
+            $val && 
+            (isset($tagArray[$marker1]) || isset($tagArray[$marker2]))
+        ) {
             $imageObj = GeneralUtility::makeInstance('tx_ttproducts_field_image_view');
 			$imageConf = $this->conf[$imageRenderObj . '.'];
-			$dirname = $this->modelObj->getDirname($row, $fieldname);
+
 			if (isset($tagArray[$marker1]) && isset($this->conf['datasheetIcon.'])) {
 				if ($this->conf['datasheetIcon.']['file'] != '{$plugin.tt_products.file.datasheetIcon}') {
 					$imageConf['file'] = $this->conf['datasheetIcon.']['file'];
+					if (isset($imageConf['imageLinkWrap'])) {
+                        unset($imageConf['imageLinkWrap']);
+                        if (isset($imageConf['imageLinkWrap.'])) {
+                            unset($imageConf['imageLinkWrap.']);
+                        }
+                    }
                     $iconImgCode =
                         $imageObj->getImageCode(
                             $imageConf,
@@ -388,15 +398,36 @@ class tx_ttproducts_field_datafield_view extends tx_ttproducts_field_base_view {
 				$markerArray['###' . $marker1 . '###'] = '';
 			}
 
+			if (
+                isset($tagArray[$markerKey]) ||
+                isset($tagArray[$marker2])
+            ) {
+            //  alle Files holen
+                $dataFileArray = 
+                    $this->getModelObj()->getDataFileArray(
+                        $functablename,
+                        $row,
+                        $fieldname
+                    );
+                foreach ($dataFileArray as $dataFile) {
+                    $fileArray[] = basename($dataFile);
+                }
+            }
+
+            if (isset($tagArray[$markerKey])) {
+                $markerArray['###' . $markerKey . '###'] = implode(',', $fileArray);
+            }
+
 			if (isset($tagArray[$marker2])) {
-				$imageConf['file'] = $dirname . '/' . $val;
+				$imageConf['file'] = $dataFileArray['0'];
                 $iconImgCode =
                     $imageObj->getImageCode(
                         $imageConf,
                         $theCode
-                    ); 
-				$markerArray['###' . $marker2 . '###'] = $iconImgCode; // new marker now
-			}
+                    ); // neu
+
+                $markerArray['###' . $marker2 . '###'] = $iconImgCode;
+            }
 		} else {
 			if (isset($tagArray[$marker1])) {
 				$markerArray['###' . $marker1 . '###'] = '';

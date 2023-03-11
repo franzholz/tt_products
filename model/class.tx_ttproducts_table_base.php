@@ -68,6 +68,7 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
 			'crdate' => 'tx_ttproducts_field_datetime',
 			'creditpoints' => 'tx_ttproducts_field_creditpoints',
 			'datasheet' => 'tx_ttproducts_field_datafield',
+			'datasheet_uid' => 'tx_ttproducts_field_datafield',
 			'delivery' => 'tx_ttproducts_field_delivery',
 			'directcost' => 'tx_ttproducts_field_price',
 			'endtime' => 'tx_ttproducts_field_datetime',
@@ -421,7 +422,6 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
 					}
 				}
 			}
-
 			if (!$class && isset($this->fieldClassArray[$fieldname])) {
 				$class = $this->fieldClassArray[$fieldname];
 			}

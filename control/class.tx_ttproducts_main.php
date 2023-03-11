@@ -314,7 +314,6 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 
 
 	public function run (&$cObj, $pibaseClass, &$errorCode, $content = '', $bRunAjax = false) {
-
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$conf = $cnf->getConf();
 		$config = $cnf->getConfig();
