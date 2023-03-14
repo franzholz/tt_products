@@ -12,36 +12,36 @@ if (
 
     unset ($GLOBALS['TCA'][$tablename]['columns']['uid_local']);
 
-    $temporaryColumns = array (
-        'uid_local' => array(
+    $temporaryColumns = [
+        'uid_local' => [
             'label' => 'LLL:EXT:' . STATIC_INFO_TABLES_TAXES_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xml:' . $tablename . '.uid_local',
-            'config' => array(
+            'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'foreign_table' => 'static_tax_rates',
                 'maxitems' => 1
-            )
-        ),
-        'uid_foreign' => array(
+            ]
+        ],
+        'uid_foreign' => [
             'label' => 'LLL:EXT:' . STATIC_INFO_TABLES_TAXES_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:' . $tablename . '.uid_foreign',
-            'config' => array(
+            'config' => [
                 'type' => 'select',
                 'renderType' => 'selectMultipleSideBySide',
                 'foreign_table' => 'static_tax_categories',
                 'maxitems' => 5
-            )
-        ),
-        'sorting' => array (
-            'config' => array (
+            ]
+        ],
+        'sorting' => [
+            'config' => [
                 'type' => 'passthrough',
-            )
-        ),
-        'sorting_foreign' => array (
-            'config' => array (
+            ]
+        ],
+        'sorting_foreign' => [
+            'config' => [
                 'type' => 'passthrough',
-            )
-        ),
-    );
+            ]
+        ],
+    ];
 
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns(
         $tablename,

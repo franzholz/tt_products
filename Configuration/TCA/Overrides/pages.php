@@ -15,11 +15,11 @@ foreach ($GLOBALS['TCA']['pages']['columns']['module']['config']['items'] as $it
 }
 
 if ($addToModuleSelection) {
-    $GLOBALS['TCA']['pages']['columns']['module']['config']['items'][] = array(
+    $GLOBALS['TCA']['pages']['columns']['module']['config']['items'][] = [
         0 => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang.xlf:pageModule.plugin',
         1 => $pageType,
         2 => 'apps-pagetree-folder-contains-tt_products'
-    );
+    ];
 }
 
 

@@ -17,17 +17,17 @@ call_user_func(function () {
 
     if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('voucher')) {
 
-        $temporaryColumns = array (
-            'gained_voucher' => array (
+        $temporaryColumns = [
+            'gained_voucher' => [
                 'exclude' => 1,
                 'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:sys_products_orders.gained_voucher',
-                'config' => array (
+                'config' => [
                     'type' => 'inline',
-                    'appearance' => array (
+                    'appearance' => [
                         'collapseAll' => true,
                         'newRecordLinkAddTitle' => true,
                         'useCombination' => true
-                    ),
+                    ],
                     'foreign_table' => 'sys_products_orders_mm_gained_voucher_codes',
                     'foreign_field' => 'uid_local',
                     'foreign_sortby' => 'sorting',
@@ -35,9 +35,9 @@ call_user_func(function () {
                     'foreign_selector' => 'uid_foreign',
                     'foreign_unique' => 'uid_foreign',
                     'maxitems' => 100
-                ),
-            ),
-        );
+                ],
+            ],
+        ];
 
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns(
             'sys_products_orders',

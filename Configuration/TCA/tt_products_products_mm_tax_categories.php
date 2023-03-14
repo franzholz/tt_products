@@ -1,32 +1,32 @@
 <?php
 defined('TYPO3') || die('Access denied.');
 
-$result = array(
-    'ctrl' => array(
+$result = [
+    'ctrl' => [
         'title' => 'unused product tax category relations',
         'label' => 'uid_local',
         'delete' => 'deleted',
-        'enablecolumns' => array (
+        'enablecolumns' => [
             'disabled' => 'hidden',
-        ),
+        ],
         'prependAtCopy' => DIV2007_LANGUAGE_LGL . 'prependAtCopy',
         'hideTable' => true,
-    ),
-    'columns' => array(
-        'uid_local' => array (
+    ],
+    'columns' => [
+        'uid_local' => [
             'label' => 'inactive',
-            'config' => array (
+            'config' => [
                 'type' => 'passthrough',
                 'default' => '',
-            )
-        ),
-    ),
-    'types' => array(
-        '0' => array(
+            ]
+        ],
+    ],
+    'types' => [
+        '0' => [
             'showitem' => ''
-        )
-    )
-);
+        ]
+    ]
+];
 
 return $result;
 
