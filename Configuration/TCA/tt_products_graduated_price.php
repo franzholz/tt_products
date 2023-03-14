@@ -4,8 +4,8 @@ defined('TYPO3') || die('Access denied.');
 // ******************************************************************
 // graduated price calculation table, tt_products_graduated_price
 // ******************************************************************
-$result = array (
-    'ctrl' => array (
+$result = [
+    'ctrl' => [
         'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_graduated_price',
         'label' => 'title',
         'tstamp' => 'tstamp',
@@ -13,77 +13,77 @@ $result = array (
         'prependAtCopy' => DIV2007_LANGUAGE_LGL . 'prependAtCopy',
         'crdate' => 'crdate',
         'delete' => 'deleted',
-        'enablecolumns' => array (
+        'enablecolumns' => [
             'disabled' => 'hidden',
             'starttime' => 'starttime',
             'endtime' => 'endtime',
             'fe_group' => 'fe_group',
-        ),
+        ],
         'iconfile' => PATH_TTPRODUCTS_ICON_TABLE_REL . 'tt_products_cat.gif',
         'searchFields' => 'title,note',
-    ),
-    'columns' => array (
-        'tstamp' => array (
+    ],
+    'columns' => [
+        'tstamp' => [
             'exclude' => 1,
             'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tstamp',
-            'config' => array (
+            'config' => [
                 'type' => 'input',
                 'size' => '8',
                 'eval' => 'datetime,int',
                 'renderType' => 'inputDateTime',
                 'default' => 0
-            )
-        ),
-        'crdate' => array (
+            ]
+        ],
+        'crdate' => [
             'exclude' => 1,
             'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:crdate',
-            'config' => array (
+            'config' => [
                 'type' => 'input',
                 'size' => '8',
                 'eval' => 'datetime,int',
                 'renderType' => 'inputDateTime',
                 'default' => 0
-            )
-        ),
-        'sorting' => Array (
-            'config' => Array (
+            ]
+        ],
+        'sorting' => [
+            'config' => [
                 'type' => 'passthrough',
-            )
-        ),
-        'hidden' => array (
+            ]
+        ],
+        'hidden' => [
             'exclude' => 1,
             'label' => DIV2007_LANGUAGE_LGL . 'hidden',
-            'config' => array (
+            'config' => [
                 'type' => 'check',
                 'default' => 0
-            )
-        ),
-        'starttime' => array (
+            ]
+        ],
+        'starttime' => [
             'exclude' => 1,
             'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_graduated_price.starttime',
-            'config' => array (
+            'config' => [
                 'type' => 'input',
                 'size' => '8',
                 'eval' => 'date',
                 'renderType' => 'inputDateTime',
                 'default' => 0
-            )
-        ),
-        'endtime' => array (
+            ]
+        ],
+        'endtime' => [
             'exclude' => 1,
             'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_graduated_price.endtime',
-            'config' => array (
+            'config' => [
                 'type' => 'input',
                 'size' => '8',
                 'eval' => 'date',
                 'renderType' => 'inputDateTime',
                 'default' => 0,
-                'range' => array (
+                'range' => [
                     'upper' => mktime(0, 0, 0, 12, 31, $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['endtimeYear']),
                     'lower' => mktime(0, 0, 0, date('n') - 1, date('d'), date('Y'))
-                )
-            )
-        ),
+                ]
+            ]
+        ],
         'fe_group' => [
             'exclude' => true,
             'l10n_mode' => 'exclude',
@@ -113,71 +113,72 @@ $result = array (
                 'default' => 0,
             ]
         ],
-        'title' => array (
+        'title' => [
             'exclude' => 0,
             'label' => DIV2007_LANGUAGE_LGL . 'title',
-            'config' => array (
+            'config' => [
                 'type' => 'input',
                 'size' => '40',
 				'eval' => 'trim',
                 'max' => '256',
                 'default' => '',
-            )
-        ),
-        'formula' => array (
+            ]
+        ],
+        'formula' => [
             'exclude' => 1,
             'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_graduated_price.formula',
-            'config' => array (
+            'config' => [
                 'type' => 'text',
                 'cols' => '48',
 				'eval' => 'trim',
                 'rows' => '1',
                 'default' => ''
-            )
-        ),
-        'startamount' => array (
+            ]
+        ],
+        'startamount' => [
             'exclude' => 1,
             'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_graduated_price.startamount',
-            'config' => array (
+            'config' => [
                 'type' => 'input',
                 'size' => '12',
                 'eval' => 'trim,double2',
                 'max' => '20',
                 'default' => ''
-            )
-        ),
-        'note' => array (
+            ]
+        ],
+        'note' => [
             'exclude' => 1,
             'label' => DIV2007_LANGUAGE_LGL . 'note',
-            'config' => array (
+            'config' => [
                 'type' => 'text',
                 'cols' => '48',
                 'rows' => '2',
                 'default' => ''
-            )
-        ),
-    ),
-    'types' => array (
+            ]
+        ],
+    ],
+    'types' => [
         '0' =>
-            array (
-                'columnsOverrides' => array(
-                    'note' => array(
-                        'config' => array(
+            [
+                'columnsOverrides' => [
+                    'note' => [
+                        'config' => [
                             'enableRichtext' => '1'
-                        )
-                    ),
-                ),
+                        ]
+                    ],
+                ],
                 'showitem' => 'hidden,--palette--;;1, title, formula, startamount, note'
-            )
-    ),
-    'palettes' => array (
-        '1' => array('showitem' => 'starttime, endtime, fe_group')
-    )
-);
+            ]
+    ],
+    'palettes' => [
+        '1' => ['showitem' => 'starttime, endtime, fe_group']
+    ]
+];
 
 $table = 'tt_products_graduated_price';
 
 $orderBySortingTablesArray = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['orderBySortingTables']);
+
 if (
     !empty($orderBySortingTablesArray) &&
     in_array($table, $orderBySortingTablesArray)

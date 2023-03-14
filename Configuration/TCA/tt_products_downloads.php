@@ -5,19 +5,19 @@ defined('TYPO3') || die('Access denied.');
 // This is the standard TypoScript products downloads table, tt_products_downloads
 // ******************************************************************
 
-$result = array (
-	'ctrl' => array (
+$result = [
+	'ctrl' => [
 		'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_downloads',
 		'label' => 'title',
 		'default_sortby' => 'ORDER BY title',
 		'tstamp' => 'tstamp',
 		'delete' => 'deleted',
-		'enablecolumns' => array (
+		'enablecolumns' => [
 			'disabled' => 'hidden',
 			'starttime' => 'starttime',
 			'endtime' => 'endtime',
 			'fe_group' => 'fe_group',
-		),
+		],
 		'prependAtCopy' => DIV2007_LANGUAGE_LGL . 'prependAtCopy',
 		'crdate' => 'crdate',
 		'cruser_id' => 'cruser_id',
@@ -25,70 +25,70 @@ $result = array (
 		'origUid' => 't3_origuid',
 		'iconfile' => PATH_TTPRODUCTS_ICON_TABLE_REL . 'tt_products_downloads.gif',
 		'searchFields' => 'title,marker,note',
-	),
-	'columns' => array (
-		'tstamp' => array (
+	],
+	'columns' => [
+		'tstamp' => [
 			'exclude' => 1,
 			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tstamp',
-			'config' => array (
+			'config' => [
 				'type' => 'input',
 				'size' => '8',
 				'eval' => 'datetime,int',
                 'renderType' => 'inputDateTime',
 				'default' => 0
-			)
-		),
-		'crdate' => array (
+			]
+		],
+		'crdate' => [
 			'exclude' => 1,
 			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:crdate',
-			'config' => array (
+			'config' => [
 				'type' => 'input',
 				'size' => '8',
 				'eval' => 'datetime,int',
                 'renderType' => 'inputDateTime',
 				'default' => 0
-			)
-		),
-		'sorting' => Array (
-			'config' => Array (
+			]
+		],
+		'sorting' => [
+			'config' => [
 				'type' => 'passthrough',
 				'default' => 0
-			)
-		),
-		'hidden' => array (
+			]
+		],
+		'hidden' => [
 			'exclude' => 1,
 			'label' => DIV2007_LANGUAGE_LGL . 'hidden',
-			'config' => array (
+			'config' => [
 				'type' => 'check',
 				'default' => 0
-			)
-		),
-		'starttime' => array (
+			]
+		],
+		'starttime' => [
 			'exclude' => 1,
 			'label' => DIV2007_LANGUAGE_LGL . 'starttime',
-			'config' => array (
+			'config' => [
 				'type' => 'input',
 				'size' => '8',
 				'eval' => 'date',
                 'renderType' => 'inputDateTime',
 				'default' => 0
-			)
-		),
-		'endtime' => array (
+			]
+		],
+		'endtime' => [
 			'exclude' => 1,
 			'label' => DIV2007_LANGUAGE_LGL . 'endtime',
-			'config' => array (
+			'config' => [
 				'type' => 'input',
 				'size' => '8',
 				'eval' => 'date',
                 'renderType' => 'inputDateTime',
 				'default' => 0,
-				'range' => array (
+				'range' => [
 					'upper' => mktime(0, 0, 0, 12, 31, $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['endtimeYear']),
 					'lower' => mktime(0, 0, 0, date('n') - 1, date('d'), date('Y'))
-				)
-			)
-		),
+				]
+			]
+		],
         'fe_group' => [
             'exclude' => true,
             'l10n_mode' => 'exclude',
@@ -118,134 +118,134 @@ $result = array (
                 'default' => 0,
             ]
         ],
-		'title' => array (
+		'title' => [
 			'exclude' => 0,
 			'label' => DIV2007_LANGUAGE_LGL . 'title',
-			'config' => array (
+			'config' => [
 				'type' => 'input',
 				'size' => '40',
 				'eval' => 'trim',
 				'max' => '256',
 				'default' => '',
-			)
-		),
-        'slug' => array (
+			]
+		],
+        'slug' => [
             'exclude' => 1,
             'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.slug',
-            'config' => array (
+            'config' => [
                 'type' => 'slug',
                 'size' => 50,
-                'generatorOptions' => array (
-                    'fields' => array ('title', 'author'),
+                'generatorOptions' => [
+                    'fields' => ['title', 'author'],
                     'fieldSeparator' => '_',
                     'prefixParentPageSlug' => false,
-                    'replacements' => array (
+                    'replacements' => [
                         '/' => '-',
-                    ),
-                ),
+                    ],
+                ],
                 'fallbackCharacter' => '-',
                 'default' => ''
-            )
-        ),
-		'author' => array (
+            ]
+        ],
+		'author' => [
 			'exclude' => 0,
 			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_downloads.author',
-			'config' => array (
+			'config' => [
 				'type' => 'input',
 				'size' => '40',
 				'max' => '256',
 				'default' => '',
-			)
-		),
-		'edition' => array (
+			]
+		],
+		'edition' => [
 			'exclude' => 1,
 			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_downloads.edition',
-			'config' => array (
+			'config' => [
 				'type' => 'select',
 				'renderType' => 'selectSingle',
-				'items' => array (
-					array ('LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_downloads.edition.complete', '0'),
-					array ('LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_downloads.edition.partial', '1'),
-				),
+				'items' => [
+					['LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_downloads.edition.complete', '0'],
+					['LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_downloads.edition.partial', '1'],
+				],
 				'size' => '2',
 				'minitems' => 0,
 				'maxitems' => 1,
 				'default' => 0,
-			)
-		),
-		'marker' => array (
+			]
+		],
+		'marker' => [
 			'exclude' => 1,
 			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_downloads.marker',
-			'config' => array (
+			'config' => [
 				'type' => 'input',
 				'size' => '40',
 				'max' => '256',
                 'default' => '',
-			)
-		),
-		'note' => array (
+			]
+		],
+		'note' => [
 			'exclude' => 1,
 			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.note',
-			'config' => array (
+			'config' => [
 				'type' => 'text',
 				'cols' => '48',
 				'rows' => '5',
 				'default' => '',
-			)
-		),
-		'path' => array (
+			]
+		],
+		'path' => [
 			'exclude' => 1,
 			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_downloads.path',
-			'config' => array (
+			'config' => [
 				'type' => 'input',
 				'size' => '40',
 				'max' => '256',
 				'default' => '',
-			)
-		),
-		'price_enable' => array (
+			]
+		],
+		'price_enable' => [
 			'exclude' => 1,
 			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_downloads.price_enable',
-			'config' => array (
+			'config' => [
 				'type' => 'check',
 				'default' => 0
-			)
-		),
-		'price' => array (
+			]
+		],
+		'price' => [
 			'exclude' => 1,
 			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_downloads.price',
-			'config' => array (
+			'config' => [
 				'type' => 'input',
 				'size' => '20',
 				'eval' => 'trim,double2',
 				'max' => '20',
 				'default' => 0
-			)
-		),
-        'file_uid' => array (
+			]
+		],
+        'file_uid' => [
             'exclude' => 1,
             'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_downloads.file_uid',
             'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig('file_uid')
             
-        ),
-	),
-    'types' => array (
+        ],
+	],
+    'types' => [
         '0' =>
-            array(
-                'columnsOverrides' => array(
-                    'note' => array(
-                        'config' => array(
+            [
+                'columnsOverrides' => [
+                    'note' => [
+                        'config' => [
                             'enableRichtext' => '1'
-                        )
-                    )
-                ),
+                        ]
+                    ]
+                ],
                 'showitem' => 'title, author, slug, edition, price_enable, price,  note, marker, path, file_uid, tstamp, crdate, hidden,--palette--;;1'
-            )
-    ),
-    'palettes' => array (
-        '1' => array('showitem' => 'starttime,endtime,fe_group'),
-    )
-);
+            ]
+    ],
+    'palettes' => [
+        '1' => ['showitem' => 'starttime,endtime,fe_group'],
+    ]
+];
 
 return $result;
 
