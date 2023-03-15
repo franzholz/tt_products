@@ -556,18 +556,6 @@ class tx_ttproducts_api {
 		$customerEmail = $infoViewObj->getCustomerEmail();
 		$defaultFromArray = $infoViewObj->getFromArray($customerEmail);
 
-
-/*
-		$defaultFromArray = [];
-		$defaultFromArray['shop'] = array(
-			'email' => $conf['orderEmail_from'],
-			'name' => $conf['orderEmail_fromName']
-		);
-		$defaultFromArray['customer'] = array(
-			'email' => $customerEmail,
-			'name' => $infoViewObj->infoArray['billing']['name']
-		);*/
-
 		$emailControlArray =
 			$activityFinalize->getEmailControlArray(
 				$templateCode,

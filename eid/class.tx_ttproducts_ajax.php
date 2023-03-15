@@ -120,7 +120,7 @@ class tx_ttproducts_ajax implements \TYPO3\CMS\Core\SingletonInterface {
 
 		$queryString = array_merge($queryString, $addQueryString);
 
-		$linkConf = array('useCacheHash' => 0);
+		$linkConf = ['useCacheHash' => 0];
 
 		$target = '';
 		$reqURI = FrontendUtility::getTypoLink_URL(

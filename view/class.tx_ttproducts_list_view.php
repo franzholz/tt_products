@@ -1795,7 +1795,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 								$currentParentRow = $parentRow;
 								foreach ($row as $field => $value) {
 									if (empty($value) && !empty($parentRow[$field])) {
-                                        $prefixArray = array('', EXTERNAL_FIELD_PREFIX);
+                                        $prefixArray = ['', EXTERNAL_FIELD_PREFIX];
                                         foreach ($prefixArray as $prefix) {
                                             if (
                                                 (
@@ -2044,7 +2044,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 								$catLineArray =
 									$categoryTable->getLineArray(
 										$displayCat,
-										array(0 => $currentCat)
+										[0 => $currentCat]
 									);
 								$catLineArray = array_reverse($catLineArray);
 								reset($catLineArray);
@@ -2060,7 +2060,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 									$linkCat = next($catLineArray);
 
 									if ($linkCat) {
-										$addQueryString = array($categoryPivar => $linkCat);
+										$addQueryString = [$categoryPivar => $linkCat];
 										$tempUrl =
 											BrowserUtility::linkTPKeepCtrlVars(
 												$browseObj,
@@ -2275,7 +2275,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 								$prodRow = $row;
 							} else {
                                 $prodRow = $parentProductRow;
-                                $prefixArray = array('', EXTERNAL_FIELD_PREFIX);
+                                $prefixArray = ['', EXTERNAL_FIELD_PREFIX];
                                 foreach ($prefixArray as $prefix) {
 
                                     if (
@@ -2392,7 +2392,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 							$linkConf = $linkConfArray['LINK_ITEM.'];
 						}
 
-						$linkConf = array_merge( array('useCacheHash' => $bUseCache), $linkConf);
+						$linkConf = array_merge( ['useCacheHash' => $bUseCache], $linkConf);
 
 						$target = '';
 						$pageLink = FrontendUtility::getTypoLink_URL(
@@ -2469,11 +2469,11 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 						if (
 							in_array(
 								$itemTable->getType(),
-								array('product', 'article')
+								['product', 'article']
 							)
 						) {
 							if (
-								in_array($useArticles, array(1, 2, 3)) &&
+								in_array($useArticles, [1, 2, 3]) &&
 								$showArticles
 							) {
 								$articleRow = '';
@@ -2517,7 +2517,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 						if (
 							in_array(
 								$itemTable->getType(),
-								array('product', 'article', 'fal')
+								['product', 'article', 'fal']
 							)
 						) {
 							if (
@@ -2711,7 +2711,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 						if ($itemTable->getType() == 'product') {
 							if (
-								in_array($useArticles, array(1, 2, 3)) &&
+								in_array($useArticles, [1, 2, 3]) &&
 								$showArticles
 							) {
 								// use the fields of the article instead of the product

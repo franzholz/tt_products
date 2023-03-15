@@ -63,7 +63,7 @@ class DatabaseRecordListSlots
                 }
                 $csvRow[$newField] = $newValue;
             }
-            $result = array($table, $csvRow, $header);
+            $result = [$table, $csvRow, $header];
         }
 
         if ($result) {

@@ -43,7 +43,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class tx_ttproducts_model_control {
 	static public $controlVar = 'ctrl';
 
-	static public $paramsTableArray = array(
+	static public $paramsTableArray = [
 		'a' => 'address',
 		'article' => 'tt_products_articles',
 		'cat' => 'tt_products_cat',
@@ -57,12 +57,12 @@ class tx_ttproducts_model_control {
 		'oa' => 'orderaddress',
 		'pid' => 'pages',
 		'product' => 'tt_products',
-	);
+	];
 
-	static public $pointerParamsCodeArray = array(
+	static public $pointerParamsCodeArray = [
 		'pointer' => 'CATLIST',
 		'pp' => 'LIST',
-	);
+	];
 
 	static public $basketVar = 'ttp_basket';
 	static public $searchboxVar = 'searchbox';
@@ -509,7 +509,7 @@ class tx_ttproducts_model_control {
 			$sqlTableArray['local'] = [];
 			$sqlTableArray['where'] = [];
 
-			$loopArray = array('local', 'foreign');
+			$loopArray = ['local', 'foreign'];
 			$bUseSearchboxCat = false;
 			$theTable = $cnf->getTableName($paramsTableArray[$searchParamArray['local']]);
 

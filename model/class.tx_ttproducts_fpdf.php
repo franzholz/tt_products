@@ -105,7 +105,7 @@ class tx_ttproducts_fpdf extends FPDF {
 
 	private function getDimensions (&$widthArray) {
 		//Column widths
-		$widthArray = array(80, 25, 40, 45);
+		$widthArray = [80, 25, 40, 45];
 	}
 
 	//Better table
@@ -243,7 +243,7 @@ class tx_ttproducts_fpdf extends FPDF {
 		$restBody = $templateService->substituteMarkerArrayCached(
 				$this->body,
 				[],
-				array('###PDF_TABLE_1###' => ''),
+				['###PDF_TABLE_1###' => ''],
 				[]
 			);
 

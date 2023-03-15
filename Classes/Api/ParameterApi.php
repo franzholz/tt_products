@@ -308,7 +308,7 @@ class ParameterApi implements \TYPO3\CMS\Core\SingletonInterface {
 
             $controlArray = $this->getControlArray();
             $typeArray = ['sortSelect', 'filterSelect', 'filterInput'];
-            $typeSelectArray = array('sortSelect', 'filterSelect');
+            $typeSelectArray = ['sortSelect', 'filterSelect'];
 
             foreach ($viewConfArray as $ftname => $funcViewConfArray) {
 

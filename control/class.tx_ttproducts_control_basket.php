@@ -830,10 +830,10 @@ class tx_ttproducts_control_basket {
 			foreach ($fieldArray as $k => $field) {
                 if (empty($infoArray['billing'][$field])) {
                     $infoArray['billing'][$field] = $GLOBALS['TSFE']->fe_user->user[$field];
-				}
-			}
+                }
+            }
 
-            $typeArray = array('billing', 'delivery');
+            $typeArray = ['billing', 'delivery'];
             foreach ($typeArray as $type) {
                 if (
                     empty($infoArray[$type]['country']) &&

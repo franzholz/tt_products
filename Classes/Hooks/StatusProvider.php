@@ -43,11 +43,11 @@ class StatusProvider extends \JambageCom\Div2007\Base\StatusProviderBase
     */
     public function getStatus ()
     {
-        $result = array(
+        $result = [
             'requiredExtensionsAreInstalled' => $this->checkIfRequiredExtensionsAreInstalled(),
             'noConflictingExtensionIsInstalled' => $this->checkIfNoConflictingExtensionIsInstalled(),
             'globalVariablesAreSet' => StatusUtility::checkIfGlobalVariablesAreSet($this->getExtensionName(), $this->getGlobalVariables())
-        );
+        ];
         return $result;
     }
 }

@@ -1225,10 +1225,10 @@ debug ($fieldsArray, '$fieldsArray');
                     );
 
 					$wrappedSubpartArray['###LINK_PREV_SINGLE###'] =
-						array(
+						[
 							'<a href="' . htmlspecialchars($prevUrl) . '">',
 							'</a>'
-						);
+						];
 				} else {
 					$subpartArray['###LINK_PREV_SINGLE###'] = '';
 				}

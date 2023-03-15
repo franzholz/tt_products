@@ -210,10 +210,10 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
 			}
 			$row = $newRow;
 			$comparatorArray =
-				array('EQ' => '==', 'NE' => '!=', 'LT' => '<', 'LE' => '<=', 'GT' => '>', 'GE' => '>=');
-			$operatorArray = array('AND', 'OR');
-			$functionArray = array('EMPTY' => 'empty');
-			$binaryArray = array('NOT' => '!');
+				['EQ' => '==', 'NE' => '!=', 'LT' => '<', 'LE' => '<=', 'GT' => '>', 'GE' => '>='];
+			$operatorArray = ['AND', 'OR'];
+			$functionArray = ['EMPTY' => 'empty'];
+			$binaryArray = ['NOT' => '!'];
 
 			// $markerKey = $this->marker.'_'.$upperField.'_';
 			if (is_array($tagArray)) {
@@ -275,7 +275,7 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
 								}
 							}
 
-							$fieldArray = array($fieldname => array($comparator, intval($comparand)));
+							$fieldArray = [$fieldname => [$comparator, intval($comparand)]];
 
 							foreach ($fieldArray as $field => $fieldCondition) {
 								$comparator = $comparatorArray[$fieldCondition['0']];
@@ -309,7 +309,7 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
 					isset($GLOBALS['TCA'][$tablename]['columns'][$field]) &&
 					is_array($GLOBALS['TCA'][$tablename]['columns'][$field]) &&
 					in_array(
-						$GLOBALS['TCA'][$tablename]['columns'][$field]['config']['type'], array('group', 'inline', 'select')
+						$GLOBALS['TCA'][$tablename]['columns'][$field]['config']['type'], ['group', 'inline', 'select']
 					)
 				) {
 					$markerKey = $this->marker . '_HAS_' . $upperField;
@@ -334,7 +334,7 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
 						$valueArray['0'] == 0
 					) {
 						if (isset($tagArray[$markerKeyNot])) {
-							$wrappedSubpartArray['###' . $markerKeyNot . '###'] = array('', '');
+							$wrappedSubpartArray['###' . $markerKeyNot . '###'] = ['', ''];
 						}
 					} else {
 						foreach ($valueArray as $k => $partValue) {
@@ -342,7 +342,7 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
 
 							if (isset($tagArray[$partMarkerKey])) {
 								if ($partValue) {
-									$wrappedSubpartArray['###' . $partMarkerKey . '###'] = array('', '');
+									$wrappedSubpartArray['###' . $partMarkerKey . '###'] = ['', ''];
 								} else {
 									$subpartArray['###' . $partMarkerKey . '###'] = '';
 								}
@@ -369,7 +369,7 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
 
 				if (isset($tagArray[$markerKey])) {
 					if ($value == 0) {
-						$wrappedSubpartArray['###' . $markerKey . '###'] = array('', '');
+						$wrappedSubpartArray['###' . $markerKey . '###'] = ['', ''];
 					} else {
 						$subpartArray['###' . $markerKey . '###'] = '';
 					}
@@ -380,7 +380,7 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
 					if ($value == 0) {
 						$subpartArray['###' . $markerKeyNot . '###'] = '';
 					} else {
-						$wrappedSubpartArray['###' . $markerKeyNot . '###'] = array('', '');
+						$wrappedSubpartArray['###' . $markerKeyNot . '###'] = ['', ''];
 					}
 				}
 
@@ -681,9 +681,9 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
 						);
 
 					if (isset($modifiedRow) && !is_array($modifiedRow)) { // if a single value has been returned instead of an array
-						$modifiedRow = array($field => $modifiedRow);
+						$modifiedRow = [$field => $modifiedRow];
 					} else if (!isset($modifiedRow)) { // restore former default value
-						$modifiedRow = array($field => $value);
+						$modifiedRow = [$field => $value];
 					}
 				} else {
 					switch ($field) {

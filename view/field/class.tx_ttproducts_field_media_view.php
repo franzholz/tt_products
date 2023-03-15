@@ -590,7 +590,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view {
 
 			// $confParentTableConf = $this->getTableConf($conftable, $theCode);
 			$conftable = ($conftable ? $conftable : $functablename);
-			$generateArray = array('generateImage', 'generatePath');
+			$generateArray = ['generateImage', 'generatePath'];
 			$nameArray = [];
 
 			$conftableConf = $cnf->getTableConf($conftable, $theCode);

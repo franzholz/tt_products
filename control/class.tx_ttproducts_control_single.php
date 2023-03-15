@@ -72,12 +72,12 @@ class tx_ttproducts_control_single implements \TYPO3\CMS\Core\SingletonInterface
 						$updateFields['qty'] += 1;
 						$GLOBALS['TYPO3_DB']->exec_UPDATEquery($mmTablename, $where, $updateFields);
 					} else {
-						$insertFields = array(
+						$insertFields = [
 							'tstamp' => $time,
 							'uid_local' => $GLOBALS['TSFE']->fe_user->user['uid'],
 							'uid_foreign' => $uid,
 							'qty' => 1
-						);
+						];
 						$GLOBALS['TYPO3_DB']->exec_INSERTquery($mmTablename, $insertFields);
 					}
 				}
