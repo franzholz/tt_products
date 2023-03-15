@@ -62,7 +62,7 @@ class tx_ttproducts_category extends tx_ttproducts_category_base {
 			$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 			$this->tableconf = $cnf->getTableConf($functablename);
 			$tableObj = $this->getTableObj();
-			$tableObj->addDefaultFieldArray(array('sorting' => 'sorting'));
+			$tableObj->addDefaultFieldArray(['sorting' => 'sorting']);
 			$tablename = $this->getTablename();
 			$tableObj->setTCAFieldArray($tablename);
 

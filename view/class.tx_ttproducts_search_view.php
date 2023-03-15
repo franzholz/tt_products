@@ -64,10 +64,10 @@ class tx_ttproducts_search_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 		$searboxViewObj = GeneralUtility::makeInstance('tx_searchbox_view');
 
-		$paramArray = array(
-			'local' => array('table' => $this->config['local_table'], 'param' => $this->config['local_param']),
-			'foreign' => array('table' => $this->config['foreign_table'], 'param' => $this->config['foreign_param']),
-		);
+		$paramArray = [
+			'local' => ['table' => $this->config['local_table'], 'param' => $this->config['local_param']],
+			'foreign' => ['table' => $this->config['foreign_table'], 'param' => $this->config['foreign_param']],
+		];
 		$rc = $searboxViewObj->printFirstletter($pibaseObj,$pibaseObj->prefixId, $this->conf['PIDlistDisplay'], $templateCode, $columns, $paramArray, $this->config['fields'], $this->config['group_by_fields'], $this->config['all'], $this->config['delimiter'], $error_code);
 		return $rc;
 	}
@@ -93,10 +93,10 @@ class tx_ttproducts_search_view implements \TYPO3\CMS\Core\SingletonInterface {
 	public function printKeyField ($pibaseObj, &$templateCode, $columns, $type, $formid, $keyfieldConf, &$error_code) {
 
 		$searboxViewObj = GeneralUtility::makeInstance('tx_searchbox_view');
-		$paramArray = array(
-			'local' => array('table' => $this->config['local_table'], 'param' => $this->config['local_param']),
-			'foreign' => array('table' => $this->config['foreign_table'], 'param' => $this->config['foreign_param']),
-		);
+		$paramArray = [
+			'local' => ['table' => $this->config['local_table'], 'param' => $this->config['local_param']],
+			'foreign' => ['table' => $this->config['foreign_table'], 'param' => $this->config['foreign_param']
+		];
 
 		$rc = $searboxViewObj->printKeyField($pibaseObj,$pibaseObj->prefixId,$this->conf['PIDlistDisplay'], $templateCode, $columns, $paramArray, $this->config['parameters'], $this->config['fields'], $type, $this->config['url'], $this->config['all'], $keyfieldConf, $formid, $error_code);
 
@@ -109,10 +109,10 @@ class tx_ttproducts_search_view implements \TYPO3\CMS\Core\SingletonInterface {
 	public function &printLastEntries ($pibaseObj, &$templateCode, $columns, &$error_code) {
 
 		$searboxViewObj = GeneralUtility::makeInstance('tx_searchbox_view');
-		$paramArray = array(
-			'local' => array('table' => $this->config['local_table'], 'param' => $this->config['local_param']),
-			'foreign' => array('table' => $this->config['foreign_table'], 'param' => $this->config['foreign_param']),
-		);
+		$paramArray = [
+			'local' => ['table' => $this->config['local_table'], 'param' => $this->config['local_param']],
+			'foreign' => ['table' => $this->config['foreign_table'], 'param' => $this->config['foreign_param']]
+		];
 		$rc = $searboxViewObj->printLastEntries($pibaseObj,$pibaseObj->prefixId, $this->conf['PIDlistDisplay'], $templateCode, $columns, $paramArray, $this->config['parameters'], $this->config['fields'], $error_code);
 
 		return $rc;
@@ -124,10 +124,10 @@ class tx_ttproducts_search_view implements \TYPO3\CMS\Core\SingletonInterface {
 	public function &printTextField ($pibaseObj, &$templateCode, $columns, $formid, $contentRow, &$error_code) {
 
 		$searboxViewObj = GeneralUtility::makeInstance('tx_searchbox_view');
-		$paramArray = array(
-			'local' => array('table' => $this->config['local_table'], 'param' => $this->config['local_param']),
-			'foreign' => array('table' => $this->config['foreign_table'], 'param' => $this->config['foreign_param']),
-		);
+		$paramArray = [
+			'local' => ['table' => $this->config['local_table'], 'param' => $this->config['local_param']],
+			'foreign' => ['table' => $this->config['foreign_table'], 'param' => $this->config['foreign_param']]
+		];
 		$rc = $searboxViewObj->printTextField($pibaseObj,$pibaseObj->prefixId, $this->conf['PIDlistDisplay'], $templateCode, $columns, $paramArray, $this->config['parameters'], $this->config['fields'], $this->config['url'], $formid, $contentRow['uid'], $error_code);
 		return $rc;
 	}

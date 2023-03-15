@@ -176,7 +176,7 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view {
 							true,
 							[],
 							'select',
-							array('title' => 'Auswahl der Domäne', 'onchange' => 'submit();')
+							['title' => 'Auswahl der Domäne', 'onchange' => 'submit();']
 						);
 					}
 				}

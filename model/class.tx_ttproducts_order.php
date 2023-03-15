@@ -520,14 +520,14 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
 			$storeItemArray['tt_products'] = $itemArray;
 
 				// Order Data serialized
-			$fieldsArray['orderData'] = serialize(array(
+			$fieldsArray['orderData'] = serialize([
 				'html_output' 	=>	$orderConfirmationHTML,
 				'delivery' 		=>	$deliveryInfo,
 				'billing' 		=>	$billingInfo,
 				'itemArray'		=>	$storeItemArray,
 				'calculatedArray'	=>	$calculatedArray,
 				'version'		=>	$this->config['version']
-			));
+			]);
 
 				// Setting tstamp, deleted and tracking code
 			$fieldsArray['tstamp'] = time();

@@ -88,7 +88,7 @@ class tx_ttproducts_fpdf_view {
 			'',
 			$itemArray,
             $notOverwritePriceIfSet = false,
-			array('0' => $orderArray),
+			['0' => $orderArray],
 			$productRowArray,
 			$basketExtra,
 			$basketRecs
@@ -108,7 +108,7 @@ class tx_ttproducts_fpdf_view {
 			'',
 			$itemArray,
             $notOverwritePriceIfSet = false,
-			array('0' => $orderArray),
+			['0' => $orderArray],
 			$basketExtra,
 			$basketRecs
 		);
@@ -128,7 +128,7 @@ class tx_ttproducts_fpdf_view {
 			'',
 			$itemArray,
             $notOverwritePriceIfSet = false,
-			array('0' => $orderArray),
+			['0' => $orderArray],
 			$productRowArray,
 			$basketExtra,
 			$basketRecs

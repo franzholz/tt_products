@@ -42,7 +42,7 @@ class tx_ttproducts_fal extends tx_ttproducts_article_base {
 	public $type = 'fal';
 	public $piVar = 'fal';
 
-	static public $copyFieldArray = array(
+	static public $copyFieldArray = [
 		'title',
 		'link',
 		'description',
@@ -52,7 +52,7 @@ class tx_ttproducts_fal extends tx_ttproducts_article_base {
 		'tx_ttproducts_endpoint',
 		'tx_ttproducts_price_enable',
 		'tx_ttproducts_price'
-	);
+	];
 
 }
 

@@ -449,9 +449,9 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
 				$urlObj = GeneralUtility::makeInstance('tx_ttproducts_url_view');
 				$linkParams = $urlObj->getLinkParams(
 					'',
-					array(
+					[
 						'product' => $row['uid']
-					),
+					],
 					true,
 					false,
 					0,

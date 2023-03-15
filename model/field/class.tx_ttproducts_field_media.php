@@ -166,7 +166,7 @@ class tx_ttproducts_field_media extends tx_ttproducts_field_base {
 				isset($imageRow['file_mime_type']) &&
 				$imageRow['file_mime_type'] == 'image'
 			) {
-				$fileArray = array($imageRow['file_name']);
+				$fileArray = [$imageRow['file_name']];
 			}
 		}
 

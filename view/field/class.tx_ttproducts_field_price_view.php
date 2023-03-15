@@ -45,8 +45,8 @@ use JambageCom\Div2007\Utility\FrontendUtility;
 
 
 class tx_ttproducts_field_price_view extends tx_ttproducts_field_base_view {
-	static protected $convertArray = array(
-		'price' => array(
+	static protected $convertArray = [
+		'price' => [
 			'tax' => 'PRICE_TAX',
 			'taxperc' => 'TAX',
 			'0tax' => 'OLD_PRICE_TAX',
@@ -70,8 +70,8 @@ class tx_ttproducts_field_price_view extends tx_ttproducts_field_base_view {
 			'discountbyproductunotax' => 'UNIT_PRICE_NO_TAX_RECORD_DISCOUNTED',
 			'discountbyproductwtax' => 'WEIGHT_UNIT_PRICE_TAX_RECORD_DISCOUNTED',
 			'discountbyproductwnotax' => 'WEIGHT_UNIT_PRICE_NO_TAX_RECORD_DISCOUNTED',
-		),
-		'price2' => array(
+		],
+		'price2' => [
 			'2tax' => 'PRICE2_TAX',
 			'2notax' => 'PRICE2_NO_TAX',
 			'2onlytax' => 'PRICE2_ONLY_TAX',
@@ -80,16 +80,16 @@ class tx_ttproducts_field_price_view extends tx_ttproducts_field_base_view {
 
 			'surcharge2tax' => 'SURCHARGE2_TAX',
 			'surcharge2notax' => 'SURCHARGE2_NO_TAX',
-		),
-		'deposit' => array(
+		],
+		'deposit' => [
 			'deposittax' => 'DEPOSIT_TAX',
 			'depositnotax' => 'DEPOSIT_NO_TAX',
 		),
-		'directcost' => array(
+		'directcost' => [
 			'directcosttax' => 'DIRECTCOST_TAX',
 			'directcostnotax' => 'DIRECTCOST_NO_TAX',
-		),
-	);
+		],
+	];
 
     static public function getConvertedPriceFieldArray ($priceType) {
         $priceFieldArray = [];

@@ -445,7 +445,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 			$valueArray[] = '';
 
 			foreach ($feuserRowArray as $uid => $row) {
-				$valueArray[] = array($row['uid'] . ' - ' . $row['name'] . ' - ' . $row['city'], $uid);
+				$valueArray[] = [$row['uid'] . ' - ' . $row['name'] . ' - ' . $row['city'], $uid];
 			}
 
 			$piVar = tx_ttproducts_model_control::getPiVar('orderaddress');
@@ -601,7 +601,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 				$valueArray[] = '';
 
 				foreach ($feGroupArray as $uid => $row) {
-					$valueArray[] = array($row['title'], $row['uid']);
+					$valueArray[] = [$row['title'], $row['uid']];
 				}
 
 				$piVar = tx_ttproducts_model_control::getPiVar('fegroup');
@@ -705,7 +705,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 		}
 
 		$orderPiVar = tx_ttproducts_model_control::getPiVar('sys_products_orders');
-		$fieldPiVarArray = array('crdate' => array('ge', 'le'));
+		$fieldPiVarArray = ['crdate' => ['ge', 'le']];
 
 		foreach ($fieldPiVarArray as $fieldPiVar => $piVarTypeArray) {
 			foreach ($piVarTypeArray as $piVarType) {

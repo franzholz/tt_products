@@ -184,7 +184,7 @@ class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base {
 							$row
 						);
 					}
-					$addQueryString = array($categoryTableView->getPivar() => $actCategory);
+					$addQueryString = [$categoryTableView->getPivar() => $actCategory];
 
 					$markerArray = [];
 					$categoryTableView->getMarkerArray (
@@ -205,7 +205,7 @@ class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base {
 						''
 					);
 
-					$urlParameters = array($prefixId => $addQueryString);
+					$urlParameters = [$prefixId => $addQueryString];
 
 					$linkConf = [];
 					$linkConf['parameter'] = $pid;

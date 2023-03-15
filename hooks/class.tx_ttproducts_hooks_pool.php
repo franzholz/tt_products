@@ -48,7 +48,7 @@ class tx_ttproducts_hooks_pool extends tx_pool_hooks_base {
 			'hooks/locallang_pool.xml',
 			DIV2007_LANGUAGE_PATH . 'locallang_mod_web_list.xlf'
 		);
-	public $modMenu = array('function' => array('search'));
+	public $modMenu = ['function' => ['search']];
 	public $headerText = 'header_search';
 
 	public function getViewData (

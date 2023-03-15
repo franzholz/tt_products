@@ -596,11 +596,11 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 					}
 					if ($maxQuantity != '0.00' && $quantity > $maxQuantity) {
 						$quantityArray['maximum'][] =
-							array(
+							[
 								'rec' => $row,
 								'limitQuantity' => $maxQuantity,
 								'quantity' => $quantity
-							);
+							];
 					}
 					$count++;
 					$actItem['rec'] = $row;	// fix bug with PHP 5.2.1

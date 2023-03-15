@@ -167,8 +167,6 @@ class tx_ttproducts_cat_view implements \TYPO3\CMS\Core\SingletonInterface {
 			$basketPID = $this->conf['PIDbasket'];
 			$pid = $backPID;
 
-/*			$param = array($functablename => $variantFieldArray);
-			$javaScriptObj->set('fetchdata', $param);*/
 			$useBackPid = true;
 
 			$addQueryString = [];

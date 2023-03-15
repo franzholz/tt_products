@@ -56,7 +56,7 @@ class CustomerApi {
 	static private $fields =
 	'name,cnum,first_name,last_name,username,email,telephone,title,salutation,address,house_no,telephone,fax,email,company,city,zip,state,country,country_code,tt_products_vat,date_of_birth,tt_products_business_partner,tt_products_organisation_form';
 	static private $requiredInfoFields = '';
-	static protected $possibleCheckFieldArray = array('name', 'last_name', 'email', 'telephone');
+	static protected $possibleCheckFieldArray = ['name', 'last_name', 'email', 'telephone'];
 	static protected $creditpointfields = 'tt_products_creditpoints,tt_products_vouchercode';
 
 
@@ -91,7 +91,7 @@ class CustomerApi {
 		}
 		self::setFields($fields);
 		$requiredInfoFieldArray = $conf['requiredInfoFields.'] ?? [];
-		$typeArray = array('billing', 'delivery');
+		$typeArray = ['billing', 'delivery'];
 
 		foreach ($typeArray as $type) {
 			if (

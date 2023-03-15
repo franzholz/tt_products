@@ -129,7 +129,7 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
                 true
             );
 
-		$flexformConfigArray = array(
+		$flexformConfigArray = [
 			'local_param',
 			'foreign_param',
 			'columns',
@@ -139,7 +139,7 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 			'all',
 			'parameters',
 			'delimiter',
-		);
+		];
 
 		foreach ($flexformConfigArray as $flexformConfig) {
 			$tmpConfig = \JambageCom\Div2007\Utility\FlexformUtility::get($row['pi_flexform'] ?? '', $flexformConfig);

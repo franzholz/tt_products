@@ -52,7 +52,7 @@ abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\Single
 	public $urlObj; // url functions
 	protected $htmlTagMain = '';	// main HTML tag
 	protected $htmlTagElement = ''; // HTML tag element
-	public $htmlPartsMarkers = array('###ITEM_SINGLE_PRE_HTML###', '###ITEM_SINGLE_POST_HTML###');
+	public $htmlPartsMarkers = ['###ITEM_SINGLE_PRE_HTML###', '###ITEM_SINGLE_POST_HTML###'];
 	public $tableConfArray = [];
 	public $viewConfArray = [];
 	private $tMarkers;	// all markers which are found in the template subpart for the whole view $t['listFrameWork']
