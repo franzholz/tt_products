@@ -84,7 +84,7 @@ class tx_ttproducts_field_price_view extends tx_ttproducts_field_base_view {
 		'deposit' => [
 			'deposittax' => 'DEPOSIT_TAX',
 			'depositnotax' => 'DEPOSIT_NO_TAX',
-		),
+		],
 		'directcost' => [
 			'directcosttax' => 'DIRECTCOST_TAX',
 			'directcostnotax' => 'DIRECTCOST_NO_TAX',
