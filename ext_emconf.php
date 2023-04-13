@@ -23,7 +23,7 @@ $EM_CONF[$_EXTKEY] = [
       'php' => '7.4.0-8.1.99',
       'table' => '0.11.0-0.0.0',
       'tsparser' => '0.9.0-0.0.0',
-      'typo3db_legacy' => '1.0.0-1.1.99',
+      'typo3db_legacy' => '1.0.0-1.2.99',
       'typo3' => '10.4.0-11.5.99',
     ],
     'conflicts' => 
