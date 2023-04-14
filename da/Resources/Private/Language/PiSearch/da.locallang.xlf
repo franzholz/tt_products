@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/PiSearch/locallang.xlf" date="2021-12-01T10:35:25Z" product-name="tt_products" target-language="da">
+    <header/>
+    <body>
+      <trans-unit id="no_template" resname="no_template">
+        <source>The shop search template file has not been found. Check your template setup about</source>
+        <target state="needs-translation">The shop search template file has not been found. Check your template setup about</target>
+      </trans-unit>
+      <trans-unit id="no_subtemplate" resname="no_subtemplate">
+        <source>The part | or the search template file | has not been found.</source>
+        <target state="needs-translation">The part | or the search template file | has not been found.</target>
+      </trans-unit>
+      <trans-unit id="all" resname="all">
+        <source>ALL</source>
+        <target state="needs-translation">ALL</target>
+      </trans-unit>
+      <trans-unit id="latest_entries" resname="latest_entries">
+        <source>Go to the %d latest entries.</source>
+        <target state="needs-translation">Go to the %d latest entries.</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
