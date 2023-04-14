@@ -422,7 +422,6 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view {
 					$imageConf['file'] = 'GIFBUILDER';
 				}
 
-				$imageCode = '';
 				$imageCode = $cObj->getContentObject($contentObject)->render($imageConf);
 
 				if (

@@ -193,7 +193,7 @@ plugin.tt_products {
   loginUserInfoAddress = {$plugin.tt_products.loginUserInfoAddress}
   orderByItemNumberSg = {$plugin.tt_products.orderByItemNumberSg}
   orderNumberPrefix = {$plugin.tt_products.orderNumberPrefix}
-  requiredInfoFields = name, address, telephone, email
+  requiredInfoFields = name, address, email
   orderEmail_from = {$plugin.tt_products.orderEmail_from}
   orderEmail_fromName = {$plugin.tt_products.orderEmail_fromName}
   orderEmail_to = {$plugin.tt_products.orderEmail_to}
