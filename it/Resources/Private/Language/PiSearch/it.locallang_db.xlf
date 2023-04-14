@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/PiSearch/locallang_db.xlf" date="2021-12-01T10:35:33Z" product-name="tt_products" target-language="it">
+    <header/>
+    <body>
+      <trans-unit id="tt_content.list_type_pi_search" resname="tt_content.list_type_pi_search">
+        <source>Shop System Search</source>
+        <target state="needs-translation">Shop System Search</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_search_flexform.display_mode" resname="tt_content.pi_search_flexform.display_mode">
+        <source>Display mode</source>
+        <target state="needs-translation">Display mode</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_search_flexform.display_mode.1" resname="tt_content.pi_search_flexform.display_mode.1">
+        <source>First Letter</source>
+        <target state="needs-translation">First Letter</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_search_flexform.display_mode.2" resname="tt_content.pi_search_flexform.display_mode.2">
+        <source>Year</source>
+        <target state="needs-translation">Year</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_search_flexform.display_mode.3" resname="tt_content.pi_search_flexform.display_mode.3">
+        <source>Select Key Field</source>
+        <target state="needs-translation">Select Key Field</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_search_flexform.display_mode.4" resname="tt_content.pi_search_flexform.display_mode.4">
+        <source>Text Field</source>
+        <target state="needs-translation">Text Field</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_search_flexform.display_mode.5" resname="tt_content.pi_search_flexform.display_mode.5">
+        <source>Last Entries</source>
+        <target state="needs-translation">Last Entries</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_search_flexform.display_mode.6" resname="tt_content.pi_search_flexform.display_mode.6">
+        <source>Field Values</source>
+        <target state="needs-translation">Field Values</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_search_flexform.template_suffix" resname="tt_content.pi_search_flexform.template_suffix">
+        <source>Template Suffix</source>
+        <target state="needs-translation">Template Suffix</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_search_flexform.local_param" resname="tt_content.pi_search_flexform.local_param">
+        <source>Local Table</source>
+        <target state="needs-translation">Local Table</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_search_flexform.local_param.1" resname="tt_content.pi_search_flexform.local_param.1">
+        <source>Product</source>
+        <target state="needs-translation">Product</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_search_flexform.local_param.2" resname="tt_content.pi_search_flexform.local_param.2">
+        <source>Article</source>
+        <target state="needs-translation">Article</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_search_flexform.local_param.3" resname="tt_content.pi_search_flexform.local_param.3">
+        <source>Category</source>
+        <target state="needs-translation">Category</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_search_flexform.local_param.4" resname="tt_content.pi_search_flexform.local_param.4">
+        <source>DAM</source>
+        <target state="needs-translation">DAM</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_search_flexform.local_param.5" resname="tt_content.pi_search_flexform.local_param.5">
+        <source>DAM Category</source>
+        <target state="needs-translation">DAM Category</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_search_flexform.foreign_param" resname="tt_content.pi_search_flexform.foreign_param">
+        <source>Foreign Table</source>
+        <target state="needs-translation">Foreign Table</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_search_flexform.foreign_param.1" resname="tt_content.pi_search_flexform.foreign_param.1">
+        <source>Category</source>
+        <target state="needs-translation">Category</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_search_flexform.foreign_param.2" resname="tt_content.pi_search_flexform.foreign_param.2">
+        <source>Address</source>
+        <target state="needs-translation">Address</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_search_flexform.foreign_param.3" resname="tt_content.pi_search_flexform.foreign_param.3">
+        <source>DAM Category</source>
+        <target state="needs-translation">DAM Category</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_search_flexform.foreign_param.4" resname="tt_content.pi_search_flexform.foreign_param.4">
+        <source> </source>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_search_flexform.fields" resname="tt_content.pi_search_flexform.fields">
+        <source>Fields</source>
+        <target state="needs-translation">Fields</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_search_flexform.group_by_fields" resname="tt_content.pi_search_flexform.group_by_fields">
+        <source>GROUP BY Fields</source>
+        <target state="needs-translation">GROUP BY Fields</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_search_flexform.url" resname="tt_content.pi_search_flexform.url">
+        <source>URL</source>
+        <target state="needs-translation">URL</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_search_flexform.all" resname="tt_content.pi_search_flexform.all">
+        <source>Show all box</source>
+        <target state="needs-translation">Show all box</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_search_flexform.parameters" resname="tt_content.pi_search_flexform.parameters">
+        <source>Parameters</source>
+        <target state="needs-translation">Parameters</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_search_flexform.delimiter" resname="tt_content.pi_search_flexform.delimiter">
+        <source>Delimiter</source>
+        <target state="needs-translation">Delimiter</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_search_flexform.columns" resname="tt_content.pi_search_flexform.columns">
+        <source>Number of Columns</source>
+        <target state="needs-translation">Number of Columns</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_search_flexform.tsconfig" resname="tt_content.pi_search_flexform.tsconfig">
+        <source>Typoscript</source>
+        <target state="needs-translation">Typoscript</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
