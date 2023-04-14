@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff version="1.0">
+  <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/Modfunc/locallang_modfunc2.xlf" date="2017-07-08T13:15:42Z" product-name="tt_products" target-language="fi">
+    <header/>
+    <body>
+      <trans-unit id="title" resname="title">
+        <source>Create Records in Alternative Languages</source>
+        <target state="needs-translation">Create Records in Alternative Languages</target>
+      </trans-unit>
+      <trans-unit id="only_admin" resname="only_admin">
+        <source>These functions are only available for admins.</source>
+        <target state="needs-translation">These functions are only available for admins.</target>
+      </trans-unit>
+      <trans-unit id="pid_src" resname="pid_src">
+        <source>The source id is %d.</source>
+        <target state="needs-translation">The source id is %d.</target>
+      </trans-unit>
+      <trans-unit id="start" resname="start">
+        <source>Start the generation of the records!</source>
+        <target state="needs-translation">Start the generation of the records!</target>
+      </trans-unit>
+      <trans-unit id="created" resname="created">
+        <source>The records have been generated.</source>
+        <target state="needs-translation">The records have been generated.</target>
+      </trans-unit>
+      <trans-unit id="created_table" resname="created_table">
+        <source>%d %s have been created.</source>
+        <target state="needs-translation">%d %s have been created.</target>
+      </trans-unit>
+      <trans-unit id="no_texts" resname="no_texts">
+        <source>No text records found on this page.</source>
+        <target state="needs-translation">No text records found on this page.</target>
+      </trans-unit>
+      <trans-unit id="no_alternative_product" resname="no_alternative_product">
+        <source>No product in alternative language has been found for these uid: %s</source>
+        <target state="needs-translation">No product in alternative language has been found for these uid: %s</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
