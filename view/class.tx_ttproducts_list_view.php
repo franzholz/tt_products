@@ -466,7 +466,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$javaScriptMarker = GeneralUtility::makeInstance('tx_ttproducts_javascript_marker');
 		$urlObj = GeneralUtility::makeInstance('tx_ttproducts_url_view');
 
-		$contentUid = $cObj->data['uid'];
+		$contentUid = $cObj->data['uid'] ?? 0;
 		$itemTableArray = [];
 		$itemTableViewArray = [];
 		$currentParentRow = '';
@@ -884,6 +884,8 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 						true
 					);
 			}
+debug ($whereCat, '$whereCat');
+debug ($allowedItems, '$allowedItems');
 
 			if ($whereCat == '' && ($allowedItems == '' || $bForceCatParams)) {
 				$neededParams = $itemTable->getNeededUrlParams($functablename, $theCode);
@@ -902,9 +904,9 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 			if ($searchboxWhere != '') {
 				if ($bUseSearchboxArray[$categoryfunctablename]) {
-					$whereCat .= ' AND '.$searchboxWhere;
+					$whereCat .= ' AND ' . $searchboxWhere;
 				} else {
-					$whereProduct = ' AND '.$searchboxWhere;
+					$whereProduct = ' AND ' . $searchboxWhere;
 				}
 			}
 			$where .= $whereCat . $whereProduct;
@@ -938,6 +940,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 			}
 			$where .= $searchWhere;
 		}
+debug ($where, '$where');
 
 		switch ($theCode) {
 			case 'LISTAFFORDABLE':
@@ -1273,6 +1276,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 					// Get products count
 				$selectConf = [];
 				$allowedPages = ($pid ? $pid : $this->pidListObj->getPidlist());
+				debug ($allowedPages, '$allowedPages Pos 1');
 
 				if ($additionalPages) {
 					$allowedPages .= ','.$additionalPages;
@@ -1282,6 +1286,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 				if (!empty($allowedPages)) {
 					$selectConf['pidInList'] = $allowedPages;
 				}
+				debug ($allowedPages, '$allowedPages +++');
 
 				if ($allowedItems || $allowedItems == '0') {
 					$allowedItemArray = [];
@@ -1670,6 +1675,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 						$selectCountConf,
 						true
 					);
+debug ($queryParts, '$queryParts');
 
 				if (!empty($selectCountConf['groupBy'])) {
 					$queryParts['SELECT'] = 'count(DISTINCT ' . $selectCountConf['groupBy'] . ')';
@@ -1741,6 +1747,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 					$selectConf,
 					true
 				);
+debug ($queryParts, '$queryParts Pos 2 Big select');
 
 				if (!empty($selectConf['groupBy'])) {
 					$queryParts['SELECT'] .= ',count(' . $selectConf['groupBy'] . ') sql_groupby_count';
@@ -2351,7 +2358,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 							$nextcat = $row['category'];
 						} else if ($piVarCat) {
 							if (
-								$conf['PIDlistDisplay'] &&
+								!empty($conf['PIDlistDisplay']) &&
 								!PluginApi::isRelatedCode($theCode)
 							) {
 								$useBackPid = false;

@@ -264,7 +264,7 @@ class tx_ttproducts_category extends tx_ttproducts_category_base {
 
 				if (
 					$this->referenceField != '' &&
-					$row[$this->referenceField]
+					!empty($row[$this->referenceField])
 				) {
 					$bUseReference = true;
 				}

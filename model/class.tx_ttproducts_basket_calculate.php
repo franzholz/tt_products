@@ -381,7 +381,7 @@ class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterfa
 					$itemArray[$sort][$k1]['totalNoTax'] = $itemArray[$sort][$k1]['priceNoTax'] * $count;
 					$itemArray[$sort][$k1]['total0NoTax'] = $itemArray[$sort][$k1]['price0NoTax'] * $count;
 					$itemArray[$sort][$k1]['total2NoTax'] = $itemArray[$sort][$k1]['price2NoTax'] * $count;
-					$totalDepositNoTax = $itemArray[$sort][$k1]['depositnotax'] * $count;
+					$totalDepositNoTax = ($itemArray[$sort][$k1]['depositnotax'] ?? 0) * $count;
 
 					$this->calculatedArray['price0NoTax']['goodstotal']['ALL'] += $itemArray[$sort][$k1]['total0NoTax'];
 					$this->calculatedArray['priceNoTax']['goodstotal']['ALL'] += $itemArray[$sort][$k1]['totalNoTax'];

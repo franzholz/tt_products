@@ -63,7 +63,10 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
 
 		if (!empty($conf['PIDstoreRoot'])) {
 			$config['storeRootPid'] = $conf['PIDstoreRoot'];
-		} else if (TYPO3_MODE == 'FE') {
+		} else if (
+            defined ('TYPO3_MODE') &&
+            TYPO3_MODE == 'FE'
+        ) {
 			foreach ($GLOBALS['TSFE']->tmpl->rootLine as $k => $row) {
 				if ($row['doktype'] == 1) {
 					$config['storeRootPid'] = $row['uid'];
@@ -72,7 +75,9 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
 			}
 		}
 
-		if (
+            debug ($conf['pid_list'], 'init $conf[\'pid_list\']');
+
+        if (
             !isset($conf['pid_list']) ||
             $conf['pid_list'] == '{$plugin.tt_products.pid_list}'
         ) {
@@ -89,9 +94,17 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
 		}
 
 		$tmp = $cObj->stdWrap($conf['pid_list'] ?? '', $conf['pid_list.'] ?? '');
+		debug ($tmp, 'creator::init $tmp');
+		
+if (isset($cObj->data['pages'])) debug($cObj->data['pages'], '$cObj->data[\'pages\']');
+if (isset($conf['pid_list.'])) debug ($conf['pid_list.'], '$conf[\'pid_list.\']');
+
 		$pid_list = (!empty($cObj->data['pages']) ? $cObj->data['pages'] : (!empty($conf['pid_list.']) ? trim($tmp) : ''));
+		debug ($pid_list, 'creator::init $pid_list Pos 1');
 		$pid_list = ($pid_list ? $pid_list : $conf['pid_list'] ?? '');
+		debug ($pid_list, '$pid_list Pos 2');
 		$config['pid_list'] = (isset($pid_list) ? $pid_list : $config['storeRootPid'] ?? 0);
+		debug ($config['pid_list'], '$config[\'pid_list\'] Pos 3');
 
 		$recursive = (!empty($cObj->data['recursive']) ? $cObj->data['recursive'] : $conf['recursive'] ?? 99);
 		$config['recursive'] = MathUtility::forceIntegerInRange($recursive, 0, 100);

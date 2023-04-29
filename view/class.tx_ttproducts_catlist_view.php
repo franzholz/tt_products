@@ -339,7 +339,7 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base {
                         $basketExtra,
                         $basketRecs
                     );
-                    $childArray = $row['child_category'];
+                    $childArray = $row['child_category'] ?? [];
 
                     if (
                         is_array($subCategoryMarkerArray) && count($subCategoryMarkerArray)
@@ -561,8 +561,8 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base {
 
 		$pid =
 			$pageObj->getPID(
-				$conf['PIDlistDisplay'],
-				$conf['PIDlistDisplay.'],
+				$conf['PIDlistDisplay'] ?? 0,
+				$conf['PIDlistDisplay.'] ?? [],
 				$row
 			);
 		$addQueryString = [$categoryTableView->getPivar() => $actCategory];
@@ -572,7 +572,7 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base {
 		$linkConf = [];
 		$linkConf['parameter'] = $pid;
 		$linkConf['additionalParams'] = GeneralUtility::implodeArrayForUrl('', $urlParameters);
-		$linkConf['useCacheHash'] = $pibaseObj->bUSER_INT_obj ? 0 : 1;
+		$linkConf['useCacheHash'] = tx_ttproducts_control_pibase::getIsUserIntObject() ? 0 : 1;
 
 		$pibaseObj->cObj->typolink('', $linkConf);
 		$linkUrl = $pibaseObj->cObj->lastTypoLinkUrl;

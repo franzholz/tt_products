@@ -73,5 +73,3 @@ class tx_ttproducts_api_download {
 
 	}
 }
-
-

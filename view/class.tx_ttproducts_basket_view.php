@@ -644,7 +644,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 							$catTmp = '';
 							if ($actItem['rec']['category']) {
 								$catTmp = $tablesObj->get('tt_products_cat')->get($actItem['rec']['category']);
-								$catTmp = $catTmp['title'];
+								$catTmp = $catTmp['title'] ?? '';
 							}
 							$catTitle = $pageCatTitle.$catTmp;
 							$cObj->setCurrentVal($catTitle);

@@ -39,13 +39,10 @@
 
 
 class tx_ttproducts_control_pibase {
-	static public $pi_USER_INT_obj = false;
+    static public $pi_USER_INT_obj = false;
 
-	static public function init ($pibaseObj) {
-	}
-
-	static public function getIsUserIntObject ()  {
-		return self::$pi_USER_INT_obj;
-	}
+    static public function getIsUserIntObject ()  {
+        return self::$pi_USER_INT_obj;
+    }
 }
 
