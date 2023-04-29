@@ -42,8 +42,10 @@ call_user_func(function () {
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr($table, 'EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'Csh/locallang_csh_' . $table . '.xlf');
     }
 
-    if (TYPO3_MODE == 'BE') {
-
+    if (
+        defined ('TYPO3_MODE') &&
+        TYPO3_MODE == 'BE'
+    ) {
         $GLOBALS['TBE_MODULES_EXT']['xMOD_db_new_content_el']['addElClasses']['JambageCom\\TtProducts\\Controller\\Plugin\\WizardIcon'] = PATH_BE_TTPRODUCTS . 'Classes/Controller/Plugin/WizardIcon.php';
 
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::insertModuleFunction(

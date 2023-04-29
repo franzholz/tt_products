@@ -311,8 +311,10 @@ class tx_ttproducts_cat_view implements \TYPO3\CMS\Core\SingletonInterface {
 			$nextOrderby = $tableObj->getTableObj()->transformOrderby($nextOrderby);
 
 			$whereFilter = '';
-			if (is_array($tableConf['filter.']) && is_array($tableConf['filter.']['regexp.'])) {
-				if (is_array($tableConf['filter.']['regexp.']['field.'])) {
+			if (
+                isset($tableConf['filter.']['regexp.'])
+            ) {
+				if (isset($tableConf['filter.']['regexp.']['field.'])) {
 					foreach ($tableConf['filter.']['field.'] as $field => $value) {
 						$whereFilter .= ' AND ' . $field . ' REGEXP ' . $GLOBALS['TYPO3_DB']->fullQuoteStr(quotemeta($value), $tableObj->getTableObj()->name);
 					}

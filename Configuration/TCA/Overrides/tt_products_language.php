@@ -1,6 +1,9 @@
 <?php
 defined('TYPO3') || die('Access denied.');
 
+use TYPO3\CMS\Core\Information\Typo3Version;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 call_user_func(function () {
     $table = 'tt_products_language';
     $configuration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\JambageCom\TtProducts\Domain\Model\Dto\EmConfiguration::class);
@@ -81,9 +84,11 @@ call_user_func(function () {
         unset($GLOBALS['TCA'][$table]['columns']['datasheet']);
     }
 
+    $typo3Version = GeneralUtility::makeInstance(Typo3Version::class);
+    $version = $typo3Version->getVersion();
+
     if (
-        defined('TYPO3_version') &&
-        version_compare(TYPO3_version, '11.0.0', '<')
+        version_compare($version, '11.0.0', '<')
     ) {
         $GLOBALS['TCA'][$table]['columns']['sys_language_uid'] = [
             'exclude' => 1,

@@ -111,6 +111,7 @@ class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base {
 			$countArray[1] = 0;
 			$tabArray = [];
 			$catConf = $categoryTable->getTableConf($theCode);
+            $catConf['cssMode'] = $catConf['cssMode'] ?? 0;
 
 			$cssObj = GeneralUtility::makeInstance('tx_ttproducts_css');
 			$cssConf = $cssObj->getConf($functablename, $theCode);
@@ -138,7 +139,10 @@ class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base {
 				$iCount++;
 				$cssClassArray = ['w' . $iCount];
 
-				if (!is_array($catArray[$depth])) {
+				if (
+                    !isset($catArray[$depth]) ||
+                    !is_array($catArray[$depth])
+                ) {
                     continue;
                 }
 
@@ -146,7 +150,7 @@ class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base {
 					$markerArray = [];
 					$actCategory = $catArray[$depth][$countArray[$depth]];
 					$row = $categoryArray[$actCategory];
-					$subCategories = $row['child_category'];
+					$subCategories = $row['child_category'] ?? [];
 
 					if ($catConf['cssMode'] == '1' && isset($subCategories) && is_array($subCategories) && count($subCategories)) {
 						$cssClassArray[] = 'parent';
@@ -179,8 +183,8 @@ class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base {
 					} else {
 						$pageObj = $tablesObj->get('pages');
 						$pid = $pageObj->getPID(
-							$conf['PIDlistDisplay'],
-							$conf['PIDlistDisplay.'],
+							$conf['PIDlistDisplay'] ?? 0,
+							$conf['PIDlistDisplay.'] ?? [],
 							$row
 						);
 					}
@@ -210,8 +214,8 @@ class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base {
 					$linkConf = [];
 					$linkConf['parameter'] = $pid;
 					$linkConf['additionalParams'] = GeneralUtility::implodeArrayForUrl('', $urlParameters);
-					$linkConf['useCacheHash'] = $pibaseObj->bUSER_INT_obj ? 0 : 1;
-					$linkConf['ATagParams'] = $pibaseObj->cObj->getATagParams($currentLinkConf);
+					$linkConf['useCacheHash'] = tx_ttproducts_control_pibase::getIsUserIntObject() ? 0 : 1;
+					$linkConf['ATagParams'] = $pibaseObj->cObj->getATagParams($linkConf);
 
 					$theLinkWrap = $pibaseObj->cObj->typolink('|', $linkConf);
 					$tagArray = $markerObj->getAllMarkers($theLinkWrap);

@@ -40,6 +40,10 @@ namespace JambageCom\TtProducts\UserFunc;
  *
  */
 
+use Psr\Http\Message\ServerRequestInterface;
+
+use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
@@ -51,9 +55,10 @@ class MatchCondition {
         $result = false;
 
         if (
+            ($GLOBALS['TYPO3_REQUEST'] ?? null) instanceof ServerRequestInterface &&
+            ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isFrontend() &&
             isset($params) && 
-            is_array($params) &&
-            (TYPO3_MODE == 'FE')
+            is_array($params)
         ) {
             \tx_ttproducts_control_basket::storeNewRecs();
             $recs = \tx_ttproducts_control_basket::getStoredRecs();

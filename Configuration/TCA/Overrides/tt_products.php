@@ -1,6 +1,9 @@
 <?php
 defined('TYPO3') || die('Access denied.');
 
+use TYPO3\CMS\Core\Information\Typo3Version;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 call_user_func(function () {
     $table = 'tt_products';
     $configuration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\JambageCom\TtProducts\Domain\Model\Dto\EmConfiguration::class);
@@ -153,7 +156,10 @@ call_user_func(function () {
 
     $orderBySortingTablesArray = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['orderBySortingTables']);
 
-    if (version_compare(TYPO3_version, '11.5.0', '>=')) {
+    $typo3Version = GeneralUtility::makeInstance(Typo3Version::class);
+    $version = $typo3Version->getVersion();
+
+    if (version_compare($version, '11.5.0', '>=')) {
         $GLOBALS['TCA'][$table]['columns']['syscat'] = [
             'config' => [
                 'type' => 'category'

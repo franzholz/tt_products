@@ -461,7 +461,6 @@ abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\Single
 				}
 			} else {
 				if (
-					is_array($tableConf['special.']) &&
 					isset($tableConf['special.']['all']) &&
 					$startCat == $tableConf['special.']['all']
 				) {
@@ -470,8 +469,6 @@ abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\Single
 
 				$where_clause = '';
 				if (
-					is_array($tableConf['filter.']) &&
-					is_array($tableConf['filter.']['where.']) &&
 					isset($tableConf['filter.']['where.']['field.']) &&
 					is_array($tableConf['filter.']['where.']['field.'])
 				) {
@@ -504,8 +501,7 @@ abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\Single
 				}
 
 				if (
-					is_array($tableConf['filter.']) &&
-					is_array($tableConf['filter.']['param.']) &&
+					isset($tableConf['filter.']['param.']['cat']) &&
 					$tableConf['filter.']['param.']['cat'] == 'gp'
 				) {
 					$bUseFilter = true;
@@ -638,12 +634,16 @@ abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\Single
 					$excludeCat = 0;
 				}
 
-				if (is_array($relatedArray)) {
+				if (!empty($relatedArray)) {
  					$excludeCat = 0;
 					$categoryTable->translateByFields($relatedArray, $theCode);
  				}
 
-				if (is_array($tableConf['special.']) && strlen($tableConf['special.']['no'])) {
+				if (
+                    isset($tableConf['special.']) &&
+                    is_array($tableConf['special.']) && 
+                    strlen($tableConf['special.']['no'])
+                ) {
 					$excludeCat = $tableConf['special.']['no'];
 				}
 			} // if ($pageAsCategory && $functablename == 'pages')

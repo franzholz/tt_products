@@ -86,6 +86,7 @@ call_user_func(function () {
     }
 
     if (
+        defined ('TYPO3_MODE') &&
         TYPO3_MODE == 'FE' && \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded(TAXAJAX_EXT)
     ) {
         $GLOBALS['TYPO3_CONF_VARS']['FE']['taxajax_include'][TT_PRODUCTS_EXT] =  \JambageCom\TtProducts\Controller\TaxajaxController::class . '::processRequest';
@@ -149,7 +150,10 @@ call_user_func(function () {
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addUserTSConfig('options.saveDocNew.tt_products_articles=1');
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addUserTSConfig('options.saveDocNew.tt_products_articles_language=1');
 
-    if (TYPO3_MODE == 'BE') {
+    if (
+        defined ('TYPO3_MODE') &&
+        TYPO3_MODE == 'BE'
+    ) {
         // replace the output of the former CODE field with the flexform
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['list_type_Info'][5][] = 'JambageCom\\TtProducts\\Hooks\\CmsBackend->pmDrawItem';
 
@@ -158,14 +162,19 @@ call_user_func(function () {
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['list_type_Info'][$listType][] = 'JambageCom\\TtProducts\\Hooks\\CmsBackend->pmDrawItem';
     }
 
-    if (TYPO3_MODE == 'BE' && \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('searchbox')) {
+    if (
+        defined ('TYPO3_MODE') &&
+        TYPO3_MODE == 'BE' &&
+        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('searchbox')) {
 
         $listType = TT_PRODUCTS_EXT . '_pi_search';
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['list_type_Info'][$listType][] = 'JambageCom\\TtProducts\\Hooks\\CmsBackend->pmDrawItem';
     }
 
-    if (TYPO3_MODE == 'FE') { // hooks for FE extensions
-
+    if (
+        defined ('TYPO3_MODE') &&
+        TYPO3_MODE == 'FE'
+    ) { // hooks for FE extensions
         $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['felogin']['login_confirmed'][TT_PRODUCTS_EXT] = 'JambageCom\\TtProducts\\Hooks\\FrontendProcessor->loginConfirmed';
 
         if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('patch10011')) {
@@ -213,8 +222,10 @@ call_user_func(function () {
 
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['addressTable'] = $addressTable;
 
-    if (TYPO3_MODE == 'BE' && \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('db_list')) {
-
+    if (
+        defined ('TYPO3_MODE') &&
+        TYPO3_MODE == 'BE' && \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('db_list')
+    ) {
         /** @var \TYPO3\CMS\Extbase\SignalSlot\Dispatcher $signalSlotDispatcher */
         $signalSlotDispatcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('\\TYPO3\\CMS\\Extbase\\SignalSlot\\Dispatcher');
         $signalSlotDispatcher->connect(
@@ -227,6 +238,7 @@ call_user_func(function () {
     }
 
     if (
+        defined ('TYPO3_MODE') &&
         TYPO3_MODE == 'BE'
     ) {
         $pageType = 'ttproducts'; // a maximum of 10 characters

@@ -54,7 +54,10 @@ class tx_ttproducts_voucher extends tx_ttproducts_table_base {
 	 */
 	public function init ($functablename) {
 
-		$result = parent::init($functablename);
+        $result = false;
+        if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('voucher')) {
+            $result = parent::init($functablename);
+        }
 
 		if ($result) {
 			$usedVoucherCodeArray = tx_ttproducts_control_session::readSession('vo');

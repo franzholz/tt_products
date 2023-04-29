@@ -275,7 +275,7 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
 							$code .= 'c[' . $fnr . '][' . $k . '][0] = "' . $this->jsspecialchars($row['title']) . '"; ' ;
 							$parentField = $parentFieldArray[$fnr];
 							$code .= 'c[' . $fnr . '][' . $k . '][1] = "' . intval($row[$parentField]) . '"; ' ;
-							$child_category = $row['child_category'];
+							$child_category = $row['child_category'] ?? 0;
 							if (is_array($child_category)) {
 								$code .= 'c[' . $fnr . '][' . $k . '][2] = new Array(' . count($child_category) . ');';
 								$count = 0;

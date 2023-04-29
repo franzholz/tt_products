@@ -243,7 +243,7 @@ class tx_ttproducts_selectcat_view extends tx_ttproducts_catlist_view_base {
 			$wrappedSubpartArray = [];
 			$markerArray =
 				$this->urlObj->addURLMarkers(
-					$conf['PIDlistDisplay'],
+					$conf['PIDlistDisplay'] ?? 0,
 					$markerArray
 				);
 			$this->urlObj->getWrappedSubpartArray($wrappedSubpartArray);

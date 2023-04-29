@@ -75,8 +75,10 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 		}
 		$controlCreatorObj = GeneralUtility::makeInstance('tx_ttproducts_control_creator');
 
-        if (TYPO3_MODE == 'FE') {
-
+        if (
+            defined ('TYPO3_MODE') &&
+            TYPO3_MODE == 'FE'
+        ) {
             \tx_ttproducts_control_basket::storeNewRecs($conf['transmissionSecurity']);
             $recs = tx_ttproducts_control_basket::getStoredRecs();
         }

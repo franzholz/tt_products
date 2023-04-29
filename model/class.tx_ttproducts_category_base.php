@@ -261,24 +261,24 @@ abstract class tx_ttproducts_category_base extends tx_ttproducts_table_base {
 		return $rootArray;
 	}
 
-	public function &getRootpathArray (&$relationArray, $rootCat, $currentCat) {
+	public function getRootpathArray (&$relationArray, $rootCat, $currentCat) {
 		$rootpathArray = [];
 		$rootCatArray = GeneralUtility::trimExplode(',', $rootCat);
 		$uid = $currentCat;
-		if (isset($uid)) {
+		if (!empty($uid)) {
 			$count = 0;
 			do {
 				$count++;
-				$row = $relationArray[$uid];
+				$row = $relationArray[$uid] ?? [];
 				if ($row) {
 					$rootpathArray[] = $row;
 					$lastUid = $uid;
-					$uid = $row['parent_category'];
+					$uid = $row['parent_category'] ?? '';
 				}
 			} while (
 				$row &&
 				!in_array($lastUid,$rootCatArray) &&
-				isset($uid) &&
+				!empty($uid) &&
 				$count < 199
 			);
 		}
