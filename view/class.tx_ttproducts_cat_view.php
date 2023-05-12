@@ -123,9 +123,9 @@ class tx_ttproducts_cat_view implements \TYPO3\CMS\Core\SingletonInterface {
 			$pageObj = $tablesObj->get('pages');
 
 			if ($this->config['displayCurrentRecord']) {
-				$subPartMarker = '###' . $tableViewObj->marker . '_SINGLE_DISPLAY_RECORDINSERT###';
+				$subPartMarker = '###' . $tableViewObj->getMarker() . '_SINGLE_DISPLAY_RECORDINSERT###';
 			} else {
-				$subPartMarker = '###' . $tableViewObj->marker . '_SINGLE_DISPLAY###';
+				$subPartMarker = '###' . $tableViewObj->getMarker() . '_SINGLE_DISPLAY###';
 			}
 
 			// Add the template suffix
@@ -156,7 +156,7 @@ class tx_ttproducts_cat_view implements \TYPO3\CMS\Core\SingletonInterface {
 				$tableObj->getTableObj()->tableFieldArray,
 				$tableObj->getTableObj()->requiredFieldArray,
 				$markerFieldArray,
-				$tableViewObj->marker,
+				$tableViewObj->getMarker(),
 				$viewTagArray,
 				$parentArray
 			);

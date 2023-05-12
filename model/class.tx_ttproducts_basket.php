@@ -151,7 +151,7 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 		$newGiftData = GeneralUtility::_GP('ttp_gift');
 		$extVars = $piVars['variants'] ?? '';
 		$extVars = ($extVars ? $extVars : GeneralUtility::_GP('ttp_extvars'));
-		$paramProduct = strtolower($viewTableObj->marker);
+		$paramProduct = strtolower($viewTableObj->getMarker());
 		$uid = $piVars[$paramProduct] ?? '';
 		$uid = ($uid ? $uid : GeneralUtility::_GP('tt_products'));
 		$sameGiftData = true;

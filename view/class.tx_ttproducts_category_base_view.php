@@ -62,7 +62,7 @@ abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base
 		$conf = $cnfObj->getConf();
 
 		$title = $cObj->cObjGetSingle($conf['categoryHeader'] ?? '', $conf['categoryHeader.'] ?? '', 'categoryHeader');
-		$markerArray['###' . $prefix . $this->marker . '_TITLE###'] = $title;
+		$markerArray['###' . $prefix . $this->getMarker() . '_TITLE###'] = $title;
 	}
 
 
@@ -70,7 +70,7 @@ abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base
 		$markerArray,
 		$prefix = ''
 	) {
-		$markerKey = '###' . $prefix . $this->marker . '_TITLE###';
+		$markerKey = '###' . $prefix . $this->getMarker() . '_TITLE###';
 		$result = $markerArray[$markerKey];
 		return $result;
 	}

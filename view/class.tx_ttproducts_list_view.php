@@ -1249,7 +1249,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 						$tablesObj->get('address')->getTableObj()->tableFieldArray,
 						$tablesObj->get('address')->getTableObj()->requiredFieldArray,
 						$markerFieldArray,
-						$tablesObj->get('tt_products')->marker,
+						$tablesObj->get('tt_products', true)->getMarker(),
 						$headerViewTagArray[$headerFieldIndex],
 						$headerParentArray[$headerFieldIndex]
 					);
@@ -1408,7 +1408,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 					$itemTable->getTableObj()->tableFieldArray,
 					$itemTable->getTableObj()->requiredFieldArray,
 					$markerFieldArray,
-					$itemTable->marker,
+					$itemTableView->getMarker(),
 					$viewTagArray,
 					$parentArray
 				);
@@ -1425,7 +1425,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 						$itemTable->getTableObj()->tableFieldArray,
 						$itemTable->getTableObj()->requiredFieldArray,
 						$productMarkerFieldArray,
-						$articleViewObj->marker,
+						$articleViewObj->getMarker(),
 						$articleViewTagArray,
 						$articleParentArray
 					);
@@ -1445,7 +1445,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 						$tablesObj->get('tt_products')->getTableObj()->tableFieldArray,
 						$tablesObj->get('tt_products')->getTableObj()->requiredFieldArray,
 						$markerFieldArray,
-						$tablesObj->get('tt_products')->marker,
+						$tablesObj->get('tt_products', true)->getMarker(),
 						$viewProductsTagArray,
 						$productsParentArray
 					);
@@ -2925,14 +2925,14 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
                         if (!isset($itemTableConf['field.']['note.'])) {
 
                             if (
-                                isset($markerArray['###' . $itemTableView->marker . '_NOTE###']) &&
-                                strlen($markerArray['###' . $itemTableView->marker . '_NOTE###']) > $conf['max_note_length']) {
-                                $markerArray['###' . $itemTableView->marker . '_NOTE###'] = substr(strip_tags($markerArray['###' . $itemTableView->marker . '_NOTE###']), 0, $conf['max_note_length']) . '...';
+                                isset($markerArray['###' . $itemTableView->getMarker() . '_NOTE###']) &&
+                                strlen($markerArray['###' . $itemTableView->getMarker() . '_NOTE###']) > $conf['max_note_length']) {
+                                $markerArray['###' . $itemTableView->getMarker() . '_NOTE###'] = substr(strip_tags($markerArray['###' . $itemTableView->getMarker() . '_NOTE###']), 0, $conf['max_note_length']) . '...';
                             }
                             if (
-                                isset($markerArray['###' . $itemTableView->marker . '_NOTE2###']) &&
-                                strlen($markerArray['###' . $itemTableView->marker . '_NOTE2###']) > $conf['max_note_length']) {
-                                $markerArray['###' . $itemTableView->marker . '_NOTE2###'] = substr(strip_tags($markerArray['###' . $itemTableView->marker . '_NOTE2###']), 0, $conf['max_note_length']) . '...';
+                                isset($markerArray['###' . $itemTableView->getMarker() . '_NOTE2###']) &&
+                                strlen($markerArray['###' . $itemTableView->getMarker() . '_NOTE2###']) > $conf['max_note_length']) {
+                                $markerArray['###' . $itemTableView->getMarker() . '_NOTE2###'] = substr(strip_tags($markerArray['###' . $itemTableView->getMarker() . '_NOTE2###']), 0, $conf['max_note_length']) . '...';
                             }
                         }
 
@@ -3288,10 +3288,10 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 			$articleParentArray = [];
 			$articleViewObj = $tablesObj->get('tt_products_articles', true);
 
-			$searchString = '###' . $articleViewObj->marker . '_';
+			$searchString = '###' . $articleViewObj->getMarker() . '_';
 			if (strpos($t['item'], $searchString) > 0) {
 				$error_code[0] = 'article_markers_unsubstituted';
-				$error_code[1] = '###' . $articleViewObj->marker . '_...###';
+				$error_code[1] = '###' . $articleViewObj->getMarker() . '_...###';
 				$error_code[2] = $useArticles;
 			}
 		}
