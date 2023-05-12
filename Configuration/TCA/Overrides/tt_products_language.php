@@ -7,6 +7,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 call_user_func(function () {
     $table = 'tt_products_language';
     $configuration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\JambageCom\TtProducts\Domain\Model\Dto\EmConfiguration::class);
+    $languageSubpath = '/Resources/Private/Language/';
 
     $orderBySortingTablesArray = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['orderBySortingTables']);
     if (
@@ -19,7 +20,7 @@ call_user_func(function () {
     if (
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('filelist')
     ) {
-        $palleteAddition = ',--palette--;LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:sys_file_reference.shopAttributes;tt_productsPalette';
+        $palleteAddition = ',--palette--;LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:sys_file_reference.shopAttributes;tt_productsPalette';
 
         $GLOBALS['TCA'][$table]['columns']['image_uid'] = [
             'exclude' => 1,
@@ -50,7 +51,7 @@ call_user_func(function () {
 
         $GLOBALS['TCA'][$table]['columns']['smallimage_uid'] = [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.smallimage',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products.smallimage',
             'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
                 'smallimage_uid',
                 [

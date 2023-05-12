@@ -96,7 +96,8 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 		$config['templateSuffix'] = ($config['templateSuffix'] ? '_'.$config['templateSuffix'] : '');
 
         $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
-		$languageObj->loadLocalLang( 'EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'PiSearch/locallang.xlf');
+        $languageSubpath = '/Resources/Private/Language/';
+		$languageObj->loadLocalLang( 'EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'PiSearch/locallang.xlf');
 		$markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
 		$markerObj->init(
             $conf,
@@ -211,13 +212,14 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 					);
 				break;
 				case 'FIELD':
+                    $tmp = [];
 					$contentTmp = $searchViewObj->printKeyField(
 						$pibaseObj,
 						$theTemplateCode,
 						$this->config['columns'],
 						2,
 						'field' . $this->cObj->data['uid'],
-						$tmp = [],
+						$tmp,
 						$error_code
 					);
 				break;

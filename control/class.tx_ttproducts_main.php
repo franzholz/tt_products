@@ -132,9 +132,6 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 		}
 		$this->pibaseClass = $pibaseClass;
         $conf['code'] = $conf['code'] ?? '';
-        debug ('B');
-        debug ($conf['code'], 'init $conf[\'code\']');
-        debug ('E');
         $conf['code.'] = $conf['code.'] ?? [];
 
 		$config['code'] =
@@ -232,8 +229,6 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 
 		// ### central initialization ###
 		if (!$bRunAjax) {
-		debug ('B');
-        debug ($conf['pid_list'], 'init $conf[\'pid_list\']');
 			$db = GeneralUtility::makeInstance('tx_ttproducts_db');
 			$result =
 				$db->init(
@@ -243,7 +238,6 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 					$pibaseObj,
 					$errorCode
 				); // this initializes tx_ttproducts_config inside of creator class tx_ttproducts_model_creator
-        debug ('E');
 		}
 
 		if (!$result) {
@@ -392,7 +386,6 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 		$basketExt = tx_ttproducts_control_basket::getBasketExt();
 		$basketExtra = tx_ttproducts_control_basket::getBasketExtra();
 		$basketRecs = tx_ttproducts_control_basket::getRecs();
-debug ('B');
         $basketObj->create(
 			'BASKET',
 			$basketExt,
@@ -402,7 +395,6 @@ debug ('B');
 			$conf['priceTAXnotVarying'],
 			tx_ttproducts_control_basket::getFuncTablename()
 		);
-debug ('E');
 
 		$itemArray = $basketObj->getItemArray();
 		$basketObj->calculate($itemArray); // get the calculated arrays
@@ -576,7 +568,6 @@ debug ('E');
 				case 'LISTVIEWEDITEMS':
 				case 'LISTVIEWEDMOST':
 				case 'LISTVIEWEDMOSTOTHERS':
-			debug ('B');
 					if (
 						count($this->tt_product_single) &&
 						!$conf['NoSingleViewOnList']
@@ -596,7 +587,6 @@ debug ('E');
 							$errorMessage,
 							$errorCode
 						);
-			debug ('E');
 				break;
 				case 'LISTCAT':
 				case 'LISTDAMCAT':

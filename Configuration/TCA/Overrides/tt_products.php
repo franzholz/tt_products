@@ -9,6 +9,8 @@ call_user_func(function () {
     $configuration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\JambageCom\TtProducts\Domain\Model\Dto\EmConfiguration::class);
     $whereTaxCategory = '';
     $bSelectTaxMode = false;
+    $extensionKeyStaticTaxes = 'static_info_tables_taxes';
+    $languageSubpath = '/Resources/Private/Language/';
 
     $taxArray = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['tax'];
     $taxFields = '';
@@ -22,14 +24,13 @@ call_user_func(function () {
     }
 
     if (
-        defined('STATIC_INFO_TABLES_TAXES_EXT') &&
         (
             \TYPO3\CMS\Core\Utility\GeneralUtility::inList($taxFields, 'tax_id') ||
             \TYPO3\CMS\Core\Utility\GeneralUtility::inList($taxFields, 'taxcat_id')
         ) &&
-        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded(STATIC_INFO_TABLES_TAXES_EXT)
+        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($extensionKeyStaticTaxes)
     ) {
-        $eInfo = \JambageCom\Div2007\Utility\ExtensionUtility::getExtensionInfo(STATIC_INFO_TABLES_TAXES_EXT);
+        $eInfo = \JambageCom\Div2007\Utility\ExtensionUtility::getExtensionInfo($extensionKeyStaticTaxes);
 
         if (is_array($eInfo)) {
             $sittVersion = $eInfo['version'];
@@ -50,7 +51,7 @@ call_user_func(function () {
         if (\TYPO3\CMS\Core\Utility\GeneralUtility::inList($taxFields, 'taxcat_id')) {
             $temporaryColumns['taxcat_id'] = [
                 'exclude' => '0',
-                'label' => 'LLL:EXT:' . STATIC_INFO_TABLES_TAXES_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:static_tax_categories',
+                'label' => 'LLL:EXT:' . $extensionKeyStaticTaxes . $languageSubpath . 'locallang_db.xlf:static_tax_categories',
                 'config' => [
                     'size' => 30,
                     'minitems' => 0,
@@ -80,17 +81,17 @@ call_user_func(function () {
         if (\TYPO3\CMS\Core\Utility\GeneralUtility::inList($taxFields, 'tax_id')) {
             $temporaryColumns['tax_id'] = [
                 'exclude' => 0,
-                'label' => 'LLL:EXT:' . STATIC_INFO_TABLES_TAXES_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:static_taxes.tx_rate_id',
+                'label' => 'LLL:EXT:' . $extensionKeyStaticTaxes . $languageSubpath . 'locallang_db.xlf:static_taxes.tx_rate_id',
                 'config' => [
                     'type' => 'select',
                     'renderType' => 'selectSingle',
                     'items' => [
-                        ['LLL:EXT:' . STATIC_INFO_TABLES_TAXES_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:static_taxes.tx_rate_id.I.0', '0'],
-                        ['LLL:EXT:' . STATIC_INFO_TABLES_TAXES_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:static_taxes.tx_rate_id.I.1', '1'],
-                        ['LLL:EXT:' . STATIC_INFO_TABLES_TAXES_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:static_taxes.tx_rate_id.I.2', '2'],
-                        ['LLL:EXT:' . STATIC_INFO_TABLES_TAXES_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:static_taxes.tx_rate_id.I.3', '3'],
-                        ['LLL:EXT:' . STATIC_INFO_TABLES_TAXES_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:static_taxes.tx_rate_id.I.4', '4'],
-                        ['LLL:EXT:' . STATIC_INFO_TABLES_TAXES_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:static_taxes.tx_rate_id.I.5', '5'],
+                        ['LLL:EXT:' . $extensionKeyStaticTaxes . $languageSubpath . 'locallang_db.xlf:static_taxes.tx_rate_id.I.0', '0'],
+                        ['LLL:EXT:' . $extensionKeyStaticTaxes . $languageSubpath . 'locallang_db.xlf:static_taxes.tx_rate_id.I.1', '1'],
+                        ['LLL:EXT:' . $extensionKeyStaticTaxes . $languageSubpath . 'locallang_db.xlf:static_taxes.tx_rate_id.I.2', '2'],
+                        ['LLL:EXT:' . $extensionKeyStaticTaxes . $languageSubpath . 'locallang_db.xlf:static_taxes.tx_rate_id.I.3', '3'],
+                        ['LLL:EXT:' . $extensionKeyStaticTaxes . $languageSubpath . 'locallang_db.xlf:static_taxes.tx_rate_id.I.4', '4'],
+                        ['LLL:EXT:' . $extensionKeyStaticTaxes . $languageSubpath . 'locallang_db.xlf:static_taxes.tx_rate_id.I.5', '5'],
                     ],
                     'default' => 0
                 ]
@@ -128,7 +129,7 @@ call_user_func(function () {
         case '1':
             $GLOBALS['TCA'][$table]['columns']['article_uid'] = [
                 'exclude' => 1,
-                'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.article_uid',
+                'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products.article_uid',
                 'config' => [
                     'type' => 'group',
                     'internal_type' => 'db',
@@ -188,7 +189,7 @@ call_user_func(function () {
             [
                 // Set a custom label
                 'label' =>
-                    'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.syscat',
+                    'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products.syscat',
                 // This field can be an exclude-field
                 'exclude' => 1,
                 // Override generic configuration, e.g. sort by title rather than by sorting
@@ -203,7 +204,7 @@ call_user_func(function () {
         );
     }
 
-    $palleteAddition = ',--palette--;LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:sys_file_reference.shopAttributes;tt_productsPalette';
+    $palleteAddition = ',--palette--;LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:sys_file_reference.shopAttributes;tt_productsPalette';
     // TODO.
     $palleteAddition = '';
 

@@ -100,8 +100,9 @@ class MoveItemsWizardModuleFunctionController {
         $languageFile = 'EXT:' . TT_PRODUCTS_EXT . '/Resources/Private/Language/Modfunc/locallang_modfunc1.xlf';
         $this->getLanguageService()->includeLLFile($languageFile);
         $assigns['LLPrefix'] = 'LLL:' . $languageFile . ':';
+        $languageSubpath = '/Resources/Private/Language/';
 
-        $languageFile = 'EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf';
+        $languageFile = 'EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf';
         $this->getLanguageService()->includeLLFile($languageFile);
 
         $execute = GeneralUtility::_GP('execute');

@@ -1,13 +1,14 @@
 <?php
 defined('TYPO3') || die('Access denied.');
 
+$languageSubpath = '/Resources/Private/Language/';
 
 // ******************************************************************
 // order to products table, sys_products_orders_mm_tt_products
 // ******************************************************************
 $result = [
     'ctrl' => [
-        'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:sys_products_orders_mm_tt_products',
+        'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:sys_products_orders_mm_tt_products',
         'label' => 'title',
         'tstamp' => 'tstamp',
         'delete' => 'deleted',
@@ -29,7 +30,7 @@ $result = [
             'default' => 0
         ],
         'uid_local' => [
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:sys_products_orders_mm_tt_products.uid_local',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:sys_products_orders_mm_tt_products.uid_local',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
@@ -39,7 +40,7 @@ $result = [
             ]
         ],
         'uid_foreign' => [
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:sys_products_orders_mm_tt_products.uid_foreign',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:sys_products_orders_mm_tt_products.uid_foreign',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',

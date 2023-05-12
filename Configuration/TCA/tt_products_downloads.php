@@ -5,9 +5,11 @@ defined('TYPO3') || die('Access denied.');
 // This is the standard TypoScript products downloads table, tt_products_downloads
 // ******************************************************************
 
+$languageSubpath = '/Resources/Private/Language/';
+
 $result = [
 	'ctrl' => [
-		'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_downloads',
+		'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_downloads',
 		'label' => 'title',
 		'default_sortby' => 'ORDER BY title',
 		'tstamp' => 'tstamp',
@@ -29,7 +31,7 @@ $result = [
 	'columns' => [
 		'tstamp' => [
 			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tstamp',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tstamp',
 			'config' => [
 				'type' => 'input',
 				'size' => '8',
@@ -40,7 +42,7 @@ $result = [
 		],
 		'crdate' => [
 			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:crdate',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:crdate',
 			'config' => [
 				'type' => 'input',
 				'size' => '8',
@@ -131,7 +133,7 @@ $result = [
 		],
         'slug' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.slug',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products.slug',
             'config' => [
                 'type' => 'slug',
                 'size' => 50,
@@ -149,7 +151,7 @@ $result = [
         ],
 		'author' => [
 			'exclude' => 0,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_downloads.author',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_downloads.author',
 			'config' => [
 				'type' => 'input',
 				'size' => '40',
@@ -159,13 +161,13 @@ $result = [
 		],
 		'edition' => [
 			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_downloads.edition',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_downloads.edition',
 			'config' => [
 				'type' => 'select',
 				'renderType' => 'selectSingle',
 				'items' => [
-					['LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_downloads.edition.complete', '0'],
-					['LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_downloads.edition.partial', '1'],
+					['LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_downloads.edition.complete', '0'],
+					['LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_downloads.edition.partial', '1'],
 				],
 				'size' => '2',
 				'minitems' => 0,
@@ -175,7 +177,7 @@ $result = [
 		],
 		'marker' => [
 			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_downloads.marker',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_downloads.marker',
 			'config' => [
 				'type' => 'input',
 				'size' => '40',
@@ -185,7 +187,7 @@ $result = [
 		],
 		'note' => [
 			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.note',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products.note',
 			'config' => [
 				'type' => 'text',
 				'cols' => '48',
@@ -195,7 +197,7 @@ $result = [
 		],
 		'path' => [
 			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_downloads.path',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_downloads.path',
 			'config' => [
 				'type' => 'input',
 				'size' => '40',
@@ -205,7 +207,7 @@ $result = [
 		],
 		'price_enable' => [
 			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_downloads.price_enable',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_downloads.price_enable',
 			'config' => [
 				'type' => 'check',
 				'default' => 0
@@ -213,7 +215,7 @@ $result = [
 		],
 		'price' => [
 			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_downloads.price',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_downloads.price',
 			'config' => [
 				'type' => 'input',
 				'size' => '20',
@@ -224,7 +226,7 @@ $result = [
 		],
         'file_uid' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_downloads.file_uid',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_downloads.file_uid',
             'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig('file_uid')
             
         ],

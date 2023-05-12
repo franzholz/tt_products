@@ -37,9 +37,10 @@ call_user_func(function () {
         'sys_products_cards',
         'sys_products_orders'
     ];
+    $languageSubpath = '/Resources/Private/Language/';
 
     foreach ($tables as $table) {
-        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr($table, 'EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'Csh/locallang_csh_' . $table . '.xlf');
+        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr($table, 'EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'Csh/locallang_csh_' . $table . '.xlf');
     }
 
     if (
@@ -52,21 +53,21 @@ call_user_func(function () {
             'web_func',
             \JambageCom\TtProducts\Controller\Module\MoveItemsWizardModuleFunctionController::class,
             null,
-            'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang.xlf:moduleFunction.tx_ttproducts_modfunc1'
+            'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang.xlf:moduleFunction.tx_ttproducts_modfunc1'
         );
 
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::insertModuleFunction(
             'web_func',
             \JambageCom\TtProducts\Controller\Module\CreateLanguagesWizardModuleFunctionController::class,
             null,
-            'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang.xlf:moduleFunction.tx_ttproducts_modfunc2'
+            'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang.xlf:moduleFunction.tx_ttproducts_modfunc2'
         );
 
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::insertModuleFunction(
             'web_func',
             \JambageCom\TtProducts\Controller\Module\ImportFalWizardModuleFunctionController::class,
             null,
-            'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang.xlf:moduleFunction.tx_ttproducts_modfunc3'
+            'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang.xlf:moduleFunction.tx_ttproducts_modfunc3'
         );
     }
 });

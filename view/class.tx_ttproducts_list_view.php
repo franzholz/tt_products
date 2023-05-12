@@ -884,8 +884,6 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 						true
 					);
 			}
-debug ($whereCat, '$whereCat');
-debug ($allowedItems, '$allowedItems');
 
 			if ($whereCat == '' && ($allowedItems == '' || $bForceCatParams)) {
 				$neededParams = $itemTable->getNeededUrlParams($functablename, $theCode);
@@ -940,7 +938,6 @@ debug ($allowedItems, '$allowedItems');
 			}
 			$where .= $searchWhere;
 		}
-debug ($where, '$where');
 
 		switch ($theCode) {
 			case 'LISTAFFORDABLE':
@@ -1276,7 +1273,6 @@ debug ($where, '$where');
 					// Get products count
 				$selectConf = [];
 				$allowedPages = ($pid ? $pid : $this->pidListObj->getPidlist());
-				debug ($allowedPages, '$allowedPages Pos 1');
 
 				if ($additionalPages) {
 					$allowedPages .= ','.$additionalPages;
@@ -1286,7 +1282,6 @@ debug ($where, '$where');
 				if (!empty($allowedPages)) {
 					$selectConf['pidInList'] = $allowedPages;
 				}
-				debug ($allowedPages, '$allowedPages +++');
 
 				if ($allowedItems || $allowedItems == '0') {
 					$allowedItemArray = [];
@@ -1335,7 +1330,9 @@ debug ($where, '$where');
 					}
 				}
 
-				if (isset($sqlTableArray) && is_array($sqlTableArray) && isset($sqlTableArray['from']) && is_array($sqlTableArray['from'])) {
+				if (
+                    isset($sqlTableArray) && is_array($sqlTableArray) && isset($sqlTableArray['from']) && is_array($sqlTableArray['from'])
+                ) {
 					foreach ($sqlTableArray['from'] as $k => $sqlFrom) {
 						if ($sqlFrom != '') {
 							$delimiter = ',';
@@ -1585,6 +1582,7 @@ debug ($where, '$where');
 					$whereMM = '';
 					$productAlias = $itemTable->getAlias();
 					$whereProducts = '';
+
 					switch ($theCode) {
 						case 'LISTAFFORDABLE':
 							if ($feUserId) {
@@ -1675,7 +1673,6 @@ debug ($where, '$where');
 						$selectCountConf,
 						true
 					);
-debug ($queryParts, '$queryParts');
 
 				if (!empty($selectCountConf['groupBy'])) {
 					$queryParts['SELECT'] = 'count(DISTINCT ' . $selectCountConf['groupBy'] . ')';
@@ -1747,7 +1744,6 @@ debug ($queryParts, '$queryParts');
 					$selectConf,
 					true
 				);
-debug ($queryParts, '$queryParts Pos 2 Big select');
 
 				if (!empty($selectConf['groupBy'])) {
 					$queryParts['SELECT'] .= ',count(' . $selectConf['groupBy'] . ') sql_groupby_count';

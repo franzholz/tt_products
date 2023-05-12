@@ -56,13 +56,14 @@ class tx_ttproducts_pi_search {
 
 		$pibaseObj = GeneralUtility::makeInstance('tx_ttproducts_pi_search_base');
 		$pibaseObj->cObj = $this->cObj;
+		$languageSubpath = '/Resources/Private/Language/';
 
 		if (!empty($conf['templateFile'])) {
 
 			$content = $pibaseObj->main($content, $conf);
 		} else {
             $errorText = $GLOBALS['TSFE']->sL(
-                'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'PiSearch/locallang.xlf:no_template'
+                'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'PiSearch/locallang.xlf:no_template'
             );
 
 			$content = str_replace('|', 'plugin.tt_products_pi_search.templateFile', $errorText);

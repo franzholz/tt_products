@@ -4,10 +4,11 @@ defined('TYPO3') || die('Access denied.');
 // ******************************************************************
 // This is the language overlay for  products texts table, tt_products_texts
 // ******************************************************************
+$languageSubpath = '/Resources/Private/Language/';
 
 $result = [
 	'ctrl' => [
-		'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_texts_language',
+		'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_texts_language',
 		'label' => 'title',
 		'tstamp' => 'tstamp',
 		'delete' => 'deleted',
@@ -29,7 +30,7 @@ $result = [
 	'columns' => [
 		'tstamp' => [
 			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tstamp',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tstamp',
 			'config' => [
 				'type' => 'input',
 				'size' => '8',
@@ -40,7 +41,7 @@ $result = [
 		],
 		'crdate' => [
 			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:crdate',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:crdate',
 			'config' => [
 				'type' => 'input',
 				'size' => '8',
@@ -138,7 +139,7 @@ $result = [
 			'l10n_mode' => 'prefixLangTitle',
 		],
 		'note' => [
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.note',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products.note',
 			'config' => [
 				'type' => 'text',
 				'cols' => '48',
@@ -149,7 +150,7 @@ $result = [
 		],
 		'text_uid' => [
 			'exclude' => 0,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_texts_language.text_uid',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_texts_language.text_uid',
 			'config' => [
 				'type' => 'group',
 				'internal_type' => 'db',

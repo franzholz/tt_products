@@ -1415,8 +1415,6 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 		$calculObj->setBaseCalculatedArray($calculatedArray);
 
 		$uidArr = [];
-		debug ($uidArr, '$uidArr');
-		debug ($basketExt, '$basketExt');
 
 		foreach($basketExt as $uidTmp => $v) {
 
