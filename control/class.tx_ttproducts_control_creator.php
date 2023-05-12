@@ -41,6 +41,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
 
+
+
 class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterface {
 
 	public function init (
@@ -75,8 +77,6 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
 			}
 		}
 
-            debug ($conf['pid_list'], 'init $conf[\'pid_list\']');
-
         if (
             !isset($conf['pid_list']) ||
             $conf['pid_list'] == '{$plugin.tt_products.pid_list}'
@@ -94,17 +94,9 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
 		}
 
 		$tmp = $cObj->stdWrap($conf['pid_list'] ?? '', $conf['pid_list.'] ?? '');
-		debug ($tmp, 'creator::init $tmp');
-		
-if (isset($cObj->data['pages'])) debug($cObj->data['pages'], '$cObj->data[\'pages\']');
-if (isset($conf['pid_list.'])) debug ($conf['pid_list.'], '$conf[\'pid_list.\']');
-
 		$pid_list = (!empty($cObj->data['pages']) ? $cObj->data['pages'] : (!empty($conf['pid_list.']) ? trim($tmp) : ''));
-		debug ($pid_list, 'creator::init $pid_list Pos 1');
 		$pid_list = ($pid_list ? $pid_list : $conf['pid_list'] ?? '');
-		debug ($pid_list, '$pid_list Pos 2');
 		$config['pid_list'] = (isset($pid_list) ? $pid_list : $config['storeRootPid'] ?? 0);
-		debug ($config['pid_list'], '$config[\'pid_list\'] Pos 3');
 
 		$recursive = (!empty($cObj->data['recursive']) ? $cObj->data['recursive'] : $conf['recursive'] ?? 99);
 		$config['recursive'] = MathUtility::forceIntegerInRange($recursive, 0, 100);
@@ -226,6 +218,8 @@ if (isset($conf['pid_list.'])) debug ($conf['pid_list.'], '$conf[\'pid_list.\']'
     static public function getLanguageObj ($pLangObj, $cObj, $conf) {
 
         $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
+        $languageSubpath = '/Resources/Private/Language/';
+
         $confLocalLang = [];
         if (isset($conf['_LOCAL_LANG.'])) {
             $confLocalLang = $conf['_LOCAL_LANG.'];
@@ -236,19 +230,19 @@ if (isset($conf['pid_list.'])) debug ($conf['pid_list.'], '$conf[\'pid_list.\']'
         $languageObj->init(
             TT_PRODUCTS_EXT,
             $confLocalLang,
-            DIV2007_LANGUAGE_SUBPATH
+            $languageSubpath
         );
 
         $languageObj->loadLocalLang(
-            'EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf',
+            'EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf',
             false
         );
         $languageObj->loadLocalLang(
-            'EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'PiSearch/locallang_db.xlf',
+            'EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'PiSearch/locallang_db.xlf',
             false
         );
         $languageObj->loadLocalLang(
-            'EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'Pi1/locallang.xlf',
+            'EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'Pi1/locallang.xlf',
             false
         );
 

@@ -10,9 +10,11 @@ if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['sepa']) {
 // ******************************************************************
 // These are the bank account data used for orders
 // ******************************************************************
+$languageSubpath = '/Resources/Private/Language/';
+
 $result = [
     'ctrl' => [
-        'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:sys_products_accounts',
+        'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:sys_products_accounts',
         'label' => $accountField,
         'label_userFunc' => 'tx_ttproducts_table_label->getLabel',
         'default_sortby' => 'ORDER BY ' . $accountField,
@@ -25,7 +27,7 @@ $result = [
     'columns' => [
         'iban' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:sys_products_accounts.iban',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:sys_products_accounts.iban',
             'config' => [
                 'type' => 'input',
                 'size' => '24',
@@ -36,7 +38,7 @@ $result = [
         ],
         'ac_number' => [
             'exclude' => 0,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:sys_products_accounts.ac_number',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:sys_products_accounts.ac_number',
             'config' => [
                 'type' => 'input',
                 'size' => '40',
@@ -57,7 +59,7 @@ $result = [
         ],
         'bic' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:sys_products_accounts.bic',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:sys_products_accounts.bic',
             'config' => [
                 'type' => 'input',
                 'size' => '11',
@@ -74,8 +76,6 @@ $result = [
         '1' => ['showitem' => '']
     ]
 ];
-
-
 
 return $result;
 

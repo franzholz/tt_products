@@ -4,6 +4,7 @@ defined('TYPO3') || die('Access denied.');
 call_user_func(function () {
     $table = 'tt_products_articles';
     $configuration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\JambageCom\TtProducts\Domain\Model\Dto\EmConfiguration::class);
+    $languageSubpath = '/Resources/Private/Language/';
 
     $fieldArray = ['tstamp', 'crdate', 'starttime', 'endtime'];
 
@@ -16,7 +17,7 @@ call_user_func(function () {
         case '0':
             $GLOBALS['TCA'][$table]['columns']['uid_product'] = [
                 'exclude' => 1,
-                'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_articles.uid_product',
+                'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_articles.uid_product',
                 'config' => [
                     'type' => 'group',
                     'internal_type' => 'db',
@@ -75,7 +76,7 @@ call_user_func(function () {
 
     $GLOBALS['TCA'][$table]['columns']['smallimage_uid'] = [
         'exclude' => 1,
-        'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.smallimage',
+        'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products.smallimage',
         'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
             'smallimage_uid',
             [

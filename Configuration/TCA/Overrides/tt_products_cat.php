@@ -4,6 +4,7 @@ defined('TYPO3') || die('Access denied.');
 call_user_func(function () {
     $table = 'tt_products_cat';
     $configuration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\JambageCom\TtProducts\Domain\Model\Dto\EmConfiguration::class);
+    $languageSubpath = '/Resources/Private/Language/';
 
     $orderBySortingTablesArray = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['orderBySortingTables']);
     if (
@@ -47,7 +48,7 @@ call_user_func(function () {
         if ($field == 'image') {
             $GLOBALS['TCA'][$table]['columns'][$uidField]['label'] = DIV2007_LANGUAGE_LGL . $field;
         } else {
-            $GLOBALS['TCA'][$table]['columns'][$uidField]['label'] = 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_cat.' . $field;
+            $GLOBALS['TCA'][$table]['columns'][$uidField]['label'] = 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_cat.' . $field;
         }
 
         $GLOBALS['TCA'][$table]['ctrl']['thumbnail'] = 'image_uid';    

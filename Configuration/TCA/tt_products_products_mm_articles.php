@@ -2,11 +2,13 @@
 defined('TYPO3') || die('Access denied.');
 
 $result = null;
+$languageSubpath = '/Resources/Private/Language/';
+
 
 if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['articleMode'] >= '1') {
     $result = [
         'ctrl' => [
-            'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_products_mm_articles',
+            'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_products_mm_articles',
             'label' => 'uid_local',
             'tstamp' => 'tstamp',
             'delete' => 'deleted',
@@ -20,7 +22,7 @@ if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['articleMode'] >= '1
         ],
         'columns' => [
             'uid_local' => [
-                'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_products_mm_articles.uid_local',
+                'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_products_mm_articles.uid_local',
                 'config' => [
                     'type' => 'select',
                     'renderType' => 'selectSingle',
@@ -30,7 +32,7 @@ if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['articleMode'] >= '1
                 ]
             ],
             'uid_foreign' => [
-                'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_products_mm_articles.uid_foreign',
+                'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_products_mm_articles.uid_foreign',
                 'config' => [
                     'type' => 'select',
                     'renderType' => 'selectSingle',

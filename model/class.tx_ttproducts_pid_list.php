@@ -58,9 +58,6 @@ class tx_ttproducts_pid_list {
 			$this->recursive = 0;
 		}
 		$this->pid_list = $pid_list;
-		debug ('B');
-		debug ($this->pid_list, 'setPidlist ENDE $this->pid_list');
-		debug ('E');
 	}
 
 
@@ -76,15 +73,12 @@ class tx_ttproducts_pid_list {
 	 * Gets the pid_list internal var or the child pid_list of the page id as parameter
 	 */
 	public function getPidlist ($pid = '') {
-	debug ($pid, 'getPidlist $pid');
 		$rc = '';
 		if ($pid) {
 			$this->applyRecursive(1, $pid, false);
 			$rc = $pid;
-	debug ($rc, 'getPidlist Pos 1');
 		} else {
 			$rc = $this->pid_list;
-	debug ($rc, 'getPidlist Pos 2');
 		}
 		return $rc;
 	}
@@ -127,7 +121,6 @@ class tx_ttproducts_pid_list {
         ) {
             return;
         }
-		debug ($pids, 'applyRecursive $pids');
  
 		$cObj = FrontendUtility::getContentObjectRenderer();
 
@@ -137,18 +130,13 @@ class tx_ttproducts_pid_list {
 
 		if ($pids != '') {
 			$pid_list = &$pids;
-		debug ($pid_list, 'applyRecursive $pid_list Pos 1');
 		} else {
 			$pid_list = $this->pid_list;
-		debug ($pid_list, 'applyRecursive $pid_list Pos 2');
 		}
 
 		if (!$pid_list && !$this->allPages) {
 			$pid_list = $GLOBALS['TSFE']->id ?? 0;
-		debug ($pid_list, 'applyRecursive $pid_list Pos 3');
 		}
-
-        debug ($this->allPages, 'applyRecursive $this->allPages');
 
 		if ($recursive && !$this->allPages) {
 			// get pid-list if recursivity is enabled
@@ -164,7 +152,6 @@ class tx_ttproducts_pid_list {
 					$pidSubArray[] = $pidSub;
 				}
 			}
-        debug ($pidSubArray, 'applyRecursive $pidSubArray');
 
 			$pid_list .= ',' . implode(',', $pidSubArray);
 			$pid_list_arr = explode(',', $pid_list);
@@ -173,12 +160,10 @@ class tx_ttproducts_pid_list {
 			sort($pid_list_arr, SORT_NUMERIC);
 			$pid_list = implode(',', $pid_list_arr);
 			$pid_list = preg_replace('/^,/', '', $pid_list);
-        debug ($pid_list, 'applyRecursive $pid_list Pos 4');
 		}
 
 		if ($bStore) {
 			$this->pid_list = $pid_list;
-		debug ($this->pid_list, 'applyRecursive ENDE $this->pid_list');
 		}
 	}
 }

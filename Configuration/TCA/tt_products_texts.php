@@ -4,9 +4,11 @@ defined('TYPO3') || die('Access denied.');
 	// ******************************************************************
 	// This is the standard TypoScript products texts table, tt_products_texts
 	// ******************************************************************
+$languageSubpath = '/Resources/Private/Language/';
+
 $result = [
 	'ctrl' => [
-		'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_texts',
+		'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_texts',
 		'label' => 'title',
 		'tstamp' => 'tstamp',
 		'delete' => 'deleted',
@@ -27,7 +29,7 @@ $result = [
 	'columns' => [
 		'tstamp' => [
 			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tstamp',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tstamp',
 			'config' => [
 				'type' => 'input',
 				'size' => '8',
@@ -38,7 +40,7 @@ $result = [
 		],
 		'crdate' => [
 			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:crdate',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:crdate',
 			'config' => [
 				'type' => 'input',
 				'size' => '8',
@@ -129,7 +131,7 @@ $result = [
 		],
 		'marker' => [
 			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_texts.marker',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_texts.marker',
 			'config' => [
 				'type' => 'input',
 				'size' => '40',
@@ -140,7 +142,7 @@ $result = [
 		],
 		'note' => [
 			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.note',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products.note',
 			'config' => [
 				'type' => 'text',
 				'cols' => '48',
@@ -150,7 +152,7 @@ $result = [
 		],
 		'parentid' => [
 			'exclude' => 0,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_texts.parentid',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_texts.parentid',
 			'config' => [
 				'type' => 'group',
 				'internal_type' => 'db',
@@ -165,7 +167,7 @@ $result = [
 		],
 		'parenttable' => [
 			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_texts.parenttable',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_texts.parenttable',
 			'config' => [
 				'type' => 'select',
 				'renderType' => 'selectSingle',

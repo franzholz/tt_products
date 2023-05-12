@@ -4,9 +4,12 @@ defined('TYPO3') || die('Access denied.');
 // ******************************************************************
 // graduated price calculation table, tt_products_graduated_price
 // ******************************************************************
+
+$languageSubpath = '/Resources/Private/Language/';
+
 $result = [
     'ctrl' => [
-        'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_graduated_price',
+        'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_graduated_price',
         'label' => 'title',
         'tstamp' => 'tstamp',
         'delete' => 'deleted',
@@ -25,7 +28,7 @@ $result = [
     'columns' => [
         'tstamp' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tstamp',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tstamp',
             'config' => [
                 'type' => 'input',
                 'size' => '8',
@@ -36,7 +39,7 @@ $result = [
         ],
         'crdate' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:crdate',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:crdate',
             'config' => [
                 'type' => 'input',
                 'size' => '8',
@@ -60,7 +63,7 @@ $result = [
         ],
         'starttime' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_graduated_price.starttime',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_graduated_price.starttime',
             'config' => [
                 'type' => 'input',
                 'size' => '8',
@@ -71,7 +74,7 @@ $result = [
         ],
         'endtime' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_graduated_price.endtime',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_graduated_price.endtime',
             'config' => [
                 'type' => 'input',
                 'size' => '8',
@@ -126,7 +129,7 @@ $result = [
         ],
         'formula' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_graduated_price.formula',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_graduated_price.formula',
             'config' => [
                 'type' => 'text',
                 'cols' => '48',
@@ -137,7 +140,7 @@ $result = [
         ],
         'startamount' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_graduated_price.startamount',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_graduated_price.startamount',
             'config' => [
                 'type' => 'input',
                 'size' => '12',

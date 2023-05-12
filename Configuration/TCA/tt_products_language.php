@@ -9,10 +9,11 @@ if (!$imageFolder) {
 // ******************************************************************
 // This is the language overlay for the products table, tt_products
 // ******************************************************************
-$result = [
+$languageSubpath = '/Resources/Private/Language/';
 
+$result = [
 	'ctrl' => [
-		'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_language',
+		'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_language',
 		'label' => 'title',
 		'label_alt' => 'subtitle',
 		'default_sortby' => 'ORDER BY title',
@@ -59,7 +60,7 @@ $result = [
 		],
 		'tstamp' => [
 			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tstamp',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tstamp',
 			'config' => [
 				'type' => 'input',
 				'size' => '8',
@@ -70,7 +71,7 @@ $result = [
 		],
 		'crdate' => [
 			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:crdate',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:crdate',
 			'config' => [
 				'type' => 'input',
 				'size' => '8',
@@ -136,7 +137,7 @@ $result = [
         ],
 		'prod_uid' => [
 			'exclude' => 0,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_language.prod_uid',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_language.prod_uid',
 			'config' => [
 				'type' => 'group',
 				'internal_type' => 'db',
@@ -163,7 +164,7 @@ $result = [
 		],
 		'subtitle' => [
 			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.subtitle',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products.subtitle',
 			'config' => [
 				'type' => 'text',
 				'rows' => '3',
@@ -176,7 +177,7 @@ $result = [
 		],
         'slug' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.slug',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products.slug',
             'config' => [
                 'type' => 'slug',
                 'size' => 50,
@@ -194,7 +195,7 @@ $result = [
         ],
 		'keyword' => [
 			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.keyword',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products.keyword',
 			'config' => [
 				'type' => 'text',
 				'rows' => '5',
@@ -206,7 +207,7 @@ $result = [
 		],
 		'itemnumber' => [
 			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.itemnumber',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products.itemnumber',
 			'config' => [
 				'type' => 'input',
 				'size' => '40',
@@ -216,7 +217,7 @@ $result = [
 			]
 		],
 		'unit' => [
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.unit',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products.unit',
 			'config' => [
 				'type' => 'input',
 				'size' => '20',
@@ -226,7 +227,7 @@ $result = [
 			]
 		],
 		'note' => [
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.note',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products.note',
 			'config' => [
 				'type' => 'text',
 				'cols' => '48',
@@ -236,7 +237,7 @@ $result = [
 			'l10n_mode' => 'prefixLangTitle',
 		],
 		'note2' => [
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.note2',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products.note2',
 			'config' => [
 				'type' => 'text',
 				'cols' => '48',
@@ -247,7 +248,7 @@ $result = [
 		],
 		'datasheet' => [
 			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_language.datasheet',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_language.datasheet',
 			'config' => [
 				'type' => 'group',
 				'internal_type' => 'file',
@@ -293,7 +294,7 @@ $result = [
 		],
 		'smallimage' => [
 			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products.smallimage',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products.smallimage',
 			'config' => [
 				'type' => 'group',
 				'internal_type' => 'file',

@@ -61,6 +61,7 @@ class tx_ttproducts_pi_int implements \TYPO3\CMS\Core\SingletonInterface {
 		$confMain = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
         \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($confMain, $conf);
 		$conf = $confMain;
+		$languageSubpath = '/Resources/Private/Language/';
 
 		if (!empty($conf['templateFile'])) {
 
@@ -68,12 +69,12 @@ class tx_ttproducts_pi_int implements \TYPO3\CMS\Core\SingletonInterface {
         } else {
             if (count($conf) > 2) {
                 $errorText = $GLOBALS['TSFE']->sL(
-                    'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'PiInt/locallang.xlf:no_template'
+                    'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'PiInt/locallang.xlf:no_template'
                 );
                 $content = str_replace('|', 'plugin.tt_products.templateFile', $errorText);
             } else {
                 $errorText = $GLOBALS['TSFE']->sL(
-                    'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'PiInt/locallang.xlf:no_setup'
+                    'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'PiInt/locallang.xlf:no_setup'
                 );
             }
         }

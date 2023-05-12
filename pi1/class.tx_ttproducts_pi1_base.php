@@ -81,8 +81,6 @@ class tx_ttproducts_pi1_base extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin i
 			);
 
 		if ($bDoProcessing || !empty($errorCode)) {
-			tx_ttproducts_control_pibase::init($this);
-
 			$content =
 				$mainObj->run(
 					$this->cObj,

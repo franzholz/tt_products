@@ -1,9 +1,11 @@
 <?php
 defined('TYPO3') || die('Access denied.');
 
+$languageSubpath = '/Resources/Private/Language/';
+
 $result = [
 	'ctrl' => [
-		'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_emails',
+		'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_emails',
 		'label' => 'name',
 		'default_sortby' => 'ORDER BY name',
 		'tstamp' => 'tstamp',
@@ -26,7 +28,7 @@ $result = [
 	'columns' => [
 		'tstamp' => [
 			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tstamp',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tstamp',
 			'config' => [
 				'type' => 'input',
 				'size' => '8',
@@ -37,7 +39,7 @@ $result = [
 		],
 		'crdate' => [
 			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:crdate',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:crdate',
 			'config' => [
 				'type' => 'input',
 				'size' => '8',
@@ -130,7 +132,7 @@ $result = [
 			]
 		],
 		'suffix' => [
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_emails.suffix',
+			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_emails.suffix',
 			'config' => [
 				'type' => 'input',
 				'size' => '24',

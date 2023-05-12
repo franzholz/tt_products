@@ -2,11 +2,13 @@
 defined('TYPO3') || die('Access denied.');
 
 call_user_func(function () {
+    $languageSubpath = '/Resources/Private/Language/';
+
     if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('voucher')) {
 
         $temporaryColumns = [
             'uid_local' => [
-                'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:sys_products_orders_mm_gained_voucher_codes.uid_local',
+                'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:sys_products_orders_mm_gained_voucher_codes.uid_local',
                 'config' => [
                     'type' => 'select',
                     'renderType' => 'selectSingle',
@@ -16,7 +18,7 @@ call_user_func(function () {
                 ]
             ],
             'uid_foreign' => [
-                'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:sys_products_orders_mm_gained_voucher_codes.uid_foreign',
+                'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:sys_products_orders_mm_gained_voucher_codes.uid_foreign',
                 'config' => [
                     'type' => 'select',
                     'renderType' => 'selectSingle',

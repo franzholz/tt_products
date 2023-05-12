@@ -383,7 +383,6 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
 				$viewTagArray,
 				$parentArray
 			);
-debug ($fieldsArray, '$fieldsArray');
 
 			$articleViewTagArray = [];
 			if ($this->type == 'product' && in_array($useArticles, [1, 3])) {

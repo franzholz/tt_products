@@ -2,22 +2,22 @@
 defined('TYPO3') || die('Access denied.');
 
 call_user_func(function () {
-
-
     $tablename = 'static_tax_rates_mm_categories';
+    $extensionKeyStaticTaxes = 'static_info_tables_taxes';
+    $imagePath = 'EXT:' . $extensionKeyStaticTaxes . '/Resources/Public/Icons/';
+    $languageSubpath = '/Resources/Private/Language/';
 
     if (
-        defined('STATIC_INFO_TABLES_TAXES_EXT') &&
-        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded(STATIC_INFO_TABLES_TAXES_EXT)
+        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($extensionKeyStaticTaxes)
     ) {
 
-        $GLOBALS['TCA'][$tablename]['ctrl']['iconfile'] = PATH_BE_STATICINFOTABLESTAXES_REL . 'ext_icon.gif';
+        $GLOBALS['TCA'][$tablename]['ctrl']['iconfile'] = $imagePath . 'Extension.gif';
 
         unset ($GLOBALS['TCA'][$tablename]['columns']['uid_local']);
 
         $temporaryColumns = [
             'uid_local' => [
-                'label' => 'LLL:EXT:' . STATIC_INFO_TABLES_TAXES_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xml:' . $tablename . '.uid_local',
+                'label' => 'LLL:EXT:' . $extensionKeyStaticTaxes . $languageSubpath . 'locallang_db.xlf:' . $tablename . '.uid_local',
                 'config' => [
                     'type' => 'select',
                     'renderType' => 'selectSingle',
@@ -26,7 +26,7 @@ call_user_func(function () {
                 ]
             ],
             'uid_foreign' => [
-                'label' => 'LLL:EXT:' . STATIC_INFO_TABLES_TAXES_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:' . $tablename . '.uid_foreign',
+                'label' => 'LLL:EXT:' . $extensionKeyStaticTaxes . $languageSubpath . 'locallang_db.xlf:' . $tablename . '.uid_foreign',
                 'config' => [
                     'type' => 'select',
                     'renderType' => 'selectMultipleSideBySide',

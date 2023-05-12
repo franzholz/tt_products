@@ -1,12 +1,14 @@
 <?php
 defined('TYPO3') || die('Access denied.');
 
+$languageSubpath = '/Resources/Private/Language/';
+
 // ******************************************************************
 // These are the credit cards data used for orders
 // ******************************************************************
 $result = [
     'ctrl' => [
-        'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:sys_products_cards',
+        'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:sys_products_cards',
         'label' => 'cc_number',
         'default_sortby' => 'ORDER BY cc_number',
         'tstamp' => 'tstamp',
@@ -33,7 +35,7 @@ $result = [
         ],
         'cc_number' => [
             'exclude' => 0,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:sys_products_cards.cc_number',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:sys_products_cards.cc_number',
             'config' => [
                 'type' => 'input',
                 'size' => '40',
@@ -54,15 +56,15 @@ $result = [
         ],
         'cc_type' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:sys_products_cards.cc_type',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:sys_products_cards.cc_type',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'items' => [
-                    ['LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:sys_products_cards.cc_type.I.0', '0'],
-                    ['LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:sys_products_cards.cc_type.I.1', '1'],
-                    ['LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:sys_products_cards.cc_type.I.2', '2'],
-                    ['LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:sys_products_cards.cc_type.I.3', '3'],
+                    ['LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:sys_products_cards.cc_type.I.0', '0'],
+                    ['LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:sys_products_cards.cc_type.I.1', '1'],
+                    ['LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:sys_products_cards.cc_type.I.2', '2'],
+                    ['LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:sys_products_cards.cc_type.I.3', '3'],
                 ],
                 'size' => 1,
                 'maxitems' => 1,
@@ -71,7 +73,7 @@ $result = [
         ],
         'cvv2' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:sys_products_cards.cvv2',
+            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:sys_products_cards.cvv2',
             'config' => [
                 'type' => 'input',
                 'size' => '4',
