@@ -289,7 +289,7 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base {
 				$catTableObj->getTableObj()->tableFieldArray,
 				$catTableObj->getTableObj()->requiredFieldArray,
 				$tmp,
-				$catTableObj->marker,
+				$catView->getMarker(),
 				$viewCatTagArray,
 				$parentArray
 			);

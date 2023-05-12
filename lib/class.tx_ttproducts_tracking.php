@@ -487,7 +487,7 @@ class tx_ttproducts_tracking implements \TYPO3\CMS\Core\SingletonInterface {
 			$orderObj->getTableObj()->tableFieldArray,
 			$orderObj->getTableObj()->requiredFieldArray,
 			$markerFieldArray,
-			$orderObj->marker,
+			$orderView->getMarker(),
 			$viewTagArray,
 			$parentArray
 		);

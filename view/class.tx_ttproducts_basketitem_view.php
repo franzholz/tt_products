@@ -523,9 +523,9 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
 					$markerArray['###FIELD_' . $fieldMarker . '_VALUE###'] = $row[$field] ?? '';
 					$markerArray['###FIELD_' . $fieldMarker . '_ONCHANGE'] = ''; // TODO:  use $forminfoArray['###FORM_NAME###' in something like onChange="Go(this.form.Auswahl.options[this.form.Auswahl.options.selectedIndex].value)"
 
-					$markerKey = '###' . $viewTable->marker . '_' . $fieldMarker . '###';
+					$markerKey = '###' . $viewTable->getMarker() . '_' . $fieldMarker . '###';
 					$markerArray[$markerKey] = $text;
-					$markerKey = '###' . $viewTable->marker . '_' . $fieldMarker . '_FUNCTION1###';
+					$markerKey = '###' . $viewTable->getMarker() . '_' . $fieldMarker . '_FUNCTION1###';
 
 					$markerArray[$markerKey] = tx_ttproducts_control_basket::getAjaxVariantFunction($row, $productFuncTablename, $theCode);
 				}

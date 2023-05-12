@@ -385,7 +385,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 			$orderAddressObj->getTableObj()->tableFieldArray,
 			$orderAddressObj->getTableObj()->requiredFieldArray,
 			$tmp,
-			$orderAddressViewObj->marker,
+			$orderAddressViewObj->getMarker(),
 			$feUsersViewTagArray,
 			$feUsersParentArray
 		);
@@ -491,7 +491,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 				$itemTable->getTableObj()->tableFieldArray,
 				$itemTable->getTableObj()->requiredFieldArray,
 				$markerFieldArray,
-				$itemTable->marker,
+				$itemTableView->getMarker(),
 				$viewTagArray,
 				$parentArray
 			);
@@ -519,7 +519,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 					$itemTable->getTableObj()->tableFieldArray,
 					$itemTable->getTableObj()->requiredFieldArray,
 					$markerFieldArray,
-					$articleTable->marker,
+					$articleViewObj->getMarker(),
 					$articleViewTagArray,
 					$articleParentArray
 				);
@@ -536,19 +536,21 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 			// DAM support
 			if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('dam') || !empty($piVars['dam'])) {
 				$damParentArray = [];
-				$damObj = $tablesObj->get('tx_dam');
+				$damViewObj = $tablesObj->get('tx_dam', true);
+				$damObj = $damViewObj->getModelObj();
 				$fieldsArray = $markerObj->getMarkerFields(
 					$itemFrameWork,
 					$damObj->getTableObj()->tableFieldArray,
 					$damObj->getTableObj()->requiredFieldArray,
 					$markerFieldArray,
-					$damObj->marker,
+					$damViewObj->getMarker(),
 					$damViewTagArray,
 					$damParentArray
 				);
-				$damCatObj = $tablesObj->get('tx_dam_cat');
-				$damCatMarker = $damCatObj->marker;
-				$damCatObj->marker = 'DAM_CAT';
+				$damCatViewObj = $tablesObj->get('tx_dam_cat', true);
+				$damCatObj = $damCatViewObj->getModelObj();
+				$damCatMarker = $damCatViewObj->getMarker();
+				$damCatViewObj->setMarker('DAM_CAT');
 
 				$viewDamCatTagArray = [];
 				$catParentArray = [];
@@ -558,7 +560,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 					$damCatObj->getTableObj()->tableFieldArray,
 					$damCatObj->getTableObj()->requiredFieldArray,
 					$tmp,
-					$damCatObj->marker,
+					$damCatViewObj->getMarker(),
 					$viewDamCatTagArray,
 					$catParentArray
 				);
@@ -1067,7 +1069,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 			} // end of foreach ($itemArray
 
 			if (isset($damCatMarker)) {
-				$damCatObj->marker = $damCatMarker; // restore original value
+				$damCatViewObj->setMarker($damCatMarker); // restore original value
 			}
 			$subpartArray = [];
 			$wrappedSubpartArray = [];
@@ -1489,7 +1491,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 				$itemTable->getTableObj()->tableFieldArray,
 				$itemTable->getTableObj()->requiredFieldArray,
 				$markerFieldArray,
-				$itemTable->marker,
+				$itemTableView->getMarker(),
 				$viewTagArray,
 				$parentArray
 			);
@@ -1569,7 +1571,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 						$staticTaxObj->getTableObj()->tableFieldArray,
 						$staticTaxObj->getTableObj()->requiredFieldArray,
 						$markerFieldArray,
-						$staticTaxObj->marker,
+						$staticTaxViewObj->getMarker(),
 						$viewTaxTagArray,
 						$parentArray
 					);
