@@ -8,7 +8,7 @@ $EM_CONF[$_EXTKEY] = [
   'title' => 'Shop System',
   'description' => 'Advanced versions at ttproducts.de. Documented in the E-Book "Der TYPO3-Webshop" - Shop with listing in multiple languages, with order tracking, product variants, support for transactor extension, bill, creditpoint and voucher system.',
   'state' => 'stable',
-  'version' => '2.15.0',
+  'version' => '2.14.16',
   'manual' => true,
   'author' => 'Franz Holzinger',
   'author_company' => 'jambage.com',
@@ -18,13 +18,12 @@ $EM_CONF[$_EXTKEY] = [
   [
     'depends' => 
     [
-      'div2007' => '1.15.0-1.16.99',
+      'div2007' => '1.15.0-1.17.99',
       'filelist' => '10.4.0-12.4.99',
-      'php' => '7.4.0-8.1.99',
       'table' => '0.11.0-0.0.0',
       'tsparser' => '0.9.0-0.0.0',
       'typo3db_legacy' => '1.0.0-1.2.99',
-      'typo3' => '10.4.0-12.4.99',
+      'typo3' => '10.4.0-11.5.99',
     ],
     'conflicts' => 
     [
@@ -34,7 +33,7 @@ $EM_CONF[$_EXTKEY] = [
       'addons_em' => '0.1.0-0.0.0',
       'func' => '',
       'static_info_tables' => '',
-      'static_info_tables_taxes' => '0.3.0-0.4.0',
+      'static_info_tables_taxes' => '0.3.0-0.8.99',
       'taxajax' => ''
     ],
   ]

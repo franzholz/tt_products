@@ -81,8 +81,10 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 		$pibaseObj = GeneralUtility::makeInstance('' . $pibaseClass);
 		$cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$this->recs = $formerBasket;	// Sets it internally
-		$piVars = tx_ttproducts_model_control::getPiVars();
-        $gpVars = GeneralUtility::_GP(TT_PRODUCTS_EXT);
+		$parameterApi = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\ParameterApi::class);
+		$basketApi = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\BasketApi::class);
+        $piVars = $parameterApi->getPiVars();
+        $gpVars = GeneralUtility::_GP('tt_products');
         $payment =
             GeneralUtility::_POST('products_payment') ||
             GeneralUtility::_POST('products_payment_x') ||
@@ -151,8 +153,7 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 		$newGiftData = GeneralUtility::_GP('ttp_gift');
 		$extVars = $piVars['variants'] ?? '';
 		$extVars = ($extVars ? $extVars : GeneralUtility::_GP('ttp_extvars'));
-		$paramProduct = strtolower($viewTableObj->getMarker());
-		$uid = $piVars[$paramProduct] ?? '';
+		$uid = $piVars['product'] ?? '';
 		$uid = ($uid ? $uid : GeneralUtility::_GP('tt_products'));
 		$sameGiftData = true;
 		$identGiftnumber = 0;
@@ -173,13 +174,9 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 				if (method_exists($hookObj, 'changeBasket')) {
 					$hookObj->changeBasket(
 						$this,
-						$basketExtRaw,
-						$extVars,
-						$paramProduct,
-						$uid,
-						$sameGiftData,
-						$identGiftnumber
-					);
+						$basketExt,
+						$basketExtRaw
+                    );
 				}
 			}
 		}
