@@ -1,8 +1,8 @@
 <?php
 defined('TYPO3') || die('Access denied.');
 
-call_user_func(function () {
-    $tablename = 'static_tax_rates_mm_categories';
+call_user_func(function($extensionKey, $table)
+{
     $extensionKeyStaticTaxes = 'static_info_tables_taxes';
     $imagePath = 'EXT:' . $extensionKeyStaticTaxes . '/Resources/Public/Icons/';
     $languageSubpath = '/Resources/Private/Language/';
@@ -56,4 +56,4 @@ call_user_func(function () {
             ''
         );
     }
-});
+}, 'tt_products', basename(__FILE__, '.php'));

@@ -4,10 +4,11 @@ defined('TYPO3') || die('Access denied.');
 use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-call_user_func(function () {
-    $table = 'tt_products_texts_language';
+call_user_func(function($extensionKey, $table)
+{
+    $orderBySortingTablesArray = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['orderBySortingTables']);
+    $languageLglPath = 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.';
 
-    $orderBySortingTablesArray = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['orderBySortingTables']);
     if (
         !empty($orderBySortingTablesArray) &&
         in_array($table, $orderBySortingTablesArray)
@@ -30,15 +31,15 @@ call_user_func(function () {
     ) {
         $GLOBALS['TCA'][$table]['columns']['sys_language_uid'] = [
             'exclude' => 1,
-            'label' => DIV2007_LANGUAGE_LGL . 'language',
+            'label' => $languageLglPath . 'language',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'foreign_table' => 'sys_language',
                 'foreign_table_where' => 'ORDER BY sys_language.title',
                 'items' => [
-                    [DIV2007_LANGUAGE_LGL . 'allLanguages', -1],
-                    [DIV2007_LANGUAGE_LGL . 'default_value', 0]
+                    [$languageLglPath . 'allLanguages', -1],
+                    [$languageLglPath . 'default_value', 0]
                 ],
                 'default' => 0
             ]
@@ -46,7 +47,7 @@ call_user_func(function () {
     }
 
     $excludeArray =  
-        ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude']);
+        ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['exclude']);
 
     if (
         isset($excludeArray) &&
@@ -61,4 +62,4 @@ call_user_func(function () {
     }
 
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToInsertRecords($table);
-});
+}, 'tt_products', basename(__FILE__, '.php'));

@@ -1,21 +1,23 @@
 <?php
 defined('TYPO3') || die('Access denied.');
 
+$extensionKey = 'tt_products';
 $languageSubpath = '/Resources/Private/Language/';
+$languageLglPath = 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.';
 
 // ******************************************************************
 // order to products table, sys_products_orders_mm_tt_products
 // ******************************************************************
 $result = [
     'ctrl' => [
-        'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:sys_products_orders_mm_tt_products',
+        'title' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_orders_mm_tt_products',
         'label' => 'title',
         'tstamp' => 'tstamp',
         'delete' => 'deleted',
         'enablecolumns' => [
             'disabled' => 'hidden'
         ],
-        'prependAtCopy' => DIV2007_LANGUAGE_LGL . 'prependAtCopy',
+        'prependAtCopy' => $languageLglPath . 'prependAtCopy',
         'crdate' => 'crdate',
         'iconfile' => PATH_TTPRODUCTS_ICON_TABLE_REL . 'tt_products_cat.gif',
         'hideTable' => true,
@@ -23,14 +25,14 @@ $result = [
     'columns' => [
         'hidden' => [
             'exclude' => 1,
-            'label' => DIV2007_LANGUAGE_LGL . 'hidden',
+            'label' => $languageLglPath . 'hidden',
             'config' => [
                 'type' => 'check'
             ],
             'default' => 0
         ],
         'uid_local' => [
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:sys_products_orders_mm_tt_products.uid_local',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_orders_mm_tt_products.uid_local',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
@@ -40,7 +42,7 @@ $result = [
             ]
         ],
         'uid_foreign' => [
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:sys_products_orders_mm_tt_products.uid_foreign',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_orders_mm_tt_products.uid_foreign',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',

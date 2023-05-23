@@ -4,12 +4,13 @@ defined('TYPO3') || die('Access denied.');
 use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-call_user_func(function () {
-    $table = 'tt_products_language';
+call_user_func(function($extensionKey, $table)
+{
     $configuration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\JambageCom\TtProducts\Domain\Model\Dto\EmConfiguration::class);
     $languageSubpath = '/Resources/Private/Language/';
+    $languageLglPath = 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.';
 
-    $orderBySortingTablesArray = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['orderBySortingTables']);
+    $orderBySortingTablesArray = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['orderBySortingTables']);
     if (
         !empty($orderBySortingTablesArray) &&
         in_array($table, $orderBySortingTablesArray)
@@ -27,11 +28,11 @@ call_user_func(function () {
     if (
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('filelist')
     ) {
-        $palleteAddition = ',--palette--;LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:sys_file_reference.shopAttributes;tt_productsPalette';
+        $palleteAddition = ',--palette--;LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_file_reference.shopAttributes;tt_productsPalette';
 
         $GLOBALS['TCA'][$table]['columns']['image_uid'] = [
             'exclude' => 1,
-            'label' => DIV2007_LANGUAGE_LGL . 'image',
+            'label' => $languageLglPath . 'image',
             'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
                 'image_uid',
                 [
@@ -42,12 +43,12 @@ call_user_func(function () {
                     'foreign_types' => [
                         '0' => [
                             'showitem' => '
-                                --palette--;' . DIV2007_LANGUAGE_PATH . 'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
+                                --palette--;' . 'LLL:EXT:core' . $languageSubpath . 'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
                                 --palette--;;filePalette' . $palleteAddition
                         ],
                         \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => [
                             'showitem' => '
-                                --palette--;' . DIV2007_LANGUAGE_PATH . 'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
+                                --palette--;' . 'LLL:EXT:core' . $languageSubpath . 'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
                                 --palette--;;filePalette' . $palleteAddition
                         ],
                     ]
@@ -58,7 +59,7 @@ call_user_func(function () {
 
         $GLOBALS['TCA'][$table]['columns']['smallimage_uid'] = [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products.smallimage',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products.smallimage',
             'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
                 'smallimage_uid',
                 [
@@ -69,12 +70,12 @@ call_user_func(function () {
                     'foreign_types' => [
                         '0' => [
                             'showitem' => '
-                                --palette--;' . DIV2007_LANGUAGE_PATH . 'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
+                                --palette--;' . 'LLL:EXT:core' . $languageSubpath . 'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
                                 --palette--;;filePalette' . $palleteAddition
                         ],
                         \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => [
                             'showitem' => '
-                                --palette--;' . DIV2007_LANGUAGE_PATH . 'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
+                                --palette--;' . 'LLL:EXT:core' . $languageSubpath . 'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
                                 --palette--;;filePalette' . $palleteAddition
                         ],
                     ]
@@ -100,15 +101,15 @@ call_user_func(function () {
     ) {
         $GLOBALS['TCA'][$table]['columns']['sys_language_uid'] = [
             'exclude' => 1,
-            'label' => DIV2007_LANGUAGE_LGL . 'language',
+            'label' => $languageLglPath . 'language',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'foreign_table' => 'sys_language',
                 'foreign_table_where' => 'ORDER BY sys_language.title',
                 'items' => [
-                    [DIV2007_LANGUAGE_LGL . 'allLanguages', -1],
-                    [DIV2007_LANGUAGE_LGL . 'default_value', 0]
+                    [$languageLglPath . 'allLanguages', -1],
+                    [$languageLglPath . 'default_value', 0]
                 ],
                 'default' => 0
             ]
@@ -118,7 +119,7 @@ call_user_func(function () {
     $GLOBALS['TCA'][$table]['columns']['slug']['config']['eval'] = $configuration->getSlugBehaviour();
 
     $excludeArray =  
-        ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude']);
+        ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['exclude']);
 
     if (
         isset($excludeArray) &&
@@ -133,4 +134,4 @@ call_user_func(function () {
     }
 
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToInsertRecords($table);
-});
+}, 'tt_products', basename(__FILE__, '.php'));

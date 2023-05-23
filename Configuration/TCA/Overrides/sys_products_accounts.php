@@ -1,20 +1,18 @@
 <?php
 defined('TYPO3') || die('Access denied.');
 
-call_user_func(function () {
-    $table = 'sys_products_accounts';
-
-    if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['sepa']) {
+call_user_func(function($extensionKey, $table)
+{
+    if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['sepa']) {
         unset($GLOBALS['TCA'][$table]['columns']['ac_number']);
-        if (!$GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['bic']) {
+        if (!$GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['bic']) {
             unset($GLOBALS['TCA'][$table]['columns']['bic']);
         }
     } else {
         unset($GLOBALS['TCA'][$table]['columns']['iban']);
     }
 
-
-    $orderBySortingTablesArray = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['orderBySortingTables']);
+    $orderBySortingTablesArray = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['orderBySortingTables']);
     if (
         !empty($orderBySortingTablesArray) &&
         in_array($table, $orderBySortingTablesArray)
@@ -28,4 +26,4 @@ call_user_func(function () {
                 ]
             ];
     }
-});
+}, 'tt_products', basename(__FILE__, '.php'));

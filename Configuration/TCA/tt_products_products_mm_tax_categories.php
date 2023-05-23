@@ -1,6 +1,8 @@
 <?php
 defined('TYPO3') || die('Access denied.');
 
+$languageLglPath = 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.';
+
 $result = [
     'ctrl' => [
         'title' => 'unused product tax category relations',
@@ -9,7 +11,7 @@ $result = [
         'enablecolumns' => [
             'disabled' => 'hidden',
         ],
-        'prependAtCopy' => DIV2007_LANGUAGE_LGL . 'prependAtCopy',
+        'prependAtCopy' => $languageLglPath . 'prependAtCopy',
         'hideTable' => true,
     ],
     'columns' => [

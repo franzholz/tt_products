@@ -4,15 +4,16 @@ defined('TYPO3') || die('Access denied.');
 use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-call_user_func(function () {
-    $table = 'tt_products';
+call_user_func(function($extensionKey, $table)
+{
     $configuration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\JambageCom\TtProducts\Domain\Model\Dto\EmConfiguration::class);
     $whereTaxCategory = '';
     $bSelectTaxMode = false;
     $extensionKeyStaticTaxes = 'static_info_tables_taxes';
     $languageSubpath = '/Resources/Private/Language/';
+    $languageLglPath = 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.';
 
-    $taxArray = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['tax'];
+    $taxArray = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['tax'];
     $taxFields = '';
 
     if (
@@ -125,11 +126,11 @@ call_user_func(function () {
         );
     }
 
-    switch ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['articleMode']) {
+    switch ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['articleMode']) {
         case '1':
             $GLOBALS['TCA'][$table]['columns']['article_uid'] = [
                 'exclude' => 1,
-                'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products.article_uid',
+                'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products.article_uid',
                 'config' => [
                     'type' => 'group',
                     'internal_type' => 'db',
@@ -155,7 +156,7 @@ call_user_func(function () {
             break;
     }
 
-    $orderBySortingTablesArray = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['orderBySortingTables']);
+    $orderBySortingTablesArray = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['orderBySortingTables']);
 
     $typo3Version = GeneralUtility::makeInstance(Typo3Version::class);
     $version = $typo3Version->getVersion();
@@ -183,13 +184,13 @@ call_user_func(function () {
 
         // Add an extra system categories selection field to the tt_products table
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::makeCategorizable(
-            TT_PRODUCTS_EXT,
+            $extensionKey,
             $table,
             'syscat',
             [
                 // Set a custom label
                 'label' =>
-                    'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products.syscat',
+                    'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products.syscat',
                 // This field can be an exclude-field
                 'exclude' => 1,
                 // Override generic configuration, e.g. sort by title rather than by sorting
@@ -204,7 +205,7 @@ call_user_func(function () {
         );
     }
 
-    $palleteAddition = ',--palette--;LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:sys_file_reference.shopAttributes;tt_productsPalette';
+    $palleteAddition = ',--palette--;LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_file_reference.shopAttributes;tt_productsPalette';
     // TODO.
     $palleteAddition = '';
 
@@ -212,14 +213,14 @@ call_user_func(function () {
 
         // nothing. This is the default behaviour
 
-    if (!empty($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['addressTable'])) {
+    if (!empty($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['addressTable'])) {
         $GLOBALS['TCA'][$table]['columns']['address'] = [
             'exclude' => 1,
-            'label' => DIV2007_LANGUAGE_LGL . 'address',
+            'label' => $languageLglPath . 'address',
             'config' => [
                 'type' => 'group',
                 'internal_type' => 'db',
-                'allowed' => $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['addressTable'],
+                'allowed' => $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['addressTable'],
                 'size' => 1,
                 'minitems' => 0,
                 'maxitems' => 1,
@@ -237,7 +238,7 @@ call_user_func(function () {
         );
     }
 
-    $orderBySortingTablesArray = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['orderBySortingTables']);
+    $orderBySortingTablesArray = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['orderBySortingTables']);
     if (
         !empty($orderBySortingTablesArray) &&
         in_array($table, $orderBySortingTablesArray)
@@ -255,7 +256,7 @@ call_user_func(function () {
     $GLOBALS['TCA'][$table]['columns']['slug']['config']['eval'] = $configuration->getSlugBehaviour();
 
     $excludeArray =  
-        ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude']);
+        ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['exclude']);
 
     if (
         isset($excludeArray) &&
@@ -270,5 +271,4 @@ call_user_func(function () {
     }
 
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToInsertRecords($table);
-
-});
+}, 'tt_products', basename(__FILE__, '.php'));

@@ -1,14 +1,14 @@
 <?php
 defined('TYPO3') || die('Access denied.');
 
-call_user_func(function () {
-    $table = 'fe_users';
+call_user_func(function($extensionKey, $table)
+{
     $languageSubpath = '/Resources/Private/Language/';
 
     $temporaryColumns = [
         'cnum' => [
             'exclude' => 0,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:' . $table . '.cnum',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.cnum',
             'config' => [
                 'type' => 'input',
                 'size' => '20',
@@ -19,7 +19,7 @@ call_user_func(function () {
         ],
         'static_info_country' => [
             'exclude' => 0,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:' . $table . '.static_info_country',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.static_info_country',
             'config' => [
                 'type' => 'input',
                 'size' => '5',
@@ -30,7 +30,7 @@ call_user_func(function () {
         ],
         'zone' => [
             'exclude' => 0,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:' . $table . '.zone',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.zone',
             'config' => [
                 'type' => 'input',
                 'size' => '20',
@@ -41,7 +41,7 @@ call_user_func(function () {
         ],
         'tt_products_memoItems' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_memoItems',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_memoItems',
             'config' => [
                 'type' => 'input',
                 'size' => '50',
@@ -52,7 +52,7 @@ call_user_func(function () {
         ],
         'tt_products_memodam' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_memodam',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_memodam',
             'config' => [
                 'type' => 'input',
                 'size' => '50',
@@ -63,7 +63,7 @@ call_user_func(function () {
         ],
         'tt_products_discount' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_discount',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_discount',
             'config' => [
                 'type' => 'input',
                 'size' => '4',
@@ -78,7 +78,7 @@ call_user_func(function () {
         ],
         'tt_products_creditpoints' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_creditpoints',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_creditpoints',
             'config' => [
                 'type' => 'input',
                 'size' => '5',
@@ -89,7 +89,7 @@ call_user_func(function () {
         ],
         'tt_products_vouchercode' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_vouchercode',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_vouchercode',
             'config' => [
                 'type' => 'input',
                 'size' => '20',
@@ -99,7 +99,7 @@ call_user_func(function () {
         ],
         'tt_products_vat' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_vat',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_vat',
             'config' => [
                 'type' => 'input',
                 'size' => '15',
@@ -109,7 +109,7 @@ call_user_func(function () {
         ],
         'tt_products_payment_bill' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_payment_bill',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_payment_bill',
             'config' => [
                 'type' => 'check',
                 'default' => 0
@@ -117,13 +117,13 @@ call_user_func(function () {
         ],
         'tt_products_business_partner' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_business_partner',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_business_partner',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'items' => [
-                    ['LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_business_partner.I.0', '0'],
-                    ['LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_business_partner.I.1', '1'],
+                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_business_partner.I.0', '0'],
+                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_business_partner.I.1', '1'],
                 ],
                 'size' => 1,
                 'maxitems' => 1,
@@ -132,38 +132,38 @@ call_user_func(function () {
         ],
         'tt_products_organisation_form' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'items' => [
-                    ['LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.A1', 'A1'],
-                    ['LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.A2', 'A2'],
-                    ['LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.A3', 'A3'],
-                    ['LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.BH', 'BH'],
-                    ['LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.E1', 'E1'],
-                    ['LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.E2', 'E2'],
-                    ['LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.E3', 'E3'],
-                    ['LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.E4', 'E4'],
-                    ['LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.G1', 'G1'],
-                    ['LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.G2', 'G2'],
-                    ['LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.G3', 'G3'],
-                    ['LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.G4', 'G4'],
-                    ['LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.G5', 'G5'],
-                    ['LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.G6', 'G6'],
-                    ['LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.G7', 'G7'],
-                    ['LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.K2', 'K2'],
-                    ['LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.K3', 'K3'],
-                    ['LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.KG', 'KG'],
-                    ['LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.KO', 'KO'],
-                    ['LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.O1', 'O1'],
-                    ['LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.P',  'P'],
-                    ['LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.S1', 'S1'],
-                    ['LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.S2', 'S2'],
-                    ['LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.S3', 'S3'],
-                    ['LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.U',  'U'],
-                    ['LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.V1', 'V1'],
-                    ['LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.Z1', 'Z1'],
+                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.A1', 'A1'],
+                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.A2', 'A2'],
+                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.A3', 'A3'],
+                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.BH', 'BH'],
+                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.E1', 'E1'],
+                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.E2', 'E2'],
+                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.E3', 'E3'],
+                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.E4', 'E4'],
+                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.G1', 'G1'],
+                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.G2', 'G2'],
+                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.G3', 'G3'],
+                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.G4', 'G4'],
+                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.G5', 'G5'],
+                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.G6', 'G6'],
+                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.G7', 'G7'],
+                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.K2', 'K2'],
+                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.K3', 'K3'],
+                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.KG', 'KG'],
+                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.KO', 'KO'],
+                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.O1', 'O1'],
+                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.P',  'P'],
+                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.S1', 'S1'],
+                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.S2', 'S2'],
+                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.S3', 'S3'],
+                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.U',  'U'],
+                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.V1', 'V1'],
+                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.Z1', 'Z1'],
                 ],
                 'size' => 1,
                 'maxitems' => 1,
@@ -191,5 +191,4 @@ call_user_func(function () {
     $searchFields = explode(',', $GLOBALS['TCA'][$table]['ctrl']['searchFields'] . ',tt_products_vouchercode,comments,tt_products_organisation_form');
     $searchFields = array_unique($searchFields);
     $GLOBALS['TCA'][$table]['ctrl']['searchFields'] = implode(',', $searchFields);
-
-});
+}, 'tt_products', basename(__FILE__, '.php'));

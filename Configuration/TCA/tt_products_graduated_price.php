@@ -5,15 +5,17 @@ defined('TYPO3') || die('Access denied.');
 // graduated price calculation table, tt_products_graduated_price
 // ******************************************************************
 
+$extensionKey = 'tt_products';
 $languageSubpath = '/Resources/Private/Language/';
+$languageLglPath = 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.';
 
 $result = [
     'ctrl' => [
-        'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_graduated_price',
+        'title' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_graduated_price',
         'label' => 'title',
         'tstamp' => 'tstamp',
         'delete' => 'deleted',
-        'prependAtCopy' => DIV2007_LANGUAGE_LGL . 'prependAtCopy',
+        'prependAtCopy' => $languageLglPath . 'prependAtCopy',
         'crdate' => 'crdate',
         'delete' => 'deleted',
         'enablecolumns' => [
@@ -28,7 +30,7 @@ $result = [
     'columns' => [
         'tstamp' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tstamp',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tstamp',
             'config' => [
                 'type' => 'input',
                 'size' => '8',
@@ -39,7 +41,7 @@ $result = [
         ],
         'crdate' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:crdate',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:crdate',
             'config' => [
                 'type' => 'input',
                 'size' => '8',
@@ -50,7 +52,7 @@ $result = [
         ],
         'hidden' => [
             'exclude' => 1,
-            'label' => DIV2007_LANGUAGE_LGL . 'hidden',
+            'label' => $languageLglPath . 'hidden',
             'config' => [
                 'type' => 'check',
                 'default' => 0
@@ -58,7 +60,7 @@ $result = [
         ],
         'starttime' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_graduated_price.starttime',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_graduated_price.starttime',
             'config' => [
                 'type' => 'input',
                 'size' => '8',
@@ -69,7 +71,7 @@ $result = [
         ],
         'endtime' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_graduated_price.endtime',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_graduated_price.endtime',
             'config' => [
                 'type' => 'input',
                 'size' => '8',
@@ -77,7 +79,7 @@ $result = [
                 'renderType' => 'inputDateTime',
                 'default' => 0,
                 'range' => [
-                    'upper' => mktime(0, 0, 0, 12, 31, $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['endtimeYear']),
+                    'upper' => mktime(0, 0, 0, 12, 31, $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['endtimeYear']),
                     'lower' => mktime(0, 0, 0, date('n') - 1, date('d'), date('Y'))
                 ]
             ]
@@ -85,7 +87,7 @@ $result = [
         'fe_group' => [
             'exclude' => true,
             'l10n_mode' => 'exclude',
-            'label'  => DIV2007_LANGUAGE_LGL . 'fe_group',
+            'label'  => $languageLglPath . 'fe_group',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectMultipleSideBySide',
@@ -93,15 +95,15 @@ $result = [
                 'maxitems' => 20,
                 'items' => [
                     [
-                        DIV2007_LANGUAGE_LGL . 'hide_at_login',
+                        $languageLglPath . 'hide_at_login',
                         -1
                     ],
                     [
-                        DIV2007_LANGUAGE_LGL . 'any_login',
+                        $languageLglPath . 'any_login',
                         -2
                     ],
                     [
-                        DIV2007_LANGUAGE_LGL . 'usergroups',
+                        $languageLglPath . 'usergroups',
                         '--div--'
                     ]
                 ],
@@ -113,7 +115,7 @@ $result = [
         ],
         'title' => [
             'exclude' => 0,
-            'label' => DIV2007_LANGUAGE_LGL . 'title',
+            'label' => $languageLglPath . 'title',
             'config' => [
                 'type' => 'input',
                 'size' => '40',
@@ -124,7 +126,7 @@ $result = [
         ],
         'formula' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_graduated_price.formula',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_graduated_price.formula',
             'config' => [
                 'type' => 'text',
                 'cols' => '48',
@@ -135,7 +137,7 @@ $result = [
         ],
         'startamount' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_graduated_price.startamount',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_graduated_price.startamount',
             'config' => [
                 'type' => 'input',
                 'size' => '12',
@@ -146,7 +148,7 @@ $result = [
         ],
         'note' => [
             'exclude' => 1,
-            'label' => DIV2007_LANGUAGE_LGL . 'note',
+            'label' => $languageLglPath . 'note',
             'config' => [
                 'type' => 'text',
                 'cols' => '48',
@@ -175,7 +177,7 @@ $result = [
 
 $table = 'tt_products_graduated_price';
 
-$orderBySortingTablesArray = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['orderBySortingTables']);
+$orderBySortingTablesArray = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['orderBySortingTables']);
 
 if (
     !empty($orderBySortingTablesArray) &&

@@ -1,11 +1,13 @@
 <?php
 defined('TYPO3') || die('Access denied.');
 
+$extensionKey = 'tt_products';
 $languageSubpath = '/Resources/Private/Language/';
+$languageLglPath = 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.';
 
 $result = [
 	'ctrl' => [
-		'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_emails',
+		'title' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_emails',
 		'label' => 'name',
 		'default_sortby' => 'ORDER BY name',
 		'tstamp' => 'tstamp',
@@ -16,7 +18,7 @@ $result = [
 			'endtime' => 'endtime',
 			'fe_group' => 'fe_group',
 		],
-		'prependAtCopy' => DIV2007_LANGUAGE_LGL . 'prependAtCopy',
+		'prependAtCopy' => $languageLglPath . 'prependAtCopy',
 		'crdate' => 'crdate',
 		'cruser_id' => 'cruser_id',
 		'versioningWS' => true,
@@ -28,7 +30,7 @@ $result = [
 	'columns' => [
 		'tstamp' => [
 			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tstamp',
+			'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tstamp',
 			'config' => [
 				'type' => 'input',
 				'size' => '8',
@@ -39,7 +41,7 @@ $result = [
 		],
 		'crdate' => [
 			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:crdate',
+			'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:crdate',
 			'config' => [
 				'type' => 'input',
 				'size' => '8',
@@ -50,7 +52,7 @@ $result = [
 		],
 		'hidden' => [
 			'exclude' => 1,
-			'label' => DIV2007_LANGUAGE_LGL . 'hidden',
+			'label' => $languageLglPath . 'hidden',
 			'config' => [
 				'type' => 'check',
 				'default' => 0
@@ -58,7 +60,7 @@ $result = [
 		],
 		'starttime' => [
 			'exclude' => 1,
-			'label' => DIV2007_LANGUAGE_LGL . 'starttime',
+			'label' => $languageLglPath . 'starttime',
 			'config' => [
 				'type' => 'input',
 				'size' => '8',
@@ -69,7 +71,7 @@ $result = [
 		],
 		'endtime' => [
 			'exclude' => 1,
-			'label' => DIV2007_LANGUAGE_LGL . 'endtime',
+			'label' => $languageLglPath . 'endtime',
 			'config' => [
 				'type' => 'input',
 				'size' => '8',
@@ -77,7 +79,7 @@ $result = [
                 'renderType' => 'inputDateTime',
 				'default' => 0,
 				'range' => [
-					'upper' => mktime(0, 0, 0, 12, 31, $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['endtimeYear']),
+					'upper' => mktime(0, 0, 0, 12, 31, $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['endtimeYear']),
 					'lower' => mktime(0, 0, 0, date('n') - 1, date('d'), date('Y'))
 				]
 			]
@@ -85,7 +87,7 @@ $result = [
         'fe_group' => [
             'exclude' => true,
             'l10n_mode' => 'exclude',
-            'label'  => DIV2007_LANGUAGE_LGL . 'fe_group',
+            'label'  => $languageLglPath . 'fe_group',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectMultipleSideBySide',
@@ -93,15 +95,15 @@ $result = [
                 'maxitems' => 20,
                 'items' => [
                     [
-                        DIV2007_LANGUAGE_LGL . 'hide_at_login',
+                        $languageLglPath . 'hide_at_login',
                         -1
                     ],
                     [
-                        DIV2007_LANGUAGE_LGL . 'any_login',
+                        $languageLglPath . 'any_login',
                         -2
                     ],
                     [
-                        DIV2007_LANGUAGE_LGL . 'usergroups',
+                        $languageLglPath . 'usergroups',
                         '--div--'
                     ]
                 ],
@@ -112,7 +114,7 @@ $result = [
             ]
         ],
 		'name' => [
-			'label' => DIV2007_LANGUAGE_LGL . 'name',
+			'label' => $languageLglPath . 'name',
 			'config' => [
 				'type' => 'input',
 				'size' => '40',
@@ -122,7 +124,7 @@ $result = [
 			]
 		],
 		'email' => [
-			'label' => DIV2007_LANGUAGE_LGL . 'email',
+			'label' => $languageLglPath . 'email',
 			'config' => [
 				'type' => 'input',
 				'size' => '40',
@@ -132,7 +134,7 @@ $result = [
 			]
 		],
 		'suffix' => [
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_emails.suffix',
+			'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_emails.suffix',
 			'config' => [
 				'type' => 'input',
 				'size' => '24',
