@@ -13,6 +13,13 @@ call_user_func(function () {
         in_array($table, $orderBySortingTablesArray)
     ) {
         $GLOBALS['TCA'][$table]['ctrl']['sortby'] = 'sorting';
+        $GLOBALS['TCA'][$table]['columns']['sorting'] = 
+            [
+                'config' => [
+                    'type' => 'passthrough',
+                    'default' => 0
+                ]
+            ];
     }
 
     $typo3Version = GeneralUtility::makeInstance(Typo3Version::class);

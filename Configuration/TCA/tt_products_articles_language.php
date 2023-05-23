@@ -64,11 +64,6 @@ $result = [
                 'default' => 0
             ]
         ],
-        'sorting' => [
-            'config' => [
-                'type' => 'passthrough',
-            ]
-        ],
         'hidden' => [
             'exclude' => 1,
             'label' => DIV2007_LANGUAGE_LGL . 'hidden',
