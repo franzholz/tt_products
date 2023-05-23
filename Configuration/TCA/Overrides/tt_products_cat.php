@@ -5,6 +5,7 @@ call_user_func(function($extensionKey, $table)
 {
     $configuration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\JambageCom\TtProducts\Domain\Model\Dto\EmConfiguration::class);
     $languageSubpath = '/Resources/Private/Language/';
+    $languageLglPath = 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.';
 
     $orderBySortingTablesArray = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['orderBySortingTables']);
     if (
@@ -53,7 +54,7 @@ call_user_func(function($extensionKey, $table)
         ];
 
         if ($field == 'image') {
-            $GLOBALS['TCA'][$table]['columns'][$uidField]['label'] = DIV2007_LANGUAGE_LGL . $field;
+            $GLOBALS['TCA'][$table]['columns'][$uidField]['label'] = $languageLglPath . $field;
         } else {
             $GLOBALS['TCA'][$table]['columns'][$uidField]['label'] = 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_cat.' . $field;
         }

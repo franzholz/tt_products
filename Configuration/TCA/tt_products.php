@@ -16,6 +16,7 @@ if (!$imageFolder) {
 
 $palleteAddition = '';
 $languageSubpath = '/Resources/Private/Language/';
+$languageLglPath = 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.';
 
 
 $result = [
@@ -25,7 +26,7 @@ $result = [
 		'label_alt' => 'subtitle',
 		'default_sortby' => 'ORDER BY title',
 		'tstamp' => 'tstamp',
-		'prependAtCopy' => DIV2007_LANGUAGE_LGL . 'prependAtCopy',
+		'prependAtCopy' => $languageLglPath . 'prependAtCopy',
 		'crdate' => 'crdate',
 		'cruser_id' => 'cruser_id',
 		'versioningWS' => true,
@@ -47,7 +48,7 @@ $result = [
 	'columns' => [
 		'hidden' => [
 			'exclude' => 1,
-			'label' => DIV2007_LANGUAGE_LGL . 'hidden',
+			'label' => $languageLglPath . 'hidden',
 			'config' => [
 				'type' => 'check',
 				'default' => 0
@@ -77,7 +78,7 @@ $result = [
 		],
 		'starttime' => [
 			'exclude' => 1,
-			'label' => DIV2007_LANGUAGE_LGL . 'starttime',
+			'label' => $languageLglPath . 'starttime',
 			'config' => [
 				'type' => 'input',
 				'size' => '8',
@@ -89,7 +90,7 @@ $result = [
 		],
 		'endtime' => [
 			'exclude' => 1,
-			'label' => DIV2007_LANGUAGE_LGL . 'endtime',
+			'label' => $languageLglPath . 'endtime',
 			'config' => [
 				'type' => 'input',
 				'size' => '8',
@@ -106,7 +107,7 @@ $result = [
         'fe_group' => [
             'exclude' => true,
             'l10n_mode' => 'exclude',
-            'label'  => DIV2007_LANGUAGE_LGL . 'fe_group',
+            'label'  => $languageLglPath . 'fe_group',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectMultipleSideBySide',
@@ -114,15 +115,15 @@ $result = [
                 'maxitems' => 20,
                 'items' => [
                     [
-                        DIV2007_LANGUAGE_LGL . 'hide_at_login',
+                        $languageLglPath . 'hide_at_login',
                         -1
                     ],
                     [
-                        DIV2007_LANGUAGE_LGL . 'any_login',
+                        $languageLglPath . 'any_login',
                         -2
                     ],
                     [
-                        DIV2007_LANGUAGE_LGL . 'usergroups',
+                        $languageLglPath . 'usergroups',
                         '--div--'
                     ]
                 ],
@@ -499,7 +500,7 @@ $result = [
 		],
 		'www' => [
 			'exclude' => 1,
-			'label' => DIV2007_LANGUAGE_LGL . 'www',
+			'label' => $languageLglPath . 'www',
 			'config' => [
 				'type' => 'input',
 				'eval' => 'trim',
@@ -510,7 +511,7 @@ $result = [
 		],
 		'category' => [
 			'exclude' => 1,
-			'label' => DIV2007_LANGUAGE_LGL . 'category',
+			'label' => $languageLglPath . 'category',
 			'config' => [
 				'type' => 'select',
 				'renderType' => 'selectSingle',
@@ -557,7 +558,7 @@ $result = [
 		],
         'image_uid' => [
             'exclude' => 1,
-            'label' => DIV2007_LANGUAGE_LGL . 'image',
+            'label' => $languageLglPath . 'image',
             'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
                 'image_uid',
                 [

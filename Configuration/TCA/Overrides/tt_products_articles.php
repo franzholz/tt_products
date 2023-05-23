@@ -5,7 +5,7 @@ call_user_func(function($extensionKey, $table)
 {
     $configuration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\JambageCom\TtProducts\Domain\Model\Dto\EmConfiguration::class);
     $languageSubpath = '/Resources/Private/Language/';
-
+    $languageLglPath = 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.';
     $fieldArray = ['tstamp', 'crdate', 'starttime', 'endtime'];
 
     foreach ($fieldArray as $field) {
@@ -56,7 +56,7 @@ call_user_func(function($extensionKey, $table)
 
     $GLOBALS['TCA'][$table]['columns']['image_uid'] = [
         'exclude' => 1,
-        'label' => DIV2007_LANGUAGE_LGL . 'image',
+        'label' => $languageLglPath . 'image',
         'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
             'image_uid',
             [

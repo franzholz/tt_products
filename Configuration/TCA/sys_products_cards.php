@@ -3,6 +3,7 @@ defined('TYPO3') || die('Access denied.');
 
 $extensionKey = 'tt_products';
 $languageSubpath = '/Resources/Private/Language/';
+$languageLglPath = 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.';
 
 // ******************************************************************
 // These are the credit cards data used for orders
@@ -13,7 +14,7 @@ $result = [
         'label' => 'cc_number',
         'default_sortby' => 'ORDER BY cc_number',
         'tstamp' => 'tstamp',
-        'prependAtCopy' => DIV2007_LANGUAGE_LGL . 'prependAtCopy',
+        'prependAtCopy' => $languageLglPath . 'prependAtCopy',
         'crdate' => 'crdate',
         'iconfile' => PATH_TTPRODUCTS_ICON_TABLE_REL . 'sys_products_cards.gif',
         'searchFields' => 'owner_name,cc_number',
@@ -21,7 +22,7 @@ $result = [
     'columns' => [
         'endtime' => [
             'exclude' => 1,
-            'label' => DIV2007_LANGUAGE_LGL . 'endtime',
+            'label' => $languageLglPath . 'endtime',
             'config' => [
                 'type' => 'input',
                 'size' => '8',
@@ -47,7 +48,7 @@ $result = [
         ],
         'owner_name' => [
             'exclude' => 0,
-            'label' => DIV2007_LANGUAGE_LGL . 'name',
+            'label' => $languageLglPath . 'name',
             'config' => [
                 'type' => 'input',
                 'size' => '40',

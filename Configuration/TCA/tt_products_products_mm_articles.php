@@ -4,6 +4,7 @@ defined('TYPO3') || die('Access denied.');
 $extensionKey = 'tt_products';
 $result = null;
 $languageSubpath = '/Resources/Private/Language/';
+$languageLglPath = 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.';
 
 
 if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['articleMode'] >= '1') {
@@ -16,7 +17,7 @@ if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['articleMode'] >= '1')
             'enablecolumns' => [
                 'disabled' => 'hidden'
             ],
-            'prependAtCopy' => DIV2007_LANGUAGE_LGL . 'prependAtCopy',
+            'prependAtCopy' => $languageLglPath . 'prependAtCopy',
             'crdate' => 'crdate',
             'iconfile' => PATH_TTPRODUCTS_ICON_TABLE_REL . 'tt_products_relations.gif',
             'hideTable' => true,

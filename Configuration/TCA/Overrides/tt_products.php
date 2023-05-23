@@ -11,6 +11,7 @@ call_user_func(function($extensionKey, $table)
     $bSelectTaxMode = false;
     $extensionKeyStaticTaxes = 'static_info_tables_taxes';
     $languageSubpath = '/Resources/Private/Language/';
+    $languageLglPath = 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.';
 
     $taxArray = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['tax'];
     $taxFields = '';
@@ -215,7 +216,7 @@ call_user_func(function($extensionKey, $table)
     if (!empty($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['addressTable'])) {
         $GLOBALS['TCA'][$table]['columns']['address'] = [
             'exclude' => 1,
-            'label' => DIV2007_LANGUAGE_LGL . 'address',
+            'label' => $languageLglPath . 'address',
             'config' => [
                 'type' => 'group',
                 'internal_type' => 'db',

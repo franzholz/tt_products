@@ -3,6 +3,7 @@ defined('TYPO3') || die('Access denied.');
 
 $extensionKey = 'tt_products';
 $languageSubpath = '/Resources/Private/Language/';
+$languageLglPath = 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.';
 
 $result = [
     'ctrl' => [
@@ -15,7 +16,7 @@ $result = [
         'enablecolumns' => [
             'disabled' => 'hidden',
         ],
-        'prependAtCopy' => DIV2007_LANGUAGE_LGL . 'prependAtCopy',
+        'prependAtCopy' => $languageLglPath . 'prependAtCopy',
         'crdate' => 'crdate',
         'mainpalette' => 1,
         'iconfile' => PATH_TTPRODUCTS_ICON_TABLE_REL . 'sys_products_orders.gif',
@@ -25,7 +26,7 @@ $result = [
     'columns' => [
         'hidden' => [
             'exclude' => 1,
-            'label' => DIV2007_LANGUAGE_LGL . 'hidden',
+            'label' => $languageLglPath . 'hidden',
             'config' => [
                 'type' => 'check',
                 'default' => 0
@@ -57,7 +58,7 @@ $result = [
         ],
         'sys_language_uid' => [
             'exclude' => 1,
-            'label' => DIV2007_LANGUAGE_LGL . 'language',
+            'label' => $languageLglPath . 'language',
             'config' => [
                 'type' => 'language',
                 'default' => 0
@@ -65,7 +66,7 @@ $result = [
         ],
         'name' => [
             'exclude' => 0,
-            'label' => DIV2007_LANGUAGE_LGL . 'name',
+            'label' => $languageLglPath . 'name',
             'config' => [
                 'type' => 'input',
                 'size' => '40',
@@ -116,7 +117,7 @@ $result = [
         ],
         'company' => [
             'exclude' => 1,
-            'label' => DIV2007_LANGUAGE_LGL . 'company',
+            'label' => $languageLglPath . 'company',
             'config' => [
                 'type' => 'input',
                 'size' => '40',
@@ -154,7 +155,7 @@ $result = [
         ],
         'address' => [
             'exclude' => 1,
-            'label' => DIV2007_LANGUAGE_LGL . 'address',
+            'label' => $languageLglPath . 'address',
             'config' => [
                 'type' => 'input',
                 'size' => '50',
@@ -176,7 +177,7 @@ $result = [
         ],
         'zip' => [
             'exclude' => 1,
-            'label' => DIV2007_LANGUAGE_LGL . 'zip',
+            'label' => $languageLglPath . 'zip',
             'config' => [
                 'type' => 'input',
                 'size' => '10',
@@ -187,7 +188,7 @@ $result = [
         ],
         'city' => [
             'exclude' => 1,
-            'label' => DIV2007_LANGUAGE_LGL . 'city',
+            'label' => $languageLglPath . 'city',
             'config' => [
                 'type' => 'input',
                 'size' => '40',
@@ -198,7 +199,7 @@ $result = [
         ],
         'country' => [
             'exclude' => 1,
-            'label' => DIV2007_LANGUAGE_LGL . 'country',
+            'label' => $languageLglPath . 'country',
             'config' => [
                 'type' => 'input',
                 'size' => '40',
@@ -209,7 +210,7 @@ $result = [
         ],
         'telephone' => [
             'exclude' => 1,
-            'label' => DIV2007_LANGUAGE_LGL . 'phone',
+            'label' => $languageLglPath . 'phone',
             'config' => [
                 'type' => 'input',
                 'size' => '20',
@@ -219,7 +220,7 @@ $result = [
         ],
         'email' => [
             'exclude' => 1,
-            'label' => DIV2007_LANGUAGE_LGL . 'email',
+            'label' => $languageLglPath . 'email',
             'config' => [
                 'type' => 'input',
                 'size' => '20',
@@ -229,7 +230,7 @@ $result = [
         ],
         'fax' => [
             'exclude' => 1,
-            'label' => DIV2007_LANGUAGE_LGL . 'fax',
+            'label' => $languageLglPath . 'fax',
             'config' => [
                 'type' => 'input',
                 'size' => '4',
@@ -522,7 +523,7 @@ $result = [
         ],
         'note' => [
             'exclude' => 1,
-            'label' => DIV2007_LANGUAGE_LGL . 'note',
+            'label' => $languageLglPath . 'note',
             'config' => [
                 'type' => 'text',
                 'cols' => '48',

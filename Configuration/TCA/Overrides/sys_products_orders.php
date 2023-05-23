@@ -8,6 +8,7 @@ call_user_func(function($extensionKey, $table)
 {
     $configuration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\JambageCom\TtProducts\Domain\Model\Dto\EmConfiguration::class);
     $languageSubpath = '/Resources/Private/Language/';
+    $languageLglPath = 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.';
 
     $orderBySortingTablesArray = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['orderBySortingTables']);
     if (
@@ -68,15 +69,15 @@ call_user_func(function($extensionKey, $table)
     ) {
         $GLOBALS['TCA'][$table]['columns']['sys_language_uid'] = [
             'exclude' => 1,
-            'label' => DIV2007_LANGUAGE_LGL . 'language',
+            'label' => $languageLglPath . 'language',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'foreign_table' => 'sys_language',
                 'foreign_table_where' => 'ORDER BY sys_language.title',
                 'items' => [
-                    [DIV2007_LANGUAGE_LGL . 'allLanguages', -1],
-                    [DIV2007_LANGUAGE_LGL . 'default_value', 0]
+                    [$languageLglPath . 'allLanguages', -1],
+                    [$languageLglPath . 'default_value', 0]
                 ],
                 'default' => 0
             ]

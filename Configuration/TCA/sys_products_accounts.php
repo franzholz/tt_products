@@ -12,6 +12,7 @@ if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['sepa']) {
 // These are the bank account data used for orders
 // ******************************************************************
 $languageSubpath = '/Resources/Private/Language/';
+$languageLglPath = 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.';
 
 $result = [
     'ctrl' => [
@@ -20,7 +21,7 @@ $result = [
         'label_userFunc' => 'tx_ttproducts_table_label->getLabel',
         'default_sortby' => 'ORDER BY ' . $accountField,
         'tstamp' => 'tstamp',
-        'prependAtCopy' => DIV2007_LANGUAGE_LGL . 'prependAtCopy',
+        'prependAtCopy' => $languageLglPath . 'prependAtCopy',
         'crdate' => 'crdate',
         'iconfile' => PATH_TTPRODUCTS_ICON_TABLE_REL . 'sys_products_accounts.gif',
         'searchFields' => 'owner_name,' . $accountField,
@@ -50,7 +51,7 @@ $result = [
         ],
         'owner_name' => [
             'exclude' => 0,
-            'label' => DIV2007_LANGUAGE_LGL . 'name',
+            'label' => $languageLglPath . 'name',
             'config' => [
                 'type' => 'input',
                 'size' => '40',

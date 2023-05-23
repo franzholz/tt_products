@@ -7,6 +7,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 call_user_func(function($extensionKey, $table)
 {
     $orderBySortingTablesArray = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['orderBySortingTables']);
+    $languageLglPath = 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.';
+
     if (
         !empty($orderBySortingTablesArray) &&
         in_array($table, $orderBySortingTablesArray)
@@ -29,15 +31,15 @@ call_user_func(function($extensionKey, $table)
     ) {
         $GLOBALS['TCA'][$table]['columns']['sys_language_uid'] = [
             'exclude' => 1,
-            'label' => DIV2007_LANGUAGE_LGL . 'language',
+            'label' => $languageLglPath . 'language',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'foreign_table' => 'sys_language',
                 'foreign_table_where' => 'ORDER BY sys_language.title',
                 'items' => [
-                    [DIV2007_LANGUAGE_LGL . 'allLanguages', -1],
-                    [DIV2007_LANGUAGE_LGL . 'default_value', 0]
+                    [$languageLglPath . 'allLanguages', -1],
+                    [$languageLglPath . 'default_value', 0]
                 ],
                 'default' => 0
             ]
