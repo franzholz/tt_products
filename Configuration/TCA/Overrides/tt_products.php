@@ -11,7 +11,7 @@ call_user_func(function($extensionKey, $table)
     $bSelectTaxMode = false;
     $extensionKeyStaticTaxes = 'static_info_tables_taxes';
     $languageSubpath = '/Resources/Private/Language/';
-    $languageLglPath = 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.';
+    $languageLglPath = 'LLL:EXT:core' . $languageSubpath . 'locallang_general.xlf:LGL.';
 
     $taxArray = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['tax'];
     $taxFields = '';
