@@ -12,7 +12,7 @@ if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['sepa']) {
 // These are the bank account data used for orders
 // ******************************************************************
 $languageSubpath = '/Resources/Private/Language/';
-$languageLglPath = 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.';
+$languageLglPath = 'LLL:EXT:core' . $languageSubpath . 'locallang_general.xlf:LGL.';
 
 $result = [
     'ctrl' => [

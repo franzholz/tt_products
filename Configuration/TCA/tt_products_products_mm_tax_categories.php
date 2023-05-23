@@ -1,7 +1,7 @@
 <?php
 defined('TYPO3') || die('Access denied.');
 
-$languageLglPath = 'LLL:EXT:lang/Resources/Private/Language/locallang_general.xlf:LGL.';
+$languageLglPath = 'LLL:EXT:core' . $languageSubpath . 'locallang_general.xlf:LGL.';
 
 $result = [
     'ctrl' => [
