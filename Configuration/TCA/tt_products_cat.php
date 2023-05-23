@@ -36,12 +36,6 @@ $result = [
 		'searchFields' => 'uid,title,subtitle,catid,keyword,note,note2',
 	],
 	'columns' => [
-		'sorting' => [
-			'config' => [
-				'type' => 'passthrough',
-				'default' => 0
-			]
-		],
 		'hidden' => [
 			'exclude' => 1,
 			'label' => DIV2007_LANGUAGE_LGL . 'hidden',

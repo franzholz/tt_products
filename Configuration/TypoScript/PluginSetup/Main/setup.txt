@@ -415,7 +415,7 @@ plugin.tt_products {
     onlyChildsOfCurrent = 1
     language.type = table
     language.table = tt_products_cat_language
-    orderBy = sorting
+    orderBy = title
     functions {
 	    htmlentities = title, subtitle
     }
@@ -431,7 +431,7 @@ plugin.tt_products {
     onlyChildsOfCurrent = 1
     language.type = table
     language.table = tt_products_texts_language
-    orderBy = sorting
+    orderBy = title
   }
 
   conf.pages.ALL {
@@ -463,7 +463,7 @@ plugin.tt_products {
      requiredFields = uid,pid
      onlyChildsOfCurrent = 1
      language.type = noTranslation
-     orderBy = sorting
+     orderBy = title
      hierarchytiers = 1
   }
 
