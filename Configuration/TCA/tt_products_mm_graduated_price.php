@@ -4,11 +4,12 @@ defined('TYPO3') || die('Access denied.');
 // ******************************************************************
 // products to graduated price relation table, tt_products_mm_graduated_price
 // ******************************************************************
+$extensionKey = 'tt_products';
 $languageSubpath = '/Resources/Private/Language/';
 
 $result = [
     'ctrl' => [
-        'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_mm_graduated_price',
+        'title' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_mm_graduated_price',
         'label' => 'title',
         'tstamp' => 'tstamp',
         'delete' => 'deleted',
@@ -30,7 +31,7 @@ $result = [
             ]
         ],
         'uid_local' => [
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_mm_graduated_price.uid_local',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_mm_graduated_price.uid_local',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
@@ -40,7 +41,7 @@ $result = [
             ]
         ],
         'uid_foreign' => [
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_mm_graduated_price.uid_foreign',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_mm_graduated_price.uid_foreign',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',

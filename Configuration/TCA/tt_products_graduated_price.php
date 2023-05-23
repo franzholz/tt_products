@@ -5,11 +5,12 @@ defined('TYPO3') || die('Access denied.');
 // graduated price calculation table, tt_products_graduated_price
 // ******************************************************************
 
+$extensionKey = 'tt_products';
 $languageSubpath = '/Resources/Private/Language/';
 
 $result = [
     'ctrl' => [
-        'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_graduated_price',
+        'title' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_graduated_price',
         'label' => 'title',
         'tstamp' => 'tstamp',
         'delete' => 'deleted',
@@ -28,7 +29,7 @@ $result = [
     'columns' => [
         'tstamp' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tstamp',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tstamp',
             'config' => [
                 'type' => 'input',
                 'size' => '8',
@@ -39,7 +40,7 @@ $result = [
         ],
         'crdate' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:crdate',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:crdate',
             'config' => [
                 'type' => 'input',
                 'size' => '8',
@@ -58,7 +59,7 @@ $result = [
         ],
         'starttime' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_graduated_price.starttime',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_graduated_price.starttime',
             'config' => [
                 'type' => 'input',
                 'size' => '8',
@@ -69,7 +70,7 @@ $result = [
         ],
         'endtime' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_graduated_price.endtime',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_graduated_price.endtime',
             'config' => [
                 'type' => 'input',
                 'size' => '8',
@@ -77,7 +78,7 @@ $result = [
                 'renderType' => 'inputDateTime',
                 'default' => 0,
                 'range' => [
-                    'upper' => mktime(0, 0, 0, 12, 31, $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['endtimeYear']),
+                    'upper' => mktime(0, 0, 0, 12, 31, $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['endtimeYear']),
                     'lower' => mktime(0, 0, 0, date('n') - 1, date('d'), date('Y'))
                 ]
             ]
@@ -124,7 +125,7 @@ $result = [
         ],
         'formula' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_graduated_price.formula',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_graduated_price.formula',
             'config' => [
                 'type' => 'text',
                 'cols' => '48',
@@ -135,7 +136,7 @@ $result = [
         ],
         'startamount' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_graduated_price.startamount',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_graduated_price.startamount',
             'config' => [
                 'type' => 'input',
                 'size' => '12',
@@ -175,7 +176,7 @@ $result = [
 
 $table = 'tt_products_graduated_price';
 
-$orderBySortingTablesArray = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['orderBySortingTables']);
+$orderBySortingTablesArray = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['orderBySortingTables']);
 
 if (
     !empty($orderBySortingTablesArray) &&

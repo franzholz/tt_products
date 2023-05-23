@@ -5,11 +5,12 @@ defined('TYPO3') || die('Access denied.');
 // products to download relation table, tt_products_products_mm_downloads
 // ******************************************************************
 
+$extensionKey = 'tt_products';
 $languageSubpath = '/Resources/Private/Language/';
 
 $result = [
 	'ctrl' => [
-		'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_products_mm_downloads',
+		'title' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_products_mm_downloads',
 		'label' => 'uid_local',
 		'tstamp' => 'tstamp',
 		'delete' => 'deleted',
@@ -23,7 +24,7 @@ $result = [
 	],
 	'columns' => [
 		'uid_local' => [
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_products_mm_downloads.uid_local',
+			'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_products_mm_downloads.uid_local',
 			'config' => [
 				'type' => 'select',
 				'renderType' => 'selectSingle',
@@ -33,7 +34,7 @@ $result = [
 			]
 		],
 		'uid_foreign' => [
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_products_mm_downloads.uid_foreign',
+			'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_products_mm_downloads.uid_foreign',
 			'config' => [
 				'type' => 'select',
 				'renderType' => 'selectSingle',

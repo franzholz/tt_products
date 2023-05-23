@@ -1,7 +1,8 @@
 <?php
 defined('TYPO3') || die('Access denied.');
 
-$imageFolder = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['imageFolder'];
+$extensionKey = 'tt_products';
+$imageFolder = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['imageFolder'];
 if (!$imageFolder) {
     $imageFolder = 'uploads/pics';
 }
@@ -15,7 +16,7 @@ $languageSubpath = '/Resources/Private/Language/';
 
 $result = [
     'ctrl' => [
-        'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_articles',
+        'title' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_articles',
         'label' => 'title',
         'label_alt' => 'subtitle',
         'default_sortby' => 'ORDER BY title',
@@ -40,7 +41,7 @@ $result = [
     'columns' => [
         'tstamp' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tstamp',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tstamp',
             'config' => [
                 'type' => 'input',
                 'size' => '8',
@@ -51,7 +52,7 @@ $result = [
         ],
         'crdate' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:crdate',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:crdate',
             'config' => [
                 'type' => 'input',
                 'size' => '8',
@@ -89,7 +90,7 @@ $result = [
                 'renderType' => 'inputDateTime',
                 'default' => 0,
                 'range' => [
-                    'upper' => mktime(0, 0, 0, 12, 31, $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['endtimeYear']),
+                    'upper' => mktime(0, 0, 0, 12, 31, $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['endtimeYear']),
                     'lower' => mktime(0, 0, 0, date('n') - 1, date('d'), date('Y'))
                 ]
             ]
@@ -136,7 +137,7 @@ $result = [
         ],
         'subtitle' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products.subtitle',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products.subtitle',
             'config' => [
                 'type' => 'text',
                 'rows' => '3',
@@ -148,7 +149,7 @@ $result = [
         ],
         'slug' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products.slug',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products.slug',
             'config' => [
                 'type' => 'slug',
                 'size' => 50,
@@ -166,7 +167,7 @@ $result = [
         ],
         'keyword' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products.keyword',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products.keyword',
             'config' => [
                 'type' => 'text',
                 'rows' => '5',
@@ -177,7 +178,7 @@ $result = [
             ]
         ],
         'itemnumber' => [
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products.itemnumber',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products.itemnumber',
             'config' => [
                 'type' => 'input',
                 'size' => '40',
@@ -188,7 +189,7 @@ $result = [
         ],
         'price' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products.price',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products.price',
             'config' => [
                 'type' => 'input',
                 'size' => '12',
@@ -199,7 +200,7 @@ $result = [
         ],
         'price2' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products.price2',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products.price2',
             'config' => [
                 'type' => 'input',
                 'size' => '12',
@@ -209,7 +210,7 @@ $result = [
             ]
         ],
         'graduated_config_type' => [
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_articles.graduated_config_type',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_articles.graduated_config_type',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
@@ -223,7 +224,7 @@ $result = [
         ],
         'graduated_config' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_articles.graduated_config',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_articles.graduated_config',
             'config' => [
                 'type' => 'flex',
                 'ds_pointerField' => 'graduated_config_type',
@@ -235,7 +236,7 @@ $result = [
                                 <el>
                                 <addParentProductCount>
                                     <TCEforms>
-                                        <label>LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_articles.graduated_config.addParentProductCount</label>
+                                        <label>LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_articles.graduated_config.addParentProductCount</label>
                                         <config>
                                             <type>check</type>
                                             <default>1</default>
@@ -254,7 +255,7 @@ $result = [
         ],
         'graduated_price_enable' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products.graduated_price_enable',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products.graduated_price_enable',
             'config' => [
                 'type' => 'check',
                 'default' => 1
@@ -262,7 +263,7 @@ $result = [
         ],
         'graduated_price_round' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products.graduated_price_round',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products.graduated_price_round',
             'config' => [
                 'type' => 'input',
                 'size' => '20',
@@ -273,7 +274,7 @@ $result = [
         ],
         'graduated_price_uid' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products.graduated_price_uid',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products.graduated_price_uid',
             'config' => [
                 'type' => 'inline',
                 'appearance' =>
@@ -294,7 +295,7 @@ $result = [
             ],
         ],
         'note' => [
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products.note',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products.note',
             'config' => [
                 'type' => 'text',
                 'cols' => '48',
@@ -304,7 +305,7 @@ $result = [
             'l10n_mode' => 'prefixLangTitle',
         ],
         'note2' => [
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products.note2',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products.note2',
             'config' => [
                 'type' => 'text',
                 'cols' => '48',
@@ -315,7 +316,7 @@ $result = [
         ],
         'inStock' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products.inStock',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products.inStock',
             'config' => [
                 'type' => 'input',
                 'size' => '6',
@@ -326,7 +327,7 @@ $result = [
         ],
         'basketminquantity' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products.basketminquantity',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products.basketminquantity',
             'config' => [
                 'type' => 'input',
                 'size' => '10',
@@ -337,7 +338,7 @@ $result = [
         ],
         'basketmaxquantity' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products.basketmaxquantity',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products.basketmaxquantity',
             'config' => [
                 'type' => 'input',
                 'size' => '10',
@@ -348,7 +349,7 @@ $result = [
         ],
         'weight' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products.weight',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products.weight',
             'config' => [
                 'type' => 'input',
                 'size' => '10',
@@ -359,7 +360,7 @@ $result = [
         ],
         'color' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products.color',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products.color',
             'config' => [
                 'type' => 'text',
                 'cols' => '46',
@@ -371,7 +372,7 @@ $result = [
         ],
         'color2' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products.color2',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products.color2',
             'config' => [
                 'type' => 'text',
                 'cols' => '46',
@@ -382,7 +383,7 @@ $result = [
         ],
         'color3' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products.color3',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products.color3',
             'config' => [
                 'type' => 'text',
                 'cols' => '46',
@@ -393,7 +394,7 @@ $result = [
         ],
         'size' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products.size',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products.size',
             'config' => [
                 'type' => 'text',
                 'cols' => '46',
@@ -404,7 +405,7 @@ $result = [
         ],
         'size2' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products.size2',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products.size2',
             'config' => [
                 'type' => 'text',
                 'cols' => '46',
@@ -415,7 +416,7 @@ $result = [
         ],
         'size3' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products.size3',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products.size3',
             'config' => [
                 'type' => 'text',
                 'cols' => '46',
@@ -426,7 +427,7 @@ $result = [
         ],
         'description' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products.description',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products.description',
             'config' => [
                 'type' => 'text',
                 'cols' => '46',
@@ -437,7 +438,7 @@ $result = [
         ],
         'gradings' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products.gradings',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products.gradings',
             'config' => [
                 'type' => 'text',
                 'cols' => '46',
@@ -448,7 +449,7 @@ $result = [
         ],
         'material' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products.material',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products.material',
             'config' => [
                 'type' => 'text',
                 'cols' => '46',
@@ -459,7 +460,7 @@ $result = [
         ],
         'quality' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products.quality',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products.quality',
             'config' => [
                 'type' => 'text',
                 'cols' => '46',
@@ -469,7 +470,7 @@ $result = [
             ]
         ],
         'config_type' => [
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_articles.config_type',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_articles.config_type',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
@@ -482,7 +483,7 @@ $result = [
         ],
         'config' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_articles.config',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_articles.config',
             'config' => [
                 'type' => 'flex',
                 'ds_pointerField' => 'config_type',
@@ -494,7 +495,7 @@ $result = [
                                 <el>
                                 <isAddedPrice>
                                     <TCEforms>
-                                        <label>LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_articles.config.isaddedprice</label>
+                                        <label>LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_articles.config.isaddedprice</label>
                                         <config>
                                             <type>check</type>
                                         </config>
@@ -531,7 +532,7 @@ $result = [
         ],
         'smallimage' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products.smallimage',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products.smallimage',
             'config' => [
                 'type' => 'group',
                 'internal_type' => 'file',
@@ -563,8 +564,8 @@ $result = [
                     ]
                 ],
                 'showitem' => 'tstamp, crdate, hidden,--palette--;;1, title,--palette--;;3, itemnumber, slug, inStock, basketminquantity,basketmaxquantity, price,--palette--;;2, weight, note,note2,image,smallimage,' .
-                '--div--;LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products.variants,color,color2,--palette--;;9,size,size2,--palette--;;10,description,gradings,material,quality,' .
-                '--div--;LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products.graduated,graduated_config,graduated_price_enable,graduated_price_round,graduated_price_uid,'
+                '--div--;LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products.variants,color,color2,--palette--;;9,size,size2,--palette--;;10,description,gradings,material,quality,' .
+                '--div--;LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products.graduated,graduated_config,graduated_price_enable,graduated_price_round,graduated_price_uid,'
             ]
     ],
     'palettes' => [

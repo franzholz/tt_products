@@ -1,14 +1,15 @@
 <?php
 defined('TYPO3') || die('Access denied.');
 
-call_user_func(function () {
+call_user_func(function($extensionKey, $table)
+{
     $languageSubpath = '/Resources/Private/Language/';
 
     if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('voucher')) {
 
         $temporaryColumns = [
             'uid_local' => [
-                'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:sys_products_orders_mm_gained_voucher_codes.uid_local',
+                'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_orders_mm_gained_voucher_codes.uid_local',
                 'config' => [
                     'type' => 'select',
                     'renderType' => 'selectSingle',
@@ -18,7 +19,7 @@ call_user_func(function () {
                 ]
             ],
             'uid_foreign' => [
-                'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:sys_products_orders_mm_gained_voucher_codes.uid_foreign',
+                'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_orders_mm_gained_voucher_codes.uid_foreign',
                 'config' => [
                     'type' => 'select',
                     'renderType' => 'selectSingle',
@@ -51,4 +52,4 @@ call_user_func(function () {
             ''
         );
     }
-});
+}, 'tt_products', basename(__FILE__, '.php'));

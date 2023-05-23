@@ -1,7 +1,8 @@
 <?php
 defined('TYPO3') || die('Access denied.');
 
-call_user_func(function () {
+call_user_func(function($extensionKey, $table)
+{
     $imageFile = PATH_TTPRODUCTS_ICON_TABLE_REL . 'tt_products.gif';
 
     // add folder icon
@@ -18,7 +19,7 @@ call_user_func(function () {
 
     if ($addToModuleSelection) {
         $GLOBALS['TCA']['pages']['columns']['module']['config']['items'][] = [
-            0 => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang.xlf:pageModule.plugin',
+            0 => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang.xlf:pageModule.plugin',
             1 => $pageType,
             2 => 'apps-pagetree-folder-contains-tt_products'
         ];
@@ -28,6 +29,6 @@ call_user_func(function () {
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::registerPageTSConfigFile(
         $pageType,
         'Configuration/TSconfig/Page/folder_tables.txt',
-        'EXT:' . TT_PRODUCTS_EXT . ' :: Restrict pages to tt_products records'
+        'EXT:' . $extensionKey . ' :: Restrict pages to tt_products records'
     );
-});
+}, 'tt_products', basename(__FILE__, '.php'));

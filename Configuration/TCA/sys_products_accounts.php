@@ -1,9 +1,10 @@
 <?php
 defined('TYPO3') || die('Access denied.');
 
+$extensionKey = 'tt_products';
 $accountField = 'ac_number';
 
-if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['sepa']) {
+if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['sepa']) {
     $accountField = 'iban';
 }
 
@@ -14,7 +15,7 @@ $languageSubpath = '/Resources/Private/Language/';
 
 $result = [
     'ctrl' => [
-        'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:sys_products_accounts',
+        'title' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_accounts',
         'label' => $accountField,
         'label_userFunc' => 'tx_ttproducts_table_label->getLabel',
         'default_sortby' => 'ORDER BY ' . $accountField,
@@ -27,7 +28,7 @@ $result = [
     'columns' => [
         'iban' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:sys_products_accounts.iban',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_accounts.iban',
             'config' => [
                 'type' => 'input',
                 'size' => '24',
@@ -38,7 +39,7 @@ $result = [
         ],
         'ac_number' => [
             'exclude' => 0,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:sys_products_accounts.ac_number',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_accounts.ac_number',
             'config' => [
                 'type' => 'input',
                 'size' => '40',
@@ -59,7 +60,7 @@ $result = [
         ],
         'bic' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:sys_products_accounts.bic',
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_accounts.bic',
             'config' => [
                 'type' => 'input',
                 'size' => '11',

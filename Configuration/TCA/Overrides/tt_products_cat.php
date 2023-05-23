@@ -1,12 +1,12 @@
 <?php
 defined('TYPO3') || die('Access denied.');
 
-call_user_func(function () {
-    $table = 'tt_products_cat';
+call_user_func(function($extensionKey, $table)
+{
     $configuration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\JambageCom\TtProducts\Domain\Model\Dto\EmConfiguration::class);
     $languageSubpath = '/Resources/Private/Language/';
 
-    $orderBySortingTablesArray = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['orderBySortingTables']);
+    $orderBySortingTablesArray = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['orderBySortingTables']);
     if (
         !empty($orderBySortingTablesArray) &&
         in_array($table, $orderBySortingTablesArray)
@@ -55,7 +55,7 @@ call_user_func(function () {
         if ($field == 'image') {
             $GLOBALS['TCA'][$table]['columns'][$uidField]['label'] = DIV2007_LANGUAGE_LGL . $field;
         } else {
-            $GLOBALS['TCA'][$table]['columns'][$uidField]['label'] = 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf:tt_products_cat.' . $field;
+            $GLOBALS['TCA'][$table]['columns'][$uidField]['label'] = 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_cat.' . $field;
         }
 
         $GLOBALS['TCA'][$table]['ctrl']['thumbnail'] = 'image_uid';    
@@ -69,7 +69,7 @@ call_user_func(function () {
 
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToInsertRecords($table);
     $excludeArray =  
-        ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude']);
+        ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['exclude']);
 
     if (
         isset($excludeArray) &&
@@ -82,5 +82,4 @@ call_user_func(function () {
             $excludeArray[$table]
         );
     }
-});
-
+}, 'tt_products', basename(__FILE__, '.php'));
