@@ -24,7 +24,7 @@ $result = [
 		'versioningWS' => true,
 		'origUid' => 't3_origuid',
 		'mainpalette' => 1,
-		'iconfile' => PATH_TTPRODUCTS_ICON_TABLE_REL . 'tt_products_emails.gif',
+        'iconfile' => 'EXT:' . $extensionKey . '/Resources/Public/Icons/' . 'tt_products_emails.gif',
 		'searchFields' => 'name,email',
 	],
 	'columns' => [

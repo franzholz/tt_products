@@ -3,8 +3,6 @@ defined('TYPO3') || die('Access denied.');
 
 call_user_func(function($extensionKey, $table)
 {
-    $imageFile = PATH_TTPRODUCTS_ICON_TABLE_REL . 'tt_products.gif';
-
     // add folder icon
     $pageType = 'ttpproduct';
     $languageSubpath = '/Resources/Private/Language/';

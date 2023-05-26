@@ -25,7 +25,7 @@ $result = [
 		'cruser_id' => 'cruser_id',
 		'versioningWS' => true,
 		'origUid' => 't3_origuid',
-		'iconfile' => PATH_TTPRODUCTS_ICON_TABLE_REL . 'tt_products_texts.gif',
+        'iconfile' => 'EXT:' . $extensionKey . '/Resources/Public/Icons/' . 'tt_products_texts.gif',
 		'searchFields' => 'title,marker,note',
 	],
 	'columns' => [

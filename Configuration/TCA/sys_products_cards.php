@@ -16,7 +16,7 @@ $result = [
         'tstamp' => 'tstamp',
         'prependAtCopy' => $languageLglPath . 'prependAtCopy',
         'crdate' => 'crdate',
-        'iconfile' => PATH_TTPRODUCTS_ICON_TABLE_REL . 'sys_products_cards.gif',
+        'iconfile' => 'EXT:' . $extensionKey . '/Resources/Public/Icons/' . 'sys_products_cards.gif',
         'searchFields' => 'owner_name,cc_number',
     ],
     'columns' => [

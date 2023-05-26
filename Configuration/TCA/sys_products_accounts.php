@@ -23,7 +23,7 @@ $result = [
         'tstamp' => 'tstamp',
         'prependAtCopy' => $languageLglPath . 'prependAtCopy',
         'crdate' => 'crdate',
-        'iconfile' => PATH_TTPRODUCTS_ICON_TABLE_REL . 'sys_products_accounts.gif',
+        'iconfile' => 'EXT:' . $extensionKey . '/Resources/Public/Icons/' . 'sys_products_accounts.gif',
         'searchFields' => 'owner_name,' . $accountField,
     ],
     'columns' => [

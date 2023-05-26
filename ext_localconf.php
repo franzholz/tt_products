@@ -20,10 +20,6 @@ call_user_func(function () {
         );
     }
 
-    if (!defined ('PATH_TTPRODUCTS_ICON_TABLE_REL')) {
-        define('PATH_TTPRODUCTS_ICON_TABLE_REL', 'EXT:' . TT_PRODUCTS_EXT . '/Resources/Public/Icons/');
-    }
-
     if (!defined ('ADDONS_EXT')) {
         define('ADDONS_EXT', 'addons_tt_products');
     }
@@ -46,14 +42,6 @@ call_user_func(function () {
 
     if (!defined ('EXTERNAL_FIELD_PREFIX')) {
         define('EXTERNAL_FIELD_PREFIX', 'tx_ttproducts_');
-    }
-
-    if (!defined('DIV2007_LANGUAGE_LGL')) {
-        define('DIV2007_LANGUAGE_LGL', 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.');
-    }
-
-    if (!defined('DIV2007_LANGUAGE_PATH')) {
-        define('DIV2007_LANGUAGE_PATH', 'LLL:EXT:core/Resources/Private/Language/');
     }
 
     // The autoloader does not work in ext_localconf.php and in the folder Configuratin/TCA

@@ -41,7 +41,7 @@ $result = [
 		'thumbnail' => 'image',
 		'useColumnsForDefaultValues' => 'category',
 		'mainpalette' => 1,
-		'iconfile' => PATH_TTPRODUCTS_ICON_TABLE_REL . 'tt_products.gif',
+        'iconfile' => 'EXT:' . $extensionKey . '/Resources/Public/Icons/' . 'tt_products.gif',
 		'dividers2tabs' => '1',
 		'searchFields' => 'uid,title,subtitle,itemnumber,ean,note,note2,www',
 	],

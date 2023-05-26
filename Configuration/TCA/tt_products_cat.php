@@ -34,7 +34,7 @@ $result = [
 		'cruser_id' => 'cruser_id',
 		'versioningWS' => true,
 		'origUid' => 't3_origuid',
-		'iconfile' => PATH_TTPRODUCTS_ICON_TABLE_REL . 'tt_products_cat.gif',
+        'iconfile' => 'EXT:' . $extensionKey . '/Resources/Public/Icons/' . 'tt_products_cat.gif',
 		'searchFields' => 'uid,title,subtitle,catid,keyword,note,note2',
 	],
 	'columns' => [
