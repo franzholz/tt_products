@@ -47,6 +47,7 @@ use JambageCom\Div2007\Utility\FrontendUtility;
 
 
 use JambageCom\TtProducts\Api\PluginApi;
+use JambageCom\TtProducts\Model\Field\FieldInterface;
 
 
 class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
@@ -1798,7 +1799,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 								$currentParentRow = $parentRow;
 								foreach ($row as $field => $value) {
 									if (empty($value) && !empty($parentRow[$field])) {
-                                        $prefixArray = ['', EXTERNAL_FIELD_PREFIX];
+                                        $prefixArray = ['', FieldInterface::EXTERNAL_FIELD_PREFIX];
                                         foreach ($prefixArray as $prefix) {
                                             if (
                                                 (
@@ -1807,7 +1808,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
                                                 (
                                                     $row[$prefix . 'price_enable'] ||
                                                     (
-                                                        !$parentRow[EXTERNAL_FIELD_PREFIX . 'price_enable'] &&
+                                                        !$parentRow[FieldInterface::EXTERNAL_FIELD_PREFIX . 'price_enable'] &&
                                                         !$parentRow['price_enable']
                                                     )
                                                 )
@@ -1816,8 +1817,8 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
                                             }
 										}
 										$correspondingField = $field;
-										if (strpos($field, EXTERNAL_FIELD_PREFIX) === 0) {
-											$correspondingField = substr($field, strlen(EXTERNAL_FIELD_PREFIX));
+										if (strpos($field, FieldInterface::EXTERNAL_FIELD_PREFIX) === 0) {
+											$correspondingField = substr($field, strlen(FieldInterface::EXTERNAL_FIELD_PREFIX));
 										}
 										$row[$field] = $parentRow[$correspondingField];
 									}
@@ -2278,7 +2279,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 								$prodRow = $row;
 							} else {
                                 $prodRow = $parentProductRow;
-                                $prefixArray = ['', EXTERNAL_FIELD_PREFIX];
+                                $prefixArray = ['', FieldInterface::EXTERNAL_FIELD_PREFIX];
                                 foreach ($prefixArray as $prefix) {
 
                                     if (

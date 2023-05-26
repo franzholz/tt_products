@@ -38,6 +38,8 @@
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+use JambageCom\TtProducts\Model\Field\FieldInterface;
+
 
 abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\SingletonInterface {
 	private $bHasBeenInitialised = false;
@@ -597,8 +599,8 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
 							);
 					}
 				}
-				if (strpos($field, EXTERNAL_FIELD_PREFIX) === 0) {
-					$newField = substr($field, strlen(EXTERNAL_FIELD_PREFIX));
+				if (strpos($field, FieldInterface::EXTERNAL_FIELD_PREFIX) === 0) {
+					$newField = substr($field, strlen(FieldInterface::EXTERNAL_FIELD_PREFIX));
 					$newRow[$newField] = $value;
 					unset($newRow[$field]);
 				}

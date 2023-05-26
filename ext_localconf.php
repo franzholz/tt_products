@@ -40,10 +40,6 @@ call_user_func(function () {
         define('POOL_EXT', 'pool');
     }
 
-    if (!defined ('EXTERNAL_FIELD_PREFIX')) {
-        define('EXTERNAL_FIELD_PREFIX', 'tx_ttproducts_');
-    }
-
     // The autoloader does not work in ext_localconf.php and in the folder Configuratin/TCA
     require_once(PATH_BE_TTPRODUCTS . 'control/class.tx_ttproducts_control_address.php');
 
