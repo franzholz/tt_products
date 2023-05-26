@@ -23,6 +23,6 @@ interface FieldInterface
 	const DISCOUNT_DISABLE = 'discount_disable';
 	const PRICE_CALCULATED = 'calc';
 	const PRICE_CALCULATED_ADDITION = 'calc_add';
+	const EXTERNAL_FIELD_PREFIX = 'tx_ttproducts_';
 }
-
 

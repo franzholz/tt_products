@@ -44,7 +44,7 @@ use TYPO3\CMS\Frontend\Resource\FilePathSanitizer;
 
 
 use JambageCom\Div2007\Utility\FrontendUtility;
-
+use JambageCom\TtProducts\Model\Field\FieldInterface;
 
 class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
 	public $markerArray;
@@ -356,8 +356,8 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
 
 					$field = $fieldTmp;
 
-					if (isset($tableFieldArray[EXTERNAL_FIELD_PREFIX . $field])) {
-						$field = EXTERNAL_FIELD_PREFIX . $field;
+					if (isset($tableFieldArray[FieldInterface::EXTERNAL_FIELD_PREFIX . $field])) {
+						$field = FieldInterface::EXTERNAL_FIELD_PREFIX . $field;
 					}
 
 					if (!isset($tableFieldArray[$field])) {

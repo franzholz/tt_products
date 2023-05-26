@@ -44,10 +44,10 @@ class tx_ttproducts_hooks_pool extends tx_pool_hooks_base {
 	public $extKey = TT_PRODUCTS_EXT;
 	public $prefixId = 'tx_ttproducts_hooks_pool';	// Same as class name
 	public $LLFileArray =
-		array (
+		[
 			'hooks/locallang_pool.xml',
 			DIV2007_LANGUAGE_PATH . 'locallang_mod_web_list.xlf'
-		);
+		];
 	public $modMenu = ['function' => ['search']];
 	public $headerText = 'header_search';
 
@@ -87,6 +87,3 @@ class tx_ttproducts_hooks_pool extends tx_pool_hooks_base {
 		parent::getViewData($content, $header, $docHeaderButtons, $markerArray, $pOb);
 	}
 }
-
-
-
