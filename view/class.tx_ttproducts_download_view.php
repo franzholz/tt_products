@@ -37,6 +37,7 @@
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\PathUtility;
 
 use JambageCom\Div2007\Utility\FrontendUtility;
 
@@ -272,7 +273,7 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view {
 						$paramArray[$prefixId . '[' . $orderPivar . ']'] = $orderUid;
 					}
 
-                    $downloadImageFile = \TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath(PATH_BE_TTPRODUCTS . 'Resources/Public/Icons/system-extension-download.png');
+                    $downloadImageFile = PathUtility::getAbsoluteWebPath(PATH_BE_TTPRODUCTS . 'Resources/Public/Icons/system-extension-download.png');
 
 					foreach ($fileArray as $k => $file) {
 						if ($file != $path) {
