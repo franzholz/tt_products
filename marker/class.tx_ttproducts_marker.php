@@ -40,6 +40,7 @@
 
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use \TYPO3\CMS\Core\Utility\PathUtility;
 use TYPO3\CMS\Frontend\Resource\FilePathSanitizer;
 
 
@@ -162,13 +163,14 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
 		$markerArray['###GC2###'] = $cObj->stdWrap($conf['color2'] ?? '', $conf['color2.'] ?? '');
 		$markerArray['###GC3###'] = $cObj->stdWrap($conf['color3'] ?? '', $conf['color3.'] ?? '');
 		$markerArray['###DOMAIN###'] = $conf['domain'] ?? '';
-		$markerArray['###PATH_FE_REL###'] = \TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath(PATH_BE_TTPRODUCTS);
-		$markerArray['###PATH_FE_ICONS###'] =  PATH_FE_TTPRODUCTS_REL . 'Resources/Public/Images/';
+        $path = ExtensionManagementUtility::extPath('tt_products');
 
-		if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded(ADDONS_EXT)) {
-            $markerArray['###PATH_FE_REL###'] = PATH_FE_ADDONS_TT_PRODUCTS_REL;
-            $markerArray['###PATH_FE_ICONS###'] = PATH_FE_ADDONS_TT_PRODUCTS_ICON_REL;
-		}
+		if (ExtensionManagementUtility::isLoaded('addons_tt_products')) {
+            $path = ExtensionManagementUtility::extPath('addons_tt_products');
+        }
+        $patchFe = PathUtility::getAbsoluteWebPath($path);
+        $markerArray['###PATH_FE_REL###'] = $patchFe;
+        $markerArray['###PATH_FE_ICONS###'] = $patchFe . 'Resources/Public/Images/';
 		$pidMarkerArray = [
 			'agb', 'basket', 'billing', 'delivery', 'finalize', 'info', 'itemDisplay',
 			'listDisplay', 'payment', 'revocation',

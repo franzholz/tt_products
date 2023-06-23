@@ -983,7 +983,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 		$markerArray['###ERROR_DETAILS###'] = '';
 		$conf = $cnf->getConf();
 
-		$pidTypeArray = ['PIDthanks', 'PIDfinalize', 'PIDpayment', 'PIDbasket'];
+		$pidTypeArray = ['PIDthanks', 'PIDfinalize', 'PIDpayment', 'PIDbasket', 'PIDinfo'];
 		$pidArray = [];
 		foreach ($pidTypeArray as $pidType) {
 			if (

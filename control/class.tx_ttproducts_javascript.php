@@ -37,6 +37,7 @@
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\PathUtility;
 
 use JambageCom\Div2007\Utility\FrontendUtility;
 
@@ -570,7 +571,7 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
 					is_object($this->ajax->taxajax)
 				) {
                     $path =
-                        \TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix(
+                        PathUtility::stripPathSitePrefix(
                             \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath(TAXAJAX_EXT)
                         );
 					$code = $this->ajax->taxajax->getJavascript($path);
