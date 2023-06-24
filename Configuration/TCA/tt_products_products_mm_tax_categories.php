@@ -1,6 +1,7 @@
 <?php
 defined('TYPO3') || die('Access denied.');
 
+$languageSubpath = '/Resources/Private/Language/';
 $languageLglPath = 'LLL:EXT:core' . $languageSubpath . 'locallang_general.xlf:LGL.';
 
 $result = [
