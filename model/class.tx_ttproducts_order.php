@@ -357,9 +357,10 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
 					);
 
 				if (
+					empty($orderRow) ||
 					!is_array($orderRow) ||
-					$orderRow['tracking_code'] == '' ||
-					$orderRow['email'] == ''
+					isset($orderRow['tracking_code']) && $orderRow['tracking_code'] == '' ||
+					isset($orderRow['email']) && $orderRow['email'] == ''
 				) {
 					$bOnlyStatusChange = false;
 				}
