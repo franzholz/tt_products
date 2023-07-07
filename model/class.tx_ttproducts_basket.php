@@ -49,12 +49,11 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 	public $conf;
 
 		// Internal: initBasket():
-	public $basket = [];			// initBasket() sets this array based on the registered items
 	public $recs = []; 		// in initBasket this is set to the recs-array of fe_user.
 // 	public $order = []; 	// order data
 	public $giftnumber;				// current counter of the gifts
 
-	public $itemArray = [];		// the items in the basket; database row, how many (quantity, count) and the price; this has replaced the former $calculatedBasket
+	public $itemArray = [];	// the items in the basket; database row, how many (quantity, count) and the price; this has replaced the former $calculatedBasket
 
 	public $giftServiceRow;
 	protected $maxTax;
@@ -105,7 +104,6 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
             }
         }
 
-		$this->basket = [];
 		$this->setItemArray([]);
 
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
@@ -753,7 +751,7 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 			tx_ttproducts_control_basket::setBasketExt([]);
 			tx_ttproducts_control_basket::store('basketExt', []);
 			tx_ttproducts_control_basket::store('order', []);
-			unset($this->itemArray);
+			$this->setItemArray([]);
 
 		}
 		tx_ttproducts_control_basket::store('ac', []);
