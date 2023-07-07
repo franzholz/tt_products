@@ -534,7 +534,11 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 			foreach($item as $md5 => $quantity) {
 				$quantity = $priceObj->toNumber($this->conf['quantityIsFloat'], $quantity);
 
-				if (is_array($basketExt[$uid]) && $md5 != 'additional') {
+				if (
+                    isset($basketExt[$uid]) &&
+                    is_array($basketExt[$uid]) &&
+                    $md5 != 'additional'
+                ) {
 					foreach($basketExt[$uid] as $allVariants => $tmp) {
 						$actMd5 = md5($allVariants);
 
