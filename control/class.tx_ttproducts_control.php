@@ -938,7 +938,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 		$activityArray,
 		$activityVarsArray,
 		$codeActivityArray,
-		$calculatedArray,
+		&$calculatedArray,
 		$basketExtra,
 		array $basketRecs,
 		$basketExt,
@@ -1092,10 +1092,12 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 					case 'products_clear_basket':
 						// Empties the shopping basket!
 						$basketObj->clearBasket(true);
+                        $bBasketEmpty = $basketObj->isEmpty();
 						$calculatedArray = [];
 						$calculObj = GeneralUtility::makeInstance('tx_ttproducts_basket_calculate');
 						$calculObj->setCalculatedArray($calculatedArray);
-                        $bBasketEmpty = $basketObj->isEmpty();
+						$calculObj->clear();
+						$calculatedArray = $calculObj->getCalculatedArray();
 					break;
 					case 'products_basket':
 						if (

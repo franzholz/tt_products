@@ -736,7 +736,6 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 		return ($this->recs);
 	} // getClearBasketRecord
 
-
 	/**
 	 * Empties the shopping basket!
 	 */
@@ -753,9 +752,9 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 			tx_ttproducts_control_basket::setBasketExt([]);
 			tx_ttproducts_control_basket::store('basketExt', []);
 			tx_ttproducts_control_basket::store('order', []);
-			unset($this->itemArray);
-
+			$this->setItemArray([]);
 		}
+
 		tx_ttproducts_control_basket::store('ac', []);
 		tx_ttproducts_control_basket::store('cc', []);
 		tx_ttproducts_control_basket::store('cp', []);
