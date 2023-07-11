@@ -644,7 +644,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 		$basketMarkerArray = [];
 		if ($checkBasket && $bBasketEmpty) {
 			$contentEmpty = '';
-			if ($this->activityArray['products_overview']) {
+			if (!empty($this->activityArray['products_overview'])) {
 				$contentEmpty = $templateService->getSubpart(
 					$templateCode,
 					$subpartmarkerObj->spMarker('###BASKET_OVERVIEW_EMPTY' . $this->config['templateSuffix'] . '###')
@@ -938,7 +938,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 		$activityArray,
 		$activityVarsArray,
 		$codeActivityArray,
-		$calculatedArray,
+		&$calculatedArray,
 		$basketExtra,
 		array $basketRecs,
 		$basketExt,
@@ -1007,8 +1007,6 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 			!empty($activityArray['products_verify']) ||
 			!empty($activityArray['products_finalize'])
 		) {
-			$basketObj->basketExtra = $basketExtra; // Todo: $basketExtra must become a parameter in the table's init method
-
 			// get credit card info
 			$cardViewObj = $tablesObj->get('sys_products_cards', true);
 			if (is_object($cardViewObj)) {
@@ -1092,15 +1090,17 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 					case 'products_clear_basket':
 						// Empties the shopping basket!
 						$basketObj->clearBasket(true);
+                        $bBasketEmpty = $basketObj->isEmpty();
 						$calculatedArray = [];
 						$calculObj = GeneralUtility::makeInstance('tx_ttproducts_basket_calculate');
 						$calculObj->setCalculatedArray($calculatedArray);
-                        $bBasketEmpty = $basketObj->isEmpty();
+						$calculObj->clear();
+						$calculatedArray = $calculObj->getCalculatedArray();
 					break;
 					case 'products_basket':
 						if (
 							count($activityArray) == 1 ||
-							count($activityArray) == 2 && $activityArray['products_overview']
+							count($activityArray) == 2 && !empty($activityArray['products_overview'])
 						) {
 							$basket_tmpl = 'BASKET_TEMPLATE';
 						}

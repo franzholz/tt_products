@@ -47,7 +47,6 @@ class tx_ttproducts_control_user_int implements \TYPO3\CMS\Core\SingletonInterfa
 	 */
 	public function singleCtrl ($content,$conf)	{
 
-// 		include_once(PATH_BE_TTPRODUCTS . 'control/class.tx_ttproducts_control_single.php');
 		$ctrlSingleObj = GeneralUtility::makeInstance('tx_ttproducts_control_single');
 		$ctrlSingleObj->triggerEvents($conf);
 

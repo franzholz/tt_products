@@ -113,6 +113,56 @@ class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterfa
 		return $goodsTotalTax;
 	}
 
+    public function clear ($taxMode = 1)
+    {
+        $this->calculatedArray = $this->getBaseCalculatedArray();
+        $this->calculatedArray['priceTax'] = [];
+        $this->calculatedArray['priceNoTax'] = [];
+        $this->calculatedArray['price0Tax'] = [];
+        $this->calculatedArray['price0NoTax'] = [];
+        $this->calculatedArray['price2Tax'] = [];
+        $this->calculatedArray['price2NoTax'] = [];
+        $this->calculatedArray['deposittax'] = [];
+        $this->calculatedArray['depositnotax'] = [];
+        $this->calculatedArray['payment'] = [];
+        $this->calculatedArray['shipping'] = [];
+        $this->calculatedArray['handling'] =
+            [
+                '0' => []
+            ];
+
+        $this->calculatedArray['priceTax']['goodstotal']['ALL'] = 0;
+        $this->calculatedArray['priceNoTax']['goodstotal']['ALL'] = 0;
+        $this->calculatedArray['price0Tax']['goodstotal']['ALL'] = 0;
+        $this->calculatedArray['price0NoTax']['goodstotal']['ALL'] = 0;
+        $this->calculatedArray['price2Tax']['goodstotal']['ALL'] = 0;
+        $this->calculatedArray['price2NoTax']['goodstotal']['ALL'] = 0;
+        $this->calculatedArray['categoryPriceNoTax']['goodstotal']['ALL'] = [];
+        $this->calculatedArray['deposittax']['goodstotal']['ALL'] = 0;
+        $this->calculatedArray['depositnotax']['goodstotal']['ALL'] = 0;
+        $this->calculatedArray['noDiscountPriceTax']['goodstotal']['ALL'] = 0;
+        $this->calculatedArray['noDiscountPriceNoTax']['goodstotal']['ALL'] = 0;
+
+        if ($taxMode == '1') {
+            $this->calculatedArray['priceNoTax']['goodssametaxtotal']['ALL'] = [];
+            $this->calculatedArray['price2NoTax']['goodssametaxtotal']['ALL'] = [];
+            $this->calculatedArray['price0NoTax']['goodssametaxtotal']['ALL'] = [];
+            $this->calculatedArray['categoryPriceNoTax']['goodssametaxtotal']['ALL'] = [];
+            $this->calculatedArray['depositnotax']['goodssametaxtotal']['ALL'] = [];
+        }
+        $this->calculatedArray['priceNoTax']['sametaxtotal']['ALL'] = [];
+        $this->calculatedArray['price2NoTax']['sametaxtotal']['ALL'] = [];
+        $this->calculatedArray['price0NoTax']['sametaxtotal']['ALL'] = [];
+        $this->calculatedArray['categoryPriceNoTax']['sametaxtotal']['ALL'] = [];
+        $this->calculatedArray['depositnotax']['sametaxtotal']['ALL'] = [];
+
+        $this->calculatedArray['shipping']['priceTax'] = 0;
+        $this->calculatedArray['shipping']['priceNoTax'] = 0;
+        $this->calculatedArray['payment']['priceTax'] = 0;
+        $this->calculatedArray['payment']['priceNoTax'] = 0;
+        $this->calculatedArray['handling']['0']['priceTax'] = 0;
+        $this->calculatedArray['handling']['0']['priceNoTax'] = 0;        
+    }
 
 	/**
 	 * This calculates the totals. Very important function.
@@ -149,53 +199,7 @@ class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterfa
 		$iso3Seller = \JambageCom\TtProducts\Api\PaymentApi::getStoreIso3('DEU');
 		$iso3Buyer = \JambageCom\TtProducts\Api\CustomerApi::getBillingIso3('DEU');
 
-
-        $this->calculatedArray = $this->getBaseCalculatedArray();
-		$this->calculatedArray['priceTax'] = [];
-		$this->calculatedArray['priceNoTax'] = [];
-		$this->calculatedArray['price0Tax'] = [];
-		$this->calculatedArray['price0NoTax'] = [];
-		$this->calculatedArray['price2Tax'] = [];
-		$this->calculatedArray['price2NoTax'] = [];
-		$this->calculatedArray['deposittax'] = [];
-		$this->calculatedArray['depositnotax'] = [];
-		$this->calculatedArray['payment'] = [];
-		$this->calculatedArray['shipping'] = [];
-		$this->calculatedArray['handling'] = [
-                                            '0' => []
-                                        ];
-
-		$this->calculatedArray['priceTax']['goodstotal']['ALL'] = 0;
-		$this->calculatedArray['priceNoTax']['goodstotal']['ALL'] = 0;
-		$this->calculatedArray['price0Tax']['goodstotal']['ALL'] = 0;
-		$this->calculatedArray['price0NoTax']['goodstotal']['ALL'] = 0;
-		$this->calculatedArray['price2Tax']['goodstotal']['ALL'] = 0;
-		$this->calculatedArray['price2NoTax']['goodstotal']['ALL'] = 0;
-		$this->calculatedArray['categoryPriceNoTax']['goodstotal']['ALL'] = [];
-        $this->calculatedArray['deposittax']['goodstotal']['ALL'] = 0;
-        $this->calculatedArray['depositnotax']['goodstotal']['ALL'] = 0;
-        $this->calculatedArray['noDiscountPriceTax']['goodstotal']['ALL'] = 0;
-        $this->calculatedArray['noDiscountPriceNoTax']['goodstotal']['ALL'] = 0;
-
-		if ($conf['TAXmode'] == '1') {
-			$this->calculatedArray['priceNoTax']['goodssametaxtotal']['ALL'] = [];
-			$this->calculatedArray['price2NoTax']['goodssametaxtotal']['ALL'] = [];
-			$this->calculatedArray['price0NoTax']['goodssametaxtotal']['ALL'] = [];
-			$this->calculatedArray['categoryPriceNoTax']['goodssametaxtotal']['ALL'] = [];
-			$this->calculatedArray['depositnotax']['goodssametaxtotal']['ALL'] = [];
-		}
-		$this->calculatedArray['priceNoTax']['sametaxtotal']['ALL'] = [];
-		$this->calculatedArray['price2NoTax']['sametaxtotal']['ALL'] = [];
-		$this->calculatedArray['price0NoTax']['sametaxtotal']['ALL'] = [];
-		$this->calculatedArray['categoryPriceNoTax']['sametaxtotal']['ALL'] = [];
-		$this->calculatedArray['depositnotax']['sametaxtotal']['ALL'] = [];
-
-		$this->calculatedArray['shipping']['priceTax'] = 0;
-		$this->calculatedArray['shipping']['priceNoTax'] = 0;
-		$this->calculatedArray['payment']['priceTax'] = 0;
-		$this->calculatedArray['payment']['priceNoTax'] = 0;
-        $this->calculatedArray['handling']['0']['priceTax'] = 0;
-        $this->calculatedArray['handling']['0']['priceNoTax'] = 0;
+        $this->clear($conf['TAXmode']);
 
 		if (tx_ttproducts_static_tax::isInstalled()) {
 			$shippingTax =

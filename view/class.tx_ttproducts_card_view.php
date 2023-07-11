@@ -58,9 +58,6 @@ class tx_ttproducts_card_view extends tx_ttproducts_table_base_view {
 	 * @access private
 	 */
 	public function getMarkerArray ($row, &$markerArray, array $allowedArray, $tablename = 'sys_products_cards') {
-
-// 		GeneralUtility::requireOnce(PATH_BE_TTPRODUCTS . 'lib/class.tx_ttproducts_form_div.php');
-
         $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
         $cObj = FrontendUtility::getContentObjectRenderer();
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');

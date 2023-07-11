@@ -222,21 +222,28 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 			if ($requiredInfoFields) {
 				$infoFields = GeneralUtility::trimExplode(',', $requiredInfoFields);
 
-				foreach($infoFields as $fName) {
+                foreach($infoFields as $fName) {
 
-					if (trim($this->infoArray[$type][$fName]) == '') {
-						$result = $fName;
-						break;
-					}
-				}
-			}
+                    if (
+                        !isset($this->infoArray[$type]) ||
+                        !isset($this->infoArray[$type][$fName]) ||
+                        trim($this->infoArray[$type][$fName]) == ''
+                    ) {
+                        $result = $fName;
+                        break;
+                    }
+                }
+            }
 
 
 			// RegEx-Check
 			$checkFieldsExpr = $this->getFieldChecks($type);
 			if (($checkFieldsExpr) && (is_array($checkFieldsExpr))) {
 				foreach ($checkFieldsExpr as $fName => $checkExpr) {
-					if (!empty($this->infoArray[$type][$fName])) {
+                    if (
+                        isset($this->infoArray[$type][$fName]) &&
+                        trim($this->infoArray[$type][$fName]) != ''
+                        ) {
 						if (
                             preg_match('/' . $checkExpr . '/', $this->infoArray[$type][$fName]) == 0
                         ) {
@@ -744,7 +751,7 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$markerArray['###FE_USER_TT_PRODUCTS_DISCOUNT###'] = $GLOBALS['TSFE']->fe_user->user['tt_products_discount'] ?? '';
 		$markerArray['###FE_USER_USERNAME###'] = $GLOBALS['TSFE']->fe_user->user['username'] ?? '';
 		$markerArray['###FE_USER_UID###'] = $GLOBALS['TSFE']->fe_user->user['uid'] ?? '';
-		$bAgb = ($this->infoArray['billing']['agb'] && (!isset($piVars['agb']) || $piVars['agb'] > 0));
+		$bAgb = (isset($this->infoArray['billing']['agb']) && $this->infoArray['billing']['agb'] && (!isset($piVars['agb']) || $piVars['agb'] > 0));
 		$markerArray['###FE_USER_CNUM###'] = $GLOBALS['TSFE']->fe_user->user['cnum'] ?? '';
 		$markerArray['###PERSON_AGB###'] = 'value="1" ' . ($bAgb ? 'checked="checked"' : '');
 		$markerArray['###USERNAME###'] = $this->infoArray['billing']['email'] ?? '';
