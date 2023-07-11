@@ -115,7 +115,6 @@ class tx_ttproducts_tables implements \TYPO3\CMS\Core\SingletonInterface {
 
 		foreach ($classNameArray as $k => $className) {
 			if ($className != 'skip') {
-				// include_once (PATH_BE_TTPRODUCTS.$k.'/class.'.$className.'.php');
 				if (strpos($className, ':') === false) {
 					$path = PATH_BE_TTPRODUCTS;
 				} else {

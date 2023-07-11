@@ -1734,5 +1734,3 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 		return $rc;
 	}
 }
-
-

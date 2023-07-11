@@ -1,5 +1,5 @@
 2023-07-07 Franz Holzinger <franz@ttproducts.de>
-    * bugfix: products_clear_basket must iniatlize the calculatedArray
+    * bugfix: products_clear_basket must initiatize the calculatedArray
 
 2023-06-23 Franz Holzinger <franz@ttproducts.de>
     * fix #193 : fe_group varchar(255)

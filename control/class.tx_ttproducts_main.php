@@ -653,7 +653,6 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 						} else if (substr($theCode, 0, 4) == 'MENU') {
 							$categoryClass = 'tx_ttproducts_menucat_view';
 						}
-// 						GeneralUtility::requireOnce(PATH_BE_TTPRODUCTS . 'view/class.' . $categoryClass . '.php');
 
 							// category view
 						$categoryView = GeneralUtility::makeInstance($categoryClass);
