@@ -162,7 +162,7 @@ class PluginApi {
     static public function initFlexform (
         $cObj
     ) {
-        if (isset($cObj->data['pi_flexform'])) {
+        if (!empty($cObj->data['pi_flexform'])) {
             self::$flexformArray = GeneralUtility::xml2array($cObj->data['pi_flexform']);
         } else {
             self::$flexformArray = [];

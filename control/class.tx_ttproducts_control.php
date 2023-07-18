@@ -426,6 +426,9 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 		$giftRequired,
 		$paymentErrorMsg
 	) {
+        $label = '';
+        $languageKey = '';
+
 		if ($checkRequired || $checkAllowed) {
 
 			$check = ($checkRequired ? $checkRequired: $checkAllowed);
@@ -494,7 +497,6 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 							$addParams,
 							true
 						);
-// 					$srfeuserBackUrl = $this->pibase->pi_getPageLink($GLOBALS['TSFE']->id, '', $addParams);
                     $srfeuserBackUrl =
                         FrontendUtility::getTypoLink_URL(
                             $cObj,
@@ -504,20 +506,18 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
                             []
                         );
 
-					$srfeuserParams = ['tx_srfeuserregister_pi1[backURL]' => $srfeuserBackUrl];
-					$addParams = $this->urlObj->getLinkParams('', $srfeuserParams, true);
-// 					$markerArray['###FORM_URL_INFO###'] = $this->pibase->pi_getPageLink($editPID, '', $addParams);
+                    $srfeuserParams = ['tx_srfeuserregister_pi1[backURL]' => $srfeuserBackUrl];
+                    $addParams = $this->urlObj->getLinkParams('', $srfeuserParams, true);
                     $markerArray['###FORM_URL_INFO###'] =
                         FrontendUtility::getTypoLink_URL(
                             $cObj,
                             $editPID,
                             $addParams
                         );
+                }
+            }
 
-				}
-			}
-
-			if (!$label) {
+            if (!$label) {
                 if ($languageKey) {
                     $label = $languageObj->getLabel($languageKey);
                 } else {
@@ -657,9 +657,9 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 					);
 				}
 			} else if (
-				$this->activityArray['products_basket'] ||
-				$this->activityArray['products_info'] ||
-				$this->activityArray['products_payment']
+				!empty($this->activityArray['products_basket']) ||
+				!empty($this->activityArray['products_info']) ||
+				!empty($this->activityArray['products_payment'])
 			) {
 				$subpart = 'BASKET_TEMPLATE_EMPTY';
 				$contentEmpty = tx_ttproducts_api::getErrorOut(
@@ -669,7 +669,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 					$subpartmarkerObj->spMarker('###' . $subpart . '###'),
 					$errorCode
 				) ;
-			} else if ($this->activityArray['products_finalize']) {
+			} else if (!empty($this->activityArray['products_finalize'])) {
 				// Todo: Neuabsenden einer bereits abgesendeten Bestellung. Der Warenkorb ist schon gelöscht.
 				if (!$orderArray) {
 					$contentEmpty = $languageObj->getLabel('order_already_finalized');
@@ -730,6 +730,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 			if (
 				$bPayment &&
 				!$bBasketEmpty &&
+				isset($this->conf['paymentActivity']) &&
 				(
 					$this->conf['paymentActivity'] == 'payment' ||
 					$this->conf['paymentActivity'] == 'verify'
@@ -828,9 +829,14 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 						$message = $languageObj->getLabel('error_edit_variant_range');
 						$messageArr =  explode('|', $message);
 
-						if (isset($errorArray['error']) && is_array($errorArray['error'])) {
+						if (
+                            isset($errorArray['error']) &&
+                            is_array($errorArray['error'])
+                        ) {
 							foreach ($errorArray['error'] as $field => $fieldErrorMessage) {
-								$errorMessage = $messageArr[0] . $errorRow[$field] . $messageArr[1] . $errorRow['title'] . $messageArr[2];
+								$errorMessage =
+                                    $messageArr[0] . $errorRow[$field] . $messageArr[1] .
+                                    $errorRow['title'] . $messageArr[2];
 								$errorOut .= $errorMessage . '<br />';
 								$errorOut .= $fieldErrorMessage . '<br />';
 							}
@@ -1238,7 +1244,10 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 							}
 						}
 
-						if (!empty($codeActivityArray[$activity]) || $activityArray['products_basket'] == false) {
+						if (
+                            !empty($codeActivityArray[$activity]) ||
+                             empty($activityArray['products_basket'])                      
+                        ) {
 							$theCode = 'PAYMENT';
 						}
 						$basket_tmpl = 'BASKET_PAYMENT_TEMPLATE';
