@@ -27,6 +27,7 @@ $result = [
 			'endtime' => 'endtime',
 			'fe_group' => 'fe_group',
 		],
+		'thumbnail' => 'image_uid', // supported until TYPO3 10: breaking #92118
 		'prependAtCopy' => $languageLglPath . 'prependAtCopy',
 		'crdate' => 'crdate',
 		'cruser_id' => 'cruser_id',

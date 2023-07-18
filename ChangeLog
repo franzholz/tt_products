@@ -1,3 +1,7 @@
+
+2023-07-18 Franz Holzinger <franz@ttproducts.de>
+    * compatibility TYPO3 11: Breaking no. 92118 - TCA ctrl thumbnail setting dropped
+
 2023-07-07 Franz Holzinger <franz@ttproducts.de>
     * bugfix: products_clear_basket must initiatize the calculatedArray
 

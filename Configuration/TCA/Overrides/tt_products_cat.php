@@ -59,8 +59,6 @@ call_user_func(function($extensionKey, $table)
             $GLOBALS['TCA'][$table]['columns'][$uidField]['label'] = 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_cat.' . $field;
         }
 
-        $GLOBALS['TCA'][$table]['ctrl']['thumbnail'] = 'image_uid';    
-
         $search = ', ' . $field . ',';
         $replace = ', ' . $uidField . ',';
         $GLOBALS['TCA'][$table]['types']['0']['showitem'] = str_replace($search, $replace, $GLOBALS['TCA'][$table]['types']['0']['showitem']);
