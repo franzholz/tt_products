@@ -145,12 +145,17 @@ $result = [
 		],
 	],
 	'types' => [
-		'1' => ['showitem' => 'hidden,--palette--;;1, name, email, suffix']
+		'1' => ['showitem' => 'name, email, suffix, hidden,
+                --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.tabs.access,
+                --palette--;;access'
+            ]
 	],
 	'palettes' => [
-		'1' => ['showitem' => 'starttime, endtime, fe_group']
+        'access' => [
+            'label' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.palettes.access',
+            'showitem' => 'starttime;LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.starttime_formlabel, endtime;LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.endtime_formlabel, --linebreak--, fe_group;LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.fe_group_formlabel, --linebreak--',
+        ],
 	]
-
 ];
 
 return $result;

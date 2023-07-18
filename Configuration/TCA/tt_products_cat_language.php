@@ -234,11 +234,16 @@ $result = [
                         ]
                     ]
                 ],
-                'showitem' => 'sys_language_uid, l18n_diffsource, tstamp, crdate, hidden,--palette--;;1, cat_uid, title, subtitle, slug, keyword, note, note2'
+                'showitem' => 'sys_language_uid, l18n_diffsource, tstamp, crdate, cat_uid, title, subtitle, slug, keyword, note, note2,  hidden,
+                    --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.tabs.access,
+                --palette--;;access'
             ]
 	],
 	'palettes' => [
-		'1' => ['showitem' => 'starttime, endtime, fe_group']
+        'access' => [
+            'label' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.palettes.access',
+            'showitem' => 'starttime;LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.starttime_formlabel, endtime;LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.endtime_formlabel, --linebreak--, fe_group;LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.fe_group_formlabel, --linebreak--',
+        ],
 	]
 ];
 
