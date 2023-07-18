@@ -209,8 +209,6 @@ call_user_func(function($extensionKey, $table)
     // TODO.
     $palleteAddition = '';
 
-    $GLOBALS['TCA'][$table]['ctrl']['thumbnail'] = 'image_uid';
-
         // nothing. This is the default behaviour
 
     if (!empty($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['addressTable'])) {

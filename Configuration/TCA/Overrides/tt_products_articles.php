@@ -108,8 +108,6 @@ call_user_func(function($extensionKey, $table)
         )
     ];
 
-    $GLOBALS['TCA'][$table]['ctrl']['thumbnail'] = 'image_uid';    
-
     $GLOBALS['TCA'][$table]['types']['1']['showitem'] = str_replace(',image,', ',image_uid,', $GLOBALS['TCA'][$table]['types']['1']['showitem']);
     $GLOBALS['TCA'][$table]['types']['1']['showitem'] = str_replace(',smallimage,', ',smallimage_uid,', $GLOBALS['TCA'][$table]['types']['1']['showitem']);
 

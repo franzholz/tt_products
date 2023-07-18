@@ -29,7 +29,7 @@ $result = [
             'endtime' => 'endtime',
             'fe_group' => 'fe_group',
         ],
-        'thumbnail' => 'image',
+        'thumbnail' => 'image_uid', // supported until TYPO3 10: breaking #92118
         'prependAtCopy' => $languageLglPath . 'prependAtCopy',
         'crdate' => 'crdate',
         'cruser_id' => 'cruser_id',
@@ -564,14 +564,14 @@ $result = [
                         ]
                     ]
                 ],
-                'showitem' => 'tstamp, crdate, hidden,--palette--;;1, title,--palette--;;3, itemnumber, slug, inStock, basketminquantity,basketmaxquantity, price,--palette--;;2, weight, note,note2,image,smallimage,' .
+                'showitem' => 'tstamp, crdate, title,--palette--;;3, itemnumber, slug, inStock, basketminquantity,basketmaxquantity, price, --palette--;;2, weight, note,note2,image,smallimage, hidden, 
+                    --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.tabs.access,
+                --palette--;;access, ' .
                 '--div--;LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products.variants,color,color2,--palette--;;9,size,size2,--palette--;;10,description,gradings,material,quality,' .
                 '--div--;LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products.graduated,graduated_config,graduated_price_enable,graduated_price_round,graduated_price_uid,'
             ]
     ],
     'palettes' => [
-        '1' =>
-            ['showitem' => 'starttime, endtime, fe_group'],
         '2' =>
             ['showitem' => 'price2, config'],
         '3' =>
@@ -580,6 +580,10 @@ $result = [
             ['showitem' => 'color3'],
         '10' =>
             ['showitem' => 'size3'],
+        'access' => [
+            'label' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.palettes.access',
+            'showitem' => 'starttime;LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.starttime_formlabel, endtime;LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.endtime_formlabel, --linebreak--, fe_group;LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.fe_group_formlabel, --linebreak--',
+        ],
     ]
 ];
 

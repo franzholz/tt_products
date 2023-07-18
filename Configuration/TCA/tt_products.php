@@ -38,7 +38,7 @@ $result = [
 			'endtime' => 'endtime',
 			'fe_group' => 'fe_group',
 		],
-		'thumbnail' => 'image',
+		'thumbnail' => 'image_uid', // supported until TYPO3 10: breaking #92118
 		'useColumnsForDefaultValues' => 'category',
 		'mainpalette' => 1,
         'iconfile' => 'EXT:' . $extensionKey . '/Resources/Public/Icons/' . 'tt_products.gif',
@@ -1026,7 +1026,10 @@ $result = [
                     ]
                 ],
 
-                'showitem' => 'title,--palette--;;7, itemnumber,--palette--;;2, slug, price,--palette--;;3, tax,--palette--;;4, deposit,--palette--;;5,offer,--palette--;;6,weight,--palette--;;8,tstamp, crdate, hidden,--palette--;;1,' .
+                'showitem' => 'title,--palette--;;7, itemnumber,--palette--;;2, slug, price,--palette--;;3, tax,--palette--;;4, deposit,--palette--;;5,offer,--palette--;;6,weight,--palette--;;8,tstamp, crdate, hidden,
+                --palette--;;1, 
+                --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.tabs.access,
+                    --palette--;;access,' . 
                     '--div--;LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products.descriptions,note, note2,note_uid,text_uid,image_uid,smallimage_uid,datasheet_uid,'.
                     '--div--;LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products.categorydiv, category, syscat,' .
                     '--div--;LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products.variants,color,color2,--palette--;;9,size,size2,--palette--;;10,description,gradings,material,quality,--palette--;;,additional,--palette--;;11,'.
@@ -1038,7 +1041,7 @@ $result = [
 	],
 	'palettes' => [
 		'1' =>
-			['showitem' => 'sellstarttime,sellendtime,starttime,endtime,fe_group'],
+			['showitem' => 'sellstarttime,sellendtime'],
 		'2' =>
 			['showitem' => 'inStock,basketminquantity,basketmaxquantity,ean'],
 		'3' =>
@@ -1058,7 +1061,11 @@ $result = [
 		'10' =>
 			['showitem' => 'size3'],
 		'11' =>
-			['showitem' => 'usebydate']
+			['showitem' => 'usebydate'],
+        'access' => [
+            'label' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.palettes.access',
+            'showitem' => 'starttime;LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.starttime_formlabel, endtime;LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.endtime_formlabel, --linebreak--, fe_group;LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.fe_group_formlabel, --linebreak--',
+        ],
 	]
 ];
 

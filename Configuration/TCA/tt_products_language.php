@@ -27,6 +27,7 @@ $result = [
 			'endtime' => 'endtime',
 			'fe_group' => 'fe_group',
 		],
+		'thumbnail' => 'image_uid', // supported until TYPO3 10: breaking #92118
 		'prependAtCopy' => $languageLglPath . 'prependAtCopy',
 		'crdate' => 'crdate',
 		'cruser_id' => 'cruser_id',
@@ -321,13 +322,17 @@ $result = [
                         ]
                     ]
                 ],
-
-                'showitem' => 'sys_language_uid, l18n_diffsource, tstamp, crdate, hidden,--palette--;;1, prod_uid,title,--palette--;;2, slug, unit, note, note2, image, smallimage, datasheet'
+                'showitem' => 'sys_language_uid, l18n_diffsource, tstamp, crdate, prod_uid,title,--palette--;;2, slug, unit, note, note2, image, smallimage, datasheet, hidden,
+                --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.tabs.access,
+                    --palette--;;access'
             ]
 	],
 	'palettes' => [
-		'1' => ['showitem' => 'starttime,endtime,fe_group'],
 		'2' => ['showitem' => 'subtitle, keyword, itemnumber, www'],
+        'access' => [
+            'label' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.palettes.access',
+            'showitem' => 'starttime;LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.starttime_formlabel, endtime;LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.endtime_formlabel, --linebreak--, fe_group;LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.fe_group_formlabel, --linebreak--',
+        ],
 	]
 ];
 

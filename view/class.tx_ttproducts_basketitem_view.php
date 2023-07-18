@@ -361,6 +361,7 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
 			} else {
 				$quantityMarker = $quantity ? $quantity : '';
 			}
+
 			$markerArray['###FIELD_QTY###'] = $quantityMarker;
 		}
 
