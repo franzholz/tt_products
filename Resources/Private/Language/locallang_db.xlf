@@ -543,6 +543,15 @@
 			<trans-unit id="tt_products_accessory_products_products_mm.uid_foreign" resname="tt_products_accessory_products_products_mm.uid_foreign">
 				<source>Accessory Product</source>
 			</trans-unit>
+			<trans-unit id="tt_products_products_note_pages_mm" resname="tt_products_products_note_pages_mm">
+				<source>Relation products note to pages</source>
+			</trans-unit>
+			<trans-unit id="tt_products_products_note_pages_mm.uid_local" resname="tt_products_products_note_pages_mm.uid_local">
+				<source>Product using it</source>
+			</trans-unit>
+			<trans-unit id="tt_products_products_note_pages_mm.uid_foreign" resname="tt_products_products_note_pages_mm.uid_foreign">
+				<source>Notes Page</source>
+			</trans-unit>
 			<trans-unit id="tt_products_graduated_price" resname="tt_products_graduated_price">
 				<source>Graduated prices</source>
 			</trans-unit>
@@ -876,6 +885,21 @@
 			<trans-unit id="sys_products_orders_mm_gained_voucher_codes.uid_foreign" resname="sys_products_orders_mm_gained_voucher_codes.uid_foreign">
 				<source>Voucher</source>
 			</trans-unit>
+			<trans-unit id="sys_products_orders_mm_gained_tt_products" resname="sys_products_orders_mm_gained_tt_products">
+				<source>Relations Order to Voucher Code</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders_mm_gained_tt_products.uid_local" resname="sys_products_orders_mm_gained_tt_products.uid_local">
+				<source>Order</source>
+			</trans-unit>
+			<trans-unit id="sys_products_orders_mm_gained_tt_products.uid_foreign" resname="sys_products_orders_mm_gained_tt_products.uid_foreign">
+				<source>Product</source>
+			</trans-unit>
+			<trans-unit id="sys_products_fe_users_mm_visited_products.uid_local" resname="sys_products_fe_users_mm_visited_products.uid_local">
+				<source>Order</source>
+			</trans-unit>
+			<trans-unit id="sys_products_fe_users_mm_visited_products.uid_foreign" resname="sys_products_fe_users_mm_visited_products.uid_foreign">
+				<source>Visited Product</source>
+			</trans-unit>
 			<trans-unit id="sys_products_orders_mm_tt_products" resname="sys_products_orders_mm_tt_products">
 				<source>Relations Order to Product</source>
 			</trans-unit>
@@ -884,6 +908,9 @@
 			</trans-unit>
 			<trans-unit id="sys_products_orders_mm_tt_products.uid_foreign" resname="sys_products_orders_mm_tt_products.uid_foreign">
 				<source>Product</source>
+			</trans-unit>
+			<trans-unit id="sys_products_visited_products" resname="sys_products_visited_products">
+				<source>Visited Product</source>
 			</trans-unit>
 			<trans-unit id="fe_groups.tt_products_discount" resname="fe_groups.tt_products_discount">
 				<source>Discount</source>
