@@ -38,6 +38,7 @@
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 
 use JambageCom\TtProducts\Api\CustomerApi;
@@ -100,7 +101,10 @@ class tx_ttproducts_control_basket {
 		if (!self::$bHasBeenInitialised) {
             self::setRecs($recs);
 
-			if (isset($GLOBALS['TSFE']) && is_object($GLOBALS['TSFE'])) {
+            if (
+                isset($GLOBALS['TSFE']) && 
+                $GLOBALS['TSFE'] instanceof TypoScriptFrontendController
+            ) {
 				self::setBasketExt(self::getStoredBasketExt());
 				$basketExtra = self::getBasketExtras($tablesObj, $recs, $conf);
 				self::setBasketExtra($basketExtra);
@@ -782,8 +786,9 @@ class tx_ttproducts_control_basket {
 		$loginUserInfoAddress,
 		$useStaticInfoCountry
 	) {
-		if (
-            isset($GLOBALS['TSFE']) &&
+        if (
+            isset($GLOBALS['TSFE']) && 
+            $GLOBALS['TSFE'] instanceof TypoScriptFrontendController &&
 			\JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn() &&
 			\JambageCom\TtProducts\Api\ControlApi::isOverwriteMode($infoArray)
 		) {

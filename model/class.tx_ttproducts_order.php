@@ -647,6 +647,12 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
 			$where
 		);
 
+		$where = 'uid_foreign=' . intval($orderUid) . ' AND `tablenames`="sys_products_orders"';
+		$GLOBALS['TYPO3_DB']->exec_DELETEquery(
+			'sys_file_reference',
+			$where
+		);
+
 		$productCount = 0;
 		$falCount = 0;
 
