@@ -11,6 +11,9 @@ $result = [
         'delete' => 'deleted',
         'enablecolumns' => [
             'disabled' => 'hidden',
+            'starttime' => 'starttime',
+            'endtime' => 'endtime',
+            'fe_group' => 'fe_group',
         ],
         'prependAtCopy' => $languageLglPath . 'prependAtCopy',
         'hideTable' => true,
