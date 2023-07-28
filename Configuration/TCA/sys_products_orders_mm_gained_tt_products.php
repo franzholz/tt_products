@@ -3,7 +3,7 @@ defined('TYPO3') || die('Access denied.');
 
 
 // ******************************************************************
-// order to voucher codes table, sys_products_orders_mm_gained_voucher_codes
+// order to gained products table,  sys_products_orders_mm_gained_tt_products
 // ******************************************************************
 $extensionKey = 'tt_products';
 $languageSubpath = '/Resources/Private/Language/';
