@@ -1162,7 +1162,6 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 				$linkMemoConf = $linkConfArray['FORM_MEMO.'];
 			}
 
-			$linkMemoConf = array_merge( ['useCacheHash' => $bUseCache], $linkMemoConf);
 			$markerArray['###FORM_MEMO###'] =
 				htmlspecialchars(
 					FrontendUtility::getTypoLink_URL(
@@ -2395,8 +2394,6 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 						) {
 							$linkConf = $linkConfArray['LINK_ITEM.'];
 						}
-
-						$linkConf = array_merge( ['useCacheHash' => $bUseCache], $linkConf);
 
 						$target = '';
 						$pageLink = FrontendUtility::getTypoLink_URL(

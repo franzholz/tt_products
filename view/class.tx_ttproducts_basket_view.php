@@ -1008,7 +1008,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
                                 ''
                             ),
                             '',
-                            ['useCacheHash' => true]
+                            []
                         );
 
                     $css_current = '';
@@ -1127,8 +1127,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 			$markerArray['###HIDDENFIELDS###'] = $hiddenFields;
 			$pid = ($conf['PIDbasket'] ? $conf['PIDbasket'] : $GLOBALS['TSFE']->id);
 
-			$confCache = ['useCacheHash' => false];
-
+			$confCache = [];
 			$excludeList = '';
 
 			if (

@@ -572,7 +572,6 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base {
 		$linkConf = [];
 		$linkConf['parameter'] = $pid;
 		$linkConf['additionalParams'] = GeneralUtility::implodeArrayForUrl('', $urlParameters);
-		$linkConf['useCacheHash'] = tx_ttproducts_control_pibase::getIsUserIntObject() ? 0 : 1;
 
 		$pibaseObj->cObj->typolink('', $linkConf);
 		$linkUrl = $pibaseObj->cObj->lastTypoLinkUrl;

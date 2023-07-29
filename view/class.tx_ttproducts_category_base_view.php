@@ -105,7 +105,7 @@ abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base
 								$this->piVar
 							),
 							'',
-							['useCacheHash' => true]
+							[]
 						)
 					)
 			. '">',

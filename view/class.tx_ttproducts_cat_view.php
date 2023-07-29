@@ -191,9 +191,7 @@ class tx_ttproducts_cat_view implements \TYPO3\CMS\Core\SingletonInterface {
 					$linkPid,
 					$queryString,
 					'',
-					[
-						'useCacheHash' => true
-					]
+					[]
 				);
 				$wrappedSubpartArray['###LINK_ITEM###'] = [
 					'<a class="listlink" href="' . htmlspecialchars($linkUrl) . '">',
@@ -348,9 +346,7 @@ class tx_ttproducts_cat_view implements \TYPO3\CMS\Core\SingletonInterface {
 					$GLOBALS['TSFE']->id,
 					$queryString,
 					'',
-					[
-						'useCacheHash' => true
-					]
+					[]
 				);
 				$wrappedSubpartArray['###LINK_PREV_SINGLE###'] = [
 					'<a href="' . htmlspecialchars($linkUrl) . '">',
@@ -390,9 +386,7 @@ class tx_ttproducts_cat_view implements \TYPO3\CMS\Core\SingletonInterface {
 					$GLOBALS['TSFE']->id,
 					$queryString,
 					'',
-					[
-						'useCacheHash' => true
-					]
+					[]
 				);
 				$wrappedSubpartArray['###LINK_NEXT_SINGLE###'] = [
 					'<a href="' . htmlspecialchars($linkUrl) . '">',

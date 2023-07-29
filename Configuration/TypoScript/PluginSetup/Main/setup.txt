@@ -566,7 +566,6 @@ plugin.tt_products {
 
   control.ALL.links {
     FORM_MEMO {
-      useCacheHash = 0
     }
   }
 

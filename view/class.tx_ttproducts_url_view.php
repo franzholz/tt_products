@@ -143,7 +143,7 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
         $cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
 		$charset = 'UTF-8';
 		$urlMarkerArray = [];
-		$conf = ['useCacheHash' => true];
+		$conf = [];
 		$target = '';
 
 		// disable caching as soon as someone enters products into the basket, enters user data etc.
