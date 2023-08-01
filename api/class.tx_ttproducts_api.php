@@ -497,7 +497,7 @@ class tx_ttproducts_api {
 		$mainMarkerArray,
 		$functablename,
 		$orderUid,
-		$orderArray,
+		&$orderArray,
 		$itemArray,
 		$calculatedArray,
 		$addressArray,

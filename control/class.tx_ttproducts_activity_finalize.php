@@ -90,7 +90,7 @@ class tx_ttproducts_activity_finalize implements \TYPO3\CMS\Core\SingletonInterf
 		$mainMarkerArray,
 		$functablename,
 		$orderUid,
-		$orderArray,
+		&$orderArray,
 		$productRowArray,
 		$bAlwaysInStock,
 		$useArticles,
