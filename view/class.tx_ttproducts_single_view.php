@@ -625,7 +625,7 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
                     $addQueryString['backPID'] = $backPID;
                 }
 
-                $sword = $piVars['sword'] ?? '';
+                $sword = $piVars['sword'] ?? null;
                 if ($sword) {
                     $addQueryString['sword'] = $sword;
                 }

@@ -359,14 +359,6 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$this->addQueryStringParam($queryString, 'searchbox', $bUsePrefix);
 		$this->addQueryStringParam($queryString, 'sword', $bUsePrefix);
 
-// 		$sword = GeneralUtility::_GP('sword') ? GeneralUtility::_GP('sword') : '';
-// 		if (!$sword) {
-// 			$sword = GeneralUtility::_GP('swords') ? GeneralUtility::_GP('swords') : '';
-// 		}
-// 		if ($sword) {
-// 			$queryString['sword'] = rawurlencode(rawurldecode($sword));
-// 		}
-
 		if ($bUsePrefix) {
 			$excludeListArray = [];
 			$tmpArray = GeneralUtility::trimExplode(',', $excludeList);
