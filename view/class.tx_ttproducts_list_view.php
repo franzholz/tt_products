@@ -164,7 +164,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 		if (!isset($sword)) {
 			$piVars = tx_ttproducts_model_control::getPiVars();
-			$sword = $piVars['sword'] ?? '';
+			$sword = $piVars['sword'] ?? null;
 		}
 
 		if ($sword) {
@@ -544,7 +544,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 			$conf['displayBasketColumns'] = '1';
 		}
 		$displayColumns = $conf['displayBasketColumns'];
-		$sword = '';
+		$sword = null;
 		$htmlSwords = '';
 
 		if ($calllevel == 0) {
@@ -553,15 +553,17 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 			if (!isset($sword)) {
 				$postVars = GeneralUtility::_POST($prefixId);
-				$sword = $postVars['sword'] ?? '';
+				$sword = $postVars['sword'] ?? null;
 
 				if (!isset($sword)) {
 					$getVars = GeneralUtility::_GET($prefixId);
-					$sword = $getVars['sword'] ?? '';
+					$sword = $getVars['sword'] ?? null;
 				}
 			}
-			$sword = rawurldecode($sword);
-			$htmlSwords = htmlspecialchars($sword);
+            if (!empty($sword)) {
+                $sword = rawurldecode($sword);
+                $htmlSwords = htmlspecialchars($sword);
+            }
 		}
 		$more = 0;	// If set during this loop, the next-item is drawn
 		$where = '';
