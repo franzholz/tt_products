@@ -564,7 +564,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
                 $sword = rawurldecode($sword);
                 $htmlSwords = htmlspecialchars($sword);
             }
-		}
+        }
 		$more = 0;	// If set during this loop, the next-item is drawn
 		$where = '';
 
