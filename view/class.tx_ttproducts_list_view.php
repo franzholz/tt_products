@@ -544,7 +544,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 			$conf['displayBasketColumns'] = '1';
 		}
 		$displayColumns = $conf['displayBasketColumns'];
-		$sword = '';
+		$sword = null;
 		$htmlSwords = '';
 
 		if ($calllevel == 0) {
@@ -560,8 +560,10 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 					$sword = $getVars['sword'] ?? null;
 				}
 			}
-			$sword = rawurldecode($sword);
-			$htmlSwords = htmlspecialchars($sword);
+            if (!empty($sword)) {
+                $sword = rawurldecode($sword);
+                $htmlSwords = htmlspecialchars($sword);
+            }
 		}
 		$more = 0;	// If set during this loop, the next-item is drawn
 		$where = '';
