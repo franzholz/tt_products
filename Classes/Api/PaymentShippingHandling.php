@@ -508,7 +508,7 @@ class PaymentShippingHandling {
 		}
 
 		$urlObj = GeneralUtility::makeInstance('tx_ttproducts_url_view');
-        $linkConf = ['useCacheHash' => true];
+        $linkConf = [];
         $linkUrl = htmlspecialchars(
             FrontendUtility::getTypoLink_URL(
                 $cObj,

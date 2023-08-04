@@ -625,7 +625,7 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
                     $addQueryString['backPID'] = $backPID;
                 }
 
-                $sword = $piVars['sword'] ?? '';
+                $sword = $piVars['sword'] ?? null;
                 if ($sword) {
                     $addQueryString['sword'] = $sword;
                 }
@@ -667,7 +667,7 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
                         $linkPid,
                         $queryString,
                         '', // no product parameter if it returns to the list view
-                        ['useCacheHash' => true]
+                        []
                     );
 					$linkUrl = htmlspecialchars($linkUrl);
 					$wrappedSubpartArray['###LINK_ITEM###'] = ['<a class="singlelink" href="' . $linkUrl . '">', '</a>'];
@@ -1218,9 +1218,7 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
                             $viewCatViewTable->getPivar()
                         ),
                         '',
-                        [
-                            'useCacheHash' => true
-                        ]
+                        []
                     );
 
 					$wrappedSubpartArray['###LINK_PREV_SINGLE###'] =
@@ -1266,9 +1264,7 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface {
                             $viewCatViewTable->getPivar()
                         ),
                         '',
-                        [
-                            'useCacheHash' => true
-                        ]
+                        []
                     );
 					$wrappedSubpartArray['###LINK_NEXT_SINGLE###'] =
 						[

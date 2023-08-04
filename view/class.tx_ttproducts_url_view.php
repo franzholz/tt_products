@@ -143,7 +143,7 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
         $cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
 		$charset = 'UTF-8';
 		$urlMarkerArray = [];
-		$conf = ['useCacheHash' => true];
+		$conf = [];
 		$target = '';
 
 		// disable caching as soon as someone enters products into the basket, enters user data etc.
@@ -358,14 +358,6 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$this->addQueryStringParam($queryString, 'newitemdays', $bUsePrefix);
 		$this->addQueryStringParam($queryString, 'searchbox', $bUsePrefix);
 		$this->addQueryStringParam($queryString, 'sword', $bUsePrefix);
-
-// 		$sword = GeneralUtility::_GP('sword') ? GeneralUtility::_GP('sword') : '';
-// 		if (!$sword) {
-// 			$sword = GeneralUtility::_GP('swords') ? GeneralUtility::_GP('swords') : '';
-// 		}
-// 		if ($sword) {
-// 			$queryString['sword'] = rawurlencode(rawurldecode($sword));
-// 		}
 
 		if ($bUsePrefix) {
 			$excludeListArray = [];

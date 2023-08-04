@@ -1,4 +1,7 @@
 
+2023-07-29 Franz Holzinger <franz@ttproducts.de>
+    * remove configuration parameter useCacheHash from all links.
+
 2023-07-18 Franz Holzinger <franz@ttproducts.de>
     * compatibility TYPO3 11: Breaking no. 92118 - TCA ctrl thumbnail setting dropped
 
