@@ -88,7 +88,7 @@ class EmConfiguration
     protected $creditpoints = false;
 
     /** @var string */
-    protected $templateFile = 'EXT:' . TT_PRODUCTS_EXT . '/template/example_locallang_xml.html';
+    protected $templateFile = 'EXT:' . TT_PRODUCTS_EXT . '/Resources/Public/Templates/example_locallang_xml.html';
 
     /** @var string */
     protected $templateCheck = '/([^#]+(#{2}|#{5}|#{7,8})([^#])+?)/';

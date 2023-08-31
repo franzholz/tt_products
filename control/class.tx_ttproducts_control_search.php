@@ -281,7 +281,7 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 
 			if ($contentTmp == 'error') {
                 $sanitizer = GeneralUtility::makeInstance(FilePathSanitizer::class);
-				$fileName = 'EXT:' . TT_PRODUCTS_EXT . '/template/products_help.tmpl';
+				$fileName = 'EXT:' . TT_PRODUCTS_EXT . '/Resources/Public/Templates/products_help.tmpl';
                 $pathFilename = $sanitizer->sanitize($fileName);
 //                 $GLOBALS['TSFE']->tmpl->getFileName($fileName);
                 $helpTemplate = file_get_contents($pathFilename);

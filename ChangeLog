@@ -1,3 +1,5 @@
+2023-08-31 Franz Holzinger <franz@ttproducts.de>
+    * move template files into Resources/Public/Templates
 
 2023-07-29 Franz Holzinger <franz@ttproducts.de>
     * remove configuration parameter useCacheHash from all links.
