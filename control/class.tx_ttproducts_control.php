@@ -886,7 +886,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 					$basketObj->getCalculatedArray(),
 					$basketObj->recs['tt_products']['giftcode'],
 					$giftServiceArticleArray,
-					$basketObj->recs['tt_products']['vouchercode'],
+					$basketObj->recs['tt_products']['vouchercode'] ?? '',
 					0,
 					0,
 					false

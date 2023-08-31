@@ -38,6 +38,7 @@
 
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
 
@@ -182,7 +183,7 @@ class tx_ttproducts_fal_view extends tx_ttproducts_article_base_view {
 
             $file = $path . 'fileadmin' . $fileInfo['identifier'];
             $filename = basename($file);
-            $downloadImageFile = PathUtility::getAbsoluteWebPath(PATH_BE_TTPRODUCTS . 'Resources/Public/Icons/system-extension-download.png');
+            $downloadImageFile = PathUtility::getAbsoluteWebPath(ExtensionManagementUtility::extPath(TT_PRODUCTS_EXT) . 'Resources/Public/Icons/system-extension-download.png');
 
             $content .= '<a href="' . htmlspecialchars($url) . '" title="' .
                 $GLOBALS['TSFE']->sL(DIV2007_LANGUAGE_PATH . 'locallang_common.xlf:download') . ' ' . $filename . '">' . $filename . '<img src="' . $downloadImageFile . '">' . '</a>';

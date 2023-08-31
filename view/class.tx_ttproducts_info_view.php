@@ -273,7 +273,7 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 		if (
 			$where &&
-			$this->conf['useStaticInfoCountry'] &&
+			!empty($this->conf['useStaticInfoCountry']) &&
 			$staticInfoApi->isActive()
 		) {
 			$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
@@ -387,7 +387,7 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface {
 			}
 		}
 
-		if ($this->conf['useStaticInfoCountry'] && $staticInfoApi->isActive()) {
+		if (!empty($this->conf['useStaticInfoCountry']) && $staticInfoApi->isActive()) {
             $countryViewObj = $tablesObj->get('static_countries', true);
             $countryObj = $countryViewObj->getModelObj();
 
