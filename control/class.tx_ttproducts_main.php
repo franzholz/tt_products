@@ -963,7 +963,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 			}
 
 			if ($contentTmp == 'error') {
-                $fileName = 'EXT:' . TT_PRODUCTS_EXT . '/template/products_help.tmpl';
+                $fileName = 'EXT:' . TT_PRODUCTS_EXT . '/Resources/Public/Templates/products_help.tmpl';
                 $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
                 $fileName = $sanitizer->sanitize($fileName);
 
