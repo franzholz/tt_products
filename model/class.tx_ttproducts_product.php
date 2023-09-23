@@ -45,7 +45,6 @@ use JambageCom\Div2007\Utility\SystemCategoryUtility;
 
 
 class tx_ttproducts_product extends tx_ttproducts_article_base {
-	public $relatedArray = []; // array of related products
 	public $marker = 'PRODUCT';
 	public $type = 'product';
 	public $piVar='product';
@@ -83,17 +82,6 @@ class tx_ttproducts_product extends tx_ttproducts_article_base {
 			$tableObj = $this->getTableObj();
 			$tableObj->setConfig($tableConfig);
 			$tableObj->addDefaultFieldArray(['sorting' => 'sorting']);
-
-	// 		$requiredFields = 'uid,pid,category,price,price2,directcost,tax';
-	// 		$tableconf = $cnfObj->getTableConf($functablename);
-	// 		if ($tableconf['requiredFields'])	{
-	// 			$tmp = $tableconf['requiredFields'];
-	// 			$requiredFields = ($tmp ? $tmp : $requiredFields);
-	// 		}
-
-			foreach ($this->allowedTypeArray as $type) {
-				$this->relatedArray[$type] = [];
-			}
 		}
 
 		return $result;
@@ -518,27 +506,18 @@ class tx_ttproducts_product extends tx_ttproducts_article_base {
 		$parentFuncTablename = '';
 
 		if (
-			in_array($type, $this->allowedTypeArray) &&
-			is_array($this->relatedArray[$type])
+			in_array($type, $this->allowedTypeArray)
 		) {
 			if ($type == 'articles') {
 				$relatedArticles = $this->getArticleRows($uid, '', $orderBy);
 
 				if (is_array($relatedArticles) && ($relatedArticles)) {
-					$rowArray = [];
 					foreach ($relatedArticles as $k => $articleRow) {
 						$rcArray[] = $articleRow['uid'];
 					}
 				}
 			} else {
-				if (
-					MathUtility::canBeInterpretedAsInteger($uid) &&
-					isset($this->relatedArray[$type][$uid])
-				) {
-					$rowArray = $this->relatedArray[$type][$uid];
-				}
-
-				if (!is_array($rowArray) && $uid) {
+				if ($uid) {
 					if ($type == 'productsbysystemcategory') {
 						$rcArray = $this->getSystemCategories($uid, $orderBy);
 					} else {
@@ -599,13 +578,6 @@ class tx_ttproducts_product extends tx_ttproducts_article_base {
 								'sorting_foreign'
 							);
 					}
-				}
-
-				if (
-					!empty($rowArray) &&
-					MathUtility::canBeInterpretedAsInteger($uid)
-				) {
-					$this->relatedArray[$type][$uid] = $rowArray;
 				}
 
 				if (

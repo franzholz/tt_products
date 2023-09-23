@@ -1,3 +1,6 @@
+2023-09-23 Franz Holzinger <franz@ttproducts.de>
+    * bugfix: show the related products again
+
 2023-07-07 Franz Holzinger <franz@ttproducts.de>
     * bugfix: products_clear_basket must initiatize the calculatedArray
 
