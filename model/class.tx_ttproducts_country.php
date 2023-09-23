@@ -88,7 +88,7 @@ class tx_ttproducts_country extends tx_ttproducts_table_base {
 
     public function isoGet ($country_code, $where = '', $fields = '') {
 
-        $rc = '';
+        $rc = [];
 		if (!$fields && isset($this->dataArray[$country_code])) {
 			$rc = $this->dataArray[$country_code];
 		}

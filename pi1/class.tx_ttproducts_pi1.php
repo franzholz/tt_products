@@ -88,7 +88,7 @@ class tx_ttproducts_pi1 implements \TYPO3\CMS\Core\SingletonInterface {
             isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['getUserFunc']) &&
             is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['getUserFunc'])
 		) {
-			foreach($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['getUserFunc'] as $classRef) {-
+			foreach($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['getUserFunc'] as $classRef) {
 				$hookObj = GeneralUtility::makeInstance($classRef);
 				if (method_exists($hookObj, 'getUserFunc')) {
 					$hookObj->cObj = $this->cObj;
