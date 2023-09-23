@@ -54,7 +54,7 @@ class tx_ttproducts_field_foreign_table_view extends tx_ttproducts_field_base_vi
 		&$wrappedSubpartArray,
 		&$tagArray,
 		$theCode = '',
-		$basketExtra = array(),
+		$basketExtra = [],
 		$basketRecs,
 		$id = '1'
 	) {
@@ -70,6 +70,7 @@ class tx_ttproducts_field_foreign_table_view extends tx_ttproducts_field_base_vi
 		$row,
 		$markerKey,
 		&$markerArray,
+		$fieldMarkerArray,
 		$tagArray,
 		$theCode,
 		$id,
@@ -88,7 +89,7 @@ class tx_ttproducts_field_foreign_table_view extends tx_ttproducts_field_base_vi
 		$itemTableObj = $tablesObj->get($functablename, false);
 		$tablename = $itemTableObj->getTablename();
 		$foreigntablename = '';
-		$rowMarkerArray = array();
+		$rowMarkerArray = [];
 		if ($GLOBALS['TCA'][$tablename]['columns'][$fieldname]['config']['type'] == 'group') {
 
 			$foreigntablename = $GLOBALS['TCA'][$tablename]['columns'][$fieldname]['config']['allowed'];
@@ -114,8 +115,8 @@ class tx_ttproducts_field_foreign_table_view extends tx_ttproducts_field_base_vi
 					$foreignRow,
 					'',
 					$rowMarkerArray,
-					$tmp=array(),
-					$tmp=array(),
+					$tmp=[],
+					$tmp=[],
 					$tagArray,
 					$theCode,
 					$basketExtra,
@@ -136,10 +137,4 @@ class tx_ttproducts_field_foreign_table_view extends tx_ttproducts_field_base_vi
 		$markerArray = array_merge($markerArray, $rowMarkerArray);
 	}
 }
-
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/field/class.tx_ttproducts_field_foreign_table_view.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/field/class.tx_ttproducts_field_foreign_table_view.php']);
-}
-
 

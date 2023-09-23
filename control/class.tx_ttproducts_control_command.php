@@ -51,7 +51,7 @@ class tx_ttproducts_control_command {
 	}
 
 	static public function getVariantVars ($piVars) {
-		$result = array();
+		$result = [];
 
 		$paramsTableArray = tx_ttproducts_model_control::getParamsTableArray();
 		if (isset($piVars) && is_array($piVars)) {
@@ -171,15 +171,15 @@ class tx_ttproducts_control_command {
 								);
 						}
 
-						$orderRow = array();
+						$orderRow = [];
 						if ($orderUid) {
 							$orderRow = $orderObj->get($orderUid);
 						}
 
-						$downloadArray = array();
+						$downloadArray = [];
 
 						if ($orderUid && is_array($productRowArray) && count($productRowArray)) {
-							$productUidArray = array();
+							$productUidArray = [];
 							foreach ($productRowArray as $productRow) {
 								$productUidArray[$productRow['uid']] = $productRow['uid'];
 							}

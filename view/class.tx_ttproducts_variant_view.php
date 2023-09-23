@@ -77,8 +77,8 @@ class tx_ttproducts_variant_view implements tx_ttproducts_variant_view_int, \TYP
 		$bHasAdditional,
 		$bGiftService
 	) {
-		$areaArray = array();
-		$remMarkerArray = array();
+		$areaArray = [];
+		$remMarkerArray = [];
 		$variantConf = $this->modelObj->conf;
 
         $maxKey = 0;
@@ -132,7 +132,3 @@ class tx_ttproducts_variant_view implements tx_ttproducts_variant_view_int, \TYP
 	}
 }
 
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_variant_view.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_variant_view.php']);
-}

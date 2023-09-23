@@ -64,7 +64,7 @@ class tx_ttproducts_category_view extends tx_ttproducts_category_base_view {
 		$imageNum = 0,
 		$imageRenderObj = 'image',
 		&$viewCatTagArray,
-		$forminfoArray = array(),
+		$forminfoArray = [],
 		$pageAsCategory = 0,
 		$theCode,
 		$basketExtra,
@@ -104,9 +104,10 @@ class tx_ttproducts_category_view extends tx_ttproducts_category_base_view {
 		}
 
 		$catTitle = $pageCatTitle;
-		if (($row['title'])) {
-			$catTitle .= ($this->tableconf['separator'] . $row['title']);
-		}
+        if (($row['title'])) {
+            $tableconf = $modelObj->getTableConf($theCode);
+            $catTitle .= (($tableconf['separator'] ?? '') . $row['title']);
+        }
 		$this->setMarkerArrayCatTitle($markerArray, $catTitle, $prefix);
 		parent::getRowMarkerArray(
 			$functablename,
@@ -129,10 +130,5 @@ class tx_ttproducts_category_view extends tx_ttproducts_category_base_view {
 			$linkWrap
 		);
 	}
-}
-
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_category_view.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_category_view.php']);
 }
 

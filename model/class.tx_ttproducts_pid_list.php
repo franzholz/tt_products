@@ -39,11 +39,13 @@
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+use JambageCom\Div2007\Utility\FrontendUtility;
+
 
 class tx_ttproducts_pid_list {
 	protected $pid_list;				// list of page ids
 	protected $recursive;
-	protected $pageArray = array();		// pid_list as array
+	protected $pageArray = [];		// pid_list as array
 	protected $allPages = false;
 
 
@@ -70,10 +72,10 @@ class tx_ttproducts_pid_list {
 	/**
 	 * Gets the pid_list internal var or the child pid_list of the page id as parameter
 	 */
-	public function getPidlist ($pid='') {
+	public function getPidlist ($pid = '') {
 		$rc = '';
 		if ($pid) {
-			$this->applyRecursive(1,$pid,false);
+			$this->applyRecursive(1, $pid, false);
 			$rc = $pid;
 		} else {
 			$rc = $this->pid_list;
@@ -113,7 +115,14 @@ class tx_ttproducts_pid_list {
 	 * @return	[type]		...
 	 */
 	public function applyRecursive ($recursive, &$pids, $bStore = false) {
-		$cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
+        if (
+            defined ('TYPO3_MODE') &&
+            TYPO3_MODE == 'BE'
+        ) {
+            return;
+        }
+ 
+		$cObj = FrontendUtility::getContentObjectRenderer();
 
 		if ($pids == -1) {
 			$this->allPages = true;
@@ -126,18 +135,19 @@ class tx_ttproducts_pid_list {
 		}
 
 		if (!$pid_list && !$this->allPages) {
-			$pid_list = $GLOBALS['TSFE']->id;
+			$pid_list = $GLOBALS['TSFE']->id ?? 0;
 		}
 
 		if ($recursive && !$this->allPages) {
 			// get pid-list if recursivity is enabled
 			$recursive = intval($recursive);
 			$this->recursive = $recursive;
-			$pidSubArray = array();
+			$pidSubArray = [];
 
 			$pid_list_arr = explode(',', $pid_list);
 			foreach ($pid_list_arr as $val) {
-				$pidSub = $cObj->getTreeList($val, $recursive);
+                $pidSub = $cObj->getTreeList($val, $recursive);
+
 				if ($pidSub != '') {
 					$pidSubArray[] = $pidSub;
 				}
@@ -158,8 +168,4 @@ class tx_ttproducts_pid_list {
 	}
 }
 
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/class.tx_ttproducts_pid_list.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/class.tx_ttproducts_pid_list.php']);
-}
 

@@ -3,19 +3,19 @@
 	<file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/PiInt/locallang.xlf" date="2021-12-01T10:54:31Z" product-name="tt_products">
 		<header/>
 		<body>
-			<trans-unit id="no_template" xml:space="preserve">
+			<trans-unit id="no_template" resname="no_template">
 				<source>The shop variable content template file has not been found. Check your template setup about</source>
 			</trans-unit>
-			<trans-unit id="no_subtemplate" xml:space="preserve">
+			<trans-unit id="no_subtemplate" resname="no_subtemplate">
 				<source>The part | or the shop variable content template file | has not been found.</source>
 			</trans-unit>
-			<trans-unit id="all" xml:space="preserve">
+			<trans-unit id="all" resname="all">
 				<source>ALL</source>
 			</trans-unit>
-			<trans-unit id="latest_entries" xml:space="preserve">
+			<trans-unit id="latest_entries" resname="latest_entries">
 				<source>Go to the %d latest entries.</source>
 			</trans-unit>
-			<trans-unit id="no_setup" xml:space="preserve">
+			<trans-unit id="no_setup" resname="no_setup">
 				<source>No setup for the dynamic plugins of tt_products has been found. It is under the name 'tx_ttproducts_pi_int'. Consider to add 'Shop System Variable Content' on the template setup under 'include static from extensions'.</source>
 			</trans-unit>
 		</body>

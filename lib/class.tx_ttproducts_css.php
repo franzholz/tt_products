@@ -48,8 +48,8 @@ class tx_ttproducts_css implements \TYPO3\CMS\Core\SingletonInterface {
 	 */
 	public function init () {
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-		$this->isCssStyled = ($cnf->conf['templateStyle'] == 'css-styled');
-		$this->conf = $cnf->conf['CSS.']['ALL.'];
+		$this->isCssStyled = (isset($cnf->conf['templateStyle']) && $cnf->conf['templateStyle'] == 'css-styled');
+		$this->conf = $cnf->conf['CSS.'] ?? [];
 	} // init
 
 	public function isCSSStyled () {
@@ -58,7 +58,7 @@ class tx_ttproducts_css implements \TYPO3\CMS\Core\SingletonInterface {
 			isset($this->conf) &&
 			is_array($this->conf) &&
 			$this->isCssStyled &&
-			$this->conf['file'] != ''
+			!empty($this->conf['file'])
 		) {
 			$result = true;
 		} else {
@@ -83,7 +83,5 @@ class tx_ttproducts_css implements \TYPO3\CMS\Core\SingletonInterface {
 	}
 }
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/lib/class.tx_ttproducts_css.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/lib/class.tx_ttproducts_css.php']);
-}
+
 

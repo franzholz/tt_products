@@ -38,13 +38,14 @@
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 
 use JambageCom\TtProducts\Api\PaymentShippingHandling;
 
 
 class tx_ttproducts_order extends tx_ttproducts_table_base {
 
-	private $currentArray = array();
+	private $currentArray = [];
 
 
 	// **************************
@@ -85,7 +86,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
 				if ($this->conf['advanceOrderNumberWithInteger']) {
 					$rndParts = explode(',', $this->conf['advanceOrderNumberWithInteger']);
 					$randomValue = rand(intval($rndParts[0]), intval($rndParts[1]));
-					$advanceUid = $prevUid + tx_div2007_core::intInRange($randomValue, 1);
+					$advanceUid = $prevUid + MathUtility::forceIntegerInRange($randomValue, 1);
 				} else {
 					$advanceUid = $prevUid + 1;
 				}
@@ -173,7 +174,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
 			$res !== false && !$GLOBALS['TYPO3_DB']->sql_num_rows($res)
 		) {
 			$orderUid = $this->create();
-			$orderArray = array();
+			$orderArray = [];
 			$orderArray['uid'] = $orderUid;
 			$orderArray['crdate'] = time();
 			if (!empty($GLOBALS['TYPO3_CONF_VARS']['SYS']['serverTimeZone'])) {
@@ -210,19 +211,19 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
 	}
 
 
-	public function getUid ($orderArray = array()) {
+	public function getUid ($orderArray = []) {
 		if (empty($orderArray)) {
 			$orderArray = $this->getCurrentArray();
 		}
 
-		$result = $orderArray['uid'];
+		$result = $orderArray['uid'] ?? 0;
 		return $result;
 	}
 
 
 	public function clearUid () {
 		$this->setCurrentData('uid', '');
-		tx_ttproducts_control_basket::store('order', array());
+		tx_ttproducts_control_basket::store('order', []);
 	}
 
 
@@ -313,7 +314,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
         if (is_array($billingInfo) && isset($billingInfo['feusers_uid'])) {
             $feusers_uid = $billingInfo['feusers_uid'];
 		}
-		$orderRow = array();
+		$orderRow = [];
 
         if (
             !isset($deliveryInfo) ||
@@ -322,23 +323,18 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
             $deliveryInfo = $billingInfo;
         }
 
-		$fieldsArray = array();
+		$fieldsArray = [];
 
 		$tablename = $this->getTablename();
 		$fieldsArray['hidden'] = 1;
-        $excludeArray =  
-            (version_compare(TYPO3_version, '10.0.0', '>=') ? 
-                $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude'] :
-                $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude.']
-            );
-        $excludeFieldArray = array();
+        $excludeFieldArray = [];
 
         if (
-            isset($excludeArray) &&
-            is_array($excludeArray) &&
+            isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude']) &&
+            is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude']) &&
             isset($excludeArray[$tablename])
         ) {
-            $excludeFieldArray = GeneralUtility::trimExplode(',', $excludeArray[$tablename]);
+            $excludeFieldArray = $excludeArray[$tablename];
         }
 
 		if ($status > 0) {
@@ -361,9 +357,10 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
 					);
 
 				if (
+					empty($orderRow) ||
 					!is_array($orderRow) ||
-					$orderRow['tracking_code'] == '' ||
-					$orderRow['email'] == ''
+					isset($orderRow['tracking_code']) && $orderRow['tracking_code'] == '' ||
+					isset($orderRow['email']) && $orderRow['email'] == ''
 				) {
 					$bOnlyStatusChange = false;
 				}
@@ -373,16 +370,20 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
 		}
 
 		if (!$bOnlyStatusChange) {
-
-			if ($deliveryInfo['name'] == '') {
+			if (
+                empty($deliveryInfo['name']) &&
+                isset($deliveryInfo['first_name']) &&
+                isset($deliveryInfo['last_name'])
+            ) {
 				$deliveryInfo['name'] = $deliveryInfo['last_name'] . ' ' . $deliveryInfo['first_name'];
 			}
 
-			if ($deliveryInfo['date_of_birth']) {
+			$dateBirth = '';
+			if (!empty($deliveryInfo['date_of_birth'])) {
 				$dateBirth = tx_ttproducts_sql::convertDate($deliveryInfo['date_of_birth']);
 			}
 
-			$addressFields = array('name', 'first_name', 'last_name', 'company', 'salutation', 'address', 'house_no', 'zip', 'city', 'country', 'telephone', 'fax', 'email', 'email_notify', 'business_partner', 'organisation_form');
+			$addressFields = ['name', 'first_name', 'last_name', 'company', 'salutation', 'address', 'house_no', 'zip', 'city', 'country', 'telephone', 'fax', 'email', 'email_notify', 'business_partner', 'organisation_form'];
 
 			if (isset($billingInfo) && is_array($billingInfo)) {
 				foreach ($billingInfo as $field => $value) {
@@ -398,7 +399,10 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
 
             if (isset($deliveryInfo) && is_array($deliveryInfo)) {
 				foreach ($deliveryInfo as $field => $value) {
-					if ($value && isset($GLOBALS['TCA']['sys_products_orders']['columns'][$field])) {
+					if (
+                        $value && 
+                        isset($GLOBALS['TCA']['sys_products_orders']['columns'][$field])
+                    ) {
 						$fieldsArray[$field] = $value;
 					}
 				}
@@ -410,16 +414,22 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
 			$fieldsArray['payment'] = $payment;
 			$fieldsArray['shipping'] = $shipping;
 			$fieldsArray['amount'] = $amount;
-			$fieldsArray['note'] = $deliveryInfo['note'];
-			if ($dateBirth) {
+			$fieldsArray['note'] = $deliveryInfo['note'] ?? '';
+			if (!empty($dateBirth)) {
 				$fieldsArray['date_of_birth'] = $dateBirth;
 			}
-			$fieldsArray['radio1'] = $deliveryInfo['radio1'];
+			$fieldsArray['radio1'] = $deliveryInfo['radio1'] ?? '';
 
-			if (isset($giftServiceArticleArray) && is_array($giftServiceArticleArray)) {
+			if (
+                isset($giftServiceArticleArray) && 
+                is_array($giftServiceArticleArray) &&
+                !empty($deliveryInfo['giftservice'])
+            ) {
 				$fieldsArray['giftservice'] = $deliveryInfo['giftservice'] . '||' . implode(',',$giftServiceArticleArray);
 			}
-			$fieldsArray['foundby'] = $deliveryInfo['foundby'];
+			if (!empty($deliveryInfo['foundby'])) {
+                $fieldsArray['foundby'] = $deliveryInfo['foundby'];
+			}
 			$fieldsArray['client_ip'] = GeneralUtility::getIndpEnv('REMOTE_ADDR');
 			$fieldsArray['cc_uid'] = intval($cardUid);
 			$fieldsArray['ac_uid'] = intval($accountUid);
@@ -430,7 +440,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
             $sys_language_uid = $api->getLanguageId();
 			$fieldsArray['sys_language_uid'] = $sys_language_uid;
 
-			if ($billingInfo['tt_products_vat'] != '') {
+			if (!empty($billingInfo['tt_products_vat'])) {
 				$fieldsArray['vat_id'] = $billingInfo['tt_products_vat'];
 
 				$taxPercentage = PaymentShippingHandling::getReplaceTaxPercentage($basketExtra);
@@ -439,14 +449,14 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
 				}
 			}
 
-			$fieldsArrayFeUsers = array();
+			$fieldsArrayFeUsers = [];
 			$uid_voucher = ''; // define it here
 
-			if ($dateBirth) {
+			if (!empty($dateBirth)) {
 				$fieldsArrayFeUsers['date_of_birth'] = $dateBirth;
 			}
 
-			if ($status == 1 && $this->conf['creditpoints.'] && $usedCreditpoints) {
+			if ($status == 1 && !empty($this->conf['creditpoints.']) && $usedCreditpoints) {
 
 	/* Added Els: update fe_user with amount of creditpoints (= exisitng amount - used_creditpoints - spended_creditpoints + saved_creditpoints */
 				$fieldsArrayFeUsers['tt_products_creditpoints'] =
@@ -474,14 +484,14 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
 				$GLOBALS['TYPO3_DB']->sql_free_result($res);
 				if (
 					($uid_voucher != '') &&
-					($deliveryInfo['feusers_uid'] > 0) &&
+					!empty($deliveryInfo['feusers_uid']) &&
 					($deliveryInfo['feusers_uid'] != $uid_voucher)
 				) {
 					$fieldsArrayFeUsers['tt_products_vouchercode'] = $vouchercode;
 				}
 			}
 
-			if ($status == 1 && $deliveryInfo['feusers_uid']) {
+			if ($status == 1 && !empty($deliveryInfo['feusers_uid'])) {
 		/* Added Els: update user from vouchercode with 5 credits */
 				tx_ttproducts_creditpoints_div::addCreditPoints(
 					$vouchercode,
@@ -507,18 +517,18 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
 				);
 			}
 
-			$storeItemArray = array();
+			$storeItemArray = [];
 			$storeItemArray['tt_products'] = $itemArray;
 
 				// Order Data serialized
-			$fieldsArray['orderData'] = serialize(array(
+			$fieldsArray['orderData'] = serialize([
 				'html_output' 	=>	$orderConfirmationHTML,
 				'delivery' 		=>	$deliveryInfo,
 				'billing' 		=>	$billingInfo,
 				'itemArray'		=>	$storeItemArray,
 				'calculatedArray'	=>	$calculatedArray,
 				'version'		=>	$this->config['version']
-			));
+			]);
 
 				// Setting tstamp, deleted and tracking code
 			$fieldsArray['tstamp'] = time();
@@ -567,13 +577,13 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
 		$fieldsArray['status'] = intval($status);	// If 1, then this means, "Order confirmed on website, next step: confirm from shop that order is received"
 
 			// Default status_log entry
-		$status_log = array();
-		$status_log['0'] = array(
+		$status_log = [];
+		$status_log['0'] = [
 			'time' => time(),
-			'info' => $this->conf['statusCodes.'][$status],
+			'info' => $this->conf['statusCodes.'][$status] ?? '',
 			'status' => $status,
-			'comment' => $deliveryInfo['note']
-		);
+			'comment' => $deliveryInfo['note'] ?? ''
+		];
 		if (!empty($GLOBALS['TYPO3_CONF_VARS']['SYS']['serverTimeZone'])) {
 			$status_log['0']['time'] += ($GLOBALS['TYPO3_CONF_VARS']['SYS']['serverTimeZone'] * 3600);
 		}
@@ -591,7 +601,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
 			'uid=' . intval($orderUid),
 			$fieldsArray
 		);
-	} //putRecord
+	} // putRecord
 
 
 	/**
@@ -602,11 +612,12 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
 	 */
 	public function createMM (
 		$orderUid,
-		$itemArray
+		$itemArray,
+		$theCode
 	) {
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
-		$editFieldArray = array();
-		$selectableVariantFieldArray = array();
+		$editFieldArray = [];
+		$selectableVariantFieldArray = [];
 		$orderTablename = 'sys_products_orders';
 		$falFieldname = 'fal_uid';
 		$variantSeparator = '---';
@@ -636,6 +647,12 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
 			$where
 		);
 
+		$where = 'uid_foreign=' . intval($orderUid) . ' AND `tablenames`="sys_products_orders"';
+		$GLOBALS['TYPO3_DB']->exec_DELETEquery(
+			'sys_file_reference',
+			$where
+		);
+
 		$productCount = 0;
 		$falCount = 0;
 
@@ -646,15 +663,15 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
 					$row = $actItem['rec'];
 					$extArray = $row['ext'];
 					$pid = intval($row['pid']);
-					$externalUidArray = array();
+					$externalUidArray = [];
 
 					if (!tx_ttproducts_control_basket::getPidListObj()->getPageArray($pid)) {
 						// product belongs to another basket
 						continue;
 					}
 
-					$variantArray = array();
-					$editVariantArray = array();
+					$variantArray = [];
+					$editVariantArray = [];
 
 					// fill in the variants and edit_variants mediumtext NOT NULL,
 					foreach ($selectableVariantFieldArray as $variant) {
@@ -677,7 +694,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
 						isset($extArray['records']) &&
 						is_array($extArray['records'])
 					) {
-						$newTitleArray = array();
+						$newTitleArray = [];
 						$externalRowArray = $extArray['records'];						\JambageCom\TtProducts\Api\BasketApi::getRecordvariantAndPriceFromRows(
 							$falVariants,
 							$dummyPrice,
@@ -690,15 +707,28 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
 						}
 					}
 
-					$insertFields = array (
-						'uid_local' => intval($orderUid),
-						'sys_products_orders_qty' => intval($actItem['count']),
-						'variants' => $variants,
-						'edit_variants' => $editVariants,
-						'fal_variants' => $falVariants,
-						'uid_foreign' => intval($actItem['rec']['uid']),
-						'tablenames' => $productTablename . ',' . $articleTablename
-					);
+                    $time = time();
+                    if (!empty($GLOBALS['TYPO3_CONF_VARS']['SYS']['serverTimeZone'])) {
+                        $time += ($GLOBALS['TYPO3_CONF_VARS']['SYS']['serverTimeZone'] * 3600);
+                    }
+
+                    $pid = intval($this->conf['PID_sys_products_orders']);
+                    if (!$pid) {
+                        $pid = intval($GLOBALS['TSFE']->id);
+                    }
+
+                    $insertFields = [
+                        'pid' => intval($pid),
+                        'tstamp' => $time,
+                        'crdate' => $time,
+                        'uid_local' => intval($orderUid),
+                        'sys_products_orders_qty' => intval($actItem['count']),
+                        'variants' => $variants,
+                        'edit_variants' => $editVariants,
+                        'fal_variants' => $falVariants,
+                        'uid_foreign' => intval($actItem['rec']['uid']),
+                        'tablenames' => $productTablename . ',' . $articleTablename
+                    ];
 
 					if (
 						$this->conf['useArticles'] == 1 ||
@@ -742,8 +772,8 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
 		$orderData = unserialize($row['orderData']);
 		if ($orderData === false) {
 			$orderData =
-				tx_div2007_alpha5::unserialize_fh002(
-					$orderRow['orderData'],
+				\JambageCom\Div2007\Utility\SystemUtility::unserialize(
+					$row['orderData'],
 					false
 				);
 		}
@@ -769,12 +799,12 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
 			$tableName = key($tmp);
 			$itemArray = current($tmp);
 		} else {
-			$itemArray = (is_array($tmp) ? $tmp : array());
+			$itemArray = (is_array($tmp) ? $tmp : []);
 		}
 
 		$tmp = $orderData['calculatedArray'];
-		$calculatedArray = ($tmp ? $tmp : array());
-		$infoArray = array();
+		$calculatedArray = ($tmp ? $tmp : []);
+		$infoArray = [];
 		$infoArray['billing'] = $orderData['billing'];
 		$infoArray['delivery'] = $orderData['delivery'];
 
@@ -855,9 +885,9 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
 			$calculatedArray,
 			$cardUid,
 			$accountUid,
-			$this->conf['email_notify_default'],	// Email notification is set here. Default email address is delivery email contact
-			$basketExtra['payment'][0] . ': ' . $basketExtra['payment.']['title'],
-			$basketExtra['shipping'][0] . ': ' . $basketExtra['shipping.']['title'],
+			$this->conf['email_notify_default'] ?? '',	// Email notification is set here. Default email address is delivery email contact
+			($basketExtra['payment'][0] ?? '') . ': ' . ($basketExtra['payment.']['title'] ?? ''),
+			($basketExtra['shipping'][0] ?? '') . ': ' . ($basketExtra['shipping.']['title'] ?? ''),
 			$calculatedArray['priceTax']['total']['ALL'],
 			$orderHTML,
 			$infoViewOb,
@@ -883,19 +913,25 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
 
 
     protected function fillVariant (&$row, $variant, $variantSplitSeparator, $prefix = '') {
-        $variantArray =
-            preg_split(
-                '/[\h]*' . $variantSplitSeparator . '[\h]*/',
-                $variant,
-                -1,
-                PREG_SPLIT_NO_EMPTY
-            );
+        if (isset($variant)) {
+            $variantArray =
+                preg_split(
+                    '/[\h]*' . $variantSplitSeparator . '[\h]*/',
+                    $variant,
+                    -1,
+                    PREG_SPLIT_NO_EMPTY
+                );
 
-        foreach ($variantArray as $variantPart) {
-            $parts = explode(':', $variantPart);
+            foreach ($variantArray as $variantPart) {
+                $parts = explode(':', $variantPart);
 
-            $field = $prefix . $parts['0'];
-            $row[$field] = $parts['1'];
+                $field = $prefix . $parts['0'];
+                $value = '';
+                if (isset($parts['1'])) {
+                    $value = $parts['1'];
+                }
+                $row[$field] = $value;
+            }
         }
     }
 
@@ -969,8 +1005,8 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
 		&$productRowArray,
 		&$multiOrderArray
 	) {
-		$productRowArray = array();
-		$multiOrderArray = array();
+		$productRowArray = [];
+		$multiOrderArray = [];
 
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 		$productObj = $tablesObj->get('tt_products', false);
@@ -998,7 +1034,7 @@ pa.uid_foreign = p.uid
 		$productAliasPostfix1 = '1';
 		$productAlias1 = $productAlias . $productAliasPostfix1;
 
-		$selectConf = array();
+		$selectConf = [];
         if ($uids != '') {
             $selectConf['uidInList'] = $uids;
         }
@@ -1039,7 +1075,7 @@ pa.uid_foreign = p.uid
 			$multiOrderArray[] = $row;
 			$productRow = $productObj->get($row['product_uid']);
 
-			if ($row['edit_variants'] != '') {
+			if (!empty($row['edit_variants'])) {
 				$this->fillVariant(
 					$productRow,
 					$row['edit_variants'],
@@ -1048,7 +1084,7 @@ pa.uid_foreign = p.uid
 				);
 			}
 
-			if ($row['variants'] != '') {
+			if (!empty($row['variants'])) {
 				$this->fillVariant(
 					$productRow,
 					$row['variants'],
@@ -1089,8 +1125,8 @@ pa.uid_foreign = p.uid
 		&$productRowArray,
 		&$multiOrderArray
 	) {
-		$multiOrderArray = array();
-		$productRowArray = array();
+		$multiOrderArray = [];
+		$productRowArray = [];
 
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 		$productObj = $tablesObj->get('tt_products', false);
@@ -1103,7 +1139,7 @@ pa.uid_foreign = p.uid
 		$productAliasPostfix1 = '1';
 		$productAlias1 = $productAlias . $productAliasPostfix1;
 
-		$selectConf = array();
+		$selectConf = [];
 		if ($pid_list != '') {
 			$selectConf['pidInList'] = $pid_list;
 		}
@@ -1136,7 +1172,7 @@ pa.uid_foreign = p.uid
 
 		$res = $this->getTableObj()->exec_SELECT_queryArray($queryParts);
 		while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
-// 			$orderArray = array();
+// 			$orderArray = [];
 // 			$orderArray['orderTrackingNo'] = $row['orderTrackingNo'];
 // 			$orderArray['orderUid'] = $row['order_uid'];
 // 			$orderArray['orderDate'] = $row['order_date'];
@@ -1144,10 +1180,10 @@ pa.uid_foreign = p.uid
 
 			$multiOrderArray[] = $row;
 
-			$productRow = array();
+			$productRow = [];
 			$productRow['uid'] = $row['product_uid'];
 
-			if ($row['edit_variants'] != '') {
+			if (!empty($row['edit_variants'])) {
 				$this->fillVariant(
 					$productRow,
 					$row['edit_variants'],
@@ -1156,7 +1192,7 @@ pa.uid_foreign = p.uid
 				);
 			}
 
-			if ($row['variants'] != '') {
+			if (!empty($row['variants'])) {
 				$this->fillVariant(
 					$productRow,
 					$row['variants'],
@@ -1179,8 +1215,8 @@ pa.uid_foreign = p.uid
 		&$productRowArray,
 		&$multiOrderArray
 	) {
-		$productRowArray = array();
-		$multiOrderArray = array();
+		$productRowArray = [];
+		$multiOrderArray = [];
 
 		$this->getOrderedProducts(
 			$from,
@@ -1212,8 +1248,8 @@ pa.uid_foreign = p.uid
 			is_array($gainedProductRowArray)
 		) {
 			$productRowArray = array_merge($productRowArray, $gainedProductRowArray);
-			$newProductRowArray = array();
-			$productArray = array();
+			$newProductRowArray = [];
+			$productArray = [];
 				// remove duplicates
 			foreach ($productRowArray as $productRow) {
 				$uid = $productRow['uid'];
@@ -1272,10 +1308,4 @@ pa.uid_foreign = p.uid
 	}
 
 }
-
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/class.tx_ttproducts_order.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/class.tx_ttproducts_order.php']);
-}
-
 

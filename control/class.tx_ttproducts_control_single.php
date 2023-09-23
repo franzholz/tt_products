@@ -47,16 +47,16 @@ class tx_ttproducts_control_single implements \TYPO3\CMS\Core\SingletonInterface
 	 * @access private
 	 */
 	function triggerEvents ($conf) {
-		if (isset($conf['trigger.'])) {
-
+		if (
+            !empty($conf['active']) &&
+            isset($conf['trigger.'])
+        ) {
 			$triggerConf = $conf['trigger.'];
 			$piVars = tx_ttproducts_model_control::getPiVars();
 			$piVar = tx_ttproducts_model_control::getPiVar('tt_products');
-			$uid = $piVars[$piVar];
+			$uid = $piVars[$piVar] ?? '';
 
 			if (\JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn()) {
-	/*
-	$productTableObj->getTableConf('LISTVIEWEDITEMS');*/
 				$mmTablename = 'sys_products_fe_users_mm_visited_products';
 
 				if ($uid && in_array($mmTablename, $triggerConf)) {	// check if this trigger has been activated
@@ -72,12 +72,12 @@ class tx_ttproducts_control_single implements \TYPO3\CMS\Core\SingletonInterface
 						$updateFields['qty'] += 1;
 						$GLOBALS['TYPO3_DB']->exec_UPDATEquery($mmTablename, $where, $updateFields);
 					} else {
-						$insertFields = array(
+						$insertFields = [
 							'tstamp' => $time,
 							'uid_local' => $GLOBALS['TSFE']->fe_user->user['uid'],
 							'uid_foreign' => $uid,
 							'qty' => 1
-						);
+						];
 						$GLOBALS['TYPO3_DB']->exec_INSERTquery($mmTablename, $insertFields);
 					}
 				}
@@ -108,11 +108,6 @@ class tx_ttproducts_control_single implements \TYPO3\CMS\Core\SingletonInterface
 			}
 		}
 	} // triggerEvents
-}
-
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/control/class.tx_ttproducts_control_single.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/control/class.tx_ttproducts_control_single.php']);
 }
 
 

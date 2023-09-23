@@ -339,7 +339,7 @@ Sie sind eingeloggt!
     <!-- ###display_variant5_isSingle### -->
     <!-- ###display_variant5_isNotSingle### -->
     ###GW1B### St&uuml;ckzahl: ###GW1E### <input size="8" maxlength="10" type="text" name="###FIELD_NAME###" value="###FIELD_QTY###">
-    <input type="image" name="addtomemo" src="typo3/ext/tt_products/res/icons/fe/addmemo.png" value="auf die Merkliste" onClick="document.getElementsByName('RelatedProductsForm')[0].action='###FORM_MEMO###&amp;tt_products%5Baddmemo%5D=###PRODUCT_UID###';" title="Add to memo">
+    <input type="image" name="addtomemo" src="typo3/ext/tt_products/Resources/Public/Images/addmemo.png" value="auf die Merkliste" onClick="document.getElementsByName('RelatedProductsForm')[0].action='###FORM_MEMO###&amp;tt_products%5Baddmemo%5D=###PRODUCT_UID###';" title="Add to memo">
     <!-- ###display_variant5_isNotSingle### -->
     ###ITEM_SINGLE_POST_HTML###
     <!-- ###ITEM_SINGLE### end -->
@@ -437,7 +437,7 @@ This subpart is used to display the regular list of products. It's also used by 
     <input type="image" src="###IMAGE_BASKET_SRC###" name="basket" class="inputimage_list" alt="In den Warenkorb" onClick="if(!document.forms['###FORM_NAME###']['###FIELD_NAME###'].value!=''){document.forms['###FORM_NAME###']['###FIELD_NAME###'].value=1;};"/>
   </div>
   <div style="padding: 2px 2px 2px 2px; border-top: 1px dotted #3F4F73;">
-    <input type="image" name="remove" src="typo3/ext/tt_products/res/icons/fe/delmemo.png" value="von der Merkliste streichen" onClick="document.getElementsByName('###FORM_NAME###')[0].action='###FORM_MEMO###&amp;tt_products%5Bdelmemo%5D=###PRODUCT_UID###';">
+    <input type="image" name="remove" src="typo3/ext/tt_products/Resources/Public/Images/delmemo.png" value="von der Merkliste streichen" onClick="document.getElementsByName('###FORM_NAME###')[0].action='###FORM_MEMO###&amp;tt_products%5Bdelmemo%5D=###PRODUCT_UID###';">
   </div>
 </form>
 
@@ -883,7 +883,7 @@ Exact same features as BASKET_TEMPLATE
       <input type="radio" name="recs[delivery][radio1]" ###DELIVERY_RADIO1_1### value="1"> Ja<br>
     </div>
     <div id="field_DELIVERY_FOUNDBY">
-      ###GW1B###<strong>Wie sind Sie auf uns aufmerksam geworden?:</strong>###GW1E###
+      ###GW1B###<strong>Wie sind Sie auf uns aufmerksam geworden?</strong>###GW1E###
       ###DELIVERY_FOUNDBY_SELECTOR###
     </div>
     <div id="field_DELIVERY_FOUNDBY_OTHERS">
@@ -1526,7 +1526,7 @@ If payment is initiated but the required information fields are not filled in co
   Fehler bei der Eingabe<br>
   <b>Sie haben nicht alle erforderlichen Felder mit Ihren Adressinformationen ausgef&uuml;llt. Bitte gehen Sie zur&uuml;ck und aktualisieren Ihre Eingaben: ###ERROR_DETAILS###</b>
   <form method="post" action="###FORM_URL###">
-  <input type="submit" id="button2" name="products_info" value="Adressdaten eingeben" onclick="document.forms[0].action='###FORM_URL_INFO###';">
+  <input type="submit" id="button2" name="products_info" value="Adressdaten eingeben" onclick="this.form.action='###FORM_URL_INFO###';">
   </form>
 </div>
 

@@ -41,6 +41,9 @@
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
+use JambageCom\Div2007\Utility\FrontendUtility;
+
+
 
 class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 	public $marker = 'ORDER';
@@ -126,7 +129,10 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 		&$markerArray,
 		$orderArray
 	) {
-        $cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
+        $cObj = FrontendUtility::getContentObjectRenderer();
+		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
+		$conf = $cnf->conf;
+
 		if (
 			isset($orderArray) &&
 			is_array($orderArray) &&
@@ -143,10 +149,10 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
             $markerArray['###ORDER_DATE###'] =
 				$cObj->stdWrap(
 					$orderArray['crdate'],
-					$this->conf['orderDate_stdWrap.']
+					$conf['orderDate_stdWrap.'] ?? ''
 				);
 			$markerArray['###ORDER_TRACKING_NO###'] = htmlspecialchars($orderArray['tracking_code']);
-			$markerArray['###ORDER_BILL_NO###'] = $orderArray['bill_no'];
+			$markerArray['###ORDER_BILL_NO###'] = $orderArray['bill_no'] ?? '';
 		} else {
 			$markerArray['###ORDER_UID###'] = '';
 			$markerArray['###ORDER_ORDER_NO###'] = '';
@@ -175,8 +181,10 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 		if ($from == '') {
 			$from = 'sys_products_orders';
 		}
-		$cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
-        $parser = tx_div2007_core::newHtmlParser(false);
+		$templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+		$cObj = FrontendUtility::getContentObjectRenderer();
+		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
+		$conf = $cnf->conf;
 
         $res =
 			$GLOBALS['TYPO3_DB']->exec_SELECTquery(
@@ -196,13 +204,14 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 			$tot_creditpoints_spended = 0;
 			$tot_creditpoints_gifts = 0;
 			$orderlistc = '';
-			$this->orders = array();
-			$orderitem = tx_div2007_core::getSubpart($frameWork, '###ORDER_ITEM###');
+			$this->orders = [];
+			$orderitem = $templateService->getSubpart($frameWork, '###ORDER_ITEM###');
 			$tablename = 'fe_users';
 
 			while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
 				$markerArray['###TRACKING_CODE###'] = $row['tracking_code'];
-				$markerArray['###ORDER_DATE###'] = $cObj->stdWrap($row['crdate'], $this->conf['orderDate_stdWrap.']);
+				$markerArray['###ORDER_DATE###'] = $cObj->stdWrap($row['crdate'], $conf['orderDate_stdWrap.'] ?? '');
+
 				$markerArray['###ORDER_NUMBER###'] = $orderObj->getNumber($row['uid']);
 				$markerArray['###ORDER_CREDITS###'] = $row['creditpoints_saved'] + $row['creditpoints_gifts'] - $row['creditpoints_spended'] - $row['creditpoints'];
 				$markerArray['###ORDER_AMOUNT###'] = $priceViewObj->printPrice($priceViewObj->priceFormat($row['amount']));
@@ -218,7 +227,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 
 				// total amount of creditpoints from gifts
 				$tot_creditpoints_gifts += $row['creditpoints_gifts'];
-				$orderlistc .= $parser->substituteMarkerArray($orderitem, $markerArray);
+				$orderlistc .= $templateService->substituteMarkerArray($orderitem, $markerArray);
 			}
 
 			if (strpos($frameWork, '###CREDIT_POINTS_VOUCHER###') !== false) {
@@ -262,11 +271,11 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 			$markerArray['###CREDIT_POINTS_TOTAL###'] = number_format($totalcreditpoints, 0);
 			$markerArray['###CREDIT_POINTS_VOUCHER###'] = $num_rows;
 			$markerArray['###CALC_DATE###'] = date('d M Y');
-			$listFrameWork = tx_div2007_core::getSubpart($frameWork, '###ORDER_LIST###');
+			$listFrameWork = $templateService->getSubpart($frameWork, '###ORDER_LIST###');
 
-			$listSubpartArray = array();
+			$listSubpartArray = [];
 			$listSubpartArray['###ORDER_ITEM###'] = $orderlistc;
-			$listContent = tx_div2007_core::substituteMarkerArrayCached(
+			$listContent = $templateService->substituteMarkerArrayCached(
 				$listFrameWork,
 				$markerArray,
 				$listSubpartArray
@@ -322,7 +331,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 			count($productRowArray) &&
 			strpos($frameWork, '###ORDER_PRODUCT_UID###') !== false
 		) {
-			$productUidArray = array();
+			$productUidArray = [];
 			foreach ($productRowArray as $productRow) {
 				$productUidArray[$productRow['uid']] = $productRow['uid'];
 			}
@@ -331,7 +340,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 			$listView = GeneralUtility::makeInstance('tx_ttproducts_list_view');
 			$listView->init(
 				$pid,
-				array(),
+				[],
 				$pid_list,
 				0
 			);
@@ -347,15 +356,15 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 				$error_code,
 				$subpartMarker,
 				$pageAsCategory,
-				array(),
-				array(),
-				array(),
+				[],
+				[],
+				[],
 				0,
-				array(),
-				array(),
-				array(),
+				[],
+				[],
+				[],
 				'',
-				array(),
+				[],
 				$notOverwritePriceIfSet,
 				$multiOrderArray,
 				$productRowArray,
@@ -377,6 +386,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 		$validFeUser,
 		&$error_code
 	) {
+        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 		$subpartmarkerObj = GeneralUtility::makeInstance('tx_ttproducts_subpartmarker');
 
 		if (
@@ -393,7 +403,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 			// nothing
 		}
 
-		$frameWork = tx_div2007_core::getSubpart(
+		$frameWork = $templateService->getSubpart(
 			$templateCode,
 			$subpartmarkerObj->spMarker('###' . $subPartMarker . '###')
 		);
@@ -431,16 +441,16 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 		$feuserRowArray = $feusersObj->get('', $pid_list . ',' . intval($feusersObj->getPid()));
 
 		if (is_array($feuserRowArray) && count($feuserRowArray)) {
-			$valueArray = array();
+			$valueArray = [];
 			$valueArray[] = '';
 
 			foreach ($feuserRowArray as $uid => $row) {
-				$valueArray[] = array($row['uid'] . ' - ' . $row['name'] . ' - ' . $row['city'], $uid);
+				$valueArray[] = [$row['uid'] . ' - ' . $row['name'] . ' - ' . $row['city'], $uid];
 			}
 
 			$piVar = tx_ttproducts_model_control::getPiVar('orderaddress');
 
-			$selectedKey = $piVars[$piVar];
+			$selectedKey = $piVars[$piVar] ?? 0;
 			$type = 'select';
 			$tagName = $prefix . '[' . $piVar . ']';
 			$text = tx_ttproducts_form_div::createSelect(
@@ -450,7 +460,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 				$selectedKey,
 				true,
 				false,
-				array(),
+				[],
 				$type
 			);
 			$result = $text;
@@ -482,6 +492,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 		$trackingCode,
 		&$error_code
 	) {
+        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$orderObj = $this->getModelObj(); // order
 		$languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
@@ -586,15 +597,15 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 						'fe_groups',
 						$where
 					);
-				$valueArray = array();
+				$valueArray = [];
 				$valueArray[] = '';
 
 				foreach ($feGroupArray as $uid => $row) {
-					$valueArray[] = array($row['title'], $row['uid']);
+					$valueArray[] = [$row['title'], $row['uid']];
 				}
 
 				$piVar = tx_ttproducts_model_control::getPiVar('fegroup');
-				$selectedKey = $piVars[$piVar];
+				$selectedKey = $piVars[$piVar] ?? 0;
 				$type = 'select';
 				$tagName = $prefix . '[' . $piVar . ']';
 				$text = tx_ttproducts_form_div::createSelect(
@@ -604,7 +615,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 					$selectedKey,
 					true,
 					false,
-					array(),
+					[],
 					$type
 				);
 				$markerArray['###' . $markerKey . '###'] = $text;
@@ -615,12 +626,12 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 		$markerKey = 'VIEW_SELECT';
 
 		if (strpos($frameWork, '###' . $markerKey . '###') !== false) {
-			$valueArray = array();
+			$valueArray = [];
 			$valueArray['0'] = $languageObj->getLabel('orders_view_orders');
 			$valueArray['1'] = $languageObj->getLabel('orders_view_products');
 
 			$piVar = tx_ttproducts_model_control::getOrderViewVar();
-			$selectedKey = $piVars[$piVar];
+			$selectedKey = $piVars[$piVar] ?? 0;
 			$type = 'select';
 			$text = tx_ttproducts_form_div::createSelect(
 				$languageObj,
@@ -629,7 +640,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 				$selectedKey,
 				true,
 				false,
-				array(),
+				[],
 				$type
 			);
 			$markerArray['###' . $markerKey . '###'] = $text;
@@ -651,7 +662,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 					) {
 						$layout = $panelConf['layout'];
 						$panelMarker = strtoupper($panelConf['marker']);
-						$elementMarkerArray = array();
+						$elementMarkerArray = [];
 
 						foreach ($panelConf['elements.'] as $k2 => $elementConf) {
 							if (
@@ -668,7 +679,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 						}
 
 						$panelContent =
-							tx_div2007_core::substituteMarkerArrayCached(
+							$templateService->substituteMarkerArrayCached(
 								$layout,
 								$elementMarkerArray
 							);
@@ -694,7 +705,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 		}
 
 		$orderPiVar = tx_ttproducts_model_control::getPiVar('sys_products_orders');
-		$fieldPiVarArray = array('crdate' => array('ge', 'le'));
+		$fieldPiVarArray = ['crdate' => ['ge', 'le']];
 
 		foreach ($fieldPiVarArray as $fieldPiVar => $piVarTypeArray) {
 			foreach ($piVarTypeArray as $piVarType) {
@@ -703,7 +714,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 				if (
 					strpos($frameWork, '###' . $markerkey . '_SELECT###') !== false
 				) {
-					$selectedKey = $piVars[$orderPiVar][$fieldPiVar][$piVarType];
+					$selectedKey = $piVars[$orderPiVar][$fieldPiVar][$piVarType] ?? 0;
 					$type = 'input';
 					$tagName = $prefix . '[' . $orderPiVar . ']' . '[' . $fieldPiVar . ']' . '[' . $piVarType . ']';
 
@@ -758,7 +769,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 					$from = $functablename . ' ' . $orderAlias . ' LEFT JOIN fe_users ON ' . $orderAlias . '.feusers_uid = fe_users.uid';
 					$where = 'fe_users.usergroup = ' . $fegroups_uid;
 				}
-				$whereArray = $piVars[tx_ttproducts_model_control::getPiVar($functablename)];
+				$whereArray = $piVars[tx_ttproducts_model_control::getPiVar($functablename)] ?? '';
 
 				if (is_array($whereArray)) {
 					foreach ($whereArray as $field => $value) {
@@ -848,7 +859,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 			}
 		}
 		$markerArray['###HIDDENFIELDS###'] = $hiddenFields;
-		$content = tx_div2007_core::substituteMarkerArrayCached(
+		$content = $templateService->substituteMarkerArrayCached(
 			$frameWork,
 			$markerArray,
 			$subpartArray,
@@ -874,6 +885,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
         $onlyProductsWithFalOrders,
 		&$error_code
 	) {
+        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$orderObj = $this->getModelObj();
 
@@ -896,8 +908,8 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 			$piVars,
 			$prefix
 		);
-		$subpartArray = array();
-		$wrappedSubpartArray = array();
+		$subpartArray = [];
+		$wrappedSubpartArray = [];
 
 		tx_ttproducts_admin_control_view::getSubpartArrays(
 			$bIsAllowed,
@@ -1006,7 +1018,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 			$subpartArray['###ORDER_PRODUCT_LIST###'] = '';
 		}
 
-		$content = tx_div2007_core::substituteMarkerArrayCached(
+		$content = $templateService->substituteMarkerArrayCached(
 			$frameWork,
 			$markerArray,
 			$subpartArray,
@@ -1022,11 +1034,12 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
         $result = '';
 		$from = '';
 		$where = '';
+		$whereProducts = '';
 		$uids = $row['uid'];
 		$orderBy = '';
 		$pid_list = '';
-		$productRowArray = array();
-		$multiOrderArray = array();
+		$productRowArray = [];
+		$multiOrderArray = [];
 
 		$this->getModelObj()->getOrderedProducts(
 			$from,
@@ -1045,11 +1058,6 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
         }
 
         return $result;
-	}
-}
-
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_order_view.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_order_view.php']);
+    }
 }
 

@@ -50,6 +50,8 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
 
+use JambageCom\Div2007\Utility\FrontendUtility;
+
 
 class OldTaxajaxController {
 
@@ -64,12 +66,12 @@ class OldTaxajaxController {
     {
         global $TSFE, $BE_USER, $TYPO3_CONF_VARS, $error;
 
-        $pageId = \JambageCom\Div2007\Utility\FrontendUtility::getPageId($request);
+        $pageId = FrontendUtility::getPageId($request);
         if (!$pageId) {
             throw new \RuntimeException('Error in tt_products: No page id for Ajax call.');
         }
 
-        \JambageCom\Div2007\Utility\FrontendUtility::init($pageId);
+        FrontendUtility::init($pageId);
 
 
         // ******************************************************
@@ -78,7 +80,7 @@ class OldTaxajaxController {
 
 
         $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
-        $config = array();
+        $config = [];
         $config['LLkey'] = '';
 
         // tt_products specific parts
@@ -89,9 +91,10 @@ class OldTaxajaxController {
 
         $SOBE = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_ttproducts_db');
         $errorCode = '';
-        $SOBE->init($conf, $config, $ajax, $tmp = '', $errorCode);
+        $tmp = '';
+        $SOBE->init($conf, $config, $ajax, $tmp, $errorCode);
 
-        if($_POST['xajax']) {
+        if(!empty($_POST['xajax'])) {
             global $trans;
 
             $trans = $this;

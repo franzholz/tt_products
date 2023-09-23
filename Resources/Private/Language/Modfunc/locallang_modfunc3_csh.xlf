@@ -3,13 +3,13 @@
    <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/Modfunc/locallang_modfunc3_csh.xlf" date="2017-07-08T17:08:00Z" product-name="import">
 		<header/>
 		<body>
-			<trans-unit id="tt_products.func3.importFalWizard">
+			<trans-unit id="tt_products.func3.importFalWizard" resname="tt_products.func3.importFalWizard">
 				<source>Execute the FAL Import Wizard</source>
 			</trans-unit>
-            <trans-unit id="tt_products.func3.alttitle">
+            <trans-unit id="tt_products.func3.alttitle" resname="tt_products.func3.alttitle">
                 <source>Import FAL wizard for tt_products tables</source>
             </trans-unit>
-            <trans-unit id="tt_products.func3.description" xml:space="preserve">
+            <trans-unit id="tt_products.func3.description" xml:space="preserve" resname="tt_products.func3.description" xml:space="preserve">
                 <source>Enables you to import the images into FAL for all tables of tt_products.</source>
             </trans-unit>
         </body>

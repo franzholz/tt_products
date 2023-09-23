@@ -42,7 +42,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
 class tx_ttproducts_article extends tx_ttproducts_article_base {
-	public $fields = array();
+	public $fields = [];
 	public $tt_products; // element of class tx_table_db to get the parent product
 	public $marker = 'ARTICLE';
 	public $type = 'article';
@@ -54,14 +54,12 @@ class tx_ttproducts_article extends tx_ttproducts_article_base {
 	 * Getting all tt_products_cat categories into internal array
 	 */
 	public function init ($functablename) {
-		global $TCA;
-
 		$result = parent::init($functablename);
 
 		if ($result) {
 			$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-			$tableConfig = array();
-			$tableConfig['orderBy'] = $cnf->conf['orderBy'];
+			$tableConfig = [];
+			$tableConfig['orderBy'] = $cnf->conf['orderBy'] ?? '';
 
 			if (!$tableConfig['orderBy']) {
 				$tableConfig['orderBy'] = $this->getOrderBy ();
@@ -69,7 +67,7 @@ class tx_ttproducts_article extends tx_ttproducts_article_base {
 
 			$tableObj = $this->getTableObj();
 			$tableObj->setConfig($tableConfig);
-			$tableObj->addDefaultFieldArray(array('sorting' => 'sorting'));
+			$tableObj->addDefaultFieldArray(['sorting' => 'sorting']);
 		}
 
 		return $result;
@@ -77,13 +75,13 @@ class tx_ttproducts_article extends tx_ttproducts_article_base {
 
 
 	public function &getWhereArray ($prodUid, $where, $orderBy = '') { // Todo: consider the $orderBy
-		$rowArray = array();
+		$rowArray = [];
 		$enableWhere = $this->getTableObj()->enableFields();
 		$where = ($where ? $where . ' ' . $enableWhere : '1=1 ' . $enableWhere);
 		$alias = $this->getAlias();
 		$fromJoin = '';
 
-		if (in_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['articleMode'], array(1, 2))) {
+		if (in_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['articleMode'], [1, 2])) {
 
 			$finalWhere = 'tt_products_products_mm_articles.uid_local=' . intval($prodUid) . ' AND tt_products_products_mm_articles.deleted=0 AND tt_products_products_mm_articles.hidden=0' . ($where!='' ? ' AND '.$where : '');
 			$mmTable = 'tt_products_products_mm_articles';
@@ -131,8 +129,8 @@ class tx_ttproducts_article extends tx_ttproducts_article_base {
 	public function getRequiredFieldArray ($theCode = '') {
 		$tableConf = $this->getTableConf($theCode);
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-		$rc = array();
-		if ($tableConf['requiredFields']!='') {
+		$rc = [];
+		if (!empty($tableConf['requiredFields'])) {
 			$requiredFields = $tableConf['requiredFields'];
 		} else {
 			$requiredFields = 'uid,pid,category,price,price2,directcost';
@@ -153,10 +151,5 @@ class tx_ttproducts_article extends tx_ttproducts_article_base {
 		return $result;
 	}
 
-}
-
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/class.tx_ttproducts_article.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/class.tx_ttproducts_article.php']);
 }
 

@@ -46,8 +46,6 @@ class tx_ttproducts_address extends tx_ttproducts_category_base {
 	 * Getting all address values into internal array
 	 */
 	public function init ($functablename) {
-		global $TCA;
-
 		$result = parent::init($functablename);
 		if ($result) {
 			$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
@@ -64,7 +62,7 @@ class tx_ttproducts_address extends tx_ttproducts_category_base {
 			$tableObj->setNewFieldArray();
 			$requiredFields = 'uid,pid,title';
 
-			if ($tableconf['requiredFields']) {
+			if (!empty($tableconf['requiredFields'])) {
 				$tmp = $tableconf['requiredFields'];
 				$requiredFields = ($tmp ? $tmp : $requiredFields);
 			}
@@ -82,7 +80,7 @@ class tx_ttproducts_address extends tx_ttproducts_category_base {
 
 
 	public function getRootCat () {
-		$result = $this->conf['rootAddressID'];
+		$result = $this->conf['rootAddressID'] ?? '';
 
 		if ($result == '') {
 			$result = '0';
@@ -98,7 +96,7 @@ class tx_ttproducts_address extends tx_ttproducts_category_base {
 		$rootUids = '',
 		$allowedCats = ''
 	) {
-		$relationArray = array();
+		$relationArray = [];
 		$rootArray = GeneralUtility::trimExplode(',', $rootUids);
 
 		if (is_array($dataArray)) {
@@ -115,7 +113,7 @@ class tx_ttproducts_address extends tx_ttproducts_category_base {
 				if (strpos($labelField, 'userFunc:') !== false) {
 					$pos = strpos($labelField, ':');
 					$labelFunc = substr($labelField, $pos + 1);
-					$params = array('table' => $this->getTablename(), 'row' => $row);
+					$params = ['table' => $this->getTablename(), 'row' => $row];
 					$label = GeneralUtility::callUserFunction($labelFunc, $params, $this);
 				} else {
 					$label = $row[$labelField];
@@ -132,7 +130,7 @@ class tx_ttproducts_address extends tx_ttproducts_category_base {
 
 
 	public function fetchAddressArray ($itemArray) {
-		$result = array();
+		$result = [];
 
 		foreach ($itemArray as $sort => $actItemArray) {
 			foreach ($actItemArray as $k1 => $actItem) {
@@ -150,8 +148,4 @@ class tx_ttproducts_address extends tx_ttproducts_category_base {
 	}
 }
 
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/class.tx_ttproducts_address.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/class.tx_ttproducts_address.php']);
-}
 

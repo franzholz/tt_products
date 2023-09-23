@@ -60,7 +60,7 @@ class tx_ttproducts_relatedlist_view implements \TYPO3\CMS\Core\SingletonInterfa
 		$funcTablename,
 		$viewTagArray
 	) {
-		$result = array();
+		$result = [];
 
 		if (
 			$funcTablename == 'tt_products' &&
@@ -76,7 +76,7 @@ class tx_ttproducts_relatedlist_view implements \TYPO3\CMS\Core\SingletonInterfa
 				$relatedConf['userFunc'] = $conf['LISTRELATEDBYSYSTEMCATEGORY.']['userFunc'];
 				$cObjectType = $conf['LISTRELATEDBYSYSTEMCATEGORY'];
 
-				$cObj = FrontendUtility::getContentObjectRenderer(array());
+				$cObj = FrontendUtility::getContentObjectRenderer([]);
 				$output = $cObj->cObjGetSingle($cObjectType, $relatedConf);
 				$result['###PRODUCT_RELATED_SYSCAT###'] = $output;
 			}
@@ -103,105 +103,102 @@ class tx_ttproducts_relatedlist_view implements \TYPO3\CMS\Core\SingletonInterfa
 		switch ($funcTablename) {
 			case 'tt_products':
 				$result =
-					array(
-						'articles' => array(
+					[
+						'articles' => [
 							'marker' => 'PRODUCT_RELATED_ARTICLES',
 							'template' => 'ITEM_LIST_RELATED_ARTICLES_TEMPLATE',
 							'require' => $useArticles,
 							'code' => 'LISTRELATEDARTICLES',
-							'additionalPages' => $conf['pidsRelatedArticles'],
-							'mergeRow' => array(),
+							'additionalPages' => $conf['pidsRelatedArticles'] ?? '',
+							'mergeRow' => [],
 							'functablename' => 'tt_products_articles',
-							'callFunctableArray' => array(),
+							'callFunctableArray' => [],
 							'cached' => true
-						),
-						'accessories' => array(
+						],
+						'accessories' => [
 							'marker' => 'PRODUCT_ACCESSORY_UID',
 							'template' => 'ITEM_LIST_ACCESSORY_TEMPLATE',
 							'require' => true,
 							'code' => 'LISTRELATEDACCESSORY',
-							'additionalPages' => $conf['pidsRelatedAccessories'],
-							'mergeRow' => array(),
+							'additionalPages' => $conf['pidsRelatedAccessories'] ?? '',
+							'mergeRow' => [],
 							'functablename' => 'tt_products',
-							'callFunctableArray' => array(),
+							'callFunctableArray' => [],
 							'cached' => true
-						),
-						'products' => array(
+						],
+						'products' => [
 							'marker' => 'PRODUCT_RELATED_UID',
 							'template' => 'ITEM_LIST_RELATED_TEMPLATE',
 							'require' => true,
 							'code' => 'LISTRELATED',
-							'additionalPages' => $conf['pidsRelatedProducts'],
-							'mergeRow' => array(),
+							'additionalPages' => $conf['pidsRelatedProducts'] ?? '',
+							'mergeRow' => [],
 							'functablename' => 'tt_products',
-							'callFunctableArray' => array(),
+							'callFunctableArray' => [],
 							'cached' => true
-						),
-						'productsbysystemcategory' => array(
+						],
+						'productsbysystemcategory' => [
 							'marker' => 'PRODUCT_RELATED_SYSCAT',
 							'template' => 'ITEM_LIST_RELATED_BY_SYSTEMCATEGORY_TEMPLATE',
 							'require' => true,
 							'code' => 'LISTRELATEDBYSYSTEMCATEGORY',
-							'additionalPages' => $conf['pidsRelatedProducts'],
-							'mergeRow' => array(),
+							'additionalPages' => $conf['pidsRelatedProducts'] ?? '',
+							'mergeRow' => [],
 							'functablename' => 'tt_products',
-							'callFunctableArray' => array(),
+							'callFunctableArray' => [],
 							'cached' => false
-						),
-						'complete_downloads' => array(
+						],
+						'complete_downloads' => [
 							'marker' => 'PRODUCT_COMPLETE_DOWNLOAD_UID',
 							'template' => 'ITEM_LIST_COMPLETE_DOWNLOAD_TEMPLATE',
 							'require' => true,
 							'code' => 'LISTRELATEDCOMPLETEDOWNLOAD',
-							'additionalPages' => $conf['pidsRelatedDownloads'],
-							'mergeRow' => array(),
+							'additionalPages' => $conf['pidsRelatedDownloads'] ?? '',
+							'mergeRow' => [],
 							'functablename' => 'sys_file_reference',
-							'callFunctableArray' => array(),
-// 							'callFunctableArray' => array($marker => 'sys_file_reference'),
+							'callFunctableArray' => [],
 							'cached' => true
-						),
-                        'all_downloads' => array(
+						],
+                        'all_downloads' => [
                             'marker' => 'PRODUCT_ALL_DOWNLOAD_UID',
                             'template' => 'ITEM_LIST_ALL_DOWNLOAD_TEMPLATE',
                             'require' => true,
                             'code' => 'LISTRELATEDALLDOWNLOAD',
-                            'additionalPages' => $conf['pidsRelatedDownloads'],
-                            'mergeRow' => array(),
+                            'additionalPages' => $conf['pidsRelatedDownloads'] ?? '',
+                            'mergeRow' => [],
                             'functablename' => 'sys_file_reference',
-                            'callFunctableArray' => array(),
+                            'callFunctableArray' => [],
                             'cached' => true
-                        ),
-						'partial_downloads' => array(
+                        ],
+						'partial_downloads' => [
 							'marker' => 'PRODUCT_PARTIAL_DOWNLOAD_UID',
 							'template' => 'ITEM_LIST_PARTIAL_DOWNLOAD_TEMPLATE',
 							'require' => true,
 							'code' => 'LISTRELATEDPARTIALDOWNLOAD',
-							'additionalPages' => $conf['pidsRelatedDownloads'],
-							'mergeRow' => array(),
+							'additionalPages' => $conf['pidsRelatedDownloads'] ?? '',
+							'mergeRow' => [],
 							'functablename' => 'sys_file_reference',
-							'callFunctableArray' => array(),
+							'callFunctableArray' => [],
 							'cached' => true
-
-// 							'callFunctableArray' => array($marker => 'sys_file_reference')
-						),
-					);
+						],
+					];
 				break;
 
 			case 'tx_dam':
 				if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('dam')) {
 					if ($uid > 0) {
-						$damext = array('tx_dam' =>
-							array(
-								array('uid' => $uid)
-							)
-						);
-						$extArray = array('ext' => $damext);
+						$damext = ['tx_dam' =>
+							[
+								['uid' => $uid]
+							]
+						];
+						$extArray = ['ext' => $damext];
 					} else {
-						$extArray = array();
+						$extArray = [];
 					}
 					$result =
-						array(
-							'products' => array(
+						[
+							'products' => [
 								'marker' => 'DAM_PRODUCTS',
 								'template' => 'DAM_ITEM_LIST_TEMPLATE',
 								'require' => true,
@@ -209,10 +206,10 @@ class tx_ttproducts_relatedlist_view implements \TYPO3\CMS\Core\SingletonInterfa
 								'additionalPages' => false,
 								'mergeRow' => $extArray,
 								'functablename' => 'tt_products',
-								'callFunctableArray' => array($marker => 'tx_dam'),
+								'callFunctableArray' => [$marker => 'tx_dam'],
 								'cached' => true
-							)
-						);
+							]
+						];
 				}
 				break;
 		}
@@ -279,8 +276,8 @@ class tx_ttproducts_relatedlist_view implements \TYPO3\CMS\Core\SingletonInterfa
 					if (isset($tableConf['orderBy'])) {
 						$orderBy = $tableConf['orderBy'];
 					}
-					$mergeRow = array();
-					$parentRows = array();
+					$mergeRow = [];
+					$parentRows = [];
 					$relatedIds =
 						$itemObj->getRelated(
 							$parentFuncTablename,
@@ -312,12 +309,12 @@ class tx_ttproducts_relatedlist_view implements \TYPO3\CMS\Core\SingletonInterfa
 							$listPids = $this->pidListObj->getPidlist();
 						}
 
-						$parentDataArray = array(
+						$parentDataArray = [
 							'functablename' => $funcTablename,
 							'uid' => $uid
-						);
+						];
 
-						$productRowArray = array();
+						$productRowArray = [];
 						$bEditableVariants = true;
 
 						$tmpContent = $listView->printView(
@@ -358,10 +355,5 @@ class tx_ttproducts_relatedlist_view implements \TYPO3\CMS\Core\SingletonInterfa
 
 		return $result;
 	}
-}
-
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_relatedlist_view.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_relatedlist_view.php']);
 }
 

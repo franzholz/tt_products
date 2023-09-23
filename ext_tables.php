@@ -1,8 +1,8 @@
 <?php
-defined('TYPO3_MODE') || die('Access denied.');
+defined('TYPO3') || die('Access denied.');
 
-call_user_func(function () {
- 
+call_user_func(function($extensionKey)
+{
     $tables = [
         'tt_products',
         'tt_products_language',
@@ -37,35 +37,38 @@ call_user_func(function () {
         'sys_products_cards',
         'sys_products_orders'
     ];
+    $languageSubpath = '/Resources/Private/Language/';
 
     foreach ($tables as $table) {
-        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr($table, 'EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'Csh/locallang_csh_' . $table . '.xlf');
+        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr($table, 'EXT:' . $extensionKey . $languageSubpath . 'Csh/locallang_csh_' . $table . '.xlf');
     }
 
-    if (TYPO3_MODE == 'BE') {
-
+    if (
+        defined ('TYPO3_MODE') &&
+        TYPO3_MODE == 'BE'
+    ) {
         $GLOBALS['TBE_MODULES_EXT']['xMOD_db_new_content_el']['addElClasses']['JambageCom\\TtProducts\\Controller\\Plugin\\WizardIcon'] = PATH_BE_TTPRODUCTS . 'Classes/Controller/Plugin/WizardIcon.php';
 
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::insertModuleFunction(
             'web_func',
             \JambageCom\TtProducts\Controller\Module\MoveItemsWizardModuleFunctionController::class,
             null,
-            'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang.xlf:moduleFunction.tx_ttproducts_modfunc1'
+            'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang.xlf:moduleFunction.tx_ttproducts_modfunc1'
         );
 
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::insertModuleFunction(
             'web_func',
             \JambageCom\TtProducts\Controller\Module\CreateLanguagesWizardModuleFunctionController::class,
             null,
-            'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang.xlf:moduleFunction.tx_ttproducts_modfunc2'
+            'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang.xlf:moduleFunction.tx_ttproducts_modfunc2'
         );
 
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::insertModuleFunction(
             'web_func',
             \JambageCom\TtProducts\Controller\Module\ImportFalWizardModuleFunctionController::class,
             null,
-            'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang.xlf:moduleFunction.tx_ttproducts_modfunc3'
+            'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang.xlf:moduleFunction.tx_ttproducts_modfunc3'
         );
     }
-});
+}, 'tt_products');
 

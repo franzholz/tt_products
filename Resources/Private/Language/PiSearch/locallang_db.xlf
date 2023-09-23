@@ -3,88 +3,88 @@
 	<file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/PiSearch/locallang_db.xlf" date="2021-12-01T10:35:33Z" product-name="tt_products">
 		<header/>
 		<body>
-			<trans-unit id="tt_content.list_type_pi_search" xml:space="preserve">
+			<trans-unit id="tt_content.list_type_pi_search" resname="tt_content.list_type_pi_search">
 				<source>Shop System Search</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_search_flexform.display_mode" xml:space="preserve">
+			<trans-unit id="tt_content.pi_search_flexform.display_mode" resname="tt_content.pi_search_flexform.display_mode">
 				<source>Display mode</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_search_flexform.display_mode.1" xml:space="preserve">
+			<trans-unit id="tt_content.pi_search_flexform.display_mode.1" resname="tt_content.pi_search_flexform.display_mode.1">
 				<source>First Letter</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_search_flexform.display_mode.2" xml:space="preserve">
+			<trans-unit id="tt_content.pi_search_flexform.display_mode.2" resname="tt_content.pi_search_flexform.display_mode.2">
 				<source>Year</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_search_flexform.display_mode.3" xml:space="preserve">
+			<trans-unit id="tt_content.pi_search_flexform.display_mode.3" resname="tt_content.pi_search_flexform.display_mode.3">
 				<source>Select Key Field</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_search_flexform.display_mode.4" xml:space="preserve">
+			<trans-unit id="tt_content.pi_search_flexform.display_mode.4" resname="tt_content.pi_search_flexform.display_mode.4">
 				<source>Text Field</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_search_flexform.display_mode.5" xml:space="preserve">
+			<trans-unit id="tt_content.pi_search_flexform.display_mode.5" resname="tt_content.pi_search_flexform.display_mode.5">
 				<source>Last Entries</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_search_flexform.display_mode.6" xml:space="preserve">
+			<trans-unit id="tt_content.pi_search_flexform.display_mode.6" resname="tt_content.pi_search_flexform.display_mode.6">
 				<source>Field Values</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_search_flexform.template_suffix" xml:space="preserve">
+			<trans-unit id="tt_content.pi_search_flexform.template_suffix" resname="tt_content.pi_search_flexform.template_suffix">
 				<source>Template Suffix</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_search_flexform.local_param" xml:space="preserve">
+			<trans-unit id="tt_content.pi_search_flexform.local_param" resname="tt_content.pi_search_flexform.local_param">
 				<source>Local Table</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_search_flexform.local_param.1" xml:space="preserve">
+			<trans-unit id="tt_content.pi_search_flexform.local_param.1" resname="tt_content.pi_search_flexform.local_param.1">
 				<source>Product</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_search_flexform.local_param.2" xml:space="preserve">
+			<trans-unit id="tt_content.pi_search_flexform.local_param.2" resname="tt_content.pi_search_flexform.local_param.2">
 				<source>Article</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_search_flexform.local_param.3" xml:space="preserve">
+			<trans-unit id="tt_content.pi_search_flexform.local_param.3" resname="tt_content.pi_search_flexform.local_param.3">
 				<source>Category</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_search_flexform.local_param.4" xml:space="preserve">
+			<trans-unit id="tt_content.pi_search_flexform.local_param.4" resname="tt_content.pi_search_flexform.local_param.4">
 				<source>DAM</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_search_flexform.local_param.5" xml:space="preserve">
+			<trans-unit id="tt_content.pi_search_flexform.local_param.5" resname="tt_content.pi_search_flexform.local_param.5">
 				<source>DAM Category</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_search_flexform.foreign_param" xml:space="preserve">
+			<trans-unit id="tt_content.pi_search_flexform.foreign_param" resname="tt_content.pi_search_flexform.foreign_param">
 				<source>Foreign Table</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_search_flexform.foreign_param.1" xml:space="preserve">
+			<trans-unit id="tt_content.pi_search_flexform.foreign_param.1" resname="tt_content.pi_search_flexform.foreign_param.1">
 				<source>Category</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_search_flexform.foreign_param.2" xml:space="preserve">
+			<trans-unit id="tt_content.pi_search_flexform.foreign_param.2" resname="tt_content.pi_search_flexform.foreign_param.2">
 				<source>Address</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_search_flexform.foreign_param.3" xml:space="preserve">
+			<trans-unit id="tt_content.pi_search_flexform.foreign_param.3" resname="tt_content.pi_search_flexform.foreign_param.3">
 				<source>DAM Category</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_search_flexform.foreign_param.4" xml:space="preserve">
+			<trans-unit id="tt_content.pi_search_flexform.foreign_param.4" resname="tt_content.pi_search_flexform.foreign_param.4">
 				<source> </source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_search_flexform.fields" xml:space="preserve">
+			<trans-unit id="tt_content.pi_search_flexform.fields" resname="tt_content.pi_search_flexform.fields">
 				<source>Fields</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_search_flexform.group_by_fields" xml:space="preserve">
+			<trans-unit id="tt_content.pi_search_flexform.group_by_fields" resname="tt_content.pi_search_flexform.group_by_fields">
 				<source>GROUP BY Fields</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_search_flexform.url" xml:space="preserve">
+			<trans-unit id="tt_content.pi_search_flexform.url" resname="tt_content.pi_search_flexform.url">
 				<source>URL</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_search_flexform.all" xml:space="preserve">
+			<trans-unit id="tt_content.pi_search_flexform.all" resname="tt_content.pi_search_flexform.all">
 				<source>Show all box</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_search_flexform.parameters" xml:space="preserve">
+			<trans-unit id="tt_content.pi_search_flexform.parameters" resname="tt_content.pi_search_flexform.parameters">
 				<source>Parameters</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_search_flexform.delimiter" xml:space="preserve">
+			<trans-unit id="tt_content.pi_search_flexform.delimiter" resname="tt_content.pi_search_flexform.delimiter">
 				<source>Delimiter</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_search_flexform.columns" xml:space="preserve">
+			<trans-unit id="tt_content.pi_search_flexform.columns" resname="tt_content.pi_search_flexform.columns">
 				<source>Number of Columns</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_search_flexform.tsconfig" xml:space="preserve">
+			<trans-unit id="tt_content.pi_search_flexform.tsconfig" resname="tt_content.pi_search_flexform.tsconfig">
 				<source>Typoscript</source>
 			</trans-unit>
 		</body>

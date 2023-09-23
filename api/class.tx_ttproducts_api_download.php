@@ -49,14 +49,7 @@ class tx_ttproducts_api_download {
 	) {
 		$storageRepository = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\StorageRepository');
 		$storage = $storageRepository->findByUid(1);
-        if (
-            version_compare(TYPO3_version, '10.4.0', '<')
-        ) {
-            $resourceFactory = ResourceFactory::getInstance();
-        } else {
-            $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
-        }
-
+        $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
 		$fileObj = $resourceFactory->getFileReferenceObject($fileReferenceUid);
 
 		$fileInfo = $storage->getFileInfo($fileObj);
@@ -64,7 +57,7 @@ class tx_ttproducts_api_download {
 		$content = $fileObj->getContents();
 		$properties = $fileObj->getProperties();
 
-		if ($properties['mime_type'] != '') {
+		if (!empty($properties['mime_type'])) {
 			$mimeType = $properties['mime_type'];
 		}
 
@@ -80,5 +73,3 @@ class tx_ttproducts_api_download {
 
 	}
 }
-
-

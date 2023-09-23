@@ -41,6 +41,10 @@
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
+use JambageCom\Div2007\Utility\FrontendUtility;
+
+
+
 class tx_ttproducts_field_delivery_view extends tx_ttproducts_field_base_view {
 
 
@@ -59,6 +63,7 @@ class tx_ttproducts_field_delivery_view extends tx_ttproducts_field_base_view {
 		$row,
 		$markerKey,
 		&$markerArray,
+		$fieldMarkerArray,
 		$tagArray,
 		$theCode,
 		$id,
@@ -71,6 +76,7 @@ class tx_ttproducts_field_delivery_view extends tx_ttproducts_field_base_view {
 		$suffix = '',
 		$imageNum = 0,
 		$imageRenderObj = '',
+		$linkWrap = false,
 		$bEnableTaxZero = false
 	) {
 		$value = '';
@@ -81,8 +87,8 @@ class tx_ttproducts_field_delivery_view extends tx_ttproducts_field_base_view {
 			$imageObj = GeneralUtility::makeInstance('tx_ttproducts_field_image_view');
 			$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 			$tableconf = $cnf->getTableConf($functablename, $theCode);
-			$domain = $conf['domain'];
-			$cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
+			$domain = $conf['domain'] ?? '';
+			$cObj = FrontendUtility::getContentObjectRenderer();
 
 			if ($domain == '' || strrpos($domain, '###') !== false) {
 				$domain = $_SERVER['HTTP_HOST'];
@@ -129,10 +135,5 @@ class tx_ttproducts_field_delivery_view extends tx_ttproducts_field_base_view {
 
 		return $result;
 	}
-}
-
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/field/class.tx_ttproducts_field_datafield_view.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/field/class.tx_ttproducts_field_datafield_view.php']);
 }
 

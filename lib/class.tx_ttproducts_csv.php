@@ -86,11 +86,11 @@ class tx_ttproducts_csv implements \TYPO3\CMS\Core\SingletonInterface {
 			}
 
 			// Generate shipping/payment information and delivery note
-			$csvlineshipping = '"' . $basketExtra['shipping.']['title'] . '";"' .
+			$csvlineshipping = '"' . ($basketExtra['shipping.']['title'] ?? '') . '";"' .
 				$priceViewObj->priceFormat($calculatedArray['priceTax']['shipping']) . '";"' .
 				$priceViewObj->priceFormat($calculatedArray['priceNoTax']['shipping']) . '"';
 
-			$accountRow = array();
+			$accountRow = [];
 			if ($accountUid) {
 				$accountRow = $accountObj->getRow($accountUid, 0, true);
 				if (is_array($accountRow) && count($accountRow)) {
@@ -99,7 +99,7 @@ class tx_ttproducts_csv implements \TYPO3\CMS\Core\SingletonInterface {
 				}
 			}
 
-			$csvlinepayment = '"' . $basketExtra['payment.']['title'] . '";"' .
+			$csvlinepayment = '"' . ($basketExtra['payment.']['title'] ?? '') . '";"' .
 				$priceViewObj->priceFormat($calculatedArray['priceTax']['payment']) . '";"' .
 				$priceViewObj->priceFormat($calculatedArray['priceNoTax']['payment']) . '"';
 
@@ -129,7 +129,7 @@ class tx_ttproducts_csv implements \TYPO3\CMS\Core\SingletonInterface {
 				}
 			}
 
-			if ($conf['CSVinOneLine']) {
+			if (!empty($conf['CSVinOneLine'])) {
 				$csvdescr .= ';"deliverynote";"desired date";"desired time";"shipping method";"shipping_price";"shipping_no_tax";"payment method";"payment_price";"payment_no_tax"';
 				$csvdescr .= ';"giftcode"';
 				$csvdescr .= ';' . $csvlinehead . ';' . $csvlinehead;
@@ -172,7 +172,7 @@ class tx_ttproducts_csv implements \TYPO3\CMS\Core\SingletonInterface {
 				}
 			}
 
-			if (!$conf['CSVinOneLine']) {
+			if (empty($conf['CSVinOneLine'])) {
 				fwrite($csvFile, chr(13));
 				fwrite($csvFile, $csvlinehead . chr(13));
 				fwrite($csvFile, $csvlineperson . chr(13));
@@ -200,8 +200,5 @@ class tx_ttproducts_csv implements \TYPO3\CMS\Core\SingletonInterface {
 }
 
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/lib/class.tx_ttproducts_csv.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/lib/class.tx_ttproducts_csv.php']);
-}
 
 

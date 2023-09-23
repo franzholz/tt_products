@@ -5,8 +5,11 @@
 
 
 plugin.tt_products {
+    # cat=plugin.products/security; type=boolean; label= transmission security: Activate the transmission security. You must also set the FE.loginSecurityLevel = rsa in the Install Tool.
+  transmissionSecurity = 1
+
     # cat=plugin.products/file; type=file[html,htm,tmpl,txt]; label= Template File: This is a simple textfile where each part of the shopping basket is defined with HTML-code. To see an example with explanations, take a look at EXT:tt_products/pi1/products_template.tmpl which is the default.
-  file.templateFile = EXT:tt_products/template/example_locallang_xml.html
+  file.templateFile = EXT:tt_products/Resources/Public/Templates/example_locallang_xml.html
     # cat=plugin.products/file; type=file[IMAGE_EXT]; label= Alternative Image: This image is used if there is no image present for the product
   file.noImageAvailable =
 
@@ -347,7 +350,7 @@ plugin.tt_products {
   CSVdestination = ../csvorders/
     # cat=plugin.products//; type=string; label=Order CSV export fields: Product database fields to export (Comma seperated)
   CSVfields = tstamp,title,price,price2,itemnumber,category,inStock,tax,weight,bulkily,offer,highlight,directcost,subtitle
-    # cat=plugin.products//; type=boolean; label=Choose your CSV format: Write all additional information in one line behind the first ordered product. This is good if you want to import this files somewhere. If you not check this, the CSV is formatted for best view in Excel for example
+    # cat=plugin.products//; type=boolean; label=Choose your CSV format: Write all additional information in one line behind the first ordered product. This is good if you want to import these files somewhere. If you not check this, the CSV is formatted for best view in Excel for example
   CSVinOneLine = 0
 
     # cat=plugin.products//; type=string; label=Search fields: fields to be considered for a search

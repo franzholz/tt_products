@@ -38,20 +38,24 @@
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
+
+use JambageCom\Div2007\Utility\FrontendUtility;
+
 
 class tx_ttproducts_control_memo {
 
-	static protected $memoTableFieldArray = array(
+	static protected $memoTableFieldArray = [
 		'tt_products' => 'memoItems',
 		'tx_dam' => 'memodam'
-	);
-	static protected $memoItemArray = array();
-	static protected $controlVars = array(
+	];
+	static protected $memoItemArray = [];
+	static protected $controlVars = [
 		'addmemo',
 		'delmemo',
 		'upmemo',
 		'downmemo'
-	);
+	];
 
 	static public function getControlVars () {
 		return self::$controlVars;
@@ -99,31 +103,31 @@ class tx_ttproducts_control_memo {
 
 		$memoItems = self::getMemoItems($functablename);
 		if (!is_array($memoItems)) {
-            $memoItems = array();
+            $memoItems = [];
 		}
 		$controlVars = self::getControlVars();
-		$memoArray = array();
+		$memoArray = [];
 		foreach ($controlVars as $controlVar) {
-			if ($piVars[$controlVar]) {
+			if (!empty($piVars[$controlVar])) {
 				$memoArray[$controlVar] = explode(',', $piVars[$controlVar]);
 			}
 		}
 
 		if (isset($piVars['memo']) && is_array($piVars['memo'])) {
 			if (!isset($memoArray['addmemo'])) {
-				$memoArray['addmemo'] = array();
+				$memoArray['addmemo'] = [];
 			}
 			if (!isset($memoArray['delmemo'])) {
-				$memoArray['delmemo'] = array();
+				$memoArray['delmemo'] = [];
 			}
 
 			foreach ($piVars['memo'] as $k => $v) {
-				if (\TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($k) && $k != '' && $v) {
+				if (MathUtility::canBeInterpretedAsInteger($k) && $k != '' && $v) {
 					$memoArray['addmemo'][] = intval($k);
 				} else if ($k == 'uids') {
 					$uidArray = explode(',', $v);
 					foreach ($uidArray as $uid) {
-						if (\TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($uid) && $uid != '' && in_array($uid, $memoItems)) {
+						if (MathUtility::canBeInterpretedAsInteger($uid) && $uid != '' && in_array($uid, $memoItems)) {
 							$memoArray['delmemo'][] = $uid;
 						}
 					}
@@ -204,7 +208,7 @@ class tx_ttproducts_control_memo {
 	static public function setMemoItems ($functablename, $v) {
 		if (!is_array($v)) {
 			if ($v == '') {
-				$v = array();
+				$v = [];
 			} else {
 				$v = explode(',', $v);
 			}
@@ -258,7 +262,7 @@ class tx_ttproducts_control_memo {
 		$bFeuser = self::bUseFeuser($conf);
 		$feuserField = self::getMemoField($functablename, $bFeuser);
 
-		$fieldsArray = array();
+		$fieldsArray = [];
 		$fieldsArray[$feuserField] = implode(',', $memoItems);
 
 		if ($bFeuser) {
@@ -295,27 +299,27 @@ class tx_ttproducts_control_memo {
 		$cObj,
 		$urlObj,
 		$excludeList = '',
-		$addQueryString = array(),
+		$addQueryString = [],
 		$css_current = '',
-		$bUseBackPid = true
+		$useBackPid = true
 	) {
-		$cmdArray = array('add', 'del');
+		$cmdArray = ['add', 'del'];
 
 		foreach ($cmdArray as $cmd) {
 			$addQueryString[$cmd . 'memo'] = $uid;
 
-			$pageLink = tx_div2007_alpha5::getPageLink_fh003(
-				$cObj,
-				$pidMemo,
-				'',
-				$urlObj->getLinkParams(
-					$excludeList,
-					$addQueryString,
-					true,
-					$bUseBackPid
-				)
-			);
-			$wrappedSubpartArray['###LINK_MEMO_' . strtoupper($cmd) . '###'] = array('<a href="' . htmlspecialchars($pageLink) . '"' . $css_current . '>', '</a>');
+            $pageLink = FrontendUtility::getTypoLink_URL(
+                $cObj,
+                $pidMemo,
+                $urlObj->getLinkParams(
+                    $excludeList,
+                    $addQueryString,
+                    true,
+                    $useBackPid
+                )
+            );
+
+			$wrappedSubpartArray['###LINK_MEMO_' . strtoupper($cmd) . '###'] = ['<a href="' . htmlspecialchars($pageLink) . '"' . $css_current . '>', '</a>'];
 			unset($addQueryString[$cmd . 'memo']);
 		}
 	}

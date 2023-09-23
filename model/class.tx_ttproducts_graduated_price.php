@@ -37,17 +37,19 @@
  *
  */
 
+use TYPO3\CMS\Core\Utility\MathUtility;
+
 use JambageCom\Div2007\Utility\TableUtility;
 
 
 class tx_ttproducts_graduated_price {
 	protected $bHasBeenInitialised = false;
-	public $mmArray = array();
-	public $dataArray = array(); // array of read in products
+	public $mmArray = [];
+	public $dataArray = []; // array of read in products
 	public $functablename = 'tt_products_graduated_price';
 	public $mm_table = ''; // mm table
 	protected $parentObject = false;
-	protected $foreignConfig = array();
+	protected $foreignConfig = [];
 
 
 
@@ -109,7 +111,7 @@ class tx_ttproducts_graduated_price {
 	public function hasDiscountPrice ($row) {
 		$result = false;
 
-		if ($row['graduated_price_uid'] && $row['graduated_price_enable']) {
+		if (!empty($row['graduated_price_uid']) && !empty($row['graduated_price_enable'])) {
 			$result = true;
 		}
 		return $result;
@@ -121,13 +123,18 @@ class tx_ttproducts_graduated_price {
 			return false;
 		}
 
+		$result = false;
+		$limit = '';
+		$orderBy = '';
+		$groupBy = '';
+
 		if (
 			$uid &&
 			!is_array($uid) &&
 			isset($this->mmArray[$uid]) &&
 			is_array($this->mmArray[$uid])
 		) {
-			$result = array();
+			$result = [];
 			foreach ($this->mmArray[$uid] as $v) {
 				$result[] = $this->dataArray[$v];
 			}
@@ -145,7 +152,7 @@ class tx_ttproducts_graduated_price {
 				if (is_array($uid)) {
 					foreach ($uid as $v) {
 						if (
-							!\TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($v)
+							!MathUtility::canBeInterpretedAsInteger($v)
 						) {
 							return 'ERROR: not integer ' . $v;
 						}
@@ -180,8 +187,8 @@ class tx_ttproducts_graduated_price {
 					$limit
 				);
 
-			$result = array();
-			$newDataArray = array();
+			$result = [];
+			$newDataArray = [];
 
 			while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
 				$result[] = $this->dataArray[$row['uid']] = $newDataArray[$row['uid']] = $row;
@@ -215,8 +222,4 @@ class tx_ttproducts_graduated_price {
 	}
 }
 
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/class.tx_ttproducts_graduated_price.php'])	{
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/class.tx_ttproducts_graduated_price.php']);
-}
 

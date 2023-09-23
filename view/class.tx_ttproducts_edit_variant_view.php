@@ -92,7 +92,7 @@ class tx_ttproducts_edit_variant_view implements tx_ttproducts_edit_variant_view
 
 				$ajaxFunction = tx_ttproducts_control_basket::getAjaxVariantFunction($row, $functablename, $theCode);
 				$splitArray = preg_split('/ *= */', $mainAttributes);
-				$mainAttributesArray = array();
+				$mainAttributesArray = [];
 
 				if (isset($splitArray) && is_array($splitArray)) {
 					$lastKey = 0;
@@ -153,6 +153,7 @@ class tx_ttproducts_edit_variant_view implements tx_ttproducts_edit_variant_view
 		&$wrappedSubpartArray
 	) {
 // 		###edit_variant1###
+        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 		$editConf = $this->getModelObj()->getValidConfig($row);
 
 		if (isset($editConf) && is_array($editConf)) {
@@ -169,7 +170,7 @@ class tx_ttproducts_edit_variant_view implements tx_ttproducts_edit_variant_view
 				if (isset($tagArray[$marker])) {
 					$subpartMarker = '###' . $marker . '###';
 					// $wrappedSubpartArray[$subpartMarker] = '';
-					$markerArray = array();
+					$markerArray = [];
 					$this->getMarkerArray(
 						$bEditable,
 						$row,
@@ -181,7 +182,7 @@ class tx_ttproducts_edit_variant_view implements tx_ttproducts_edit_variant_view
 
 					$subpartContent = $cObj->getSubpart($templateCode, $subpartMarker);
 					$content =
-						tx_div2007_core::substituteMarkerArrayCached(
+						$templateService->substituteMarkerArrayCached(
 							$subpartContent,
 							$markerArray
 						);
@@ -199,10 +200,5 @@ class tx_ttproducts_edit_variant_view implements tx_ttproducts_edit_variant_view
 			}
 		}
 	}
-}
-
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_edit_variant_view.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_edit_variant_view.php']);
 }
 

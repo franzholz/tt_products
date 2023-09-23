@@ -1,40 +1,36 @@
 <?php
-defined('TYPO3_MODE') || die('Access denied.');
+defined('TYPO3') || die('Access denied.');
 
 // ******************************************************************
 // order to voucher codes table, sys_products_orders_mm_gained_voucher_codes
 // ******************************************************************
-$result = array (
-    'ctrl' => array (
-        'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:sys_products_orders_mm_gained_voucher_codes',
+
+$extensionKey = 'tt_products';
+$languageSubpath = '/Resources/Private/Language/';
+$languageLglPath = 'LLL:EXT:core' . $languageSubpath . 'locallang_general.xlf:LGL.';
+
+$result = [
+    'ctrl' => [
+        'title' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_orders_mm_gained_voucher_codes',
         'label' => 'uid_local',
         'tstamp' => 'tstamp',
         'delete' => 'deleted',
-        'enablecolumns' => array (
+        'enablecolumns' => [
             'disabled' => 'hidden'
-        ),
-        'prependAtCopy' => DIV2007_LANGUAGE_LGL . 'prependAtCopy',
+        ],
+        'prependAtCopy' => $languageLglPath . 'prependAtCopy',
         'crdate' => 'crdate',
-        'iconfile' => PATH_TTPRODUCTS_ICON_TABLE_REL . 'tt_products_relations.gif',
+        'iconfile' => 'EXT:' . $extensionKey . '/Resources/Public/Icons/' . 'tt_products_relations.gif',
         'hideTable' => true,
-    ),
-    'types' => array(
-        '0' => array(
+    ],
+    'types' => [
+        '0' => [
             'showitem' => ''
-        )
-    ),
-    'columns' => array()
-);
+        ]
+    ],
+    'columns' => []
+];
 
-
-if (
-    defined('TYPO3_version') &&
-    version_compare(TYPO3_version, '10.0.0', '<')
-) {
-    $result['interface'] = [];
-    $result['interface']['showRecordFieldList'] =   
-        'uid_local,uid_foreign';
-}
 
 return $result;
 

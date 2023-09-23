@@ -54,8 +54,6 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 
 
 	public function init (&$content, &$conf, &$config, $cObj, $pibaseClass, &$error_code) {
-		global $TCA;
-
 		$pibaseObj = GeneralUtility::makeInstance($pibaseClass);
 		$this->cObj = $cObj;
 		$parameterApi = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\ParameterApi::class);
@@ -86,7 +84,7 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 		);
 
 		// $pibaseObj->pi_initPIflexForm();
-		$this->cObj->data['pi_flexform'] = GeneralUtility::xml2array($this->cObj->data['pi_flexform']);
+		$this->cObj->data['pi_flexform'] = GeneralUtility::xml2array($this->cObj->data['pi_flexform'] ?? '');
 		$newConfig = $this->getControlConfig($this->cObj, $conf, $this->cObj->data);
 		$config = array_merge($config, $newConfig);
 		$this->codeArray = GeneralUtility::trimExplode(',', $config['code'],1);
@@ -98,7 +96,8 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 		$config['templateSuffix'] = ($config['templateSuffix'] ? '_'.$config['templateSuffix'] : '');
 
         $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
-		$languageObj->loadLocalLang( 'EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'PiSearch/locallang.xlf');
+        $languageSubpath = '/Resources/Private/Language/';
+		$languageObj->loadLocalLang( 'EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'PiSearch/locallang.xlf');
 		$markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
 		$markerObj->init(
             $conf,
@@ -119,19 +118,19 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$ctrlArray = $parameterApi->getParameterTable();
 
-		$config = array();
+		$config = [];
         $config['code'] =
             \JambageCom\Div2007\Utility\ConfigUtility::getSetupOrFFvalue(
                 $cObj,
                 $conf['code'],
                 $conf['code.'],
                 $conf['defaultCode'],
-                $row['pi_flexform'],
+                $row['pi_flexform'] ?? '',
                 'display_mode',
                 true
             );
 
-		$flexformConfigArray = array(
+		$flexformConfigArray = [
 			'local_param',
 			'foreign_param',
 			'columns',
@@ -141,10 +140,10 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 			'all',
 			'parameters',
 			'delimiter',
-		);
+		];
 
 		foreach ($flexformConfigArray as $flexformConfig) {
-			$tmpConfig = \JambageCom\Div2007\Utility\FlexformUtility::get($row['pi_flexform'], $flexformConfig);
+			$tmpConfig = \JambageCom\Div2007\Utility\FlexformUtility::get($row['pi_flexform'] ?? '', $flexformConfig);
 			$config[$flexformConfig] = $tmpConfig;
 		}
 		$config['local_table'] = $cnf->getTableName($ctrlArray[$config['local_param']]);
@@ -171,17 +170,18 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 		$pibaseObj = GeneralUtility::makeInstance($pibaseClass);
 		$subpartmarkerObj = GeneralUtility::makeInstance('tx_ttproducts_subpartmarker');
 		$searchViewObj = GeneralUtility::makeInstance('tx_ttproducts_search_view');
-		$error_code = array();
+		$error_code = [];
 		$errorMessage = '';
 
 		foreach($this->codeArray as $theCode) {
 
 			$theCode = (string) trim($theCode);
 			$contentTmp = '';
+			$tmp = '';
 			$templateCode =
 				$templateObj->get(
 					$theCode,
-					$tmp = '',
+					$tmp,
 					$errorCode
 				);
 
@@ -212,18 +212,19 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 					);
 				break;
 				case 'FIELD':
+                    $tmp = [];
 					$contentTmp = $searchViewObj->printKeyField(
 						$pibaseObj,
 						$theTemplateCode,
 						$this->config['columns'],
 						2,
 						'field' . $this->cObj->data['uid'],
-						$tmp = array(),
+						$tmp,
 						$error_code
 					);
 				break;
 				case 'KEYFIELD':
-					$functablename = ($this->config['foreign_table'] != '' ? $this->config['foreign_table'] : $this->config['local_table']);
+					$functablename = ($this->config['foreign_table'] ?? $this->config['local_table']);
 					$tableConf = $cnf->getTableConf($functablename, $theCode);
 
 					if (isset($tableConf['view.']) && is_array($tableConf['view.']) &&
@@ -231,7 +232,7 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 					)	{
 						$keyfieldConf = $tableConf['view.']['valueArray.'];
 					} else {
-						$keyfieldConf = array();
+						$keyfieldConf = [];
 					}
 					$contentTmp = $searchViewObj->printKeyField(
 						$pibaseObj,
@@ -280,7 +281,7 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 
 			if ($contentTmp == 'error') {
                 $sanitizer = GeneralUtility::makeInstance(FilePathSanitizer::class);
-				$fileName = 'EXT:' . TT_PRODUCTS_EXT . '/template/products_help.tmpl';
+				$fileName = 'EXT:' . TT_PRODUCTS_EXT . '/Resources/Public/Templates/products_help.tmpl';
                 $pathFilename = $sanitizer->sanitize($fileName);
 //                 $GLOBALS['TSFE']->tmpl->getFileName($fileName);
                 $helpTemplate = file_get_contents($pathFilename);
@@ -298,7 +299,7 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 				break; // while
 			} else {
 				$content .=
-                    \JambageCom\Div2007\Utility\FrontendUtility::wrapContentCode(
+                    FrontendUtility::wrapContentCode(
                         $contentTmp,
                         $theCode,
                         $pibaseObj->prefixId,

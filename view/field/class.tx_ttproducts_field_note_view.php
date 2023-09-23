@@ -38,6 +38,10 @@
  */
 
 
+use JambageCom\Div2007\Utility\FrontendUtility;
+
+
+
 class tx_ttproducts_field_note_view extends tx_ttproducts_field_base_view {
 
 	public function getRowMarkerArray (
@@ -46,6 +50,7 @@ class tx_ttproducts_field_note_view extends tx_ttproducts_field_base_view {
 		$row,
 		$markerKey,
 		&$markerArray,
+		$fieldMarkerArray,
 		$tagArray,
 		$theCode,
 		$id,
@@ -58,25 +63,27 @@ class tx_ttproducts_field_note_view extends tx_ttproducts_field_base_view {
 		$suffix = '',
 		$imageNum = 0,
 		$imageRenderObj = '',
+		$linkWrap = false,
 		$bEnableTaxZero = false
 	) {
+        $value = $this->getModelObj()->getFieldValue(
+            $dummy,
+            $row,
+            $fieldname,
+            $basketExtra,
+            $basketRecs,
+            $dummy
+        );
+
 		if (
 			$bHtml &&
 			($theCode != 'EMAIL' || $this->conf['orderEmail_htmlmail'])
 		) {
-            $cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
-			$value = $this->getModelObj()->getFieldValue(
-				$dummy,
-				$row,
-				$fieldname,
-				$basketExtra,
-				$basketRecs,
-				$dummy
-			);
+            $cObj = FrontendUtility::getContentObjectRenderer();
 
 				// Extension CSS styled content
-			if (\JambageCom\Div2007\Utility\FrontendUtility::hasRTEparser()) {
-				$value = \JambageCom\Div2007\Utility\FrontendUtility::RTEcssText($cObj, $value);
+			if (FrontendUtility::hasRTEparser()) {
+				$value = FrontendUtility::RTEcssText($cObj, $value);
 			} else if (is_array($this->conf['parseFunc.'])) {
 				$value = $cObj->parseFunc($value, $this->conf['parseFunc.']);
 			} else if ($this->conf['nl2brNote']) {
@@ -86,10 +93,5 @@ class tx_ttproducts_field_note_view extends tx_ttproducts_field_base_view {
 
 		return $value;
 	}
-}
-
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/field/class.tx_ttproducts_field_note_view.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/field/class.tx_ttproducts_field_note_view.php']);
 }
 

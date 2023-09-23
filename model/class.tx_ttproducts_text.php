@@ -54,7 +54,7 @@ class tx_ttproducts_text extends tx_ttproducts_table_base {
 		$tableConf = $cnf->getTableConf($functablename, $theCode);
 		$fallback = $cnf->getFallback($tableConf);
 
-		$resultArray = array();
+		$resultArray = [];
 		$tagWhere = '';
 
 		if (is_array($tagMarkerArray) && count($tagMarkerArray)) {
@@ -91,10 +91,4 @@ class tx_ttproducts_text extends tx_ttproducts_table_base {
 		return $resultArray;
 	}
 }
-
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/class.tx_ttproducts_text.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/class.tx_ttproducts_text.php']);
-}
-
 

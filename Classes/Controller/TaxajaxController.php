@@ -68,7 +68,7 @@ class TaxajaxController {
         $GLOBALS['TSFE']->getConfigArray($request);
 
         $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
-        $config = array();
+        $config = [];
         $config['LLkey'] = '';
 
         // tt_products specific parts
@@ -79,9 +79,10 @@ class TaxajaxController {
 
         $SOBE = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_ttproducts_db');
         $errorCode = '';
-        $SOBE->init($conf, $config, $ajax, $tmp = '', $errorCode);
+        $tmp = '';
+        $SOBE->init($conf, $config, $ajax, $tmp, $errorCode);
 
-        if($_POST['xajax']) {
+        if(!empty($_POST['xajax'])) {
 
             $ajax->taxajax->processRequests();
 

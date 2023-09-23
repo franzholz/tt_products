@@ -52,7 +52,7 @@ class ImportFalUtility {
         $currId
     ) {
         $result = true;
-        $infoArray = array();
+        $infoArray = [];
 
         if (!$currId) {
             return false;
@@ -70,11 +70,11 @@ class ImportFalUtility {
         }
         $content = '';
         $pid = intval($currId);
-        $tableMediaArray = array(
-            'tt_products' => array('image', 'smallimage'),
-            'tt_products_language' => array('image'),
-            'tt_products_cat' => array('image'),
-            'tt_products_articles' => array('image'),
+        $tableMediaArray = [
+            'tt_products' => ['image', 'smallimage'],
+            'tt_products_language' => ['image'],
+            'tt_products_cat' => ['image'],
+            'tt_products_articles' => ['image'],
         );
 
         foreach ($tableMediaArray as $tablename => $imageFieldnameArray) {
@@ -94,9 +94,9 @@ class ImportFalUtility {
                     foreach ($rowArray as $k => $row) {
     //                  if ($k != 3) continue; // Test
 
-                        if ($row[$imageFieldname] != '') {
+                        if (!empty($row[$imageFieldname])) {
                             $imageArray = explode(',', $row[$imageFieldname]);
-                            $sysfileRowArray = array();
+                            $sysfileRowArray = [];
                             if (intval($row[$imageFalFieldname]) != 0) {
 
                                 $where_clause = 'uid_foreign=' . intval($row['uid']) . ' AND tablenames="' . $tablename . '" AND fieldname="' . $imageFalFieldname . '"' ;
@@ -134,14 +134,7 @@ class ImportFalUtility {
 //                                         $fileRepository->addToIndex($file);
                                     }
 
-                                    if (
-                                        version_compare(TYPO3_version, '10.4.0', '<')
-                                    ) {
-                                        $resourceFactory = ResourceFactory::getInstance();
-                                    } else {
-                                        $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
-                                    }
-
+                                    $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
                                     $file = $resourceFactory->getFileObjectFromCombinedIdentifier($fileIdentifier);
                                     if ($file instanceof \TYPO3\CMS\Core\Resource\File) {
                                         $fileUid = $file->getUid();
@@ -152,25 +145,25 @@ class ImportFalUtility {
                                             empty($sysfileRowArray) ||
                                             !isset($sysfileRowArray[$fileUid])
                                         ) {
-                                            $data = array();
-                                            $data['sys_file_reference']['NEW1234'] = array(
+                                            $data = [];
+                                            $data['sys_file_reference']['NEW1234'] = [
                                                 'uid_local' => $fileUid,
                                                 'uid_foreign' => $row['uid'], // uid of your table record
                                                 'tablenames' => $tablename,
                                                 'fieldname' => $imageFalFieldname,
                                                 'pid' => $pid, // parent id of the parent page
                                                 'table_local' => 'sys_file',
-                                            );
+                                            ];
 
                                             if (!empty($sysfileRowArray)) {
                                                 $needsCountUpdate = true;
                                             } else {
-                                                $data[$tablename][$row['uid']] = array($imageFalFieldname => 'NEW1234');
+                                                $data[$tablename][$row['uid']] = [$imageFalFieldname => 'NEW1234'];
                                             }
 
                                             /** @var \TYPO3\CMS\Core\DataHandling\DataHandler $tce */
                                             $tce = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\DataHandling\DataHandler'); // create TCE instance
-                                            $tce->start($data, array());
+                                            $tce->start($data, []);
                                             $tce->process_datamap();
 
                                             if ($tce->errorLog) {
@@ -187,7 +180,7 @@ class ImportFalUtility {
                                     $GLOBALS['TYPO3_DB']->exec_UPDATEquery(
                                         $tablename,
                                         'uid=' . intval($row['uid']),
-                                        array($imageFalFieldname => $imageCount)
+                                        [$imageFalFieldname => $imageCount]
                                     );
                                 }
                             }

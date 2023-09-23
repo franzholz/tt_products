@@ -154,7 +154,7 @@ class tx_ttproducts_creditpoints_div {
 				$uid_voucher = $row['uid'];
 			}
 			if ($uid_voucher) {
-				$fieldsArrayFeUserCredit = array();
+				$fieldsArrayFeUserCredit = [];
 				$fieldsArrayFeUserCredit['tt_products_creditpoints'] = $ttproductscreditpoints + $creditpoints;
 
 				$GLOBALS['TYPO3_DB']->exec_UPDATEquery(
@@ -168,7 +168,4 @@ class tx_ttproducts_creditpoints_div {
 }
 
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/lib/class.tx_ttproducts_creditpoints_div.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/lib/class.tx_ttproducts_creditpoints_div.php']);
-}
 

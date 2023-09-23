@@ -38,6 +38,7 @@
 
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 
 
 
@@ -46,9 +47,9 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
 	public $conf;
 	public $config;
 	public $tableObj;	// object of the type tx_table_db
-	public $defaultFieldArray = array('uid' => 'uid', 'pid' => 'pid'); // fields which must always be read in
-	public $relatedFromTableArray = array();
-	public $fieldArray = array(); // field replacements
+	public $defaultFieldArray = ['uid' => 'uid', 'pid' => 'pid']; // fields which must always be read in
+	public $relatedFromTableArray = [];
+	public $fieldArray = []; // field replacements
 	protected $insertRowArray;	// array of stored insert records
 	protected $insertKey;		// array for insertion
 
@@ -67,6 +68,7 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
 			'crdate' => 'tx_ttproducts_field_datetime',
 			'creditpoints' => 'tx_ttproducts_field_creditpoints',
 			'datasheet' => 'tx_ttproducts_field_datafield',
+			'datasheet_uid' => 'tx_ttproducts_field_datafield',
 			'delivery' => 'tx_ttproducts_field_delivery',
 			'directcost' => 'tx_ttproducts_field_price',
 			'endtime' => 'tx_ttproducts_field_datetime',
@@ -117,20 +119,31 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
 		$this->setTablename($tablename);
 		$this->tableDesc = $cnf->getTableDesc($functablename);
 
-		$checkDefaultFieldArray =
-			array(
-				'tstamp' => 'tstamp',
-				'crdate' => 'crdate',
-				'hidden' => 'hidden',
-				'deleted' => 'deleted'
-			);
+        $checkDefaultFieldArray =
+            [
+                'crdate' => 'crdate',
+                'deleted' => 'deleted',
+                'endtime' => 'endtime',
+                'fe_group' => 'fe_group',
+                'hidden' => 'hidden',
+                'starttime' => 'starttime',
+                'tstamp' => 'tstamp'
+            ];
 
 		if (isset($GLOBALS['TCA'][$tablename]['ctrl']) && is_array($GLOBALS['TCA'][$tablename]['ctrl'])) {
 			foreach ($checkDefaultFieldArray as $theField) {
-				if (isset($GLOBALS['TCA'][$tablename]['ctrl'][$theField]) && is_array($GLOBALS['TCA'][$tablename]['columns'][$theField]) ||
-					in_array($theField,$GLOBALS['TCA'][$tablename]['ctrl'],true) ||
-					isset($GLOBALS['TCA'][$tablename]['ctrl']['enablecolumns']) && is_array($GLOBALS['TCA'][$tablename]['columns']['enablecolumns']) && in_array($theField,$GLOBALS['TCA'][$tablename]['ctrl']['enablecolumns'],true)
-				) {
+                if (
+                        isset($GLOBALS['TCA'][$tablename]['ctrl'][$theField]) &&
+                        isset($GLOBALS['TCA'][$tablename]['columns'][$theField]) &&
+                        is_array($GLOBALS['TCA'][$tablename]['columns'][$theField]
+                    ) ||
+                    in_array($theField, $GLOBALS['TCA'][$tablename]['ctrl'], true) ||
+                    (
+                        isset($GLOBALS['TCA'][$tablename]['ctrl']['enablecolumns']) &&
+                        is_array($GLOBALS['TCA'][$tablename]['ctrl']['enablecolumns']) && 
+                        in_array($theField, $GLOBALS['TCA'][$tablename]['ctrl']['enablecolumns'], true)
+                    )
+                ) {
 					$this->defaultFieldArray[$theField] = $theField;
 				}
 			}
@@ -142,7 +155,7 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
 
 		$labelfieldname = $this->getLabelFieldname();
 
-		$this->fieldArray[$labelfieldname] = ($this->tableDesc['name'] && is_array($GLOBALS['TCA'][$this->tableDesc['name']]['ctrl']) ? $this->tableDesc['name'] : ($GLOBALS['TCA'][$tablename]['ctrl']['label'] ? $GLOBALS['TCA'][$tablename]['ctrl']['label'] : 'name'));
+		$this->fieldArray[$labelfieldname] = (!empty($this->tableDesc['name']) && is_array($GLOBALS['TCA'][$this->tableDesc['name']]['ctrl']) ? $this->tableDesc['name'] : ($GLOBALS['TCA'][$tablename]['ctrl']['label'] ? $GLOBALS['TCA'][$tablename]['ctrl']['label'] : 'name'));
 
 		$this->defaultFieldArray[$this->fieldArray[$labelfieldname]] = $this->fieldArray[$labelfieldname];
 
@@ -159,12 +172,12 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
 		}
 
 		$this->tableObj->setName($tablename);
+		$this->tableConf = $this->getTableConf('');
+		$this->initCodeConf('ALL', $this->tableConf);
+
 		$this->tableObj->setTCAFieldArray($tablename, $this->tableAlias);
 		$this->tableObj->setNewFieldArray();
 		$this->bHasBeenInitialised = true;
-		$this->tableConf = $this->getTableConf('');
-
-		$this->initCodeConf('ALL', $this->tableConf);
 		$this->enable = true;
 
 		return true;
@@ -175,7 +188,7 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
 	}
 
 	public function clear () {
-		$this->dataArray = array();
+		$this->dataArray = [];
 	}
 
 	public function setLabelFieldname ($labelfieldname) {
@@ -219,7 +232,7 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
 		$alias = $this->getAlias() . $aliasPostfix;
 
 		if (
-			\TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($uid) &&
+			MathUtility::canBeInterpretedAsInteger($uid) &&
 			isset($this->dataArray[$uid]) &&
 			is_array($this->dataArray[$uid]) &&
 			!$where_clause &&
@@ -228,7 +241,7 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
 			if (!$pid || ($pid && $this->dataArray[$uid]['pid'] == $pid)) {
 				$rc = $this->dataArray[$uid];
 			} else {
-				$rc = array();
+				$rc = [];
 			}
 		}
 
@@ -288,10 +301,10 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
 
 			if ($res !== false) {
 
-				$rc = array();
+				$rc = [];
 
 				while ($dbRow = $GLOBALS['TYPO3_DB']->sql_fetch_row($res)) {
-					$row = array();
+					$row = [];
 					foreach ($dbRow as $index => $value) {
 						if ($res instanceof mysqli_result) {
 							$fieldObject = mysqli_fetch_field_direct($res, $index);
@@ -308,12 +321,13 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
 					if (
 						!$fallback &&
 						is_array($tableObj->langArray) &&
-						$tableObj->langArray[$row['title']]
+						isset($row['title']) &&
+						!empty($tableObj->langArray[$row['title']])
 					) {
 						$row['title'] = $tableObj->langArray[$row['title']];
 					}
 
-					if ($row) {
+					if ($row && !empty($row['uid'])) {
 						$rc[$row['uid']] = $row;
 						if($bStore && $fields == '*') {
 							$this->dataArray[$row['uid']] = $row;
@@ -325,7 +339,7 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
 
 				$GLOBALS['TYPO3_DB']->sql_free_result($res);
 				if (
-					\TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($uid)
+					MathUtility::canBeInterpretedAsInteger($uid)
 				) {
 					reset($rc);
 					$rc = current ($rc);
@@ -337,7 +351,7 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
 				}
 
 				if (!$rc) {
-					$rc = array();
+					$rc = [];
 				}
 			} else {
 				$rc = false;
@@ -408,8 +422,7 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
 					}
 				}
 			}
-
-			if (!$class) {
+			if (!$class && isset($this->fieldClassArray[$fieldname])) {
 				$class = $this->fieldClassArray[$fieldname];
 			}
 
@@ -464,20 +477,25 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
 	) {
 		if ($theCode != $this->getCode()) {
 			$this->setCode($theCode);
-			if ($this->orderBy != $tableConf['orderBy']) {
+			if (
+                isset($tableConf['orderBy']) &&
+                $this->orderBy != $tableConf['orderBy']
+            ) {
 				$this->orderBy = $tableConf['orderBy'];
-				$this->dataArray = array();
+				$this->dataArray = [];
 			}
 
 			$requiredFields = $this->getRequiredFields($theCode);
 			$requiredFieldArray = GeneralUtility::trimExplode(',', $requiredFields);
 			$this->getTableObj()->setRequiredFieldArray($requiredFieldArray);
 
-			if (is_array($tableConf['language.']) &&
+			if (
+                isset($tableConf['language.']) &&
+                isset($tableConf['language.']['type']) &&
 				$tableConf['language.']['type'] == 'field' &&
-				is_array($tableConf['language.']['field.'])
+				isset($tableConf['language.']['field.'])
 				) {
-				$addRequiredFields = array();
+				$addRequiredFields = [];
 				$addRequiredFields = $tableConf['language.']['field.'];
 				$this->getTableObj()->addRequiredFieldArray($addRequiredFields);
 			}
@@ -487,11 +505,15 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
 				$tableObj->setLangName($tableConf['language.']['table']);
 				$tableObj->setTCAFieldArray($tableObj->getLangName(), $tableObj->getAlias().'lang', false);
 			}
-			if ($tableConf['language.'] && $tableConf['language.']['type'] == 'csv') {
+			if (
+                isset($tableConf['language.']) &&
+                isset($tableConf['language.']['type']) &&
+                $tableConf['language.']['type'] == 'csv'
+            ) {
 				$tableObj->initLanguageFile($tableConf['language.']['file']);
 			}
 
-			if ($tableConf['language.'] && is_array($tableConf['language.']['marker.'])) {
+			if (!empty($tableConf['language.']['marker.']['file'])) {
 				$tableObj->initMarkerFile($tableConf['language.']['marker.']['file']);
 			}
 		}
@@ -525,7 +547,8 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
 
 		if (is_numeric($sys_language_uid)) {
 			if (
-				is_array($tableConf['language.']) &&
+				isset($tableConf['language.']) &&
+				isset($tableConf['language.']['type']) &&
 				$tableConf['language.']['type'] == 'table' &&
 				$sys_language_uid > 0
 			) {
@@ -563,8 +586,8 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
 	}
 
 	public function getKeyFieldArray ($theCode = '') {
-		$tableConf = $this->getTableConf($theCod);
-		$rc = array();
+		$tableConf = $this->getTableConf($theCode);
+		$rc = [];
 		if (isset($tableConf['keyfield.']) && is_array($tableConf['keyfield.'])) {
 			$rc = $tableConf['keyfield.'];
 		}
@@ -577,13 +600,13 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
 		$tablename = $this->getTablename();
 		$tableConf = $this->getTableConf($theCode);
 		$fields = '';
-		if (isset($tableConf['requiredFields'])) {
+		if (!empty($tableConf['requiredFields'])) {
 			$fields = $tableConf['requiredFields'];
 		} else {
 			$fields = 'uid,pid';
 		}
 
-		$requiredFieldArray = array();
+		$requiredFieldArray = [];
 		$defaultFieldArray = $tableObj->getDefaultFieldArray();
 		$noTcaFieldArray = $tableObj->getNoTcaFieldArray();
 
@@ -615,7 +638,7 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
 		) {
 			$rc = $tableConf['language.']['field.'];
 		} else {
-			$rc = array();
+			$rc = [];
 		}
 		return $rc;
 	}
@@ -625,7 +648,7 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
 	}
 
 	public function reset () {
-		$this->insertRowArray = array();
+		$this->insertRowArray = [];
 		$this->setInsertKey(0);
 	}
 
@@ -656,10 +679,5 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
 	public function getInsertRowArray () {
 		return $this->insertRowArray;
 	}
-}
-
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/class.tx_ttproducts_table_base.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/class.tx_ttproducts_table_base.php']);
 }
 

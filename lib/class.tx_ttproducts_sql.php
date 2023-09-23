@@ -42,12 +42,12 @@ use TYPO3\CMS\Core\Utility\MathUtility;
 
 
 class tx_ttproducts_sql {
-	static public $comparatorConversionArray = array(
+	static public $comparatorConversionArray = [
 		'le' => '<=',
 		'lt' => '<',
 		'ge' => '>=',
 		'gt' => '>'
-	);
+	];
 
 
 	static public function transformComparator ($comparator) {
@@ -63,11 +63,10 @@ class tx_ttproducts_sql {
 
 
 	static public function getWhere4Field($tablename, $field, $comparator, $comparand) {
-		global $TCA;
 		$result = '';
 
-		if (isset($TCA[$tablename]) && isset($TCA[$tablename]['columns'][$field])) {
-			$tcaConf = $TCA[$tablename]['columns'][$field]['config'];
+		if (isset($GLOBALS['TCA'][$tablename]) && isset($GLOBALS['TCA'][$tablename]['columns'][$field])) {
+			$tcaConf = $GLOBALS['TCA'][$tablename]['columns'][$field]['config'];
 			if ($tcaConf['eval'] == 'date') {
 				$valueString = self::convertDate($comparand);
 				if ($valueString === false) {
@@ -169,7 +168,7 @@ class tx_ttproducts_sql {
                     }
                 }
                 if ($position !== false) {
-                    $args = array();
+                    $args = [];
                     $args['0'] = trim(substr($condition, 0, $position));
                     $args['1'] = trim(substr($condition, $position + strlen($comparator)));
                     $comparand1 = '';
@@ -212,8 +211,5 @@ class tx_ttproducts_sql {
 }
 
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/lib/class.tx_ttproducts_sql.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/lib/class.tx_ttproducts_sql.php']);
-}
 
 

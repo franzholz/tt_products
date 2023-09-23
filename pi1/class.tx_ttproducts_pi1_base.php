@@ -62,14 +62,15 @@ class tx_ttproducts_pi1_base extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin i
 	 * Main method. Call this from TypoScript by a USER or USER_INT cObject.
 	 */
 	public function main ($content, $conf) {
-		tx_ttproducts_model_control::setPrefixId($this->prefixId);
-// 		tx_ttproducts_model_control::setPiVarDefaults($conf);
+        $parameterApi = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\ParameterApi::class);
+		$parameterApi->setPrefixId($this->prefixId);
         PluginApi::init($conf);
+		tx_ttproducts_model_control::setPrefixId($this->prefixId);
 
 		$this->conf = $conf;
-		$config = array();
+		$config = [];
 		$mainObj = GeneralUtility::makeInstance('tx_ttproducts_main');	// fetch and store it as persistent object
-		$errorCode = array();
+		$errorCode = [];
 		$bDoProcessing =
 			$mainObj->init(
 				$conf,
@@ -80,8 +81,6 @@ class tx_ttproducts_pi1_base extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin i
 			);
 
 		if ($bDoProcessing || !empty($errorCode)) {
-			tx_ttproducts_control_pibase::init($this);
-
 			$content =
 				$mainObj->run(
 					$this->cObj,
@@ -102,8 +101,5 @@ class tx_ttproducts_pi1_base extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin i
 	}
 }
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/pi1/class.tx_ttproducts_pi1_base.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/pi1/class.tx_ttproducts_pi1_base.php']);
-}
 
 

@@ -39,7 +39,7 @@
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_tables implements \TYPO3\CMS\Core\SingletonInterface {
-	protected $tableClassArray = array(
+	protected $tableClassArray = [
 		'address' => 'tx_ttproducts_address',
 		'fe_users' => 'tx_ttproducts_orderaddress',
 		'pages' => 'tx_ttproducts_page',
@@ -60,15 +60,15 @@ class tx_ttproducts_tables implements \TYPO3\CMS\Core\SingletonInterface {
 		'tx_dam' => 'tx_ttproducts_dam',
 		'tx_dam_cat' => 'tx_ttproducts_damcategory',
 		'voucher' => 'tx_ttproducts_voucher',
-	);
-	protected $needExtensionArray = array(
+	];
+	protected $needExtensionArray = [
 		'static_banks_de' => 'static_info_tables_banks_de',
 		'static_countries' => 'static_info_tables',
 		'sys_file_reference' => 'filelist',
 		'tx_dam' => 'dam',
 		'tx_dam_cat' => 'dam'
-	);
-	protected $usedObjectArray = array();
+	];
+	protected $usedObjectArray = [];
 
 
 	public function getTableClassArray () {
@@ -83,9 +83,11 @@ class tx_ttproducts_tables implements \TYPO3\CMS\Core\SingletonInterface {
 
 		$rc = '';
 		if ($functablename) {
-
-			$neededExtension = $this->needExtensionArray[$functablename];
-			if (!isset($neededExtension) || \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($neededExtension)) {
+            $neededExtension = '';
+            if (isset($this->needExtensionArray[$functablename])) {
+                $neededExtension = $this->needExtensionArray[$functablename];
+			}
+			if (empty($neededExtension) || \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($neededExtension)) {
 				$rc = $this->tableClassArray[$functablename] . ($bView ? '_view' : '');
 			} else {
 				$rc = 'skip';
@@ -96,8 +98,8 @@ class tx_ttproducts_tables implements \TYPO3\CMS\Core\SingletonInterface {
 
 	/* set the $bView to true if you want to get the view class */
 	public function get ($functablename, $bView = false, $bInit = true) {
-		$classNameArray = array();
-		$tableObjArray = array();
+		$classNameArray = [];
+		$tableObjArray = [];
 		$resultInit = true;
 
 		$classNameArray['model'] = $this->getTableClass($functablename, false);
@@ -113,14 +115,13 @@ class tx_ttproducts_tables implements \TYPO3\CMS\Core\SingletonInterface {
 
 		foreach ($classNameArray as $k => $className) {
 			if ($className != 'skip') {
-				// include_once (PATH_BE_TTPRODUCTS.$k.'/class.'.$className.'.php');
 				if (strpos($className, ':') === false) {
 					$path = PATH_BE_TTPRODUCTS;
 				} else {
 					list($extKey, $className) = GeneralUtility::trimExplode(':', $className, true);
 
 					if (!\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($extKey)) {
-						debug ('Error in '.TT_PRODUCTS_EXT.'. No extension "' . $extKey . '" has been loaded to use class class.' . $className . '.','internal error');
+						debug ('Error in '.TT_PRODUCTS_EXT.'. No extension "' . $extKey . '" has been activated to use class class.' . $className . '.','internal error');
 						continue;
 					}
 					$path = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($extKey);
@@ -146,7 +147,11 @@ class tx_ttproducts_tables implements \TYPO3\CMS\Core\SingletonInterface {
 			}
 		} else {
 			if ($classNameArray['model'] == 'skip') {
-				debug ('The extension \'' . $this->needExtensionArray[$functablename] . '\' needed for table \'' . $functablename . '\' has not been installed.', 'internal error in ' . TT_PRODUCTS_EXT); // keep this
+                if (isset($this->needExtensionArray[$functablename])) {
+                    debug ('The extension \'' . $this->needExtensionArray[$functablename] . '\' needed for table \'' . $functablename . '\' has not been installed.', 'internal error in ' . TT_PRODUCTS_EXT); // keep this
+                } else {
+                    debug ('Table \'' . $functablename . '\' is not configured.', 'internal error in ' . TT_PRODUCTS_EXT); // keep this
+                }
 			} else {
 				debug ('Object for \'' . $functablename . '\' has not been found.', 'internal error in ' . TT_PRODUCTS_EXT); // keep this
 			}
@@ -169,7 +174,7 @@ class tx_ttproducts_tables implements \TYPO3\CMS\Core\SingletonInterface {
 
 		$result = false;
 		if ($resultInit) {
-			$result = ($bView ? $tableObj['view'] : $tableObj['model']);
+			$result = ($bView ? $tableObj['view'] : $tableObj['model'] ?? false);
 		}
 		return $result;
 	}
@@ -207,13 +212,11 @@ class tx_ttproducts_tables implements \TYPO3\CMS\Core\SingletonInterface {
 	 *
 	 */
 	public function getForeignTableInfo ($functablename, $fieldname) {
-		global $TCA;
-
-		$rc = array();
+		$rc = [];
 		if ($fieldname != '') {
-			$tableObj = $this->get($functablename,false);
-			$tablename = $tableObj->getTableName ($functablename);
-			$rc = tx_div2007_alpha5::getForeignTableInfo_fh003 ($tablename, $fieldname);
+			$tableObj = $this->get($functablename, false);
+			$tablename = $tableObj->getTableName($functablename);
+			$rc = \JambageCom\Div2007\Utility\TableUtility::getForeignTableInfo($tablename, $fieldname);
 		}
 		return $rc;
 	}
@@ -224,10 +227,12 @@ class tx_ttproducts_tables implements \TYPO3\CMS\Core\SingletonInterface {
 		$aliasPostfix,
 		&$sqlArray
 	) {
-		if ($foreignTableInfoArray['mmtable'] == '' && $foreignTableInfoArray['foreign_table'] != '') {
-			$fieldname = $foreignTableInfoArray['table_field'];
-
-			$tablename = $foreignTableInfoArray['table'];
+		if (
+            empty($foreignTableInfoArray['mmtable']) && 
+            !empty($foreignTableInfoArray['foreign_table'])
+        ) {
+            $fieldname = $foreignTableInfoArray['table_field'];
+            $tablename = $foreignTableInfoArray['table'];
 			if (isset($tableAliasArray[$tablename])) {
 				$tablealiasname = $tableAliasArray[$tablename];
 			} else {
@@ -258,7 +263,4 @@ class tx_ttproducts_tables implements \TYPO3\CMS\Core\SingletonInterface {
 }
 
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/lib/class.tx_ttproducts_tables.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/lib/class.tx_ttproducts_tables.php']);
-}
 

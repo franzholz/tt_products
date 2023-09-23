@@ -1,98 +1,93 @@
 <?php
-defined('TYPO3_MODE') || die('Access denied.');
+defined('TYPO3') || die('Access denied.');
 
-$result = array (
-	'ctrl' => array (
-		'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_emails',
+$extensionKey = 'tt_products';
+$languageSubpath = '/Resources/Private/Language/';
+$languageLglPath = 'LLL:EXT:core' . $languageSubpath . 'locallang_general.xlf:LGL.';
+
+$result = [
+	'ctrl' => [
+		'title' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_emails',
 		'label' => 'name',
 		'default_sortby' => 'ORDER BY name',
 		'tstamp' => 'tstamp',
 		'delete' => 'deleted',
-		'enablecolumns' => array (
+		'enablecolumns' => [
 			'disabled' => 'hidden',
 			'starttime' => 'starttime',
 			'endtime' => 'endtime',
 			'fe_group' => 'fe_group',
-		),
-		'prependAtCopy' => DIV2007_LANGUAGE_LGL . 'prependAtCopy',
+		],
+		'prependAtCopy' => $languageLglPath . 'prependAtCopy',
 		'crdate' => 'crdate',
 		'cruser_id' => 'cruser_id',
 		'versioningWS' => true,
 		'origUid' => 't3_origuid',
 		'mainpalette' => 1,
-		'iconfile' => PATH_TTPRODUCTS_ICON_TABLE_REL . 'tt_products_emails.gif',
+        'iconfile' => 'EXT:' . $extensionKey . '/Resources/Public/Icons/' . 'tt_products_emails.gif',
 		'searchFields' => 'name,email',
-	),
-	'columns' => array (
-		't3ver_label' => array (
-            'label'  => DIV2007_LANGUAGE_LGL . 'versionLabel',
-			'config' => array (
-				'type' => 'input',
-				'size' => '30',
-				'max'  => '30',
-				'default' => '',
-			)
-		),
-		'tstamp' => array (
+	],
+	'columns' => [
+		'tstamp' => [
 			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tstamp',
-			'config' => array (
+			'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tstamp',
+			'config' => [
 				'type' => 'input',
 				'size' => '8',
 				'eval' => 'datetime,int',
                 'renderType' => 'inputDateTime',
 				'default' => 0
-			)
-		),
-		'crdate' => array (
+			]
+		],
+		'crdate' => [
 			'exclude' => 1,
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:crdate',
-			'config' => array (
+			'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:crdate',
+			'config' => [
 				'type' => 'input',
 				'size' => '8',
 				'eval' => 'datetime,int',
                 'renderType' => 'inputDateTime',
 				'default' => 0
-			)
-		),
-		'hidden' => array (
+			]
+		],
+		'hidden' => [
 			'exclude' => 1,
-			'label' => DIV2007_LANGUAGE_LGL . 'hidden',
-			'config' => array (
+			'label' => $languageLglPath . 'hidden',
+			'config' => [
 				'type' => 'check',
 				'default' => 0
-			)
-		),
-		'starttime' => array (
+			]
+		],
+		'starttime' => [
 			'exclude' => 1,
-			'label' => DIV2007_LANGUAGE_LGL . 'starttime',
-			'config' => array (
+			'label' => $languageLglPath . 'starttime',
+			'config' => [
 				'type' => 'input',
 				'size' => '8',
 				'eval' => 'date',
                 'renderType' => 'inputDateTime',
 				'default' => 0
-			)
-		),
-		'endtime' => array (
+			]
+		],
+		'endtime' => [
 			'exclude' => 1,
-			'label' => DIV2007_LANGUAGE_LGL . 'endtime',
-			'config' => array (
+			'label' => $languageLglPath . 'endtime',
+			'config' => [
 				'type' => 'input',
 				'size' => '8',
 				'eval' => 'date',
                 'renderType' => 'inputDateTime',
 				'default' => 0,
-				'range' => array (
-					'upper' => mktime(0, 0, 0, 12, 31, $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['endtimeYear']),
+				'range' => [
+					'upper' => mktime(0, 0, 0, 12, 31, $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['endtimeYear']),
 					'lower' => mktime(0, 0, 0, date('n') - 1, date('d'), date('Y'))
-				)
-			)
-		),
+				]
+			]
+		],
         'fe_group' => [
             'exclude' => true,
             'l10n_mode' => 'exclude',
-            'label'  => DIV2007_LANGUAGE_LGL . 'fe_group',
+            'label'  => $languageLglPath . 'fe_group',
             'config' => [
                 'type' => 'select',
                 'renderType' => 'selectMultipleSideBySide',
@@ -100,15 +95,15 @@ $result = array (
                 'maxitems' => 20,
                 'items' => [
                     [
-                        DIV2007_LANGUAGE_LGL . 'hide_at_login',
+                        $languageLglPath . 'hide_at_login',
                         -1
                     ],
                     [
-                        DIV2007_LANGUAGE_LGL . 'any_login',
+                        $languageLglPath . 'any_login',
                         -2
                     ],
                     [
-                        DIV2007_LANGUAGE_LGL . 'usergroups',
+                        $languageLglPath . 'usergroups',
                         '--div--'
                     ]
                 ],
@@ -118,53 +113,50 @@ $result = array (
                 'default' => 0,
             ]
         ],
-		'name' => array (
-			'label' => DIV2007_LANGUAGE_LGL . 'name',
-			'config' => array (
+		'name' => [
+			'label' => $languageLglPath . 'name',
+			'config' => [
 				'type' => 'input',
 				'size' => '40',
 				'eval' => 'trim',
 				'max' => '80',
 				'default' => '',
-			)
-		),
-		'email' => array (
-			'label' => DIV2007_LANGUAGE_LGL . 'email',
-			'config' => array (
+			]
+		],
+		'email' => [
+			'label' => $languageLglPath . 'email',
+			'config' => [
 				'type' => 'input',
 				'size' => '40',
 				'eval' => 'trim',
 				'max' => '80',
 				'default' => '',
-			)
-		),
-		'suffix' => array (
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_emails.suffix',
-			'config' => array (
+			]
+		],
+		'suffix' => [
+			'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_emails.suffix',
+			'config' => [
 				'type' => 'input',
 				'size' => '24',
 				'eval' => 'trim',
 				'max' => '24',
 				'default' => '',
-			)
-		),
-	),
-	'types' => array (
-		'1' => array('showitem' => 'hidden,--palette--;;1, name, email, suffix')
-	),
-	'palettes' => array (
-		'1' => array('showitem' => 'starttime, endtime, fe_group')
-	)
-
-);
-
-if (
-    defined('TYPO3_version') &&
-    version_compare(TYPO3_version, '10.0.0', '<')
-) {
-    $result['interface'] = [];
-    $result['interface']['showRecordFieldList'] = 'name,email,suffix,tstamp, crdate, hidden,starttime,endtime,fe_group';
-}
+			]
+		],
+	],
+	'types' => [
+		'1' => ['showitem' => 'name, email, suffix, hidden,
+                --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.tabs.access,
+                --palette--;;access'
+            ]
+	],
+	'palettes' => [
+        'access' => [
+            'label' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.palettes.access',
+            'showitem' => 'starttime;LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.starttime_formlabel, endtime;LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.endtime_formlabel, --linebreak--, fe_group;LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.fe_group_formlabel, --linebreak--',
+        ],
+	]
+];
 
 return $result;
 

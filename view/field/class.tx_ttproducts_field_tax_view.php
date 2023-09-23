@@ -53,12 +53,10 @@ class tx_ttproducts_field_tax_view extends tx_ttproducts_field_base_view {
 		&$wrappedSubpartArray,
 		&$tagArray,
 		$theCode = '',
-		$basketExtra = array(),
+		$basketExtra = [],
 		$basketRecs,
 		$id = '1'
 	) {
-		global $TCA;
-
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 		$staticTaxViewObj = $tablesObj->get('static_taxes', true);
 
@@ -85,6 +83,7 @@ class tx_ttproducts_field_tax_view extends tx_ttproducts_field_base_view {
 		$row,
 		$markerKey,
 		&$markerArray,
+		$fieldMarkerArray,
 		$tagArray,
 		$theCode,
 		$id,
@@ -97,14 +96,10 @@ class tx_ttproducts_field_tax_view extends tx_ttproducts_field_base_view {
 		$suffix = '',
 		$imageNum = 0,
 		$imageRenderObj = '',
+		$linkWrap = false,
 		$bEnableTaxZero = false
 	) {
 	}
-}
-
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/field/class.tx_ttproducts_field_tax_view.php'])	{
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/field/class.tx_ttproducts_field_tax_view.php']);
 }
 
 

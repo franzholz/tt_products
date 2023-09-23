@@ -3,16 +3,16 @@
 	<file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/PiSearch/locallang.xlf" date="2021-12-01T10:35:25Z" product-name="tt_products">
 		<header/>
 		<body>
-			<trans-unit id="no_template" xml:space="preserve">
+			<trans-unit id="no_template" resname="no_template">
 				<source>The shop search template file has not been found. Check your template setup about</source>
 			</trans-unit>
-			<trans-unit id="no_subtemplate" xml:space="preserve">
+			<trans-unit id="no_subtemplate" resname="no_subtemplate">
 				<source>The part | or the search template file | has not been found.</source>
 			</trans-unit>
-			<trans-unit id="all" xml:space="preserve">
+			<trans-unit id="all" resname="all">
 				<source>ALL</source>
 			</trans-unit>
-			<trans-unit id="latest_entries" xml:space="preserve">
+			<trans-unit id="latest_entries" resname="latest_entries">
 				<source>Go to the %d latest entries.</source>
 			</trans-unit>
 		</body>

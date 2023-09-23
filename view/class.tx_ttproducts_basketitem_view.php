@@ -111,6 +111,7 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
 			}
 		}
 
+        $cObj = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 		$viewTableView = $tablesObj->get($productFuncTablename, true);
 		$urlObj = GeneralUtility::makeInstance('tx_ttproducts_url_view');
@@ -125,7 +126,7 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
 			$wrappedSubpartArray
 		);
 
-		$addQueryString = array();
+		$addQueryString = [];
 		$uid = $row['uid'];
 		$pid = $GLOBALS['TSFE']->id;
 		$cmdArray = tx_ttproducts_control_basket::getCmdArray();
@@ -151,7 +152,7 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
 					$addQueryString[$basketVar] = md5($extArray['extVarLine']);
 
 					$pageLink = FrontendUtility::getTypoLink_URL(
-						$local_cObj,
+						$cObj,
 						$pid,
 						$urlObj->getLinkParams(
 							'',
@@ -162,15 +163,15 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
 					);
 
 					$wrappedSubpartArray['###LINK_BASKET_' . $upperCmd . '###'] =
-						array(
+						[
 							'<a href="' . htmlspecialchars($pageLink) . '"' . $css_current . '>',
 							'</a>'
-						);
+						];
 					unset($addQueryString[$basketVar]);
 				} else {
 					$subpartArray['###LINK_BASKET_' . $upperCmd . '###'] = '';
 				}
-				unset($addQueryString[$fullCmd]);
+				unset($addQueryString[$cmd]);
 			}
 		}
 	}
@@ -199,11 +200,11 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
 		$id = '1',
 		$bSelect = true,
 		$charset = '',
-		$externalRow = array(),
+		$externalRow = [],
 		$parentFuncTablename = '',
-		$parentRow = array(),
-		$callFunctableArray = array(),  // deprecated
-		$filterRowArray = array()
+		$parentRow = [],
+		$callFunctableArray = [],  // deprecated
+		$filterRowArray = []
 	) {
 		$productFuncTablename = 'tt_products';
 		$basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
@@ -220,7 +221,7 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
 		$keyAdditional = $viewTable->variant->getAdditionalKey();
 		$selectableArray = $viewTable->variant->getSelectableArray();
 		$basketExt = tx_ttproducts_control_basket::getBasketExt();
-		$bUseXHTML = $GLOBALS['TSFE']->config['config']['xhtmlDoctype'] != '';
+		$bUseXHTML = empty($GLOBALS['TSFE']->config['config']['xhtmlDoctype']);
         $imageObj = GeneralUtility::makeInstance('tx_ttproducts_field_image_view');
 
 		$variantSeparator = $viewTable->getVariant()->getSplitSeparator();
@@ -248,7 +249,7 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
 				if (isset($fieldArray) && is_array($fieldArray)) {
 
 					foreach($fieldArray as $k => $field) {
-						$variantValue = $row[$field];
+						$variantValue = $row[$field] ?? '';
 						$prodTmpRow =
 							preg_split(
 								'/[\h]*' . $variantSeparator . '[\h]*/',
@@ -281,9 +282,12 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
 		if (is_array($extArray)) {
 			if (isset($extArray['extVarLine'])) {
 				$variant = $extArray['extVarLine'];
-			} else if (is_array($extArray['tt_products'])) {
+			} else if (
+                isset($extArray['tt_products']) &&
+                is_array($extArray['tt_products'])
+            ) {
 				$variant = $viewTable->variant->getVariantFromRow($row);
-			} else if (is_array($extArray['tx_dam'])) {
+			} else if (isset($extArray['tx_dam'])) {
 				$variant = $extArray['tx_dam'][0]['vars'];
 			}
 		}
@@ -295,7 +299,7 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
 		$bUseRadioBox =
 			is_array($radioInputArray) &&
 			count($radioInputArray) > 0 &&
-			$radioInputArray['name'] != '';
+			!empty($radioInputArray['name']);
 
 		$jsTableName = str_replace('_', '-', $productFuncTablename);
 		$basketQuantityName =
@@ -308,7 +312,7 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
 				$callFunctableArray
 			);
 
-		$attributeFieldName = ($bUseRadioBox && $radioInputArray['name'] != '' ? $radioInputArray['name'] : $basketQuantityName);
+		$attributeFieldName = ($bUseRadioBox && !empty($radioInputArray['name']) ? $radioInputArray['name'] : $basketQuantityName);
 		$markerArray['###FIELD_NAME###'] = htmlspecialchars($attributeFieldName);
 
 			// check need for comments
@@ -320,7 +324,7 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
 			isset($conf['BASKETQTY.']['userFunc'])
 		) {
 			$cObjectType = $conf['BASKETQTY'];
-			$basketConf = array();
+			$basketConf = [];
 			$basketConf['ref'] = $uid;
 			$basketConf['row'] = $row;
 			$basketConf['variant'] = $variant;
@@ -328,7 +332,7 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
 			$cObjectType = $conf['BASKETQTY'];
 
 			$cObj = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
-			$cObj->start(array());
+			$cObj->start([]);
 			$markerArray['###FIELD_QTY###'] = $cObj->cObjGetSingle($cObjectType, $basketConf);
 		} else {
 			if (
@@ -357,6 +361,7 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
 			} else {
 				$quantityMarker = $quantity ? $quantity : '';
 			}
+
 			$markerArray['###FIELD_QTY###'] = $quantityMarker;
 		}
 
@@ -379,7 +384,7 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
         $basketFile = $sanitizer->sanitize($fileName);
 
         $markerArray['###IMAGE_BASKET_SRC###'] = $basketFile;
-		$fileresource =  \JambageCom\Div2007\Utility\FrontendUtility::fileResource($basketFile);
+		$fileresource =  FrontendUtility::fileResource($basketFile);
 		$markerArray['###IMAGE_BASKET###'] = $fileresource;
 
 		if (isset($fieldArray) && is_array($fieldArray)) {
@@ -387,12 +392,15 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
 			$tablename = $viewTable->getTablename();
 
 			foreach($fieldArray as $k => $field) {
+                if (!isset($selectableArray[$k])) { // additional
+                    continue;
+                }
 				$fieldConf = $GLOBALS['TCA'][$tablename]['columns'][$field];
 				$fieldMarker = strtoupper($field);
 
 				if (isset($fieldConf) && is_array($fieldConf)) {
 					$text = '';
-					$variantValue = $row[$field];
+					$variantValue = $row[$field] ?? '';
 					$prodTmpRow = preg_split('/[\h]*' . $variantSeparator . '[\h]*/', $variantValue, -1, PREG_SPLIT_NO_EMPTY);
 
 					$imageFileArray = '';
@@ -402,7 +410,7 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
 
 						if (
 							is_array($formConf) &&
-							is_array($formConf[$selectConfKey . '.'])
+							isset($formConf[$selectConfKey . '.'])
 						) {
 							$theFormConf = $formConf[$selectConfKey . '.'];
 
@@ -414,7 +422,7 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
 								isset($theFormConf['layout'])
 							) {
 								$imageConf = $theFormConf['image.'];
-								$imageFileArray = array();
+								$imageFileArray = [];
 								foreach ($prodTmpRow as $k2 => $variantVal) {
 									$tmpImgCode = '';
 									foreach ($theFormConf['imageImport.'] as $k3 => $imageImport) {
@@ -472,7 +480,7 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
 							$selectedKey = $presetVariantArray[$field];
 						}
 						$viewTable->getTableObj()->substituteMarkerArray($prodTranslatedRow);
-						$dataArray = array();
+						$dataArray = [];
 						$layout = '';
 						$header = '';
 
@@ -496,7 +504,7 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
 								$selectedKey,
 								false,
 								false,
-								array(),
+								[],
 								$type,
 								$dataArray,
 								$header,
@@ -509,16 +517,16 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
 					} else {
 						$prodTmpRow = $row;
 						$viewTable->variant->modifyRowFromVariant($prodTmpRow, $variant);
-						$text = $prodTmpRow[$field]; // $prodTmpRow[0];
+						$text = $prodTmpRow[$field] ?? ''; // $prodTmpRow[0];
 					}
 
 					$markerArray['###FIELD_' . $fieldMarker . '_NAME###'] = $basketVar . '[' . $row['uid'] . '][' . $field . ']';
-					$markerArray['###FIELD_' . $fieldMarker . '_VALUE###'] = $row[$field];
+					$markerArray['###FIELD_' . $fieldMarker . '_VALUE###'] = $row[$field] ?? '';
 					$markerArray['###FIELD_' . $fieldMarker . '_ONCHANGE'] = ''; // TODO:  use $forminfoArray['###FORM_NAME###' in something like onChange="Go(this.form.Auswahl.options[this.form.Auswahl.options.selectedIndex].value)"
 
-					$markerKey = '###' . $viewTable->marker . '_' . $fieldMarker . '###';
+					$markerKey = '###' . $viewTableView->getMarker() . '_' . $fieldMarker . '###';
 					$markerArray[$markerKey] = $text;
-					$markerKey = '###' . $viewTable->marker . '_' . $fieldMarker . '_FUNCTION1###';
+					$markerKey = '###' . $viewTableView->getMarker() . '_' . $fieldMarker . '_FUNCTION1###';
 
 					$markerArray[$markerKey] = tx_ttproducts_control_basket::getAjaxVariantFunction($row, $productFuncTablename, $theCode);
 				}
@@ -530,7 +538,7 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
 		if ($bUseRadioBox) {
 
 			$params = 'type="' . $radioInputArray['type'] . '"';
-			$params .= ($radioInputArray['params'] != '' ? ' ' . $radioInputArray['params'] : '');
+			$params .= (!empty($radioInputArray['params']) ? ' ' . $radioInputArray['params'] : '');
 			if ($radioInputArray['checked'] == $uid) {
 				$params .= ' ' . ($bUseXHTML ? 'checked="checked"' : 'checked');
 			}
@@ -551,7 +559,7 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
 			if (
 				$functablename == 'tt_products' &&
 				is_array($extArray) &&
-				is_array($extArray['tx_dam'])
+				isset($extArray['tx_dam'])
 			) {
 				reset($extArray['tx_dam']);
 				$damext = current($extArray['tx_dam']);
@@ -563,7 +571,7 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
 				$damUid = tx_ttproducts_model_control::getPiVarValue('tx_dam');
 			}
 
-			if ($damUid) {
+			if (isset($damUid)) {
 				$tableVariant = $viewTable->variant->getTableUid('tx_dam', $damUid);
 				$variant .= $tableVariant;
 				$markerArray['###DAM_UID###'] = $damUid;
@@ -600,10 +608,5 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
 			$hiddenText = '';
 		}
 	} // getItemMarkerArray
-}
-
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_basketitem_view.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_basketitem_view.php']);
 }
 

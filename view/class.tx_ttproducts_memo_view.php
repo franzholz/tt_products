@@ -38,6 +38,8 @@
  
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+use JambageCom\Div2007\Utility\FrontendUtility;
+
 
 class tx_ttproducts_memo_view implements \TYPO3\CMS\Core\SingletonInterface {
 	public $pid_list;
@@ -52,15 +54,13 @@ class tx_ttproducts_memo_view implements \TYPO3\CMS\Core\SingletonInterface {
 			$conf,
 			$useArticles
 		) {
-		$cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
-
-		$piVars = tx_ttproducts_model_control::getPiVars();
+		$cObj = FrontendUtility::getContentObjectRenderer();
 
 		$this->pid_list = $pid_list;
 		$this->useArticles = $useArticles;
 // 		$fe_user_uid = $GLOBALS['TSFE']->fe_user->user['uid'];
 
-		$this->memoItems = array();
+		$this->memoItems = [];
 
 		if (
 			tx_ttproducts_control_memo::bUseFeuser($conf) ||
@@ -85,8 +85,11 @@ class tx_ttproducts_memo_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$pid,
 		&$errorCode
 	) {
+        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 		$markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
 		$content = '';
+		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
+		$config = $cnf->getConfig();
 
 		if (
 			tx_ttproducts_control_memo::bUseFeuser($conf) ||
@@ -98,7 +101,7 @@ class tx_ttproducts_memo_view implements \TYPO3\CMS\Core\SingletonInterface {
 				$listView = GeneralUtility::makeInstance('tx_ttproducts_list_view');
 				$listView->init(
 					$pid,
-					array(),
+					[],
 					$this->pid_list,
 					99
 				);
@@ -119,7 +122,7 @@ class tx_ttproducts_memo_view implements \TYPO3\CMS\Core\SingletonInterface {
 					$templateCode,
 					$theCode,
 					$theTable,
-					($this->memoItems ? implode(',', $this->memoItems) : array()),
+					($this->memoItems ? implode(',', $this->memoItems) : []),
 					false,
 					'',
 					$errorCode,
@@ -127,15 +130,15 @@ class tx_ttproducts_memo_view implements \TYPO3\CMS\Core\SingletonInterface {
 					$GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['pageAsCategory'],
 					tx_ttproducts_control_basket::getBasketExtra(),
 					tx_ttproducts_control_basket::getRecs(),
-					array(),
+					[],
 					0
 				);
 			} else {
 				$subpartmarkerObj = GeneralUtility::makeInstance('tx_ttproducts_subpartmarker');
-				$cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
+				$cObj = FrontendUtility::getContentObjectRenderer();
 
 				$templateArea = 'MEMO_EMPTY';
-				$content = tx_div2007_core::getSubpart($templateCode,$subpartmarkerObj->spMarker('###'.$templateArea.'###'));
+				$content = $templateService->getSubpart($templateCode,$subpartmarkerObj->spMarker('###'.$templateArea.'###'));
 				$content = $markerObj->replaceGlobalMarkers($content);
 			}
 		} else if (tx_ttproducts_control_memo::bIsAllowed('fe_users', $conf)) {
@@ -147,7 +150,7 @@ class tx_ttproducts_memo_view implements \TYPO3\CMS\Core\SingletonInterface {
 			$content = tx_ttproducts_api::getErrorOut(
 				$theCode,
 				$templateCode,
-				$subpartmarkerObj->spMarker('###' . $templateArea . $this->config['templateSuffix'] . '###'),
+				$subpartmarkerObj->spMarker('###' . $templateArea . $config['templateSuffix'] . '###'),
 				$subpartmarkerObj->spMarker('###' . $templateArea . '###'),
 				$errorCode
 			) ;
@@ -204,10 +207,4 @@ class tx_ttproducts_memo_view implements \TYPO3\CMS\Core\SingletonInterface {
 		}
 	}
 }
-
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_memo_view.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_memo_view.php']);
-}
-
 

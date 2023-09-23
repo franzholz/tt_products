@@ -44,11 +44,11 @@ class tx_ttproducts_hooks_pool extends tx_pool_hooks_base {
 	public $extKey = TT_PRODUCTS_EXT;
 	public $prefixId = 'tx_ttproducts_hooks_pool';	// Same as class name
 	public $LLFileArray =
-		array (
+		[
 			'hooks/locallang_pool.xml',
 			DIV2007_LANGUAGE_PATH . 'locallang_mod_web_list.xlf'
-		);
-	public $modMenu = array('function' => array('search'));
+		];
+	public $modMenu = ['function' => ['search']];
 	public $headerText = 'header_search';
 
 	public function getViewData (
@@ -87,9 +87,3 @@ class tx_ttproducts_hooks_pool extends tx_pool_hooks_base {
 		parent::getViewData($content, $header, $docHeaderButtons, $markerArray, $pOb);
 	}
 }
-
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/hooks/class.tx_ttproducts_hooks_pool.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/hooks/class.tx_ttproducts_hooks_pool.php']);
-}
-

@@ -47,11 +47,12 @@ class tx_ttproducts_pricetablescalc extends tx_ttproducts_pricecalc_base {
 
 	public function calculateValue ($formula, $row) {
 		$result = false;
+		$templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
 		$conf = $cnf->getConf();
 		$tagArray = $markerObj->getAllMarkers($formula);
-		$markerArray = array();
+		$markerArray = [];
 
 		if (isset($conf['graduate.']) && is_array($conf['graduate.'])) {
 			$bIsValid = false;
@@ -82,7 +83,7 @@ class tx_ttproducts_pricetablescalc extends tx_ttproducts_pricecalc_base {
 			}
 		}
 
-		$formula = tx_div2007_core::substituteMarkerArrayCached($formula, $markerArray);
+		$formula = $templateService->substituteMarkerArrayCached($formula, $markerArray);
 		$formula = trim($formula);
 		$len = strlen($formula);
 		$lastChar = substr($formula, -1, 1);
@@ -134,14 +135,13 @@ class tx_ttproducts_pricetablescalc extends tx_ttproducts_pricecalc_base {
 			}
 		}
 
-		if ($row['graduated_price_round'] != '') {
+		if (isset($row['graduated_price_round']) && strlen($row['graduated_price_round'])) {
 
 			$result = tx_ttproducts_api::roundPrice($result, $row['graduated_price_round']);
 		}
 
 		return $result;
 	}
-
 
 	public function getDiscountPrice ($graduatedPriceObj, $row, $priceProduct, $count) {
 
@@ -217,7 +217,7 @@ class tx_ttproducts_pricetablescalc extends tx_ttproducts_pricecalc_base {
 			$articleTable = $tablesObj->get('tt_products_articles', false);
 		}
 
-		$prodArray = array();
+		$prodArray = [];
 		// loop over all items in the basket indexed by sort string
 		foreach ($itemArray as $sort => $actItemArray) {
 
@@ -266,7 +266,8 @@ class tx_ttproducts_pricetablescalc extends tx_ttproducts_pricecalc_base {
 							$extArray = $row['ext'];
 
 							if (
-								isset($extArray['tt_products_articles']) && is_array($extArray['tt_products_articles'])
+								isset($extArray['tt_products_articles']) && is_array($extArray['tt_products_articles']) &&
+								!empty($extArray['tt_products_articles'])
 							) {
 								$articleUid = $extArray['tt_products_articles']['0']['uid'];
 
@@ -293,7 +294,5 @@ class tx_ttproducts_pricetablescalc extends tx_ttproducts_pricecalc_base {
 	} // getCalculatedData
 }
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/lib/class.tx_ttproducts_pricetablescalc.php'])	{
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/lib/class.tx_ttproducts_pricetablescalc.php']);
-}
+
 

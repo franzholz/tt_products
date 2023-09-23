@@ -39,14 +39,14 @@
 
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-
+use TYPO3\CMS\Core\Utility\MathUtility;
 
 class tx_ttproducts_api {
 
 	static public function roundPrice ($value, $format) {
 
 		$result = $oldValue = $value;
-		$priceRoundFormatArray = array();
+		$priceRoundFormatArray = [];
 		$dotPos = strpos($value, '.');
 		$floatLen = strlen($value) - $dotPos - 1;
 
@@ -184,7 +184,7 @@ class tx_ttproducts_api {
 						$lowestValuePart = (intval($finalAddition) / ($faktor * 10));
 					}
 				} else if (
-					\TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($floatValue)
+					MathUtility::canBeInterpretedAsInteger($floatValue)
 				) {
 					$floatPart =  $floatValue * $faktor * 10;
 					$lowestValuePart = (intval($floatPart) / ($faktor * 10));
@@ -208,6 +208,7 @@ class tx_ttproducts_api {
 		$alternativeSubpartMarker,
 		&$errorCode
 	) {
+        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 		$result = false;
 
 		if (
@@ -248,7 +249,7 @@ class tx_ttproducts_api {
 					strpos($errorTemplateCode, $subpartMarker) !== false
 				) {
 					$errorOut =
-						tx_div2007_core::getSubpart(
+						$templateService->getSubpart(
 							$errorTemplateCode,
 							$subpartMarker
 						);
@@ -257,7 +258,7 @@ class tx_ttproducts_api {
 					strpos($errorTemplateCode, $alternativeSubpartMarker) !== false
 				) {
 					$errorOut =
-						tx_div2007_core::getSubpart(
+						$templateService->getSubpart(
 							$errorTemplateCode,
 							$alternativeSubpartMarker
 						);
@@ -318,7 +319,7 @@ class tx_ttproducts_api {
                 debug ($tmp, 'no FE user could be generated!'); // keep this
             }
 			$tableFieldArray = $tablesObj->get('fe_users')->getTableObj()->tableFieldArray;
-			$insertFields = array(	// TODO: check with TCA
+			$insertFields = [	// TODO: check with TCA
 				'pid' => intval($pid),
 				'tstamp' => time(),
 				'crdate' => time(),
@@ -326,7 +327,7 @@ class tx_ttproducts_api {
 				'password' => $password,
 				'usergroup' => $conf['memberOfGroup'],
 				'uid' => $infoArray['billing']['feusers_uid'],
-			);
+			];
 
 			foreach ($tableFieldArray as $fieldname => $value) {
 				$fieldvalue = $infoArray['billing'][$fieldname];
@@ -367,14 +368,14 @@ class tx_ttproducts_api {
 						$calculatedArray,
 						false,
 						'EMAIL_NEWUSER_TEMPLATE',
-						array(),
+						[],
 						'',
-						array(),
+						[],
                         $notOverwritePriceIfSet = true,
-						array(),
-						array(),
-						array(),
-						array()
+						[],
+						[],
+						[],
+						[]
 					)
 				);
 
@@ -382,12 +383,13 @@ class tx_ttproducts_api {
 					$parts = explode(chr(10), $emailContent, 2);
 					$subject = trim($parts[0]);
 					$plain_message = trim($parts[1]);
+					$tmp = '';
 
 					\JambageCom\Div2007\Utility\MailUtility::send(
 						$infoArray['billing']['email'],
 						$apostrophe . $subject . $apostrophe,
 						$plain_message,
-						$tmp = '',
+						$tmp,
 						$fromArray['shop']['email'],
 						$fromArray['shop']['name'],
 						'',
@@ -421,10 +423,11 @@ class tx_ttproducts_api {
 	static public function splitSubjectAndText (
 		$templateCode,
 		$defaultSubject,
+		$markerArray,
 		&$subject,
 		&$text
 	) {
-        $parser = tx_div2007_core::newHtmlParser(true);
+        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 		$parts = preg_split('/[\n\r]+/', $templateCode, 2);	// First line is subject
 		$subject = trim($parts[0]);
 		$text = trim($parts[1]);
@@ -432,7 +435,7 @@ class tx_ttproducts_api {
 		if (empty($text)) {	// the user did not use the subject field
 			$text = $subject;
 		}
-		$text = $parser->substituteMarkerArrayCached($text, $markerArray);
+		$text = $templateService->substituteMarkerArrayCached($text, $markerArray);
 		if (empty($subject)) {
 			$subject = $defaultSubject;
 		}
@@ -494,7 +497,7 @@ class tx_ttproducts_api {
 		$mainMarkerArray,
 		$functablename,
 		$orderUid,
-		$orderArray,
+		&$orderArray,
 		$itemArray,
 		$calculatedArray,
 		$addressArray,
@@ -505,13 +508,16 @@ class tx_ttproducts_api {
 		$bDebug,
 		&$errorMessage
 	) {
+        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+        $result = true;
 		$cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config'); // init ok
 // $markerObj  init ok
 		$basketView = GeneralUtility::makeInstance('tx_ttproducts_basket_view');
 		$infoViewObj = GeneralUtility::makeInstance('tx_ttproducts_info_view');
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables'); // init ok
 		$billdeliveryObj = GeneralUtility::makeInstance('tx_ttproducts_billdelivery');
-		$fileArray = array(); // bill or delivery
+		$fileArray = []; // bill or delivery
+		$voucherCount = 0;
 
 		$activityFinalize = GeneralUtility::makeInstance('tx_ttproducts_activity_finalize');
 
@@ -520,7 +526,6 @@ class tx_ttproducts_api {
 		$cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
 		$conf = $cnfObj->getConf();
 		$customerEmailHTML = '';
-        $parser = tx_div2007_core::newHtmlParser(true);
 
 		$orderRow =
 			$orderObj->get(
@@ -545,23 +550,11 @@ class tx_ttproducts_api {
 		) {
 			return false; // the order has already been processed before
 		}
-		$orderObj->updateRecord($orderUid, array('hidden' =>  0)); // mark this order immediately as unhidden in order to let no instant message from the gateway execute the following PHP code twice
+		$orderObj->updateRecord($orderUid, ['hidden' =>  0]); // mark this order immediately as unhidden in order to let no instant message from the gateway execute the following PHP code twice
 
 		$instockTableArray = '';
 		$customerEmail = $infoViewObj->getCustomerEmail();
 		$defaultFromArray = $infoViewObj->getFromArray($customerEmail);
-
-
-/*
-		$defaultFromArray = array();
-		$defaultFromArray['shop'] = array(
-			'email' => $conf['orderEmail_from'],
-			'name' => $conf['orderEmail_fromName']
-		);
-		$defaultFromArray['customer'] = array(
-			'email' => $customerEmail,
-			'name' => $infoViewObj->infoArray['billing']['name']
-		);*/
 
 		$emailControlArray =
 			$activityFinalize->getEmailControlArray(
@@ -588,8 +581,8 @@ class tx_ttproducts_api {
 					'',
 					$itemArray,
                     $notOverwritePriceIfSet = true,
-					array('0' => $orderArray),
-					array(),
+					['0' => $orderArray],
+					[],
 					$basketExtra,
 					$basketRecs
 				);
@@ -610,12 +603,12 @@ class tx_ttproducts_api {
 				$conf[$type . '.']['generation'] == 'auto'
 			) {
 				if (
-					$type == 'bill' &&
-					!$orderRow['bill_no']
+                    $type == 'bill' &&
+                    !$orderRow['bill_no']
 				) {
 					$newBillNumber = self::generateBillNo(
 						$orderUid,
-						substr($conf['orderBillNumberPrefix'], 0, 30)
+						substr($conf['orderBillNumberPrefix'] ?? '', 0, 30)
 					);
 					$orderArray['bill_no'] = $newBillNumber;
 				}
@@ -633,7 +626,8 @@ class tx_ttproducts_api {
 						$type,
 						$conf[$type . '.']
 					);
-				if ($absFilename) {
+
+                if ($absFilename) {
 					$fileArray[$type] = $absFilename;
 				}
 			}
@@ -647,7 +641,7 @@ class tx_ttproducts_api {
 			$conf['whereGift'] != ''
 		) {
 			$voucherCount = 0;
-			$codeArray = array();
+			$codeArray = [];
 			tx_ttproducts_voucher::generate($voucherCount, $codeArray, $orderUid, $itemArray, $conf['whereGift']);
 		}
 
@@ -660,7 +654,7 @@ class tx_ttproducts_api {
 			$basketExtra,
 			$calculatedArray,
 			'',
-			array(), // TODO: $giftServiceArticleArray,
+			[], // TODO: $giftServiceArticleArray,
 			'', // TODO: $vouchercode
 			$usedCreditpoints,
 			$voucherCount,
@@ -684,7 +678,8 @@ class tx_ttproducts_api {
 				$basketExtGift
 			);
 		}
-		$orderObj->createMM($orderUid, $itemArray);
+		$theCode = 'FINALIZE';
+		$orderObj->createMM($orderUid, $itemArray, $theCode);
 		$addcsv = '';
 
 		// Generate CSV for each order
@@ -694,6 +689,7 @@ class tx_ttproducts_api {
 			$accountUid = $account->getUid();
 
 			$csv = GeneralUtility::makeInstance('tx_ttproducts_csv');
+            
             $csvfilepath = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/' . $conf['CSVdestination'];
 
 			$csv->create(
@@ -731,8 +727,8 @@ class tx_ttproducts_api {
 						'',
 						$itemArray,
                         $notOverwritePriceIfSet = true,
-						array('0' => $orderArray),
-						array(),
+						['0' => $orderArray],
+						[],
 						$basketExtra,
 						$basketRecs
 					)
@@ -781,30 +777,29 @@ class tx_ttproducts_api {
 				}
 
 				if (
-					$emailConfig['to'] != '' ||
-					$emailConfig['to.'] != '' ||
+					!empty($emailConfig['to'])  ||
+					!empty($emailConfig['to.']) ||
 					$suffix == 'shop' ||
 					$suffix == 'customer'
 				) {
-					if ($emailConfig['shipping_point'] != '') {
+					if (!empty($emailConfig['shipping_point'])) {
 						$shippingPoint = strtolower($emailConfig['shipping_point']);
 					} else {
 						$shippingPoint = 'none';
 					}
 
-					$emailControlArray[$suffix][$shippingPoint]['attachmentFile'] = array();
-
-					if ($emailConfig['to.'] != '') {
+					if (!empty($emailConfig['to.'])) {
 						$toConfig = $emailConfig['to.'];
 						if (
                             \JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn() &&
-							trim($GLOBALS['TSFE']->fe_user->user['username']) != '' &&
+                            !empty($GLOBALS['TSFE']->fe_user->user) &&
+							!empty($GLOBALS['TSFE']->fe_user->user['username']) &&
 							$toConfig['table'] == 'fe_users' &&
-							$toConfig['field'] != '' &&
-							$toConfig['foreign_table'] != '' &&
-							$toConfig['foreign_field'] != '' &&
-							$toConfig['foreign_email_field'] != '' &&
-							$GLOBALS['TSFE']->fe_user->user[$toConfig['field']] != ''
+							!empty($toConfig['field']) &&
+							!empty($toConfig['foreign_table']) &&
+							!empty($toConfig['foreign_field']) &&
+							!empty($toConfig['foreign_email_field']) &&
+							!empty($GLOBALS['TSFE']->fe_user->user[$toConfig['field']])
 						) {
 							$where_clause =
 								$toConfig['foreign_table'] . '.' .
@@ -822,7 +817,7 @@ class tx_ttproducts_api {
 
 							if (isset($recordArray) && is_array($recordArray)) {
 								foreach ($recordArray as $record) {
-									if ($record[$toConfig['foreign_email_field']] != '') {
+									if (!empty($record[$toConfig['foreign_email_field']])) {
 										$emailControlArray[$suffix][$shippingPoint]['recipient'][] = $record[$toConfig['foreign_email_field']];
 									}
 								}
@@ -830,7 +825,9 @@ class tx_ttproducts_api {
 						}
 					}
 
-					if ($emailConfig['to'] != '') {
+					$emailControlArray[$suffix][$shippingPoint]['attachmentFile'] = [];
+
+					if (!empty($emailConfig['to'])) {
 						$emailArray = GeneralUtility::trimExplode(',', $emailConfig['to']);
 
 						foreach ($emailArray as $email) {
@@ -844,13 +841,15 @@ class tx_ttproducts_api {
 						}
 					}
 
-					if ($emailConfig['attachment'] != '') {
+					if (!empty($emailConfig['attachment'])) {
 						$emailControlArray[$suffix][$shippingPoint]['attachment'] = GeneralUtility::trimExplode(',', $emailConfig['attachment']);
 
-						foreach($emailControlArray[$suffix][$shippingPoint]['attachment'] as $attachmentType) {
-							$emailControlArray[$suffix][$shippingPoint]['attachmentFile'][] = $fileArray[$attachmentType];
-						}
-					}
+                        foreach($emailControlArray[$suffix][$shippingPoint]['attachment'] as $attachmentType) {
+                            if (isset($fileArray[$attachmentType])) {
+                                $emailControlArray[$suffix][$shippingPoint]['attachmentFile'][] = $fileArray[$attachmentType];
+                            }
+                        }
+                    }
 
 					if ($suffix != 'customer') {
 
@@ -875,7 +874,7 @@ class tx_ttproducts_api {
 						}
 					}
 
-					if ($suffix == 'shop') {
+					if ($suffix == 'shop' && isset($conf['orderEmail_bcc'])) {
 						$emailControlArray[$suffix][$shippingPoint]['bcc'] = $conf['orderEmail_bcc'];
 					}
 
@@ -884,15 +883,15 @@ class tx_ttproducts_api {
 					} else if ($emailConfig['from'] == 'customer') {
 						$emailControlArray[$suffix][$shippingPoint]['from'] = $defaultFromArray['customer'];
 					} else if (isset($emailConfig['from.'])) {
-						$emailControlArray[$suffix][$shippingPoint]['from'] = array(
+						$emailControlArray[$suffix][$shippingPoint]['from'] = [
 							'email' => $emailConfig['from.']['email'],
 							'name' => $emailConfig['from.']['name']
-						);
+						];
 					}
 
 					if ($shippingPoint != 'none') {
 						$emailControlArray[$suffix][$shippingPoint]['recipient'] = array_unique(GeneralUtility::trimExplode(',', $emailConfig['to']));
-						if ($emailConfig['subject'] != '') {
+						if (!empty($emailConfig['subject'])) {
 							$emailControlArray[$suffix][$shippingPoint]['subject'] = $emailConfig['subject'];
 						}
 					}
@@ -931,23 +930,23 @@ class tx_ttproducts_api {
 			($posEmailPlaintext !== false || $conf['orderEmail_htmlmail'])
 		) {
 			if ($conf['orderEmail_htmlmail']) {	// If htmlmail lib is included, then generate a nice HTML-email
-				$HTMLmailShell = tx_div2007_core::getSubpart($templateCode, '###EMAIL_HTML_SHELL###');
+				$HTMLmailShell = $templateService->getSubpart($templateCode, '###EMAIL_HTML_SHELL###');
 
 				$customerHTMLmailContent =
-					$parser->substituteMarker(
+					$templateService->substituteMarker(
 						$HTMLmailShell,
 						'###HTML_BODY###',
 						$customerEmailHTML
 					);
 				$customerHTMLmailContent =
-					$parser->substituteMarkerArray(
+					$templateService->substituteMarkerArray(
 						$customerHTMLmailContent,
 						$markerArray
 					);
 
 					// Remove image tags to the products:
-				if ($conf['orderEmail_htmlmail.']['removeImagesWithPrefix']) {
-					$htmlParser = tx_div2007_core::newHtmlParser();
+				if (!empty($conf['orderEmail_htmlmail.']['removeImagesWithPrefix'])) {
+                    $htmlParser = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Html\HtmlParser::class);
 					$htmlMailParts = $htmlParser->splitTags('img', $customerHTMLmailContent);
 
 					foreach($htmlMailParts as $kkk => $vvv) {
@@ -975,8 +974,8 @@ class tx_ttproducts_api {
 				}
 			}
 
-			$categoryInserted = array();
-			$shippingPointInserted = array();
+			$categoryInserted = [];
+			$shippingPointInserted = [];
 
 			// send distributor emails from email entered at the category level
 			foreach ($itemArray as $sort => $actItemArray) {
@@ -984,10 +983,10 @@ class tx_ttproducts_api {
 					$row = $actItem['rec'];
 					$extArray = $row['ext'];
 					$category = $row['category'];
-					$shipping_point = strtolower($row['shipping_point']);
+					$shipping_point = strtolower($row['shipping_point'] ?? '');
 					$suffix = 'shop';
 
-					if ($categoryInserted[$category] != '') {
+					if (!empty($categoryInserted[$category])) {
 						$suffix = $categoryInserted[$category];
 					} else if ($category) {
 						$categoryArray = $tablesObj->get('tt_products_cat')->get($category);
@@ -995,14 +994,14 @@ class tx_ttproducts_api {
 
 						if (isset($emailRow) && is_array($emailRow)) {
 							$email = $emailRow['email'];
-							$emailArray = array();
-							if ($emailRow['name'] != '') {
-								$emailArray = array($email => $emailArray['name']);
+							$emailArray = [];
+							if (!empty($emailRow['name'])) {
+								$emailArray = [$email => $emailArray['name']];
 							} else {
-								$emailArray = array($email);
+								$emailArray = [$email];
 							}
 
-							if ($emailRow['suffix'] != '') {
+							if (!empty($emailRow['suffix'])) {
 								$suffix = strtolower($emailRow['suffix']);
 							}
 
@@ -1119,8 +1118,8 @@ class tx_ttproducts_api {
 									'',
 									$basketItemArray,
                                     $notOverwritePriceIfSet = true,
-									array('0' => $orderArray),
-									array(),
+									['0' => $orderArray],
+									[],
 									$basketExtra,
 									$basketRecs
 								);
@@ -1142,8 +1141,8 @@ class tx_ttproducts_api {
                                         '',
                                         $basketItemArray,
                                         $notOverwritePriceIfSet = true,
-                                        array('0' => $orderArray),
-                                        array(),
+                                        ['0' => $orderArray],
+                                        [],
                                         $basketExtra,
                                         $basketRecs
                                     );
@@ -1159,29 +1158,30 @@ class tx_ttproducts_api {
                                 self::splitSubjectAndText(
                                     $basketText,
                                     $conf['orderEmail_subject'],
+                                    $markerArray,
                                     $subject,
                                     $textContent
                                 );
                             }
 
-                            $subject = ($suffixControlArray['subject'] != '' ? $suffixControlArray['subject'] : $subject);
+                            $subject = (!empty($suffixControlArray['subject']) ? $suffixControlArray['subject'] : $subject);
                             $HTMLmailContent = '';
                             if ($basketHtml != '') {
                                 $HTMLmailContent =
-                                    $parser->substituteMarker(
+                                    $templateService->substituteMarker(
                                         $HTMLmailShell,
                                         '###HTML_BODY###',
                                         $basketHtml
                                     );
 
                                 $HTMLmailContent =
-                                    $parser->substituteMarkerArray(
+                                    $templateService->substituteMarkerArray(
                                         $HTMLmailContent,
                                         $markerArray
                                     );
                             }
 
-							$fromArray = array();
+							$fromArray = [];
 
 							if (
 								isset($suffixControlArray['from'])
@@ -1205,11 +1205,11 @@ class tx_ttproducts_api {
 										$HTMLmailContent,
 										$fromArray['email'],
 										$fromArray['name'],
-										$suffixControlArray['attachmentFile'],
-										$suffixControlArray['cc'],
-										$suffixControlArray['bcc'],
-										$suffixControlArray['returnPath'],
-										$suffixControlArray['replyTo'],
+										$suffixControlArray['attachmentFile'] ?? '',
+										$suffixControlArray['cc'] ?? '',
+										$suffixControlArray['bcc'] ?? '',
+										$suffixControlArray['returnPath'] ?? '',
+										$suffixControlArray['replyTo'] ?? '',
 										TT_PRODUCTS_EXT,
 										'sendMail'
 									);
@@ -1225,11 +1225,11 @@ class tx_ttproducts_api {
 			if (is_array($finalizeConf) && count($finalizeConf)) {
 
 				foreach ($finalizeConf as $k => $confpart) {
-					$reducedItemArray = array();
+					$reducedItemArray = [];
 
 					if (isset($confpart['pid']) && isset($confpart['email'])) {
 						foreach ($itemArray as $sort => $actItemArray) {
-							$reducedActItemArray = array();
+							$reducedActItemArray = [];
 							foreach ($actItemArray as $k1 => $actItem) {
 								$row = $actItem['rec'];
 								if ($row['pid'] == $confpart['pid']) {
@@ -1241,7 +1241,7 @@ class tx_ttproducts_api {
 							}
 						}
 
-						if ($emailControlArray['shop']['none']['content'] != '') {
+						if (!empty($emailControlArray['shop']['none']['content'])) {
 							$emailKey = 'shop';
 						} else {
 							$emailKey = 'customer';
@@ -1265,8 +1265,8 @@ class tx_ttproducts_api {
 									'',
 									$reducedItemArray,
                                     $notOverwritePriceIfSet = true,
-									array('0' => $orderArray),
-									array(),
+									['0' => $orderArray],
+									[],
 									$basketExtra,
 									$basketRecs
 								)
@@ -1274,14 +1274,10 @@ class tx_ttproducts_api {
 						self::splitSubjectAndText(
 							$reducedBasketPlaintext,
 							$conf['orderEmail_subject'],
+							$markerArray,
 							$subject,
 							$textContent
 						);
-						$textContent =
-							$parser->substituteMarkerArray(
-								$textContent,
-								$markerArray
-							);
 
 						if ($conf['orderEmail_htmlmail']) {
 							$reducedBasketHtml =
@@ -1300,22 +1296,22 @@ class tx_ttproducts_api {
 										'',
 										$reducedItemArray,
                                         $notOverwritePriceIfSet = true,
-										array('0' => $orderArray),
-										array(),
+										['0' => $orderArray],
+										[],
 										$basketExtra,
 										$basketRecs
 									)
 								);
 
 							$HTMLmailContent =
-								$parser->substituteMarker(
+								$templateService->substituteMarker(
 									$HTMLmailShell,
 									'###HTML_BODY###',
 									$reducedBasketHtml
 								);
 
 							$HTMLmailContent =
-								$parser->substituteMarkerArray(
+								$templateService->substituteMarkerArray(
 									$HTMLmailContent,
 									$markerArray
 								);
@@ -1333,8 +1329,8 @@ class tx_ttproducts_api {
 							'',
 							'',
 							'',
-							$emailControlArray['customer']['none']['returnPath'],
-							$emailControlArray['customer']['none']['replyTo'],
+							$emailControlArray['customer']['none']['returnPath'] ?? '',
+							$emailControlArray['customer']['none']['replyTo'] ?? '',
 							TT_PRODUCTS_EXT,
 							'sendMail'
 						);
@@ -1343,8 +1339,8 @@ class tx_ttproducts_api {
 			}
 
 			if (
-				$emailControlArray['radio1']['plaintext'] &&
-				is_array($emailControlArray['radio1']['recipient'])
+				isset($emailControlArray['radio1']['plaintext']) &&
+				isset($emailControlArray['radio1']['recipient'])
 			) {
 				foreach ($emailControlArray['radio1']['recipient'] as $key => $recipient) {
 
@@ -1358,8 +1354,8 @@ class tx_ttproducts_api {
 						$emailControlArray['radio1']['none']['attachmentFile'],
 						'',
 						'',
-						$emailControlArray['shop']['none']['returnPath'],
-						$emailControlArray['shop']['none']['replyTo'],
+						$emailControlArray['shop']['none']['returnPath'] ?? '',
+						$emailControlArray['shop']['none']['replyTo'] ?? '',
 						TT_PRODUCTS_EXT,
 						'sendMail'
 					);
@@ -1376,7 +1372,7 @@ class tx_ttproducts_api {
 			// The output is NOT included anywhere
 		\JambageCom\Div2007\Utility\ObsoleteUtility::getExternalCObject($pObj, 'externalFinalizing');
 
-		if ($conf['externalOrderProcessFunc']) {
+		if (!empty($conf['externalOrderProcessFunc'])) {
             \JambageCom\Div2007\Utility\ObsoleteUtility::userProcess(
                 $pObj,
                 $conf,
@@ -1386,7 +1382,10 @@ class tx_ttproducts_api {
 		}
 
 			// Call all finalizeOrder hooks
-		if (is_array ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['finalizeOrder'])) {
+		if (
+            isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['finalizeOrder']) &&
+            is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['finalizeOrder'])
+        ) {
 			foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['finalizeOrder'] as $classRef) {
 				$hookObj= GeneralUtility::makeInstance($classRef);
 				if (method_exists($hookObj, 'finalizeOrder')) {
@@ -1404,6 +1403,7 @@ class tx_ttproducts_api {
 				}
 			}
 		}
-	}
+		return $result;
+    }
 }
 

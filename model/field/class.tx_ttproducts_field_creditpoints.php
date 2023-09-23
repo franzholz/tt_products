@@ -115,7 +115,7 @@ class tx_ttproducts_field_creditpoints extends tx_ttproducts_field_base {
 			$creditpointsTotal = $this->getBasketTotal();
 
 			if ($creditpointsTotal) {
-				$fieldsArrayFeUsers = array();
+				$fieldsArrayFeUsers = [];
 				$fieldsArrayFeUsers['tt_products_creditpoints'] = $GLOBALS['TSFE']->fe_user->user['tt_products_creditpoints'] - $creditpointsTotal;
 				if ($fieldsArrayFeUsers['tt_products_creditpoints'] < 0) {
 					$fieldsArrayFeUsers['tt_products_creditpoints'] = 0;
@@ -131,11 +131,4 @@ class tx_ttproducts_field_creditpoints extends tx_ttproducts_field_base {
 		return $rc;
 	}
 }
-
-
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/field/class.tx_ttproducts_field_creditpoints.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/field/class.tx_ttproducts_field_creditpoints.php']);
-}
-
 

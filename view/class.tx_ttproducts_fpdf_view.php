@@ -37,8 +37,8 @@
  */
 
 
+use TYPO3\CMS\Core\Charset\CharsetConverter;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-
 
 
 class tx_ttproducts_fpdf_view {
@@ -70,12 +70,6 @@ class tx_ttproducts_fpdf_view {
 		$result = false;
 		$renderCharset = 'UTF-8';
 
-		if (
-			$GLOBALS['TSFE']->renderCharset != ''
-		) {
-			$renderCharset = $GLOBALS['TSFE']->renderCharset;
-		}
-
 // require_once '/path/to/src/PhpWord/Autoloader.php';
 // \PhpOffice\PhpWord\Autoloader::register();
 
@@ -94,7 +88,7 @@ class tx_ttproducts_fpdf_view {
 			'',
 			$itemArray,
             $notOverwritePriceIfSet = false,
-			array('0' => $orderArray),
+			['0' => $orderArray],
 			$productRowArray,
 			$basketExtra,
 			$basketRecs
@@ -114,7 +108,7 @@ class tx_ttproducts_fpdf_view {
 			'',
 			$itemArray,
             $notOverwritePriceIfSet = false,
-			array('0' => $orderArray),
+			['0' => $orderArray],
 			$basketExtra,
 			$basketRecs
 		);
@@ -134,13 +128,13 @@ class tx_ttproducts_fpdf_view {
 			'',
 			$itemArray,
             $notOverwritePriceIfSet = false,
-			array('0' => $orderArray),
+			['0' => $orderArray],
 			$productRowArray,
 			$basketExtra,
 			$basketRecs
 		);
 
-		$csConvObj = $GLOBALS['TSFE']->csConvObj;
+		$csConvObj = GeneralUtility::makeInstance(CharsetConverter::class);
 		$header = $csConvObj->conv(
 			$header,
 			$renderCharset,
@@ -175,8 +169,4 @@ class tx_ttproducts_fpdf_view {
 	}
 }
 
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_fpdf_view.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_fpdf_view.php']);
-}
 

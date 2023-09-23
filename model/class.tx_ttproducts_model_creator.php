@@ -45,11 +45,18 @@ class tx_ttproducts_model_creator implements \TYPO3\CMS\Core\SingletonInterface 
 
 	public function init ($conf, $config, $cObj) {
 
-		$useStaticInfoTables = \JambageCom\Div2007\Utility\StaticInfoTablesUtility::getStaticInfo();
+        $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
+         if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
+            $staticInfoApi = GeneralUtility::makeInstance(\JambageCom\Div2007\Api\StaticInfoTablesApi::class);
+        } else {
+            $staticInfoApi = GeneralUtility::makeInstance(\JambageCom\Div2007\Api\OldStaticInfoTablesApi::class);
+        }
+
+        $useStaticInfoTables = $staticInfoApi->isActive();
 		$bUseStaticTaxes = false;
 
 		if (
-			$conf['useStaticTaxes'] &&
+			!empty($conf['useStaticTaxes']) &&
 			$useStaticInfoTables
 		) {
 			if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('static_info_tables_taxes')) {
@@ -118,10 +125,5 @@ class tx_ttproducts_model_creator implements \TYPO3\CMS\Core\SingletonInterface 
 
 	public function destruct () {
 	}
-}
-
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/control/class.tx_ttproducts_model_creator.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/control/class.tx_ttproducts_model_creator.php']);
 }
 

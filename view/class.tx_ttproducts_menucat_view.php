@@ -57,14 +57,14 @@ class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base {
 		$basketExtra,
 		$basketRecs
 	) {
-		$t = array();
-		$ctrlArray = array();
+		$t = [];
+		$ctrlArray = [];
+		$templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 		$basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
 		$pibaseObj = GeneralUtility::makeInstance('' . $this->pibaseClass);
 		$javaScriptMarker = GeneralUtility::makeInstance('tx_ttproducts_javascript_marker');
 		$prefixId = tx_ttproducts_model_control::getPrefixId();
 		$cObj = \JambageCom\TtProducts\Api\ControlApi::getCObj();
-        $parser = tx_div2007_core::newHtmlParser(false);
 
 		parent::getPrintViewArrays(
 			$functablename,
@@ -96,6 +96,8 @@ class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base {
 			$maxDepth = $categoryTable->getDepth($theCode);
 
 			$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
+            $conf = $cnf->getConf();
+            $config = $cnf->getConfig();
 
 			$content='';
 			$out='';
@@ -104,11 +106,12 @@ class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base {
 			$iCount = 0;
 			$mainCount = 1;
 			$depth = 1;
-			$countArray = array();
+			$countArray = [];
 			$countArray[0] = 0;
 			$countArray[1] = 0;
-			$tabArray = array();
+			$tabArray = [];
 			$catConf = $categoryTable->getTableConf($theCode);
+            $catConf['cssMode'] = $catConf['cssMode'] ?? 0;
 
 			$cssObj = GeneralUtility::makeInstance('tx_ttproducts_css');
 			$cssConf = $cssObj->getConf($functablename, $theCode);
@@ -116,13 +119,14 @@ class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base {
 			$menu = 'm' . $depth;
 			$idMain = $categoryTableView->getPivar() . $mainCount;
 			$tabArray[$depth] = $this->getTabs($depth * 2);
-			$parentArray = array();
-			$viewCatTagArray = array();
+			$parentArray = [];
+			$viewCatTagArray = [];
+			$tmp = [];
 			$catfieldsArray = $markerObj->getMarkerFields(
 				$t['linkCategoryFrameWork'],
 				$categoryTable->getTableObj()->tableFieldArray,
 				$categoryTable->getTableObj()->requiredFieldArray,
-				$tmp = array(),
+				$tmp,
 				$categoryTableView->getMarker(),
 				$viewCatTagArray,
 				$parentArray
@@ -133,17 +137,20 @@ class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base {
 
 			while ($depth > 0 && $iCount < 500) {
 				$iCount++;
-				$cssClassArray = array('w' . $iCount);
+				$cssClassArray = ['w' . $iCount];
 
-				if (!is_array($catArray[$depth])) {
+				if (
+                    !isset($catArray[$depth]) ||
+                    !is_array($catArray[$depth])
+                ) {
                     continue;
                 }
 
 				if($countArray[$depth] < count($catArray[$depth])) {
-					$markerArray = array();
+					$markerArray = [];
 					$actCategory = $catArray[$depth][$countArray[$depth]];
 					$row = $categoryArray[$actCategory];
-					$subCategories = $row['child_category'];
+					$subCategories = $row['child_category'] ?? [];
 
 					if ($catConf['cssMode'] == '1' && isset($subCategories) && is_array($subCategories) && count($subCategories)) {
 						$cssClassArray[] = 'parent';
@@ -176,23 +183,23 @@ class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base {
 					} else {
 						$pageObj = $tablesObj->get('pages');
 						$pid = $pageObj->getPID(
-							$this->conf['PIDlistDisplay'],
-							$this->conf['PIDlistDisplay.'],
+							$conf['PIDlistDisplay'] ?? 0,
+							$conf['PIDlistDisplay.'] ?? [],
 							$row
 						);
 					}
-					$addQueryString = array($categoryTableView->getPivar() => $actCategory);
+					$addQueryString = [$categoryTableView->getPivar() => $actCategory];
 
-					$markerArray = array();
+					$markerArray = [];
 					$categoryTableView->getMarkerArray (
 						$markerArray,
 						$categoryTableView->getMarker(),
 						$actCategory,
 						$row['pid'],
-						$cnf->config['limitImage'],
+						$config['limitImage'],
 						'listcatImage',
 						$viewCatTagArray,
-						array(),
+						[],
 						$pageAsCategory,
 						$theCode,
 						$basketExtra,
@@ -202,17 +209,16 @@ class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base {
 						''
 					);
 
-					$urlParameters = array($prefixId => $addQueryString);
+					$urlParameters = [$prefixId => $addQueryString];
 
-					$linkConf = array();
+					$linkConf = [];
 					$linkConf['parameter'] = $pid;
 					$linkConf['additionalParams'] = GeneralUtility::implodeArrayForUrl('', $urlParameters);
-					$linkConf['useCacheHash'] = $pibaseObj->bUSER_INT_obj ? 0 : 1;
-					$linkConf['ATagParams'] = $pibaseObj->cObj->getATagParams($currentLinkConf);
+					$linkConf['ATagParams'] = $pibaseObj->cObj->getATagParams($linkConf);
 
 					$theLinkWrap = $pibaseObj->cObj->typolink('|', $linkConf);
 					$tagArray = $markerObj->getAllMarkers($theLinkWrap);
-					$linkMarkerArray = array();
+					$linkMarkerArray = [];
 
 					foreach ($tagArray as $tag => $v) {
 						$marker = '###' . $tag. '###';
@@ -222,7 +228,7 @@ class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base {
 					}
 
 					$theLinkWrap =
-						$parser->substituteMarkerArray(
+						$templateService->substituteMarkerArray(
 							$theLinkWrap,
 							$linkMarkerArray
 						);
@@ -238,7 +244,7 @@ class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base {
 
 					if ($t['linkCategoryFrameWork']) {
 						$categoryOut =
-							$parser->substituteMarkerArray(
+							$templateService->substituteMarkerArray(
 								$t['linkCategoryFrameWork'],
 								$markerArray
 							);
@@ -278,17 +284,17 @@ class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base {
 				}
 			}
 
-			$markerArray = array();
-			$subpartArray = array();
-			$wrappedSubpartArray = array();
+			$markerArray = [];
+			$subpartArray = [];
+			$wrappedSubpartArray = [];
 
-			$jsMarkerArray = array();
+			$jsMarkerArray = [];
 			$javaScriptMarker->getMarkerArray($jsMarkerArray, $markerArray, $cObj);
 			$markerArray = array_merge($jsMarkerArray, $markerArray);
 
 			$this->urlObj->getWrappedSubpartArray($wrappedSubpartArray);
 			$subpartArray['###CATEGORY_SINGLE###'] = $out;
-			$out = tx_div2007_core::substituteMarkerArrayCached(
+			$out = $templateService->substituteMarkerArrayCached(
 				$t['listFrameWork'],
 				$markerArray,
 				$subpartArray,
@@ -299,9 +305,5 @@ class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base {
 
 		return $content;
 	}
-}
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_menucat_view.php'])	{
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_menucat_view.php']);
 }
 

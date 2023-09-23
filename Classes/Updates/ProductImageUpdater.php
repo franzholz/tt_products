@@ -62,20 +62,16 @@ class ProductImageUpdater implements UpgradeWizardInterface, ConfirmableInterfac
     }
 
     /**
-     * Setter injection for output into upgrade wizards
-     *
-     * @param OutputInterface $output
-     */
+    * Setter injection for output into upgrade wizards
+    */
     public function setOutput(OutputInterface $output): void
     {
         $this->output = $output;
     }
 
     /**
-     * Get title
-     *
-     * @return string
-     */
+    * Get title
+    */
     public function getTitle(): string
     {
         return $this->title;
@@ -100,10 +96,8 @@ class ProductImageUpdater implements UpgradeWizardInterface, ConfirmableInterfac
     }
 
     /**
-     * Return a confirmation message instance
-     *
-     * @return \TYPO3\CMS\Install\Updates\Confirmation
-     */
+    * Return a confirmation message instance
+    */
     public function getConfirmation(): Confirmation
     {
         $upgradeApi = GeneralUtility::makeInstance(UpgradeApi::class);
@@ -119,7 +113,6 @@ class ProductImageUpdater implements UpgradeWizardInterface, ConfirmableInterfac
                 $elementCount += $upgradeApi->countOfTableFieldMigrations($table, $field, $field . '_uid', ParameterType::STRING, \PDO::PARAM_INT);
             }
             
-    //         countOfImageMigrations(self::TABLE, self::TABLE . '_lanugae';
             if ($elementCount) {
                 $title .= sprintf('%d %s images can possibly be migrated.' . PHP_EOL, $elementCount, $table);
             }
@@ -155,13 +148,11 @@ class ProductImageUpdater implements UpgradeWizardInterface, ConfirmableInterfac
         $result = true;
         $upgradeApi = GeneralUtility::makeInstance(UpgradeApi::class);
         $tables = explode(',', self::TABLES);
-
         foreach ($tables as $table) {
             if (!isset($this->tableFields[$table])) {
                 continue;
             }
             $fields = $this->tableFields[$table];
-
             foreach ($fields as $field) { 
                 // user decided to migrate, migrate and mark wizard as done
                 $queries = $upgradeApi->performTableFieldFalMigrations(
@@ -189,11 +180,9 @@ class ProductImageUpdater implements UpgradeWizardInterface, ConfirmableInterfac
     }
 
     /**
-     * Execute the update
-     * Called when a wizard reports that an update is necessary
-     *
-     * @return bool
-     */
+    * Execute the update
+    * Called when a wizard reports that an update is necessary
+    */
     public function executeUpdate(): bool
     {
         $queries = [];
@@ -203,13 +192,11 @@ class ProductImageUpdater implements UpgradeWizardInterface, ConfirmableInterfac
         return $result;
     }
 
-    /**
-     * Is an update necessary?
-     * Is used to determine whether a wizard needs to be run.
-     * Check if data for migration exists.
-     *
-     * @return bool
-     */
+        /**
+        * Is an update necessary?
+        * Is used to determine whether a wizard needs to be run.
+        * Check if data for migration exists.
+        */
     public function updateNecessary(): bool
     {
         $upgradeApi = GeneralUtility::makeInstance(UpgradeApi::class);
@@ -247,7 +234,7 @@ class ProductImageUpdater implements UpgradeWizardInterface, ConfirmableInterfac
      *
      * @return string[]
      */
-    public function getPrerequisites(): array
+    public function getPrerequisites (): array
     {
         return [
             DatabaseUpdatedPrerequisite::class

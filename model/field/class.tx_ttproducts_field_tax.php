@@ -99,7 +99,7 @@ class tx_ttproducts_field_tax extends tx_ttproducts_field_base {
 		&$taxInfoArray,
 		array $row,
 		$basketExtra,
-		$basketRecs = array(),
+		$basketRecs = [],
 		$bEnableTaxZero = false
 	) {
 		$result = $this->getFieldValue(
@@ -117,8 +117,8 @@ class tx_ttproducts_field_tax extends tx_ttproducts_field_base {
 		&$taxInfoArray,
 		array $row,
 		$fieldname,
-		$basketExtra = array(),
-		$basketRecs = array(),
+		$basketExtra = [],
+		$basketRecs = [],
 		$bEnableTaxZero = false
 	) {
 		$fieldValue = 0;
@@ -174,7 +174,7 @@ class tx_ttproducts_field_tax extends tx_ttproducts_field_base {
 					$taxInfoArray,
 					$shopCountryArray,
 					$fieldValue,
-					array(),
+					[],
 					$basketRecs
 				);
 			}
@@ -216,7 +216,7 @@ class tx_ttproducts_field_tax extends tx_ttproducts_field_base {
 		if (
 			tx_ttproducts_static_tax::isInstalled()
 		) {
-			$taxInfoArray = array();
+			$taxInfoArray = [];
 			$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 			$staticTaxObj = $tablesObj->get('static_taxes', false);
 			$taxResult = $staticTaxObj->getTaxInfo(
@@ -229,7 +229,7 @@ class tx_ttproducts_field_tax extends tx_ttproducts_field_base {
 
 			if ($taxResult) {
 
-                $taxRates = array();
+                $taxRates = [];
                 if (
                     isset($taxInfoArray) &&
                     is_array($taxInfoArray) &&
@@ -247,15 +247,10 @@ class tx_ttproducts_field_tax extends tx_ttproducts_field_base {
 
 		if (!$result) {
 			$result = GeneralUtility::trimExplode(',', $this->conf['TAXrates']);
-			$result = array('ALL' => $result);
+			$result = ['ALL' => $result];
 		}
 
 		return $result;
 	}
-}
-
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/field/class.tx_ttproducts_field_tax.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/field/class.tx_ttproducts_field_tax.php']);
 }
 

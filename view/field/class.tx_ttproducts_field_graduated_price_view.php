@@ -53,12 +53,10 @@ class tx_ttproducts_field_graduated_price_view extends tx_ttproducts_field_base_
 		&$wrappedSubpartArray,
 		$tagArray,
 		$theCode = '',
-		$basketExtra = array(),
+		$basketExtra = [],
 		$basketRecs,
 		$id = '1'
 	) {
-		global $TCA;
-
 		$bTaxIncluded = $this->conf['TAXincluded'];
 		$bEnableTaxZero = 0;
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
@@ -89,6 +87,7 @@ class tx_ttproducts_field_graduated_price_view extends tx_ttproducts_field_base_
 		$row,
 		$markerKey,
 		&$markerArray,
+		$fieldMarkerArray,
 		$tagArray,
 		$theCode,
 		$id,
@@ -101,6 +100,7 @@ class tx_ttproducts_field_graduated_price_view extends tx_ttproducts_field_base_
 		$suffix = '',
 		$imageNum = 0,
 		$imageRenderObj = '',
+		$linkWrap = false,
 		$bEnableTaxZero = false
 	) {
 		$bTaxIncluded = $this->conf['TAXincluded'];
@@ -118,10 +118,5 @@ class tx_ttproducts_field_graduated_price_view extends tx_ttproducts_field_base_
 			$tagArray
 		);
 	}
-}
-
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/field/class.tx_ttproducts_field_graduated_price_view.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/field/class.tx_ttproducts_field_graduated_price_view.php']);
 }
 

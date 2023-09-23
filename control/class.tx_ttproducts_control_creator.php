@@ -38,6 +38,9 @@
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
+
+
 
 
 class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterface {
@@ -49,14 +52,23 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
 		$cObj,
 		$ajax,
 		&$errorCode,
-		array $recs = array(),
-		array $basketRec = array()
+		array $recs = [],
+		array $basketRec = []
 	) {
-        $useStaticInfoTables = \JambageCom\Div2007\Utility\StaticInfoTablesUtility::init();
+        if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
+            $staticInfoApi = GeneralUtility::makeInstance(\JambageCom\Div2007\Api\StaticInfoTablesApi::class);
+        } else {
+            $staticInfoApi = GeneralUtility::makeInstance(\JambageCom\Div2007\Api\OldStaticInfoTablesApi::class);
+        }
 
-		if ($conf['PIDstoreRoot']) {
+        $useStaticInfoTables = $staticInfoApi->init();
+
+		if (!empty($conf['PIDstoreRoot'])) {
 			$config['storeRootPid'] = $conf['PIDstoreRoot'];
-		} else if (TYPO3_MODE == 'FE') {
+		} else if (
+            defined ('TYPO3_MODE') &&
+            TYPO3_MODE == 'FE'
+        ) {
 			foreach ($GLOBALS['TSFE']->tmpl->rootLine as $k => $row) {
 				if ($row['doktype'] == 1) {
 					$config['storeRootPid'] = $row['uid'];
@@ -65,23 +77,29 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
 			}
 		}
 
-		if ($conf['pid_list'] == '{$plugin.tt_products.pid_list}') {
+        if (
+            !isset($conf['pid_list']) ||
+            $conf['pid_list'] == '{$plugin.tt_products.pid_list}'
+        ) {
 			$conf['pid_list'] = '';
 		}
 
-		if ($conf['errorLog'] == '{$plugin.tt_products.file.errorLog}') {
+		if (
+            !isset($conf['errorLog']) ||
+            $conf['errorLog'] == '{$plugin.tt_products.file.errorLog}'
+        ) {
 			$conf['errorLog'] = '';
 		} else if ($conf['errorLog']) {
 			$conf['errorLog'] = GeneralUtility::resolveBackPath(PATH_typo3conf . '../' . $conf['errorLog']);
 		}
 
-		$tmp = $cObj->stdWrap($conf['pid_list'], $conf['pid_list.']);
-		$pid_list = ($cObj->data['pages'] ? $cObj->data['pages'] : ($conf['pid_list.'] ? trim($tmp) : ''));
-		$pid_list = ($pid_list ? $pid_list : $conf['pid_list']);
-		$config['pid_list'] = (isset($pid_list) ? $pid_list : $config['storeRootPid']);
+		$tmp = $cObj->stdWrap($conf['pid_list'] ?? '', $conf['pid_list.'] ?? '');
+		$pid_list = (!empty($cObj->data['pages']) ? $cObj->data['pages'] : (!empty($conf['pid_list.']) ? trim($tmp) : ''));
+		$pid_list = ($pid_list ? $pid_list : $conf['pid_list'] ?? '');
+		$config['pid_list'] = (isset($pid_list) ? $pid_list : $config['storeRootPid'] ?? 0);
 
-		$recursive = ($cObj->data['recursive'] ? $cObj->data['recursive']: $conf['recursive']);
-		$config['recursive'] = tx_div2007_core::intInRange($recursive, 0, 100);
+		$recursive = (!empty($cObj->data['recursive']) ? $cObj->data['recursive'] : $conf['recursive'] ?? 99);
+		$config['recursive'] = MathUtility::forceIntegerInRange($recursive, 0, 100);
 
 		if (is_object($pObj)) {
 			$pLangObj = $pObj;
@@ -89,7 +107,7 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
 			$pLangObj = $this;
 		}
         $languageObj = static::getLanguageObj($pLangObj, $cObj, $conf);
- 		$config['LLkey'] = $languageObj->getLocalLangKey(); /* $pibaseObj->LLkey; */
+ 		$config['LLkey'] = $languageObj->getLocalLangKey();
 
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 		$markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
@@ -106,7 +124,7 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
 			$conf,
 			$tablesObj,
 			$config['pid_list'],
-			$conf['useArticles'],
+			$conf['useArticles'] ?? 3,
 			$recs,
 			$basketRec
 		);
@@ -114,7 +132,7 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
 		// corrections in the Setup:
 		if (
 			\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('voucher') &&
-			isset($conf['gift.']) &&
+			isset($conf['gift.']['type']) &&
 			$conf['gift.']['type'] == 'voucher'
 		) {
 			$conf['table.']['voucher'] = 'tx_voucher_codes';
@@ -129,7 +147,7 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
 
 		\JambageCom\TtProducts\Api\ControlApi::init($conf, $cObj);
 		$infoArray = tx_ttproducts_control_basket::getStoredInfoArray();
-		if ($conf['useStaticInfoCountry']) {
+		if (!empty($conf['useStaticInfoCountry'])) {
 			tx_ttproducts_control_basket::setCountry(
 				$infoArray,
 				tx_ttproducts_control_basket::getBasketExtra()
@@ -138,8 +156,8 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
 
 		tx_ttproducts_control_basket::addLoginData(
 			$infoArray,
-			$conf['loginUserInfoAddress'],
-			$conf['useStaticInfoCountry']
+			$conf['loginUserInfoAddress'] ?? 0,
+			$conf['useStaticInfoCountry'] ?? 0
 		);
 
 		tx_ttproducts_control_basket::setInfoArray($infoArray);
@@ -173,7 +191,9 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
 		);
 
 		$templateObj = GeneralUtility::makeInstance('tx_ttproducts_template');
-		$templateObj->setTemplateSuffix($config['templateSuffix']);
+		if (isset($config['templateSuffix'])) {
+            $templateObj->setTemplateSuffix($config['templateSuffix']);
+        }
 
 			// Call all init hooks
 		if (
@@ -191,9 +211,6 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
 			$tablesObj->setTableClassArray($tableClassArray);
 		}
 
-		$storeObj = GeneralUtility::makeInstance('tx_div2007_store');
-		$storeObj->setCobj($cObj);
-
 		return true;
 	}
 
@@ -201,7 +218,9 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
     static public function getLanguageObj ($pLangObj, $cObj, $conf) {
 
         $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
-        $confLocalLang = array();
+        $languageSubpath = '/Resources/Private/Language/';
+
+        $confLocalLang = [];
         if (isset($conf['_LOCAL_LANG.'])) {
             $confLocalLang = $conf['_LOCAL_LANG.'];
         }
@@ -211,19 +230,19 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
         $languageObj->init(
             TT_PRODUCTS_EXT,
             $confLocalLang,
-            DIV2007_LANGUAGE_SUBPATH
+            $languageSubpath
         );
 
         $languageObj->loadLocalLang(
-            'EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf',
+            'EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf',
             false
         );
         $languageObj->loadLocalLang(
-            'EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'PiSearch/locallang_db.xlf',
+            'EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'PiSearch/locallang_db.xlf',
             false
         );
         $languageObj->loadLocalLang(
-            'EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'Pi1/locallang.xlf',
+            'EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'Pi1/locallang.xlf',
             false
         );
 
@@ -233,10 +252,5 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
 	public function destruct () {
 		tx_ttproducts_control_basket::destruct();
 	}
-}
-
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/control/class.tx_ttproducts_control_creator.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/x']);
 }
 

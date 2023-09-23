@@ -1,18 +1,24 @@
 <?php
-defined('TYPO3_MODE') || die('Access denied.');
-
-if (!defined ('TT_PRODUCTS_EXT')) {
-    define('TT_PRODUCTS_EXT', 'tt_products');
-}
+defined('TYPO3') || die('Access denied.');
 
 
-call_user_func(function () {
-    if (!defined ('PATH_BE_TTPRODUCTS')) {
-        define('PATH_BE_TTPRODUCTS', \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath(TT_PRODUCTS_EXT));
+call_user_func(function($extensionKey)
+{
+    if (!defined ('TT_PRODUCTS_EXT')) {
+        define('TT_PRODUCTS_EXT', 'tt_products');
     }
 
-    if (!defined ('PATH_TTPRODUCTS_ICON_TABLE_REL')) {
-        define('PATH_TTPRODUCTS_ICON_TABLE_REL', 'EXT:' . TT_PRODUCTS_EXT . '/Resources/Public/Icons/');
+    if (!defined ('PATH_BE_TTPRODUCTS')) {
+        define('PATH_BE_TTPRODUCTS', \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($extensionKey));
+    }
+
+    if (!defined ('PATH_FE_TTPRODUCTS_REL')) {
+        define(
+            'PATH_FE_TTPRODUCTS_REL',
+            \TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix(
+                \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($extensionKey)
+            )
+        );
     }
 
     if (!defined ('ADDONS_EXT')) {
@@ -35,17 +41,13 @@ call_user_func(function () {
         define('POOL_EXT', 'pool');
     }
 
-    if (!defined ('EXTERNAL_FIELD_PREFIX')) {
-        define('EXTERNAL_FIELD_PREFIX', 'tx_ttproducts_');
-    }
-
     // The autoloader does not work in ext_localconf.php and in the folder Configuratin/TCA
     require_once(PATH_BE_TTPRODUCTS . 'control/class.tx_ttproducts_control_address.php');
 
     require_once(PATH_BE_TTPRODUCTS . 'Classes/Domain/Model/Dto/EmConfiguration.php');
 
     if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded(POOL_EXT)) {
-        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/pool/mod_main/index.php']['addClass'][] = 'EXT:' . TT_PRODUCTS_EXT . '/hooks/class.tx_ttproducts_hooks_pool.php:&tx_ttproducts_hooks_pool';
+        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/pool/mod_main/index.php']['addClass'][] = 'EXT:' . $extensionKey . '/hooks/class.tx_ttproducts_hooks_pool.php:&tx_ttproducts_hooks_pool';
     }
 
     if (!defined ('TT_PRODUCTS_DIV_DLOG')) {
@@ -60,67 +62,60 @@ call_user_func(function () {
         define('DAM_EXT', 'dam');
     }
 
-    if (!defined ('STATIC_INFO_TABLES_TAXES_EXT')) {
-        define('STATIC_INFO_TABLES_TAXES_EXT', 'static_info_tables_taxes');
-    }
-
     if (
+        defined ('TYPO3_MODE') &&
         TYPO3_MODE == 'FE' && \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded(TAXAJAX_EXT)
     ) {
-        if (
-            version_compare(TYPO3_version, '10.4.0', '>=')
-        ) {
-            $GLOBALS['TYPO3_CONF_VARS']['FE']['taxajax_include'][TT_PRODUCTS_EXT] =  \JambageCom\TtProducts\Controller\TaxajaxController::class . '::processRequest';
-        } else {
-            $GLOBALS['TYPO3_CONF_VARS']['FE']['taxajax_include'][TT_PRODUCTS_EXT] =  \JambageCom\TtProducts\Controller\OldTaxajaxController::class . '::processRequest';
-        }
+        $GLOBALS['TYPO3_CONF_VARS']['FE']['taxajax_include'][$extensionKey] =  \JambageCom\TtProducts\Controller\TaxajaxController::class . '::processRequest';
     }
 
-    $extensionConfiguration = array();
-    $originalConfiguration = array();
+    $extensionConfiguration = [];
+    $originalConfiguration = [];
 
     $extensionConfiguration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
         \TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class
-    )->get(TT_PRODUCTS_EXT);
+    )->get($extensionKey);
 
     if (
-        isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]) &&
-        is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT])
+        isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]) &&
+        is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey])
     ) {
-        $originalConfiguration = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT];
+        $originalConfiguration = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey];
+    }
+
+    if (
+        (
+            !isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['exclude']) ||
+            !is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['exclude'])
+        )
+    ) {
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['exclude'] = [];
     }
 
     if (
         isset($extensionConfiguration) && is_array($extensionConfiguration
     )) {
-        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT] =
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey] =
             array_merge($extensionConfiguration, $originalConfiguration);
-    } else if (!isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT])) {
-        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT] = array();
+    } else if (!isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey])) {
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey] = [];
     }
 
-    $extensionConfiguration = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT];
+    $extensionConfiguration = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey];
 
     if (isset($extensionConfiguration) && is_array($extensionConfiguration)) {
-        $excludeConf =  
-            (version_compare(TYPO3_version, '10.0.0', '>=') ? 
-                $extensionConfiguration['exclude']['configuration'] :
-                $extensionConfiguration['exclude.']['configuration']
-            );
-        if (isset($excludeConf) && is_array($excludeConf)) {
-            $excludeArray = array();
-            foreach ($excludeConf as $tablename => $excludefields) {
-                if ($excludefields != '') {
+        if (
+            isset($extensionConfiguration['exclude']) && is_array($extensionConfiguration['exclude'])
+        ) {
+            $excludeArray = [];
+            foreach ($extensionConfiguration['exclude'] as $tablename => $excludefields) {
+                if ($excludefields != '' && is_string($excludefields)) {
                     $excludeArray[$tablename] = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $excludefields);
                 }
             }
 
             if (count($excludeArray)) {
-                if (version_compare(TYPO3_version, '10.0.0', '>=')) {
-                    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude'] = $excludeArray;
-                } else {
-                    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude.'] = $excludeArray;
-                }
+                $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['exclude'] = $excludeArray;
             }
         }
     }
@@ -132,38 +127,45 @@ call_user_func(function () {
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addUserTSConfig('options.saveDocNew.tt_products_articles=1');
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addUserTSConfig('options.saveDocNew.tt_products_articles_language=1');
 
-    if (TYPO3_MODE == 'BE') {
+    if (
+        defined ('TYPO3_MODE') &&
+        TYPO3_MODE == 'BE'
+    ) {
         // replace the output of the former CODE field with the flexform
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['list_type_Info'][5][] = 'JambageCom\\TtProducts\\Hooks\\CmsBackend->pmDrawItem';
 
             // class for displaying the category tree in BE forms.
-        $listType = TT_PRODUCTS_EXT . '_pi_int';
+        $listType = $extensionKey . '_pi_int';
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['list_type_Info'][$listType][] = 'JambageCom\\TtProducts\\Hooks\\CmsBackend->pmDrawItem';
     }
 
-    if (TYPO3_MODE == 'BE' && \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('searchbox')) {
+    if (
+        defined ('TYPO3_MODE') &&
+        TYPO3_MODE == 'BE' &&
+        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('searchbox')) {
 
-        $listType = TT_PRODUCTS_EXT . '_pi_search';
+        $listType = $extensionKey . '_pi_search';
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['list_type_Info'][$listType][] = 'JambageCom\\TtProducts\\Hooks\\CmsBackend->pmDrawItem';
     }
 
-
-    if (TYPO3_MODE == 'FE') { // hooks for FE extensions
-
-        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['felogin']['login_confirmed'][TT_PRODUCTS_EXT] = 'JambageCom\\TtProducts\\Hooks\\FrontendProcessor->loginConfirmed';
+    if (
+        defined ('TYPO3_MODE') &&
+        TYPO3_MODE == 'FE'
+    ) { // hooks for FE extensions
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['felogin']['login_confirmed'][$extensionKey] = 'JambageCom\\TtProducts\\Hooks\\FrontendProcessor->loginConfirmed';
 
         if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('patch10011')) {
-            $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['patch10011']['includeLibs'][TT_PRODUCTS_EXT] = 
+            $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['patch10011']['includeLibs'][$extensionKey] = 
             \JambageCom\TtProducts\UserFunc\MatchCondition::class;
         }
 
-        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['ws_flexslider']['listAction'][TT_PRODUCTS_EXT] = 'EXT:' . TT_PRODUCTS_EXT . '/hooks/class.tx_ttproducts_ws_flexslider.php:&tx_ttproducts_ws_flexslider';
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['ws_flexslider']['listAction'][$extensionKey] = 'EXT:' . $extensionKey . '/hooks/class.tx_ttproducts_ws_flexslider.php:&tx_ttproducts_ws_flexslider';
 
-        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['transactor']['listener'][TT_PRODUCTS_EXT] = 'tx_ttproducts_hooks_transactor';
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['transactor']['listener'][$extensionKey] = \JambageCom\TtProducts\Hooks\TransactorListener::class;
 
         if (
-            isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['hook.']) &&
-            $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['hook.']['setPageTitle']
+            isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['hook.']) &&
+            !empty($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['hook.']['setPageTitle'])
         ) {
             // TYPO3 page title
             $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_fe.php']['contentPostProc-output'][] = 'JambageCom\\TtProducts\\Hooks\\ContentPostProcessor->setPageTitle';
@@ -174,18 +176,18 @@ call_user_func(function () {
 
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tce']['formevals']['JambageCom\\Div2007\\Hooks\\Evaluation\\Double6'] = '';
 
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPItoST43(TT_PRODUCTS_EXT, 'pi_int/class.tx_ttproducts_pi_int.php', '_pi_int', 'list_type', 0 );
+    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPItoST43($extensionKey, 'pi_int/class.tx_ttproducts_pi_int.php', '_pi_int', 'list_type', 0 );
 
     if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('searchbox')) {
-        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPItoST43(TT_PRODUCTS_EXT, 'pi_search/class.tx_ttproducts_pi_search.php', '_pi_search', 'list_type', 0 );
+        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPItoST43($extensionKey, 'pi_search/class.tx_ttproducts_pi_search.php', '_pi_search', 'list_type', 0 );
     }
 
     // add missing setup for the tt_content "list_type = 5" which is used by tt_products
     $addLine = 'tt_content.list.20.5 = < plugin.tt_products';
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTypoScript(
-        TT_PRODUCTS_EXT,
+        $extensionKey,
         'setup', '
-    # Setting ' . TT_PRODUCTS_EXT . ' plugin TypoScript
+    # Setting ' . $extensionKey . ' plugin TypoScript
     ' . $addLine . '
     ',
         43
@@ -195,22 +197,12 @@ call_user_func(function () {
 
     $addressTable = tx_ttproducts_control_address::getAddressTablename($addressExtKey);
 
-    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['addressTable'] = $addressTable;
+    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['addressTable'] = $addressTable;
 
     if (
-        version_compare(TYPO3_version, '10.0.0', '>=') &&
-        !is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude'])
+        defined ('TYPO3_MODE') &&
+        TYPO3_MODE == 'BE' && \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('db_list')
     ) {
-        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude'] = [];
-    } else if (
-        version_compare(TYPO3_version, '10.0.0', '<') &&
-        !is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude.'])
-    ) {
-        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['exclude.'] = [];
-    }
-
-    if (TYPO3_MODE == 'BE' && \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('db_list')) {
-
         /** @var \TYPO3\CMS\Extbase\SignalSlot\Dispatcher $signalSlotDispatcher */
         $signalSlotDispatcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('\\TYPO3\\CMS\\Extbase\\SignalSlot\\Dispatcher');
         $signalSlotDispatcher->connect(
@@ -223,6 +215,7 @@ call_user_func(function () {
     }
 
     if (
+        defined ('TYPO3_MODE') &&
         TYPO3_MODE == 'BE'
     ) {
         $pageType = 'ttproducts'; // a maximum of 10 characters
@@ -234,7 +227,7 @@ call_user_func(function () {
             $iconRegistry->registerIcon(
                 $identifier,
                 $iconRegistry->detectIconProvider($filename),
-                array('source' => 'EXT:' . TT_PRODUCTS_EXT . '/Resources/Public/Icons/apps/' . $filename)
+                array('source' => 'EXT:' . $extensionKey . '/Resources/Public/Icons/apps/' . $filename)
             );
         }
 
@@ -280,5 +273,5 @@ call_user_func(function () {
     ];
     $GLOBALS['TYPO3_CONF_VARS']['FE']['cacheHash']['excludedParameters'] = 
         array_merge($GLOBALS['TYPO3_CONF_VARS']['FE']['cacheHash']['excludedParameters'], $excludedParameters);
-});
+}, 'tt_products');
 

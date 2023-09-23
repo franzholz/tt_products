@@ -44,11 +44,10 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
 class tx_ttproducts_country extends tx_ttproducts_table_base {
-	var $dataArray; // array of read in contents
-	var $table;	// object of the type tx_table_db
+	public $dataArray; // array of read in contents
+	public $table;	// object of the type tx_table_db
 	public $marker = 'STATICCOUNTRIES';
 
-//	var $defaultFieldArray = array('uid'=>'uid', 'pid'=>'pid'); // TYPO3 default fields
 
 	/**
 	 * Getting all tt_products_cat categories into internal array
@@ -60,22 +59,22 @@ class tx_ttproducts_country extends tx_ttproducts_table_base {
 			$tablename = $this->getTablename();
 			$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 			$this->tableconf = $cnf->getTableConf('static_countries');
-			$this->getTableObj()->setDefaultFieldArray(array('uid'=>'uid', 'pid'=>'pid'));
+			$this->getTableObj()->setDefaultFieldArray(['uid'=>'uid', 'pid'=>'pid']);
 			$this->getTableObj()->setTCAFieldArray('static_countries');
 
 			$requiredFields = 'uid,pid';
-			if ($this->tableconf['requiredFields']) {
+			if (!empty($this->tableconf['requiredFields'])) {
 				$tmp = $this->tableconf['requiredFields'];
 				$requiredFields = ($tmp ? $tmp : $requiredFields);
 			}
 			$requiredListArray = GeneralUtility::trimExplode(',', $requiredFields);
 			$this->getTableObj()->setRequiredFieldArray($requiredListArray);
 
-			if (is_array($this->tableconf['generatePath.']) &&
+			if (!empty($this->tableconf['generatePath.']) &&
 				$this->tableconf['generatePath.']['type'] == 'tablefields' &&
-				is_array($this->tableconf['generatePath.']['field.'])
+				!empty($this->tableconf['generatePath.']['field.'])
 				) {
-				$addRequiredFields = array();
+				$addRequiredFields = [];
 				foreach ($this->tableconf['generatePath.']['field.'] as $field => $value) {
 					$addRequiredFields[] = $field;
 				}
@@ -87,13 +86,16 @@ class tx_ttproducts_country extends tx_ttproducts_table_base {
 	} // init
 
 
-	public function isoGet ($country_code, $where = '', $fields = '') {
+    public function isoGet ($country_code, $where = '', $fields = '') {
 
-		if (!$fields) {
+        $rc = '';
+		if (!$fields && isset($this->dataArray[$country_code])) {
 			$rc = $this->dataArray[$country_code];
 		}
 		if (!$rc || $where) {
-			if ($country_code) {
+            $pageRepository = \JambageCom\Div2007\Utility\CompatibilityUtility::getPageRepository();
+
+			if (!empty($country_code)) {
 				$whereString = 'cn_iso_3 = ' . $GLOBALS['TYPO3_DB']->fullQuoteStr($country_code, $this->getTableObj()->name);
 			} else {
 				$whereString = '1=1';
@@ -102,7 +104,7 @@ class tx_ttproducts_country extends tx_ttproducts_table_base {
 				$whereString .= ' AND ' . $where;
 			}
 
-			$whereString .= ' ' . $this->getTableObj()->enableFields();
+			$whereString .= ' ' . $pageRepository->enableFields($this->getTablename());
 			$fields = ($fields ? $fields : '*');
 			// Fetching the products
 
@@ -115,7 +117,7 @@ class tx_ttproducts_country extends tx_ttproducts_table_base {
 			 	}
 			} else {
 				while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
-					$rc[]= $this->dataArray[$row['uid']] = $row;
+					$rc[] = $this->dataArray[$row['uid']] = $row;
 				}
 			}
 			$GLOBALS['TYPO3_DB']->sql_free_result($res);
@@ -123,10 +125,4 @@ class tx_ttproducts_country extends tx_ttproducts_table_base {
 		return $rc;
 	}
 }
-
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/class.tx_ttproducts_country.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/class.tx_ttproducts_country.php']);
-}
-
 

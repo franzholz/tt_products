@@ -62,7 +62,7 @@ class tx_ttproducts_email extends tx_ttproducts_table_base {
 
 
 	function getEmail ($uid) {
-		$rc = $this->emailArray[$uid];
+		$rc = $this->emailArray[$uid] ?? '';
 		if ($uid && !$rc) {
 			$sql = GeneralUtility::makeInstance('tx_table_db_access');
 			$sql->prepareFields($this->getTableObj(), 'select', '*');
@@ -77,11 +77,4 @@ class tx_ttproducts_email extends tx_ttproducts_table_base {
 		return $rc;
 	}
 }
-
-
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/class.tx_ttproducts_email.php'])  {
-  include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/class.tx_ttproducts_email.php']);
-}
-
 

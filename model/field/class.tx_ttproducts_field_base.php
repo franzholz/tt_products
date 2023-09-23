@@ -61,8 +61,8 @@ abstract class tx_ttproducts_field_base implements tx_ttproducts_field_int, \TYP
 		&$taxInfoArray,
 		array $row,
 		$fieldname,
-		$basketExtra = array(),
-		$basketRecs = array(),
+		$basketExtra = [],
+		$basketRecs = [],
 		$bEnableTaxZero = false
 	) {
 		$result = false;
@@ -74,7 +74,3 @@ abstract class tx_ttproducts_field_base implements tx_ttproducts_field_int, \TYP
 	}
 }
 
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/field/class.tx_ttproducts_field_base.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/field/class.tx_ttproducts_field_base.php']);
-}

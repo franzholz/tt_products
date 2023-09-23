@@ -1,41 +1,38 @@
 <?php
-defined('TYPO3_MODE') || die('Access denied.');
+defined('TYPO3') || die('Access denied.');
 
-$result = array(
-    'ctrl' => array(
+$languageSubpath = '/Resources/Private/Language/';
+$languageLglPath = 'LLL:EXT:core' . $languageSubpath . 'locallang_general.xlf:LGL.';
+
+$result = [
+    'ctrl' => [
         'title' => 'unused product tax category relations',
         'label' => 'uid_local',
         'delete' => 'deleted',
-        'enablecolumns' => array (
+        'enablecolumns' => [
             'disabled' => 'hidden',
-        ),
-        'prependAtCopy' => DIV2007_LANGUAGE_LGL . 'prependAtCopy',
+            'starttime' => 'starttime',
+            'endtime' => 'endtime',
+            'fe_group' => 'fe_group',
+        ],
+        'prependAtCopy' => $languageLglPath . 'prependAtCopy',
         'hideTable' => true,
-    ),
-    'columns' => array(
-        'uid_local' => array (
+    ],
+    'columns' => [
+        'uid_local' => [
             'label' => 'inactive',
-            'config' => array (
+            'config' => [
                 'type' => 'passthrough',
                 'default' => '',
-            )
-        ),
-    ),
-    'types' => array(
-        '0' => array(
+            ]
+        ],
+    ],
+    'types' => [
+        '0' => [
             'showitem' => ''
-        )
-    )
-);
-
-if (
-    defined('TYPO3_version') &&
-    version_compare(TYPO3_version, '10.0.0', '<')
-) {
-    $result['interface'] = [];
-    $result['interface']['showRecordFieldList'] =   
-        '';
-}
+        ]
+    ]
+];
 
 return $result;
 

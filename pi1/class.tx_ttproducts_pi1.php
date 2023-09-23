@@ -63,12 +63,13 @@ class tx_ttproducts_pi1 implements \TYPO3\CMS\Core\SingletonInterface {
 
 		$pibaseObj = GeneralUtility::makeInstance('tx_ttproducts_pi1_base');
 		$pibaseObj->cObj = $this->cObj;
+		$languageSubpath = '/Resources/Private/Language/';
 
-		if ($conf['templateFile'] != '' || $conf['templateFile.'] != '') {
+		if (!empty($conf['templateFile']) || !empty($conf['templateFile.'])) {
 			$content = $pibaseObj->main($content, $conf);
 		} else {
             $errorText = $GLOBALS['TSFE']->sL(
-                'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'Pi1/locallang.xlf:no_template'
+                'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'Pi1/locallang.xlf:no_template'
             );
 			$content = str_replace('|', 'plugin.tt_products.templateFile', $errorText);
             $content = '<p><strong>' . $content . '</strong></p>';
@@ -83,7 +84,10 @@ class tx_ttproducts_pi1 implements \TYPO3\CMS\Core\SingletonInterface {
 	public function getUserFunc ($content, $conf) {
 		$conf = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tt_products.'];
 
-		if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['getUserFunc'])) {
+		if (
+            isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['getUserFunc']) &&
+            is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['getUserFunc'])
+		) {
 			foreach($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['getUserFunc'] as $classRef) {-
 				$hookObj = GeneralUtility::makeInstance($classRef);
 				if (method_exists($hookObj, 'getUserFunc')) {

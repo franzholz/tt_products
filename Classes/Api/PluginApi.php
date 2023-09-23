@@ -40,7 +40,9 @@ namespace JambageCom\TtProducts\Api;
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 
+use JambageCom\Div2007\Utility\ErrorUtility;
 use JambageCom\Div2007\Utility\ExtensionUtility;
 use JambageCom\Div2007\Utility\FrontendUtility;
 
@@ -55,12 +57,13 @@ abstract class RelatedProductsTypes {
 class PluginApi {
 
 	static private $bHasBeenInitialised = false;
-	static private $flexformArray = array();
+	static private $flexformArray = [];
 
     static public function init ($conf) {
-        $piVarsDefault = array();
-        $prefixId = \tx_ttproducts_model_control::getPrefixId();
-        $defaults = $conf['_DEFAULT_PI_VARS.'];
+        $piVarsDefault = [];
+        $parameterApi = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\ParameterApi::class);
+        $prefixId = $parameterApi->getPrefixId();
+        $defaults = $conf['_DEFAULT_PI_VARS.'] ?? '';
         if (
             isset($defaults) &&
             is_array($defaults)
@@ -70,6 +73,7 @@ class PluginApi {
             } else {
                 $piVarsDefault = $defaults;
             }
+            $parameterApi->setPiVarDefaults($piVarsDefault);
             \tx_ttproducts_model_control::setPiVarDefaults($piVarsDefault);
         }
 
@@ -78,7 +82,7 @@ class PluginApi {
         if (!empty($piVarsDefault)) {
             $tmp = $piVarsDefault;
             if (is_array($piVars)) {
-                \tx_div2007_core_php53::mergeRecursiveWithOverrule(
+                \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule(
                     $tmp,
                     $piVars
                 );
@@ -86,6 +90,9 @@ class PluginApi {
             $piVars = $tmp;
         }
 
+        $parameterApi->setPiVars(
+            $piVars
+        );
         \tx_ttproducts_model_control::setPiVars(
             $piVars
         );
@@ -98,7 +105,7 @@ class PluginApi {
         &$errorCode,
         $bRunAjax = false
     ) {
-        $errorCode = array();
+        $errorCode = [];
 
         self::initUrl(
             $urlObj,
@@ -152,11 +159,15 @@ class PluginApi {
         return $result;
     }
 
-	static public function initFlexform (
-		$cObj
-	) {
-		self::$flexformArray = GeneralUtility::xml2array($cObj->data['pi_flexform']);
-	}
+    static public function initFlexform (
+        $cObj
+    ) {
+        if (!empty($cObj->data['pi_flexform'])) {
+            self::$flexformArray = GeneralUtility::xml2array($cObj->data['pi_flexform']);
+        } else {
+            self::$flexformArray = [];
+        }
+    }
 
 	static public function getFlexform () {
 		return self::$flexformArray;
@@ -225,26 +236,27 @@ class PluginApi {
 
 		// get template suffix string
 
-		$config['templateSuffix'] = strtoupper($conf['templateSuffix']);
+		$config['templateSuffix'] = strtoupper($conf['templateSuffix'] ?? '');
 
 		$templateSuffix = \JambageCom\Div2007\Utility\FlexformUtility::get(self::getFlexform(), 'template_suffix');
 		$templateSuffix = strtoupper($templateSuffix);
 		$config['templateSuffix'] = ($templateSuffix ? $templateSuffix : $config['templateSuffix']);
 		$config['templateSuffix'] = ($config['templateSuffix'] ? '_' . $config['templateSuffix'] : '');
 		$config['limit'] = $conf['limit'] ? $conf['limit'] : 50;
-		$config['limitImage'] = \tx_div2007_core::intInRange($conf['limitImage'], 0, 50, 1);
+		$config['limitImage'] = MathUtility::forceIntegerInRange($conf['limitImage'], 0, 50, 1);
 		$config['limitImage'] = $config['limitImage'] ? $config['limitImage'] : 1;
-		$config['limitImageSingle'] = \tx_div2007_core::intInRange($conf['limitImageSingle'], 0, 50, 1);
+		$config['limitImageSingle'] = MathUtility::forceIntegerInRange($conf['limitImageSingle'], 0, 50, 1);
 		$config['limitImageSingle'] = $config['limitImageSingle'] ? $config['limitImageSingle'] : 1;
 
-		if ($conf['priceNoReseller']) {
-			$config['priceNoReseller'] = \tx_div2007_core::intInRange($conf['priceNoReseller'], 2, 10);
+		if (!empty($conf['priceNoReseller'])) {
+			$config['priceNoReseller'] = MathUtility::forceIntegerInRange($conf['priceNoReseller'], 2, 10);
 		}
 
 			// If the current record should be displayed.
-		$config['displayCurrentRecord'] = $conf['displayCurrentRecord'];
+		$config['displayCurrentRecord'] = $conf['displayCurrentRecord'] ?? '';
 
 		if (
+            empty($conf['TAXmode']) ||
 			$conf['TAXmode'] == '' ||
 			$conf['TAXmode'] == '{$plugin.tt_products.TAXmode}'
 		) {
@@ -282,7 +294,7 @@ class PluginApi {
 
 	public function getRelatedProductsBySystemCategory ($content, $pluginConf) {
 		$result = '';
-		$errorCode = array();
+		$errorCode = [];
 
 		$result =
 			$this->getRelatedProducts(
@@ -294,7 +306,7 @@ class PluginApi {
 
 		if ($errorCode[0]) {
             $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
-			$result .= \tx_div2007_error::getMessage($languageObj, $errorCode);
+			$result .= ErrorUtility::getMessage($languageObj, $errorCode);
 		}
 
 		return $result;
@@ -314,10 +326,9 @@ class PluginApi {
 
 		if (!self::$bHasBeenInitialised) {
 			$conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
-			\tx_div2007_core::mergeRecursiveWithOverrule($conf, $pluginConf);
-			$config = array();
-
-			$cObj = FrontendUtility::getContentObjectRenderer(array());
+            \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($conf, $pluginConf);
+			$config = [];
+			$cObj = FrontendUtility::getContentObjectRenderer([]);
 
 			self::init2(
 				$conf,
@@ -360,14 +371,17 @@ class PluginApi {
 				$uid,
 				$conf['useArticles']
 			);
-		$funcArray = $addListArray[$subtype];
+		$funcArray = $addListArray[$subtype] ?? [];
 		$pid = $GLOBALS['TSFE']->id;
 		$paramUidArray['product'] = $uid;
 
 		$relatedItemObj = $itemObj;
 		$parentFuncTablename = '';
 
-		if ($funcTablename != $funcArray['functablename']) {
+		if (
+            !empty($funcArray) &&
+            $funcTablename != $funcArray['functablename']
+        ) {
 			$relatedItemObj = $tablesObj->get($funcArray['functablename'], false);
 			$parentFuncTablename = $funcArray['functablename'];
 		}
@@ -377,13 +391,13 @@ class PluginApi {
 			$orderBy = $tableConf['orderBy'];
 		}
 
-		$mergeRow = array();
-		$parentRows = array();
+		$mergeRow = [];
+		$parentRows = [];
 		$relatedIds =
 			$itemObj->getRelated(
 				$parentFuncTablename,
 				$parentRows,
-                $multiOrderArray = array(),
+                $multiOrderArray = [],
 				$uid,
 				$subtype,
 				$orderBy

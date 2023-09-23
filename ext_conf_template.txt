@@ -14,10 +14,6 @@ articleMode = 2
 variantSeparator = ;
   # cat=basic/enable; type=string; label=tax fields of the backend: Comma separated list of visible tax fields of the table tt_products in the backend TCE. Allowed are: tax, taxcat_id, tax_id. taxcat_id and tax_id and require the extension static_info_tables_taxes 0.3.0.
 tax.fields = tax
-  # cat=basic/enable; type=boolean; label=FAL Images: Click here if you want to use the FAL (available since TYPO3 6.2). You can use the conversion tool in the function module to transfer your image file names into references to FAL.
-fal = 0
-  # cat=basic/enable; type=boolean; label=FAL Datasheet: Click here if you want to use the FAL for datasheet (available since TYPO3 6.2). You can use the migration tool in the Install Tool to transfer your datasheet file names into references to FAL.
-falDatasheet = 1
   # cat=basic/enable; type=boolean; label=SEPA: If 1, then SEPA is used for the accounts. The IBAN number is used instead of the account number.
 sepa = 1
   # cat=basic/enable; type=boolean; label=BIC: If 1, then the BIC code must be entered for the accounts. The IBAN number can be sufficient without the BIC.
@@ -25,7 +21,7 @@ bic = 1
   # cat=basic/enable; type=string; label=Backend CSV: iban ... if an IBAN field shall be added. db_list must be installed.
 backend.csv.sys_products_orders = iban
   # cat=basic/enable; type=string; label=BE template: file path to the template for the BE module
-templateFile = EXT:tt_products/template/example_template_bill_de.tmpl
+templateFile = EXT:tt_products/Resources/Public/Templates/example_template_bill_de.tmpl
   # cat=basic/enable; type=string; label=template check: Perl regular expression to check the template file for validity
 templateCheck = /([^#]+(#{2}|#{5}|#{7,8})([^#])+?)/
   # cat=basic/enable; type=integer; label=endtime year: Enter the year for the endtime field. Some Microsoft Windows systems are limited to 2038 for the PHP function mktime.

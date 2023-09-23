@@ -61,12 +61,12 @@ class tx_ttproducts_javascript_marker implements \TYPO3\CMS\Core\SingletonInterf
 
 		$cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$conf = $cnfObj->getConf();
-        $parser = tx_div2007_core::newHtmlParser(false);
+		$templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 
-		if (is_array($conf['javaScript.'])) {
+		if (isset($conf['javaScript.'])) {
 			$javaScriptObj = GeneralUtility::makeInstance('tx_ttproducts_javascript');
 
-			$jsItemMarkerArray = array();
+			$jsItemMarkerArray = [];
 			foreach ($itemMarkerArray as $marker => $value) {
 				$jsItemMarkerArray[$marker] = $javaScriptObj->jsspecialchars($value);
 			}
@@ -74,19 +74,14 @@ class tx_ttproducts_javascript_marker implements \TYPO3\CMS\Core\SingletonInterf
 			foreach ($conf['javaScript.'] as $key => $confJS) {
 				$marker = rtrim($key, '.');
 				$jsText =
-					$parser->substituteMarkerArray($confJS['value'], $jsItemMarkerArray);
-				$paramsArray = array($marker => $jsText);
+					$templateService->substituteMarkerArray($confJS['value'], $jsItemMarkerArray);
+				$paramsArray = [$marker => $jsText];
 				$javaScriptObj->set('direct', $paramsArray, $cObj->currentRecord);
 				$marker = '###' . $this->marker . '_' . strtoupper($marker) . '###';
 				$markerArray[$marker] = '';
 			}
 		}
 	}
-}
-
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/marker/class.tx_ttproducts_javascript_marker.php'])	{
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/marker/class.tx_ttproducts_javascript_marker.php']);
 }
 
 

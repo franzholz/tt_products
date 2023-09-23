@@ -102,15 +102,15 @@ class tx_ttproducts_config implements \TYPO3\CMS\Core\SingletonInterface {
 
 
 	public function getTableDesc ($functablename, $type = '') {
-		$tableDesc = array();
+		$tableDesc = [];
 		if (
-			is_array($this->conf['table.']) &&
-			is_array($this->conf['table.'][$functablename . '.'])
+			isset($this->conf['table.']) &&
+			isset($this->conf['table.'][$functablename . '.'])
 		) {
 			$tableDesc = $this->conf['table.'][$functablename . '.'];
 		}
 
-		if ($type) {
+		if ($type && isset($tableDesc[$type])) {
 			$result = $tableDesc[$type];
 		} else {
 			$result = $tableDesc;
@@ -134,7 +134,7 @@ class tx_ttproducts_config implements \TYPO3\CMS\Core\SingletonInterface {
 
 
 	public function getSpecialConf ($type, $tablename = '', $theCode = '') {
-		$specialConf = array();
+		$specialConf = [];
 
 		if (isset($this->conf[$type . '.'])) {
 
@@ -149,9 +149,12 @@ class tx_ttproducts_config implements \TYPO3\CMS\Core\SingletonInterface {
 					isset($this->conf[$type . '.'][$tablename . '.'][$theCode . '.'])
 				) {
 					$tempConf = $this->conf[$type . '.'][$tablename . '.'][$theCode . '.'];
-					tx_div2007_core::mergeRecursiveWithOverrule($specialConf, $tempConf);
+					\TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($specialConf, $tempConf);
 				}
-				if ($specialConf['orderBy'] == '{$plugin.' . TT_PRODUCTS_EXT . '.orderBy}') {
+				if (
+                    isset($specialConf['orderBy']) &&
+                    $specialConf['orderBy'] == '{$plugin.' . TT_PRODUCTS_EXT . '.orderBy}'
+                ) {
 					$specialConf['orderBy'] = '';
 				}
 			} else {
@@ -163,7 +166,7 @@ class tx_ttproducts_config implements \TYPO3\CMS\Core\SingletonInterface {
 					isset($this->conf[$type . '.'][$theCode . '.'])
 				) {
 					$tempConf = $this->conf[$type . '.'][$theCode . '.'];
-					tx_div2007_core::mergeRecursiveWithOverrule($specialConf, $tempConf);
+					\TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($specialConf, $tempConf);
 				}
 			}
 		}
@@ -207,9 +210,9 @@ class tx_ttproducts_config implements \TYPO3\CMS\Core\SingletonInterface {
 
 	public function getTypeConf ($type, $feature, $detail = '') {
 
-		$rc = array();
+		$rc = [];
 
-		if (is_array($this->conf[$type . '.'])) {
+		if (isset($this->conf[$type . '.'])) {
 			if ($detail != '') {
 				if (
 					isset($this->conf[$type . '.'][$feature . '.']) &&
@@ -261,6 +264,7 @@ class tx_ttproducts_config implements \TYPO3\CMS\Core\SingletonInterface {
 			is_array($tableConf) &&
 			isset($tableConf['language.']) &&
 			$tableConf['language.']['type'] == 'table' &&
+			isset($tableConf['language.']['mode']) &&
 			$tableConf['language.']['mode'] == 'fallback'
 		) {
 			$result = true;
@@ -269,10 +273,9 @@ class tx_ttproducts_config implements \TYPO3\CMS\Core\SingletonInterface {
 		return $result;
 	}
 
-
 	public function getTranslationFields ($tableConf) {
-		$fieldArray = array();
-		if (is_array($tableConf['language.']) && $tableConf['language.']['type'] == 'field') {
+		$fieldArray = [];
+		if (isset($tableConf['language.']) && is_array($tableConf['language.']) && isset($tableConf['language.']['type']) && $tableConf['language.']['type'] == 'field') {
 			$langConf = $tableConf['language.']['field.'];
 			if (is_array($langConf)) {
 				foreach ($langConf as $field => $langfield) {
@@ -285,11 +288,11 @@ class tx_ttproducts_config implements \TYPO3\CMS\Core\SingletonInterface {
 
 
 	public function getImageFields ($tableConf) {
-		$retArray = array();
+		$retArray = [];
 
-		$generateArray = array('generateImage', 'generatePath');
+		$generateArray = ['generateImage', 'generatePath'];
 		foreach ($generateArray as $k => $generate) {
-			if (is_array($tableConf) && is_array($tableConf[$generate . '.'])) {
+			if (is_array($tableConf) && isset($tableConf[$generate . '.']) && is_array($tableConf[$generate . '.'])) {
 				$genPartArray = $tableConf[$generate . '.'];
 				if ($genPartArray['type'] == 'tablefields') {
 					$fieldArray = $genPartArray['field.'];
@@ -326,29 +329,31 @@ class tx_ttproducts_config implements \TYPO3\CMS\Core\SingletonInterface {
 
 
 	public function getColumnFields ($tableConf) {
-		$retArray = array();
+		$retArray = [];
 
-		$generateArray = array('generateColumn');
-		foreach ($generateArray as $k => $generate) {
-			if (is_array($tableConf) && is_array($tableConf[$generate . '.'])) {
-				$genPartArray = $tableConf[$generate . '.'];
-				if ($genPartArray['type'] == 'tablefields') {
-					$fieldArray = $genPartArray['field.'];
+		$generateArray = ['generateColumn'];
+		if (is_array($tableConf)) {
+            foreach ($generateArray as $k => $generate) {
+                if (isset($tableConf[$generate . '.']) && is_array($tableConf[$generate . '.'])) {
+                    $genPartArray = $tableConf[$generate . '.'];
+                    if ($genPartArray['type'] == 'tablefields') {
+                        $fieldArray = $genPartArray['field.'];
 
-					if (is_array($fieldArray)) {
-						foreach ($fieldArray as $field => $value) {
-							$retArray[$field] = $value;
-						}
-					}
-				}
-			}
-		}
+                        if (is_array($fieldArray)) {
+                            foreach ($fieldArray as $field => $value) {
+                                $retArray[$field] = $value;
+                            }
+                        }
+                    }
+                }
+            }
+        }
 		return $retArray;
 	}
 
 
 	public function getAJAXConf () {
-		$result = array();
+		$result = [];
 		if (isset($this->conf['ajax.']) && is_array($this->conf['ajax.']['conf.'])) {
 			$result = $this->conf['ajax.']['conf.'];
 		}
@@ -360,8 +365,8 @@ class tx_ttproducts_config implements \TYPO3\CMS\Core\SingletonInterface {
 		$result = '';
 
 		if (
-			is_array($this->conf['templateFile.']) &&
-			($this->conf['templateFile.'][$theCode])
+			isset($this->conf['templateFile.']) &&
+			!empty($this->conf['templateFile.'][$theCode])
 		) {
 			$result = $this->conf['templateFile.'][$theCode];
 		} else {
@@ -374,8 +379,5 @@ class tx_ttproducts_config implements \TYPO3\CMS\Core\SingletonInterface {
 }
 
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/lib/class.tx_ttproducts_config.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/lib/class.tx_ttproducts_config.php']);
-}
 
 

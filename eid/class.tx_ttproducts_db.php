@@ -47,8 +47,8 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 	protected $ajax;
 	protected $LLkey;
 	protected $cObj;
-	public $LOCAL_LANG = Array();		// Local Language content
-	public $LOCAL_LANG_charset = Array();	// Local Language content charset for individual labels (overriding)
+	public $LOCAL_LANG = [];		// Local Language content
+	public $LOCAL_LANG_charset = [];	// Local Language content charset for individual labels (overriding)
 	public $LOCAL_LANG_loaded = 0;		// Flag that tells if the locallang file has been fetch (or tried to be fetched) already.
 
 
@@ -58,9 +58,9 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 		if (isset($ajax) && is_object($ajax)) {
 			$this->ajax = $ajax;
 
-			$ajax->taxajax->registerFunction(array(TT_PRODUCTS_EXT . '_fetchRow', $this, 'fetchRow'));
-			$ajax->taxajax->registerFunction(array(TT_PRODUCTS_EXT . '_commands', $this, 'commands'));
-			$ajax->taxajax->registerFunction(array(TT_PRODUCTS_EXT . '_showArticle', $this, 'showArticle'));
+			$ajax->taxajax->registerFunction([TT_PRODUCTS_EXT . '_fetchRow', $this, 'fetchRow']);
+			$ajax->taxajax->registerFunction([TT_PRODUCTS_EXT . '_commands', $this, 'commands']);
+			$ajax->taxajax->registerFunction([TT_PRODUCTS_EXT . '_showArticle', $this, 'showArticle']);
 		}
 
 		if (
@@ -71,18 +71,20 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 			$this->cObj = $pObj->cObj;
 		} else {
 		    $this->cObj = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');	// Local cObj.
-		    $this->cObj->start(array());
+		    $this->cObj->start([]);
 		}
 		$controlCreatorObj = GeneralUtility::makeInstance('tx_ttproducts_control_creator');
 
-        if (TYPO3_MODE == 'FE') {
-
+        if (
+            defined ('TYPO3_MODE') &&
+            TYPO3_MODE == 'FE'
+        ) {
             \tx_ttproducts_control_basket::storeNewRecs($conf['transmissionSecurity']);
             $recs = tx_ttproducts_control_basket::getStoredRecs();
         }
 
         if (empty($recs)) {
-            $recs = array();
+            $recs = [];
         }
 		$result =
 			$controlCreatorObj->init(
@@ -116,8 +118,8 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 
 		$result = '';
 		$view = '';
-		$rowArray = array();
-		$variantArray = array();
+		$rowArray = [];
+		$variantArray = [];
 		$theCode = 'ALL';
 		$cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
@@ -126,7 +128,6 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 		$basketExtra = tx_ttproducts_control_basket::getBasketExtra();
 		$basketRecs = tx_ttproducts_control_basket::getRecs();
 		$funcTablename = tx_ttproducts_control_basket::getFuncTablename();
-		$useFal = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['fal'] ||  version_compare(TYPO3_version, '10.4.0', '>=');
 
 			// price
 		$priceObj = GeneralUtility::makeInstance('tx_ttproducts_field_price');
@@ -143,7 +144,7 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 
         // We put our incomming data to the regular piVars
 		$itemTable = $tablesObj->get('tt_products', false);
-		$externalRowArray = array();
+		$externalRowArray = [];
 		$variantSeparator = $itemTable->variant->getSplitSeparator();
 
 		if (is_array($data)) {
@@ -196,7 +197,7 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 							if (
 								isset($editVariantFieldArray) && is_array($editVariantFieldArray)
 							) {
-								$storeRowArray = array();
+								$storeRowArray = [];
 								$storedRecs = $this->ajax->getStoredRecs();
 								if (isset($storedRecs) && is_array($storedRecs)) {
 									$storeRowArray = $storedRecs;
@@ -223,7 +224,7 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 							if ($validEditVariant !== true) {
 								break;
 							}
-							$storeRowArray = array();
+							$storeRowArray = [];
 							$storedRecs = tx_ttproducts_control_basket::getStoredVariantRecs();
 							if (isset($storedRecs) && is_array($storedRecs)) {
 								$storeRowArray = $storedRecs;
@@ -275,12 +276,12 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 
 							$totalDiscountField = \JambageCom\TtProducts\Model\Field\FieldInterface::DISCOUNT;
 							$itemTable->getTotalDiscount($modifiedRow);
-							$priceTaxArray = array();
-							$taxInfoArray = array();
+							$priceTaxArray = [];
+							$taxInfoArray = [];
 
 							$priceTaxArray = $priceObj->getPriceTaxArray(
 								$taxInfoArray,
-								$this->conf['discountPriceMode'],
+								$this->conf['discountPriceMode'] ?? '',
 								tx_ttproducts_control_basket::getBasketExtra(),
 								tx_ttproducts_control_basket::getRecs(),
 								'price',
@@ -314,38 +315,6 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 									);
 							}
 
-							if (
-								!$useFal &&
-								isset($rowArticle) &&
-								is_array($rowArticle)
-							) {
-								if (
-									isset($rowArticle['image']) &&
-									!$rowArticle['image'] &&
-									isset($rowArray[$table]['image'])
-								) {
-									$rowArticle['image'] = $rowArray[$table]['image'];
-									$modifiedRow['image'] = $rowArticle['image'];
-								}
-
-								$articleConf =
-									$cnfObj->getTableConf('tt_products_articles', $theCode);
-
-								if (
-									isset($articleConf['fieldIndex.']) && is_array($articleConf['fieldIndex.']) &&
-									isset($articleConf['fieldIndex.']['image.']) && is_array($articleConf['fieldIndex.']['image.'])
-								) {
-									$prodImageArray =
-										GeneralUtility::trimExplode(',', $rowArray[$table]['image']);
-									$artImageArray = GeneralUtility::trimExplode(',', $rowArticle['image']);
-									$tmpDestArray = $prodImageArray;
-									foreach($articleConf['fieldIndex.']['image.'] as $kImage => $vImage) {
-										$tmpDestArray[$vImage - 1] = $artImageArray[$kImage - 1];
-									}
-									$modifiedRow['image'] = implode (',', $tmpDestArray);
-								}
-							}
-
  							$itemTable->getTableObj()->substituteMarkerArray(
 								$modifiedRow
 							);
@@ -358,7 +327,7 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 				}
 			}
 
-			$this->ajax->setConf($data['conf']);
+			$this->ajax->setConf($data['conf'] ?? []);
 		}
 
 		if ($validEditVariant === true) {
@@ -372,9 +341,7 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 
 
 	protected function generateErrorResponse ($uid, $editErrorArray) {
-
-		$bUseXHTML = $GLOBALS['TSFE']->config['config']['xhtmlDoctype'] != '';
-		$csConvObj = $GLOBALS['TSFE']->csConvObj;
+        $bUseXHTML = \JambageCom\Div2007\Utility\HtmlUtility::useXHTML();
 
 		// Instantiate the tx_xajax_response object
 		$objResponse = new tx_taxajax_response($this->ajax->taxajax->getCharEncoding(), true);
@@ -384,7 +351,6 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 		$fieldname = str_replace('edit_', '', $editVariant);
 
 		$errorId = tx_ttproducts_model_control::getBasketInputErrorIdPrefix() . '-' . $uid;
-
 		$objResponse->addAssign($errorId, 'innerHTML', $errorText);
 		$basketIntoId = tx_ttproducts_model_control::getBasketIntoIdPrefix() . '-' . $uid;
 
@@ -392,7 +358,8 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 		$objResponse->addPrepend($basketIntoId, 'disabled', $disabledText);
 
 		$result = $objResponse->getXML();
-	    //return the XML response generated by the tx_taxajax_response object
+
+		//return the XML response generated by the tx_taxajax_response object
 		return $result;
 	}
 
@@ -406,9 +373,7 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 		$cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$config = $cnfObj->getConfig();
 		$conf =  $cnfObj->getConf();
-		$bUseXHTML = $GLOBALS['TSFE']->config['config']['xhtmlDoctype'] != '';
-		$csConvObj = $GLOBALS['TSFE']->csConvObj;
-		$useFal = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['fal'] ||  version_compare(TYPO3_version, '10.4.0', '>=');
+        $bUseXHTML = \JambageCom\Div2007\Utility\HtmlUtility::useXHTML();
 
 		$theCode = strtoupper($view);
 		$imageObj = GeneralUtility::makeInstance('tx_ttproducts_field_image');
@@ -424,7 +389,7 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 
         $priceFieldArray = $priceViewObj->getConvertedPriceFieldArray('price');
 
-		$tableObjArray = array();
+		$tableObjArray = [];
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 
 		// Instantiate the tx_xajax_response object
@@ -433,7 +398,10 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 		$articleTcaColumns = $GLOBALS['TCA']['tt_products_articles']['columns'];
 
 		foreach ($rowArray as $functablename => $row) { // tt-products-list-1-size
-			if (!is_object($tableObjArray[$functablename])) {
+			if (
+                !isset($tableObjArray[$functablename]) ||
+                !is_object($tableObjArray[$functablename])
+            ) {
 				$suffix = '-from-tt-products-articles';
 			} else {
 				$suffix = '';
@@ -459,7 +427,7 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 				$currentCat =
 					$categoryTable->getParamDefault(
 						$theCode,
-						$piVars[$categoryPivar]
+						$piVars[$categoryPivar] ?? ''
 					);
 				$rootCat = $categoryTable->getRootCat();
 				$relatedArray =
@@ -481,9 +449,9 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 			$jsTableNamesId = str_replace('_', '-', $functablename) . $suffix;
 			$uid = $row['uid'];
 			$errorId = tx_ttproducts_model_control::getBasketInputErrorIdPrefix() . '-' . $uid;
-			$objResponse->addAssign($errorId, 'innerHTML', '');
+            $objResponse->addAssign($errorId, 'innerHTML', '');
 			$basketIntoId = tx_ttproducts_model_control::getBasketIntoIdPrefix() . '-' . $uid;
-			$objResponse->addClear($basketIntoId, 'disabled');
+            $objResponse->addClear($basketIntoId, 'disabled');
 
 			$markerKey = $itemTableView->getMarkerKey('');
 			$markerPrefix = $markerKey . '_';
@@ -496,7 +464,7 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 					$suffix
 				);
 
-			$modifiedRow = array();
+			$modifiedRow = [];
 
 			foreach ($row as $field => $v) {
 
@@ -529,14 +497,17 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 						if (
 							$class
 						) {
-							$tmpArray = array();
+							$tmpArray = [];
+							$tmp = '';
 							$fieldViewObj = $itemTableView->getObj($class);
+							$linkWrap = false;
 							$modifiedValue =
 								$fieldViewObj->getRowMarkerArray(
 									$functablename,
 									$field,
 									$row,
 									$tmp,
+									$tmpArray,
 									$tmpArray,
 									$tmpArray,
 									$theCode,
@@ -548,8 +519,11 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 									'',
 									'',
 									'',
-									''
-								);
+									0,
+									'',
+									$linkWrap,
+									false
+                                );
 							$v = $modifiedValue;
 						}
 					}
@@ -558,14 +532,10 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 				if (!in_array($field, $variantArray)) {
 
 					if (($position = strpos($field, '_uid')) !== false) {
-						if (!$useFal) {
-							continue;
-						}
 						$fieldId = substr($field, 0, $position);
 					} else {
 						if (
-							in_array($field, array('image', 'smallimage')) &&
-							$useFal
+							in_array($field, ['image', 'smallimage'])
 						) {
 							continue;
 						}
@@ -598,7 +568,7 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 									isset($categoryArray) &&
 									is_array($categoryArray) &&
 									!isset($categoryArray[$currentCat]) &&
-									is_array($conf['listImageRoot.'])
+									isset($conf['listImageRoot.'])
 								) {
 									$imageRenderObj = 'listImageRoot';
 								}
@@ -617,7 +587,7 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 									false
 								);
 
-							if (
+                            if (
 								is_array($imageArray) &&
 								count($imageArray)
 							) {
@@ -625,8 +595,8 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 								if ($fieldId == $field) {
 									$dirname = $imageObj->getDirname($imageRow);
 								}
-								$theImgDAM = array();
-								$markerArray = array();
+								$theImgDAM = [];
+								$markerArray = [];
 								$linkWrap = '';
 
 								$mediaNum = $imageObj->getMediaNum(
@@ -634,6 +604,8 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 									'image',
 									$theCode
 								);
+								$specialConf = [];
+								$tmpArray = [];
 
 								$imgCodeArray = $imageViewObj->getCodeMarkerArray(
 									'tt_products_articles',
@@ -641,13 +613,14 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 									$theCode,
 									$imageRow,
 									$imageArray,
+									$fieldMarkerArray,
 									$dirname,
 									$mediaNum,
 									$imageRenderObj,
 									$linkWrap,
 									$markerArray,
 									$theImgDAM,
-									$specialConf = array()
+									$specialConf
 								);
 								$v = $imgCodeArray;
 							} else {
@@ -657,7 +630,8 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 
 						case 'inStock':
 							$basketIntoPrefix = tx_ttproducts_model_control::getBasketIntoIdPrefix();
-							if ($v > 0) {
+
+                            if ($v > 0) {
 								$objResponse->addClear(
 									$basketIntoPrefix . '-' . $uid ,
 									'disabled'
@@ -691,8 +665,8 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 				}
 			}
 
-			$markerArray = array();
-			$theMarkerArray = array();
+			$markerArray = [];
+			$theMarkerArray = [];
 			$newRow = $itemTableView->modifyFieldObject(
 				$row,
 				$modifiedRow,
@@ -703,6 +677,7 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 				$markerArray,
 				$theMarkerArray
 			);
+
 			foreach ($newRow as $field => $v) {
 				$tagId = $jsTableNamesId . '-' . $view . '-' . $uid . '-' . $field;
 
@@ -723,6 +698,10 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 		}
 
 		$result = $objResponse->getXML();
+
+		// neu: Ausgabepuffer löschen ist neuerdings in Funktion getXML enthalten
+        // 	ob_clean(); 
+
 	    //return the XML response generated by the tx_taxajax_response object
 		return $result;
 	}
@@ -734,7 +713,7 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 		switch ($cmd) {
 			default:
 				$hookVar = 'ajaxCommands';
-				if ($hookVar && is_array ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$hookVar])) {
+				if ($hookVar && isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$hookVar]) && is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$hookVar])) {
 					foreach  ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$hookVar] as $classRef) {
 						$hookObj= GeneralUtility::makeInstance($classRef);
 						if (method_exists($hookObj, 'init')) {
@@ -823,7 +802,7 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 			isset($contentRow['uid'])
 		) {
 			$code = 'LIST';
-			$mainObj->codeArray = array($code);
+			$mainObj->codeArray = [$code];
 			$tagId = 'tt-products-' . strtolower($code) . '-' . $contentRow['uid'];
 		} else {
 			$content = 'Missing content data row';
@@ -878,6 +857,9 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 			}
 		}
 
+        // We put our incomming data to the regular piVars
+        $parameterApi = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\ParameterApi::class);
+        $parameterApi->setPiVars($piVars);
         // We put our incomming data to the regular piVars
         tx_ttproducts_model_control::setPiVars($piVars);
 		$pibaseObj->cObj = $this->cObj;
@@ -946,7 +928,4 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface {
 }
 
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/eid/class.tx_ttproducts_db.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/eid/class.tx_ttproducts_db.php']);
-}
 

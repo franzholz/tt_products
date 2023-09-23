@@ -58,6 +58,7 @@ class tx_ttproducts_selectcat_view extends tx_ttproducts_catlist_view_base {
 		$basketExtra,
 		$basketRecs
 	) {
+        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 		$content = '';
 		$out = '';
 		$where = '';
@@ -66,11 +67,14 @@ class tx_ttproducts_selectcat_view extends tx_ttproducts_catlist_view_base {
 		$languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
 		$categoryTableView = $tablesObj->get($functablename,1);
 		$categoryTable = $categoryTableView->getModelObj();
+		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
+		$conf = $cnf->getConf();
+		$config = $cnf->getConfig();
 
 		$bSeparated = false;
 		$method = 'clickShow';
-		$t = array();
-		$ctrlArray = array();
+		$t = [];
+		$ctrlArray = [];
 
 		parent::getPrintViewArrays(
 			$functablename,
@@ -108,7 +112,7 @@ class tx_ttproducts_selectcat_view extends tx_ttproducts_catlist_view_base {
 				$contentId = substr($this->cObj->currentRecord, $contentIdPos + 1);
 			}
 
-			$menu = $this->conf['CSS.'][$functablename . '.']['menu'];
+			$menu = $conf['CSS.'][$functablename . '.']['menu'];
 			$menu = ($menu ? $menu : $categoryTableView->getPivar() . '-' . $contentId . '-' . $depth);
 			$fillOnchange = '';
 			if ($method == 'clickShow') {
@@ -119,15 +123,15 @@ class tx_ttproducts_selectcat_view extends tx_ttproducts_catlist_view_base {
 				}
 			}
 
-			$selectArray = array();
+			$selectArray = [];
 			if (
-				isset($this->conf['form.'][$theCode . '.']) &&
-				is_array($this->conf['form.'][$theCode . '.']) &&
-				is_array($this->conf['form.'][$theCode . '.']['dataArray.'])
+				isset($conf['form.'][$theCode . '.']) &&
+				is_array($conf['form.'][$theCode . '.']) &&
+				is_array($conf['form.'][$theCode . '.']['dataArray.'])
 			) {
-				foreach ($this->conf['form.'][$theCode . '.']['dataArray.'] as $k => $setting) {
+				foreach ($conf['form.'][$theCode . '.']['dataArray.'] as $k => $setting) {
 					if (is_array($setting)) {
-						$selectArray[$k] = array();
+						$selectArray[$k] = [];
 						$type = $setting['type'];
 						if ($type) {
 							$parts = GeneralUtility::trimExplode('=', $type);
@@ -166,7 +170,7 @@ class tx_ttproducts_selectcat_view extends tx_ttproducts_catlist_view_base {
 			}
 
 			$selectedKey = '0';
-			$valueArray = array();
+			$valueArray = [];
 			$valueArray['0'] = '';
 			$selectedCat = $currentCat;
 
@@ -180,13 +184,13 @@ class tx_ttproducts_selectcat_view extends tx_ttproducts_catlist_view_base {
 				}
 			}
 
-			$mainAttributeArray = array();
+			$mainAttributeArray = [];
 			$mainAttributeArray['id'] = $menu;
 			if ($fillOnchange != '') {
 				$mainAttributeArray['onchange'] = $fillOnchange;
 			}
 
-			$foreignRootLine = $categoryTable->getRootline(array('0'), $currentCat, 0);
+			$foreignRootLine = $categoryTable->getRootline(['0'], $currentCat, 0);
 
 			if (is_array($foreignRootLine)) {
 				foreach ($foreignRootLine as $cat => $foreignRow) {
@@ -225,7 +229,7 @@ class tx_ttproducts_selectcat_view extends tx_ttproducts_catlist_view_base {
 				$selectedCat,
 				$bSelectTags = true,
 				$bTranslateText = false,
-				array(),
+				[],
 				$this->htmlTagMain,
 				$mainAttributeArray,
 				$layout = '',
@@ -234,12 +238,12 @@ class tx_ttproducts_selectcat_view extends tx_ttproducts_catlist_view_base {
 			);
 			$out = $label . $selectOut;
 
-			$markerArray = array();
-			$subpartArray = array();
-			$wrappedSubpartArray = array();
+			$markerArray = [];
+			$subpartArray = [];
+			$wrappedSubpartArray = [];
 			$markerArray =
 				$this->urlObj->addURLMarkers(
-					$this->conf['PIDlistDisplay'],
+					$conf['PIDlistDisplay'] ?? 0,
 					$markerArray
 				);
 			$this->urlObj->getWrappedSubpartArray($wrappedSubpartArray);
@@ -248,10 +252,10 @@ class tx_ttproducts_selectcat_view extends tx_ttproducts_catlist_view_base {
 			$count = intval(substr_count($t['listFrameWork'], '###CATEGORY_SINGLE_') / 2);
 			if ($pageAsCategory == 2) {
 				// $catid = 'pid';
-				$parentFieldArray = array('pid');
+				$parentFieldArray = ['pid'];
 			} else {
 				// $catid = 'cat';
-				$parentFieldArray = array('parent_category');
+				$parentFieldArray = ['parent_category'];
 			}
 			$piVar = $categoryTableView->piVar;
 
@@ -260,13 +264,13 @@ class tx_ttproducts_selectcat_view extends tx_ttproducts_catlist_view_base {
 				$javaScriptObj->set(
 					$languageObj,
 					'selectcat',
-					array($categoryArray),
+					[$categoryArray],
 					$this->cObj->currentRecord,
 					1 + $count,
 					'cat',
 					$parentFieldArray,
-					array($piVar),
-					array(),
+					[$piVar],
+					[],
 					'clickShow'
 				);
 			}
@@ -289,7 +293,7 @@ class tx_ttproducts_selectcat_view extends tx_ttproducts_catlist_view_base {
 			}
 
 			$out =
-				tx_div2007_core::substituteMarkerArrayCached(
+				$templateService->substituteMarkerArrayCached(
 					$t['listFrameWork'],
 					$markerArray,
 					$subpartArray,
@@ -300,9 +304,5 @@ class tx_ttproducts_selectcat_view extends tx_ttproducts_catlist_view_base {
 
 		return $content;
 	}
-}
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_selectcat_view.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_selectcat_view.php']);
 }
 

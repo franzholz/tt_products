@@ -44,11 +44,11 @@ use JambageCom\Div2007\Utility\FrontendUtility;
 
 
 abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base_view {
-	var $dataArray;  // array of read in categories
+	public $dataArray;  // array of read in categories
 	public $marker = 'CATEGORY';
-	var $markerObj;
-	var $mm_table = ''; // only set if a mm table is used
-	var $parentField; // reference field name for parent
+	public $markerObj;
+	public $mm_table = ''; // only set if a mm table is used
+	public $parentField; // reference field name for parent
 
 
 	public function setMarkerArrayCatTitle (
@@ -56,10 +56,13 @@ abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base
 		$catTitle,
 		$prefix
 	) {
-        $cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
+        $cObj = FrontendUtility::getContentObjectRenderer();
 		$cObj->setCurrentVal($catTitle);
-		$title = $cObj->cObjGetSingle($this->conf['categoryHeader'], $this->conf['categoryHeader.'], 'categoryHeader');
-		$markerArray['###' . $prefix . $this->marker . '_TITLE###'] = $title;
+		$cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
+		$conf = $cnfObj->getConf();
+
+		$title = $cObj->cObjGetSingle($conf['categoryHeader'] ?? '', $conf['categoryHeader.'] ?? '', 'categoryHeader');
+		$markerArray['###' . $prefix . $this->getMarker() . '_TITLE###'] = $title;
 	}
 
 
@@ -67,7 +70,7 @@ abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base
 		$markerArray,
 		$prefix = ''
 	) {
-		$markerKey = '###' . $prefix . $this->marker . '_TITLE###';
+		$markerKey = '###' . $prefix . $this->getMarker() . '_TITLE###';
 		$result = $markerArray[$markerKey];
 		return $result;
 	}
@@ -82,11 +85,11 @@ abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base
 		$pid,
 		$linkMarker
 	) {
-        $cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
-		$addQueryString = array();
+        $cObj = FrontendUtility::getContentObjectRenderer();
+		$addQueryString = [];
 		$addQueryString[$this->piVar] = $row['uid'];
 		$wrappedSubpartArray['###' . $linkMarker . '###'] =
-			array(
+			[
 				'<a href="' .
 					htmlspecialchars(
 						FrontendUtility::getTypoLink_URL(
@@ -102,12 +105,12 @@ abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base
 								$this->piVar
 							),
 							'',
-							array('useCacheHash' => true)
+							[]
 						)
 					)
 			. '">',
 				'</a>'
-			);
+            ];
 	}
 
 
@@ -131,7 +134,7 @@ abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base
 		$imageNum = 0,
 		$imageRenderObj = 'image',
 		&$viewCatTagArray,
-		$forminfoArray = array(),
+		$forminfoArray = [],
 		$pageAsCategory = 0,
 		$theCode,
 		$basketExtra,
@@ -140,7 +143,6 @@ abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base
 		$prefix,
 		$linkWrap = ''
 	);
-
 
 	public function getParentMarkerArray (
 		$parentArray,
@@ -151,7 +153,7 @@ abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base
 		$imageNum = 0,
 		$imageRenderObj = 'image',
 		&$viewCatTagArray,
-		$forminfoArray = array(),
+		$forminfoArray = [],
 		$pageAsCategory = 0,
 		$code,
 		$basketExtra,
@@ -159,6 +161,8 @@ abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base
 		$id,
 		$prefix
 	) {
+		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
+		$config = $cnf->getConfig();
 
 		if (is_array($parentArray) && count($parentArray)) {
 			$currentRow = $row;
@@ -179,15 +183,16 @@ abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base
 				$currentCategory = $parentCategory;
 
 				if (is_array($currentRow) && count($currentRow)) {
+                    $tmp = [];
 					$this->getMarkerArray(
 						$markerArray,
 						'',
 						$parentCategory,
 						$parentPid,
-						$this->config['limitImage'],
+						$config['limitImage'],
 						'listcatImage',
 						$viewCatTagArray,
-						$tmp = array(),
+						$tmp,
 						$pageAsCategory,
 						'SINGLE',
 						$basketExtra,
@@ -203,7 +208,7 @@ abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base
 
 
 	public function addAllCatTagsMarker (&$markerArray, $tagArray, $prefix) {
-		$outArray = array();
+		$outArray = [];
 
 		if (isset($tagArray) && is_array($tagArray)) {
 			foreach ($tagArray as $tag) {
@@ -214,10 +219,4 @@ abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base
 		$markerArray['###ALLCATTAGS###'] = implode(' ', $outArray);
 	}
 }
-
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_category_base_view.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_category_base_view.php']);
-}
-
 

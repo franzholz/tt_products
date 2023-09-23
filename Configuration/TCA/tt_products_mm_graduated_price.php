@@ -1,77 +1,72 @@
 <?php
-defined('TYPO3_MODE') || die('Access denied.');
+defined('TYPO3') || die('Access denied.');
 
 // ******************************************************************
 // products to graduated price relation table, tt_products_mm_graduated_price
 // ******************************************************************
-$result = array (
-    'ctrl' => array (
-        'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_mm_graduated_price',
+$extensionKey = 'tt_products';
+$languageSubpath = '/Resources/Private/Language/';
+$languageLglPath = 'LLL:EXT:core' . $languageSubpath . 'locallang_general.xlf:LGL.';
+
+$result = [
+    'ctrl' => [
+        'title' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_mm_graduated_price',
         'label' => 'title',
         'tstamp' => 'tstamp',
         'delete' => 'deleted',
-        'enablecolumns' => array (
+        'enablecolumns' => [
             'disabled' => 'hidden'
-        ),
-        'prependAtCopy' => DIV2007_LANGUAGE_LGL . 'prependAtCopy',
+        ],
+        'prependAtCopy' => $languageLglPath . 'prependAtCopy',
         'crdate' => 'crdate',
-        'iconfile' => PATH_TTPRODUCTS_ICON_TABLE_REL . 'tt_products_cat.gif',
+        'iconfile' => 'EXT:' . $extensionKey . '/Resources/Public/Icons/' . 'tt_products_cat.gif',
         'hideTable' => true,
-    ),
-    'columns' => array (
-        'hidden' => array (
+    ],
+    'columns' => [
+        'hidden' => [
             'exclude' => 1,
-            'label' => DIV2007_LANGUAGE_LGL . 'hidden',
-            'config' => array (
+            'label' => $languageLglPath . 'hidden',
+            'config' => [
                 'type' => 'check',
                 'default' => 0
-            )
-        ),
-        'uid_local' => array (
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_mm_graduated_price.uid_local',
-            'config' => array (
+            ]
+        ],
+        'uid_local' => [
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_mm_graduated_price.uid_local',
+            'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'foreign_table' => 'tt_products',
                 'maxitems' => 1,
                 'default' => 0
-            )
-        ),
-        'uid_foreign' => array (
-            'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_mm_graduated_price.uid_foreign',
-            'config' => array (
+            ]
+        ],
+        'uid_foreign' => [
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_mm_graduated_price.uid_foreign',
+            'config' => [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'foreign_table' => 'tt_products_graduated_price',
                 'maxitems' => 1,
                 'default' => 0
-            )
-        ),
-        'sorting' => array (
-            'config' => array (
+            ]
+        ],
+        'sorting' => [
+            'config' => [
                 'type' => 'passthrough',
                 'default' => 0
-            )
-        ),
-        'sorting_foreign' => array (
-            'config' => array (
+            ]
+        ],
+        'sorting_foreign' => [
+            'config' => [
                 'type' => 'passthrough',
                 'default' => 0
-            )
-        ),
-    ),
-    'types' => array(
-        '0' => array('showitem' => 'hidden,--palette--;;1, uid_local, uid_foreign')
-    )
-);
-
-if (
-    defined('TYPO3_version') &&
-    version_compare(TYPO3_version, '10.0.0', '<')
-) {
-    $result['interface'] = [];
-    $result['interface']['showRecordFieldList'] =   
-        'product_uid,graduated_price_uid';
-}
+            ]
+        ],
+    ],
+    'types' => [
+        '0' => ['showitem' => 'hidden,--palette--;;1, uid_local, uid_foreign']
+    ]
+];
 
 return $result;

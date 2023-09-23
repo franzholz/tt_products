@@ -37,6 +37,7 @@
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 
 
 
@@ -48,12 +49,12 @@ abstract class tx_ttproducts_category_base extends tx_ttproducts_table_base {
 	public $categoryField = 'category';
 
 	public function getFromTitle ($title) {
-		$rc = array();
+		$rc = [];
 		return $rc;
 	}
 
 	public function getParent ($uid=0) {
-		$rc = array();
+		$rc = [];
 		return $rc;
 	}
 
@@ -100,17 +101,17 @@ abstract class tx_ttproducts_category_base extends tx_ttproducts_table_base {
 	}
 
 	public function getChildUidArray ($uid) {
-		$rcArray = array();
+		$rcArray = [];
 		return $rcArray;
 	}
 
 	public function getRelated ($rootUids, $currentCat, $pid = 0, $orderBy = '') {
-		$rcArray = array();
+		$rcArray = [];
 		return $rcArray;
 	}
 
 	public function getCategoryArray ($productRow, $orderBy = '') {
-		$catArray = array();
+		$catArray = [];
 		$uid = 0;
 		if (is_array($productRow)) {
 			$uid = $productRow['uid'];
@@ -147,7 +148,7 @@ abstract class tx_ttproducts_category_base extends tx_ttproducts_table_base {
 				}
 			}
 		} else if ($uid && isset($productRow[$this->categoryField])) {
-			$catArray = array($productRow[$this->categoryField]);
+			$catArray = [$productRow[$this->categoryField]];
 		}
 		return $catArray;
 	}
@@ -164,7 +165,7 @@ abstract class tx_ttproducts_category_base extends tx_ttproducts_table_base {
 	}
 
 	public function getLineArray ($start, $endArray) {
-		$catArray = array();
+		$catArray = [];
 		$hookVar = '';
 		$functablename = $this->getFuncTablename ();
 		if ($functablename == 'tt_products_cat') {
@@ -173,9 +174,13 @@ abstract class tx_ttproducts_category_base extends tx_ttproducts_table_base {
 			$hookVar = 'DAMCategory';
 		}
 
-		$tmpArray = array();
+		$tmpArray = [];
 			// Call all addWhere hooks for categories at the end of this method
-		if ($hookVar && is_array ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$hookVar])) {
+		if (
+            $hookVar && 
+            isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$hookVar]) &&
+            is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$hookVar])
+        ) {
 			foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$hookVar] as $classRef) {
 				$hookObj= GeneralUtility::makeInstance($classRef);
 				if (method_exists($hookObj, 'init')) {
@@ -207,10 +212,10 @@ abstract class tx_ttproducts_category_base extends tx_ttproducts_table_base {
 
 	public function getChildCategoryArray ($cat) {
 
-		$catArray = array();
+		$catArray = [];
 		$hookVar = $this->getHookVar();
 
-		$tmpArray = array();
+		$tmpArray = [];
 			// Call all addWhere hooks for categories at the end of this method
 		if ($hookVar && is_array ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$hookVar])) {
 			foreach  ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$hookVar] as $classRef) {
@@ -233,12 +238,12 @@ abstract class tx_ttproducts_category_base extends tx_ttproducts_table_base {
 	}
 
 	public function getRootArray ($rootCat, $categoryArray, $autoRoot = true) {
-		$rootArray = array();
+		$rootArray = [];
 		$rootCatArray = GeneralUtility::trimExplode(',', $rootCat);
 		foreach ($categoryArray as $uid => $row) {
 			if (
 				(
-					\TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($uid)
+					MathUtility::canBeInterpretedAsInteger($uid)
 				) &&
 				(
 					in_array($uid, $rootCatArray) ||
@@ -260,24 +265,24 @@ abstract class tx_ttproducts_category_base extends tx_ttproducts_table_base {
 		return $rootArray;
 	}
 
-	public function &getRootpathArray (&$relationArray, $rootCat, $currentCat) {
-		$rootpathArray = array();
+	public function getRootpathArray (&$relationArray, $rootCat, $currentCat) {
+		$rootpathArray = [];
 		$rootCatArray = GeneralUtility::trimExplode(',', $rootCat);
 		$uid = $currentCat;
-		if (isset($uid)) {
+		if (!empty($uid)) {
 			$count = 0;
 			do {
 				$count++;
-				$row = $relationArray[$uid];
+				$row = $relationArray[$uid] ?? [];
 				if ($row) {
 					$rootpathArray[] = $row;
 					$lastUid = $uid;
-					$uid = $row['parent_category'];
+					$uid = $row['parent_category'] ?? '';
 				}
 			} while (
 				$row &&
 				!in_array($lastUid,$rootCatArray) &&
-				isset($uid) &&
+				!empty($uid) &&
 				$count < 199
 			);
 		}
@@ -290,13 +295,8 @@ abstract class tx_ttproducts_category_base extends tx_ttproducts_table_base {
 		$rootUids = '',
 		$allowedCats = ''
 	) {
-		$relationArray = array();
+		$relationArray = [];
 		return $relationArray;
 	}
-}
-
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/class.tx_ttproducts_category_base.php'])	{
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/class.tx_ttproducts_category_base.php']);
 }
 

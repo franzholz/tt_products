@@ -38,7 +38,7 @@
 
 
 class tx_ttproducts_variant_dummy implements tx_ttproducts_variant_int, \TYPO3\CMS\Core\SingletonInterface {
-	private $selectableArray = array();
+	private $selectableArray = [];
 	public $conf;	// reduced local conf
 
 	/**
@@ -103,7 +103,7 @@ class tx_ttproducts_variant_dummy implements tx_ttproducts_variant_int, \TYPO3\C
 	public function getVariantFromRawRow ($row) {
 	}
 
-	public function getVariantRow($row = '', $varianArray = array()) {
+	public function getVariantRow($row = '', $varianArray = []) {
 	}
 
 	public function getTableUid ($table, $uid) {
@@ -131,10 +131,4 @@ class tx_ttproducts_variant_dummy implements tx_ttproducts_variant_int, \TYPO3\C
 	public function getAdditionalKey () {
 	}
 }
-
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/class.tx_ttproducts_variant_dummy.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/class.tx_ttproducts_variant_dummy.php']);
-}
-
 

@@ -57,13 +57,15 @@ class tx_ttproducts_pi_search_base extends \TYPO3\CMS\Frontend\Plugin\AbstractPl
 	 */
 	public function main ($content, $conf) {
 		tx_ttproducts_model_control::setPrefixId($this->prefixId);
+        $parameterApi = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\ParameterApi::class);
+		$parameterApi->setPrefixId($this->prefixId);
         PluginApi::init($conf);
 
 		$confMain = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
 		$this->conf = array_merge($confMain, $conf);
-		$config = array();
+		$config = [];
 		$mainObj = GeneralUtility::makeInstance('tx_ttproducts_control_search');	// fetch and store it as persistent object
-		$errorCode = array();
+		$errorCode = [];
 		$bDoProcessing =
 			$mainObj->init(
 				$this->conf,
@@ -74,7 +76,6 @@ class tx_ttproducts_pi_search_base extends \TYPO3\CMS\Frontend\Plugin\AbstractPl
 			);
 
 		if ($bDoProcessing || !empty($errorCode)) {
-			tx_ttproducts_control_pibase::init($this);
 			$content =
 				$mainObj->run(
 					$this->cObj,
@@ -90,10 +91,5 @@ class tx_ttproducts_pi_search_base extends \TYPO3\CMS\Frontend\Plugin\AbstractPl
 	public function set ($bRunAjax) {
 		$this->bRunAjax = $bRunAjax;
 	}
-}
-
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/pi_search/class.tx_ttproducts_pi_search_base.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/pi_search/class.tx_ttproducts_pi_search_base.php']);
 }
 

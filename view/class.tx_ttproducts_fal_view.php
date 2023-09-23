@@ -39,7 +39,9 @@
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\PathUtility;
 
+use JambageCom\Div2007\Utility\FrontendUtility;
 
 
 class tx_ttproducts_fal_view extends tx_ttproducts_article_base_view {
@@ -55,8 +57,8 @@ class tx_ttproducts_fal_view extends tx_ttproducts_article_base_view {
         &$wrappedSubpartArray,
         $tagArray,
         $theCode = '',
-        $basketExtra = array(),
-        $basketRecs = array(),
+        $basketExtra = [],
+        $basketRecs = [],
         $id = ''
     ) {
         parent::getItemSubpartArrays(
@@ -94,10 +96,10 @@ class tx_ttproducts_fal_view extends tx_ttproducts_article_base_view {
         $imageNum = 0,
         $imageRenderObj = 'image',
         $tagArray,
-        $forminfoArray = array(),
+        $forminfoArray = [],
         $theCode = '',
-        $basketExtra = array(),
-        $basketRecs = array(),
+        $basketExtra = [],
+        $basketRecs = [],
         $id = '',
         $prefix = '',
         $suffix = '',
@@ -105,8 +107,8 @@ class tx_ttproducts_fal_view extends tx_ttproducts_article_base_view {
         $bHtml = true,
         $charset = '',
         $hiddenFields = '',
-        $multiOrderArray = array(),
-        $productRowArray = array(),
+        $multiOrderArray = [],
+        $productRowArray = [],
         $bEnableTaxZero = false
     ) {
         parent::getModelMarkerArray(
@@ -137,8 +139,8 @@ class tx_ttproducts_fal_view extends tx_ttproducts_article_base_view {
         $markerLink = $downloadMarker . '_' . strtoupper('download_link');
         if (isset($tagArray[$markerLink])) {
             $cObj = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
-            $cObj->start(array());
-            $paramArray = array();
+            $cObj->start([]);
+            $paramArray = [];
             $postVar = tx_ttproducts_control_command::getCommandVar();
             $orderPivar = tx_ttproducts_model_control::getPiVar('sys_products_orders');
             $prefixId = tx_ttproducts_model_control::getPrefixId();
@@ -163,7 +165,7 @@ class tx_ttproducts_fal_view extends tx_ttproducts_article_base_view {
             }
 
             $paramArray[$postVar . '[fal]'] = intval($row['uid']);
-            $url = tx_div2007_alpha5::getTypoLink_URL_fh003(
+            $url = FrontendUtility::getTypoLink_URL(
                 $cObj,
                 $GLOBALS['TSFE']->id,
                 $paramArray
@@ -171,13 +173,7 @@ class tx_ttproducts_fal_view extends tx_ttproducts_article_base_view {
 
             $storageRepository = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\StorageRepository');
             $storage = $storageRepository->findByUid(1);
-            if (
-                version_compare(TYPO3_version, '10.4.0', '<')
-            ) {
-                $resourceFactory = ResourceFactory::getInstance();
-            } else {
-                $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
-            }
+            $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
 
             $fileObj = $resourceFactory->getFileReferenceObject($row['uid']);
             $fileInfo = $storage->getFileInfo($fileObj);
@@ -186,10 +182,10 @@ class tx_ttproducts_fal_view extends tx_ttproducts_article_base_view {
 
             $file = $path . 'fileadmin' . $fileInfo['identifier'];
             $filename = basename($file);
-            $downloadImageFile = \TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath(PATH_BE_TTPRODUCTS . 'Resources/Public/Icons/system-extension-download.png');
+            $downloadImageFile = PathUtility::getAbsoluteWebPath(PATH_BE_TTPRODUCTS . 'Resources/Public/Icons/system-extension-download.png');
 
             $content .= '<a href="' . htmlspecialchars($url) . '" title="' .
-                $GLOBALS['TSFE']->sL(DIV2007_LANGUAGE_PATH . 'locallang_common.xml:download') . ' ' . $filename . '">' . $filename . '<img src="' . $downloadImageFile . '">' . '</a>';
+                $GLOBALS['TSFE']->sL(DIV2007_LANGUAGE_PATH . 'locallang_common.xlf:download') . ' ' . $filename . '">' . $filename . '<img src="' . $downloadImageFile . '">' . '</a>';
 
             $markerArray['###' . $markerLink . '###'] = $content;
         }

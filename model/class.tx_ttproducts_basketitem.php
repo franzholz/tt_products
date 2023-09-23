@@ -37,6 +37,7 @@
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 
 
 class tx_ttproducts_basketitem implements \TYPO3\CMS\Core\SingletonInterface {
@@ -56,7 +57,7 @@ class tx_ttproducts_basketitem implements \TYPO3\CMS\Core\SingletonInterface {
 		$result = $item['count'];
 		if (
 			$overwriteAmount != 'basket' &&
-			\TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($overwriteAmount)
+			MathUtility::canBeInterpretedAsInteger($overwriteAmount)
 		) {
 			$result = intval($overwriteAmount);
 		}
@@ -77,8 +78,6 @@ class tx_ttproducts_basketitem implements \TYPO3\CMS\Core\SingletonInterface {
 		&$minQuantity,
 		&$maxQuantity
 	) {
-		global $TCA;
-
 		$row = $item['rec'];
 		$minQuantity = $row['basketminquantity'];
 		$maxQuantity = $row['basketmaxquantity'];
@@ -91,11 +90,6 @@ class tx_ttproducts_basketitem implements \TYPO3\CMS\Core\SingletonInterface {
 			$maxQuantity = ($articleRow['basketmaxquantity'] != '0.00' ? $articleRow['basketmaxquantity'] : $maxQuantity);
 		}
 	}
-}
-
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/class.tx_ttproducts_basketitem.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/class.tx_ttproducts_basketitem.php']);
 }
 
 

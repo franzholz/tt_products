@@ -38,6 +38,7 @@
 
  
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 
 
 class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Core\SingletonInterface {
@@ -45,8 +46,8 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Cor
 	public $itemTable;
 	private $useArticles;
 	private $selectableArray;
-	public $fieldArray = array();	// array of fields which are variants with ';' or by other characters separated values
-	private $selectableFieldArray = array();
+	public $fieldArray = [];	// array of fields which are variants with ';' or by other characters separated values
+	private $selectableFieldArray = [];
 	public $firstVariantRow = '';
 	public $additionalKey;
 	public $additionalField = 'additional';
@@ -66,11 +67,11 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Cor
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 
 		$tmpArray = $cnf->getTableDesc($tablename);
-		$this->conf = (is_array($tmpArray) && is_array($tmpArray['variant.']) ? $tmpArray['variant.'] : array());
+		$this->conf = (is_array($tmpArray) && is_array($tmpArray['variant.']) ? $tmpArray['variant.'] : []);
 		$this->itemTable = $itemTable;
 		$this->useArticles = $useArticles;
-		$this->selectableArray = array();
-		$firstVariantArray = array();
+		$this->selectableArray = [];
+		$firstVariantArray = [];
 		$fieldArray = $this->conf;
 		$additionalKey = '';
 
@@ -87,7 +88,7 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Cor
 			}
 		}
 
-		if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['variantSeparator'] != '') {
+		if (!empty($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['variantSeparator'])) {
 			$this->setSeparator($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['variantSeparator']);
 		}
 
@@ -190,13 +191,13 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Cor
 			$fieldArray = $this->getFieldArray();
 			$count = 0;
 			foreach ($fieldArray as $key => $field) {
-				if ($this->selectableArray[$key]) {
+				if (!empty($this->selectableArray[$key])) {
 					if (
 						isset($variantArray[$count])
 					) {
-						$variantValueArray = array();
+						$variantValueArray = [];
 
-						if (isset($row[$field])) {
+						if (isset($row[$field]) && strlen($row[$field])) {
 							$theVariant = $row[$field];
 
 							$variantValueArray =
@@ -212,7 +213,7 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Cor
 						if (isset($variantValueArray[$variantIndex])) {
 							$row[$field] = $variantValueArray[$variantIndex];
 						} else {
-							$row[$field] = $variantValueArray[0];
+							$row[$field] = $variantValueArray['0'] ?? '';
 						}
 					}
 					$count++;
@@ -237,6 +238,7 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Cor
 			$extArray = $row['ext'];
 
 			if (
+                isset($extArray['tt_products']) &&
 				is_array($extArray['tt_products'])
 			) {
 				reset($extArray['tt_products']);
@@ -266,8 +268,8 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Cor
 		$applySeparator = true
 	) {
 		$result = false;
-		$variantArray = array();
-		$variantResultRow = array();
+		$variantArray = [];
+		$variantResultRow = [];
 		$variantSeparator = $this->getSplitSeparator();
 
 		if (
@@ -283,18 +285,17 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Cor
 			$count = 0;
 
 			foreach ($fieldArray as $key => $field) {
-				if ($this->selectableArray[$key]) {
-					$variantValue = $variantRow[$field];
-// 					$prodVariantArray = GeneralUtility::trimExplode($variantSeparator, $row[$field]);
-					$prodVariantArray =
-						preg_split(
-						'/[\h]*' . $variantSeparator . '[\h]*/',
-						$row[$field],
-						-1,
-						PREG_SPLIT_NO_EMPTY
-					);
+				if (!empty($this->selectableArray[$key])) {
+					$variantValue = $variantRow[$field] ?? '';
 
-					if ($variantValue != '') {
+					if ($variantValue != '' && isset($row[$field]) && strlen($row[$field])) {
+                        $prodVariantArray =
+                            preg_split(
+                            '/[\h]*' . $variantSeparator . '[\h]*/',
+                            $row[$field],
+                            -1,
+                            PREG_SPLIT_NO_EMPTY
+                        );
 						$varantIndex = array_search($variantValue, $prodVariantArray);
 						$variantArray[] = $varantIndex;
 						$variantResultRow[$field] = $varantIndex;
@@ -330,8 +331,8 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Cor
 		$applySeparator = true
 	) {
 		$result = false;
-		$variantArray = array();
-		$variantRow = array();
+		$variantArray = [];
+		$variantRow = [];
 		$useArticles = $this->getUseArticles();
 		$selectableArray = $this->getSelectableArray();
 
@@ -368,19 +369,19 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Cor
 	}
 
 
-	public function getVariantRow ($row = '', $variantArray = array()) {
+	public function getVariantRow ($row = '', $variantArray = []) {
 		$result = '';
 		$variantSeparator = $this->getSplitSeparator();
 
 		if (isset($row) && is_array($row)) {
 			if (!isset($variantArray)) {
-				$variantArray = array();
+				$variantArray = [];
 			}
 			$fieldArray = $this->getFieldArray();
 			$rcRow = $row;
 
 			foreach ($fieldArray as $field) {
-				$variants = $row[$field];
+				$variants = $row[$field] ?? '';
 				$tmpArray =
 					preg_split(
 						'/[\h]*' . $variantSeparator . '[\h]*/',
@@ -390,7 +391,7 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Cor
 					);
 
 				$index = (isset($variantArray[$field]) ? $variantArray[$field] : 0);
-				$rcRow[$field] = $tmpArray[$index];
+				$rcRow[$field] = $tmpArray[$index] ?? '';
 			}
 			$result = $rcRow;
 		} else {
@@ -402,7 +403,7 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Cor
 
     public function getVariantValuesRow ($row = '') {
 
-        $result = array();
+        $result = [];
 
         if (isset($row) && is_array($row)) {
             $fieldArray = $this->getFieldArray();
@@ -433,7 +434,7 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Cor
 		$productRow,
 		$withSeparator = false
 	) {
-		$result = array();
+		$result = [];
 
 		$selectableFieldArray = $this->getSelectableFieldArray();
 
@@ -443,9 +444,10 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Cor
 		foreach ($selectableFieldArray as $field) {
 
 			if (
-				isset($productRow[$field])
+				isset($productRow[$field]) &&
+				strlen($productRow[$field])
 			) {
-				$valueArray = array();
+				$valueArray = [];
 
 				$productValueArray =
 					preg_split(
@@ -456,22 +458,28 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Cor
 					);
 
 				foreach ($articleRowArray as $articleRow) {
-					$articleValueArray =
-						preg_split(
-							'/[\h]*' . $variantSeparator . '[\h]*/',
-							$articleRow[$field],
-							-1,
-							PREG_SPLIT_NO_EMPTY
-						);
+                    $articleValueArray = [];
+                    if (
+                        isset($articleRow[$field]) &&
+                        strlen($articleRow[$field])
+                    ) {
+                        $articleValueArray =
+                            preg_split(
+                                '/[\h]*' . $variantSeparator . '[\h]*/',
+                                $articleRow[$field],
+                                -1,
+                                PREG_SPLIT_NO_EMPTY
+                            );
+                    }
 
-					if ($articleValueArray[0]) {
+					if (!empty($articleValueArray['0'])) {
 						$valueArray = array_merge($valueArray, $articleValueArray);
 					}
 				}
 				$valueArray = array_values(array_unique($valueArray));
 
 				if (!empty($productValueArray)) {
-					$sortedValueArray = array();
+					$sortedValueArray = [];
 					foreach ($productValueArray as $value) {
 						if (in_array($value, $valueArray)) {
 							$sortedValueArray[] = $value;
@@ -505,7 +513,7 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Cor
 		$variantSeparator = $this->getSplitSeparator();
 
 		foreach ($variantRowArray as $field => $valueArray) {
-			if ($row[$field] != '') {
+			if (isset($row[$field]) && strlen($row[$field])) {
 
 				$variantRowArray[$field] =
 					preg_split(
@@ -525,13 +533,13 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Cor
 			);
 
 		$selectableFieldArray = $this->getSelectableFieldArray();
-		$possibleArticleArray = array();
+		$possibleArticleArray = [];
 
 		if (
 			isset($articleRowArray) && is_array($articleRowArray) &&
 			isset($this->selectableArray) && is_array($this->selectableArray)
 		) {
-			$result = array();
+			$result = [];
 		}
 
 		foreach ($articleRowArray as $articleRow) {
@@ -545,14 +553,17 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Cor
 					$field = $selectableFieldArray[$k];
 
 					if (
-						!\TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($variantIndex) &&
+						!MathUtility::canBeInterpretedAsInteger($variantIndex) &&
 						isset($variantRowArray[$field]) &&
 						is_array($variantRowArray[$field])
 					) {
 						$variantIndex = array_search($variantIndex, $variantRowArray[$field]);
 					}
 
-					$value = $articleRow[$field];
+                    $value = '';
+                    if (isset($articleRow[$field])) {
+                        $value = $articleRow[$field];
+                    }
 
 					if ($value != '') {
 
@@ -560,10 +571,11 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Cor
 							$bMatches = false;
 							break;
 						} else {
+                            $valueArray = [];
 							if (is_array($value)) {
 								// nothing
 								$valueArray = $value;
-							} else {
+							} else if (strlen($value)) {
 								$valueArray =
 									preg_split(
 										'/[\h]*' . $variantSeparator . '[\h]*/',
@@ -572,7 +584,15 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Cor
 										PREG_SPLIT_NO_EMPTY
 									);
 							}
-							$variantValue = $variantRowArray[$field][$variantIndex];
+
+                            $variantValue = '';
+                            if (
+                                isset($variantRowArray[$field]) &&
+                                is_array($variantRowArray[$field]) &&
+                                isset($variantRowArray[$field][$variantIndex])
+                            ) {
+                                $variantValue = $variantRowArray[$field][$variantIndex];
+                            }
 
 							if (!in_array($variantValue, $valueArray)) {
 								$bMatches = false;
@@ -610,10 +630,5 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Cor
 	public function getAdditionalKey () {
 		return $this->additionalKey;
 	}
-}
-
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/class.tx_ttproducts_variant.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/class.tx_ttproducts_variant.php']);
 }
 

@@ -41,11 +41,11 @@ use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_download extends tx_ttproducts_article_base {
-	public $relatedArray = array(); // array of related products
+	public $relatedArray = []; // array of related products
 	public $marker = 'DOWNLOAD';
 	public $type = 'download';
 	public $piVar='download';
-	public $articleArray = array();
+	public $articleArray = [];
 	protected $tableAlias = 'download';
 
 
@@ -95,7 +95,7 @@ class tx_ttproducts_download extends tx_ttproducts_article_base {
         $multiOrderArray
     ) {
 		$downloadUid = intval($downloadUid);
-		$orderedFalArray = array();
+		$orderedFalArray = [];
 		if (
 			$downloadUid &&
 			isset($multiOrderArray) &&
@@ -125,7 +125,7 @@ class tx_ttproducts_download extends tx_ttproducts_article_base {
 		$multiOrderArray,
 		$checkPriceZero = false
 	) {
-		$fileArray = array();
+		$fileArray = [];
 
 		if (
 			\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('filelist') &&
@@ -184,14 +184,7 @@ class tx_ttproducts_download extends tx_ttproducts_article_base {
 						continue;
 					}
 
-                    if (
-                        version_compare(TYPO3_version, '10.4.0', '<')
-                    ) {
-                        $resourceFactory = ResourceFactory::getInstance();
-                    } else {
-                        $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
-                    }
-
+                    $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
 					$fileObj = $resourceFactory->getFileReferenceObject($sysfileRow['uid']);
 					$fileInfo = $storage->getFileInfo($fileObj);
                     $fileArray[$sysfileRow['uid']] = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/' . 'fileadmin' . $fileInfo['identifier'];
@@ -222,8 +215,8 @@ class tx_ttproducts_download extends tx_ttproducts_article_base {
 		$tagMarkerArray,
 		$parenttable = 'tt_products'
 	) {
-		$resultArray = array();
-		$downloadUidArray = array();
+		$resultArray = [];
+		$downloadUidArray = [];
 		$bAllowed = true;
 
 		if ($parenttable == 'tt_products') {
@@ -252,7 +245,7 @@ class tx_ttproducts_download extends tx_ttproducts_article_base {
 		$tagWhere = '';
 
 		if (is_array($tagMarkerArray) && ($tagMarkerArray)) {
-			$newTagMarkerArray = array();
+			$newTagMarkerArray = [];
 			foreach ($tagMarkerArray as $tagMarker) {
 				if (strpos($tagMarker, '_') === false) {
 					$newTagMarkerArray[] = $tagMarker;
@@ -279,10 +272,5 @@ class tx_ttproducts_download extends tx_ttproducts_article_base {
 
 		return $resultArray;
 	}
-}
-
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/class.tx_ttproducts_download.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/class.tx_ttproducts_download.php']);
 }
 

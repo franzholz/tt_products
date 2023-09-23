@@ -64,6 +64,7 @@ class tx_ttproducts_email_div {
 		$sendername = '',
 		$senderemail = ''
 	) {
+        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 
 		$sendername = ($sendername ? $sendername : $conf['orderEmail_fromName']);
@@ -76,7 +77,7 @@ class tx_ttproducts_email_div {
 		if (count($recipients)) {	// If any recipients, then compile and send the mail.
 			$emailContent =
 				trim(
-					tx_div2007_core::getSubpart(
+					$templateService->getSubpart(
 						$templateCode,
 						'###' . $templateMarker . $config['templateSuffix'] . '###'
 					)
@@ -84,7 +85,7 @@ class tx_ttproducts_email_div {
 			if (!$emailContent) {
 				$emailContent =
 					trim(
-						tx_div2007_core::getSubpart(
+						$templateService->getSubpart(
 							$templateCode,
 							'###' . $templateMarker . '###'
 						)
@@ -124,15 +125,16 @@ class tx_ttproducts_email_div {
 
 				$markerArray['###ORDER_TRACKING_NO###'] = $tracking;
 				$markerArray['###ORDER_UID###'] = $markerArray['###ORDER_ORDER_NO###'] = $orderNumber;
-				$emailContent = tx_div2007_core::substituteMarkerArrayCached($emailContent, $markerArray);
+				$emailContent = $templateService->substituteMarkerArrayCached($emailContent, $markerArray);
 				$parts = explode(chr(10), $emailContent, 2);
 				$subject = trim($parts[0]);
 				$plain_message = trim($parts[1]);
+				$tmp = '';
                 \JambageCom\Div2007\Utility\MailUtility::send(
-                    implode($recipients, ','),
+                    implode(',', $recipients),
                     $subject,
                     $plain_message,
-                    $tmp = '',
+                    $tmp,
                     $senderemail,
                     $sendername,
                     '',
@@ -161,14 +163,14 @@ class tx_ttproducts_email_div {
 		$templateMarker,
 		$bHtmlMail = false
 	) {
+        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 		$sendername = ($giftRow['personname'] ? $giftRow['personname'] : $conf['orderEmail_fromName']);
 		$senderemail = ($giftRow['personemail'] ? $giftRow['personemail'] : $conf['orderEmail_from']);
 		$recipients = $recipient;
 		$recipients = GeneralUtility::trimExplode(',',$recipients,1);
-        $parser = tx_div2007_core::newHtmlParser(false);
 
 		if (count($recipients)) {	// If any recipients, then compile and send the mail.
-			$emailContent = trim(tx_div2007_core::getSubpart($templateCode, '###' . $templateMarker . '###'));
+			$emailContent = trim($templateService->getSubpart($templateCode, '###' . $templateMarker . '###'));
 			if ($emailContent) {		// If there is plain text content - which is required!!
 				$markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
 				$globalMarkerArray = $markerObj->getGlobalMarkerArray();
@@ -184,7 +186,7 @@ class tx_ttproducts_email_div {
 				$markerArray['###PERSON_NAME###'] = $giftRow['personname'];
 				$markerArray['###DELIVERY_NAME###'] = $giftRow['deliveryname'];
 				$markerArray['###ORDER_STATUS_COMMENT###'] = $giftRow['note'] . ($bHtmlMail ? '\n' : chr(13)) . $comment;
-				$emailContent = tx_div2007_core::substituteMarkerArrayCached($emailContent, $markerArray);
+				$emailContent = $templateService->substituteMarkerArrayCached($emailContent, $markerArray);
 
 				$parts = explode(chr(10), $emailContent, 2);	// First line is subject
 				$subject = trim($parts[0]);
@@ -194,81 +196,46 @@ class tx_ttproducts_email_div {
 				if (
 					$bHtmlMail
 				) {	// If htmlmail lib is included, then generate a nice HTML-email
-					$HTMLmailShell = tx_div2007_core::getSubpart($this->templateCode, '###EMAIL_HTML_SHELL###');
-					$HTMLmailContent = $parser->substituteMarker($HTMLmailShell, '###HTML_BODY###', $emailContent);
+					$HTMLmailShell = $templateService->getSubpart($this->templateCode, '###EMAIL_HTML_SHELL###');
+					$HTMLmailContent = $templateService->substituteMarker($HTMLmailShell, '###HTML_BODY###', $emailContent);
 					$markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
-					$HTMLmailContent = tx_div2007_core::substituteMarkerArrayCached(
+					$HTMLmailContent = $templateService->substituteMarkerArrayCached(
 						$HTMLmailContent,
 						$markerObj->getGlobalMarkerArray()
 					);
 
-                    if (version_compare(TYPO3_version, '10.0.0', '<')) {
-                        tx_div2007_email::sendMail(
-                            $recipients,
-                            $subject,
-                            $emailContent,
-                            $HTMLmailContent,
-                            $senderemail,
-                            $sendername,
-                            $conf['GiftAttachment'],
-                            '',
-                            '',
-                            $senderemail,
-                            '',
-                            TT_PRODUCTS_EXT,
-                            'sendMail'
-                        );
-                    } else {
-                        \JambageCom\Div2007\Utility\MailUtility::send(
-                            $recipients,
-                            $subject,
-                            $emailContent,
-                            $HTMLmailContent,
-                            $senderemail,
-                            $sendername,
-                            $conf['GiftAttachment'],
-                            '',
-                            '',
-                            $senderemail,
-                            '',
-                            TT_PRODUCTS_EXT,
-                            'sendMail'
-                        );
-                    }
-				} else {		// ... else just plain text...
-                    if (version_compare(TYPO3_version, '10.0.0', '<')) {
-                        tx_div2007_email::sendMail(
-                            $recipients,
-                            $subject,
-                            $emailContent,
-                            $tmp = '',
-                            $senderemail,
-                            $sendername,
-                            $conf['GiftAttachment'],
-                            '',
-                            '',
-                            $senderemail,
-                            '',
-                            TT_PRODUCTS_EXT,
-                            'sendMail'
-                        );
-                    } else {
-                        \JambageCom\Div2007\Utility\MailUtility::send(
-                            $recipients,
-                            $subject,
-                            $emailContent,
-                            $tmp = '',
-                            $senderemail,
-                            $sendername,
-                            $conf['GiftAttachment'],
-                            '',
-                            '',
-                            $senderemail,
-                            '',
-                            TT_PRODUCTS_EXT,
-                            'sendMail'
-                        );
-                    }
+                    \JambageCom\Div2007\Utility\MailUtility::send(
+                        $recipients,
+                        $subject,
+                        $emailContent,
+                        $HTMLmailContent,
+                        $senderemail,
+                        $sendername,
+                        $conf['GiftAttachment'],
+                        '',
+                        '',
+                        $senderemail,
+                        '',
+                        TT_PRODUCTS_EXT,
+                        'sendMail'
+                    );
+                } else {		// ... else just plain text...
+                    $tmp = '';
+                    \JambageCom\Div2007\Utility\MailUtility::send(
+                        $recipients,
+                        $subject,
+                        $emailContent,
+                        $tmp,
+                        $senderemail,
+                        $sendername,
+                        $conf['GiftAttachment'],
+                        '',
+                        '',
+                        $senderemail,
+                        '',
+                        TT_PRODUCTS_EXT,
+                        'sendMail'
+                    );
 				}
 			}
 		}

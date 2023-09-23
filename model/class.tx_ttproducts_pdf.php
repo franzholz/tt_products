@@ -36,6 +36,7 @@
  *
  */
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
 class tx_ttproducts_pdf implements \TYPO3\CMS\Core\SingletonInterface {
@@ -86,7 +87,7 @@ class tx_ttproducts_pdf implements \TYPO3\CMS\Core\SingletonInterface {
 
 	private function addEmptyColumns($bLastLine) {
 
-		$row = array();
+		$row = [];
 		$row['1'] = '';
 		$row['2'] = '';
 		$row['3'] = '';
@@ -104,7 +105,7 @@ class tx_ttproducts_pdf implements \TYPO3\CMS\Core\SingletonInterface {
 
 	private function getDimensions (&$widthArray) {
 		//Column widths
-		$widthArray = array(80, 25, 40, 45);
+		$widthArray = [80, 25, 40, 45];
 	}
 
 	//Better table
@@ -154,7 +155,7 @@ class tx_ttproducts_pdf implements \TYPO3\CMS\Core\SingletonInterface {
 					$subStringCount = intval ($l2 / ($widthArray[$k2] - 10)) + 1;
 					$averageStringLength = strlen($v2) / $subStringCount;
 					if (!isset($additonalRow)) {
-						$additonalRow = array();
+						$additonalRow = [];
 					}
 
 					$startPosition = 0;
@@ -222,12 +223,14 @@ class tx_ttproducts_pdf implements \TYPO3\CMS\Core\SingletonInterface {
 	}
 
 	public function Body () {
+        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+
 		// $xPos = $this->GetX();
-		$tempContent = tx_div2007_core::getSubpart($this->body, '###PDF_TABLE_1###');
+		$tempContent = $templateService->getSubpart($this->body, '###PDF_TABLE_1###');
 		$tempContentArray = preg_split('/[\n]+/', $tempContent);
-		$dataArray = array();
+		$dataArray = [];
 		foreach ($tempContentArray as $tmpContent) {
-			if (trim($tmpContent) != '') {
+			if (isset($tmpContent) && trim($tmpContent) != '') {
 				$dataArray[] = preg_split('/\|/', $tmpContent, -1, PREG_SPLIT_NO_EMPTY);
 			}
 		}
@@ -235,11 +238,11 @@ class tx_ttproducts_pdf implements \TYPO3\CMS\Core\SingletonInterface {
 		unset($dataArray['0']);
 		$this->ImprovedTable($header, $dataArray);
 
-		$restBody = tx_div2007_core::substituteMarkerArrayCached(
+		$restBody = $templateService->substituteMarkerArrayCached(
 				$this->body,
-				array(),
-				array('###PDF_TABLE_1###' => ''),
-				array()
+				[],
+				['###PDF_TABLE_1###' => ''],
+				[]
 			);
 
 		// $this->SetX($xPos);

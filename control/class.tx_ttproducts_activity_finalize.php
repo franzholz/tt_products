@@ -49,7 +49,7 @@ class tx_ttproducts_activity_finalize implements \TYPO3\CMS\Core\SingletonInterf
 		$conf,
 		$fromArray
 	) {
-		$suffixArray = array();
+		$suffixArray = [];
 		if (is_array($conf['orderEmail.'])) {
 			foreach ($conf['orderEmail.'] as $k => $emailConfig) {
 				$suffix = strtolower($emailConfig['suffix']);
@@ -58,9 +58,9 @@ class tx_ttproducts_activity_finalize implements \TYPO3\CMS\Core\SingletonInterf
 		}
 
 		if (in_array('customer', $suffixArray)) {
-			$emailControlArray = array();
+			$emailControlArray = [];
 			$emailControlArray['customer']['none']['template'] = 'EMAIL_PLAINTEXT_TEMPLATE'; // keep this on first position of the array
-			$emailControlArray['customer']['none']['recipient'] = array();
+			$emailControlArray['customer']['none']['recipient'] = [];
 			if ($fromArray['customer']['email']) {
 				$emailControlArray['customer']['none']['recipient'][] = $fromArray['customer']['email'];
 			}
@@ -77,7 +77,7 @@ class tx_ttproducts_activity_finalize implements \TYPO3\CMS\Core\SingletonInterf
 		if (in_array('shop', $suffixArray)) {
 			$emailControlArray['shop']['none']['from'] = $fromArray['shop'];
 
-			if ($conf['orderEmail_to'] != '') {
+			if (!empty($conf['orderEmail_to'])) {
 				$emailControlArray['shop']['none']['recipient'][] = $conf['orderEmail_to'];
 			}
 		}
@@ -90,7 +90,7 @@ class tx_ttproducts_activity_finalize implements \TYPO3\CMS\Core\SingletonInterf
 		$mainMarkerArray,
 		$functablename,
 		$orderUid,
-		$orderArray,
+		&$orderArray,
 		$productRowArray,
 		$bAlwaysInStock,
 		$useArticles,
@@ -101,8 +101,7 @@ class tx_ttproducts_activity_finalize implements \TYPO3\CMS\Core\SingletonInterf
 		&$errorCode,
 		&$errorMessage
 	) {
-        $parser = tx_div2007_core::newHtmlParser(false);
-
+        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 		$cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
 		$markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
@@ -141,14 +140,14 @@ class tx_ttproducts_activity_finalize implements \TYPO3\CMS\Core\SingletonInterf
 				'',
 				$basketObj->getItemArray(),
                 $notOverwritePriceIfSet = false,
-				array('0' => $orderArray),
-				array(),
+				['0' => $orderArray],
+				[],
 				tx_ttproducts_control_basket::getBasketExtra()
 			);
 
 		$markerArray = array_merge($mainMarkerArray, $markerObj->getGlobalMarkerArray());
 		$markerArray['###CUSTOMER_RECIPIENTS_EMAIL###'] = $infoViewObj->getCustomerEmail();
-		$orderConfirmationHTML = $parser->substituteMarkerArray(
+		$orderConfirmationHTML = $templateService->substituteMarkerArray(
 			$orderConfirmationHTML,
 			$markerArray
 		);
@@ -198,40 +197,22 @@ class tx_ttproducts_activity_finalize implements \TYPO3\CMS\Core\SingletonInterf
 									isset($emailControlArray['shop']['none']['recipient']) && is_array($emailControlArray['shop']['none']['recipient'])
 								) {
 									foreach ($emailControlArray['shop']['none']['recipient'] as $key => $recipient) {
-                                        if (version_compare(TYPO3_version, '10.0.0', '<')) {
-                                            // $headers variable removed everywhere!
-                                            \JambageCom\Div2007\Utility\MailUtility::send(
-                                                $recipient,
-                                                $subject,
-                                                $content,
-                                                $tmp = '',	// no HTML order confirmation email for shop admins
-                                                $emailControlArray['shop']['none']['from']['email'],
-                                                $emailControlArray['shop']['none']['from']['name'],
-                                                '',
-                                                $emailControlArray['shop']['none']['cc'],
-                                                $emailControlArray['shop']['none']['bcc'],
-                                                $emailControlArray['shop']['none']['returnPath'],
-                                                $emailControlArray['shop']['none']['replyTo'],
-                                                TT_PRODUCTS_EXT,
-                                                'sendMail'
-                                            );
-                                        } else {
-                                            \JambageCom\Div2007\Utility\MailUtility::send(
-                                                $recipient,
-                                                $subject,
-                                                $content,
-                                                $tmp = '',	// no HTML order confirmation email for shop admins
-                                                $emailControlArray['shop']['none']['from']['email'],
-                                                $emailControlArray['shop']['none']['from']['name'],
-                                                '',
-                                                $emailControlArray['shop']['none']['cc'],
-                                                $emailControlArray['shop']['none']['bcc'],
-                                                $emailControlArray['shop']['none']['returnPath'],
-                                                $emailControlArray['shop']['none']['replyTo'],
-                                                TT_PRODUCTS_EXT,
-                                                'sendMail'
-                                            );
-                                        }
+                                        $tmp = '';
+                                        \JambageCom\Div2007\Utility\MailUtility::send(
+                                            $recipient,
+                                            $subject,
+                                            $content,
+                                            $tmp,	// no HTML order confirmation email for shop admins
+                                            $emailControlArray['shop']['none']['from']['email'],
+                                            $emailControlArray['shop']['none']['from']['name'],
+                                            '',
+                                            $emailControlArray['shop']['none']['cc'],
+                                            $emailControlArray['shop']['none']['bcc'],
+                                            $emailControlArray['shop']['none']['returnPath'],
+                                            $emailControlArray['shop']['none']['replyTo'],
+                                            TT_PRODUCTS_EXT,
+                                            'sendMail'
+                                        );
 									}
 								}
 							}
@@ -242,9 +223,12 @@ class tx_ttproducts_activity_finalize implements \TYPO3\CMS\Core\SingletonInterf
 		}
 
 		if (
-			$infoViewObj->infoArray['billing']['email'] != '' &&
+			!empty($infoViewObj->infoArray['billing']['email']) &&
 			!\JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn() &&
-			(trim($GLOBALS['TSFE']->fe_user->user['username']) == '')
+			(
+                empty($GLOBALS['TSFE']->fe_user->user) ||
+                trim($GLOBALS['TSFE']->fe_user->user['username']) == ''
+            )
 		) {
 			// Move the user creation in front so that when we create the order we have a fe_userid so that the order lists work.
 
@@ -274,7 +258,7 @@ class tx_ttproducts_activity_finalize implements \TYPO3\CMS\Core\SingletonInterf
 
 							if (
                                 \JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn() &&
-                                $GLOBALS['TSFE']->fe_user->user[$feuserField] != ''
+                                !empty($GLOBALS['TSFE']->fe_user->user[$feuserField])
                             ) {
 								$memoItems = $GLOBALS['TSFE']->fe_user->user[$feuserField];
 							}
@@ -317,9 +301,9 @@ class tx_ttproducts_activity_finalize implements \TYPO3\CMS\Core\SingletonInterf
 				$addressArray,
 				$basketExtra,
 				$basketRecs,
-				$basketExt['gift'],
+				$basketExt['gift'] ?? '',
 				$usedCreditpoints,
-				$conf['debug'],
+				$conf['debug'] ?? '',
 				$errorMessage
 			);
 		}
@@ -328,11 +312,6 @@ class tx_ttproducts_activity_finalize implements \TYPO3\CMS\Core\SingletonInterf
 
 		return $result;
 	} // doProcessing
-}
-
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/control/class.tx_ttproducts_activity_finalize.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/control/class.tx_ttproducts_activity_finalize.php']);
 }
 
 

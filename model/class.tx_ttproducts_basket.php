@@ -42,27 +42,32 @@
 
  
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 
 
 class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 	public $conf;
-	public $config;
 
 		// Internal: initBasket():
-	public $basket = array();			// initBasket() sets this array based on the registered items
-	public $recs = array(); 		// in initBasket this is set to the recs-array of fe_user.
-// 	public $order = array(); 	// order data
+	public $recs = []; 		// in initBasket this is set to the recs-array of fe_user.
+// 	public $order = []; 	// order data
 	public $giftnumber;				// current counter of the gifts
 
-	public $itemArray = array();		// the items in the basket; database row, how many (quantity, count) and the price; this has replaced the former $calculatedBasket
+	public $itemArray = [];	// the items in the basket; database row, how many (quantity, count) and the price; this has replaced the former $calculatedBasket
 
 	public $giftServiceRow;
 	protected $maxTax;
-	protected $categoryQuantity = array();
-	protected $categoryArray = array();
-	protected $uidArray = array(); // uids of the items in the basket
+	protected $categoryQuantity = [];
+	protected $categoryArray = [];
+	protected $uidArray = []; // uids of the items in the basket
 
 	public $basketExtra; // deprecated. do not use it
+
+	public function __construct ()
+    {
+        $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
+        $this->conf = $cnfObj->conf;        
+    }
 
 	public function init (
 		$pibaseClass,
@@ -74,16 +79,16 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 		$formerBasket = tx_ttproducts_control_basket::getRecs();
 		$pibaseObj = GeneralUtility::makeInstance('' . $pibaseClass);
 		$cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
-		$this->conf = $cnfObj->conf;
-		$this->config = $cnfObj->config;
 		$this->recs = $formerBasket;	// Sets it internally
-		$piVars = tx_ttproducts_model_control::getPiVars();
-        $gpVars = GeneralUtility::_GP(TT_PRODUCTS_EXT);
+		$parameterApi = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\ParameterApi::class);
+		$basketApi = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\BasketApi::class);
+        $piVars = $parameterApi->getPiVars();
+        $gpVars = GeneralUtility::_GP('tt_products');
         $payment =
             GeneralUtility::_POST('products_payment') ||
             GeneralUtility::_POST('products_payment_x') ||
             isset($gpVars['activity']) &&
-            $gpVars['activity']['payment'];
+            !empty($gpVars['activity']['payment']);
 
         if (    // use AGB checkbox if coming from INFO
             $payment &&
@@ -92,15 +97,14 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
             isset($_REQUEST['recs']['personinfo']) &&
             is_array($_REQUEST['recs']['personinfo'])
         ) {
-            $bAgbSet = $this->recs['personinfo']['agb'];
-            $this->recs['personinfo']['agb'] = (boolean) $_REQUEST['recs']['personinfo']['agb'];
+            $bAgbSet = $this->recs['personinfo']['agb'] ?? false;
+            $this->recs['personinfo']['agb'] = $_REQUEST['recs']['personinfo']['agb'] ?? false;
             if ($bAgbSet != $this->recs['personinfo']['agb']) {
                 tx_ttproducts_control_session::writeSession('recs', $this->recs);   // store this change
             }
         }
 
-		$this->basket = array();
-		$this->setItemArray(array());
+		$this->setItemArray([]);
 
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 		$funcTablename = tx_ttproducts_control_basket::getFuncTablename();
@@ -116,7 +120,7 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 					strpos($lineNo, '.') !== false &&
 					$inputConf['type'] == 'radio' &&
 					$inputConf['where'] &&
-					$inputConf['name'] != ''
+					!empty($inputConf['name'])
 				) {
 					$radioUid = GeneralUtility::_GP($inputConf['name']);
 					if ($radioUid) {
@@ -137,7 +141,7 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 		}
 
 		if (!is_array($basketExt)) {
-			$basketExt = array();
+			$basketExt = [];
 		}
 		tx_ttproducts_control_basket::setBasketExt($basketExt);
 
@@ -145,34 +149,32 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
             $this->giftnumber = count($this->basketExt['gift']) + 1;
         }
 		$newGiftData = GeneralUtility::_GP('ttp_gift');
-		$extVars = $piVars['variants'];
+		$extVars = $piVars['variants'] ?? '';
 		$extVars = ($extVars ? $extVars : GeneralUtility::_GP('ttp_extvars'));
-		$paramProduct = strtolower($viewTableObj->marker);
-		$uid = $piVars[$paramProduct];
+		$uid = $piVars['product'] ?? '';
 		$uid = ($uid ? $uid : GeneralUtility::_GP('tt_products'));
 		$sameGiftData = true;
 		$identGiftnumber = 0;
 
-		$addMemo = $piVars['addmemo'];
+		$addMemo = $piVars['addmemo'] ?? '';
 		if ($addMemo) {
 			$basketExtRaw = '';
 			$newGiftData = '';
 		}
 
 			// Call all changeBasket hooks
-		if (is_array ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['changeBasket'])) {
+		if (
+            isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['changeBasket']) &&
+            is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['changeBasket'])
+        ) {
 			foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['changeBasket'] as $classRef) {
 				$hookObj= GeneralUtility::makeInstance($classRef);
 				if (method_exists($hookObj, 'changeBasket')) {
 					$hookObj->changeBasket(
 						$this,
-						$basketExtRaw,
-						$extVars,
-						$paramProduct,
-						$uid,
-						$sameGiftData,
-						$identGiftnumber
-					);
+						$basketExt,
+						$basketExtRaw
+                    );
 				}
 			}
 		}
@@ -224,13 +226,14 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 		}
 
 		if (is_array($basketExtRaw)) {
+            $damUid = 0;
 			if (isset($basketExtRaw['dam'])) {
 				$damUid = intval($basketExtRaw['dam']);
 			}
 
 			foreach($basketExtRaw as $uid => $basketItem) {
 				if (
-					\TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($uid)
+					MathUtility::canBeInterpretedAsInteger($uid)
 				) {
 					if (isset($basketItem['quantity'])) {
 						if (
@@ -240,7 +243,6 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 								$this->addItem(
 									$viewTableObj,
 									$uid,
-									'',
 									'',
 									$damUid,
 									$damBasketItem,
@@ -256,7 +258,6 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 							$this->addItem(
 								$viewTableObj,
 								$uid,
-								'',
 								'',
 								$damUid,
 								$basketItem,
@@ -281,7 +282,6 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 									$viewTableObj,
 									$uid,
 									$basketKey,
-									$typeArray[1],
 									'',
 									$basketValue,
 									$updateMode,
@@ -300,7 +300,6 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 								$viewTableObj,
 								$uid,
 								'',
-								$typeArray[1],
 								'',
 								$basketItem,
 								$updateMode,
@@ -317,7 +316,7 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 
 			// I did not find another possibility to delete elements completely from a multidimensional array
 			// than to recreate the array
-			$basketExtNew = array();
+			$basketExtNew = [];
 			foreach($basketExt as $tmpUid => $tmpSubArr) {
 				if (is_array($tmpSubArr) && count($tmpSubArr)) {
 					foreach($tmpSubArr as $tmpExtVar => $tmpCount) {
@@ -326,7 +325,7 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 							$tmpCount > 0 &&
 							(
 								$this->conf['quantityIsFloat'] ||
-								\TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($tmpCount)
+								MathUtility::canBeInterpretedAsInteger($tmpCount)
 							)
 						) {
 							$basketExtNew[$tmpUid][$tmpExtVar] = $basketExt[$tmpUid][$tmpExtVar];
@@ -353,7 +352,7 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 				if (is_array($basketExt) && count($basketExt)) {
 					tx_ttproducts_control_basket::storeBasketExt($basketExt);
 				} else {
-					tx_ttproducts_control_basket::storeBasketExt(array());
+					tx_ttproducts_control_basket::storeBasketExt([]);
 				}
 			}
 		}
@@ -408,7 +407,7 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 		$funcTablename = tx_ttproducts_control_basket::getFuncTablename();
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 		$itemTable = $tablesObj->get($funcTablename);
-		$result = array();
+		$result = [];
 		$itemArray = $this->getItemArray();
 
 		foreach ($itemArray as $sort => $actItemArray) {
@@ -423,12 +422,12 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 
 				if ($validEditVariant !== true) {
 					$result[$row['uid']] =
-						array(
+						[
 							'rec' => $row,
 							'index1' => $sort,
 							'index2' => $k1,
 							'error' => $validEditVariant
-						);
+						];
 				}
 			}
 		}
@@ -444,7 +443,7 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 	public function removeEditVariants ($removeArray) {
 		$modified = false;
 		$itemArray = $this->getItemArray();
- 		$removeBasketExt = array();
+ 		$removeBasketExt = [];
 
 		if (is_array($removeArray)) {
 			foreach ($removeArray as $uid => $removePart) {
@@ -457,7 +456,7 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 					unset($itemArray[$removePart['index1']][$removePart['index2']]);
 
 					$row = $removePart['rec'];
-					$extArray = $row['ext'];
+					$extArray = $row['ext'] ?? [];
 					$extVarLine = $extArray['extVarLine'];
 					$removeBasketExt[$uid][$extVarLine] = true;
 					$modified = true;
@@ -509,7 +508,6 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 		$viewTableObj,
 		$uid,
 		$externalVariant,
-		$externalType,
 		$damUid,
 		$item,
 		$updateMode,
@@ -536,7 +534,11 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 			foreach($item as $md5 => $quantity) {
 				$quantity = $priceObj->toNumber($this->conf['quantityIsFloat'], $quantity);
 
-				if (is_array($basketExt[$uid]) && $md5 != 'additional') {
+				if (
+                    isset($basketExt[$uid]) &&
+                    is_array($basketExt[$uid]) &&
+                    $md5 != 'additional'
+                ) {
 					foreach($basketExt[$uid] as $allVariants => $tmp) {
 						$actMd5 = md5($allVariants);
 
@@ -548,11 +550,11 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 							if (isset($item['additional']) && is_array($item['additional']) &&
 							isset($item['additional'][$actMd5]['giftservice']) && is_array($item['additional'][$actMd5]['giftservice'])) {
 								if (isset($basketExt[$uid][$allVariants . '.']) && !is_array($basketExt[$uid][$allVariants . '.'])) {
-									$basketExt[$uid][$allVariants . '.'] = array();
+									$basketExt[$uid][$allVariants . '.'] = [];
 								}
 
 								if (isset($basketExt[$uid][$allVariants . '.']['additional']) && !is_array($basketExt[$uid][$allVariants . '.']['additional'])) {
-									$basketExt[$uid][$allVariants . '.']['additional'] = array();
+									$basketExt[$uid][$allVariants . '.']['additional'] = [];
 								}
 								$bHasGiftService = $item['additional'][$actMd5]['giftservice']['1'];
 								if ($bHasGiftService) {
@@ -562,7 +564,10 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 								}
 							}
 
-							if (is_array($basketExt['gift'])) {
+							if (
+                                isset($basketExt['gift']) &&
+                                is_array($basketExt['gift'])
+                            ) {
 								$count = count($basketExt['gift']);
 								$giftCount = 0;
 								$restQuantity = $quantity;
@@ -601,7 +606,7 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 				$tableVariant = $viewTableObj->variant->getTableUid('tx_dam', $damUid);
 				$allVariants .= $tableVariant;
 			}
-			$oldcount = $basketExt[$uid][$allVariants];
+			$oldcount = $basketExt[$uid][$allVariants] ?? 0;
 			$quantity = 0;
 			$quantity = $priceObj->toNumber($this->conf['quantityIsFloat'], $item['quantity']);
 			$count = $this->getMaxCount($quantity, $uid);
@@ -672,8 +677,8 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 		$row = $prodTable->get($uid);
 
 		if($row['basketmaxquantity'] > 0 && $quantity > $row['basketmaxquantity']) {
-			$basketmaxquantity = tx_div2007_core::intval_positive($row['basketmaxquantity']);
-			$count = tx_div2007_core::intInRange($quantity, 0, $basketmaxquantity, 0);
+			$basketmaxquantity = MathUtility::convertToPositiveInteger($row['basketmaxquantity']);
+			$count = MathUtility::forceIntegerInRange($quantity, 0, $basketmaxquantity, 0);
 			$quantity = $count; // reduce the quantitiy to the product's maximum allowed quantity
 		}
 
@@ -682,7 +687,7 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 			!$this->conf['alwaysInStock'] &&
 			!empty($uid)
 		) {
-			$count = tx_div2007_core::intInRange($quantity, 0, $row['inStock'], 0);
+			$count = MathUtility::forceIntegerInRange($quantity, 0, $row['inStock'], 0);
 		} elseif ($this->conf['basketMaxQuantity'] == 'creditpoint' && !empty($uid)) {
 			$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 			$creditpointsObj = GeneralUtility::makeInstance('tx_ttproducts_field_creditpoints');
@@ -711,7 +716,7 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 				$count = $this->conf['basketMaxQuantity'];
 			}
 		} else {
-			$count = tx_div2007_core::intInRange($quantity, 0, $this->conf['basketMaxQuantity'], 0);
+			$count = MathUtility::forceIntegerInRange($quantity, 0, $this->conf['basketMaxQuantity'], 0);
 		}
 
 		return $count;
@@ -747,16 +752,16 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 			$basketRecord = $this->getClearBasketRecord();
 			tx_ttproducts_control_basket::setRecs($basketRecord);
 			tx_ttproducts_control_basket::store('recs', $basketRecord);
-			tx_ttproducts_control_basket::setBasketExt(array());
-			tx_ttproducts_control_basket::store('basketExt', array());
-			tx_ttproducts_control_basket::store('order', array());
-			unset($this->itemArray);
+			tx_ttproducts_control_basket::setBasketExt([]);
+			tx_ttproducts_control_basket::store('basketExt', []);
+			tx_ttproducts_control_basket::store('order', []);
+			$this->setItemArray([]);
 
 		}
-		tx_ttproducts_control_basket::store('ac', array());
-		tx_ttproducts_control_basket::store('cc', array());
-		tx_ttproducts_control_basket::store('cp', array());
-		tx_ttproducts_control_basket::store('vo', array());
+		tx_ttproducts_control_basket::store('ac', []);
+		tx_ttproducts_control_basket::store('cc', []);
+		tx_ttproducts_control_basket::store('cp', []);
+		tx_ttproducts_control_basket::store('vo', []);
 	} // clearBasket
 
 
@@ -790,7 +795,7 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 
 
 	public function get ($uid, $variant) {
-		$rc = array();
+		$rc = [];
 		$itemArray = $this->getItemArray();
 		foreach ($itemArray as $sort => $actItemArray) {
 			foreach ($actItemArray as $k1 => $actItem) {
@@ -827,7 +832,7 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 
 
 	public function getQuantityArray ($uidArray, &$rowArray) {
-		$rc = array();
+		$rc = [];
 		$itemArray = $this->getItemArray();
 
 		if (isset($rowArray) && is_array($rowArray)) {
@@ -838,7 +843,7 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 					$row = &$actItem['rec'];
 					$uid = $row['uid'];
 					$count = $actItem['count'];
-					$extArray = $row['ext'];
+					$extArray = $row['ext'] ?? [];
 
 					if (
 						in_array($uid, $uidArray) &&
@@ -851,7 +856,7 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 							$subExtArray = $extArray[$functablename];
 							if (isset($subExtArray) && is_array($subExtArray)) {
 								foreach ($functableRowArray as $subRow) {
-									$extItem = array('uid' => $subRow['uid']);
+									$extItem = ['uid' => $subRow['uid']];
 									if (in_array($extItem, $subExtArray)) {
 										$rc[$uid][$functablename][$subRow['uid']] = $actItem['count'];
 									}
@@ -873,7 +878,7 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 		$row, // must come from table tt_products
 		$fetchMode,
 		$funcTablename = '',
-		$externalRowArray = array(), // Download
+		$externalRowArray = [], // Download
 		$bEnableTaxZero = false
 	) {
 		$calculationField = \JambageCom\TtProducts\Model\Field\FieldInterface::PRICE_CALCULATED;
@@ -891,13 +896,13 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 		$priceRow = $row;
 		$recordPrice = 0;
 		$articleDiscountPrice = 0;
-		$extArray = $row['ext'];
+		$extArray = $row['ext'] ?? [];
 
 		if (!$funcTablename) {
 			$funcTablename = tx_ttproducts_control_basket::getFuncTablename();
 		}
 
-		$item = array();
+		$item = [];
 
 		$viewTableObj = $tablesObj->get($prodFuncTablename);
 		$variant = '';
@@ -915,7 +920,7 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 			$variant = $viewTableObj->getVariant()->getVariantFromRawRow($row);
 		} else if ($fetchMode == 'firstVariant') {
 
-            $variantRow = $viewTableObj->getVariant()->getVariantRow($row, array());
+            $variantRow = $viewTableObj->getVariant()->getVariantRow($row, []);
 			$variant =
 				$viewTableObj->getVariant()->getVariantFromProductRow(
 					$row,
@@ -950,7 +955,7 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 			$variant .= $recordVariant;
 		}
 
-		if (is_array($extArray['tx_dam'])) {
+		if (isset($extArray['tx_dam']) && is_array($extArray['tx_dam'])) {
 			reset($extArray['tx_dam']);
 			$firstDam = current($extArray['tx_dam']);
 			$extUid = $firstDam['uid'];
@@ -1086,7 +1091,7 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 		$taxInfoArray = '';
 		$priceTaxArray = $priceObj->getPriceTaxArray(
 			$taxInfoArray,
-			$this->conf['discountPriceMode'],
+			$this->conf['discountPriceMode'] ?? '',
 			$basketExtra,
 			$basketRecs,
 			'price',
@@ -1098,7 +1103,7 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 		);
 		$price2TaxArray = $priceObj->getPriceTaxArray(
 			$taxInfoArray,
-			$this->conf['discountPriceMode'],
+			$this->conf['discountPriceMode'] ?? '',
 			$basketExtra,
 			$basketRecs,
 			'price2',
@@ -1195,10 +1200,10 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 		$extTable = $funcTablename;
 		$extUid = $uid;
 		$extArray =
-			array(
+			[
 				'uid' => $extUid,
 				'vars' => $bextVars
-			);
+			];
 		$currRow['ext'][$extTable][] = $extArray;
 
 		foreach ($bextVarArray as $k => $bextVar) {
@@ -1211,7 +1216,7 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 				$extUid = intval($bextVarArray[$k + 1]);
 				$damObj = $tablesObj->get('tx_dam');
 				$damObj->modifyItemRow($currRow, $extUid);
-				$currRow['ext'][$extTable][] = array('uid' => $extUid);
+				$currRow['ext'][$extTable][] = ['uid' => $extUid];
 			}
 
 			if (strpos($bextVar, 'editVariant:') === 0) {
@@ -1224,7 +1229,7 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 						PREG_SPLIT_NO_EMPTY
 					);
 
-				$editVariantRow = array();
+				$editVariantRow = [];
 				foreach ($variantArray as $variant) {
 					$parts = explode('=>', $variant);
 					if (
@@ -1242,7 +1247,7 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 			if (($pos = strpos($bextVar, 'records:')) === 0) {
 				$recordVariant = substr($bextVar, $pos + strlen('records:'));
 				$variantArray = explode(tx_ttproducts_variant_int::EXTERNAL_QUANTITY_SEPARATOR, $recordVariant);
-				$recordVariantRow = array();
+				$recordVariantRow = [];
 				foreach ($variantArray as $variant) {
 					$parts = explode('=', $variant);
 					if (isset($parts) && is_array($parts) && count($parts) == 2) {
@@ -1263,11 +1268,11 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 		$currRow['ext']['extVarLine'] = $bextVarLine;
 
 		if (
-			in_array($useArticles, array(1, 3)) &&
+			in_array($useArticles, [1, 3]) &&
 			$funcTablename == 'tt_products'
 		) {
 			// get the article uid with these colors, sizes and gradings
-			$articleRowArray = array();
+			$articleRowArray = [];
 
 			if ($useArticles == 1) {
 				$articleRow =
@@ -1298,7 +1303,7 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 
 						// use the fields of the article instead of the product
 					// $viewTableObj->mergeAttributeFields($currRow, $articleRow, false, true); Preis wird sonst doppelt addiert!
-					$currRow['ext']['tt_products_articles'][] = array('uid' => $articleRow['uid']);
+					$currRow['ext']['tt_products_articles'][] = ['uid' => $articleRow['uid']];
 				}
 			}
 		} else if ($useArticles == 2) {
@@ -1401,8 +1406,14 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 		$itemTableConf = $cnfObj->getTableConf($funcTablename, $theCode);
 		$viewTableObj = $tablesObj->get($funcTablename, false);
 		$orderBy = $viewTableObj->getTableObj()->transformOrderby($itemTableConf['orderBy']);
+		$calculObj = GeneralUtility::makeInstance('tx_ttproducts_basket_calculate');
+        $calculatedArray = [
+            'count' => 0,
+            'weight' => 0
+        ];
+		$calculObj->setBaseCalculatedArray($calculatedArray);
 
-		$uidArr = array();
+		$uidArr = [];
 
 		foreach($basketExt as $uidTmp => $v) {
 
@@ -1422,7 +1433,7 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 
 		$rcArray = $viewTableObj->getWhere($where, $theCode, $orderBy);
 
-		$productsArray = array();
+		$productsArray = [];
 		$prodCount = 0;
 		$bAddGiftService = false;
 
@@ -1469,20 +1480,18 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 				}
 			}
 		}
-		$itemArray = array(); // array of the items in the basket
+		$itemArray = []; // array of the items in the basket
 		$maxTax = 0;
 		$taxObj = GeneralUtility::makeInstance('tx_ttproducts_field_tax');
-		$uidArray = array();
-		$calculObj = GeneralUtility::makeInstance('tx_ttproducts_basket_calculate');
-		$calculatedArray = array();
-		$categoryQuantity = array();
-		$categoryArray = array();
+		$uidArray = [];
+		$categoryQuantity = [];
+		$categoryArray = [];
         $bEnableTaxZero = true; // Die Produkte im Warenkorb werden sofort umgerechnet, damit sie die korrigierten Steuern und Preise enthalten. Hier ist die Steuer 0 erlaubt und darf später nicht mehr durch TAXpercentage überschrieben werden.
 
 		foreach ($productsArray as $k1 => $row) {
 
 			$uid = $row['uid'];
-			$taxInfoArray = array();
+			$taxInfoArray = [];
 			$tax =
 				$taxObj->getTax(
 					$taxInfoArray,
@@ -1506,7 +1515,7 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
                 $maxTax = $tax;
             }
 
-			$externalRowArray = array();
+			$externalRowArray = [];
 
 			if (
 				isset($row['ext']) &&
@@ -1550,10 +1559,16 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 				$weight = $newItem['weight'];
 				$itemArray[$row[$viewTableObj->fieldArray['itemnumber']]][] = $newItem;
 				$calculatedArray['count'] += $count;
+                if (empty($calculatedArray['weight'])) {
+                    $calculatedArray['weight'] = 0;
+                }
 				$calculatedArray['weight'] += $weight * $count;
 
 				$currentCategory = $row['category'];
 				$categoryArray[$currentCategory] = 1;
+                if (!isset($categoryQuantity[$currentCategory])) {
+                    $categoryQuantity[$currentCategory] = 0;
+                }
 				$categoryQuantity[$currentCategory] += $count;
 			}
 			// if reseller is logged in then take 'price2', default is 'price'
@@ -1564,7 +1579,7 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 		$this->setCategoryArray($categoryArray);
 		$this->setMaxTax($maxTax);
 		$this->setUidArray($uidArray);
-		$calculObj->setCalculatedArray($calculatedArray);
+		$calculObj->setBaseCalculatedArray($calculatedArray);
 	}
 
 
@@ -1585,7 +1600,7 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 		$basketExtra,
 		$basketRecs,
 		$funcTablename,
-		$externalRowArray = array(), // Download
+		$externalRowArray = [], // Download
 		$bEnableTaxZero = false
 	) {
 		$prodFuncTablename = 'tt_products';
@@ -1595,7 +1610,7 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 		$result = false;
 
 		if (isset($row) && is_array($row)) {
-			$itemArray = array();
+			$itemArray = [];
 
 			$newItem =
 				$this->getItem(
@@ -1626,14 +1641,14 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 		$calculationField = \JambageCom\TtProducts\Model\Field\FieldInterface::PRICE_CALCULATED;
 		$row = false;
 		if (count($itemArray)) {
-			$row = array();
+			$row = [];
 		}
 
 		foreach ($itemArray as $sort => $actItemArray) {
 
 			foreach ($actItemArray as $k1 => $actItem) {
 				$row = $actItem['rec'];
-				$extArray = $row['ext'];
+				$extArray = $row['ext'] ?? [];
 				if (
 					isset($extArray) &&
 					is_array($extArray)
@@ -1719,9 +1734,3 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 		return $rc;
 	}
 }
-
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/class.tx_ttproducts_basket.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/class.tx_ttproducts_basket.php']);
-}
-

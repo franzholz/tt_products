@@ -24,18 +24,19 @@
     "GPL-2.0-or-later"
   ],
   "require": {
-    "php": "^7.2",
-    "typo3/cms-core": "^9.5 || ^10.4 || ^11.5",
-    "jambagecom/div2007": "^1.11 || ^1.12",
-    "jambagecom/table": "^0.7 || ^0.8",
-    "jambagecom/tsparser": "^0.2.5 || ^0.3"
+    "typo3/cms-core": "^10.4 || ^11.5",
+    "typo3/cms-filelist": "^10.4 || ^11.5",
+    "jambagecom/div2007": "^1.15",
+    "jambagecom/table": "^0.11",
+    "jambagecom/tsparser": "^0.9.0",
+    "friendsoftypo3/typo3db-legacy": "^1"
   },
   "suggest": {
     "friendsoftypo3/func": "^9.0",
-    "jambagecom/addons-em": "^0.2",
-    "friendsoftypo3/typo3db-legacy": "^1",
-    "jambagecom/taxajax": "^0.4 || ^0.5",
-    "sjbr/static-info-tables": "^6.7 || ^6.8 || ^6.9 || ^11.5"
+    "jambagecom/addons-em": "^0.6",
+    "jambagecom/taxajax": "^0.5",
+    "jambagecom/static-info-tables-taxes": "^0.6",
+    "sjbr/static-info-tables": "^6.7 || ^6.8 || ^6.9 || ^11.5|| ^12"
   },
   "autoload": {
     "psr-4": {
@@ -56,7 +57,7 @@
     ]
   },
   "replace": {
-    "jambagecom/tt-products": "self.version"
+    "typo3-ter/tt-products": "self.version"
   },
   "extra": {
     "typo3/cms": {

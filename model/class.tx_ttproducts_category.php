@@ -54,7 +54,7 @@ class tx_ttproducts_category extends tx_ttproducts_category_base {
 	public function init (
 		$functablename
 	) {
-		$tablename = ($tablename ? $tablename : $functablename);
+		$tablename = $functablename;
 
 		$result = parent::init($functablename);
 
@@ -62,7 +62,7 @@ class tx_ttproducts_category extends tx_ttproducts_category_base {
 			$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 			$this->tableconf = $cnf->getTableConf($functablename);
 			$tableObj = $this->getTableObj();
-			$tableObj->addDefaultFieldArray(array('sorting' => 'sorting'));
+			$tableObj->addDefaultFieldArray(['sorting' => 'sorting']);
 			$tablename = $this->getTablename();
 			$tableObj->setTCAFieldArray($tablename);
 
@@ -82,7 +82,7 @@ class tx_ttproducts_category extends tx_ttproducts_category_base {
 					$prodTableDesc = $cnf->getTableDesc($prodfunctablename);
 					$prodtablename = $prodOb->getTablename();
 					$categoryField = ($prodTableDesc['category'] ? $prodTableDesc['category'] : 'category');
-					$rcArray = tx_div2007_alpha5::getForeignTableInfo_fh003($prodtablename, $categoryField);
+					$rcArray = \JambageCom\Div2007\Utility\TableUtility::getForeignTableInfo($prodtablename, $categoryField);
 					$this->setMMTablename($rcArray['mmtable']);
 				}
 			}
@@ -111,11 +111,11 @@ class tx_ttproducts_category extends tx_ttproducts_category_base {
 				$tableObj->setTCAFieldArray($this->getTableObj()->langname);
 			}
 
-			if ($this->tableconf['language.'] && $this->tableconf['language.']['type'] == 'csv') {
+			if (isset($this->tableconf['language.']) && isset($this->tableconf['language.']['type']) && $this->tableconf['language.']['type'] == 'csv' && isset($this->tableconf['language.']['file'])) {
 				$tableObj->initLanguageFile($this->tableconf['language.']['file']);
 			}
 
-			if ($this->tableconf['language.'] && is_array($this->tableconf['language.']['marker.'])) {
+			if (isset($this->tableconf['language.']) && isset($this->tableconf['language.']['marker.'])) {
 				$tableObj->initMarkerFile($this->tableconf['language.']['marker.']['file']);
 			}
 		}
@@ -126,9 +126,9 @@ class tx_ttproducts_category extends tx_ttproducts_category_base {
 	public function getRootCat () {
 		$functablename = $this->getFuncTablename ();
 		if ($functablename == 'tt_products_cat') {
-			$result = $this->conf['rootCategoryID'];
+			$result = $this->conf['rootCategoryID'] ?? '';
 		} else if ($functablename == 'tx_dam_cat') {
-			$result = $this->conf['rootDAMCategoryID'];
+			$result = $this->conf['rootDAMCategoryID'] ?? '';
 		}
 
 		if ($result == '') {
@@ -144,13 +144,13 @@ class tx_ttproducts_category extends tx_ttproducts_category_base {
 		$orderBy,
 		$category = 0
 	) {
-		$rowArray = array();
+		$rowArray = [];
 		if ($this->parentField != '') {
 			$where = $this->parentField . '=' . intval($category);
 			$rowArray = $this->get('', $pid, false, $where, '', $orderBy, '', 'uid');
 		}
 
-		$resultArray = array();
+		$resultArray = [];
 		$result = '';
 		if (isset($rowArray) && is_array($rowArray)) {
 			foreach($rowArray as $row) {
@@ -168,9 +168,12 @@ class tx_ttproducts_category extends tx_ttproducts_category_base {
 		$pid
 	) {
 		$bRootfound = false;
-		$rc = array();
+		$rc = [];
 
-		if ($uid) {
+        if (
+            $uid &&
+            $this->parentField != ''
+        ) {
 			$tableObj = $this->getTableObj();
 			$rc = $rowArray = $this->get($uid . ' ', $pid, false);
 			$orderBy = $this->tableconf['orderBy'];
@@ -225,7 +228,7 @@ class tx_ttproducts_category extends tx_ttproducts_category_base {
 		}
 
 		if (!$bRootfound) {
-			$rc = array();
+			$rc = [];
 		}
 		return $rc;
 	}
@@ -237,13 +240,13 @@ class tx_ttproducts_category extends tx_ttproducts_category_base {
 		$orderBy = ''
 	) {
 		$bUseReference = false;
-		$relatedArray = array();
+		$relatedArray = [];
 		$uidArray = $rootArray = GeneralUtility::trimExplode(',', $rootUids);
 		$tableObj = $this->getTableObj();
 		$rootLine = $this->getRootline($uidArray, $currentCat, $pid);
 
 		if (empty($rootLine)) {
-			$rootLine = array();
+			$rootLine = [];
 		}
 
 		foreach ($rootLine as $k => $row) {
@@ -261,7 +264,7 @@ class tx_ttproducts_category extends tx_ttproducts_category_base {
 
 				if (
 					$this->referenceField != '' &&
-					$row[$this->referenceField]
+					!empty($row[$this->referenceField])
 				) {
 					$bUseReference = true;
 				}
@@ -287,7 +290,7 @@ class tx_ttproducts_category extends tx_ttproducts_category_base {
 					while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
 						if (
 							is_array($tableObj->langArray) &&
-							$tableObj->langArray[$row[$labelFieldname]]
+							!empty($tableObj->langArray[$row[$labelFieldname]])
 						) {
 							$row[$labelFieldname] = $tableObj->langArray[$row[$labelFieldname]];
 						}
@@ -310,8 +313,8 @@ class tx_ttproducts_category extends tx_ttproducts_category_base {
 		}
 
 		if ($bUseReference && count($relatedArray)) { // remove copies of the referenced category
-			$finalUidKeyArray = array();
-			$fixedRelatedArray = array();
+			$finalUidKeyArray = [];
+			$fixedRelatedArray = [];
 			foreach ($relatedArray as $uid => $row) {
 				if ($row[$this->referenceField]) {
 					$uid = $row[$this->referenceField];
@@ -411,13 +414,13 @@ class tx_ttproducts_category extends tx_ttproducts_category_base {
 			$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 
 			if ($this->getFuncTablename() == 'tt_products_cat') {
-				$cat = $cnf->conf['defaultCategoryID'];
-				$catConfig = $cnf->config['defaultCategoryID'];
+				$cat = $cnf->conf['defaultCategoryID'] ?? '';
+				$catConfig = $cnf->config['defaultCategoryID'] ?? '';
 			}
 
 			if ($this->getFuncTablename() == 'tx_dam_cat') {
-				$cat = $cnf->conf['defaultDAMCategoryID'];
-				$catConfig = $cnf->config['defaultDAMCategoryID'];
+				$cat = $cnf->conf['defaultDAMCategoryID'] ?? '';
+				$catConfig = $cnf->config['defaultDAMCategoryID'] ?? '';
 			}
 
 			if (strlen($catConfig)) {
@@ -435,7 +438,8 @@ class tx_ttproducts_category extends tx_ttproducts_category_base {
 			$catArray = array_unique($catArray);
 
 			if (
-				is_array($tableConf['special.']) &&
+				!empty($tableConf['special.']) &&
+				isset($tableConf['special.']['all']) &&
 				(
 					MathUtility::canBeInterpretedAsInteger($tableConf['special.']['all']) &&
 					in_array($tableConf['special.']['all'], $catArray) ||
@@ -444,7 +448,8 @@ class tx_ttproducts_category extends tx_ttproducts_category_base {
 			) 	{
 				$cat = '';	// no filter shall be used
 			} else if (
-				is_array($tableConf['special.']) &&
+				!empty($tableConf['special.']) &&
+				isset($tableConf['special.']['no']) &&
 				MathUtility::canBeInterpretedAsInteger($tableConf['special.']['no']) &&
 				in_array($tableConf['special.']['no'], $catArray)
 			) {
@@ -458,7 +463,7 @@ class tx_ttproducts_category extends tx_ttproducts_category_base {
 	}
 
 	public function getChildUidArray ($uid) {
-		$rcArray = array();
+		$rcArray = [];
 		return $rcArray;
 	}
 
@@ -469,7 +474,7 @@ class tx_ttproducts_category extends tx_ttproducts_category_base {
 	 *
 	 */
 	public function getSubcategories ($row) {
-		return array();
+		return [];
 	}
 
 	public function getRelationArray (
@@ -478,7 +483,7 @@ class tx_ttproducts_category extends tx_ttproducts_category_base {
 		$rootUids = '',
 		$allowedCats = ''
 	) {
-		$relationArray = array();
+		$relationArray = [];
 		$rootArray = GeneralUtility::trimExplode(',', $rootUids);
 		$catArray = GeneralUtility::trimExplode(',', $allowedCats);
 		$excludeArray = GeneralUtility::trimExplode (',', $excludeCats);
@@ -489,13 +494,18 @@ class tx_ttproducts_category extends tx_ttproducts_category_base {
 			}
 		}
 
-		if (is_array($dataArray)) {
+		if (is_array($dataArray) && !empty($dataArray)) {
 			foreach ($dataArray as $row) {	// separate loop to keep the sorting order
-				$relationArray[$row['uid']] = array();
+                if (!empty($row)) {
+                    $relationArray[$row['uid']] = [];
+                }
 			}
 
 			foreach ($dataArray as $row) {
-				$uid = $row['uid'];
+                $uid = 0;
+                if (!empty($row)) {
+                    $uid = $row['uid'];
+                }
 				if (
 					(!$uid) ||
 					(
@@ -513,24 +523,26 @@ class tx_ttproducts_category extends tx_ttproducts_category_base {
 					$relationArray[$uid][$field] = $value;
 				}
 
-				$parent = $row[$this->parentField];
+				$parentId = '';
+				if ($this->parentField != '' && isset($row[$this->parentField])) {
+                    $parentId = $row[$this->parentField];
+				}
 
 				if(
-					(!$parent) ||
+					(!$parentId) ||
 					(
 						$allowedCats &&
-						!in_array($parent, $catArray)
+						!in_array($parentId, $catArray)
 					) ||
 					(
 						$excludeCats &&
-						in_array($parent, $excludeArray)
+						in_array($parentId, $excludeArray)
 					)
 				) {
-					$parent = 0;
+					$parentId = 0;
 				}
 
-				$relationArray[$uid]['parent_category'] = $parent;
-				$parentId = $row[$this->parentField];
+				$relationArray[$uid]['parent_category'] = $parentId;
 
 				if (
 					$parentId &&
@@ -541,7 +553,7 @@ class tx_ttproducts_category extends tx_ttproducts_category_base {
 					if (
 						!isset($relationArray[$parentId]['child_category'])
 					) {
-						$relationArray[$parentId]['child_category'] = array();
+						$relationArray[$parentId]['child_category'] = [];
 					}
 					$relationArray[$parentId]['child_category'][] = (int) $uid;
 				}
@@ -628,8 +640,4 @@ class tx_ttproducts_category extends tx_ttproducts_category_base {
 	}
 }
 
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/class.tx_ttproducts_category.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/class.tx_ttproducts_category.php']);
-}
 

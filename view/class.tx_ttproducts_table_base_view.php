@@ -38,11 +38,11 @@
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+use JambageCom\TtProducts\Model\Field\FieldInterface;
+
 
 abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\SingletonInterface {
 	private $bHasBeenInitialised = false;
-	public $conf;
-	public $config;
 	public $piVar;
 	public $modelObj;
 	public $marker;		// can be overridden
@@ -50,9 +50,6 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
 
 	public function init ($modelObj) {
 		$this->modelObj = $modelObj;
-		$this->conf = $modelObj->conf;
-		$this->config = $modelObj->config;
-
 		$this->bHasBeenInitialised = true;
 
 		return true;
@@ -64,14 +61,6 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
 
 	public function destruct () {
 		$this->bHasBeenInitialised = false;
-	}
-
-	public function setConf ($conf) {
-		$this->conf = $conf;
-	}
-
-	public function getConf () {
-		return $this->conf;
 	}
 
 	public function getModelObj () {
@@ -149,7 +138,7 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
 		$tagArray,
 		$parentMarker
 	) {
-		$resultArray = array();
+		$resultArray = [];
 		$search = $parentMarker . '_' . $this->getMarker() . '_';
 		$searchLen = strlen($search);
 		foreach ($tagArray as $marker => $k) {
@@ -188,8 +177,8 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
 		&$wrappedSubpartArray,
 		$tagArray,
 		$theCode = '',
-		$basketExtra = array(),
-		$basketRecs = array(),
+		$basketExtra = [],
+		$basketRecs = [],
 		$id = '',
 		$checkPriceZero = false
 	) {
@@ -203,7 +192,7 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
 			!empty($row)
 		) {
 			$newRow = $row;
-			$addedFieldArray = array();
+			$addedFieldArray = [];
 			foreach ($row as $field => $value) {
 
 				$classname = $this->getFieldClass($field);
@@ -223,10 +212,10 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
 			}
 			$row = $newRow;
 			$comparatorArray =
-				array('EQ' => '==', 'NE' => '!=', 'LT' => '<', 'LE' => '<=', 'GT' => '>', 'GE' => '>=');
-			$operatorArray = array('AND', 'OR');
-			$functionArray = array('EMPTY' => 'empty');
-			$binaryArray = array('NOT' => '!');
+				['EQ' => '==', 'NE' => '!=', 'LT' => '<', 'LE' => '<=', 'GT' => '>', 'GE' => '>='];
+			$operatorArray = ['AND', 'OR'];
+			$functionArray = ['EMPTY' => 'empty'];
+			$binaryArray = ['NOT' => '!'];
 
 			// $markerKey = $this->marker.'_'.$upperField.'_';
 			if (is_array($tagArray)) {
@@ -242,7 +231,7 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
 						if ($tagCount > 2 && $fnKey !== false) {
 							$bTagProcessing = true;
 							$tagPartKey = $fnKey + 1;
-							$fieldNameArray = array();
+							$fieldNameArray = [];
 							for ($i = 1; $i < $fnKey; ++$i) {
 								$fieldNameArray[] = $tagPartArray[$i];
 							}
@@ -288,10 +277,10 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
 								}
 							}
 
-							$fieldArray = array($fieldname => array($comparator, intval($comparand)));
+							$fieldArray = [$fieldname => [$comparator, intval($comparand)]];
 
 							foreach ($fieldArray as $field => $fieldCondition) {
-								$comparator = $comparatorArray[$fieldCondition[0]];
+								$comparator = $comparatorArray[$fieldCondition['0']];
 
 								if (isset($row[$field]) && $comparator != '') {
 									$evalString = "return $row[$field]$comparator$fieldCondition[1];";
@@ -322,7 +311,7 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
 					isset($GLOBALS['TCA'][$tablename]['columns'][$field]) &&
 					is_array($GLOBALS['TCA'][$tablename]['columns'][$field]) &&
 					in_array(
-						$GLOBALS['TCA'][$tablename]['columns'][$field]['config']['type'], array('group', 'inline', 'select')
+						$GLOBALS['TCA'][$tablename]['columns'][$field]['config']['type'], ['group', 'inline', 'select']
 					)
 				) {
 					$markerKey = $this->marker . '_HAS_' . $upperField;
@@ -331,7 +320,7 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
 						$tablename != 'tt_products_cat' &&
 						isset($GLOBALS['TCA'][$tablename]['columns'][$field]['foreign_table'])
 					) {
-						$valueArray = array();
+						$valueArray = [];
 						if ($value > 50) {
 							$value = 50; // do not allow more subpart markers
 						}
@@ -347,7 +336,7 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
 						$valueArray['0'] == 0
 					) {
 						if (isset($tagArray[$markerKeyNot])) {
-							$wrappedSubpartArray['###' . $markerKeyNot . '###'] = array('', '');
+							$wrappedSubpartArray['###' . $markerKeyNot . '###'] = ['', ''];
 						}
 					} else {
 						foreach ($valueArray as $k => $partValue) {
@@ -355,7 +344,7 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
 
 							if (isset($tagArray[$partMarkerKey])) {
 								if ($partValue) {
-									$wrappedSubpartArray['###' . $partMarkerKey . '###'] = array('', '');
+									$wrappedSubpartArray['###' . $partMarkerKey . '###'] = ['', ''];
 								} else {
 									$subpartArray['###' . $partMarkerKey . '###'] = '';
 								}
@@ -382,7 +371,7 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
 
 				if (isset($tagArray[$markerKey])) {
 					if ($value == 0) {
-						$wrappedSubpartArray['###' . $markerKey . '###'] = array('', '');
+						$wrappedSubpartArray['###' . $markerKey . '###'] = ['', ''];
 					} else {
 						$subpartArray['###' . $markerKey . '###'] = '';
 					}
@@ -393,7 +382,7 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
 					if ($value == 0) {
 						$subpartArray['###' . $markerKeyNot . '###'] = '';
 					} else {
-						$wrappedSubpartArray['###' . $markerKeyNot . '###'] = array('', '');
+						$wrappedSubpartArray['###' . $markerKeyNot . '###'] = ['', ''];
 					}
 				}
 
@@ -403,7 +392,7 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
 				) {
 					$fieldViewObj = $this->getObj($classname);
 					if (method_exists($fieldViewObj, 'getItemSubpartArrays')) {
-						$itemSubpartArray = array();
+						$itemSubpartArray = [];
 						$fieldViewObj->getItemSubpartArrays(
 							$templateCode,
 							$this->marker,
@@ -483,13 +472,13 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
 		array $markerArray,
 		&$theMarkerArray
 	) {
+        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
         $local_cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
-        $parser = tx_div2007_core::newHtmlParser(false);
 
-		$newRow = array();
+		$newRow = [];
 		foreach ($row as $field => $value) {
-			if (is_array($tableconf['field.'][$field . '.'])) {
-				if ($tableconf['field.'][$field . '.']['untouched']) {
+			if (isset($tableconf['field.'][$field . '.'])) {
+				if (!empty($tableconf['field.'][$field . '.']['untouched'])) {
 					$value = $origRow[$field];
 				}
 				$tableconf['field.'][$field . '.']['value'] = $value;
@@ -500,7 +489,7 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
 				);
 
 				$value =
-					$parser->substituteMarkerArray(
+					$templateService->substituteMarkerArray(
 						$fieldContent,
 						$fieldMarkerArray
 					);
@@ -515,7 +504,10 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
 		}
 		$marker = $this->getMarker();
 
-		if (is_array ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$marker])) {
+		if (
+            isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$marker]) &&
+            is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$marker])
+        ) {
 			foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$marker] as $classRef) {
 				$hookObj = GeneralUtility::makeInstance($classRef);
 				if (method_exists($hookObj, 'modifyFieldObject')) {
@@ -539,12 +531,14 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
 	}
 
 	public function createFieldMarkerArray ($row, $markerPrefix, $suffix) {
-		$fieldMarkerArray = array();
+		$fieldMarkerArray = [];
 		foreach ($row as $field => $value) {
-			$viewField = $field;
-			$markerKey = $markerPrefix . strtoupper($viewField . $suffix);
+            if (is_string($value)) {
+                $viewField = $field;
+                $markerKey = $markerPrefix . strtoupper($viewField . $suffix);
 
-			$fieldMarkerArray['###' . $markerKey . '###'] = $value;
+                $fieldMarkerArray['###' . $markerKey . '###'] = $value;
+            }
 		}
 		return $fieldMarkerArray;
 	}
@@ -574,18 +568,20 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $conf = $cnf->getConf();
 
-		$rowMarkerArray = array();
+		$rowMarkerArray = [];
 		if ($prefix === false) {
 			$marker = '';
 		} else {
 			$markerKey = $this->getMarkerKey($markerKey);
 			$marker = $prefix . $markerKey;
 		}
+		$mainId = '';
 
-		if (is_array($row) && $row['uid']) {
+		if (isset($row) && is_array($row) && !empty($row['uid'])) {
 
 			$newRow = $row;
-			$addedFieldArray = array();
+			$addedFieldArray = [];
+
 			foreach ($row as $field => $value) {
 
 				$classname = $this->getFieldClass($field);
@@ -603,8 +599,8 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
 							);
 					}
 				}
-				if (strpos($field, EXTERNAL_FIELD_PREFIX) === 0) {
-					$newField = substr($field, strlen(EXTERNAL_FIELD_PREFIX));
+				if (strpos($field, FieldInterface::EXTERNAL_FIELD_PREFIX) === 0) {
+					$newField = substr($field, strlen(FieldInterface::EXTERNAL_FIELD_PREFIX));
 					$newRow[$newField] = $value;
 					unset($newRow[$field]);
 				}
@@ -624,14 +620,7 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
 
 			foreach ($row as $field => $value) {
 				if (
-					in_array($field, $addedFieldArray) ||
-					(
-						strpos($field, 'image_uid') !== false &&
-						(
-                            !$GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['fal'] &&
-                            version_compare(TYPO3_version, '10.4.0', '<')
-                        )
-					)
+					in_array($field, $addedFieldArray)
 				) {
 					continue; // do not handle the added fields here. They must be handled with the original field.
 				}
@@ -662,7 +651,8 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
 				} else {
 					$classname = $this->getFieldClass($field);
 				}
-				$modifiedRow = array($field => $value);
+				
+				$modifiedRow = [$field => $value];
 
 				if (
 					$classname
@@ -675,6 +665,7 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
 							$row,
 							$markerKey,
 							$theMarkerArray,
+							$fieldMarkerArray,
 							$tagArray,
 							$theCode,
 							$fieldId,
@@ -687,13 +678,14 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
 							$suffix,
 							$imageNum,
 							$imageRenderObj,
+							$linkWrap,
 							$bEnableTaxZero
 						);
 
 					if (isset($modifiedRow) && !is_array($modifiedRow)) { // if a single value has been returned instead of an array
-						$modifiedRow = array($field => $modifiedRow);
+						$modifiedRow = [$field => $modifiedRow];
 					} else if (!isset($modifiedRow)) { // restore former default value
-						$modifiedRow = array($field => $value);
+						$modifiedRow = [$field => $value];
 					}
 				} else {
 					switch ($field) {
@@ -705,7 +697,6 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
 							break;
 					}
 				}
-
 				if (!$bSkip) {
 					$this->modifyFieldObject(
 						$row,
@@ -723,14 +714,17 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
 			$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 			$tablename = $cnf->getTableName($functablename);
 // 			$tablename = $this->getModelObj()->getTablename();
-			$tmpMarkerArray = array();
+			$tmpMarkerArray = [];
 			$tmpMarkerArray[] = $marker;
 
 			if (isset($GLOBALS['TCA'][$tablename]['columns']) && is_array($GLOBALS['TCA'][$tablename]['columns'])) {
 
 				foreach ($GLOBALS['TCA'][$tablename]['columns'] as $theField => $confArray) {
 
-					if ($confArray['config']['type'] == 'group') {
+					if (
+                        $confArray['config']['type'] == 'group' &&
+                        isset($confArray['config']['foreign_table'])
+                    ) {
 						$foreigntablename = $confArray['config']['foreign_table'];
                         if (
                             $foreigntablename != '' &&
@@ -787,7 +781,10 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
 			// Call all getRowMarkerArray hooks at the end of this method
 		$marker = $this->getMarker();
 
-		if (is_array ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$marker])) {
+		if (
+            isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$marker]) &&
+            is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$marker])
+        ) {
 			foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$marker] as $classRef) {
 				$hookObj = GeneralUtility::makeInstance($classRef);
 				if (method_exists($hookObj, 'getRowMarkerArray')) {
@@ -813,7 +810,3 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
 	}
 }
 
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_table_base_view.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_table_base_view.php']);
-}

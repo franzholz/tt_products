@@ -37,8 +37,6 @@
  *
  */
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-
 
 
 class tx_ttproducts_country_view extends tx_ttproducts_table_base_view {
@@ -52,26 +50,14 @@ class tx_ttproducts_country_view extends tx_ttproducts_table_base_view {
 	 * @return	array
 	 * @access private
 	 */
-	public function getRowMarkerArray ($functablename, $row, &$markerArray, &$fieldsArray) {
+    public function getRowMarkers (&$markerArray, $prefix, $row) {
 
-		$markerTable = implode('',GeneralUtility::trimExplode('_', $this->getModelObj()->getFuncTablename()));
-
-		foreach ($fieldsArray as $k => $field) {
-			$markerKey = strtoupper($markerTable . '_' . $field);
-			$markerArray['###' . $markerKey . '###'] =
-				htmlentities(
-					$row[$field],
-					ENT_QUOTES,
-					'UTF-8'
-				);
-		}
-	}
+        $thePrefix = $prefix . '_' . $this->getMarker() . '_';
+        foreach ($row as $field => $value) {
+            $markerKey = $thePrefix . strtoupper($field);
+            $markerArray['###' . $markerKey . '###'] =
+                htmlspecialchars($value);
+        }
+    }    
 }
-
-
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_country_view.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_country_view.php']);
-}
-
 

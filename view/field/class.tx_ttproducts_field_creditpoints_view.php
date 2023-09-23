@@ -39,7 +39,7 @@
 
 
 class tx_ttproducts_field_creditpoints_view extends tx_ttproducts_field_base_view {
-	protected $addedFieldArray = array('creditpoints_missing', 'creditpoints_remaining');
+	protected $addedFieldArray = ['creditpoints_missing', 'creditpoints_remaining'];
 
 	public function modifyItemSubpartRow ($fieldname, $row, &$addedFieldArray) {
 		$modelObj = $this->getModelObj();
@@ -59,6 +59,7 @@ class tx_ttproducts_field_creditpoints_view extends tx_ttproducts_field_base_vie
 		$row,
 		$markerKey,
 		&$markerArray,
+		$fieldMarkerArray,
 		$tagArray,
 		$theCode,
 		$id,
@@ -71,9 +72,10 @@ class tx_ttproducts_field_creditpoints_view extends tx_ttproducts_field_base_vie
 		$suffix = '',
 		$imageNum = 0,
 		$imageRenderObj = '',
+		$linkWrap = false,
 		$bEnableTaxZero = false
 	) {
-		$modifiedRow = array();
+		$modifiedRow = [];
 		$value =
 			$this->getModelObj()->getFieldValue(
 				$dummy,
@@ -101,10 +103,4 @@ class tx_ttproducts_field_creditpoints_view extends tx_ttproducts_field_base_vie
 		return $modifiedRow;
 	}
 }
-
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/field/class.tx_ttproducts_field_creditpoints_view.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/field/class.tx_ttproducts_field_creditpoints_view.php']);
-}
-
 

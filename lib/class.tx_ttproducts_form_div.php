@@ -37,6 +37,9 @@
  *
  */
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
+
 class tx_ttproducts_form_div {
 
 	static public function createSelect (
@@ -46,23 +49,23 @@ class tx_ttproducts_form_div {
 		$selectedKey,
 		$bSelectTags = true,
 		$bTranslateText = true,
-		$allowedArray = array(),
+		$allowedArray = [],
 		$type = 'select',
-		$mainAttributeArray = array(),
+		$mainAttributeArray = [],
 		$header = '',
 		$layout = '',
 		$imageFileArray = '',
 		$keyMarkerArray = ''
 	) {
 		$result = false;
-		$useXHTML = $GLOBALS['TSFE']->config['config']['xhtmlDoctype'] != '';
-		$parser = tx_div2007_core::newHtmlParser(false);
+		$templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+		$useXHTML = !empty($GLOBALS['TSFE']->config['config']['xhtmlDoctype']);
 		$flags = ENT_QUOTES;
 
 		if (is_array($valueArray)) {
 			$totaltext = '';
 			if ($header != '') {
-				$newValueArray = array();
+				$newValueArray = [];
 				$newValueArray['-1'] = $header;
 				foreach ($valueArray as $k => $v) {
 					$newValueArray[$k] = $v;
@@ -81,7 +84,7 @@ class tx_ttproducts_form_div {
 				}
 
 				if ($bTranslateText) {
-					$tmp = tx_div2007_alpha5::sL_fh002($selectValue);
+					$tmp = $languageObj->splitLabel($selectValue);
 					$text = $languageObj->getLabel($tmp);
 				} else {
 					$text = '';
@@ -97,8 +100,8 @@ class tx_ttproducts_form_div {
 					$nameText = trim($text);
 					$valueText = $selectKey;
 					$selectedText = '';
-					$paramArray = array();
-					$preParamArray = array();
+					$paramArray = [];
+					$preParamArray = [];
 
 					if ($key == -1) {
 						$selectedText = ($useXHTML ? ' disabled="disabled"' : ' disabled');
@@ -122,7 +125,7 @@ class tx_ttproducts_form_div {
 
 					switch ($type) {
 						case 'select':
-							$inputTextArray = array('<option value="' . htmlspecialchars($valueText, $flags) . '"' . $selectedText . '>', '</option>');
+							$inputTextArray = ['<option value="' . htmlspecialchars($valueText, $flags) . '"' . $selectedText . '>', '</option>'];
 							break;
 						case 'checkbox':
 						case 'radio':
@@ -132,7 +135,7 @@ class tx_ttproducts_form_div {
 							if ($layout == '') {
 								$inputText .=  ' ' . $nameText . '<br ' . ($useXHTML ? '/' : '') . '>';
 							}
-							$inputTextArray = array($inputText);
+							$inputTextArray = [$inputText];
 							break;
 						default:
 							return false;
@@ -140,16 +143,16 @@ class tx_ttproducts_form_div {
 					}
 
 					if ($layout == '') {
-						$totaltext .= $inputTextArray['0'] . ($type == 'select' ? $nameText : '') . $inputTextArray['1'];
+						$totaltext .= ($inputTextArray[0] ?? '') . ($type == 'select' ? $nameText : '') . ($inputTextArray[1] ?? '');
 					} else {
 						// $tmpText = str_replace('###INPUT###', $inputText, $layout);
-						$tmpText = $parser->substituteSubpart($layout, '###INPUT###', $inputTextArray);
+						$tmpText = $templateService->substituteSubpart($layout, '###INPUT###', $inputTextArray);
 
 						if (is_array($imageFileArray) && isset($imageFileArray[$key])) {
 							$tmpText = str_replace('###IMAGE###', $imageFileArray[$key], $tmpText);
 						}
 						if (is_array($keyMarkerArray) && isset($keyMarkerArray[$key])) {
-							$tmpText = $parser->substituteMarkerArray(
+							$tmpText = $templateService->substituteMarkerArray(
 								$tmpText,
 								$keyMarkerArray[$key]
 							);
@@ -178,14 +181,14 @@ class tx_ttproducts_form_div {
 
 	// fetches the valueArray needed for the functions of this class from a valueArray setup
 	static public function fetchValueArray ($confArray) {
-		$resultArray = array();
+		$resultArray = [];
 		if (is_array($confArray)) {
 			foreach ($confArray as $k => $vArray) {
 				$resultArray[] =
-					array(
+					[
 						0 => $vArray['label'],
 						1 => $vArray['value']
-					);
+					];
 			}
 		}
 		return $resultArray;
@@ -193,7 +196,7 @@ class tx_ttproducts_form_div {
 
 
 	static public function getKeyValueArray ($valueArray) {
-		$resultArray = array();
+		$resultArray = [];
 
 		foreach ($valueArray as $k => $row) {
 			$resultArray[$row[1]] = $row[0];
@@ -202,8 +205,8 @@ class tx_ttproducts_form_div {
 	}
 
 	static protected function getAttributeString ($mainAttributeArray) {
-		$useXHTML = $GLOBALS['TSFE']->config['config']['xhtmlDoctype'] != '';
-		$resultArray = array();
+		$useXHTML = !empty($GLOBALS['TSFE']->config['config']['xhtmlDoctype']);
+		$resultArray = [];
 
 		if (is_array($mainAttributeArray) && count($mainAttributeArray)) {
 
@@ -231,12 +234,12 @@ class tx_ttproducts_form_div {
 		$preMainAttributes = '',
 		$mainAttributes = ''
 	) {
-		$useXHTML = $GLOBALS['TSFE']->config['config']['xhtmlDoctype'] != '';
-		$attributeTextArray = array();
-		$attributeArray = array();
+		$useXHTML = !empty($GLOBALS['TSFE']->config['config']['xhtmlDoctype']);
+		$attributeTextArray = [];
+		$attributeArray = [];
 		$attributeArray['pre'] = $preMainAttributes;
 		$attributeArray['post'] = $mainAttributes;
-		$spaceArray = array();
+		$spaceArray = [];
 		$spaceArray['pre'] = ($preMainAttributes != '' ? ' ' : '');
 		$spaceArray['post'] = ($mainAttributes != '' ? ' ' : '');
 

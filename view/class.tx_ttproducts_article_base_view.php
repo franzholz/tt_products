@@ -1,3 +1,4 @@
+
 <?php
 /***************************************************************
 *  Copyright notice
@@ -43,11 +44,11 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
 abstract class tx_ttproducts_article_base_view extends tx_ttproducts_table_base_view {
-	private $dataArray = array(); // array of read in products
+	private $dataArray = []; // array of read in products
 	private $table;	 // object of the type tx_table_db
 
 	public $tabledesc;
-	public $fields = array();
+	public $fields = [];
 	public $type; 	// the type of table 'article' or 'product'
 			// this gets in lower case also used for the URL parameter
 	public $variant;       // object for the product variant attributes, must initialized in the init function
@@ -111,11 +112,11 @@ abstract class tx_ttproducts_article_base_view extends tx_ttproducts_table_base_
 		&$subpartArray,
 		&$wrappedSubpartArray,
 		$tagArray,
-		$multiOrderArray = array(),
-		$productRowArray = array(),
+		$multiOrderArray = [],
+		$productRowArray = [],
 		$theCode = '',
-		$basketExtra = array(),
-		$basketRecs = array(),
+		$basketExtra = [],
+		$basketRecs = [],
 		$iCount = ''
 	) {
 		$this->getItemSubpartArrays(
@@ -140,13 +141,11 @@ abstract class tx_ttproducts_article_base_view extends tx_ttproducts_table_base_
         &$wrappedSubpartArray,
         $tagArray,
         $theCode = '',
-        $basketExtra = array(),
-        $basketRecs = array(),
+        $basketExtra = [],
+        $basketRecs = [],
         $id = '',
         $checkPriceZero = false
     ) {
-		global $TCA;
-
 		parent::getItemSubpartArrays(
 			$templateCode,
 			$functablename,
@@ -265,10 +264,10 @@ abstract class tx_ttproducts_article_base_view extends tx_ttproducts_table_base_
 		$imageNum = 0,
 		$imageRenderObj = 'image',
 		$tagArray,
-		$forminfoArray = array(),
+		$forminfoArray = [],
 		$theCode = '',
-		$basketExtra = array(),
-		$basketRecs = array(),
+		$basketExtra = [],
+		$basketRecs = [],
 		$id = '',
 		$prefix = '',
 		$suffix = '',
@@ -276,8 +275,8 @@ abstract class tx_ttproducts_article_base_view extends tx_ttproducts_table_base_
 		$bHtml = true,
 		$charset = '',
 		$hiddenFields = '',
-		$multiOrderArray = array(),
-		$productRowArray = array(),
+		$multiOrderArray = [],
+		$productRowArray = [],
 		$bEnableTaxZero = false,
         $notOverwritePriceIfSet = true
 	) {
@@ -293,10 +292,10 @@ abstract class tx_ttproducts_article_base_view extends tx_ttproducts_table_base_
 		}
 
 		if (!$marker) {
-			return array();
+			return [];
 		}
 		$variantFieldArray = $modelObj->variant->getFieldArray();
-		$variantMarkerArray = array();
+		$variantMarkerArray = [];
 
 		$this->getRowMarkerArray(
 			$modelObj->getFuncTablename(),
@@ -332,10 +331,5 @@ abstract class tx_ttproducts_article_base_view extends tx_ttproducts_table_base_
             $notOverwritePriceIfSet
 		);
 	}
-}
-
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_article_base_view.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_article_base_view.php']);
 }
 

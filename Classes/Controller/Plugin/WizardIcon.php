@@ -39,13 +39,14 @@ class WizardIcon
     public function proc(array $wizardItems)
     {
         $wizardIcon = 'res/icons/be/ce_wiz.gif';
-        $params = '&defVals[tt_content][CType]=list&defVals[tt_content][list_type]=5&defVals[tt_content][select_key]=HELP';
+        $params = '&defVals[tt_content][CType]=list&defVals[tt_content][list_type]=5';
+        $languageSubpath = '/Resources/Private/Language/';
 
-        $wizardItem = array(
-            'title' => $GLOBALS['LANG']->sL('LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang.xlf:plugins_title'),
-            'description' => $GLOBALS['LANG']->sL('LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang.xlf:plugins_description'),
+        $wizardItem = [
+            'title' => $GLOBALS['LANG']->sL('LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang.xlf:plugins_title'),
+            'description' => $GLOBALS['LANG']->sL('LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang.xlf:plugins_description'),
             'params' => $params
-        );
+        ];
 
         $iconIdentifier = 'extensions-tt_products-wizard';
         /** @var \TYPO3\CMS\Core\Imaging\IconRegistry $iconRegistry */
@@ -53,9 +54,9 @@ class WizardIcon
         $iconRegistry->registerIcon(
             $iconIdentifier,
             'TYPO3\\CMS\\Core\\Imaging\\IconProvider\\BitmapIconProvider',
-            array(
+            [
                 'source' => 'EXT:' . TT_PRODUCTS_EXT . '/' . $wizardIcon,
-            )
+            ]
         );
         $wizardItem['iconIdentifier'] = $iconIdentifier;
 

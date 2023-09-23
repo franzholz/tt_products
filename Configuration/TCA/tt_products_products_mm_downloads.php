@@ -1,63 +1,67 @@
 <?php
-defined('TYPO3_MODE') || die('Access denied.');
+defined('TYPO3') || die('Access denied.');
 
 // ******************************************************************
 // products to download relation table, tt_products_products_mm_downloads
 // ******************************************************************
 
-$result = array (
-	'ctrl' => array (
-		'title' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_products_mm_downloads',
+$extensionKey = 'tt_products';
+$languageSubpath = '/Resources/Private/Language/';
+$languageLglPath = 'LLL:EXT:core' . $languageSubpath . 'locallang_general.xlf:LGL.';
+
+$result = [
+	'ctrl' => [
+		'title' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_products_mm_downloads',
 		'label' => 'uid_local',
 		'tstamp' => 'tstamp',
 		'delete' => 'deleted',
-		'enablecolumns' => array (
+		'enablecolumns' => [
 			'disabled' => 'hidden'
-		),
-		'prependAtCopy' => DIV2007_LANGUAGE_LGL . 'prependAtCopy',
+		],
+		'prependAtCopy' => $languageLglPath . 'prependAtCopy',
 		'crdate' => 'crdate',
-		'iconfile' => PATH_TTPRODUCTS_ICON_TABLE_REL . 'tt_products_relations.gif',
+        'iconfile' => 'EXT:' . $extensionKey . '/Resources/Public/Icons/' . 'tt_products_relations.gif',
 		'hideTable' => true,
-	),
-	'columns' => array (
-		'uid_local' => array (
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_products_mm_downloads.uid_local',
-			'config' => array (
+	],
+	'columns' => [
+		'uid_local' => [
+			'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_products_mm_downloads.uid_local',
+			'config' => [
 				'type' => 'select',
 				'renderType' => 'selectSingle',
 				'foreign_table' => 'tt_products',
 				'maxitems' => 1,
 				'default' => 0
-			)
-		),
-		'uid_foreign' => array (
-			'label' => 'LLL:EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'locallang_db.xlf:tt_products_products_mm_downloads.uid_foreign',
-			'config' => array (
+			]
+		],
+		'uid_foreign' => [
+			'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_products_mm_downloads.uid_foreign',
+			'config' => [
 				'type' => 'select',
 				'renderType' => 'selectSingle',
 				'foreign_table' => 'tt_products_downloads',
 				'maxitems' => 1,
 				'default' => 0
-			)
-		),
-		'localsort' => array (
-			'config' => array (
+			]
+		],
+		'localsort' => [
+			'config' => [
 				'type' => 'passthrough',
 				'default' => 0
-			)
-		),
-		'foreignsort' => array (
-			'config' => array (
+			]
+		],
+		'foreignsort' => [
+			'config' => [
 				'type' => 'passthrough',
 				'default' => 0
-			)
-		),
-	),
-	'types' => array(
-		'0' => array(
+			]
+		],
+	],
+	'types' => [
+		'0' => [
 			'showitem' => ''
-		)
-	)
-);
+		]
+	]
+];
 
 return $result;

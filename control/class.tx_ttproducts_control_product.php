@@ -54,7 +54,7 @@ class tx_ttproducts_control_product {
 		$uid = $row['uid'];
 		$functablename = $itemTable->getFuncTablename();;
 		$basketVar = tx_ttproducts_model_control::getBasketVar();
-		$presetVariantArray = array();
+		$presetVariantArray = [];
 		$basketArray = GeneralUtility::_GP($basketVar);
 
 		if (
@@ -108,7 +108,7 @@ class tx_ttproducts_control_product {
 
 			$selectableVariantFieldArray = $itemTable->variant->getSelectableFieldArray();
 			$editFieldArray = $itemTable->editVariant->getFieldArray();
-			$fieldArray = array();
+			$fieldArray = [];
 
 			if (
 				isset($selectableVariantFieldArray) &&
@@ -121,7 +121,7 @@ class tx_ttproducts_control_product {
 				$fieldArray = array_merge($fieldArray, $editFieldArray);
 			}
 
-			$param = array($functablename => $fieldArray);
+			$param = [$functablename => $fieldArray];
 			$bUseColorbox = false;
 			$tableConf = $itemTable->getTableConf($theCode);
 			if (

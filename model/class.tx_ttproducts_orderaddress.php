@@ -44,7 +44,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class tx_ttproducts_orderaddress extends tx_ttproducts_table_base {
 	var $dataArray; // array of read in frontend users
 	var $table;		 // object of the type tx_table_db
-	var $fields = array();
+	var $fields = [];
 	var $tableconf;
 	var $piVar = 'fe';
 
@@ -69,9 +69,12 @@ class tx_ttproducts_orderaddress extends tx_ttproducts_table_base {
 	// 		$this->image->init($this->pibase);
 
 			$this->getTableObj()->setTCAFieldArray($tablename);
-			$this->fieldArray['payment'] = ($this->tableconf['payment'] ? $this->tableconf['payment'] : '');
+			$this->fieldArray['payment'] = ($this->tableconf['payment'] ?? '');
 			$requiredFields = 'uid,pid,email' . ($this->fieldArray['payment'] ? ',' . $this->fieldArray['payment'] : '');
-			if (is_array($this->tableconf['ALL.'])) {
+            if (
+                isset($this->tableconf['ALL.']) &&
+                is_array($this->tableconf['ALL.'])
+            ) {
 				$tmp = $this->tableconf['ALL.']['requiredFields'];
 				$requiredFields = ($tmp ? $tmp : $requiredFields);
 			}
@@ -84,7 +87,7 @@ class tx_ttproducts_orderaddress extends tx_ttproducts_table_base {
 
 
 	public function getSelectInfoFields() {
-		$result = array('salutation', 'tt_products_business_partner', 'tt_products_organisation_form');
+		$result = ['salutation', 'tt_products_business_partner', 'tt_products_organisation_form'];
 
 		return $result;
 	}
@@ -152,19 +155,22 @@ class tx_ttproducts_orderaddress extends tx_ttproducts_table_base {
 			$bCondition = true;
 		}
 
-		$whereConf = $this->conf['conf.'][$funcTablename.'.']['ALL.']['fe_users.']['where'];
-		$whereArray = GeneralUtility::trimExplode('IN', $whereConf);
-		$pos1 = strpos ($whereArray[1], '(');
-		$pos2 = strpos ($whereArray[1], ')');
-		$inString = substr ($whereArray[1], $pos1+1, $pos2-$pos1-1);
+		$whereConf = $this->conf['conf.'][$funcTablename.'.']['ALL.']['fe_users.']['where'] ?? '';
+		
+		if (!empty($whereConf)) {
+            $whereArray = GeneralUtility::trimExplode('IN', $whereConf);
+            $pos1 = strpos ($whereArray[1], '(');
+            $pos2 = strpos ($whereArray[1], ')');
+            $inString = substr ($whereArray[1], $pos1 + 1, $pos2 - $pos1 - 1);
 
-		$valueArray = GeneralUtility::trimExplode(',', $inString);
-		foreach ($valueArray as $value) {
-			if ($row[$whereArray[0]] == $value) {
-				$this->bConditionRecord = true;
-				break;
-			}
-		}
+            $valueArray = GeneralUtility::trimExplode(',', $inString);
+            foreach ($valueArray as $value) {
+                if ($row[$whereArray[0]] == $value) {
+                    $this->bConditionRecord = true;
+                    break;
+                }
+            }
+        }
 
 		if ($bCondition) {
 			$this->bCondition = true;
@@ -200,11 +206,6 @@ class tx_ttproducts_orderaddress extends tx_ttproducts_table_base {
 		$result = $this->conf['PIDuserFolder'];
 		return $result;
 	}
-}
-
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/class.tx_ttproducts_orderaddress.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/class.tx_ttproducts_orderaddress.php']);
 }
 
 

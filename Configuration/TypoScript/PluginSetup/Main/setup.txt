@@ -14,6 +14,7 @@ plugin.tt_products >
 plugin.tt_products = USER
 plugin.tt_products {
   userFunc = tx_ttproducts_pi1->main
+  transmissionSecurity = {$plugin.tt_products.transmissionSecurity}
   test = nothing
   templateFile = {$plugin.tt_products.file.templateFile}
   defaultSetup = 1
@@ -22,7 +23,7 @@ plugin.tt_products {
   errorLog = {$plugin.tt_products.file.errorLog}
   templateStyle = css-styled
   pid_list = {$plugin.tt_products.pid_list}
-  code.field = select_key
+  code.field = 
   defaultCode = HELP
   defaultImageDir =
   wrapInBaseClass = 1
@@ -113,13 +114,11 @@ plugin.tt_products {
   basketPic = {$plugin.tt_products.basketPic}
   clickIntoBasket = {$plugin.tt_products.clickIntoBasket}
   clickIntoList = {$plugin.tt_products.clickIntoList}
-  clickIntoSubmenu = {$plugin.tt_products.clickIntoSubmenu}
   clickItemsIntoSubmenu = {$plugin.tt_products.clickItemsIntoSubmenu}
   basketMaxQuantity = {$plugin.tt_products.basketMaxQuantity}
   quantityIsFloat = {$plugin.tt_products.quantityIsFloat}
 
   CSS {
-    file = EXT:tt_products/template/tt_products_example.css
     tt_products.ALL.row.even = {$plugin.tt_products.CSSRowEven}
     tt_products.ALL.row.uneven = {$plugin.tt_products.CSSRowUneven}
     tt_products.ALL.itemSingleWrap = <div class="###UNEVEN###">|</div>
@@ -194,7 +193,7 @@ plugin.tt_products {
   loginUserInfoAddress = {$plugin.tt_products.loginUserInfoAddress}
   orderByItemNumberSg = {$plugin.tt_products.orderByItemNumberSg}
   orderNumberPrefix = {$plugin.tt_products.orderNumberPrefix}
-  requiredInfoFields = name, address, telephone, email
+  requiredInfoFields = name, address, email
   orderEmail_from = {$plugin.tt_products.orderEmail_from}
   orderEmail_fromName = {$plugin.tt_products.orderEmail_fromName}
   orderEmail_to = {$plugin.tt_products.orderEmail_to}
@@ -340,7 +339,7 @@ plugin.tt_products {
 
   conf.tt_products.ALL {
     orderBy = title
-    requiredFields = uid,pid,category,price,price2,discount,discount_disable,directcost,graduated_price_uid,tax,inStock,unit_factor,weight
+    requiredFields = uid,pid,category,price,price2,discount,discount_disable,directcost,graduated_price_uid,graduated_price_enable,tax,inStock,unit_factor,weight,itemnumber
     language.type = table
     language.table = tt_products_language
     functions {
@@ -359,6 +358,9 @@ plugin.tt_products {
 	  }
 	}
 	charRegExp = [[:blank:]]*
+    imageMarker {
+        type = index
+    }
   }
 
 
@@ -413,7 +415,7 @@ plugin.tt_products {
     onlyChildsOfCurrent = 1
     language.type = table
     language.table = tt_products_cat_language
-    orderBy = sorting
+    orderBy = title
     functions {
 	    htmlentities = title, subtitle
     }
@@ -429,7 +431,7 @@ plugin.tt_products {
     onlyChildsOfCurrent = 1
     language.type = table
     language.table = tt_products_texts_language
-    orderBy = sorting
+    orderBy = title
   }
 
   conf.pages.ALL {
@@ -461,7 +463,7 @@ plugin.tt_products {
      requiredFields = uid,pid
      onlyChildsOfCurrent = 1
      language.type = noTranslation
-     orderBy = sorting
+     orderBy = title
      hierarchytiers = 1
   }
 
@@ -494,18 +496,18 @@ plugin.tt_products {
     }
     0.image < .image
     0.image {
-        file = EXT:tt_products/res/icons/fe/availableDemand.gif
+        file = EXT:tt_products/Resources/Public/Images/availableDemand.gif
         file.maxW = {$plugin.tt_products.maxW_single}
     }
     1 < plugin.tt_products.conf.tt_products.ALL.delivery.0
     1.text.10.value = ###P_DELIVERY_AVAILABLE_IMMEDIATE###
     1.image {
-        file = EXT:tt_products/res/icons/fe/availableImmediate.gif
+        file = EXT:tt_products/Resources/Public/Images/availableImmediate.gif
     }
     2 < plugin.tt_products.conf.tt_products.ALL.delivery.0
     2.text.10.value = ###P_DELIVERY_AVAILABLE_SHORT###
     2.image {
-        file = EXT:tt_products/res/icons/fe/availableShort.gif
+        file = EXT:tt_products/Resources/Public/Images/availableShort.gif
     }
   }
 
@@ -525,6 +527,7 @@ plugin.tt_products {
   SINGLECTRL = USER_INT
   SINGLECTRL {
     userFunc = tx_ttproducts_control_user_int->singleCtrl
+    active = 0
 	trigger {
 		10 = sys_products_fe_users_mm_visited_products
 		20 = sys_products_visited_products
@@ -563,7 +566,6 @@ plugin.tt_products {
 
   control.ALL.links {
     FORM_MEMO {
-      useCacheHash = 0
     }
   }
 

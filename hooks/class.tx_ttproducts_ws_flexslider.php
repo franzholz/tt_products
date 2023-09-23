@@ -87,7 +87,7 @@ class tx_ttproducts_ws_flexslider {
 				',',
 				$images[0][$imageField]
 			);
-		$imageArray = array();
+		$imageArray = [];
 
 		foreach ($imageElement as $k => $value) {
 			$imageArray[$k]['image'] = $value;

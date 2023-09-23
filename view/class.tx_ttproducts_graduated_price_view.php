@@ -56,7 +56,8 @@ class tx_ttproducts_graduated_price_view extends tx_ttproducts_table_base_view {
 	) {
 		if (isset($priceFormula) && is_array($priceFormula)) {
 			$marker = $this->getMarker();
-			$conf = $this->getConf();
+            $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
+            $conf = $cnfObj->getConf();
 
 			$priceObj = GeneralUtility::makeInstance('tx_ttproducts_field_price');
 			$priceViewObj = GeneralUtility::makeInstance('tx_ttproducts_field_price_view');
@@ -131,18 +132,18 @@ class tx_ttproducts_graduated_price_view extends tx_ttproducts_table_base_view {
 		&$wrappedSubpartArray,
 		&$tagArray,
 		$theCode = '',
-		$basketExtra = array(),
-		$basketRecs = array(),
+		$basketExtra = [],
+		$basketRecs = [],
         $pObj,            
 		$id = '1'
 	) {
+        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 		$subpartmarkerObj = GeneralUtility::makeInstance('tx_ttproducts_subpartmarker');
 		$local_cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
-        $parser = tx_div2007_core::newHtmlParser(false);
 
-		$t = array();
-		$t['listFrameWork'] = tx_div2007_core::getSubpart($templateCode,'###GRADPRICE_FORMULA_ITEMS###');
-		$t['itemFrameWork'] = tx_div2007_core::getSubpart($t['listFrameWork'], '###ITEM_FORMULA###');
+		$t = [];
+		$t['listFrameWork'] = $templateService->getSubpart($templateCode,'###GRADPRICE_FORMULA_ITEMS###');
+		$t['itemFrameWork'] = $templateService->getSubpart($t['listFrameWork'], '###ITEM_FORMULA###');
 
         $priceFormulaArray = $pObj->getModelObj()->getGraduatedPriceObject()->getFormulasByItem($row['uid']);
 
@@ -150,7 +151,7 @@ class tx_ttproducts_graduated_price_view extends tx_ttproducts_table_base_view {
 			$content = '';
 			foreach ($priceFormulaArray as $k => $priceFormula) {
 				if (isset($priceFormula) && is_array($priceFormula)) {
-					$itemMarkerArray = array();
+					$itemMarkerArray = [];
 					$this->getFormulaMarkerArray(
 						$basketExtra,
 						$basketRecs,
@@ -161,8 +162,8 @@ class tx_ttproducts_graduated_price_view extends tx_ttproducts_table_base_view {
 						$itemMarkerArray
 					);
 
-					$formulaContent = $parser->substituteMarkerArray($t['itemFrameWork'], $itemMarkerArray);
-					$content .= $parser->substituteSubpart($t['listFrameWork'], '###ITEM_FORMULA###', $formulaContent) ;
+					$formulaContent = $templateService->substituteMarkerArray($t['itemFrameWork'], $itemMarkerArray);
+					$content .= $templateService->substituteSubpart($t['listFrameWork'], '###ITEM_FORMULA###', $formulaContent) ;
 				}
 			}
 			$subpartArray['###GRADPRICE_FORMULA_ITEMS###'] = $content;
@@ -220,7 +221,7 @@ class tx_ttproducts_graduated_price_view extends tx_ttproducts_table_base_view {
 		foreach ($tagArray as $value => $k1) {
 			$keyMarker = '###' . $value . '###';
 			if (
-				strstr($value, $marker . '_') &&
+				strpos($value, $marker . '_') &&
 				!$markerArray[$keyMarker] &&
 				$value != 'GRADPRICE_FORMULA_ITEMS'
 			) {
@@ -231,6 +232,3 @@ class tx_ttproducts_graduated_price_view extends tx_ttproducts_table_base_view {
 }
 
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_graduated_price_view.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_graduated_price_view.php']);
-}

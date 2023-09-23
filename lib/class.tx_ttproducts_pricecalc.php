@@ -67,7 +67,7 @@ class tx_ttproducts_pricecalc extends tx_ttproducts_pricecalc_base {
 			if (!is_array($priceCalcTemp)) {
 				continue;
 			}
-			$countedItems = array();
+			$countedItems = [];
 			$pricefor1 = doubleval($priceCalcTemp['prod.']['1']);
 			$dumCount = 0;
 
@@ -124,9 +124,5 @@ class tx_ttproducts_pricecalc extends tx_ttproducts_pricecalc_base {
 			}
 		}
 	} // getCalculatedData
-}
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/lib/class.tx_ttproducts_pricecalc.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/lib/class.tx_ttproducts_pricecalc.php']);
 }
 

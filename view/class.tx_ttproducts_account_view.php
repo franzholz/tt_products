@@ -53,9 +53,7 @@ class tx_ttproducts_account_view extends tx_ttproducts_table_base_view {
 	 * @access private
 	 */
 	public function getMarkerArray ($row, &$markerArray, $bIsAllowed) {
-		global $TCA;
-
-		$viewRow = array();
+		$viewRow = [];
 		$modelObj = $this->getModelObj();
 
 		if ($bIsAllowed) {
@@ -64,14 +62,7 @@ class tx_ttproducts_account_view extends tx_ttproducts_table_base_view {
 
 		$fieldArray = $modelObj->requiredFieldArray;
 		foreach ($fieldArray as $field) {
-			$markerArray['###PERSON_ACCOUNTS_' . strtoupper($field) . '###'] = $viewRow[$field];
+			$markerArray['###PERSON_ACCOUNTS_' . strtoupper($field) . '###'] = $viewRow[$field] ?? '';
 		}
 	} // getMarkerArray
 }
-
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_account_view.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_account_view.php']);
-}
-
-

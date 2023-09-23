@@ -83,7 +83,8 @@ class tx_ttproducts_template implements \TYPO3\CMS\Core\SingletonInterface {
 		if (
 			(!$templateFile || empty($templateCode))
 		) {
-			if ($conf['templateFile.'][$theCode]) {
+            $tmplText = '';
+			if (!empty($conf['templateFile.'][$theCode])) {
 				$tmplText = $theCode . '.';
 			}
 			$tmplText .= 'templateFile';
@@ -108,8 +109,5 @@ class tx_ttproducts_template implements \TYPO3\CMS\Core\SingletonInterface {
 }
 
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/lib/class.tx_ttproducts_template.php'])	{
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/lib/class.tx_ttproducts_template.php']);
-}
 
 

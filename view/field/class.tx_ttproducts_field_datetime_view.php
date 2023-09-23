@@ -37,6 +37,10 @@
  *
  */
 
+ 
+use JambageCom\Div2007\Utility\FrontendUtility;
+
+
 class tx_ttproducts_field_datetime_view extends tx_ttproducts_field_base_view {
 
 	public function getRowMarkerArray (
@@ -45,6 +49,7 @@ class tx_ttproducts_field_datetime_view extends tx_ttproducts_field_base_view {
 		$row,
 		$markerKey,
 		&$markerArray,
+		$fieldMarkerArray,
 		$tagArray,
 		$theCode,
 		$id,
@@ -57,9 +62,10 @@ class tx_ttproducts_field_datetime_view extends tx_ttproducts_field_base_view {
 		$suffix = '',
 		$imageNum = 0,
 		$imageRenderObj = '',
+		$linkWrap = false,
 		$bEnableTaxZero = false
 	) {
-        $cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
+        $cObj = FrontendUtility::getContentObjectRenderer();
 		$stdWrap = 'date_stdWrap.';
 		if ($fieldname == 'usebydate' && $functablename == 'tt_products') {
 			$stdWrap = 'usebyDate_stdWrap.';
@@ -68,10 +74,5 @@ class tx_ttproducts_field_datetime_view extends tx_ttproducts_field_base_view {
 
 		return $value;
 	}
-}
-
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/field/class.tx_ttproducts_field_datetime_view.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/field/class.tx_ttproducts_field_datetime_view.php']);
 }
 

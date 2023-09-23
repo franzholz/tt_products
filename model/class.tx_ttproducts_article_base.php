@@ -38,6 +38,7 @@
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 
 
 
@@ -64,7 +65,7 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base {
 		if ($result) {
 			$type = $this->getType();
 			$tablename = $this->getTablename();
-			$useArticles = $this->conf['useArticles'];
+			$useArticles = $this->conf['useArticles'] ?? 0;
 			$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 			$conf = $cnf->getConf();
 
@@ -79,8 +80,8 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base {
 			}
 			$tableDesc = $this->getTableDesc();
 
-			$this->fieldArray['address'] = ($tableDesc['address'] ? $tableDesc['address'] : 'address');
-			$this->fieldArray['itemnumber'] = ($tableDesc['itemnumber'] ? $tableDesc['itemnumber'] : 'itemnumber');
+			$this->fieldArray['address'] = (!empty($tableDesc['address']) ? $tableDesc['address'] : 'address');
+			$this->fieldArray['itemnumber'] = (!empty($tableDesc['itemnumber']) ? $tableDesc['itemnumber'] : 'itemnumber');
 
 			if (
 				$type == 'product' ||
@@ -128,7 +129,7 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base {
 
 		if (is_array($this->getTableObj()->tableFieldArray[$instockField])) {
 			$uid = intval($uid);
-			$fieldsArray = array();
+			$fieldsArray = [];
 			$fieldsArray[$instockField] = $instockField.'-'.$count;
 			$res = $GLOBALS['TYPO3_DB']->exec_UPDATEquery($this->getTableObj()->name, 'uid=\'' . $uid . '\'', $fieldsArray, $instockField);
 		}
@@ -215,7 +216,7 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base {
 	public function getWhere ($where, $theCode = '', $orderBy = '') {
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$tableconf = $cnf->getTableConf($this->getFuncTablename(), $theCode);
-		$rc = array();
+		$rc = [];
 		$where = ($where ? $where : '1=1 ') . $this->getTableObj()->enableFields();
 
 		// Fetching the products
@@ -238,7 +239,7 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base {
 		$where = '';
 
 		$tableConf = $this->getTableConf($theCode);
-		$replaceConf = array();
+		$replaceConf = [];
 
 		$bUseLanguageTable = $this->bUseLanguageTable($tableConf);
 		$charRegExp = $this->getCharRegExp($tableConf, $replaceConf);
@@ -270,7 +271,7 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base {
 	public function getCharRegExp ($tableConf, &$replaceConf) {
 
 		$result = '';
-		$replaceConf = array();
+		$replaceConf = [];
 
 		if (isset($tableConf['charRegExp'])) {
 			$result = $tableConf['charRegExp'];
@@ -285,7 +286,7 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base {
 						strpos($k, '.') == strlen($k) - 1
 					) {
 						$k1 = substr($k, 0, strlen($k) - 1);
-						if (\TYPO3\CMS\Core\Utility\MathUtility::canBeInterpretedAsInteger($k1)) {
+						if (MathUtility::canBeInterpretedAsInteger($k1)) {
 							$replaceConf = array_merge($replaceConf, $lineReplaceConf);
 						}
 					}
@@ -301,7 +302,7 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base {
 		$rc = '';
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$tableconf = $cnf->getTableConf($functablename, $theCode);
-		if (is_array($tableconf) && $tableconf['urlparams']) {
+		if (is_array($tableconf) && isset($tableconf['urlparams'])) {
 			$rc = $tableconf['urlparams'];
 		}
 		return $rc;
@@ -356,10 +357,10 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base {
 		$bUseExt = false,
         $mergePrices = true
 	) {
-		$fieldArray = array();
-		$fieldArray['data'] = array('itemnumber', 'image', 'smallimage');
-		$fieldArray['number'] = array('weight', 'inStock');
-		$fieldArray['price'] = array('price', 'price2', 'deposit', 'directcost');
+		$fieldArray = [];
+		$fieldArray['data'] = ['itemnumber', 'image', 'smallimage'];
+		$fieldArray['number'] = ['weight', 'inStock'];
+		$fieldArray['price'] = ['price', 'price2', 'deposit', 'directcost'];
 		if (
 			$calculationField != '' &&
 			isset($sourceRow[$calculationField])
@@ -378,7 +379,7 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base {
 			$mergeAppendArray = GeneralUtility::trimExplode(',', $tableDesc['conf.']['mergeAppendFields']);
 			$fieldArray['text'] = $mergeAppendArray;
 		} else {
-			$mergeAppendArray = array();
+			$mergeAppendArray = [];
 		}
 
 		$fieldArray['text'][] = 'title';
@@ -448,6 +449,9 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base {
 									($bAddValues == true) &&
 									in_array($field, $mergeAppendArray)
 								) {
+                                    if (!isset($targetRow[$field])) {
+                                        $targetRow[$field] = '';
+                                    }
 									$targetRow[$field] .= ' ' . $value;
 								} else {
 									$targetRow[$field] = $value;
@@ -481,10 +485,4 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base {
 	public function getTotalDiscount (&$row, $pid = 0) {
 	}
 }
-
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/class.tx_ttproducts_article_base.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/model/class.tx_ttproducts_article_base.php']);
-}
-
 

@@ -39,7 +39,6 @@ namespace JambageCom\TtProducts\Api;
  *
  */
 
-use JambageCom\Div2007\Utility\FrontendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
@@ -308,8 +307,8 @@ class ParameterApi implements \TYPO3\CMS\Core\SingletonInterface {
         if (isset($viewConfArray) && is_array($viewConfArray)) {
 
             $controlArray = $this->getControlArray();
-            $typeArray = array('sortSelect', 'filterSelect', 'filterInput');
-            $typeSelectArray = array('sortSelect', 'filterSelect');
+            $typeArray = ['sortSelect', 'filterSelect', 'filterInput'];
+            $typeSelectArray = ['sortSelect', 'filterSelect'];
 
             foreach ($viewConfArray as $ftname => $funcViewConfArray) {
 
@@ -366,7 +365,7 @@ class ParameterApi implements \TYPO3\CMS\Core\SingletonInterface {
 
                                             $tableConfArray[$ftname]['filter.']['where.']['field.'][$field] = $preFilter . $key . ($preFilter != '' ? ')' : '');
 
-                                            if ($fitRow['delimiter'] != '') {
+                                            if (!empty($fitRow['delimiter'])) {
                                                 $tableConfArray[$ftname]['filter.']['delimiter.']['field.'][$field] = $fitRow['delimiter'];
                                             }
                                         }
@@ -379,7 +378,7 @@ class ParameterApi implements \TYPO3\CMS\Core\SingletonInterface {
                                     $fitRow = $funcViewConfArray[$type.'.'][$k.'.'];
                                     $field = $fitRow['field'];
                                     $tableConfArray[$ftname]['filter.']['where.']['field.'][$field] = $v;
-                                    if ($fitRow['delimiter'] != '') {
+                                    if (!empty($fitRow['delimiter'])) {
                                         $tableConfArray[$ftname]['filter.']['delimiter.']['field.'][$field] = $fitRow['delimiter'];
                                     }
                                 }
@@ -473,7 +472,7 @@ class ParameterApi implements \TYPO3\CMS\Core\SingletonInterface {
             $contentObj = $tablesObj->get('tt_content', false);
             $contentRow = $contentObj->get($searchVars['uid']);
 
-            if($contentRow['pi_flexform'] != '') {
+            if(isset($contentRow['pi_flexform']) && $contentRow['pi_flexform'] != '') {
 
                 $contentRow['pi_flexform'] = GeneralUtility::xml2array($contentRow['pi_flexform']);
                 $searchObj = GeneralUtility::makeInstance('tx_ttproducts_control_search');	// fetch and store it as persistent object
@@ -524,7 +523,7 @@ class ParameterApi implements \TYPO3\CMS\Core\SingletonInterface {
             $sqlTableArray['local'] = [];
             $sqlTableArray['where'] = [];
 
-            $loopArray = array('local', 'foreign');
+            $loopArray = ['local', 'foreign'];
             $bUseSearchboxCat = false;
             $theTable = $cnf->getTableName($paramsTableArray[$searchParamArray['local']]);
 
@@ -601,8 +600,8 @@ class ParameterApi implements \TYPO3\CMS\Core\SingletonInterface {
 
                     if ($searchTablename != '') {
 
-                        $field = ($searchField!='' && isset($TCA[$searchTablename]['columns'][$searchField]) ? $searchField : 'title');
-                        $configArray = $TCA[$searchTablename]['columns'][$field]['config'];
+                        $field = ($searchField!='' && isset($GLOBALS['TCA'][$searchTablename]['columns'][$searchField]) ? $searchField : 'title');
+                        $configArray = $GLOBALS['TCA'][$searchTablename]['columns'][$field]['config'];
 
                         if (isset($configArray) && is_array($configArray) || in_array($field,$enableFieldArray)) {
                             if ($configArray['eval'] == 'date') {
@@ -660,7 +659,7 @@ class ParameterApi implements \TYPO3\CMS\Core\SingletonInterface {
                                 $tablesObj->prepareSQL($foreignTableInfo,$tableAliasArray,$aliasPostfix,$newSqlTableArray);
                             }
                             $sqlTableArray[$position][$sqlTableIndex] = $cnf->getTableName($paramsTableArray[$searchParam]);
-                            if ($foreignTableInfo['where'] != '') {
+                            if (!empty($foreignTableInfo['where'])) {
                                 $sqlTableArray['where'][$sqlTableIndex] = $foreignTableInfo['where'];
                             }
                             if (isset($newSqlTableArray) && is_array($newSqlTableArray)) {

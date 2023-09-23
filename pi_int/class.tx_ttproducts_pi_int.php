@@ -59,33 +59,25 @@ class tx_ttproducts_pi_int implements \TYPO3\CMS\Core\SingletonInterface {
 		$pibaseObj = GeneralUtility::makeInstance('tx_ttproducts_pi_int_base');
 		$pibaseObj->cObj = $this->cObj;
 		$confMain = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
-// 		$conf = GeneralUtility::array_merge_recursive_overrule($confMain, $conf);
-		tx_div2007_core::mergeRecursiveWithOverrule($confMain, $conf);
+        \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($confMain, $conf);
 		$conf = $confMain;
+		$languageSubpath = '/Resources/Private/Language/';
 
-		if ($conf['templateFile'] != '') {
+		if (!empty($conf['templateFile'])) {
 
 			$content = $pibaseObj->main($content, $conf);
-		} else {
-			tx_div2007_alpha5::loadLL_fh002($pibaseObj, 'EXT:' . TT_PRODUCTS_EXT . DIV2007_LANGUAGE_SUBPATH . 'PiInt/locallang.xlf');
-
-			if (count($conf) > 2) {
-				$errorText =
-					tx_div2007_alpha5::getLL_fh003(
-						$pibaseObj,
-						'no_template'
-					);
-				$content = str_replace('|', 'plugin.tt_products.templateFile', $errorText);
-			} else {
-				$content = tx_div2007_alpha5::getLL_fh003($pibaseObj, 'no_setup');
-			}
-		}
+        } else {
+            if (count($conf) > 2) {
+                $errorText = $GLOBALS['TSFE']->sL(
+                    'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'PiInt/locallang.xlf:no_template'
+                );
+                $content = str_replace('|', 'plugin.tt_products.templateFile', $errorText);
+            } else {
+                $errorText = $GLOBALS['TSFE']->sL(
+                    'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'PiInt/locallang.xlf:no_setup'
+                );
+            }
+        }
 		return $content;
 	}
 }
-
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/pi1/class.tx_ttproducts_pi_int.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/pi1/class.tx_ttproducts_pi_int.php']);
-}
-

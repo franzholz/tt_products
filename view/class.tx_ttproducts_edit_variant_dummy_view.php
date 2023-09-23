@@ -57,9 +57,3 @@ class tx_ttproducts_edit_variant_dummy_view implements tx_ttproducts_edit_varian
 
 }
 
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_edit_variant_dummy_view.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/class.tx_ttproducts_edit_variant_dummy_view.php']);
-}
-
-

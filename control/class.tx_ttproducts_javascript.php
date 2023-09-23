@@ -37,6 +37,9 @@
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\PathUtility;
+
+use JambageCom\Div2007\Utility\FrontendUtility;
 
 class tx_ttproducts_javascript implements \TYPO3\CMS\Core\SingletonInterface {
 	public $ajax;
@@ -44,7 +47,7 @@ class tx_ttproducts_javascript implements \TYPO3\CMS\Core\SingletonInterface {
 	public $bCopyrightShown;
 	public $copyright;
 	public $fixInternetExplorer;
-	private $bIncludedArray = array();
+	private $bIncludedArray = [];
 
 
 	public function init ($ajax) {
@@ -152,9 +155,9 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
 		$currentRecord = '',
 		$count = 0,
 		$catid = 'cat',
-		$parentFieldArray = array(),
-		$piVarArray = array(),
-		$fieldArray = array(),
+		$parentFieldArray = [],
+		$piVarArray = [],
+		$fieldArray = [],
 		$method = 'clickShow'
 	) {
 		$bDirectHTML = false;
@@ -173,7 +176,7 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
 
 		if (
 			!is_object($this->ajax) &&
-			in_array($fieldname, array('fetchdata'))
+			in_array($fieldname, ['fetchdata'])
 		) {
 			$fieldname = 'error';
 		}
@@ -273,7 +276,7 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
 							$code .= 'c[' . $fnr . '][' . $k . '][0] = "' . $this->jsspecialchars($row['title']) . '"; ' ;
 							$parentField = $parentFieldArray[$fnr];
 							$code .= 'c[' . $fnr . '][' . $k . '][1] = "' . intval($row[$parentField]) . '"; ' ;
-							$child_category = $row['child_category'];
+							$child_category = $row['child_category'] ?? 0;
 							if (is_array($child_category)) {
 								$code .= 'c[' . $fnr . '][' . $k . '][2] = new Array(' . count($child_category) . ');';
 								$count = 0;
@@ -568,7 +571,7 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
 					is_object($this->ajax->taxajax)
 				) {
                     $path =
-                        \TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix(
+                        PathUtility::stripPathSitePrefix(
                             \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath(TAXAJAX_EXT)
                         );
 					$code = $this->ajax->taxajax->getJavascript($path);
@@ -582,7 +585,7 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
 				$JSfieldname = 'tx_ttproducts-colorbox';
 				$colorboxFile = \TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath(PATH_BE_TTPRODUCTS . 'Resources/Public/JavaScript/tt_products_colorbox.js');
 
-				\JambageCom\Div2007\Utility\FrontendUtility::addJavascriptFile($colorboxFile,
+				FrontendUtility::addJavascriptFile($colorboxFile,
 					$JSfieldname
 				);
 				break;
@@ -601,12 +604,8 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
                     $pageRenderer = $this->getPageRenderer();
                     $pageRenderer->addHeaderData($code);
 				} else {
-                    if (version_compare(TYPO3_version, '10.4.0', '>=')) {
-                        $assetCollector = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Page\AssetCollector::class);
-                        $assetCollector->addInlineJavaScript($JSfieldname, $code, [], ['priority' => true]);
-                    } else {
-                        $GLOBALS['TSFE']->setJS($JSfieldname, $code);
-                    }
+                    $assetCollector = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Page\AssetCollector::class);
+                    $assetCollector->addInlineJavaScript($JSfieldname, $code, [], ['priority' => true]);
 				}
 			}
 		}
@@ -630,9 +629,5 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
 	}
 }
 
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/control/class.tx_ttproducts_javascript.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/control/class.tx_ttproducts_javascript.php']);
-}
 
 

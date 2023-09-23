@@ -49,8 +49,9 @@ abstract class tx_ttproducts_field_base_view implements tx_ttproducts_field_view
 
 	public function init ($modelObj) {
 		$this->modelObj = $modelObj;
-		$this->conf = $modelObj->conf;
-		$this->config = $modelObj->config;
+		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
+		$this->conf = $cnf->getConf();
+		$this->config = $cnf->getConfig();
 
 		$this->bHasBeenInitialised = true;
 	}
@@ -108,15 +109,16 @@ abstract class tx_ttproducts_field_base_view implements tx_ttproducts_field_view
 		$theCode = '',
 		$id = '1'
 	) {
+        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 		$result = false;
 		$newContent = '';
 		$markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
 		$upperField = strtoupper($fieldname);
 		$templateAreaList = $markerKey . '_' . $upperField . '_LIST';
-		$t = array();
-		$t['listFrameWork'] = tx_div2007_core::getSubpart($templateCode, '###' . $templateAreaList . '###');
+		$t = [];
+		$t['listFrameWork'] = $templateService->getSubpart($templateCode, '###' . $templateAreaList . '###');
 		$templateAreaSingle = $markerKey . '_' . $upperField . '_SINGLE';
-		$t['singleFrameWork'] = tx_div2007_core::getSubpart($t['listFrameWork'], '###' . $templateAreaSingle . '###');
+		$t['singleFrameWork'] = $templateService->getSubpart($t['listFrameWork'], '###' . $templateAreaSingle . '###');
 
 		if ($t['singleFrameWork'] != '') {
 			$repeatedTagArray = $markerObj->getAllMarkers($t['singleFrameWork']);
@@ -128,9 +130,9 @@ abstract class tx_ttproducts_field_base_view implements tx_ttproducts_field_view
 
 				$content = '';
 				foreach($valueArray as $key => $value) {
-					$repeatedMarkerArray = array();
-					$repeatedSubpartArray = array();
-					$repeatedWrappedSubpartArray = array();
+					$repeatedMarkerArray = [];
+					$repeatedSubpartArray = [];
+					$repeatedWrappedSubpartArray = [];
 
 					$resultRowMarker = $this->getRepeatedRowMarkerArray(
 						$repeatedMarkerArray,
@@ -158,7 +160,7 @@ abstract class tx_ttproducts_field_base_view implements tx_ttproducts_field_view
 						$tagArray
 					);
 
-					$newContent = tx_div2007_core::substituteMarkerArrayCached(
+					$newContent = $templateService->substituteMarkerArrayCached(
 						$t['singleFrameWork'],
 						$repeatedMarkerArray,
 						$repeatedSubpartArray,
@@ -171,11 +173,11 @@ abstract class tx_ttproducts_field_base_view implements tx_ttproducts_field_view
 					}
 				}
 
-				$newContent = tx_div2007_core::substituteMarkerArrayCached(
+				$newContent = $templateService->substituteMarkerArrayCached(
 					$t['listFrameWork'],
-					array(),
-					array('###' . $templateAreaSingle . '###' => $content),
-					array()
+					[],
+					['###' . $templateAreaSingle . '###' => $content],
+					[]
 				);
 			}
 		}
@@ -184,10 +186,4 @@ abstract class tx_ttproducts_field_base_view implements tx_ttproducts_field_view
 		return $result;
 	}
 }
-
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/field/class.tx_ttproducts_field_base_view.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/view/field/class.tx_ttproducts_field_base_view.php']);
-}
-
 

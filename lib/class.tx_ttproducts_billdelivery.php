@@ -45,7 +45,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class tx_ttproducts_billdelivery implements \TYPO3\CMS\Core\SingletonInterface {
 	public $tableArray;
 	public $price;		 // object for price functions
-	public $typeArray = array('bill', 'delivery');
+	public $typeArray = ['bill', 'delivery'];
 
 
 
@@ -102,16 +102,16 @@ class tx_ttproducts_billdelivery implements \TYPO3\CMS\Core\SingletonInterface {
 	) {
 		$basketView = GeneralUtility::makeInstance('tx_ttproducts_basket_view');
 		$infoViewObj = GeneralUtility::makeInstance('tx_ttproducts_info_view');
-		$productRowArray = array(); // Todo: make this a parameter
+		$productRowArray = []; // Todo: make this a parameter
 
 		$typeCode = strtoupper($type);
 		$result = false;
-		$generationType = strtolower($generationConf['type']);
+		$generationType = strtolower($generationConf['type'] ?? '');
 		$billGeneratedFromHook = false;
 
 		// Hook
 			// Call all billing delivery hooks
-		if (is_array ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['billdelivery'])) {
+		if (isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['billdelivery']) && is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['billdelivery'])) {
 			foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['billdelivery'] as $classRef) {
 				$hookObj= GeneralUtility::makeInstance($classRef);
 
@@ -137,7 +137,7 @@ class tx_ttproducts_billdelivery implements \TYPO3\CMS\Core\SingletonInterface {
 			}
 		}
 
-		if (!$billGeneratedFromHook) {
+		if (!$billGeneratedFromHook && isset($orderArray['bill_no'])) {
 			if ($generationType == 'pdf') {
 
 				$absFileName =
@@ -172,7 +172,6 @@ class tx_ttproducts_billdelivery implements \TYPO3\CMS\Core\SingletonInterface {
 				);
 			} else if ($generationType == 'html') {
 				$subpart = $typeCode . '_TEMPLATE';
-
 				$content = $basketView->getView(
 					$errorCode,
 					$templateCode,
@@ -187,7 +186,7 @@ class tx_ttproducts_billdelivery implements \TYPO3\CMS\Core\SingletonInterface {
 					'',
 					$itemArray,
                     $notOverwritePriceIfSet = false,
-					array('0' => $orderArray),
+					['0' => $orderArray],
 					$productRowArray,
 					$basketExtra,
 					$basketRecs
@@ -237,7 +236,7 @@ class tx_ttproducts_billdelivery implements \TYPO3\CMS\Core\SingletonInterface {
 		$conf = $cnfObj->getConf();
 
 		$basketView = GeneralUtility::makeInstance('tx_ttproducts_basket_view');
-		$productRowArray = array(); // Todo: make this a parameter
+		$productRowArray = []; // Todo: make this a parameter
 
 		$globalMarkerArray = $markerObj->getGlobalMarkerArray();
 		$orderObj = $tablesObj->get('sys_products_orders');
@@ -268,7 +267,7 @@ class tx_ttproducts_billdelivery implements \TYPO3\CMS\Core\SingletonInterface {
 			$subpartMarker='DELIVERY_TEMPLATE';
 		}
 
-		$orderArray = array();
+		$orderArray = [];
 
 		$orderArray['tracking_code'] = $trackingCode;
 		$orderArray['uid'] = $orderRow['uid'];
@@ -288,7 +287,7 @@ class tx_ttproducts_billdelivery implements \TYPO3\CMS\Core\SingletonInterface {
 			'',
 			$itemArray,
             $notOverwritePriceIfSet = false,
-			array('0' => $orderArray),
+			['0' => $orderArray],
 			$productRowArray,
 			$basketExtra,
 			$basketRec
@@ -300,8 +299,5 @@ class tx_ttproducts_billdelivery implements \TYPO3\CMS\Core\SingletonInterface {
 
 
 
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/lib/class.tx_ttproducts_billdelivery.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/lib/class.tx_ttproducts_billdelivery.php']);
-}
 
 

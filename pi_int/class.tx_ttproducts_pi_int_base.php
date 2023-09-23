@@ -49,7 +49,6 @@ class tx_ttproducts_pi_int_base extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugi
 	public $prefixId = TT_PRODUCTS_EXT;
 	public $scriptRelPath = 'pi_int_base/class.tx_ttproducts_pi_int_base.php';	// Path to this script relative to the extension dir.
 	public $extKey = TT_PRODUCTS_EXT;	// The extension key.
-// 	public $pi_USER_INT_obj = true;		// If set, then links are 1) not using cHash and 2) not allowing pages to be cached. (Set this for all USER plugins!)
 	public $bRunAjax = false;		// overrride this
 
 
@@ -58,15 +57,16 @@ class tx_ttproducts_pi_int_base extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugi
 	 */
 	public function main ($content, $conf) {
 
-		tx_ttproducts_model_control::setPrefixId($this->prefixId);
-// 		tx_ttproducts_model_control::setPiVarDefaults($conf);
+        $parameterApi = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\ParameterApi::class);
+		$parameterApi->setPrefixId($this->prefixId);
         PluginApi::init($conf);
+		tx_ttproducts_model_control::setPrefixId($this->prefixId);
 
 		$this->conf = $conf;
-		$config = array();
+		$config = [];
 		$mainObj = GeneralUtility::makeInstance('tx_ttproducts_main');	// fetch and store it as persistent object
 		$mainObj->bNoCachePossible = false;
-		$errorCode = array();
+		$errorCode = [];
 		$bDoProcessing =
 			$mainObj->init(
 				$conf,
@@ -77,7 +77,6 @@ class tx_ttproducts_pi_int_base extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugi
 			);
 
 		if ($bDoProcessing || !empty($errorCode)) {
-			tx_ttproducts_control_pibase::init($this);
 			$content =
 				$mainObj->run(
 					$this->cObj,
@@ -93,10 +92,5 @@ class tx_ttproducts_pi_int_base extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugi
 	public function set ($bRunAjax) {
 		$this->bRunAjax = $bRunAjax;
 	}
-}
-
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/pi_int/class.tx_ttproducts_pi_int_base.php']) {
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/pi_int/class.tx_ttproducts_pi_int_base.php']);
 }
 

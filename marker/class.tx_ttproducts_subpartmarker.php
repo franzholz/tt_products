@@ -40,6 +40,7 @@
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+use JambageCom\Div2007\Utility\FrontendUtility;
 
 class tx_ttproducts_subpartmarker implements \TYPO3\CMS\Core\SingletonInterface {
 
@@ -52,7 +53,7 @@ class tx_ttproducts_subpartmarker implements \TYPO3\CMS\Core\SingletonInterface 
 		if (isset($conf['altMainMarkers.'])) {
             $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
             $conf = $cnfObj->getConf();
-            $cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
+            $cObj = FrontendUtility::getContentObjectRenderer();
             $sPBody = substr($subpartMarker, 3, -3);
 			$altSPM = trim($cObj->stdWrap($conf['altMainMarkers.'][$sPBody], $conf['altMainMarkers.'][$sPBody.'.']));
 		}
@@ -65,7 +66,7 @@ class tx_ttproducts_subpartmarker implements \TYPO3\CMS\Core\SingletonInterface 
 	 * Returning template subpart array
 	 */
 	public function getTemplateSubParts ($templateCode, $subItemMarkerArray) {
-		$rc = array();
+		$rc = [];
 		foreach ($subItemMarkerArray as $key => $subItemMarker) {
 			$rc[$subItemMarker] = substr($this->spMarker('###'.$subItemMarker . '_TEMPLATE###'), 3, -3);
 		}
@@ -93,8 +94,8 @@ class tx_ttproducts_subpartmarker implements \TYPO3\CMS\Core\SingletonInterface 
 	 * @see substituteSubpart(), t3lib_parsehtml::getSubpart()
 	 */
 	public function getSubpart ($content, $marker, &$error_code) {
-        $parser = tx_div2007_core::newHtmlParser(false);
-        $result = $parser->getSubpart($content, $marker);
+        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+        $result = $templateService->getSubpart($content, $marker);
 
 		if (!$result) {
 			$templateObj = GeneralUtility::makeInstance('tx_ttproducts_template');
@@ -104,10 +105,5 @@ class tx_ttproducts_subpartmarker implements \TYPO3\CMS\Core\SingletonInterface 
 		}
 		return $result;
 	}
-}
-
-
-if (defined('TYPO3_MODE') && $GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/marker/class.tx_ttproducts_subpartmarker.php'])	{
-	include_once($GLOBALS['TYPO3_CONF_VARS'][TYPO3_MODE]['XCLASS']['ext/tt_products/marker/class.tx_ttproducts_subpartmarker.php']);
 }
 

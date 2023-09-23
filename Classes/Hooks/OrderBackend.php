@@ -42,6 +42,9 @@ namespace JambageCom\TtProducts\Hooks;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+use TYPO3\CMS\Core\TypoScript\TemplateService;
+use TYPO3\CMS\Core\Utility\RootlineUtility;
+
 
 class OrderBackend implements \TYPO3\CMS\Core\SingletonInterface {
 
@@ -58,42 +61,46 @@ class OrderBackend implements \TYPO3\CMS\Core\SingletonInterface {
 			}
 
 			if (is_object($treeObj)) {
-				$result = $treeObj->displayCategoryTree($parameterArray, $fobj);
+				$result = 
+                    $treeObj->displayCategoryTree(
+                        $parameterArray,
+                        $fobj
+                    );
 			}
 		}
 
 		return $result;
 	}
 
+	// Called from the backend page and list module for a single order record to open the TCE
+	public function tceSingleOrder ($data) {
 
-	// called from the page and list module for TCE
-    public function tceSingleOrder ($parameterArray, $fobj) {
-
-        $table = '';
-        $field = '';
-        $row   = [];
-        $config = [];
-
-		if (version_compare(TYPO3_version, '10.0.0', '<')) {
-
-            $table = $parameterArray['table'];
-            $field = $parameterArray['field'];
-            $row   = $parameterArray['row'];
-        } else {
-            $data = $parameterArray;
-            $table = $data['tableName'];
-            $field = $data['fieldName'];
-            $row   = $data['databaseRow'];
-            $parameterArray = $data['parameterArray'];
-        }
+		$table = $data['tableName'];
+		$field = $data['fieldName'];
+		$row   = $data['databaseRow'];
+		$parameterArray = $data['parameterArray'];
 
 			// Field configuration from TCA:
 		$config = $parameterArray['fieldConf']['config'];
+        $pageId = $this->getCurrentPageId();
+        $template = GeneralUtility::makeInstance(TemplateService::class);
+        $template->tt_track = false;
+        $rootline = GeneralUtility::makeInstance(
+            RootlineUtility::class, 
+            $pageId
+        )->get();
+        $template->runThroughTemplates($rootline, 0);
+        $template->generateConfig();
+        $setup = $template->setup;
+        $conf = [];
+        if (isset($setup['plugin.']['tt_products.'])) {
+            $conf = $setup['plugin.']['tt_products.'];
+        }
 
 		// do not use Ajax
 		$ajax = '';
 		$errorCode = '';
-        $tmp1 = array();
+        $tmp1 = [];
         $tmp2 = '';
 
 		$db = GeneralUtility::makeInstance('tx_ttproducts_db');
@@ -102,18 +109,15 @@ class OrderBackend implements \TYPO3\CMS\Core\SingletonInterface {
 				$conf,
 				$tmp1,
 				$ajax,
-				$tmp2,
+                $tmp2,
 				$errorCode
 			); // this initializes tx_ttproducts_config inside of creator
 
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
-
-
-		$TSconfig = \TYPO3\CMS\Backend\Utility\BackendUtility::getTCEFORM_TSconfig($table, $row);
 		$orderView = $tablesObj->get('sys_products_orders', true);
 		$result = $orderView->getSingleOrder($row);
 		return $result;
-    }
+	}
 
 
 	public function displayOrderHtml ($parameterArray, $fobj) {
@@ -123,18 +127,11 @@ class OrderBackend implements \TYPO3\CMS\Core\SingletonInterface {
         $row   = [];
         $config = [];
 
-		if (version_compare(TYPO3_version, '10.0.0', '<')) {
-
-            $table = $parameterArray['table'];
-            $field = $parameterArray['field'];
-            $row   = $parameterArray['row'];
-        } else {
-            $data = $parameterArray;
-            $table = $data['tableName'];
-            $field = $data['fieldName'];
-            $row   = $data['databaseRow'];
-            $parameterArray = $data['parameterArray'];
-        }
+        $data = $parameterArray;
+        $table = $data['tableName'];
+        $field = $data['fieldName'];
+        $row   = $data['databaseRow'];
+        $parameterArray = $data['parameterArray'];
         
                 // Field configuration from TCA:
         $config = $parameterArray['fieldConf']['config'];
@@ -152,5 +149,23 @@ class OrderBackend implements \TYPO3\CMS\Core\SingletonInterface {
 
 		return $result;
 	}
+
+    /**
+     * Gets the current page ID from the GET/POST data.
+     *
+     * @return int the page UID, will be 0 if none has been set
+     */
+    protected function getCurrentPageId()
+    {
+        $result = 0;
+        if (isset($_GET['returnUrl'])) {
+            $parseUrl = parse_url($_GET['returnUrl']);
+            $query = $parseUrl['query'];
+            
+            $resultParser = parse_str(parse_url($_GET['returnUrl'])['query'], $params);
+            $result = (int) $params['id'];
+        }
+        return $result;
+    }
 }
 
