@@ -1,0 +1,1650 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/locallang_db.xlf" date="2021-11-23T20:35:08Z" product-name="tt_products" target-language="de">
+    <header/>
+    <body>
+      <trans-unit id="tstamp" resname="tstamp" approved="yes">
+        <source>Time stamp</source>
+        <target state="final">Zeitstempel</target>
+      </trans-unit>
+      <trans-unit id="crdate" resname="crdate" approved="yes">
+        <source>Creation date</source>
+        <target state="final">Erstellungsdatum</target>
+      </trans-unit>
+      <trans-unit id="extmng.slugBehaviour" resname="extmng.slugBehaviour" approved="yes">
+        <source>Slug behaviour: uniqueInSite: The same slug can be used for tt_products in different sites. Use this setting *only* if no tt_products records are shared between sites. "unique" means that another identical product title will lead to a different slug name than for the first product.</source>
+        <target state="final">Url-Segment Verhalten: uniqueInSite: Das selbe Url-Segment kann für Produkte in verschiedenen Sites verwendet werden. Diese Einstellung ist *nur* zu verwenden, wenn keine Produkt-Datensätzen von mehreren Sites gemeinsam genutzt werden. "unique" bedeutet, dass das Url-Segment eines News-Datensatzes für die gesamte Typo3 Instanz einzigartig ist.</target>
+      </trans-unit>
+      <trans-unit id="tt_products" resname="tt_products" approved="yes">
+        <source>Products</source>
+        <target state="final">Produkte</target>
+      </trans-unit>
+      <trans-unit id="tt_products.accessory_uid" resname="tt_products.accessory_uid" approved="yes">
+        <source>Accessory products</source>
+        <target state="final">Zubehör</target>
+      </trans-unit>
+      <trans-unit id="tt_products.prod_uid" resname="tt_products.prod_uid" approved="yes">
+        <source>Template Products</source>
+        <target state="final">Template Produkte</target>
+      </trans-unit>
+      <trans-unit id="tt_products.related_uid" resname="tt_products.related_uid" approved="yes">
+        <source>Related Products</source>
+        <target state="final">verwandte Produkte</target>
+      </trans-unit>
+      <trans-unit id="tt_products.directcost" resname="tt_products.directcost" approved="yes">
+        <source>Direct Cost:</source>
+        <target state="final">Einkaufspreis:</target>
+      </trans-unit>
+      <trans-unit id="tt_products.regular_price" resname="tt_products.regular_price" approved="yes">
+        <source>Regular Price:</source>
+        <target state="final">Regulärer Preis:</target>
+      </trans-unit>
+      <trans-unit id="tt_products.price" resname="tt_products.price" approved="yes">
+        <source>Price:</source>
+        <target state="final">Preis:</target>
+      </trans-unit>
+      <trans-unit id="tt_products.price2" resname="tt_products.price2" approved="yes">
+        <source>Price (2):</source>
+        <target state="final">Preis (2):</target>
+      </trans-unit>
+      <trans-unit id="tt_products.discount" resname="tt_products.discount" approved="yes">
+        <source>Possible Discount:</source>
+        <target state="final">Möglicher Rabatt:</target>
+      </trans-unit>
+      <trans-unit id="tt_products.discount_disable" resname="tt_products.discount_disable" approved="yes">
+        <source>Disable Discounts:</source>
+        <target state="final">kein Rabatt:</target>
+      </trans-unit>
+      <trans-unit id="tt_products.unit" resname="tt_products.unit" approved="yes">
+        <source>Unit of Measure</source>
+        <target state="final">Maßeinheit:</target>
+      </trans-unit>
+      <trans-unit id="tt_products.unit_factor" resname="tt_products.unit_factor" approved="yes">
+        <source>Unit Factor</source>
+        <target state="final">Faktor der Maßeinheit:</target>
+      </trans-unit>
+      <trans-unit id="tt_products.graduated_price_enable" approved="yes">
+        <source>Enable Graduated Prices:</source>
+        <target state="final">Staffelpreise einschalten:</target>
+      </trans-unit>
+      <trans-unit id="tt_products.graduated_price_round" resname="tt_products.graduated_price_round" approved="yes">
+        <source>Round format for Graduated Prices:</source>
+        <target state="final">Rundungsformat für Staffelpreise:</target>
+      </trans-unit>
+      <trans-unit id="tt_products.graduated_price_uid" resname="tt_products.graduated_price_uid" approved="yes">
+        <source>Graduated Prices:</source>
+        <target state="final">Staffelpreise:</target>
+      </trans-unit>
+      <trans-unit id="tt_products.article_uid" resname="tt_products.article_uid" approved="yes">
+        <source>Articles:</source>
+        <target state="final">Artikel:</target>
+      </trans-unit>
+      <trans-unit id="tt_products.note_uid" resname="tt_products.note_uid" approved="yes">
+        <source>Describing Pages:</source>
+        <target state="final">beschreibende Seiten:</target>
+      </trans-unit>
+      <trans-unit id="tt_products.note" resname="tt_products.note" approved="yes">
+        <source>Description</source>
+        <target state="final">Beschreibung</target>
+      </trans-unit>
+      <trans-unit id="tt_products.note2" resname="tt_products.note2" approved="yes">
+        <source>Commentary</source>
+        <target state="final">Kommentar</target>
+      </trans-unit>
+      <trans-unit id="tt_products.text_uid" resname="tt_products.text_uid" approved="yes">
+        <source>Additional texts:</source>
+        <target state="final">zusätzliche Texte</target>
+      </trans-unit>
+      <trans-unit id="tt_products.itemnumber" resname="tt_products.itemnumber" approved="yes">
+        <source>Identifier:</source>
+        <target state="final">Artikel Nr.:</target>
+      </trans-unit>
+      <trans-unit id="tt_products.ean" resname="tt_products.ean" approved="yes">
+        <source>EAN Code:</source>
+        <target state="final">EAN-Code:</target>
+      </trans-unit>
+      <trans-unit id="tt_products.doi" resname="tt_products.doi">
+        <source>Digital Object Identifier:</source>
+        <target state="needs-translation">Digital Object Identifier:</target>
+      </trans-unit>
+      <trans-unit id="tt_products.shipping_point" resname="tt_products.shipping_point" approved="yes">
+        <source>Shipping point:</source>
+        <target state="final">Versandstelle:</target>
+      </trans-unit>
+      <trans-unit id="tt_products.inStock" resname="tt_products.inStock" approved="yes">
+        <source>In Stock (pcs):</source>
+        <target state="final">Am Lager (St.):</target>
+      </trans-unit>
+      <trans-unit id="tt_products.basketminquantity" resname="tt_products.basketminquantity" approved="yes">
+        <source>Minimum quantity in basket:</source>
+        <target state="final">Mindestbestellmenge im Warenkorb:</target>
+      </trans-unit>
+      <trans-unit id="tt_products.basketmaxquantity" resname="tt_products.basketmaxquantity" approved="yes">
+        <source>Maximum quantity in basket:</source>
+        <target state="final">Maximalbestellmenge im Warenkorb:</target>
+      </trans-unit>
+      <trans-unit id="tt_products.datasheet" resname="tt_products.datasheet" approved="yes">
+        <source>Datasheet</source>
+        <target state="final">Datenblatt:</target>
+      </trans-unit>
+      <trans-unit id="tt_products.www" resname="tt_products.www" approved="yes">
+        <source>WWW URL</source>
+        <target state="final">WWW-URL</target>
+      </trans-unit>
+      <trans-unit id="tt_products.tax_free" resname="tt_products.tax_free" approved="yes">
+        <source>Tax-free:</source>
+        <target state="final">Steuerfrei:</target>
+      </trans-unit>
+      <trans-unit id="tt_products.tax" resname="tt_products.tax" approved="yes">
+        <source>Tax:</source>
+        <target state="final">MwSt:</target>
+      </trans-unit>
+      <trans-unit id="tt_products.deposit" resname="tt_products.deposit" approved="yes">
+        <source>Deposit:</source>
+        <target state="final">Pfand:</target>
+      </trans-unit>
+      <trans-unit id="tt_products.weight" resname="tt_products.weight" approved="yes">
+        <source>Weight (kg):</source>
+        <target state="final">Gewicht (kg):</target>
+      </trans-unit>
+      <trans-unit id="tt_products.usebydate" resname="tt_products.usebydate" approved="yes">
+        <source>Use by date:</source>
+        <target state="final">Haltbarkeitsdatum:</target>
+      </trans-unit>
+      <trans-unit id="tt_products.bulkily" resname="tt_products.bulkily" approved="yes">
+        <source>Bulkily:</source>
+        <target state="final">Sperrig:</target>
+      </trans-unit>
+      <trans-unit id="tt_products.offer" resname="tt_products.offer" approved="yes">
+        <source>Offer:</source>
+        <target state="final">Aktion:</target>
+      </trans-unit>
+      <trans-unit id="tt_products.highlight" resname="tt_products.highlight" approved="yes">
+        <source>Highlight:</source>
+        <target state="final">Besonderheit:</target>
+      </trans-unit>
+      <trans-unit id="tt_products.bargain" resname="tt_products.bargain" approved="yes">
+        <source>Bargain:</source>
+        <target state="final">Schnäppchen:</target>
+      </trans-unit>
+      <trans-unit id="tt_products.color" resname="tt_products.color" approved="yes">
+        <source>Colour (Variant 1):</source>
+        <target state="final">Farbe (Variante 1):</target>
+      </trans-unit>
+      <trans-unit id="tt_products.color2" resname="tt_products.color2" approved="yes">
+        <source>2nd Colour (Variant 6):</source>
+        <target state="final">2. Farbe (Variante 6):</target>
+      </trans-unit>
+      <trans-unit id="tt_products.color3" resname="tt_products.color3" approved="yes">
+        <source>3rd Colour (Variant 7):</source>
+        <target state="final">3. Farbe (Variante 7):</target>
+      </trans-unit>
+      <trans-unit id="tt_products.color4" resname="tt_products.color4" approved="yes">
+        <source>4th Colour (Variant 12):</source>
+        <target state="final">4. Farbe (Variant 12):</target>
+      </trans-unit>
+      <trans-unit id="tt_products.size" resname="tt_products.size" approved="yes">
+        <source>Size Length (Variant 2):</source>
+        <target state="final">Größe Länge (Variante 2):</target>
+      </trans-unit>
+      <trans-unit id="tt_products.size2" resname="tt_products.size2" approved="yes">
+        <source>2nd Size Width (Variant 8):</source>
+        <target state="final">2. Größe Breite (Variante 8):</target>
+      </trans-unit>
+      <trans-unit id="tt_products.size3" resname="tt_products.size3" approved="yes">
+        <source>3rd Size Height (Variant 9):</source>
+        <target state="final">3. Größe Höhe (Variante 9):</target>
+      </trans-unit>
+      <trans-unit id="tt_products.size4" resname="tt_products.size4" approved="yes">
+        <source>4th Size (Variant 13):</source>
+        <target state="final">4. Größe (Variant 13):</target>
+      </trans-unit>
+      <trans-unit id="tt_products.description" resname="tt_products.description" approved="yes">
+        <source>Description (Variant 3):</source>
+        <target state="final">Beschreibung (Variante 3):</target>
+      </trans-unit>
+      <trans-unit id="tt_products.description2" resname="tt_products.description2" approved="yes">
+        <source>2nd Description (Variant 14):</source>
+        <target state="final">2. Beschreibung (Variant 14):</target>
+      </trans-unit>
+      <trans-unit id="tt_products.description3" resname="tt_products.description3" approved="yes">
+        <source>3rd Description (Variant 15):</source>
+        <target state="final">3. Beschreibung (Variante 15):</target>
+      </trans-unit>
+      <trans-unit id="tt_products.descriptions" resname="tt_products.descriptions" approved="yes">
+        <source>Descriptions </source>
+        <target state="final">Beschreibungen </target>
+      </trans-unit>
+      <trans-unit id="tt_products.gradings" resname="tt_products.gradings" approved="yes">
+        <source>Gradings (Variant 4):</source>
+        <target state="final">Staffelungen (Variante 4):</target>
+      </trans-unit>
+      <trans-unit id="tt_products.material" resname="tt_products.material" approved="yes">
+        <source>Material (Variant 10):</source>
+        <target state="final">Material (Variante 10):</target>
+      </trans-unit>
+      <trans-unit id="tt_products.quality" resname="tt_products.quality" approved="yes">
+        <source>Quality (Variant 11):</source>
+        <target state="final">Qualität (Variante 11):</target>
+      </trans-unit>
+      <trans-unit id="tt_products.form" resname="tt_products.form" approved="yes">
+        <source>Form (Variant 16):</source>
+        <target state="final">Form (Variante 16):</target>
+      </trans-unit>
+      <trans-unit id="tt_products.form2" resname="tt_products.form2" approved="yes">
+        <source>2nd Form (Variant 17):</source>
+        <target state="final">2. Form (Variant 17):</target>
+      </trans-unit>
+      <trans-unit id="tt_products.type" resname="tt_products.type" approved="yes">
+        <source>Type (Variant 18):</source>
+        <target state="final">Art (Variant 18):</target>
+      </trans-unit>
+      <trans-unit id="tt_products.pattern" resname="tt_products.pattern" approved="yes">
+        <source>Pattern (Variant 19):</source>
+        <target state="final">Muster (Variant 19):</target>
+      </trans-unit>
+      <trans-unit id="tt_products.surface" resname="tt_products.surface" approved="yes">
+        <source>Surface (Variant 20):</source>
+        <target state="final">Oberfläche (Variant 20):</target>
+      </trans-unit>
+      <trans-unit id="tt_products.angular" resname="tt_products.angular" approved="yes">
+        <source>Angular (Variant 21):</source>
+        <target state="final">Winkel (Variant 21):</target>
+      </trans-unit>
+      <trans-unit id="tt_products.time" resname="tt_products.time" approved="yes">
+        <source>Time (Variant 22):</source>
+        <target state="final">Zeit (Variant 22):</target>
+      </trans-unit>
+      <trans-unit id="tt_products.time2" resname="tt_products.time2" approved="yes">
+        <source>2nd Time (Variant 23):</source>
+        <target state="final">2. Zeit (Variant 23):</target>
+      </trans-unit>
+      <trans-unit id="tt_products.guarantee" resname="tt_products.guarantee" approved="yes">
+        <source>Guarantee (Variant 24):</source>
+        <target state="final">Garantie (Variant 24):</target>
+      </trans-unit>
+      <trans-unit id="tt_products.elements" resname="tt_products.elements" approved="yes">
+        <source>Elements (Variant 25):</source>
+        <target state="final">Elemente (Variant 25):</target>
+      </trans-unit>
+      <trans-unit id="tt_products.boundary" resname="tt_products.boundary" approved="yes">
+        <source>Boundary (Variant 26):</source>
+        <target state="final">Umgebung (Variant 26):</target>
+      </trans-unit>
+      <trans-unit id="tt_products.costs" resname="tt_products.costs" approved="yes">
+        <source>Costs (Variant 27):</source>
+        <target state="final">Kosten (Variant 27):</target>
+      </trans-unit>
+      <trans-unit id="tt_products.additionaltab" resname="tt_products.additionaltab" approved="yes">
+        <source>Addition</source>
+        <target state="final">Zusatz</target>
+      </trans-unit>
+      <trans-unit id="tt_products.additional_type" resname="tt_products.additional_type" approved="yes">
+        <source>internal additional type:</source>
+        <target state="final">interner zusätzlicher Typ:</target>
+      </trans-unit>
+      <trans-unit id="tt_products.additional" resname="tt_products.additional" approved="yes">
+        <source>Additional (Variant 5):</source>
+        <target state="final">Zusätzliches (Variante 5):</target>
+      </trans-unit>
+      <trans-unit id="tt_products.additional.isSingle" resname="tt_products.additional.isSingle" approved="yes">
+        <source>Buy only once:</source>
+        <target state="final">nur einzeln:</target>
+      </trans-unit>
+      <trans-unit id="tt_products.additional.isImage" resname="tt_products.additional.isImage" approved="yes">
+        <source>Is an image:</source>
+        <target state="final">ist ein Bild:</target>
+      </trans-unit>
+      <trans-unit id="tt_products.additional.alwaysInStock" resname="tt_products.additional.alwaysInStock" approved="yes">
+        <source>always in stock:</source>
+        <target state="final">immer auf Lager:</target>
+      </trans-unit>
+      <trans-unit id="tt_products.additional.noMinPrice" resname="tt_products.additional.noMinPrice" approved="yes">
+        <source>no minimum price:</source>
+        <target state="final">kein Mindestbestellwert:</target>
+      </trans-unit>
+      <trans-unit id="tt_products.additional.noMaxPrice" resname="tt_products.additional.noMaxPrice" approved="yes">
+        <source>no maximum price:</source>
+        <target state="final">kein Maximalbestellwert:</target>
+      </trans-unit>
+      <trans-unit id="tt_products.additional.noGiftService" resname="tt_products.additional.noGiftService" approved="yes">
+        <source>no gift service:</source>
+        <target state="final">kein Geschenkservice:</target>
+      </trans-unit>
+      <trans-unit id="tt_products.creditpoints" resname="tt_products.creditpoints" approved="yes">
+        <source>credit points</source>
+        <target state="final">Kontopunkte</target>
+      </trans-unit>
+      <trans-unit id="tt_products.damcat" resname="tt_products.damcat" approved="yes">
+        <source>DAM category for product:</source>
+        <target state="final">DAM-Kategorie für Produkt:</target>
+      </trans-unit>
+      <trans-unit id="tt_products.syscat" resname="tt_products.syscat" approved="yes">
+        <source>System category for product:</source>
+        <target state="final">System Kategorien für Produkt:</target>
+      </trans-unit>
+      <trans-unit id="tt_products.special_preparation" resname="tt_products.special_preparation" approved="yes">
+        <source>Special Preparation:</source>
+        <target state="final">Spezialanfertigung:</target>
+      </trans-unit>
+      <trans-unit id="tt_products.articles" resname="tt_products.articles" approved="yes">
+        <source>Articles </source>
+        <target state="final">Artikel </target>
+      </trans-unit>
+      <trans-unit id="tt_products.graduated" resname="tt_products.graduated" approved="yes">
+        <source>Graduated Prices</source>
+        <target state="final">Staffelpreise</target>
+      </trans-unit>
+      <trans-unit id="tt_products.subtitle" resname="tt_products.subtitle" approved="yes">
+        <source>Subtitle </source>
+        <target state="final">Untertitel </target>
+      </trans-unit>
+      <trans-unit id="tt_products.keyword" resname="tt_products.keyword" approved="yes">
+        <source>Keywords (,): </source>
+        <target state="final">Schlagwort (,): </target>
+      </trans-unit>
+      <trans-unit id="tt_products.variants" resname="tt_products.variants" approved="yes">
+        <source>Variants </source>
+        <target state="final">Varianten </target>
+      </trans-unit>
+      <trans-unit id="tt_products.extravariants" resname="tt_products.extravariants" approved="yes">
+        <source>Extra Variants </source>
+        <target state="final">Extra Varianten </target>
+      </trans-unit>
+      <trans-unit id="tt_products.relations" resname="tt_products.relations" approved="yes">
+        <source>Relations </source>
+        <target state="final">Beziehungen </target>
+      </trans-unit>
+      <trans-unit id="tt_products.smallimage" resname="tt_products.smallimage" approved="yes">
+        <source>Small image</source>
+        <target state="final">Kleine Bilder</target>
+      </trans-unit>
+      <trans-unit id="tt_products.shippingdiv" resname="tt_products.shippingdiv" approved="yes">
+        <source>Shipping </source>
+        <target state="final">Versand </target>
+      </trans-unit>
+      <trans-unit id="tt_products.shipping" resname="tt_products.shipping" approved="yes">
+        <source>shipping costs for first item</source>
+        <target state="final">Versandkosten für 1. Produkt</target>
+      </trans-unit>
+      <trans-unit id="tt_products.shipping2" resname="tt_products.shipping2" approved="yes">
+        <source>shipping costs for each additional item</source>
+        <target state="final">Versandkosten für jedes weitere Produkt</target>
+      </trans-unit>
+      <trans-unit id="tt_products.handling" resname="tt_products.handling" approved="yes">
+        <source>fee for handling</source>
+        <target state="final">Bearbeitungsgebühr</target>
+      </trans-unit>
+      <trans-unit id="tt_products.delivery" resname="tt_products.delivery" approved="yes">
+        <source>delivery:</source>
+        <target state="final">Lieferung:</target>
+      </trans-unit>
+      <trans-unit id="tt_products.delivery.availableNot" resname="tt_products.delivery.availableNot" approved="yes">
+        <source>not available</source>
+        <target state="final">nicht lieferbar</target>
+      </trans-unit>
+      <trans-unit id="tt_products.delivery.availableImmediate" resname="tt_products.delivery.availableImmediate" approved="yes">
+        <source>immediate delivery</source>
+        <target state="final">sofort lieferbar</target>
+      </trans-unit>
+      <trans-unit id="tt_products.delivery.availableShort" resname="tt_products.delivery.availableShort" approved="yes">
+        <source>soon available</source>
+        <target state="final">in kürze lieferbar</target>
+      </trans-unit>
+      <trans-unit id="tt_products.delivery.availableDemand" resname="tt_products.delivery.availableDemand" approved="yes">
+        <source>only on demand</source>
+        <target state="final">auf Kundenwunsch</target>
+      </trans-unit>
+      <trans-unit id="tt_products.categorydiv" resname="tt_products.categorydiv" approved="yes">
+        <source>Categories </source>
+        <target state="final">Kategorien </target>
+      </trans-unit>
+      <trans-unit id="tt_products.download_type" resname="tt_products.download_type" approved="yes">
+        <source>internal download type:</source>
+        <target state="final">interner Downloadtyp:</target>
+      </trans-unit>
+      <trans-unit id="tt_products.download_uid" resname="tt_products.download_uid" approved="yes">
+        <source>Downloads</source>
+        <target state="final">Downloads</target>
+      </trans-unit>
+      <trans-unit id="tt_products.download_info" resname="tt_products.download_info" approved="yes">
+        <source>Information required from the download</source>
+        <target state="final">Vom Download benötigte Informationen</target>
+      </trans-unit>
+      <trans-unit id="tt_products.download_info.limitedToDomain" resname="tt_products.download_info.limitedToDomain" approved="yes">
+        <source>limited to a domain</source>
+        <target state="final">Auf eine Domäne begrenzt</target>
+      </trans-unit>
+      <trans-unit id="tt_products.title" resname="tt_products.title" approved="yes">
+        <source>Name:</source>
+        <target state="final">Name:</target>
+      </trans-unit>
+      <trans-unit id="tt_products.slug" resname="tt_products.slug" approved="yes">
+        <source>URL Segment</source>
+        <target state="final">URL Segment</target>
+      </trans-unit>
+      <trans-unit id="tt_products.sellstarttime" resname="tt_products.sellstarttime" approved="yes">
+        <source>Starttime for selling:</source>
+        <target state="final">Verkaufsstart:</target>
+      </trans-unit>
+      <trans-unit id="tt_products.sellendtime" resname="tt_products.sellendtime" approved="yes">
+        <source>Endtime for selling:</source>
+        <target state="final">Verkaufsende:</target>
+      </trans-unit>
+      <trans-unit id="tt_products_language" resname="tt_products_language" approved="yes">
+        <source>Products (alternative language)</source>
+        <target state="final">Produkte (alternative Sprache)</target>
+      </trans-unit>
+      <trans-unit id="tt_products_language.prod_uid" resname="tt_products_language.prod_uid" approved="yes">
+        <source>Product record</source>
+        <target state="final">Produkte Datensatz</target>
+      </trans-unit>
+      <trans-unit id="tt_products_language.sys_language_uid" resname="tt_products_language.sys_language_uid" approved="yes">
+        <source>Language</source>
+        <target state="final">Sprache</target>
+      </trans-unit>
+      <trans-unit id="tt_products_language.text_uid" resname="tt_products_language.text_uid" approved="yes">
+        <source>Additional texts:</source>
+        <target state="final">Zusätzliche Texte:</target>
+      </trans-unit>
+      <trans-unit id="tt_products_language.datasheet" resname="tt_products_language.datasheet" approved="yes">
+        <source>Datasheet</source>
+        <target state="final">Datenblatt</target>
+      </trans-unit>
+      <trans-unit id="tt_products_cat" resname="tt_products_cat" approved="yes">
+        <source>Product categories</source>
+        <target state="final">Produkt Kategorie</target>
+      </trans-unit>
+      <trans-unit id="tt_products_cat.catid" resname="tt_products_cat.catid" approved="yes">
+        <source>Category Identifier</source>
+        <target state="final">Kategorie Identifizierungszeichen</target>
+      </trans-unit>
+      <trans-unit id="tt_products_cat.email_uid" resname="tt_products_cat.email_uid" approved="yes">
+        <source>Confirmation email</source>
+        <target state="final">Bestätigungsemail</target>
+      </trans-unit>
+      <trans-unit id="tt_products_cat.discount" resname="tt_products_cat.discount" approved="yes">
+        <source>Possible Discount:</source>
+        <target state="final">Möglicher Rabatt:</target>
+      </trans-unit>
+      <trans-unit id="tt_products_cat.discount_disable" resname="tt_products_cat.discount_disable" approved="yes">
+        <source>Disable Discount:</source>
+        <target state="final">kein Rabatt:</target>
+      </trans-unit>
+      <trans-unit id="tt_products_cat.highlight" resname="tt_products_cat.highlight" approved="yes">
+        <source>Highlight</source>
+        <target state="final">Besonderheit</target>
+      </trans-unit>
+      <trans-unit id="tt_products_cat.sliderimage" resname="tt_products_cat.sliderimage" approved="yes">
+        <source>Slider Image</source>
+        <target state="final">Slider Bild</target>
+      </trans-unit>
+      <trans-unit id="tt_products_cat.parent_category" resname="tt_products_cat.parent_category" approved="yes">
+        <source>Parent category</source>
+        <target state="final">Übergeordnete Kategorie</target>
+      </trans-unit>
+      <trans-unit id="tt_products_cat_language" resname="tt_products_cat_language" approved="yes">
+        <source>Product category (alternative language)</source>
+        <target state="final">Produkt Kategorie (alternative Sprache)</target>
+      </trans-unit>
+      <trans-unit id="tt_products_cat_language.sys_language_uid" resname="tt_products_cat_language.sys_language_uid" approved="yes">
+        <source>Language</source>
+        <target state="final">Sprache</target>
+      </trans-unit>
+      <trans-unit id="tt_products_cat_language.cat_uid" resname="tt_products_cat_language.cat_uid" approved="yes">
+        <source>Product category record</source>
+        <target state="final">Produkt Kategorie Datensatz</target>
+      </trans-unit>
+      <trans-unit id="tt_products_articles" resname="tt_products_articles" approved="yes">
+        <source>Product articles</source>
+        <target state="final">Produkt Artikel</target>
+      </trans-unit>
+      <trans-unit id="tt_products_articles.uid_product" resname="tt_products_articles.uid_product" approved="yes">
+        <source>Product</source>
+        <target state="final">Produkt</target>
+      </trans-unit>
+      <trans-unit id="tt_products_articles.config_type" resname="tt_products_articles.config_type" approved="yes">
+        <source>internal config type:</source>
+        <target state="final">interner Konfigurationstyp:</target>
+      </trans-unit>
+      <trans-unit id="tt_products_articles.config" resname="tt_products_articles.config" approved="yes">
+        <source>Configuration:</source>
+        <target state="final">Einstellungen:</target>
+      </trans-unit>
+      <trans-unit id="tt_products_articles.config.isaddedprice" resname="tt_products_articles.config.isaddedprice" approved="yes">
+        <source>price is added</source>
+        <target state="final">Aufpreis</target>
+      </trans-unit>
+      <trans-unit id="tt_products_articles.graduated_config_type" resname="tt_products_articles.graduated_config_type" approved="yes">
+        <source>internal graduated config type:</source>
+        <target state="final">interner graduierter Konfigurationstyp:</target>
+      </trans-unit>
+      <trans-unit id="tt_products_articles.graduated_config" resname="tt_products_articles.graduated_config" approved="yes">
+        <source>Graduated Price Configuration:</source>
+        <target state="final">Graduierte Preiskonfiguration:</target>
+      </trans-unit>
+      <trans-unit id="tt_products_articles.graduated_config.addParentProductCount" resname="tt_products_articles.graduated_config.addParentProductCount" approved="yes">
+        <source>Add the product counts of the parent product</source>
+        <target state="final">Produktanzahl des übergeordneten Produkts hinzufügen</target>
+      </trans-unit>
+      <trans-unit id="tt_products_articles_language" resname="tt_products_articles_language" approved="yes">
+        <source>Product articles (alternative language)</source>
+        <target state="final">Produkt Artikel (alternative Sprache)</target>
+      </trans-unit>
+      <trans-unit id="tt_products_articles_language.article_uid" resname="tt_products_articles_language.article_uid" approved="yes">
+        <source>Product article</source>
+        <target state="final">Produkt Artikel</target>
+      </trans-unit>
+      <trans-unit id="tt_products_attribute_mm_graduated_price" resname="tt_products_attribute_mm_graduated_price" approved="yes">
+        <source>Relation product attributes to gradutated prices</source>
+        <target state="final">Beziehung Produkte zu Staffelpreisen</target>
+      </trans-unit>
+      <trans-unit id="tt_products_attribute_mm_graduated_price.uid_local" resname="tt_products_attribute_mm_graduated_price.uid_local" approved="yes">
+        <source>Product attribute using it.</source>
+        <target state="final">Kombination der Produktmerkmale.</target>
+      </trans-unit>
+      <trans-unit id="tt_products_attribute_mm_graduated_price.uid_foreign" resname="tt_products_attribute_mm_graduated_price.uid_foreign" approved="yes">
+        <source>Price formula</source>
+        <target state="final">Preisformel</target>
+      </trans-unit>
+      <trans-unit id="tt_products_emails" resname="tt_products_emails" approved="yes">
+        <source>Products emails</source>
+        <target state="final">Produkt Emails</target>
+      </trans-unit>
+      <trans-unit id="tt_products_emails.suffix" resname="tt_products_emails.suffix" approved="yes">
+        <source>Template Suffix</source>
+        <target state="final">Template Suffix</target>
+      </trans-unit>
+      <trans-unit id="tt_products_texts" resname="tt_products_texts" approved="yes">
+        <source>Product texts</source>
+        <target state="final">Produkt Texte</target>
+      </trans-unit>
+      <trans-unit id="tt_products_texts.marker" resname="tt_products_texts.marker" approved="yes">
+        <source>Marker</source>
+        <target state="final">Marker</target>
+      </trans-unit>
+      <trans-unit id="tt_products_texts.parentid" resname="tt_products_texts.parentid" approved="yes">
+        <source>Parent product</source>
+        <target state="final">Eltern Produkt</target>
+      </trans-unit>
+      <trans-unit id="tt_products_texts.parenttable" resname="tt_products_texts.parenttable" approved="yes">
+        <source>Parent table</source>
+        <target state="final">Eltern Tabelle</target>
+      </trans-unit>
+      <trans-unit id="tt_products_texts_language" resname="tt_products_texts_language" approved="yes">
+        <source>Product texts (alternative language)</source>
+        <target state="final">Produkt Texte (alternative Sprache)</target>
+      </trans-unit>
+      <trans-unit id="tt_products_texts_language.text_uid" resname="tt_products_texts_language.text_uid" approved="yes">
+        <source>Parent text</source>
+        <target state="final">Eltern Text</target>
+      </trans-unit>
+      <trans-unit id="tt_products_texts_language.sys_language_uid" resname="tt_products_texts_language.sys_language_uid" approved="yes">
+        <source>Language</source>
+        <target state="final">Sprache</target>
+      </trans-unit>
+      <trans-unit id="tt_products_texts_language.parentid" resname="tt_products_texts_language.parentid" approved="yes">
+        <source>Parent product (alternative language)</source>
+        <target state="final">Übergeordnetes Produkt (alternative Sprache)</target>
+      </trans-unit>
+      <trans-unit id="tt_products_texts_language.parenttable" resname="tt_products_texts_language.parenttable" approved="yes">
+        <source>Parent table</source>
+        <target state="final">Übergeordnete Tabelle</target>
+      </trans-unit>
+      <trans-unit id="tt_products_downloads" resname="tt_products_downloads" approved="yes">
+        <source>Product Downloads</source>
+        <target state="final">Produkt herunterladbare Dateien</target>
+      </trans-unit>
+      <trans-unit id="tt_products_downloads.title" resname="tt_products_downloads.title" approved="yes">
+        <source>Title</source>
+        <target state="final">Titel</target>
+      </trans-unit>
+      <trans-unit id="tt_products_downloads.marker" resname="tt_products_downloads.marker" approved="yes">
+        <source>Marker</source>
+        <target state="final">Marker</target>
+      </trans-unit>
+      <trans-unit id="tt_products_downloads.path" resname="tt_products_downloads.path" approved="yes">
+        <source>Path</source>
+        <target state="final">Pfad</target>
+      </trans-unit>
+      <trans-unit id="tt_products_downloads.file_uid" resname="tt_products_downloads.file_uid" approved="yes">
+        <source>Files</source>
+        <target state="final">Dateien</target>
+      </trans-unit>
+      <trans-unit id="tt_products_downloads.author" resname="tt_products_downloads.author" approved="yes">
+        <source>Author</source>
+        <target state="final">Autor</target>
+      </trans-unit>
+      <trans-unit id="tt_products_downloads.edition" resname="tt_products_downloads.edition" approved="yes">
+        <source>Edition</source>
+        <target state="final">Ausgabe</target>
+      </trans-unit>
+      <trans-unit id="tt_products_downloads.edition.complete" resname="tt_products_downloads.edition.complete" approved="yes">
+        <source>Complete</source>
+        <target state="final">Gesamtausgabe</target>
+      </trans-unit>
+      <trans-unit id="tt_products_downloads.edition.partial" resname="tt_products_downloads.edition.partial" approved="yes">
+        <source>Partial</source>
+        <target state="final">Teilausgabe</target>
+      </trans-unit>
+      <trans-unit id="tt_products_downloads.open" resname="tt_products_downloads.open" approved="yes">
+        <source>Open for download</source>
+        <target state="final">Frei zum Download</target>
+      </trans-unit>
+      <trans-unit id="tt_products_downloads.price_enable" resname="tt_products_downloads.price_enable" approved="yes">
+        <source>Enable the Price</source>
+        <target state="final">Aktivieren des Preises</target>
+      </trans-unit>
+      <trans-unit id="tt_products_downloads.price" resname="tt_products_downloads.price" approved="yes">
+        <source>Price</source>
+        <target state="final">Preis</target>
+      </trans-unit>
+      <trans-unit id="tt_products_downloads_language" resname="tt_products_downloads_language" approved="yes">
+        <source>Product Downloads (alternative language)</source>
+        <target state="final">Produkt herunterladbare Dateien (alternative Sprache)</target>
+      </trans-unit>
+      <trans-unit id="tt_products_downloads_language.parent_uid" resname="tt_products_downloads_language.parent_uid" approved="yes">
+        <source>Parent download</source>
+        <target state="final">Eltern herunterladbare Dateien</target>
+      </trans-unit>
+      <trans-unit id="tt_products_downloads_language.sys_language_uid" resname="tt_products_downloads_language.sys_language_uid" approved="yes">
+        <source>Language</source>
+        <target state="final">Sprache</target>
+      </trans-unit>
+      <trans-unit id="tt_products_products_mm_tax_categories" resname="tt_products_products_mm_tax_categories" approved="yes">
+        <source>Relation products to tax categories</source>
+        <target state="final">Beziehung des Produktes zu Steuerkategorien</target>
+      </trans-unit>
+      <trans-unit id="tt_products_products_mm_downloads" resname="tt_products_products_mm_downloads" approved="yes">
+        <source>Relation products to downloads</source>
+        <target state="final">Beziehung des Produktes zu Downloads</target>
+      </trans-unit>
+      <trans-unit id="tt_products_products_mm_downloads.uid_local" resname="tt_products_products_mm_downloads.uid_local" approved="yes">
+        <source>Product using it</source>
+        <target state="final">Produkt, das es verwendet</target>
+      </trans-unit>
+      <trans-unit id="tt_products_products_mm_downloads.uid_foreign" resname="tt_products_products_mm_downloads.uid_foreign" approved="yes">
+        <source>Download for it</source>
+        <target state="final">Herunterladen für</target>
+      </trans-unit>
+      <trans-unit id="tt_products_mm_graduated_price" resname="tt_products_mm_graduated_price" approved="yes">
+        <source>Relation products to gradutated prices</source>
+        <target state="final">Beziehung Produkte zu Staffelpreisen</target>
+      </trans-unit>
+      <trans-unit id="tt_products_mm_graduated_price.product_uid" resname="tt_products_mm_graduated_price.product_uid" approved="yes">
+        <source>Product using it.</source>
+        <target state="final">Produkt zum Staffelpreis</target>
+      </trans-unit>
+      <trans-unit id="tt_products_mm_graduated_price.uid_local" resname="tt_products_mm_graduated_price.uid_local" approved="yes">
+        <source>Product using it.</source>
+        <target state="final">Produkt zum Staffelpreis</target>
+      </trans-unit>
+      <trans-unit id="tt_products_mm_graduated_price.graduated_price_uid" resname="tt_products_mm_graduated_price.graduated_price_uid">
+        <source>Price formula</source>
+        <target state="needs-translation">Price formula</target>
+      </trans-unit>
+      <trans-unit id="tt_products_mm_graduated_price.uid_foreign" resname="tt_products_mm_graduated_price.uid_foreign">
+        <source>Price formula</source>
+        <target state="needs-translation">Price formula</target>
+      </trans-unit>
+      <trans-unit id="tt_products_products_mm_articles" resname="tt_products_products_mm_articles" approved="yes">
+        <source>Relation products to articles</source>
+        <target state="final">Beziehung des Produktes zu Artikeln</target>
+      </trans-unit>
+      <trans-unit id="tt_products_products_mm_articles.product_uid" resname="tt_products_products_mm_articles.product_uid" approved="yes">
+        <source>Product using it</source>
+        <target state="final">Produkt verwendet Artikel</target>
+      </trans-unit>
+      <trans-unit id="tt_products_products_mm_articles.article_uid" resname="tt_products_products_mm_articles.article_uid" approved="yes">
+        <source>Article</source>
+        <target state="final">Artikel</target>
+      </trans-unit>
+      <trans-unit id="tt_products_related_products_products_mm" resname="tt_products_related_products_products_mm" approved="yes">
+        <source>Relation products to related products</source>
+        <target state="final">Beziehung eines Produktes zu zugewiesenen Produkten</target>
+      </trans-unit>
+      <trans-unit id="tt_products_related_products_products_mm.uid_local" resname="tt_products_related_products_products_mm.uid_local" approved="yes">
+        <source>Origin Product</source>
+        <target state="final">Ausgangsprodukt</target>
+      </trans-unit>
+      <trans-unit id="tt_products_related_products_products_mm.uid_foreign" resname="tt_products_related_products_products_mm.uid_foreign" approved="yes">
+        <source>Related Product</source>
+        <target state="final">zugewiesenes Produkt</target>
+      </trans-unit>
+      <trans-unit id="tt_products_accessory_products_products_mm" resname="tt_products_accessory_products_products_mm" approved="yes">
+        <source>Relation products to accessory products</source>
+        <target state="final">Beziehung eines Produktes zu Hilfs-Produkten</target>
+      </trans-unit>
+      <trans-unit id="tt_products_accessory_products_products_mm.uid_local" resname="tt_products_accessory_products_products_mm.uid_local" approved="yes">
+        <source>Origin Product</source>
+        <target state="final">Ausgangsprodukt</target>
+      </trans-unit>
+      <trans-unit id="tt_products_accessory_products_products_mm.uid_foreign" resname="tt_products_accessory_products_products_mm.uid_foreign" approved="yes">
+        <source>Accessory Product</source>
+        <target state="final">Zubehör Produkt</target>
+      </trans-unit>
+      <trans-unit id="tt_products_graduated_price" resname="tt_products_graduated_price" approved="yes">
+        <source>Graduated prices</source>
+        <target state="final">Staffelpreise</target>
+      </trans-unit>
+      <trans-unit id="tt_products_graduated_price.formula" resname="tt_products_graduated_price.formula" approved="yes">
+        <source>Price formula:</source>
+        <target state="final">Preisformel:</target>
+      </trans-unit>
+      <trans-unit id="tt_products_graduated_price.startamount" resname="tt_products_graduated_price.startamount" approved="yes">
+        <source>Start amount of items:</source>
+        <target state="final">ab Menge:</target>
+      </trans-unit>
+      <trans-unit id="tt_products_graduated_price.items" resname="tt_products_graduated_price.items" approved="yes">
+        <source>Items</source>
+        <target state="final">Artikel</target>
+      </trans-unit>
+      <trans-unit id="tt_products_graduated_price.starttime" resname="tt_products_graduated_price.starttime" approved="yes">
+        <source>valid from</source>
+        <target state="final">gültig ab</target>
+      </trans-unit>
+      <trans-unit id="tt_products_graduated_price.endtime" resname="tt_products_graduated_price.endtime" approved="yes">
+        <source>valid until</source>
+        <target state="final">gültig bis</target>
+      </trans-unit>
+      <trans-unit id="sys_file_reference.tx_ttproducts_author" resname="sys_file_reference.tx_ttproducts_author" approved="yes">
+        <source>Author</source>
+        <target state="final">Autor</target>
+      </trans-unit>
+      <trans-unit id="sys_file_reference.tx_ttproducts_startpoint" resname="sys_file_reference.tx_ttproducts_startpoint" approved="yes">
+        <source>Start Point</source>
+        <target state="final">Startpunkt</target>
+      </trans-unit>
+      <trans-unit id="sys_file_reference.tx_ttproducts_endpoint" resname="sys_file_reference.tx_ttproducts_endpoint" approved="yes">
+        <source>End Point</source>
+        <target state="final">Endpunkt</target>
+      </trans-unit>
+      <trans-unit id="sys_file_reference.tx_ttproducts_price_enable" resname="sys_file_reference.tx_ttproducts_price_enable" approved="yes">
+        <source>Enable the Price</source>
+        <target state="final">Aktivieren des Preises</target>
+      </trans-unit>
+      <trans-unit id="sys_file_reference.tx_ttproducts_price" resname="sys_file_reference.tx_ttproducts_price" approved="yes">
+        <source>Price</source>
+        <target state="final">Preis</target>
+      </trans-unit>
+      <trans-unit id="sys_file_reference.shopAttributes" resname="sys_file_reference.shopAttributes" approved="yes">
+        <source>Shop Attributes</source>
+        <target state="final">Shop Attribute</target>
+      </trans-unit>
+      <trans-unit id="sys_products_cards" resname="sys_products_cards" approved="yes">
+        <source>Credit cards for orders</source>
+        <target state="final">Kreditkarten für Bestellungen</target>
+      </trans-unit>
+      <trans-unit id="sys_products_cards.owner_name" resname="sys_products_cards.owner_name" approved="yes">
+        <source>owner name</source>
+        <target state="final">Name des Besitzers</target>
+      </trans-unit>
+      <trans-unit id="sys_products_cards.cc_number" resname="sys_products_cards.cc_number" approved="yes">
+        <source>number</source>
+        <target state="final">Nummer</target>
+      </trans-unit>
+      <trans-unit id="sys_products_cards.cc_number_1" resname="sys_products_cards.cc_number_1" approved="yes">
+        <source>number part 1</source>
+        <target state="final">Nummer Teil 1</target>
+      </trans-unit>
+      <trans-unit id="sys_products_cards.cc_number_2" resname="sys_products_cards.cc_number_2" approved="yes">
+        <source>number part 2</source>
+        <target state="final">Nummer Teil 2</target>
+      </trans-unit>
+      <trans-unit id="sys_products_cards.cc_number_3" resname="sys_products_cards.cc_number_3" approved="yes">
+        <source>number part 3</source>
+        <target state="final">Nummer Teil 3</target>
+      </trans-unit>
+      <trans-unit id="sys_products_cards.cc_number_4" resname="sys_products_cards.cc_number_4" approved="yes">
+        <source>number part 4</source>
+        <target state="final">Nummer Teil 4</target>
+      </trans-unit>
+      <trans-unit id="sys_products_cards.cc_type" resname="sys_products_cards.cc_type" approved="yes">
+        <source>organization</source>
+        <target state="final">Organisation</target>
+      </trans-unit>
+      <trans-unit id="sys_products_cards.cc_type.I.0" resname="sys_products_cards.cc_type.I.0">
+        <source>American Express</source>
+        <target state="needs-translation">American Express</target>
+      </trans-unit>
+      <trans-unit id="sys_products_cards.cc_type.I.1" resname="sys_products_cards.cc_type.I.1">
+        <source>Diners Club</source>
+        <target state="needs-translation">Diners Club</target>
+      </trans-unit>
+      <trans-unit id="sys_products_cards.cc_type.I.2" resname="sys_products_cards.cc_type.I.2">
+        <source>Mastercard</source>
+        <target state="needs-translation">Mastercard</target>
+      </trans-unit>
+      <trans-unit id="sys_products_cards.cc_type.I.3" resname="sys_products_cards.cc_type.I.3">
+        <source>Visa</source>
+        <target state="needs-translation">Visa</target>
+      </trans-unit>
+      <trans-unit id="sys_products_cards.cvv2" resname="sys_products_cards.cvv2" approved="yes">
+        <source>Card Security Code</source>
+        <target state="final">Kartenprüfnummer</target>
+      </trans-unit>
+      <trans-unit id="sys_products_cards.endtime_mm" resname="sys_products_cards.endtime_mm" approved="yes">
+        <source>Card endtime: month</source>
+        <target state="final">Kreditkarte Endedatum: Monat</target>
+      </trans-unit>
+      <trans-unit id="sys_products_cards.endtime_yy" resname="sys_products_cards.endtime_yy" approved="yes">
+        <source>Card endtime: year</source>
+        <target state="final">Kreditkarte Endedatum: Jahr</target>
+      </trans-unit>
+      <trans-unit id="sys_products_accounts" resname="sys_products_accounts" approved="yes">
+        <source>Bank accounts for orders</source>
+        <target state="final">Bankverbindungen für Bestellungen</target>
+      </trans-unit>
+      <trans-unit id="sys_products_accounts.owner_name" resname="sys_products_accounts.owner_name" approved="yes">
+        <source>owner name</source>
+        <target state="final">Name des Besitzers</target>
+      </trans-unit>
+      <trans-unit id="sys_products_accounts.ac_number" resname="sys_products_accounts.ac_number" approved="yes">
+        <source>account number</source>
+        <target state="final">Kontonummer</target>
+      </trans-unit>
+      <trans-unit id="sys_products_accounts.bic" resname="sys_products_accounts.bic" approved="yes">
+        <source>bank identifier code</source>
+        <target state="final">Bankleitzahl</target>
+      </trans-unit>
+      <trans-unit id="sys_products_accounts.iban" resname="sys_products_accounts.iban">
+        <source>IBAN</source>
+        <target state="needs-translation">IBAN</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders" resname="sys_products_orders" approved="yes">
+        <source>Sys products orders</source>
+        <target state="final">Sys Produkte Bestellungen</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.crdate" resname="sys_products_orders.crdate" approved="yes">
+        <source>Order date</source>
+        <target state="final">Bestelldatum</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.payment" resname="sys_products_orders.payment" approved="yes">
+        <source>payment</source>
+        <target state="final">Bezahlung</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.shipping" resname="sys_products_orders.shipping" approved="yes">
+        <source>shipping</source>
+        <target state="final">Versand</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.amount" resname="sys_products_orders.amount" approved="yes">
+        <source>amount</source>
+        <target state="final">Betrag</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.tax_mode" resname="sys_products_orders.tax_mode" approved="yes">
+        <source>tax mode</source>
+        <target state="final">Steuerart</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.tax_mode.I.0" resname="sys_products_orders.tax_mode.I.0" approved="yes">
+        <source>taxed</source>
+        <target state="final">versteuert</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.tax_mode.I.1" resname="sys_products_orders.tax_mode.I.1" approved="yes">
+        <source>duty free</source>
+        <target state="final">steuerfrei</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.pay_mode" resname="sys_products_orders.pay_mode" approved="yes">
+        <source>payment mode</source>
+        <target state="final">Bezahl Modus</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.pay_mode.I.0" resname="sys_products_orders.pay_mode.I.0" approved="yes">
+        <source>unpaid</source>
+        <target state="final">nicht bezahlt</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.pay_mode.I.1" resname="sys_products_orders.pay_mode.I.1" approved="yes">
+        <source>bank transfer</source>
+        <target state="final">Banküberweisung</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.pay_mode.I.2" resname="sys_products_orders.pay_mode.I.2" approved="yes">
+        <source>credit card</source>
+        <target state="final">Kreditkarte</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.pay_mode.I.3" resname="sys_products_orders.pay_mode.I.3" approved="yes">
+        <source>cash</source>
+        <target state="final">bar</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.pay_mode.I.4" resname="sys_products_orders.pay_mode.I.4">
+        <source>Paypal</source>
+        <target state="needs-translation">Paypal</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.pay_mode.I.5" resname="sys_products_orders.pay_mode.I.5">
+        <source>Saferpay</source>
+        <target state="needs-translation">Saferpay</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.pay_mode.I.6" resname="sys_products_orders.pay_mode.I.6">
+        <source>iPayment</source>
+        <target state="needs-translation">iPayment</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.pay_mode.I.7" resname="sys_products_orders.pay_mode.I.7">
+        <source>Payone</source>
+        <target state="needs-translation">Payone</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.pay_mode.I.8" resname="sys_products_orders.pay_mode.I.8">
+        <source>ClickandBuy</source>
+        <target state="needs-translation">ClickandBuy</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.pay_mode.I.9" resname="sys_products_orders.pay_mode.I.9">
+        <source>vrepay</source>
+        <target state="needs-translation">vrepay</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.pay_mode.I.10" resname="sys_products_orders.pay_mode.I.10">
+        <source>Authorize.net</source>
+        <target state="needs-translation">Authorize.net</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.pay_mode.I.11" resname="sys_products_orders.pay_mode.I.11" approved="yes">
+        <source>Arrangement</source>
+        <target state="final">Vereinbarung</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.pay_mode.I.12" resname="sys_products_orders.pay_mode.I.12">
+        <source>Concardis</source>
+        <target state="needs-translation">Concardis</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.pay_mode.I.13" resname="sys_products_orders.pay_mode.I.13">
+        <source>Dibs</source>
+        <target state="needs-translation">Dibs</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.pay_mode.I.14" resname="sys_products_orders.pay_mode.I.14">
+        <source>Sofortueberweisung</source>
+        <target state="needs-translation">Sofortueberweisung</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.pay_mode.I.15" resname="sys_products_orders.pay_mode.I.15">
+        <source>Stripe</source>
+        <target state="needs-translation">Stripe</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.pay_mode.I.16" resname="sys_products_orders.pay_mode.I.16">
+        <source>Expercash</source>
+        <target state="needs-translation">Expercash</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.pay_mode.I.17" resname="sys_products_orders.pay_mode.I.17">
+        <source>Paymill</source>
+        <target state="needs-translation">Paymill</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.email_notify" resname="sys_products_orders.email_notify" approved="yes">
+        <source>email notification</source>
+        <target state="final">Email Benachrichtigung</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.tracking_code" resname="sys_products_orders.tracking_code" approved="yes">
+        <source>tracking code</source>
+        <target state="final">Nachverfolgung Code</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.status" resname="sys_products_orders.status" approved="yes">
+        <source>status</source>
+        <target state="final">Zustand</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.status_log" resname="sys_products_orders.status_log" approved="yes">
+        <source>status_log</source>
+        <target state="final">Zustands Logdatei</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.orderData" resname="sys_products_orders.orderData" approved="yes">
+        <source>order data</source>
+        <target state="final">Bestelldaten</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.orderHtml" resname="sys_products_orders.orderHtml" approved="yes">
+        <source>Order Html</source>
+        <target state="final">Bestellung Html</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.orderHtmlDiv" resname="sys_products_orders.orderHtmlDiv">
+        <source>Html</source>
+        <target state="needs-translation">Html</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.agb" resname="sys_products_orders.agb" approved="yes">
+        <source>agb</source>
+        <target state="final">AGB</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.feusers_uid" resname="sys_products_orders.feusers_uid" approved="yes">
+        <source>frontend user</source>
+        <target state="final">Frontend Benutzer</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.creditpoints" resname="sys_products_orders.creditpoints" approved="yes">
+        <source>credit points</source>
+        <target state="final">Kontopunkte</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.creditpoints_spended" resname="sys_products_orders.creditpoints_spended" approved="yes">
+        <source>spended creditpoints</source>
+        <target state="final">ausgegebene Kontopunkte</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.creditpoints_saved" resname="sys_products_orders.creditpoints_saved" approved="yes">
+        <source>saved creditpoints</source>
+        <target state="final">erhaltene Kontopunkte</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.creditpoints_gifts" resname="sys_products_orders.creditpoints_gifts" approved="yes">
+        <source>gifts creditpoints</source>
+        <target state="final">Geschenke Kontopunkte</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.desired_date" resname="sys_products_orders.desired_date" approved="yes">
+        <source>desired date</source>
+        <target state="final">gewünschtes Zustelldatum</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.desired_time" resname="sys_products_orders.desired_time" approved="yes">
+        <source>desired time</source>
+        <target state="final">gewünschte Zustellzeit</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.client_ip" resname="sys_products_orders.client_ip" approved="yes">
+        <source>used IP address</source>
+        <target state="final">verwendete IP Adresse</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.vat_id" resname="sys_products_orders.vat_id" approved="yes">
+        <source>EU VAT number</source>
+        <target state="final">EU USt. - Identifikationsnummer</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.salutation" resname="sys_products_orders.salutation" approved="yes">
+        <source>salutation</source>
+        <target state="final">Anrede</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.salutation.I.0" resname="sys_products_orders.salutation.I.0" approved="yes">
+        <source>Mr.</source>
+        <target state="final">Herr</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.salutation.I.1" resname="sys_products_orders.salutation.I.1" approved="yes">
+        <source>Mrs.</source>
+        <target state="final">Frau</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.salutation.I.2" resname="sys_products_orders.salutation.I.2" approved="yes">
+        <source>Company.</source>
+        <target state="final">Firma</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.salutation.I.3" resname="sys_products_orders.salutation.I.3" approved="yes">
+        <source>To</source>
+        <target state="final">An</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.foundby" resname="sys_products_orders.foundby" approved="yes">
+        <source>found by</source>
+        <target state="final">gefunden durch</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.foundby.I.0" resname="sys_products_orders.foundby.I.0" approved="yes">
+        <source>undefined</source>
+        <target state="final">keine Angabe</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.foundby.I.1" resname="sys_products_orders.foundby.I.1" approved="yes">
+        <source>company 1</source>
+        <target state="final">Firma 1</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.foundby.I.2" resname="sys_products_orders.foundby.I.2" approved="yes">
+        <source>company 2</source>
+        <target state="final">Firma 2</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.foundby.I.3" resname="sys_products_orders.foundby.I.3" approved="yes">
+        <source>friends and acquaintances</source>
+        <target state="final">Freunde und Bekannte</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.foundby.I.4" resname="sys_products_orders.foundby.I.4" approved="yes">
+        <source>internet search engine</source>
+        <target state="final">Internet Suchmaschine</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.foundby.I.5" resname="sys_products_orders.foundby.I.5" approved="yes">
+        <source>newspaper</source>
+        <target state="final">Zeitung</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.foundby.I.6" resname="sys_products_orders.foundby.I.6" approved="yes">
+        <source>others</source>
+        <target state="final">Sonstiges</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.first_name" resname="sys_products_orders.first_name" approved="yes">
+        <source>first name</source>
+        <target state="final">Vorname</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.last_name" resname="sys_products_orders.last_name" approved="yes">
+        <source>last name</source>
+        <target state="final">Nachname</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.address" resname="sys_products_orders.address" approved="yes">
+        <source>street / address</source>
+        <target state="final">Straße / Adresse</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.house_no" resname="sys_products_orders.house_no" approved="yes">
+        <source>house number</source>
+        <target state="final">Hausnummer</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.order_code" resname="sys_products_orders.order_code" approved="yes">
+        <source>Order code</source>
+        <target state="final">Bestell-Code</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.date_of_birth" resname="sys_products_orders.date_of_birth" approved="yes">
+        <source>Date of birth</source>
+        <target state="final">Geburtsdatum</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.date_of_payment" resname="sys_products_orders.date_of_payment" approved="yes">
+        <source>Date of payment</source>
+        <target state="final">Datum der Bezahlung</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.date_of_delivery" resname="sys_products_orders.date_of_delivery" approved="yes">
+        <source>Date of delivery</source>
+        <target state="final">Datum des Versands</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.bill_no" resname="sys_products_orders.bill_no" approved="yes">
+        <source>Bill number</source>
+        <target state="final">Rechnungs Nummer</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.order_no" resname="sys_products_orders.order_no">
+        <source>Order number</source>
+        <target state="needs-translation">Order number</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.radio1" resname="sys_products_orders.radio1" approved="yes">
+        <source>checked items</source>
+        <target state="final">ausgewählte Punkte</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.radio1.I.0" resname="sys_products_orders.radio1.I.0" approved="yes">
+        <source>nothing checked</source>
+        <target state="final">kein Punkt</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.radio1.I.1" resname="sys_products_orders.radio1.I.1" approved="yes">
+        <source>checked 1</source>
+        <target state="final">Punkt 1</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.radio1.I.2" resname="sys_products_orders.radio1.I.2" approved="yes">
+        <source>checked 2</source>
+        <target state="final">Punkt 2</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.giftservice" resname="sys_products_orders.giftservice" approved="yes">
+        <source>Gift service</source>
+        <target state="final">Geschenk Service</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.ordered_products" resname="sys_products_orders.ordered_products" approved="yes">
+        <source>Bought products</source>
+        <target state="final">Gekaufte Produkte</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.fal_uid" resname="sys_products_orders.fal_uid" approved="yes">
+        <source>Bought files</source>
+        <target state="final">Gekaufte Dateien</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.gained_uid" resname="sys_products_orders.gained_uid" approved="yes">
+        <source>Gained products</source>
+        <target state="final">Gewonnene Produkte</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.gained_voucher" resname="sys_products_orders.gained_voucher">
+        <source>Gained voucher codes</source>
+        <target state="needs-translation">Gained voucher codes</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders_mm_gained_voucher_codes" resname="sys_products_orders_mm_gained_voucher_codes">
+        <source>Relations Order to Voucher Code</source>
+        <target state="needs-translation">Relations Order to Voucher Code</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders_mm_gained_voucher_codes.uid_local" resname="sys_products_orders_mm_gained_voucher_codes.uid_local">
+        <source>Order</source>
+        <target state="needs-translation">Order</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders_mm_gained_voucher_codes.uid_foreign" resname="sys_products_orders_mm_gained_voucher_codes.uid_foreign">
+        <source>Voucher</source>
+        <target state="needs-translation">Voucher</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders_mm_tt_products" resname="sys_products_orders_mm_tt_products">
+        <source>Relations Order to Product</source>
+        <target state="needs-translation">Relations Order to Product</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders_mm_tt_products.uid_local" resname="sys_products_orders_mm_tt_products.uid_local">
+        <source>Order</source>
+        <target state="needs-translation">Order</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders_mm_tt_products.uid_foreign" resname="sys_products_orders_mm_tt_products.uid_foreign">
+        <source>Product</source>
+        <target state="needs-translation">Product</target>
+      </trans-unit>
+      <trans-unit id="fe_groups.tt_products_discount" resname="fe_groups.tt_products_discount">
+        <source>Discount</source>
+        <target state="needs-translation">Discount</target>
+      </trans-unit>
+      <trans-unit id="fe_users.cnum" resname="fe_users.cnum" approved="yes">
+        <source>Customer Number:</source>
+        <target state="final">Kundennummer:</target>
+      </trans-unit>
+      <trans-unit id="fe_users.static_info_country" resname="fe_users.static_info_country" approved="yes">
+        <source>Country Code:</source>
+        <target state="final">Ländercode:</target>
+      </trans-unit>
+      <trans-unit id="fe_users.zone" resname="fe_users.zone" approved="yes">
+        <source>State/province:</source>
+        <target state="final">Bundesland:</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_memoItems" resname="fe_users.tt_products_memoItems" approved="yes">
+        <source>Memo Items</source>
+        <target state="final">Produkt Merkliste</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_memofile" resname="fe_users.tt_products_memofile" approved="yes">
+        <source>Memo Files</source>
+        <target state="final">Datei Merkliste</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_discount" resname="fe_users.tt_products_discount" approved="yes">
+        <source>Discount</source>
+        <target state="final">Rabatt</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_creditpoints" resname="fe_users.tt_products_creditpoints" approved="yes">
+        <source>Creditpoints</source>
+        <target state="final">Kontopunkte</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_vouchercode" resname="fe_users.tt_products_vouchercode" approved="yes">
+        <source>Vouchercode</source>
+        <target state="final">Gutschein Code</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_vat" resname="fe_users.tt_products_vat" approved="yes">
+        <source>EU VAT number</source>
+        <target state="final">EU USt. - Identifikationsnummer</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_payment_bill" resname="fe_users.tt_products_payment_bill" approved="yes">
+        <source>Allow payment by bill</source>
+        <target state="final">Erlaube Bezahlung über Rechnung</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_business_partner" resname="fe_users.tt_products_business_partner" approved="yes">
+        <source>Business Partner</source>
+        <target state="final">Geschäftspartner</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_business_partner.I.0" resname="fe_users.tt_products_business_partner.I.0" approved="yes">
+        <source>Private Customer</source>
+        <target state="final">Privatkunde</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_business_partner.I.1" resname="fe_users.tt_products_business_partner.I.1" approved="yes">
+        <source>Business Customer</source>
+        <target state="final">Geschäftskunde</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form" resname="fe_users.tt_products_organisation_form" approved="yes">
+        <source>Form of Organisation</source>
+        <target state="final">Rechtsform</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form.A1" resname="fe_users.tt_products_organisation_form.A1">
+        <source>Aktiengesellschaft</source>
+        <target state="needs-translation">Aktiengesellschaft</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form.A2" resname="fe_users.tt_products_organisation_form.A2">
+        <source>Aktiengesellschaft &amp; Co. KG</source>
+        <target state="needs-translation">Aktiengesellschaft &amp; Co. KG</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form.A3" resname="fe_users.tt_products_organisation_form.A3">
+        <source>Aktiengesellschaft &amp; Co. OHG</source>
+        <target state="needs-translation">Aktiengesellschaft &amp; Co. OHG</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form.BH" resname="fe_users.tt_products_organisation_form.BH">
+        <source>Kommunalverwaltung</source>
+        <target state="needs-translation">Kommunalverwaltung</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form.E1" resname="fe_users.tt_products_organisation_form.E1">
+        <source>Eingetragene Genossenschaft</source>
+        <target state="needs-translation">Eingetragene Genossenschaft</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form.E2" resname="fe_users.tt_products_organisation_form.E2">
+        <source>Eingetragener Verein</source>
+        <target state="needs-translation">Eingetragener Verein</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form.E3" resname="fe_users.tt_products_organisation_form.E3">
+        <source>Einzelunternehmen</source>
+        <target state="needs-translation">Einzelunternehmen</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form.E4" resname="fe_users.tt_products_organisation_form.E4">
+        <source>Eingetragener Kaufmann</source>
+        <target state="needs-translation">Eingetragener Kaufmann</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form.G1" resname="fe_users.tt_products_organisation_form.G1">
+        <source>Ges. bürgerlichen Rechts</source>
+        <target state="needs-translation">Ges. bürgerlichen Rechts</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form.G2" resname="fe_users.tt_products_organisation_form.G2">
+        <source>GmbH</source>
+        <target state="needs-translation">GmbH</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form.G3" resname="fe_users.tt_products_organisation_form.G3">
+        <source>GmbH &amp; Co.</source>
+        <target state="needs-translation">GmbH &amp; Co.</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form.G4" resname="fe_users.tt_products_organisation_form.G4">
+        <source>GmbH &amp; Co. KG</source>
+        <target state="needs-translation">GmbH &amp; Co. KG</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form.G5" resname="fe_users.tt_products_organisation_form.G5">
+        <source>GmbH &amp; Co. OHG</source>
+        <target state="needs-translation">GmbH &amp; Co. OHG</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form.G6" resname="fe_users.tt_products_organisation_form.G6">
+        <source>GmbH gemeinschaftlich</source>
+        <target state="needs-translation">GmbH gemeinschaftlich</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form.G7" resname="fe_users.tt_products_organisation_form.G7">
+        <source>Gemeinnützige GmbH (gGmbH)</source>
+        <target state="needs-translation">Gemeinnützige GmbH (gGmbH)</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form.K2" resname="fe_users.tt_products_organisation_form.K2">
+        <source>Kommanditgesellsch. auf Aktien</source>
+        <target state="needs-translation">Kommanditgesellsch. auf Aktien</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form.K3" resname="fe_users.tt_products_organisation_form.K3">
+        <source>KG auf Aktien &amp; Co. KG</source>
+        <target state="needs-translation">KG auf Aktien &amp; Co. KG</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form.KG" resname="fe_users.tt_products_organisation_form.KG">
+        <source>Kommanditgesellschaft</source>
+        <target state="needs-translation">Kommanditgesellschaft</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form.KO" resname="fe_users.tt_products_organisation_form.KO">
+        <source>Körperschaft öffentl. Rechts</source>
+        <target state="needs-translation">Körperschaft öffentl. Rechts</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form.O1" resname="fe_users.tt_products_organisation_form.O1">
+        <source>Offene Handelsgesellschaft</source>
+        <target state="needs-translation">Offene Handelsgesellschaft</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form.P" resname="fe_users.tt_products_organisation_form.P">
+        <source>Privatperson</source>
+        <target state="needs-translation">Privatperson</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form.S1" resname="fe_users.tt_products_organisation_form.S1">
+        <source>Stiftung Öffentlichen Rechts</source>
+        <target state="needs-translation">Stiftung Öffentlichen Rechts</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form.S2" resname="fe_users.tt_products_organisation_form.S2">
+        <source>Stiftung Privaten Rechts</source>
+        <target state="needs-translation">Stiftung Privaten Rechts</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form.S3" resname="fe_users.tt_products_organisation_form.S3">
+        <source>Stiftung &amp; Co. Handels KG</source>
+        <target state="needs-translation">Stiftung &amp; Co. Handels KG</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form.U" resname="fe_users.tt_products_organisation_form.U">
+        <source>Rechtsform klären</source>
+        <target state="needs-translation">Rechtsform klären</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form.V1" resname="fe_users.tt_products_organisation_form.V1">
+        <source>Versicherungsverein a. Gegens.</source>
+        <target state="needs-translation">Versicherungsverein a. Gegens.</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form.Z1" resname="fe_users.tt_products_organisation_form.Z1">
+        <source>Ausländische Rechtsformen</source>
+        <target state="needs-translation">Ausländische Rechtsformen</target>
+      </trans-unit>
+      <trans-unit id="tt_content.list_type_pi1" resname="tt_content.list_type_pi1">
+        <source>Shop System</source>
+        <target state="needs-translation">Shop System</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.param_mode" resname="tt_content.pi_flexform.param_mode" approved="yes">
+        <source>Parameter: mode</source>
+        <target state="final">Modus im Setup</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.param_mode.0" resname="tt_content.pi_flexform.param_mode.0">
+        <source>0</source>
+        <target state="needs-translation">0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.param_mode.1" resname="tt_content.pi_flexform.param_mode.1">
+        <source>1</source>
+        <target state="needs-translation">1</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.param_mode.2" resname="tt_content.pi_flexform.param_mode.2">
+        <source>2</source>
+        <target state="needs-translation">2</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.param_mode.3" resname="tt_content.pi_flexform.param_mode.3">
+        <source>3</source>
+        <target state="needs-translation">3</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode" resname="tt_content.pi_flexform.display_mode" approved="yes">
+        <source>Display mode</source>
+        <target state="final">Anzeigetyp</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.1" resname="tt_content.pi_flexform.display_mode.1" approved="yes">
+        <source>Products: list</source>
+        <target state="final">Produkte: Liste</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.2" resname="tt_content.pi_flexform.display_mode.2" approved="yes">
+        <source>Products: list gifts</source>
+        <target state="final">Produkte: Liste Geschenke</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.3" resname="tt_content.pi_flexform.display_mode.3" approved="yes">
+        <source>Products: list highlights</source>
+        <target state="final">Produkte: Liste Highlights</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.4" resname="tt_content.pi_flexform.display_mode.4" approved="yes">
+        <source>Products: list offers</source>
+        <target state="final">Produkte: Liste Aktionen</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.5" resname="tt_content.pi_flexform.display_mode.5" approved="yes">
+        <source>Products: list new items</source>
+        <target state="final">Produkte: Liste Neue Artikel</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.6" resname="tt_content.pi_flexform.display_mode.6" approved="yes">
+        <source>Products: single view</source>
+        <target state="final">Produkte: Einzelansicht</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.7" resname="tt_content.pi_flexform.display_mode.7" approved="yes">
+        <source>Products: search</source>
+        <target state="final">Produkte: Suche</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.8" resname="tt_content.pi_flexform.display_mode.8" approved="yes">
+        <source>Test: various</source>
+        <target state="final">Test: Verschiedenes</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.9" resname="tt_content.pi_flexform.display_mode.9" approved="yes">
+        <source>Basket: shopping cart, options</source>
+        <target state="final">Warenkorb: Inhalt</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.10" resname="tt_content.pi_flexform.display_mode.10" approved="yes">
+        <source>Basket: overview</source>
+        <target state="final">Warenkorb: Miniformat</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.11" resname="tt_content.pi_flexform.display_mode.11" approved="yes">
+        <source>Basket: collect addresses</source>
+        <target state="final">Warenkorb: Eingabe Kundendaten</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.12" resname="tt_content.pi_flexform.display_mode.12" approved="yes">
+        <source>Basket: order review, payment</source>
+        <target state="final">Warenkorb: Kontrolle und Bezahlung</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.13" resname="tt_content.pi_flexform.display_mode.13" approved="yes">
+        <source>Basket: order confirmation</source>
+        <target state="final">Warenkorb: Bestellung abschließen</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.14" resname="tt_content.pi_flexform.display_mode.14" approved="yes">
+        <source>Orders: tracking</source>
+        <target state="final">Bestellung: Verwaltung</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.15" resname="tt_content.pi_flexform.display_mode.15" approved="yes">
+        <source>Orders: billing</source>
+        <target state="final">Bestellung: Rechnung</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.16" resname="tt_content.pi_flexform.display_mode.16" approved="yes">
+        <source>Orders: delivery</source>
+        <target state="final">Bestellung: Lieferschein</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.17" resname="tt_content.pi_flexform.display_mode.17" approved="yes">
+        <source>Orders: list</source>
+        <target state="final">Bestellung: Liste</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.18" resname="tt_content.pi_flexform.display_mode.18" approved="yes">
+        <source>Products: memo</source>
+        <target state="final">Produkte: Merkliste</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.19" resname="tt_content.pi_flexform.display_mode.19" approved="yes">
+        <source>General: help</source>
+        <target state="final">Allgemein: Hilfe</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.20" resname="tt_content.pi_flexform.display_mode.20" approved="yes">
+        <source>Categories: list</source>
+        <target state="final">Kategorien: Liste</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.21" resname="tt_content.pi_flexform.display_mode.21" approved="yes">
+        <source>Articles: list</source>
+        <target state="final">Artikel: Liste</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.22" resname="tt_content.pi_flexform.display_mode.22" approved="yes">
+        <source>Categories: select</source>
+        <target state="final">Kategorien: Auswahl</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.23" resname="tt_content.pi_flexform.display_mode.23" approved="yes">
+        <source>Files: list</source>
+        <target state="final">File: Liste</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.24" resname="tt_content.pi_flexform.display_mode.24" approved="yes">
+        <source>System Categories: list</source>
+        <target state="final">System Kategorien: Liste</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.25" resname="tt_content.pi_flexform.display_mode.25" approved="yes">
+        <source>Addresses: select</source>
+        <target state="final">Adressen: Auswahl</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.26" resname="tt_content.pi_flexform.display_mode.26" approved="yes">
+        <source>Addresses: list</source>
+        <target state="final">Addressen: Liste</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.27" resname="tt_content.pi_flexform.display_mode.27" approved="yes">
+        <source>Categories: menu</source>
+        <target state="final">Kategorien: Menü</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.28" resname="tt_content.pi_flexform.display_mode.28" approved="yes">
+        <source>Addresses: menu</source>
+        <target state="final">Adressen: Menü</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.29" resname="tt_content.pi_flexform.display_mode.29" approved="yes">
+        <source>System Categories: select</source>
+        <target state="final">System Kategorien: Auswahl</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.30" resname="tt_content.pi_flexform.display_mode.30" approved="yes">
+        <source>System Categories: menu</source>
+        <target state="final">System Kategorien: Menü</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.31" resname="tt_content.pi_flexform.display_mode.31" approved="yes">
+        <source>Categories: single</source>
+        <target state="final">Kategorien: Einzelansicht</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.32" resname="tt_content.pi_flexform.display_mode.32" approved="yes">
+        <source>Addresses: single</source>
+        <target state="final">Addressen: Einzelansicht</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.33" resname="tt_content.pi_flexform.display_mode.33" approved="yes">
+        <source>System Categories: single</source>
+        <target state="final">System Kategorien: Einzelansicht</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.34" resname="tt_content.pi_flexform.display_mode.34" approved="yes">
+        <source>Files: memo</source>
+        <target state="final">Dateien: Merkliste</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.35" resname="tt_content.pi_flexform.display_mode.35" approved="yes">
+        <source>Files: memo overview</source>
+        <target state="final">Dateien: Merkliste Miniformat</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.36" resname="tt_content.pi_flexform.display_mode.36">
+        <source/>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.37" resname="tt_content.pi_flexform.display_mode.37" approved="yes">
+        <source>User: plugin 1 for external extension</source>
+        <target state="final">Benutzer: Plugin 1 für andere Extension</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.38" resname="tt_content.pi_flexform.display_mode.38" approved="yes">
+        <source>User: plugin 2 for external extension</source>
+        <target state="final">Benutzer: Plugin 2 für andere Extension</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.39" resname="tt_content.pi_flexform.display_mode.39" approved="yes">
+        <source>User: plugin 3 for external extension</source>
+        <target state="final">Benutzer: Plugin 3 für andere Extension</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.40" resname="tt_content.pi_flexform.display_mode.40" approved="yes">
+        <source>User: plugin 4 for external extension</source>
+        <target state="final">Benutzer: Plugin 4 für andere Extension</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.41" resname="tt_content.pi_flexform.display_mode.41" approved="yes">
+        <source>User: plugin 5 for external extension</source>
+        <target state="final">Benutzer: Plugin 5 für andere Extension</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.42" resname="tt_content.pi_flexform.display_mode.42" approved="yes">
+        <source>Products: list recently visited items</source>
+        <target state="final">Produkte: Liste zuletzt besuchte</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.43" resname="tt_content.pi_flexform.display_mode.43" approved="yes">
+        <source>Products: list mostly visited</source>
+        <target state="final">Produkte: Liste am meisten besuchte (Benutzer)</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.44" resname="tt_content.pi_flexform.display_mode.44" approved="yes">
+        <source>Products: list all users mostly visited</source>
+        <target state="final">Produkte: Liste am meisten besuchte (alle)</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.45" resname="tt_content.pi_flexform.display_mode.45" approved="yes">
+        <source>Products: list affordable items</source>
+        <target state="final">Produkte: Liste leistbare</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.46" resname="tt_content.pi_flexform.display_mode.46" approved="yes">
+        <source>Orders: downloads</source>
+        <target state="final">Bestellung: Herunterladbares</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.control" resname="tt_content.pi_flexform.display_mode.control">
+        <source>Control</source>
+        <target state="needs-translation">Control</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.unused" resname="tt_content.pi_flexform.display_mode.unused">
+        <source>Unused</source>
+        <target state="needs-translation">Unused</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.product_selection" resname="tt_content.pi_flexform.product_selection">
+        <source>Product selection</source>
+        <target state="needs-translation">Product selection</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.category_selection" resname="tt_content.pi_flexform.category_selection" approved="yes">
+        <source>Category selection</source>
+        <target state="final">Kategorieauswahl</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.required_pivars" resname="tt_content.pi_flexform.required_pivars" approved="yes">
+        <source>Required parameters</source>
+        <target state="final">Verlangte Parameter</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.required_pivars.1" resname="tt_content.pi_flexform.required_pivars.1">
+        <source> </source>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.required_pivars.2" resname="tt_content.pi_flexform.required_pivars.2" approved="yes">
+        <source>Product</source>
+        <target state="final">Produkt</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.required_pivars.3" resname="tt_content.pi_flexform.required_pivars.3" approved="yes">
+        <source>Category</source>
+        <target state="final">Kategorie</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.required_pivars.4" resname="tt_content.pi_flexform.required_pivars.4" approved="yes">
+        <source>File (not implemented)</source>
+        <target state="final">Dateien (nicht implementier)</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.required_pivars.5" resname="tt_content.pi_flexform.required_pivars.5" approved="yes">
+        <source>System Category (not implemented)</source>
+        <target state="final">System-Kategorie (nicht implementiert)</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.required_pivars.6" resname="tt_content.pi_flexform.required_pivars.6" approved="yes">
+        <source>Address</source>
+        <target state="final">Adresse</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.required_pivars.7" resname="tt_content.pi_flexform.required_pivars.7" approved="yes">
+        <source>Language</source>
+        <target state="final">Sprache</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.required_pivars.8" resname="tt_content.pi_flexform.required_pivars.8" approved="yes">
+        <source>Search</source>
+        <target state="final">Suche</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.template_suffix" resname="tt_content.pi_flexform.template_suffix" approved="yes">
+        <source>Template suffix</source>
+        <target state="final">Template Suffix</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.dam_where" resname="tt_content.pi_flexform.dam_where">
+        <source>DAM: WHERE</source>
+        <target state="needs-translation">DAM: WHERE</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.dam_group_by" resname="tt_content.pi_flexform.dam_group_by">
+        <source>DAM: GROUP BY</source>
+        <target state="needs-translation">DAM: GROUP BY</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.dam_join_tables" resname="tt_content.pi_flexform.dam_join_tables">
+        <source>DAM: JOIN TABLES</source>
+        <target state="needs-translation">DAM: JOIN TABLES</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.product_where" resname="tt_content.pi_flexform.product_where" approved="yes">
+        <source>Product: WHERE</source>
+        <target state="final">Produkt: WHERE</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.file_where" resname="tt_content.pi_flexform.file_where">
+        <source>File: WHERE</source>
+        <target state="needs-translation">File: WHERE</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.file_group_by" resname="tt_content.pi_flexform.file_group_by">
+        <source>File: GROUP BY</source>
+        <target state="needs-translation">File: GROUP BY</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.file_join_tables" resname="tt_content.pi_flexform.file_join_tables" approved="yes">
+        <source>File: JOIN tables</source>
+        <target state="final">Dateien: JOIN Tabellen</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.tsconfig" resname="tt_content.pi_flexform.tsconfig">
+        <source>Typoscript</source>
+        <target state="needs-translation">Typoscript</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
