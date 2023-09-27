@@ -888,6 +888,17 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
         $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$orderObj = $this->getModelObj();
+		$feusers_uid = 0;
+        $itemTable = null;
+		$functablename = '';
+		$tableconf = [];
+		$validFeUser = false;
+		$pid = 0;
+        $markerArray = [];
+        $orderMarker = [];
+        $feuserMarker = '';
+        $piVars = [];
+        $prefix = '':
 
 		self::init2(
 			$bValidUpdateCode,
