@@ -38,6 +38,7 @@
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 use JambageCom\Div2007\Utility\FrontendUtility;
 
@@ -103,7 +104,7 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view {
 		$languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
 		$postVar = tx_ttproducts_control_command::getCommandVar();
 		$downloadVar = tx_ttproducts_model_control::getPiVar($this->getModelObj()->getFuncTablename());
-		$bAddonsEM = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('addons_em');
+		$bAddonsEM = ExtensionManagementUtility::isLoaded('addons_em');
 		tx_ttproducts_control_access::getVariables(
 			$conf,
 			$updateCode,
@@ -273,8 +274,8 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view {
 						$paramArray[$prefixId . '[' . $orderPivar . ']'] = $orderUid;
 					}
 
-                    $downloadImageFile = PathUtility::getAbsoluteWebPath(PATH_BE_TTPRODUCTS . 'Resources/Public/Icons/system-extension-download.png');
-
+                    $downloadImageFile = PathUtility::getAbsoluteWebPath(ExtensionManagementUtility::extPath(TT_PRODUCTS_EXT) . 'Resources/Public/Icons/system-extension-download.png');
+            
 					foreach ($fileArray as $k => $file) {
 						if ($file != $path) {
 							if (substr($file, -1) == '/') {
@@ -340,7 +341,7 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view {
 								$value = ($conf['nl2brNote'] ? nl2br($value) : $value);
 
 									// Extension CSS styled content
-								if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('css_styled_content')) {
+								if (ExtensionManagementUtility::isLoaded('css_styled_content')) {
 									$value =
 										FrontendUtility::RTEcssText(
 											$cObj,

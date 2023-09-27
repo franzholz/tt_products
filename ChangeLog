@@ -1,3 +1,9 @@
+2023-09-23 Franz Holzinger <franz@ttproducts.de>
+    * bugfix: show the related products again
+
+2023-09-01 Franz Holzinger <franz@ttproducts.de>
+    * deprecation no. 94956 - Public $cObj
+
 2023-08-31 Franz Holzinger <franz@ttproducts.de>
     * move template files into Resources/Public/Templates
 

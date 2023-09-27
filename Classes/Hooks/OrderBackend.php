@@ -102,6 +102,8 @@ class OrderBackend implements \TYPO3\CMS\Core\SingletonInterface {
 		$errorCode = '';
         $tmp1 = [];
         $tmp2 = '';
+        $cObj = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');	// Local cObj.
+        $cObj->start([]);
 
 		$db = GeneralUtility::makeInstance('tx_ttproducts_db');
 		$result =
@@ -110,6 +112,7 @@ class OrderBackend implements \TYPO3\CMS\Core\SingletonInterface {
 				$tmp1,
 				$ajax,
                 $tmp2,
+                $cObj,
 				$errorCode
 			); // this initializes tx_ttproducts_config inside of creator
 

@@ -19,7 +19,8 @@ call_user_func(function($extensionKey)
         'tt_products_texts_language',
         'sys_products_accounts',
         'sys_products_cards',
-        'sys_products_orders'
+        'sys_products_orders',
+        'sys_file_reference'
     ];
 
     foreach ($tables as $table) {

@@ -142,6 +142,9 @@ class PluginApi {
         // ### central initialization ###
 
         if (!$bRunAjax) {
+		    $cObj = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');	// Local cObj.
+		    $cObj->start([]);
+
             $db = GeneralUtility::makeInstance('tx_ttproducts_db');
             $result =
                 $db->init(
@@ -149,6 +152,7 @@ class PluginApi {
                     $config,
                     $ajaxObj,
                     $pibaseObj,
+                    $cObj,
                     $errorCode
                 ); // this initializes tx_ttproducts_config inside of creator class tx_ttproducts_model_creator
         }

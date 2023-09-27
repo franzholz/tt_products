@@ -39,6 +39,7 @@
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 use JambageCom\Div2007\Utility\FrontendUtility;
 
@@ -88,6 +89,12 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 		'TRACKING'
 	];
 
+    protected $cObj;
+
+    public function setContentObjectRenderer(ContentObjectRenderer $cObj): void
+    {
+        $this->cObj = $cObj;
+    }
 
 	/**
 	 * does the initialization stuff
@@ -236,6 +243,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 					$config,
 					$this->ajax,
 					$pibaseObj,
+					$cObj,
 					$errorCode
 				); // this initializes tx_ttproducts_config inside of creator class tx_ttproducts_model_creator
 		}
@@ -940,7 +948,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 					) {
 						$pid = $errorConf[$indice . '.']['redirect.']['pid'];
 						$url = FrontendUtility::getTypoLink_URL(
-							$this->cObj,
+							$cObj,
 							$pid,
 							$urlObj->getLinkParams(
 								'product,article,dam',

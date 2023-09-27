@@ -51,6 +51,10 @@ class tx_ttproducts_pi_int_base extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugi
 	public $extKey = TT_PRODUCTS_EXT;	// The extension key.
 	public $bRunAjax = false;		// overrride this
 
+    public function setContentObjectRenderer(ContentObjectRenderer $cObj): void
+    {
+        $this->cObj = $cObj;
+    }
 
 	/**
 	 * Main method. Call this from TypoScript by a USER cObject.

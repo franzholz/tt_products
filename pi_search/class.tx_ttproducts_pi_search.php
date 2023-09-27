@@ -39,15 +39,16 @@
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 
 class tx_ttproducts_pi_search {
-	/**
-	 * The backReference to the mother cObj object set at call time
-	 *
-	 * @var \TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer
-	 */
-	public $cObj;
+    protected $cObj;
+
+    public function setContentObjectRenderer(ContentObjectRenderer $cObj): void
+    {
+        $this->cObj = $cObj;
+    }
 
 	/**
 	 * Main method. Call this from TypoScript by a USER cObject.
