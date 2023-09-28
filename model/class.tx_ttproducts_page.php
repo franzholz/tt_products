@@ -42,9 +42,9 @@ use TYPO3\CMS\Core\Utility\MathUtility;
 
 
 class tx_ttproducts_page extends tx_ttproducts_category_base {
-	var $noteArray = []; 	// array of pages with notes
-	var $piVar = 'pid';
-	var $pageAsCategory;		// > 0 if pages are used as categories
+	public $noteArray = []; 	// array of pages with notes
+	public $piVar = 'pid';
+	public $pageAsCategory;		// > 0 if pages are used as categories
 	protected $tableAlias = 'page';
 
 

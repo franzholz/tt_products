@@ -48,7 +48,7 @@ class tx_ttproducts_pi_int implements \TYPO3\CMS\Core\SingletonInterface {
 	 *
 	 * @var TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer
 	 */
-	var $cObj;
+	public $cObj;
 
 
 	/**

@@ -41,9 +41,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
 class tx_ttproducts_page_view extends tx_ttproducts_category_base_view {
-	var $noteArray = []; 	// array of pages with notes
-	var $piVar = 'pid';
-	var $pageAsCategory;		// > 0 if pages are used as categories
+	public $noteArray = []; 	// array of pages with notes
+	public $piVar = 'pid';
+	public $pageAsCategory;		// > 0 if pages are used as categories
 
 	/**
 	 * Template marker substitution
