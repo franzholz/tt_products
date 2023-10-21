@@ -2894,9 +2894,9 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 						}
 						$markerArray['###FORM_ONSUBMIT###'] = 'return checkParams (document.'.$markerArray['###FORM_NAME###'].');';
 						$rowEven = $cssConf['row.']['even'] ?? '';
-						$rowEven = (!empty($rowEven) ? $rowEven : $conf['CSSRowEven']); // backwards compatible
+						$rowEven = (!empty($rowEven) ? $rowEven : $conf['CSSRowEven'] ?? ''); // backwards compatible
 						$rowUneven = $cssConf['row.']['uneven'] ?? '';
-						$rowUneven = (!empty($rowUneven) ? $rowUneven : $conf['CSSRowUneven']); // backwards compatible
+						$rowUneven = (!empty($rowUneven) ? $rowUneven : $conf['CSSRowUneven'] ?? ''); // backwards compatible
 						// alternating css-class eg. for different background-colors
 						$evenUneven = (($iCount & 1) == 0 ? $rowEven : $rowUneven);
 						$temp='';
