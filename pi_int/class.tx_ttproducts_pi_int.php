@@ -40,16 +40,17 @@
 
  
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 
 class tx_ttproducts_pi_int implements \TYPO3\CMS\Core\SingletonInterface {
-	/**
-	 * The backReference to the mother cObj object set at call time
-	 *
-	 * @var TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer
-	 */
-	var $cObj;
 
+    protected $cObj;
+
+    public function setContentObjectRenderer(ContentObjectRenderer $cObj): void
+    {
+        $this->cObj = $cObj;
+    }
 
 	/**
 	 * Main method. Call this from TypoScript by a USER cObject.

@@ -307,22 +307,31 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
                     ) {
                         $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
                         call_user_func($callingClassName . '::init', $languageObj, $this->cObj, $this->conf);
+                        $addQueryString = [];
+                        $excludeList = '';
+                        $linkParams =
+                            $this->urlObj->getLinkParams(
+                                $excludeList,
+                                $addQueryString,
+                                true,
+                                false
+                            );
                         $parameters = [
                             $handleLib,
                             $basketExtra['payment.']['handleLib.'] ?? [],
                             TT_PRODUCTS_EXT,
                             $basketObj->getItemArray(),
                             $calculatedArray,
-                            $basketObj->recs['delivery']['note'],
-                            $this->conf['paymentActivity'],
+                            $basketObj->recs['delivery']['note'] ?? '',
+                            $this->conf['paymentActivity'] ?? '',
                             $currentPaymentActivity,
                             $infoViewObj->infoArray,
                             $pidArray,
                             $linkParams,
-                            $orderArray['tracking_code'],
+                            $orderArray['tracking_code'] ?? '',
                             $orderUid,
                             $orderNumber,
-                            $this->conf['orderEmail_to'],
+                            $this->conf['orderEmail_to'] ?? '',
                             $cardRow,
                             &$bFinalize,
                             &$bFinalVerify,
@@ -1204,10 +1213,10 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
                                             $conf['paymentActivity'],
                                             $pidArray,
                                             $linkParams,
-                                            $orderArray['tracking_code'],
+                                            $orderArray['tracking_code'] ?? '',
                                             $orderUid,
                                             $orderNumber,
-                                            $this->conf['orderEmail_to'],
+                                            $this->conf['orderEmail_to'] ?? '',
                                             $cardRow
                                         ];
 

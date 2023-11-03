@@ -83,7 +83,7 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
                 $markerFile = $defaultMarkerFile;
 			} else if (substr($markerFile, 0, 4) == 'EXT:') {	// extension
 				list($extKey, $local) = explode('/', substr($markerFile, 4), 2);
-				$filename='';
+				$filename = '';
 				if (
 					strcmp($extKey, '') &&
 					!ExtensionManagementUtility::isLoaded($extKey) &&

@@ -80,7 +80,10 @@ class TaxajaxController {
         $SOBE = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_ttproducts_db');
         $errorCode = '';
         $tmp = '';
-        $SOBE->init($conf, $config, $ajax, $tmp, $errorCode);
+        $cObj = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');	// Local cObj.
+        $cObj->start([]);
+
+        $SOBE->init($conf, $config, $ajax, $tmp, $cObj, $errorCode);
 
         if(!empty($_POST['xajax'])) {
 
