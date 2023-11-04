@@ -51,7 +51,7 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 class tx_ttproducts_pi1 implements \TYPO3\CMS\Core\SingletonInterface {
 
 
-    protected $cObj;
+    public $cObj;
 
     public function setContentObjectRenderer(ContentObjectRenderer $cObj): void
     {

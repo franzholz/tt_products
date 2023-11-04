@@ -120,24 +120,24 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 				$markerArray['###PRICE_TAXRATE_TAX' . ($k + 1) . '###'] = $taxrate;
 
 				if (isset($calculatedArray['priceNoTax']['sametaxtotal']['ALL'][$taxstr])) {
-                    $label = $calculatedArray['priceNoTax']['sametaxtotal']['ALL'][$taxstr] + $calculatedArray['depositnotax']['sametaxtotal']['ALL'][$taxstr];
+                    $label = $calculatedArray['priceNoTax']['sametaxtotal']['ALL'][$taxstr] + ($calculatedArray['depositnotax']['sametaxtotal']['ALL'][$taxstr] ?? 0);
                     $markerArray['###PRICE_TAXRATE_TOTAL' . ($k + 1) . '###'] = $priceViewObj->priceFormat($label);
 
-                    $label = $calculatedArray['priceNoTax']['goodssametaxtotal']['ALL'][$taxstr] + $calculatedArray['depositnotax']['goodssametaxtotal']['ALL'][$taxstr];
+                    $label = $calculatedArray['priceNoTax']['goodssametaxtotal']['ALL'][$taxstr] + ($calculatedArray['depositnotax']['goodssametaxtotal']['ALL'][$taxstr] ?? 0);
                     $markerArray['###PRICE_TAXRATE_GOODSTOTAL' . ($k + 1) . '###'] = $priceViewObj->priceFormat($label);
 
                     $label =
                         $priceViewObj->priceFormat(
                             (
                                 $calculatedArray['priceNoTax']['sametaxtotal']['ALL'][$taxstr] +
-                                $calculatedArray['depositnotax']['sametaxtotal']['ALL'][$taxstr]
+                                ($calculatedArray['depositnotax']['sametaxtotal']['ALL'][$taxstr] ?? 0)
                             ) *
                             ($taxrate / 100)
                         );
                     $markerArray['###PRICE_TAXRATE_ONLY_TAX' . ($k + 1) . '###'] = $label;
 
                     $label = $priceViewObj->priceFormat(($calculatedArray['priceNoTax']['goodssametaxtotal']['ALL'][$taxstr] +
-                    $calculatedArray['depositnotax']['goodssametaxtotal']['ALL'][$taxstr]) * ($taxrate / 100));
+                    ($calculatedArray['depositnotax']['goodssametaxtotal']['ALL'][$taxstr]) ?? 0) * ($taxrate / 100));
                     $markerArray['###PRICE_TAXRATE_GOODSTOTAL_ONLY_TAX' . ($k + 1) . '###'] = $label;
                 } else {
                     $zeroPrice = $priceViewObj->priceFormat(0);

@@ -538,10 +538,10 @@ Andrea: Warenkorbansicht Anfang -->
     <!-- ###ITEM_LIST### begin -->
     <!-- ###ITEM_SINGLE### begin-->
     <div class="floatbox_BASKET2">
-      <div id="ARTICLE_TITLE_BASKET2">
+      <div id="ARTICLE_TITLE_BASKET2_###BASKET_ID###">
         <!--###LINK_ITEM###-->###GW1B###<b>###ARTICLE_TITLE### - ###ARTICLE_ITEMNUMBER###</b>###GW1E###<!--###LINK_ITEM###-->
       </div>
-      <div id="display_variant_BASKET2">
+      <div id="display_variant_BASKET2_###BASKET_ID###">
 	<!-- ###display_variant1### -->
   		  ###ARTICLE_COLOR###
   	<!-- ###display_variant1### -->
@@ -563,16 +563,16 @@ Andrea: Warenkorbansicht Anfang -->
 	Einzelprodukt, das &uuml;ber einen Geschenk-Service verpackt werden kann. ###PRODUCT_ADDITIONAL_GIFT_SERVICE###
 	<!-- ###display_variant5_giftService### -->
       </div>
-      <div id="IMAGE_BASKET2">
+      <div id="IMAGE_BASKET2_###BASKET_ID###">
 		###ARTICLE_IMAGE1###
       </div>
-      <div id="PRICE_TAX_BASKET2">
+      <div id="PRICE_TAX_BASKET2_###BASKET_ID###">
         ###GW1B### ###PRICE_TAX###<br>(MwSt. ###PRICE_ONLY_TAX###)###GW1E###
       </div>
-      <div id="FIELD_QTY_BASKET2">
+      <div id="FIELD_QTY_BASKET2_###BASKET_ID###">
         <input size="5" maxlength="7" type="text" name="###FIELD_NAME_BASKET###" value="###FIELD_QTY###">
       </div>
-      <div id="PRICE_TOTAL_TAX_BASKET2">
+      <div id="PRICE_TOTAL_TAX_BASKET2_###BASKET_ID###">
         ###GW1B### <b>###TAX_INCL_EXCL### ###PRICE_TOTAL_TAX###</b> <br>(exkl. MwSt. ###PRICE_TOTAL_NO_TAX###)###GW1E###
       </div>
     </div>
@@ -977,16 +977,16 @@ Exact same features as BASKET_TEMPLATE
   <!-- ###ITEM_SINGLE### begin-->
 
 <div class="floatbox_BASKET_PAYMENT_TEMPLATE2">
-  <div id="produkte_BASKET_PAYMENT_TEMPLATE2">
+  <div id="produkte_BASKET_PAYMENT_TEMPLATE2_###BASKET_ID###">
     ###GW1B###<b>###PRODUCT_TITLE###</b>###GW1E###
     <br>###CATEGORY_TITLE###<br>
 <!-- ###display_variant1### --> ###PRODUCT_COLOR### |<!-- ###display_variant1### --><!-- ###display_variant2### --> ###PRODUCT_SIZE### |<!-- ###display_variant2### --><!-- ###display_variant3### -->###PRODUCT_DESCRIPTION###<!-- ###display_variant3### --><!-- ###display_variant4### -->###PRODUCT_GRADINGS###<!-- ###display_variant4### -->
 <br>
 </div>
-  <div id="anzahl_BASKET_PAYMENT_TEMPLATE2">
+  <div id="anzahl_BASKET_PAYMENT_TEMPLATE2_###BASKET_ID###">
     ###GW1B### ###FIELD_QTY### ###GW1E###
   </div>
-  <div id="gesamt_BASKET_PAYMENT_TEMPLATE2">###GW1B###
+  <div id="gesamt_BASKET_PAYMENT_TEMPLATE2_###BASKET_ID###">###GW1B###
     <b>inkl. MwSt. ###PRICE_TOTAL_TAX###</b>
     <br>(exkl. MwSt. ###PRICE_TOTAL_NO_TAX###) ###GW1E###
   </div>
@@ -1040,9 +1040,10 @@ Exact same features as BASKET_TEMPLATE
     ###GW1B###Email:###GW1E###
   </div>-->
   <div id="text_PERSON_EMAIL_BASKET_PAYMENT_TEMPLATE3">
-    ###GW1B###<strong>###PERSON_EMAIL###</strong>###GW1E### ###GW2B###<br>
+    ###GW1B###<strong>###PERSON_EMAIL###</strong>###GW1E###<br>
   </div>
   <div id="text_email_BASKET_PAYMENT_TEMPLATE3">
+    ###GW2B###
     (An diese Email-Adresse wird die Best&auml;tigung Ihrer Bestellung geschickt!)###GW2E###<br>
   </div>
 </div>
@@ -1074,7 +1075,7 @@ Exact same features as BASKET_TEMPLATE
   </div>-->
   <div id="DELIVERY_CITY_BASKET_PAYMENT_TEMPLATE4">
 	  ###GW1B###<strong>###DELIVERY_ZIP### ###DELIVERY_CITY###</strong>###GW1E###
-	</DIV>
+  </div>
 	<!--<div id="text_DELIVERY_COUNTRY_BASKET_PAYMENT_TEMPLATE4">
 	  ###GW1B###Land:###GW1E###
   </div>  -->
@@ -1091,9 +1092,10 @@ Exact same features as BASKET_TEMPLATE
     ###GW1B###Email:###GW1E###
   </div>  -->
   <div id="DELIVERY_EMAIL_BASKET_PAYMENT_TEMPLATE4">
-    ###GW1B###<strong>###DELIVERY_EMAIL###</strong>###GW1E### ###GW2B###<br>
+    ###GW1B###<strong>###DELIVERY_EMAIL###</strong>###GW1E###<br>
   </div>
   <div id="text_email_DELIVERY_EMAIL_BASKET_PAYMENT_TEMPLATE4">
+    ###GW2B###
     (An diese Email-Adresse wird die Best&auml;tigung Ihrer Bestellung geschickt!)###GW2E###<br>
   </div>
   <div id="text_DELIVERY_DESIRED_DATE_BASKET_PAYMENT_TEMPLATE4">
@@ -1102,21 +1104,15 @@ Exact same features as BASKET_TEMPLATE
   <div id="DELIVERY_DESIRED_DATE_BASKET_PAYMENT_TEMPLATE4">
     ###GW1B###<strong>###DELIVERY_DESIRED_DATE###</strong>###GW1E###
   </div>
-  <div id="text_DELIVERY_BEMERKUNGEN_BASKET_PAYMENT_TEMPLATE4">
-    ###GW2B###<b>Bemerkungen:</b>###GW2E###
-  </div>
   <div id="text_DELIVERY_FOUNDBY_PAYMENT_TEMPLATE4">
     ###GW2B###<b>gefunden &uuml;ber:</b>
 	###DELIVERY_FOUNDBY###
 	###DELIVERY_FOUNDBY_OTHERS### ###GW2E###
   </div>
-  <div id="text_DELIVERY_BEMERKUNGEN_BASKET_PAYMENT_TEMPLATE4">
-    ###GW2B###<b>Bemerkungen:</b>###GW2E###
-  </div>
   <div id="text_DELIVERY_NOTE_DISPLAY_BASKET_PAYMENT_TEMPLATE4">
     ###GW1B###Kommentar:###GW1E###
   </div>
-  <div id="text_DELIVERY_NOTE_DISPLAY_BASKET_PAYMENT_TEMPLATE4">
+  <div id="DELIVERY_NOTE_DISPLAY_BASKET_PAYMENT_TEMPLATE4">
     ###GW1B###<strong>###DELIVERY_NOTE_DISPLAY###</strong>###GW1E###
   </div>
 </div>
@@ -1132,6 +1128,7 @@ Exact same features as BASKET_TEMPLATE
     ###GW1B###<b>inkl. MwSt. ###PRICE_SHIPPING_TAX###</b> <br>(exkl. MwSt. ###PRICE_SHIPPING_NO_TAX###)###GW1E###
   </div>
 </div>
+
 <div class="floatbox_BASKET_PAYMENT_TEMPLATE6">
   <div id="text_zahlungsweise_BASKET_PAYMENT_TEMPLATE6">
     ###GW2B###<b>Zahlungsweise:</b>###GW2E###
@@ -1141,7 +1138,7 @@ Exact same features as BASKET_TEMPLATE
     ###GW1B######PAYMENT_IMAGE### ###PAYMENT_TITLE### ###GW1E### ###GW1B###
   </div>-->
   <div id="PRICE_PAYMENT_BASKET_PAYMENT_TEMPLATE6">
-    <b>inkl. MwSt. ###PRICE_PAYMENT_TAX###</b><br>
+    ###GW1B###<strong>inkl. MwSt. ###PRICE_PAYMENT_TAX###</strong><br>
     (exkl. MwSt. ###PRICE_PAYMENT_NO_TAX###)###GW1E###
   </div>
 </div>
@@ -1302,15 +1299,15 @@ Subpart used if the order is finalized and this is thus the confirmation shown.-
     <!-- ###ITEM_SINGLE### begin -->
 
   <div class="floatbox_BASKET_ORDERCONFIRMATION_TEMPLATE2">
-    <div id="produkte_BASKET_ORDERCONFIRMATION_TEMPLATE2">
+    <div id="produkte_BASKET_ORDERCONFIRMATION_TEMPLATE2_###BASKET_ID###">
       ###GW1B###<b>###PRODUCT_TITLE###</b>###GW1E###
       <br>###CATEGORY_TITLE###<br>
 <!-- ###display_variant1### --> ###PRODUCT_COLOR### |<!-- ###display_variant1### --><!-- ###display_variant2### --> ###PRODUCT_SIZE### |<!-- ###display_variant2### --><!-- ###display_variant3### -->###PRODUCT_DESCRIPTION###<!-- ###display_variant3### --><!-- ###display_variant4### -->###PRODUCT_GRADINGS###<!-- ###display_variant4### -->
     </div>
-    <div id="anzahl_BASKET_ORDERCONFIRMATION_TEMPLATE2">
+    <div id="anzahl_BASKET_ORDERCONFIRMATION_TEMPLATE2_###BASKET_ID###">
       ###GW1B### ###FIELD_QTY### ###GW1E###
     </div>
-    <div id="gesamt_BASKET_ORDERCONFIRMATION_TEMPLATE2">###GW1B###
+    <div id="gesamt_BASKET_ORDERCONFIRMATION_TEMPLATE2_###BASKET_ID###">###GW1B###
       <b>inkl. MwSt. ###PRICE_TOTAL_TAX###</b>
       <br>(exkl. MwSt. ###PRICE_TOTAL_NO_TAX###) ###GW1E###
     </div>

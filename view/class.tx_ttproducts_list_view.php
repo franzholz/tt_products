@@ -312,7 +312,9 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
         $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 
 		if ($more) {
-			$next = ($begin_at + $limit > $productsCount) ? $productsCount - $limit : $begin_at + $limit;
+			$next = ($begin_at + $limit >= $productsCount) ? ($productsCount >= $limit ? $productsCount - $limit : 0) : $begin_at + $limit;
+            $next = \TYPO3\CMS\Core\Utility\MathUtility::forceIntegerInRange($next, 0);
+
 			$addQueryString[$pointerParam] = intval($next / $limit);
 			$this->getSearchParams($addQueryString);
 			
@@ -332,6 +334,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 
 		if ($begin_at) {
 			$prev = ($begin_at - $limit < 0) ? 0 : $begin_at - $limit;
+            $prev = \TYPO3\CMS\Core\Utility\MathUtility::forceIntegerInRange($prev, 0);
 			$addQueryString[$pointerParam] = intval($prev / $limit);
 			$this->getSearchParams($addQueryString);
 			$tempUrl =
@@ -2891,9 +2894,9 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 						}
 						$markerArray['###FORM_ONSUBMIT###'] = 'return checkParams (document.'.$markerArray['###FORM_NAME###'].');';
 						$rowEven = $cssConf['row.']['even'] ?? '';
-						$rowEven = (!empty($rowEven) ? $rowEven : $conf['CSSRowEven']); // backwards compatible
+						$rowEven = (!empty($rowEven) ? $rowEven : $conf['CSSRowEven'] ?? ''); // backwards compatible
 						$rowUneven = $cssConf['row.']['uneven'] ?? '';
-						$rowUneven = (!empty($rowUneven) ? $rowUneven : $conf['CSSRowUneven']); // backwards compatible
+						$rowUneven = (!empty($rowUneven) ? $rowUneven : $conf['CSSRowUneven'] ?? ''); // backwards compatible
 						// alternating css-class eg. for different background-colors
 						$evenUneven = (($iCount & 1) == 0 ? $rowEven : $rowUneven);
 						$temp='';

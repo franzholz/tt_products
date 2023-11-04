@@ -260,8 +260,6 @@ class tx_ttproducts_relatedlist_view implements \TYPO3\CMS\Core\SingletonInterfa
 			$itemObj = $itemViewObj->getModelObj();
 
 			foreach ($addListArray as $subtype => $funcArray) {
-			debug ($subtype, '$subtype');
-			debug ($funcArray, '$funcArray');
 				if (!$funcArray['cached']) {
 					continue;
 				}
@@ -289,7 +287,6 @@ class tx_ttproducts_relatedlist_view implements \TYPO3\CMS\Core\SingletonInterfa
 							$subtype,
 							$orderBy
 						);
-                    debug ($relatedIds, '$relatedIds');
 
 					if (count($relatedIds)) {
 						// List all products:
@@ -344,7 +341,6 @@ class tx_ttproducts_relatedlist_view implements \TYPO3\CMS\Core\SingletonInterfa
 							$productRowArray,
 							$bEditableVariants
 						);
-		debug ($tmpContent, 'getListMarkerArray $tmpContent');
 						$result['###' . $funcArray['marker'] . '###'] = $tmpContent;
 					} else {
 						$result['###' . $funcArray['marker'] . '###'] = '';
@@ -356,7 +352,6 @@ class tx_ttproducts_relatedlist_view implements \TYPO3\CMS\Core\SingletonInterfa
 				}
 			}
 		}
-		debug ($result, 'getListMarkerArray ENDE $result');
 
 		return $result;
 	}
