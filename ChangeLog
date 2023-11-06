@@ -1,3 +1,6 @@
+2023-11-06 Franz Holzinger <franz@ttproducts.de>
+    * compatibility: MySQL strict mode
+
 2023-09-23 Franz Holzinger <franz@ttproducts.de>
     * bugfix: show the related products again
 

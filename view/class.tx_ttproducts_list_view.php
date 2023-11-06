@@ -1671,6 +1671,8 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 					// performing query to count all products (we need to know it for browsing):
 				$selectCountConf = $selectConf;
 				$selectCountConf['selectFields'] = 'count(distinct ' . $itemTable->getAlias() . '.uid)'; // .$catSelect;
+                $selectCountConf['leftjoin'] = '';
+                $selectCountConf['orderBy'] = '';
 				$queryParts =
 					$itemTable->getTableObj()->getQueryConf(
 						$cObj,
