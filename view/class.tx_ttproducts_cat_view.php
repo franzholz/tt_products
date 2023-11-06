@@ -200,8 +200,8 @@ class tx_ttproducts_cat_view implements \TYPO3\CMS\Core\SingletonInterface {
 			}
 			if (isset($viewCatTagArray['LINK_CATEGORY'])) {
 				$catListPid = $pageObj->getPID(
-					$this->conf['PIDlistDisplay'],
-					$this->conf['PIDlistDisplay.'],
+					$this->conf['PIDlistDisplay'] ?? '',
+					$this->conf['PIDlistDisplay.'] ?? '',
 					$row
 				);
 				$tableViewObj->getSubpartArrays(

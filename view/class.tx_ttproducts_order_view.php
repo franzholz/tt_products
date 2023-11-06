@@ -497,18 +497,17 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 		$orderObj = $this->getModelObj(); // order
 		$languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
 		$markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
-
 		$feusers_uid = 0;
-    $itemTable = null;
+        $itemTable = null;
 		$functablename = '';
 		$tableconf = [];
 		$validFeUser = false;
 		$pid = 0;
-    $markerArray = [];
-    $orderMarker = [];
-    $feuserMarker = '';
-    $piVars = [];
-    $prefix = '';
+        $markerArray = [];
+        $orderMarker = [];
+        $feuserMarker = '';
+        $piVars = [];
+        $prefix = '';
 
 		self::init2(
 			$bValidUpdateCode,

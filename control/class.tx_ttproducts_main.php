@@ -89,7 +89,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 		'TRACKING'
 	];
 
-    protected $cObj;
+    public $cObj;
 
     public function setContentObjectRenderer(ContentObjectRenderer $cObj): void
     {
