@@ -329,7 +329,7 @@ class tx_ttproducts_api {
 			];
 
 			foreach ($tableFieldArray as $fieldname => $value) {
-				$fieldvalue = $infoArray['billing'][$fieldname] ?? '';
+				$fieldvalue = $infoArray['billing'][$fieldname] ?? null;
 				if (isset($fieldvalue)) {
 					$insertFields[$fieldname] = $fieldvalue;
 				}
