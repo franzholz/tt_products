@@ -988,8 +988,11 @@ class tx_ttproducts_api {
 					if (!empty($categoryInserted[$category])) {
 						$suffix = $categoryInserted[$category];
 					} else if ($category) {
+						$emailRow = null;
 						$categoryArray = $tablesObj->get('tt_products_cat')->get($category);
-						$emailRow = $emailObj->getEmail($categoryArray['email_uid']);
+						if (!empty(($categoryArray['email_uid']))) {
+							$emailRow = $emailObj->getEmail($categoryArray['email_uid']);
+						}
 
 						if (isset($emailRow) && is_array($emailRow)) {
 							$email = $emailRow['email'];
