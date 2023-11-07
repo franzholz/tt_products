@@ -325,12 +325,11 @@ class tx_ttproducts_api {
 				'crdate' => time(),
 				'username' => $username,
 				'password' => $password,
-				'usergroup' => $conf['memberOfGroup'],
-				'uid' => $infoArray['billing']['feusers_uid'],
+				'usergroup' => $conf['memberOfGroup']
 			];
 
 			foreach ($tableFieldArray as $fieldname => $value) {
-				$fieldvalue = $infoArray['billing'][$fieldname];
+				$fieldvalue = $infoArray['billing'][$fieldname] ?? '';
 				if (isset($fieldvalue)) {
 					$insertFields[$fieldname] = $fieldvalue;
 				}
@@ -348,7 +347,7 @@ class tx_ttproducts_api {
 				}
 			}
 
-			if($infoArray['billing']['date_of_birth']) {
+			if(!empty($infoArray['billing']['date_of_birth'])) {
 				$date = str_replace('-', '/', $infoArray['billing']['date_of_birth']);
 				$insertFields['date_of_birth'] = strtotime($date);
 			}
