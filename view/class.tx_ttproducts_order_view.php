@@ -898,7 +898,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
         $orderMarker = [];
         $feuserMarker = '';
         $piVars = [];
-        $prefix = '':
+        $prefix = '';
 
 		self::init2(
 			$bValidUpdateCode,
