@@ -141,7 +141,7 @@ $result = [
 				'size' => '40',
 				'eval' => 'trim',
 				'max' => '256',
-				'default' => '',
+				'default' => null,
 			]
 		],
 		'subtitle' => [
@@ -153,7 +153,7 @@ $result = [
 				'cols' => '20',
 				'eval' => null,
 				'max' => '512',
-				'default' => '',
+				'default' => null,
 			]
 		],
         'slug' => [
@@ -171,7 +171,7 @@ $result = [
                     ],
                 ],
                 'fallbackCharacter' => '-',
-                'default' => ''
+                'default' => null
             ]
         ],
 		'keyword' => [
@@ -183,7 +183,7 @@ $result = [
 				'cols' => '20',
 				'max' => '512',
 				'eval' => 'null',
-				'default' => '',
+				'default' => null,
 			]
 		],
 		'prod_uid' => [
@@ -209,7 +209,7 @@ $result = [
 				'size' => '40',
 				'eval' => 'trim',
 				'max' => '120',
-				'default' => ''
+				'default' => null
 			]
 		],
 		'ean' => [
@@ -220,7 +220,7 @@ $result = [
 				'size' => '48',
 				'eval' => 'trim',
 				'max' => '48',
-				'default' => ''
+				'default' => null
 			]
 		],
 		'shipping_point' => [
@@ -231,7 +231,7 @@ $result = [
 				'size' => '24',
 				'eval' => 'trim',
 				'max' => '24',
-				'default' => ''
+				'default' => null
 			]
 		],
 		'price' => [
@@ -328,7 +328,7 @@ $result = [
 				'size' => '20',
 				'max' => '20',
 				'eval' => 'null',
-				'default' => '',
+				'default' => null,
 			]
 		],
         'graduated_price_uid' => [
@@ -377,7 +377,7 @@ $result = [
 				'type' => 'text',
 				'cols' => '48',
 				'rows' => '5',
-				'default' => '',
+				'default' => null,
 			]
 		],
 		'note2' => [
@@ -387,7 +387,7 @@ $result = [
 				'type' => 'text',
 				'cols' => '48',
 				'rows' => '2',
-				'default' => '',
+				'default' => null,
 			]
 		],
 		'note_uid' => [
@@ -425,7 +425,7 @@ $result = [
 				'items' => [
 					['', '']
 				],
-				'default' => '',
+				'default' => null,
 				'authMode' => $GLOBALS['TYPO3_CONF_VARS']['BE']['explicitADmode'],
 			]
 		],
@@ -495,7 +495,7 @@ $result = [
 				'size' => '20',
 				'eval' => 'trim',
 				'max' => '20',
-				'default' => ''
+				'default' => null
 			]
 		],
 		'www' => [
@@ -506,7 +506,7 @@ $result = [
 				'eval' => 'trim',
 				'size' => '30',
 				'max' => '160',
-				'default' => ''
+				'default' => null
 			]
 		],
 		'category' => [
@@ -739,7 +739,7 @@ $result = [
 				'cols' => '46',
 				'rows' => '5',
 				'eval' => 'null',
-				'default' => '',
+				'default' => null,
 			]
 		],
 		'color2' => [
@@ -750,7 +750,7 @@ $result = [
 				'cols' => '46',
 				'rows' => '5',
 				'eval' => 'null',
-				'default' => '',
+				'default' => null,
 			]
 		],
 		'color3' => [
@@ -761,7 +761,7 @@ $result = [
 				'cols' => '46',
 				'rows' => '5',
 				'eval' => 'null',
-				'default' => '',
+				'default' => null,
 			]
 		],
 		'size' => [
@@ -772,7 +772,7 @@ $result = [
 				'cols' => '46',
 				'rows' => '5',
 				'eval' => 'null',
-				'default' => '',
+				'default' => null,
 			]
 		],
 		'size2' => [
@@ -783,7 +783,7 @@ $result = [
 				'cols' => '46',
 				'rows' => '5',
 				'eval' => 'null',
-				'default' => '',
+				'default' => null,
 			]
 		],
 		'size3' => [
@@ -794,7 +794,7 @@ $result = [
 				'cols' => '46',
 				'rows' => '5',
 				'eval' => 'null',
-				'default' => '',
+				'default' => null,
 			]
 		],
 		'description' => [
@@ -805,7 +805,7 @@ $result = [
 				'cols' => '46',
 				'rows' => '5',
 				'eval' => 'null',
-				'default' => '',
+				'default' => null,
 			]
 		],
 		'gradings' => [
@@ -816,7 +816,7 @@ $result = [
 				'cols' => '46',
 				'rows' => '5',
 				'eval' => 'null',
-				'default' => '',
+				'default' => null,
 			]
 		],
 		'material' => [
@@ -827,7 +827,7 @@ $result = [
 				'cols' => '46',
 				'rows' => '5',
 				'eval' => 'null',
-				'default' => '',
+				'default' => null,
 			]
 		],
 		'quality' => [
@@ -838,7 +838,7 @@ $result = [
 				'cols' => '46',
 				'rows' => '5',
 				'eval' => 'null',
-				'default' => '',
+				'default' => null,
 			]
 		],
 		'additional_type' => [
@@ -849,7 +849,7 @@ $result = [
 				'items' => [
 					['', '']
 				],
-				'default' => '',
+				'default' => null,
 				'authMode' => $GLOBALS['TYPO3_CONF_VARS']['BE']['explicitADmode'],
 			]
 		],

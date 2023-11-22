@@ -124,7 +124,7 @@ $result = [
 				'size' => '40',
 				'eval' => 'trim',
 				'max' => '256',
-				'default' => '',
+				'default' => null,
 			]
 		],
         'slug' => [
@@ -142,7 +142,7 @@ $result = [
                     ],
                 ],
                 'fallbackCharacter' => '-',
-                'default' => ''
+                'default' => null
             ]
         ],
 		'author' => [
@@ -152,7 +152,7 @@ $result = [
 				'type' => 'input',
 				'size' => '40',
 				'max' => '256',
-				'default' => '',
+				'default' => null,
 			]
 		],
 		'edition' => [
@@ -178,7 +178,7 @@ $result = [
 				'type' => 'input',
 				'size' => '40',
 				'max' => '256',
-                'default' => '',
+                'default' => null,
 			]
 		],
 		'note' => [
@@ -188,7 +188,7 @@ $result = [
 				'type' => 'text',
 				'cols' => '48',
 				'rows' => '5',
-				'default' => '',
+				'default' => null,
 			]
 		],
 		'path' => [
@@ -198,7 +198,7 @@ $result = [
 				'type' => 'input',
 				'size' => '40',
 				'max' => '256',
-				'default' => '',
+				'default' => null,
 			]
 		],
 		'price_enable' => [

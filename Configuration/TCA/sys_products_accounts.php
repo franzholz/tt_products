@@ -35,7 +35,7 @@ $result = [
                 'size' => '24',
                 'max' => '24',
                 'eval' => 'required,trim',
-                'default' => ''
+                'default' => null
             ]
         ],
         'ac_number' => [
@@ -46,7 +46,7 @@ $result = [
                 'size' => '40',
                 'max' => '80',
                 'eval' => 'required,trim',
-                'default' => ''
+                'default' => null
             ]
         ],
         'owner_name' => [
@@ -56,7 +56,7 @@ $result = [
                 'type' => 'input',
                 'size' => '40',
                 'max' => '80',
-                'default' => ''
+                'default' => null
             ]
         ],
         'bic' => [
@@ -67,7 +67,7 @@ $result = [
                 'size' => '11',
                 'max' => '11',
                 'eval' => 'required,trim',
-                'default' => ''
+                'default' => null
             ]
         ],
     ],

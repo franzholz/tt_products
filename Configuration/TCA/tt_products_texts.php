@@ -122,7 +122,7 @@ $result = [
 				'size' => '40',
 				'eval' => 'trim',
 				'max' => '256',
-				'default' => '',
+				'default' => null,
 			]
 		],
 		'marker' => [
@@ -133,7 +133,7 @@ $result = [
 				'size' => '40',
 				'eval' => 'trim',
 				'max' => '256',
-				'default' => ''
+				'default' => null
 			]
 		],
 		'note' => [
@@ -143,7 +143,7 @@ $result = [
 				'type' => 'text',
 				'cols' => '48',
 				'rows' => '5',
-				'default' => '',
+				'default' => null,
 			]
 		],
 		'parentid' => [
