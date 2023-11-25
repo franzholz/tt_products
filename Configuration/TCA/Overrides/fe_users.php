@@ -14,7 +14,7 @@ call_user_func(function($extensionKey, $table)
                 'size' => '20',
                 'max' => '50',
                 'eval' => 'trim',
-                'default' => ''
+                'default' => null
             ]
         ],
         'static_info_country' => [
@@ -25,7 +25,7 @@ call_user_func(function($extensionKey, $table)
                 'size' => '5',
                 'max' => '3',
                 'eval' => '',
-                'default' => ''
+                'default' => null
             ]
         ],
         'zone' => [
@@ -36,7 +36,7 @@ call_user_func(function($extensionKey, $table)
                 'size' => '20',
                 'max' => '40',
                 'eval' => 'trim',
-                'default' => ''
+                'default' => null
             ]
         ],
         'tt_products_memoItems' => [
@@ -47,7 +47,7 @@ call_user_func(function($extensionKey, $table)
                 'size' => '50',
                 'max' => '256',
                 'eval' => 'null',
-                'default' => '',
+                'default' => null,
             ]
         ],
         'tt_products_memodam' => [
@@ -58,7 +58,7 @@ call_user_func(function($extensionKey, $table)
                 'size' => '50',
                 'max' => '256',
                 'eval' => 'null',
-                'default' => '',
+                'default' => null,
             ]
         ],
         'tt_products_discount' => [
@@ -94,7 +94,7 @@ call_user_func(function($extensionKey, $table)
                 'type' => 'input',
                 'size' => '20',
                 'max' => '256',
-                'default' => ''
+                'default' => null
             ]
         ],
         'tt_products_vat' => [
@@ -104,7 +104,7 @@ call_user_func(function($extensionKey, $table)
                 'type' => 'input',
                 'size' => '15',
                 'max' => '15',
-                'default' => ''
+                'default' => null
             ]
         ],
         'tt_products_payment_bill' => [

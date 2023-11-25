@@ -325,12 +325,11 @@ class tx_ttproducts_api {
 				'crdate' => time(),
 				'username' => $username,
 				'password' => $password,
-				'usergroup' => $conf['memberOfGroup'],
-				'uid' => $infoArray['billing']['feusers_uid'],
+				'usergroup' => $conf['memberOfGroup']
 			];
 
 			foreach ($tableFieldArray as $fieldname => $value) {
-				$fieldvalue = $infoArray['billing'][$fieldname];
+				$fieldvalue = $infoArray['billing'][$fieldname] ?? null;
 				if (isset($fieldvalue)) {
 					$insertFields[$fieldname] = $fieldvalue;
 				}
@@ -348,7 +347,7 @@ class tx_ttproducts_api {
 				}
 			}
 
-			if($infoArray['billing']['date_of_birth']) {
+			if(!empty($infoArray['billing']['date_of_birth'])) {
 				$date = str_replace('-', '/', $infoArray['billing']['date_of_birth']);
 				$insertFields['date_of_birth'] = strtotime($date);
 			}
@@ -989,8 +988,11 @@ class tx_ttproducts_api {
 					if (!empty($categoryInserted[$category])) {
 						$suffix = $categoryInserted[$category];
 					} else if ($category) {
+                        $emailRow = null;
 						$categoryArray = $tablesObj->get('tt_products_cat')->get($category);
-						$emailRow = $emailObj->getEmail($categoryArray['email_uid']);
+						if (!empty(($categoryArray['email_uid']))) {
+                            $emailRow = $emailObj->getEmail($categoryArray['email_uid']);
+                        }
 
 						if (isset($emailRow) && is_array($emailRow)) {
 							$email = $emailRow['email'];

@@ -121,7 +121,7 @@ $result = [
                 'size' => '40',
 				'eval' => 'trim',
                 'max' => '256',
-                'default' => '',
+                'default' => null,
             ]
         ],
         'formula' => [
@@ -132,7 +132,7 @@ $result = [
                 'cols' => '48',
 				'eval' => 'trim',
                 'rows' => '1',
-                'default' => ''
+                'default' => null
             ]
         ],
         'startamount' => [
@@ -143,7 +143,7 @@ $result = [
                 'size' => '12',
                 'eval' => 'trim,double2',
                 'max' => '20',
-                'default' => ''
+                'default' => null
             ]
         ],
         'note' => [
@@ -153,7 +153,7 @@ $result = [
                 'type' => 'text',
                 'cols' => '48',
                 'rows' => '2',
-                'default' => ''
+                'default' => null
             ]
         ],
     ],

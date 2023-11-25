@@ -155,7 +155,7 @@ $result = [
 				'size' => '40',
 				'eval' => 'trim',
 				'max' => '256',
-				'default' => '',
+				'default' => null,
 			],
 			'l10n_mode' => 'prefixLangTitle',
 		],
@@ -168,7 +168,7 @@ $result = [
 				'cols' => '20',
 				'eval' => null,
 				'max' => '512',
-				'default' => '',
+				'default' => null,
 			],
 			'l10n_mode' => 'prefixLangTitle',
 		],
@@ -187,7 +187,7 @@ $result = [
                     ],
                 ],
                 'fallbackCharacter' => '-',
-                'default' => ''
+                'default' => null
             ]
         ],
 		'keyword' => [
@@ -199,7 +199,7 @@ $result = [
 				'cols' => '20',
 				'max' => '512',
 				'eval' => 'null',
-				'default' => '',
+				'default' => null,
 			]
 		],
 		'itemnumber' => [
@@ -210,7 +210,7 @@ $result = [
 				'size' => '40',
 				'eval' => 'trim',
 				'max' => '120',
-				'default' => '',
+				'default' => null,
 			]
 		],
 		'unit' => [
@@ -220,7 +220,7 @@ $result = [
 				'size' => '20',
 				'eval' => 'trim',
 				'max' => '20',
-				'default' => '',
+				'default' => null,
 			]
 		],
 		'note' => [
@@ -229,7 +229,7 @@ $result = [
 				'type' => 'text',
 				'cols' => '48',
 				'rows' => '5',
-				'default' => '',
+				'default' => null,
 			],
 			'l10n_mode' => 'prefixLangTitle',
 		],
@@ -239,7 +239,7 @@ $result = [
 				'type' => 'text',
 				'cols' => '48',
 				'rows' => '2',
-				'default' => '',
+				'default' => null,
 			],
 			'l10n_mode' => 'prefixLangTitle',
 		],
@@ -257,7 +257,7 @@ $result = [
 				'maxitems' => '20',
 				'minitems' => '0',
 				'eval' => 'null',
-				'default' => '',
+				'default' => null,
 			]
 		],
 		'www' => [
@@ -268,7 +268,7 @@ $result = [
 				'eval' => 'trim',
 				'size' => '30',
 				'max' => '160',
-				'default' => '',
+				'default' => null,
 			],
 			'l10n_mode' => 'prefixLangTitle',
 		],
@@ -286,7 +286,7 @@ $result = [
 				'maxitems' => '10',
 				'minitems' => '0',
 				'eval' => 'null',
-				'default' => '',
+				'default' => null,
 			]
 		],
 		'smallimage' => [
@@ -303,7 +303,7 @@ $result = [
 				'maxitems' => '10',
 				'minitems' => '0',
 				'eval' => 'null',
-				'default' => '',
+				'default' => null,
 			]
 		],
 	],

@@ -131,7 +131,7 @@ $result = [
 				'size' => '40',
 				'eval' => 'trim',
 				'max' => '256',
-				'default' => '',
+				'default' => null,
 			]
 		],
 		'subtitle' => [
@@ -142,7 +142,7 @@ $result = [
 				'rows' => '3',
 				'cols' => '20',
 				'max' => '512',
-				'default' => '',
+				'default' => null,
 			]
 		],
         'slug' => [
@@ -160,7 +160,7 @@ $result = [
                     ],
                 ],
                 'fallbackCharacter' => '-',
-                'default' => ''
+                'default' => null
             ]
         ],
 		'parent_category' => [
@@ -194,7 +194,7 @@ $result = [
 				'size' => '20',
 				'eval' => 'trim',
 				'max' => '40',
-				'default' => ''
+				'default' => null
 			]
 		],
 		'keyword' => [
@@ -206,7 +206,7 @@ $result = [
 				'cols' => '20',
 				'max' => '512',
 				'eval' => 'null',
-				'default' => '',
+				'default' => null,
 			]
 		],
 		'note' => [
@@ -216,7 +216,7 @@ $result = [
 				'type' => 'text',
 				'cols' => '48',
 				'rows' => '5',
-				'default' => '',
+				'default' => null,
 			]
 		],
 		'note2' => [
@@ -226,7 +226,7 @@ $result = [
 				'type' => 'text',
 				'cols' => '48',
 				'rows' => '5',
-				'default' => '',
+				'default' => null,
 			]
 		],
 		'image' => [
@@ -243,7 +243,7 @@ $result = [
 				'maxitems' => '10',
 				'minitems' => '0',
 				'eval' => 'null',
-				'default' => '',
+				'default' => null,
 			]
 		],
 		'sliderimage' => [
@@ -260,7 +260,7 @@ $result = [
 				'maxitems' => '10',
 				'minitems' => '0',
 				'eval' => 'null',
-				'default' => '',
+				'default' => null,
 			]
 		],
 		'discount' => [

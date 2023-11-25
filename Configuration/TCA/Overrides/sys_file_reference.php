@@ -13,7 +13,7 @@ call_user_func(function($extensionKey, $table)
                 'type' => 'input',
                 'size' => '40',
                 'max' => '256',
-                'default' => ''
+                'default' => null
             ]
         ],
         'tx_ttproducts_startpoint' => [
@@ -23,7 +23,7 @@ call_user_func(function($extensionKey, $table)
                 'type' => 'input',
                 'size' => '40',
                 'max' => '256',
-                'default' => ''
+                'default' => null
             ]
         ],
         'tx_ttproducts_endpoint' => [
@@ -33,7 +33,7 @@ call_user_func(function($extensionKey, $table)
                 'type' => 'input',
                 'size' => '40',
                 'max' => '256',
-                'default' => ''
+                'default' => null
             ]
         ],
         'tx_ttproducts_price_enable' => [

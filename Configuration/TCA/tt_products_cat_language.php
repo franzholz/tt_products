@@ -135,7 +135,7 @@ $result = [
 				'size' => '40',
 				'eval' => 'trim',
 				'max' => '256',
-				'default' => '',
+				'default' => null,
 			],
 			'l10n_mode' => 'prefixLangTitle',
 		],
@@ -147,7 +147,7 @@ $result = [
 				'rows' => '3',
 				'cols' => '20',
 				'max' => '512',
-				'default' => '',
+				'default' => null,
 			],
 			'l10n_mode' => 'prefixLangTitle',
 		],
@@ -166,7 +166,7 @@ $result = [
                     ],
                 ],
                 'fallbackCharacter' => '-',
-                'default' => ''
+                'default' => null
             ]
         ],
 		'keyword' => [
@@ -178,7 +178,7 @@ $result = [
 				'cols' => '20',
 				'max' => '512',
 				'eval' => 'null',
-				'default' => '',
+				'default' => null,
 			]
 		],
 		'note' => [
@@ -188,7 +188,7 @@ $result = [
 				'cols' => '48',
 				'rows' => '5',
 				'eval' => 'null',
-				'default' => '',
+				'default' => null,
 			],
 			'l10n_mode' => 'prefixLangTitle',
 		],
@@ -199,7 +199,7 @@ $result = [
 				'cols' => '48',
 				'rows' => '5',
 				'eval' => 'null',
-				'default' => '',
+				'default' => null,
 			],
 			'l10n_mode' => 'prefixLangTitle',
 		],

@@ -133,7 +133,7 @@ $result = [
                 'size' => '40',
 				'eval' => 'trim',
                 'max' => '80',
-                'default' => ''
+                'default' => null
             ]
         ],
         'subtitle' => [
@@ -145,7 +145,7 @@ $result = [
                 'cols' => '20',
 				'eval' => null,
                 'max' => '512',
-                'default' => ''
+                'default' => null
             ]
         ],
         'slug' => [
@@ -163,7 +163,7 @@ $result = [
                     ],
                 ],
                 'fallbackCharacter' => '-',
-                'default' => ''
+                'default' => null
             ]
         ],
         'keyword' => [
@@ -175,7 +175,7 @@ $result = [
                 'cols' => '20',
                 'max' => '512',
                 'eval' => 'null',
-                'default' => ''
+                'default' => null
             ]
         ],
         'itemnumber' => [
@@ -185,7 +185,7 @@ $result = [
                 'size' => '40',
                 'eval' => 'trim',
                 'max' => '120',
-                'default' => ''
+                'default' => null
             ]
         ],
         'price' => [
@@ -218,9 +218,9 @@ $result = [
                 'items' => [
                     ['', '']
                 ],
-                'default' => '',
+                'default' => null,
                 'authMode' => $GLOBALS['TYPO3_CONF_VARS']['BE']['explicitADmode'],
-                'default' => ''
+                'default' => null
             ]
         ],
         'graduated_config' => [
@@ -270,7 +270,7 @@ $result = [
                 'size' => '20',
                 'max' => '20',
                 'eval' => 'null',
-                'default' => ''
+                'default' => null
             ]
         ],
         'graduated_price_uid' => [
@@ -301,7 +301,7 @@ $result = [
                 'type' => 'text',
                 'cols' => '48',
                 'rows' => '5',
-                'default' => ''
+                'default' => null
             ],
             'l10n_mode' => 'prefixLangTitle',
         ],
@@ -311,7 +311,7 @@ $result = [
                 'type' => 'text',
                 'cols' => '48',
                 'rows' => '5',
-                'default' => ''
+                'default' => null
             ],
             'l10n_mode' => 'prefixLangTitle',
         ],
@@ -366,9 +366,9 @@ $result = [
                 'type' => 'text',
                 'cols' => '46',
                 'rows' => '5',
-                'default' => '',
+                'default' => null,
                 'eval' => 'null',
-                'default' => ''
+                'default' => null
             ]
         ],
         'color2' => [
@@ -379,7 +379,7 @@ $result = [
                 'cols' => '46',
                 'rows' => '5',
                 'eval' => 'null',
-                'default' => ''
+                'default' => null
             ]
         ],
         'color3' => [
@@ -390,7 +390,7 @@ $result = [
                 'cols' => '46',
                 'rows' => '5',
                 'eval' => 'null',
-                'default' => ''
+                'default' => null
             ]
         ],
         'size' => [
@@ -401,7 +401,7 @@ $result = [
                 'cols' => '46',
                 'rows' => '5',
                 'eval' => 'null',
-                'default' => ''
+                'default' => null
             ]
         ],
         'size2' => [
@@ -412,7 +412,7 @@ $result = [
                 'cols' => '46',
                 'rows' => '5',
                 'eval' => 'null',
-                'default' => ''
+                'default' => null
             ]
         ],
         'size3' => [
@@ -423,7 +423,7 @@ $result = [
                 'cols' => '46',
                 'rows' => '5',
                 'eval' => 'null',
-                'default' => ''
+                'default' => null
             ]
         ],
         'description' => [
@@ -434,7 +434,7 @@ $result = [
                 'cols' => '46',
                 'rows' => '5',
                 'eval' => 'null',
-                'default' => ''
+                'default' => null
             ]
         ],
         'gradings' => [
@@ -445,7 +445,7 @@ $result = [
                 'cols' => '46',
                 'rows' => '5',
                 'eval' => 'null',
-                'default' => ''
+                'default' => null
             ]
         ],
         'material' => [
@@ -456,7 +456,7 @@ $result = [
                 'cols' => '46',
                 'rows' => '5',
                 'eval' => 'null',
-                'default' => ''
+                'default' => null
             ]
         ],
         'quality' => [
@@ -467,7 +467,7 @@ $result = [
                 'cols' => '46',
                 'rows' => '5',
                 'eval' => 'null',
-                'default' => ''
+                'default' => null
             ]
         ],
         'config_type' => [
@@ -478,7 +478,7 @@ $result = [
                 'items' => [
                     ['', '']
                 ],
-                'default' => '',
+                'default' => null,
                 'authMode' => $GLOBALS['TYPO3_CONF_VARS']['BE']['explicitADmode'],
             ]
         ],
@@ -511,7 +511,7 @@ $result = [
                         ',
                 ],
                 'eval' => 'null',
-                'default' => ''
+                'default' => null
             ],
         ],
         'image' => [
@@ -528,7 +528,7 @@ $result = [
                 'maxitems' => '10',
                 'minitems' => '0',
                 'eval' => 'null',
-                'default' => ''
+                'default' => null
             ]
         ],
         'smallimage' => [
@@ -545,7 +545,7 @@ $result = [
                 'maxitems' => '10',
                 'minitems' => '0',
                 'eval' => 'null',
-                'default' => ''
+                'default' => null
             ]
         ],
     ],
