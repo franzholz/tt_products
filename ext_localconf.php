@@ -127,51 +127,40 @@ call_user_func(function($extensionKey)
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addUserTSConfig('options.saveDocNew.tt_products_articles=1');
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addUserTSConfig('options.saveDocNew.tt_products_articles_language=1');
 
-    if (
-        defined ('TYPO3_MODE') &&
-        TYPO3_MODE == 'BE'
-    ) {
-        // replace the output of the former CODE field with the flexform
-        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['list_type_Info'][5][] = 'JambageCom\\TtProducts\\Hooks\\CmsBackend->pmDrawItem';
+    // replace the output of the former CODE field with the flexform
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['list_type_Info'][5][] = 'JambageCom\\TtProducts\\Hooks\\CmsBackend->pmDrawItem';
 
-            // class for displaying the category tree in BE forms.
-        $listType = $extensionKey . '_pi_int';
-        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['list_type_Info'][$listType][] = 'JambageCom\\TtProducts\\Hooks\\CmsBackend->pmDrawItem';
-    }
+        // class for displaying the category tree in BE forms.
+    $listType = $extensionKey . '_pi_int';
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['list_type_Info'][$listType][] = 'JambageCom\\TtProducts\\Hooks\\CmsBackend->pmDrawItem';
 
     if (
-        defined ('TYPO3_MODE') &&
-        TYPO3_MODE == 'BE' &&
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('searchbox')) {
 
         $listType = $extensionKey . '_pi_search';
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['cms/layout/class.tx_cms_layout.php']['list_type_Info'][$listType][] = 'JambageCom\\TtProducts\\Hooks\\CmsBackend->pmDrawItem';
     }
 
+    // hooks for FE extensions
+    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['felogin']['login_confirmed'][$extensionKey] = 'JambageCom\\TtProducts\\Hooks\\FrontendProcessor->loginConfirmed';
+
+    if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('patch10011')) {
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['patch10011']['includeLibs'][$extensionKey] = 
+        \JambageCom\TtProducts\UserFunc\MatchCondition::class;
+    }
+
+    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['ws_flexslider']['listAction'][$extensionKey] = 'EXT:' . $extensionKey . '/hooks/class.tx_ttproducts_ws_flexslider.php:&tx_ttproducts_ws_flexslider';
+
+    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['transactor']['listener'][$extensionKey] = \JambageCom\TtProducts\Hooks\TransactorListener::class;
+
     if (
-        defined ('TYPO3_MODE') &&
-        TYPO3_MODE == 'FE'
-    ) { // hooks for FE extensions
-        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['felogin']['login_confirmed'][$extensionKey] = 'JambageCom\\TtProducts\\Hooks\\FrontendProcessor->loginConfirmed';
+        isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['hook.']) &&
+        !empty($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['hook.']['setPageTitle'])
+    ) {
+        // TYPO3 page title
+        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_fe.php']['contentPostProc-output'][] = 'JambageCom\\TtProducts\\Hooks\\ContentPostProcessor->setPageTitle';
 
-        if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('patch10011')) {
-            $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['patch10011']['includeLibs'][$extensionKey] = 
-            \JambageCom\TtProducts\UserFunc\MatchCondition::class;
-        }
-
-        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['ws_flexslider']['listAction'][$extensionKey] = 'EXT:' . $extensionKey . '/hooks/class.tx_ttproducts_ws_flexslider.php:&tx_ttproducts_ws_flexslider';
-
-        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['transactor']['listener'][$extensionKey] = \JambageCom\TtProducts\Hooks\TransactorListener::class;
-
-        if (
-            isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['hook.']) &&
-            !empty($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['hook.']['setPageTitle'])
-        ) {
-            // TYPO3 page title
-            $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_fe.php']['contentPostProc-output'][] = 'JambageCom\\TtProducts\\Hooks\\ContentPostProcessor->setPageTitle';
-
-            $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_fe.php']['contentPostProc-cached'][] = 'JambageCom\\TtProducts\\Hooks\\ContentPostProcessor->setPageTitle';
-        }
+        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_fe.php']['contentPostProc-cached'][] = 'JambageCom\\TtProducts\\Hooks\\ContentPostProcessor->setPageTitle';
     }
 
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tce']['formevals']['JambageCom\\Div2007\\Hooks\\Evaluation\\Double6'] = '';
