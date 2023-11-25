@@ -530,12 +530,13 @@ class tx_ttproducts_product extends tx_ttproducts_article_base {
 							'products' => ['table' =>  'tt_products_related_products_products_mm']
 						];
 
+						$where_clause = '';
 						if (
 							MathUtility::canBeInterpretedAsInteger($uid)
 						) {
-							$where = 'uid_local = ' . intval($uid);
+							$where_clause = 'uid_local = ' . intval($uid);
 						} else if (is_array($uid)) {
-							$where = 'uid_local IN (' . implode(',', $uid) . ')';
+							$where_clause = 'uid_local IN (' . implode(',', $uid) . ')';
 						}
 
 						$falUidArray = [];
@@ -567,14 +568,14 @@ class tx_ttproducts_product extends tx_ttproducts_article_base {
                         $falUidArray = $GLOBALS['TYPO3_DB']->cleanIntArray($falUidArray);
 
                         if (is_array($downloadUidArray) && count($downloadUidArray)) {
-                            $where .= ' AND uid_foreign IN(' . implode(',', $downloadUidArray) . ')';
+                            $where_clause .= ' AND uid_foreign IN(' . implode(',', $downloadUidArray) . ')';
                         }
 
 						$rowArray =
 							$GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
 								'*',
 								$mmTable[$type]['table'],
-								$where,
+								$where_clause,
 								'',
 								'sorting_foreign'
 							);
@@ -596,16 +597,16 @@ class tx_ttproducts_product extends tx_ttproducts_article_base {
 						foreach ($rowArray as $k => $row) {
 							$uidArray[] = $row['uid_foreign'];
 						}
-						$where = 'uid IN (' . implode(',', $uidArray) . ')';
+						$where_clause = 'uid IN (' . implode(',', $uidArray) . ')';
 
 						if (
 							$type == 'complete_downloads'
 						) {
-							$where .= 'AND edition=0';
+							$where_clause .= 'AND edition=0';
 						} else if (
 							$type == 'partial_downloads'
 						) {
-							$where .= 'AND edition=1';
+							$where_clause .= 'AND edition=1';
 						}
 
                         $parentFuncTablename = $tablename = 'tt_products_downloads';
@@ -618,7 +619,7 @@ class tx_ttproducts_product extends tx_ttproducts_article_base {
 							$GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
 								'*',
 								$tablename,
-								$where,
+								$where_clause,
 								'',
 								$orderBy
 							);
