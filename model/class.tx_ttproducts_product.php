@@ -504,6 +504,7 @@ class tx_ttproducts_product extends tx_ttproducts_article_base {
 		$rcArray = [];
         $rowArray = [];
 		$parentFuncTablename = '';
+		$where = '';
 
 		if (
 			in_array($type, $this->allowedTypeArray)
@@ -608,7 +609,7 @@ class tx_ttproducts_product extends tx_ttproducts_article_base {
 						}
 
                         $parentFuncTablename = $tablename = 'tt_products_downloads';
-						$where_clause .=
+						$where .=
 							\JambageCom\Div2007\Utility\TableUtility::enableFields(
 								$tablename
 							);
