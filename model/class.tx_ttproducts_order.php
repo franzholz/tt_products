@@ -413,11 +413,16 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
 			$fieldsArray['payment'] = $payment;
 			$fieldsArray['shipping'] = $shipping;
 			$fieldsArray['amount'] = $amount;
-			$fieldsArray['note'] = $deliveryInfo['note'] ?? '';
+			if (isset($deliveryInfo['note'])) {
+		            $fieldsArray['note'] = $deliveryInfo['note'];
+		        }
+
 			if (!empty($dateBirth)) {
 				$fieldsArray['date_of_birth'] = $dateBirth;
 			}
-			$fieldsArray['radio1'] = $deliveryInfo['radio1'] ?? '';
+                        if (isset($deliveryInfo['radio1'])) {
+                            $fieldsArray['radio1'] = $deliveryInfo['radio1'];
+                        }
 
 			if (
                 isset($giftServiceArticleArray) && 
