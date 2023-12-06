@@ -131,16 +131,16 @@ abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base
 		$markerKey,
 		$category,
 		$pid,
+		$viewCatTagArray,
 		$imageNum = 0,
 		$imageRenderObj = 'image',
-		&$viewCatTagArray,
 		$forminfoArray = [],
 		$pageAsCategory = 0,
-		$theCode,
-		$basketExtra,
-		$basketRecs, 
-		$id,
-		$prefix,
+		$theCode = '',
+		$basketExtra = [],
+		$basketRecs = [], 
+		$id = '',
+		$prefix = '',
 		$linkWrap = ''
 	);
 
@@ -150,16 +150,16 @@ abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base
 		&$markerArray,
 		$category,
 		$pid,
+		$viewCatTagArray,
 		$imageNum = 0,
 		$imageRenderObj = 'image',
-		&$viewCatTagArray,
 		$forminfoArray = [],
 		$pageAsCategory = 0,
-		$code,
-		$basketExtra,
-		$basketRecs,
-		$id,
-		$prefix
+		$code = '',
+		$basketExtra = [],
+		$basketRecs = [],
+		$id = '',
+		$prefix = ''
 	) {
 		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 		$config = $cnf->getConfig();
@@ -189,9 +189,9 @@ abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base
 						'',
 						$parentCategory,
 						$parentPid,
+						$viewCatTagArray,
 						$config['limitImage'],
 						'listcatImage',
-						$viewCatTagArray,
 						$tmp,
 						$pageAsCategory,
 						'SINGLE',

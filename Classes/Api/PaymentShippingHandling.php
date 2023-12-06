@@ -802,7 +802,7 @@ class PaymentShippingHandling {
 				foreach ($confArray['WherePIDMinPrice.'] as $minPricePID => $minPriceValue) {
 					foreach ($itemArray as $sort => $actItemArray) {
 						foreach ($actItemArray as $k1 => $actItem) {
-							$tmpRow = &$actItem['rec'];
+							$tmpRow = $actItem['rec'];
 							$pid = intval($tmpRow['pid']);
 							if ($pid == $minPricePID) {
 								$minPrice = $minPriceValue;
@@ -1074,7 +1074,7 @@ class PaymentShippingHandling {
 
 			// $actItemArray = all items array
 			foreach ($actItemArray as $k2 => $actItem) {
-				$row = &$actItem['rec'];
+				$row = $actItem['rec'];
 // 				$shippingPrice = $actItem['shipping'] + $row['shipping'];
 // 				$row['tax'] = $actItem['tax'];
 
@@ -1345,7 +1345,7 @@ class PaymentShippingHandling {
             $calcScript = $sanitizer->sanitize($calculationScript);
 
 			if ($calcScript) {
-				$confScript = &$basketConf['calculationScript.'];
+				$confScript = $basketConf['calculationScript.'];
 				include($calcScript);
 			}
 		}

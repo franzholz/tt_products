@@ -114,7 +114,7 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 
 		$basketExt = tx_ttproducts_control_basket::getBasketExt();
 		$basketExtRaw = tx_ttproducts_control_basket::getBasketExtRaw();
-		$basketInputConf = &$cnfObj->getBasketConf('view', 'input');
+		$basketInputConf = $cnfObj->getBasketConf('view', 'input');
 
 		if (isset($basketInputConf) && is_array($basketInputConf)) {
 			foreach ($basketInputConf as $lineNo => $inputConf) {
@@ -769,7 +769,7 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 			// loop over all items in the basket indexed by a sort string
 			foreach ($itemArray as $sort => $actItemArray) {
 				foreach ($actItemArray as $k1 => $actItem) {
-					$row = &$actItem['rec'];
+					$row = $actItem['rec'];
 					if ($prod_uid == $row['uid']) {
 						$rc = true;
 						break;
@@ -837,7 +837,7 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface {
 			foreach ($itemArray as $sort => $actItemArray) {
 				foreach ($actItemArray as $k1 => $actItem) {
 
-					$row = &$actItem['rec'];
+					$row = $actItem['rec'];
 					$uid = $row['uid'];
 					$count = $actItem['count'];
 					$extArray = $row['ext'] ?? [];

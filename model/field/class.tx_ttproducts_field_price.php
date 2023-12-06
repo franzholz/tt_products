@@ -220,7 +220,7 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base {
 		$taxMode,
 		$price,
 		$tax = true,
-		$row,
+		$row = [],
 		$bTaxIncluded = false,
 		$bEnableTaxZero = false
 	) {

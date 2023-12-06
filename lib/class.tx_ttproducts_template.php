@@ -70,10 +70,9 @@ class tx_ttproducts_template implements \TYPO3\CMS\Core\SingletonInterface {
 		$conf = $cnf->getConf();
 		$templateFile = $cnf->getTemplateFile($theCode);
 		$pathFilename = '';
-		if ($templateFile) {
-            $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
-            $pathFilename = $sanitizer->sanitize($templateFile);
-		}
+        if ($templateFile) {
+            $pathFilename = GeneralUtility::getFileAbsFileName($templateFile);
+        }
 
 		if (file_exists($pathFilename)) {
 			// template file is fetched. The whole template file from which the various subpart are extracted.

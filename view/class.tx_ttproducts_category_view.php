@@ -61,16 +61,16 @@ class tx_ttproducts_category_view extends tx_ttproducts_category_base_view {
 		$markerKey,
 		$category,
 		$pid,
+		$viewCatTagArray,
 		$imageNum = 0,
 		$imageRenderObj = 'image',
-		&$viewCatTagArray,
 		$forminfoArray = [],
 		$pageAsCategory = 0,
-		$theCode,
-		$basketExtra,
-		$basketRecs,
-		$id,
-		$prefix,
+		$theCode = '',
+		$basketExtra = [],
+		$basketRecs = [],
+		$id = '',
+		$prefix = '',
 		$linkWrap = ''
 	) {
 		$modelObj = $this->getModelObj();

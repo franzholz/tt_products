@@ -62,16 +62,16 @@ class tx_ttproducts_page_view extends tx_ttproducts_category_base_view {
 		$markerKey,
 		$category,
 		$pid,
-		$imageNum=0,
+		$viewCatTagArray,
+		$imageNum = 0,
 		$imageRenderObj = 'image',
-		&$viewCatTagArray,
 		$forminfoArray = [],
 		$pageAsCategory = 0,
-		$theCode,
-		$basketExtra,
-		$basketRecs,
-		$id,
-		$prefix,
+		$theCode = '',
+		$basketExtra = [],
+		$basketRecs = [],
+		$id = '',
+		$prefix = '',
 		$linkWrap = ''
 	) {
 		$functablename = $this->modelObj->getFuncTablename();

@@ -51,16 +51,17 @@ class tx_ttproducts_field_graduated_price_view extends tx_ttproducts_field_base_
 		$tableConf,
 		&$subpartArray,
 		&$wrappedSubpartArray,
-		$tagArray,
+		$tagArray = [],
 		$theCode = '',
 		$basketExtra = [],
-		$basketRecs,
+		$basketRecs = [],
 		$id = '1'
 	) {
 		$bTaxIncluded = $this->conf['TAXincluded'];
 		$bEnableTaxZero = 0;
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 		$viewItemTableObj = $tablesObj->get($functablename, true);
+        $priceFormulaArray = $viewItemTableObj->getModelObj()->getGraduatedPriceObject()->getFormulasByItem($row['uid']);
 
 		$priceTablesViewObj = $viewItemTableObj->getGraduatedPriceObject();
 		$priceTablesViewObj->getPriceSubpartArrays(
@@ -69,13 +70,13 @@ class tx_ttproducts_field_graduated_price_view extends tx_ttproducts_field_base_
 			$fieldname,
 			$bTaxIncluded,
 			$bEnableTaxZero,
+            $priceFormulaArray,
 			$subpartArray,
 			$wrappedSubpartArray,
 			$tagArray,
 			$theCode,
 			$basketExtra,
 			$basketRecs,
-            $viewItemTableObj,
 			$id
 		);
 	}

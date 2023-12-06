@@ -424,9 +424,9 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$hiddenFields,
 		&$error_code,
 		$templateArea = 'ITEM_LIST_TEMPLATE',
-		$pageAsCategory,
-		$basketExtra,
-		$basketRecs,
+		$pageAsCategory = 0,
+		$basketExtra = [],
+		$basketRecs = [],
 		$mergeRow = [],
 		$calllevel = 0,
 		$callFunctableArray = [],
@@ -2110,9 +2110,9 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 									$displayCatHeader == 'always'
 								)
 							) {
-							$catItemsListOut = &$itemListOut;
+							$catItemsListOut = $itemListOut;
 							if ($itemTable->getType() == 'article' && $productListOut && $t['productAndItemsFrameWork']) {
-								$catItemsListOut = &$productListOut;
+								$catItemsListOut = $productListOut;
 							}
 
 							if ($catItemsListOut && $conf['displayListCatHeader']) {
@@ -2131,9 +2131,9 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 									'',
 									$displayCat,
 									$row['pid'],
+									$viewCatTagArray,
 									$config['limitImage'],
 									'listcatImage',
-									$viewCatTagArray,
 									$tmp,
 									$pageAsCategory,
 									$theCode,
@@ -2151,9 +2151,9 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 									$categoryMarkerArray,
 									$displayCat,
 									$row['pid'],
+									$viewCatTagArray,
 									$config['limitImage'],
 									'listcatImage',
-									$viewCatTagArray,
 									[],
 									$pageAsCategory,
 									$theCode,
@@ -2829,9 +2829,9 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 								$linkCategoryMarkerArray,
 								$linkCat,
 								$row['pid'],
+								$viewCatTagArray,
 								$config['limitImage'],
 								'listcatImage',
-								$viewCatTagArray,
 								[],
 								$pageAsCategory,
 								$theCode,
@@ -3087,9 +3087,9 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 							$categoryMarkerArray,
 							$displayCat,
 							$GLOBALS['TSFE']->id,
+							$viewCatTagArray,
 							$config['limitImage'],
 							'listcatImage',
-							$viewCatTagArray,
 							$tmp,
 							$pageAsCategory,
 							$theCode,
@@ -3139,7 +3139,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 				}
 
 				if ($itemListOut || $categoryOut || $productListOut) {
-					$catItemsListOut = &$itemListOut;
+					$catItemsListOut = $itemListOut;
 					if ($itemTable->getType() == 'article' && $productListOut && $t['productAndItemsFrameWork']) {
 						$productListOut .=
 							$this->advanceProduct(
@@ -3149,7 +3149,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 								$productMarkerArray,
 								$categoryMarkerArray
 							);
-						$catItemsListOut = &$productListOut;
+						$catItemsListOut = $productListOut;
 					}
 					if ($conf['displayListCatHeader']) {
 						$out .=

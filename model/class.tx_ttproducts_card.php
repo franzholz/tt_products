@@ -91,7 +91,7 @@ class tx_ttproducts_card extends tx_ttproducts_table_base {
 			}
 
 			if ($this->ccArray) {
-				$newId = $this->create ($ccArray['cc_uid'], $this->ccArray);
+				$newId = $this->create($ccArray['cc_uid'] ?? '', $this->ccArray);
 
 				if ($newId) {
 					$ccArray['cc_uid'] = $newId;
@@ -133,7 +133,7 @@ class tx_ttproducts_card extends tx_ttproducts_table_base {
 			$pid = intval($GLOBALS['TSFE']->id);
 		}
 
-		if ($ccArray['cc_number_1'] && $GLOBALS['TSFE']->sys_page->getPage_noCheck($pid)) {
+		if (!empty($ccArray['cc_number_1']) && $GLOBALS['TSFE']->sys_page->getPage_noCheck($pid)) {
 			$time = time();
 			$timeArray =
 				[
@@ -151,7 +151,7 @@ class tx_ttproducts_card extends tx_ttproducts_table_base {
 			}
 
 			for ($i = 1; $i <= 4; ++$i) {
-				$ccArray['cc_number_' . $i] = ($ccArray['cc_number_' . $i] ? $ccArray['cc_number_' . $i] : '   ');
+				$ccArray['cc_number_' . $i] = ($ccArray['cc_number_' . $i] ?? '   ');
 			}
 
 			$newFields = array (
@@ -188,7 +188,7 @@ class tx_ttproducts_card extends tx_ttproducts_table_base {
 						unset($newFields[$field]); // prevent from change into asterisks
 					}
 				}
-				$newFields['cc_number'] = $ccArray['cc_number_1'] . $ccArray['cc_number_2'].$ccArray['cc_number_3'].$ccArray['cc_number_4'];
+				$newFields['cc_number'] = $ccArray['cc_number_1'] . $ccArray['cc_number_2'].$ccArray['cc_number_3'] . $ccArray['cc_number_4'];
 				$oldEndtime = getdate($row['endtime']);
 				if (strcmp($ccArray['endtime_mm'], $this->asteriskArray[$this->sizeArray['endtime_mm']]) == 0) {
 					$ccArray['endtime_mm'] = $oldEndtime['mon'];

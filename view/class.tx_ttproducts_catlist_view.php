@@ -527,9 +527,9 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base {
 		$currentCat,
 		$pageAsCategory,
 		$row,
-		$theCode,
-		$basketExtra,
-		$basketRecs
+		$theCode = '',
+		$basketExtra = [],
+		$basketRecs = []
 	) {
 		$pibaseObj = GeneralUtility::makeInstance('' . $this->pibaseClass);
 		$cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
@@ -592,9 +592,9 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base {
 			'',
 			$actCategory,
 			$row['pid'],
+			$viewCatTagArray,
 			$config['limitImage'],
 			'listcatImage',
-			$viewCatTagArray,
 			[],
 			$pageAsCategory,
 			$theCode,

@@ -237,13 +237,13 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
 							}
 							$fieldname = strtolower(implode('_', $fieldNameArray));
 							$binaryOperator = '';
-							$v2 = $binaryArray[$tagPartArray[$tagPartKey]];
+							$v2 = $binaryArray[$tagPartArray[$tagPartKey]] ?? '';
 
 							if ($v2 != '') {
 								$binaryOperator = $v2;
 								$tagPartKey++;
 							}
-							$v3 = $functionArray[$tagPartArray[$tagPartKey]];
+							$v3 = $functionArray[$tagPartArray[$tagPartKey]] ?? '';
 
 							if ($v3 != '') {
 								$functionname = $v3;
@@ -526,7 +526,6 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
 				}
 			}
 		}
-
 		return $newRow;
 	}
 
@@ -682,7 +681,7 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
 							$bEnableTaxZero
 						);
 
-					if (isset($modifiedRow) && !is_array($modifiedRow)) { // if a single value has been returned instead of an array
+                    if (isset($modifiedRow) && !is_array($modifiedRow)) { // if a single value has been returned instead of an array
 						$modifiedRow = [$field => $modifiedRow];
 					} else if (!isset($modifiedRow)) { // restore former default value
 						$modifiedRow = [$field => $value];
@@ -697,6 +696,7 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
 							break;
 					}
 				}
+
 				if (!$bSkip) {
 					$this->modifyFieldObject(
 						$row,

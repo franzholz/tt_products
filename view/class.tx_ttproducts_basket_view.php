@@ -68,9 +68,9 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 	 * @return	  void
 	 */
 	public function init (
-		$urlArray = [],
 		$useArticles,
-		$errorCode
+		$errorCode,
+		$urlArray = []
 	) {
 		$this->errorCode = $errorCode;
 		$this->useArticles = $useArticles;

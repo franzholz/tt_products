@@ -338,6 +338,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 		$javaScriptObj = GeneralUtility::makeInstance('tx_ttproducts_javascript');
 		$markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
 		$globalMarkerArray = $markerObj->getGlobalMarkerArray();
+        $urlObj = GeneralUtility::makeInstance('tx_ttproducts_url_view');
 
 		if (!count($this->codeArray) && !$bRunAjax) {
 			$this->codeArray = ['HELP'];
@@ -929,7 +930,6 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 				$errorConf = [];
 				if (isset($this->conf['error.'])) {
 					$errorConf = $this->conf['error.'];
-					$urlObj = GeneralUtility::makeInstance('tx_ttproducts_url_view');
 				}
 
 				foreach ($errorCode as $key => $indice) {
@@ -1119,7 +1119,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
         $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 		$globalMarkerArray = $markerObj->getGlobalMarkerArray();
 
-		$trackingTemplateCode = &$templateCode;
+		$trackingTemplateCode = $templateCode;
 
 		tx_ttproducts_control_access::getVariables(
 			$conf,

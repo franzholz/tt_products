@@ -72,8 +72,8 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 			// Copy the resulting setup back into conf
 			$conf = $tsparser->setup;
 		}
-		$this->conf = &$conf;
-		$this->config = &$config;
+		$this->conf = $conf;
+		$this->config = $config;
 		$piVars = $parameterApi->getPiVars();
 		$this->pibaseClass = $pibaseClass;
 

@@ -251,6 +251,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 		$paymentScript = false;
 		$handleLib = '';
 		$localTemplateCode = '';
+		$linkParams = '';
 
 		if ($orderUid) {
 			$basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
@@ -297,7 +298,6 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
                 if ($useNewTransactor) {
                     $paymentScript = true;
                     $callingClassName = '\\JambageCom\\Transactor\\Api\\Start';
-                    call_user_func($callingClassName . '::test');
                     $markerArray = [];
 
                     if (
@@ -753,7 +753,8 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 						$errorCode,
 						$errorMessage
 					);
-				if ($errorMessage != '') {
+
+                if ($errorMessage != '') {
 					$mainMarkerArray['###MESSAGE_PAYMENT_SCRIPT###'] = $errorMessage;
 					$markerArray['###ERROR_DETAILS###'] = $errorMessage;
 				}
@@ -761,6 +762,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 				$mainMarkerArray['###MESSAGE_PAYMENT_SCRIPT###'] = '';
 			}
 			$paymentHTML = '';
+
 			if (
 				!$bFinalize &&
 				$basket_tmpl != ''
@@ -926,9 +928,18 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 			$bFinalize = false;
 		}
 
-		if (strpos($templateCode, '###ERROR_DETAILS###') !== false) {
-			$errorMessage = ''; // the error message is part of the HTML template
-		}
+        if (strpos($templateCode, '###ERROR_DETAILS###') !== false) {
+            $tempContent =
+                $templateService->getSubpart(
+                    $templateCode,
+                    $subpartmarkerObj->spMarker(
+                        '###' . $basket_tmpl . $this->config['templateSuffix'] . '###'
+                    )
+                );
+            if (strpos($tempContent, '###ERROR_DETAILS###') !== false) {
+                $errorMessage = ''; // the error message is part of the HTML template
+            }
+        }
 
 		return $content;
 	} // getContent
@@ -1142,7 +1153,8 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 					case 'products_info':
 						$basket_tmpl = 'BASKET_INFO_TEMPLATE';
 
-						if (!empty($codeActivityArray[$activity]) || $activityArray['products_basket'] == false) {
+						if (!empty($codeActivityArray[$activity]) || 
+                            empty($activityArray['products_basket'])) {
 							$theCode = 'INFO';
 						}
 					break;
@@ -1240,7 +1252,8 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 							}
 						}
 
-						if (!empty($codeActivityArray[$activity]) || $activityArray['products_basket'] == false) {
+						if (!empty($codeActivityArray[$activity]) ||  
+                            empty($activityArray['products_basket'])) {
 							$theCode = 'PAYMENT';
 						}
 						$basket_tmpl = 'BASKET_PAYMENT_TEMPLATE';
@@ -1334,7 +1347,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 						}
 
 						if (
-							(!empty($codeActivityArray[$activity]) || $activityArray['products_basket'] == false) &&
+							(!empty($codeActivityArray[$activity]) || empty($activityArray['products_basket'])) &&
 							$bFinalize
 						) {
 							$theCode = 'FINALIZE';
@@ -1423,11 +1436,11 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 			}
 
 			$checkAllowed = $infoViewObj->checkAllowed($basketExtra);
-			if ($checkRequired == '' && $checkAllowed == '') {
-				$orderUid = $this->getOrderUid($orderArray);
+            if ($checkRequired == '' && $checkAllowed == '') {
+                $orderUid = $this->getOrderUid($orderArray);
                 $orderNumber = $this->getOrdernumber($orderUid);
 
-				if (
+                if (
                     !$bBasketEmpty &&
                     trim($conf['paymentActivity']) == 'finalize'
                 ) {
@@ -1449,7 +1462,8 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 							$errorCode,
 							$errorMessage
 						);
-					if ($errorMessage != '') {
+
+                    if ($errorMessage != '') {
 						$mainMarkerArray['###MESSAGE_PAYMENT_SCRIPT###'] = $errorMessage;
 					}
 				} else {
@@ -1511,6 +1525,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 						$contentTmp = $contentTmpThanks;
 					}
 				}
+
 				if (!empty($activityArray['products_payment'])) {	// forget the payment output from before if it comes to finalize
 					$content = '';
 				}
@@ -1621,9 +1636,9 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 		$infoViewObj = GeneralUtility::makeInstance('tx_ttproducts_info_view');
 		$basketView = GeneralUtility::makeInstance('tx_ttproducts_basket_view');
 		$basketView->init(
-			$this->urlArray,
 			$this->useArticles,
-			$errorCode
+			$errorCode,
+			$this->urlArray
 		);
 
 		$activityVarsArray = [

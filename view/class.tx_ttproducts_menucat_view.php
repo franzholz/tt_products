@@ -57,6 +57,7 @@ class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base {
 		$basketExtra,
 		$basketRecs
 	) {
+        $content = '';
 		$t = [];
 		$ctrlArray = [];
 		$templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);

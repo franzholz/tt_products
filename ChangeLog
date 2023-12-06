@@ -1,3 +1,6 @@
+2023-12-06 Franz Holzinger <franz@ttproducts.de>
+    * bugfix: PHP 8 issues
+
 2023-09-23 Franz Holzinger <franz@ttproducts.de>
     * bugfix: show the related products again
 

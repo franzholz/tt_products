@@ -55,7 +55,7 @@ class tx_ttproducts_field_foreign_table_view extends tx_ttproducts_field_base_vi
 		&$tagArray,
 		$theCode = '',
 		$basketExtra = [],
-		$basketRecs,
+		$basketRecs = [],
 		$id = '1'
 	) {
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
