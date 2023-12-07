@@ -41,6 +41,7 @@
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 use JambageCom\TtProducts\Api\PluginApi;
 

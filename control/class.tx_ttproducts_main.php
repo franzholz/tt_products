@@ -1126,7 +1126,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
         $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 		$globalMarkerArray = $markerObj->getGlobalMarkerArray();
 
-		$trackingTemplateCode = &$templateCode;
+		$trackingTemplateCode = $templateCode;
 
 		tx_ttproducts_control_access::getVariables(
 			$conf,

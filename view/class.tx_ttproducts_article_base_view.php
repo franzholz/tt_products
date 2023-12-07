@@ -263,7 +263,7 @@ abstract class tx_ttproducts_article_base_view extends tx_ttproducts_table_base_
 		$catTitle,
 		$imageNum = 0,
 		$imageRenderObj = 'image',
-		$tagArray,
+		$tagArray = [],
 		$forminfoArray = [],
 		$theCode = '',
 		$basketExtra = [],

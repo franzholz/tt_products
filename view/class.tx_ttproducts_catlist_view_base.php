@@ -208,7 +208,7 @@ abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\Single
 
 	public function getTemplateMarkers (&$t) {
 		if (is_array($this->tMarkers)) {
-			$rc = &$this->tMarkers;
+			$rc = $this->tMarkers;
 		} else {
 			$markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
 			$rc = $markerObj->getAllMarkers($t['listFrameWork']);
@@ -219,7 +219,7 @@ abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\Single
 
 
 	protected function setTemplateMarkers (&$tMarkers) {
-		$this->tMarkers = &$tMarkers;
+		$this->tMarkers = $tMarkers;
 	}
 
 

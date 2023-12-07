@@ -133,7 +133,7 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base {
 
 		parent::init();
 
-		$this->priceConf = &$priceConf;
+		$this->priceConf = $priceConf;
 		if (!isset($this->priceConf['TAXincluded'])) {
 			$this->priceConf['TAXincluded'] = '1';	// default '1' for TAXincluded
 		}
