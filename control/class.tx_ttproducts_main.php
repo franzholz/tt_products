@@ -326,6 +326,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 		$conf = $cnf->getConf();
 		$config = $cnf->getConfig();
         $piVars = tx_ttproducts_model_control::getPiVars();
+        $urlObj = GeneralUtility::makeInstance('tx_ttproducts_url_view');
         $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 
 		if (!empty($conf['no_cache']) && $this->convertToUserInt($cObj)) {
@@ -936,7 +937,6 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 				$errorConf = [];
 				if (isset($this->conf['error.'])) {
 					$errorConf = $this->conf['error.'];
-					$urlObj = GeneralUtility::makeInstance('tx_ttproducts_url_view');
 				}
 
 				foreach ($errorCode as $key => $indice) {

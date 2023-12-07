@@ -941,9 +941,18 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 			$bFinalize = false;
 		}
 
-		if (strpos($templateCode, '###ERROR_DETAILS###') !== false) {
-			$errorMessage = ''; // the error message is part of the HTML template
-		}
+        if (strpos($templateCode, '###ERROR_DETAILS###') !== false) {
+            $tempContent =
+                $templateService->getSubpart(
+                    $templateCode,
+                    $subpartmarkerObj->spMarker(
+                        '###' . $basket_tmpl . $this->config['templateSuffix'] . '###'
+                    )
+                );
+            if (strpos($tempContent, '###ERROR_DETAILS###') !== false) {
+                $errorMessage = ''; // the error message is part of the HTML template
+            }
+        }
 
 		return $content;
 	} // getContent
@@ -1155,7 +1164,8 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 					case 'products_info':
 						$basket_tmpl = 'BASKET_INFO_TEMPLATE';
 
-						if (!empty($codeActivityArray[$activity]) || $activityArray['products_basket'] == false) {
+						if (!empty($codeActivityArray[$activity]) ||  
+                            empty($activityArray['products_basket'])) {
 							$theCode = 'INFO';
 						}
 					break;
@@ -1255,7 +1265,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 
 						if (
                             !empty($codeActivityArray[$activity]) ||
-                             empty($activityArray['products_basket'])                      
+                             empty($activityArray['products_basket'])          
                         ) {
 							$theCode = 'PAYMENT';
 						}
@@ -1350,7 +1360,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 						}
 
 						if (
-							(!empty($codeActivityArray[$activity]) || $activityArray['products_basket'] == false) &&
+							(!empty($codeActivityArray[$activity]) || empty($activityArray['products_basket'])) &&
 							$bFinalize
 						) {
 							$theCode = 'FINALIZE';
@@ -1637,9 +1647,9 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 		$infoViewObj = GeneralUtility::makeInstance('tx_ttproducts_info_view');
 		$basketView = GeneralUtility::makeInstance('tx_ttproducts_basket_view');
 		$basketView->init(
-			$this->urlArray,
 			$this->useArticles,
-			$errorCode
+			$errorCode,
+			$this->urlArray
 		);
 
 		$activityVarsArray = [
