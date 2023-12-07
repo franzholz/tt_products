@@ -49,7 +49,7 @@ class tx_ttproducts_control_session {
 	}
 
 	static public function readSession ($key) {
-		$result = '';
+		$result = [];
 		$data = $GLOBALS['TSFE']->fe_user->getKey('ses', $key);
 		if (!empty($data)) {
 			$result = $data;
