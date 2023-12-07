@@ -42,11 +42,11 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_field_tax_view extends tx_ttproducts_field_base_view {
 
-	public function &getItemSubpartArrays (
+	public function getItemSubpartArrays (
 		&$templateCode,
 		$markerKey,
 		$functablename,
-		&$row,
+		$row,
 		$fieldname,
 		$tableConf,
 		&$subpartArray,
@@ -54,7 +54,7 @@ class tx_ttproducts_field_tax_view extends tx_ttproducts_field_base_view {
 		&$tagArray,
 		$theCode = '',
 		$basketExtra = [],
-		$basketRecs,
+		$basketRecs = [],
 		$id = '1'
 	) {
 		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');

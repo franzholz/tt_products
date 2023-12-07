@@ -41,8 +41,10 @@
  */
 
 
-use JambageCom\TtProducts\Api\PluginApi;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+
+use JambageCom\TtProducts\Api\PluginApi;
 
 
 class tx_ttproducts_pi_int_base extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin implements \TYPO3\CMS\Core\SingletonInterface {

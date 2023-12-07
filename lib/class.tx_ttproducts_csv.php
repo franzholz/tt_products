@@ -147,7 +147,7 @@ class tx_ttproducts_csv implements \TYPO3\CMS\Core\SingletonInterface {
 			// loop over all items in the basket indexed by a sorting text
 			foreach ($itemArray as $sort => $actItemArray) {
 				foreach ($actItemArray as $k1 => $actItem) {
-					$row = &$actItem['rec'];
+					$row = $actItem['rec'];
 					$pid = intval($row['pid']);
 					if (!tx_ttproducts_control_basket::getPidListObj()->getPageArray($pid)) {
 						// product belongs to another basket

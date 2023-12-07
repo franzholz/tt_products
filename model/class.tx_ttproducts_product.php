@@ -544,7 +544,8 @@ class tx_ttproducts_product extends tx_ttproducts_article_base {
                         if (
                             isset($multiOrderArray) &&
                             is_array($multiOrderArray) &&
-                            count($multiOrderArray)
+                            count($multiOrderArray) &&
+                            !empty($multiOrderArray[0])
                         ) {
                             $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
                             $orderObj = $tablesObj->get('sys_products_orders');

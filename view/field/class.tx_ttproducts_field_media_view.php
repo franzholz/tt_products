@@ -561,7 +561,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view {
 					isset($tableConf['generateImage.']) &&
 					$tableConf['generateImage.']['type'] == 'foreigntable'
 				) {
-					$tempConf = &$tableConf['generateImage.'];
+					$tempConf = $tableConf['generateImage.'];
 				}
 
 				$conftable = '';

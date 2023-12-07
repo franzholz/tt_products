@@ -68,9 +68,9 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 	 * @return	  void
 	 */
 	public function init (
-		$urlArray = [],
 		$useArticles,
-		$errorCode
+		$errorCode,
+		$urlArray = []
 	) {
 		$this->errorCode = $errorCode;
 		$this->useArticles = $useArticles;
@@ -1196,7 +1196,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 				);
 
 			$orderViewObj = $tablesObj->get('sys_products_orders', true);
-			$orderViewObj->getBasketRecsMarkerArray($markerArray, $multiOrderArray['0']);
+			$orderViewObj->getBasketRecsMarkerArray($markerArray, $multiOrderArray[0] ?? '');
 			$trackingCode = '';
 			if (isset($multiOrderArray['0']['tracking_code'])) {
 				$trackingCode = $multiOrderArray['0']['tracking_code'];
@@ -1708,7 +1708,6 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 				$pidListObj->getPidlist(),
 				$pidListObj->getRecursive()
 			);
-
 			$relatedMarkerArray = $relatedListView->getListMarkerArray(
 				$theCode,
 				$templateCode,

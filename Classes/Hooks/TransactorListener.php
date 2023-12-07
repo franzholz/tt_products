@@ -204,9 +204,9 @@ class TransactorListener {
                     $errorMessage = '';
                     $basketView = GeneralUtility::makeInstance('tx_ttproducts_basket_view');
                     $basketView->init(
-                        [],
                         $conf['useArtcles'],
-                        $errorCode
+                        $errorCode,
+                        []
                     );
 
                     if ($errorCode == '') {

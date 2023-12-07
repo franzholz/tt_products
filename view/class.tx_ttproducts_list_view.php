@@ -2112,9 +2112,9 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 									$displayCatHeader == 'always'
 								)
 							) {
-							$catItemsListOut = &$itemListOut;
+							$catItemsListOut = $itemListOut;
 							if ($itemTable->getType() == 'article' && $productListOut && $t['productAndItemsFrameWork']) {
-								$catItemsListOut = &$productListOut;
+								$catItemsListOut = $productListOut;
 							}
 
 							if ($catItemsListOut && $conf['displayListCatHeader']) {
@@ -3139,7 +3139,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 				}
 
 				if ($itemListOut || $categoryOut || $productListOut) {
-					$catItemsListOut = &$itemListOut;
+					$catItemsListOut = $itemListOut;
 					if ($itemTable->getType() == 'article' && $productListOut && $t['productAndItemsFrameWork']) {
 						$productListOut .=
 							$this->advanceProduct(
@@ -3149,7 +3149,7 @@ class tx_ttproducts_list_view implements \TYPO3\CMS\Core\SingletonInterface {
 								$productMarkerArray,
 								$categoryMarkerArray
 							);
-						$catItemsListOut = &$productListOut;
+						$catItemsListOut = $productListOut;
 					}
 					if ($conf['displayListCatHeader']) {
 						$out .=

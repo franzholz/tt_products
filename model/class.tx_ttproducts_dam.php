@@ -57,7 +57,7 @@ class tx_ttproducts_dam extends tx_ttproducts_article_base {
 		$result = parent::init($functablename);
 
 		if ($result) {
-			$this->tableArray = &$tableArray;
+			$this->tableArray = $tableArray;
 			$tableObj = $this->getTableObj();
 			$tableObj->addDefaultFieldArray(['sorting' => 'sorting']);
 

@@ -429,7 +429,7 @@ class tx_ttproducts_tracking implements \TYPO3\CMS\Core\SingletonInterface {
 		$template = $templateService->getSubpart($templateCode, '###TRACKING_DISPLAY_INFO###');
 		$this->searchOrderStatus($status_log, $orderPaid, $orderClosed);
 
-		$globalMarkerArray = &$markerObj->getGlobalMarkerArray();
+		$globalMarkerArray = $markerObj->getGlobalMarkerArray();
 
 		// making status code 60 disappear if the order has not been payed yet
 		if (!$orderPaid || $orderClosed) {

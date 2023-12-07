@@ -128,13 +128,13 @@ class tx_ttproducts_graduated_price_view extends tx_ttproducts_table_base_view {
 		$fieldname,
 		$bTaxIncluded,
 		$bEnableTaxZero,
+		$priceFormulaArray,
 		&$subpartArray,
 		&$wrappedSubpartArray,
 		&$tagArray,
 		$theCode = '',
 		$basketExtra = [],
 		$basketRecs = [],
-        $pObj,            
 		$id = '1'
 	) {
         $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
@@ -144,8 +144,6 @@ class tx_ttproducts_graduated_price_view extends tx_ttproducts_table_base_view {
 		$t = [];
 		$t['listFrameWork'] = $templateService->getSubpart($templateCode,'###GRADPRICE_FORMULA_ITEMS###');
 		$t['itemFrameWork'] = $templateService->getSubpart($t['listFrameWork'], '###ITEM_FORMULA###');
-
-        $priceFormulaArray = $pObj->getModelObj()->getGraduatedPriceObject()->getFormulasByItem($row['uid']);
 
         if (is_array($priceFormulaArray) && count($priceFormulaArray)) {
 			$content = '';

@@ -188,6 +188,7 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 				$target,
 				$conf
 			);
+
 			$urlMarkerArray['###' . $markerKey . '###'] = htmlspecialchars($url, ENT_NOQUOTES, $charset);
 			$urlMarkerArray['###' . $markerKey . '_VALUE###'] =
 				$url;
@@ -228,7 +229,6 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 				$target,
 				$conf
 			);
-
 			$urlMarkerArray['###FORM_URL_' . strtoupper($command) . '###'] =
 				htmlspecialchars(
 					$url,

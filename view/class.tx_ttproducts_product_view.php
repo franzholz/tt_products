@@ -193,7 +193,7 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
 		$catTitle,
 		$imageNum = 0,
 		$imageRenderObj = 'image',
-		$tagArray,
+		$tagArray = [],
 		$forminfoArray = [],
 		$theCode = '',
 		$basketExtra = [],

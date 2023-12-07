@@ -287,7 +287,7 @@ class tx_ttproducts_relatedlist_view implements \TYPO3\CMS\Core\SingletonInterfa
 							$subtype,
 							$orderBy
 						);
-
+	
 					if (count($relatedIds)) {
 						// List all products:
 
