@@ -414,8 +414,8 @@ class tx_ttproducts_discountprice extends tx_ttproducts_pricecalc_base implement
 
 								if ($countedItemsRow['active'] === true) {
 
-									$item = $itemArray[$countedItemsRow['sort']][$countedItemsRow['item']];
-									$row2 = $item['rec'];
+									$item = &$itemArray[$countedItemsRow['sort']][$countedItemsRow['item']];
+									$row2 = &$item['rec'];
 									$row2[$type] = $countedItemsRow['price']; // direct write into $row and into $itemArray
 									$item[$type] = $countedItemsRow['price'];
 
