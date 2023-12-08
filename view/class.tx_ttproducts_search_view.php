@@ -127,6 +127,5 @@ class tx_ttproducts_search_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$rc = $searboxViewObj->printTextField($pibaseObj,$pibaseObj->prefixId, $this->conf['PIDlistDisplay'], $templateCode, $columns, $paramArray, $this->config['parameters'], $this->config['fields'], $this->config['url'], $formid, $contentRow['uid'], $error_code);
 		return $rc;
 	}
->>>>>>> ce6f82c40b1a2bb029f2794370b586a4ecff879e
 }
 
