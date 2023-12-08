@@ -95,7 +95,7 @@ class tx_ttproducts_search_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$searboxViewObj = GeneralUtility::makeInstance('tx_searchbox_view');
 		$paramArray = [
 			'local' => ['table' => $this->config['local_table'], 'param' => $this->config['local_param']],
-			'foreign' => ['table' => $this->config['foreign_table'], 'param' => $this->config['foreign_param']
+			'foreign' => ['table' => $this->config['foreign_table'], 'param' => $this->config['foreign_param']]
 		];
 
 		$rc = $searboxViewObj->printKeyField($pibaseObj,$pibaseObj->prefixId,$this->conf['PIDlistDisplay'], $templateCode, $columns, $paramArray, $this->config['parameters'], $this->config['fields'], $type, $this->config['url'], $this->config['all'], $keyfieldConf, $formid, $error_code);
