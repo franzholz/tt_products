@@ -39,48 +39,48 @@
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_css implements \TYPO3\CMS\Core\SingletonInterface {
-	public $conf;
-	protected $isCssStyled;
-	private $bIncluded = false;
+    public $conf;
+    protected $isCssStyled;
+    private $bIncluded = false;
 
-	/**
-	 * Getting all tt_products_cat categories into internal array
-	 */
-	public function init () {
-		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-		$this->isCssStyled = (isset($cnf->conf['templateStyle']) && $cnf->conf['templateStyle'] == 'css-styled');
-		$this->conf = $cnf->conf['CSS.'] ?? [];
-	} // init
+    /**
+     * Getting all tt_products_cat categories into internal array
+     */
+    public function init () {
+        $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
+        $this->isCssStyled = (isset($cnf->conf['templateStyle']) && $cnf->conf['templateStyle'] == 'css-styled');
+        $this->conf = $cnf->conf['CSS.'] ?? [];
+    } // init
 
-	public function isCSSStyled () {
+    public function isCSSStyled () {
 
-		if (
-			isset($this->conf) &&
-			is_array($this->conf) &&
-			$this->isCssStyled &&
-			!empty($this->conf['file'])
-		) {
-			$result = true;
-		} else {
-			$result = false;
-		}
-		return $result;
-	}
+        if (
+            isset($this->conf) &&
+            is_array($this->conf) &&
+            $this->isCssStyled &&
+            !empty($this->conf['file'])
+        ) {
+            $result = true;
+        } else {
+            $result = false;
+        }
+        return $result;
+    }
 
-	public function setIncluded () {
-		$this->bIncluded = true;
-	}
+    public function setIncluded () {
+        $this->bIncluded = true;
+    }
 
-	public function getIncluded () {
-		return $this->bIncluded;
-	}
+    public function getIncluded () {
+        return $this->bIncluded;
+    }
 
-	public function getConf ($tablename = '', $theCode = 'ALL') {
+    public function getConf ($tablename = '', $theCode = 'ALL') {
 
-		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-		$cssConf = $cnf->getSpecialConf('CSS', $tablename, $theCode);
-		return $cssConf;
-	}
+        $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
+        $cssConf = $cnf->getSpecialConf('CSS', $tablename, $theCode);
+        return $cssConf;
+    }
 }
 
 

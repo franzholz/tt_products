@@ -43,130 +43,130 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_fpdf_view {
 
-	/**
-	 * generates the bill as a PDF file
-	 *
-	 * @param	string		reference to an item array with all the data of the item
-	 * @return	string / boolean	returns the absolute filename of the PDF bill or false
-	 * 		 			for the tt_producst record, $row
-	 * @access private
-	 */
-	public function generate (
-		$cObj,
-		$basketView,
-		$infoViewObj,
-		$templateCode,
-		$mainMarkerArray,
-		$itemArray,
-		$calculatedArray,
-		$orderArray,
-		$productRowArray,
-		$basketExtra,
-		$basketRecs,
-		$typeCode,
-		$generationConf,
-		$absFileName
-	) {
-		$result = false;
-		$renderCharset = 'UTF-8';
+    /**
+     * generates the bill as a PDF file
+     *
+     * @param	string		reference to an item array with all the data of the item
+     * @return	string / boolean	returns the absolute filename of the PDF bill or false
+     * 		 			for the tt_producst record, $row
+     * @access private
+     */
+    public function generate (
+        $cObj,
+        $basketView,
+        $infoViewObj,
+        $templateCode,
+        $mainMarkerArray,
+        $itemArray,
+        $calculatedArray,
+        $orderArray,
+        $productRowArray,
+        $basketExtra,
+        $basketRecs,
+        $typeCode,
+        $generationConf,
+        $absFileName
+    ) {
+        $result = false;
+        $renderCharset = 'UTF-8';
 
 // require_once '/path/to/src/PhpWord/Autoloader.php';
 // \PhpOffice\PhpWord\Autoloader::register();
 
-		$subpart = $typeCode . '_PDF_HEADER_TEMPLATE';
-		$header = $basketView->getView(
-			$errorCode,
-			$templateCode,
-			$typeCode,
-			$infoViewObj,
-			false,
-			true,
-			$calculatedArray,
-			false,
-			$subpart,
-			$mainMarkerArray,
-			'',
-			$itemArray,
+        $subpart = $typeCode . '_PDF_HEADER_TEMPLATE';
+        $header = $basketView->getView(
+            $errorCode,
+            $templateCode,
+            $typeCode,
+            $infoViewObj,
+            false,
+            true,
+            $calculatedArray,
+            false,
+            $subpart,
+            $mainMarkerArray,
+            '',
+            $itemArray,
             $notOverwritePriceIfSet = false,
-			['0' => $orderArray],
-			$productRowArray,
-			$basketExtra,
-			$basketRecs
-		);
-		$subpart = $typeCode . '_PDF_TEMPLATE';
-		$body = $basketView->getView(
-			$errorCode,
-			$templateCode,
-			$typeCode,
-			$infoViewObj,
-			false,
-			true,
-			$calculatedArray,
-			false,
-			$subpart,
-			$mainMarkerArray,
-			'',
-			$itemArray,
+            ['0' => $orderArray],
+            $productRowArray,
+            $basketExtra,
+            $basketRecs
+        );
+        $subpart = $typeCode . '_PDF_TEMPLATE';
+        $body = $basketView->getView(
+            $errorCode,
+            $templateCode,
+            $typeCode,
+            $infoViewObj,
+            false,
+            true,
+            $calculatedArray,
+            false,
+            $subpart,
+            $mainMarkerArray,
+            '',
+            $itemArray,
             $notOverwritePriceIfSet = false,
-			['0' => $orderArray],
-			$basketExtra,
-			$basketRecs
-		);
+            ['0' => $orderArray],
+            $basketExtra,
+            $basketRecs
+        );
 
-		$subpart = $typeCode . '_PDF_FOOTER_TEMPLATE';
-		$footer = $basketView->getView(
-			$errorCode,
-			$templateCode,
-			$typeCode,
-			$infoViewObj,
-			false,
-			true,
-			$calculatedArray,
-			false,
-			$subpart,
-			$mainMarkerArray,
-			'',
-			$itemArray,
+        $subpart = $typeCode . '_PDF_FOOTER_TEMPLATE';
+        $footer = $basketView->getView(
+            $errorCode,
+            $templateCode,
+            $typeCode,
+            $infoViewObj,
+            false,
+            true,
+            $calculatedArray,
+            false,
+            $subpart,
+            $mainMarkerArray,
+            '',
+            $itemArray,
             $notOverwritePriceIfSet = false,
-			['0' => $orderArray],
-			$productRowArray,
-			$basketExtra,
-			$basketRecs
-		);
+            ['0' => $orderArray],
+            $productRowArray,
+            $basketExtra,
+            $basketRecs
+        );
 
-		$csConvObj = GeneralUtility::makeInstance(CharsetConverter::class);
-		$header = $csConvObj->conv(
-			$header,
-			$renderCharset,
-			'iso-8859-1'
-		);
+        $csConvObj = GeneralUtility::makeInstance(CharsetConverter::class);
+        $header = $csConvObj->conv(
+            $header,
+            $renderCharset,
+            'iso-8859-1'
+        );
 
-		$body = $csConvObj->conv(
-			$body,
-			$renderCharset,
-			'iso-8859-1'
-		);
+        $body = $csConvObj->conv(
+            $body,
+            $renderCharset,
+            'iso-8859-1'
+        );
 
-		$footer = $csConvObj->conv(
-			$footer,
-			$renderCharset,
-			'iso-8859-1'
-		);
+        $footer = $csConvObj->conv(
+            $footer,
+            $renderCharset,
+            'iso-8859-1'
+        );
 
-		$pdf = GeneralUtility::makeInstance('tx_ttproducts_fpdf');
-		$pdf->init($cObj, 'Arial', '', 10);
-		$pdf->setHeader($header);
-		$pdf->setFooter($footer);
-		$pdf->AddPage();
-		$pdf->setBody($body);
-		$pdf->Body();
+        $pdf = GeneralUtility::makeInstance('tx_ttproducts_fpdf');
+        $pdf->init($cObj, 'Arial', '', 10);
+        $pdf->setHeader($header);
+        $pdf->setFooter($footer);
+        $pdf->AddPage();
+        $pdf->setBody($body);
+        $pdf->Body();
 
-		//$pdf->MultiCell(0, 4, $body, 1);
-		$pdf->Output($absFileName, 'F');
-		$result = $absFileName;
+        //$pdf->MultiCell(0, 4, $body, 1);
+        $pdf->Output($absFileName, 'F');
+        $result = $absFileName;
 
-		return $result;
-	}
+        return $result;
+    }
 }
 
 

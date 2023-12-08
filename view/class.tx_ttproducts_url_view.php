@@ -42,383 +42,383 @@ use JambageCom\Div2007\Utility\FrontendUtility;
 
 
 class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
-	public $conf;
-	public $urlArray;
+    public $conf;
+    public $urlArray;
 
 
-	/**
-	 * Initialized the marker object
-	 * $basket is the TYPO3 default shopping basket array from ses-data
-	 *
-	 * @param		string		$fieldname is the field in the table you want to create a JavaScript for
-	* @param		array		array urls which should be overridden with marker key as index
-	 * @return	  void
- 	 */
-	public function init ($conf) {
- 		$this->conf = $conf;
-	}
+    /**
+     * Initialized the marker object
+     * $basket is the TYPO3 default shopping basket array from ses-data
+     *
+     * @param		string		$fieldname is the field in the table you want to create a JavaScript for
+    * @param		array		array urls which should be overridden with marker key as index
+     * @return	  void
+     */
+    public function init ($conf) {
+        $this->conf = $conf;
+    }
 
 
-	public function getSingleExcludeList ($excludeList) {
-		$excludeListArray = GeneralUtility::trimExplode(',', $excludeList);
-		$singleExcludeListArray =
-			[
-				'article',
-				'product',
-				'variants',
-				'dam',
-				'fal'
-			];
-		$singleExcludeListArray = array_merge($excludeListArray, $singleExcludeListArray);
+    public function getSingleExcludeList ($excludeList) {
+        $excludeListArray = GeneralUtility::trimExplode(',', $excludeList);
+        $singleExcludeListArray =
+            [
+                'article',
+                'product',
+                'variants',
+                'dam',
+                'fal'
+            ];
+        $singleExcludeListArray = array_merge($excludeListArray, $singleExcludeListArray);
 
-		if (!$singleExcludeListArray[0]) {
-			unset($singleExcludeListArray[0]);
-		}
-		$singleExcludeList = implode(',', $singleExcludeListArray);
-		return $singleExcludeList;
-	}
-
-
-	public function setUrlArray ($urlArray) {
-		$this->urlArray = $urlArray;
-	}
+        if (!$singleExcludeListArray[0]) {
+            unset($singleExcludeListArray[0]);
+        }
+        $singleExcludeList = implode(',', $singleExcludeListArray);
+        return $singleExcludeList;
+    }
 
 
-	/**
-	 * Adds link markers to a wrapped subpart array
-	 */
-	public function getWrappedSubpartArray (
-		&$wrappedSubpartArray,
-		$addQueryString = [],
-		$css_current = '',
-		$useBackPid = true
-	) {
+    public function setUrlArray ($urlArray) {
+        $this->urlArray = $urlArray;
+    }
+
+
+    /**
+     * Adds link markers to a wrapped subpart array
+     */
+    public function getWrappedSubpartArray (
+        &$wrappedSubpartArray,
+        $addQueryString = [],
+        $css_current = '',
+        $useBackPid = true
+    ) {
         $cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
-		$commandArray =
-			[
-				'basket',
-				'info',
-				'payment',
-				'finalize',
-				'thanks',
-				'search',
-				'memo',
-				'tracking',
-				'billing',
-				'delivery',
-				'agb'
-			];
+        $commandArray =
+            [
+                'basket',
+                'info',
+                'payment',
+                'finalize',
+                'thanks',
+                'search',
+                'memo',
+                'tracking',
+                'billing',
+                'delivery',
+                'agb'
+            ];
 
-		foreach ($commandArray as $command) {
+        foreach ($commandArray as $command) {
 
-			$pidBasket = (!empty($this->conf['PID' . $command]) ? $this->conf['PID' . $command] : $GLOBALS['TSFE']->id);
-			$pageLink = FrontendUtility::getTypoLink_URL(
-				$cObj,
-				$pidBasket,
-				$this->getLinkParams(
-					'',
-					$addQueryString,
-					true,
-					$useBackPid
-				)
-			);
-			$wrappedSubpartArray['###LINK_' . strtoupper($command) . '###'] =
-				['<a href="' . htmlspecialchars($pageLink) . '"' . $css_current . '>', '</a>'];
-		}
-	}
+            $pidBasket = (!empty($this->conf['PID' . $command]) ? $this->conf['PID' . $command] : $GLOBALS['TSFE']->id);
+            $pageLink = FrontendUtility::getTypoLink_URL(
+                $cObj,
+                $pidBasket,
+                $this->getLinkParams(
+                    '',
+                    $addQueryString,
+                    true,
+                    $useBackPid
+                )
+            );
+            $wrappedSubpartArray['###LINK_' . strtoupper($command) . '###'] =
+                ['<a href="' . htmlspecialchars($pageLink) . '"' . $css_current . '>', '</a>'];
+        }
+    }
 
 
-	/**
-	 * Adds URL markers to a markerArray
-	 */
-	public function addURLMarkers (
-		$pidNext,
-		$markerArray,
-		$addQueryString = [],
-		$excludeList = '',
-		$useBackPid = true,
-		$backPid = 0,
-		$bExcludeSingleVar = true
-	) {
+    /**
+     * Adds URL markers to a markerArray
+     */
+    public function addURLMarkers (
+        $pidNext,
+        $markerArray,
+        $addQueryString = [],
+        $excludeList = '',
+        $useBackPid = true,
+        $backPid = 0,
+        $bExcludeSingleVar = true
+    ) {
         $cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
-		$charset = 'UTF-8';
-		$urlMarkerArray = [];
-		$conf = [];
-		$target = '';
+        $charset = 'UTF-8';
+        $urlMarkerArray = [];
+        $conf = [];
+        $target = '';
 
-		// disable caching as soon as someone enters products into the basket, enters user data etc.
-		// $addQueryString['no_cache'] = 1;
-			// Add's URL-markers to the $markerArray and returns it
-		$basketPid = ($this->conf['PIDbasket'] ? $this->conf['PIDbasket'] : $GLOBALS['TSFE']->id);
-		$formUrlPid = ($pidNext ? $pidNext : $GLOBALS['TSFE']->id);
-		$singleExcludeList = $this->getSingleExcludeList($excludeList);
+        // disable caching as soon as someone enters products into the basket, enters user data etc.
+        // $addQueryString['no_cache'] = 1;
+            // Add's URL-markers to the $markerArray and returns it
+        $basketPid = ($this->conf['PIDbasket'] ? $this->conf['PIDbasket'] : $GLOBALS['TSFE']->id);
+        $formUrlPid = ($pidNext ? $pidNext : $GLOBALS['TSFE']->id);
+        $singleExcludeList = $this->getSingleExcludeList($excludeList);
 
-		$useBackPid = ($useBackPid && $pidNext && $pidNext != $GLOBALS['TSFE']->id);
+        $useBackPid = ($useBackPid && $pidNext && $pidNext != $GLOBALS['TSFE']->id);
 
-		$urlExcludeList = $excludeList;
-		if (
-			$formUrlPid != $GLOBALS['TSFE']->id &&
-			$bExcludeSingleVar
-		) {
-			$urlExcludeList = $singleExcludeList;
-		}
+        $urlExcludeList = $excludeList;
+        if (
+            $formUrlPid != $GLOBALS['TSFE']->id &&
+            $bExcludeSingleVar
+        ) {
+            $urlExcludeList = $singleExcludeList;
+        }
 
-		$urlConfig = [
-			'FORM_URL' => [
-					'pid' => $formUrlPid,
-					'excludeList' => $urlExcludeList
-				],
-			'FORM_URL_CURRENT' => [
-					'pid' => $GLOBALS['TSFE']->id,
-					'excludeList' => $excludeList
-				]
-		];
+        $urlConfig = [
+            'FORM_URL' => [
+                    'pid' => $formUrlPid,
+                    'excludeList' => $urlExcludeList
+                ],
+            'FORM_URL_CURRENT' => [
+                    'pid' => $GLOBALS['TSFE']->id,
+                    'excludeList' => $excludeList
+                ]
+        ];
 
-		foreach ($urlConfig as $markerKey => $keyConfig) {
-			$url = FrontendUtility::getTypoLink_URL(
-				$cObj,
-				$keyConfig['pid'],
-				$this->getLinkParams(
-					$keyConfig['excludeList'],
-					$addQueryString,
-					true,
-					$useBackPid,
-					$backPid
-				),
-				$target,
-				$conf
-			);
-			$urlMarkerArray['###' . $markerKey . '###'] = htmlspecialchars($url, ENT_NOQUOTES, $charset);
-			$urlMarkerArray['###' . $markerKey . '_VALUE###'] =
-				$url;
-		}
+        foreach ($urlConfig as $markerKey => $keyConfig) {
+            $url = FrontendUtility::getTypoLink_URL(
+                $cObj,
+                $keyConfig['pid'],
+                $this->getLinkParams(
+                    $keyConfig['excludeList'],
+                    $addQueryString,
+                    true,
+                    $useBackPid,
+                    $backPid
+                ),
+                $target,
+                $conf
+            );
 
-		$commandArray =
-			[
-				'basket',
-				'info',
-				'payment',
-				'finalize',
-				'thanks',
-				'search',
-				'memo',
-				'tracking',
-				'billing',
-				'delivery',
-				'agb',
-				'user1',
-				'user2',
-				'user3',
-				'user4',
-				'user5'
-			];
+            $urlMarkerArray['###' . $markerKey . '###'] = htmlspecialchars($url, ENT_NOQUOTES, $charset);
+            $urlMarkerArray['###' . $markerKey . '_VALUE###'] =
+                $url;
+        }
 
-		foreach ($commandArray as $command) {
-			$linkPid = (!empty($this->conf['PID' . $command]) ? $this->conf['PID' . $command] : $basketPid);
-			$url = FrontendUtility::getTypoLink_URL(
-				$cObj,
-				$linkPid,
-				$this->getLinkParams(
-					$singleExcludeList,
-					$addQueryString,
-					true,
-					$useBackPid,
-					$backPid
-				),
-				$target,
-				$conf
-			);
+        $commandArray =
+            [
+                'basket',
+                'info',
+                'payment',
+                'finalize',
+                'thanks',
+                'search',
+                'memo',
+                'tracking',
+                'billing',
+                'delivery',
+                'agb',
+                'user1',
+                'user2',
+                'user3',
+                'user4',
+                'user5'
+            ];
 
-			$urlMarkerArray['###FORM_URL_' . strtoupper($command) . '###'] =
-				htmlspecialchars(
-					$url,
-					ENT_NOQUOTES,
-					$charset
-				);
-			$urlMarkerArray['###FORM_URL_' . strtoupper($command) . '_VALUE###'] =
-				$url;
-		}
+        foreach ($commandArray as $command) {
+            $linkPid = (!empty($this->conf['PID' . $command]) ? $this->conf['PID' . $command] : $basketPid);
+            $url = FrontendUtility::getTypoLink_URL(
+                $cObj,
+                $linkPid,
+                $this->getLinkParams(
+                    $singleExcludeList,
+                    $addQueryString,
+                    true,
+                    $useBackPid,
+                    $backPid
+                ),
+                $target,
+                $conf
+            );
+            $urlMarkerArray['###FORM_URL_' . strtoupper($command) . '###'] =
+                htmlspecialchars(
+                    $url,
+                    ENT_NOQUOTES,
+                    $charset
+                );
+            $urlMarkerArray['###FORM_URL_' . strtoupper($command) . '_VALUE###'] =
+                $url;
+        }
 
-		$urlMarkerArray['###FORM_URL_TARGET###'] = '_self';
+        $urlMarkerArray['###FORM_URL_TARGET###'] = '_self';
 
-		if (
-			isset($this->urlArray) &&
-			is_array($this->urlArray) &&
-			!empty($this->urlArray)
-		) {
-			foreach ($this->urlArray as $k => $urlValue) {
-				$urlMarkerArray['###' . strtoupper($k) . '###'] = $urlValue;
-			}
-		}
+        if (
+            isset($this->urlArray) &&
+            is_array($this->urlArray) &&
+            !empty($this->urlArray)
+        ) {
+            foreach ($this->urlArray as $k => $urlValue) {
+                $urlMarkerArray['###' . strtoupper($k) . '###'] = $urlValue;
+            }
+        }
 
-			// Call all addURLMarkers hooks at the end of this method
-		if (
+            // Call all addURLMarkers hooks at the end of this method
+        if (
             isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['addURLMarkers']) &&
             is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['addURLMarkers'])
         ) {
-			foreach  ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['addURLMarkers'] as $classRef) {
-				$hookObj= GeneralUtility::makeInstance($classRef);
-				if (method_exists($hookObj, 'addURLMarkers')) {
-					$hookObj->addURLMarkers(
-						$cObj,
-						$pidNext,
-						$urlMarkerArray,
-						$addQueryString,
-						$excludeList,
-						$singleExcludeList,
-						$useBackPid,
-						$backPid,
-						$bExcludeSingleVar
-					);
-				}
-			}
-		}
+            foreach  ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['addURLMarkers'] as $classRef) {
+                $hookObj= GeneralUtility::makeInstance($classRef);
+                if (method_exists($hookObj, 'addURLMarkers')) {
+                    $hookObj->addURLMarkers(
+                        $cObj,
+                        $pidNext,
+                        $urlMarkerArray,
+                        $addQueryString,
+                        $excludeList,
+                        $singleExcludeList,
+                        $useBackPid,
+                        $backPid,
+                        $bExcludeSingleVar
+                    );
+                }
+            }
+        }
 
-		if (isset($markerArray) && is_array($markerArray)) {
-			$markerArray = array_merge($markerArray, $urlMarkerArray);
-		} else {
-			$markerArray = $urlMarkerArray;
-		}
-		return $markerArray;
-	} // addURLMarkers
-
-
-	/**
-	 * Returns a url for use in forms and links
-	 */
-	public function addQueryStringParam (&$queryString, $param, $bUsePrefix = false) {
-		$piVars = tx_ttproducts_model_control::getPiVars();
-		$prefixId = tx_ttproducts_model_control::getPrefixId();
-
-		$temp = $piVars[$param] ?? '';
-		$temp = ($temp ? $temp : (GeneralUtility::_GP($param) && ($param != 'pid') ? GeneralUtility::_GP($param) : 0));
-
-		if ($temp) {
-			if ($bUsePrefix) {
-				$queryString[$prefixId . '[' . $param . ']'] = $temp;
-			} else {
-				$queryString[$param] = $temp;
-			}
-		}
-	}
+        if (isset($markerArray) && is_array($markerArray)) {
+            $markerArray = array_merge($markerArray, $urlMarkerArray);
+        } else {
+            $markerArray = $urlMarkerArray;
+        }
+        return $markerArray;
+    } // addURLMarkers
 
 
-	/**
-	 * Returns a url for use in forms and links
-	 */
-	public function getLinkParams (
-		$excludeList = '',
-		$addQueryString = [],
-		$bUsePrefix = false,
-		$useBackPid = true,
-		$backPid = 0,
-		$piVarSingle = 'product',
-		$piVarCat = 'cat'
-	) {
-		$prefixId = tx_ttproducts_model_control::getPrefixId();
+    /**
+     * Returns a url for use in forms and links
+     */
+    public function addQueryStringParam (&$queryString, $param, $bUsePrefix = false) {
+        $piVars = tx_ttproducts_model_control::getPiVars();
+        $prefixId = tx_ttproducts_model_control::getPrefixId();
 
-		$queryString = [];
-		if ($useBackPid) {
-			if (!$backPid) {
-				$backPid = $GLOBALS['TSFE']->id;
-			}
+        $temp = $piVars[$param] ?? '';
+        $temp = ($temp ? $temp : (GeneralUtility::_GP($param) && ($param != 'pid') ? GeneralUtility::_GP($param) : 0));
 
-			if (
-				$bUsePrefix &&
-				empty($addQueryString[$prefixId . '[backPID]'])
-			) {
-				$queryString[$prefixId . '[backPID]'] = $backPid;
-			} else if (empty($addQueryString['backPID'])) {
-				$queryString['backPID'] = $backPid;
-			}
-		}
+        if ($temp) {
+            if ($bUsePrefix) {
+                $queryString[$prefixId . '[' . $param . ']'] = $temp;
+            } else {
+                $queryString[$param] = $temp;
+            }
+        }
+    }
 
-		if ($excludeList != '' && $bUsePrefix) {
-			$excludeArray = explode(',', $excludeList);
-			foreach ($excludeArray as $k => $v) {
-				$excludeArray[$k] = $prefixId . '[' . $v . ']';
-			}
-			$excludeList = implode(',', $excludeArray);
-		}
 
-		$this->addQueryStringParam($queryString, 'C', $bUsePrefix);
-		if ($piVarSingle != '') {
-			$this->addQueryStringParam($queryString, $piVarSingle, $bUsePrefix);
-		}
-		if ($piVarCat != '') {
-			$this->addQueryStringParam($queryString, $piVarCat, $bUsePrefix);
-		}
+    /**
+     * Returns a url for use in forms and links
+     */
+    public function getLinkParams (
+        $excludeList = '',
+        $addQueryString = [],
+        $bUsePrefix = false,
+        $useBackPid = true,
+        $backPid = 0,
+        $piVarSingle = 'product',
+        $piVarCat = 'cat'
+    ) {
+        $prefixId = tx_ttproducts_model_control::getPrefixId();
 
-		$listPointerParam = tx_ttproducts_model_control::getPointerPiVar('LIST');
-		$this->addQueryStringParam($queryString, $listPointerParam, $bUsePrefix);
-		$catlistPointerParam = tx_ttproducts_model_control::getPointerPiVar('CATLIST');
+        $queryString = [];
+        if ($useBackPid) {
+            if (!$backPid) {
+                $backPid = $GLOBALS['TSFE']->id;
+            }
 
-		$this->addQueryStringParam($queryString, 'mode', false);
-		$this->addQueryStringParam($queryString, $listPointerParam, $bUsePrefix);
-		$this->addQueryStringParam($queryString, 'newitemdays', $bUsePrefix);
-		$this->addQueryStringParam($queryString, 'searchbox', $bUsePrefix);
-		$this->addQueryStringParam($queryString, 'sword', $bUsePrefix);
+            if (
+                $bUsePrefix &&
+                empty($addQueryString[$prefixId . '[backPID]'])
+            ) {
+                $queryString[$prefixId . '[backPID]'] = $backPid;
+            } else if (empty($addQueryString['backPID'])) {
+                $queryString['backPID'] = $backPid;
+            }
+        }
 
-		if ($bUsePrefix) {
-			$excludeListArray = [];
-			$tmpArray = GeneralUtility::trimExplode(',', $excludeList);
-			if (isset($tmpArray) && is_array($tmpArray) && $tmpArray['0']) {
-				foreach($tmpArray as $param) {
-					if (strpos($param, $prefixId) === false) {
-						$excludeListArray[] = $prefixId . '[' . $param . ']';
-					}
-				}
-				if (count($excludeListArray)) {
-					$excludeList .= ',' . implode(',', $excludeListArray);
-				}
-			}
-		}
+        if ($excludeList != '' && $bUsePrefix) {
+            $excludeArray = explode(',', $excludeList);
+            foreach ($excludeArray as $k => $v) {
+                $excludeArray[$k] = $prefixId . '[' . $v . ']';
+            }
+            $excludeList = implode(',', $excludeArray);
+        }
 
-		if (is_array($addQueryString)) {
-			foreach ($addQueryString as $param => $value) {
-				if ($bUsePrefix) {
-					$queryString[$prefixId . '[' . $param . ']'] = $value;
-				} else {
-					$queryString[$param] = $value;
-				}
-			}
-		}
+        $this->addQueryStringParam($queryString, 'C', $bUsePrefix);
+        if ($piVarSingle != '') {
+            $this->addQueryStringParam($queryString, $piVarSingle, $bUsePrefix);
+        }
+        if ($piVarCat != '') {
+            $this->addQueryStringParam($queryString, $piVarCat, $bUsePrefix);
+        }
 
-		foreach($queryString as $key => $val) {
-			if (
-				$val == '' ||
-				(
-					strlen($excludeList) &&
-					GeneralUtility::inList($excludeList, $key)
-				)
-			) {
-				unset($queryString[$key]);
-			}
-		}
+        $listPointerParam = tx_ttproducts_model_control::getPointerPiVar('LIST');
+        $this->addQueryStringParam($queryString, $listPointerParam, $bUsePrefix);
+        $catlistPointerParam = tx_ttproducts_model_control::getPointerPiVar('CATLIST');
 
-			// Call all getLinkParams hooks at the end of this method
-		if (
+        $this->addQueryStringParam($queryString, 'mode', false);
+        $this->addQueryStringParam($queryString, $listPointerParam, $bUsePrefix);
+        $this->addQueryStringParam($queryString, 'newitemdays', $bUsePrefix);
+        $this->addQueryStringParam($queryString, 'searchbox', $bUsePrefix);
+        $this->addQueryStringParam($queryString, 'sword', $bUsePrefix);
+
+        if ($bUsePrefix) {
+            $excludeListArray = [];
+            $tmpArray = GeneralUtility::trimExplode(',', $excludeList);
+            if (isset($tmpArray) && is_array($tmpArray) && $tmpArray['0']) {
+                foreach($tmpArray as $param) {
+                    if (strpos($param, $prefixId) === false) {
+                        $excludeListArray[] = $prefixId . '[' . $param . ']';
+                    }
+                }
+                if (count($excludeListArray)) {
+                    $excludeList .= ',' . implode(',', $excludeListArray);
+                }
+            }
+        }
+
+        if (is_array($addQueryString)) {
+            foreach ($addQueryString as $param => $value) {
+                if ($bUsePrefix) {
+                    $queryString[$prefixId . '[' . $param . ']'] = $value;
+                } else {
+                    $queryString[$param] = $value;
+                }
+            }
+        }
+
+        foreach($queryString as $key => $val) {
+            if (
+                $val == '' ||
+                (
+                    strlen($excludeList) &&
+                    GeneralUtility::inList($excludeList, $key)
+                )
+            ) {
+                unset($queryString[$key]);
+            }
+        }
+
+            // Call all getLinkParams hooks at the end of this method
+        if (
             isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['getLinkParams']) &&
             is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['getLinkParams'])
         ) {
-			foreach  ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['getLinkParams'] as $classRef) {
-				$hookObj= GeneralUtility::makeInstance($classRef);
-				if (method_exists($hookObj, 'getLinkParams')) {
-					$hookObj->getLinkParams(
-						$this,
-						$queryString,
-						$excludeList,
-						$addQueryString,
-						$bUsePrefix,
-						$useBackPid,
-						$piVarSingle,
-						$piVarCat
-					);
-				}
-			}
-		}
+            foreach  ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['getLinkParams'] as $classRef) {
+                $hookObj= GeneralUtility::makeInstance($classRef);
+                if (method_exists($hookObj, 'getLinkParams')) {
+                    $hookObj->getLinkParams(
+                        $this,
+                        $queryString,
+                        $excludeList,
+                        $addQueryString,
+                        $bUsePrefix,
+                        $useBackPid,
+                        $piVarSingle,
+                        $piVarCat
+                    );
+                }
+            }
+        }
 
-		return $queryString;
-	}
+        return $queryString;
+    }
 }
 

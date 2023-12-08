@@ -41,75 +41,75 @@ namespace JambageCom\TtProducts\Api;
 
 class PriceApi {
 
-	static public function mergeRows (
-		array &$targetRow,
-		array $sourceRow,
-		$field,
-		$bIsAddedPrice,
-		$previouslyAddedPrice, // deprecated
-		$calculationField = '',
-		$bKeepNotEmpty = true,
-		$bUseExt = false
-	) {
-		$calculatedValue = 0;
-		$value = 0;
-		if (isset($sourceRow[$field])) {
+    static public function mergeRows (
+        array &$targetRow,
+        array $sourceRow,
+        $field,
+        $bIsAddedPrice,
+        $previouslyAddedPrice, // deprecated
+        $calculationField = '',
+        $bKeepNotEmpty = true,
+        $bUseExt = false
+    ) {
+        $calculatedValue = 0;
+        $value = 0;
+        if (isset($sourceRow[$field])) {
             $value = $sourceRow[$field];
         }
-		if (
-			$field == 'price' &&
-			$calculationField != ''
-		) { // check for a graduated price
-			if (
-				isset($sourceRow[$calculationField])
-			) {
-				$value = $sourceRow[$calculationField];
-				$calculatedValue = $value;
-			}
-		}
+        if (
+            $field == 'price' &&
+            $calculationField != ''
+        ) { // check for a graduated price
+            if (
+                isset($sourceRow[$calculationField])
+            ) {
+                $value = $sourceRow[$calculationField];
+                $calculatedValue = $value;
+            }
+        }
 
-		$priceNumber = '';
-		if (strpos($field, 'price') === 0) {
-			$priceNumber = str_replace('price', '', $field);
-			if (!isset($targetRow['surcharge' . $priceNumber])) {
-				$targetRow['surcharge' . $priceNumber] = 0;
-			}
-		}
+        $priceNumber = '';
+        if (strpos($field, 'price') === 0) {
+            $priceNumber = str_replace('price', '', $field);
+            if (!isset($targetRow['surcharge' . $priceNumber])) {
+                $targetRow['surcharge' . $priceNumber] = 0;
+            }
+        }
 
-		if ($bIsAddedPrice) {
-			if (strpos($field, 'price') === 0) {
+        if ($bIsAddedPrice) {
+            if (strpos($field, 'price') === 0) {
                 if (!isset($targetRow['surcharge' . $priceNumber])) {
                     $targetRow['surcharge' . $priceNumber] = 0;
                 }
-				$targetRow['surcharge' . $priceNumber] += $value;
-			}
+                $targetRow['surcharge' . $priceNumber] += $value;
+            }
 
-			$value += $targetRow[$field];
+            $value += $targetRow[$field];
 
-			if ($bUseExt) {
-				if (!isset($targetRow['ext'])) {
-					$targetRow['ext'] = [];
-				}
-				if (!isset($targetRow['ext']['addedPrice'])) {
+            if ($bUseExt) {
+                if (!isset($targetRow['ext'])) {
+                    $targetRow['ext'] = [];
+                }
+                if (!isset($targetRow['ext']['addedPrice'])) {
                     $targetRow['ext']['addedPrice'] = 0;
                 }
-				$targetRow['ext']['addedPrice'] += $targetRow[$field];
-			}
+                $targetRow['ext']['addedPrice'] += $targetRow[$field];
+            }
         }
 
-		if($bKeepNotEmpty) {
-			if (
+        if($bKeepNotEmpty) {
+            if (
                 (
                     !isset($targetRow[$field]) ||
                     !round($targetRow[$field], 16)
-				) &&
-				round($value, 16)
-			) {
-				$targetRow[$field] = $value;
-			}
-		} else { // $bKeepNotEmpty == false
-			$targetRow[$field] = $value;
-		}
-	}
+                ) &&
+                round($value, 16)
+            ) {
+                $targetRow[$field] = $value;
+            }
+        } else { // $bKeepNotEmpty == false
+            $targetRow[$field] = $value;
+        }
+    }
 }
 

@@ -51,7 +51,7 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 class tx_ttproducts_pi1 implements \TYPO3\CMS\Core\SingletonInterface {
 
 
-    protected $cObj;
+    public $cObj;
 
     public function setContentObjectRenderer(ContentObjectRenderer $cObj): void
     {
@@ -59,39 +59,39 @@ class tx_ttproducts_pi1 implements \TYPO3\CMS\Core\SingletonInterface {
     }
 
 
-	/**
-	 * Main method. Call this from TypoScript by a USER cObject.
-	 */
-	public function main ($content, $conf) {
+    /**
+     * Main method. Call this from TypoScript by a USER cObject.
+     */
+    public function main ($content, $conf) {
 
-		$pibaseObj = GeneralUtility::makeInstance('tx_ttproducts_pi1_base');
-		$pibaseObj->cObj = $this->cObj;
-		$languageSubpath = '/Resources/Private/Language/';
+        $pibaseObj = GeneralUtility::makeInstance('tx_ttproducts_pi1_base');
+        $pibaseObj->cObj = $this->cObj;
+        $languageSubpath = '/Resources/Private/Language/';
 
-		if (!empty($conf['templateFile']) || !empty($conf['templateFile.'])) {
-			$content = $pibaseObj->main($content, $conf);
-		} else {
+        if (!empty($conf['templateFile']) || !empty($conf['templateFile.'])) {
+            $content = $pibaseObj->main($content, $conf);
+        } else {
             $errorText = $GLOBALS['TSFE']->sL(
                 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'Pi1/locallang.xlf:no_template'
             );
             $content = str_replace('|', 'plugin.tt_products.templateFile', $errorText);
             $content = '<p><strong>' . $content . '</strong></p>';
-		}
+        }
 
-		return $content;
-	}
+        return $content;
+    }
 
-	/**
-	 * Main method for the cached object. Call this from TypoScript by a USER or COBJ cObject.
-	 */
-	public function getUserFunc ($content, $conf) {
-		$conf = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tt_products.'];
+    /**
+     * Main method for the cached object. Call this from TypoScript by a USER or COBJ cObject.
+     */
+    public function getUserFunc ($content, $conf) {
+        $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tt_products.'];
 
-		if (
+        if (
             isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['getUserFunc']) &&
             is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['getUserFunc'])
-		) {
-			foreach($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['getUserFunc'] as $classRef) {
+        ) {
+            foreach($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['getUserFunc'] as $classRef) {
                 $hookObj = GeneralUtility::makeInstance($classRef);
                 if (method_exists($hookObj, 'getUserFunc')) {
                     if (method_exists($hookObj, 'setContentObjectRenderer')) {
@@ -99,9 +99,9 @@ class tx_ttproducts_pi1 implements \TYPO3\CMS\Core\SingletonInterface {
                     }
                     $content .= $hookObj->getUserFunc($content, $conf);
                 }
-			}
-		}
-		return $content;
-	}
+            }
+        }
+        return $content;
+    }
 }
 

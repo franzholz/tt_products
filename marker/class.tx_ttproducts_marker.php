@@ -47,323 +47,323 @@ use JambageCom\Div2007\Utility\FrontendUtility;
 use JambageCom\TtProducts\Model\Field\FieldInterface;
 
 class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
-	public $markerArray;
-	public $globalMarkerArray;
-	public $urlArray;
-	private $langArray;
-	private $errorCode = [];
-	private $specialArray = ['eq', 'ne', 'lt', 'le', 'gt', 'ge', 'id', 'fn'];
+    public $markerArray;
+    public $globalMarkerArray;
+    public $urlArray;
+    private $langArray;
+    private $errorCode = [];
+    private $specialArray = ['eq', 'ne', 'lt', 'le', 'gt', 'ge', 'id', 'fn'];
 
-	/**
-	 * Initialized the marker object
-	 * $basket is the TYPO3 default shopping basket array from ses-data
-	 *
-	 * @param	string		$fieldname is the field in the table you want to create a JavaScript for
-	 * @param	array		array urls which should be overridden with marker key as index
-	 * @return	  void
-	 */
-	public function init ($conf, $piVars) {
-		$this->markerArray = ['CATEGORY', 'PRODUCT', 'ARTICLE'];
-		$markerFile = $conf['markerFile'] ?? '';
-		$languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
+    /**
+     * Initialized the marker object
+     * $basket is the TYPO3 default shopping basket array from ses-data
+     *
+     * @param	string		$fieldname is the field in the table you want to create a JavaScript for
+     * @param	array		array urls which should be overridden with marker key as index
+     * @return	  void
+     */
+    public function init ($conf, $piVars) {
+        $this->markerArray = ['CATEGORY', 'PRODUCT', 'ARTICLE'];
+        $markerFile = $conf['markerFile'] ?? '';
+        $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
         $language = $languageObj->getLanguage();
         $languageSubpath = '/Resources/Private/Language/';
-		$defaultMarkerFile = 'EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_marker.xlf';
-		$languageObj->loadLocalLang($defaultMarkerFile);
+        $defaultMarkerFile = 'EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_marker.xlf';
+        $languageObj->loadLocalLang($defaultMarkerFile);
 
-		if ($language == '' || $language == 'default' || $language == 'en') {
+        if ($language == '' || $language == 'default' || $language == 'en') {
             if (!$markerFile) {
                 $markerFile = $defaultMarkerFile;
             }
-			if ($markerFile) {
-				$languageObj->loadLocalLang($markerFile);
-			}
-		} else {
-			if (!$markerFile || $markerFile == '{$plugin.tt_products.file.markerFile}') {
+            if ($markerFile) {
+                $languageObj->loadLocalLang($markerFile);
+            }
+        } else {
+            if (!$markerFile || $markerFile == '{$plugin.tt_products.file.markerFile}') {
                 $markerFile = $defaultMarkerFile;
-			} else if (substr($markerFile, 0, 4) == 'EXT:') {	// extension
-				list($extKey, $local) = explode('/', substr($markerFile, 4), 2);
-				$filename = '';
-				if (
-					strcmp($extKey, '') &&
-					!ExtensionManagementUtility::isLoaded($extKey) &&
-					strcmp($local, '')
-				) {
-					$errorCode = [];
-					$errorCode[0] = 'extension_missing';
-					$errorCode[1] = $extKey;
-					$errorCode[2] = $markerFile;
-					$this->setErrorCode($errorCode);
-				}
-			}
+            } else if (substr($markerFile, 0, 4) == 'EXT:') {	// extension
+                list($extKey, $local) = explode('/', substr($markerFile, 4), 2);
+                $filename = '';
+                if (
+                    strcmp($extKey, '') &&
+                    !ExtensionManagementUtility::isLoaded($extKey) &&
+                    strcmp($local, '')
+                ) {
+                    $errorCode = [];
+                    $errorCode[0] = 'extension_missing';
+                    $errorCode[1] = $extKey;
+                    $errorCode[2] = $markerFile;
+                    $this->setErrorCode($errorCode);
+                }
+            }
 
-			if (!$markerFile) {
+            if (!$markerFile) {
                 throw new \RuntimeException('Error in tt_products: No marker file for language "' . $language . '" set.', 50011);
             }
-			$languageObj->loadLocalLang($markerFile);
-		}
-		$locallang = $languageObj->getLocallang();
-		$LLkey = $languageObj->getLocalLangKey();
-		$this->setGlobalMarkerArray($conf, $piVars, $locallang, $LLkey);
-		$errorCode = $this->getErrorCode();
+            $languageObj->loadLocalLang($markerFile);
+        }
+        $locallang = $languageObj->getLocallang();
+        $LLkey = $languageObj->getLocalLangKey();
+        $this->setGlobalMarkerArray($conf, $piVars, $locallang, $LLkey);
+        $errorCode = $this->getErrorCode();
 
-		return (!is_array($errorCode) || (count($errorCode) == 0) ? true : false);
-	}
+        return (!is_array($errorCode) || (count($errorCode) == 0) ? true : false);
+    }
 
-	public function getErrorCode () {
-		return $this->errorCode;
-	}
+    public function getErrorCode () {
+        return $this->errorCode;
+    }
 
-	public function setErrorCode ($errorCode) {
-		$this->errorCode = $errorCode;
-	}
+    public function setErrorCode ($errorCode) {
+        $this->errorCode = $errorCode;
+    }
 
-	public function setLangArray (&$langArray) {
-		$this->langArray = $langArray;
-	}
+    public function setLangArray (&$langArray) {
+        $this->langArray = $langArray;
+    }
 
-	public function getLangArray () {
-		return $this->langArray;
-	}
+    public function getLangArray () {
+        return $this->langArray;
+    }
 
-	public function getGlobalMarkerArray () {
-		return $this->globalMarkerArray;
-	}
+    public function getGlobalMarkerArray () {
+        return $this->globalMarkerArray;
+    }
 
-	public function replaceGlobalMarkers (&$content, $markerArray = []) {
+    public function replaceGlobalMarkers (&$content, $markerArray = []) {
         $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
-		$globalMarkerArray = $this->getGlobalMarkerArray();
-		$markerArray = array_merge($globalMarkerArray, $markerArray);
-		$result = $templateService->substituteMarkerArrayCached($content, $markerArray);
-		return $result;
-	}
+        $globalMarkerArray = $this->getGlobalMarkerArray();
+        $markerArray = array_merge($globalMarkerArray, $markerArray);
+        $result = $templateService->substituteMarkerArrayCached($content, $markerArray);
+        return $result;
+    }
 
-	/**
-	 * getting the global markers
-	 */
-	public function setGlobalMarkerArray ($conf, $piVars, $locallang, $LLkey) {
+    /**
+     * getting the global markers
+     */
+    public function setGlobalMarkerArray ($conf, $piVars, $locallang, $LLkey) {
         $cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
-		$markerArray = [];
-		$language = $GLOBALS['TSFE']->config['config']['language'] ?? '';
-		if ($language == '') {
-			$language = 'default';
-		}
+        $markerArray = [];
+        $language = $GLOBALS['TSFE']->config['config']['language'] ?? '';
+        if ($language == '') {
+            $language = 'default';
+        }
 
-			// globally substituted markers, fonts and colors.
-		$splitMark = md5(microtime());
-		list($markerArray['###GW1B###' ], $markerArray['###GW1E###']) = explode($splitMark, $cObj->stdWrap($splitMark, $conf['wrap1.'] ?? ''));
-		list($markerArray['###GW2B###'], $markerArray['###GW2E###']) = explode($splitMark, $cObj->stdWrap($splitMark, $conf['wrap2.'] ?? ''));
-		list($markerArray['###GW3B###'], $markerArray['###GW3E###']) = explode($splitMark, $cObj->stdWrap($splitMark, $conf['wrap3.'] ?? ''));
-		$markerArray['###GC1###'] = $cObj->stdWrap($conf['color1'] ?? '', $conf['color1.'] ?? '');
-		$markerArray['###GC2###'] = $cObj->stdWrap($conf['color2'] ?? '', $conf['color2.'] ?? '');
-		$markerArray['###GC3###'] = $cObj->stdWrap($conf['color3'] ?? '', $conf['color3.'] ?? '');
-		$markerArray['###DOMAIN###'] = $conf['domain'] ?? '';
+            // globally substituted markers, fonts and colors.
+        $splitMark = md5(microtime());
+        list($markerArray['###GW1B###' ], $markerArray['###GW1E###']) = explode($splitMark, $cObj->stdWrap($splitMark, $conf['wrap1.'] ?? ''));
+        list($markerArray['###GW2B###'], $markerArray['###GW2E###']) = explode($splitMark, $cObj->stdWrap($splitMark, $conf['wrap2.'] ?? ''));
+        list($markerArray['###GW3B###'], $markerArray['###GW3E###']) = explode($splitMark, $cObj->stdWrap($splitMark, $conf['wrap3.'] ?? ''));
+        $markerArray['###GC1###'] = $cObj->stdWrap($conf['color1'] ?? '', $conf['color1.'] ?? '');
+        $markerArray['###GC2###'] = $cObj->stdWrap($conf['color2'] ?? '', $conf['color2.'] ?? '');
+        $markerArray['###GC3###'] = $cObj->stdWrap($conf['color3'] ?? '', $conf['color3.'] ?? '');
+        $markerArray['###DOMAIN###'] = $conf['domain'] ?? '';
         $path = ExtensionManagementUtility::extPath('tt_products');
 
-		if (ExtensionManagementUtility::isLoaded('addons_tt_products')) {
+        if (ExtensionManagementUtility::isLoaded('addons_tt_products')) {
             $path = ExtensionManagementUtility::extPath('addons_tt_products');
         }
         $patchFe = PathUtility::getAbsoluteWebPath($path);
         $markerArray['###PATH_FE_REL###'] = $patchFe;
         $markerArray['###PATH_FE_ICONS###'] = $patchFe . 'Resources/Public/Images/';
-		$pidMarkerArray = [
-			'agb', 'basket', 'billing', 'delivery', 'finalize', 'info', 'itemDisplay',
-			'listDisplay', 'payment', 'revocation',
-			'search', 'storeRoot', 'thanks', 'tracking',
-			'memo'
-		];
-		foreach ($pidMarkerArray as $k => $function) {
-			$markerArray['###PID_' . strtoupper($function) . '###'] = intval($conf['PID' . $function] ?? 0);
-		}
-		$markerArray['###SHOPADMIN_EMAIL###'] = $conf['orderEmail_from'] ?? 'undefined';
-		$lang =  GeneralUtility::_GET('L');
+        $pidMarkerArray = [
+            'agb', 'basket', 'billing', 'delivery', 'finalize', 'info', 'itemDisplay',
+            'listDisplay', 'payment', 'revocation',
+            'search', 'storeRoot', 'thanks', 'tracking',
+            'memo'
+        ];
+        foreach ($pidMarkerArray as $k => $function) {
+            $markerArray['###PID_' . strtoupper($function) . '###'] = intval($conf['PID' . $function] ?? 0);
+        }
+        $markerArray['###SHOPADMIN_EMAIL###'] = $conf['orderEmail_from'] ?? 'undefined';
+        $lang =  GeneralUtility::_GET('L');
 
-		if ($lang != '') {
-			$markerArray['###LANGPARAM###'] = '&amp;L=' . $lang;
-		} else {
-			$markerArray['###LANGPARAM###'] = '';
-		}
-		$markerArray['###LANG###'] = $lang;
-		$markerArray['###LANGUAGE###'] = $GLOBALS['TSFE']->config['config']['language'] ?? '';
-		$markerArray['###LOCALE_ALL###'] = $GLOBALS['TSFE']->config['config']['locale_all'] ?? '';
+        if ($lang != '') {
+            $markerArray['###LANGPARAM###'] = '&amp;L=' . $lang;
+        } else {
+            $markerArray['###LANGPARAM###'] = '';
+        }
+        $markerArray['###LANG###'] = $lang;
+        $markerArray['###LANGUAGE###'] = $GLOBALS['TSFE']->config['config']['language'] ?? '';
+        $markerArray['###LOCALE_ALL###'] = $GLOBALS['TSFE']->config['config']['locale_all'] ?? '';
 
-		$backPID = $piVars['backPID'] ?? '';
-		$backPID = ($backPID ? $backPID : GeneralUtility::_GP('backPID'));
-		$backPID = ($backPID  ? $backPID : (!empty($conf['PIDlistDisplay']) ? $conf['PIDlistDisplay'] : $GLOBALS['TSFE']->id ?? 0));
-		$markerArray['###BACK_PID###'] = $backPID;
+        $backPID = $piVars['backPID'] ?? '';
+        $backPID = ($backPID ? $backPID : GeneralUtility::_GP('backPID'));
+        $backPID = ($backPID  ? $backPID : (!empty($conf['PIDlistDisplay']) ? $conf['PIDlistDisplay'] : $GLOBALS['TSFE']->id ?? 0));
+        $markerArray['###BACK_PID###'] = $backPID;
 
-			// Call all addGlobalMarkers hooks at the end of this method
-		if (
+            // Call all addGlobalMarkers hooks at the end of this method
+        if (
             isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['addGlobalMarkers']) &&
             is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['addGlobalMarkers'])
         ) {
-			foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['addGlobalMarkers'] as $classRef) {
-				$hookObj= GeneralUtility::makeInstance($classRef);
-				if (method_exists($hookObj, 'addGlobalMarkers')) {
-					$hookObj->addGlobalMarkers($markerArray);
-				}
-			}
-		}
+            foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['addGlobalMarkers'] as $classRef) {
+                $hookObj= GeneralUtility::makeInstance($classRef);
+                if (method_exists($hookObj, 'addGlobalMarkers')) {
+                    $hookObj->addGlobalMarkers($markerArray);
+                }
+            }
+        }
 
-		if (isset($locallang[$LLkey])) {
-			if (isset($locallang['default']) && is_array($locallang['default'])) {
-				$langArray = array_merge($locallang['default'], $locallang[$LLkey]);
-			} else {
-				$langArray = $locallang[$LLkey];
-			}
-		} else {
-			$langArray = $locallang['default'];
-		}
+        if (isset($locallang[$LLkey])) {
+            if (isset($locallang['default']) && is_array($locallang['default'])) {
+                $langArray = array_merge($locallang['default'], $locallang[$LLkey]);
+            } else {
+                $langArray = $locallang[$LLkey];
+            }
+        } else {
+            $langArray = $locallang['default'];
+        }
 
-		if(isset($langArray) && is_array($langArray)) {
-			foreach ($langArray as $key => $value) {
-				if (
-					is_array($value) &&
-					isset($value[0])
-				) {
-					if (!empty($value[0]['target'])) {
-						$value = $value[0]['target'];
-					} else {
-						$value = $value[0]['source'];
-					}
-				} else {
+        if(isset($langArray) && is_array($langArray)) {
+            foreach ($langArray as $key => $value) {
+                if (
+                    is_array($value) &&
+                    isset($value[0])
+                ) {
+                    if (!empty($value[0]['target'])) {
+                        $value = $value[0]['target'];
+                    } else {
+                        $value = $value[0]['source'];
+                    }
+                } else {
                     $value = '';
-				}
+                }
 
-				$langArray[$key] = $value;
-				$markerArray['###' . strtoupper($key) . '###'] = $value;
-			}
-		} else {
-			$langArray = [];
-		}
+                $langArray[$key] = $value;
+                $markerArray['###' . strtoupper($key) . '###'] = $value;
+            }
+        } else {
+            $langArray = [];
+        }
 
-		if (isset($conf['marks.'])) {
+        if (isset($conf['marks.'])) {
 
-				// Substitute Marker Array from TypoScript Setup
-			foreach ($conf['marks.'] as $key => $value) {
+                // Substitute Marker Array from TypoScript Setup
+            foreach ($conf['marks.'] as $key => $value) {
 
-				if (is_array($value)) {
-					switch($key) {
-						case 'image.':
-							foreach ($value as $k2 => $v2) {
+                if (is_array($value)) {
+                    switch($key) {
+                        case 'image.':
+                            foreach ($value as $k2 => $v2) {
                                 $fileresource = FrontendUtility::fileResource($v2);
-								$markerArray['###IMAGE' . strtoupper($k2) . '###'] = $fileresource;
-							}
-						break;
-						case '_LOCAL_LANG.':
-							if (isset($value[$language . '.'])) {
-								foreach ($value[$language . '.'] as $key2 => $value2) {
-									$markerArray['###' . strtoupper($key2) . '###'] = $value2;
-								}
-							}
-						break;
-					}
-				} else {
-					if(
+                                $markerArray['###IMAGE' . strtoupper($k2) . '###'] = $fileresource;
+                            }
+                        break;
+                        case '_LOCAL_LANG.':
+                            if (isset($value[$language . '.'])) {
+                                foreach ($value[$language . '.'] as $key2 => $value2) {
+                                    $markerArray['###' . strtoupper($key2) . '###'] = $value2;
+                                }
+                            }
+                        break;
+                    }
+                } else {
+                    if(
                         isset($conf['marks.'][$key . '.']) &&
                         is_array($conf['marks.'][$key . '.'])
                     ) {
-						$out = $cObj->cObjGetSingle(
+                        $out = $cObj->cObjGetSingle(
                             $conf['marks.'][$key],
                             $conf['marks.'][$key . '.'],
                             $key
                         );
-					} else {
-						$langArray[$key] = $value;
-						$out = $value;
-					}
-					$markerArray['###' . strtoupper($key) . '###'] = $out;
-				}
-			}
-		}
+                    } else {
+                        $langArray[$key] = $value;
+                        $out = $value;
+                    }
+                    $markerArray['###' . strtoupper($key) . '###'] = $out;
+                }
+            }
+        }
 
-		$this->globalMarkerArray = $markerArray;
-		$this->setLangArray($langArray);
-	} // setGlobalMarkerArray
+        $this->globalMarkerArray = $markerArray;
+        $this->setLangArray($langArray);
+    } // setGlobalMarkerArray
 
-	public function reduceMarkerArray ($templateCode, $markerArray) {
-		$result = [];
+    public function reduceMarkerArray ($templateCode, $markerArray) {
+        $result = [];
 
-		$tagArray = $this->getAllMarkers($templateCode);
+        $tagArray = $this->getAllMarkers($templateCode);
 
-		foreach ($tagArray as $tag => $v) {
-			$marker = '###' . $tag. '###';
-			if (isset($markerArray[$marker])) {
-				$result[$marker] = $markerArray[$marker];
-			}
-		}
-		return $result;
-	}
+        foreach ($tagArray as $tag => $v) {
+            $marker = '###' . $tag. '###';
+            if (isset($markerArray[$marker])) {
+                $result[$marker] = $markerArray[$marker];
+            }
+        }
+        return $result;
+    }
 
-	public function getAllMarkers ($templateCode) {
+    public function getAllMarkers ($templateCode) {
 
-		$treffer = [];
-		$tagArray = false;
+        $treffer = [];
+        $tagArray = false;
 
-		preg_match_all('/###([\w:-]+)###/', $templateCode, $treffer);
-		if (
-			isset($treffer) &&
-			is_array($treffer) &&
-			isset($treffer['1'])
-		) {
-			$tagArray = array_unique($treffer['1']);
-		}
+        preg_match_all('/###([\w:-]+)###/', $templateCode, $treffer);
+        if (
+            isset($treffer) &&
+            is_array($treffer) &&
+            isset($treffer['1'])
+        ) {
+            $tagArray = array_unique($treffer['1']);
+        }
 
-		if (is_array($tagArray)) {
-			$tagArray = array_flip($tagArray);
-		}
+        if (is_array($tagArray)) {
+            $tagArray = array_flip($tagArray);
+        }
 
-		return $tagArray;
-	}
+        return $tagArray;
+    }
 
-	/**
-	 * finds all the markers for a product
-	 * This helps to reduce the data transfer from the database
-	 *
-	 * @access private
-	 */
-	public function getMarkerFields (
-		$templateCode,
-		&$tableFieldArray,
-		&$requiredFieldArray,
-		&$addCheckArray,
-		$prefixParam,
-		&$tagArray,
-		&$parentArray
-	) {
-		$retArray = (count($requiredFieldArray) ? $requiredFieldArray : []);
-		// obligatory fields uid and pid
+    /**
+     * finds all the markers for a product
+     * This helps to reduce the data transfer from the database
+     *
+     * @access private
+     */
+    public function getMarkerFields (
+        $templateCode,
+        &$tableFieldArray,
+        &$requiredFieldArray,
+        &$addCheckArray,
+        $prefixParam,
+        &$tagArray,
+        &$parentArray
+    ) {
+        $retArray = (count($requiredFieldArray) ? $requiredFieldArray : []);
+        // obligatory fields uid and pid
 
-		$prefix = $prefixParam . '_';
-		$prefixLen = strlen($prefix);
+        $prefix = $prefixParam . '_';
+        $prefixLen = strlen($prefix);
 
-		$bFieldaddedArray = [];
+        $bFieldaddedArray = [];
 
-		$tagArray = $this->getAllMarkers($templateCode);
+        $tagArray = $this->getAllMarkers($templateCode);
 
-		if (is_array($tagArray)) {
-			$retTagArray = $tagArray;
-			foreach ($tagArray as $tag => $v1) {
-				$prefixFound = strpos($tag, $prefix);
+        if (is_array($tagArray)) {
+            $retTagArray = $tagArray;
+            foreach ($tagArray as $tag => $v1) {
+                $prefixFound = strpos($tag, $prefix);
 
-				if ($prefixFound !== false) {
-					$fieldTmp = substr($tag, $prefixFound + $prefixLen);
-					$fieldTmp = strtolower($fieldTmp);
-					$fieldTmp = preg_replace('/[0-9]$/', '', $fieldTmp); // remove trailing numbers
+                if ($prefixFound !== false) {
+                    $fieldTmp = substr($tag, $prefixFound + $prefixLen);
+                    $fieldTmp = strtolower($fieldTmp);
+                    $fieldTmp = preg_replace('/[0-9]$/', '', $fieldTmp); // remove trailing numbers
 
-					$field = $fieldTmp;
+                    $field = $fieldTmp;
 
-					if (isset($tableFieldArray[FieldInterface::EXTERNAL_FIELD_PREFIX . $field])) {
-						$field = FieldInterface::EXTERNAL_FIELD_PREFIX . $field;
-					}
+                    if (isset($tableFieldArray[FieldInterface::EXTERNAL_FIELD_PREFIX . $field])) {
+                        $field = FieldInterface::EXTERNAL_FIELD_PREFIX . $field;
+                    }
 
-					if (!isset($tableFieldArray[$field])) {
+                    if (!isset($tableFieldArray[$field])) {
 
-						$fieldPartArray = GeneralUtility::trimExplode('_', $fieldTmp);
-						$fieldTmp = $fieldPartArray[0];
-						$subFieldPartArray = GeneralUtility::trimExplode(':', $fieldTmp);
-						$colon = (count($subFieldPartArray) > 1);
-						$field = $subFieldPartArray[0];
+                        $fieldPartArray = GeneralUtility::trimExplode('_', $fieldTmp);
+                        $fieldTmp = $fieldPartArray[0];
+                        $subFieldPartArray = GeneralUtility::trimExplode(':', $fieldTmp);
+                        $colon = (count($subFieldPartArray) > 1);
+                        $field = $subFieldPartArray[0];
 
                         if (
                             !isset($tableFieldArray[$field]) ||
@@ -387,83 +387,83 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
                             !$colon &&
                             !isset($tableFieldArray[$field])
                         ) {
-							$newFieldPartArray = [];
-							foreach ($fieldPartArray as $k => $v) {
-								if (in_array($v, $this->specialArray)) {
-									break;
-								} else {
-									$newFieldPartArray[] = $v;
-								}
-							}
-							$field = implode('_', $newFieldPartArray);
-						}
+                            $newFieldPartArray = [];
+                            foreach ($fieldPartArray as $k => $v) {
+                                if (in_array($v, $this->specialArray)) {
+                                    break;
+                                } else {
+                                    $newFieldPartArray[] = $v;
+                                }
+                            }
+                            $field = implode('_', $newFieldPartArray);
+                        }
 
-						if (
+                        if (
                             !$colon &&
                             (
                                 !isset($tableFieldArray[$field]) ||
                                 !is_array($tableFieldArray[$field])
-							)
-						) {	// find similar field names with letters in other cases
-							$upperField = strtoupper($field);
-							foreach ($tableFieldArray as $k => $v) {
-								if (strtoupper($k) == $upperField) {
-									$field = $k;
-									break;
-								}
-							}
-						}
-					}
-					$field = strtolower($field);
-					if (
-						isset($tableFieldArray[$field]) &&
-						is_array($tableFieldArray[$field])
-					) {
-						$retArray[] = $field;
-						$bFieldaddedArray[$field] = true;
-					}
-					$parentFound = strpos($tag, 'PARENT');
+                            )
+                        ) {	// find similar field names with letters in other cases
+                            $upperField = strtoupper($field);
+                            foreach ($tableFieldArray as $k => $v) {
+                                if (strtoupper($k) == $upperField) {
+                                    $field = $k;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    $field = strtolower($field);
+                    if (
+                        isset($tableFieldArray[$field]) &&
+                        is_array($tableFieldArray[$field])
+                    ) {
+                        $retArray[] = $field;
+                        $bFieldaddedArray[$field] = true;
+                    }
+                    $parentFound = strpos($tag, 'PARENT');
 
-					if ($parentFound !== false) {
-						$parentEnd = strpos($tag, '_');
-						$parentLen = strlen('PARENT');
-						$temp = substr($tag, $parentLen, ($parentEnd - $parentFound) - $parentLen);
-						$parentArray[] = $temp;
-					}
-				} else {
-					// unset the tags of different tables
+                    if ($parentFound !== false) {
+                        $parentEnd = strpos($tag, '_');
+                        $parentLen = strlen('PARENT');
+                        $temp = substr($tag, $parentLen, ($parentEnd - $parentFound) - $parentLen);
+                        $parentArray[] = $temp;
+                    }
+                } else {
+                    // unset the tags of different tables
 
-					foreach ($this->markerArray as $k => $marker) {
-						if ($marker != $prefixParam) {
-							$bMarkerFound = strpos($tag, $marker);
-							if ($bMarkerFound == 0 && $bMarkerFound !== false) {
-								unset($retTagArray[$tag]);
-							}
-						}
-					}
-				}
-			}
-			$tagArray = $retTagArray;
-		} else {
+                    foreach ($this->markerArray as $k => $marker) {
+                        if ($marker != $prefixParam) {
+                            $bMarkerFound = strpos($tag, $marker);
+                            if ($bMarkerFound == 0 && $bMarkerFound !== false) {
+                                unset($retTagArray[$tag]);
+                            }
+                        }
+                    }
+                }
+            }
+            $tagArray = $retTagArray;
+        } else {
             $tagArray = [];
-		}
+        }
 
-		$parentArray = array_unique($parentArray);
-		sort($parentArray);
+        $parentArray = array_unique($parentArray);
+        sort($parentArray);
 
-		if (is_array($addCheckArray)) {
-			foreach ($addCheckArray as $marker => $field) {
-				if (empty($bFieldaddedArray[$field]) && isset($tableFieldArray[$field])) { 	// TODO: check also if the marker is in the $tagArray
-					$retArray[] = $field;
-				}
-			}
-		}
+        if (is_array($addCheckArray)) {
+            foreach ($addCheckArray as $marker => $field) {
+                if (empty($bFieldaddedArray[$field]) && isset($tableFieldArray[$field])) { 	// TODO: check also if the marker is in the $tagArray
+                    $retArray[] = $field;
+                }
+            }
+        }
 
-		if (is_array($retArray)) {
-			$retArray = array_unique($retArray);
-		}
+        if (is_array($retArray)) {
+            $retArray = array_unique($retArray);
+        }
 
-		return $retArray;
-	}
+        return $retArray;
+    }
 }
 

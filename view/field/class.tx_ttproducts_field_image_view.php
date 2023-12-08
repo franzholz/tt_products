@@ -41,50 +41,50 @@
 class tx_ttproducts_field_image_view extends tx_ttproducts_field_media_view {
 
 
-	public function getRowMarkerArray (
-		$functablename,
-		$fieldname,
-		$row,
-		$markerKey,
-		&$markerArray,
-		$fieldMarkerArray,
-		$tagArray,
-		$theCode,
-		$id,
-		$basketExtra,
-		$basketRecs,
-		&$bSkip,
-		$bHtml = true,
-		$charset = '',
-		$prefix = '',
-		$suffix = '',
-		$imageNum = 0,
-		$imageRenderObj = '',
+    public function getRowMarkerArray (
+        $functablename,
+        $fieldname,
+        $row,
+        $markerKey,
+        &$markerArray,
+        $fieldMarkerArray,
+        $tagArray,
+        $theCode,
+        $id,
+        $basketExtra,
+        $basketRecs,
+        &$bSkip,
+        $bHtml = true,
+        $charset = '',
+        $prefix = '',
+        $suffix = '',
+        $imageNum = 0,
+        $imageRenderObj = '',
         $linkWrap = false,
-		$bEnableTaxZero = false
-	) {
-		parent::getRowMarkerArray(
-			$functablename,
-			$fieldname,
-			$row,
-			$markerKey,
-			$markerArray,
-			$fieldMarkerArray,
-			$tagArray,
-			$theCode,
-			$id,
-			$basketExtra,
-			$basketRecs,
-			$bSkip,
-			$bHtml,
-			$charset,
-			$prefix,
-			$suffix,
-			$imageNum,
-			$imageRenderObj,
-			$linkWrap,
-			$bEnableTaxZero
-		);
-	}
+        $bEnableTaxZero = false
+    ) {
+        parent::getRowMarkerArray(
+            $functablename,
+            $fieldname,
+            $row,
+            $markerKey,
+            $markerArray,
+            $fieldMarkerArray,
+            $tagArray,
+            $theCode,
+            $id,
+            $basketExtra,
+            $basketRecs,
+            $bSkip,
+            $bHtml,
+            $charset,
+            $prefix,
+            $suffix,
+            $imageNum,
+            $imageRenderObj,
+            $linkWrap,
+            $bEnableTaxZero
+        );
+    }
 }
 

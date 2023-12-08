@@ -43,36 +43,36 @@ use JambageCom\Div2007\Utility\FrontendUtility;
 
 class tx_ttproducts_field_datetime_view extends tx_ttproducts_field_base_view {
 
-	public function getRowMarkerArray (
-		$functablename,
-		$fieldname,
-		$row,
-		$markerKey,
-		&$markerArray,
-		$fieldMarkerArray,
-		$tagArray,
-		$theCode,
-		$id,
-		$basketExtra,
-		$basketRecs,
-		&$bSkip,
-		$bHtml = true,
-		$charset = '',
-		$prefix = '',
-		$suffix = '',
-		$imageNum = 0,
-		$imageRenderObj = '',
-		$linkWrap = false,
-		$bEnableTaxZero = false
-	) {
+    public function getRowMarkerArray (
+        $functablename,
+        $fieldname,
+        $row,
+        $markerKey,
+        &$markerArray,
+        $fieldMarkerArray,
+        $tagArray,
+        $theCode,
+        $id,
+        $basketExtra,
+        $basketRecs,
+        &$bSkip,
+        $bHtml = true,
+        $charset = '',
+        $prefix = '',
+        $suffix = '',
+        $imageNum = 0,
+        $imageRenderObj = '',
+        $linkWrap = false,
+        $bEnableTaxZero = false
+    ) {
         $cObj = FrontendUtility::getContentObjectRenderer();
-		$stdWrap = 'date_stdWrap.';
-		if ($fieldname == 'usebydate' && $functablename == 'tt_products') {
-			$stdWrap = 'usebyDate_stdWrap.';
-		}
-		$value = $cObj->stdWrap($row[$fieldname], $this->conf[$stdWrap]);
+        $stdWrap = 'date_stdWrap.';
+        if ($fieldname == 'usebydate' && $functablename == 'tt_products') {
+            $stdWrap = 'usebyDate_stdWrap.';
+        }
+        $value = $cObj->stdWrap($row[$fieldname], $this->conf[$stdWrap]);
 
-		return $value;
-	}
+        return $value;
+    }
 }
 

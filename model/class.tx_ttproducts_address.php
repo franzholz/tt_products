@@ -42,110 +42,110 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_address extends tx_ttproducts_category_base {
 
-	/**
-	 * Getting all address values into internal array
-	 */
-	public function init ($functablename) {
-		$result = parent::init($functablename);
-		if ($result) {
-			$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
+    /**
+     * Getting all address values into internal array
+     */
+    public function init ($functablename) {
+        $result = parent::init($functablename);
+        if ($result) {
+            $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 
-			$tableconf = $cnf->getTableConf($functablename);
-			$tabledesc = $cnf->getTableDesc($functablename);
+            $tableconf = $cnf->getTableConf($functablename);
+            $tabledesc = $cnf->getTableDesc($functablename);
 
-			$tableObj = $this->getTableObj();
-			$tablename = $this->getTablename();
+            $tableObj = $this->getTableObj();
+            $tablename = $this->getTablename();
 
-			$tableObj->setConfig($tableconf);
-			$defaultFieldArray = $this->getDefaultFieldArray();
-			$tableObj->setDefaultFieldArray($defaultFieldArray);
-			$tableObj->setNewFieldArray();
-			$requiredFields = 'uid,pid,title';
+            $tableObj->setConfig($tableconf);
+            $defaultFieldArray = $this->getDefaultFieldArray();
+            $tableObj->setDefaultFieldArray($defaultFieldArray);
+            $tableObj->setNewFieldArray();
+            $requiredFields = 'uid,pid,title';
 
-			if (!empty($tableconf['requiredFields'])) {
-				$tmp = $tableconf['requiredFields'];
-				$requiredFields = ($tmp ? $tmp : $requiredFields);
-			}
+            if (!empty($tableconf['requiredFields'])) {
+                $tmp = $tableconf['requiredFields'];
+                $requiredFields = ($tmp ? $tmp : $requiredFields);
+            }
 
-			$requiredListArray = GeneralUtility::trimExplode(',', $requiredFields);
-			$tableObj->setRequiredFieldArray($requiredListArray);
-			$tableObj->setTCAFieldArray($tablename);
+            $requiredListArray = GeneralUtility::trimExplode(',', $requiredFields);
+            $tableObj->setRequiredFieldArray($requiredListArray);
+            $tableObj->setTCAFieldArray($tablename);
 
-			if (isset($tabledesc) && is_array($tabledesc)) {
-				$this->fieldArray = array_merge($this->fieldArray, $tabledesc);
-			}
-		}
-		return $result;
-	} // init
-
-
-	public function getRootCat () {
-		$result = $this->conf['rootAddressID'] ?? '';
-
-		if ($result == '') {
-			$result = '0';
-		}
-
-		return $result;
-	}
+            if (isset($tabledesc) && is_array($tabledesc)) {
+                $this->fieldArray = array_merge($this->fieldArray, $tabledesc);
+            }
+        }
+        return $result;
+    } // init
 
 
-	public function getRelationArray (
-		$dataArray,
-		$excludeCats = '',
-		$rootUids = '',
-		$allowedCats = ''
-	) {
-		$relationArray = [];
-		$rootArray = GeneralUtility::trimExplode(',', $rootUids);
+    public function getRootCat () {
+        $result = $this->conf['rootAddressID'] ?? '';
 
-		if (is_array($dataArray)) {
-			foreach ($dataArray as $k => $row) {
+        if ($result == '') {
+            $result = '0';
+        }
 
-				$uid = $row['uid'];
-				foreach ($row as $field => $value) {
-					$relationArray[$uid][$field] = $value;
-				}
-
-				$labelField = $this->getField($this->getLabelFieldname());
-				$label = '';
-
-				if (strpos($labelField, 'userFunc:') !== false) {
-					$pos = strpos($labelField, ':');
-					$labelFunc = substr($labelField, $pos + 1);
-					$params = ['table' => $this->getTablename(), 'row' => $row];
-					$label = GeneralUtility::callUserFunction($labelFunc, $params, $this);
-				} else {
-					$label = $row[$labelField];
-				}
-
-				$relationArray[$uid][$this->getLabelFieldname()] = $label;
-				$relationArray[$uid]['pid'] = $row['pid'];
-				$relationArray[$uid]['parent_category'] = '';
-			}
-		}
-
-		return $relationArray;
-	}
+        return $result;
+    }
 
 
-	public function fetchAddressArray ($itemArray) {
-		$result = [];
+    public function getRelationArray (
+        $dataArray,
+        $excludeCats = '',
+        $rootUids = '',
+        $allowedCats = ''
+    ) {
+        $relationArray = [];
+        $rootArray = GeneralUtility::trimExplode(',', $rootUids);
 
-		foreach ($itemArray as $sort => $actItemArray) {
-			foreach ($actItemArray as $k1 => $actItem) {
-				$row = $actItem['rec'];
-				$addressUid = $row['address'];
+        if (is_array($dataArray)) {
+            foreach ($dataArray as $k => $row) {
 
-				if ($addressUid) {
-					$addressRow = $this->get($addressUid);
-					$result[$addressUid] = $addressRow;
-				}
-			}
-		}
+                $uid = $row['uid'];
+                foreach ($row as $field => $value) {
+                    $relationArray[$uid][$field] = $value;
+                }
 
-		return $result;
-	}
+                $labelField = $this->getField($this->getLabelFieldname());
+                $label = '';
+
+                if (strpos($labelField, 'userFunc:') !== false) {
+                    $pos = strpos($labelField, ':');
+                    $labelFunc = substr($labelField, $pos + 1);
+                    $params = ['table' => $this->getTablename(), 'row' => $row];
+                    $label = GeneralUtility::callUserFunction($labelFunc, $params, $this);
+                } else {
+                    $label = $row[$labelField];
+                }
+
+                $relationArray[$uid][$this->getLabelFieldname()] = $label;
+                $relationArray[$uid]['pid'] = $row['pid'];
+                $relationArray[$uid]['parent_category'] = '';
+            }
+        }
+
+        return $relationArray;
+    }
+
+
+    public function fetchAddressArray ($itemArray) {
+        $result = [];
+
+        foreach ($itemArray as $sort => $actItemArray) {
+            foreach ($actItemArray as $k1 => $actItem) {
+                $row = $actItem['rec'];
+                $addressUid = $row['address'];
+
+                if ($addressUid) {
+                    $addressRow = $this->get($addressUid);
+                    $result[$addressUid] = $addressRow;
+                }
+            }
+        }
+
+        return $result;
+    }
 }
 
 

@@ -41,57 +41,57 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
 class tx_ttproducts_content extends tx_ttproducts_table_base {
-	public $dataArray = []; // array of read in contents
-	public $dataPageArray = []; // array of read in contents with page id as index
-	public $table;		 // object of the type tx_table_db
+    public $dataArray = []; // array of read in contents
+    public $dataPageArray = []; // array of read in contents with page id as index
+    public $table;		 // object of the type tx_table_db
 
-	/**
-	 * Getting all tt_products_cat categories into internal array
-	 */
-	public function init ($functablename) {
-		$result = parent::init($functablename);
+    /**
+     * Getting all tt_products_cat categories into internal array
+     */
+    public function init ($functablename) {
+        $result = parent::init($functablename);
 
-		$this->getTableObj()->setDefaultFieldArray(['uid'=>'uid', 'pid'=>'pid', 't3ver_oid'=>'t3ver_oid', 'tstamp'=>'tstamp', 'sorting'=> 'sorting',
-		'deleted' => 'deleted', 'hidden'=>'hidden', 'starttime' => 'starttime', 'endtime' => 'endtime', 'fe_group' => 'fe_group']);
-		$this->getTableObj()->setTCAFieldArray('tt_content');
+        $this->getTableObj()->setDefaultFieldArray(['uid'=>'uid', 'pid'=>'pid', 't3ver_oid'=>'t3ver_oid', 'tstamp'=>'tstamp', 'sorting'=> 'sorting',
+        'deleted' => 'deleted', 'hidden'=>'hidden', 'starttime' => 'starttime', 'endtime' => 'endtime', 'fe_group' => 'fe_group']);
+        $this->getTableObj()->setTCAFieldArray('tt_content');
 
-		return $result;
-	} // init
+        return $result;
+    } // init
 
-	public function getFromPid ($pid) {
-		$rcArray = $this->dataPageArray[$pid];
+    public function getFromPid ($pid) {
+        $rcArray = $this->dataPageArray[$pid];
 
-		if (!is_array($rcArray)) {
-			$sql = GeneralUtility::makeInstance('tx_table_db_access');
-			$sql->prepareFields($this->getTableObj(), 'select', '*');
-			$sql->prepareFields($this->getTableObj(), 'orderBy', 'sorting');
-			$sql->prepareWhereFields ($this->getTableObj(), 'pid', '=', intval($pid));
+        if (!is_array($rcArray)) {
+            $sql = GeneralUtility::makeInstance('tx_table_db_access');
+            $sql->prepareFields($this->getTableObj(), 'select', '*');
+            $sql->prepareFields($this->getTableObj(), 'orderBy', 'sorting');
+            $sql->prepareWhereFields ($this->getTableObj(), 'pid', '=', intval($pid));
             $api =
                 GeneralUtility::makeInstance(\JambageCom\Div2007\Api\Frontend::class);
             $sys_language_uid = $api->getLanguageId();
 
-			$sql->prepareWhereFields ($this->getTableObj(), 'sys_language_uid', '=', intval($sys_language_uid));
+            $sql->prepareWhereFields ($this->getTableObj(), 'sys_language_uid', '=', intval($sys_language_uid));
 
-			$enableFields = $this->getTableObj()->enableFields();
-			$sql->where_clause .= $enableFields;
+            $enableFields = $this->getTableObj()->enableFields();
+            $sql->where_clause .= $enableFields;
 
-			// Fetching the category
-			$res = $sql->exec_SELECTquery();
-			while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
-				$this->dataPageArray[$pid][$row['uid']] = $row;
-			}
-			$GLOBALS['TYPO3_DB']->sql_free_result($res);
-			$tmp = $this->dataPageArray[$pid];
-			$rcArray = (is_array($tmp) ? $tmp : []);
-		}
-		return $rcArray;
-	}
+            // Fetching the category
+            $res = $sql->exec_SELECTquery();
+            while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+                $this->dataPageArray[$pid][$row['uid']] = $row;
+            }
+            $GLOBALS['TYPO3_DB']->sql_free_result($res);
+            $tmp = $this->dataPageArray[$pid];
+            $rcArray = (is_array($tmp) ? $tmp : []);
+        }
+        return $rcArray;
+    }
 
-	// returns the Path of all categories above, separated by '/'
-	public function getCategoryPath ($uid) {
-		$rc = '';
+    // returns the Path of all categories above, separated by '/'
+    public function getCategoryPath ($uid) {
+        $rc = '';
 
-		return $rc;
-	}
+        return $rc;
+    }
 }
 

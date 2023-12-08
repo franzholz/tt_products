@@ -42,54 +42,54 @@ use TYPO3\CMS\Core\Utility\MathUtility;
 
 class tx_ttproducts_basketitem implements \TYPO3\CMS\Core\SingletonInterface {
 
-	/**
-	 * gets the quantity of an item
-	 *
-	 * @param	array		reference to an item array with all the data of the item
-	 * @param	string		overwrite amount or 'basket'
-	 * @return	array
-	 * @access private
-	 */
-	public function getQuantity (
-		&$item,
-		$overwriteAmount = ''
-	) {
-		$result = $item['count'];
-		if (
-			$overwriteAmount != 'basket' &&
-			MathUtility::canBeInterpretedAsInteger($overwriteAmount)
-		) {
-			$result = intval($overwriteAmount);
-		}
-		return $result;
-	}
+    /**
+     * gets the quantity of an item
+     *
+     * @param	array		reference to an item array with all the data of the item
+     * @param	string		overwrite amount or 'basket'
+     * @return	array
+     * @access private
+     */
+    public function getQuantity (
+        &$item,
+        $overwriteAmount = ''
+    ) {
+        $result = $item['count'];
+        if (
+            $overwriteAmount != 'basket' &&
+            MathUtility::canBeInterpretedAsInteger($overwriteAmount)
+        ) {
+            $result = intval($overwriteAmount);
+        }
+        return $result;
+    }
 
 
-	/**
-	 * gets the minimum necessary and maximum possible quantity of an item
-	 *
-	 * @param	array		reference to an item array with all the data of the item
-	 * @param	string		overwrite amount or 'basket'
-	 * @return	array
-	 * @access private
-	 */
-	public function getMinMaxQuantity (
-		$item,
-		&$minQuantity,
-		&$maxQuantity
-	) {
-		$row = $item['rec'];
-		$minQuantity = $row['basketminquantity'];
-		$maxQuantity = $row['basketmaxquantity'];
-		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
-		$prodTable = $tablesObj->get('tt_products', false);
-		$articleRow = $prodTable->getArticleRowFromExt($row);
+    /**
+     * gets the minimum necessary and maximum possible quantity of an item
+     *
+     * @param	array		reference to an item array with all the data of the item
+     * @param	string		overwrite amount or 'basket'
+     * @return	array
+     * @access private
+     */
+    public function getMinMaxQuantity (
+        $item,
+        &$minQuantity,
+        &$maxQuantity
+    ) {
+        $row = $item['rec'];
+        $minQuantity = $row['basketminquantity'];
+        $maxQuantity = $row['basketmaxquantity'];
+        $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
+        $prodTable = $tablesObj->get('tt_products', false);
+        $articleRow = $prodTable->getArticleRowFromExt($row);
 
-		if (is_array($articleRow) && count($articleRow)) {
-			$minQuantity = ($articleRow['basketminquantity'] != '0.00' ? $articleRow['basketminquantity'] : $minQuantity);
-			$maxQuantity = ($articleRow['basketmaxquantity'] != '0.00' ? $articleRow['basketmaxquantity'] : $maxQuantity);
-		}
-	}
+        if (is_array($articleRow) && count($articleRow)) {
+            $minQuantity = ($articleRow['basketminquantity'] != '0.00' ? $articleRow['basketminquantity'] : $minQuantity);
+            $maxQuantity = ($articleRow['basketmaxquantity'] != '0.00' ? $articleRow['basketmaxquantity'] : $maxQuantity);
+        }
+    }
 }
 
 

@@ -39,25 +39,25 @@
 
 class tx_ttproducts_control_session {
 
-	static public function filterExtensionData ($session) {
+    static public function filterExtensionData ($session) {
 
-		$result = '';
-		if (is_array($session) && isset($session['tt_products'])) {
-			$result = $session['tt_products'];
-		}
-		return $result;
-	}
+        $result = '';
+        if (is_array($session) && isset($session['tt_products'])) {
+            $result = $session['tt_products'];
+        }
+        return $result;
+    }
 
-	static public function readSession ($key) {
-		$result = '';
-		$data = $GLOBALS['TSFE']->fe_user->getKey('ses', $key);
-		if (!empty($data)) {
-			$result = $data;
-		}
-		return $result;
-	}
+    static public function readSession ($key) {
+        $result = [];
+        $data = $GLOBALS['TSFE']->fe_user->getKey('ses', $key);
+        if (!empty($data)) {
+            $result = $data;
+        }
+        return $result;
+    }
 
-	static public function writeSession ($key, $value) {
+    static public function writeSession ($key, $value) {
 
         // Storing value ONLY if there is a confirmed cookie set,
         // otherwise a shellscript could easily be spamming the fe_sessions table
@@ -69,62 +69,62 @@ class tx_ttproducts_control_session {
         ) {
             $GLOBALS['TSFE']->fe_user->setKey('ses', $key, $value);
             $GLOBALS['TSFE']->fe_user->storeSessionData();  // The basket shall not get lost when coming back from external scripts
-		}
-	}
+        }
+    }
 
-	/*************************************
-	* FE USER SESSION DATA HANDLING
-	*************************************/
-	/**
-	* Retrieves session data
-	*
-	* @param	boolean	$readAll: whether to retrieve all session data or only data for this extension key
-	* @return	array	session data
-	*/
-	static public function readSessionData ($readAll = false) {
-		$sessionData = [];
-		$extKey = TT_PRODUCTS_EXT;
-		$allSessionData = static::readSession('feuser');
+    /*************************************
+    * FE USER SESSION DATA HANDLING
+    *************************************/
+    /**
+    * Retrieves session data
+    *
+    * @param	boolean	$readAll: whether to retrieve all session data or only data for this extension key
+    * @return	array	session data
+    */
+    static public function readSessionData ($readAll = false) {
+        $sessionData = [];
+        $extKey = TT_PRODUCTS_EXT;
+        $allSessionData = static::readSession('feuser');
 
-		if (isset($allSessionData) && is_array($allSessionData)) {
-			if ($readAll) {
-				$sessionData = $allSessionData;
-			} else if (isset($allSessionData[$extKey])) {
-				$sessionData = $allSessionData[$extKey];
-			}
-		}
-		return $sessionData;
-	}
+        if (isset($allSessionData) && is_array($allSessionData)) {
+            if ($readAll) {
+                $sessionData = $allSessionData;
+            } else if (isset($allSessionData[$extKey])) {
+                $sessionData = $allSessionData[$extKey];
+            }
+        }
+        return $sessionData;
+    }
 
-	/**
-	* Writes data to FE user session data
-	*
-	* @param	array	$data: the data to be written to FE user session data
-	* @param	boolean	$keepToken: whether to keep any token
-	* @param	boolean	$keepRedirectUrl: whether to keep any redirectUrl
-	* @return	array	session data
-	*/
-	static public function writeSessionData (
-		array $data
-	) {
-		$clearSession = empty($data);
-		$extKey = TT_PRODUCTS_EXT;
-			// Read all session data
-		$allSessionData = static::readSessionData(true);
+    /**
+    * Writes data to FE user session data
+    *
+    * @param	array	$data: the data to be written to FE user session data
+    * @param	boolean	$keepToken: whether to keep any token
+    * @param	boolean	$keepRedirectUrl: whether to keep any redirectUrl
+    * @return	array	session data
+    */
+    static public function writeSessionData (
+        array $data
+    ) {
+        $clearSession = empty($data);
+        $extKey = TT_PRODUCTS_EXT;
+            // Read all session data
+        $allSessionData = static::readSessionData(true);
 
-		if (is_array($allSessionData[$extKey])) {
-			$keys = array_keys($allSessionData[$extKey]);
-			if ($clearSession) {
-				foreach ($keys as $key) {
-					unset($allSessionData[$extKey][$key]);
-				}
-			}
-			\TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($allSessionData[$extKey], $data);
-		} else {
-			$allSessionData[$extKey] = $data;
-		}
-		static::writeSession('feuser', $allSessionData);
-	}
+        if (is_array($allSessionData[$extKey])) {
+            $keys = array_keys($allSessionData[$extKey]);
+            if ($clearSession) {
+                foreach ($keys as $key) {
+                    unset($allSessionData[$extKey][$key]);
+                }
+            }
+            \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($allSessionData[$extKey], $data);
+        } else {
+            $allSessionData[$extKey] = $data;
+        }
+        static::writeSession('feuser', $allSessionData);
+    }
 }
 
 

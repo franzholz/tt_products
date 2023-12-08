@@ -39,7 +39,7 @@
 
 
 class tx_ttproducts_damcategory extends tx_ttproducts_category {
-	protected $tableAlias = 'damcat';
+    protected $tableAlias = 'damcat';
 
 }
 

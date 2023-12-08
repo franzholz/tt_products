@@ -42,11 +42,11 @@
 interface tx_ttproducts_edit_variant_int {
 
 
-	public function init ($itemTable);
-	public function getFieldArray ();
-	public function getVariantFromRawRow ($row);
-	public function getVariantRowFromProductRow ($row);
-	public function getValidConfig ($row);
+    public function init ($itemTable);
+    public function getFieldArray ();
+    public function getVariantFromRawRow ($row);
+    public function getVariantRowFromProductRow ($row);
+    public function getValidConfig ($row);
 
 }
 

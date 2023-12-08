@@ -43,57 +43,57 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_ws_flexslider {
 
-	public function getUid (
-		$pObj,
-		&$imageField,
-		&$imageArray
-	) {
-		$uid = 0;
+    public function getUid (
+        $pObj,
+        &$imageField,
+        &$imageArray
+    ) {
+        $uid = 0;
 
-		$params =  GeneralUtility::_GP('tt_products');
-		if (isset($params) && is_array($params)) {
-			$uid = $params['cat'];
-		}
+        $params =  GeneralUtility::_GP('tt_products');
+        if (isset($params) && is_array($params)) {
+            $uid = $params['cat'];
+        }
 
-		if ($uid) {
-			$imageField = 'sliderimage';
-			$imageArray =
-				$this->getImages(
-					$pObj,
-					$uid,
-					'tt_products_cat',
-					$imageField
-				);
-			$imageField = 'catimages';
-		}
+        if ($uid) {
+            $imageField = 'sliderimage';
+            $imageArray =
+                $this->getImages(
+                    $pObj,
+                    $uid,
+                    'tt_products_cat',
+                    $imageField
+                );
+            $imageField = 'catimages';
+        }
 
-		return $uid;
-	}
+        return $uid;
+    }
 
-	protected function getImages (
-		WapplerSystems\WsFlexslider\Controller\FlexsliderController $pObj,
-		$uid,
-		$table,
-		$imageField
-	) {
-		$images =
-			$pObj->getImageRepository()->getImages(
-				$table,
-				$imageField,
-				$uid
-			);
-		$imageElement =
-			explode(
-				',',
-				$images[0][$imageField]
-			);
-		$imageArray = [];
+    protected function getImages (
+        WapplerSystems\WsFlexslider\Controller\FlexsliderController $pObj,
+        $uid,
+        $table,
+        $imageField
+    ) {
+        $images =
+            $pObj->getImageRepository()->getImages(
+                $table,
+                $imageField,
+                $uid
+            );
+        $imageElement =
+            explode(
+                ',',
+                $images[0][$imageField]
+            );
+        $imageArray = [];
 
-		foreach ($imageElement as $k => $value) {
-			$imageArray[$k]['image'] = $value;
-		}
+        foreach ($imageElement as $k => $value) {
+            $imageArray[$k]['image'] = $value;
+        }
 
-		return $imageArray;
-	}
+        return $imageArray;
+    }
 }
 

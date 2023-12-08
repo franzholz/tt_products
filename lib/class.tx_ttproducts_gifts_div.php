@@ -41,223 +41,223 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
 class tx_ttproducts_gifts_div {
-	/**
-	 * returns if the product has been put into the basket as a gift
-	 *
-	 * @param	integer	 uid of the product
-	 * @param	integer	 variant of the product only size is used now --> TODO
-	 * @return  array	all gift numbers for this product
-	 */
-	static public function getGiftNumbers ($uid, $variant, $basketExt) {
-		$giftArray = [];
+    /**
+     * returns if the product has been put into the basket as a gift
+     *
+     * @param	integer	 uid of the product
+     * @param	integer	 variant of the product only size is used now --> TODO
+     * @return  array	all gift numbers for this product
+     */
+    static public function getGiftNumbers ($uid, $variant, $basketExt) {
+        $giftArray = [];
 
-		if ($basketExt['gift']) {
-			foreach ($basketExt['gift'] as $giftnumber => $giftItem) {
-				if ($giftItem['item'][$uid][$variant]) {
-					$giftArray[] = $giftnumber;
-				}
-			}
-		}
+        if ($basketExt['gift']) {
+            foreach ($basketExt['gift'] as $giftnumber => $giftItem) {
+                if ($giftItem['item'][$uid][$variant]) {
+                    $giftArray[] = $giftnumber;
+                }
+            }
+        }
 
-		return $giftArray;
-	}
-
-
-	/**
-	 * Adds gift markers to a markerArray
-	 */
-	static public function addGiftMarkers ($markerArray, $giftnumber, $code = 'LISTGIFTS', $id = '1') {
-
-		$basketExt = tx_ttproducts_control_basket::getBasketExt();
-
-		$markerArray['###GIFTNO###'] = $giftnumber;
-		$markerArray['###GIFT_PERSON_NAME###'] = $basketExt['gift'][$giftnumber]['personname'];
-		$markerArray['###GIFT_PERSON_EMAIL###'] = $basketExt['gift'][$giftnumber]['personemail'];
-		$markerArray['###GIFT_DELIVERY_NAME###'] = $basketExt['gift'][$giftnumber]['deliveryname'];
-		$markerArray['###GIFT_DELIVERY_EMAIL###'] = $basketExt['gift'][$giftnumber]['deliveryemail'];
-		$markerArray['###GIFT_NOTE###'] = $basketExt['gift'][$giftnumber]['note'];
-
-		$markerArray['###FIELD_ID###'] = TT_PRODUCTS_EXT . '_' . strtolower($code) . '_id_' . $id;
-		// here again, because this is here in ITEM_LIST view
-		//	  $markerArray['###FIELD_QTY###'] =  '';
-
-	 	$markerArray['###FIELD_NAME_PERSON_NAME###']='ttp_gift[personname]';
-		$markerArray['###FIELD_NAME_PERSON_EMAIL###']='ttp_gift[personemail]';
-		$markerArray['###FIELD_NAME_DELIVERY_NAME###']='ttp_gift[deliveryname]';
-		$markerArray['###FIELD_NAME_DELIVERY_EMAIL###']='ttp_gift[deliveryemail]';
-		$markerArray['###FIELD_NAME_GIFT_NOTE###']='ttp_gift[note]';
-
-		return $markerArray;
-	} // addGiftMarkers
+        return $giftArray;
+    }
 
 
-	/**
-	 * Saves the orderRecord and returns the result
-	 *
-	 */
-	static public function saveOrderRecord ($orderUid, $pid, &$giftBasket) {
-		$rc = '';
+    /**
+     * Adds gift markers to a markerArray
+     */
+    static public function addGiftMarkers ($markerArray, $giftnumber, $code = 'LISTGIFTS', $id = '1') {
 
-		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
-		$productObj = $tablesObj->get('tt_products');
-		foreach ($giftBasket as $giftnumber => $rec) {
-			$amount = 0;
-			foreach ($rec['item'] as $productid => $product) {
-				$row = $productObj->get($productid);
-				$articleRows = $productObj->getArticleRows($productid);
-				foreach ($product as $variant => $count) {
-					$productObj->variant->modifyRowFromVariant($row, $variant);
-					$articleRow = $productObj->getArticleRow($row, $theCode);
-					if (count ($articleRow)) {
-						$amount += intval($articleRow['price']) * $count;
-					} else {
-						$amount += intval($row['price']) * $count;
-					}
-				}
-			}
+        $basketExt = tx_ttproducts_control_basket::getBasketExt();
 
-			// Saving gift order data
-			$insertFields = [
-				'pid' => intval($pid),
-				'tstamp' => time(),
-				'crdate' => time(),
-				'deleted' => 0,
+        $markerArray['###GIFTNO###'] = $giftnumber;
+        $markerArray['###GIFT_PERSON_NAME###'] = $basketExt['gift'][$giftnumber]['personname'];
+        $markerArray['###GIFT_PERSON_EMAIL###'] = $basketExt['gift'][$giftnumber]['personemail'];
+        $markerArray['###GIFT_DELIVERY_NAME###'] = $basketExt['gift'][$giftnumber]['deliveryname'];
+        $markerArray['###GIFT_DELIVERY_EMAIL###'] = $basketExt['gift'][$giftnumber]['deliveryemail'];
+        $markerArray['###GIFT_NOTE###'] = $basketExt['gift'][$giftnumber]['note'];
 
-				'ordernumber'	=> $orderUid,
-				'personname'	=> $rec['personname'],
-				'personemail'	=> $rec['personemail'],
-				'deliveryname'	=> $rec['deliveryname'],
-				'deliveryemail' => $rec['deliveryemail'],
-				'note'			=> $rec['note'],
-				'amount'		=> $amount,
-			];
-			// Saving the gifts order record
+        $markerArray['###FIELD_ID###'] = TT_PRODUCTS_EXT . '_' . strtolower($code) . '_id_' . $id;
+        // here again, because this is here in ITEM_LIST view
+        //	  $markerArray['###FIELD_QTY###'] =  '';
 
-			$GLOBALS['TYPO3_DB']->exec_INSERTquery('tt_products_gifts', $insertFields);
-			$newId = $GLOBALS['TYPO3_DB']->sql_insert_id();
-			$insertFields = [];
-			$insertFields['uid_local'] = $newId;
-			$variantFields = $productObj->variant->getFieldArray();
+        $markerArray['###FIELD_NAME_PERSON_NAME###']='ttp_gift[personname]';
+        $markerArray['###FIELD_NAME_PERSON_EMAIL###']='ttp_gift[personemail]';
+        $markerArray['###FIELD_NAME_DELIVERY_NAME###']='ttp_gift[deliveryname]';
+        $markerArray['###FIELD_NAME_DELIVERY_EMAIL###']='ttp_gift[deliveryemail]';
+        $markerArray['###FIELD_NAME_GIFT_NOTE###']='ttp_gift[note]';
 
-			foreach ($rec['item'] as $productid => $product) {
-				foreach ($product as $variant => $count) {
-					$row = [];
-					$productObj->variant->modifyRowFromVariant ($row, $variant);
-
-					$query='uid_product=\'' . intval($productid) . '\'';
-					foreach ($variantFields as $k => $field) {
-						if ($row[$field]) {
-							$query .= ' AND ' . $field . '=' . $GLOBALS['TYPO3_DB']->fullQuoteStr($row[$field],'tt_products_articles');
-						}
-					}
-					$articleRes = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid', 'tt_products_articles', $query);
-
-					if ($articleRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($articleRes)) {
-						$insertFields['uid_foreign'] = $articleRow['uid'];
-						$insertFields['count'] = $count;
-						// Saving the gifts mm order record
-							$GLOBALS['TYPO3_DB']->exec_INSERTquery('tt_products_gifts_articles_mm',	$insertFields);
-					}
-				}
-			}
-		}
-
-		return $rc;
-	}
+        return $markerArray;
+    } // addGiftMarkers
 
 
-	static public function checkRequired ($basketExt, $infoViewObj, &$wrongGiftNumber) {
-		$result = '';
-		$wrongGiftNumber = 0;
+    /**
+     * Saves the orderRecord and returns the result
+     *
+     */
+    static public function saveOrderRecord ($orderUid, $pid, &$giftBasket) {
+        $rc = '';
 
-		if (
-			isset($basketExt) &&
-			is_array($basketExt) &&
-			isset($basketExt['gift']) &&
-			is_array($basketExt['gift'])
-		) {
-			// RegEx-Check
-			$checkFieldsExpr = $infoViewObj->getFieldChecks('gift');
+        $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
+        $productObj = $tablesObj->get('tt_products');
+        foreach ($giftBasket as $giftnumber => $rec) {
+            $amount = 0;
+            foreach ($rec['item'] as $productid => $product) {
+                $row = $productObj->get($productid);
+                $articleRows = $productObj->getArticleRows($productid);
+                foreach ($product as $variant => $count) {
+                    $productObj->variant->modifyRowFromVariant($row, $variant);
+                    $articleRow = $productObj->getArticleRow($row, $theCode);
+                    if (count ($articleRow)) {
+                        $amount += intval($articleRow['price']) * $count;
+                    } else {
+                        $amount += intval($row['price']) * $count;
+                    }
+                }
+            }
 
-			if (($checkFieldsExpr) && (is_array($checkFieldsExpr))) {
-				foreach ($checkFieldsExpr as $fName => $checkExpr) {
+            // Saving gift order data
+            $insertFields = [
+                'pid' => intval($pid),
+                'tstamp' => time(),
+                'crdate' => time(),
+                'deleted' => 0,
 
-					foreach ($basketExt['gift'] as $giftnumber => $giftRow) {
+                'ordernumber'	=> $orderUid,
+                'personname'	=> $rec['personname'],
+                'personemail'	=> $rec['personemail'],
+                'deliveryname'	=> $rec['deliveryname'],
+                'deliveryemail' => $rec['deliveryemail'],
+                'note'			=> $rec['note'],
+                'amount'		=> $amount,
+            ];
+            // Saving the gifts order record
 
-						foreach ($giftRow as $field => $value) {
-							if (
-								strpos($field, $fName) !== false &&
-								preg_match('/' . $checkExpr . '/', $value) == 0
-							) {
-								$wrongGiftNumber = $giftnumber;
-								$result = $fName;
-								break;
-							}
-						}
-					}
-				}
-			}
-		}
+            $GLOBALS['TYPO3_DB']->exec_INSERTquery('tt_products_gifts', $insertFields);
+            $newId = $GLOBALS['TYPO3_DB']->sql_insert_id();
+            $insertFields = [];
+            $insertFields['uid_local'] = $newId;
+            $variantFields = $productObj->variant->getFieldArray();
 
-		return $result;
-	}
+            foreach ($rec['item'] as $productid => $product) {
+                foreach ($product as $variant => $count) {
+                    $row = [];
+                    $productObj->variant->modifyRowFromVariant ($row, $variant);
 
+                    $query='uid_product=\'' . intval($productid) . '\'';
+                    foreach ($variantFields as $k => $field) {
+                        if ($row[$field]) {
+                            $query .= ' AND ' . $field . '=' . $GLOBALS['TYPO3_DB']->fullQuoteStr($row[$field],'tt_products_articles');
+                        }
+                    }
+                    $articleRes = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid', 'tt_products_articles', $query);
 
-	static public function deleteGiftNumber ($giftnumber) {
-		$giftArray = [];
-		$basketExt = tx_ttproducts_control_basket::getBasketExt();
+                    if ($articleRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($articleRes)) {
+                        $insertFields['uid_foreign'] = $articleRow['uid'];
+                        $insertFields['count'] = $count;
+                        // Saving the gifts mm order record
+                            $GLOBALS['TYPO3_DB']->exec_INSERTquery('tt_products_gifts_articles_mm',	$insertFields);
+                    }
+                }
+            }
+        }
 
-		if (
-			is_array($basketExt) &&
-			isset($basketExt['gift']) &&
-			is_array($basketExt['gift']) &&
-			isset($basketExt['gift'][$giftnumber])
-		) {
-			$count = count($basketExt['gift']);
-			$itemArray = $basketExt['gift'][$giftnumber]['item'];
-
-			foreach ($itemArray as $uid => $nextData) {
-				foreach ($nextData as $allVariants => $count) {
-					unset($basketExt[$uid][$allVariants]);
-					if (!$basketExt[$uid]) {
-						unset($basketExt[$uid]);
-					}
-				}
-			}
-
-			unset($basketExt['gift'][$giftnumber]);
-			if ($count == 1) {
-				unset($basketExt['gift']);
-			}
-			tx_ttproducts_control_basket::storeBasketExt($basketExt);
-		}
-	}
-
-
-	static public function isGift ($row, $whereGift) {
-		$result = false;
-
-		if (strlen($whereGift)) {
-			$result = tx_ttproducts_sql::isValid($row, $whereGift);
-		}
-		return $result;
-	}
+        return $rc;
+    }
 
 
-	static public function useTaxZero ($row, $giftConf, $whereGift) {
-		$result = false;
-		if (
-			self::isGift($row, $whereGift) &&
-			isset($giftConf) &&
-			is_array($giftConf) &&
-			isset($giftConf['TAXpercentage']) &&
-			doubleval($giftConf['TAXpercentage']) == '0'
-		) {
-			$result = true;
-		}
+    static public function checkRequired ($basketExt, $infoViewObj, &$wrongGiftNumber) {
+        $result = '';
+        $wrongGiftNumber = 0;
 
-		return $result;
-	}
+        if (
+            isset($basketExt) &&
+            is_array($basketExt) &&
+            isset($basketExt['gift']) &&
+            is_array($basketExt['gift'])
+        ) {
+            // RegEx-Check
+            $checkFieldsExpr = $infoViewObj->getFieldChecks('gift');
+
+            if (($checkFieldsExpr) && (is_array($checkFieldsExpr))) {
+                foreach ($checkFieldsExpr as $fName => $checkExpr) {
+
+                    foreach ($basketExt['gift'] as $giftnumber => $giftRow) {
+
+                        foreach ($giftRow as $field => $value) {
+                            if (
+                                strpos($field, $fName) !== false &&
+                                preg_match('/' . $checkExpr . '/', $value) == 0
+                            ) {
+                                $wrongGiftNumber = $giftnumber;
+                                $result = $fName;
+                                break;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        return $result;
+    }
+
+
+    static public function deleteGiftNumber ($giftnumber) {
+        $giftArray = [];
+        $basketExt = tx_ttproducts_control_basket::getBasketExt();
+
+        if (
+            is_array($basketExt) &&
+            isset($basketExt['gift']) &&
+            is_array($basketExt['gift']) &&
+            isset($basketExt['gift'][$giftnumber])
+        ) {
+            $count = count($basketExt['gift']);
+            $itemArray = $basketExt['gift'][$giftnumber]['item'];
+
+            foreach ($itemArray as $uid => $nextData) {
+                foreach ($nextData as $allVariants => $count) {
+                    unset($basketExt[$uid][$allVariants]);
+                    if (!$basketExt[$uid]) {
+                        unset($basketExt[$uid]);
+                    }
+                }
+            }
+
+            unset($basketExt['gift'][$giftnumber]);
+            if ($count == 1) {
+                unset($basketExt['gift']);
+            }
+            tx_ttproducts_control_basket::storeBasketExt($basketExt);
+        }
+    }
+
+
+    static public function isGift ($row, $whereGift) {
+        $result = false;
+
+        if (strlen($whereGift)) {
+            $result = tx_ttproducts_sql::isValid($row, $whereGift);
+        }
+        return $result;
+    }
+
+
+    static public function useTaxZero ($row, $giftConf, $whereGift) {
+        $result = false;
+        if (
+            self::isGift($row, $whereGift) &&
+            isset($giftConf) &&
+            is_array($giftConf) &&
+            isset($giftConf['TAXpercentage']) &&
+            doubleval($giftConf['TAXpercentage']) == '0'
+        ) {
+            $result = true;
+        }
+
+        return $result;
+    }
 
 }
 

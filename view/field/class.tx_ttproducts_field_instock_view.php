@@ -40,35 +40,35 @@
 
 class tx_ttproducts_field_instock_view extends tx_ttproducts_field_base_view {
 
-	public function getRowMarkerArray (
-		$functablename,
-		$fieldname,
-		$row,
-		$markerKey,
-		&$markerArray,
-		$fieldMarkerArray,
-		$tagArray,
-		$theCode,
-		$id,
-		$basketExtra,
-		$basketRecs,
-		&$bSkip,
-		$bHtml = true,
-		$charset = '',
-		$prefix = '',
-		$suffix = '',
-		$imageNum = 0,
-		$imageRenderObj = '',
-		$linkWrap = false,
-		$bEnableTaxZero = false
-	) {
-		if ($row[$fieldname]) {
-			$markerArray['###' . $markerKey . '_INSTOCK_UNIT###'] = $this->conf['inStockPieces'];
-		} else {
-			$value = $this->conf['notInStockMessage'];
-			$markerArray['###'.$markerKey.'_INSTOCK_UNIT###'] = '';
-		}
+    public function getRowMarkerArray (
+        $functablename,
+        $fieldname,
+        $row,
+        $markerKey,
+        &$markerArray,
+        $fieldMarkerArray,
+        $tagArray,
+        $theCode,
+        $id,
+        $basketExtra,
+        $basketRecs,
+        &$bSkip,
+        $bHtml = true,
+        $charset = '',
+        $prefix = '',
+        $suffix = '',
+        $imageNum = 0,
+        $imageRenderObj = '',
+        $linkWrap = false,
+        $bEnableTaxZero = false
+    ) {
+        if ($row[$fieldname]) {
+            $markerArray['###' . $markerKey . '_INSTOCK_UNIT###'] = $this->conf['inStockPieces'];
+        } else {
+            $value = $this->conf['notInStockMessage'];
+            $markerArray['###'.$markerKey.'_INSTOCK_UNIT###'] = '';
+        }
 
-		return $value;
-	}
+        return $value;
+    }
 }

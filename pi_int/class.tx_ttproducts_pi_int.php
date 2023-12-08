@@ -45,28 +45,28 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 class tx_ttproducts_pi_int implements \TYPO3\CMS\Core\SingletonInterface {
 
-    protected $cObj;
+    public $cObj;
 
     public function setContentObjectRenderer(ContentObjectRenderer $cObj): void
     {
         $this->cObj = $cObj;
     }
 
-	/**
-	 * Main method. Call this from TypoScript by a USER cObject.
-	 */
-	public function main ($content, $conf) {
+    /**
+     * Main method. Call this from TypoScript by a USER cObject.
+     */
+    public function main ($content, $conf) {
 
-		$pibaseObj = GeneralUtility::makeInstance('tx_ttproducts_pi_int_base');
-		$pibaseObj->cObj = $this->cObj;
-		$confMain = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
+        $pibaseObj = GeneralUtility::makeInstance('tx_ttproducts_pi_int_base');
+        $pibaseObj->cObj = $this->cObj;
+        $confMain = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
         \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($confMain, $conf);
-		$conf = $confMain;
-		$languageSubpath = '/Resources/Private/Language/';
+        $conf = $confMain;
+        $languageSubpath = '/Resources/Private/Language/';
 
-		if (!empty($conf['templateFile'])) {
+        if (!empty($conf['templateFile'])) {
 
-			$content = $pibaseObj->main($content, $conf);
+            $content = $pibaseObj->main($content, $conf);
         } else {
             if (count($conf) > 2) {
                 $errorText = $GLOBALS['TSFE']->sL(
@@ -79,6 +79,6 @@ class tx_ttproducts_pi_int implements \TYPO3\CMS\Core\SingletonInterface {
                 );
             }
         }
-		return $content;
-	}
+        return $content;
+    }
 }

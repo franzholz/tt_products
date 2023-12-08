@@ -46,8 +46,8 @@ use JambageCom\Div2007\Utility\FrontendUtility;
 
 
 class tx_ttproducts_fal_view extends tx_ttproducts_article_base_view {
-	public $marker = 'FAL';
-	public $piVar = 'fal';
+    public $marker = 'FAL';
+    public $piVar = 'fal';
 
 
     public function getItemSubpartArrays (

@@ -41,49 +41,49 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
 class tx_ttproducts_hooks_pool extends tx_pool_hooks_base {
-	public $extKey = TT_PRODUCTS_EXT;
-	public $prefixId = 'tx_ttproducts_hooks_pool';	// Same as class name
-	public $LLFileArray =
-		[
-			'hooks/locallang_pool.xml',
-			DIV2007_LANGUAGE_PATH . 'locallang_mod_web_list.xlf'
-		];
-	public $modMenu = ['function' => ['search']];
-	public $headerText = 'header_search';
+    public $extKey = TT_PRODUCTS_EXT;
+    public $prefixId = 'tx_ttproducts_hooks_pool';	// Same as class name
+    public $LLFileArray =
+        [
+            'hooks/locallang_pool.xml',
+            DIV2007_LANGUAGE_PATH . 'locallang_mod_web_list.xlf'
+        ];
+    public $modMenu = ['function' => ['search']];
+    public $headerText = 'header_search';
 
-	public function getViewData (
-		&$content,
-		&$header,
-		&$docHeaderButtons,
-		&$markerArray,
-		$pOb
-	) {
-		$content = '<b>Suche &uuml;ber tt_products</b><br/>';
+    public function getViewData (
+        &$content,
+        &$header,
+        &$docHeaderButtons,
+        &$markerArray,
+        $pOb
+    ) {
+        $content = '<b>Suche &uuml;ber tt_products</b><br/>';
 
-		if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('searchbox')) {
+        if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('searchbox')) {
 
 // 			GeneralUtility::requireOnce(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('searchbox') . 'view/class.tx_searchbox_view.php');
-			$searchBoxObj = GeneralUtility::makeInstance('tx_searchbox_view');
+            $searchBoxObj = GeneralUtility::makeInstance('tx_searchbox_view');
 
-			$content .= $searchBoxObj->getContent(
-				$GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['templateFile'],
-				'ITEM_SEARCH',
-				$this->prefixId,
-				$this->vars,
-				'index.php'
-			);
-			$dbListConf = $searchBoxObj->getDblistConf($this->prefixId);
-		}
+            $content .= $searchBoxObj->getContent(
+                $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['templateFile'],
+                'ITEM_SEARCH',
+                $this->prefixId,
+                $this->vars,
+                'index.php'
+            );
+            $dbListConf = $searchBoxObj->getDblistConf($this->prefixId);
+        }
 
-		if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('db_list')) {
+        if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('db_list')) {
 // 			GeneralUtility::requireOnce(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('db_list') . 'class.tx_dblist_script.php');
-			$dbListObj = GeneralUtility::makeInstance('tx_dblist_script');
-			$dbListObj->init($this->vars, $dbListConf);
+            $dbListObj = GeneralUtility::makeInstance('tx_dblist_script');
+            $dbListObj->init($this->vars, $dbListConf);
 
-			$dbListObj->clearCache();
-			$dbListObj->main($docHeaderButtons, $markerArray, $pOb);
-			$content .= $dbListObj->getContent();
-		}
-		parent::getViewData($content, $header, $docHeaderButtons, $markerArray, $pOb);
-	}
+            $dbListObj->clearCache();
+            $dbListObj->main($docHeaderButtons, $markerArray, $pOb);
+            $content .= $dbListObj->getContent();
+        }
+        parent::getViewData($content, $header, $docHeaderButtons, $markerArray, $pOb);
+    }
 }

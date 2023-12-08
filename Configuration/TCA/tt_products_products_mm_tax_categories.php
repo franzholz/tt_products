@@ -23,7 +23,7 @@ $result = [
             'label' => 'inactive',
             'config' => [
                 'type' => 'passthrough',
-                'default' => '',
+                'default' => null,
             ]
         ],
     ],

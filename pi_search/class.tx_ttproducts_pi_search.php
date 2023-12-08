@@ -43,35 +43,35 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 
 class tx_ttproducts_pi_search {
-    protected $cObj;
+    public $cObj;
 
     public function setContentObjectRenderer(ContentObjectRenderer $cObj): void
     {
         $this->cObj = $cObj;
     }
 
-	/**
-	 * Main method. Call this from TypoScript by a USER cObject.
-	 */
-	public function main($content, $conf) {
+    /**
+     * Main method. Call this from TypoScript by a USER cObject.
+     */
+    public function main($content, $conf) {
 
-		$pibaseObj = GeneralUtility::makeInstance('tx_ttproducts_pi_search_base');
-		$pibaseObj->cObj = $this->cObj;
-		$languageSubpath = '/Resources/Private/Language/';
+        $pibaseObj = GeneralUtility::makeInstance('tx_ttproducts_pi_search_base');
+        $pibaseObj->cObj = $this->cObj;
+        $languageSubpath = '/Resources/Private/Language/';
 
-		if (!empty($conf['templateFile'])) {
+        if (!empty($conf['templateFile'])) {
 
-			$content = $pibaseObj->main($content, $conf);
-		} else {
+            $content = $pibaseObj->main($content, $conf);
+        } else {
             $errorText = $GLOBALS['TSFE']->sL(
                 'LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'PiSearch/locallang.xlf:no_template'
             );
 
-			$content = str_replace('|', 'plugin.tt_products_pi_search.templateFile', $errorText);
-		}
+            $content = str_replace('|', 'plugin.tt_products_pi_search.templateFile', $errorText);
+        }
 
-		return $content;
-	}
+        return $content;
+    }
 }
 
 

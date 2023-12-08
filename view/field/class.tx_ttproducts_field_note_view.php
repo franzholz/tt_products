@@ -44,28 +44,28 @@ use JambageCom\Div2007\Utility\FrontendUtility;
 
 class tx_ttproducts_field_note_view extends tx_ttproducts_field_base_view {
 
-	public function getRowMarkerArray (
-		$functablename,
-		$fieldname,
-		$row,
-		$markerKey,
-		&$markerArray,
-		$fieldMarkerArray,
-		$tagArray,
-		$theCode,
-		$id,
-		$basketExtra,
-		$basketRecs,
-		&$bSkip,
-		$bHtml = true,
-		$charset = '',
-		$prefix = '',
-		$suffix = '',
-		$imageNum = 0,
-		$imageRenderObj = '',
-		$linkWrap = false,
-		$bEnableTaxZero = false
-	) {
+    public function getRowMarkerArray (
+        $functablename,
+        $fieldname,
+        $row,
+        $markerKey,
+        &$markerArray,
+        $fieldMarkerArray,
+        $tagArray,
+        $theCode,
+        $id,
+        $basketExtra,
+        $basketRecs,
+        &$bSkip,
+        $bHtml = true,
+        $charset = '',
+        $prefix = '',
+        $suffix = '',
+        $imageNum = 0,
+        $imageRenderObj = '',
+        $linkWrap = false,
+        $bEnableTaxZero = false
+    ) {
         $value = $this->getModelObj()->getFieldValue(
             $dummy,
             $row,
@@ -75,23 +75,23 @@ class tx_ttproducts_field_note_view extends tx_ttproducts_field_base_view {
             $dummy
         );
 
-		if (
-			$bHtml &&
-			($theCode != 'EMAIL' || $this->conf['orderEmail_htmlmail'])
-		) {
+        if (
+            $bHtml &&
+            ($theCode != 'EMAIL' || $this->conf['orderEmail_htmlmail'])
+        ) {
             $cObj = FrontendUtility::getContentObjectRenderer();
 
-				// Extension CSS styled content
-			if (FrontendUtility::hasRTEparser()) {
-				$value = FrontendUtility::RTEcssText($cObj, $value);
-			} else if (is_array($this->conf['parseFunc.'])) {
-				$value = $cObj->parseFunc($value, $this->conf['parseFunc.']);
-			} else if ($this->conf['nl2brNote']) {
-				$value = nl2br($value);
-			}
-		}
+                // Extension CSS styled content
+            if (FrontendUtility::hasRTEparser()) {
+                $value = FrontendUtility::RTEcssText($cObj, $value);
+            } else if (is_array($this->conf['parseFunc.'])) {
+                $value = $cObj->parseFunc($value, $this->conf['parseFunc.']);
+            } else if ($this->conf['nl2brNote']) {
+                $value = nl2br($value);
+            }
+        }
 
-		return $value;
-	}
+        return $value;
+    }
 }
 

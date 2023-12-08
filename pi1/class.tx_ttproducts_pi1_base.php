@@ -41,63 +41,64 @@
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 use JambageCom\TtProducts\Api\PluginApi;
 
 
 class tx_ttproducts_pi1_base extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin implements \TYPO3\CMS\Core\SingletonInterface {
-	public $prefixId = TT_PRODUCTS_EXT;
-	public $scriptRelPath = 'pi1/class.tx_ttproducts_pi1_base.php';	// Path to this script relative to the extension dir.
-	public $extKey = TT_PRODUCTS_EXT;	// The extension key.
-	public $bRunAjax = false;			// overrride this
+    public $prefixId = TT_PRODUCTS_EXT;
+    public $scriptRelPath = 'pi1/class.tx_ttproducts_pi1_base.php';	// Path to this script relative to the extension dir.
+    public $extKey = TT_PRODUCTS_EXT;	// The extension key.
+    public $bRunAjax = false;			// overrride this
 
     public function setContentObjectRenderer(ContentObjectRenderer $cObj): void
     {
         $this->cObj = $cObj;
     }
 
-	/**
-	 * Main method. Call this from TypoScript by a USER or USER_INT cObject.
-	 */
-	public function main ($content, $conf) {
+    /**
+     * Main method. Call this from TypoScript by a USER or USER_INT cObject.
+     */
+    public function main ($content, $conf) {
         $parameterApi = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\ParameterApi::class);
-		$parameterApi->setPrefixId($this->prefixId);
+        $parameterApi->setPrefixId($this->prefixId);
         PluginApi::init($conf);
-		tx_ttproducts_model_control::setPrefixId($this->prefixId);
+        tx_ttproducts_model_control::setPrefixId($this->prefixId);
 
-		$this->conf = $conf;
-		$config = [];
-		$mainObj = GeneralUtility::makeInstance('tx_ttproducts_main');	// fetch and store it as persistent object
-		$errorCode = [];
+        $this->conf = $conf;
+        $config = [];
+        $mainObj = GeneralUtility::makeInstance('tx_ttproducts_main');	// fetch and store it as persistent object
+        $errorCode = [];
         $mainObj->setContentObjectRenderer($this->cObj);
-		$bDoProcessing =
-			$mainObj->init(
-				$conf,
-				$config,
-				$this->cObj,
-				get_class($this),
-				$errorCode
-			);
+        $bDoProcessing =
+            $mainObj->init(
+                $conf,
+                $config,
+                $this->cObj,
+                get_class($this),
+                $errorCode
+            );
 
-		if ($bDoProcessing || !empty($errorCode)) {
-			$content =
-				$mainObj->run(
-					$this->cObj,
-					get_class($this),
-					$errorCode,
-					$content
-				);
-		} else {
-			$mainObj->destruct();
-		}
+        if ($bDoProcessing || !empty($errorCode)) {
+            $content =
+                $mainObj->run(
+                    $this->cObj,
+                    get_class($this),
+                    $errorCode,
+                    $content
+                );
+        } else {
+            $mainObj->destruct();
+        }
 
-		return $content;
-	}
+        return $content;
+    }
 
 
-	public function set ($bRunAjax) {
-		$this->bRunAjax = $bRunAjax;
-	}
+    public function set ($bRunAjax) {
+        $this->bRunAjax = $bRunAjax;
+    }
 }
 
 

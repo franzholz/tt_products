@@ -39,17 +39,17 @@
 
 
 class tx_ttproducts_model_activity {
-	static public $activityArray;
+    static public $activityArray;
 
 
-	static public function setActivityArray ($activityArray) {
-		self::$activityArray = $activityArray;
-	}
+    static public function setActivityArray ($activityArray) {
+        self::$activityArray = $activityArray;
+    }
 
 
-	static public function getActivityArray () {
-		return self::$activityArray;
-	}
+    static public function getActivityArray () {
+        return self::$activityArray;
+    }
 }
 
 

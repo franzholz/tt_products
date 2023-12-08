@@ -150,9 +150,9 @@ $result = [
             'config' => [
                 'type' => 'input',
                 'size' => '40',
-				'eval' => 'trim',
+                'eval' => 'trim',
                 'max' => '256',
-                'default' => ''
+                'default' => null
             ],
             'l10n_mode' => 'prefixLangTitle',
         ],
@@ -163,9 +163,9 @@ $result = [
                 'type' => 'text',
                 'rows' => '3',
                 'cols' => '20',
-				'eval' => null,
+                'eval' => null,
                 'max' => '512',
-                'default' => ''
+                'default' => null
             ],
             'l10n_mode' => 'prefixLangTitle',
         ],
@@ -185,7 +185,7 @@ $result = [
                 ],
                 'fallbackCharacter' => '-',
                 'eval' => $configuration->getSlugBehaviour(),
-                'default' => ''
+                'default' => null
             ]
         ],
         'keyword' => [
@@ -197,7 +197,7 @@ $result = [
                 'cols' => '20',
                 'max' => '512',
                 'eval' => 'null',
-                'default' => ''
+                'default' => null
             ]
         ],
         'note' => [
@@ -206,7 +206,7 @@ $result = [
                 'type' => 'text',
                 'cols' => '48',
                 'rows' => '5',
-                'default' => ''
+                'default' => null
             ],
             'l10n_mode' => 'prefixLangTitle',
         ],
@@ -216,7 +216,7 @@ $result = [
                 'type' => 'text',
                 'cols' => '48',
                 'rows' => '5',
-                'default' => ''
+                'default' => null
             ],
             'l10n_mode' => 'prefixLangTitle',
         ],

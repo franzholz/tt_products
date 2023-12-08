@@ -40,9 +40,9 @@
 
 
 class tx_ttproducts_article_view extends tx_ttproducts_article_base_view {
-	public $marker = 'ARTICLE';
-	public $type = 'article';
-	public $piVar = 'article';
+    public $marker = 'ARTICLE';
+    public $type = 'article';
+    public $piVar = 'article';
 
 }
 

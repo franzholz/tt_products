@@ -44,32 +44,32 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_api_download {
 
-	static public function fetchFal (
-		$fileReferenceUid
-	) {
-		$storageRepository = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\StorageRepository');
-		$storage = $storageRepository->findByUid(1);
+    static public function fetchFal (
+        $fileReferenceUid
+    ) {
+        $storageRepository = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\StorageRepository');
+        $storage = $storageRepository->findByUid(1);
         $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
-		$fileObj = $resourceFactory->getFileReferenceObject($fileReferenceUid);
+        $fileObj = $resourceFactory->getFileReferenceObject($fileReferenceUid);
 
-		$fileInfo = $storage->getFileInfo($fileObj);
-		$mimeType = $fileInfo['mimetype'];
-		$content = $fileObj->getContents();
-		$properties = $fileObj->getProperties();
+        $fileInfo = $storage->getFileInfo($fileObj);
+        $mimeType = $fileInfo['mimetype'];
+        $content = $fileObj->getContents();
+        $properties = $fileObj->getProperties();
 
-		if (!empty($properties['mime_type'])) {
-			$mimeType = $properties['mime_type'];
-		}
+        if (!empty($properties['mime_type'])) {
+            $mimeType = $properties['mime_type'];
+        }
 
-		ob_end_clean();
-		header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
-		header('Content-Type: ' . $mimeType);
-		header("Content-Type: application/download");
-		header('Content-Disposition: attachment; filename=' . $properties['name']);
-		header('Content-Length: ' . $properties['size']);
+        ob_end_clean();
+        header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+        header('Content-Type: ' . $mimeType);
+        header("Content-Type: application/download");
+        header('Content-Disposition: attachment; filename=' . $properties['name']);
+        header('Content-Length: ' . $properties['size']);
 
-		echo $content;
-		exit;
+        echo $content;
+        exit;
 
-	}
+    }
 }

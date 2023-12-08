@@ -41,7 +41,7 @@ $result = [
                 'eval' => 'datetime,int',
                 'renderType' => 'inputDateTime',
                 'default' => 0,
-				'readOnly' => 1
+                'readOnly' => 1
             ]
         ],
         'crdate' => [
@@ -53,7 +53,7 @@ $result = [
                 'eval' => 'datetime,int',
                 'renderType' => 'inputDateTime',
                 'default' => 0,
-				'readOnly' => 1
+                'readOnly' => 1
             ]
         ],
         'sys_language_uid' => [
@@ -72,7 +72,7 @@ $result = [
                 'size' => '40',
                 'max' => '80',
                 'eval' => 'required,trim',
-                'default' => ''
+                'default' => null
             ]
         ],
         'first_name' => [
@@ -83,7 +83,7 @@ $result = [
                 'size' => '40',
                 'max' => '50',
                 'eval' => 'trim',
-                'default' => ''
+                'default' => null
             ]
         ],
         'last_name' => [
@@ -94,7 +94,7 @@ $result = [
                 'size' => '40',
                 'max' => '50',
                 'eval' => 'trim',
-                'default' => ''
+                'default' => null
             ]
         ],
         'slug' => [
@@ -112,7 +112,7 @@ $result = [
                     ],
                 ],
                 'fallbackCharacter' => '-',
-                'default' => ''
+                'default' => null
             ]
         ],
         'company' => [
@@ -123,7 +123,7 @@ $result = [
                 'size' => '40',
                 'max' => '80',
                 'eval' => 'trim',
-                'default' => ''
+                'default' => null
             ]
         ],
         'vat_id' => [
@@ -133,7 +133,7 @@ $result = [
                 'type' => 'input',
                 'size' => '15',
                 'max' => '15',
-                'default' => ''
+                'default' => null
             ]
         ],
         'salutation' => [
@@ -161,7 +161,7 @@ $result = [
                 'size' => '50',
                 'max' => '256',
                 'eval' => 'null',
-                'default' => ''
+                'default' => null
             ]
         ],
         'house_no' => [
@@ -172,7 +172,7 @@ $result = [
                 'eval' => 'trim',
                 'size' => '20',
                 'max' => '20',
-                'default' => ''
+                'default' => null
             ]
         ],
         'zip' => [
@@ -183,7 +183,7 @@ $result = [
                 'size' => '10',
                 'max' => '20',
                 'eval' => 'trim',
-                'default' => ''
+                'default' => null
             ]
         ],
         'city' => [
@@ -194,7 +194,7 @@ $result = [
                 'size' => '40',
                 'max' => '50',
                 'eval' => 'trim',
-                'default' => ''
+                'default' => null
             ]
         ],
         'country' => [
@@ -205,7 +205,7 @@ $result = [
                 'size' => '40',
                 'max' => '60',
                 'eval' => 'trim',
-                'default' => ''
+                'default' => null
             ]
         ],
         'telephone' => [
@@ -215,7 +215,7 @@ $result = [
                 'type' => 'input',
                 'size' => '20',
                 'max' => '20',
-                'default' => ''
+                'default' => null
             ]
         ],
         'email' => [
@@ -225,7 +225,7 @@ $result = [
                 'type' => 'input',
                 'size' => '20',
                 'max' => '80',
-                'default' => ''
+                'default' => null
             ]
         ],
         'fax' => [
@@ -235,7 +235,7 @@ $result = [
                 'type' => 'input',
                 'size' => '4',
                 'max' => '4',
-                'default' => ''
+                'default' => null
             ]
         ],
         'business_partner' => [
@@ -300,7 +300,7 @@ $result = [
                 'type' => 'input',
                 'size' => '40',
                 'max' => '80',
-                'default' => ''
+                'default' => null
             ]
         ],
         'shipping' => [
@@ -310,7 +310,7 @@ $result = [
                 'type' => 'input',
                 'size' => '40',
                 'max' => '80',
-                'default' => ''
+                'default' => null
             ]
         ],
         'amount' => [
@@ -371,7 +371,7 @@ $result = [
                 'type' => 'input',
                 'size' => '4',
                 'max' => '4',
-                'default' => ''
+                'default' => null
             ]
         ],
         'tracking_code' => [
@@ -381,7 +381,7 @@ $result = [
                 'type' => 'input',
                 'size' => '32',
                 'max' => '64',
-                'default' => ''
+                'default' => null
             ]
         ],
         'status' => [
@@ -391,7 +391,7 @@ $result = [
                 'type' => 'input',
                 'size' => '4',
                 'max' => '4',
-                'default' => ''
+                'default' => null
             ]
         ],
         'status_log' => [
@@ -402,7 +402,7 @@ $result = [
                 'cols' => '80',
                 'rows' => '4',
                 'eval' => 'null',
-                'default' => ''
+                'default' => null
             ]
         ],
         'orderData' => [
@@ -414,7 +414,7 @@ $result = [
                 'rows' => '160',
                 'wrap' => 'off',
                 'eval' => 'null',
-                'default' => ''
+                'default' => null
             ]
         ],
         'orderHtml' => [
@@ -428,7 +428,7 @@ $result = [
                     'format' => 'html'
                 ],
                 'db' => 'passthrough',
-                'default' => ''
+                'default' => null
             ],
         ],
         'agb' => [
@@ -498,7 +498,7 @@ $result = [
                 'type' => 'input',
                 'size' => '10',
                 'max' => '10',
-                'default' => ''
+                'default' => null
             ]
         ],
         'desired_time' => [
@@ -508,7 +508,7 @@ $result = [
                 'type' => 'input',
                 'size' => '10',
                 'max' => '10',
-                'default' => ''
+                'default' => null
             ]
         ],
         'client_ip' => [
@@ -518,7 +518,7 @@ $result = [
                 'type' => 'input',
                 'size' => '40',
                 'max' => '50',
-                'default' => ''
+                'default' => null
             ]
         ],
         'note' => [
@@ -529,7 +529,7 @@ $result = [
                 'cols' => '48',
                 'rows' => '5',
                 'eval' => 'null',
-                'default' => ''
+                'default' => null
             ]
         ],
         'giftservice' => [
@@ -540,7 +540,7 @@ $result = [
                 'cols' => '48',
                 'rows' => '5',
                 'eval' => 'null',
-                'default' => ''
+                'default' => null
             ]
         ],
         'cc_uid' => [
@@ -596,7 +596,7 @@ $result = [
                 'type' => 'input',
                 'size' => '30',
                 'max' => '80',
-                'default' => ''
+                'default' => null
             ]
         ],
         'date_of_birth' => [
@@ -639,7 +639,7 @@ $result = [
                 'type' => 'input',
                 'size' => '30',
                 'max' => '80',
-                'default' => ''
+                'default' => null
             ]
         ],
         'radio1' => [
@@ -665,7 +665,7 @@ $result = [
                     'mode' => 1
                 ],
                 'db' => 'passthrough',
-                'default' => ''
+                'default' => null
             ],
         ],
         'fal_uid' => [

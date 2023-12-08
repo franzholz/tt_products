@@ -43,7 +43,7 @@ $result = [
                 'size' => '40',
                 'max' => '80',
                 'eval' => 'required,trim',
-                'default' => ''
+                'default' => null
             ]
         ],
         'owner_name' => [
@@ -53,7 +53,7 @@ $result = [
                 'type' => 'input',
                 'size' => '40',
                 'max' => '80',
-                'default' => ''
+                'default' => null
             ]
         ],
         'cc_type' => [
@@ -70,7 +70,7 @@ $result = [
                 ],
                 'size' => 1,
                 'maxitems' => 1,
-                'default' => ''
+                'default' => null
             ]
         ],
         'cvv2' => [

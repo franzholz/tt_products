@@ -39,20 +39,20 @@
 
 class tx_ttproducts_edit_variant_dummy implements tx_ttproducts_edit_variant_int, \TYPO3\CMS\Core\SingletonInterface {
 
-	public function init ($itemTable) {
-		return true;
-	}
+    public function init ($itemTable) {
+        return true;
+    }
 
-	public function getFieldArray () {
-	}
+    public function getFieldArray () {
+    }
 
-	public function getVariantFromRawRow ($row) {
-	}
+    public function getVariantFromRawRow ($row) {
+    }
 
-	public function getVariantRowFromProductRow ($row) {
-	}
+    public function getVariantRowFromProductRow ($row) {
+    }
 
-	public function getValidConfig ($row) {
-	}
+    public function getValidConfig ($row) {
+    }
 }
 

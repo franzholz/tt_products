@@ -41,57 +41,57 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
 class tx_ttproducts_text_view extends tx_ttproducts_table_base_view {
-	public $marker = 'TEXT';
+    public $marker = 'TEXT';
 
 
-	/**
-	 * Template marker substitution
-	 * Fills in the markerArray with data for a product
-	 *
-	 * @param	array		reference to an item array with all the data of the item
-	 * @param	array		Returns a markerArray ready for substitution with information
-	 * @access private
-	 */
-	public function getRowsMarkerArray (
-		$rowArray,
-		&$markerArray,
-		$parentMarker,
-		$tagArray
-	) {
-		$bFoundTagArray = [];
+    /**
+     * Template marker substitution
+     * Fills in the markerArray with data for a product
+     *
+     * @param	array		reference to an item array with all the data of the item
+     * @param	array		Returns a markerArray ready for substitution with information
+     * @access private
+     */
+    public function getRowsMarkerArray (
+        $rowArray,
+        &$markerArray,
+        $parentMarker,
+        $tagArray
+    ) {
+        $bFoundTagArray = [];
         $cObj = \JambageCom\TtProducts\Api\ControlApi::getCObj();
-		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-		$conf = $cnf->getConf();
-		$config = $cnf->getConfig();
+        $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
+        $conf = $cnf->getConf();
+        $config = $cnf->getConfig();
 
         if (isset($rowArray) && is_array($rowArray) && count($rowArray)) {
-			foreach ($rowArray as $k => $row) {
-				$tag = strtoupper($row['marker']);
-				$bFoundTagArray[$tag] = true;
-				$marker = $parentMarker . '_' . $this->getMarker() . '_' . $tag;
-				$value = $row['note'];
-				$value = ($conf['nl2brNote'] ? nl2br($value) : $value);
+            foreach ($rowArray as $k => $row) {
+                $tag = strtoupper($row['marker']);
+                $bFoundTagArray[$tag] = true;
+                $marker = $parentMarker . '_' . $this->getMarker() . '_' . $tag;
+                $value = $row['note'];
+                $value = ($conf['nl2brNote'] ? nl2br($value) : $value);
 
                 if (FrontendUtility::hasRTEparser()) {
                     $value = FrontendUtility::RTEcssText($cObj, $value);
-				} else if (is_array($conf['parseFunc.'])) {
-					$value = $cObj->parseFunc($value, $conf['parseFunc.']);
-				}
-				$markerArray['###' . $marker . '###'] = $value;
-				$markerTitle = $marker . '_' . strtoupper('title');
-				$markerArray['###' . $markerTitle . '###'] = $row['title'];
-			}
-		}
+                } else if (is_array($conf['parseFunc.'])) {
+                    $value = $cObj->parseFunc($value, $conf['parseFunc.']);
+                }
+                $markerArray['###' . $marker . '###'] = $value;
+                $markerTitle = $marker . '_' . strtoupper('title');
+                $markerArray['###' . $markerTitle . '###'] = $row['title'];
+            }
+        }
 
 
-		if (isset($tagArray) && is_array($tagArray)) {
-			foreach ($tagArray as $tag) {
-				if (!$bFoundTagArray[$tag]) {
-					$marker = $parentMarker . '_' . $this->getMarker() . '_' . $tag;
-					$markerArray['###' . $marker . '###'] = '';
-				}
-			}
-		}
-	}
+        if (isset($tagArray) && is_array($tagArray)) {
+            foreach ($tagArray as $tag) {
+                if (!$bFoundTagArray[$tag]) {
+                    $marker = $parentMarker . '_' . $this->getMarker() . '_' . $tag;
+                    $markerArray['###' . $marker . '###'] = '';
+                }
+            }
+        }
+    }
 }
 

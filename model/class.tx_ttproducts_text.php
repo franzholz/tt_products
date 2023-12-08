@@ -42,53 +42,53 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_text extends tx_ttproducts_table_base {
 
-	public function getChildUidArray (
-		$theCode,
-		$uid,
-		$tagMarkerArray,
-		$parenttable = 'tt_products'
-	) {
-		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-		$functablename = $this->getFuncTablename();
-		$fallback = false;
-		$tableConf = $cnf->getTableConf($functablename, $theCode);
-		$fallback = $cnf->getFallback($tableConf);
+    public function getChildUidArray (
+        $theCode,
+        $uid,
+        $tagMarkerArray,
+        $parenttable = 'tt_products'
+    ) {
+        $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
+        $functablename = $this->getFuncTablename();
+        $fallback = false;
+        $tableConf = $cnf->getTableConf($functablename, $theCode);
+        $fallback = $cnf->getFallback($tableConf);
 
-		$resultArray = [];
-		$tagWhere = '';
+        $resultArray = [];
+        $tagWhere = '';
 
-		if (is_array($tagMarkerArray) && count($tagMarkerArray)) {
-			$tagMarkerArray = $GLOBALS['TYPO3_DB']->fullQuoteArray(
-				$tagMarkerArray,
-				$this->getTableObj()->getName()
-			);
-			$tags = implode(',',$tagMarkerArray);
-			$tagWhere = ' AND marker IN (' . $tags . ')';
-		}
+        if (is_array($tagMarkerArray) && count($tagMarkerArray)) {
+            $tagMarkerArray = $GLOBALS['TYPO3_DB']->fullQuoteArray(
+                $tagMarkerArray,
+                $this->getTableObj()->getName()
+            );
+            $tags = implode(',',$tagMarkerArray);
+            $tagWhere = ' AND marker IN (' . $tags . ')';
+        }
 
-		$where_clause = 'parentid = ' . intval($uid) . ' AND parenttable=' . $GLOBALS['TYPO3_DB']->fullQuoteStr(
-			$parenttable,
-			$this->getTableObj()->getName()
-		) .
-			$tagWhere;
+        $where_clause = 'parentid = ' . intval($uid) . ' AND parenttable=' . $GLOBALS['TYPO3_DB']->fullQuoteStr(
+            $parenttable,
+            $this->getTableObj()->getName()
+        ) .
+            $tagWhere;
 
-		$resultArray =
-			$this->get(
-				'',
-				'',
-				false,
-				$where_clause,
-				'', // $groupBy
-				'', // $orderBy
-				'', // $limit
-				'', // $fields
-				false, // $bCount
-				'', // $aliasPostfix
-				true, // $bUseEnableFields
-				$fallback
-			);
+        $resultArray =
+            $this->get(
+                '',
+                '',
+                false,
+                $where_clause,
+                '', // $groupBy
+                '', // $orderBy
+                '', // $limit
+                '', // $fields
+                false, // $bCount
+                '', // $aliasPostfix
+                true, // $bUseEnableFields
+                $fallback
+            );
 
-		return $resultArray;
-	}
+        return $resultArray;
+    }
 }
 
