@@ -33,31 +33,33 @@ namespace JambageCom\TtProducts\Api;
  * control functions
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
+class ControlApi
+{
+    protected static $conf = [];
+    protected static $cObj;
 
-
-class ControlApi {
-    static protected $conf = [];
-    static protected $cObj = null;
-
-    static public function init ($conf, $cObj) {
+    public static function init($conf, $cObj)
+    {
         static::$conf = $conf;
         static::$cObj = $cObj;
     }
 
-    static public function getConf () {
+    public static function getConf()
+    {
         return static::$conf;
     }
 
-    static public function getCObj () {
+    public static function getCObj()
+    {
         return static::$cObj;
     }
 
-    static public function isOverwriteMode ($infoArray) {
+    public static function isOverwriteMode($infoArray)
+    {
         $overwriteMode = false;
         $conf = self::getConf();
 
@@ -78,5 +80,3 @@ class ControlApi {
         return $overwriteMode;
     }
 }
-
-

@@ -30,36 +30,35 @@
  * functions for the product
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
-
-
-abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base {
+abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base
+{
     public $table;	 // object of the type tx_table_db
     public $conf;
     public $config;
 
     public $marker;	// marker prefix in the template file. must be overridden
     public $type; 	// the type of table 'article' or 'product'
-            // this gets in lower case also used for the URL parameter
+    // this gets in lower case also used for the URL parameter
     public $variant;       // object for the product variant attributes, must initialized in the init function
     public $editVariant; 	// object for the product editable variant attributes, must initialized in the init function
     public $mm_table = ''; // only set if a mm table is used
     protected $graduatedPriceObj = false;
 
-
     /**
-     * Getting all tt_products_cat categories into internal array
+     * Getting all tt_products_cat categories into internal array.
      */
-    public function init ($functablename) {
+    public function init($functablename)
+    {
         $result = parent::init($functablename);
 
         if ($result) {
@@ -107,22 +106,21 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base {
         return $result;
     } // init
 
-
-    public function setGraduatedPriceObject ($value) {
+    public function setGraduatedPriceObject($value)
+    {
         $this->graduatedPriceObject = $value;
     }
 
-
-    public function getGraduatedPriceObject () {
+    public function getGraduatedPriceObject()
+    {
         return $this->graduatedPriceObject;
     }
 
-
     /**
-     * Reduces the instock value of the orderRecord with the amount and returns the result
-     *
+     * Reduces the instock value of the orderRecord with the amount and returns the result.
      */
-    public function reduceInStock ($uid, $count) {
+    public function reduceInStock($uid, $count)
+    {
         $tableDesc = $this->getTableDesc();
         $instockField = $tableDesc['inStock'];
         $instockField = ($instockField ? $instockField : 'inStock');
@@ -130,22 +128,19 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base {
         if (is_array($this->getTableObj()->tableFieldArray[$instockField])) {
             $uid = intval($uid);
             $fieldsArray = [];
-            $fieldsArray[$instockField] = $instockField.'-'.$count;
+            $fieldsArray[$instockField] = $instockField . '-' . $count;
             $res = $GLOBALS['TYPO3_DB']->exec_UPDATEquery($this->getTableObj()->name, 'uid=\'' . $uid . '\'', $fieldsArray, $instockField);
         }
     }
 
-
     /**
-     * Reduces the instock value of the orderRecords with the sold items and returns the result
-     *
+     * Reduces the instock value of the orderRecords with the sold items and returns the result.
      */
-    public function reduceInStockItems ($itemArray, $useArticles) {
+    public function reduceInStockItems($itemArray, $useArticles)
+    {
     }
 
-
-
-    public function getRelated (
+    public function getRelated(
         &$parentFuncTablename,
         &$parentRows,
         $multiOrderArray,
@@ -153,67 +148,67 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base {
         $type,
         $orderBy = ''
     ) {
-
     }
 
-
-    public function getType () {
+    public function getType()
+    {
         return $this->type;
     }
 
-
-    public function getEditVariant () {
+    public function getEditVariant()
+    {
         return $this->editVariant;
     }
 
-
-    public function getVariant () {
+    public function getVariant()
+    {
         return $this->variant;
     }
 
-
-    public function getFlexQuery ($type,$val=1) {
+    public function getFlexQuery($type, $val = 1)
+    {
         $spacectrl = '[[:space:][:cntrl:]]*';
 
-         $rc = '<field index="' . $type . '">' . $spacectrl . '<value index="vDEF">' . ($val ? '1' :  '0') . '</value>' . $spacectrl . '</field>' . $spacectrl;
-         return $rc;
+        $rc = '<field index="' . $type . '">' . $spacectrl . '<value index="vDEF">' . ($val ? '1' : '0') . '</value>' . $spacectrl . '</field>' . $spacectrl;
+
+        return $rc;
     }
 
-
-    public function addWhereCat ($catObject, $theCode, $cat, $categoryAnd, $pid_list) {
+    public function addWhereCat($catObject, $theCode, $cat, $categoryAnd, $pid_list)
+    {
         $where = '';
 
         return $where;
     }
 
-
-    public function addselectConfCat ($catObject, $cat, &$selectConf) {
+    public function addselectConfCat($catObject, $cat, &$selectConf)
+    {
     }
 
-
-    public function getPageUidsCat ($cat) {
+    public function getPageUidsCat($cat)
+    {
         $uids = '';
 
         return $uids;
     }
 
-
-    public function getProductField (&$row, $field) {
+    public function getProductField(&$row, $field)
+    {
         return '';
     }
 
-
     /**
-     * Returns true if the item has the $check value checked
-     *
+     * Returns true if the item has the $check value checked.
      */
-    public function hasAdditional (&$row, $check) {
+    public function hasAdditional(&$row, $check)
+    {
         $hasAdditional = false;
+
         return $hasAdditional;
     }
 
-
-    public function getWhere ($where, $theCode = '', $orderBy = '') {
+    public function getWhere($where, $theCode = '', $orderBy = '')
+    {
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $tableconf = $cnf->getTableConf($this->getFuncTablename(), $theCode);
         $rc = [];
@@ -223,19 +218,19 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base {
         $res = $this->getTableObj()->exec_SELECTquery('*', $where, '', $GLOBALS['TYPO3_DB']->stripOrderBy($orderBy));
         $translateFields = $cnf->getTranslationFields($tableconf);
 
-        while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
-
+        while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
             foreach ($translateFields as $field => $transfield) {
                 $row[$field] = $row[$transfield];
             }
             $rc[$row['uid']] = $this->dataArray[$row['uid']] = $row;
         }
         $GLOBALS['TYPO3_DB']->sql_free_result($res);
+
         return $rc;
     }
 
-
-    public function searchWhere ($searchFieldList, $sw, $theCode) {
+    public function searchWhere($searchFieldList, $sw, $theCode)
+    {
         $where = '';
 
         $tableConf = $this->getTableConf($theCode);
@@ -267,9 +262,8 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base {
         return $where;
     } // searchWhere
 
-
-    public function getCharRegExp ($tableConf, &$replaceConf) {
-
+    public function getCharRegExp($tableConf, &$replaceConf)
+    {
         $result = '';
         $replaceConf = [];
 
@@ -297,18 +291,19 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base {
         return $result;
     }
 
-
-    public function getNeededUrlParams ($functablename, $theCode) {
+    public function getNeededUrlParams($functablename, $theCode)
+    {
         $rc = '';
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $tableconf = $cnf->getTableConf($functablename, $theCode);
         if (is_array($tableconf) && isset($tableconf['urlparams'])) {
             $rc = $tableconf['urlparams'];
         }
+
         return $rc;
     }
 
-    public function clearSelectableVariantFields (
+    public function clearSelectableVariantFields(
         &$targetRow
     ) {
         $fieldArray = $this->getVariant()->getFieldArray();
@@ -322,7 +317,7 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base {
         }
     }
 
-    public function mergeVariantFields (
+    public function mergeVariantFields(
         &$targetRow,
         $sourceRow,
         $bKeepNotEmpty = true
@@ -334,7 +329,7 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base {
                 if (isset($sourceRow[$field])) {
                     $value = $sourceRow[$field];
 
-                    if($bKeepNotEmpty) {
+                    if ($bKeepNotEmpty) {
                         if (!$targetRow[$field]) {
                             $targetRow[$field] = $value;
                         }
@@ -346,8 +341,7 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base {
         }
     }
 
-
-    public function mergeAttributeFields (
+    public function mergeAttributeFields(
         array &$targetRow,
         array $sourceRow,
         $bKeepNotEmpty = true,
@@ -404,7 +398,6 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base {
 
         foreach ($fieldArray as $type => $fieldTypeArray) {
             foreach ($fieldTypeArray as $k => $field) {
-
                 if (isset($sourceRow[$field])) {
                     $value = $sourceRow[$field];
 
@@ -417,16 +410,16 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base {
                                 $bIsAddedPrice,
                                 $previouslyAddedPrice,
                                 $calculationField,
-                                $bKeepNotEmpty.
+                                $bKeepNotEmpty .
                                 $bUseExt
                             );
                         }
-                    } else if (
+                    } elseif (
                         ($type == 'text') ||
                         ($type == 'data') ||
                         ($type == 'number')
                     ) {
-                        if($bKeepNotEmpty) {
+                        if ($bKeepNotEmpty) {
                             if (
                                 $type == 'number' && !round($targetRow[$field], 16) ||
                                 $type != 'number' && empty($targetRow[$field])
@@ -440,8 +433,7 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base {
                                     !round($targetRow[$field], 16) ||
                                     round($value, 16) ||
                                     ($field == 'inStock')
-                                )
-                                    ||
+                                ) ||
                                 $type != 'number' &&
                                 (empty($targetRow[$field]) || !empty($value))
                             ) {
@@ -471,18 +463,17 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base {
                 $bKeepNotEmpty
             );
         }
+
         return true;
     } // mergeAttributeFields
 
-
-    public function mergeGraduatedPrice (
+    public function mergeGraduatedPrice(
         &$targetRow,
         $count
     ) {
     }
 
-
-    public function getTotalDiscount (&$row, $pid = 0) {
+    public function getTotalDiscount(&$row, $pid = 0)
+    {
     }
 }
-

@@ -30,31 +30,28 @@
  * related product list view functions
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
 
+use JambageCom\Div2007\Utility\FrontendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-use JambageCom\Div2007\Utility\FrontendUtility;
-
-
-class tx_ttproducts_relatedlist_view implements \TYPO3\CMS\Core\SingletonInterface {
+class tx_ttproducts_relatedlist_view implements \TYPO3\CMS\Core\SingletonInterface
+{
     public $pidListObj;
 
-
-    public function init ($pid_list, $recursive) {
-
+    public function init($pid_list, $recursive)
+    {
         $this->pidListObj = GeneralUtility::makeInstance('tx_ttproducts_pid_list');
         $this->pidListObj->applyRecursive($recursive, $pid_list, true);
         $this->pidListObj->setPageArray();
     }
 
-    public function getListUncachedMarkerArray (
+    public function getListUncachedMarkerArray(
         $uid,
         $conf,
         $funcTablename,
@@ -85,11 +82,11 @@ class tx_ttproducts_relatedlist_view implements \TYPO3\CMS\Core\SingletonInterfa
                 $result['###PRODUCT_RELATED_SYSCAT###'] = '';
             }
         }
+
         return $result;
     }
 
-
-    public function getAddListArray (
+    public function getAddListArray(
         $theCode,
         $funcTablename,
         $marker,
@@ -113,7 +110,7 @@ class tx_ttproducts_relatedlist_view implements \TYPO3\CMS\Core\SingletonInterfa
                             'mergeRow' => [],
                             'functablename' => 'tt_products_articles',
                             'callFunctableArray' => [],
-                            'cached' => true
+                            'cached' => true,
                         ],
                         'accessories' => [
                             'marker' => 'PRODUCT_ACCESSORY_UID',
@@ -124,7 +121,7 @@ class tx_ttproducts_relatedlist_view implements \TYPO3\CMS\Core\SingletonInterfa
                             'mergeRow' => [],
                             'functablename' => 'tt_products',
                             'callFunctableArray' => [],
-                            'cached' => true
+                            'cached' => true,
                         ],
                         'products' => [
                             'marker' => 'PRODUCT_RELATED_UID',
@@ -135,7 +132,7 @@ class tx_ttproducts_relatedlist_view implements \TYPO3\CMS\Core\SingletonInterfa
                             'mergeRow' => [],
                             'functablename' => 'tt_products',
                             'callFunctableArray' => [],
-                            'cached' => true
+                            'cached' => true,
                         ],
                         'productsbysystemcategory' => [
                             'marker' => 'PRODUCT_RELATED_SYSCAT',
@@ -146,7 +143,7 @@ class tx_ttproducts_relatedlist_view implements \TYPO3\CMS\Core\SingletonInterfa
                             'mergeRow' => [],
                             'functablename' => 'tt_products',
                             'callFunctableArray' => [],
-                            'cached' => false
+                            'cached' => false,
                         ],
                         'complete_downloads' => [
                             'marker' => 'PRODUCT_COMPLETE_DOWNLOAD_UID',
@@ -157,7 +154,7 @@ class tx_ttproducts_relatedlist_view implements \TYPO3\CMS\Core\SingletonInterfa
                             'mergeRow' => [],
                             'functablename' => 'sys_file_reference',
                             'callFunctableArray' => [],
-                            'cached' => true
+                            'cached' => true,
                         ],
                         'all_downloads' => [
                             'marker' => 'PRODUCT_ALL_DOWNLOAD_UID',
@@ -168,7 +165,7 @@ class tx_ttproducts_relatedlist_view implements \TYPO3\CMS\Core\SingletonInterfa
                             'mergeRow' => [],
                             'functablename' => 'sys_file_reference',
                             'callFunctableArray' => [],
-                            'cached' => true
+                            'cached' => true,
                         ],
                         'partial_downloads' => [
                             'marker' => 'PRODUCT_PARTIAL_DOWNLOAD_UID',
@@ -179,7 +176,7 @@ class tx_ttproducts_relatedlist_view implements \TYPO3\CMS\Core\SingletonInterfa
                             'mergeRow' => [],
                             'functablename' => 'sys_file_reference',
                             'callFunctableArray' => [],
-                            'cached' => true
+                            'cached' => true,
                         ],
                     ];
                 break;
@@ -187,10 +184,9 @@ class tx_ttproducts_relatedlist_view implements \TYPO3\CMS\Core\SingletonInterfa
             case 'tx_dam':
                 if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('dam')) {
                     if ($uid > 0) {
-                        $damext = ['tx_dam' =>
-                            [
-                                ['uid' => $uid]
-                            ]
+                        $damext = ['tx_dam' => [
+                                ['uid' => $uid],
+                            ],
                         ];
                         $extArray = ['ext' => $damext];
                     } else {
@@ -207,8 +203,8 @@ class tx_ttproducts_relatedlist_view implements \TYPO3\CMS\Core\SingletonInterfa
                                 'mergeRow' => $extArray,
                                 'functablename' => 'tt_products',
                                 'callFunctableArray' => [$marker => 'tx_dam'],
-                                'cached' => true
-                            ]
+                                'cached' => true,
+                            ],
                         ];
                 }
                 break;
@@ -221,11 +217,11 @@ class tx_ttproducts_relatedlist_view implements \TYPO3\CMS\Core\SingletonInterfa
                 }
             }
         }
+
         return $result;
     }
 
-
-    public function getListMarkerArray (
+    public function getListMarkerArray(
         $theCode,
         $templateCode,
         $viewTagArray,
@@ -287,12 +283,11 @@ class tx_ttproducts_relatedlist_view implements \TYPO3\CMS\Core\SingletonInterfa
                             $subtype,
                             $orderBy
                         );
-    
+
                     if (count($relatedIds)) {
                         // List all products:
 
                         if (!is_object($listView)) {
-
                             $listView = GeneralUtility::makeInstance('tx_ttproducts_list_view');
                             $listView->init(
                                 $pid,
@@ -311,7 +306,7 @@ class tx_ttproducts_relatedlist_view implements \TYPO3\CMS\Core\SingletonInterfa
 
                         $parentDataArray = [
                             'functablename' => $funcTablename,
-                            'uid' => $uid
+                            'uid' => $uid,
                         ];
 
                         $productRowArray = [];
@@ -356,4 +351,3 @@ class tx_ttproducts_relatedlist_view implements \TYPO3\CMS\Core\SingletonInterfa
         return $result;
     }
 }
-

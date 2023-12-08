@@ -28,20 +28,15 @@ namespace JambageCom\TtProducts\Api;
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 /**
- *
- * language object
+ * language object.
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
-
- 
-class Localization extends \JambageCom\Div2007\Base\TranslationBase implements \TYPO3\CMS\Core\SingletonInterface {
-
+class Localization extends \JambageCom\Div2007\Base\TranslationBase implements \TYPO3\CMS\Core\SingletonInterface
+{
 }
-
-

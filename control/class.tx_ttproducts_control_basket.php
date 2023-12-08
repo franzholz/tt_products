@@ -30,43 +30,42 @@
  * control function for the basket.
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
  */
 
+use JambageCom\TtProducts\Api\CustomerApi;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
-
-use JambageCom\TtProducts\Api\CustomerApi;
-
-
-abstract class BasketRecsIndex {
-    const Billing = 'personinfo';
-    const Delivery = 'delivery';
+abstract class BasketRecsIndex
+{
+    public const Billing = 'personinfo';
+    public const Delivery = 'delivery';
 }
 
+class tx_ttproducts_control_basket
+{
+    protected static $recs = [];
+    protected static $basketExt = [];	// "Basket Extension" - holds extended attributes
+    protected static $basketExtra = [];	// initBasket() uses this for additional information like the current payment/shipping methods
+    protected static $infoArray = [];
+    private static $pidListObj;
+    private static $bHasBeenInitialised = false;
+    private static $funcTablename;			// tt_products or tt_products_articles
 
-class tx_ttproducts_control_basket {
-    static protected $recs = [];
-    static protected $basketExt = [];	// "Basket Extension" - holds extended attributes
-    static protected $basketExtra = [];	// initBasket() uses this for additional information like the current payment/shipping methods
-    static protected $infoArray = [];
-    static private $pidListObj;
-    static private $bHasBeenInitialised = false;
-    static private $funcTablename;			// tt_products or tt_products_articles
-
-
-    static public function storeNewRecs ($transmissionSecurity = false) {
+    public static function storeNewRecs($transmissionSecurity = false)
+    {
         $recs = GeneralUtility::_GP('recs');
         if (
             is_array($recs) &&
             $transmissionSecurity
         ) {
-        // TODO  transmission security
+            // TODO  transmission security
             $errorCode = [];
             $errorMessage = '';
             $security = GeneralUtility::makeInstance(\JambageCom\Div2007\Security\TransmissionSecurity::class);
@@ -80,7 +79,7 @@ class tx_ttproducts_control_basket {
         if (
             is_array($recs)
         ) {
-            $api = GeneralUtility::makeInstance( \JambageCom\Div2007\Api\Frontend::class);
+            $api = GeneralUtility::makeInstance(\JambageCom\Div2007\Api\Frontend::class);
             // If any record registration is submitted, register the record.
             $api->record_registration(
                 $recs,
@@ -90,7 +89,7 @@ class tx_ttproducts_control_basket {
         }
     }
 
-    static public function init (
+    public static function init(
         &$conf,
         $tablesObj,
         $pid_list,
@@ -102,7 +101,7 @@ class tx_ttproducts_control_basket {
             self::setRecs($recs);
 
             if (
-                isset($GLOBALS['TSFE']) && 
+                isset($GLOBALS['TSFE']) &&
                 $GLOBALS['TSFE'] instanceof TypoScriptFrontendController
             ) {
                 self::setBasketExt(self::getStoredBasketExt());
@@ -141,11 +140,11 @@ class tx_ttproducts_control_basket {
         }
     }
 
-
-    static public function cleanConfArr ($confArray, $checkShow = 0) {
+    public static function cleanConfArr($confArray, $checkShow = 0)
+    {
         $outArr = [];
         if (is_array($confArray)) {
-            foreach($confArray as $key => $val) {
+            foreach ($confArray as $key => $val) {
                 if (
                     intval($key) &&
                     is_array($val) &&
@@ -159,14 +158,15 @@ class tx_ttproducts_control_basket {
         }
         ksort($outArr);
         reset($outArr);
+
         return $outArr;
     } // cleanConfArr
 
-
     /**
-     * Check if payment/shipping option is available
+     * Check if payment/shipping option is available.
      */
-    static public function checkExtraAvailable ($confArray) {
+    public static function checkExtraAvailable($confArray)
+    {
         $result = false;
 
         if (
@@ -182,28 +182,25 @@ class tx_ttproducts_control_basket {
         return $result;
     } // checkExtraAvailable
 
-
     /**
-     * Setting shipping, payment methods
+     * Setting shipping, payment methods.
      */
-    static public function getBasketExtras ($tablesObj, $basketRec, &$conf) {
-
+    public static function getBasketExtras($tablesObj, $basketRec, &$conf)
+    {
         $basketExtra = [];
 
-// 		$conf = $cnfObj->getConf();
+        // 		$conf = $cnfObj->getConf();
         // handling and shipping
         $pskeyArray = ['shipping' => false, 'handling' => true];	// keep this order, because shipping can unable some payment and handling configuration
         $excludePayment = '';
         $excludeHandling = '';
 
         foreach ($pskeyArray as $pskey => $bIsMulti) {
-
-            if (!empty($conf[$pskey . '.'])) {        
+            if (!empty($conf[$pskey . '.'])) {
                 if ($bIsMulti) {
                     ksort($conf[$pskey . '.']);
 
                     foreach ($conf[$pskey . '.'] as $k => $confArray) {
-
                         if (strpos($k, '.') == strlen($k) - 1) {
                             $k1 = substr($k, 0, strlen($k) - 1);
 
@@ -237,11 +234,11 @@ class tx_ttproducts_control_basket {
                 }
             }
 
-                // overwrite handling from shipping
+            // overwrite handling from shipping
             if ($pskey == 'shipping' && !empty($conf['handling.'])) {
                 if ($excludeHandling) {
                     $exclArr = GeneralUtility::intExplode(',', $excludeHandling);
-                    foreach($exclArr as $theVal) {
+                    foreach ($exclArr as $theVal) {
                         unset($conf['handling.'][$theVal]);
                         unset($conf['handling.'][$theVal . '.']);
                     }
@@ -272,23 +269,22 @@ class tx_ttproducts_control_basket {
             }
         }
 
-            // payment
+        // payment
         if (!empty($conf['payment.'])) {
-
             if ($excludePayment) {
                 $exclArr = GeneralUtility::intExplode(',', $excludePayment);
 
-                foreach($exclArr as $theVal) {
+                foreach ($exclArr as $theVal) {
                     unset($conf['payment.'][$theVal]);
                     unset($conf['payment.'][$theVal . '.']);
                 }
             }
 
             $confArray = self::cleanConfArr($conf['payment.']);
-            foreach($confArray as $confKey => $val) {
-//                 if (
-//                     ($val['show'] || !isset($val['show']))
-//                 ) {
+            foreach ($confArray as $confKey => $val) {
+                //                 if (
+                //                     ($val['show'] || !isset($val['show']))
+                //                 ) {
                 if (
                     isset($val['type']) &&
                     $val['type'] == 'fe_users'
@@ -309,14 +305,14 @@ class tx_ttproducts_control_basket {
                     (!$tablesObj->get('fe_users')->isUserInGroup($GLOBALS['TSFE']->fe_user->user, $val['visibleForGroupID']))) {
                     unset($conf['payment.'][$confKey . '.']);
                 }
-// 				}
+                // 				}
             }
             ksort($conf['payment.']);
             reset($conf['payment.']);
             $k = 0;
             if (isset($basketRec['tt_products']['payment'])) {
                 $k = intval($basketRec['tt_products']['payment']);
-            } else if (count($confArray) == 1) {
+            } elseif (count($confArray) == 1) {
                 $k = key($confArray);
             }
 
@@ -340,11 +336,10 @@ class tx_ttproducts_control_basket {
         return $basketExtra;
     } // getBasketExtras
 
-
     /**
-     * Setting shipping, payment methods
+     * Setting shipping, payment methods.
      */
-    static public function getHandlingShipping (
+    public static function getHandlingShipping(
         $basketRec,
         $pskey,
         $subkey,
@@ -412,21 +407,20 @@ class tx_ttproducts_control_basket {
         }
     }
 
-
-    static public function getCmdArray () {
+    public static function getCmdArray()
+    {
         $result = ['delete'];
 
         return $result;
     }
 
-
-    static public function getPidListObj () {
+    public static function getPidListObj()
+    {
         return self::$pidListObj;
     }
 
-
-    static public function doProcessing () {
-
+    public static function doProcessing()
+    {
         $piVars = tx_ttproducts_model_control::getPiVars();
         $basketExtModified = false;
 
@@ -439,12 +433,10 @@ class tx_ttproducts_control_basket {
                         $basketVar = tx_ttproducts_model_control::getBasketParamVar();
 
                         if (isset($piVars[$basketVar])) {
-
                             if (
                                 isset(self::$basketExt[$uid]) &&
                                 is_array(self::$basketExt[$uid])
                             ) {
-
                                 foreach (self::$basketExt[$uid] as $allVariants => $count) {
                                     if (
                                         md5($allVariants) == $piVars[$basketVar]
@@ -455,7 +447,7 @@ class tx_ttproducts_control_basket {
                                 }
                             }
                         }
-                    break;
+                        break;
                 }
             }
         }
@@ -465,24 +457,23 @@ class tx_ttproducts_control_basket {
         }
     }
 
-
-    static public function setFuncTablename ($funcTablename) {
+    public static function setFuncTablename($funcTablename)
+    {
         self::$funcTablename = $funcTablename;
     }
 
-
-    static public function getFuncTablename () {
+    public static function getFuncTablename()
+    {
         return self::$funcTablename;
     }
 
-
-    static public function getRecs () {
+    public static function getRecs()
+    {
         return self::$recs;
     }
 
-
-    static public function setRecs ($recs) {
-
+    public static function setRecs($recs)
+    {
         $newRecs = [];
         $allowedTags = '<br><a><b><td><tr><div>';
 
@@ -499,96 +490,101 @@ class tx_ttproducts_control_basket {
         self::$recs = $newRecs;
     }
 
-
-    static public function getStoredRecs () {
+    public static function getStoredRecs()
+    {
         $result = [];
 
         $recs = tx_ttproducts_control_session::readSession('recs');
         if (!empty($recs)) {
             $result = $recs;
         }
-        
+
         return $result;
     }
 
-
-    static public function setStoredRecs ($valueArray) {
+    public static function setStoredRecs($valueArray)
+    {
         self::store('recs', $valueArray);
     }
 
-
-    static public function getStoredVariantRecs () {
+    public static function getStoredVariantRecs()
+    {
         $result = tx_ttproducts_control_session::readSession('variant');
+
         return $result;
     }
 
-
-    static public function setStoredVariantRecs ($valueArray) {
+    public static function setStoredVariantRecs($valueArray)
+    {
         self::store('variant', $valueArray);
     }
 
-
-    static public function store ($type, $valueArray) {
+    public static function store($type, $valueArray)
+    {
         tx_ttproducts_control_session::writeSession($type, $valueArray);
     }
 
-
-    static public function getBasketExt () {
+    public static function getBasketExt()
+    {
         return self::$basketExt;
     }
 
-
-    static public function setBasketExt ($basketExt) {
+    public static function setBasketExt($basketExt)
+    {
         self::$basketExt = $basketExt;
     }
 
-
-    static public function getBasketExtra () {
+    public static function getBasketExtra()
+    {
         return self::$basketExtra;
     }
 
-
-    static public function setBasketExtra ($basketExtra) {
+    public static function setBasketExtra($basketExtra)
+    {
         self::$basketExtra = $basketExtra;
     }
 
-
-    static public function getBasketExtRaw () {
+    public static function getBasketExtRaw()
+    {
         $basketVar = tx_ttproducts_model_control::getBasketVar();
         $result = GeneralUtility::_GP($basketVar);
+
         return $result;
     }
 
-
-    static public function getStoredBasketExt () {
+    public static function getStoredBasketExt()
+    {
         $result = tx_ttproducts_control_session::readSession('basketExt');
+
         return $result;
     }
 
-
-    static public function getStoredOrder () {
+    public static function getStoredOrder()
+    {
         $result = tx_ttproducts_control_session::readSession('order');
+
         return $result;
     }
 
-
-    static public function storeBasketExt ($basketExt) {
+    public static function storeBasketExt($basketExt)
+    {
         self::store('basketExt', $basketExt);
         self::setBasketExt($basketExt);
     }
 
-    static public function generatedBasketExtFromRow ($row, $count) {
+    public static function generatedBasketExtFromRow($row, $count)
+    {
         $basketExt = [];
 
         $extArray = $row['ext'] ?? [];
-        $extVarLine = isset($extArray['extVarLine']) ? $extArray['extVarLine'] : '';
+        $extVarLine = $extArray['extVarLine'] ?? '';
         $basketExt[$row['uid']][$extVarLine] = $count;
 
         return $basketExt;
     }
 
-
-    static public function removeFromBasketExt ($removeBasketExt) {
+    public static function removeFromBasketExt($removeBasketExt)
+    {
         $basketExt = self::getStoredBasketExt();
         $bChanged = false;
 
@@ -612,7 +608,7 @@ class tx_ttproducts_control_basket {
         }
     }
 
-    static public function getBasketCount (
+    public static function getBasketCount(
         $row,
         $variant,
         $quantityIsFloat,
@@ -633,7 +629,7 @@ class tx_ttproducts_control_basket {
                 foreach ($subArr as $subVariant => $subCount) {
                     $count += $subCount;
                 }
-            } else if (
+            } elseif (
                 is_array($subArr) &&
                 isset($subArr[$variant])
             ) {
@@ -650,11 +646,12 @@ class tx_ttproducts_control_basket {
                 }
             }
         }
+
         return $count;
     }
 
-
-    static public function getStoredInfoArray () {
+    public static function getStoredInfoArray()
+    {
         $formerBasket = self::getRecs();
 
         $infoArray = [];
@@ -669,11 +666,12 @@ class tx_ttproducts_control_basket {
         if (!$infoArray['delivery']) {
             $infoArray['delivery'] = [];
         }
+
         return $infoArray;
     }
 
-
-    static public function setInfoArray ($infoArray) {
+    public static function setInfoArray($infoArray)
+    {
         self::$infoArray = $infoArray;
 
         if (
@@ -691,12 +689,13 @@ class tx_ttproducts_control_basket {
         }
     }
 
-
-    static public function getInfoArray () {
+    public static function getInfoArray()
+    {
         return self::$infoArray;
     }
 
-    static public function setCountry (&$infoArray, $basketExtra) {
+    public static function setCountry(&$infoArray, $basketExtra)
+    {
         if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
             $staticInfoApi = GeneralUtility::makeInstance(\JambageCom\Div2007\Api\StaticInfoTablesApi::class);
         } else {
@@ -714,7 +713,7 @@ class tx_ttproducts_control_basket {
                     '',
                     ''
                 );
- 
+
             if (static::needsDeliveryAddresss($basketExtra)) {
                 $infoArray['delivery']['country'] =
                     $staticInfoApi->getStaticInfoName(
@@ -727,7 +726,8 @@ class tx_ttproducts_control_basket {
         }
     }
 
-    static public function uncheckAgb (&$infoArray, $bProductsPayment) {
+    public static function uncheckAgb(&$infoArray, $bProductsPayment)
+    {
         if (
             $bProductsPayment &&
             isset($_REQUEST['recs']) &&
@@ -741,7 +741,8 @@ class tx_ttproducts_control_basket {
     }
 
     // normally the delivery is copied from the bill data. But also another table can be used for it.
-    static public function needsDeliveryAddresss ($basketExtra) {
+    public static function needsDeliveryAddresss($basketExtra)
+    {
         $result = true;
 
         $shippingType = \JambageCom\TtProducts\Api\PaymentShippingHandling::get(
@@ -760,7 +761,8 @@ class tx_ttproducts_control_basket {
         return $result;
     }
 
-    static public function fixCountries (&$infoArray) {
+    public static function fixCountries(&$infoArray)
+    {
         $result = false;
 
         if (
@@ -777,17 +779,17 @@ class tx_ttproducts_control_basket {
             $infoArray['delivery']['country_code'] = $infoArray['billing']['country_code'];
             $result = true;
         }
+
         return $result;
     }
 
-
-    static public function addLoginData (
+    public static function addLoginData(
         &$infoArray,
         $loginUserInfoAddress,
         $useStaticInfoCountry
     ) {
         if (
-            isset($GLOBALS['TSFE']) && 
+            isset($GLOBALS['TSFE']) &&
             $GLOBALS['TSFE'] instanceof TypoScriptFrontendController &&
             \JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn() &&
             \JambageCom\TtProducts\Api\ControlApi::isOverwriteMode($infoArray)
@@ -863,7 +865,7 @@ class tx_ttproducts_control_basket {
                         if (is_object($countryObj)) {
                             if (!empty($infoArray[$type]['static_info_country'])) {
                                 $iso3Field = 'static_info_country';
-                            } else if (!empty($infoArray[$type]['country_code'])) {
+                            } elseif (!empty($infoArray[$type]['country_code'])) {
                                 $iso3Field = 'country_code';
                             }
 
@@ -874,17 +876,16 @@ class tx_ttproducts_control_basket {
                         }
                     }
                 }
-           }
+            }
 
             $infoArray['billing']['agb'] =
                 (
-                    isset($infoArray['billing']['agb']) ?
-                        $infoArray['billing']['agb'] :
+                    $infoArray['billing']['agb'] ??
                         $GLOBALS['TSFE']->fe_user->user['agb']
                 );
 
             $dateBirth = $infoArray['billing']['date_of_birth'];
-            $tmpPos =  strpos($dateBirth, '-');
+            $tmpPos = strpos($dateBirth, '-');
 
             if (
                 !$dateBirth ||
@@ -898,29 +899,31 @@ class tx_ttproducts_control_basket {
         }
     }
 
-
-    static public function getTagName ($uid, $fieldname) {
+    public static function getTagName($uid, $fieldname)
+    {
         $result = tx_ttproducts_model_control::getBasketVar() . '[' . $uid . '][' . $fieldname . ']';
+
         return $result;
     }
 
-
-    static public function getAjaxVariantFunction ($row, $functablename, $theCode) {
+    public static function getAjaxVariantFunction($row, $functablename, $theCode)
+    {
         if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('taxajax')) {
             $result = 'doFetchRow(\'' . $functablename . '\',\'' . strtolower($theCode) . '\',' . $row['uid'] . ');';
         } else {
             $result = '';
         }
+
         return $result;
     }
 
-
-    static public function destruct () {
+    public static function destruct()
+    {
         self::$bHasBeenInitialised = false;
     }
 
-
-    static public function getRoundFormat ($type = '') {
+    public static function getRoundFormat($type = '')
+    {
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 
         $result = $cnf->getBasketConf('round', $type); // check the basket rounding format
@@ -932,8 +935,8 @@ class tx_ttproducts_control_basket {
         return $result;
     }
 
-
-    static public function readControl ($key = '') {
+    public static function readControl($key = '')
+    {
         $result = false;
         $ctrlArray = tx_ttproducts_control_session::readSession('ctrl');
 
@@ -948,9 +951,8 @@ class tx_ttproducts_control_basket {
         return $result;
     }
 
-
-    static public function writeControl ($valArray) {
-
+    public static function writeControl($valArray)
+    {
         if (
             !isset($valArray) ||
             !is_array($valArray)
@@ -960,5 +962,3 @@ class tx_ttproducts_control_basket {
         self::store('ctrl', $valArray);
     }
 }
-
-

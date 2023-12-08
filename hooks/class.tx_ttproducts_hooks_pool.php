@@ -30,28 +30,28 @@
  * hook functions for the pool extension
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-class tx_ttproducts_hooks_pool extends tx_pool_hooks_base {
+class tx_ttproducts_hooks_pool extends tx_pool_hooks_base
+{
     public $extKey = TT_PRODUCTS_EXT;
     public $prefixId = 'tx_ttproducts_hooks_pool';	// Same as class name
     public $LLFileArray =
         [
             'hooks/locallang_pool.xml',
-            DIV2007_LANGUAGE_PATH . 'locallang_mod_web_list.xlf'
+            DIV2007_LANGUAGE_PATH . 'locallang_mod_web_list.xlf',
         ];
     public $modMenu = ['function' => ['search']];
     public $headerText = 'header_search';
 
-    public function getViewData (
+    public function getViewData(
         &$content,
         &$header,
         &$docHeaderButtons,
@@ -61,8 +61,7 @@ class tx_ttproducts_hooks_pool extends tx_pool_hooks_base {
         $content = '<b>Suche &uuml;ber tt_products</b><br/>';
 
         if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('searchbox')) {
-
-// 			GeneralUtility::requireOnce(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('searchbox') . 'view/class.tx_searchbox_view.php');
+            // 			GeneralUtility::requireOnce(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('searchbox') . 'view/class.tx_searchbox_view.php');
             $searchBoxObj = GeneralUtility::makeInstance('tx_searchbox_view');
 
             $content .= $searchBoxObj->getContent(
@@ -76,7 +75,7 @@ class tx_ttproducts_hooks_pool extends tx_pool_hooks_base {
         }
 
         if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('db_list')) {
-// 			GeneralUtility::requireOnce(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('db_list') . 'class.tx_dblist_script.php');
+            // 			GeneralUtility::requireOnce(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('db_list') . 'class.tx_dblist_script.php');
             $dbListObj = GeneralUtility::makeInstance('tx_dblist_script');
             $dbListObj->init($this->vars, $dbListConf);
 

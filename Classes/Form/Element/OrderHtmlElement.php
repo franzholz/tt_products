@@ -1,10 +1,11 @@
 <?php
-declare(strict_types = 1);
+
+declare(strict_types=1);
+
 namespace JambageCom\TtProducts\Form\Element;
 
 use TYPO3\CMS\Backend\Form\Element\AbstractFormElement;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-
 
 class OrderHtmlElement extends AbstractFormElement
 {
@@ -17,9 +18,7 @@ class OrderHtmlElement extends AbstractFormElement
                 $this->data,
                 null
             );
+
         return $result;
     }
 }
-
-
-

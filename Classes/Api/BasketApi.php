@@ -33,17 +33,17 @@ namespace JambageCom\TtProducts\Api;
  * functions for the basket
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class BasketApi {
-
-    static public function getQuantity ($content, $basketConf) {
+class BasketApi
+{
+    public static function getQuantity($content, $basketConf)
+    {
         $count = '';
         $basketExt = \tx_ttproducts_control_basket::getStoredBasketExt();
 
@@ -108,9 +108,9 @@ class BasketApi {
     }
 
     /**
-    * get the product rows contained in the basket
-    */
-    static public function getRecords ($conf, $where = '1=1')
+     * get the product rows contained in the basket.
+     */
+    public static function getRecords($conf, $where = '1=1')
     {
         $result = false;
 
@@ -123,10 +123,9 @@ class BasketApi {
         $basketExt = \tx_ttproducts_control_basket::getBasketExt();
 
         if (isset($basketExt) && is_array($basketExt)) {
-
             $uidArr = [];
 
-            foreach($basketExt as $uidTmp => $tmp) {
+            foreach ($basketExt as $uidTmp => $tmp) {
                 if ($uidTmp != 'gift' && !in_array($uidTmp, $uidArr)) {
                     $uidArr[] = intval($uidTmp);
                 }
@@ -135,7 +134,7 @@ class BasketApi {
             if (count($uidArr) == 0) {
                 return false;
             }
-//             $where .= ' AND uid IN (' . implode(',', $uidArr) . ')';
+            //             $where .= ' AND uid IN (' . implode(',', $uidArr) . ')';
             $where .= ' AND uid IN (' . implode(',', $uidArr) . ')' . ($pid_list != '' ? ' AND pid IN (' . $pid_list . ')' : '') . \JambageCom\Div2007\Utility\TableUtility::enableFields($funcTablename);
 
             $rows =
@@ -169,7 +168,7 @@ class BasketApi {
         return $result;
     }
 
-    static public function getRecordvariantAndPriceFromRows (
+    public static function getRecordvariantAndPriceFromRows(
         &$variant,
         &$price,
         &$externalUidArray,
@@ -219,19 +218,19 @@ class BasketApi {
         if ($variant != '') {
             $result = true;
         }
+
         return $result;
     }
 
-
     /**
-     * get basket record for tracking, billing and delivery data row
+     * get basket record for tracking, billing and delivery data row.
      */
-    static public function getBasketRec (
+    public static function getBasketRec(
         $row,
         $typeArray = [
             'payment',
             'shipping',
-            'handling'
+            'handling',
         ]
     ) {
         $extraArray = [];
@@ -245,4 +244,3 @@ class BasketApi {
         return $basketRec;
     }
 }
-

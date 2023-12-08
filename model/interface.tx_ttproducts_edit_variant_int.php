@@ -30,23 +30,21 @@
  * interface for the edit variant classes
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
+interface tx_ttproducts_edit_variant_int
+{
+    public function init($itemTable);
 
+    public function getFieldArray();
 
+    public function getVariantFromRawRow($row);
 
-interface tx_ttproducts_edit_variant_int {
+    public function getVariantRowFromProductRow($row);
 
-
-    public function init ($itemTable);
-    public function getFieldArray ();
-    public function getVariantFromRawRow ($row);
-    public function getVariantRowFromProductRow ($row);
-    public function getValidConfig ($row);
-
+    public function getValidConfig($row);
 }
-

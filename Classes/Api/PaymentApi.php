@@ -33,17 +33,17 @@ namespace JambageCom\TtProducts\Api;
  * functions for the payment
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
+class PaymentApi
+{
+    private static $storeRecord;
+    private static $storeIso3;
 
-class PaymentApi {
-    static private $storeRecord;
-    static private $storeIso3;
-
-    static public function setStoreRecord ($value) {
+    public static function setStoreRecord($value)
+    {
         self::$storeRecord = $value;
         if (
             isset($value) &&
@@ -54,29 +54,32 @@ class PaymentApi {
         }
     }
 
-    static public function getStoreRecord () {
+    public static function getStoreRecord()
+    {
         return self::$storeRecord;
     }
 
-    static public function setStoreIso3 ($value) {
+    public static function setStoreIso3($value)
+    {
         self::$storeIso3 = $value;
     }
 
-    static public function getStoreIso3 ($defaultValue = '') {
+    public static function getStoreIso3($defaultValue = '')
+    {
         $result = '';
 
         if (
             self::$storeIso3 != ''
         ) {
             $result = self::$storeIso3;
-        } else if ($defaultValue != '') {
+        } elseif ($defaultValue != '') {
             $result = $defaultValue;
         }
 
         return $result;
     }
 
-    static public function getPayMode (
+    public static function getPayMode(
         \JambageCom\Div2007\Base\TranslationBase $languageObj,
         $basketExtra
     ) {
@@ -112,6 +115,4 @@ class PaymentApi {
 
         return $result;
     }
-
 }
-

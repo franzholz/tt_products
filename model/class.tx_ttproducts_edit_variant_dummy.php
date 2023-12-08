@@ -30,29 +30,32 @@
  * dummy edit variant class for tables which do not have any edit variants
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
  */
-
-
-class tx_ttproducts_edit_variant_dummy implements tx_ttproducts_edit_variant_int, \TYPO3\CMS\Core\SingletonInterface {
-
-    public function init ($itemTable) {
+class tx_ttproducts_edit_variant_dummy implements tx_ttproducts_edit_variant_int, \TYPO3\CMS\Core\SingletonInterface
+{
+    public function init($itemTable)
+    {
         return true;
     }
 
-    public function getFieldArray () {
+    public function getFieldArray()
+    {
     }
 
-    public function getVariantFromRawRow ($row) {
+    public function getVariantFromRawRow($row)
+    {
     }
 
-    public function getVariantRowFromProductRow ($row) {
+    public function getVariantRowFromProductRow($row)
+    {
     }
 
-    public function getValidConfig ($row) {
+    public function getValidConfig($row)
+    {
     }
 }
-

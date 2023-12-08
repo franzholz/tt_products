@@ -30,20 +30,19 @@
  * functions for the title field
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-class tx_ttproducts_field_creditpoints extends tx_ttproducts_field_base {
-
-
-    public function getBasketTotal () {
+class tx_ttproducts_field_creditpoints extends tx_ttproducts_field_base
+{
+    public function getBasketTotal()
+    {
         $rc = 0;
         $basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
         $itemArray = $basketObj->getItemArray();
@@ -67,20 +66,20 @@ class tx_ttproducts_field_creditpoints extends tx_ttproducts_field_base {
                     $count = $actItem['count'];
 
                     if ($row['creditpoints'] > 0) {
-
                         $creditpointsTotal += $row['creditpoints'] * $count;
-                    } else if ($mode == 'auto' && $pricefactor) {
+                    } elseif ($mode == 'auto' && $pricefactor) {
                         $creditpointsTotal += ($actItem['priceTax'] * $count) / $pricefactor;
                     }
                 }
             }
             $rc = $creditpointsTotal;
         }
+
         return $rc;
     }
 
-
-    public function getBasketMissingCreditpoints ($addCreditpoints, &$missing, &$remaining) {
+    public function getBasketMissingCreditpoints($addCreditpoints, &$missing, &$remaining)
+    {
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $feuserTable = $tablesObj->get('fe_users', false);
 
@@ -91,9 +90,8 @@ class tx_ttproducts_field_creditpoints extends tx_ttproducts_field_base {
         $remaining = $feuserCreditpoints - $creditpointsTotal;
     }
 
-
-    public function getMissingCreditpoints ($fieldname, $row, &$missing, &$remaining) {
-
+    public function getMissingCreditpoints($fieldname, $row, &$missing, &$remaining)
+    {
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $feuserTable = $tablesObj->get('fe_users', false);
 
@@ -104,13 +102,13 @@ class tx_ttproducts_field_creditpoints extends tx_ttproducts_field_base {
         $remaining = $feuserCreditpoints - $creditpointsTotal - $row[$fieldname];
     }
 
-
-    /* reduces the amount of creditpoints of the FE user by the total amount of creditpoints from the products. */
-    /* It returns the number of creditpoints by which the account of the FE user has been reduced. false is if no FE user is logged in. */
-    public function pay () {
+    // reduces the amount of creditpoints of the FE user by the total amount of creditpoints from the products.
+    // It returns the number of creditpoints by which the account of the FE user has been reduced. false is if no FE user is logged in.
+    public function pay()
+    {
         $rc = false;
         if (\JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn()) {
-//			$whereGeneral = '(fe_users_uid="'.$GLOBALS['TSFE']->fe_user->user['uid'].'" OR fe_users_uid=0) ';
+            //			$whereGeneral = '(fe_users_uid="'.$GLOBALS['TSFE']->fe_user->user['uid'].'" OR fe_users_uid=0) ';
 
             $creditpointsTotal = $this->getBasketTotal();
 
@@ -128,7 +126,7 @@ class tx_ttproducts_field_creditpoints extends tx_ttproducts_field_base {
                 }
             }
         }
+
         return $rc;
     }
 }
-

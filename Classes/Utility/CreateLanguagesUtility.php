@@ -33,15 +33,13 @@ namespace JambageCom\TtProducts\Utility;
  * functions for the import of images into FAL
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
-
-class CreateLanguagesUtility {
-
-    static public function createAll (
+class CreateLanguagesUtility
+{
+    public static function createAll(
         &$infoArray,
         &$errorLanguageCodeArray,
         $currId
@@ -49,9 +47,9 @@ class CreateLanguagesUtility {
         $result = true;
         $infoArray = [];
 
-        if($currId) {
+        if ($currId) {
             $tableArray = ['tt_products_texts' => 'tt_products_texts_language'];
-                // Initializes the module. Done in this function because we may need to re-initialize if data is submitted!
+            // Initializes the module. Done in this function because we may need to re-initialize if data is submitted!
             $standardFields = ['pid', 'cruser_id', 'hidden', 'starttime', 'endtime', 'fe_group'];
 
             $infoArray['rows'] = [];
@@ -71,7 +69,6 @@ class CreateLanguagesUtility {
                 );
 
                 if (is_array($rowArray) && count($rowArray)) {
-
                     foreach ($rowArray as $row) {
                         $insertArray = $fieldsArray;
                         foreach ($row as $field => $value) {
@@ -141,7 +138,7 @@ class CreateLanguagesUtility {
                                         $where = 'uid=' . $foreignRow['uid'];
                                         $updateArray = [];
                                         $updateArray['tstamp'] = $insertArray['tstamp'];
-                                        $updateArray['text_uid'] += 1;
+                                        ++$updateArray['text_uid'];
                                         $GLOBALS['TYPO3_DB']->exec_UPDATEquery(
                                             'tt_products_language',
                                             $where,
@@ -172,5 +169,3 @@ class CreateLanguagesUtility {
         return $result;
     }
 }
-
-

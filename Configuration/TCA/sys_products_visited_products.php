@@ -1,6 +1,6 @@
 <?php
-defined('TYPO3') || die('Access denied.');
 
+defined('TYPO3') || die('Access denied.');
 
 // ******************************************************************
 // order to voucher codes table, sys_products_visited_products
@@ -15,16 +15,15 @@ $result = [
         'label' => 'uid',
         'tstamp' => 'tstamp',
         'crdate' => 'crdate',
-        'iconfile' => 'EXT:' . $extensionKey . '/Resources/Public/Icons/' . 'tt_products_relations.gif',
+        'iconfile' => 'EXT:' . $extensionKey . '/Resources/Public/Icons/tt_products_relations.gif',
         'hideTable' => true,
     ],
     'types' => [
         '0' => [
-            'showitem' => ''
-        ]
+            'showitem' => '',
+        ],
     ],
-    'columns' => []
+    'columns' => [],
 ];
 
 return $result;
-

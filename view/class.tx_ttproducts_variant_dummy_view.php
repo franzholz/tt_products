@@ -30,23 +30,22 @@
  * dummy variant class for tables which do not have any variants
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
  */
-
-
-
-
-class tx_ttproducts_variant_dummy_view implements tx_ttproducts_variant_view_int, \TYPO3\CMS\Core\SingletonInterface {
+class tx_ttproducts_variant_dummy_view implements tx_ttproducts_variant_view_int, \TYPO3\CMS\Core\SingletonInterface
+{
     public $modelObj;
 
-    public function init($modelObj) {
+    public function init($modelObj)
+    {
         $this->modelObj = $modelObj;
     }
 
-    public function getVariantSubpartMarkerArray (
+    public function getVariantSubpartMarkerArray(
         &$markerArray,
         &$subpartArray,
         &$wrappedSubpartArray,
@@ -59,7 +58,7 @@ class tx_ttproducts_variant_dummy_view implements tx_ttproducts_variant_view_int
     ) {
     }
 
-    public function removeEmptyMarkerSubpartArray (
+    public function removeEmptyMarkerSubpartArray(
         &$markerArray,
         &$subpartArray,
         &$wrappedSubpartArray,
@@ -70,4 +69,3 @@ class tx_ttproducts_variant_dummy_view implements tx_ttproducts_variant_view_int
     ) {
     }
 }
-

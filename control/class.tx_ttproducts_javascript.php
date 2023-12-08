@@ -30,18 +30,17 @@
  * JavaScript functions
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
 
+use JambageCom\Div2007\Utility\FrontendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
 
-use JambageCom\Div2007\Utility\FrontendUtility;
-
-class tx_ttproducts_javascript implements \TYPO3\CMS\Core\SingletonInterface {
+class tx_ttproducts_javascript implements \TYPO3\CMS\Core\SingletonInterface
+{
     public $ajax;
     public $bAjaxAdded;
     public $bCopyrightShown;
@@ -49,8 +48,8 @@ class tx_ttproducts_javascript implements \TYPO3\CMS\Core\SingletonInterface {
     public $fixInternetExplorer;
     private $bIncludedArray = [];
 
-
-    public function init ($ajax) {
+    public function init($ajax)
+    {
         if (
             isset($ajax) &&
             is_object($ajax)
@@ -114,21 +113,23 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
 }
 
 	';
-
     }
 
-    static public function convertHex ($params) {
+    public static function convertHex($params)
+    {
         $result = '\\x' . (ord($params[1]) < 16 ? '0' : '') . dechex(ord($params[1]));
+
         return $result;
     }
 
- /*
- * Escapes strings to be included in javascript
- *
- * @param	[type]		$s: ...
- * @return	[type]		...
- */
-    public function jsspecialchars ($s) {
+    /*
+    * Escapes strings to be included in javascript
+    *
+    * @param	[type]		$s: ...
+    * @return	[type]		...
+    */
+    public function jsspecialchars($s)
+    {
         $result = preg_replace_callback(
             '/([\x09-\x2f\x3a-\x40\x5b-\x60\x7b-\x7e])/',
             'tx_ttproducts_javascript::convertHex',
@@ -138,17 +139,16 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
         return $result;
     }
 
-
     /**
-    * Sets JavaScript code in the additionalJavaScript array
-    *
-    * @param		string		  $fieldname is the field in the table you want to create a JavaScript for
-    * @param		array		  category array
-    * @param		integer		  counter
-    * @return	  	void
-    * @see
-    */
-    public function set (
+     * Sets JavaScript code in the additionalJavaScript array.
+     *
+     * @param		string		  $fieldname is the field in the table you want to create a JavaScript for
+     * @param		array		  category array
+     * @param		int		  counter
+     *
+     * @see
+     */
+    public function set(
         $languageObj,
         $fieldname,
         $params = '',
@@ -185,7 +185,7 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
         switch ($fieldname) {
             case 'email' :
                 $message = $languageObj->getLabel('invalid_email');
-                $emailArr =  explode('|', $message);
+                $emailArr = explode('|', $message);
 
                 $code .= '
 	var test = function(eing) {
@@ -231,7 +231,7 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
 
                 $name = 'tt_products[' . $fieldname . ']';
                 if (is_array($params)) {
-                    $funcs = count ($params);
+                    $funcs = count($params);
                     $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 
                     $ajaxConf = $cnf->getAJAXConf();
@@ -259,7 +259,7 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
 		var inAction = false; // is the script still running?
 		var maxFunc = ' . $funcs . ';
 
-		selectBoxNames[0] = "'. $name . '";
+		selectBoxNames[0] = "' . $name . '";
 		';
                     foreach ($piVarArray as $fnr => $pivar) {
                         $code .= 'pi[' . $fnr . '] = "' . $pivar . '";';
@@ -273,9 +273,9 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
                         $code .= 'c[' . $fnr . '] = new Array(' . count($catArray) . ');';
                         foreach ($catArray as $k => $row) {
                             $code .= 'c[' . $fnr . '][' . $k . '] = new Array(3);';
-                            $code .= 'c[' . $fnr . '][' . $k . '][0] = "' . $this->jsspecialchars($row['title']) . '"; ' ;
+                            $code .= 'c[' . $fnr . '][' . $k . '][0] = "' . $this->jsspecialchars($row['title']) . '"; ';
                             $parentField = $parentFieldArray[$fnr];
-                            $code .= 'c[' . $fnr . '][' . $k . '][1] = "' . intval($row[$parentField]) . '"; ' ;
+                            $code .= 'c[' . $fnr . '][' . $k . '][1] = "' . intval($row[$parentField]) . '"; ';
                             $child_category = $row['child_category'] ?? 0;
                             if (is_array($child_category)) {
                                 $code .= 'c[' . $fnr . '][' . $k . '][2] = new Array(' . count($child_category) . ');';
@@ -286,7 +286,7 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
                                     $count++;
                                 }
                             } else {
-                                $code .= 'c[' . $fnr . '][' . $k . '][2] = "0"; ' ;
+                                $code .= 'c[' . $fnr . '][' . $k . '][2] = "0"; ';
                             }
                             $code .= '
 		';
@@ -481,7 +481,7 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
                 $code .= '
 		return true;
 	}
-	'        ;
+	';
                 break;
 
             case 'fetchdata':
@@ -491,15 +491,15 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
                 ) {
                     return false;
                 }
-                $code .= 'var vBoxCount = new Array(' . count($params) . '); // number of select boxes'.chr(13);
-                $code .= 'var v = new Array(); // variants'.chr(13).chr(13);
+                $code .= 'var vBoxCount = new Array(' . count($params) . '); // number of select boxes' . chr(13);
+                $code .= 'var v = new Array(); // variants' . chr(13) . chr(13);
                 foreach ($params as $tablename => $selectableVariantFieldArray) {
                     if (is_array($selectableVariantFieldArray)) {
-                        $code .= 'vBoxCount["' . $tablename . '"] = ' . (count($selectableVariantFieldArray)) . ';' . chr(13);
+                        $code .= 'vBoxCount["' . $tablename . '"] = ' . count($selectableVariantFieldArray) . ';' . chr(13);
                         $code .= 'v["' . $tablename . '"] = new Array(' . count($selectableVariantFieldArray) . ');' . chr(13);
                         $k = 0;
                         foreach ($selectableVariantFieldArray as $variant => $field) {
-                            $code .= 'v["' . $tablename . '"][' . $k . '] = "' . str_replace('_', '-', $field)  . '";' . chr(13);
+                            $code .= 'v["' . $tablename . '"][' . $k . '] = "' . str_replace('_', '-', $field) . '";' . chr(13);
                             $k++;
                         }
                     }
@@ -585,7 +585,8 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
                 $JSfieldname = 'tx_ttproducts-colorbox';
                 $colorboxFile = \TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath(PATH_BE_TTPRODUCTS . 'Resources/Public/JavaScript/tt_products_colorbox.js');
 
-                FrontendUtility::addJavascriptFile($colorboxFile,
+                FrontendUtility::addJavascriptFile(
+                    $colorboxFile,
                     $JSfieldname
                 );
                 break;
@@ -600,7 +601,7 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
                 $code != '' &&
                 $JSfieldname != ''
             ) {
-                if ($bDirectHTML)	{
+                if ($bDirectHTML) {
                     $pageRenderer = $this->getPageRenderer();
                     $pageRenderer->addHeaderData($code);
                 } else {
@@ -619,15 +620,13 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
         return GeneralUtility::makeInstance(\TYPO3\CMS\Core\Page\PageRenderer::class);
     }
 
-    public function setIncluded ($filename) {
+    public function setIncluded($filename)
+    {
         $this->bIncludedArray[$filename] = true;
     }
 
-
-    public function getIncluded ($filename) {
+    public function getIncluded($filename)
+    {
         return $this->bIncludedArray[$filename];
     }
 }
-
-
-

@@ -30,22 +30,20 @@
  * basket price calculation functions using the price tables
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
-
-class tx_ttproducts_pricetablescalc extends tx_ttproducts_pricecalc_base {
-
-
-
-    public function calculateValue ($formula, $row) {
+class tx_ttproducts_pricetablescalc extends tx_ttproducts_pricecalc_base
+{
+    public function calculateValue($formula, $row)
+    {
         $result = false;
         $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
@@ -101,7 +99,7 @@ class tx_ttproducts_pricetablescalc extends tx_ttproducts_pricecalc_base {
                     if ($formula > 100) {
                         $formula = 100;
                     }
-                    $priceProduct = $priceProduct * (1 - $formula/100);
+                    $priceProduct = $priceProduct * (1 - $formula / 100);
                     $result = $priceProduct;
                     break;
             }
@@ -123,28 +121,25 @@ class tx_ttproducts_pricetablescalc extends tx_ttproducts_pricecalc_base {
                     throw new RuntimeException('Error in tt_products: The syntax check for "' . htmlspecialchars($formula) . '" went wrong.', 50004);
                 } else {
                     eval($phpCode);
-// 					eval("\$result = " . $formula . ";" );
+                    // 					eval("\$result = " . $formula . ";" );
                 }
-            }
-            catch(RuntimeException $e) {
-                debug ($e, 'calculateValue $e'); // keep this
-            }
-            catch(Exception $e) {
-                debug ($e, 'calculateValue $e'); // keep this
+            } catch (RuntimeException $e) {
+                debug($e, 'calculateValue $e'); // keep this
+            } catch (Exception $e) {
+                debug($e, 'calculateValue $e'); // keep this
                 throw new RuntimeException('Error in tt_products: Devision by zero error with "' . htmlspecialchars($formula) . '" .', 50005);
             }
         }
 
         if (isset($row['graduated_price_round']) && strlen($row['graduated_price_round'])) {
-
             $result = tx_ttproducts_api::roundPrice($result, $row['graduated_price_round']);
         }
 
         return $result;
     }
 
-    public function getDiscountPrice ($graduatedPriceObj, $row, $priceProduct, $count) {
-
+    public function getDiscountPrice($graduatedPriceObj, $row, $priceProduct, $count)
+    {
         $result = false;
         $uid = $row['uid'];
         $priceFormulaArray =
@@ -185,7 +180,7 @@ class tx_ttproducts_pricetablescalc extends tx_ttproducts_pricecalc_base {
         return $result;
     }
 
-    public function getCalculatedData (
+    public function getCalculatedData(
         &$itemArray,
         $conf,
         $type,
@@ -220,7 +215,6 @@ class tx_ttproducts_pricetablescalc extends tx_ttproducts_pricecalc_base {
         $prodArray = [];
         // loop over all items in the basket indexed by sort string
         foreach ($itemArray as $sort => $actItemArray) {
-
             foreach ($actItemArray as $k2 => $actItem) {
                 $row = $actItem['rec'];
                 $actItem['sort'] = $sort;
@@ -240,7 +234,7 @@ class tx_ttproducts_pricetablescalc extends tx_ttproducts_pricecalc_base {
                 } else {
                     $priceProduct = $row1['pricenotax'];
                 }
-                foreach($actItemArray as $actItem) {
+                foreach ($actItemArray as $actItem) {
                     $count += floatval($actItem['count']);
                 }
                 $newPriceProduct =
@@ -254,8 +248,7 @@ class tx_ttproducts_pricetablescalc extends tx_ttproducts_pricecalc_base {
                 if ($newPriceProduct !== false) {
                     $priceProduct = $newPriceProduct;
 
-                    foreach($actItemArray as $actItem) {
-
+                    foreach ($actItemArray as $actItem) {
                         $row = $actItem['rec'];
                         $count = floatval($actItem['count']);
                         $sort = $actItem['sort'];
@@ -290,9 +283,5 @@ class tx_ttproducts_pricetablescalc extends tx_ttproducts_pricecalc_base {
                 }
             }
         }
-
     } // getCalculatedData
 }
-
-
-

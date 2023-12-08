@@ -30,24 +30,25 @@
  * base class for all database table fields view classes
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-abstract class tx_ttproducts_field_base_view implements tx_ttproducts_field_view_int, \TYPO3\CMS\Core\SingletonInterface {
+abstract class tx_ttproducts_field_base_view implements tx_ttproducts_field_view_int, \TYPO3\CMS\Core\SingletonInterface
+{
     private $bHasBeenInitialised = false;
     public $modelObj;
     public $cObj;
     public $conf;		// original configuration
     public $config;		// modified configuration
 
-
-    public function init ($modelObj) {
+    public function init($modelObj)
+    {
         $this->modelObj = $modelObj;
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $this->conf = $cnf->getConf();
@@ -56,15 +57,17 @@ abstract class tx_ttproducts_field_base_view implements tx_ttproducts_field_view
         $this->bHasBeenInitialised = true;
     }
 
-    public function needsInit () {
+    public function needsInit()
+    {
         return !$this->bHasBeenInitialised;
     }
 
-    public function getModelObj () {
+    public function getModelObj()
+    {
         return $this->modelObj;
     }
 
-    public function getRepeatedRowSubpartArrays (
+    public function getRepeatedRowSubpartArrays(
         &$subpartArray,
         &$wrappedSubpartArray,
         $markerKey,
@@ -79,7 +82,7 @@ abstract class tx_ttproducts_field_base_view implements tx_ttproducts_field_view
         return false;
     }
 
-    public function getRepeatedRowMarkerArray (
+    public function getRepeatedRowMarkerArray(
         &$markerArray,
         $markerKey,
         $functablename,
@@ -90,13 +93,13 @@ abstract class tx_ttproducts_field_base_view implements tx_ttproducts_field_view
         $tableConf,
         $tagArray,
         $theCode = '',
-        $id='1'
+        $id = '1'
     ) {
         // overwrite this!
         return false;
     }
 
-    public function getRepeatedSubpartArrays (
+    public function getRepeatedSubpartArrays(
         &$subpartArray,
         &$wrappedSubpartArray,
         $templateCode,
@@ -127,9 +130,8 @@ abstract class tx_ttproducts_field_base_view implements tx_ttproducts_field_view
             $valueArray = GeneralUtility::trimExplode(',', $value);
 
             if (isset($valueArray) && is_array($valueArray) && $valueArray['0'] != '') {
-
                 $content = '';
-                foreach($valueArray as $key => $value) {
+                foreach ($valueArray as $key => $value) {
                     $repeatedMarkerArray = [];
                     $repeatedSubpartArray = [];
                     $repeatedWrappedSubpartArray = [];
@@ -186,4 +188,3 @@ abstract class tx_ttproducts_field_base_view implements tx_ttproducts_field_view
         return $result;
     }
 }
-

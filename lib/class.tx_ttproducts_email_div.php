@@ -30,22 +30,21 @@
  * email functions
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
-
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class tx_ttproducts_email_div {
-
+class tx_ttproducts_email_div
+{
     /**
-     * Send notification email for tracking
+     * Send notification email for tracking.
      */
-    static public function sendNotifyEmail (
+    public static function sendNotifyEmail(
         $cObj,
         $conf,
         $config,
@@ -70,7 +69,7 @@ class tx_ttproducts_email_div {
         $sendername = ($sendername ? $sendername : $conf['orderEmail_fromName']);
         $senderemail = ($senderemail ? $senderemail : $conf['orderEmail_from']);
 
-            // Notification email
+        // Notification email
         $recipients = $recipient;
         $recipients = GeneralUtility::trimExplode(',', $recipients, 1);
 
@@ -98,7 +97,7 @@ class tx_ttproducts_email_div {
                 $tagArray = $markerObj->getAllMarkers($emailContent);
 
                 $markerArray = $globalMarkerArray;
-                $markerArray['###ORDER_STATUS_TIME###'] = $cObj->stdWrap($v['time'],$conf['statusDate_stdWrap.']);
+                $markerArray['###ORDER_STATUS_TIME###'] = $cObj->stdWrap($v['time'], $conf['statusDate_stdWrap.']);
                 $markerArray['###ORDER_STATUS###'] = $v['status'];
                 $info = $statusCodeArray[$v['status']];
                 $markerArray['###ORDER_STATUS_INFO###'] = ($info ? $info : $v['info']);
@@ -149,11 +148,10 @@ class tx_ttproducts_email_div {
         }
     }
 
-
     /**
-     * Send notification email for gift certificates
+     * Send notification email for gift certificates.
      */
-    static public function sendGiftEmail (
+    public static function sendGiftEmail(
         $cObj,
         $conf,
         $recipient,
@@ -167,7 +165,7 @@ class tx_ttproducts_email_div {
         $sendername = ($giftRow['personname'] ? $giftRow['personname'] : $conf['orderEmail_fromName']);
         $senderemail = ($giftRow['personemail'] ? $giftRow['personemail'] : $conf['orderEmail_from']);
         $recipients = $recipient;
-        $recipients = GeneralUtility::trimExplode(',',$recipients,1);
+        $recipients = GeneralUtility::trimExplode(',', $recipients, 1);
 
         if (count($recipients)) {	// If any recipients, then compile and send the mail.
             $emailContent = trim($templateService->getSubpart($templateCode, '###' . $templateMarker . '###'));
@@ -176,9 +174,9 @@ class tx_ttproducts_email_div {
                 $globalMarkerArray = $markerObj->getGlobalMarkerArray();
                 $priceViewObj = GeneralUtility::makeInstance('tx_ttproducts_field_price_view');
 
-// 				$parts = explode(chr(10),$emailContent,2);	// First line is subject
-// 				$subject = trim($parts[0]);
-// 				$plain_message = trim($parts[1]);
+                // 				$parts = explode(chr(10),$emailContent,2);	// First line is subject
+                // 				$subject = trim($parts[0]);
+                // 				$plain_message = trim($parts[1]);
 
                 $markerArray = $globalMarkerArray;
                 $markerArray['###CERTIFICATES_TOTAL###'] = $priceViewObj->priceFormat($giftRow['amount']);
@@ -241,5 +239,3 @@ class tx_ttproducts_email_div {
         }
     }
 }
-
-

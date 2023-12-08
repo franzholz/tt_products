@@ -30,20 +30,20 @@
  * functions for digital medias
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
 
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-class tx_ttproducts_field_media extends tx_ttproducts_field_base {
-
-    public function getDirname ($imageRow) {
+class tx_ttproducts_field_media extends tx_ttproducts_field_base
+{
+    public function getDirname($imageRow)
+    {
         if (
             isset($imageRow['file_mime_type']) &&
             $imageRow['file_mime_type'] == 'image' &&
@@ -51,13 +51,13 @@ class tx_ttproducts_field_media extends tx_ttproducts_field_base {
         ) {
             $dirname = $imageRow['file_path'];
         } else {
-            $dirname = ($this->conf['defaultImageDir'] ? $this->conf['defaultImageDir'] : ( $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['imageFolder'] ? $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['imageFolder'] . '/' : 'uploads/pics/'));
+            $dirname = ($this->conf['defaultImageDir'] ? $this->conf['defaultImageDir'] : ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['imageFolder'] ? $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['imageFolder'] . '/' : 'uploads/pics/'));
         }
+
         return $dirname;
     }
 
-
-    public function getFileArray (
+    public function getFileArray(
         $tablename,
         $imageRow,
         $imageField,
@@ -91,7 +91,7 @@ class tx_ttproducts_field_media extends tx_ttproducts_field_base {
                 }
 
                 if (count($uidArray)) {
-                    $where_clause = 'uid_foreign IN (' . implode(',', $uidArray) . ') AND tablenames="' . $theTablename . '" AND fieldname="' . $imageField . '"' ;
+                    $where_clause = 'uid_foreign IN (' . implode(',', $uidArray) . ') AND tablenames="' . $theTablename . '" AND fieldname="' . $imageField . '"';
                     $where_clause .= \JambageCom\Div2007\Utility\TableUtility::enableFields('sys_file_reference');
                     $sysfileRowArray =
                         $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
@@ -114,7 +114,7 @@ class tx_ttproducts_field_media extends tx_ttproducts_field_base {
             ) {
                 if ($imageRow[$imageField]) {
                     $theTablename = $tablename;
-                    $where_clause = 'uid_foreign=' . intval($imageRow['uid']) . ' AND tablenames="' . $theTablename . '" AND fieldname="' . $imageField . '"' ;
+                    $where_clause = 'uid_foreign=' . intval($imageRow['uid']) . ' AND tablenames="' . $theTablename . '" AND fieldname="' . $imageField . '"';
                     $where_clause .= \JambageCom\Div2007\Utility\TableUtility::enableFields('sys_file_reference');
                     $sysfileRowArray =
                         $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
@@ -139,7 +139,7 @@ class tx_ttproducts_field_media extends tx_ttproducts_field_base {
                 $storageRepository = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\StorageRepository');
                 $storage = $storageRepository->findByUid(1);
 
-                foreach($sysfileRowArray as $fileUid => $sysfileRow) {
+                foreach ($sysfileRowArray as $fileUid => $sysfileRow) {
                     $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
                     $fileObj = $resourceFactory->getFileReferenceObject($sysfileRow['uid']);
                     $fileInfo = $storage->getFileInfo($fileObj);
@@ -173,8 +173,7 @@ class tx_ttproducts_field_media extends tx_ttproducts_field_base {
         return $fileArray;
     }
 
-
-    public function getMediaNum (
+    public function getMediaNum(
         $functablename,
         $fieldname,
         $theCode
@@ -185,36 +184,33 @@ class tx_ttproducts_field_media extends tx_ttproducts_field_base {
         $mediaNum = $tableConf['limitImage'] ?? '';
         if (!$mediaNum) {
             $codeTypeArray = [	// Todo: make this configurable
-                'list' =>
-                    [
+                'list' => [
                         'real' => ['SEARCH', 'MEMO'],
                         'part' => ['LIST', 'MENU'],
-                        'num' => $this->conf['limitImage']
+                        'num' => $this->conf['limitImage'],
                     ],
-                'basket' =>
-                    [
+                'basket' => [
                         'real' => ['OVERVIEW', 'BASKET', 'FINALIZE', 'INFO', 'PAYMENT', 'TRACKING', 'BILL', 'DELIVERY', 'EMAIL'],
-                        'part' =>	[] ,
-                        'num' => 1
+                        'part' => [],
+                        'num' => 1,
                     ],
-                'single' =>
-                    [
+                'single' => [
                         'real' => [],
                         'part' => ['SINGLE'],
-                        'num' => $this->conf['limitImageSingle']
-                    ]
+                        'num' => $this->conf['limitImageSingle'],
+                    ],
             ];
 
             foreach ($codeTypeArray as $type => $codeArray) {
                 $realArray = $codeArray['real'];
-                if (count ($realArray)) {
+                if (count($realArray)) {
                     if (in_array($theCode, $realArray)) {
                         $mediaNum = $codeArray['num'];
                         break;
                     }
                 }
                 $partArray = $codeArray['part'];
-                if (count ($partArray)) {
+                if (count($partArray)) {
                     foreach ($partArray as $k => $part) {
                         if (strpos($theCode, $part) !== false) {
                             $mediaNum = $codeArray['num'];
@@ -227,5 +223,4 @@ class tx_ttproducts_field_media extends tx_ttproducts_field_base {
 
         return $mediaNum;
     }
-
 }

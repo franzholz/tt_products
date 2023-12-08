@@ -34,23 +34,21 @@
  * @author	Renè Fritz <r.fritz@colorcube.de>
  * @author	Franz Holzinger <franz@ttproducts.de>
  * @author	Klaus Zierer <zierer@pz-systeme.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
+ *
  * @see file tt_products/static/old_style/constants.txt
  * @see TSref
- *
  */
-
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
-
-
-class tx_ttproducts_pi1 implements \TYPO3\CMS\Core\SingletonInterface {
-
-
+class tx_ttproducts_pi1 implements \TYPO3\CMS\Core\SingletonInterface
+{
     public $cObj;
 
     public function setContentObjectRenderer(ContentObjectRenderer $cObj): void
@@ -58,12 +56,11 @@ class tx_ttproducts_pi1 implements \TYPO3\CMS\Core\SingletonInterface {
         $this->cObj = $cObj;
     }
 
-
     /**
      * Main method. Call this from TypoScript by a USER cObject.
      */
-    public function main ($content, $conf) {
-
+    public function main($content, $conf)
+    {
         $pibaseObj = GeneralUtility::makeInstance('tx_ttproducts_pi1_base');
         $pibaseObj->cObj = $this->cObj;
         $languageSubpath = '/Resources/Private/Language/';
@@ -84,14 +81,15 @@ class tx_ttproducts_pi1 implements \TYPO3\CMS\Core\SingletonInterface {
     /**
      * Main method for the cached object. Call this from TypoScript by a USER or COBJ cObject.
      */
-    public function getUserFunc ($content, $conf) {
+    public function getUserFunc($content, $conf)
+    {
         $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tt_products.'];
 
         if (
             isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['getUserFunc']) &&
             is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['getUserFunc'])
         ) {
-            foreach($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['getUserFunc'] as $classRef) {
+            foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['getUserFunc'] as $classRef) {
                 $hookObj = GeneralUtility::makeInstance($classRef);
                 if (method_exists($hookObj, 'getUserFunc')) {
                     if (method_exists($hookObj, 'setContentObjectRenderer')) {
@@ -101,7 +99,7 @@ class tx_ttproducts_pi1 implements \TYPO3\CMS\Core\SingletonInterface {
                 }
             }
         }
+
         return $content;
     }
 }
-

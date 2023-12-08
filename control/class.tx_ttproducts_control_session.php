@@ -30,35 +30,37 @@
  * data functions for the customer.
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
  */
-
-
-class tx_ttproducts_control_session {
-
-    static public function filterExtensionData ($session) {
-
+class tx_ttproducts_control_session
+{
+    public static function filterExtensionData($session)
+    {
         $result = '';
         if (is_array($session) && isset($session['tt_products'])) {
             $result = $session['tt_products'];
         }
+
         return $result;
     }
 
-    static public function readSession ($key) {
+    public static function readSession($key)
+    {
         $result = [];
         $data = $GLOBALS['TSFE']->fe_user->getKey('ses', $key);
         if (!empty($data)) {
             $result = $data;
         }
+
         return $result;
     }
 
-    static public function writeSession ($key, $value) {
-
+    public static function writeSession($key, $value)
+    {
         // Storing value ONLY if there is a confirmed cookie set,
         // otherwise a shellscript could easily be spamming the fe_sessions table
         // with bogus content and thus bloat the database
@@ -72,16 +74,14 @@ class tx_ttproducts_control_session {
         }
     }
 
-    /*************************************
-    * FE USER SESSION DATA HANDLING
-    *************************************/
+    // FE USER SESSION DATA HANDLING
     /**
-    * Retrieves session data
-    *
-    * @param	boolean	$readAll: whether to retrieve all session data or only data for this extension key
-    * @return	array	session data
-    */
-    static public function readSessionData ($readAll = false) {
+     * Retrieves session data.
+     *
+     * @return	array	session data
+     */
+    public static function readSessionData($readAll = false)
+    {
         $sessionData = [];
         $extKey = TT_PRODUCTS_EXT;
         $allSessionData = static::readSession('feuser');
@@ -89,27 +89,25 @@ class tx_ttproducts_control_session {
         if (isset($allSessionData) && is_array($allSessionData)) {
             if ($readAll) {
                 $sessionData = $allSessionData;
-            } else if (isset($allSessionData[$extKey])) {
+            } elseif (isset($allSessionData[$extKey])) {
                 $sessionData = $allSessionData[$extKey];
             }
         }
+
         return $sessionData;
     }
 
     /**
-    * Writes data to FE user session data
-    *
-    * @param	array	$data: the data to be written to FE user session data
-    * @param	boolean	$keepToken: whether to keep any token
-    * @param	boolean	$keepRedirectUrl: whether to keep any redirectUrl
-    * @return	array	session data
-    */
-    static public function writeSessionData (
+     * Writes data to FE user session data.
+     *
+     * @return	array	session data
+     */
+    public static function writeSessionData(
         array $data
     ) {
         $clearSession = empty($data);
         $extKey = TT_PRODUCTS_EXT;
-            // Read all session data
+        // Read all session data
         $allSessionData = static::readSessionData(true);
 
         if (is_array($allSessionData[$extKey])) {
@@ -126,5 +124,3 @@ class tx_ttproducts_control_session {
         static::writeSession('feuser', $allSessionData);
     }
 }
-
-

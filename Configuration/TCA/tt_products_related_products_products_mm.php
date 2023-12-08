@@ -1,4 +1,5 @@
 <?php
+
 defined('TYPO3') || die('Access denied.');
 
 // ******************************************************************
@@ -16,11 +17,11 @@ $result = [
         'tstamp' => 'tstamp',
         'delete' => 'deleted',
         'enablecolumns' => [
-            'disabled' => 'hidden'
+            'disabled' => 'hidden',
         ],
         'prependAtCopy' => $languageLglPath . 'prependAtCopy',
         'crdate' => 'crdate',
-        'iconfile' => 'EXT:' . $extensionKey . '/Resources/Public/Icons/' . 'tt_products_relations.gif',
+        'iconfile' => 'EXT:' . $extensionKey . '/Resources/Public/Icons/tt_products_relations.gif',
         'hideTable' => true,
     ],
     'columns' => [
@@ -31,8 +32,8 @@ $result = [
                 'renderType' => 'selectSingle',
                 'foreign_table' => 'tt_products',
                 'maxitems' => 1,
-                'default' => 0
-            ]
+                'default' => 0,
+            ],
         ],
         'uid_foreign' => [
             'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_related_products_products_mm.uid_foreign',
@@ -41,28 +42,27 @@ $result = [
                 'renderType' => 'selectSingle',
                 'foreign_table' => 'tt_products',
                 'maxitems' => 1,
-                'default' => 0
-            ]
+                'default' => 0,
+            ],
         ],
         'sorting' => [
             'config' => [
                 'type' => 'passthrough',
-                'default' => 0
-            ]
+                'default' => 0,
+            ],
         ],
         'sorting_foreign' => [
             'config' => [
                 'type' => 'passthrough',
-                'default' => 0
-            ]
+                'default' => 0,
+            ],
         ],
     ],
     'types' => [
         '0' => [
-            'showitem' => ''
-        ]
-    ]
+            'showitem' => '',
+        ],
+    ],
 ];
 
 return $result;
-

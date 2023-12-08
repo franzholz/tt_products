@@ -30,40 +30,41 @@
  * functions for downloads
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
  */
 
+use JambageCom\Div2007\Utility\FrontendUtility;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
-use JambageCom\Div2007\Utility\FrontendUtility;
-
-class tx_ttproducts_download_view extends tx_ttproducts_article_base_view {
+class tx_ttproducts_download_view extends tx_ttproducts_article_base_view
+{
     public $marker = 'DOWNLOAD';
 
     /**
-     * Generates a radio or selector box for download
+     * Generates a radio or selector box for download.
      */
-    public function generateRadioSelect (
+    public function generateRadioSelect(
         $theCode,
         $row
     ) {
     }
 
-
     /**
      * Template marker substitution
-     * Fills in the markerArray with data for a product
+     * Fills in the markerArray with data for a product.
      *
      * @param	array		reference to an item array with all the data of the item
      * @param	array		Returns a markerArray ready for substitution with information
+     *
      * @access private
      */
-    public function getDownloadMarkerSubpartArrays (
+    public function getDownloadMarkerSubpartArrays(
         $templateCode,
         $conf,
         $rowArray,
@@ -93,13 +94,12 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view {
             $t['item'] = $templateService->getSubpart($templateCode, '###DOWNLOAD_SINGLE###');
         }
 
-// 			<!-- ###DOWNLOAD_SINGLE### begin -->
-// 				###DOWNLOAD_TITLE###
-// 				###DOWNLOAD_NOTE###
-// 				###DOWNLOAD_LINK###
-// 				<br/>
-// 			<!-- ###DOWNLOAD_SINGLE### end -->
-
+        // 			<!-- ###DOWNLOAD_SINGLE### begin -->
+        // 				###DOWNLOAD_TITLE###
+        // 				###DOWNLOAD_NOTE###
+        // 				###DOWNLOAD_LINK###
+        // 				<br/>
+        // 			<!-- ###DOWNLOAD_SINGLE### end -->
 
         $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
         $postVar = tx_ttproducts_control_command::getCommandVar();
@@ -119,7 +119,7 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view {
             isset($rowArray) &&
             is_array($rowArray) &&
             count($rowArray)
-        ) {		
+        ) {
             foreach ($rowArray as $k => $row) {
                 $content = '';
                 $marker = $parentMarker . '_' . $this->getMarker() . '_' . strtoupper($row['marker']);
@@ -136,7 +136,6 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view {
                     $productUid = $productRowArray['0']['uid'];
 
                     foreach ($productRowArray as $productRow) {
-
                         $selectValueArray = $itemTable->getEditVariant()->getVariantRowFromProductRow($productRow);
                     }
 
@@ -189,7 +188,7 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view {
                     $markerArray['###' . $markerSelect . '###'] = $selectOut;
                 }
 
-// hier die Select Box für die Auswahl der Domäne zum Download
+                // hier die Select Box für die Auswahl der Domäne zum Download
 
                 if ($bAddonsEM) {
                     $fileArray = $this->getModelObj()->getFileArray(
@@ -209,7 +208,7 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view {
                     $paramArray = [];
                     if ($bValidUpdateCode) {
                         $paramArray['update_code'] = $updateCode;
-                    } else if ($trackingCode != '') {
+                    } elseif ($trackingCode != '') {
                         $paramArray['tracking'] = $trackingCode;
                     }
 
@@ -227,13 +226,13 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view {
                         count($multiOrderArray)
                     ) {
                         $currentOrderUid = 0;
-                        foreach($multiOrderArray as $orderRow) {
+                        foreach ($multiOrderArray as $orderRow) {
                             if (
                                 isset($orderRow['edit_variants']) &&
                                 strlen($orderRow['edit_variants']) &&
                                 strpos($orderRow['edit_variants'], 'domain:') !== false
                             ) {
-// andere Varianten erlauben
+                                // andere Varianten erlauben
                                 $editVariants =
                                     preg_split(
                                         '/[\h]*' . $variantSeparator . '[\h]*/',
@@ -243,13 +242,12 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view {
                                     );
 
                                 if (
-                                    $selectedDomain != '' && 
+                                    $selectedDomain != '' &&
                                     is_array($editVariants) &&
                                     count($editVariants)
                                 ) {
                                     $editVariantComparator = 'domain:' . $selectedDomain;
-                                    foreach($editVariants as $editVariant) {
-
+                                    foreach ($editVariants as $editVariant) {
                                         if ($editVariant == $editVariantComparator) {
                                             $orderUid = $orderRow['uid'];
                                             break;
@@ -275,7 +273,7 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view {
                     }
 
                     $downloadImageFile = PathUtility::getAbsoluteWebPath(ExtensionManagementUtility::extPath(TT_PRODUCTS_EXT) . 'Resources/Public/Icons/system-extension-download.png');
-            
+
                     foreach ($fileArray as $k => $file) {
                         if ($file != $path) {
                             if (substr($file, -1) == '/') {
@@ -291,7 +289,7 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view {
 
                                 $content .= '<a href="' . htmlspecialchars($url) . '" title="' .
                                     $GLOBALS['TSFE']->sL(DIV2007_LANGUAGE_PATH . 'locallang_common.xlf:download') . ' ' . $foldername . '">' .
-                                $foldername . '<img src="' . $downloadImageFile . '">' . '</a>';
+                                $foldername . '<img src="' . $downloadImageFile . '"></a>';
                             } else {
                                 $paramArray[$postVar . '[fal]'] = $k;
                                 $url = FrontendUtility::getTypoLink_URL(
@@ -302,7 +300,7 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view {
                                 $filename = basename($file);
 
                                 $content .= '<a href="' . htmlspecialchars($url) . '" title="' .
-                                    $GLOBALS['TSFE']->sL(DIV2007_LANGUAGE_PATH . 'locallang_common.xlf:download') . ' ' . $filename . '">' . $filename . '<img src="' . $downloadImageFile . '">' . '</a>';
+                                    $GLOBALS['TSFE']->sL(DIV2007_LANGUAGE_PATH . 'locallang_common.xlf:download') . ' ' . $filename . '">' . $filename . '<img src="' . $downloadImageFile . '"></a>';
                             }
                         }
                     }
@@ -313,15 +311,15 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view {
 
                 if (isset($tagArray[$marker])) {
                     $markerArray['###' . $marker . '###'] = $content;
-                } else if ($error) {
+                } elseif ($error) {
                     $subpartArray['###DOWNLOAD_SINGLE###'] .= $content;
-                } else if ($t['item'] != '') {
-    // 			<!-- ###DOWNLOAD_SINGLE### begin -->
-    // 				###DOWNLOAD_TITLE###
-    // 				###DOWNLOAD_NOTE###
-    // 				###DOWNLOAD_LINK###
-    // 				<br/>
-    // 			<!-- ###DOWNLOAD_SINGLE### end -->
+                } elseif ($t['item'] != '') {
+                    // 			<!-- ###DOWNLOAD_SINGLE### begin -->
+                    // 				###DOWNLOAD_TITLE###
+                    // 				###DOWNLOAD_NOTE###
+                    // 				###DOWNLOAD_LINK###
+                    // 				<br/>
+                    // 			<!-- ###DOWNLOAD_SINGLE### end -->
 
                     $downloadMarker = $this->getMarker();
                     $markerLink = $downloadMarker . '_' . strtoupper('link');
@@ -340,14 +338,14 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view {
                             if ($field == 'note') {
                                 $value = ($conf['nl2brNote'] ? nl2br($value) : $value);
 
-                                    // Extension CSS styled content
+                                // Extension CSS styled content
                                 if (ExtensionManagementUtility::isLoaded('css_styled_content')) {
                                     $value =
                                         FrontendUtility::RTEcssText(
                                             $cObj,
                                             $value
                                         );
-                                } else if (is_array($conf['parseFunc.'])) {
+                                } elseif (is_array($conf['parseFunc.'])) {
                                     $value =
                                         $cObj->parseFunc(
                                             $value,
@@ -365,7 +363,7 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view {
                 }
             }
         } else {
-        // mothing
+            // mothing
         }
 
         $this->setMarkersEmpty(
@@ -379,4 +377,3 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view {
         }
     }
 }
-

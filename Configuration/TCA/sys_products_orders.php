@@ -1,4 +1,5 @@
 <?php
+
 defined('TYPO3') || die('Access denied.');
 
 $extensionKey = 'tt_products';
@@ -19,7 +20,7 @@ $result = [
         'prependAtCopy' => $languageLglPath . 'prependAtCopy',
         'crdate' => 'crdate',
         'mainpalette' => 1,
-        'iconfile' => 'EXT:' . $extensionKey . '/Resources/Public/Icons/' . 'sys_products_orders.gif',
+        'iconfile' => 'EXT:' . $extensionKey . '/Resources/Public/Icons/sys_products_orders.gif',
         'dividers2tabs' => '1',
         'searchFields' => 'uid,name,first_name,last_name,vat_id,address,zip,city,telephone,email,giftcode,bill_no,tracking_code',
     ],
@@ -29,8 +30,8 @@ $result = [
             'label' => $languageLglPath . 'hidden',
             'config' => [
                 'type' => 'check',
-                'default' => 0
-            ]
+                'default' => 0,
+            ],
         ],
         'tstamp' => [
             'exclude' => 1,
@@ -41,8 +42,8 @@ $result = [
                 'eval' => 'datetime,int',
                 'renderType' => 'inputDateTime',
                 'default' => 0,
-                'readOnly' => 1
-            ]
+                'readOnly' => 1,
+            ],
         ],
         'crdate' => [
             'exclude' => 1,
@@ -53,16 +54,16 @@ $result = [
                 'eval' => 'datetime,int',
                 'renderType' => 'inputDateTime',
                 'default' => 0,
-                'readOnly' => 1
-            ]
+                'readOnly' => 1,
+            ],
         ],
         'sys_language_uid' => [
             'exclude' => 1,
             'label' => $languageLglPath . 'language',
             'config' => [
                 'type' => 'language',
-                'default' => 0
-            ]
+                'default' => 0,
+            ],
         ],
         'name' => [
             'exclude' => 0,
@@ -72,8 +73,8 @@ $result = [
                 'size' => '40',
                 'max' => '80',
                 'eval' => 'required,trim',
-                'default' => null
-            ]
+                'default' => null,
+            ],
         ],
         'first_name' => [
             'exclude' => 1,
@@ -83,8 +84,8 @@ $result = [
                 'size' => '40',
                 'max' => '50',
                 'eval' => 'trim',
-                'default' => null
-            ]
+                'default' => null,
+            ],
         ],
         'last_name' => [
             'exclude' => 1,
@@ -94,8 +95,8 @@ $result = [
                 'size' => '40',
                 'max' => '50',
                 'eval' => 'trim',
-                'default' => null
-            ]
+                'default' => null,
+            ],
         ],
         'slug' => [
             'exclude' => 1,
@@ -112,8 +113,8 @@ $result = [
                     ],
                 ],
                 'fallbackCharacter' => '-',
-                'default' => null
-            ]
+                'default' => null,
+            ],
         ],
         'company' => [
             'exclude' => 1,
@@ -123,8 +124,8 @@ $result = [
                 'size' => '40',
                 'max' => '80',
                 'eval' => 'trim',
-                'default' => null
-            ]
+                'default' => null,
+            ],
         ],
         'vat_id' => [
             'exclude' => 1,
@@ -133,8 +134,8 @@ $result = [
                 'type' => 'input',
                 'size' => '15',
                 'max' => '15',
-                'default' => null
-            ]
+                'default' => null,
+            ],
         ],
         'salutation' => [
             'exclude' => 1,
@@ -150,8 +151,8 @@ $result = [
                 ],
                 'size' => 1,
                 'maxitems' => 1,
-                'default' => 0
-            ]
+                'default' => 0,
+            ],
         ],
         'address' => [
             'exclude' => 1,
@@ -161,8 +162,8 @@ $result = [
                 'size' => '50',
                 'max' => '256',
                 'eval' => 'null',
-                'default' => null
-            ]
+                'default' => null,
+            ],
         ],
         'house_no' => [
             'exclude' => 1,
@@ -172,8 +173,8 @@ $result = [
                 'eval' => 'trim',
                 'size' => '20',
                 'max' => '20',
-                'default' => null
-            ]
+                'default' => null,
+            ],
         ],
         'zip' => [
             'exclude' => 1,
@@ -183,8 +184,8 @@ $result = [
                 'size' => '10',
                 'max' => '20',
                 'eval' => 'trim',
-                'default' => null
-            ]
+                'default' => null,
+            ],
         ],
         'city' => [
             'exclude' => 1,
@@ -194,8 +195,8 @@ $result = [
                 'size' => '40',
                 'max' => '50',
                 'eval' => 'trim',
-                'default' => null
-            ]
+                'default' => null,
+            ],
         ],
         'country' => [
             'exclude' => 1,
@@ -205,8 +206,8 @@ $result = [
                 'size' => '40',
                 'max' => '60',
                 'eval' => 'trim',
-                'default' => null
-            ]
+                'default' => null,
+            ],
         ],
         'telephone' => [
             'exclude' => 1,
@@ -215,8 +216,8 @@ $result = [
                 'type' => 'input',
                 'size' => '20',
                 'max' => '20',
-                'default' => null
-            ]
+                'default' => null,
+            ],
         ],
         'email' => [
             'exclude' => 1,
@@ -225,8 +226,8 @@ $result = [
                 'type' => 'input',
                 'size' => '20',
                 'max' => '80',
-                'default' => null
-            ]
+                'default' => null,
+            ],
         ],
         'fax' => [
             'exclude' => 1,
@@ -235,8 +236,8 @@ $result = [
                 'type' => 'input',
                 'size' => '4',
                 'max' => '4',
-                'default' => null
-            ]
+                'default' => null,
+            ],
         ],
         'business_partner' => [
             'exclude' => 1,
@@ -250,8 +251,8 @@ $result = [
                 ],
                 'size' => 1,
                 'maxitems' => 1,
-                'default' => 0
-            ]
+                'default' => 0,
+            ],
         ],
         'organisation_form' => [
             'exclude' => 1,
@@ -290,8 +291,8 @@ $result = [
                 ],
                 'size' => 1,
                 'maxitems' => 1,
-                'default' => 'U'
-            ]
+                'default' => 'U',
+            ],
         ],
         'payment' => [
             'exclude' => 1,
@@ -300,8 +301,8 @@ $result = [
                 'type' => 'input',
                 'size' => '40',
                 'max' => '80',
-                'default' => null
-            ]
+                'default' => null,
+            ],
         ],
         'shipping' => [
             'exclude' => 1,
@@ -310,8 +311,8 @@ $result = [
                 'type' => 'input',
                 'size' => '40',
                 'max' => '80',
-                'default' => null
-            ]
+                'default' => null,
+            ],
         ],
         'amount' => [
             'exclude' => 1,
@@ -321,8 +322,8 @@ $result = [
                 'size' => '20',
                 'max' => '20',
                 'eval' => 'trim,double2',
-                'default' => 0
-            ]
+                'default' => 0,
+            ],
         ],
         'tax_mode' => [
             'exclude' => 1,
@@ -333,8 +334,8 @@ $result = [
                     ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_orders.tax_mode.I.0', '0'],
                     ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_orders.tax_mode.I.1', '1'],
                 ],
-                'default' => 0
-            ]
+                'default' => 0,
+            ],
         ],
         'pay_mode' => [
             'exclude' => 1,
@@ -359,10 +360,10 @@ $result = [
                     ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_orders.pay_mode.I.14', '14'],
                     ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_orders.pay_mode.I.15', '15'],
                     ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_orders.pay_mode.I.16', '16'],
-                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_orders.pay_mode.I.17', '17']
+                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_orders.pay_mode.I.17', '17'],
                 ],
-                'default' => 0
-            ]
+                'default' => 0,
+            ],
         ],
         'email_notify' => [
             'exclude' => 1,
@@ -371,8 +372,8 @@ $result = [
                 'type' => 'input',
                 'size' => '4',
                 'max' => '4',
-                'default' => null
-            ]
+                'default' => null,
+            ],
         ],
         'tracking_code' => [
             'exclude' => 1,
@@ -381,8 +382,8 @@ $result = [
                 'type' => 'input',
                 'size' => '32',
                 'max' => '64',
-                'default' => null
-            ]
+                'default' => null,
+            ],
         ],
         'status' => [
             'exclude' => 1,
@@ -391,8 +392,8 @@ $result = [
                 'type' => 'input',
                 'size' => '4',
                 'max' => '4',
-                'default' => null
-            ]
+                'default' => null,
+            ],
         ],
         'status_log' => [
             'exclude' => 1,
@@ -402,8 +403,8 @@ $result = [
                 'cols' => '80',
                 'rows' => '4',
                 'eval' => 'null',
-                'default' => null
-            ]
+                'default' => null,
+            ],
         ],
         'orderData' => [
             'exclude' => 1,
@@ -414,8 +415,8 @@ $result = [
                 'rows' => '160',
                 'wrap' => 'off',
                 'eval' => 'null',
-                'default' => null
-            ]
+                'default' => null,
+            ],
         ],
         'orderHtml' => [
             'exclude' => 1,
@@ -425,10 +426,10 @@ $result = [
                 'size' => '30',
                 'renderType' => 'orderHtmlElement',
                 'parameters' => [
-                    'format' => 'html'
+                    'format' => 'html',
                 ],
                 'db' => 'passthrough',
-                'default' => null
+                'default' => null,
             ],
         ],
         'agb' => [
@@ -439,7 +440,7 @@ $result = [
                 'size' => '2',
                 'max' => '2',
                 'readOnly' => '1',
-            ]
+            ],
         ],
         'feusers_uid' => [
             'exclude' => 1,
@@ -448,8 +449,8 @@ $result = [
                 'type' => 'input',
                 'size' => '11',
                 'max' => '11',
-                'default' => 0
-            ]
+                'default' => 0,
+            ],
         ],
         'creditpoints' => [
             'exclude' => 1,
@@ -458,8 +459,8 @@ $result = [
                 'type' => 'input',
                 'size' => '10',
                 'max' => '10',
-                'default' => 0
-            ]
+                'default' => 0,
+            ],
         ],
         'creditpoints_spended' => [
             'exclude' => 1,
@@ -468,8 +469,8 @@ $result = [
                 'type' => 'input',
                 'size' => '10',
                 'max' => '10',
-                'default' => 0
-            ]
+                'default' => 0,
+            ],
         ],
         'creditpoints_saved' => [
             'exclude' => 1,
@@ -478,8 +479,8 @@ $result = [
                 'type' => 'input',
                 'size' => '10',
                 'max' => '10',
-                'default' => 0
-            ]
+                'default' => 0,
+            ],
         ],
         'creditpoints_gifts' => [
             'exclude' => 1,
@@ -488,8 +489,8 @@ $result = [
                 'type' => 'input',
                 'size' => '10',
                 'max' => '10',
-                'default' => 0
-            ]
+                'default' => 0,
+            ],
         ],
         'desired_date' => [
             'exclude' => 1,
@@ -498,8 +499,8 @@ $result = [
                 'type' => 'input',
                 'size' => '10',
                 'max' => '10',
-                'default' => null
-            ]
+                'default' => null,
+            ],
         ],
         'desired_time' => [
             'exclude' => 1,
@@ -508,8 +509,8 @@ $result = [
                 'type' => 'input',
                 'size' => '10',
                 'max' => '10',
-                'default' => null
-            ]
+                'default' => null,
+            ],
         ],
         'client_ip' => [
             'exclude' => 1,
@@ -518,8 +519,8 @@ $result = [
                 'type' => 'input',
                 'size' => '40',
                 'max' => '50',
-                'default' => null
-            ]
+                'default' => null,
+            ],
         ],
         'note' => [
             'exclude' => 1,
@@ -529,8 +530,8 @@ $result = [
                 'cols' => '48',
                 'rows' => '5',
                 'eval' => 'null',
-                'default' => null
-            ]
+                'default' => null,
+            ],
         ],
         'giftservice' => [
             'exclude' => 1,
@@ -540,8 +541,8 @@ $result = [
                 'cols' => '48',
                 'rows' => '5',
                 'eval' => 'null',
-                'default' => null
-            ]
+                'default' => null,
+            ],
         ],
         'cc_uid' => [
             'exclude' => 1,
@@ -553,8 +554,8 @@ $result = [
                 'size' => 1,
                 'minitems' => 0,
                 'maxitems' => 1,
-                'default' => 0
-            ]
+                'default' => 0,
+            ],
         ],
         'ac_uid' => [
             'exclude' => 1,
@@ -566,8 +567,8 @@ $result = [
                 'size' => 1,
                 'minitems' => 0,
                 'maxitems' => 1,
-                'default' => 0
-            ]
+                'default' => 0,
+            ],
         ],
         'foundby' => [
             'exclude' => 1,
@@ -586,8 +587,8 @@ $result = [
                 ],
                 'size' => 1,
                 'maxitems' => 1,
-                'default' => 0
-            ]
+                'default' => 0,
+            ],
         ],
         'giftcode' => [
             'exclude' => 1,
@@ -596,8 +597,8 @@ $result = [
                 'type' => 'input',
                 'size' => '30',
                 'max' => '80',
-                'default' => null
-            ]
+                'default' => null,
+            ],
         ],
         'date_of_birth' => [
             'exclude' => 1,
@@ -607,8 +608,8 @@ $result = [
                 'size' => '8',
                 'eval' => 'date',
                 'renderType' => 'inputDateTime',
-                'default' => 0
-            ]
+                'default' => 0,
+            ],
         ],
         'date_of_payment' => [
             'exclude' => 1,
@@ -618,8 +619,8 @@ $result = [
                 'size' => '8',
                 'eval' => 'date',
                 'renderType' => 'inputDateTime',
-                'default' => 0
-            ]
+                'default' => 0,
+            ],
         ],
         'date_of_delivery' => [
             'exclude' => 1,
@@ -629,8 +630,8 @@ $result = [
                 'size' => '8',
                 'eval' => 'date',
                 'renderType' => 'inputDateTime',
-                'default' => 0
-            ]
+                'default' => 0,
+            ],
         ],
         'bill_no' => [
             'exclude' => 1,
@@ -639,8 +640,8 @@ $result = [
                 'type' => 'input',
                 'size' => '30',
                 'max' => '80',
-                'default' => null
-            ]
+                'default' => null,
+            ],
         ],
         'radio1' => [
             'exclude' => 1,
@@ -652,8 +653,8 @@ $result = [
                     ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_orders.radio1.I.1', '1'],
                     ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_orders.radio1.I.2', '2'],
                 ],
-                'default' => '0'
-            ]
+                'default' => '0',
+            ],
         ],
         'ordered_products' => [
             'exclude' => 1,
@@ -662,16 +663,16 @@ $result = [
                 'type' => 'user',
                 'renderType' => 'orderedProductsElement',
                 'parameters' => [
-                    'mode' => 1
+                    'mode' => 1,
                 ],
                 'db' => 'passthrough',
-                'default' => null
+                'default' => null,
             ],
         ],
         'fal_uid' => [
             'exclude' => 1,
             'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_orders.fal_uid',
-            'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig('fal_uid')
+            'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig('fal_uid'),
         ],
         'gained_uid' => [
             'exclude' => 1,
@@ -686,29 +687,27 @@ $result = [
                 'size' => 10,
                 'minitems' => 0,
                 'maxitems' => 10,
-                'default' => 0
+                'default' => 0,
             ],
         ],
     ],
     'types' => [
-        '1' =>
-            [
+        '1' => [
                 'columnsOverrides' => [
                     'note' => [
                         'config' => [
-                            'enableRichtext' => '1'
-                        ]
-                    ]
+                            'enableRichtext' => '1',
+                        ],
+                    ],
                 ],
                 'showitem' => 'hidden,--palette--;;1, name, sys_language_uid,first_name,last_name,slug,company,vat_id,salutation,address,house_no,zip,city,country,telephone,email,payment,shipping,amount,tax_mode,pay_mode,email_notify,tracking_code,status,fax,business_partner,organisation_form,agb,feusers_uid,creditpoints,creditpoints_spended,creditpoints_saved,creditpoints_gifts,desired_date,desired_time,client_ip,note,giftservice,foundby,giftcode,cc_uid,ac_uid,date_of_birth,date_of_payment,date_of_delivery,bill_no,radio1,ordered_products,fal_uid,gained_uid,' .
-                '--div--;LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_orders.orderHtmlDiv,orderHtml,'
-            ]
+                '--div--;LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_orders.orderHtmlDiv,orderHtml,',
+            ],
     ],
     'palettes' => [
         '1' => ['showitem' => 'tstamp, crdate'],
-    ]
+    ],
 ];
-
 
 if (!$GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['sepa']) {
     $result['columns']['ac_uid']['label'] = 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_accounts.ac_number';

@@ -30,27 +30,26 @@
  * base class for all price calculation functions
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
-
-
-
-class tx_ttproducts_pricecalc_base implements \TYPO3\CMS\Core\SingletonInterface {
-
-    public function getPrice ($conf, $offset, $num = '1') {
+class tx_ttproducts_pricecalc_base implements \TYPO3\CMS\Core\SingletonInterface
+{
+    public function getPrice($conf, $offset, $num = '1')
+    {
         $rc = 0;
         $priceCalcTemp = $conf[$offset];
         if (is_array($priceCalcTemp)) {
             $rc = doubleval($priceCalcTemp['prod.'][$num]);
         }
+
         return $rc;
     }
 
-    public function getCalculatedData (
+    public function getCalculatedData(
         &$itemArray,
         $conf,
         $type,
@@ -63,7 +62,4 @@ class tx_ttproducts_pricecalc_base implements \TYPO3\CMS\Core\SingletonInterface
         $uid = 0
     ) {
     } // getCalculatedData
-
 }
-
-

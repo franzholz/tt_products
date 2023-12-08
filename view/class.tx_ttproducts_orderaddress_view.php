@@ -30,18 +30,17 @@
  * functions for the order addresses
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
-
-
-class tx_ttproducts_orderaddress_view extends tx_ttproducts_table_base_view {
+class tx_ttproducts_orderaddress_view extends tx_ttproducts_table_base_view
+{
     public $dataArray; // array of read in frontend users
     public $table;		 // object of the type tx_table_db
     public $fields = [];
@@ -50,9 +49,7 @@ class tx_ttproducts_orderaddress_view extends tx_ttproducts_table_base_view {
     public $marker = 'FEUSER';
     public $image;
 
-
-
-    public function getWrappedSubpartArray (
+    public function getWrappedSubpartArray(
         $viewTagArray,
         $useBackPid,
         &$subpartArray,
@@ -71,7 +68,7 @@ class tx_ttproducts_orderaddress_view extends tx_ttproducts_table_base_view {
                     if (MathUtility::canBeInterpretedAsInteger($groupNumber)) {
                         $comparatorNumber = $groupNumber;
                         if (!$comparatorNumber) {
-                            $comparatorNumber = -1; // Also a logged in Front End User has group 0! 
+                            $comparatorNumber = -1; // Also a logged in Front End User has group 0!
                         }
 
                         if (GeneralUtility::inList($GLOBALS['TSFE']->gr_list, $comparatorNumber)) {
@@ -81,7 +78,7 @@ class tx_ttproducts_orderaddress_view extends tx_ttproducts_table_base_view {
                         }
                     }
                 }
-            } else if (strpos($tag, $markerLogin . '_') === 0) {
+            } elseif (strpos($tag, $markerLogin . '_') === 0) {
                 if (
                     \JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn() &&
                     isset($GLOBALS['TSFE']->fe_user->user) &&
@@ -92,7 +89,7 @@ class tx_ttproducts_orderaddress_view extends tx_ttproducts_table_base_view {
                 } else {
                     $subpartArray['###LOGIN_TEMPLATE###'] = '';
                 }
-            } else if (strpos($tag, $markerNologin . '_') === 0) {
+            } elseif (strpos($tag, $markerNologin . '_') === 0) {
                 if (
                     isset($GLOBALS['TSFE']->fe_user->user) &&
                     is_array($GLOBALS['TSFE']->fe_user->user) &&
@@ -122,20 +119,21 @@ class tx_ttproducts_orderaddress_view extends tx_ttproducts_table_base_view {
         }
     }
 
-
     /**
      * Template marker substitution
-     * Fills in the markerArray with data for a product
+     * Fills in the markerArray with data for a product.
      *
      * @param	array		reference to an item array with all the data of the item
      * @param	string		title of the category
-     * @param	integer		number of images to be shown
+     * @param	int		number of images to be shown
      * @param	object		the image cObj to be used
      * @param	array		information about the parent HTML form
+     *
      * @return	array
+     *
      * @access private
      */
-    public function getAddressMarkerArray (
+    public function getAddressMarkerArray(
         $functablename,
         $row,
         &$markerArray,
@@ -155,12 +153,12 @@ class tx_ttproducts_orderaddress_view extends tx_ttproducts_table_base_view {
                         $languageObj,
                         $GLOBALS['TCA'][$tablename]['columns'][$field]['config']['items'],
                         'recs[' . $type . '][' . $field . ']',
-                        (is_array($row) && isset($row[$field]) ? $row[$field] : ''),
+                        is_array($row) && isset($row[$field]) ? $row[$field] : '',
                         true,
                         true,
                         [],
                         'select',
-                        ['id' => 'field_' . $type . '_' . $field] /* Add ID for field to be able to use labels. */
+                        ['id' => 'field_' . $type . '_' . $field] // Add ID for field to be able to use labels.
                     );
             }
         } else {
@@ -199,9 +197,8 @@ class tx_ttproducts_orderaddress_view extends tx_ttproducts_table_base_view {
         }
 
         foreach ($fieldOutputArray as $field => $fieldOutput) {
-            $markerkey = '###' . ($type == 'personinfo' ? 'PERSON' : 'DELIVERY') . '_'. strtoupper($field) . '###';
+            $markerkey = '###' . ($type == 'personinfo' ? 'PERSON' : 'DELIVERY') . '_' . strtoupper($field) . '###';
             $markerArray[$markerkey] = $fieldOutput;
         }
     } // getAddressMarkerArray
 }
-

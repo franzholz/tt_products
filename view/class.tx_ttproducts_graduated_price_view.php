@@ -30,21 +30,20 @@
  * basket price calculation functions using the price tables
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-class tx_ttproducts_graduated_price_view extends tx_ttproducts_table_base_view {
+class tx_ttproducts_graduated_price_view extends tx_ttproducts_table_base_view
+{
     public $marker = 'GRADPRICE';
 
-
-    private function getFormulaMarkerArray (
+    private function getFormulaMarkerArray(
         $basketExtra,
         $basketRecs,
         $row,
@@ -91,9 +90,9 @@ class tx_ttproducts_graduated_price_view extends tx_ttproducts_table_base_view {
                     $bTaxIncluded,
                     $bEnableTaxZero
                 );
-            $keyMarker = '###' . $marker . '_' . 'PRICE_TAX' . $suffix . '###';
+            $keyMarker = '###' . $marker . '_PRICE_TAX' . $suffix . '###';
             $markerArray[$keyMarker] = $priceViewObj->priceFormat($priceTax);
-            $keyMarker = '###' . $marker . '_' . 'PRICE_NO_TAX' . $suffix . '###';
+            $keyMarker = '###' . $marker . '_PRICE_NO_TAX' . $suffix . '###';
             $markerArray[$keyMarker] = $priceViewObj->priceFormat($priceNoTax);
 
             $basePriceTax = $priceObj->getResellerPrice($basketExtra, $basketRecs, $row, 1);
@@ -111,18 +110,18 @@ class tx_ttproducts_graduated_price_view extends tx_ttproducts_table_base_view {
                 $tmpPercentNoTax = 'infinite';
             }
 
-            $keyMarker = '###' . $marker . '_' . 'PRICE_TAX_DISCOUNT' . $suffix . '###';
+            $keyMarker = '###' . $marker . '_PRICE_TAX_DISCOUNT' . $suffix . '###';
             $markerArray[$keyMarker] = $priceViewObj->priceFormat($skontoTax);
-            $keyMarker = '###' . $marker . '_' . 'PRICE_NO_TAX_DISCOUNT' . $suffix . '###';
+            $keyMarker = '###' . $marker . '_PRICE_NO_TAX_DISCOUNT' . $suffix . '###';
             $markerArray[$keyMarker] = $priceViewObj->priceFormat($skontoNoTax);
-            $keyMarker = '###' . $marker . '_' . 'PRICE_TAX_DISCOUNT_PERCENT' . $suffix . '###';
+            $keyMarker = '###' . $marker . '_PRICE_TAX_DISCOUNT_PERCENT' . $suffix . '###';
             $markerArray[$keyMarker] = $priceViewObj->priceFormat($tmpPercentTax);
-            $keyMarker = '###' . $marker . '_' . 'PRICE_NO_TAX_DISCOUNT_PERCENT' . $suffix . '###';
+            $keyMarker = '###' . $marker . '_PRICE_NO_TAX_DISCOUNT_PERCENT' . $suffix . '###';
             $markerArray[$keyMarker] = $priceViewObj->priceFormat($tmpPercentNoTax);
         }
     }
 
-    public function getPriceSubpartArrays (
+    public function getPriceSubpartArrays(
         $templateCode,
         $row,
         $fieldname,
@@ -142,7 +141,7 @@ class tx_ttproducts_graduated_price_view extends tx_ttproducts_table_base_view {
         $local_cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
 
         $t = [];
-        $t['listFrameWork'] = $templateService->getSubpart($templateCode,'###GRADPRICE_FORMULA_ITEMS###');
+        $t['listFrameWork'] = $templateService->getSubpart($templateCode, '###GRADPRICE_FORMULA_ITEMS###');
         $t['itemFrameWork'] = $templateService->getSubpart($t['listFrameWork'], '###ITEM_FORMULA###');
 
         if (is_array($priceFormulaArray) && count($priceFormulaArray)) {
@@ -161,7 +160,7 @@ class tx_ttproducts_graduated_price_view extends tx_ttproducts_table_base_view {
                     );
 
                     $formulaContent = $templateService->substituteMarkerArray($t['itemFrameWork'], $itemMarkerArray);
-                    $content .= $templateService->substituteSubpart($t['listFrameWork'], '###ITEM_FORMULA###', $formulaContent) ;
+                    $content .= $templateService->substituteSubpart($t['listFrameWork'], '###ITEM_FORMULA###', $formulaContent);
                 }
             }
             $subpartArray['###GRADPRICE_FORMULA_ITEMS###'] = $content;
@@ -169,23 +168,25 @@ class tx_ttproducts_graduated_price_view extends tx_ttproducts_table_base_view {
             $subpartArray['###GRADPRICE_FORMULA_ITEMS###'] = '';
         }
 
-//  ###GRADPRICE_PRICE_TAX###. ###GRADPRICE_PRICE_NO_TAX### ###GRADPRICE_PRICE_ONLY_TAX###
-//  ###GRADPRICE_FORMULA1_PRICE_NO_TAX###  ###GRADPRICE_FORMULA1_PRICE_TAX###
+        //  ###GRADPRICE_PRICE_TAX###. ###GRADPRICE_PRICE_NO_TAX### ###GRADPRICE_PRICE_ONLY_TAX###
+        //  ###GRADPRICE_FORMULA1_PRICE_NO_TAX###  ###GRADPRICE_FORMULA1_PRICE_TAX###
     }
 
     /**
      * Template marker substitution
-     * Fills in the markerArray with data for a product
+     * Fills in the markerArray with data for a product.
      *
      * @param	array		reference to an item array with all the data of the item
      * @param	string		title of the category
-     * @param	integer		number of images to be shown
+     * @param	int		number of images to be shown
      * @param	object		the image cObj to be used
      * @param	array		information about the parent HTML form
+     *
      * @return	array
+     *
      * @access private
      */
-    public function getPriceMarkerArray (
+    public function getPriceMarkerArray(
         $row,
         $bTaxIncluded,
         $bEnableTaxZero,
@@ -195,7 +196,6 @@ class tx_ttproducts_graduated_price_view extends tx_ttproducts_table_base_view {
         $tagArray
     ) {
         if ($this->getModelObj()->hasDiscountPrice($row)) {
-
             $priceFormulaArray = $this->getModelObj()->getFormulasByItem($row['uid']);
             foreach ($priceFormulaArray as $k => $priceFormula) {
                 if (isset($priceFormula) && is_array($priceFormula)) {
@@ -207,7 +207,7 @@ class tx_ttproducts_graduated_price_view extends tx_ttproducts_table_base_view {
                         $bTaxIncluded,
                         $bEnableTaxZero,
                         $markerArray,
-                        ($k + 1)
+                        $k + 1
                     );
                 }
             }
@@ -228,5 +228,3 @@ class tx_ttproducts_graduated_price_view extends tx_ttproducts_table_base_view {
         }
     }
 }
-
-

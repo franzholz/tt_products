@@ -30,30 +30,33 @@
  * functions for CSS matters
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class tx_ttproducts_css implements \TYPO3\CMS\Core\SingletonInterface {
+class tx_ttproducts_css implements \TYPO3\CMS\Core\SingletonInterface
+{
     public $conf;
     protected $isCssStyled;
     private $bIncluded = false;
 
     /**
-     * Getting all tt_products_cat categories into internal array
+     * Getting all tt_products_cat categories into internal array.
      */
-    public function init () {
+    public function init()
+    {
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $this->isCssStyled = (isset($cnf->conf['templateStyle']) && $cnf->conf['templateStyle'] == 'css-styled');
         $this->conf = $cnf->conf['CSS.'] ?? [];
     } // init
 
-    public function isCSSStyled () {
-
+    public function isCSSStyled()
+    {
         if (
             isset($this->conf) &&
             is_array($this->conf) &&
@@ -64,24 +67,25 @@ class tx_ttproducts_css implements \TYPO3\CMS\Core\SingletonInterface {
         } else {
             $result = false;
         }
+
         return $result;
     }
 
-    public function setIncluded () {
+    public function setIncluded()
+    {
         $this->bIncluded = true;
     }
 
-    public function getIncluded () {
+    public function getIncluded()
+    {
         return $this->bIncluded;
     }
 
-    public function getConf ($tablename = '', $theCode = 'ALL') {
-
+    public function getConf($tablename = '', $theCode = 'ALL')
+    {
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $cssConf = $cnf->getSpecialConf('CSS', $tablename, $theCode);
+
         return $cssConf;
     }
 }
-
-
-

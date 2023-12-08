@@ -30,25 +30,23 @@
  * functions for the DAM images
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
  */
-
-
-class tx_ttproducts_dam_view extends tx_ttproducts_article_base_view {
+class tx_ttproducts_dam_view extends tx_ttproducts_article_base_view
+{
     public $marker = 'DAM';
     public $piVar = 'dam';
 
-
     /**
-     * Sets the markers for DAM specific FORM fields
-     *
+     * Sets the markers for DAM specific FORM fields.
      */
-    public function setFormMarkerArray($uid, &$markerArray) {
+    public function setFormMarkerArray($uid, &$markerArray)
+    {
         $markerArray['###DAM_FIELD_NAME###'] = 'ttp_basket[dam]';
         $markerArray['###DAM_UID###'] = intval($uid);
     }
 }
-

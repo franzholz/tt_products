@@ -30,23 +30,21 @@
  * class for data collection
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
+use JambageCom\Div2007\Utility\ExtensionUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-use JambageCom\Div2007\Utility\ExtensionUtility;
-
-
-class tx_ttproducts_model_creator implements \TYPO3\CMS\Core\SingletonInterface {
-
-    public function init ($conf, $config, $cObj) {
-
+class tx_ttproducts_model_creator implements \TYPO3\CMS\Core\SingletonInterface
+{
+    public function init($conf, $config, $cObj)
+    {
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
-         if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
+        if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
             $staticInfoApi = GeneralUtility::makeInstance(\JambageCom\Div2007\Api\StaticInfoTablesApi::class);
         } else {
             $staticInfoApi = GeneralUtility::makeInstance(\JambageCom\Div2007\Api\OldStaticInfoTablesApi::class);
@@ -99,31 +97,31 @@ class tx_ttproducts_model_creator implements \TYPO3\CMS\Core\SingletonInterface 
             $conf
         );
 
-            // price
+        // price
         $priceObj = GeneralUtility::makeInstance('tx_ttproducts_field_price');
         $priceObj->preInit(
             $conf
         );
 
-            // paymentshipping
-// 		$paymentshippingObj = GeneralUtility::makeInstance('tx_ttproducts_paymentshipping');
-// 		$paymentshippingObj->init($priceObj);
+        // paymentshipping
+        // 		$paymentshippingObj = GeneralUtility::makeInstance('tx_ttproducts_paymentshipping');
+        // 		$paymentshippingObj->init($priceObj);
         $paymentPriceObj = clone $priceObj;
         $voucher = GeneralUtility::makeInstance('tx_ttproducts_voucher');
         \JambageCom\TtProducts\Api\PaymentShippingHandling::init($paymentPriceObj, $voucher);
 
         $basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket'); // TODO: initialization
-// 		$basketObj->init (
-// 			$pibaseClass,
-// 			$updateMode,
-// 			$pid_list,
-// 			$bStoreBasket
-// 		);
+        // 		$basketObj->init (
+        // 			$pibaseClass,
+        // 			$updateMode,
+        // 			$pid_list,
+        // 			$bStoreBasket
+        // 		);
 
         return true;
     }
 
-    public function destruct () {
+    public function destruct()
+    {
     }
 }
-

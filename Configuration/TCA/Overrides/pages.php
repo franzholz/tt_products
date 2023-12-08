@@ -1,8 +1,8 @@
 <?php
+
 defined('TYPO3') || die('Access denied.');
 
-call_user_func(function($extensionKey, $table)
-{
+call_user_func(function ($extensionKey, $table) {
     // add folder icon
     $pageType = 'ttpproduct';
     $languageSubpath = '/Resources/Private/Language/';
@@ -19,10 +19,9 @@ call_user_func(function($extensionKey, $table)
         $GLOBALS['TCA']['pages']['columns']['module']['config']['items'][] = [
             0 => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang.xlf:pageModule.plugin',
             1 => $pageType,
-            2 => 'apps-pagetree-folder-contains-tt_products'
+            2 => 'apps-pagetree-folder-contains-tt_products',
         ];
     }
-
 
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::registerPageTSConfigFile(
         $pageType,

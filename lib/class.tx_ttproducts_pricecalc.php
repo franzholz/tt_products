@@ -30,20 +30,18 @@
  * basket price calculation functions
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
-
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-class tx_ttproducts_pricecalc extends tx_ttproducts_pricecalc_base {
-
-    public function getCalculatedData (
+class tx_ttproducts_pricecalc extends tx_ttproducts_pricecalc_base
+{
+    public function getCalculatedData(
         &$itemArray,
         $conf,
         $type,
@@ -63,7 +61,6 @@ class tx_ttproducts_pricecalc extends tx_ttproducts_pricecalc_base {
         ksort($conf);
 
         foreach ($conf as $k1 => $priceCalcTemp) {
-
             if (!is_array($priceCalcTemp)) {
                 continue;
             }
@@ -74,11 +71,10 @@ class tx_ttproducts_pricecalc extends tx_ttproducts_pricecalc_base {
             // loop over all items in the basket indexed by sort string
             foreach ($itemArray as $sort => $actItemArray) {
                 foreach ($actItemArray as $k2 => $actItem) {
-
                     $row = $actItem['rec'];
 
-                    if (is_array($priceCalcTemp['sql.']))    {
-                        if (!($bIsValid = $sql->isValid($row, $priceCalcTemp['sql.']['where'])))    {
+                    if (is_array($priceCalcTemp['sql.'])) {
+                        if (!($bIsValid = $sql->isValid($row, $priceCalcTemp['sql.']['where']))) {
                             continue;
                         }
                     }
@@ -91,14 +87,14 @@ class tx_ttproducts_pricecalc extends tx_ttproducts_pricecalc_base {
                     // count all items which will apply to the discount price
                     $count2 = $actItem['count'];
 
-                    if (((float) $count2 > 0) && ($row['price'] == $pricefor1)) {
-                        $countedItems[$k1][] = array ('sort' => $sort);
+                    if (((float)$count2 > 0) && ($row['price'] == $pricefor1)) {
+                        $countedItems[$k1][] = ['sort' => $sort];
                         $dumCount += $count2;
                     }
                 }
             }
 
-                // nothing found?
+            // nothing found?
             if ($dumCount == 0) {
                 continue;
             }
@@ -107,22 +103,20 @@ class tx_ttproducts_pricecalc extends tx_ttproducts_pricecalc_base {
             $countTemp = $dumCount;
             krsort($priceCalcTemp['prod.']);
             foreach ($priceCalcTemp['prod.'] as $k2 => $price2) {
-
-                if ((float) $k2 > 0) {
-                    while ($countTemp >= (float) $k2) {
-                        $countTemp -= (float) $k2;
+                if ((float)$k2 > 0) {
+                    while ($countTemp >= (float)$k2) {
+                        $countTemp -= (float)$k2;
                         $priceTotalTemp += doubleval($price2);
                     }
                 }
             }
-            $priceProduct = ((float) $dumCount > 0 ? ($priceTotalTemp / $dumCount) : 0);
+            $priceProduct = ((float)$dumCount > 0 ? ($priceTotalTemp / $dumCount) : 0);
 
             foreach ($countedItems[$k1] as $k3 => $v3) {
-                foreach ($itemArray[$v3['sort']] as $k4=>$actItem) {
+                foreach ($itemArray[$v3['sort']] as $k4 => $actItem) {
                     $itemArray[$v3['sort']][$k4][$type] = $priceProduct;
                 }
             }
         }
     } // getCalculatedData
 }
-

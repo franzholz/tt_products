@@ -30,34 +30,32 @@
  * order functions
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
 
+use JambageCom\TtProducts\Api\PaymentShippingHandling;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
-use JambageCom\TtProducts\Api\PaymentShippingHandling;
-
-
-class tx_ttproducts_order extends tx_ttproducts_table_base {
-
+class tx_ttproducts_order extends tx_ttproducts_table_base
+{
     private $currentArray = [];
-
 
     // **************************
     // ORDER related functions
     // **************************
     /**
-     * Create a new order record
+     * Create a new order record.
      *
      * This creates a new order-record on the page with pid PID_sys_products_orders. That page must exist!
      * Should be called only internally by eg. $order->getBlankUid, that first checks if a blank record is already created.
      */
-    public function create () {
+    public function create()
+    {
         $newId = 0;
         $pid = intval($this->conf['PID_sys_products_orders']);
         if (!$pid) {
@@ -80,7 +78,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
                         'uid DESC',
                         '1'
                     );
-                list($prevUid) = $GLOBALS['TYPO3_DB']->sql_fetch_row($res);
+                [$prevUid] = $GLOBALS['TYPO3_DB']->sql_fetch_row($res);
                 $GLOBALS['TYPO3_DB']->sql_free_result($res);
 
                 if ($this->conf['advanceOrderNumberWithInteger']) {
@@ -96,13 +94,13 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
             if (!empty($GLOBALS['TYPO3_CONF_VARS']['SYS']['serverTimeZone'])) {
                 $time += ($GLOBALS['TYPO3_CONF_VARS']['SYS']['serverTimeZone'] * 3600);
             }
-            $insertFields = array (
+            $insertFields = [
                 'pid' => intval($pid),
                 'tstamp' => $time,
                 'crdate' => $time,
                 'deleted' => 0,
-                'hidden' => 1
-            );
+                'hidden' => 1,
+            ];
             if ($advanceUid > 0) {
                 $insertFields['uid'] = intval($advanceUid);
             }
@@ -137,7 +135,6 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
         return $newId;
     } // create
 
-
     /**
      * Returns a blank order uid. If there was no order id already, a new one is created.
      *
@@ -145,10 +142,10 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
      * A finalized order is marked 'not hidden' and with status=1.
      * Returns this uid which is a blank order record uid.
      */
-    public function getBlankUid (&$orderArray) {
-
+    public function getBlankUid(&$orderArray)
+    {
         $res = false;
-    // an new orderUid has been created always because also payment systems can be used which do not accept a duplicate order id
+        // an new orderUid has been created always because also payment systems can be used which do not accept a duplicate order id
         $orderArray = tx_ttproducts_control_basket::getStoredOrder();
         $orderUid = 0;
 
@@ -194,42 +191,43 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
         return $orderUid;
     } // getBlankUid
 
-
-    public function setCurrentData ($key, $value) {
+    public function setCurrentData($key, $value)
+    {
         $this->currentArray[$key] = $value;
     }
 
-
-    public function getCurrentArray () {
+    public function getCurrentArray()
+    {
         $result = $this->currentArray;
+
         return $result;
     }
 
-
-    public function setUid ($uid) {
+    public function setUid($uid)
+    {
         $this->setCurrentData('uid', $uid);
     }
 
-
-    public function getUid ($orderArray = []) {
+    public function getUid($orderArray = [])
+    {
         if (empty($orderArray)) {
             $orderArray = $this->getCurrentArray();
         }
 
         $result = $orderArray['uid'] ?? 0;
+
         return $result;
     }
 
-
-    public function clearUid () {
+    public function clearUid()
+    {
         $this->setCurrentData('uid', '');
         tx_ttproducts_control_basket::store('order', []);
     }
 
-
-    public function updateRecord ($orderUid, array $fieldsArray) {
-
-            // Saving the order record
+    public function updateRecord($orderUid, array $fieldsArray)
+    {
+        // Saving the order record
         $GLOBALS['TYPO3_DB']->exec_UPDATEquery(
             'sys_products_orders',
             'uid=' . intval($orderUid),
@@ -237,12 +235,12 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
         );
     }
 
-
     /**
      * Returns the order record if $orderUid.
      * If $tracking is set, then the order with the tracking number is fetched instead.
      */
-    public function getRecord ($orderUid, $tracking = '') {
+    public function getRecord($orderUid, $tracking = '')
+    {
         if (
             empty($tracking) &&
             !$orderUid
@@ -261,31 +259,31 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
         );
         $result = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
         $GLOBALS['TYPO3_DB']->sql_free_result($res);
-        return $result;
-    } //getRecord
 
+        return $result;
+    } // getRecord
 
     /**
      * This returns the order-number (opposed to the order's uid) for display in the shop, confirmation notes and so on.
-     * Basically this prefixes the .orderNumberPrefix, if any
+     * Basically this prefixes the .orderNumberPrefix, if any.
      */
-    public function getNumber ($orderUid)   {
+    public function getNumber($orderUid)
+    {
         $orderNumberPrefix = substr($this->conf['orderNumberPrefix'], 0, 30);
-        if (($position = strpos($orderNumberPrefix, '%')) !== false)    {
+        if (($position = strpos($orderNumberPrefix, '%')) !== false) {
             $orderDate = date(substr($orderNumberPrefix, $position + 1));
             $orderNumberPrefix = substr($orderNumberPrefix, 0, $position) . $orderDate;
         }
 
         $result = $orderNumberPrefix . $orderUid;
+
         return $result;
     } // getNumber
 
-
     /**
-     * Saves the order record and returns the result
-     *
+     * Saves the order record and returns the result.
      */
-    public function putRecord (
+    public function putRecord(
         $orderUid,
         $orderArray,
         $itemArray,
@@ -298,7 +296,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
         $amount,
         $orderConfirmationHTML,
         $infoViewOb,
-        \JambageCom\Div2007\Base\TranslationBase $languageObj,
+        JambageCom\Div2007\Base\TranslationBase $languageObj,
         $status,
         $basketExtra,
         $giftcode,
@@ -400,7 +398,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
             if (isset($deliveryInfo) && is_array($deliveryInfo)) {
                 foreach ($deliveryInfo as $field => $value) {
                     if (
-                        $value && 
+                        $value &&
                         isset($GLOBALS['TCA']['sys_products_orders']['columns'][$field])
                     ) {
                         $fieldsArray[$field] = $value;
@@ -410,7 +408,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
 
             $fieldsArray['email_notify'] = $email_notify;
 
-                // can be changed after order is set.
+            // can be changed after order is set.
             $fieldsArray['payment'] = $payment;
             $fieldsArray['shipping'] = $shipping;
             $fieldsArray['amount'] = $amount;
@@ -420,11 +418,11 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
             $fieldsArray['radio1'] = $deliveryInfo['radio1'] ?? null;
 
             if (
-                isset($giftServiceArticleArray) && 
+                isset($giftServiceArticleArray) &&
                 is_array($giftServiceArticleArray) &&
                 !empty($deliveryInfo['giftservice'])
             ) {
-                $fieldsArray['giftservice'] = $deliveryInfo['giftservice'] . '||' . implode(',',$giftServiceArticleArray);
+                $fieldsArray['giftservice'] = $deliveryInfo['giftservice'] . '||' . implode(',', $giftServiceArticleArray);
             }
             if (!empty($deliveryInfo['foundby'])) {
                 $fieldsArray['foundby'] = $deliveryInfo['foundby'];
@@ -456,18 +454,19 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
             }
 
             if ($status == 1 && !empty($this->conf['creditpoints.']) && $usedCreditpoints) {
-
-    /* Added Els: update fe_user with amount of creditpoints (= exisitng amount - used_creditpoints - spended_creditpoints + saved_creditpoints */
+                // Added Els: update fe_user with amount of creditpoints (= exisitng amount - used_creditpoints - spended_creditpoints + saved_creditpoints
                 $fieldsArrayFeUsers['tt_products_creditpoints'] =
-                    floatval($GLOBALS['TSFE']->fe_user->user['tt_products_creditpoints'] -
+                    floatval(
+                        $GLOBALS['TSFE']->fe_user->user['tt_products_creditpoints'] -
                         $usedCreditpoints
-                        /*+ GeneralUtility::_GP('creditpoints_saved')*/);
+                        // + GeneralUtility::_GP('creditpoints_saved')
+                    );
                 if ($fieldsArrayFeUsers['tt_products_creditpoints'] < 0) {
                     $fieldsArrayFeUsers['tt_products_creditpoints'] = 0;
                 }
             }
 
-            if ($status == 1 &&  $vouchercode  != '') {
+            if ($status == 1 && $vouchercode != '') {
                 // first check if vouchercode exist and is not their own vouchercode
                 $res =
                     $GLOBALS['TYPO3_DB']->exec_SELECTquery(
@@ -491,13 +490,13 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
             }
 
             if ($status == 1 && !empty($deliveryInfo['feusers_uid'])) {
-        /* Added Els: update user from vouchercode with 5 credits */
+                // Added Els: update user from vouchercode with 5 credits
                 tx_ttproducts_creditpoints_div::addCreditPoints(
                     $vouchercode,
                     $this->conf['voucher.']['price']
                 );
             }
-    
+
             foreach ($excludeFieldArray as $field) {
                 if (isset($fieldsArrayFeUsers[$field])) {
                     unset($fieldsArrayFeUsers[$field]);
@@ -519,17 +518,17 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
             $storeItemArray = [];
             $storeItemArray['tt_products'] = $itemArray;
 
-                // Order Data serialized
+            // Order Data serialized
             $fieldsArray['orderData'] = serialize([
-                'html_output' 	=>	$orderConfirmationHTML,
-                'delivery' 		=>	$deliveryInfo,
-                'billing' 		=>	$billingInfo,
-                'itemArray'		=>	$storeItemArray,
-                'calculatedArray'	=>	$calculatedArray,
-                'version'		=>	$this->config['version']
+                'html_output' => $orderConfirmationHTML,
+                'delivery' => $deliveryInfo,
+                'billing' => $billingInfo,
+                'itemArray' => $storeItemArray,
+                'calculatedArray' => $calculatedArray,
+                'version' => $this->config['version'],
             ]);
 
-                // Setting tstamp, deleted and tracking code
+            // Setting tstamp, deleted and tracking code
             $fieldsArray['tstamp'] = time();
             if (!empty($GLOBALS['TYPO3_CONF_VARS']['SYS']['serverTimeZone'])) {
                 $fieldsArray['tstamp'] += ($GLOBALS['TYPO3_CONF_VARS']['SYS']['serverTimeZone'] * 3600);
@@ -556,7 +555,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
                 $orderConfirmationHTML != '' &&
                 !empty($orderRow)
             ) {
-                    // Saving the order record
+                // Saving the order record
                 $orderData = $this->getOrderData($orderRow);
                 $orderData['html_output'] = $orderConfirmationHTML;
 
@@ -575,13 +574,13 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
         $fieldsArray['feusers_uid'] = intval($feusers_uid);
         $fieldsArray['status'] = intval($status);	// If 1, then this means, "Order confirmed on website, next step: confirm from shop that order is received"
 
-            // Default status_log entry
+        // Default status_log entry
         $status_log = [];
         $status_log['0'] = [
             'time' => time(),
             'info' => $this->conf['statusCodes.'][$status] ?? '',
             'status' => $status,
-            'comment' => $deliveryInfo['note'] ?? ''
+            'comment' => $deliveryInfo['note'] ?? '',
         ];
         if (!empty($GLOBALS['TYPO3_CONF_VARS']['SYS']['serverTimeZone'])) {
             $status_log['0']['time'] += ($GLOBALS['TYPO3_CONF_VARS']['SYS']['serverTimeZone'] * 3600);
@@ -594,7 +593,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
             }
         }
 
-            // Saving the order record
+        // Saving the order record
         $GLOBALS['TYPO3_DB']->exec_UPDATEquery(
             'sys_products_orders',
             'uid=' . intval($orderUid),
@@ -602,14 +601,12 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
         );
     } // putRecord
 
-
     /**
      * Creates M-M relations for the products with tt_products and maybe also the tt_products_articles table.
      * Isn't really used yet, but later will be used to display stock-status by looking up how many items are
      * already ordered.
-     *
      */
-    public function createMM (
+    public function createMM(
         $orderUid,
         $itemArray,
         $theCode
@@ -627,7 +624,6 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
             $editFieldArray = $productTable->editVariant->getFieldArray();
             $selectableVariantFieldArray = $productTable->variant->getSelectableFieldArray();
             $variantSeparator = $productTable->getVariant()->getImplodeSeparator();
-
         } else {
             $productTablename = '';
         }
@@ -639,7 +635,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
             $articleTablename = '';
         }
 
-            // First: delete any existing. This should never be the case.
+        // First: delete any existing. This should never be the case.
         $where = 'uid_local=' . intval($orderUid);
         $GLOBALS['TYPO3_DB']->exec_DELETEquery(
             'sys_products_orders_mm_tt_products',
@@ -694,7 +690,8 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
                         is_array($extArray['records'])
                     ) {
                         $newTitleArray = [];
-                        $externalRowArray = $extArray['records'];						\JambageCom\TtProducts\Api\BasketApi::getRecordvariantAndPriceFromRows(
+                        $externalRowArray = $extArray['records'];
+                        \JambageCom\TtProducts\Api\BasketApi::getRecordvariantAndPriceFromRows(
                             $falVariants,
                             $dummyPrice,
                             $externalUidArray,
@@ -726,7 +723,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
                         'edit_variants' => $editVariants,
                         'fal_variants' => $falVariants,
                         'uid_foreign' => intval($actItem['rec']['uid']),
-                        'tablenames' => $productTablename . ',' . $articleTablename
+                        'tablenames' => $productTablename . ',' . $articleTablename,
                     ];
 
                     if (
@@ -753,12 +750,12 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
             }
         }
 
-        $fieldsArray = array (
+        $fieldsArray = [
             'product_uid' => intval($productCount),
             'fal_uid' => intval($falCount),
-        );
+        ];
 
-            // Saving the order record
+        // Saving the order record
         $GLOBALS['TYPO3_DB']->exec_UPDATEquery(
             'sys_products_orders',
             'uid=' . intval($orderUid),
@@ -766,8 +763,9 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
         );
     }
 
-    public function getOrderData ($row) {
-            // initialize order data.
+    public function getOrderData($row)
+    {
+        // initialize order data.
         $orderData = unserialize($row['orderData']);
         if ($orderData === false) {
             $orderData =
@@ -780,11 +778,10 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
         return $orderData;
     }
 
-
     /**
-     * Fetches the basket itemArray from the order's serial data
+     * Fetches the basket itemArray from the order's serial data.
      */
-    public function getItemArray (
+    public function getItemArray(
         $row,
         &$calculatedArray,
         &$infoArray
@@ -814,12 +811,9 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
     }
 
     /**
-     * Sets the user order in dummy order record
-     *
-     * @param	integer		$orderID: uid of dummy record
-     * @return	void
+     * Sets the user order in dummy order record.
      */
-    public function putData (
+    public function putData(
         $orderUid,
         $orderArray,
         $itemArray,
@@ -863,8 +857,9 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
             $infoViewOb->needsInit() ||
             $languageObj->getExtensionKey() != TT_PRODUCTS_EXT
         ) {
-            debug ('internal error in tt_products (putData)'); // keep this
+            debug('internal error in tt_products (putData)'); // keep this
             echo 'internal error in tt_products (putData)';
+
             return;
         }
 
@@ -904,14 +899,15 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
         return $result;
     }
 
-
-    public function getPid () {
+    public function getPid()
+    {
         $result = $this->conf['PID_sys_products_orders'];
+
         return $result;
     }
 
-
-    protected function fillVariant (&$row, $variant, $variantSplitSeparator, $prefix = '') {
+    protected function fillVariant(&$row, $variant, $variantSplitSeparator, $prefix = '')
+    {
         if (isset($variant)) {
             $variantArray =
                 preg_split(
@@ -934,8 +930,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
         }
     }
 
-
-    static public function getFal (
+    public static function getFal(
         &$orderedDownloadUid,
         $downloadUid,
         array $orderRow
@@ -964,7 +959,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
         return $result;
     }
 
-    static public function getUidFromMultiOrderArray (
+    public static function getUidFromMultiOrderArray(
         &$orderedDownloadUid,
         $falRow,
         $multiOrderArray
@@ -976,7 +971,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
             count($multiOrderArray)
         ) {
             $currentOrderUid = 0;
-            foreach($multiOrderArray as $orderRow) {
+            foreach ($multiOrderArray as $orderRow) {
                 $orderedDownloadUid = 0;
                 $fal = self::getFal(
                     $orderedDownloadUid,
@@ -990,10 +985,11 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
                 }
             }
         }
+
         return $result;
     }
 
-    public function getOrderedProducts (
+    public function getOrderedProducts(
         $from,
         $uids,
         $where,
@@ -1015,18 +1011,18 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
 
         $tablename = $this->getTablename();
 
-/*
-SELECT
-po.uid as order_uid,
-po.crdate as order_date,
-pa.sys_products_orders_qty AS quantity,
-p.uid AS product_uid
+        /*
+        SELECT
+        po.uid as order_uid,
+        po.crdate as order_date,
+        pa.sys_products_orders_qty AS quantity,
+        p.uid AS product_uid
 
-FROM sys_products_orders po LEFT JOIN
-sys_products_orders_mm_tt_products pa ON
-po.uid = pa.uid_local INNER JOIN tt_products p ON
-pa.uid_foreign = p.uid
-*/
+        FROM sys_products_orders po LEFT JOIN
+        sys_products_orders_mm_tt_products pa ON
+        po.uid = pa.uid_local INNER JOIN tt_products p ON
+        pa.uid_foreign = p.uid
+        */
 
         $alias = $this->getTableObj()->getAlias();
         $productAlias = $productObj->getTableObj()->getAlias();
@@ -1069,8 +1065,7 @@ pa.uid_foreign = p.uid
         );
 
         $res = $this->getTableObj()->exec_SELECT_queryArray($queryParts);
-        while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
-
+        while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
             $multiOrderArray[] = $row;
             $productRow = $productObj->get($row['product_uid']);
 
@@ -1113,8 +1108,7 @@ pa.uid_foreign = p.uid
         return $productRowArray;
     }
 
-
-    public function getGainedProducts (
+    public function getGainedProducts(
         $from,
         $where,
         $orderBy,
@@ -1148,8 +1142,8 @@ pa.uid_foreign = p.uid
             'gp.quantity AS quantity, gp.variants AS variants, ' .
             'gp.edit_variants AS edit_variants, ' . $productAlias1 . '.uid AS product_uid';
 
-// 		$selectConf['selectFields'] =
-// 			$alias . '.uid as order_uid, ' . $alias . '.email as email, ' . $productAlias1 . '.uid AS product_uid';
+        // 		$selectConf['selectFields'] =
+        // 			$alias . '.uid as order_uid, ' . $alias . '.email as email, ' . $productAlias1 . '.uid AS product_uid';
 
         if ($whereProducts != '') {
             $where .= ' AND ' . $productObj->getTableObj()->transformWhere($whereProducts, $productAliasPostfix1);
@@ -1170,12 +1164,12 @@ pa.uid_foreign = p.uid
         );
 
         $res = $this->getTableObj()->exec_SELECT_queryArray($queryParts);
-        while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
-// 			$orderArray = [];
-// 			$orderArray['orderTrackingNo'] = $row['orderTrackingNo'];
-// 			$orderArray['orderUid'] = $row['order_uid'];
-// 			$orderArray['orderDate'] = $row['order_date'];
-// 			$multiOrderArray[] = $orderArray;
+        while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+            // 			$orderArray = [];
+            // 			$orderArray['orderTrackingNo'] = $row['orderTrackingNo'];
+            // 			$orderArray['orderUid'] = $row['order_uid'];
+            // 			$orderArray['orderDate'] = $row['order_date'];
+            // 			$multiOrderArray[] = $orderArray;
 
             $multiOrderArray[] = $row;
 
@@ -1203,8 +1197,7 @@ pa.uid_foreign = p.uid
         }
     }
 
-
-    public function getOrderedAndGainedProducts (
+    public function getOrderedAndGainedProducts(
         $from,
         $where,
         $orderBy,
@@ -1249,7 +1242,7 @@ pa.uid_foreign = p.uid
             $productRowArray = array_merge($productRowArray, $gainedProductRowArray);
             $newProductRowArray = [];
             $productArray = [];
-                // remove duplicates
+            // remove duplicates
             foreach ($productRowArray as $productRow) {
                 $uid = $productRow['uid'];
                 if (!isset($productArray[$uid])) {
@@ -1262,8 +1255,7 @@ pa.uid_foreign = p.uid
         }
     }
 
-
-    public function getDownloadWhereClauses (
+    public function getDownloadWhereClauses(
         $feusers_uid,
         $trackingCode,
         &$whereOrders,
@@ -1272,7 +1264,6 @@ pa.uid_foreign = p.uid
         $whereOrders = '1=1';
 
         if ($feusers_uid) {
-
             $rows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
                 '*',
                 'fe_users',
@@ -1292,7 +1283,7 @@ pa.uid_foreign = p.uid
                         ' OR email=' . $GLOBALS['TYPO3_DB']->fullQuoteStr($rows['0']['email'], 'fe_users') .
                     ')';
             }
-        } else if ($trackingCode != '') {
+        } elseif ($trackingCode != '') {
             $whereOrders =
                 'tracking_code=' .
                 $GLOBALS['TYPO3_DB']->fullQuoteStr(
@@ -1305,6 +1296,4 @@ pa.uid_foreign = p.uid
         $whereOrders = $this->getTableObj()->transformWhere($whereOrders);
         $whereProducts = 'download_uid > 0';
     }
-
 }
-

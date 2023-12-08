@@ -30,32 +30,25 @@
  * functions for the control of the single view
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-class tx_ttproducts_control_user_int implements \TYPO3\CMS\Core\SingletonInterface {
-
+class tx_ttproducts_control_user_int implements \TYPO3\CMS\Core\SingletonInterface
+{
     /**
-     * Main method for the control object for the single view
+     * Main method for the control object for the single view.
      */
-    public function singleCtrl ($content,$conf)	{
-
+    public function singleCtrl($content, $conf)
+    {
         $ctrlSingleObj = GeneralUtility::makeInstance('tx_ttproducts_control_single');
         $ctrlSingleObj->triggerEvents($conf);
 
         return $content;
     }
-
 }
-
-
-
-
-

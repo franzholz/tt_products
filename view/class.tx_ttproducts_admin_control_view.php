@@ -30,28 +30,28 @@
  * admin control functions
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
-
-class tx_ttproducts_admin_control_view {
-
-
-    static public function getHiddenField ($updateCode) {
+class tx_ttproducts_admin_control_view
+{
+    public static function getHiddenField($updateCode)
+    {
         $result = '<input type="hidden" name="update_code" value="' . $updateCode . '" />';
+
         return $result;
     }
 
-    static public function getSubpartArrays (
+    public static function getSubpartArrays(
         $bIsAllowed,
         $bValidUpdateCode,
         &$subpartArray,
         &$wrappedSubpartArray
     ) {
-            // Display admin-interface if access.
+        // Display admin-interface if access.
         if (!$bIsAllowed) {
             $subpartArray['###ADMIN_CONTROL###'] = '';
         } elseif ($bValidUpdateCode) {
@@ -65,4 +65,3 @@ class tx_ttproducts_admin_control_view {
         }
     }
 }
-

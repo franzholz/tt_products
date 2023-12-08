@@ -30,23 +30,22 @@
  * category list view functions
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
-
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base {
+class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base
+{
     protected $htmlTagMain = 'ul';	// main HTML tag
     protected $htmlTagElement = 'li'; // HTML tag element
 
     // returns the products list view
-    public function printView (
+    public function printView(
         $functablename,
         &$templateCode,
         $theCode,
@@ -99,9 +98,9 @@ class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base {
             $conf = $cnf->getConf();
             $config = $cnf->getConfig();
 
-            $content='';
-            $out='';
-            $where='';
+            $content = '';
+            $out = '';
+            $where = '';
             $bFinished = false;
             $iCount = 0;
             $mainCount = 1;
@@ -111,7 +110,7 @@ class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base {
             $countArray[1] = 0;
             $tabArray = [];
             $catConf = $categoryTable->getTableConf($theCode);
-            $catConf['cssMode'] = $catConf['cssMode'] ?? 0;
+            $catConf['cssMode'] ??= 0;
 
             $cssObj = GeneralUtility::makeInstance('tx_ttproducts_css');
             $cssConf = $cssObj->getConf($functablename, $theCode);
@@ -132,7 +131,7 @@ class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base {
                 $parentArray
             );
 
-            $out = chr(13) . $tabArray[$depth] . '<' . $this->htmlTagMain . ' id="' . $idMain . '"' . '  class="' . $menu . '" ' . $fill . '>' . chr(13);
+            $out = chr(13) . $tabArray[$depth] . '<' . $this->htmlTagMain . ' id="' . $idMain . '"  class="' . $menu . '" ' . $fill . '>' . chr(13);
             $out = str_replace($this->htmlPartsMarkers[0], $out, $htmlParts[0]);
 
             while ($depth > 0 && $iCount < 500) {
@@ -146,7 +145,7 @@ class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base {
                     continue;
                 }
 
-                if($countArray[$depth] < count($catArray[$depth])) {
+                if ($countArray[$depth] < count($catArray[$depth])) {
                     $markerArray = [];
                     $actCategory = $catArray[$depth][$countArray[$depth]];
                     $row = $categoryArray[$actCategory];
@@ -191,7 +190,7 @@ class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base {
                     $addQueryString = [$categoryTableView->getPivar() => $actCategory];
 
                     $markerArray = [];
-                    $categoryTableView->getMarkerArray (
+                    $categoryTableView->getMarkerArray(
                         $markerArray,
                         $categoryTableView->getMarker(),
                         $actCategory,
@@ -221,7 +220,7 @@ class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base {
                     $linkMarkerArray = [];
 
                     foreach ($tagArray as $tag => $v) {
-                        $marker = '###' . $tag. '###';
+                        $marker = '###' . $tag . '###';
                         if (isset($markerArray[$marker])) {
                             $linkMarkerArray[$marker] = htmlspecialchars($markerArray[$marker]);
                         }
@@ -237,7 +236,9 @@ class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base {
                     $linkOut =
                         $linkOutArray[0] .
                             htmlentities(
-                                $row[$categoryTable->getLabelFieldname()], ENT_QUOTES, 'UTF-8'
+                                $row[$categoryTable->getLabelFieldname()],
+                                ENT_QUOTES,
+                                'UTF-8'
                             ) . $linkOutArray[1];
 
                     $markerArray['###LIST_LINK###'] = $linkOut;
@@ -265,11 +266,11 @@ class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base {
                         $menu = 'm' . $depth;
                         $tabArray[$depth] = $this->getTabs($depth * 2);
 
-                        $preOut = $tabArray[$depth] . '<' . $this->htmlTagMain . ' id="' . $idMain . '"' . ' class="' . $menu . '" ' . $fill .  ' >' . chr(13);
-                        $countArray[(int) $depth] = 0;
-                        $catArray[(int) $depth] = $subCategories;
+                        $preOut = $tabArray[$depth] . '<' . $this->htmlTagMain . ' id="' . $idMain . '" class="' . $menu . '" ' . $fill . ' >' . chr(13);
+                        $countArray[(int)$depth] = 0;
+                        $catArray[(int)$depth] = $subCategories;
                         $out .= str_replace($this->htmlPartsMarkers[0], $preOut, $htmlParts[0]);
-                    } else if($countArray[$depth] <= count ($catArray[$depth])) {	// several elements at same depth
+                    } elseif ($countArray[$depth] <= count($catArray[$depth])) {	// several elements at same depth
                         $postOut = $tabArray[$depth] . chr(9) . '</' . $this->htmlTagElement . '>' . chr(13);
                         $tmp = str_replace($this->htmlPartsMarkers[1], $postOut, $htmlParts[1]);
                         $out .= $tmp;
@@ -306,4 +307,3 @@ class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base {
         return $content;
     }
 }
-

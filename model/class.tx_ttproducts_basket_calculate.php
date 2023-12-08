@@ -30,41 +30,42 @@
  * basket calculation functions for a basket object
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
 
+use JambageCom\TtProducts\Api\PaymentShippingHandling;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-use JambageCom\TtProducts\Api\PaymentShippingHandling;
-
-
-class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterface {
-
+class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterface
+{
     protected $calculatedArray = [];
     protected $baseCalculatedArray = [];
 
-
-    public function getBaseCalculatedArray () {
+    public function getBaseCalculatedArray()
+    {
         return $this->baseCalculatedArray;
     }
 
-    public function setBaseCalculatedArray (array $calculatedArray) {
+    public function setBaseCalculatedArray(array $calculatedArray)
+    {
         $this->baseCalculatedArray = $calculatedArray;
     }
 
-    public function getCalculatedArray () {
+    public function getCalculatedArray()
+    {
         return $this->calculatedArray;
     }
 
-    public function setCalculatedArray ($calculatedArray) {
+    public function setCalculatedArray($calculatedArray)
+    {
         $this->calculatedArray = $calculatedArray;
     }
 
-    static public function getRealDiscount (
+    public static function getRealDiscount(
         $calculatedArray,
         $tax = true
     ) {
@@ -82,7 +83,7 @@ class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterfa
         return $result;
     }
 
-    static public function getGoodsTotalTax (
+    public static function getGoodsTotalTax(
         $basketExtra,
         $basketRecs,
         $itemArray
@@ -110,10 +111,11 @@ class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterfa
                     );
             }
         }
+
         return $goodsTotalTax;
     }
 
-    public function clear ($taxMode = 1)
+    public function clear($taxMode = 1)
     {
         $this->calculatedArray = $this->getBaseCalculatedArray();
         $this->calculatedArray['priceTax'] = [];
@@ -128,7 +130,7 @@ class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterfa
         $this->calculatedArray['shipping'] = [];
         $this->calculatedArray['handling'] =
             [
-                '0' => []
+                '0' => [],
             ];
 
         $this->calculatedArray['priceTax']['goodstotal']['ALL'] = 0;
@@ -161,19 +163,19 @@ class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterfa
         $this->calculatedArray['payment']['priceTax'] = 0;
         $this->calculatedArray['payment']['priceNoTax'] = 0;
         $this->calculatedArray['handling']['0']['priceTax'] = 0;
-        $this->calculatedArray['handling']['0']['priceNoTax'] = 0;        
+        $this->calculatedArray['handling']['0']['priceNoTax'] = 0;
     }
 
     /**
      * This calculates the totals. Very important function.
-    This function also calculates the internal arrays
-
-    $itemArray	The basked elements, how many (quantity, count) and the price
-    $this->calculatedArray	- Sums of goods, shipping, payment and total amount WITH TAX included
-
-    ... which holds the total amount, the final list of products and the price of payment and shipping!!
+     * This function also calculates the internal arrays.
+     *
+     * $itemArray	The basked elements, how many (quantity, count) and the price
+     * $this->calculatedArray	- Sums of goods, shipping, payment and total amount WITH TAX included
+     *
+     * ... which holds the total amount, the final list of products and the price of payment and shipping!!
      */
-    public function calculate (
+    public function calculate(
         $basketExt,
         $basketExtra,
         $basketRecs,
@@ -184,7 +186,7 @@ class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterfa
         &$itemArray
     ) {
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-// 		$paymentshippingObj = GeneralUtility::makeInstance('tx_ttproducts_paymentshipping');
+        // 		$paymentshippingObj = GeneralUtility::makeInstance('tx_ttproducts_paymentshipping');
         $taxObj = GeneralUtility::makeInstance('tx_ttproducts_field_tax');
         $priceObj = GeneralUtility::makeInstance('tx_ttproducts_field_price');
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
@@ -230,7 +232,7 @@ class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterfa
 
         if ($shippingTax > $maxTax) {
             $maxTax = $shippingTax;
-        } else if (!isset($shippingTax)) {
+        } elseif (!isset($shippingTax)) {
             $shippingTax = $maxTax;
         }
         $shippingRow = ['tax' => floatval($shippingTax)];
@@ -245,7 +247,7 @@ class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterfa
 
             $priceReduction = [];
 
-                // Check if a special group price can be used
+            // Check if a special group price can be used
             if ($getDiscount == 1) {
                 $discountArray = [];
                 $goodsTotalTax =
@@ -354,7 +356,7 @@ class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterfa
 
                     // has the price been calculated before take it if it gets cheaper now
                     if (
-                        isset($actItem[$calculationField]) /*&& ($actItem['calcprice'] < $actItem['priceTax']) */
+                        isset($actItem[$calculationField]) // && ($actItem['calcprice'] < $actItem['priceTax'])
                     ) {
                         $itemArray[$sort][$k1]['priceTax'] = $priceObj->getModePrice(
                             $basketExtra,
@@ -396,7 +398,7 @@ class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterfa
                     $this->calculatedArray['price2NoTax']['goodstotal']['ALL'] += $price2NoTax * $count;
                     $this->calculatedArray['depositnotax']['goodstotal']['ALL'] += $totalDepositNoTax;
 
-                    $this->calculatedArray['noDiscountPriceTax']['goodstotal']['ALL']  +=
+                    $this->calculatedArray['noDiscountPriceTax']['goodstotal']['ALL'] +=
                         $priceObj->getPrice(
                             $basketExtra,
                             $basketRecs,
@@ -444,7 +446,7 @@ class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterfa
                         if (!isset($this->calculatedArray['priceNoTax']['goodssametaxtotal']['ALL'][$taxstr])) {
                             $this->calculatedArray['priceNoTax']['goodssametaxtotal']['ALL'][$taxstr] = 0;
                         }
-                        $this->calculatedArray['priceNoTax']['goodssametaxtotal']['ALL'][$taxstr] +=  $itemArray[$sort][$k1]['totalNoTax'];
+                        $this->calculatedArray['priceNoTax']['goodssametaxtotal']['ALL'][$taxstr] += $itemArray[$sort][$k1]['totalNoTax'];
                         if (!isset($this->calculatedArray['price2NoTax']['goodssametaxtotal']['ALL'][$taxstr])) {
                             $this->calculatedArray['price2NoTax']['goodssametaxtotal']['ALL'][$taxstr] = 0;
                         }
@@ -452,7 +454,7 @@ class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterfa
                         if (!isset($this->calculatedArray['categoryPriceNoTax']['goodssametaxtotal']['ALL'][$taxstr][$row['category']])) {
                             $this->calculatedArray['categoryPriceNoTax']['goodssametaxtotal']['ALL'][$taxstr][$row['category']] = 0;
                         }
-                        $this->calculatedArray['categoryPriceNoTax']['goodssametaxtotal']['ALL'][$taxstr][$row['category']] +=  $itemArray[$sort][$k1]['totalNoTax'];
+                        $this->calculatedArray['categoryPriceNoTax']['goodssametaxtotal']['ALL'][$taxstr][$row['category']] += $itemArray[$sort][$k1]['totalNoTax'];
                         if (!isset($this->calculatedArray['price0NoTax']['goodssametaxtotal']['ALL'][$taxstr])) {
                             $this->calculatedArray['price0NoTax']['goodssametaxtotal']['ALL'][$taxstr] = 0;
                         }
@@ -471,7 +473,7 @@ class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterfa
                                     if (!isset($this->calculatedArray['priceNoTax']['goodssametaxtotal'][$countryCode][$countryTax])) {
                                         $this->calculatedArray['priceNoTax']['goodssametaxtotal'][$countryCode][$countryTax] = 0;
                                     }
-                                    $this->calculatedArray['priceNoTax']['goodssametaxtotal'][$countryCode][$countryTax] +=  $itemArray[$sort][$k1]['totalNoTax'];
+                                    $this->calculatedArray['priceNoTax']['goodssametaxtotal'][$countryCode][$countryTax] += $itemArray[$sort][$k1]['totalNoTax'];
                                     if (!isset($this->calculatedArray['priceNoTax']['goodstotal'][$countryCode])) {
                                         $this->calculatedArray['priceNoTax']['goodstotal'][$countryCode] = 0;
                                     }
@@ -479,12 +481,12 @@ class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterfa
                                 }
                             }
                         }
-                    } else if ($conf['TAXmode'] == '2') {
+                    } elseif ($conf['TAXmode'] == '2') {
                         $itemArray[$sort][$k1]['totalTax'] = $itemArray[$sort][$k1]['priceTax'] * $count;
                         $itemArray[$sort][$k1]['total0Tax'] = $itemArray[$sort][$k1]['price0Tax'] * $count;
                         $totalDepositTax = $itemArray[$sort][$k1]['deposittax'] * $count;
 
-                            // Fills this array with the product records. Reason: Sorting them by category (based on the page, they reside on)
+                        // Fills this array with the product records. Reason: Sorting them by category (based on the page, they reside on)
                         $this->calculatedArray['priceTax']['goodstotal']['ALL'] += $itemArray[$sort][$k1]['totalTax'];
                         $this->calculatedArray['price0Tax']['goodstotal']['ALL'] += $itemArray[$sort][$k1]['total0Tax'];
                         $this->calculatedArray['priceTax']['goodsdeposittotal']['ALL'] += $itemArray[$sort][$k1]['totalDepositTax'];
@@ -492,7 +494,7 @@ class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterfa
                         if (!isset($this->calculatedArray['categoryPriceTax']['goodstotal']['ALL'][$row['category']])) {
                             $this->calculatedArray['categoryPriceTax']['goodstotal']['ALL'][$row['category']] = 0;
                         }
-                        $this->calculatedArray['categoryPriceTax']['goodstotal']['ALL'][$row['category']] +=  $itemArray[$sort][$k1]['totalTax'];
+                        $this->calculatedArray['categoryPriceTax']['goodstotal']['ALL'][$row['category']] += $itemArray[$sort][$k1]['totalTax'];
 
                         $this->calculatedArray['price2Tax']['goodstotal']['ALL'] += $price2Tax * $count;
 
@@ -528,7 +530,7 @@ class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterfa
                                     $basketExtra,
                                     $basketRecs,
                                     $conf['TAXmode'],
-                                    $value * ($count-1),
+                                    $value * ($count - 1),
                                     true,
                                     $shippingRow,
                                     $conf['TAXincluded'],
@@ -640,7 +642,7 @@ class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterfa
                         'priceTax' => 'priceNoTax',
                         'price0Tax' => 'price0NoTax',
                         'price2Tax' => 'price2NoTax',
-                        'deposittax' => 'depositnotax'
+                        'deposittax' => 'depositnotax',
                     ];
 
                 $taxRow = [];
@@ -725,7 +727,7 @@ class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterfa
         $paymentTax = PaymentShippingHandling::getTaxPercentage($basketExtra, 'payment', '');
         if ($paymentTax > $maxTax) {
             $maxTax = $paymentTax;
-        } else if ($paymentTax == '') {
+        } elseif ($paymentTax == '') {
             $paymentTax = $maxTax;
         }
         $paymentRow = ['tax' => floatval($paymentTax)];
@@ -743,7 +745,7 @@ class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterfa
         );
 
         // payment must be dealt with at the latest because the payment gateway must know about all other costs
-            // Shipping must be at the end in order to use the calculated values from before
+        // Shipping must be at the end in order to use the calculated values from before
         PaymentShippingHandling::getPaymentShippingData(
             $basketExtra,
             $basketRecs,
@@ -777,9 +779,8 @@ class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterfa
         }
     } // calculate
 
-
     // This calculates the total for everything in the basket
-    public function calculateSums (
+    public function calculateSums(
         $roundFormat,
         $pricefactor,
         $creditpoints,
@@ -787,11 +788,11 @@ class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterfa
     ) {
         $creditpointsObj = GeneralUtility::makeInstance('tx_ttproducts_field_creditpoints');
 
-    // Todo: consider the $roundFormat parameter .XXXXXXXXXX
+        // Todo: consider the $roundFormat parameter .XXXXXXXXXX
         $calculatedArray = $this->getCalculatedArray();
         $baseCountryArray =
             [
-                'ALL'
+                'ALL',
             ];
         if ($getShopCountryCode != '') {
             $baseCountryArray[] = $getShopCountryCode;
@@ -830,24 +831,24 @@ class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterfa
                 $calculatedArray['shipping']['priceTax'];
         }
 
-        $calculatedArray['price0NoTax']['total']['ALL']  =
+        $calculatedArray['price0NoTax']['total']['ALL'] =
             $calculatedArray['price0NoTax']['goodstotal']['ALL'];
-        $calculatedArray['price0Tax']['total']['ALL']  = $calculatedArray['price0Tax']['goodstotal']['ALL'];
+        $calculatedArray['price0Tax']['total']['ALL'] = $calculatedArray['price0Tax']['goodstotal']['ALL'];
 
-        $calculatedArray['price2NoTax']['total']['ALL']  = $calculatedArray['price2NoTax']['goodstotal']['ALL'];
-        $calculatedArray['price2Tax']['total']['ALL']  = $calculatedArray['price2Tax']['goodstotal']['ALL'];
+        $calculatedArray['price2NoTax']['total']['ALL'] = $calculatedArray['price2NoTax']['goodstotal']['ALL'];
+        $calculatedArray['price2Tax']['total']['ALL'] = $calculatedArray['price2Tax']['goodstotal']['ALL'];
 
         $this->setCalculatedArray($calculatedArray);
     }
 
-
     // This calculates the total for the voucher in the basket
-    public function addVoucherSums () {
+    public function addVoucherSums()
+    {
         $result = false;
         $calculatedArray = $this->getCalculatedArray();
 
         if (!isset($calculatedArray['priceNoTax']['total'])) {
-            debug ('internal ERROR in tt_products method addVoucherSums');// keep this
+            debug('internal ERROR in tt_products method addVoucherSums'); // keep this
         } else {
             $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
             $voucherObj = $tablesObj->get('voucher');
@@ -869,7 +870,7 @@ class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterfa
         }
 
         $this->setCalculatedArray($calculatedArray);
+
         return $result;
     }
 }
-

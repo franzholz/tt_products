@@ -30,18 +30,17 @@
  * functions for the product
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
-
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-class tx_ttproducts_article extends tx_ttproducts_article_base {
+class tx_ttproducts_article extends tx_ttproducts_article_base
+{
     public $fields = [];
     public $tt_products; // element of class tx_table_db to get the parent product
     public $marker = 'ARTICLE';
@@ -49,11 +48,11 @@ class tx_ttproducts_article extends tx_ttproducts_article_base {
     public $tableArray;
     protected $tableAlias = 'article';
 
-
     /**
-     * Getting all tt_products_cat categories into internal array
+     * Getting all tt_products_cat categories into internal array.
      */
-    public function init ($functablename) {
+    public function init($functablename)
+    {
         $result = parent::init($functablename);
 
         if ($result) {
@@ -62,7 +61,7 @@ class tx_ttproducts_article extends tx_ttproducts_article_base {
             $tableConfig['orderBy'] = $cnf->conf['orderBy'] ?? '';
 
             if (!$tableConfig['orderBy']) {
-                $tableConfig['orderBy'] = $this->getOrderBy ();
+                $tableConfig['orderBy'] = $this->getOrderBy();
             }
 
             $tableObj = $this->getTableObj();
@@ -73,8 +72,8 @@ class tx_ttproducts_article extends tx_ttproducts_article_base {
         return $result;
     } // init
 
-
-    public function &getWhereArray ($prodUid, $where, $orderBy = '') { // Todo: consider the $orderBy
+    public function &getWhereArray($prodUid, $where, $orderBy = '') // Todo: consider the $orderBy
+    {
         $rowArray = [];
         $enableWhere = $this->getTableObj()->enableFields();
         $where = ($where ? $where . ' ' . $enableWhere : '1=1 ' . $enableWhere);
@@ -82,33 +81,33 @@ class tx_ttproducts_article extends tx_ttproducts_article_base {
         $fromJoin = '';
 
         if (in_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['articleMode'], [1, 2])) {
-
-            $finalWhere = 'tt_products_products_mm_articles.uid_local=' . intval($prodUid) . ' AND tt_products_products_mm_articles.deleted=0 AND tt_products_products_mm_articles.hidden=0' . ($where!='' ? ' AND '.$where : '');
+            $finalWhere = 'tt_products_products_mm_articles.uid_local=' . intval($prodUid) . ' AND tt_products_products_mm_articles.deleted=0 AND tt_products_products_mm_articles.hidden=0' . ($where != '' ? ' AND ' . $where : '');
             $mmTable = 'tt_products_products_mm_articles';
             $uidForeignArticle = 'uid_foreign';
             $fromJoin = 'tt_products_articles ' . $alias . ' JOIN ' . $mmTable . ' ON ' . $alias . '.uid=' . $mmTable . '.' . $uidForeignArticle;
             $finalOrderBy = $mmTable . '.sorting DESC';
         } else {
-        //	$fromJoin = 'tt_products_articles ' . $alias;
+            //	$fromJoin = 'tt_products_articles ' . $alias;
             $finalWhere = $alias . '.uid_product=' . intval($prodUid) . ($where ? ' AND ' . $where : '');
             $finalOrderBy = '';
         }
-        $res = $this->getTableObj()->exec_SELECTquery('*',$finalWhere,'',$finalOrderBy,'',$fromJoin);
-// 		$variantFieldArray = $this->variant->getFieldArray();
+        $res = $this->getTableObj()->exec_SELECTquery('*', $finalWhere, '', $finalOrderBy, '', $fromJoin);
+        // 		$variantFieldArray = $this->variant->getFieldArray();
 
-        while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+        while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
             $uid = intval($row['uid']);
-// 			$this->getTableObj()->substituteMarkerArray($row, $variantFieldArray);
+            // 			$this->getTableObj()->substituteMarkerArray($row, $variantFieldArray);
             $this->dataArray[$uid] = $row;	// remember for later queries
             $uidArray[] = $uid;
             $rowArray[] = $row;
         }
         $GLOBALS['TYPO3_DB']->sql_free_result($res);
+
         return $rowArray;
     }
 
-
-    public function getProductField (&$row, $field) {
+    public function getProductField(&$row, $field)
+    {
         $rc = '';
         if ($field != 'uid') {
             $rowProducts = $this->tt_products->get($row['uid_product']);
@@ -116,17 +115,19 @@ class tx_ttproducts_article extends tx_ttproducts_article_base {
         } else {
             $rc = $row['uid_product'];
         }
+
         return $rc;
     }
 
-
-    public function getProductRow ($row) {
+    public function getProductRow($row)
+    {
         $result = $this->tt_products->get($row['uid_product']);
+
         return $result;
     }
 
-
-    public function getRequiredFieldArray ($theCode = '') {
+    public function getRequiredFieldArray($theCode = '')
+    {
         $tableConf = $this->getTableConf($theCode);
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $rc = [];
@@ -135,21 +136,22 @@ class tx_ttproducts_article extends tx_ttproducts_article_base {
         } else {
             $requiredFields = 'uid,pid,category,price,price2,directcost';
         }
-        $instockField = $cnf->getTableDesc($functablename,'inStock');
+        $instockField = $cnf->getTableDesc($functablename, 'inStock');
         if ($instockField && !$this->conf['alwaysInStock']) {
             $requiredFields = $requiredFields . ',' . $instockField;
         }
 
         $rc = $requiredFields;
+
         return $rc;
     }
 
-    public function usesAddParentProductCount ($row) {
+    public function usesAddParentProductCount($row)
+    {
         $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
 
         $result = $cnfObj->hasConfig($row, 'addParentProductCount', 'graduated_config');
+
         return $result;
     }
-
 }
-

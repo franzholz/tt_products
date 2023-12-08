@@ -30,24 +30,24 @@
  * functions for downloads
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
  */
-
 
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class tx_ttproducts_download extends tx_ttproducts_article_base {
+class tx_ttproducts_download extends tx_ttproducts_article_base
+{
     public $relatedArray = []; // array of related products
     public $marker = 'DOWNLOAD';
     public $type = 'download';
-    public $piVar='download';
+    public $piVar = 'download';
     public $articleArray = [];
     protected $tableAlias = 'download';
-
 
     public function getOrderedUid(
         $downloadUid,
@@ -61,7 +61,7 @@ class tx_ttproducts_download extends tx_ttproducts_article_base {
             is_array($multiOrderArray) &&
             count($multiOrderArray)
         ) {
-            foreach($multiOrderArray as $orderRow) {
+            foreach ($multiOrderArray as $orderRow) {
                 if (
                     isset($orderRow['fal_variants']) &&
                     $orderRow['fal_variants'] != ''
@@ -88,8 +88,7 @@ class tx_ttproducts_download extends tx_ttproducts_article_base {
         return $orderUid;
     }
 
-
-    public function getOrderedDownloadFalArray (
+    public function getOrderedDownloadFalArray(
         $orderObj,
         $downloadUid,
         $multiOrderArray
@@ -102,7 +101,7 @@ class tx_ttproducts_download extends tx_ttproducts_article_base {
             is_array($multiOrderArray) &&
             count($multiOrderArray)
         ) {
-            foreach($multiOrderArray as $orderRow) {
+            foreach ($multiOrderArray as $orderRow) {
                 $falUid =
                     $orderObj->getFal(
                         $tmp,
@@ -118,8 +117,7 @@ class tx_ttproducts_download extends tx_ttproducts_article_base {
         return $orderedFalArray;
     }
 
-
-    public function getFileArray (
+    public function getFileArray(
         $orderObj,
         $row,
         $multiOrderArray,
@@ -131,18 +129,18 @@ class tx_ttproducts_download extends tx_ttproducts_article_base {
             \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('filelist') &&
             $row['file_uid']
         ) {
-// mm Beziehung auswerten in Datensätze von file $fileUid
-// tt_products_downloads_mm_sysfile (
-// 	uid int(11) NOT NULL auto_increment,
-// 	pid int(11) DEFAULT '0' NOT NULL,
-// 	tstamp int(11) DEFAULT '0' NOT NULL,
-// 	crdate int(11) DEFAULT '0' NOT NULL,
-// 	deleted tinyint(4) DEFAULT '0' NOT NULL,
-// 	hidden tinyint(4) DEFAULT '0' NOT NULL,
-// 	uid_local int(11) DEFAULT '0' NOT NULL,
-// 	uid_foreign int(11) DEFAULT '0' NOT NULL,
-// 	sorting int(10) DEFAULT '0' NOT NULL,
-// 	sorting_foreign
+            // mm Beziehung auswerten in Datensätze von file $fileUid
+            // tt_products_downloads_mm_sysfile (
+            // 	uid int(11) NOT NULL auto_increment,
+            // 	pid int(11) DEFAULT '0' NOT NULL,
+            // 	tstamp int(11) DEFAULT '0' NOT NULL,
+            // 	crdate int(11) DEFAULT '0' NOT NULL,
+            // 	deleted tinyint(4) DEFAULT '0' NOT NULL,
+            // 	hidden tinyint(4) DEFAULT '0' NOT NULL,
+            // 	uid_local int(11) DEFAULT '0' NOT NULL,
+            // 	uid_foreign int(11) DEFAULT '0' NOT NULL,
+            // 	sorting int(10) DEFAULT '0' NOT NULL,
+            // 	sorting_foreign
             $orderedFalArray =
                 $this->getOrderedDownloadFalArray(
                     $orderObj,
@@ -155,7 +153,7 @@ class tx_ttproducts_download extends tx_ttproducts_article_base {
                 $orderedFalArray = $GLOBALS['TYPO3_DB']->cleanIntArray($orderedFalArray);
 
                 $where_clause = 'uid IN (' . implode(',', $orderedFalArray) . ')';
-                $where_clause .= ' AND uid_foreign=' . intval($row['uid']) . ' AND tablenames="tt_products_downloads" AND fieldname="file_uid"' ;
+                $where_clause .= ' AND uid_foreign=' . intval($row['uid']) . ' AND tablenames="tt_products_downloads" AND fieldname="file_uid"';
                 $where_clause .= \JambageCom\Div2007\Utility\TableUtility::enableFields('sys_file_reference');
                 $sysfileRowArray =
                     $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
@@ -175,7 +173,7 @@ class tx_ttproducts_download extends tx_ttproducts_article_base {
                 $storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\StorageRepository');
                 $storage = $storageRepository->findByUid(1);
 
-                foreach($sysfileRowArray as $fileUid => $sysfileRow) {
+                foreach ($sysfileRowArray as $fileUid => $sysfileRow) {
                     if (
                         $checkPriceZero &&
                         $sysfileRow['tx_ttproducts_price_enable'] && // check non free downloads against the order data
@@ -187,11 +185,11 @@ class tx_ttproducts_download extends tx_ttproducts_article_base {
                     $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
                     $fileObj = $resourceFactory->getFileReferenceObject($sysfileRow['uid']);
                     $fileInfo = $storage->getFileInfo($fileObj);
-                    $fileArray[$sysfileRow['uid']] = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/' . 'fileadmin' . $fileInfo['identifier'];
+                    $fileArray[$sysfileRow['uid']] = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/fileadmin' . $fileInfo['identifier'];
                 }
             }
-        } else if ($row['path'] != '') {
-            $path = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/'  . $row['path'] . '/';
+        } elseif ($row['path'] != '') {
+            $path = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/' . $row['path'] . '/';
             $fileArray =
                 \TYPO3\CMS\Core\Utility\GeneralUtility::getAllFilesAndFoldersInPath(
                     $fileArray,
@@ -209,8 +207,7 @@ class tx_ttproducts_download extends tx_ttproducts_article_base {
         return $fileArray;
     }
 
-
-    public function getRelatedUidArray (
+    public function getRelatedUidArray(
         $uids,
         $tagMarkerArray,
         $parenttable = 'tt_products'
@@ -244,7 +241,7 @@ class tx_ttproducts_download extends tx_ttproducts_article_base {
         $where_clause = '';
         $tagWhere = '';
 
-        if (is_array($tagMarkerArray) && ($tagMarkerArray)) {
+        if (is_array($tagMarkerArray) && $tagMarkerArray) {
             $newTagMarkerArray = [];
             foreach ($tagMarkerArray as $tagMarker) {
                 if (strpos($tagMarker, '_') === false) {
@@ -273,4 +270,3 @@ class tx_ttproducts_download extends tx_ttproducts_article_base {
         return $resultArray;
     }
 }
-

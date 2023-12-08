@@ -35,15 +35,13 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
  * hook for the page title in the product single view
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
-
-class ContentPostProcessor {
-
-    public function setPageTitle (&$params, TypoScriptFrontendController &$pObj)
+class ContentPostProcessor
+{
+    public function setPageTitle(&$params, TypoScriptFrontendController &$pObj)
     {
         $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
         $piVars = \tx_ttproducts_model_control::getPiVars();
@@ -70,7 +68,6 @@ class ContentPostProcessor {
         }
 
         if (!empty($row)) {
-
             $pageTitle = '';
             // set the page title of the single view
             switch ($conf['substitutePagetitle']) {
@@ -92,7 +89,6 @@ class ContentPostProcessor {
             }
 
             if (isset($pageTitle)) {
-
                 $pObj->content = preg_replace(
                     '#<title>.*<\/title>#',
                     '<title>' . htmlspecialchars($pageTitle) . '</title>',
@@ -102,4 +98,3 @@ class ContentPostProcessor {
         }
     }
 }
-

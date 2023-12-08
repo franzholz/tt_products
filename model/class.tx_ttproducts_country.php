@@ -30,36 +30,33 @@
  * functions for the static_info_countries table
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
-
-
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-
-class tx_ttproducts_country extends tx_ttproducts_table_base {
+class tx_ttproducts_country extends tx_ttproducts_table_base
+{
     public $dataArray; // array of read in contents
     public $table;	// object of the type tx_table_db
     public $marker = 'STATICCOUNTRIES';
 
-
     /**
-     * Getting all tt_products_cat categories into internal array
+     * Getting all tt_products_cat categories into internal array.
      */
-    public function init ($functablename) {
+    public function init($functablename)
+    {
         $result = parent::init($functablename);
 
         if ($result) {
             $tablename = $this->getTablename();
             $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
             $this->tableconf = $cnf->getTableConf('static_countries');
-            $this->getTableObj()->setDefaultFieldArray(['uid'=>'uid', 'pid'=>'pid']);
+            $this->getTableObj()->setDefaultFieldArray(['uid' => 'uid', 'pid' => 'pid']);
             $this->getTableObj()->setTCAFieldArray('static_countries');
 
             $requiredFields = 'uid,pid';
@@ -73,7 +70,7 @@ class tx_ttproducts_country extends tx_ttproducts_table_base {
             if (!empty($this->tableconf['generatePath.']) &&
                 $this->tableconf['generatePath.']['type'] == 'tablefields' &&
                 !empty($this->tableconf['generatePath.']['field.'])
-                ) {
+            ) {
                 $addRequiredFields = [];
                 foreach ($this->tableconf['generatePath.']['field.'] as $field => $value) {
                     $addRequiredFields[] = $field;
@@ -85,9 +82,8 @@ class tx_ttproducts_country extends tx_ttproducts_table_base {
         return $result;
     } // init
 
-
-    public function isoGet ($country_code, $where = '', $fields = '') {
-
+    public function isoGet($country_code, $where = '', $fields = '')
+    {
         $rc = [];
         if (!$fields && isset($this->dataArray[$country_code])) {
             $rc = $this->dataArray[$country_code];
@@ -122,7 +118,7 @@ class tx_ttproducts_country extends tx_ttproducts_table_base {
             }
             $GLOBALS['TYPO3_DB']->sql_free_result($res);
         }
+
         return $rc;
     }
 }
-

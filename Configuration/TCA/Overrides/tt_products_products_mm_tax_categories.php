@@ -1,8 +1,8 @@
 <?php
+
 defined('TYPO3') || die('Access denied.');
 
-call_user_func(function($extensionKey, $table)
-{
+call_user_func(function ($extensionKey, $table) {
     $extensionKeyStaticTaxes = 'static_info_tables_taxes';
     $imagePath = 'EXT:' . $extensionKeyStaticTaxes . '/Resources/Public/Icons/';
     $languageSubpath = '/Resources/Private/Language/';
@@ -10,10 +10,9 @@ call_user_func(function($extensionKey, $table)
     if (
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($extensionKeyStaticTaxes)
     ) {
-
         $GLOBALS['TCA'][$tablename]['ctrl']['iconfile'] = $imagePath . 'Extension.gif';
 
-        unset ($GLOBALS['TCA'][$tablename]['columns']['uid_local']);
+        unset($GLOBALS['TCA'][$tablename]['columns']['uid_local']);
 
         $temporaryColumns = [
             'uid_local' => [
@@ -22,8 +21,8 @@ call_user_func(function($extensionKey, $table)
                     'type' => 'select',
                     'renderType' => 'selectSingle',
                     'foreign_table' => 'static_tax_rates',
-                    'maxitems' => 1
-                ]
+                    'maxitems' => 1,
+                ],
             ],
             'uid_foreign' => [
                 'label' => 'LLL:EXT:' . $extensionKeyStaticTaxes . $languageSubpath . 'locallang_db.xlf:' . $tablename . '.uid_foreign',
@@ -31,18 +30,18 @@ call_user_func(function($extensionKey, $table)
                     'type' => 'select',
                     'renderType' => 'selectMultipleSideBySide',
                     'foreign_table' => 'static_tax_categories',
-                    'maxitems' => 5
-                ]
+                    'maxitems' => 5,
+                ],
             ],
             'sorting' => [
                 'config' => [
                     'type' => 'passthrough',
-                ]
+                ],
             ],
             'sorting_foreign' => [
                 'config' => [
                     'type' => 'passthrough',
-                ]
+                ],
             ],
         ];
 

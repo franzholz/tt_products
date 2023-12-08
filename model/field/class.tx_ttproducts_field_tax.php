@@ -30,25 +30,21 @@
  * functions for the taxes
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
  */
 
+use JambageCom\TtProducts\Api\PaymentShippingHandling;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-use JambageCom\TtProducts\Api\PaymentShippingHandling;
-
-
-class tx_ttproducts_field_tax extends tx_ttproducts_field_base {
+class tx_ttproducts_field_tax extends tx_ttproducts_field_base
+{
     protected $useStaticTaxes = false;
 
-    /**
-     *
-     */
-    public function preInit (
+    public function preInit(
         $useStaticTaxes,
         $uidStore,
         $infoArray,
@@ -87,15 +83,17 @@ class tx_ttproducts_field_tax extends tx_ttproducts_field_base {
         }
     } // init
 
-    public function getUseStaticTaxes () {
+    public function getUseStaticTaxes()
+    {
         return $this->useStaticTaxes;
     }
 
-    public function setUseStaticTaxes ($useStaticTaxes) {
+    public function setUseStaticTaxes($useStaticTaxes)
+    {
         $this->useStaticTaxes = $useStaticTaxes;
     }
 
-    public function getTax (
+    public function getTax(
         &$taxInfoArray,
         array $row,
         $basketExtra,
@@ -110,10 +108,11 @@ class tx_ttproducts_field_tax extends tx_ttproducts_field_base {
             $basketRecs,
             $bEnableTaxZero
         );
+
         return $result;
     }
 
-    public function getFieldValue (
+    public function getFieldValue(
         &$taxInfoArray,
         array $row,
         $fieldname,
@@ -183,7 +182,7 @@ class tx_ttproducts_field_tax extends tx_ttproducts_field_base {
         return $fieldValue;
     }
 
-    public function getFieldCalculatedValue (
+    public function getFieldCalculatedValue(
         $fieldValue,
         $basketExtra
     ) {
@@ -206,7 +205,7 @@ class tx_ttproducts_field_tax extends tx_ttproducts_field_base {
         return $fieldValue;
     }
 
-    public function getTaxRates (
+    public function getTaxRates(
         &$shopCountryArray,
         &$taxInfoArray,
         array $uidArray,
@@ -228,7 +227,6 @@ class tx_ttproducts_field_tax extends tx_ttproducts_field_base {
             );
 
             if ($taxResult) {
-
                 $taxRates = [];
                 if (
                     isset($taxInfoArray) &&
@@ -253,4 +251,3 @@ class tx_ttproducts_field_tax extends tx_ttproducts_field_base {
         return $result;
     }
 }
-

@@ -1,4 +1,5 @@
 <?php
+
 defined('TYPO3') || die('Access denied.');
 
 $extensionKey = 'tt_products';
@@ -16,7 +17,7 @@ $result = [
         'tstamp' => 'tstamp',
         'prependAtCopy' => $languageLglPath . 'prependAtCopy',
         'crdate' => 'crdate',
-        'iconfile' => 'EXT:' . $extensionKey . '/Resources/Public/Icons/' . 'sys_products_cards.gif',
+        'iconfile' => 'EXT:' . $extensionKey . '/Resources/Public/Icons/sys_products_cards.gif',
         'searchFields' => 'owner_name,cc_number',
     ],
     'columns' => [
@@ -31,9 +32,9 @@ $result = [
                 'default' => 0,
                 'range' => [
                     'upper' => mktime(0, 0, 0, 12, 31, $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['endtimeYear']),
-                    'lower' => mktime(0, 0, 0, date('m') - 1, date('d'), date('Y'))
-                ]
-            ]
+                    'lower' => mktime(0, 0, 0, date('m') - 1, date('d'), date('Y')),
+                ],
+            ],
         ],
         'cc_number' => [
             'exclude' => 0,
@@ -43,8 +44,8 @@ $result = [
                 'size' => '40',
                 'max' => '80',
                 'eval' => 'required,trim',
-                'default' => null
-            ]
+                'default' => null,
+            ],
         ],
         'owner_name' => [
             'exclude' => 0,
@@ -53,8 +54,8 @@ $result = [
                 'type' => 'input',
                 'size' => '40',
                 'max' => '80',
-                'default' => null
-            ]
+                'default' => null,
+            ],
         ],
         'cc_type' => [
             'exclude' => 1,
@@ -70,8 +71,8 @@ $result = [
                 ],
                 'size' => 1,
                 'maxitems' => 1,
-                'default' => null
-            ]
+                'default' => null,
+            ],
         ],
         'cvv2' => [
             'exclude' => 1,
@@ -81,16 +82,16 @@ $result = [
                 'size' => '4',
                 'eval' => 'int',
                 'max' => '4',
-                'default' => 0
-            ]
+                'default' => 0,
+            ],
         ],
     ],
     'types' => [
-        '1' => ['showitem' => 'cc_number, owner_name, cc_type, cvv2, endtime']
+        '1' => ['showitem' => 'cc_number, owner_name, cc_type, cvv2, endtime'],
     ],
     'palettes' => [
-        '1' => ['showitem' => '']
-    ]
+        '1' => ['showitem' => ''],
+    ],
 ];
 
 return $result;

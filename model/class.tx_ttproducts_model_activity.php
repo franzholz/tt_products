@@ -30,26 +30,23 @@
  * model for the activities
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
  */
+class tx_ttproducts_model_activity
+{
+    public static $activityArray;
 
-
-
-class tx_ttproducts_model_activity {
-    static public $activityArray;
-
-
-    static public function setActivityArray ($activityArray) {
+    public static function setActivityArray($activityArray)
+    {
         self::$activityArray = $activityArray;
     }
 
-
-    static public function getActivityArray () {
+    public static function getActivityArray()
+    {
         return self::$activityArray;
     }
 }
-
-

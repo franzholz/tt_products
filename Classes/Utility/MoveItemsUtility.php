@@ -33,15 +33,13 @@ namespace JambageCom\TtProducts\Utility;
  * functions for the import of images into FAL
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
-
-class MoveItemsUtility {
-
-    static public function moveAll (
+class MoveItemsUtility
+{
+    public static function moveAll(
         &$infoArray,
         $currId,
         $destId,
@@ -50,7 +48,7 @@ class MoveItemsUtility {
         $result = true;
         $infoArray = [];
 
-        if($currId && $destId) {
+        if ($currId && $destId) {
             $infoArray['rows'] = [];
             $fieldsArray = [];
             $fieldsArray['pid'] = intval($destId);
@@ -60,7 +58,6 @@ class MoveItemsUtility {
             $tableArray = ['tt_products', 'tt_products_articles'];
 
             foreach ($tableArray as $table) {
-
                 $GLOBALS['TYPO3_DB']->exec_UPDATEquery($table, 'pid=' . intval($currId) . ' AND tstamp<' . $tstamplimit, $fieldsArray);
                 $count = $GLOBALS['TYPO3_DB']->sql_affected_rows();
                 if ($count) {
@@ -72,4 +69,3 @@ class MoveItemsUtility {
         return $result;
     }
 }
-

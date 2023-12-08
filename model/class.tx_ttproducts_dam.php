@@ -30,15 +30,17 @@
  * functions for the DAM images
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class tx_ttproducts_dam extends tx_ttproducts_article_base {
+class tx_ttproducts_dam extends tx_ttproducts_article_base
+{
     public $dataArray; // array of read in categories
     public $tableArray;
 
@@ -51,9 +53,10 @@ class tx_ttproducts_dam extends tx_ttproducts_article_base {
     public $variant; // object for the product variant attributes, must initialized in the init function
 
     /**
-     * DAM elements
+     * DAM elements.
      */
-    public function init ($functablename) {
+    public function init($functablename)
+    {
         $result = parent::init($functablename);
 
         if ($result) {
@@ -65,10 +68,11 @@ class tx_ttproducts_dam extends tx_ttproducts_article_base {
             $tablename = $cnf->getTableName($functablename);
             $tableObj->setTCAFieldArray($tablename, 'dam');
         }
+
         return $result;
     } // init
 
-    public function getRelated (
+    public function getRelated(
         &$parentFuncTablename,
         &$parentRows,
         $multiOrderArray,
@@ -82,50 +86,54 @@ class tx_ttproducts_dam extends tx_ttproducts_article_base {
             $productTable = $tablesObj->get('tt_products', false);
             $additional = $productTable->getFlexQuery('isImage', 1);
             $rowArray =
-                $productTable->getWhere('additional REGEXP ' . $GLOBALS['TYPO3_DB']->fullQuoteStr($additional,  $productTable->getTablename)); // quotemeta
+                $productTable->getWhere('additional REGEXP ' . $GLOBALS['TYPO3_DB']->fullQuoteStr($additional, $productTable->getTablename)); // quotemeta
             $rcArray = array_keys($rowArray);
         }
+
         return $rcArray;
     }
 
     /**
-     * Returns true if the item has the $check value checked
-     *
+     * Returns true if the item has the $check value checked.
      */
-    public function hasAdditional (&$row, $check) {
+    public function hasAdditional(&$row, $check)
+    {
         $hasAdditional = false;
+
         return $hasAdditional;
     }
 
     /**
-     * Sets the markers for DAM specific FORM fields
-     *
+     * Sets the markers for DAM specific FORM fields.
      */
-    public function setFormMarkerArray ($uid, &$markerArray) {
+    public function setFormMarkerArray($uid, &$markerArray)
+    {
         $markerArray['###DAM_FIELD_NAME###'] = 'ttp_basket[dam]';
         $markerArray['###DAM_UID###'] = intval($uid);
     }
 
     /**
-     * fills in the row fields from a DAM record
+     * fills in the row fields from a DAM record.
      *
      * @param	array		the row
      * @param	string	  variants separated by variantSeparator
-     * @return  void
+     *
      * @access private
+     *
      * @see getVariantFromRow
      */
-    public function modifyItemRow (&$row, $uid) {
+    public function modifyItemRow(&$row, $uid)
+    {
         $damRow = $this->get($uid);
 
         if ($damRow) {
-// 			$damRow['damdescription'] = $damRow['description'];
-// 			unset($damRow['description']);
-// 			foreach ($damRow as $field => $value)	{
-// 				if (isset($row[$field]) && !$row[$field])	{
-// 					$row[$field] = $value;
-// 				}
-// 			}
+            // 			$damRow['damdescription'] = $damRow['description'];
+            // 			unset($damRow['description']);
+            // 			foreach ($damRow as $field => $value)	{
+            // 				if (isset($row[$field]) && !$row[$field])	{
+            // 					$row[$field] = $value;
+            // 				}
+            // 			}
             if ($damRow['file_mime_type'] == 'image' && !$row['image']) {
                 $row['image'] = $damRow['file_name'];
                 $row['file_mime_type'] = 'image';
@@ -134,24 +142,24 @@ class tx_ttproducts_dam extends tx_ttproducts_article_base {
         }
     }
 
-    public function addWhereCat (
-            $catObject,
-            $theCode,
-            $cat,
-            $categoryAnd,
-            $pid_list,
-            $bLeadingOperator = true
+    public function addWhereCat(
+        $catObject,
+        $theCode,
+        $cat,
+        $categoryAnd,
+        $pid_list,
+        $bLeadingOperator = true
     ) {
         $bOpenBracket = false;
         $where = '';
 
-            // Call all addWhereCat hooks for DAM categories at the end of this method
+        // Call all addWhereCat hooks for DAM categories at the end of this method
         if (
             isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['DAMCategory']) &&
             is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['DAMCategory'])
         ) {
-            foreach  ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['DAMCategory'] as $classRef) {
-                $hookObj= GeneralUtility::makeInstance($classRef);
+            foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['DAMCategory'] as $classRef) {
+                $hookObj = GeneralUtility::makeInstance($classRef);
                 if (method_exists($hookObj, 'addWhereCat')) {
                     $whereNew =
                         $hookObj->addWhereCat(
@@ -166,31 +174,33 @@ class tx_ttproducts_dam extends tx_ttproducts_article_base {
                         );
                     if ($bLeadingOperator) {
                         $operator = ($operator ? $operator : 'OR');
-                        $where .= ($whereNew ? ' '.$operator.' '.$whereNew : '');
+                        $where .= ($whereNew ? ' ' . $operator . ' ' . $whereNew : '');
                     } else {
                         $where .= $whereNew;
                     }
                 }
             }
-        } else if($cat || $cat == '0') {
-            $cat = implode(',',GeneralUtility::intExplode(',', $cat));
-            $where = 'category IN ('.$cat.')';
+        } elseif ($cat || $cat == '0') {
+            $cat = implode(',', GeneralUtility::intExplode(',', $cat));
+            $where = 'category IN (' . $cat . ')';
             if ($bLeadingOperator) {
                 $where = ' AND ( ' . $where . ')';
             }
         }
+
         return $where;
     }
 
-    public function addConfCat ($catObject, &$selectConf, $aliasArray) {
+    public function addConfCat($catObject, &$selectConf, $aliasArray)
+    {
         $tableNameArray = [];
 
-            // Call all addWhere hooks for DAM categories at the end of this method
+        // Call all addWhere hooks for DAM categories at the end of this method
         if (
             isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['DAMCategory']) &&
             is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['DAMCategory'])) {
-            foreach  ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['DAMCategory'] as $classRef) {
-                $hookObj= GeneralUtility::makeInstance($classRef);
+            foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['DAMCategory'] as $classRef) {
+                $hookObj = GeneralUtility::makeInstance($classRef);
                 if (method_exists($hookObj, 'addConfCatProduct')) {
                     $newTablenames = $hookObj->addConfCatProduct($this, $catObject, $selectConf, $aliasArray);
 
@@ -204,46 +214,51 @@ class tx_ttproducts_dam extends tx_ttproducts_article_base {
         return implode(',', $tableNameArray);
     }
 
-    public function addselectConfCat ($catObject, $cat, &$selectConf) {
+    public function addselectConfCat($catObject, $cat, &$selectConf)
+    {
         $tableNameArray = [];
 
-            // Call all addWhere hooks for DAM categories at the end of this method
+        // Call all addWhere hooks for DAM categories at the end of this method
         if (
             isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['DAMCategory']) &&
             is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['DAMCategory'])
         ) {
-            foreach  ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['DAMCategory'] as $classRef) {
-                $hookObj= GeneralUtility::makeInstance($classRef);
+            foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['DAMCategory'] as $classRef) {
+                $hookObj = GeneralUtility::makeInstance($classRef);
                 if (method_exists($hookObj, 'addselectConfCat')) {
-                    $newTablenames = $hookObj->addselectConfCat($this, $catObject, $cat, $selectConf,$catObject->getDepth());
+                    $newTablenames = $hookObj->addselectConfCat($this, $catObject, $cat, $selectConf, $catObject->getDepth());
                     if ($newTablenames != '') {
                         $tableNameArray[] = $newTablenames;
                     }
                 }
             }
         }
+
         return implode(',', $tableNameArray);
     }
 
-    public function getPageUidsCat ($cat) {
+    public function getPageUidsCat($cat)
+    {
         $uidArray = [];
 
-            // Call all addWhere hooks for DAM categories at the end of this method
+        // Call all addWhere hooks for DAM categories at the end of this method
         if (
             isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['DAMCategory']) &&
             is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['DAMCategory'])) {
-            foreach  ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['DAMCategory'] as $classRef) {
-                $hookObj= GeneralUtility::makeInstance($classRef);
+            foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['DAMCategory'] as $classRef) {
+                $hookObj = GeneralUtility::makeInstance($classRef);
                 if (method_exists($hookObj, 'getPageUidsCat')) {
                     $hookObj->getPageUidsCat($this, $cat, $uidArray);
                 }
             }
         }
         $uidArray = array_unique($uidArray);
-        return (implode(',', $uidArray));
+
+        return implode(',', $uidArray);
     }
 
-    public function getRequiredFields ($theCode = '') {
+    public function getRequiredFields($theCode = '')
+    {
         $tableConf = $this->getTableConf($theCode);
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 
@@ -254,7 +269,7 @@ class tx_ttproducts_dam extends tx_ttproducts_article_base {
         }
 
         $rc = $requiredFields;
+
         return $rc;
     }
 }
-

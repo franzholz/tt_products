@@ -12,11 +12,9 @@
  * The TYPO3 project - inspiring people to share!
  */
 
-
 namespace JambageCom\TtProducts\Controller\Plugin;
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 /**
  * Class that adds the wizard icon.
@@ -24,16 +22,17 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
  * @category    Plugin
  * @package     TYPO3
  * @subpackage  tt_products
+ *
  * @author      Franz Holzinger <franz@ttproducts.de>
  * @license     http://www.gnu.org/copyleft/gpl.html
  */
 class WizardIcon
 {
-
     /**
      * Processes the wizard items array.
      *
      * @param array $wizardItems The wizard items
+     *
      * @return array Modified array with wizard items
      */
     public function proc(array $wizardItems)
@@ -45,7 +44,7 @@ class WizardIcon
         $wizardItem = [
             'title' => $GLOBALS['LANG']->sL('LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang.xlf:plugins_title'),
             'description' => $GLOBALS['LANG']->sL('LLL:EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang.xlf:plugins_description'),
-            'params' => $params
+            'params' => $params,
         ];
 
         $iconIdentifier = 'extensions-tt_products-wizard';
@@ -64,5 +63,4 @@ class WizardIcon
 
         return $wizardItems;
     }
-
 }

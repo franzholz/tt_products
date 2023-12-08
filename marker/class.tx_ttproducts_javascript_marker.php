@@ -30,35 +30,35 @@
  * JavaScript marker functions
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
 
- 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-class tx_ttproducts_javascript_marker implements \TYPO3\CMS\Core\SingletonInterface {
+class tx_ttproducts_javascript_marker implements \TYPO3\CMS\Core\SingletonInterface
+{
     protected $marker = 'JAVASCRIPT';
-
 
     /**
      * Template marker substitution
-     * Fills in the markerArray with data for a JavaScript
+     * Fills in the markerArray with data for a JavaScript.
      *
      * @param	array		reference to an item array with all the data of the item
      * @param	string		title of the category
-     * @param	integer		number of images to be shown
+     * @param	int		number of images to be shown
      * @param	object		the image cObj to be used
      * @param	array		information about the parent HTML form
+     *
      * @return	array
+     *
      * @access private
      */
-    public function getMarkerArray (&$markerArray, $itemMarkerArray, $cObj) {
-
+    public function getMarkerArray(&$markerArray, $itemMarkerArray, $cObj)
+    {
         $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
         $conf = $cnfObj->getConf();
         $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
@@ -83,5 +83,3 @@ class tx_ttproducts_javascript_marker implements \TYPO3\CMS\Core\SingletonInterf
         }
     }
 }
-
-

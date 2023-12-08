@@ -13,13 +13,12 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  */
 
 /**
- * Extension Manager configuration
+ * Extension Manager configuration.
  */
 class EmConfiguration
 {
-
     /**
-     * Fill the properties properly
+     * Fill the properties properly.
      *
      * @param array $configuration em configuration
      */
@@ -45,7 +44,7 @@ class EmConfiguration
                     $this->$property =
                         array_merge($this->$property, $value);
                 }
-            } else if (property_exists(__CLASS__, $key)) {
+            } elseif (property_exists(__CLASS__, $key)) {
                 $this->$key = $value;
             }
         }
@@ -59,7 +58,7 @@ class EmConfiguration
 
     /** @var bool */
     protected $checkCookies = false;
-    
+
     /** @var string */
     protected $imageFolder = 'uploads/pics';
 
@@ -68,19 +67,19 @@ class EmConfiguration
 
     /** @var int */
     protected $articleMode = 2;
-    
+
     /** @var string */
     protected $variantSeparator = ';';
 
     /** @var array */
     protected $tax = ['fields' => 'tax'];
-    
+
     /** @var bool */
     protected $fal = false;
-    
+
     /** @var bool */
     protected $sepa = false;
-    
+
     /** @var bool */
     protected $bic = false;
 
@@ -95,7 +94,7 @@ class EmConfiguration
 
     /** @var int */
     protected $endtimeYear = 2038;
-    
+
     /** @var array */
     protected $where = ['category' => ''];
 
@@ -172,7 +171,7 @@ class EmConfiguration
     {
         return $this->sepa;
     }
-    
+
     public function getBic(): bool
     {
         return $this->bic;
@@ -223,4 +222,3 @@ class EmConfiguration
         return $this->slugBehaviour;
     }
 }
-

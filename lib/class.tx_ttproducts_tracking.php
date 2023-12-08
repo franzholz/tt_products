@@ -30,33 +30,27 @@
  * tracking functions
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
-
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
-
-
-class tx_ttproducts_tracking implements \TYPO3\CMS\Core\SingletonInterface {
+class tx_ttproducts_tracking implements \TYPO3\CMS\Core\SingletonInterface
+{
     public $cObj;
     public $conf;		  // original configuration
     private $statusCodeArray;
 
-
     /**
-     * $basket is the TYPO3 default shopping basket array from ses-data
-     *
-     * @param		string		  $fieldname is the field in the table you want to create a JavaScript for
-     * @return	  void
+     * $basket is the TYPO3 default shopping basket array from ses-data.
      */
-    public function init ($cObj) {
-
+    public function init($cObj)
+    {
         $this->cObj = $cObj;
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $this->conf = $cnf->conf;
@@ -73,7 +67,6 @@ class tx_ttproducts_tracking implements \TYPO3\CMS\Core\SingletonInterface {
                 }
             }
         } elseif ($this->conf['statusCodesSource']) {
-
             switch ($this->conf['statusCodesSource']) {
                 case 'marker_locallang':
                     $markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
@@ -93,25 +86,25 @@ class tx_ttproducts_tracking implements \TYPO3\CMS\Core\SingletonInterface {
                             }
                         }
                     }
-                break;
+                    break;
             }
         }
 
         $this->setStatusCodeArray($statusCodeArray);
     }
 
-
-    public function setStatusCodeArray (&$statusCodeArray) {
+    public function setStatusCodeArray(&$statusCodeArray)
+    {
         $this->statusCodeArray = $statusCodeArray;
     }
 
-
-    public function getStatusCodeArray () {
+    public function getStatusCodeArray()
+    {
         return $this->statusCodeArray;
     }
 
-
-    protected function getDate ($newData) {
+    protected function getDate($newData)
+    {
         $date = '';
         if ($newData) {
             $dateArray = GeneralUtility::trimExplode('-', $newData);
@@ -122,12 +115,12 @@ class tx_ttproducts_tracking implements \TYPO3\CMS\Core\SingletonInterface {
         } else {
             $date = time();
         }
+
         return $date;
     }
 
-
-    /* search the order status for paid and closed */
-    public function searchOrderStatus (
+    // search the order status for paid and closed
+    public function searchOrderStatus(
         $status_log,
         &$orderPaid,
         &$orderClosed
@@ -135,7 +128,7 @@ class tx_ttproducts_tracking implements \TYPO3\CMS\Core\SingletonInterface {
         $orderPaid = false;
         $orderClosed = false;
         if (isset($status_log) && is_array($status_log)) {
-            foreach($status_log as $key => $val) {
+            foreach ($status_log as $key => $val) {
                 if ($val['status'] == 13) {// Numbers 13 means order has been payed
                     $orderPaid = true;
                 }
@@ -178,7 +171,7 @@ class tx_ttproducts_tracking implements \TYPO3\CMS\Core\SingletonInterface {
 
         All status values can be altered only if you're logged in as a BE-user and if you know the correct code (setup as .update_code in TypoScript config)
     */
-    public function getTrackingInformation (
+    public function getTrackingInformation(
         $orderRow,
         $templateCode,
         $trackingCode,
@@ -195,7 +188,7 @@ class tx_ttproducts_tracking implements \TYPO3\CMS\Core\SingletonInterface {
         $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
         $basketView = GeneralUtility::makeInstance('tx_ttproducts_basket_view');
         $infoViewObj = GeneralUtility::makeInstance('tx_ttproducts_info_view');
-// 		$paymentshippingObj = GeneralUtility::makeInstance('tx_ttproducts_paymentshipping');
+        // 		$paymentshippingObj = GeneralUtility::makeInstance('tx_ttproducts_paymentshipping');
         $theTable = 'sys_products_orders';
         $piVars = tx_ttproducts_model_control::getPiVars();
 
@@ -226,7 +219,7 @@ class tx_ttproducts_tracking implements \TYPO3\CMS\Core\SingletonInterface {
             $GLOBALS['TSFE']->page['title'] = $pageTitle;
             $GLOBALS['TSFE']->indexedDocTitle = $pageTitle;
 
-                // Initialize update of status...
+            // Initialize update of status...
             $fieldsArray = [];
             if (isset($orderRecord['email_notify'])) {
                 $fieldsArray['email_notify'] = $orderRecord['email_notify'];
@@ -247,17 +240,14 @@ class tx_ttproducts_tracking implements \TYPO3\CMS\Core\SingletonInterface {
                 $update = 0;
                 $count = 0;
 
-                foreach($orderRecord['status'] as $val) {
-
+                foreach ($orderRecord['status'] as $val) {
                     if (!isset($statusCodeArray[$val])) {
-
                         $bStatusValid = false;
                         break;
                     }
                     $internalComment = '';
 
                     if ($bValidUpdateCode) {
-
                         if ($val >= 31 && $val <= 32) {// Numbers 31,32 are for storing of bill no. of external software
                             if ($newData) {
                                 $fieldsArray['bill_no'] = $newData;
@@ -333,7 +323,6 @@ class tx_ttproducts_tracking implements \TYPO3\CMS\Core\SingletonInterface {
                                 $payMode = '1';
                             }
                             $fieldsArray['pay_mode'] = $payMode;
-
                         }
 
                         if ($val == 20) {// Number 20 is that items have been shipped. The date muss be entered in format dd-mm-yyyy
@@ -425,7 +414,7 @@ class tx_ttproducts_tracking implements \TYPO3\CMS\Core\SingletonInterface {
             $status_log = unserialize($orderRow['status_log']);
         }
 
-            // Getting the template stuff and initialize order data.
+        // Getting the template stuff and initialize order data.
         $template = $templateService->getSubpart($templateCode, '###TRACKING_DISPLAY_INFO###');
         $this->searchOrderStatus($status_log, $orderPaid, $orderClosed);
 
@@ -433,7 +422,7 @@ class tx_ttproducts_tracking implements \TYPO3\CMS\Core\SingletonInterface {
 
         // making status code 60 disappear if the order has not been payed yet
         if (!$orderPaid || $orderClosed) {
-                // Fill marker arrays
+            // Fill marker arrays
             $markerArray = $globalMarkerArray;
             $subpartArray = [];
             $subpartArray['###STATUS_CODE_60###'] = '';
@@ -441,12 +430,12 @@ class tx_ttproducts_tracking implements \TYPO3\CMS\Core\SingletonInterface {
             $template = $templateService->substituteMarkerArrayCached($template, $markerArray, $subpartArray);
         }
 
-            // Status:
+        // Status:
         $statusItemOut = $templateService->getSubpart($template, '###STATUS_ITEM###');
-        $statusItemOut_c='';
+        $statusItemOut_c = '';
 
         if (is_array($status_log)) {
-            foreach($status_log as $k => $v) {
+            foreach ($status_log as $k => $v) {
                 $markerArray = [];
                 $markerArray['###ORDER_STATUS_TIME###'] = $this->cObj->stdWrap($v['time'], $this->conf['statusDate_stdWrap.']);
                 $markerArray['###ORDER_STATUS###'] = $v['status'];
@@ -460,7 +449,7 @@ class tx_ttproducts_tracking implements \TYPO3\CMS\Core\SingletonInterface {
 
         $markerArray = $globalMarkerArray;
         $subpartArray = [];
-        $wrappedSubpartArray=[];
+        $wrappedSubpartArray = [];
         $markerArray['###OTHER_ORDERS_OPTIONS###'] = '';
         $markerArray['###STATUS_OPTIONS###'] = '';
         $subpartArray['###STATUS_ITEM###'] = $statusItemOut_c;
@@ -516,23 +505,22 @@ class tx_ttproducts_tracking implements \TYPO3\CMS\Core\SingletonInterface {
             $subpartArray['###ORDER_ITEM###'] = '';
         }
 
-        //
         if ($bValidUpdateCode) {
-                // Status admin:
+            // Status admin:
             if (isset($statusCodeArray) && is_array($statusCodeArray)) {
-                foreach($statusCodeArray as $k => $v) {
+                foreach ($statusCodeArray as $k => $v) {
                     if ($k != 1) {
                         $markerArray['###STATUS_OPTIONS###'] .= '<option value="' . $k . '">' . htmlspecialchars($k . ': ' . $v) . '</option>';
                     }
                 }
             }
             $priceViewObj = GeneralUtility::makeInstance('tx_ttproducts_field_price_view');
-            if (isset($this->conf['tracking.']) && isset($this->conf['tracking.']['fields']))	{
+            if (isset($this->conf['tracking.']) && isset($this->conf['tracking.']['fields'])) {
                 $fields = $this->conf['tracking.']['fields'];
             } else {
                 $fields = 'uid';
             }
-            $fields .= ',' . 'crdate,tracking_code,status,status_log,bill_no,name,amount,feusers_uid';
+            $fields .= ',crdate,tracking_code,status,status_log,bill_no,name,amount,feusers_uid';
             $fields = GeneralUtility::uniqueList($fields);
             $history = [];
             $fieldMarkerArray = [];
@@ -560,7 +548,7 @@ class tx_ttproducts_tracking implements \TYPO3\CMS\Core\SingletonInterface {
 
             $enableFields = \JambageCom\Div2007\Utility\TableUtility::enableFields('sys_products_orders');
 
-                // Get unprocessed orders.
+            // Get unprocessed orders.
             $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
                 $fields,
                 'sys_products_orders',
@@ -572,47 +560,47 @@ class tx_ttproducts_tracking implements \TYPO3\CMS\Core\SingletonInterface {
             $valueArray = [];
             $keyMarkerArray = [];
 
-            while(($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))) {
-
+            while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
                 $tmpStatuslog = unserialize($row['status_log']);
-                $classPrefix = str_replace('_','-',$pibaseObj->prefixId);
+                $classPrefix = str_replace('_', '-', $pibaseObj->prefixId);
                 $this->searchOrderStatus($tmpStatuslog, $tmpPaid, $tmpClosed);
-                $class = ($tmpPaid ? $classPrefix.'-paid' : '');
-                $class = ($class ? $class . ' ' : '' ) . ($tmpClosed ? $classPrefix . '-closed' : '');
+                $class = ($tmpPaid ? $classPrefix . '-paid' : '');
+                $class = ($class ? $class . ' ' : '') . ($tmpClosed ? $classPrefix . '-closed' : '');
                 $class = ($class ? ' class="' . $class . '"' : '');
 
                 $fieldMarkerArray['###OPTION_CLASS###'] = $class;
 
                 if ($oldMode) {
                     $markerArray['###OTHER_ORDERS_OPTIONS###'] .=
-                        '<option ' . $class . ' value="' . $row['tracking_code'] . '"' . ($row['uid'] == $orderRow['uid'] ? 'selected="selected"' : '') . '>'.
-                            htmlspecialchars($row['uid'].' ('.$row['bill_no'].'): '.
+                        '<option ' . $class . ' value="' . $row['tracking_code'] . '"' . ($row['uid'] == $orderRow['uid'] ? 'selected="selected"' : '') . '>' .
+                            htmlspecialchars(
+                                $row['uid'] . ' (' . $row['bill_no'] . '): ' .
                                 $row['name'] . ' (' . $priceViewObj->priceFormat($row['amount']) . ' ' . $this->conf['currencySymbol'] . ') /' . $row['status']
                             ) .
                         '</option>';
                 } else {
                     if (isset($row['feusers_uid']) && $bUseHistoryMarkers) {
-                        if(!$row['feusers_uid'] || !isset($history[$row['feusers_uid']])) {
+                        if (!$row['feusers_uid'] || !isset($history[$row['feusers_uid']])) {
                             $history[$row['feusers_uid']] = [
                                 'out' => '',
                                 'count' => 0,
                             ];
                         }
-                        $history[$row['feusers_uid']]['count'] += 1;
+                        ++$history[$row['feusers_uid']]['count'];
                         $last_order = $history[$row['feusers_uid']];
 
-                        if($last_order['count'] == 1) {
+                        if ($last_order['count'] == 1) {
                             $fieldMarkerArray['###LAST_ORDER_TYPE###'] = $languageObj->getLabel('first_order');
                             $fieldMarkerArray['###LAST_ORDER_COUNT###'] = '-';
                         } else {
                             $fieldMarkerArray['###LAST_ORDER_TYPE###'] = $last_order['out'];
                             $fieldMarkerArray['###LAST_ORDER_COUNT###'] = $last_order['count'];
                         }
-                        if($row['feusers_uid'] == 0) {
+                        if ($row['feusers_uid'] == 0) {
                             $fieldMarkerArray['###LAST_ORDER_TYPE###'] = $languageObj->getLabel('unregistered');
                             $fieldMarkerArray['###LAST_ORDER_COUNT###'] = '-';
                         }
-                        if($row['company'] == '') {
+                        if ($row['company'] == '') {
                             $row['company'] = $languageObj->getLabel('undeclared');
                         }
                         $history[$row['feusers_uid']]['out'] = date('d.m.Y - H:i', $row['crdate']);
@@ -623,13 +611,13 @@ class tx_ttproducts_tracking implements \TYPO3\CMS\Core\SingletonInterface {
                         switch ($field) {
                             case 'amount':
                                 $value = $priceViewObj->priceFormat($value);
-                            break;
+                                break;
                             case 'crdate':
                                 $value = date('d.m.Y - H:i', $value);
-                            break;
+                                break;
                             default:
                                 $value = htmlspecialchars($value);
-                            break;
+                                break;
                         }
                         $fieldMarkerArray['###ORDER_' . strtoupper($field) . '###'] = $value;
                     }
@@ -642,7 +630,6 @@ class tx_ttproducts_tracking implements \TYPO3\CMS\Core\SingletonInterface {
             $GLOBALS['TYPO3_DB']->sql_free_result($res);
 
             if (!$oldMode) {
-
                 if ($bInverseHistory) {
                     $valueArray = array_reverse($valueArray);
                 }
@@ -682,10 +669,10 @@ class tx_ttproducts_tracking implements \TYPO3\CMS\Core\SingletonInterface {
 
         $bHasTrackingTemplate = preg_match('/###TRACKING_TEMPLATE###/i', $templateCode);
 
-            // Final things
+        // Final things
         if (!$bHasTrackingTemplate) {
             $markerArray['###ORDER_HTML_OUTPUT###'] = $orderData['html_output'];	// The save order-information in HTML-format
-        } else if (isset($orderRow) && is_array($orderRow) && $orderRow['uid']) {
+        } elseif (isset($orderRow) && is_array($orderRow) && $orderRow['uid']) {
             $itemArray = $orderObj->getItemArray($orderRow, $calculatedArray, $infoArray);
             $infoViewObj->init2($infoArray);
             $productRowArray = []; // Todo: make this a parameter
@@ -744,7 +731,7 @@ class tx_ttproducts_tracking implements \TYPO3\CMS\Core\SingletonInterface {
         $markerArray['###FIELD_EMAIL###'] = $orderRow['email'];
         $markerArray['###ORDER_UID###'] = $markerArray['###ORDER_ORDER_NO###'] = $orderObj->getNumber($orderRow['uid']);
         $markerArray['###ORDER_DATE###'] = $this->cObj->stdWrap($orderRow['crdate'], $this->conf['orderDate_stdWrap.'] ?? '');
-        $markerArray['###TRACKING_NUMBER###'] =  $trackingCode;
+        $markerArray['###TRACKING_NUMBER###'] = $trackingCode;
         $markerArray['###UPDATE_CODE###'] = $updateCode;
         $markerArray['###TRACKING_DATA_NAME###'] = $pibaseObj->prefixId . '[data]';
         $markerArray['###TRACKING_DATA_VALUE###'] = ($bStatusValid ? '' : $newData);
@@ -753,7 +740,7 @@ class tx_ttproducts_tracking implements \TYPO3\CMS\Core\SingletonInterface {
 
         if (isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['tracking']) && is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['tracking'])) {
             foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['tracking'] as $classRef) {
-                $hookObj= GeneralUtility::makeInstance($classRef);
+                $hookObj = GeneralUtility::makeInstance($classRef);
                 if (method_exists($hookObj, 'getTrackingInformation')) {
                     $hookObj->getTrackingInformation(
                         $this,
@@ -776,6 +763,3 @@ class tx_ttproducts_tracking implements \TYPO3\CMS\Core\SingletonInterface {
         return $content;
     } // getTrackingInformation
 }
-
-
-

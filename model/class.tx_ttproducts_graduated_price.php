@@ -30,19 +30,18 @@
  * basket price calculation functions using the price tables
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
 
+use JambageCom\Div2007\Utility\TableUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
-use JambageCom\Div2007\Utility\TableUtility;
-
-
-class tx_ttproducts_graduated_price {
+class tx_ttproducts_graduated_price
+{
     protected $bHasBeenInitialised = false;
     public $mmArray = [];
     public $dataArray = []; // array of read in products
@@ -51,39 +50,41 @@ class tx_ttproducts_graduated_price {
     protected $parentObject = false;
     protected $foreignConfig = [];
 
-
-
-    public function setParent ($parentObject) {
+    public function setParent($parentObject)
+    {
         $this->parentObject = $parentObject;
     }
 
-
-    public function getParent () {
+    public function getParent()
+    {
         return $this->parentObject;
     }
 
-
-    public function getTablename () {
+    public function getTablename()
+    {
         return $this->functablename;
     }
 
-
-    public function getMMTablename () {
+    public function getMMTablename()
+    {
         return $this->mm_table;
     }
 
-    public function needsInit () {
+    public function needsInit()
+    {
         return !$this->bHasBeenInitialised;
     }
 
-    public function destruct () {
+    public function destruct()
+    {
         $this->bHasBeenInitialised = false;
     }
 
     /**
-     * Getting the price formulas for graduated prices
+     * Getting the price formulas for graduated prices.
      */
-    public function init ($parentObject, $fieldname) {
+    public function init($parentObject, $fieldname)
+    {
         $result = false;
 
         $this->setParent($parentObject);
@@ -106,19 +107,19 @@ class tx_ttproducts_graduated_price {
         return $result;
     } // init
 
-
-
-    public function hasDiscountPrice ($row) {
+    public function hasDiscountPrice($row)
+    {
         $result = false;
 
         if (!empty($row['graduated_price_uid']) && !empty($row['graduated_price_enable'])) {
             $result = true;
         }
+
         return $result;
     }
 
-
-    public function getFormulasByItem ($uid = 0, $where_clause = '') {
+    public function getFormulasByItem($uid = 0, $where_clause = '')
+    {
         if ($this->needsInit()) {
             return false;
         }
@@ -141,7 +142,6 @@ class tx_ttproducts_graduated_price {
         }
 
         if (!$result) {
-
             $foreignConfig = $this->foreignConfig;
 
             $tablename = $this->getTablename();
@@ -174,7 +174,7 @@ class tx_ttproducts_graduated_price {
             // FROM tt_products_graduated_price
             // INNER JOIN tt_products_mm_graduated_price ON tt_products_graduated_price.uid = tt_products_mm_graduated_price.graduated_price_uid
 
-            $from = $tablename . ' INNER JOIN ' . $foreignConfig['mmtable'] . ' ON ' . $tablename . '.uid=' . $foreignConfig['mmtable'] . '.' .  $foreignConfig['foreign_field'];
+            $from = $tablename . ' INNER JOIN ' . $foreignConfig['mmtable'] . ' ON ' . $tablename . '.uid=' . $foreignConfig['mmtable'] . '.' . $foreignConfig['foreign_field'];
 
             // Fetching the products
             $res =
@@ -221,5 +221,3 @@ class tx_ttproducts_graduated_price {
         return $result;
     }
 }
-
-

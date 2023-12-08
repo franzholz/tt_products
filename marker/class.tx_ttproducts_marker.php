@@ -30,23 +30,21 @@
  * marker functions
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
- 
-
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use \TYPO3\CMS\Core\Utility\PathUtility;
-
 
 use JambageCom\Div2007\Utility\FrontendUtility;
 use JambageCom\TtProducts\Model\Field\FieldInterface;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\PathUtility;
 
-class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
+class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface
+{
     public $markerArray;
     public $globalMarkerArray;
     public $urlArray;
@@ -56,13 +54,12 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
 
     /**
      * Initialized the marker object
-     * $basket is the TYPO3 default shopping basket array from ses-data
+     * $basket is the TYPO3 default shopping basket array from ses-data.
      *
-     * @param	string		$fieldname is the field in the table you want to create a JavaScript for
      * @param	array		array urls which should be overridden with marker key as index
-     * @return	  void
      */
-    public function init ($conf, $piVars) {
+    public function init($conf, $piVars)
+    {
         $this->markerArray = ['CATEGORY', 'PRODUCT', 'ARTICLE'];
         $markerFile = $conf['markerFile'] ?? '';
         $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
@@ -81,8 +78,8 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
         } else {
             if (!$markerFile || $markerFile == '{$plugin.tt_products.file.markerFile}') {
                 $markerFile = $defaultMarkerFile;
-            } else if (substr($markerFile, 0, 4) == 'EXT:') {	// extension
-                list($extKey, $local) = explode('/', substr($markerFile, 4), 2);
+            } elseif (substr($markerFile, 0, 4) == 'EXT:') {	// extension
+                [$extKey, $local] = explode('/', substr($markerFile, 4), 2);
                 $filename = '';
                 if (
                     strcmp($extKey, '') &&
@@ -107,41 +104,49 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
         $this->setGlobalMarkerArray($conf, $piVars, $locallang, $LLkey);
         $errorCode = $this->getErrorCode();
 
-        return (!is_array($errorCode) || (count($errorCode) == 0) ? true : false);
+        return !is_array($errorCode) || (count($errorCode) == 0) ? true : false;
     }
 
-    public function getErrorCode () {
+    public function getErrorCode()
+    {
         return $this->errorCode;
     }
 
-    public function setErrorCode ($errorCode) {
+    public function setErrorCode($errorCode)
+    {
         $this->errorCode = $errorCode;
     }
 
-    public function setLangArray (&$langArray) {
+    public function setLangArray(&$langArray)
+    {
         $this->langArray = $langArray;
     }
 
-    public function getLangArray () {
+    public function getLangArray()
+    {
         return $this->langArray;
     }
 
-    public function getGlobalMarkerArray () {
+    public function getGlobalMarkerArray()
+    {
         return $this->globalMarkerArray;
     }
 
-    public function replaceGlobalMarkers (&$content, $markerArray = []) {
+    public function replaceGlobalMarkers(&$content, $markerArray = [])
+    {
         $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
         $globalMarkerArray = $this->getGlobalMarkerArray();
         $markerArray = array_merge($globalMarkerArray, $markerArray);
         $result = $templateService->substituteMarkerArrayCached($content, $markerArray);
+
         return $result;
     }
 
     /**
-     * getting the global markers
+     * getting the global markers.
      */
-    public function setGlobalMarkerArray ($conf, $piVars, $locallang, $LLkey) {
+    public function setGlobalMarkerArray($conf, $piVars, $locallang, $LLkey)
+    {
         $cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
         $markerArray = [];
         $language = $GLOBALS['TSFE']->config['config']['language'] ?? '';
@@ -149,11 +154,11 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
             $language = 'default';
         }
 
-            // globally substituted markers, fonts and colors.
+        // globally substituted markers, fonts and colors.
         $splitMark = md5(microtime());
-        list($markerArray['###GW1B###' ], $markerArray['###GW1E###']) = explode($splitMark, $cObj->stdWrap($splitMark, $conf['wrap1.'] ?? ''));
-        list($markerArray['###GW2B###'], $markerArray['###GW2E###']) = explode($splitMark, $cObj->stdWrap($splitMark, $conf['wrap2.'] ?? ''));
-        list($markerArray['###GW3B###'], $markerArray['###GW3E###']) = explode($splitMark, $cObj->stdWrap($splitMark, $conf['wrap3.'] ?? ''));
+        [$markerArray['###GW1B###'], $markerArray['###GW1E###']] = explode($splitMark, $cObj->stdWrap($splitMark, $conf['wrap1.'] ?? ''));
+        [$markerArray['###GW2B###'], $markerArray['###GW2E###']] = explode($splitMark, $cObj->stdWrap($splitMark, $conf['wrap2.'] ?? ''));
+        [$markerArray['###GW3B###'], $markerArray['###GW3E###']] = explode($splitMark, $cObj->stdWrap($splitMark, $conf['wrap3.'] ?? ''));
         $markerArray['###GC1###'] = $cObj->stdWrap($conf['color1'] ?? '', $conf['color1.'] ?? '');
         $markerArray['###GC2###'] = $cObj->stdWrap($conf['color2'] ?? '', $conf['color2.'] ?? '');
         $markerArray['###GC3###'] = $cObj->stdWrap($conf['color3'] ?? '', $conf['color3.'] ?? '');
@@ -170,13 +175,13 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
             'agb', 'basket', 'billing', 'delivery', 'finalize', 'info', 'itemDisplay',
             'listDisplay', 'payment', 'revocation',
             'search', 'storeRoot', 'thanks', 'tracking',
-            'memo'
+            'memo',
         ];
         foreach ($pidMarkerArray as $k => $function) {
             $markerArray['###PID_' . strtoupper($function) . '###'] = intval($conf['PID' . $function] ?? 0);
         }
         $markerArray['###SHOPADMIN_EMAIL###'] = $conf['orderEmail_from'] ?? 'undefined';
-        $lang =  GeneralUtility::_GET('L');
+        $lang = GeneralUtility::_GET('L');
 
         if ($lang != '') {
             $markerArray['###LANGPARAM###'] = '&amp;L=' . $lang;
@@ -189,16 +194,16 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
 
         $backPID = $piVars['backPID'] ?? '';
         $backPID = ($backPID ? $backPID : GeneralUtility::_GP('backPID'));
-        $backPID = ($backPID  ? $backPID : (!empty($conf['PIDlistDisplay']) ? $conf['PIDlistDisplay'] : $GLOBALS['TSFE']->id ?? 0));
+        $backPID = ($backPID ? $backPID : (!empty($conf['PIDlistDisplay']) ? $conf['PIDlistDisplay'] : $GLOBALS['TSFE']->id ?? 0));
         $markerArray['###BACK_PID###'] = $backPID;
 
-            // Call all addGlobalMarkers hooks at the end of this method
+        // Call all addGlobalMarkers hooks at the end of this method
         if (
             isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['addGlobalMarkers']) &&
             is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['addGlobalMarkers'])
         ) {
             foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['addGlobalMarkers'] as $classRef) {
-                $hookObj= GeneralUtility::makeInstance($classRef);
+                $hookObj = GeneralUtility::makeInstance($classRef);
                 if (method_exists($hookObj, 'addGlobalMarkers')) {
                     $hookObj->addGlobalMarkers($markerArray);
                 }
@@ -215,7 +220,7 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
             $langArray = $locallang['default'];
         }
 
-        if(isset($langArray) && is_array($langArray)) {
+        if (isset($langArray) && is_array($langArray)) {
             foreach ($langArray as $key => $value) {
                 if (
                     is_array($value) &&
@@ -238,28 +243,26 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
         }
 
         if (isset($conf['marks.'])) {
-
-                // Substitute Marker Array from TypoScript Setup
+            // Substitute Marker Array from TypoScript Setup
             foreach ($conf['marks.'] as $key => $value) {
-
                 if (is_array($value)) {
-                    switch($key) {
+                    switch ($key) {
                         case 'image.':
                             foreach ($value as $k2 => $v2) {
                                 $fileresource = FrontendUtility::fileResource($v2);
                                 $markerArray['###IMAGE' . strtoupper($k2) . '###'] = $fileresource;
                             }
-                        break;
+                            break;
                         case '_LOCAL_LANG.':
                             if (isset($value[$language . '.'])) {
                                 foreach ($value[$language . '.'] as $key2 => $value2) {
                                     $markerArray['###' . strtoupper($key2) . '###'] = $value2;
                                 }
                             }
-                        break;
+                            break;
                     }
                 } else {
-                    if(
+                    if (
                         isset($conf['marks.'][$key . '.']) &&
                         is_array($conf['marks.'][$key . '.'])
                     ) {
@@ -281,22 +284,24 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
         $this->setLangArray($langArray);
     } // setGlobalMarkerArray
 
-    public function reduceMarkerArray ($templateCode, $markerArray) {
+    public function reduceMarkerArray($templateCode, $markerArray)
+    {
         $result = [];
 
         $tagArray = $this->getAllMarkers($templateCode);
 
         foreach ($tagArray as $tag => $v) {
-            $marker = '###' . $tag. '###';
+            $marker = '###' . $tag . '###';
             if (isset($markerArray[$marker])) {
                 $result[$marker] = $markerArray[$marker];
             }
         }
+
         return $result;
     }
 
-    public function getAllMarkers ($templateCode) {
-
+    public function getAllMarkers($templateCode)
+    {
         $treffer = [];
         $tagArray = false;
 
@@ -318,11 +323,11 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
 
     /**
      * finds all the markers for a product
-     * This helps to reduce the data transfer from the database
+     * This helps to reduce the data transfer from the database.
      *
      * @access private
      */
-    public function getMarkerFields (
+    public function getMarkerFields(
         $templateCode,
         &$tableFieldArray,
         &$requiredFieldArray,
@@ -358,7 +363,6 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
                     }
 
                     if (!isset($tableFieldArray[$field])) {
-
                         $fieldPartArray = GeneralUtility::trimExplode('_', $fieldTmp);
                         $fieldTmp = $fieldPartArray[0];
                         $subFieldPartArray = GeneralUtility::trimExplode(':', $fieldTmp);
@@ -373,7 +377,7 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
                             if (isset($tableFieldArray[$field . '_uid'])) {
                                 $field = $field . '_uid';
 
-                                if (   
+                                if (
                                     isset($tableFieldArray[$field]) &&
                                     is_array($tableFieldArray[$field])
                                 ) {
@@ -466,4 +470,3 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
         return $retArray;
     }
 }
-
