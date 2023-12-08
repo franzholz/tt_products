@@ -42,26 +42,22 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
 class tx_ttproducts_search_view implements \TYPO3\CMS\Core\SingletonInterface {
-	public $conf;
-	public $config;
+    public $conf;
+    public $config;
 
 
-	public function init () {
-		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
+    public function init () {
+        $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 
-		$this->conf = $cnf->getConf();
-		$this->config = $cnf->getConfig();
-	}
+        $this->conf = $cnf->getConf();
+        $this->config = $cnf->getConfig();
+    }
 
-	/**
-	 * Displays the search for the first letter
-	 */
-	public function &printFirstletter ($pibaseObj, &$templateCode, $columns, &$error_code) {
-		// local_table
-
-/*		$ctrlArray = GeneralUtility::makeInstance('tx_ttproducts_model_control');
-		$ctrlArray = tx_ttproducts_model_control::$tableParamsArray;*/
-
+    /**
+     * Displays the search for the first letter
+     */
+    public function &printFirstletter ($pibaseObj, &$templateCode, $columns, &$error_code) {
+        // local_table
 		$searboxViewObj = GeneralUtility::makeInstance('tx_searchbox_view');
 
 		$paramArray = [
@@ -131,5 +127,6 @@ class tx_ttproducts_search_view implements \TYPO3\CMS\Core\SingletonInterface {
 		$rc = $searboxViewObj->printTextField($pibaseObj,$pibaseObj->prefixId, $this->conf['PIDlistDisplay'], $templateCode, $columns, $paramArray, $this->config['parameters'], $this->config['fields'], $this->config['url'], $formid, $contentRow['uid'], $error_code);
 		return $rc;
 	}
+>>>>>>> ce6f82c40b1a2bb029f2794370b586a4ecff879e
 }
 

@@ -40,20 +40,20 @@
 
 class tx_ttproducts_edit_variant_dummy_view implements tx_ttproducts_edit_variant_view_int, \TYPO3\CMS\Core\SingletonInterface {
 
-	public function init($modelObj) {
-	}
+    public function init($modelObj) {
+    }
 
-	public function getSubpartMarkerArray (
-		$templateCode,
-		$functablename,
-		$row,
-		$theCode,
-		$bEditable,
-		$tagArray,
-		&$subpartArray,
-		&$wrappedSubpartArray
-	) {
-	}
+    public function getSubpartMarkerArray (
+        $templateCode,
+        $functablename,
+        $row,
+        $theCode,
+        $bEditable,
+        $tagArray,
+        &$subpartArray,
+        &$wrappedSubpartArray
+    ) {
+    }
 
 }
 

@@ -39,15 +39,15 @@
 
 interface tx_ttproducts_field_int {
 
-	public function needsInit();
-	public function getFieldValue (
-		&$taxInfoArray,
-		array $row,
-		$fieldname,
-		$basketExtra,
-		$basketRecs,
-		$bEnableTaxZero
-	);
+    public function needsInit();
+    public function getFieldValue (
+        &$taxInfoArray,
+        array $row,
+        $fieldname,
+        $basketExtra,
+        $basketRecs,
+        $bEnableTaxZero
+    );
 }
 
 

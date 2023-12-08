@@ -46,55 +46,55 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use JambageCom\TtProducts\Api\PluginApi;
 
 class tx_ttproducts_pi_search_base extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin implements \TYPO3\CMS\Core\SingletonInterface {
-	public $prefixId = TT_PRODUCTS_EXT;
-	public $scriptRelPath = 'pi_search_base/class.tx_ttproducts_pi_search_base.php';	// Path to this script relative to the extension dir.
-	public $extKey = TT_PRODUCTS_EXT;	// The extension key.
-	public $pi_checkCHash = true;		// activate cHash
-	public $bRunAjax = false;		// overrride this
+    public $prefixId = TT_PRODUCTS_EXT;
+    public $scriptRelPath = 'pi_search_base/class.tx_ttproducts_pi_search_base.php';	// Path to this script relative to the extension dir.
+    public $extKey = TT_PRODUCTS_EXT;	// The extension key.
+    public $pi_checkCHash = true;		// activate cHash
+    public $bRunAjax = false;		// overrride this
 
     public function setContentObjectRenderer(ContentObjectRenderer $cObj): void
     {
         $this->cObj = $cObj;
     }
 
-	/**
-	 * Main method. Call this from TypoScript by a USER cObject.
-	 */
-	public function main ($content, $conf) {
-		tx_ttproducts_model_control::setPrefixId($this->prefixId);
+    /**
+     * Main method. Call this from TypoScript by a USER cObject.
+     */
+    public function main ($content, $conf) {
+        tx_ttproducts_model_control::setPrefixId($this->prefixId);
         $parameterApi = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\ParameterApi::class);
-		$parameterApi->setPrefixId($this->prefixId);
+        $parameterApi->setPrefixId($this->prefixId);
         PluginApi::init($conf);
 
-		$confMain = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
-		$this->conf = array_merge($confMain, $conf);
-		$config = [];
-		$mainObj = GeneralUtility::makeInstance('tx_ttproducts_control_search');	// fetch and store it as persistent object
-		$errorCode = [];
-		$bDoProcessing =
-			$mainObj->init(
-				$this->conf,
-				$config,
-				$this->cObj,
-				get_class($this),
-				$errorCode
-			);
+        $confMain = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
+        $this->conf = array_merge($confMain, $conf);
+        $config = [];
+        $mainObj = GeneralUtility::makeInstance('tx_ttproducts_control_search');	// fetch and store it as persistent object
+        $errorCode = [];
+        $bDoProcessing =
+            $mainObj->init(
+                $this->conf,
+                $config,
+                $this->cObj,
+                get_class($this),
+                $errorCode
+            );
 
-		if ($bDoProcessing || !empty($errorCode)) {
-			$content =
-				$mainObj->run(
-					$this->cObj,
-					get_class($this),
-					$errorCode,
-					$content
-				);
-		}
-		return $content;
-	}
+        if ($bDoProcessing || !empty($errorCode)) {
+            $content =
+                $mainObj->run(
+                    $this->cObj,
+                    get_class($this),
+                    $errorCode,
+                    $content
+                );
+        }
+        return $content;
+    }
 
 
-	public function set ($bRunAjax) {
-		$this->bRunAjax = $bRunAjax;
-	}
+    public function set ($bRunAjax) {
+        $this->bRunAjax = $bRunAjax;
+    }
 }
 

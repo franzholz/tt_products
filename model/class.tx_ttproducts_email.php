@@ -42,39 +42,39 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
 class tx_ttproducts_email extends tx_ttproducts_table_base {
-	var $emailArray;	// array of read in emails
-	var $table;		 // object of the type tx_table_db
+    var $emailArray;	// array of read in emails
+    var $table;		 // object of the type tx_table_db
 
-	/**
-	 * Getting all tt_products_cat categories into internal array
-	 */
-	function init($functablename)  {
-		$result = parent::init($functablename);
+    /**
+     * Getting all tt_products_cat categories into internal array
+     */
+    function init($functablename)  {
+        $result = parent::init($functablename);
 
-		if ($result) {
-			$tablename = $this->getTablename();
-			$this->getTableObj()->addDefaultFieldArray(array('sorting' => 'sorting'));
-			$this->getTableObj()->setTCAFieldArray('tt_products_emails');
-		}
+        if ($result) {
+            $tablename = $this->getTablename();
+            $this->getTableObj()->addDefaultFieldArray(array('sorting' => 'sorting'));
+            $this->getTableObj()->setTCAFieldArray('tt_products_emails');
+        }
 
-		return $result;
-	} // init
+        return $result;
+    } // init
 
 
-	function getEmail ($uid) {
-		$rc = $this->emailArray[$uid] ?? '';
-		if ($uid && !$rc) {
-			$sql = GeneralUtility::makeInstance('tx_table_db_access');
-			$sql->prepareFields($this->getTableObj(), 'select', '*');
-			$sql->prepareWhereFields ($this->getTableObj(), 'uid', '=', intval($uid));
-			$sql->prepareEnableFields ($this->getTableObj());
-			//$this->getTableObj()->enableFields();
-			// Fetching the email
-			$res = $sql->exec_SELECTquery();
-			$row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
-			$rc = $this->emailArray[$row['uid']] = $row;
-		}
-		return $rc;
-	}
+    function getEmail ($uid) {
+        $rc = $this->emailArray[$uid] ?? '';
+        if ($uid && !$rc) {
+            $sql = GeneralUtility::makeInstance('tx_table_db_access');
+            $sql->prepareFields($this->getTableObj(), 'select', '*');
+            $sql->prepareWhereFields ($this->getTableObj(), 'uid', '=', intval($uid));
+            $sql->prepareEnableFields ($this->getTableObj());
+            //$this->getTableObj()->enableFields();
+            // Fetching the email
+            $res = $sql->exec_SELECTquery();
+            $row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res);
+            $rc = $this->emailArray[$row['uid']] = $row;
+        }
+        return $rc;
+    }
 }
 

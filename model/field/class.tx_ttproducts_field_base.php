@@ -41,36 +41,36 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
 abstract class tx_ttproducts_field_base implements tx_ttproducts_field_int, \TYPO3\CMS\Core\SingletonInterface {
-	private $bHasBeenInitialised = false;
-	public $conf;		// original configuration
-	public $config;		// modified configuration
+    private $bHasBeenInitialised = false;
+    public $conf;		// original configuration
+    public $config;		// modified configuration
 
-	public function init () {
-		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-		$this->conf = $cnf->conf;
-		$this->config = $cnf->config;
+    public function init () {
+        $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
+        $this->conf = $cnf->conf;
+        $this->config = $cnf->config;
 
-		$this->bHasBeenInitialised = true;
-	}
+        $this->bHasBeenInitialised = true;
+    }
 
-	public function needsInit () {
-		return !$this->bHasBeenInitialised;
-	}
+    public function needsInit () {
+        return !$this->bHasBeenInitialised;
+    }
 
-	public function getFieldValue (
-		&$taxInfoArray,
-		array $row,
-		$fieldname,
-		$basketExtra = [],
-		$basketRecs = [],
-		$bEnableTaxZero = false
-	) {
-		$result = false;
+    public function getFieldValue (
+        &$taxInfoArray,
+        array $row,
+        $fieldname,
+        $basketExtra = [],
+        $basketRecs = [],
+        $bEnableTaxZero = false
+    ) {
+        $result = false;
 
-		if (isset($row[$fieldname])) {
-			$result = $row[$fieldname];
-		}
-		return $result;
-	}
+        if (isset($row[$fieldname])) {
+            $result = $row[$fieldname];
+        }
+        return $result;
+    }
 }
 

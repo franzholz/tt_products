@@ -37,15 +37,15 @@
  */
 
 /*
-	editVariant {
-		default {
-			params = onchange = "submit();"
-		}
-		10 {
-			sql.where = uid = 1
-			suffix = height
-		}
-	}
+    editVariant {
+        default {
+            params = onchange = "submit();"
+        }
+        10 {
+            sql.where = uid = 1
+            suffix = height
+        }
+    }
 
 note: the price calculation shall not been implemented because it does not make sense to make calculation only on a height. If you have a 3D object, then the surface must be calculated to determine a price. This will be a multiplication of many edit fields.
 
@@ -56,250 +56,250 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
 class tx_ttproducts_edit_variant implements \TYPO3\CMS\Core\SingletonInterface {
-	protected $itemTable;
+    protected $itemTable;
 
-	/**
-	 * setting the local variables
-	 */
-	public function init (&$itemTable) {
-		$this->itemTable = $itemTable;
-	}
+    /**
+     * setting the local variables
+     */
+    public function init (&$itemTable) {
+        $this->itemTable = $itemTable;
+    }
 
-	public function getFieldArray () {
+    public function getFieldArray () {
 
-		$result = [];
-		$cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
-		$conf = $cnfObj->conf;
+        $result = [];
+        $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
+        $conf = $cnfObj->conf;
 
-		if (
-			isset($conf['editVariant.']) &&
-			is_array($conf['editVariant.'])
-		) {
-			$editVariantConfig = $conf['editVariant.'];
-			$count = 0;
+        if (
+            isset($conf['editVariant.']) &&
+            is_array($conf['editVariant.'])
+        ) {
+            $editVariantConfig = $conf['editVariant.'];
+            $count = 0;
 
-			foreach ($editVariantConfig as $k => $config) {
-				if ($k != 'default.' && (strpos($k, '.') == strlen($k) - 1)) {
-					$count++;
-					if (isset($config['suffix'])) {
-						$suffix = $config['suffix'];
-					} else {
-						$suffix = $count;
-					}
-					$field = 'edit_' . $suffix;
-					$result[] = $field;
-				}
-			}
-		}
+            foreach ($editVariantConfig as $k => $config) {
+                if ($k != 'default.' && (strpos($k, '.') == strlen($k) - 1)) {
+                    $count++;
+                    if (isset($config['suffix'])) {
+                        $suffix = $config['suffix'];
+                    } else {
+                        $suffix = $count;
+                    }
+                    $field = 'edit_' . $suffix;
+                    $result[] = $field;
+                }
+            }
+        }
 
         $result = array_unique($result);
-		return $result;
-	}
+        return $result;
+    }
 
-	public function getVariantFromRawRow ($row) {
-		$fieldArray = $this->getFieldArray();
-		$variantArray = [];
+    public function getVariantFromRawRow ($row) {
+        $fieldArray = $this->getFieldArray();
+        $variantArray = [];
 
-		foreach ($row as $field => $value) {
-			if (in_array($field, $fieldArray)) {
-				$variantArray[] = $field . '=>' . $value;
-			}
-		}
-		$result = implode(tx_ttproducts_variant_int::INTERNAL_VARIANT_SEPARATOR, $variantArray);
+        foreach ($row as $field => $value) {
+            if (in_array($field, $fieldArray)) {
+                $variantArray[] = $field . '=>' . $value;
+            }
+        }
+        $result = implode(tx_ttproducts_variant_int::INTERNAL_VARIANT_SEPARATOR, $variantArray);
 
-		return $result;
-	}
+        return $result;
+    }
 
-	/**
-	 * Returns the variant extVar number from the incoming product row and the index in the variant array
-	 *
-	 * @param	array	the basket raw row
-	 * @return  string	  variants separated by variantSeparator
-	 * @access private
-	 * @see modifyRowFromVariant
-	 */
-	public function getVariantRowFromProductRow ($row) {
-		$variantRow = false;
+    /**
+     * Returns the variant extVar number from the incoming product row and the index in the variant array
+     *
+     * @param	array	the basket raw row
+     * @return  string	  variants separated by variantSeparator
+     * @access private
+     * @see modifyRowFromVariant
+     */
+    public function getVariantRowFromProductRow ($row) {
+        $variantRow = false;
 
-		if (
-			isset($row) &&
-			count($row)
-		) {
-			foreach ($row as $field => $value) {
-				if (strpos($field, 'edit_') === 0) {
-					$variantRow[$field] = $value;
-				}
-			}
-		}
-		return $variantRow;
-	}
+        if (
+            isset($row) &&
+            count($row)
+        ) {
+            foreach ($row as $field => $value) {
+                if (strpos($field, 'edit_') === 0) {
+                    $variantRow[$field] = $value;
+                }
+            }
+        }
+        return $variantRow;
+    }
 
-	public function evalValues ($dataValue, $config) {
+    public function evalValues ($dataValue, $config) {
 
-		$result = true;
-		$listOfCommands = GeneralUtility::trimExplode(',', $config, 1);
+        $result = true;
+        $listOfCommands = GeneralUtility::trimExplode(',', $config, 1);
 
-		foreach($listOfCommands as $cmd) {
-			$cmdParts = preg_split('/\[|\]/', $cmd); // Point is to enable parameters after each command enclosed in brackets [..]. These will be in position 1 in the array.
-			$theCmd = trim($cmdParts[0]);
+        foreach($listOfCommands as $cmd) {
+            $cmdParts = preg_split('/\[|\]/', $cmd); // Point is to enable parameters after each command enclosed in brackets [..]. These will be in position 1 in the array.
+            $theCmd = trim($cmdParts[0]);
 
-			switch($theCmd) {
+            switch($theCmd) {
 
-				case 'required':
-					if (empty($dataValue) && $dataValue !== '0') {
-						$result = false;
-						break;
-					}
-				break;
+                case 'required':
+                    if (empty($dataValue) && $dataValue !== '0') {
+                        $result = false;
+                        break;
+                    }
+                break;
 
-				case 'wwwURL':
-					if ($dataValue) {
-						$url = 'http://' . $dataValue;
-						$report = [];
+                case 'wwwURL':
+                    if ($dataValue) {
+                        $url = 'http://' . $dataValue;
+                        $report = [];
 
-						if (
-							!GeneralUtility::isValidUrl($url) ||
-							!GeneralUtility::getUrl($url, 0, false, $report) && $report['error'] != 22 /* CURLE_HTTP_RETURNED_ERROR */
-						) {
-							$result = false;
-							break;
-						}
-					}
-				break;
+                        if (
+                            !GeneralUtility::isValidUrl($url) ||
+                            !GeneralUtility::getUrl($url, 0, false, $report) && $report['error'] != 22 /* CURLE_HTTP_RETURNED_ERROR */
+                        ) {
+                            $result = false;
+                            break;
+                        }
+                    }
+                break;
 
-			}
-		}
+            }
+        }
 
-		return $result;
-	}
+        return $result;
+    }
 
-	public function checkValid (array $config, array $row) {
+    public function checkValid (array $config, array $row) {
 
-		$result = true;
-		$checkedArray = [];
-		$rowConfig = [];
-		$resultArray = [];
+        $result = true;
+        $checkedArray = [];
+        $rowConfig = [];
+        $resultArray = [];
 
-		foreach ($config as $k => $rowConfig) {
+        foreach ($config as $k => $rowConfig) {
 
-			if ($rowConfig['suffix']) {
-				$evalArray = '';
-				$rangeArray = '';
+            if ($rowConfig['suffix']) {
+                $evalArray = '';
+                $rangeArray = '';
 
-				$theField = 'edit_' . $rowConfig['suffix'];
+                $theField = 'edit_' . $rowConfig['suffix'];
 
-				if (isset($rowConfig['range.'])) {
-					$rangeArray = $rowConfig['range.'];
-				}
-				if (isset($rowConfig['evalValues.'])) {
-					$evalArray = $rowConfig['evalValues.'];
-				}
-				$bValidData = true;
+                if (isset($rowConfig['range.'])) {
+                    $rangeArray = $rowConfig['range.'];
+                }
+                if (isset($rowConfig['evalValues.'])) {
+                    $evalArray = $rowConfig['evalValues.'];
+                }
+                $bValidData = true;
 
-				if (
-					!$checkedArray[$theField] &&
-					isset($row[$theField])
-				) {
-					$value = $row[$theField];
+                if (
+                    !$checkedArray[$theField] &&
+                    isset($row[$theField])
+                ) {
+                    $value = $row[$theField];
 
-					if (
-						isset($rangeArray) &&
-						is_array($rangeArray) &&
-						count($rangeArray)
-					) {
-						$bValidData = false;
+                    if (
+                        isset($rangeArray) &&
+                        is_array($rangeArray) &&
+                        count($rangeArray)
+                    ) {
+                        $bValidData = false;
 
-						foreach ($rangeArray as $range) {
-							$rangeValueArray = GeneralUtility::trimExplode('-', $range);
+                        foreach ($rangeArray as $range) {
+                            $rangeValueArray = GeneralUtility::trimExplode('-', $range);
 
-							if (
-								$rangeValueArray['0'] <= $value &&
-								$value <= $rangeValueArray['1']
-							) {
-								$bValidData = true;
-								$checkedArray[$theField] = true;
-								break;
-							}
-						}
-					} else if (
-						isset($evalArray) &&
-						is_array($evalArray) &&
-						count($evalArray)
-					) {
-						foreach ($evalArray as $evalValues) {
-							$bValidData = $this->evalValues($value, $evalValues);
-							if ($bValidData) {
-								$checkedArray[$theField] = true;
-								break;
-							}
-						}
-					}
-				}
+                            if (
+                                $rangeValueArray['0'] <= $value &&
+                                $value <= $rangeValueArray['1']
+                            ) {
+                                $bValidData = true;
+                                $checkedArray[$theField] = true;
+                                break;
+                            }
+                        }
+                    } else if (
+                        isset($evalArray) &&
+                        is_array($evalArray) &&
+                        count($evalArray)
+                    ) {
+                        foreach ($evalArray as $evalValues) {
+                            $bValidData = $this->evalValues($value, $evalValues);
+                            if ($bValidData) {
+                                $checkedArray[$theField] = true;
+                                break;
+                            }
+                        }
+                    }
+                }
 
-				if (!$bValidData) {
-					if (isset($rowConfig['error'])) {
-						$resultArray[$theField] = $rowConfig['error'];
-					} else {
-						$resultArray[$theField] = 'Invalid value: ' . $theField;
-					}
-				}
-			}
-		}
+                if (!$bValidData) {
+                    if (isset($rowConfig['error'])) {
+                        $resultArray[$theField] = $rowConfig['error'];
+                    } else {
+                        $resultArray[$theField] = 'Invalid value: ' . $theField;
+                    }
+                }
+            }
+        }
 
 
-		if (is_array($resultArray) && ($resultArray)) {
-			$result = $resultArray;
-		}
+        if (is_array($resultArray) && ($resultArray)) {
+            $result = $resultArray;
+        }
 
-		return $result;
-	}
+        return $result;
+    }
 
-	public function getValidConfig ($row) {
+    public function getValidConfig ($row) {
 
-		$result = false;
+        $result = false;
 
-		$cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
-		$conf = $cnfObj->getConf();
+        $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
+        $conf = $cnfObj->getConf();
 
-		if (isset($conf['editVariant.'])) {
-			$editVariantConfig = $conf['editVariant.'];
-			$defaultConfig = $editVariantConfig['default.'];
-			$count = 0;
+        if (isset($conf['editVariant.'])) {
+            $editVariantConfig = $conf['editVariant.'];
+            $defaultConfig = $editVariantConfig['default.'];
+            $count = 0;
 
-			foreach ($editVariantConfig as $k => $config) {
-				if ($k == 'default.') {
-					// nothing
-				} else if (strpos($k, '.') == strlen($k) - 1) {
-					$count++;
-					$bIsValid = true;
-					if (isset($config['sql.']) && isset($config['sql.'])) {
-						$bIsValid = tx_ttproducts_sql::isValid($row, $config['sql.']['where']);
-					}
+            foreach ($editVariantConfig as $k => $config) {
+                if ($k == 'default.') {
+                    // nothing
+                } else if (strpos($k, '.') == strlen($k) - 1) {
+                    $count++;
+                    $bIsValid = true;
+                    if (isset($config['sql.']) && isset($config['sql.'])) {
+                        $bIsValid = tx_ttproducts_sql::isValid($row, $config['sql.']['where']);
+                    }
 
-					if ($bIsValid) {
-						$mergeKeyArray = ['params'];
-						if (isset($defaultConfig) && is_array($defaultConfig)) {
-							foreach ($defaultConfig as $k2 => $config2) {
-								if (in_array($k2, $mergeKeyArray)) {
-									// merge the configuration with the defaults
-									if (isset($config2) && is_array($config2)) {
-										if (isset($config[$k2]) && is_array($config[$k2])) {
-											$config[$k2] = array_merge($config2, $config[$k2]);
-										}
-									} else {
-										$config[$k2] = $config2 . ' ' . $config[$k2];
-									}
-								}
-							}
-						}
-						$config['index'] = $count;
-						$result[$k] = $config;
-					}
-				}
-			}
-		}
+                    if ($bIsValid) {
+                        $mergeKeyArray = ['params'];
+                        if (isset($defaultConfig) && is_array($defaultConfig)) {
+                            foreach ($defaultConfig as $k2 => $config2) {
+                                if (in_array($k2, $mergeKeyArray)) {
+                                    // merge the configuration with the defaults
+                                    if (isset($config2) && is_array($config2)) {
+                                        if (isset($config[$k2]) && is_array($config[$k2])) {
+                                            $config[$k2] = array_merge($config2, $config[$k2]);
+                                        }
+                                    } else {
+                                        $config[$k2] = $config2 . ' ' . $config[$k2];
+                                    }
+                                }
+                            }
+                        }
+                        $config['index'] = $count;
+                        $result[$k] = $config;
+                    }
+                }
+            }
+        }
 
-		return $result;
-	}
+        return $result;
+    }
 }
 

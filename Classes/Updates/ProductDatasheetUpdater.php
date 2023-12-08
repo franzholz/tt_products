@@ -146,7 +146,7 @@ class ProductDatasheetUpdater implements UpgradeWizardInterface, ConfirmableInte
             \PDO::PARAM_INT,
             'uploads/tx_ttproducts/datasheet'
         );
-	
+    
         if (!empty($queries)) {
             foreach ($queries as $query) {
                 $databaseQueries[] = $query;
@@ -187,7 +187,7 @@ class ProductDatasheetUpdater implements UpgradeWizardInterface, ConfirmableInte
         $elementCount = $upgradeApi->countOfTableFieldMigrations(self::TABLE, 'datasheet', 'datasheet_uid', ParameterType::STRING, \PDO::PARAM_INT);
         return ($elementCount > 0);
     } 
-	
+    
     /**
      * Returns an array of class names of Prerequisite classes
      * This way a wizard can define dependencies like "database up-to-date" or

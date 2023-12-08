@@ -42,253 +42,253 @@ use TYPO3\CMS\Core\Utility\MathUtility;
 
 
 class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Core\SingletonInterface {
-	public $conf;	// reduced local conf
-	public $itemTable;
-	private $useArticles;
-	private $selectableArray;
-	public $fieldArray = [];	// array of fields which are variants with ';' or by other characters separated values
-	private $selectableFieldArray = [];
-	public $firstVariantRow = '';
-	public $additionalKey;
-	public $additionalField = 'additional';
-	private $separator = ';';
-	private $splitSeparator = ';';
-	private $implodeSeparator = ';';
+    public $conf;	// reduced local conf
+    public $itemTable;
+    private $useArticles;
+    private $selectableArray;
+    public $fieldArray = [];	// array of fields which are variants with ';' or by other characters separated values
+    private $selectableFieldArray = [];
+    public $firstVariantRow = '';
+    public $additionalKey;
+    public $additionalField = 'additional';
+    private $separator = ';';
+    private $splitSeparator = ';';
+    private $implodeSeparator = ';';
 
 
-	/**
-	 * setting the local variables
-	 */
-	public function init (
-		$itemTable,
-		$tablename,
-		$useArticles
-	) {
-		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
+    /**
+     * setting the local variables
+     */
+    public function init (
+        $itemTable,
+        $tablename,
+        $useArticles
+    ) {
+        $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 
-		$tmpArray = $cnf->getTableDesc($tablename);
-		$this->conf = (is_array($tmpArray) && is_array($tmpArray['variant.']) ? $tmpArray['variant.'] : []);
-		$this->itemTable = $itemTable;
-		$this->useArticles = $useArticles;
-		$this->selectableArray = [];
-		$firstVariantArray = [];
-		$fieldArray = $this->conf;
-		$additionalKey = '';
+        $tmpArray = $cnf->getTableDesc($tablename);
+        $this->conf = (is_array($tmpArray) && is_array($tmpArray['variant.']) ? $tmpArray['variant.'] : []);
+        $this->itemTable = $itemTable;
+        $this->useArticles = $useArticles;
+        $this->selectableArray = [];
+        $firstVariantArray = [];
+        $fieldArray = $this->conf;
+        $additionalKey = '';
 
-		foreach ($fieldArray as $k => $field) {
-			if ($field == $this->additionalField) {
-				$additionalKey = $k;
-			} else if (intval($cnf->conf['select' . ucfirst($field)])) {
-				$this->selectableArray[$k] =
-					intval($cnf->conf[$this->getSelectConfKey($field)]);
-				$this->selectableFieldArray[$k] = $field;
-				$firstVariantArray[$k] = 0;
-			} else {
-				$firstVariantArray[$k] = '';
-			}
-		}
+        foreach ($fieldArray as $k => $field) {
+            if ($field == $this->additionalField) {
+                $additionalKey = $k;
+            } else if (intval($cnf->conf['select' . ucfirst($field)])) {
+                $this->selectableArray[$k] =
+                    intval($cnf->conf[$this->getSelectConfKey($field)]);
+                $this->selectableFieldArray[$k] = $field;
+                $firstVariantArray[$k] = 0;
+            } else {
+                $firstVariantArray[$k] = '';
+            }
+        }
 
-		if (!empty($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['variantSeparator'])) {
-			$this->setSeparator($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['variantSeparator']);
-		}
+        if (!empty($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['variantSeparator'])) {
+            $this->setSeparator($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['variantSeparator']);
+        }
 
-		$variantSeparator = $this->getSeparator();
-		$splitSeparator = $variantSeparator;
-		$implodeSeparator = $variantSeparator;
+        $variantSeparator = $this->getSeparator();
+        $splitSeparator = $variantSeparator;
+        $implodeSeparator = $variantSeparator;
 
-		if (
-			strpos($splitSeparator, '\\n') !== false ||
-			strpos($splitSeparator, '\\r') !== false
-		) {
-			$separator = str_replace('\\r\\n', '\\n', $splitSeparator);
-			$separator = str_replace('\\r', '\\n', $separator);
-			$splitSeparator = str_replace('\\n', '(\\r\\n|\\n|\\r)', $separator);
-			$implodeSeparator = str_replace('\\n', PHP_EOL, $separator);
-		}
-		$this->setSplitSeparator($splitSeparator);
-		$this->setImplodeSeparator($implodeSeparator);
+        if (
+            strpos($splitSeparator, '\\n') !== false ||
+            strpos($splitSeparator, '\\r') !== false
+        ) {
+            $separator = str_replace('\\r\\n', '\\n', $splitSeparator);
+            $separator = str_replace('\\r', '\\n', $separator);
+            $splitSeparator = str_replace('\\n', '(\\r\\n|\\n|\\r)', $separator);
+            $implodeSeparator = str_replace('\\n', PHP_EOL, $separator);
+        }
+        $this->setSplitSeparator($splitSeparator);
+        $this->setImplodeSeparator($implodeSeparator);
 
-		$this->firstVariantRow = implode($splitSeparator, $firstVariantArray);
-		if (isset($additionalKey)) {
-			unset($fieldArray[$additionalKey]);
-		}
-		$this->fieldArray = $fieldArray;
-		$this->additionalKey = $additionalKey;
+        $this->firstVariantRow = implode($splitSeparator, $firstVariantArray);
+        if (isset($additionalKey)) {
+            unset($fieldArray[$additionalKey]);
+        }
+        $this->fieldArray = $fieldArray;
+        $this->additionalKey = $additionalKey;
 
-		return true;
-	} // init
-
-
-	public function setSeparator ($separator) {
-		$this->separator = $separator;
-	}
+        return true;
+    } // init
 
 
-	public function getSeparator () {
-		return $this->separator;
-	}
+    public function setSeparator ($separator) {
+        $this->separator = $separator;
+    }
 
 
-	public function setSplitSeparator ($separator) {
-		$this->splitSeparator = $separator;
-	}
+    public function getSeparator () {
+        return $this->separator;
+    }
 
 
-	public function getSplitSeparator () {
-		return $this->splitSeparator;
-	}
+    public function setSplitSeparator ($separator) {
+        $this->splitSeparator = $separator;
+    }
 
 
-	public function setImplodeSeparator ($separator) {
-		$this->implodeSeparator = $separator;
-	}
+    public function getSplitSeparator () {
+        return $this->splitSeparator;
+    }
 
 
-	public function getImplodeSeparator () {
-		return $this->implodeSeparator;
-	}
+    public function setImplodeSeparator ($separator) {
+        $this->implodeSeparator = $separator;
+    }
 
 
-	public function getUseArticles () {
-		return $this->useArticles;
-	}
+    public function getImplodeSeparator () {
+        return $this->implodeSeparator;
+    }
 
 
-	public function getSelectConfKey ($field) {
-		$rc = 'select' . ucfirst($field);
-		return $rc;
-	}
+    public function getUseArticles () {
+        return $this->useArticles;
+    }
 
 
-	/**
-	 * fills in the row fields from the variant extVar string
-	 *
-	 * @param	array		the row
-	 * @param	string	  variants separated by variantSeparator
-	 * @return  void
-	 * @access private
-	 * @see getVariantFromRow
-	 */
-	public function modifyRowFromVariant (
-		&$row,
-		$variant = ''
-	) {
-		if (!$variant) {
-			$variant = $this->getVariantFromRow($row);
-		}
-		$useArticles = $this->getUseArticles();
-		$variantSeparator = $this->getSplitSeparator();
-
-		if (
-			$variant != '' &&
-			(
-				in_array($useArticles, array(1, 3)) ||
-				!$useArticles && !empty($this->selectableArray)
-			)
-		) {
-			$variantArray = explode(tx_ttproducts_variant_int::INTERNAL_VARIANT_SEPARATOR, $variant);
-
-			$fieldArray = $this->getFieldArray();
-			$count = 0;
-			foreach ($fieldArray as $key => $field) {
-				if (!empty($this->selectableArray[$key])) {
-					if (
-						isset($variantArray[$count])
-					) {
-						$variantValueArray = [];
-
-						if (isset($row[$field]) && strlen($row[$field])) {
-							$theVariant = $row[$field];
-
-							$variantValueArray =
-								preg_split(
-									'/[\h]*' . $variantSeparator . '[\h]*/',
-									$theVariant,
-									-1,
-									PREG_SPLIT_NO_EMPTY
-								);
-						}
-						$variantIndex = $variantArray[$count];
-
-						if (isset($variantValueArray[$variantIndex])) {
-							$row[$field] = $variantValueArray[$variantIndex];
-						} else {
-							$row[$field] = $variantValueArray['0'] ?? '';
-						}
-					}
-					$count++;
-				}
-			}
-		}
-	}
+    public function getSelectConfKey ($field) {
+        $rc = 'select' . ucfirst($field);
+        return $rc;
+    }
 
 
-	/**
-	 * Returns the variant extVar string from the variant values in the row
-	 *
-	 * @param	array		the row
-	 * @return  string	  variants separated by variantSeparator
-	 * @access private
-	 * @see modifyRowFromVariant
-	 */
-	public function getVariantFromRow ($row) {
-		$variant = '';
+    /**
+     * fills in the row fields from the variant extVar string
+     *
+     * @param	array		the row
+     * @param	string	  variants separated by variantSeparator
+     * @return  void
+     * @access private
+     * @see getVariantFromRow
+     */
+    public function modifyRowFromVariant (
+        &$row,
+        $variant = ''
+    ) {
+        if (!$variant) {
+            $variant = $this->getVariantFromRow($row);
+        }
+        $useArticles = $this->getUseArticles();
+        $variantSeparator = $this->getSplitSeparator();
 
-		if (isset($row['ext'])) {
-			$extArray = $row['ext'];
+        if (
+            $variant != '' &&
+            (
+                in_array($useArticles, array(1, 3)) ||
+                !$useArticles && !empty($this->selectableArray)
+            )
+        ) {
+            $variantArray = explode(tx_ttproducts_variant_int::INTERNAL_VARIANT_SEPARATOR, $variant);
 
-			if (
+            $fieldArray = $this->getFieldArray();
+            $count = 0;
+            foreach ($fieldArray as $key => $field) {
+                if (!empty($this->selectableArray[$key])) {
+                    if (
+                        isset($variantArray[$count])
+                    ) {
+                        $variantValueArray = [];
+
+                        if (isset($row[$field]) && strlen($row[$field])) {
+                            $theVariant = $row[$field];
+
+                            $variantValueArray =
+                                preg_split(
+                                    '/[\h]*' . $variantSeparator . '[\h]*/',
+                                    $theVariant,
+                                    -1,
+                                    PREG_SPLIT_NO_EMPTY
+                                );
+                        }
+                        $variantIndex = $variantArray[$count];
+
+                        if (isset($variantValueArray[$variantIndex])) {
+                            $row[$field] = $variantValueArray[$variantIndex];
+                        } else {
+                            $row[$field] = $variantValueArray['0'] ?? '';
+                        }
+                    }
+                    $count++;
+                }
+            }
+        }
+    }
+
+
+    /**
+     * Returns the variant extVar string from the variant values in the row
+     *
+     * @param	array		the row
+     * @return  string	  variants separated by variantSeparator
+     * @access private
+     * @see modifyRowFromVariant
+     */
+    public function getVariantFromRow ($row) {
+        $variant = '';
+
+        if (isset($row['ext'])) {
+            $extArray = $row['ext'];
+
+            if (
                 isset($extArray['tt_products']) &&
-				is_array($extArray['tt_products'])
-			) {
-				reset($extArray['tt_products']);
-				$variantRow = current($extArray['tt_products']);
-				if (isset($variantRow['vars'])) {
-					$variant = $variantRow['vars'];
-				}
-			}
-		}
+                is_array($extArray['tt_products'])
+            ) {
+                reset($extArray['tt_products']);
+                $variantRow = current($extArray['tt_products']);
+                if (isset($variantRow['vars'])) {
+                    $variant = $variantRow['vars'];
+                }
+            }
+        }
 
-		return $variant;
-	}
+        return $variant;
+    }
 
 
-	/**
-	 * Returns the variant extVar number from the incoming product row and the index in the variant array
-	 *
-	 * @param	array	the basket raw row
-	 * @return  string	  variants separated by internal variantSeparator
-	 * @access private
-	 * @see modifyRowFromVariant
-	 */
-	public function getVariantFromProductRow (
-		$row,
-		$variantRow,
-		$useArticles,
-		$applySeparator = true
-	) {
-		$result = false;
-		$variantArray = [];
-		$variantResultRow = [];
-		$variantSeparator = $this->getSplitSeparator();
+    /**
+     * Returns the variant extVar number from the incoming product row and the index in the variant array
+     *
+     * @param	array	the basket raw row
+     * @return  string	  variants separated by internal variantSeparator
+     * @access private
+     * @see modifyRowFromVariant
+     */
+    public function getVariantFromProductRow (
+        $row,
+        $variantRow,
+        $useArticles,
+        $applySeparator = true
+    ) {
+        $result = false;
+        $variantArray = [];
+        $variantResultRow = [];
+        $variantSeparator = $this->getSplitSeparator();
 
-		if (
-			isset($variantRow) &&
-			is_array($variantRow) &&
-			count($variantRow) &&
-			(
-				$useArticles == 1 ||
-				!empty($this->selectableArray)
-			)
-		) {
-			$fieldArray = $this->getFieldArray();
-			$count = 0;
+        if (
+            isset($variantRow) &&
+            is_array($variantRow) &&
+            count($variantRow) &&
+            (
+                $useArticles == 1 ||
+                !empty($this->selectableArray)
+            )
+        ) {
+            $fieldArray = $this->getFieldArray();
+            $count = 0;
 
-			foreach ($fieldArray as $key => $field) {
-				if (!empty($this->selectableArray[$key])) {
-					$variantValue = $variantRow[$field] ?? '';
+            foreach ($fieldArray as $key => $field) {
+                if (!empty($this->selectableArray[$key])) {
+                    $variantValue = $variantRow[$field] ?? '';
 
-					if ($variantValue != '' && isset($row[$field]) && strlen($row[$field])) {
+                    if ($variantValue != '' && isset($row[$field]) && strlen($row[$field])) {
                         $prodVariantArray =
                             preg_split(
                             '/[\h]*' . $variantSeparator . '[\h]*/',
@@ -296,109 +296,109 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Cor
                             -1,
                             PREG_SPLIT_NO_EMPTY
                         );
-						$varantIndex = array_search($variantValue, $prodVariantArray);
-						$variantArray[] = $varantIndex;
-						$variantResultRow[$field] = $varantIndex;
-					} else {
-						$variantArray[] = '';
-					}
-					$count++;
-				}
-			}
-		}
+                        $varantIndex = array_search($variantValue, $prodVariantArray);
+                        $variantArray[] = $varantIndex;
+                        $variantResultRow[$field] = $varantIndex;
+                    } else {
+                        $variantArray[] = '';
+                    }
+                    $count++;
+                }
+            }
+        }
 
-		if ($applySeparator) {
-			$result = implode(tx_ttproducts_variant_int::INTERNAL_VARIANT_SEPARATOR, $variantArray);
-		} else {
-			$result = $variantResultRow;
-		}
+        if ($applySeparator) {
+            $result = implode(tx_ttproducts_variant_int::INTERNAL_VARIANT_SEPARATOR, $variantArray);
+        } else {
+            $result = $variantResultRow;
+        }
 
-		return $result;
-	}
-
-
-
-	/**
-	 * Returns the variant extVar number from the incoming raw row into the basket
-	 *
-	 * @param	array	the basket raw row
-	 * @return  string	  variants separated by variantSeparator
-	 * @access private
-	 * @see modifyRowFromVariant
-	 */
-	public function getVariantFromRawRow (
-		$row,
-		$applySeparator = true
-	) {
-		$result = false;
-		$variantArray = [];
-		$variantRow = [];
-		$useArticles = $this->getUseArticles();
-		$selectableArray = $this->getSelectableArray();
-
-		if (
-			$useArticles == 1 ||
-			!empty($selectableArray)
-		) {
-			$fieldArray = $this->getFieldArray();
-			$count = 0;
-
-			foreach ($fieldArray as $key => $field) {
-
-				if ($selectableArray[$key]) {
-
-					if (isset($row[$field])) {
-						$variantValue = $row[$field];
-						$variantArray[] = $variantValue;
-						$variantRow[$field] = $variantValue;
-					} else {
-						$variantArray[] = '';
-					}
-					$count++;
-				}
-			}
-		}
-
-		if ($applySeparator) {
-			$result = implode(tx_ttproducts_variant_int::INTERNAL_VARIANT_SEPARATOR, $variantArray);
-		} else {
-			$result = $variantRow;
-		}
-
-		return $result;
-	}
+        return $result;
+    }
 
 
-	public function getVariantRow ($row = '', $variantArray = []) {
-		$result = '';
-		$variantSeparator = $this->getSplitSeparator();
 
-		if (isset($row) && is_array($row)) {
-			if (!isset($variantArray)) {
-				$variantArray = [];
-			}
-			$fieldArray = $this->getFieldArray();
-			$rcRow = $row;
+    /**
+     * Returns the variant extVar number from the incoming raw row into the basket
+     *
+     * @param	array	the basket raw row
+     * @return  string	  variants separated by variantSeparator
+     * @access private
+     * @see modifyRowFromVariant
+     */
+    public function getVariantFromRawRow (
+        $row,
+        $applySeparator = true
+    ) {
+        $result = false;
+        $variantArray = [];
+        $variantRow = [];
+        $useArticles = $this->getUseArticles();
+        $selectableArray = $this->getSelectableArray();
 
-			foreach ($fieldArray as $field) {
-				$variants = $row[$field] ?? '';
-				$tmpArray =
-					preg_split(
-						'/[\h]*' . $variantSeparator . '[\h]*/',
-						$variants,
-						-1,
-						PREG_SPLIT_NO_EMPTY
-					);
+        if (
+            $useArticles == 1 ||
+            !empty($selectableArray)
+        ) {
+            $fieldArray = $this->getFieldArray();
+            $count = 0;
 
-				$index = (isset($variantArray[$field]) ? $variantArray[$field] : 0);
-				$rcRow[$field] = $tmpArray[$index] ?? '';
-			}
-			$result = $rcRow;
-		} else {
-			$result = $this->firstVariantRow;
-		}
-		return $result;
-	}
+            foreach ($fieldArray as $key => $field) {
+
+                if ($selectableArray[$key]) {
+
+                    if (isset($row[$field])) {
+                        $variantValue = $row[$field];
+                        $variantArray[] = $variantValue;
+                        $variantRow[$field] = $variantValue;
+                    } else {
+                        $variantArray[] = '';
+                    }
+                    $count++;
+                }
+            }
+        }
+
+        if ($applySeparator) {
+            $result = implode(tx_ttproducts_variant_int::INTERNAL_VARIANT_SEPARATOR, $variantArray);
+        } else {
+            $result = $variantRow;
+        }
+
+        return $result;
+    }
+
+
+    public function getVariantRow ($row = '', $variantArray = []) {
+        $result = '';
+        $variantSeparator = $this->getSplitSeparator();
+
+        if (isset($row) && is_array($row)) {
+            if (!isset($variantArray)) {
+                $variantArray = [];
+            }
+            $fieldArray = $this->getFieldArray();
+            $rcRow = $row;
+
+            foreach ($fieldArray as $field) {
+                $variants = $row[$field] ?? '';
+                $tmpArray =
+                    preg_split(
+                        '/[\h]*' . $variantSeparator . '[\h]*/',
+                        $variants,
+                        -1,
+                        PREG_SPLIT_NO_EMPTY
+                    );
+
+                $index = (isset($variantArray[$field]) ? $variantArray[$field] : 0);
+                $rcRow[$field] = $tmpArray[$index] ?? '';
+            }
+            $result = $rcRow;
+        } else {
+            $result = $this->firstVariantRow;
+        }
+        return $result;
+    }
 
 
     public function getVariantValuesRow ($row = '') {
@@ -418,46 +418,46 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Cor
     }
 
 
-	public function getTableUid ($table, $uid) {
-		$rc = '|' . $table . ':' . $uid;
-		return $rc;
-	}
+    public function getTableUid ($table, $uid) {
+        $rc = '|' . $table . ':' . $uid;
+        return $rc;
+    }
 
 
-	public function getSelectableArray () {
-		return $this->selectableArray;
-	}
+    public function getSelectableArray () {
+        return $this->selectableArray;
+    }
 
 
-	public function getVariantValuesByArticle (
-		$articleRowArray,
-		$productRow,
-		$withSeparator = false
-	) {
-		$result = [];
+    public function getVariantValuesByArticle (
+        $articleRowArray,
+        $productRow,
+        $withSeparator = false
+    ) {
+        $result = [];
 
-		$selectableFieldArray = $this->getSelectableFieldArray();
+        $selectableFieldArray = $this->getSelectableFieldArray();
 
-		$variantSeparator = $this->getSplitSeparator();
-		$variantImplodeSeparator = $this->getImplodeSeparator();
+        $variantSeparator = $this->getSplitSeparator();
+        $variantImplodeSeparator = $this->getImplodeSeparator();
 
-		foreach ($selectableFieldArray as $field) {
+        foreach ($selectableFieldArray as $field) {
 
-			if (
-				isset($productRow[$field]) &&
-				strlen($productRow[$field])
-			) {
-				$valueArray = [];
+            if (
+                isset($productRow[$field]) &&
+                strlen($productRow[$field])
+            ) {
+                $valueArray = [];
 
-				$productValueArray =
-					preg_split(
-						'/[\h]*' . $variantSeparator . '[\h]*/',
-						$productRow[$field],
-						-1,
-						PREG_SPLIT_NO_EMPTY
-					);
+                $productValueArray =
+                    preg_split(
+                        '/[\h]*' . $variantSeparator . '[\h]*/',
+                        $productRow[$field],
+                        -1,
+                        PREG_SPLIT_NO_EMPTY
+                    );
 
-				foreach ($articleRowArray as $articleRow) {
+                foreach ($articleRowArray as $articleRow) {
                     $articleValueArray = [];
                     if (
                         isset($articleRow[$field]) &&
@@ -472,118 +472,118 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Cor
                             );
                     }
 
-					if (!empty($articleValueArray['0'])) {
-						$valueArray = array_merge($valueArray, $articleValueArray);
-					}
-				}
-				$valueArray = array_values(array_unique($valueArray));
+                    if (!empty($articleValueArray['0'])) {
+                        $valueArray = array_merge($valueArray, $articleValueArray);
+                    }
+                }
+                $valueArray = array_values(array_unique($valueArray));
 
-				if (!empty($productValueArray)) {
-					$sortedValueArray = [];
-					foreach ($productValueArray as $value) {
-						if (in_array($value, $valueArray)) {
-							$sortedValueArray[] = $value;
-						}
-					}
-					$valueArray = $sortedValueArray;
-				}
+                if (!empty($productValueArray)) {
+                    $sortedValueArray = [];
+                    foreach ($productValueArray as $value) {
+                        if (in_array($value, $valueArray)) {
+                            $sortedValueArray[] = $value;
+                        }
+                    }
+                    $valueArray = $sortedValueArray;
+                }
 
-				if ($withSeparator) {
-					$result[$field] = implode($variantImplodeSeparator, $valueArray);
-				} else {
-					$result[$field] = $valueArray;
-				}
-			}
-		}
+                if ($withSeparator) {
+                    $result[$field] = implode($variantImplodeSeparator, $valueArray);
+                } else {
+                    $result[$field] = $valueArray;
+                }
+            }
+        }
 
-		return $result;
-	}
+        return $result;
+    }
 
 
-	// the article rows must be in the correct order already
-	public function filterArticleRowsByVariant (
-		$row,
-		$variant,
-		$articleRowArray,
-		$bCombined = false
-	) {
-		$result = false;
+    // the article rows must be in the correct order already
+    public function filterArticleRowsByVariant (
+        $row,
+        $variant,
+        $articleRowArray,
+        $bCombined = false
+    ) {
+        $result = false;
 
-		$variantRowArray = $this->getVariantValuesByArticle($articleRowArray, $row, false);
-		$variantSeparator = $this->getSplitSeparator();
+        $variantRowArray = $this->getVariantValuesByArticle($articleRowArray, $row, false);
+        $variantSeparator = $this->getSplitSeparator();
 
-		foreach ($variantRowArray as $field => $valueArray) {
-			if (isset($row[$field]) && strlen($row[$field])) {
+        foreach ($variantRowArray as $field => $valueArray) {
+            if (isset($row[$field]) && strlen($row[$field])) {
 
-				$variantRowArray[$field] =
-					preg_split(
-						'/[\h]*' . $variantSeparator . '[\h]*/',
-						$row[$field],
-						-1,
-						PREG_SPLIT_NO_EMPTY
-					);
-			}
-		}
+                $variantRowArray[$field] =
+                    preg_split(
+                        '/[\h]*' . $variantSeparator . '[\h]*/',
+                        $row[$field],
+                        -1,
+                        PREG_SPLIT_NO_EMPTY
+                    );
+            }
+        }
 
-		$variantArray =
-			preg_split(
-				'/[\h]*' . tx_ttproducts_variant_int::INTERNAL_VARIANT_SEPARATOR . '[\h]*/',
-				$variant,
-				-1
-			);
+        $variantArray =
+            preg_split(
+                '/[\h]*' . tx_ttproducts_variant_int::INTERNAL_VARIANT_SEPARATOR . '[\h]*/',
+                $variant,
+                -1
+            );
 
-		$selectableFieldArray = $this->getSelectableFieldArray();
-		$possibleArticleArray = [];
+        $selectableFieldArray = $this->getSelectableFieldArray();
+        $possibleArticleArray = [];
 
-		if (
-			isset($articleRowArray) && is_array($articleRowArray) &&
-			isset($this->selectableArray) && is_array($this->selectableArray)
-		) {
-			$result = [];
-		}
+        if (
+            isset($articleRowArray) && is_array($articleRowArray) &&
+            isset($this->selectableArray) && is_array($this->selectableArray)
+        ) {
+            $result = [];
+        }
 
-		foreach ($articleRowArray as $articleRow) {
-			$bMatches = true;
-			$vCount = 0;
+        foreach ($articleRowArray as $articleRow) {
+            $bMatches = true;
+            $vCount = 0;
 
-			foreach ($this->selectableArray as $k => $v) {
+            foreach ($this->selectableArray as $k => $v) {
 
-				if ($v) {
-					$variantIndex = $variantArray[$vCount]; // $k-1
-					$field = $selectableFieldArray[$k];
+                if ($v) {
+                    $variantIndex = $variantArray[$vCount]; // $k-1
+                    $field = $selectableFieldArray[$k];
 
-					if (
-						!MathUtility::canBeInterpretedAsInteger($variantIndex) &&
-						isset($variantRowArray[$field]) &&
-						is_array($variantRowArray[$field])
-					) {
-						$variantIndex = array_search($variantIndex, $variantRowArray[$field]);
-					}
+                    if (
+                        !MathUtility::canBeInterpretedAsInteger($variantIndex) &&
+                        isset($variantRowArray[$field]) &&
+                        is_array($variantRowArray[$field])
+                    ) {
+                        $variantIndex = array_search($variantIndex, $variantRowArray[$field]);
+                    }
 
                     $value = '';
                     if (isset($articleRow[$field])) {
                         $value = $articleRow[$field];
                     }
 
-					if ($value != '') {
+                    if ($value != '') {
 
-						if ($variantIndex === false) {
-							$bMatches = false;
-							break;
-						} else {
+                        if ($variantIndex === false) {
+                            $bMatches = false;
+                            break;
+                        } else {
                             $valueArray = [];
-							if (is_array($value)) {
-								// nothing
-								$valueArray = $value;
-							} else if (strlen($value)) {
-								$valueArray =
-									preg_split(
-										'/[\h]*' . $variantSeparator . '[\h]*/',
-										$value,
-										-1,
-										PREG_SPLIT_NO_EMPTY
-									);
-							}
+                            if (is_array($value)) {
+                                // nothing
+                                $valueArray = $value;
+                            } else if (strlen($value)) {
+                                $valueArray =
+                                    preg_split(
+                                        '/[\h]*' . $variantSeparator . '[\h]*/',
+                                        $value,
+                                        -1,
+                                        PREG_SPLIT_NO_EMPTY
+                                    );
+                            }
 
                             $variantValue = '';
                             if (
@@ -594,41 +594,41 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Cor
                                 $variantValue = $variantRowArray[$field][$variantIndex];
                             }
 
-							if (!in_array($variantValue, $valueArray)) {
-								$bMatches = false;
-								break;
-							}
-						}
-					} else if (!$bCombined) {
-						$bMatches = false;
-						break;
-					}
-				}
-				$vCount++;
-			} // foreach ($this->selectableArray)
+                            if (!in_array($variantValue, $valueArray)) {
+                                $bMatches = false;
+                                break;
+                            }
+                        }
+                    } else if (!$bCombined) {
+                        $bMatches = false;
+                        break;
+                    }
+                }
+                $vCount++;
+            } // foreach ($this->selectableArray)
 
-			if ($bMatches) {
-				$result[] = $articleRow;
-			}
-		} // foreach ($articleRowArray)
+            if ($bMatches) {
+                $result[] = $articleRow;
+            }
+        } // foreach ($articleRowArray)
 
-		return $result;
-	}
-
-
-	public function getFieldArray () {
-
-		return $this->fieldArray;
-	}
+        return $result;
+    }
 
 
-	public function getSelectableFieldArray () {
-		return $this->selectableFieldArray;
-	}
+    public function getFieldArray () {
+
+        return $this->fieldArray;
+    }
 
 
-	public function getAdditionalKey () {
-		return $this->additionalKey;
-	}
+    public function getSelectableFieldArray () {
+        return $this->selectableFieldArray;
+    }
+
+
+    public function getAdditionalKey () {
+        return $this->additionalKey;
+    }
 }
 

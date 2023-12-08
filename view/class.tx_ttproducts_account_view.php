@@ -38,31 +38,31 @@
  */
 
 class tx_ttproducts_account_view extends tx_ttproducts_table_base_view {
-	public $marker = 'ACCOUNT';
+    public $marker = 'ACCOUNT';
 
-	/**
-	 * Template marker substitution
-	 * Fills in the markerArray with data for a product
-	 *
-	 * @param	array		reference to an item array with all the data of the item
-	 * @param	string		title of the category
-	 * @param	integer		number of images to be shown
-	 * @param	object		the image cObj to be used
-	 * @param	array		information about the parent HTML form
-	 * @return	array
-	 * @access private
-	 */
-	public function getMarkerArray ($row, &$markerArray, $bIsAllowed) {
-		$viewRow = [];
-		$modelObj = $this->getModelObj();
+    /**
+     * Template marker substitution
+     * Fills in the markerArray with data for a product
+     *
+     * @param	array		reference to an item array with all the data of the item
+     * @param	string		title of the category
+     * @param	integer		number of images to be shown
+     * @param	object		the image cObj to be used
+     * @param	array		information about the parent HTML form
+     * @return	array
+     * @access private
+     */
+    public function getMarkerArray ($row, &$markerArray, $bIsAllowed) {
+        $viewRow = [];
+        $modelObj = $this->getModelObj();
 
-		if ($bIsAllowed) {
-			$viewRow = $row;
-		}
+        if ($bIsAllowed) {
+            $viewRow = $row;
+        }
 
-		$fieldArray = $modelObj->requiredFieldArray;
-		foreach ($fieldArray as $field) {
-			$markerArray['###PERSON_ACCOUNTS_' . strtoupper($field) . '###'] = $viewRow[$field] ?? '';
-		}
-	} // getMarkerArray
+        $fieldArray = $modelObj->requiredFieldArray;
+        foreach ($fieldArray as $field) {
+            $markerArray['###PERSON_ACCOUNTS_' . strtoupper($field) . '###'] = $viewRow[$field] ?? '';
+        }
+    } // getMarkerArray
 }

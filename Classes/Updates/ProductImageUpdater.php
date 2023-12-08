@@ -226,7 +226,7 @@ class ProductImageUpdater implements UpgradeWizardInterface, ConfirmableInterfac
         }
         return ($elementCount > 0);
     } 
-	
+    
     /**
      * Returns an array of class names of Prerequisite classes
      * This way a wizard can define dependencies like "database up-to-date" or

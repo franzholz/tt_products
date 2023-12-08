@@ -42,118 +42,118 @@ use TYPO3\CMS\Core\Utility\MathUtility;
 
 
 class tx_ttproducts_sql {
-	static public $comparatorConversionArray = [
-		'le' => '<=',
-		'lt' => '<',
-		'ge' => '>=',
-		'gt' => '>'
-	];
+    static public $comparatorConversionArray = [
+        'le' => '<=',
+        'lt' => '<',
+        'ge' => '>=',
+        'gt' => '>'
+    ];
 
 
-	static public function transformComparator ($comparator) {
-		$result = false;
+    static public function transformComparator ($comparator) {
+        $result = false;
 
-		$convertedComparator = self::$comparatorConversionArray[$comparator];
-		if (isset($convertedComparator)) {
-			$result = $convertedComparator;
-		}
+        $convertedComparator = self::$comparatorConversionArray[$comparator];
+        if (isset($convertedComparator)) {
+            $result = $convertedComparator;
+        }
 
-		return $result;
-	}
-
-
-	static public function getWhere4Field($tablename, $field, $comparator, $comparand) {
-		$result = '';
-
-		if (isset($GLOBALS['TCA'][$tablename]) && isset($GLOBALS['TCA'][$tablename]['columns'][$field])) {
-			$tcaConf = $GLOBALS['TCA'][$tablename]['columns'][$field]['config'];
-			if ($tcaConf['eval'] == 'date') {
-				$valueString = self::convertDate($comparand);
-				if ($valueString === false) {
-					return false;
-				}
-			} else {
-				$valueString = $GLOBALS['TYPO3_DB']->fullQuoteStr($comparand, $tablename);
-			}
-			$result = ' AND ' . $field . ' ' . $comparator . ' ' . $valueString;
-		}
-
-		return $result;
-	}
+        return $result;
+    }
 
 
-	static public function convertDate ($date) {
-		$result = false;
-		$delimiter = '.';
+    static public function getWhere4Field($tablename, $field, $comparator, $comparand) {
+        $result = '';
 
-		if (strpos($date, '-') !== false) {
-			$delimiter = '-';
-		}
-		$dateArray = GeneralUtility::trimExplode($delimiter, $date);
+        if (isset($GLOBALS['TCA'][$tablename]) && isset($GLOBALS['TCA'][$tablename]['columns'][$field])) {
+            $tcaConf = $GLOBALS['TCA'][$tablename]['columns'][$field]['config'];
+            if ($tcaConf['eval'] == 'date') {
+                $valueString = self::convertDate($comparand);
+                if ($valueString === false) {
+                    return false;
+                }
+            } else {
+                $valueString = $GLOBALS['TYPO3_DB']->fullQuoteStr($comparand, $tablename);
+            }
+            $result = ' AND ' . $field . ' ' . $comparator . ' ' . $valueString;
+        }
 
-		if (
-			MathUtility::canBeInterpretedAsInteger($dateArray[0]) &&
-			MathUtility::canBeInterpretedAsInteger($dateArray[1]) &&
-			MathUtility::canBeInterpretedAsInteger($dateArray[2])
-		) {
-			$unixTime = mktime(0, 0, 0, $dateArray[1], $dateArray[0], $dateArray[2]);
-			if (isset($unixTime)) {
-				$result = $unixTime;
-			}
-		}
-		return $result;
-	}
+        return $result;
+    }
 
 
-	static public function isValid ($row, $where) {
-		$whereArray = GeneralUtility::trimExplode ('AND', $where);
-		$isValid = true;
+    static public function convertDate ($date) {
+        $result = false;
+        $delimiter = '.';
 
-		foreach($whereArray as $k3 => $condition) {
+        if (strpos($date, '-') !== false) {
+            $delimiter = '-';
+        }
+        $dateArray = GeneralUtility::trimExplode($delimiter, $date);
 
-			if (strpos($condition, '=') !== false) {
-				if ($condition == '1=1' || $condition == '1 = 1') {
-					// nothing: $isValid = true;
-				} else {
-					$args = GeneralUtility::trimExplode ('=', $condition);
+        if (
+            MathUtility::canBeInterpretedAsInteger($dateArray[0]) &&
+            MathUtility::canBeInterpretedAsInteger($dateArray[1]) &&
+            MathUtility::canBeInterpretedAsInteger($dateArray[2])
+        ) {
+            $unixTime = mktime(0, 0, 0, $dateArray[1], $dateArray[0], $dateArray[2]);
+            if (isset($unixTime)) {
+                $result = $unixTime;
+            }
+        }
+        return $result;
+    }
 
-					if ($row[$args[0]] != $args[1]) {
-						$isValid = false;
-					}
-				}
-			} else if (strpos($condition, 'IN') !== false) {
-				$split = 'IN';
-				$isValidRow = false;
-				if (strpos($condition, 'NOT IN') !== false) {
-					$split = 'NOT IN';
-					$isValidRow = true;
-				}
-				$args = GeneralUtility::trimExplode ($split, $condition);
-				$leftBracket = strpos($args[1],'(');
-				$rightBracket = strpos($args[1],')');
-				if ($leftBracket !== false && $rightBracket !== false) {
-					$args[1] = substr($args[1], $leftBracket+1, $rightBracket-$leftBracket-1);
-					$argArray = GeneralUtility::trimExplode(',', $args[1]);
-					if (is_array($argArray)) {
-						foreach($argArray as $arg) {
-							$leftQuote = strpos($arg,'\'');
-							$rightQuote = strrpos($arg,'\'');
-							if ($leftQuote !== false && $rightQuote !== false) {
-								$arg = substr($arg, $leftQuote+1, $rightQuote-$leftQuote-1);
-							}
-							if ($row[$args[0]] == $arg) {
-								if ($split == 'IN') {
-									$isValidRow = true;
-									break;
-								} else {
-									$isValidRow = false;
-									break;
-								}
-							}
-						}
-					}
-					$isValid = $isValidRow;
-				}
+
+    static public function isValid ($row, $where) {
+        $whereArray = GeneralUtility::trimExplode ('AND', $where);
+        $isValid = true;
+
+        foreach($whereArray as $k3 => $condition) {
+
+            if (strpos($condition, '=') !== false) {
+                if ($condition == '1=1' || $condition == '1 = 1') {
+                    // nothing: $isValid = true;
+                } else {
+                    $args = GeneralUtility::trimExplode ('=', $condition);
+
+                    if ($row[$args[0]] != $args[1]) {
+                        $isValid = false;
+                    }
+                }
+            } else if (strpos($condition, 'IN') !== false) {
+                $split = 'IN';
+                $isValidRow = false;
+                if (strpos($condition, 'NOT IN') !== false) {
+                    $split = 'NOT IN';
+                    $isValidRow = true;
+                }
+                $args = GeneralUtility::trimExplode ($split, $condition);
+                $leftBracket = strpos($args[1],'(');
+                $rightBracket = strpos($args[1],')');
+                if ($leftBracket !== false && $rightBracket !== false) {
+                    $args[1] = substr($args[1], $leftBracket+1, $rightBracket-$leftBracket-1);
+                    $argArray = GeneralUtility::trimExplode(',', $args[1]);
+                    if (is_array($argArray)) {
+                        foreach($argArray as $arg) {
+                            $leftQuote = strpos($arg,'\'');
+                            $rightQuote = strrpos($arg,'\'');
+                            if ($leftQuote !== false && $rightQuote !== false) {
+                                $arg = substr($arg, $leftQuote+1, $rightQuote-$leftQuote-1);
+                            }
+                            if ($row[$args[0]] == $arg) {
+                                if ($split == 'IN') {
+                                    $isValidRow = true;
+                                    break;
+                                } else {
+                                    $isValidRow = false;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    $isValid = $isValidRow;
+                }
             } else if (
                 strpos($condition, '<') !== false ||
                 strpos($condition, '>') !== false ||
@@ -199,15 +199,15 @@ class tx_ttproducts_sql {
                 } else {
                     $isValid = false;
                 }
-			} else if ($condition != '') {
-				$isValid = false;
-			}
-			if ($isValid == false) {
-				break;
-			}
-		}
-		return ($isValid);
-	}
+            } else if ($condition != '') {
+                $isValid = false;
+            }
+            if ($isValid == false) {
+                break;
+            }
+        }
+        return ($isValid);
+    }
 }
 
 

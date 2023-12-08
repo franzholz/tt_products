@@ -40,6 +40,6 @@
 
 
 class tx_ttproducts_syscategory extends tx_ttproducts_category {
-	protected $tableAlias = 'syscat';
+    protected $tableAlias = 'syscat';
 
 }

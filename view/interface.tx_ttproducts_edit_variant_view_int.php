@@ -39,17 +39,17 @@
 
 interface tx_ttproducts_edit_variant_view_int {
 
-	public function init ($modelObj);
-	public function getSubpartMarkerArray (
-		$templateCode,
-		$functablename,
-		$row,
-		$theCode,
-		$bEditable,
-		$tagArray,
-		&$subpartArray,
-		&$wrappedSubpartArray
-	);
+    public function init ($modelObj);
+    public function getSubpartMarkerArray (
+        $templateCode,
+        $functablename,
+        $row,
+        $theCode,
+        $bEditable,
+        $tagArray,
+        &$subpartArray,
+        &$wrappedSubpartArray
+    );
 }
 
 

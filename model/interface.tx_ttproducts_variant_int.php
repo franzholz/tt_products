@@ -40,25 +40,25 @@
 
 
 interface tx_ttproducts_variant_int {
-	const EXTERNAL_QUANTITY_SEPARATOR = '_'; // to separate any information about the external table, e.g. its type and uid "fal=4"
-	const INTERNAL_VARIANT_SEPARATOR = ';';
+    const EXTERNAL_QUANTITY_SEPARATOR = '_'; // to separate any information about the external table, e.g. its type and uid "fal=4"
+    const INTERNAL_VARIANT_SEPARATOR = ';';
 
-	public function init($itemTable, $tablename, $useArticles);
-	public function getSeparator();
-	public function getSplitSeparator();
-	public function getImplodeSeparator();
-	public function getUseArticles();
-	public function modifyRowFromVariant (&$row, $variant='');
-	public function getVariantFromRow ($row);
-	public function getVariantFromProductRow ($row, $variantRow, $useArticles);
-	public function getVariantFromRawRow ($row);
-	public function getVariantRow($row='',$varianArray = []);
-	public function getTableUid ($table, $uid);
-	public function getSelectableArray();
-	public function getVariantValuesByArticle($articleRowArray, $productRow,$withSemicolon = false);
-	public function filterArticleRowsByVariant($row, $variant, $articleRows, $bCombined = false);
-	public function getFieldArray();
-	public function getSelectableFieldArray();
-	public function getAdditionalKey();
+    public function init($itemTable, $tablename, $useArticles);
+    public function getSeparator();
+    public function getSplitSeparator();
+    public function getImplodeSeparator();
+    public function getUseArticles();
+    public function modifyRowFromVariant (&$row, $variant='');
+    public function getVariantFromRow ($row);
+    public function getVariantFromProductRow ($row, $variantRow, $useArticles);
+    public function getVariantFromRawRow ($row);
+    public function getVariantRow($row='',$varianArray = []);
+    public function getTableUid ($table, $uid);
+    public function getSelectableArray();
+    public function getVariantValuesByArticle($articleRowArray, $productRow,$withSemicolon = false);
+    public function filterArticleRowsByVariant($row, $variant, $articleRows, $bCombined = false);
+    public function getFieldArray();
+    public function getSelectableFieldArray();
+    public function getAdditionalKey();
 }
 

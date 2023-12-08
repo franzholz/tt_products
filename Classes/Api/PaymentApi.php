@@ -40,78 +40,78 @@ namespace JambageCom\TtProducts\Api;
  */
 
 class PaymentApi {
-	static private $storeRecord;
-	static private $storeIso3;
+    static private $storeRecord;
+    static private $storeIso3;
 
-	static public function setStoreRecord ($value) {
-		self::$storeRecord = $value;
-		if (
-			isset($value) &&
-			is_array($value) &&
-			isset($value['static_info_country'])
-		) {
-			self::setStoreIso3($value['static_info_country']);
-		}
-	}
+    static public function setStoreRecord ($value) {
+        self::$storeRecord = $value;
+        if (
+            isset($value) &&
+            is_array($value) &&
+            isset($value['static_info_country'])
+        ) {
+            self::setStoreIso3($value['static_info_country']);
+        }
+    }
 
-	static public function getStoreRecord () {
-		return self::$storeRecord;
-	}
+    static public function getStoreRecord () {
+        return self::$storeRecord;
+    }
 
-	static public function setStoreIso3 ($value) {
-		self::$storeIso3 = $value;
-	}
+    static public function setStoreIso3 ($value) {
+        self::$storeIso3 = $value;
+    }
 
-	static public function getStoreIso3 ($defaultValue = '') {
-		$result = '';
+    static public function getStoreIso3 ($defaultValue = '') {
+        $result = '';
 
-		if (
-			self::$storeIso3 != ''
-		) {
-			$result = self::$storeIso3;
-		} else if ($defaultValue != '') {
-			$result = $defaultValue;
-		}
+        if (
+            self::$storeIso3 != ''
+        ) {
+            $result = self::$storeIso3;
+        } else if ($defaultValue != '') {
+            $result = $defaultValue;
+        }
 
-		return $result;
-	}
+        return $result;
+    }
 
     static public function getPayMode (
         \JambageCom\Div2007\Base\TranslationBase $languageObj,
         $basketExtra
     ) {
-		$result = 0;
+        $result = 0;
 
-		if (
-			isset($basketExtra) &&
-			is_array($basketExtra) &&
-			isset($basketExtra['payment.']) &&
-			isset($basketExtra['payment.']['mode'])
-		) {
-			$modeText = $basketExtra['payment.']['mode'];
-			$theTable = 'sys_products_orders';
+        if (
+            isset($basketExtra) &&
+            is_array($basketExtra) &&
+            isset($basketExtra['payment.']) &&
+            isset($basketExtra['payment.']['mode'])
+        ) {
+            $modeText = $basketExtra['payment.']['mode'];
+            $theTable = 'sys_products_orders';
 
-			$colName = 'pay_mode';
-			$textSchema = $theTable . '.' . $colName . '.I.';
-			$i = 0;
-			do {
+            $colName = 'pay_mode';
+            $textSchema = $theTable . '.' . $colName . '.I.';
+            $i = 0;
+            do {
                 $usedLang = 'default';
-				$text = $languageObj->getLabel(
-					$textSchema . $i,
-					$usedLang
-				);
+                $text = $languageObj->getLabel(
+                    $textSchema . $i,
+                    $usedLang
+                );
 
-				$text = str_replace(' ', '_', $text);
-				if ($text == $modeText) {
-					$result = $i;
-					break;
-				}
-				$i++;
-			} while ($text != '' && $i < 99);
-		}
+                $text = str_replace(' ', '_', $text);
+                if ($text == $modeText) {
+                    $result = $i;
+                    break;
+                }
+                $i++;
+            } while ($text != '' && $i < 99);
+        }
 
-		return $result;
-	}
+        return $result;
+    }
 
 }
 

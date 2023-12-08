@@ -42,61 +42,61 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_control_access implements \TYPO3\CMS\Core\SingletonInterface {
 
-	static public function getVariables (
-		$conf,
-		&$updateCode,
-		&$bIsAllowed,
-		&$bValidUpdateCode,
-		&$trackingCode
-	) {
-		if (!$conf['update_code']) {
-			throw new exception('ERROR in tt_products: The setup "update_code" must not be empty');
-		}
+    static public function getVariables (
+        $conf,
+        &$updateCode,
+        &$bIsAllowed,
+        &$bValidUpdateCode,
+        &$trackingCode
+    ) {
+        if (!$conf['update_code']) {
+            throw new exception('ERROR in tt_products: The setup "update_code" must not be empty');
+        }
 
-		$updateCode = GeneralUtility::_GP('update_code') ?? '';
-		$bRequireBEAdmin = ($conf['shopAdmin'] == 'BE');
+        $updateCode = GeneralUtility::_GP('update_code') ?? '';
+        $bRequireBEAdmin = ($conf['shopAdmin'] == 'BE');
         $bIsAllowed = self::isAllowed($bRequireBEAdmin);
 
-		$bValidUpdateCode =
-			self::isValidUpdateCode(
-				$bRequireBEAdmin,
-				$conf['update_code'],
-				$updateCode
-			);
+        $bValidUpdateCode =
+            self::isValidUpdateCode(
+                $bRequireBEAdmin,
+                $conf['update_code'],
+                $updateCode
+            );
 
-		if (!$bValidUpdateCode) {
-			$updateCode = ''; // the update code must not be used if it is wrong
-		}
+        if (!$bValidUpdateCode) {
+            $updateCode = ''; // the update code must not be used if it is wrong
+        }
 
-		$trackingCode = GeneralUtility::_GP('tracking') ?? '';
-	}
+        $trackingCode = GeneralUtility::_GP('tracking') ?? '';
+    }
 
 
-	static public function isAllowed ($bRequireBEAdmin) {
-		$beUserLogin = false;
+    static public function isAllowed ($bRequireBEAdmin) {
+        $beUserLogin = false;
         $context = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Context\Context::class);
         $beUserLogin = $context->getPropertyFromAspect('backend.user', 'isLoggedIn');
 
-		$result = (!$bRequireBEAdmin || $beUserLogin);
-		return $result;
-	}
+        $result = (!$bRequireBEAdmin || $beUserLogin);
+        return $result;
+    }
 
 
-	/**
-	 * Returns 1 if user is a shop admin
-	 */
-	static public function isValidUpdateCode ($bRequireBEAdmin, $password, &$updateCode) {
-		$result = false;
+    /**
+     * Returns 1 if user is a shop admin
+     */
+    static public function isValidUpdateCode ($bRequireBEAdmin, $password, &$updateCode) {
+        $result = false;
 
-		if (self::isAllowed($bRequireBEAdmin)) {
-			$updateCode = GeneralUtility::_GP('update_code') ?? '';
+        if (self::isAllowed($bRequireBEAdmin)) {
+            $updateCode = GeneralUtility::_GP('update_code') ?? '';
 
-			if ($updateCode == $password) {
-				$result = true;	// Means that the administrator of the website is authenticated.
-			}
-		}
+            if ($updateCode == $password) {
+                $result = true;	// Means that the administrator of the website is authenticated.
+            }
+        }
 
-		return $result;
-	}
+        return $result;
+    }
 }
 

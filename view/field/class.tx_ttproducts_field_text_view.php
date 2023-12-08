@@ -42,61 +42,61 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_field_text_view extends tx_ttproducts_field_base_view {
 
-	public function getRowMarkerArray (
-		$functablename,
-		$fieldname,
-		$row,
-		$markerKey,
-		&$markerArray,
-		$fieldMarkerArray,
-		$tagArray,
-		$theCode,
-		$id,
-		$basketExtra,
-		$basketRecs,
-		&$bSkip,
-		$bHtml = true,
-		$charset = '',
-		$prefix = '',
-		$suffix = '',
-		$imageNum = 0,
-		$imageRenderObj = '',
-		$linkWrap = false,
-		$bEnableTaxZero = false
-	) {
-		$htmlentitiesArray = [];
-		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-		$tableconf = $cnf->getTableConf($functablename, $theCode);
+    public function getRowMarkerArray (
+        $functablename,
+        $fieldname,
+        $row,
+        $markerKey,
+        &$markerArray,
+        $fieldMarkerArray,
+        $tagArray,
+        $theCode,
+        $id,
+        $basketExtra,
+        $basketRecs,
+        &$bSkip,
+        $bHtml = true,
+        $charset = '',
+        $prefix = '',
+        $suffix = '',
+        $imageNum = 0,
+        $imageRenderObj = '',
+        $linkWrap = false,
+        $bEnableTaxZero = false
+    ) {
+        $htmlentitiesArray = [];
+        $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
+        $tableconf = $cnf->getTableConf($functablename, $theCode);
 
-		if (is_array($tableconf['functions.']) && isset($tableconf['functions.']['htmlentities'])) {
-			$htmlentitiesArray = GeneralUtility::trimExplode(',', $tableconf['functions.']['htmlentities']);
-		}
+        if (is_array($tableconf['functions.']) && isset($tableconf['functions.']['htmlentities'])) {
+            $htmlentitiesArray = GeneralUtility::trimExplode(',', $tableconf['functions.']['htmlentities']);
+        }
 
-		$value =
-			$this->getModelObj()->getFieldValue(
-				$dummy,
-				$row,
-				$fieldname,
-				$basketExtra,
-				$basketRecs,
-				$dummy
-			);
+        $value =
+            $this->getModelObj()->getFieldValue(
+                $dummy,
+                $row,
+                $fieldname,
+                $basketExtra,
+                $basketRecs,
+                $dummy
+            );
 
-		if ($bHtml && $charset != '' && in_array($fieldname, $htmlentitiesArray))	{
-			$bConvertNewlines = $this->conf['nl2brNote'];
-			if (
-				$bConvertNewlines &&
-				(
-					$theCode != 'EMAIL' || $this->conf['orderEmail_htmlmail']
-				)
-			) {
-				$value = nl2br($value);
-			} else {
-				$value = htmlentities($value, ENT_QUOTES, $charset);
-			}
-		}
+        if ($bHtml && $charset != '' && in_array($fieldname, $htmlentitiesArray))	{
+            $bConvertNewlines = $this->conf['nl2brNote'];
+            if (
+                $bConvertNewlines &&
+                (
+                    $theCode != 'EMAIL' || $this->conf['orderEmail_htmlmail']
+                )
+            ) {
+                $value = nl2br($value);
+            } else {
+                $value = htmlentities($value, ENT_QUOTES, $charset);
+            }
+        }
 
-		return $value;
-	}
+        return $value;
+    }
 }
 

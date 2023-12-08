@@ -43,183 +43,183 @@ use JambageCom\Div2007\Utility\TableUtility;
 
 
 class tx_ttproducts_graduated_price {
-	protected $bHasBeenInitialised = false;
-	public $mmArray = [];
-	public $dataArray = []; // array of read in products
-	public $functablename = 'tt_products_graduated_price';
-	public $mm_table = ''; // mm table
-	protected $parentObject = false;
-	protected $foreignConfig = [];
+    protected $bHasBeenInitialised = false;
+    public $mmArray = [];
+    public $dataArray = []; // array of read in products
+    public $functablename = 'tt_products_graduated_price';
+    public $mm_table = ''; // mm table
+    protected $parentObject = false;
+    protected $foreignConfig = [];
 
 
 
-	public function setParent ($parentObject) {
-		$this->parentObject = $parentObject;
-	}
+    public function setParent ($parentObject) {
+        $this->parentObject = $parentObject;
+    }
 
 
-	public function getParent () {
-		return $this->parentObject;
-	}
+    public function getParent () {
+        return $this->parentObject;
+    }
 
 
-	public function getTablename () {
-		return $this->functablename;
-	}
+    public function getTablename () {
+        return $this->functablename;
+    }
 
 
-	public function getMMTablename () {
-		return $this->mm_table;
-	}
+    public function getMMTablename () {
+        return $this->mm_table;
+    }
 
-	public function needsInit () {
-		return !$this->bHasBeenInitialised;
-	}
+    public function needsInit () {
+        return !$this->bHasBeenInitialised;
+    }
 
-	public function destruct () {
-		$this->bHasBeenInitialised = false;
-	}
+    public function destruct () {
+        $this->bHasBeenInitialised = false;
+    }
 
-	/**
-	 * Getting the price formulas for graduated prices
-	 */
-	public function init ($parentObject, $fieldname) {
-		$result = false;
+    /**
+     * Getting the price formulas for graduated prices
+     */
+    public function init ($parentObject, $fieldname) {
+        $result = false;
 
-		$this->setParent($parentObject);
+        $this->setParent($parentObject);
 
-		$foreignConfig =
-			\JambageCom\Div2007\Utility\TableUtility::getForeignTableInfo(
-				$parentObject->getTablename(),
-				$fieldname
-			);
+        $foreignConfig =
+            \JambageCom\Div2007\Utility\TableUtility::getForeignTableInfo(
+                $parentObject->getTablename(),
+                $fieldname
+            );
 
-		if ($foreignConfig) {
-			$this->foreignConfig = $foreignConfig;
-			$this->functablename = $foreignConfig['foreign_table'];
-			$this->mm_table = $foreignConfig['mmtable'];
-			$result = true;
-		}
+        if ($foreignConfig) {
+            $this->foreignConfig = $foreignConfig;
+            $this->functablename = $foreignConfig['foreign_table'];
+            $this->mm_table = $foreignConfig['mmtable'];
+            $result = true;
+        }
 
-		$this->bHasBeenInitialised = $result;
+        $this->bHasBeenInitialised = $result;
 
-		return $result;
-	} // init
-
-
-
-	public function hasDiscountPrice ($row) {
-		$result = false;
-
-		if (!empty($row['graduated_price_uid']) && !empty($row['graduated_price_enable'])) {
-			$result = true;
-		}
-		return $result;
-	}
+        return $result;
+    } // init
 
 
-	public function getFormulasByItem ($uid = 0, $where_clause = '') {
-		if ($this->needsInit()) {
-			return false;
-		}
 
-		$result = false;
-		$limit = '';
-		$orderBy = '';
-		$groupBy = '';
+    public function hasDiscountPrice ($row) {
+        $result = false;
 
-		if (
-			$uid &&
-			!is_array($uid) &&
-			isset($this->mmArray[$uid]) &&
-			is_array($this->mmArray[$uid])
-		) {
-			$result = [];
-			foreach ($this->mmArray[$uid] as $v) {
-				$result[] = $this->dataArray[$v];
-			}
-		}
+        if (!empty($row['graduated_price_uid']) && !empty($row['graduated_price_enable'])) {
+            $result = true;
+        }
+        return $result;
+    }
 
-		if (!$result) {
 
-			$foreignConfig = $this->foreignConfig;
+    public function getFormulasByItem ($uid = 0, $where_clause = '') {
+        if ($this->needsInit()) {
+            return false;
+        }
 
-			$tablename = $this->getTablename();
-			$where = '1=1 ' . TableUtility::enableFields($tablename);
-			$mmWhere = TableUtility::enableFields($this->getMMTablename());
-			if ($uid) {
-				$uidWhere = $foreignConfig['mmtable'] . '.' . $foreignConfig['local_field'] . ' ';
-				if (is_array($uid)) {
-					foreach ($uid as $v) {
-						if (
-							!MathUtility::canBeInterpretedAsInteger($v)
-						) {
-							return 'ERROR: not integer ' . $v;
-						}
-					}
-					$uidWhere .= 'IN (' . implode(',', $uid) . ')';
-				} else {
-					$uidWhere .= '=' . intval($uid);
-				}
-				$where .= ' AND ' . $uidWhere;
-			}
-			if ($where_clause) {
-				$where .= ' ' . $where_clause;
-			}
-			if ($mmWhere) {
-				$where .= ' ' . $mmWhere;
-			}
+        $result = false;
+        $limit = '';
+        $orderBy = '';
+        $groupBy = '';
 
-			// SELECT *
-			// FROM tt_products_graduated_price
-			// INNER JOIN tt_products_mm_graduated_price ON tt_products_graduated_price.uid = tt_products_mm_graduated_price.graduated_price_uid
+        if (
+            $uid &&
+            !is_array($uid) &&
+            isset($this->mmArray[$uid]) &&
+            is_array($this->mmArray[$uid])
+        ) {
+            $result = [];
+            foreach ($this->mmArray[$uid] as $v) {
+                $result[] = $this->dataArray[$v];
+            }
+        }
 
-			$from = $tablename . ' INNER JOIN ' . $foreignConfig['mmtable'] . ' ON ' . $tablename . '.uid=' . $foreignConfig['mmtable'] . '.' .  $foreignConfig['foreign_field'];
+        if (!$result) {
 
-			// Fetching the products
-			$res =
-				$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-					'*',
-					$from,
-					$where,
-					$groupBy,
-					$orderBy,
-					$limit
-				);
+            $foreignConfig = $this->foreignConfig;
 
-			$result = [];
-			$newDataArray = [];
+            $tablename = $this->getTablename();
+            $where = '1=1 ' . TableUtility::enableFields($tablename);
+            $mmWhere = TableUtility::enableFields($this->getMMTablename());
+            if ($uid) {
+                $uidWhere = $foreignConfig['mmtable'] . '.' . $foreignConfig['local_field'] . ' ';
+                if (is_array($uid)) {
+                    foreach ($uid as $v) {
+                        if (
+                            !MathUtility::canBeInterpretedAsInteger($v)
+                        ) {
+                            return 'ERROR: not integer ' . $v;
+                        }
+                    }
+                    $uidWhere .= 'IN (' . implode(',', $uid) . ')';
+                } else {
+                    $uidWhere .= '=' . intval($uid);
+                }
+                $where .= ' AND ' . $uidWhere;
+            }
+            if ($where_clause) {
+                $where .= ' ' . $where_clause;
+            }
+            if ($mmWhere) {
+                $where .= ' ' . $mmWhere;
+            }
 
-			while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
-				$result[] = $this->dataArray[$row['uid']] = $newDataArray[$row['uid']] = $row;
-			}
-			$GLOBALS['TYPO3_DB']->sql_free_result($res);
+            // SELECT *
+            // FROM tt_products_graduated_price
+            // INNER JOIN tt_products_mm_graduated_price ON tt_products_graduated_price.uid = tt_products_mm_graduated_price.graduated_price_uid
 
-			if (is_array($uid)) {
-				$res =
-					$GLOBALS['TYPO3_DB']->exec_SELECTquery(
-						'*',
-						$foreignConfig['mmtable'],
-						$uidWhere,
-						'',
-						'',
-						$limit
-					);
-				unset($this->mmArray[$row['product_uid']]);
-				while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
-					$this->mmArray[$row['product_uid']][] = $row['graduated_price_uid'];
-				}
-				$GLOBALS['TYPO3_DB']->sql_free_result($res);
-			} else {
-				unset($this->mmArray[$uid]);
-				foreach ($newDataArray as $k => $v) {
-					$this->mmArray[$uid][] = $k;
-				}
-			}
-		}
+            $from = $tablename . ' INNER JOIN ' . $foreignConfig['mmtable'] . ' ON ' . $tablename . '.uid=' . $foreignConfig['mmtable'] . '.' .  $foreignConfig['foreign_field'];
 
-		return $result;
-	}
+            // Fetching the products
+            $res =
+                $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+                    '*',
+                    $from,
+                    $where,
+                    $groupBy,
+                    $orderBy,
+                    $limit
+                );
+
+            $result = [];
+            $newDataArray = [];
+
+            while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+                $result[] = $this->dataArray[$row['uid']] = $newDataArray[$row['uid']] = $row;
+            }
+            $GLOBALS['TYPO3_DB']->sql_free_result($res);
+
+            if (is_array($uid)) {
+                $res =
+                    $GLOBALS['TYPO3_DB']->exec_SELECTquery(
+                        '*',
+                        $foreignConfig['mmtable'],
+                        $uidWhere,
+                        '',
+                        '',
+                        $limit
+                    );
+                unset($this->mmArray[$row['product_uid']]);
+                while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+                    $this->mmArray[$row['product_uid']][] = $row['graduated_price_uid'];
+                }
+                $GLOBALS['TYPO3_DB']->sql_free_result($res);
+            } else {
+                unset($this->mmArray[$uid]);
+                foreach ($newDataArray as $k => $v) {
+                    $this->mmArray[$uid][] = $k;
+                }
+            }
+        }
+
+        return $result;
+    }
 }
 
 

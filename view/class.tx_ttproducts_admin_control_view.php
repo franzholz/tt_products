@@ -40,29 +40,29 @@
 class tx_ttproducts_admin_control_view {
 
 
-	static public function getHiddenField ($updateCode) {
-		$result = '<input type="hidden" name="update_code" value="' . $updateCode . '" />';
-		return $result;
-	}
+    static public function getHiddenField ($updateCode) {
+        $result = '<input type="hidden" name="update_code" value="' . $updateCode . '" />';
+        return $result;
+    }
 
-	static public function getSubpartArrays (
-		$bIsAllowed,
-		$bValidUpdateCode,
-		&$subpartArray,
-		&$wrappedSubpartArray
-	) {
-			// Display admin-interface if access.
-		if (!$bIsAllowed) {
-			$subpartArray['###ADMIN_CONTROL###'] = '';
-		} elseif ($bValidUpdateCode) {
-			$subpartArray['###ADMIN_CONTROL_DENY###'] = '';
-			$wrappedSubpartArray['###ADMIN_CONTROL_OK###'] = '';
-			$wrappedSubpartArray['###ADMIN_CONTROL###'] = '';
-		} else {
-			$subpartArray['###ADMIN_CONTROL_OK###'] = '';
-			$wrappedSubpartArray['###ADMIN_CONTROL_DENY###'] = '';
-			$wrappedSubpartArray['###ADMIN_CONTROL###'] = '';
-		}
-	}
+    static public function getSubpartArrays (
+        $bIsAllowed,
+        $bValidUpdateCode,
+        &$subpartArray,
+        &$wrappedSubpartArray
+    ) {
+            // Display admin-interface if access.
+        if (!$bIsAllowed) {
+            $subpartArray['###ADMIN_CONTROL###'] = '';
+        } elseif ($bValidUpdateCode) {
+            $subpartArray['###ADMIN_CONTROL_DENY###'] = '';
+            $wrappedSubpartArray['###ADMIN_CONTROL_OK###'] = '';
+            $wrappedSubpartArray['###ADMIN_CONTROL###'] = '';
+        } else {
+            $subpartArray['###ADMIN_CONTROL_OK###'] = '';
+            $wrappedSubpartArray['###ADMIN_CONTROL_DENY###'] = '';
+            $wrappedSubpartArray['###ADMIN_CONTROL###'] = '';
+        }
+    }
 }
 

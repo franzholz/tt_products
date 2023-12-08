@@ -45,253 +45,253 @@ class tx_ttproducts_pricetablescalc extends tx_ttproducts_pricecalc_base {
 
 
 
-	public function calculateValue ($formula, $row) {
-		$result = false;
-		$templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
-		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-		$markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
-		$conf = $cnf->getConf();
-		$tagArray = $markerObj->getAllMarkers($formula);
-		$markerArray = [];
+    public function calculateValue ($formula, $row) {
+        $result = false;
+        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+        $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
+        $markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
+        $conf = $cnf->getConf();
+        $tagArray = $markerObj->getAllMarkers($formula);
+        $markerArray = [];
 
-		if (isset($conf['graduate.']) && is_array($conf['graduate.'])) {
-			$bIsValid = false;
+        if (isset($conf['graduate.']) && is_array($conf['graduate.'])) {
+            $bIsValid = false;
 
-			foreach ($conf['graduate.'] as $graduateConf) {
-				$bIsValid = true;
-				if (isset($graduateConf['sql.']) && is_array($graduateConf['sql.'])) {
-					$bIsValid = tx_ttproducts_sql::isValid($row, $graduateConf['sql.']['where']);
-				}
+            foreach ($conf['graduate.'] as $graduateConf) {
+                $bIsValid = true;
+                if (isset($graduateConf['sql.']) && is_array($graduateConf['sql.'])) {
+                    $bIsValid = tx_ttproducts_sql::isValid($row, $graduateConf['sql.']['where']);
+                }
 
-				if ($bIsValid) {
-					if (isset($graduateConf['marks.']) && is_array($graduateConf['marks.'])) {
-						foreach ($graduateConf['marks.'] as $tag => $value) {
-							$marker = '###' . strtoupper($tag) . '###';
-							$markerArray[$marker] = $value;
-						}
-					}
-				}
-			}
-		}
+                if ($bIsValid) {
+                    if (isset($graduateConf['marks.']) && is_array($graduateConf['marks.'])) {
+                        foreach ($graduateConf['marks.'] as $tag => $value) {
+                            $marker = '###' . strtoupper($tag) . '###';
+                            $markerArray[$marker] = $value;
+                        }
+                    }
+                }
+            }
+        }
 
-		if (isset($tagArray) && is_array($tagArray)) {
-			foreach ($tagArray as $tag => $value) {
-				$marker = '###' . $tag . '###';
-				if (!isset($markerArray[$marker])) {
-					$markerArray[$marker] = '0';
-				}
-			}
-		}
+        if (isset($tagArray) && is_array($tagArray)) {
+            foreach ($tagArray as $tag => $value) {
+                $marker = '###' . $tag . '###';
+                if (!isset($markerArray[$marker])) {
+                    $markerArray[$marker] = '0';
+                }
+            }
+        }
 
-		$formula = $templateService->substituteMarkerArrayCached($formula, $markerArray);
-		$formula = trim($formula);
-		$len = strlen($formula);
-		$lastChar = substr($formula, -1, 1);
+        $formula = $templateService->substituteMarkerArrayCached($formula, $markerArray);
+        $formula = trim($formula);
+        $len = strlen($formula);
+        $lastChar = substr($formula, -1, 1);
 
-		if (
-			$lastChar != '' &&
-			(
-				!MathUtility::canBeInterpretedAsInteger($lastChar)
-			)
-		) {
-			$formula = substr($formula, 0, strlen($formula) - 1);
+        if (
+            $lastChar != '' &&
+            (
+                !MathUtility::canBeInterpretedAsInteger($lastChar)
+            )
+        ) {
+            $formula = substr($formula, 0, strlen($formula) - 1);
 
-			switch ($lastChar) {
-				case '%':
-					if ($formula > 100) {
-						$formula = 100;
-					}
-					$priceProduct = $priceProduct * (1 - $formula/100);
-					$result = $priceProduct;
-					break;
-			}
-		} else {
-			$phpCode = '$result = ' . $formula . ';';
+            switch ($lastChar) {
+                case '%':
+                    if ($formula > 100) {
+                        $formula = 100;
+                    }
+                    $priceProduct = $priceProduct * (1 - $formula/100);
+                    $result = $priceProduct;
+                    break;
+            }
+        } else {
+            $phpCode = '$result = ' . $formula . ';';
 
-			try {	// take care of divisions by zero
-				if (
-					!\JambageCom\Div2007\Utility\PhpUtility::php_is_secure($phpCode)
-				) {
-					throw new RuntimeException('Error in tt_products: The graduated price for "' . htmlspecialchars($formula) . '" is unsecure.', 50003);
-				}
+            try {	// take care of divisions by zero
+                if (
+                    !\JambageCom\Div2007\Utility\PhpUtility::php_is_secure($phpCode)
+                ) {
+                    throw new RuntimeException('Error in tt_products: The graduated price for "' . htmlspecialchars($formula) . '" is unsecure.', 50003);
+                }
 
-				$syntaxCheck =
-					\JambageCom\Div2007\Utility\PhpUtility::php_syntax_error($phpCode);
-				if (
-					is_array($syntaxCheck)
-				) {
-					throw new RuntimeException('Error in tt_products: The syntax check for "' . htmlspecialchars($formula) . '" went wrong.', 50004);
-				} else {
-					eval($phpCode);
+                $syntaxCheck =
+                    \JambageCom\Div2007\Utility\PhpUtility::php_syntax_error($phpCode);
+                if (
+                    is_array($syntaxCheck)
+                ) {
+                    throw new RuntimeException('Error in tt_products: The syntax check for "' . htmlspecialchars($formula) . '" went wrong.', 50004);
+                } else {
+                    eval($phpCode);
 // 					eval("\$result = " . $formula . ";" );
-				}
-			}
-			catch(RuntimeException $e) {
-				debug ($e, 'calculateValue $e'); // keep this
-			}
-			catch(Exception $e) {
-				debug ($e, 'calculateValue $e'); // keep this
-				throw new RuntimeException('Error in tt_products: Devision by zero error with "' . htmlspecialchars($formula) . '" .', 50005);
-			}
-		}
+                }
+            }
+            catch(RuntimeException $e) {
+                debug ($e, 'calculateValue $e'); // keep this
+            }
+            catch(Exception $e) {
+                debug ($e, 'calculateValue $e'); // keep this
+                throw new RuntimeException('Error in tt_products: Devision by zero error with "' . htmlspecialchars($formula) . '" .', 50005);
+            }
+        }
 
-		if (isset($row['graduated_price_round']) && strlen($row['graduated_price_round'])) {
+        if (isset($row['graduated_price_round']) && strlen($row['graduated_price_round'])) {
 
-			$result = tx_ttproducts_api::roundPrice($result, $row['graduated_price_round']);
-		}
+            $result = tx_ttproducts_api::roundPrice($result, $row['graduated_price_round']);
+        }
 
-		return $result;
-	}
+        return $result;
+    }
 
-	public function getDiscountPrice ($graduatedPriceObj, $row, $priceProduct, $count) {
+    public function getDiscountPrice ($graduatedPriceObj, $row, $priceProduct, $count) {
 
-		$result = false;
-		$uid = $row['uid'];
-		$priceFormulaArray =
-			$graduatedPriceObj->getFormulasByItem($uid);
+        $result = false;
+        $uid = $row['uid'];
+        $priceFormulaArray =
+            $graduatedPriceObj->getFormulasByItem($uid);
 
-		if (
-			isset($priceFormulaArray) &&
-			is_array($priceFormulaArray) &&
-			count($priceFormulaArray)
-		) {
-			$maxStartAmount = '0';
-			$thePriceFormula = false;
+        if (
+            isset($priceFormulaArray) &&
+            is_array($priceFormulaArray) &&
+            count($priceFormulaArray)
+        ) {
+            $maxStartAmount = '0';
+            $thePriceFormula = false;
 
-			foreach ($priceFormulaArray as $k => $priceFormula) {
-				if ($count >= floatval($priceFormula['startamount'])) {
-					if (
-						floatval($priceFormula['startamount']) > $maxStartAmount
-					) {
-						$maxStartAmount = floatval($priceFormula['startamount']);
-						$thePriceFormula = $priceFormula;
-					}
-				}
-			}
+            foreach ($priceFormulaArray as $k => $priceFormula) {
+                if ($count >= floatval($priceFormula['startamount'])) {
+                    if (
+                        floatval($priceFormula['startamount']) > $maxStartAmount
+                    ) {
+                        $maxStartAmount = floatval($priceFormula['startamount']);
+                        $thePriceFormula = $priceFormula;
+                    }
+                }
+            }
 
-			if ($thePriceFormula) {
-				$calculatedValue =
-					$this->calculateValue(
-						$thePriceFormula['formula'],
-						$row
-					);
+            if ($thePriceFormula) {
+                $calculatedValue =
+                    $this->calculateValue(
+                        $thePriceFormula['formula'],
+                        $row
+                    );
 
-				$result = $calculatedValue;
+                $result = $calculatedValue;
 
-				// Todo: if ($priceProduct > $calculatedValue)
-			}
-		}
+                // Todo: if ($priceProduct > $calculatedValue)
+            }
+        }
 
-		return $result;
-	}
+        return $result;
+    }
 
-	public function getCalculatedData (
-		&$itemArray,
-		$conf,
-		$type,
-		&$priceReduction,
-		&$discountArray,
-		$priceTotalTax,
-		$bUseArticles,
-		$taxIncluded,
-		$bMergeArticles = true,
-		$uid = 0
-	) {
-		if (!$itemArray || !count($itemArray)) {
-			return false;
-		}
+    public function getCalculatedData (
+        &$itemArray,
+        $conf,
+        $type,
+        &$priceReduction,
+        &$discountArray,
+        $priceTotalTax,
+        $bUseArticles,
+        $taxIncluded,
+        $bMergeArticles = true,
+        $uid = 0
+    ) {
+        if (!$itemArray || !count($itemArray)) {
+            return false;
+        }
 
-		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
-		$useArticles = $cnf->getUseArticles();
-		$productTable = $tablesObj->get('tt_products', false);
-		$graduatedPriceObj = $productTable->getGraduatedPriceObject();
+        $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
+        $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
+        $useArticles = $cnf->getUseArticles();
+        $productTable = $tablesObj->get('tt_products', false);
+        $graduatedPriceObj = $productTable->getGraduatedPriceObject();
 
-		if (
-			$bUseArticles &&
-			(
-				$useArticles == 1 ||
-				$useArticles == 3
-			)
-		) {
-			$articleTable = $tablesObj->get('tt_products_articles', false);
-		}
+        if (
+            $bUseArticles &&
+            (
+                $useArticles == 1 ||
+                $useArticles == 3
+            )
+        ) {
+            $articleTable = $tablesObj->get('tt_products_articles', false);
+        }
 
-		$prodArray = [];
-		// loop over all items in the basket indexed by sort string
-		foreach ($itemArray as $sort => $actItemArray) {
+        $prodArray = [];
+        // loop over all items in the basket indexed by sort string
+        foreach ($itemArray as $sort => $actItemArray) {
 
-			foreach ($actItemArray as $k2 => $actItem) {
-				$row = $actItem['rec'];
-				$actItem['sort'] = $sort;
-				$actItem['k2'] = $k2;
-				$prodArray[$row['uid']][] = $actItem;
-			}
-		}
+            foreach ($actItemArray as $k2 => $actItem) {
+                $row = $actItem['rec'];
+                $actItem['sort'] = $sort;
+                $actItem['k2'] = $k2;
+                $prodArray[$row['uid']][] = $actItem;
+            }
+        }
 
-		// loop over all items in the basket indexed by product uid
-		foreach ($prodArray as $uid => $actItemArray) {
-			$row1 = $actItemArray['0']['rec'];
+        // loop over all items in the basket indexed by product uid
+        foreach ($prodArray as $uid => $actItemArray) {
+            $row1 = $actItemArray['0']['rec'];
 
-			if ($graduatedPriceObj->hasDiscountPrice($row1)) {
-				$count = 0;
-				if ($taxIncluded) {
-					$priceProduct = $row1['pricetax'];
-				} else {
-					$priceProduct = $row1['pricenotax'];
-				}
-				foreach($actItemArray as $actItem) {
-					$count += floatval($actItem['count']);
-				}
-				$newPriceProduct =
-					$this->getDiscountPrice(
-						$graduatedPriceObj,
-						$row1,
-						$priceProduct,
-						$count
-					);
+            if ($graduatedPriceObj->hasDiscountPrice($row1)) {
+                $count = 0;
+                if ($taxIncluded) {
+                    $priceProduct = $row1['pricetax'];
+                } else {
+                    $priceProduct = $row1['pricenotax'];
+                }
+                foreach($actItemArray as $actItem) {
+                    $count += floatval($actItem['count']);
+                }
+                $newPriceProduct =
+                    $this->getDiscountPrice(
+                        $graduatedPriceObj,
+                        $row1,
+                        $priceProduct,
+                        $count
+                    );
 
-				if ($newPriceProduct !== false) {
-					$priceProduct = $newPriceProduct;
+                if ($newPriceProduct !== false) {
+                    $priceProduct = $newPriceProduct;
 
-					foreach($actItemArray as $actItem) {
+                    foreach($actItemArray as $actItem) {
 
-						$row = $actItem['rec'];
-						$count = floatval($actItem['count']);
-						$sort = $actItem['sort'];
-						$k2 = $actItem['k2'];
-						$actPrice = $priceProduct;
+                        $row = $actItem['rec'];
+                        $count = floatval($actItem['count']);
+                        $sort = $actItem['sort'];
+                        $k2 = $actItem['k2'];
+                        $actPrice = $priceProduct;
 
-						if (isset($articleTable) && is_object($articleTable)) {
-							$extArray = $row['ext'];
+                        if (isset($articleTable) && is_object($articleTable)) {
+                            $extArray = $row['ext'];
 
-							if (
-								isset($extArray['tt_products_articles']) && is_array($extArray['tt_products_articles']) &&
-								!empty($extArray['tt_products_articles'])
-							) {
-								$articleUid = $extArray['tt_products_articles']['0']['uid'];
+                            if (
+                                isset($extArray['tt_products_articles']) && is_array($extArray['tt_products_articles']) &&
+                                !empty($extArray['tt_products_articles'])
+                            ) {
+                                $articleUid = $extArray['tt_products_articles']['0']['uid'];
 
-								if (
-									MathUtility::canBeInterpretedAsInteger($articleUid)
-								) {
-									$articleRow = $articleTable->get($articleUid);
-									$bIsAddedPrice = $cnf->hasConfig($articleRow, 'isAddedPrice');
+                                if (
+                                    MathUtility::canBeInterpretedAsInteger($articleUid)
+                                ) {
+                                    $articleRow = $articleTable->get($articleUid);
+                                    $bIsAddedPrice = $cnf->hasConfig($articleRow, 'isAddedPrice');
 
-									if ($bIsAddedPrice) {
-										$actPrice = $priceProduct + $articleRow['price'];
-									}
-								}
-							}
-						}
+                                    if ($bIsAddedPrice) {
+                                        $actPrice = $priceProduct + $articleRow['price'];
+                                    }
+                                }
+                            }
+                        }
 
-						$itemArray[$sort][$k2]['rec'][$type] = $itemArray[$sort][$k2][$type] = $actPrice;
-					}
-					$priceReduction[$uid] = 1;
-				}
-			}
-		}
+                        $itemArray[$sort][$k2]['rec'][$type] = $itemArray[$sort][$k2][$type] = $actPrice;
+                    }
+                    $priceReduction[$uid] = 1;
+                }
+            }
+        }
 
-	} // getCalculatedData
+    } // getCalculatedData
 }
 
 

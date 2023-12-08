@@ -43,69 +43,69 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class BasketApi {
 
-	static public function getQuantity ($content, $basketConf) {
-		$count = '';
-		$basketExt = \tx_ttproducts_control_basket::getStoredBasketExt();
+    static public function getQuantity ($content, $basketConf) {
+        $count = '';
+        $basketExt = \tx_ttproducts_control_basket::getStoredBasketExt();
 
-		if (
-			isset($basketExt) &&
-			is_array($basketExt) &&
-			!empty($basketExt) &&
-			isset($basketConf['ref']) &&
-			isset($basketConf['row'])
-		) {
-			$conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
-			$cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
-			$cnfObj->init(
-				$conf,
-				[]
-			);
+        if (
+            isset($basketExt) &&
+            is_array($basketExt) &&
+            !empty($basketExt) &&
+            isset($basketConf['ref']) &&
+            isset($basketConf['row'])
+        ) {
+            $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
+            $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
+            $cnfObj->init(
+                $conf,
+                []
+            );
 
-			$cObj = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');	// Local cObj.
-			$cObj->start([]);
+            $cObj = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');	// Local cObj.
+            $cObj->start([]);
             $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 
-			$uid = intval($basketConf['ref']);
-			$row = $basketConf['row'];
-			$variant = '';
-			$useArticles = $cnfObj->getUseArticles();
+            $uid = intval($basketConf['ref']);
+            $row = $basketConf['row'];
+            $variant = '';
+            $useArticles = $cnfObj->getUseArticles();
 
-			if (
-				isset($basketConf['variant']) &&
-				!empty($basketConf['variant'])
-			) {
-				$variant = $basketConf['variant'];
-			} else {
-				$funcTablename = 'tt_products';
-				$productTable = $tablesObj->get($funcTablename);
-				$variantRow =
-					$productTable->variant->getVariantRow($row, []);
-				$variant =
-					$productTable->variant->getVariantFromProductRow(
-						$row,
-						$variantRow,
-						$useArticles
-					);
-			}
+            if (
+                isset($basketConf['variant']) &&
+                !empty($basketConf['variant'])
+            ) {
+                $variant = $basketConf['variant'];
+            } else {
+                $funcTablename = 'tt_products';
+                $productTable = $tablesObj->get($funcTablename);
+                $variantRow =
+                    $productTable->variant->getVariantRow($row, []);
+                $variant =
+                    $productTable->variant->getVariantFromProductRow(
+                        $row,
+                        $variantRow,
+                        $useArticles
+                    );
+            }
 
-			\tx_ttproducts_control_basket::init(
-				$conf,
-				$tablesObj,
-				$conf['pid_list'],
-				$useArticles
-			);
+            \tx_ttproducts_control_basket::init(
+                $conf,
+                $tablesObj,
+                $conf['pid_list'],
+                $useArticles
+            );
 
-			$count =
-				\tx_ttproducts_control_basket::getBasketCount(
-					$row,
-					$variant,
-					$conf['quantityIsFloat']
-				);
-			\tx_ttproducts_control_basket::destruct();
-		}
+            $count =
+                \tx_ttproducts_control_basket::getBasketCount(
+                    $row,
+                    $variant,
+                    $conf['quantityIsFloat']
+                );
+            \tx_ttproducts_control_basket::destruct();
+        }
 
-		return $count;
-	}
+        return $count;
+    }
 
     /**
     * get the product rows contained in the basket
@@ -169,80 +169,80 @@ class BasketApi {
         return $result;
     }
 
-	static public function getRecordvariantAndPriceFromRows (
-		&$variant,
-		&$price,
-		&$externalUidArray,
-		$externalRowArray
-	) {
-		$result = false;
-		$variant = '';
-		$price = 0;
-		$downloadUid = 0;
-		foreach ($externalRowArray as $tablename => $externalRow) {
-			switch ($tablename) {
-				case 'tt_products_downloads':
-					$externalUid = $externalRow['uid'];
-					if (
-						isset($externalRow['price_enable']) &&
-						$externalRow['price_enable'] &&
-						isset($externalRow['price'])
-					) {
-						$price = $externalRow['price'];
-					}
+    static public function getRecordvariantAndPriceFromRows (
+        &$variant,
+        &$price,
+        &$externalUidArray,
+        $externalRowArray
+    ) {
+        $result = false;
+        $variant = '';
+        $price = 0;
+        $downloadUid = 0;
+        foreach ($externalRowArray as $tablename => $externalRow) {
+            switch ($tablename) {
+                case 'tt_products_downloads':
+                    $externalUid = $externalRow['uid'];
+                    if (
+                        isset($externalRow['price_enable']) &&
+                        $externalRow['price_enable'] &&
+                        isset($externalRow['price'])
+                    ) {
+                        $price = $externalRow['price'];
+                    }
 
-					if ($externalUid) {
-						$variant .= '|records:dl=' . $externalUid;
-					}
-					$externalUidArray[$tablename] = $externalUid;
-					break;
-				case 'sys_file_reference':
-					if (
-						isset($externalRow['tx_ttproducts_price_enable']) &&
-						$externalRow['tx_ttproducts_price_enable'] &&
-						isset($externalRow['tx_ttproducts_price'])
-					) {
-						$price = $externalRow['tx_ttproducts_price'];
-					}
+                    if ($externalUid) {
+                        $variant .= '|records:dl=' . $externalUid;
+                    }
+                    $externalUidArray[$tablename] = $externalUid;
+                    break;
+                case 'sys_file_reference':
+                    if (
+                        isset($externalRow['tx_ttproducts_price_enable']) &&
+                        $externalRow['tx_ttproducts_price_enable'] &&
+                        isset($externalRow['tx_ttproducts_price'])
+                    ) {
+                        $price = $externalRow['tx_ttproducts_price'];
+                    }
 
-					if (
-						isset($externalUidArray['tt_products_downloads']) &&
-						$externalUidArray['tt_products_downloads'] > 0
-					) {
-						$variant .= \tx_ttproducts_variant_int::EXTERNAL_QUANTITY_SEPARATOR . 'fal=' . $externalRow['uid'];
-					}
-					$externalUidArray[$tablename] = $externalRow['uid'];
-					break;
-			}
-		}
+                    if (
+                        isset($externalUidArray['tt_products_downloads']) &&
+                        $externalUidArray['tt_products_downloads'] > 0
+                    ) {
+                        $variant .= \tx_ttproducts_variant_int::EXTERNAL_QUANTITY_SEPARATOR . 'fal=' . $externalRow['uid'];
+                    }
+                    $externalUidArray[$tablename] = $externalRow['uid'];
+                    break;
+            }
+        }
 
-		if ($variant != '') {
-			$result = true;
-		}
-		return $result;
-	}
+        if ($variant != '') {
+            $result = true;
+        }
+        return $result;
+    }
 
 
-	/**
-	 * get basket record for tracking, billing and delivery data row
-	 */
-	static public function getBasketRec (
-		$row,
-		$typeArray = [
-			'payment',
-			'shipping',
-			'handling'
-		]
-	) {
-		$extraArray = [];
-		foreach ($typeArray as $type) {
-			$tmpArray = GeneralUtility::trimExplode(':', $row[$type]);
-			$extraArray[$type] = $tmpArray['0'];
-		}
+    /**
+     * get basket record for tracking, billing and delivery data row
+     */
+    static public function getBasketRec (
+        $row,
+        $typeArray = [
+            'payment',
+            'shipping',
+            'handling'
+        ]
+    ) {
+        $extraArray = [];
+        foreach ($typeArray as $type) {
+            $tmpArray = GeneralUtility::trimExplode(':', $row[$type]);
+            $extraArray[$type] = $tmpArray['0'];
+        }
 
-		$basketRec = ['tt_products' => $extraArray];
+        $basketRec = ['tt_products' => $extraArray];
 
-		return $basketRec;
-	}
+        return $basketRec;
+    }
 }
 

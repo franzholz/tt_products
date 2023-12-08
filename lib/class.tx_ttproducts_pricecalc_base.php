@@ -41,28 +41,28 @@
 
 class tx_ttproducts_pricecalc_base implements \TYPO3\CMS\Core\SingletonInterface {
 
-	public function getPrice ($conf, $offset, $num = '1') {
-		$rc = 0;
-		$priceCalcTemp = $conf[$offset];
-		if (is_array($priceCalcTemp)) {
-			$rc = doubleval($priceCalcTemp['prod.'][$num]);
-		}
-		return $rc;
-	}
+    public function getPrice ($conf, $offset, $num = '1') {
+        $rc = 0;
+        $priceCalcTemp = $conf[$offset];
+        if (is_array($priceCalcTemp)) {
+            $rc = doubleval($priceCalcTemp['prod.'][$num]);
+        }
+        return $rc;
+    }
 
-	public function getCalculatedData (
-		&$itemArray,
-		$conf,
-		$type,
-		&$priceReduction,
-		&$discountArray,
-		$priceTotalTax,
-		$bUseArticles,
-		$taxIncluded,
-		$bMergeArticles = true,
-		$uid = 0
-	) {
-	} // getCalculatedData
+    public function getCalculatedData (
+        &$itemArray,
+        $conf,
+        $type,
+        &$priceReduction,
+        &$discountArray,
+        $priceTotalTax,
+        $bUseArticles,
+        $taxIncluded,
+        $bMergeArticles = true,
+        $uid = 0
+    ) {
+    } // getCalculatedData
 
 }
 

@@ -41,7 +41,7 @@ namespace JambageCom\TtProducts\Api;
 
 
 class ControlApi {
-	static protected $conf = [];
+    static protected $conf = [];
     static protected $cObj = null;
 
     static public function init ($conf, $cObj) {
@@ -57,26 +57,26 @@ class ControlApi {
         return static::$cObj;
     }
 
-	static public function isOverwriteMode ($infoArray) {
-		$overwriteMode = false;
-		$conf = self::getConf();
+    static public function isOverwriteMode ($infoArray) {
+        $overwriteMode = false;
+        $conf = self::getConf();
 
-		$checkField = \JambageCom\TtProducts\Api\CustomerApi::getPossibleCheckField();
+        $checkField = \JambageCom\TtProducts\Api\CustomerApi::getPossibleCheckField();
 
-		if (
-			(
-				!$infoArray['billing'] ||
-				!$infoArray['billing'][$checkField] ||
-				$conf['editLockedLoginInfo'] ||
-				!empty($infoArray['billing']['error'])
-			) &&
-			$conf['lockLoginUserInfo']
-		) {
-			$overwriteMode = true;
-		}
+        if (
+            (
+                !$infoArray['billing'] ||
+                !$infoArray['billing'][$checkField] ||
+                $conf['editLockedLoginInfo'] ||
+                !empty($infoArray['billing']['error'])
+            ) &&
+            $conf['lockLoginUserInfo']
+        ) {
+            $overwriteMode = true;
+        }
 
-		return $overwriteMode;
-	}
+        return $overwriteMode;
+    }
 }
 
 

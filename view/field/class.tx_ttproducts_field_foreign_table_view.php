@@ -43,98 +43,98 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_field_foreign_table_view extends tx_ttproducts_field_base_view {
 
-	public function getItemSubpartArrays (
-		&$templateCode,
-		$markerKey,
-		$functablename,
-		&$row,
-		$fieldname,
-		$tableConf,
-		&$subpartArray,
-		&$wrappedSubpartArray,
-		&$tagArray,
-		$theCode = '',
-		$basketExtra = [],
-		$basketRecs = [],
-		$id = '1'
-	) {
-		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
-		$itemTableObj = $tablesObj->get($functablename, false);
-		$tablename = $itemTableObj->getTablename();
-	}
+    public function getItemSubpartArrays (
+        &$templateCode,
+        $markerKey,
+        $functablename,
+        &$row,
+        $fieldname,
+        $tableConf,
+        &$subpartArray,
+        &$wrappedSubpartArray,
+        &$tagArray,
+        $theCode = '',
+        $basketExtra = [],
+        $basketRecs = [],
+        $id = '1'
+    ) {
+        $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
+        $itemTableObj = $tablesObj->get($functablename, false);
+        $tablename = $itemTableObj->getTablename();
+    }
 
 
-	public function getRowMarkerArray (
-		$functablename,
-		$fieldname,
-		$row,
-		$markerKey,
-		&$markerArray,
-		$fieldMarkerArray,
-		$tagArray,
-		$theCode,
-		$id,
-		$basketExtra,
-		$basketRecs,
-		&$bSkip,
-		$bHtml = true,
-		$charset = '',
-		$prefix = '',
-		$suffix = '',
-		$imageNum = 0,
-		$imageRenderObj = '',
-		$bEnableTaxZero = false
-	) {
-		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
-		$itemTableObj = $tablesObj->get($functablename, false);
-		$tablename = $itemTableObj->getTablename();
-		$foreigntablename = '';
-		$rowMarkerArray = [];
-		if ($GLOBALS['TCA'][$tablename]['columns'][$fieldname]['config']['type'] == 'group') {
+    public function getRowMarkerArray (
+        $functablename,
+        $fieldname,
+        $row,
+        $markerKey,
+        &$markerArray,
+        $fieldMarkerArray,
+        $tagArray,
+        $theCode,
+        $id,
+        $basketExtra,
+        $basketRecs,
+        &$bSkip,
+        $bHtml = true,
+        $charset = '',
+        $prefix = '',
+        $suffix = '',
+        $imageNum = 0,
+        $imageRenderObj = '',
+        $bEnableTaxZero = false
+    ) {
+        $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
+        $itemTableObj = $tablesObj->get($functablename, false);
+        $tablename = $itemTableObj->getTablename();
+        $foreigntablename = '';
+        $rowMarkerArray = [];
+        if ($GLOBALS['TCA'][$tablename]['columns'][$fieldname]['config']['type'] == 'group') {
 
-			$foreigntablename = $GLOBALS['TCA'][$tablename]['columns'][$fieldname]['config']['allowed'];
-			$foreignTableViewObj = $tablesObj->get($foreigntablename, true);
-			if (!$row[$fieldname]) {
-				$foreignMarker = $foreignTableViewObj->getMarker();
+            $foreigntablename = $GLOBALS['TCA'][$tablename]['columns'][$fieldname]['config']['allowed'];
+            $foreignTableViewObj = $tablesObj->get($foreigntablename, true);
+            if (!$row[$fieldname]) {
+                $foreignMarker = $foreignTableViewObj->getMarker();
 
-				foreach ($tagArray as $theTag => $v) {
-					if (strpos($theTag,$foreignMarker) === 0) {
-						$rowMarkerArray['###'.$theTag.'###'] = '';
-					}
-				}
-			}
-		}
+                foreach ($tagArray as $theTag => $v) {
+                    if (strpos($theTag,$foreignMarker) === 0) {
+                        $rowMarkerArray['###'.$theTag.'###'] = '';
+                    }
+                }
+            }
+        }
 
-		if ($foreigntablename != '' && $row[$fieldname] > 0) {
+        if ($foreigntablename != '' && $row[$fieldname] > 0) {
 
-			$foreignTableObj = $foreignTableViewObj->getModelObj();
-			if ($GLOBALS['TCA'][$tablename]['columns'][$fieldname]['config']['internal_type'] == 'db') {
-				$foreignRow = $foreignTableObj->get($row[$fieldname]);
-				$foreignTableViewObj->getRowMarkerArray(
-					$foreigntablename,
-					$foreignRow,
-					'',
-					$rowMarkerArray,
-					$tmp=[],
-					$tmp=[],
-					$tagArray,
-					$theCode,
-					$basketExtra,
-					$basketRecs,
-					$bHtml,
-					$charset,
-					$imageNum,
-					$imageRenderObj,
-					$id,
-					$prefix,
-					$suffix,
-					'',
-					$bEnableTaxZero
-				);
-			}
-		//
-		}
-		$markerArray = array_merge($markerArray, $rowMarkerArray);
-	}
+            $foreignTableObj = $foreignTableViewObj->getModelObj();
+            if ($GLOBALS['TCA'][$tablename]['columns'][$fieldname]['config']['internal_type'] == 'db') {
+                $foreignRow = $foreignTableObj->get($row[$fieldname]);
+                $foreignTableViewObj->getRowMarkerArray(
+                    $foreigntablename,
+                    $foreignRow,
+                    '',
+                    $rowMarkerArray,
+                    $tmp=[],
+                    $tmp=[],
+                    $tagArray,
+                    $theCode,
+                    $basketExtra,
+                    $basketRecs,
+                    $bHtml,
+                    $charset,
+                    $imageNum,
+                    $imageRenderObj,
+                    $id,
+                    $prefix,
+                    $suffix,
+                    '',
+                    $bEnableTaxZero
+                );
+            }
+        //
+        }
+        $markerArray = array_merge($markerArray, $rowMarkerArray);
+    }
 }
 

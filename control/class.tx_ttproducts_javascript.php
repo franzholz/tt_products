@@ -42,24 +42,24 @@ use TYPO3\CMS\Core\Utility\PathUtility;
 use JambageCom\Div2007\Utility\FrontendUtility;
 
 class tx_ttproducts_javascript implements \TYPO3\CMS\Core\SingletonInterface {
-	public $ajax;
-	public $bAjaxAdded;
-	public $bCopyrightShown;
-	public $copyright;
-	public $fixInternetExplorer;
-	private $bIncludedArray = [];
+    public $ajax;
+    public $bAjaxAdded;
+    public $bCopyrightShown;
+    public $copyright;
+    public $fixInternetExplorer;
+    private $bIncludedArray = [];
 
 
-	public function init ($ajax) {
-		if (
-			isset($ajax) &&
-			is_object($ajax)
-		) {
-			$this->ajax = $ajax;
-		}
-		$this->bAjaxAdded = false;
-		$this->bCopyrightShown = false;
-		$this->copyright = '
+    public function init ($ajax) {
+        if (
+            isset($ajax) &&
+            is_object($ajax)
+        ) {
+            $this->ajax = $ajax;
+        }
+        $this->bAjaxAdded = false;
+        $this->bCopyrightShown = false;
+        $this->copyright = '
 /***************************************************************
 *
 *  javascript functions for the TYPO3 Shop System tt_products
@@ -79,7 +79,7 @@ class tx_ttproducts_javascript implements \TYPO3\CMS\Core\SingletonInterface {
 *  This copyright notice MUST APPEAR in all copies of the script
 ***************************************************************/
 ';
-		$this->fixInternetExplorer = '
+        $this->fixInternetExplorer = '
 if (!Array.prototype.indexOf) { // published by developer.mozilla.org
 	Array.prototype.indexOf = function (searchElement /*, fromIndex */ ) {
 		"use strict";
@@ -115,12 +115,12 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
 
 	';
 
-	}
+    }
 
-	static public function convertHex ($params) {
-		$result = '\\x' . (ord($params[1]) < 16 ? '0' : '') . dechex(ord($params[1]));
-		return $result;
-	}
+    static public function convertHex ($params) {
+        $result = '\\x' . (ord($params[1]) < 16 ? '0' : '') . dechex(ord($params[1]));
+        return $result;
+    }
 
  /*
  * Escapes strings to be included in javascript
@@ -128,66 +128,66 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
  * @param	[type]		$s: ...
  * @return	[type]		...
  */
-	public function jsspecialchars ($s) {
-		$result = preg_replace_callback(
-			'/([\x09-\x2f\x3a-\x40\x5b-\x60\x7b-\x7e])/',
-			'tx_ttproducts_javascript::convertHex',
-			$s
-		);
+    public function jsspecialchars ($s) {
+        $result = preg_replace_callback(
+            '/([\x09-\x2f\x3a-\x40\x5b-\x60\x7b-\x7e])/',
+            'tx_ttproducts_javascript::convertHex',
+            $s
+        );
 
-		return $result;
-	}
+        return $result;
+    }
 
 
-	/**
-	* Sets JavaScript code in the additionalJavaScript array
-	*
-	* @param		string		  $fieldname is the field in the table you want to create a JavaScript for
-	* @param		array		  category array
-	* @param		integer		  counter
-	* @return	  	void
-	* @see
-	*/
-	public function set (
-		$languageObj,
-		$fieldname,
-		$params = '',
-		$currentRecord = '',
-		$count = 0,
-		$catid = 'cat',
-		$parentFieldArray = [],
-		$piVarArray = [],
-		$fieldArray = [],
-		$method = 'clickShow'
-	) {
-		$bDirectHTML = false;
-		$code = '';
-		$bError = false;
-		$prefixId = tx_ttproducts_model_control::getPrefixId();
+    /**
+    * Sets JavaScript code in the additionalJavaScript array
+    *
+    * @param		string		  $fieldname is the field in the table you want to create a JavaScript for
+    * @param		array		  category array
+    * @param		integer		  counter
+    * @return	  	void
+    * @see
+    */
+    public function set (
+        $languageObj,
+        $fieldname,
+        $params = '',
+        $currentRecord = '',
+        $count = 0,
+        $catid = 'cat',
+        $parentFieldArray = [],
+        $piVarArray = [],
+        $fieldArray = [],
+        $method = 'clickShow'
+    ) {
+        $bDirectHTML = false;
+        $code = '';
+        $bError = false;
+        $prefixId = tx_ttproducts_model_control::getPrefixId();
 
-		if (
-			!$this->bCopyrightShown &&
-			$fieldname != 'xajax'
-		) {
-			$code = $this->copyright;
-			$this->bCopyrightShown = true;
-			$code .= $this->fixInternetExplorer;
-		}
+        if (
+            !$this->bCopyrightShown &&
+            $fieldname != 'xajax'
+        ) {
+            $code = $this->copyright;
+            $this->bCopyrightShown = true;
+            $code .= $this->fixInternetExplorer;
+        }
 
-		if (
-			!is_object($this->ajax) &&
-			in_array($fieldname, ['fetchdata'])
-		) {
-			$fieldname = 'error';
-		}
+        if (
+            !is_object($this->ajax) &&
+            in_array($fieldname, ['fetchdata'])
+        ) {
+            $fieldname = 'error';
+        }
 
-		$JSfieldname = $fieldname;
-		switch ($fieldname) {
-			case 'email' :
-				$message = $languageObj->getLabel('invalid_email');
-				$emailArr =  explode('|', $message);
+        $JSfieldname = $fieldname;
+        switch ($fieldname) {
+            case 'email' :
+                $message = $languageObj->getLabel('invalid_email');
+                $emailArr =  explode('|', $message);
 
-				$code .= '
+                $code .= '
 	var test = function(eing) {
 		var reg = /@/;
 		var rc = true;
@@ -221,38 +221,38 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
 		return rc;
 	}
 	';
-				break;
-			case 'selectcat':
-				if (
-					!\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded(TAXAJAX_EXT)
-				) {
-					return false;
-				}
+                break;
+            case 'selectcat':
+                if (
+                    !\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded(TAXAJAX_EXT)
+                ) {
+                    return false;
+                }
 
-				$name = 'tt_products[' . $fieldname . ']';
-				if (is_array($params)) {
-					$funcs = count ($params);
-					$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
+                $name = 'tt_products[' . $fieldname . ']';
+                if (is_array($params)) {
+                    $funcs = count ($params);
+                    $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 
-					$ajaxConf = $cnf->getAJAXConf();
-					if (is_array($ajaxConf)) {
-						// TODO: make it possible that AJAX gets all the necessary configuration
-						$code .= '
+                    $ajaxConf = $cnf->getAJAXConf();
+                    if (is_array($ajaxConf)) {
+                        // TODO: make it possible that AJAX gets all the necessary configuration
+                        $code .= '
 		var conf = new Array();';
-						$code .= '
+                        $code .= '
 		';
-						foreach ($ajaxConf as $k => $actConf) {
-							$pVar = GeneralUtility::_GP($k);
-							if (isset($pVar) && is_array($actConf[$pVar . '.'])) {
-								foreach ($actConf[$pVar . '.'] as $k2 => $v2) {
-									$code .= 'conf[' . $k2 . '] = ' . $v2 . '; ';
-								}
-							}
-						}
-						$code .= '
+                        foreach ($ajaxConf as $k => $actConf) {
+                            $pVar = GeneralUtility::_GP($k);
+                            if (isset($pVar) && is_array($actConf[$pVar . '.'])) {
+                                foreach ($actConf[$pVar . '.'] as $k2 => $v2) {
+                                    $code .= 'conf[' . $k2 . '] = ' . $v2 . '; ';
+                                }
+                            }
+                        }
+                        $code .= '
 		';
-					}
-					$code .= 'var c = new Array(); // categories
+                    }
+                    $code .= 'var c = new Array(); // categories
 		var boxCount = ' . $count . '; // number of select boxes
 		var pi = new Array(); // names of pi vars;
 		var selectBoxNames = new Array(); // names of select boxes;
@@ -261,42 +261,42 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
 
 		selectBoxNames[0] = "'. $name . '";
 		';
-					foreach ($piVarArray as $fnr => $pivar) {
-						$code .= 'pi[' . $fnr . '] = "' . $pivar . '";';
-					}
-					$code .= '
+                    foreach ($piVarArray as $fnr => $pivar) {
+                        $code .= 'pi[' . $fnr . '] = "' . $pivar . '";';
+                    }
+                    $code .= '
 		';
-					foreach ($params as $fnr => $catArray) {
+                    foreach ($params as $fnr => $catArray) {
                         if (!is_array($catArray)) {
                             continue;
                         }
-						$code .= 'c[' . $fnr . '] = new Array(' . count($catArray) . ');';
-						foreach ($catArray as $k => $row) {
-							$code .= 'c[' . $fnr . '][' . $k . '] = new Array(3);';
-							$code .= 'c[' . $fnr . '][' . $k . '][0] = "' . $this->jsspecialchars($row['title']) . '"; ' ;
-							$parentField = $parentFieldArray[$fnr];
-							$code .= 'c[' . $fnr . '][' . $k . '][1] = "' . intval($row[$parentField]) . '"; ' ;
-							$child_category = $row['child_category'] ?? 0;
-							if (is_array($child_category)) {
-								$code .= 'c[' . $fnr . '][' . $k . '][2] = new Array(' . count($child_category) . ');';
-								$count = 0;
-								foreach ($child_category as $k1 => $childCat) {
-									$newCode = 'c[' . $fnr . '][' . $k . '][2][' . $count . '] = "' . $childCat . '"; ';
-									$code .= $newCode;
-									$count++;
-								}
-							} else {
-								$code .= 'c[' . $fnr . '][' . $k . '][2] = "0"; ' ;
-							}
-							$code .= '
+                        $code .= 'c[' . $fnr . '] = new Array(' . count($catArray) . ');';
+                        foreach ($catArray as $k => $row) {
+                            $code .= 'c[' . $fnr . '][' . $k . '] = new Array(3);';
+                            $code .= 'c[' . $fnr . '][' . $k . '][0] = "' . $this->jsspecialchars($row['title']) . '"; ' ;
+                            $parentField = $parentFieldArray[$fnr];
+                            $code .= 'c[' . $fnr . '][' . $k . '][1] = "' . intval($row[$parentField]) . '"; ' ;
+                            $child_category = $row['child_category'] ?? 0;
+                            if (is_array($child_category)) {
+                                $code .= 'c[' . $fnr . '][' . $k . '][2] = new Array(' . count($child_category) . ');';
+                                $count = 0;
+                                foreach ($child_category as $k1 => $childCat) {
+                                    $newCode = 'c[' . $fnr . '][' . $k . '][2][' . $count . '] = "' . $childCat . '"; ';
+                                    $code .= $newCode;
+                                    $count++;
+                                }
+                            } else {
+                                $code .= 'c[' . $fnr . '][' . $k . '][2] = "0"; ' ;
+                            }
+                            $code .= '
 		';
-						}
-					}
-				}
-				$code .=
-		'
+                        }
+                    }
+                }
+                $code .=
+        '
 		' .
-	'var fillSelect = function(select, id, contentId, showSubCategories) {
+    'var fillSelect = function(select, id, contentId, showSubCategories) {
 		var sb;
 		var sbt;
 		var index;
@@ -410,31 +410,31 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
 		data["' . $prefixId . '"]["' . $catid . '"] = category;
 		';
 
-				$contentPiVar = tx_ttproducts_model_control::getPiVar('tt_content');
+                $contentPiVar = tx_ttproducts_model_control::getPiVar('tt_content');
 
-				if ($currentRecord != '') {
-					$code .= '
+                if ($currentRecord != '') {
+                    $code .= '
 		data["' . $prefixId . '"]["' . $contentPiVar . '"] = contentId;
 			';
-				}
+                }
 
-				$code .= '
+                $code .= '
 				';
 
-				if ($method == 'clickShow') {
-					$code .= TT_PRODUCTS_EXT . '_showArticle(data);';
-				}
-				$code .= '
+                if ($method == 'clickShow') {
+                    $code .= TT_PRODUCTS_EXT . '_showArticle(data);';
+                }
+                $code .= '
 		} else {
 			/* nothing */
 		}
 		';
-				$code .= '
+                $code .= '
 		inAction = false;
 		return true;
 	}
 		';
-				$code .= '
+                $code .= '
 	var doFetchData = function(contentId) {
 		var data = new Array();
 		var func;
@@ -473,39 +473,39 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
 		}
 
 			';
-				if (
-					$method == 'submitShow'
-				) {
-					$code .= $prefixId . '_showList(data);';
-				}
-				$code .= '
+                if (
+                    $method == 'submitShow'
+                ) {
+                    $code .= $prefixId . '_showList(data);';
+                }
+                $code .= '
 		return true;
 	}
-	'		;
-				break;
+	'        ;
+                break;
 
-			case 'fetchdata':
-				if (
-					!\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded(TAXAJAX_EXT) ||
-					!is_array($params)
-				) {
-					return false;
-				}
-				$code .= 'var vBoxCount = new Array(' . count($params) . '); // number of select boxes'.chr(13);
-				$code .= 'var v = new Array(); // variants'.chr(13).chr(13);
-				foreach ($params as $tablename => $selectableVariantFieldArray) {
-					if (is_array($selectableVariantFieldArray)) {
-						$code .= 'vBoxCount["' . $tablename . '"] = ' . (count($selectableVariantFieldArray)) . ';' . chr(13);
-						$code .= 'v["' . $tablename . '"] = new Array(' . count($selectableVariantFieldArray) . ');' . chr(13);
-						$k = 0;
-						foreach ($selectableVariantFieldArray as $variant => $field) {
-							$code .= 'v["' . $tablename . '"][' . $k . '] = "' . str_replace('_', '-', $field)  . '";' . chr(13);
-							$k++;
-						}
-					}
-				}
+            case 'fetchdata':
+                if (
+                    !\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded(TAXAJAX_EXT) ||
+                    !is_array($params)
+                ) {
+                    return false;
+                }
+                $code .= 'var vBoxCount = new Array(' . count($params) . '); // number of select boxes'.chr(13);
+                $code .= 'var v = new Array(); // variants'.chr(13).chr(13);
+                foreach ($params as $tablename => $selectableVariantFieldArray) {
+                    if (is_array($selectableVariantFieldArray)) {
+                        $code .= 'vBoxCount["' . $tablename . '"] = ' . (count($selectableVariantFieldArray)) . ';' . chr(13);
+                        $code .= 'v["' . $tablename . '"] = new Array(' . count($selectableVariantFieldArray) . ');' . chr(13);
+                        $k = 0;
+                        foreach ($selectableVariantFieldArray as $variant => $field) {
+                            $code .= 'v["' . $tablename . '"][' . $k . '] = "' . str_replace('_', '-', $field)  . '";' . chr(13);
+                            $k++;
+                        }
+                    }
+                }
 
-				$code .= '
+                $code .= '
 
 	var doFetchRow = function(table, view, uid) {
 		var data = new Array();
@@ -513,7 +513,7 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
 		var temp = table.split("_");
 		var feTable = temp.join("-");';
 
-				$code .= '
+                $code .= '
 		data["view"] = view;
 		data[table] = new Array();
 		data[table]["uid"] = uid;
@@ -548,68 +548,68 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
 		}
 	';
 
-				$code .= '	' . TT_PRODUCTS_EXT . '_fetchRow(data);';
+                $code .= '	' . TT_PRODUCTS_EXT . '_fetchRow(data);';
 
-				$code .= '
+                $code .= '
 		return true;
 	}';
-				break;
+                break;
 
-			case 'direct':
-				if (is_array($params)) {
-					reset($params);
-					$code .= current($params);
-					$JSfieldname = $fieldname . '-' . key($params);
-				}
-				break;
+            case 'direct':
+                if (is_array($params)) {
+                    reset($params);
+                    $code .= current($params);
+                    $JSfieldname = $fieldname . '-' . key($params);
+                }
+                break;
 
-			case 'xajax':
-				// XAJAX part
-				if (
-					!$this->bAjaxAdded &&
-					is_object($this->ajax) &&
-					is_object($this->ajax->taxajax)
-				) {
+            case 'xajax':
+                // XAJAX part
+                if (
+                    !$this->bAjaxAdded &&
+                    is_object($this->ajax) &&
+                    is_object($this->ajax->taxajax)
+                ) {
                     $path =
                         PathUtility::stripPathSitePrefix(
                             \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath(TAXAJAX_EXT)
                         );
-					$code = $this->ajax->taxajax->getJavascript($path);
-					$this->bXajaxAdded = true;
-				}
-				$JSfieldname = 'tx_ttproducts-xajax';
-				$bDirectHTML = true;
-				break;
+                    $code = $this->ajax->taxajax->getJavascript($path);
+                    $this->bXajaxAdded = true;
+                }
+                $JSfieldname = 'tx_ttproducts-xajax';
+                $bDirectHTML = true;
+                break;
 
             case 'colorbox':
-				$JSfieldname = 'tx_ttproducts-colorbox';
-				$colorboxFile = \TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath(PATH_BE_TTPRODUCTS . 'Resources/Public/JavaScript/tt_products_colorbox.js');
+                $JSfieldname = 'tx_ttproducts-colorbox';
+                $colorboxFile = \TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath(PATH_BE_TTPRODUCTS . 'Resources/Public/JavaScript/tt_products_colorbox.js');
 
-				FrontendUtility::addJavascriptFile($colorboxFile,
-					$JSfieldname
-				);
-				break;
+                FrontendUtility::addJavascriptFile($colorboxFile,
+                    $JSfieldname
+                );
+                break;
 
-			default:
-				$bError = true;
-				break;
-		} // switch
+            default:
+                $bError = true;
+                break;
+        } // switch
 
-		if (!$bError) {
-			if (
-				$code != '' &&
-				$JSfieldname != ''
-			) {
-				if ($bDirectHTML)	{
+        if (!$bError) {
+            if (
+                $code != '' &&
+                $JSfieldname != ''
+            ) {
+                if ($bDirectHTML)	{
                     $pageRenderer = $this->getPageRenderer();
                     $pageRenderer->addHeaderData($code);
-				} else {
+                } else {
                     $assetCollector = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Page\AssetCollector::class);
                     $assetCollector->addInlineJavaScript($JSfieldname, $code, [], ['priority' => true]);
-				}
-			}
-		}
-	} // setJS
+                }
+            }
+        }
+    } // setJS
 
     /**
      * @return PageRenderer
@@ -619,14 +619,14 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
         return GeneralUtility::makeInstance(\TYPO3\CMS\Core\Page\PageRenderer::class);
     }
 
-	public function setIncluded ($filename) {
-		$this->bIncludedArray[$filename] = true;
-	}
+    public function setIncluded ($filename) {
+        $this->bIncludedArray[$filename] = true;
+    }
 
 
-	public function getIncluded ($filename) {
-		return $this->bIncludedArray[$filename];
-	}
+    public function getIncluded ($filename) {
+        return $this->bIncludedArray[$filename];
+    }
 }
 
 

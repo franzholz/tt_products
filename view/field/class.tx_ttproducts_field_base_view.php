@@ -40,150 +40,150 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
 abstract class tx_ttproducts_field_base_view implements tx_ttproducts_field_view_int, \TYPO3\CMS\Core\SingletonInterface {
-	private $bHasBeenInitialised = false;
-	public $modelObj;
-	public $cObj;
-	public $conf;		// original configuration
-	public $config;		// modified configuration
+    private $bHasBeenInitialised = false;
+    public $modelObj;
+    public $cObj;
+    public $conf;		// original configuration
+    public $config;		// modified configuration
 
 
-	public function init ($modelObj) {
-		$this->modelObj = $modelObj;
-		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-		$this->conf = $cnf->getConf();
-		$this->config = $cnf->getConfig();
+    public function init ($modelObj) {
+        $this->modelObj = $modelObj;
+        $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
+        $this->conf = $cnf->getConf();
+        $this->config = $cnf->getConfig();
 
-		$this->bHasBeenInitialised = true;
-	}
+        $this->bHasBeenInitialised = true;
+    }
 
-	public function needsInit () {
-		return !$this->bHasBeenInitialised;
-	}
+    public function needsInit () {
+        return !$this->bHasBeenInitialised;
+    }
 
-	public function getModelObj () {
-		return $this->modelObj;
-	}
+    public function getModelObj () {
+        return $this->modelObj;
+    }
 
-	public function getRepeatedRowSubpartArrays (
-		&$subpartArray,
-		&$wrappedSubpartArray,
-		$markerKey,
-		$row,
-		$fieldname,
-		$key,
-		$value,
-		$tableConf,
-		$tagArray
-	) {
-		// overwrite this!
-		return false;
-	}
+    public function getRepeatedRowSubpartArrays (
+        &$subpartArray,
+        &$wrappedSubpartArray,
+        $markerKey,
+        $row,
+        $fieldname,
+        $key,
+        $value,
+        $tableConf,
+        $tagArray
+    ) {
+        // overwrite this!
+        return false;
+    }
 
-	public function getRepeatedRowMarkerArray (
-		&$markerArray,
-		$markerKey,
-		$functablename,
-		$row,
-		$fieldname,
-		$key,
-		$value,
-		$tableConf,
-		$tagArray,
-		$theCode = '',
-		$id='1'
-	) {
-		// overwrite this!
-		return false;
-	}
+    public function getRepeatedRowMarkerArray (
+        &$markerArray,
+        $markerKey,
+        $functablename,
+        $row,
+        $fieldname,
+        $key,
+        $value,
+        $tableConf,
+        $tagArray,
+        $theCode = '',
+        $id='1'
+    ) {
+        // overwrite this!
+        return false;
+    }
 
-	public function getRepeatedSubpartArrays (
-		&$subpartArray,
-		&$wrappedSubpartArray,
-		$templateCode,
-		$markerKey,
-		$functablename,
-		$row,
-		$fieldname,
-		$tableConf,
-		$tagArray,
-		$theCode = '',
-		$id = '1'
-	) {
+    public function getRepeatedSubpartArrays (
+        &$subpartArray,
+        &$wrappedSubpartArray,
+        $templateCode,
+        $markerKey,
+        $functablename,
+        $row,
+        $fieldname,
+        $tableConf,
+        $tagArray,
+        $theCode = '',
+        $id = '1'
+    ) {
         $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
-		$result = false;
-		$newContent = '';
-		$markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
-		$upperField = strtoupper($fieldname);
-		$templateAreaList = $markerKey . '_' . $upperField . '_LIST';
-		$t = [];
-		$t['listFrameWork'] = $templateService->getSubpart($templateCode, '###' . $templateAreaList . '###');
-		$templateAreaSingle = $markerKey . '_' . $upperField . '_SINGLE';
-		$t['singleFrameWork'] = $templateService->getSubpart($t['listFrameWork'], '###' . $templateAreaSingle . '###');
+        $result = false;
+        $newContent = '';
+        $markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
+        $upperField = strtoupper($fieldname);
+        $templateAreaList = $markerKey . '_' . $upperField . '_LIST';
+        $t = [];
+        $t['listFrameWork'] = $templateService->getSubpart($templateCode, '###' . $templateAreaList . '###');
+        $templateAreaSingle = $markerKey . '_' . $upperField . '_SINGLE';
+        $t['singleFrameWork'] = $templateService->getSubpart($t['listFrameWork'], '###' . $templateAreaSingle . '###');
 
-		if ($t['singleFrameWork'] != '') {
-			$repeatedTagArray = $markerObj->getAllMarkers($t['singleFrameWork']);
+        if ($t['singleFrameWork'] != '') {
+            $repeatedTagArray = $markerObj->getAllMarkers($t['singleFrameWork']);
 
-			$value = $row[$fieldname];
-			$valueArray = GeneralUtility::trimExplode(',', $value);
+            $value = $row[$fieldname];
+            $valueArray = GeneralUtility::trimExplode(',', $value);
 
-			if (isset($valueArray) && is_array($valueArray) && $valueArray['0'] != '') {
+            if (isset($valueArray) && is_array($valueArray) && $valueArray['0'] != '') {
 
-				$content = '';
-				foreach($valueArray as $key => $value) {
-					$repeatedMarkerArray = [];
-					$repeatedSubpartArray = [];
-					$repeatedWrappedSubpartArray = [];
+                $content = '';
+                foreach($valueArray as $key => $value) {
+                    $repeatedMarkerArray = [];
+                    $repeatedSubpartArray = [];
+                    $repeatedWrappedSubpartArray = [];
 
-					$resultRowMarker = $this->getRepeatedRowMarkerArray(
-						$repeatedMarkerArray,
-						$markerKey,
-						$functablename,
-						$row,
-						$fieldname,
-						$key,
-						$value,
-						$tableConf,
-						$tagArray,
-						$theCode,
-						$id
-					);
+                    $resultRowMarker = $this->getRepeatedRowMarkerArray(
+                        $repeatedMarkerArray,
+                        $markerKey,
+                        $functablename,
+                        $row,
+                        $fieldname,
+                        $key,
+                        $value,
+                        $tableConf,
+                        $tagArray,
+                        $theCode,
+                        $id
+                    );
 
-					$this->getRepeatedRowSubpartArrays(
-						$repeatedSubpartArray,
-						$repeatedWrappedSubpartArray,
-						$markerKey,
-						$row,
-						$fieldname,
-						$key,
-						$value,
-						$tableConf,
-						$tagArray
-					);
+                    $this->getRepeatedRowSubpartArrays(
+                        $repeatedSubpartArray,
+                        $repeatedWrappedSubpartArray,
+                        $markerKey,
+                        $row,
+                        $fieldname,
+                        $key,
+                        $value,
+                        $tableConf,
+                        $tagArray
+                    );
 
-					$newContent = $templateService->substituteMarkerArrayCached(
-						$t['singleFrameWork'],
-						$repeatedMarkerArray,
-						$repeatedSubpartArray,
-						$repeatedWrappedSubpartArray
-					);
+                    $newContent = $templateService->substituteMarkerArrayCached(
+                        $t['singleFrameWork'],
+                        $repeatedMarkerArray,
+                        $repeatedSubpartArray,
+                        $repeatedWrappedSubpartArray
+                    );
 
-					$result = $resultRowMarker;
-					if ($result) {
-						$content .= $newContent;
-					}
-				}
+                    $result = $resultRowMarker;
+                    if ($result) {
+                        $content .= $newContent;
+                    }
+                }
 
-				$newContent = $templateService->substituteMarkerArrayCached(
-					$t['listFrameWork'],
-					[],
-					['###' . $templateAreaSingle . '###' => $content],
-					[]
-				);
-			}
-		}
-		$subpartArray['###' . $templateAreaList . '###'] = $newContent;
+                $newContent = $templateService->substituteMarkerArrayCached(
+                    $t['listFrameWork'],
+                    [],
+                    ['###' . $templateAreaSingle . '###' => $content],
+                    []
+                );
+            }
+        }
+        $subpartArray['###' . $templateAreaList . '###'] = $newContent;
 
-		return $result;
-	}
+        return $result;
+    }
 }
 

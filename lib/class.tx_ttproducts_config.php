@@ -41,298 +41,298 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
 class tx_ttproducts_config implements \TYPO3\CMS\Core\SingletonInterface {
-	public $conf;
-	public $config;
-	private $bHasBeenInitialised = false;
+    public $conf;
+    public $config;
+    private $bHasBeenInitialised = false;
 
 
-	/**
-	 * Getting the configurations
-	 */
-	public function init ($conf, $config) {
-		$this->conf = $conf;
+    /**
+     * Getting the configurations
+     */
+    public function init ($conf, $config) {
+        $this->conf = $conf;
 
-		$this->config = $config;
-		$this->bHasBeenInitialised = true;
-	} // init
-
-
-	public function needsInit () {
-		return !$this->bHasBeenInitialised;
-	}
+        $this->config = $config;
+        $this->bHasBeenInitialised = true;
+    } // init
 
 
-	public function setConf ($key, $value) {
-		if ($key != '') {
-			$this->conf[$key] = $value;
-		} else {
-			$this->conf = $value;
-		}
-	}
+    public function needsInit () {
+        return !$this->bHasBeenInitialised;
+    }
 
 
-	public function getConf () {
-		$result = $this->conf;
-		if (self::needsInit()) {
-			$result = false;
-		}
-
-		return $result;
-	}
-
-
-	public function setConfig ($value) {
-		$this->config = $value;
-	}
+    public function setConf ($key, $value) {
+        if ($key != '') {
+            $this->conf[$key] = $value;
+        } else {
+            $this->conf = $value;
+        }
+    }
 
 
-	public function getConfig () {
-		return $this->config;
-	}
+    public function getConf () {
+        $result = $this->conf;
+        if (self::needsInit()) {
+            $result = false;
+        }
+
+        return $result;
+    }
 
 
-	public function getUseArticles () {
-		$result = false;
-		$conf = $this->getConf();
-		if (isset($conf) && is_array($conf)) {
-			$result = $conf['useArticles'];
-		}
-		return $result;
-	}
+    public function setConfig ($value) {
+        $this->config = $value;
+    }
 
 
-	public function getTableDesc ($functablename, $type = '') {
-		$tableDesc = [];
-		if (
-			isset($this->conf['table.']) &&
-			isset($this->conf['table.'][$functablename . '.'])
-		) {
-			$tableDesc = $this->conf['table.'][$functablename . '.'];
-		}
-
-		if ($type && isset($tableDesc[$type])) {
-			$result = $tableDesc[$type];
-		} else {
-			$result = $tableDesc;
-		}
-		return $result;
-	}
+    public function getConfig () {
+        return $this->config;
+    }
 
 
-	public function getTableName ($functablename) {
-		if (
-			isset($this->conf['table.']) &&
-			is_array($this->conf['table.']) &&
-			isset($this->conf['table.'][$functablename])
-		) {
-			$result = $this->conf['table.'][$functablename];
-		} else {
-			$result = $functablename;
-		}
-		return $result;
-	}
+    public function getUseArticles () {
+        $result = false;
+        $conf = $this->getConf();
+        if (isset($conf) && is_array($conf)) {
+            $result = $conf['useArticles'];
+        }
+        return $result;
+    }
 
 
-	public function getSpecialConf ($type, $tablename = '', $theCode = '') {
-		$specialConf = [];
+    public function getTableDesc ($functablename, $type = '') {
+        $tableDesc = [];
+        if (
+            isset($this->conf['table.']) &&
+            isset($this->conf['table.'][$functablename . '.'])
+        ) {
+            $tableDesc = $this->conf['table.'][$functablename . '.'];
+        }
 
-		if (isset($this->conf[$type . '.'])) {
+        if ($type && isset($tableDesc[$type])) {
+            $result = $tableDesc[$type];
+        } else {
+            $result = $tableDesc;
+        }
+        return $result;
+    }
 
-			if ($tablename != '' && isset($this->conf[$type . '.'][$tablename . '.'])) {
-				if (
-					is_array($this->conf[$type . '.'][$tablename . '.']['ALL.'])
-				) {
-					$specialConf = $this->conf[$type . '.'][$tablename . '.']['ALL.'];
-				}
-				if (
-					$theCode &&
-					isset($this->conf[$type . '.'][$tablename . '.'][$theCode . '.'])
-				) {
-					$tempConf = $this->conf[$type . '.'][$tablename . '.'][$theCode . '.'];
-					\TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($specialConf, $tempConf);
-				}
-				if (
+
+    public function getTableName ($functablename) {
+        if (
+            isset($this->conf['table.']) &&
+            is_array($this->conf['table.']) &&
+            isset($this->conf['table.'][$functablename])
+        ) {
+            $result = $this->conf['table.'][$functablename];
+        } else {
+            $result = $functablename;
+        }
+        return $result;
+    }
+
+
+    public function getSpecialConf ($type, $tablename = '', $theCode = '') {
+        $specialConf = [];
+
+        if (isset($this->conf[$type . '.'])) {
+
+            if ($tablename != '' && isset($this->conf[$type . '.'][$tablename . '.'])) {
+                if (
+                    is_array($this->conf[$type . '.'][$tablename . '.']['ALL.'])
+                ) {
+                    $specialConf = $this->conf[$type . '.'][$tablename . '.']['ALL.'];
+                }
+                if (
+                    $theCode &&
+                    isset($this->conf[$type . '.'][$tablename . '.'][$theCode . '.'])
+                ) {
+                    $tempConf = $this->conf[$type . '.'][$tablename . '.'][$theCode . '.'];
+                    \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($specialConf, $tempConf);
+                }
+                if (
                     isset($specialConf['orderBy']) &&
                     $specialConf['orderBy'] == '{$plugin.' . TT_PRODUCTS_EXT . '.orderBy}'
                 ) {
-					$specialConf['orderBy'] = '';
-				}
-			} else {
-				if (isset($this->conf[$type . '.']['ALL.'])) {
-					$specialConf = $this->conf[$type . '.']['ALL.'];
-				}
-				if (
-					$theCode &&
-					isset($this->conf[$type . '.'][$theCode . '.'])
-				) {
-					$tempConf = $this->conf[$type . '.'][$theCode . '.'];
-					\TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($specialConf, $tempConf);
-				}
-			}
-		}
-		return $specialConf;
-	}
+                    $specialConf['orderBy'] = '';
+                }
+            } else {
+                if (isset($this->conf[$type . '.']['ALL.'])) {
+                    $specialConf = $this->conf[$type . '.']['ALL.'];
+                }
+                if (
+                    $theCode &&
+                    isset($this->conf[$type . '.'][$theCode . '.'])
+                ) {
+                    $tempConf = $this->conf[$type . '.'][$theCode . '.'];
+                    \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($specialConf, $tempConf);
+                }
+            }
+        }
+        return $specialConf;
+    }
 
 
-	public function getTableConf ($functablename, $theCode = '') {
-		$tableConf = $this->getSpecialConf('conf', $functablename, $theCode);
-		return $tableConf;
-	}
+    public function getTableConf ($functablename, $theCode = '') {
+        $tableConf = $this->getSpecialConf('conf', $functablename, $theCode);
+        return $tableConf;
+    }
 
 
-	public function getCSSConf ($functablename, $theCode = '') {
-		$cssConf = $this->getSpecialConf('CSS', $functablename, $theCode);
+    public function getCSSConf ($functablename, $theCode = '') {
+        $cssConf = $this->getSpecialConf('CSS', $functablename, $theCode);
 
-		return $cssConf;
-	}
-
-
-	public function getJsConf ($theCode = '') {
-		$result = $this->getSpecialConf('js', '', $theCode);
-
-		return $result;
-	}
+        return $cssConf;
+    }
 
 
-	public function getFormConf ($theCode = '') {
-		$result = $this->getSpecialConf('form', '', $theCode);
+    public function getJsConf ($theCode = '') {
+        $result = $this->getSpecialConf('js', '', $theCode);
 
-		return $result;
-	}
-
-
-	public function getViewControlConf ($theCode) {
-		$viewConf = $this->getSpecialConf('control', '', $theCode);
-
-		return $viewConf;
-	}
+        return $result;
+    }
 
 
-	public function getTypeConf ($type, $feature, $detail = '') {
+    public function getFormConf ($theCode = '') {
+        $result = $this->getSpecialConf('form', '', $theCode);
 
-		$rc = [];
-
-		if (isset($this->conf[$type . '.'])) {
-			if ($detail != '') {
-				if (
-					isset($this->conf[$type . '.'][$feature . '.']) &&
-					is_array($this->conf[$type . '.'][$feature . '.'])
-				) {
-					if (isset($this->conf[$type . '.'][$feature . '.'][$detail])) {
-						$rc = $this->conf[$type . '.'][$feature . '.'][$detail];
-					} else if (isset($this->conf[$type . '.'][$feature . '.'][$detail . '.'])) {
-						$rc = $this->conf[$type . '.'][$feature . '.'][$detail . '.'];
-					}
-				}
-			} else {
-				if (
-					isset($this->conf[$type . '.'][$feature]) &&
-					$this->conf[$type . '.'][$feature] != ''
-				) {
-					$rc = $this->conf[$type . '.'][$feature];
-				} else if (isset($this->conf[$type . '.'][$feature . '.'])) {
-					$rc = $this->conf[$type . '.'][$feature . '.'];
-				}
-			}
-		}
-		return $rc;
-	}
+        return $result;
+    }
 
 
-	public function getBasketConf ($feature, $detail = '') {
-		$result = $this->getTypeConf('basket', $feature, $detail);
-		return $result;
-	}
+    public function getViewControlConf ($theCode) {
+        $viewConf = $this->getSpecialConf('control', '', $theCode);
+
+        return $viewConf;
+    }
 
 
-	public function getFinalizeConf ($feature, $detail = '') {
-		$result = $this->getTypeConf('finalize', $feature, $detail);
-		return $result;
-	}
+    public function getTypeConf ($type, $feature, $detail = '') {
+
+        $rc = [];
+
+        if (isset($this->conf[$type . '.'])) {
+            if ($detail != '') {
+                if (
+                    isset($this->conf[$type . '.'][$feature . '.']) &&
+                    is_array($this->conf[$type . '.'][$feature . '.'])
+                ) {
+                    if (isset($this->conf[$type . '.'][$feature . '.'][$detail])) {
+                        $rc = $this->conf[$type . '.'][$feature . '.'][$detail];
+                    } else if (isset($this->conf[$type . '.'][$feature . '.'][$detail . '.'])) {
+                        $rc = $this->conf[$type . '.'][$feature . '.'][$detail . '.'];
+                    }
+                }
+            } else {
+                if (
+                    isset($this->conf[$type . '.'][$feature]) &&
+                    $this->conf[$type . '.'][$feature] != ''
+                ) {
+                    $rc = $this->conf[$type . '.'][$feature];
+                } else if (isset($this->conf[$type . '.'][$feature . '.'])) {
+                    $rc = $this->conf[$type . '.'][$feature . '.'];
+                }
+            }
+        }
+        return $rc;
+    }
 
 
-	public function getDownloadConf ($feature, $detail = '') {
-		$result = $this->getTypeConf('download', $feature, $detail);
-		return $result;
-	}
+    public function getBasketConf ($feature, $detail = '') {
+        $result = $this->getTypeConf('basket', $feature, $detail);
+        return $result;
+    }
 
 
-	public function getFallback ($tableConf) {
-		$result = false;
-		if (
-			isset($tableConf) &&
-			is_array($tableConf) &&
-			isset($tableConf['language.']) &&
-			$tableConf['language.']['type'] == 'table' &&
-			isset($tableConf['language.']['mode']) &&
-			$tableConf['language.']['mode'] == 'fallback'
-		) {
-			$result = true;
-		}
-
-		return $result;
-	}
-
-	public function getTranslationFields ($tableConf) {
-		$fieldArray = [];
-		if (isset($tableConf['language.']) && is_array($tableConf['language.']) && isset($tableConf['language.']['type']) && $tableConf['language.']['type'] == 'field') {
-			$langConf = $tableConf['language.']['field.'];
-			if (is_array($langConf)) {
-				foreach ($langConf as $field => $langfield) {
-					$fieldArray[$field] = $langfield;
-				}
-			}
-		}
-		return $fieldArray;
-	}
+    public function getFinalizeConf ($feature, $detail = '') {
+        $result = $this->getTypeConf('finalize', $feature, $detail);
+        return $result;
+    }
 
 
-	public function getImageFields ($tableConf) {
-		$retArray = [];
-
-		$generateArray = ['generateImage', 'generatePath'];
-		foreach ($generateArray as $k => $generate) {
-			if (is_array($tableConf) && isset($tableConf[$generate . '.']) && is_array($tableConf[$generate . '.'])) {
-				$genPartArray = $tableConf[$generate . '.'];
-				if ($genPartArray['type'] == 'tablefields') {
-					$fieldArray = $genPartArray['field.'];
-					if (is_array($fieldArray)) {
-						foreach ($fieldArray as $field => $count) {
-							$retArray[] = $field;
-						}
-					}
-				}
-			}
-		}
-		return $retArray;
-	}
+    public function getDownloadConf ($feature, $detail = '') {
+        $result = $this->getTypeConf('download', $feature, $detail);
+        return $result;
+    }
 
 
-	/**
-	 * Returns true if the item has the $check value checked
-	 *
-	 */
-	public function hasConfig (
-		&$row,
-		$check,
-		$configField = 'config'
-	) {
-		$hasConfig = false;
+    public function getFallback ($tableConf) {
+        $result = false;
+        if (
+            isset($tableConf) &&
+            is_array($tableConf) &&
+            isset($tableConf['language.']) &&
+            $tableConf['language.']['type'] == 'table' &&
+            isset($tableConf['language.']['mode']) &&
+            $tableConf['language.']['mode'] == 'fallback'
+        ) {
+            $result = true;
+        }
 
-		if (isset($row[$configField])) {
-			$config = GeneralUtility::xml2array($row[$configField]);
-			$hasConfig = \JambageCom\Div2007\Utility\FlexformUtility::get($config, $check);
-		}
+        return $result;
+    }
 
-		return $hasConfig;
-	}
+    public function getTranslationFields ($tableConf) {
+        $fieldArray = [];
+        if (isset($tableConf['language.']) && is_array($tableConf['language.']) && isset($tableConf['language.']['type']) && $tableConf['language.']['type'] == 'field') {
+            $langConf = $tableConf['language.']['field.'];
+            if (is_array($langConf)) {
+                foreach ($langConf as $field => $langfield) {
+                    $fieldArray[$field] = $langfield;
+                }
+            }
+        }
+        return $fieldArray;
+    }
 
 
-	public function getColumnFields ($tableConf) {
-		$retArray = [];
+    public function getImageFields ($tableConf) {
+        $retArray = [];
 
-		$generateArray = ['generateColumn'];
-		if (is_array($tableConf)) {
+        $generateArray = ['generateImage', 'generatePath'];
+        foreach ($generateArray as $k => $generate) {
+            if (is_array($tableConf) && isset($tableConf[$generate . '.']) && is_array($tableConf[$generate . '.'])) {
+                $genPartArray = $tableConf[$generate . '.'];
+                if ($genPartArray['type'] == 'tablefields') {
+                    $fieldArray = $genPartArray['field.'];
+                    if (is_array($fieldArray)) {
+                        foreach ($fieldArray as $field => $count) {
+                            $retArray[] = $field;
+                        }
+                    }
+                }
+            }
+        }
+        return $retArray;
+    }
+
+
+    /**
+     * Returns true if the item has the $check value checked
+     *
+     */
+    public function hasConfig (
+        &$row,
+        $check,
+        $configField = 'config'
+    ) {
+        $hasConfig = false;
+
+        if (isset($row[$configField])) {
+            $config = GeneralUtility::xml2array($row[$configField]);
+            $hasConfig = \JambageCom\Div2007\Utility\FlexformUtility::get($config, $check);
+        }
+
+        return $hasConfig;
+    }
+
+
+    public function getColumnFields ($tableConf) {
+        $retArray = [];
+
+        $generateArray = ['generateColumn'];
+        if (is_array($tableConf)) {
             foreach ($generateArray as $k => $generate) {
                 if (isset($tableConf[$generate . '.']) && is_array($tableConf[$generate . '.'])) {
                     $genPartArray = $tableConf[$generate . '.'];
@@ -348,33 +348,33 @@ class tx_ttproducts_config implements \TYPO3\CMS\Core\SingletonInterface {
                 }
             }
         }
-		return $retArray;
-	}
+        return $retArray;
+    }
 
 
-	public function getAJAXConf () {
-		$result = [];
-		if (isset($this->conf['ajax.']) && is_array($this->conf['ajax.']['conf.'])) {
-			$result = $this->conf['ajax.']['conf.'];
-		}
-		return $result;
-	}
+    public function getAJAXConf () {
+        $result = [];
+        if (isset($this->conf['ajax.']) && is_array($this->conf['ajax.']['conf.'])) {
+            $result = $this->conf['ajax.']['conf.'];
+        }
+        return $result;
+    }
 
 
-	public function getTemplateFile ($theCode) {
-		$result = '';
+    public function getTemplateFile ($theCode) {
+        $result = '';
 
-		if (
-			isset($this->conf['templateFile.']) &&
-			!empty($this->conf['templateFile.'][$theCode])
-		) {
-			$result = $this->conf['templateFile.'][$theCode];
-		} else {
-			$result = $this->conf['templateFile'];
-		}
+        if (
+            isset($this->conf['templateFile.']) &&
+            !empty($this->conf['templateFile.'][$theCode])
+        ) {
+            $result = $this->conf['templateFile.'][$theCode];
+        } else {
+            $result = $this->conf['templateFile'];
+        }
 
-		return $result;
-	}
+        return $result;
+    }
 
 }
 
