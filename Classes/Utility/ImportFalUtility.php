@@ -75,7 +75,7 @@ class ImportFalUtility {
             'tt_products_language' => ['image'],
             'tt_products_cat' => ['image'],
             'tt_products_articles' => ['image'],
-        );
+        ];
 
         foreach ($tableMediaArray as $tablename => $imageFieldnameArray) {
             $imageCount = 0;
