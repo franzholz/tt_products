@@ -38,21 +38,21 @@
 
 
 class tx_ttproducts_fal extends tx_ttproducts_article_base {
-	public $marker = 'FAL';
-	public $type = 'fal';
-	public $piVar = 'fal';
+    public $marker = 'FAL';
+    public $type = 'fal';
+    public $piVar = 'fal';
 
-	static public $copyFieldArray = [
-		'title',
-		'link',
-		'description',
-		'alternative',
-		'tx_ttproducts_author',
-		'tx_ttproducts_startpoint',
-		'tx_ttproducts_endpoint',
-		'tx_ttproducts_price_enable',
-		'tx_ttproducts_price'
-	];
+    static public $copyFieldArray = [
+        'title',
+        'link',
+        'description',
+        'alternative',
+        'tx_ttproducts_author',
+        'tx_ttproducts_startpoint',
+        'tx_ttproducts_endpoint',
+        'tx_ttproducts_price_enable',
+        'tx_ttproducts_price'
+    ];
 
 }
 

@@ -43,86 +43,86 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_pricecalc extends tx_ttproducts_pricecalc_base {
 
-	public function getCalculatedData (
-		&$itemArray,
-		$conf,
-		$type,
-		&$priceReduction,
-		&$discountArray,
-		$priceTotalTax,
-		$bUseArticles,
-		$taxIncluded,
-		$bMergeArticles = true,
+    public function getCalculatedData (
+        &$itemArray,
+        $conf,
+        $type,
+        &$priceReduction,
+        &$discountArray,
+        $priceTotalTax,
+        $bUseArticles,
+        $taxIncluded,
+        $bMergeArticles = true,
         $uid = 0
-	) {
-		$sql = GeneralUtility::makeInstance('tx_ttproducts_sql');
+    ) {
+        $sql = GeneralUtility::makeInstance('tx_ttproducts_sql');
 
-		if (!$itemArray || !count($itemArray)) {
-			return;
-		}
-		ksort($conf);
+        if (!$itemArray || !count($itemArray)) {
+            return;
+        }
+        ksort($conf);
 
-		foreach ($conf as $k1 => $priceCalcTemp) {
+        foreach ($conf as $k1 => $priceCalcTemp) {
 
-			if (!is_array($priceCalcTemp)) {
-				continue;
-			}
-			$countedItems = [];
-			$pricefor1 = doubleval($priceCalcTemp['prod.']['1']);
-			$dumCount = 0;
+            if (!is_array($priceCalcTemp)) {
+                continue;
+            }
+            $countedItems = [];
+            $pricefor1 = doubleval($priceCalcTemp['prod.']['1']);
+            $dumCount = 0;
 
-			// loop over all items in the basket indexed by sort string
-			foreach ($itemArray as $sort => $actItemArray) {
-				foreach ($actItemArray as $k2 => $actItem) {
+            // loop over all items in the basket indexed by sort string
+            foreach ($itemArray as $sort => $actItemArray) {
+                foreach ($actItemArray as $k2 => $actItem) {
 
-					$row = $actItem['rec'];
+                    $row = $actItem['rec'];
 
-					if (is_array($priceCalcTemp['sql.']))    {
-						if (!($bIsValid = $sql->isValid($row, $priceCalcTemp['sql.']['where'])))    {
-							continue;
-						}
-					}
+                    if (is_array($priceCalcTemp['sql.']))    {
+                        if (!($bIsValid = $sql->isValid($row, $priceCalcTemp['sql.']['where'])))    {
+                            continue;
+                        }
+                    }
 
-					// has a price reduction already been calculated before ?
-					if ($priceReduction[$row['uid']] == 1) {
-						continue;
-					}
+                    // has a price reduction already been calculated before ?
+                    if ($priceReduction[$row['uid']] == 1) {
+                        continue;
+                    }
 
-					// count all items which will apply to the discount price
-					$count2 = $actItem['count'];
+                    // count all items which will apply to the discount price
+                    $count2 = $actItem['count'];
 
-					if (((float) $count2 > 0) && ($row['price'] == $pricefor1)) {
-						$countedItems[$k1][] = array ('sort' => $sort);
-						$dumCount += $count2;
-					}
-				}
-			}
+                    if (((float) $count2 > 0) && ($row['price'] == $pricefor1)) {
+                        $countedItems[$k1][] = array ('sort' => $sort);
+                        $dumCount += $count2;
+                    }
+                }
+            }
 
-				// nothing found?
-			if ($dumCount == 0) {
-				continue;
-			}
+                // nothing found?
+            if ($dumCount == 0) {
+                continue;
+            }
 
-			$priceTotalTemp = 0;
-			$countTemp = $dumCount;
-			krsort($priceCalcTemp['prod.']);
-			foreach ($priceCalcTemp['prod.'] as $k2 => $price2) {
+            $priceTotalTemp = 0;
+            $countTemp = $dumCount;
+            krsort($priceCalcTemp['prod.']);
+            foreach ($priceCalcTemp['prod.'] as $k2 => $price2) {
 
-				if ((float) $k2 > 0) {
-					while ($countTemp >= (float) $k2) {
-						$countTemp -= (float) $k2;
-						$priceTotalTemp += doubleval($price2);
-					}
-				}
-			}
-			$priceProduct = ((float) $dumCount > 0 ? ($priceTotalTemp / $dumCount) : 0);
+                if ((float) $k2 > 0) {
+                    while ($countTemp >= (float) $k2) {
+                        $countTemp -= (float) $k2;
+                        $priceTotalTemp += doubleval($price2);
+                    }
+                }
+            }
+            $priceProduct = ((float) $dumCount > 0 ? ($priceTotalTemp / $dumCount) : 0);
 
-			foreach ($countedItems[$k1] as $k3 => $v3) {
-				foreach ($itemArray[$v3['sort']] as $k4=>$actItem) {
-					$itemArray[$v3['sort']][$k4][$type] = $priceProduct;
-				}
-			}
-		}
-	} // getCalculatedData
+            foreach ($countedItems[$k1] as $k3 => $v3) {
+                foreach ($itemArray[$v3['sort']] as $k4=>$actItem) {
+                    $itemArray[$v3['sort']][$k4][$type] = $priceProduct;
+                }
+            }
+        }
+    } // getCalculatedData
 }
 

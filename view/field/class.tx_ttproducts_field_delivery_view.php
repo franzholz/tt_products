@@ -48,92 +48,92 @@ use JambageCom\Div2007\Utility\FrontendUtility;
 class tx_ttproducts_field_delivery_view extends tx_ttproducts_field_base_view {
 
 
-	/**
-	 * Template marker substitution
-	 * Fills in the markerArray with data for a product
-	 *
-	 * @param	string		name of the marker prefix
-	 * @param	array		reference to an item array with all the data of the item
-	 * 				for the tt_producst record, $row
-	 * @access private
-	 */
-	public function getRowMarkerArray (
-		$functablename,
-		$fieldname,
-		$row,
-		$markerKey,
-		&$markerArray,
-		$fieldMarkerArray,
-		$tagArray,
-		$theCode,
-		$id,
-		$basketExtra,
-		$basketRecs,
-		&$bSkip,
-		$bHtml = true,
-		$charset = '',
-		$prefix = '',
-		$suffix = '',
-		$imageNum = 0,
-		$imageRenderObj = '',
-		$linkWrap = false,
-		$bEnableTaxZero = false
-	) {
-		$value = '';
-		$result = '';
+    /**
+     * Template marker substitution
+     * Fills in the markerArray with data for a product
+     *
+     * @param	string		name of the marker prefix
+     * @param	array		reference to an item array with all the data of the item
+     * 				for the tt_producst record, $row
+     * @access private
+     */
+    public function getRowMarkerArray (
+        $functablename,
+        $fieldname,
+        $row,
+        $markerKey,
+        &$markerArray,
+        $fieldMarkerArray,
+        $tagArray,
+        $theCode,
+        $id,
+        $basketExtra,
+        $basketRecs,
+        &$bSkip,
+        $bHtml = true,
+        $charset = '',
+        $prefix = '',
+        $suffix = '',
+        $imageNum = 0,
+        $imageRenderObj = '',
+        $linkWrap = false,
+        $bEnableTaxZero = false
+    ) {
+        $value = '';
+        $result = '';
 
-		if (isset($row[$fieldname])) {
+        if (isset($row[$fieldname])) {
 
-			$imageObj = GeneralUtility::makeInstance('tx_ttproducts_field_image_view');
-			$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-			$tableconf = $cnf->getTableConf($functablename, $theCode);
-			$domain = $conf['domain'] ?? '';
-			$cObj = FrontendUtility::getContentObjectRenderer();
+            $imageObj = GeneralUtility::makeInstance('tx_ttproducts_field_image_view');
+            $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
+            $tableconf = $cnf->getTableConf($functablename, $theCode);
+            $domain = $conf['domain'] ?? '';
+            $cObj = FrontendUtility::getContentObjectRenderer();
 
-			if ($domain == '' || strrpos($domain, '###') !== false) {
-				$domain = $_SERVER['HTTP_HOST'];
-			}
+            if ($domain == '' || strrpos($domain, '###') !== false) {
+                $domain = $_SERVER['HTTP_HOST'];
+            }
 
-			if (
-				isset($tableconf) &&
-				is_array($tableconf) &&
-				isset($tableconf[$fieldname . '.'])
-			) {
-				$value = intval($row[$fieldname]);
-				$deliveryConf = $tableconf[$fieldname . '.'];
+            if (
+                isset($tableconf) &&
+                is_array($tableconf) &&
+                isset($tableconf[$fieldname . '.'])
+            ) {
+                $value = intval($row[$fieldname]);
+                $deliveryConf = $tableconf[$fieldname . '.'];
 
-				if (
-					isset($deliveryConf) &&
-					is_array($deliveryConf) &&
-					isset($deliveryConf[$value . '.'])
-				) {
-					$result = '';
-					$valueConf = $deliveryConf[$value . '.'];
+                if (
+                    isset($deliveryConf) &&
+                    is_array($deliveryConf) &&
+                    isset($deliveryConf[$value . '.'])
+                ) {
+                    $result = '';
+                    $valueConf = $deliveryConf[$value . '.'];
 
-					if (isset($valueConf['text.'])) {
-						$tmpImgCode = $cObj->cObjGetSingle(
-							$valueConf['text'],
-							$valueConf['text.'],
-							TT_PRODUCTS_EXT
-						);
-						$result .= $tmpImgCode;
-					}
+                    if (isset($valueConf['text.'])) {
+                        $tmpImgCode = $cObj->cObjGetSingle(
+                            $valueConf['text'],
+                            $valueConf['text.'],
+                            TT_PRODUCTS_EXT
+                        );
+                        $result .= $tmpImgCode;
+                    }
 
-					if (isset($valueConf['image.'])) {
-						$tmpImgCode =
-							$imageObj->getImageCode(
-								$valueConf['image.'],
-								$theCode,
-								$domain
-							);
-						$result .= $tmpImgCode;
-					}
+                    if (isset($valueConf['image.'])) {
+                        $tmpImgCode =
+                            $imageObj->getImageCode(
+                                $valueConf['image.'],
+                                $theCode,
+                                $domain
+                            );
+                        $result .= $tmpImgCode;
+                    }
 
-				}
-			}
-		}
+                }
+            }
+        }
 
-		return $result;
-	}
+        return $result;
+    }
 }
 

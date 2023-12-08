@@ -119,7 +119,7 @@ $result = [
             'config' => [
                 'type' => 'input',
                 'size' => '40',
-				'eval' => 'trim',
+                'eval' => 'trim',
                 'max' => '256',
                 'default' => null,
             ]
@@ -130,7 +130,7 @@ $result = [
             'config' => [
                 'type' => 'text',
                 'cols' => '48',
-				'eval' => 'trim',
+                'eval' => 'trim',
                 'rows' => '1',
                 'default' => null
             ]

@@ -42,64 +42,64 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_field_tax_view extends tx_ttproducts_field_base_view {
 
-	public function getItemSubpartArrays (
-		&$templateCode,
-		$markerKey,
-		$functablename,
-		$row,
-		$fieldname,
-		$tableConf,
-		&$subpartArray,
-		&$wrappedSubpartArray,
-		&$tagArray,
-		$theCode = '',
-		$basketExtra = [],
-		$basketRecs = [],
-		$id = '1'
-	) {
-		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
-		$staticTaxViewObj = $tablesObj->get('static_taxes', true);
+    public function getItemSubpartArrays (
+        &$templateCode,
+        $markerKey,
+        $functablename,
+        $row,
+        $fieldname,
+        $tableConf,
+        &$subpartArray,
+        &$wrappedSubpartArray,
+        &$tagArray,
+        $theCode = '',
+        $basketExtra = [],
+        $basketRecs = [],
+        $id = '1'
+    ) {
+        $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
+        $staticTaxViewObj = $tablesObj->get('static_taxes', true);
 
-		if (is_object($staticTaxViewObj)) {
-			$staticTaxFuncTableName = $staticTaxViewObj->getModelObj()->getFuncTablename();
-			$staticTaxViewObj->getItemSubpartArrays(
-				$templateCode,
-				$staticTaxFuncTableName,
-				$row,
-				$subpartArray,
-				$wrappedSubpartArray,
-				$tagArray,
-				$theCode,
-				$basketExtra,
-				$basketRecs,
-				$id
-			);
-		}
-	}
+        if (is_object($staticTaxViewObj)) {
+            $staticTaxFuncTableName = $staticTaxViewObj->getModelObj()->getFuncTablename();
+            $staticTaxViewObj->getItemSubpartArrays(
+                $templateCode,
+                $staticTaxFuncTableName,
+                $row,
+                $subpartArray,
+                $wrappedSubpartArray,
+                $tagArray,
+                $theCode,
+                $basketExtra,
+                $basketRecs,
+                $id
+            );
+        }
+    }
 
-	public function getRowMarkerArray (
-		$functablename,
-		$fieldname,
-		$row,
-		$markerKey,
-		&$markerArray,
-		$fieldMarkerArray,
-		$tagArray,
-		$theCode,
-		$id,
-		$basketExtra,
-		$basketRecs,
-		&$bSkip,
-		$bHtml = true,
-		$charset = '',
-		$prefix = '',
-		$suffix = '',
-		$imageNum = 0,
-		$imageRenderObj = '',
-		$linkWrap = false,
-		$bEnableTaxZero = false
-	) {
-	}
+    public function getRowMarkerArray (
+        $functablename,
+        $fieldname,
+        $row,
+        $markerKey,
+        &$markerArray,
+        $fieldMarkerArray,
+        $tagArray,
+        $theCode,
+        $id,
+        $basketExtra,
+        $basketRecs,
+        &$bSkip,
+        $bHtml = true,
+        $charset = '',
+        $prefix = '',
+        $suffix = '',
+        $imageNum = 0,
+        $imageRenderObj = '',
+        $linkWrap = false,
+        $bEnableTaxZero = false
+    ) {
+    }
 }
 
 

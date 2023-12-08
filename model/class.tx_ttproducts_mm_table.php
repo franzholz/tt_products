@@ -40,7 +40,7 @@
 
 
 class tx_ttproducts_mm_table extends tx_ttproducts_table_base {
-	protected $tableAlias = 'mm';
+    protected $tableAlias = 'mm';
 
 }
 

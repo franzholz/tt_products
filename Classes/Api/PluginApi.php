@@ -56,8 +56,8 @@ abstract class RelatedProductsTypes {
 
 class PluginApi {
 
-	static private $bHasBeenInitialised = false;
-	static private $flexformArray = [];
+    static private $bHasBeenInitialised = false;
+    static private $flexformArray = [];
 
     static public function init ($conf) {
         $piVarsDefault = [];
@@ -142,8 +142,8 @@ class PluginApi {
         // ### central initialization ###
 
         if (!$bRunAjax) {
-		    $cObj = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');	// Local cObj.
-		    $cObj->start([]);
+            $cObj = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');	// Local cObj.
+            $cObj->start([]);
 
             $db = GeneralUtility::makeInstance('tx_ttproducts_db');
             $result =
@@ -173,293 +173,293 @@ class PluginApi {
         }
     }
 
-	static public function getFlexform () {
-		return self::$flexformArray;
-	}
+    static public function getFlexform () {
+        return self::$flexformArray;
+    }
 
-	static public function isRelatedCode ($code) {
-		$result = false;
-		if (
-			substr($code, 0, 11) == 'LISTRELATED'
-		) {
-			$result = true;
-		}
+    static public function isRelatedCode ($code) {
+        $result = false;
+        if (
+            substr($code, 0, 11) == 'LISTRELATED'
+        ) {
+            $result = true;
+        }
 
-		return $result;
-	}
+        return $result;
+    }
 
-	static public function initUrl (
-		&$urlObj,
-		$cObj,
-		$conf
-	) {
-		if (!isset($urlObj)) {
-			$urlObj = GeneralUtility::makeInstance('tx_ttproducts_url_view');
-			$urlObj->init($conf);
-		}
-	}
+    static public function initUrl (
+        &$urlObj,
+        $cObj,
+        $conf
+    ) {
+        if (!isset($urlObj)) {
+            $urlObj = GeneralUtility::makeInstance('tx_ttproducts_url_view');
+            $urlObj->init($conf);
+        }
+    }
 
-	static public function initAjax (
-		&$ajaxObj,
-		$urlObj,
-		$cObj,
-		$debug
-	) {
-		$result = true;
+    static public function initAjax (
+        &$ajaxObj,
+        $urlObj,
+        $cObj,
+        $debug
+    ) {
+        $result = true;
 
-		if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('taxajax')) {
-			$ajaxObj = GeneralUtility::makeInstance('tx_ttproducts_ajax');
-			$result = $ajaxObj->init();
-			if (!$result) {
-				return false;
-			}
+        if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('taxajax')) {
+            $ajaxObj = GeneralUtility::makeInstance('tx_ttproducts_ajax');
+            $result = $ajaxObj->init();
+            if (!$result) {
+                return false;
+            }
 
-			$ajaxObj->main(
-				$cObj,
-				$urlObj,
-				$debug,
-				\tx_ttproducts_model_control::getPivar('tt_products'),
-				\tx_ttproducts_model_control::getPivar('tt_products_cat')
-			);
-		}
-		return $result;
-	}
+            $ajaxObj->main(
+                $cObj,
+                $urlObj,
+                $debug,
+                \tx_ttproducts_model_control::getPivar('tt_products'),
+                \tx_ttproducts_model_control::getPivar('tt_products_cat')
+            );
+        }
+        return $result;
+    }
 
-	static public function initConfig (
-		&$config,
-		&$conf,
-		&$pid,
-		&$pageAsCategory,
-		&$errorCode,
-		$backPID
-	) {
-		$eInfo = ExtensionUtility::getExtensionInfo(TT_PRODUCTS_EXT);
-		$config['version'] = $eInfo['version'];
+    static public function initConfig (
+        &$config,
+        &$conf,
+        &$pid,
+        &$pageAsCategory,
+        &$errorCode,
+        $backPID
+    ) {
+        $eInfo = ExtensionUtility::getExtensionInfo(TT_PRODUCTS_EXT);
+        $config['version'] = $eInfo['version'];
 
-		$config['defaultCategoryID'] = \JambageCom\Div2007\Utility\FlexformUtility::get(self::getFlexform(), 'categorySelection');
+        $config['defaultCategoryID'] = \JambageCom\Div2007\Utility\FlexformUtility::get(self::getFlexform(), 'categorySelection');
 
-		// get template suffix string
+        // get template suffix string
 
-		$config['templateSuffix'] = strtoupper($conf['templateSuffix'] ?? '');
+        $config['templateSuffix'] = strtoupper($conf['templateSuffix'] ?? '');
 
-		$templateSuffix = \JambageCom\Div2007\Utility\FlexformUtility::get(self::getFlexform(), 'template_suffix');
-		$templateSuffix = strtoupper($templateSuffix);
-		$config['templateSuffix'] = ($templateSuffix ? $templateSuffix : $config['templateSuffix']);
-		$config['templateSuffix'] = ($config['templateSuffix'] ? '_' . $config['templateSuffix'] : '');
-		$config['limit'] = $conf['limit'] ? $conf['limit'] : 50;
-		$config['limitImage'] = MathUtility::forceIntegerInRange($conf['limitImage'], 0, 50, 1);
-		$config['limitImage'] = $config['limitImage'] ? $config['limitImage'] : 1;
-		$config['limitImageSingle'] = MathUtility::forceIntegerInRange($conf['limitImageSingle'], 0, 50, 1);
-		$config['limitImageSingle'] = $config['limitImageSingle'] ? $config['limitImageSingle'] : 1;
+        $templateSuffix = \JambageCom\Div2007\Utility\FlexformUtility::get(self::getFlexform(), 'template_suffix');
+        $templateSuffix = strtoupper($templateSuffix);
+        $config['templateSuffix'] = ($templateSuffix ? $templateSuffix : $config['templateSuffix']);
+        $config['templateSuffix'] = ($config['templateSuffix'] ? '_' . $config['templateSuffix'] : '');
+        $config['limit'] = $conf['limit'] ? $conf['limit'] : 50;
+        $config['limitImage'] = MathUtility::forceIntegerInRange($conf['limitImage'], 0, 50, 1);
+        $config['limitImage'] = $config['limitImage'] ? $config['limitImage'] : 1;
+        $config['limitImageSingle'] = MathUtility::forceIntegerInRange($conf['limitImageSingle'], 0, 50, 1);
+        $config['limitImageSingle'] = $config['limitImageSingle'] ? $config['limitImageSingle'] : 1;
 
-		if (!empty($conf['priceNoReseller'])) {
-			$config['priceNoReseller'] = MathUtility::forceIntegerInRange($conf['priceNoReseller'], 2, 10);
-		}
+        if (!empty($conf['priceNoReseller'])) {
+            $config['priceNoReseller'] = MathUtility::forceIntegerInRange($conf['priceNoReseller'], 2, 10);
+        }
 
-			// If the current record should be displayed.
-		$config['displayCurrentRecord'] = $conf['displayCurrentRecord'] ?? '';
+            // If the current record should be displayed.
+        $config['displayCurrentRecord'] = $conf['displayCurrentRecord'] ?? '';
 
-		if (
+        if (
             empty($conf['TAXmode']) ||
-			$conf['TAXmode'] == '' ||
-			$conf['TAXmode'] == '{$plugin.tt_products.TAXmode}'
-		) {
-			$conf['TAXmode'] = 1;
-		}
+            $conf['TAXmode'] == '' ||
+            $conf['TAXmode'] == '{$plugin.tt_products.TAXmode}'
+        ) {
+            $conf['TAXmode'] = 1;
+        }
 
-		if ($conf['TAXmode'] < 1 || $conf['TAXmode'] > 2) {
-			$errorCode['0'] = 'error_range';
-			$errorCode['1'] = 'TAXmode';
-			$errorCode['2'] = '1';
-			$errorCode['3'] = '2';
-			$errorCode['4'] = $conf['TAXmode'];
-			return false;
-		}
+        if ($conf['TAXmode'] < 1 || $conf['TAXmode'] > 2) {
+            $errorCode['0'] = 'error_range';
+            $errorCode['1'] = 'TAXmode';
+            $errorCode['2'] = '1';
+            $errorCode['3'] = '2';
+            $errorCode['4'] = $conf['TAXmode'];
+            return false;
+        }
 
-		$backPID = ($backPID ? $backPID : GeneralUtility::_GP('backPID'));
+        $backPID = ($backPID ? $backPID : GeneralUtility::_GP('backPID'));
 
-		$config['backPID'] = $backPID;
+        $config['backPID'] = $backPID;
 
-		// page where to go usually
-		$pid =
-			(
-				$conf['PIDbasket'] && $conf['clickIntoBasket'] ?
-					$conf['PIDbasket'] :
-						(
-							$backPID ?
-								$backPID :
-								$GLOBALS['TSFE']->id
-						)
-			);
+        // page where to go usually
+        $pid =
+            (
+                $conf['PIDbasket'] && $conf['clickIntoBasket'] ?
+                    $conf['PIDbasket'] :
+                        (
+                            $backPID ?
+                                $backPID :
+                                $GLOBALS['TSFE']->id
+                        )
+            );
 
-		$pageAsCategory = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['pageAsCategory'];
-		return true;
-	}
+        $pageAsCategory = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['pageAsCategory'];
+        return true;
+    }
 
-	public function getRelatedProductsBySystemCategory ($content, $pluginConf) {
-		$result = '';
-		$errorCode = [];
+    public function getRelatedProductsBySystemCategory ($content, $pluginConf) {
+        $result = '';
+        $errorCode = [];
 
-		$result =
-			$this->getRelatedProducts(
-				$errorCode,
-				$content,
-				$pluginConf,
-				RelatedProductsTypes::SystemCategory
-			);
+        $result =
+            $this->getRelatedProducts(
+                $errorCode,
+                $content,
+                $pluginConf,
+                RelatedProductsTypes::SystemCategory
+            );
 
-		if ($errorCode[0]) {
+        if ($errorCode[0]) {
             $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
-			$result .= ErrorUtility::getMessage($languageObj, $errorCode);
-		}
+            $result .= ErrorUtility::getMessage($languageObj, $errorCode);
+        }
 
-		return $result;
-	}
+        return $result;
+    }
 
 
-	public function getRelatedProducts (
-		&$errorCode,
-		$content,
-		$pluginConf,
-		$type,
-		$bRunAjax = false
-	) {
-		$result = '';
-		$pidListObj = GeneralUtility::makeInstance('tx_ttproducts_pid_list');
-		$templateObj = GeneralUtility::makeInstance('tx_ttproducts_template');
+    public function getRelatedProducts (
+        &$errorCode,
+        $content,
+        $pluginConf,
+        $type,
+        $bRunAjax = false
+    ) {
+        $result = '';
+        $pidListObj = GeneralUtility::makeInstance('tx_ttproducts_pid_list');
+        $templateObj = GeneralUtility::makeInstance('tx_ttproducts_template');
 
-		if (!self::$bHasBeenInitialised) {
-			$conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
+        if (!self::$bHasBeenInitialised) {
+            $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
             \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($conf, $pluginConf);
-			$config = [];
-			$cObj = FrontendUtility::getContentObjectRenderer([]);
+            $config = [];
+            $cObj = FrontendUtility::getContentObjectRenderer([]);
 
-			self::init2(
-				$conf,
-				$config,
-				$cObj,
-				$errorCode,
-				$bRunAjax
-			);
-		}
+            self::init2(
+                $conf,
+                $config,
+                $cObj,
+                $errorCode,
+                $bRunAjax
+            );
+        }
 
-		$uid = intval($pluginConf['ref']);
-		$subtype = '';
-		switch ($type) {
-			case RelatedProductsTypes::SystemCategory:
-				$subtype = 'productsbysystemcategory';
-				break;
-			default:
-				$errorCode['0'] = 'wrong_type';
-				$errorCode['1'] = $type;
-				return false;
-				break;
-		}
+        $uid = intval($pluginConf['ref']);
+        $subtype = '';
+        switch ($type) {
+            case RelatedProductsTypes::SystemCategory:
+                $subtype = 'productsbysystemcategory';
+                break;
+            default:
+                $errorCode['0'] = 'wrong_type';
+                $errorCode['1'] = $type;
+                return false;
+                break;
+        }
 
-		$funcTablename = 'tt_products';
+        $funcTablename = 'tt_products';
 
-		$relatedListView = GeneralUtility::makeInstance('tx_ttproducts_relatedlist_view');
-		$relatedListView->init(
-			$config['pid_list'],
-			$config['recursive']
-		);
-		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
-		$itemViewObj = $tablesObj->get($funcTablename, true);
-		$itemObj = $itemViewObj->getModelObj();
+        $relatedListView = GeneralUtility::makeInstance('tx_ttproducts_relatedlist_view');
+        $relatedListView->init(
+            $config['pid_list'],
+            $config['recursive']
+        );
+        $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
+        $itemViewObj = $tablesObj->get($funcTablename, true);
+        $itemObj = $itemViewObj->getModelObj();
 
-		$addListArray =
-			$relatedListView->getAddListArray(
-				$theCode,
-				$funcTablename,
-				$itemViewObj->getMarker(),
-				$uid,
-				$conf['useArticles']
-			);
-		$funcArray = $addListArray[$subtype] ?? [];
-		$pid = $GLOBALS['TSFE']->id;
-		$paramUidArray['product'] = $uid;
+        $addListArray =
+            $relatedListView->getAddListArray(
+                $theCode,
+                $funcTablename,
+                $itemViewObj->getMarker(),
+                $uid,
+                $conf['useArticles']
+            );
+        $funcArray = $addListArray[$subtype] ?? [];
+        $pid = $GLOBALS['TSFE']->id;
+        $paramUidArray['product'] = $uid;
 
-		$relatedItemObj = $itemObj;
-		$parentFuncTablename = '';
+        $relatedItemObj = $itemObj;
+        $parentFuncTablename = '';
 
-		if (
+        if (
             !empty($funcArray) &&
             $funcTablename != $funcArray['functablename']
         ) {
-			$relatedItemObj = $tablesObj->get($funcArray['functablename'], false);
-			$parentFuncTablename = $funcArray['functablename'];
-		}
-		$tableConf = $relatedItemObj->getTableConf($funcArray['code']);
-		$orderBy = '';
-		if (isset($tableConf['orderBy'])) {
-			$orderBy = $tableConf['orderBy'];
-		}
+            $relatedItemObj = $tablesObj->get($funcArray['functablename'], false);
+            $parentFuncTablename = $funcArray['functablename'];
+        }
+        $tableConf = $relatedItemObj->getTableConf($funcArray['code']);
+        $orderBy = '';
+        if (isset($tableConf['orderBy'])) {
+            $orderBy = $tableConf['orderBy'];
+        }
 
-		$mergeRow = [];
-		$parentRows = [];
-		$relatedIds =
-			$itemObj->getRelated(
-				$parentFuncTablename,
-				$parentRows,
+        $mergeRow = [];
+        $parentRows = [];
+        $relatedIds =
+            $itemObj->getRelated(
+                $parentFuncTablename,
+                $parentRows,
                 $multiOrderArray = [],
-				$uid,
-				$subtype,
-				$orderBy
-			);
+                $uid,
+                $subtype,
+                $orderBy
+            );
 
-		if (!empty($relatedIds)) {
+        if (!empty($relatedIds)) {
 
-			$listView = GeneralUtility::makeInstance('tx_ttproducts_list_view');
-			$listView->init(
-				$pid,
-				$paramUidArray,
-				$config['pid_list'],
-				0
-			);
+            $listView = GeneralUtility::makeInstance('tx_ttproducts_list_view');
+            $listView->init(
+                $pid,
+                $paramUidArray,
+                $config['pid_list'],
+                0
+            );
 
-			$listPids = $funcArray['additionalPages'];
-			if ($listPids != '') {
-				$pidListObj->applyRecursive($config['recursive'], $listPids);
-			} else {
-				$listPids = $pidListObj->getPidlist();
-			}
+            $listPids = $funcArray['additionalPages'];
+            if ($listPids != '') {
+                $pidListObj->applyRecursive($config['recursive'], $listPids);
+            } else {
+                $listPids = $pidListObj->getPidlist();
+            }
 
-			$templateCode =
-				$templateObj->get(
-					$funcArray['code'],
-					$templateFile,
-					$errorCode
-				);
+            $templateCode =
+                $templateObj->get(
+                    $funcArray['code'],
+                    $templateFile,
+                    $errorCode
+                );
             $notOverwritePriceIfSet = false;
 
-			$tmpContent = $listView->printView(
-				$templateCode,
-				$funcArray['code'],
-				$funcArray['functablename'],
-				implode(',', $relatedIds),
-				$listPids,
-				'',
-				$errorCode,
-				$funcArray['template'] . $config['templateSuffix'],
-				$pageAsCategory,
-				\tx_ttproducts_control_basket::getBasketExtra(),
-				\tx_ttproducts_control_basket::getRecs(),
-				$mergeRow,
-				1,
-				$callFunctableArray,
-				$parentDataArray,
-				$parentProductRow,
-				$parentFuncTablename,
-				$parentRows,
-				$notOverwritePriceIfSet,
-				$multiOrderArray,
-				$productRowArray,
-				$bEditableVariants
-			);
-			$result = $tmpContent;
-		}
+            $tmpContent = $listView->printView(
+                $templateCode,
+                $funcArray['code'],
+                $funcArray['functablename'],
+                implode(',', $relatedIds),
+                $listPids,
+                '',
+                $errorCode,
+                $funcArray['template'] . $config['templateSuffix'],
+                $pageAsCategory,
+                \tx_ttproducts_control_basket::getBasketExtra(),
+                \tx_ttproducts_control_basket::getRecs(),
+                $mergeRow,
+                1,
+                $callFunctableArray,
+                $parentDataArray,
+                $parentProductRow,
+                $parentFuncTablename,
+                $parentRows,
+                $notOverwritePriceIfSet,
+                $multiOrderArray,
+                $productRowArray,
+                $bEditableVariants
+            );
+            $result = $tmpContent;
+        }
 
-		return $result;
-	}
+        return $result;
+    }
 }
 

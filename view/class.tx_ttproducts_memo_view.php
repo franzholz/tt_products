@@ -42,169 +42,169 @@ use JambageCom\Div2007\Utility\FrontendUtility;
 
 
 class tx_ttproducts_memo_view implements \TYPO3\CMS\Core\SingletonInterface {
-	public $pid_list;
-	public $pid; // pid where to go
-	public $useArticles;
-	public $memoItems;
+    public $pid_list;
+    public $pid; // pid where to go
+    public $useArticles;
+    public $memoItems;
 
 
-	public function init (
-			$theCode,
-			$pid_list,
-			$conf,
-			$useArticles
-		) {
-		$cObj = FrontendUtility::getContentObjectRenderer();
+    public function init (
+            $theCode,
+            $pid_list,
+            $conf,
+            $useArticles
+        ) {
+        $cObj = FrontendUtility::getContentObjectRenderer();
 
-		$this->pid_list = $pid_list;
-		$this->useArticles = $useArticles;
+        $this->pid_list = $pid_list;
+        $this->useArticles = $useArticles;
 // 		$fe_user_uid = $GLOBALS['TSFE']->fe_user->user['uid'];
 
-		$this->memoItems = [];
+        $this->memoItems = [];
 
-		if (
-			tx_ttproducts_control_memo::bUseFeuser($conf) ||
-			tx_ttproducts_control_memo::bUseSession($conf)
-		) {
-			$functablename = 'tt_products';
-			if (strpos($theCode, 'DAM') !== false) {
-				$functablename = 'tx_dam';
-			}
-			$this->memoItems = tx_ttproducts_control_memo::getMemoItems($functablename);
-		}
-	}
+        if (
+            tx_ttproducts_control_memo::bUseFeuser($conf) ||
+            tx_ttproducts_control_memo::bUseSession($conf)
+        ) {
+            $functablename = 'tt_products';
+            if (strpos($theCode, 'DAM') !== false) {
+                $functablename = 'tx_dam';
+            }
+            $this->memoItems = tx_ttproducts_control_memo::getMemoItems($functablename);
+        }
+    }
 
 
-	/**
-	 * Displays the memo
-	 */
-	public function printView (
-		$templateCode,
-		$theCode,
-		$conf,
-		$pid,
-		&$errorCode
-	) {
+    /**
+     * Displays the memo
+     */
+    public function printView (
+        $templateCode,
+        $theCode,
+        $conf,
+        $pid,
+        &$errorCode
+    ) {
         $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
-		$markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
-		$content = '';
-		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-		$config = $cnf->getConfig();
+        $markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
+        $content = '';
+        $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
+        $config = $cnf->getConfig();
 
-		if (
-			tx_ttproducts_control_memo::bUseFeuser($conf) ||
-			tx_ttproducts_control_memo::bUseSession($conf)
-		) {
-			if ($this->memoItems) {
+        if (
+            tx_ttproducts_control_memo::bUseFeuser($conf) ||
+            tx_ttproducts_control_memo::bUseSession($conf)
+        ) {
+            if ($this->memoItems) {
 
-				// List all products:
-				$listView = GeneralUtility::makeInstance('tx_ttproducts_list_view');
-				$listView->init(
-					$pid,
-					[],
-					$this->pid_list,
-					99
-				);
-				if ($theCode == 'MEMO') {
-					$theTable = 'tt_products';
-					$templateArea = 'MEMO_TEMPLATE';
-				} else if ($theCode == 'MEMODAM') {
-					$theTable = 'tx_dam';
-					$templateArea = 'MEMODAM_TEMPLATE';
-				} else if ($theCode == 'MEMODAMOVERVIEW') {
-					$theTable = 'tx_dam';
-					$templateArea = 'MEMODAM_OVERVIEW_TEMPLATE';
-				} else {
-					return 'error';
-				}
+                // List all products:
+                $listView = GeneralUtility::makeInstance('tx_ttproducts_list_view');
+                $listView->init(
+                    $pid,
+                    [],
+                    $this->pid_list,
+                    99
+                );
+                if ($theCode == 'MEMO') {
+                    $theTable = 'tt_products';
+                    $templateArea = 'MEMO_TEMPLATE';
+                } else if ($theCode == 'MEMODAM') {
+                    $theTable = 'tx_dam';
+                    $templateArea = 'MEMODAM_TEMPLATE';
+                } else if ($theCode == 'MEMODAMOVERVIEW') {
+                    $theTable = 'tx_dam';
+                    $templateArea = 'MEMODAM_OVERVIEW_TEMPLATE';
+                } else {
+                    return 'error';
+                }
 
-				$content = $listView->printView(
-					$templateCode,
-					$theCode,
-					$theTable,
-					($this->memoItems ? implode(',', $this->memoItems) : []),
-					false,
-					'',
-					$errorCode,
-					$templateArea,
-					$GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['pageAsCategory'],
-					tx_ttproducts_control_basket::getBasketExtra(),
-					tx_ttproducts_control_basket::getRecs(),
-					[],
-					0
-				);
-			} else {
-				$subpartmarkerObj = GeneralUtility::makeInstance('tx_ttproducts_subpartmarker');
-				$cObj = FrontendUtility::getContentObjectRenderer();
+                $content = $listView->printView(
+                    $templateCode,
+                    $theCode,
+                    $theTable,
+                    ($this->memoItems ? implode(',', $this->memoItems) : []),
+                    false,
+                    '',
+                    $errorCode,
+                    $templateArea,
+                    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['pageAsCategory'],
+                    tx_ttproducts_control_basket::getBasketExtra(),
+                    tx_ttproducts_control_basket::getRecs(),
+                    [],
+                    0
+                );
+            } else {
+                $subpartmarkerObj = GeneralUtility::makeInstance('tx_ttproducts_subpartmarker');
+                $cObj = FrontendUtility::getContentObjectRenderer();
 
-				$templateArea = 'MEMO_EMPTY';
-				$content = $templateService->getSubpart($templateCode,$subpartmarkerObj->spMarker('###'.$templateArea.'###'));
-				$content = $markerObj->replaceGlobalMarkers($content);
-			}
-		} else if (tx_ttproducts_control_memo::bIsAllowed('fe_users', $conf)) {
-			$subpartmarkerObj = GeneralUtility::makeInstance('tx_ttproducts_subpartmarker');
+                $templateArea = 'MEMO_EMPTY';
+                $content = $templateService->getSubpart($templateCode,$subpartmarkerObj->spMarker('###'.$templateArea.'###'));
+                $content = $markerObj->replaceGlobalMarkers($content);
+            }
+        } else if (tx_ttproducts_control_memo::bIsAllowed('fe_users', $conf)) {
+            $subpartmarkerObj = GeneralUtility::makeInstance('tx_ttproducts_subpartmarker');
 
-			$templateArea = 'MEMO_NOT_LOGGED_IN';
+            $templateArea = 'MEMO_NOT_LOGGED_IN';
 // 			$templateAreaMarker = $subpartmarkerObj->spMarker('###'.$templateArea.'###');
 
-			$content = tx_ttproducts_api::getErrorOut(
-				$theCode,
-				$templateCode,
-				$subpartmarkerObj->spMarker('###' . $templateArea . $config['templateSuffix'] . '###'),
-				$subpartmarkerObj->spMarker('###' . $templateArea . '###'),
-				$errorCode
-			) ;
+            $content = tx_ttproducts_api::getErrorOut(
+                $theCode,
+                $templateCode,
+                $subpartmarkerObj->spMarker('###' . $templateArea . $config['templateSuffix'] . '###'),
+                $subpartmarkerObj->spMarker('###' . $templateArea . '###'),
+                $errorCode
+            ) ;
 
-			$content = $markerObj->replaceGlobalMarkers($content);
-		}
+            $content = $markerObj->replaceGlobalMarkers($content);
+        }
 
-		if (!$content && empty($errorCode)) {
-			$templateObj = GeneralUtility::makeInstance('tx_ttproducts_template');
-			$errorCode[0] = 'no_subtemplate';
-			$errorCode[1] = '###' . $templateArea . $templateObj->getTemplateSuffix() . '###';
-			$errorCode[2] = $templateObj->getTemplateFile();
-			$content = false;
-		}
-		return $content;
-	}
-
-
-	public function getFieldMarkerArray (
-		$row,
-		$markerKey,
-		&$markerArray,
-		$tagArray,
-		&$bUseCheckBox
-	)	{
-		$fieldKey = 'FIELD_' . $markerKey . '_NAME';
-		if (isset($tagArray[$fieldKey])) {
-			$markerArray['###'.$fieldKey.'###'] = tx_ttproducts_model_control::getPrefixId() . '[memo][' . $row['uid'] . ']';
-		}
-		$fieldKey = 'FIELD_'.$markerKey.'_CHECK';
-
-		if (isset($tagArray[$fieldKey])) {
-			$bUseCheckBox = true;
-			if (in_array($row['uid'], $this->memoItems)) {
-				$value = 1;
-			} else {
-				$value = 0;
-			}
-			$checkString = ($value ? 'checked="checked"':'');
-			$markerArray['###'.$fieldKey.'###'] = $checkString;
-		} else {
-			$bUseCheckBox = false;
-		}
-	}
+        if (!$content && empty($errorCode)) {
+            $templateObj = GeneralUtility::makeInstance('tx_ttproducts_template');
+            $errorCode[0] = 'no_subtemplate';
+            $errorCode[1] = '###' . $templateArea . $templateObj->getTemplateSuffix() . '###';
+            $errorCode[2] = $templateObj->getTemplateFile();
+            $content = false;
+        }
+        return $content;
+    }
 
 
-	public function getHiddenFields (
-		$uidArray,
-		&$markerArray,
-		$bUseCheckBox
-	) {
-		if ($bUseCheckBox) {
-			$markerArray['###HIDDENFIELDS###'] .= '<input type="hidden" name="' . tx_ttproducts_model_control::getPrefixId() . '[memo][uids]" value="' . implode(',',$uidArray) . '" />';
-		}
-	}
+    public function getFieldMarkerArray (
+        $row,
+        $markerKey,
+        &$markerArray,
+        $tagArray,
+        &$bUseCheckBox
+    )	{
+        $fieldKey = 'FIELD_' . $markerKey . '_NAME';
+        if (isset($tagArray[$fieldKey])) {
+            $markerArray['###'.$fieldKey.'###'] = tx_ttproducts_model_control::getPrefixId() . '[memo][' . $row['uid'] . ']';
+        }
+        $fieldKey = 'FIELD_'.$markerKey.'_CHECK';
+
+        if (isset($tagArray[$fieldKey])) {
+            $bUseCheckBox = true;
+            if (in_array($row['uid'], $this->memoItems)) {
+                $value = 1;
+            } else {
+                $value = 0;
+            }
+            $checkString = ($value ? 'checked="checked"':'');
+            $markerArray['###'.$fieldKey.'###'] = $checkString;
+        } else {
+            $bUseCheckBox = false;
+        }
+    }
+
+
+    public function getHiddenFields (
+        $uidArray,
+        &$markerArray,
+        $bUseCheckBox
+    ) {
+        if ($bUseCheckBox) {
+            $markerArray['###HIDDENFIELDS###'] .= '<input type="hidden" name="' . tx_ttproducts_model_control::getPrefixId() . '[memo][uids]" value="' . implode(',',$uidArray) . '" />';
+        }
+    }
 }
 

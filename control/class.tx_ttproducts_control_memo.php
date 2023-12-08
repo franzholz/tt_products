@@ -45,268 +45,268 @@ use JambageCom\Div2007\Utility\FrontendUtility;
 
 class tx_ttproducts_control_memo {
 
-	static protected $memoTableFieldArray = [
-		'tt_products' => 'memoItems',
-		'tx_dam' => 'memodam'
-	];
-	static protected $memoItemArray = [];
-	static protected $controlVars = [
-		'addmemo',
-		'delmemo',
-		'upmemo',
-		'downmemo'
-	];
+    static protected $memoTableFieldArray = [
+        'tt_products' => 'memoItems',
+        'tx_dam' => 'memodam'
+    ];
+    static protected $memoItemArray = [];
+    static protected $controlVars = [
+        'addmemo',
+        'delmemo',
+        'upmemo',
+        'downmemo'
+    ];
 
-	static public function getControlVars () {
-		return self::$controlVars;
-	}
+    static public function getControlVars () {
+        return self::$controlVars;
+    }
 
-	static public function getMemoTableFieldArray () {
-		return self::$memoTableFieldArray;
-	}
+    static public function getMemoTableFieldArray () {
+        return self::$memoTableFieldArray;
+    }
 
-	static public function bIsAllowed ($type, $conf) {
-		$result = false;
+    static public function bIsAllowed ($type, $conf) {
+        $result = false;
 
-		if (
-			isset($conf['memo.']) &&
-			isset($conf['memo.']['allow'])
-		) {
-			if (GeneralUtility::inList($conf['memo.']['allow'], $type)) {
-				$result = true;
-			}
-		}
-		return $result;
-	}
+        if (
+            isset($conf['memo.']) &&
+            isset($conf['memo.']['allow'])
+        ) {
+            if (GeneralUtility::inList($conf['memo.']['allow'], $type)) {
+                $result = true;
+            }
+        }
+        return $result;
+    }
 
-	static public function bUseFeuser ($conf) {
+    static public function bUseFeuser ($conf) {
 
-		$result = false;
-		$fe_user_uid = tx_div2007::getFrontEndUser('uid');
+        $result = false;
+        $fe_user_uid = tx_div2007::getFrontEndUser('uid');
 
-		if ($fe_user_uid) {
-			$result = self::bIsAllowed('fe_users', $conf);
-		}
+        if ($fe_user_uid) {
+            $result = self::bIsAllowed('fe_users', $conf);
+        }
 
-		return $result;
-	}
+        return $result;
+    }
 
-	static public function bUseSession ($conf) {
-		$result = self::bIsAllowed('session', $conf);
-		return $result;
-	}
+    static public function bUseSession ($conf) {
+        $result = self::bIsAllowed('session', $conf);
+        return $result;
+    }
 
-	static public function process ($functablename, $piVars, $conf) {
+    static public function process ($functablename, $piVars, $conf) {
 
-		$bMemoChanged = false;
-		self::loadMemo($functablename, $conf);
+        $bMemoChanged = false;
+        self::loadMemo($functablename, $conf);
 
-		$memoItems = self::getMemoItems($functablename);
-		if (!is_array($memoItems)) {
+        $memoItems = self::getMemoItems($functablename);
+        if (!is_array($memoItems)) {
             $memoItems = [];
-		}
-		$controlVars = self::getControlVars();
-		$memoArray = [];
-		foreach ($controlVars as $controlVar) {
-			if (!empty($piVars[$controlVar])) {
-				$memoArray[$controlVar] = explode(',', $piVars[$controlVar]);
-			}
-		}
+        }
+        $controlVars = self::getControlVars();
+        $memoArray = [];
+        foreach ($controlVars as $controlVar) {
+            if (!empty($piVars[$controlVar])) {
+                $memoArray[$controlVar] = explode(',', $piVars[$controlVar]);
+            }
+        }
 
-		if (isset($piVars['memo']) && is_array($piVars['memo'])) {
-			if (!isset($memoArray['addmemo'])) {
-				$memoArray['addmemo'] = [];
-			}
-			if (!isset($memoArray['delmemo'])) {
-				$memoArray['delmemo'] = [];
-			}
+        if (isset($piVars['memo']) && is_array($piVars['memo'])) {
+            if (!isset($memoArray['addmemo'])) {
+                $memoArray['addmemo'] = [];
+            }
+            if (!isset($memoArray['delmemo'])) {
+                $memoArray['delmemo'] = [];
+            }
 
-			foreach ($piVars['memo'] as $k => $v) {
-				if (MathUtility::canBeInterpretedAsInteger($k) && $k != '' && $v) {
-					$memoArray['addmemo'][] = intval($k);
-				} else if ($k == 'uids') {
-					$uidArray = explode(',', $v);
-					foreach ($uidArray as $uid) {
-						if (MathUtility::canBeInterpretedAsInteger($uid) && $uid != '' && in_array($uid, $memoItems)) {
-							$memoArray['delmemo'][] = $uid;
-						}
-					}
-				}
-			}
-		}
+            foreach ($piVars['memo'] as $k => $v) {
+                if (MathUtility::canBeInterpretedAsInteger($k) && $k != '' && $v) {
+                    $memoArray['addmemo'][] = intval($k);
+                } else if ($k == 'uids') {
+                    $uidArray = explode(',', $v);
+                    foreach ($uidArray as $uid) {
+                        if (MathUtility::canBeInterpretedAsInteger($uid) && $uid != '' && in_array($uid, $memoItems)) {
+                            $memoArray['delmemo'][] = $uid;
+                        }
+                    }
+                }
+            }
+        }
 
-		if (isset($memoArray['addmemo']) && is_array($memoArray['addmemo'])) {
-			foreach ($memoArray['addmemo'] as $addMemoSingle) {
-				if (!in_array($addMemoSingle, $memoItems)) {
-					$uid = intval($addMemoSingle);
-					if ($uid) {
-						$memoItems[] = $uid;
-						$bMemoChanged = true;
-					}
-				}
-			}
-		}
+        if (isset($memoArray['addmemo']) && is_array($memoArray['addmemo'])) {
+            foreach ($memoArray['addmemo'] as $addMemoSingle) {
+                if (!in_array($addMemoSingle, $memoItems)) {
+                    $uid = intval($addMemoSingle);
+                    if ($uid) {
+                        $memoItems[] = $uid;
+                        $bMemoChanged = true;
+                    }
+                }
+            }
+        }
 
-		if (isset($memoArray['delmemo']) && is_array($memoArray['delmemo'])) {
-			foreach ($memoArray['delmemo'] as $delMemoSingle) {
-				$val = intval($delMemoSingle);
-				if (in_array($val, $memoItems)) {
-					unset($memoItems[array_search($val, $memoItems)]);
-					$bMemoChanged = true;
-				}
-			}
-		}
+        if (isset($memoArray['delmemo']) && is_array($memoArray['delmemo'])) {
+            foreach ($memoArray['delmemo'] as $delMemoSingle) {
+                $val = intval($delMemoSingle);
+                if (in_array($val, $memoItems)) {
+                    unset($memoItems[array_search($val, $memoItems)]);
+                    $bMemoChanged = true;
+                }
+            }
+        }
 
-		if (isset($memoArray['upmemo']) && is_array($memoArray['upmemo'])) {
-			foreach ($memoArray['upmemo'] as $memoSingle) {
-				$val = intval($memoSingle);
-				$key = array_search($val, $memoItems);
-				if ($key !== false && $key > 0) {
-					$formerValue = $memoItems[$key - 1];
-					$memoItems[$key - 1] = $val;
-					$memoItems[$key] = $formerValue;
-					$bMemoChanged = true;
-				}
-			}
-		}
+        if (isset($memoArray['upmemo']) && is_array($memoArray['upmemo'])) {
+            foreach ($memoArray['upmemo'] as $memoSingle) {
+                $val = intval($memoSingle);
+                $key = array_search($val, $memoItems);
+                if ($key !== false && $key > 0) {
+                    $formerValue = $memoItems[$key - 1];
+                    $memoItems[$key - 1] = $val;
+                    $memoItems[$key] = $formerValue;
+                    $bMemoChanged = true;
+                }
+            }
+        }
 
-		if (isset($memoArray['downmemo']) && is_array($memoArray['downmemo'])) {
-			$maxKey = count($memoItems) - 1;
-			foreach ($memoArray['downmemo'] as $memoSingle) {
-				$val = intval($memoSingle);
-				$key = array_search($val, $memoItems);
-				if ($key !== false && $key < $maxKey) {
-					$formerValue = $memoItems[$key + 1];
-					$memoItems[$key + 1] = $val;
-					$memoItems[$key] = $formerValue;
-					$bMemoChanged = true;
-				}
-			}
-		}
+        if (isset($memoArray['downmemo']) && is_array($memoArray['downmemo'])) {
+            $maxKey = count($memoItems) - 1;
+            foreach ($memoArray['downmemo'] as $memoSingle) {
+                $val = intval($memoSingle);
+                $key = array_search($val, $memoItems);
+                if ($key !== false && $key < $maxKey) {
+                    $formerValue = $memoItems[$key + 1];
+                    $memoItems[$key + 1] = $val;
+                    $memoItems[$key] = $formerValue;
+                    $bMemoChanged = true;
+                }
+            }
+        }
 
-		if ($bMemoChanged) {
+        if ($bMemoChanged) {
 
-			self::saveMemo($functablename, $memoItems, $conf);
-			self::setMemoItems($functablename, $memoItems);
-		}
-	}
+            self::saveMemo($functablename, $memoItems, $conf);
+            self::setMemoItems($functablename, $memoItems);
+        }
+    }
 
-	static public function getMemoField ($functablename, $bFeuser) {
-		if (isset(self::$memoTableFieldArray[$functablename])) {
-			$result = ($bFeuser ? 'tt_products_' : '') . self::$memoTableFieldArray[$functablename];
-		} else {
-			$result = false;
-		}
-		return $result;
-	}
+    static public function getMemoField ($functablename, $bFeuser) {
+        if (isset(self::$memoTableFieldArray[$functablename])) {
+            $result = ($bFeuser ? 'tt_products_' : '') . self::$memoTableFieldArray[$functablename];
+        } else {
+            $result = false;
+        }
+        return $result;
+    }
 
-	static public function getMemoItems ($functablename) {
-		$result = self::$memoItemArray[$functablename];
-		return $result;
-	}
+    static public function getMemoItems ($functablename) {
+        $result = self::$memoItemArray[$functablename];
+        return $result;
+    }
 
-	static public function setMemoItems ($functablename, $v) {
-		if (!is_array($v)) {
-			if ($v == '') {
-				$v = [];
-			} else {
-				$v = explode(',', $v);
-			}
-		}
-		self::$memoItemArray[$functablename] = $v;
-	}
+    static public function setMemoItems ($functablename, $v) {
+        if (!is_array($v)) {
+            if ($v == '') {
+                $v = [];
+            } else {
+                $v = explode(',', $v);
+            }
+        }
+        self::$memoItemArray[$functablename] = $v;
+    }
 
-	static public function readSessionMemoItems ($functablename) {
-		$result = '';
-		$session = tx_ttproducts_control_session::readSessionData();
-		$tableArray = self::getMemoTableFieldArray();
-		$field = $tableArray[$functablename];
+    static public function readSessionMemoItems ($functablename) {
+        $result = '';
+        $session = tx_ttproducts_control_session::readSessionData();
+        $tableArray = self::getMemoTableFieldArray();
+        $field = $tableArray[$functablename];
 
-		if (
-			$field != '' &&
-			is_array($session) &&
-			isset($session[$field])
-		) {
-			$result = $session[$field];
-		}
+        if (
+            $field != '' &&
+            is_array($session) &&
+            isset($session[$field])
+        ) {
+            $result = $session[$field];
+        }
 
-		return $result;
-	}
+        return $result;
+    }
 
-	static public function readFeUserMemoItems ($functablename) {
-		$result = '';
-		$feuserField = self::getMemoField($functablename, true);
+    static public function readFeUserMemoItems ($functablename) {
+        $result = '';
+        $feuserField = self::getMemoField($functablename, true);
 
-		if ($GLOBALS['TSFE']->fe_user->user[$feuserField]) {
-			$result = explode(',', $GLOBALS['TSFE']->fe_user->user[$feuserField]);
-		}
+        if ($GLOBALS['TSFE']->fe_user->user[$feuserField]) {
+            $result = explode(',', $GLOBALS['TSFE']->fe_user->user[$feuserField]);
+        }
 
-		return $result;
-	}
+        return $result;
+    }
 
-	static public function loadMemo ($functablename, $conf) {
-		$memoItems = '';
+    static public function loadMemo ($functablename, $conf) {
+        $memoItems = '';
 // 		$bFeuser = self::bUseFeuser($conf);
 // 		$theField = self::getMemoField($functablename, $bFeuser);
 
-		if (self::bUseFeuser($conf)) {
+        if (self::bUseFeuser($conf)) {
 
-			$memoItems = self::readFeUserMemoItems($functablename);
-		} else {
-			$memoItems = self::readSessionMemoItems($functablename);
-		}
-		self::setMemoItems($functablename, $memoItems);
-	}
+            $memoItems = self::readFeUserMemoItems($functablename);
+        } else {
+            $memoItems = self::readSessionMemoItems($functablename);
+        }
+        self::setMemoItems($functablename, $memoItems);
+    }
 
-	static public function saveMemo ($functablename, $memoItems, $conf) {
-		$bFeuser = self::bUseFeuser($conf);
-		$feuserField = self::getMemoField($functablename, $bFeuser);
+    static public function saveMemo ($functablename, $memoItems, $conf) {
+        $bFeuser = self::bUseFeuser($conf);
+        $feuserField = self::getMemoField($functablename, $bFeuser);
 
-		$fieldsArray = [];
-		$fieldsArray[$feuserField] = implode(',', $memoItems);
+        $fieldsArray = [];
+        $fieldsArray[$feuserField] = implode(',', $memoItems);
 
-		if ($bFeuser) {
-			$fe_user_uid = tx_div2007::getFrontEndUser('uid');
-			$GLOBALS['TYPO3_DB']->exec_UPDATEquery('fe_users', 'uid=' . $fe_user_uid, $fieldsArray);
-		} else {
-			tx_ttproducts_control_session::writeSessionData($fieldsArray);
-		}
-	}
+        if ($bFeuser) {
+            $fe_user_uid = tx_div2007::getFrontEndUser('uid');
+            $GLOBALS['TYPO3_DB']->exec_UPDATEquery('fe_users', 'uid=' . $fe_user_uid, $fieldsArray);
+        } else {
+            tx_ttproducts_control_session::writeSessionData($fieldsArray);
+        }
+    }
 
-	static public function copySession2Feuser ($params, $pObj, $conf) {
+    static public function copySession2Feuser ($params, $pObj, $conf) {
 
-		$tableArray = self::getMemoTableFieldArray();
-		foreach ($tableArray as $functablename => $type) {
-			$memoItems = self::readSessionMemoItems($functablename);
+        $tableArray = self::getMemoTableFieldArray();
+        foreach ($tableArray as $functablename => $type) {
+            $memoItems = self::readSessionMemoItems($functablename);
 
-			if (!empty($memoItems) && is_array($memoItems)) {
-				$feuserMemoItems = self::readFeUserMemoItems($functablename);
-				if (isset($feuserMemoItems) && is_array($feuserMemoItems)) {
-					$memoItems = array_merge($feuserMemoItems, $memoItems);
-				}
-				self::saveMemo($functablename, $memoItems, $conf);
-			}
-		}
-	}
+            if (!empty($memoItems) && is_array($memoItems)) {
+                $feuserMemoItems = self::readFeUserMemoItems($functablename);
+                if (isset($feuserMemoItems) && is_array($feuserMemoItems)) {
+                    $memoItems = array_merge($feuserMemoItems, $memoItems);
+                }
+                self::saveMemo($functablename, $memoItems, $conf);
+            }
+        }
+    }
 
-	/**
-	 * Adds link markers to a wrapped subpart array
-	 */
-	static public function getWrappedSubpartArray (
-		&$wrappedSubpartArray,
-		$pidMemo,
-		$uid,
-		$cObj,
-		$urlObj,
-		$excludeList = '',
-		$addQueryString = [],
-		$css_current = '',
-		$useBackPid = true
-	) {
-		$cmdArray = ['add', 'del'];
+    /**
+     * Adds link markers to a wrapped subpart array
+     */
+    static public function getWrappedSubpartArray (
+        &$wrappedSubpartArray,
+        $pidMemo,
+        $uid,
+        $cObj,
+        $urlObj,
+        $excludeList = '',
+        $addQueryString = [],
+        $css_current = '',
+        $useBackPid = true
+    ) {
+        $cmdArray = ['add', 'del'];
 
-		foreach ($cmdArray as $cmd) {
-			$addQueryString[$cmd . 'memo'] = $uid;
+        foreach ($cmdArray as $cmd) {
+            $addQueryString[$cmd . 'memo'] = $uid;
 
             $pageLink = FrontendUtility::getTypoLink_URL(
                 $cObj,
@@ -319,10 +319,10 @@ class tx_ttproducts_control_memo {
                 )
             );
 
-			$wrappedSubpartArray['###LINK_MEMO_' . strtoupper($cmd) . '###'] = ['<a href="' . htmlspecialchars($pageLink) . '"' . $css_current . '>', '</a>'];
-			unset($addQueryString[$cmd . 'memo']);
-		}
-	}
+            $wrappedSubpartArray['###LINK_MEMO_' . strtoupper($cmd) . '###'] = ['<a href="' . htmlspecialchars($pageLink) . '"' . $css_current . '>', '</a>'];
+            unset($addQueryString[$cmd . 'memo']);
+        }
+    }
 }
 
 

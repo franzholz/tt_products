@@ -45,16 +45,16 @@ use TYPO3\CMS\Core\Utility\MathUtility;
 
 class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterface {
 
-	public function init (
-		&$conf,
-		&$config,
-		$pObj,
-		$cObj,
-		$ajax,
-		&$errorCode,
-		array $recs = [],
-		array $basketRec = []
-	) {
+    public function init (
+        &$conf,
+        &$config,
+        $pObj,
+        $cObj,
+        $ajax,
+        &$errorCode,
+        array $recs = [],
+        array $basketRec = []
+    ) {
         if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
             $staticInfoApi = GeneralUtility::makeInstance(\JambageCom\Div2007\Api\StaticInfoTablesApi::class);
         } else {
@@ -63,156 +63,156 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
 
         $useStaticInfoTables = $staticInfoApi->init();
 
-		if (!empty($conf['PIDstoreRoot'])) {
-			$config['storeRootPid'] = $conf['PIDstoreRoot'];
-		} else if (
+        if (!empty($conf['PIDstoreRoot'])) {
+            $config['storeRootPid'] = $conf['PIDstoreRoot'];
+        } else if (
             defined ('TYPO3_MODE') &&
             TYPO3_MODE == 'FE'
         ) {
-			foreach ($GLOBALS['TSFE']->tmpl->rootLine as $k => $row) {
-				if ($row['doktype'] == 1) {
-					$config['storeRootPid'] = $row['uid'];
-					break;
-				}
-			}
-		}
+            foreach ($GLOBALS['TSFE']->tmpl->rootLine as $k => $row) {
+                if ($row['doktype'] == 1) {
+                    $config['storeRootPid'] = $row['uid'];
+                    break;
+                }
+            }
+        }
 
         if (
             !isset($conf['pid_list']) ||
             $conf['pid_list'] == '{$plugin.tt_products.pid_list}'
         ) {
-			$conf['pid_list'] = '';
-		}
+            $conf['pid_list'] = '';
+        }
 
-		if (
+        if (
             !isset($conf['errorLog']) ||
             $conf['errorLog'] == '{$plugin.tt_products.file.errorLog}'
         ) {
-			$conf['errorLog'] = '';
-		} else if ($conf['errorLog']) {
-			$conf['errorLog'] = GeneralUtility::resolveBackPath(PATH_typo3conf . '../' . $conf['errorLog']);
-		}
+            $conf['errorLog'] = '';
+        } else if ($conf['errorLog']) {
+            $conf['errorLog'] = GeneralUtility::resolveBackPath(PATH_typo3conf . '../' . $conf['errorLog']);
+        }
 
-		$tmp = $cObj->stdWrap($conf['pid_list'] ?? '', $conf['pid_list.'] ?? '');
-		$pid_list = (!empty($cObj->data['pages']) ? $cObj->data['pages'] : (!empty($conf['pid_list.']) ? trim($tmp) : ''));
-		$pid_list = ($pid_list ? $pid_list : $conf['pid_list'] ?? '');
-		$config['pid_list'] = (isset($pid_list) ? $pid_list : $config['storeRootPid'] ?? 0);
+        $tmp = $cObj->stdWrap($conf['pid_list'] ?? '', $conf['pid_list.'] ?? '');
+        $pid_list = (!empty($cObj->data['pages']) ? $cObj->data['pages'] : (!empty($conf['pid_list.']) ? trim($tmp) : ''));
+        $pid_list = ($pid_list ? $pid_list : $conf['pid_list'] ?? '');
+        $config['pid_list'] = (isset($pid_list) ? $pid_list : $config['storeRootPid'] ?? 0);
 
-		$recursive = (!empty($cObj->data['recursive']) ? $cObj->data['recursive'] : $conf['recursive'] ?? 99);
-		$config['recursive'] = MathUtility::forceIntegerInRange($recursive, 0, 100);
+        $recursive = (!empty($cObj->data['recursive']) ? $cObj->data['recursive'] : $conf['recursive'] ?? 99);
+        $config['recursive'] = MathUtility::forceIntegerInRange($recursive, 0, 100);
 
-		if (is_object($pObj)) {
-			$pLangObj = $pObj;
-		} else {
-			$pLangObj = $this;
-		}
+        if (is_object($pObj)) {
+            $pLangObj = $pObj;
+        } else {
+            $pLangObj = $this;
+        }
         $languageObj = static::getLanguageObj($pLangObj, $cObj, $conf);
- 		$config['LLkey'] = $languageObj->getLocalLangKey();
+        $config['LLkey'] = $languageObj->getLocalLangKey();
 
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
-		$markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
-		$result = $markerObj->init(
-			$conf,
-			tx_ttproducts_model_control::getPiVars()
-		);
+        $markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
+        $result = $markerObj->init(
+            $conf,
+            tx_ttproducts_model_control::getPiVars()
+        );
 
-		if ($result == false) {
-			$errorCode = $markerObj->getErrorCode();
-			return false;
-		}
-		tx_ttproducts_control_basket::init(
-			$conf,
-			$tablesObj,
-			$config['pid_list'],
-			$conf['useArticles'] ?? 3,
-			$recs,
-			$basketRec
-		);
+        if ($result == false) {
+            $errorCode = $markerObj->getErrorCode();
+            return false;
+        }
+        tx_ttproducts_control_basket::init(
+            $conf,
+            $tablesObj,
+            $config['pid_list'],
+            $conf['useArticles'] ?? 3,
+            $recs,
+            $basketRec
+        );
 
-		// corrections in the Setup:
-		if (
-			\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('voucher') &&
-			isset($conf['gift.']['type']) &&
-			$conf['gift.']['type'] == 'voucher'
-		) {
-			$conf['table.']['voucher'] = 'tx_voucher_codes';
-		}
+        // corrections in the Setup:
+        if (
+            \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('voucher') &&
+            isset($conf['gift.']['type']) &&
+            $conf['gift.']['type'] == 'voucher'
+        ) {
+            $conf['table.']['voucher'] = 'tx_voucher_codes';
+        }
 
 
-		$cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
-		$cnfObj->init(
-			$conf,
-			$config
-		);
+        $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
+        $cnfObj->init(
+            $conf,
+            $config
+        );
 
-		\JambageCom\TtProducts\Api\ControlApi::init($conf, $cObj);
-		$infoArray = tx_ttproducts_control_basket::getStoredInfoArray();
-		if (!empty($conf['useStaticInfoCountry'])) {
-			tx_ttproducts_control_basket::setCountry(
-				$infoArray,
-				tx_ttproducts_control_basket::getBasketExtra()
-			);
-		}
+        \JambageCom\TtProducts\Api\ControlApi::init($conf, $cObj);
+        $infoArray = tx_ttproducts_control_basket::getStoredInfoArray();
+        if (!empty($conf['useStaticInfoCountry'])) {
+            tx_ttproducts_control_basket::setCountry(
+                $infoArray,
+                tx_ttproducts_control_basket::getBasketExtra()
+            );
+        }
 
-		tx_ttproducts_control_basket::addLoginData(
-			$infoArray,
-			$conf['loginUserInfoAddress'] ?? 0,
-			$conf['useStaticInfoCountry'] ?? 0
-		);
+        tx_ttproducts_control_basket::addLoginData(
+            $infoArray,
+            $conf['loginUserInfoAddress'] ?? 0,
+            $conf['useStaticInfoCountry'] ?? 0
+        );
 
-		tx_ttproducts_control_basket::setInfoArray($infoArray);
+        tx_ttproducts_control_basket::setInfoArray($infoArray);
 
-			// price
-		$priceObj = GeneralUtility::makeInstance('tx_ttproducts_field_price');
-		$priceObj->init(
-			$cObj,
-			$conf
-		);
-		$priceViewObj = GeneralUtility::makeInstance('tx_ttproducts_field_price_view');
-		$priceViewObj->init(
-			$priceObj
-		);
+            // price
+        $priceObj = GeneralUtility::makeInstance('tx_ttproducts_field_price');
+        $priceObj->init(
+            $cObj,
+            $conf
+        );
+        $priceViewObj = GeneralUtility::makeInstance('tx_ttproducts_field_price_view');
+        $priceViewObj->init(
+            $priceObj
+        );
 
-			// image
-		$imageObj = GeneralUtility::makeInstance('tx_ttproducts_field_image');
-		$imageObj->init($cObj);
+            // image
+        $imageObj = GeneralUtility::makeInstance('tx_ttproducts_field_image');
+        $imageObj->init($cObj);
 
-			// image view
-		$imageViewObj = GeneralUtility::makeInstance('tx_ttproducts_field_image_view');
-		$imageViewObj->init($imageObj);
+            // image view
+        $imageViewObj = GeneralUtility::makeInstance('tx_ttproducts_field_image_view');
+        $imageViewObj->init($imageObj);
 
-		$cssObj = GeneralUtility::makeInstance('tx_ttproducts_css');
-		$cssObj->init();
+        $cssObj = GeneralUtility::makeInstance('tx_ttproducts_css');
+        $cssObj->init();
 
-		$javaScriptObj = GeneralUtility::makeInstance('tx_ttproducts_javascript');
-			// JavaScript
-		$javaScriptObj->init(
-			$ajax
-		);
+        $javaScriptObj = GeneralUtility::makeInstance('tx_ttproducts_javascript');
+            // JavaScript
+        $javaScriptObj->init(
+            $ajax
+        );
 
-		$templateObj = GeneralUtility::makeInstance('tx_ttproducts_template');
-		if (isset($config['templateSuffix'])) {
+        $templateObj = GeneralUtility::makeInstance('tx_ttproducts_template');
+        if (isset($config['templateSuffix'])) {
             $templateObj->setTemplateSuffix($config['templateSuffix']);
         }
 
-			// Call all init hooks
-		if (
-			isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['init']) &&
-			is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['init'])
-		) {
-			$tableClassArray = $tablesObj->getTableClassArray();
+            // Call all init hooks
+        if (
+            isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['init']) &&
+            is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['init'])
+        ) {
+            $tableClassArray = $tablesObj->getTableClassArray();
 
-			foreach($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['init'] as $classRef) {
-				$hookObj= GeneralUtility::makeInstance($classRef);
-				if (method_exists($hookObj, 'init')) {
-					$hookObj->init($languageObj, $tableClassArray);
-				}
-			}
-			$tablesObj->setTableClassArray($tableClassArray);
-		}
+            foreach($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['init'] as $classRef) {
+                $hookObj= GeneralUtility::makeInstance($classRef);
+                if (method_exists($hookObj, 'init')) {
+                    $hookObj->init($languageObj, $tableClassArray);
+                }
+            }
+            $tablesObj->setTableClassArray($tableClassArray);
+        }
 
-		return true;
-	}
+        return true;
+    }
 
 
     static public function getLanguageObj ($pLangObj, $cObj, $conf) {
@@ -249,8 +249,8 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
         return $languageObj;
     }
 
-	public function destruct () {
-		tx_ttproducts_control_basket::destruct();
-	}
+    public function destruct () {
+        tx_ttproducts_control_basket::destruct();
+    }
 }
 

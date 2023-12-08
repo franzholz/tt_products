@@ -40,7 +40,7 @@
 
 
 class tx_ttproducts_damcategory_view extends tx_ttproducts_category_view {
-	public $piVar = 'damcat';
+    public $piVar = 'damcat';
 
 }
 

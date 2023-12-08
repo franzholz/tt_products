@@ -41,22 +41,22 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_user_view  {
 
-	public function printView (
-		$pibaseClass,
-		$templateCode,
-		$theCode
-	) {
-		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-		$conf = $cnf->getConf();
-		$content = '';
-		$num = $theCode{4};
+    public function printView (
+        $pibaseClass,
+        $templateCode,
+        $theCode
+    ) {
+        $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
+        $conf = $cnf->getConf();
+        $content = '';
+        $num = $theCode{4};
 
-		$pibaseObj = GeneralUtility::makeInstance('' . $pibaseClass);
-		$cObj = $pibaseObj->cObj;
+        $pibaseObj = GeneralUtility::makeInstance('' . $pibaseClass);
+        $cObj = $pibaseObj->cObj;
 
-		if (isset($conf['USEROBJ' . $num . '.']) && is_array($conf['USEROBJ' . $num . '.'])) {
-			$content = $cObj->cObjGetSingle($conf['USEROBJ' . $num], $conf['USEROBJ' . $num . '.']);
-		}
+        if (isset($conf['USEROBJ' . $num . '.']) && is_array($conf['USEROBJ' . $num . '.'])) {
+            $content = $cObj->cObjGetSingle($conf['USEROBJ' . $num], $conf['USEROBJ' . $num . '.']);
+        }
 
 // Test Fancybox Anfang
 
@@ -94,7 +94,7 @@ $content .= '<script type="text/javascript">
 
 // Test Fancybox Ende
 
-		return $content;
-	}
+        return $content;
+    }
 }
 

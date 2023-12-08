@@ -38,17 +38,17 @@
 
 
 class tx_ttproducts_dam_view extends tx_ttproducts_article_base_view {
-	public $marker = 'DAM';
-	public $piVar = 'dam';
+    public $marker = 'DAM';
+    public $piVar = 'dam';
 
 
-	/**
-	 * Sets the markers for DAM specific FORM fields
-	 *
-	 */
-	public function setFormMarkerArray($uid, &$markerArray) {
-		$markerArray['###DAM_FIELD_NAME###'] = 'ttp_basket[dam]';
-		$markerArray['###DAM_UID###'] = intval($uid);
-	}
+    /**
+     * Sets the markers for DAM specific FORM fields
+     *
+     */
+    public function setFormMarkerArray($uid, &$markerArray) {
+        $markerArray['###DAM_FIELD_NAME###'] = 'ttp_basket[dam]';
+        $markerArray['###DAM_UID###'] = intval($uid);
+    }
 }
 

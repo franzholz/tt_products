@@ -41,70 +41,70 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
 class tx_ttproducts_template implements \TYPO3\CMS\Core\SingletonInterface {
-	private $templateFile;
-	protected $templateSuffix = '';
+    private $templateFile;
+    protected $templateSuffix = '';
 
-	public function getTemplateFile () {
-		return $this->templateFile;
-	}
-
-
-	public function setTemplateSuffix ($value) {
-		$this->templateSuffix = $value;
-	}
+    public function getTemplateFile () {
+        return $this->templateFile;
+    }
 
 
-	public function getTemplateSuffix () {
-		return $this->templateSuffix;
-	}
+    public function setTemplateSuffix ($value) {
+        $this->templateSuffix = $value;
+    }
 
 
-	public function get (
-		$theCode,
-		&$templateFile,
-		&$errorCode
-	) {
+    public function getTemplateSuffix () {
+        return $this->templateSuffix;
+    }
 
-		$templateCode = '';
-		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-		$conf = $cnf->getConf();
-		$templateFile = $cnf->getTemplateFile($theCode);
-		$pathFilename = '';
+
+    public function get (
+        $theCode,
+        &$templateFile,
+        &$errorCode
+    ) {
+
+        $templateCode = '';
+        $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
+        $conf = $cnf->getConf();
+        $templateFile = $cnf->getTemplateFile($theCode);
+        $pathFilename = '';
         if ($templateFile) {
             $pathFilename = GeneralUtility::getFileAbsFileName($templateFile);
         }
 
-		if (file_exists($pathFilename)) {
-			// template file is fetched. The whole template file from which the various subpart are extracted.
-			$templateCode = file_get_contents($pathFilename);
-		}
+        if (file_exists($pathFilename)) {
+            // template file is fetched. The whole template file from which the various subpart are extracted.
+            $templateCode = file_get_contents($pathFilename);
+        }
 
-		if (
-			(!$templateFile || empty($templateCode))
-		) {
+        if (
+            (!$templateFile || empty($templateCode))
+        ) {
             $tmplText = '';
-			if (!empty($conf['templateFile.'][$theCode])) {
-				$tmplText = $theCode . '.';
-			}
-			$tmplText .= 'templateFile';
+            if (!empty($conf['templateFile.'][$theCode])) {
+                $tmplText = $theCode . '.';
+            }
+            $tmplText .= 'templateFile';
 
-			if (empty($errorCode)) {
-				$errorCode[0] = 'no_template';
-				$errorCode[1] =  ' plugin.' . TT_PRODUCTS_EXT . '.' . $tmplText . ' = ' .
-					($templateFile ? $templateFile : '');
-			}
-		}
+            if (empty($errorCode)) {
+                $errorCode[0] = 'no_template';
+                $errorCode[1] =  ' plugin.' . TT_PRODUCTS_EXT . '.' . $tmplText . ' = ' .
+                    ($templateFile ? $templateFile : '');
+            }
+        }
 
-		if (
-			$theCode != 'ERROR' &&
-			$templateFile != '' &&
-			!empty($templateCode)
-		) {
-			$this->templateFile = $templateFile;
-		}
+        if (
+            $theCode != 'ERROR' &&
+            $templateFile != '' &&
+            !empty($templateCode)
+        ) {
+            $this->templateFile = $templateFile;
+        }
 
-		return $templateCode;
-	}
+        return $templateCode;
+    }
 }
 
 

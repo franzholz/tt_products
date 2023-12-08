@@ -39,68 +39,68 @@
 
 
 class tx_ttproducts_field_creditpoints_view extends tx_ttproducts_field_base_view {
-	protected $addedFieldArray = ['creditpoints_missing', 'creditpoints_remaining'];
+    protected $addedFieldArray = ['creditpoints_missing', 'creditpoints_remaining'];
 
-	public function modifyItemSubpartRow ($fieldname, $row, &$addedFieldArray) {
-		$modelObj = $this->getModelObj();
-		$rc = $row;
-		$creditpointsMissing = 0;
-		$creditpointsRemaining = 0;
-		$modelObj->getMissingCreditpoints($fieldname, $row, $creditpointsMissing, $creditpointsRemaining);
-		$rc['creditpoints_missing'] = $creditpointsMissing;
-		$rc['creditpoints_remaining'] = $creditpointsRemaining;
-		$addedFieldArray = array_merge($addedFieldArray, $this->addedFieldArray);
-		return $rc;
-	}
+    public function modifyItemSubpartRow ($fieldname, $row, &$addedFieldArray) {
+        $modelObj = $this->getModelObj();
+        $rc = $row;
+        $creditpointsMissing = 0;
+        $creditpointsRemaining = 0;
+        $modelObj->getMissingCreditpoints($fieldname, $row, $creditpointsMissing, $creditpointsRemaining);
+        $rc['creditpoints_missing'] = $creditpointsMissing;
+        $rc['creditpoints_remaining'] = $creditpointsRemaining;
+        $addedFieldArray = array_merge($addedFieldArray, $this->addedFieldArray);
+        return $rc;
+    }
 
-	public function getRowMarkerArray (
-		$functablename,
-		$fieldname,
-		$row,
-		$markerKey,
-		&$markerArray,
-		$fieldMarkerArray,
-		$tagArray,
-		$theCode,
-		$id,
-		$basketExtra,
-		$basketRecs,
-		&$bSkip,
-		$bHtml = true,
-		$charset = '',
-		$prefix = '',
-		$suffix = '',
-		$imageNum = 0,
-		$imageRenderObj = '',
-		$linkWrap = false,
-		$bEnableTaxZero = false
-	) {
-		$modifiedRow = [];
-		$value =
-			$this->getModelObj()->getFieldValue(
-				$dummy,
-				$row,
-				$fieldname,
-				$basketExtra,
-				$basketRecs,
-				$dummy
-			);
+    public function getRowMarkerArray (
+        $functablename,
+        $fieldname,
+        $row,
+        $markerKey,
+        &$markerArray,
+        $fieldMarkerArray,
+        $tagArray,
+        $theCode,
+        $id,
+        $basketExtra,
+        $basketRecs,
+        &$bSkip,
+        $bHtml = true,
+        $charset = '',
+        $prefix = '',
+        $suffix = '',
+        $imageNum = 0,
+        $imageRenderObj = '',
+        $linkWrap = false,
+        $bEnableTaxZero = false
+    ) {
+        $modifiedRow = [];
+        $value =
+            $this->getModelObj()->getFieldValue(
+                $dummy,
+                $row,
+                $fieldname,
+                $basketExtra,
+                $basketRecs,
+                $dummy
+            );
 
-		$value = number_format($value,'0');
-		$modifiedRow[$fieldname] = $value;
-		foreach ($this->addedFieldArray as $addedField) {
-			$value =
-				$this->getModelObj()->getFieldValue(
-					$dummy,
-					$row,
-					$addedField,
-					$basketExtra,
-					$basketRecs,
-					$dummy
-				);
-			$modifiedRow[$addedField] = number_format($value,'0');
-		}
-		return $modifiedRow;
-	}
+        $value = number_format($value,'0');
+        $modifiedRow[$fieldname] = $value;
+        foreach ($this->addedFieldArray as $addedField) {
+            $value =
+                $this->getModelObj()->getFieldValue(
+                    $dummy,
+                    $row,
+                    $addedField,
+                    $basketExtra,
+                    $basketRecs,
+                    $dummy
+                );
+            $modifiedRow[$addedField] = number_format($value,'0');
+        }
+        return $modifiedRow;
+    }
 }
 

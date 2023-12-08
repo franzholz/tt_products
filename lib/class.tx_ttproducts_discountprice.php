@@ -43,355 +43,355 @@ use TYPO3\CMS\Core\Utility\MathUtility;
 class tx_ttproducts_discountprice extends tx_ttproducts_pricecalc_base implements \TYPO3\CMS\Core\SingletonInterface {
 
 
-	public function getDiscountPrice ($conf) {
-		$result = false;
+    public function getDiscountPrice ($conf) {
+        $result = false;
 
-		if (isset($conf['discountprice.'])) {
-			$gr_list = explode(',' , $GLOBALS['TSFE']->gr_list);
+        if (isset($conf['discountprice.'])) {
+            $gr_list = explode(',' , $GLOBALS['TSFE']->gr_list);
 
-			if ($conf['getDiscountPrice']) {
-				$result = true;
-			} else {
-				foreach ($gr_list as $k1 => $val) {
-					if (((float) $val > 0) && ($getDiscount == 0) && !empty($GLOBALS['TSFE']->fe_user->groupData['title'])) {
-						$result = (strcmp($GLOBALS['TSFE']->fe_user->groupData['title'], $conf['discountGroupName']) == 0);
-					}
-				}
-			}
-		}
-		return $result;
-	}
-
-
-	protected function handlePriceItems (
-		array $priceItems,
-		&$itemArray,
-		&$priceReduction,
-		&$discountArray,
-		$type,
-		$bNeedsDivision
-	) {
-		$priceItemsCount = count($priceItems);
-
-		foreach ($priceItems as $priceItem) {
-
-			$k2 = $priceItem['item'];
-			$sort = $priceItem['sort'];
-			$prodValue = $priceItem['price'];
-			if ($bNeedsDivision) {
-				$price = $prodValue / $priceItemsCount;
-			} else {
-				$price = $prodValue;
-			}
-
-			if ($priceItem['add']) {
-				$itemArray[$sort][$k2][$type . '_add'] += $price;
-			} else {
-				$itemArray[$sort][$k2][$type] = $price;
-			}
-
-			$row = $itemArray[$sort][$k2]['rec'];
-			$discountArray[$row['uid']] += $price;
-			$priceReduction[$row['uid']] = 1; // remember the reduction in order not to calculate another price with $priceCalc later
-		}
-	}
+            if ($conf['getDiscountPrice']) {
+                $result = true;
+            } else {
+                foreach ($gr_list as $k1 => $val) {
+                    if (((float) $val > 0) && ($getDiscount == 0) && !empty($GLOBALS['TSFE']->fe_user->groupData['title'])) {
+                        $result = (strcmp($GLOBALS['TSFE']->fe_user->groupData['title'], $conf['discountGroupName']) == 0);
+                    }
+                }
+            }
+        }
+        return $result;
+    }
 
 
-	public function getCalculatedData (
-		&$itemArray,
-		$conf,
-		$type,
-		&$priceReduction,
-		&$discountArray,
-		$priceTotalTax,
-		$bUseArticles,
-		$taxIncluded,
-		$bMergeArticles = true,
-		$uid = 0
-	) {
-		if (!$conf || !$itemArray || !count($itemArray)) {
-			return;
-		}
+    protected function handlePriceItems (
+        array $priceItems,
+        &$itemArray,
+        &$priceReduction,
+        &$discountArray,
+        $type,
+        $bNeedsDivision
+    ) {
+        $priceItemsCount = count($priceItems);
 
-		$additive = 0;
-		$countTotal = 0;
-		$countedItems = [];
-		$newPriceItems = [];
+        foreach ($priceItems as $priceItem) {
 
-		ksort($conf);
-		$calctype = '';
-		$field = '';
+            $k2 = $priceItem['item'];
+            $sort = $priceItem['sort'];
+            $prodValue = $priceItem['price'];
+            if ($bNeedsDivision) {
+                $price = $prodValue / $priceItemsCount;
+            } else {
+                $price = $prodValue;
+            }
 
-		foreach ($conf as $k1 => $priceCalcTemp) {
+            if ($priceItem['add']) {
+                $itemArray[$sort][$k2][$type . '_add'] += $price;
+            } else {
+                $itemArray[$sort][$k2][$type] = $price;
+            }
 
-			if (is_array($priceCalcTemp)) {
-				$field = 'price';
+            $row = $itemArray[$sort][$k2]['rec'];
+            $discountArray[$row['uid']] += $price;
+            $priceReduction[$row['uid']] = 1; // remember the reduction in order not to calculate another price with $priceCalc later
+        }
+    }
 
-				foreach ($priceCalcTemp as $k2 => $v2) {
-					//=>	catch the values of discountprice
-					if (!is_array($k2)) {
-						switch ($k2) {
-							case 'uid':
-								$uid = $v2;
-								break;
-							case 'type':
-								$calctype = $v2;
-								break;
-							case 'field':
-								$field = $v2;
-								$fieldArray = GeneralUtility::trimExplode(',', $field);
-								break;
-							case 'additive':
-								$additive = $v2;
-								break;
-						}
-						continue;
-					}
-				}
-				if (isset($priceCalcTemp['prod.']) && is_array($priceCalcTemp['prod.'])) {
-					ksort($priceCalcTemp['prod.'], SORT_NUMERIC);
-				}
-			} else {
-				switch ($k1) {
-					case 'additive':
-						$additive = $priceCalcTemp;
-						break;
-				}
-			}
 
-			// array of all normal prices out of the discount price array
-			$priceCalcCount = 0;
+    public function getCalculatedData (
+        &$itemArray,
+        $conf,
+        $type,
+        &$priceReduction,
+        &$discountArray,
+        $priceTotalTax,
+        $bUseArticles,
+        $taxIncluded,
+        $bMergeArticles = true,
+        $uid = 0
+    ) {
+        if (!$conf || !$itemArray || !count($itemArray)) {
+            return;
+        }
 
-			if ($calctype == 'count') {
-				$pricefor1 = $this->getPrice($conf, $k1);
-			}
+        $additive = 0;
+        $countTotal = 0;
+        $countedItems = [];
+        $newPriceItems = [];
 
-			// loop over all items in the basket indexed by a sorting text
-			foreach ($itemArray as $sort => $actItemArray) {
+        ksort($conf);
+        $calctype = '';
+        $field = '';
 
-				// $actItemArray = all items array
-				foreach ($actItemArray as $k2 => $actItem) {
-					$bConditionActive = false;
-					$lastprodValue = '';
-					$prodValue = 0;
+        foreach ($conf as $k1 => $priceCalcTemp) {
 
-					$row = $actItem['rec'];
+            if (is_array($priceCalcTemp)) {
+                $field = 'price';
 
-					if ($bMergeArticles) {
-						$extArray = $row['ext'];
-						if (is_array($extArray) && is_array($extArray['mergeArticles'])) {
-							$row = $extArray['mergeArticles'];
-						}
-					}
+                foreach ($priceCalcTemp as $k2 => $v2) {
+                    //=>	catch the values of discountprice
+                    if (!is_array($k2)) {
+                        switch ($k2) {
+                            case 'uid':
+                                $uid = $v2;
+                                break;
+                            case 'type':
+                                $calctype = $v2;
+                                break;
+                            case 'field':
+                                $field = $v2;
+                                $fieldArray = GeneralUtility::trimExplode(',', $field);
+                                break;
+                            case 'additive':
+                                $additive = $v2;
+                                break;
+                        }
+                        continue;
+                    }
+                }
+                if (isset($priceCalcTemp['prod.']) && is_array($priceCalcTemp['prod.'])) {
+                    ksort($priceCalcTemp['prod.'], SORT_NUMERIC);
+                }
+            } else {
+                switch ($k1) {
+                    case 'additive':
+                        $additive = $priceCalcTemp;
+                        break;
+                }
+            }
 
-					if (is_array($priceCalcTemp['sql.'])) {
-						if (!($bIsValid = tx_ttproducts_sql::isValid($row, $priceCalcTemp['sql.']['where']))) {
-							continue;
-						}
-					}
+            // array of all normal prices out of the discount price array
+            $priceCalcCount = 0;
 
-					$pid = intval($row['pid']);
-					// count all items which will apply to the discount price
-					$count2 = $actItem['count'];
-					$prodConf = $priceCalcTemp['prod.'];
+            if ($calctype == 'count') {
+                $pricefor1 = $this->getPrice($conf, $k1);
+            }
 
-					switch ($calctype) {
-						case 'count':
-							// amount of items
-							$priceCalcCount += $count2;
+            // loop over all items in the basket indexed by a sorting text
+            foreach ($itemArray as $sort => $actItemArray) {
 
-							$prodType = '';
+                // $actItemArray = all items array
+                foreach ($actItemArray as $k2 => $actItem) {
+                    $bConditionActive = false;
+                    $lastprodValue = '';
+                    $prodValue = 0;
 
-							if (is_array($prodConf)) {
-								$prodType = $prodConf['type'];
-								if (!$prodType) {
-									$prodType = 'count';
-								}
-								$bActivateImmediately = true;
-								if ($prodType == 'count') {
-									$bActivateImmediately = false;
-								}
-								$prodConfArray = $prodConf;
-								krsort($prodConfArray);
-								$countedItems[$k1][] = ['sort' => $sort, 'item' => $k2, 'active' => false, 'price' => ''];	// collect the not yet active items
+                    $row = $actItem['rec'];
 
-								foreach ($prodConfArray as $k3 => $v3) {
-									if ($k3 === 'type') {
-										// nothing
-									} else if (
-										MathUtility::canBeInterpretedAsInteger($k3)
-									) {
-										$count3 = intval($k3);
+                    if ($bMergeArticles) {
+                        $extArray = $row['ext'];
+                        if (is_array($extArray) && is_array($extArray['mergeArticles'])) {
+                            $row = $extArray['mergeArticles'];
+                        }
+                    }
 
-										if ($priceCalcCount >= $count3) {
-											switch ($prodType) {
-												case 'percent':
-													foreach ($countedItems[$k1] as $k4 => $countedItemsRow)	{
-														$item = $itemArray[$countedItemsRow['sort']][$countedItemsRow['item']];
-														$prodRow = $item['rec'];
-														$prodValue = $prodRow[$field] * (1 - $v3 / 100);
+                    if (is_array($priceCalcTemp['sql.'])) {
+                        if (!($bIsValid = tx_ttproducts_sql::isValid($row, $priceCalcTemp['sql.']['where']))) {
+                            continue;
+                        }
+                    }
 
-														if (!isset($countedItems[$k1][$k4]) || !$countedItems[$k1][$k4]['active']) {
-															$countedItems[$k1][$k4]['active'] = true;
-															$countedItems[$k1][$k4]['price'] = $prodValue;
-														}
-													}
-													break;
-												case 'price':
-												default:
-													$prodValue = $v3;
-													if (
-														!MathUtility::canBeInterpretedAsInteger($lastprodValue) ||
-														$lastprodValue != $prodValue
-													) {
+                    $pid = intval($row['pid']);
+                    // count all items which will apply to the discount price
+                    $count2 = $actItem['count'];
+                    $prodConf = $priceCalcTemp['prod.'];
 
-														if (!$bConditionActive) {
-															foreach ($countedItems[$k1] as $k4 => $countItemArray) {
-																$countedItems[$k1][$k4]['active'] = $bActivateImmediately;
-																$countedItems[$k1][$k4]['price'] = $prodValue;
-															}
-														}
-														$bConditionActive = true;
-													}
-													$lastprodValue = $prodValue;
+                    switch ($calctype) {
+                        case 'count':
+                            // amount of items
+                            $priceCalcCount += $count2;
 
-													// $prodValue  = $v3;
-													break;
-											}
-										}
-									}
-								} // foreach ($prodConfArray as $k3 => $v3)
-							} else if (
-								($count2 > 0) &&
-								isset($row[$field]) &&
-								($row[$field] == $pricefor1) &&
-								(!$uid || $row['uid'] == $uid)
-							) {
-								$countedItems[$k1][] =
-									[
-										'sort' => $sort,
-										'item' => $k2,
-										'active' => false,
-										'price' => ''
-									];
-							}
-						break;
-						case 'price':
-							if (is_array($prodConf)) {
-								$prodType = '';
-								ksort($prodConf);
-								$prodValue = 0;
+                            $prodType = '';
 
-								foreach($prodConf as $k3 => $prodv) {
+                            if (is_array($prodConf)) {
+                                $prodType = $prodConf['type'];
+                                if (!$prodType) {
+                                    $prodType = 'count';
+                                }
+                                $bActivateImmediately = true;
+                                if ($prodType == 'count') {
+                                    $bActivateImmediately = false;
+                                }
+                                $prodConfArray = $prodConf;
+                                krsort($prodConfArray);
+                                $countedItems[$k1][] = ['sort' => $sort, 'item' => $k2, 'active' => false, 'price' => ''];	// collect the not yet active items
 
-									if (
-										MathUtility::canBeInterpretedAsInteger($k3)
-									) {
-										if ($priceTotalTax >= $k3 - 0.000001) {
+                                foreach ($prodConfArray as $k3 => $v3) {
+                                    if ($k3 === 'type') {
+                                        // nothing
+                                    } else if (
+                                        MathUtility::canBeInterpretedAsInteger($k3)
+                                    ) {
+                                        $count3 = intval($k3);
+
+                                        if ($priceCalcCount >= $count3) {
+                                            switch ($prodType) {
+                                                case 'percent':
+                                                    foreach ($countedItems[$k1] as $k4 => $countedItemsRow)	{
+                                                        $item = $itemArray[$countedItemsRow['sort']][$countedItemsRow['item']];
+                                                        $prodRow = $item['rec'];
+                                                        $prodValue = $prodRow[$field] * (1 - $v3 / 100);
+
+                                                        if (!isset($countedItems[$k1][$k4]) || !$countedItems[$k1][$k4]['active']) {
+                                                            $countedItems[$k1][$k4]['active'] = true;
+                                                            $countedItems[$k1][$k4]['price'] = $prodValue;
+                                                        }
+                                                    }
+                                                    break;
+                                                case 'price':
+                                                default:
+                                                    $prodValue = $v3;
+                                                    if (
+                                                        !MathUtility::canBeInterpretedAsInteger($lastprodValue) ||
+                                                        $lastprodValue != $prodValue
+                                                    ) {
+
+                                                        if (!$bConditionActive) {
+                                                            foreach ($countedItems[$k1] as $k4 => $countItemArray) {
+                                                                $countedItems[$k1][$k4]['active'] = $bActivateImmediately;
+                                                                $countedItems[$k1][$k4]['price'] = $prodValue;
+                                                            }
+                                                        }
+                                                        $bConditionActive = true;
+                                                    }
+                                                    $lastprodValue = $prodValue;
+
+                                                    // $prodValue  = $v3;
+                                                    break;
+                                            }
+                                        }
+                                    }
+                                } // foreach ($prodConfArray as $k3 => $v3)
+                            } else if (
+                                ($count2 > 0) &&
+                                isset($row[$field]) &&
+                                ($row[$field] == $pricefor1) &&
+                                (!$uid || $row['uid'] == $uid)
+                            ) {
+                                $countedItems[$k1][] =
+                                    [
+                                        'sort' => $sort,
+                                        'item' => $k2,
+                                        'active' => false,
+                                        'price' => ''
+                                    ];
+                            }
+                        break;
+                        case 'price':
+                            if (is_array($prodConf)) {
+                                $prodType = '';
+                                ksort($prodConf);
+                                $prodValue = 0;
+
+                                foreach($prodConf as $k3 => $prodv) {
+
+                                    if (
+                                        MathUtility::canBeInterpretedAsInteger($k3)
+                                    ) {
+                                        if ($priceTotalTax >= $k3 - 0.000001) {
 
 /*											if ($prodValue == '' || $prodValue < $prodv) {
-												$prodValue = $prodv;
-											}*/
-											$prodValue = $prodv;
-										}
-									} else {
-										if ($k3 === 'type') {
-											$prodType = $prodv;
-										}
-									}
-								}
+                                                $prodValue = $prodv;
+                                            }*/
+                                            $prodValue = $prodv;
+                                        }
+                                    } else {
+                                        if ($k3 === 'type') {
+                                            $prodType = $prodv;
+                                        }
+                                    }
+                                }
 
-								if ($prodType == 'percent') {
-									$prodValue = ($taxIncluded ? $actItem['priceTax'] : $actItem['priceNoTax']) * (1 - $prodValue / 100);
-								}
-								$newPriceItems[$k1][] = ['sort' => $sort, 'item' => $k2, 'price' => $prodValue];
-							}
-						break;
-						case 'value':
-							if (is_array($prodConf)) {
-								$bAdd = intval($priceCalcTemp['add']);
-								$prodConfArray = $prodConf;
-								krsort($prodConfArray);
+                                if ($prodType == 'percent') {
+                                    $prodValue = ($taxIncluded ? $actItem['priceTax'] : $actItem['priceNoTax']) * (1 - $prodValue / 100);
+                                }
+                                $newPriceItems[$k1][] = ['sort' => $sort, 'item' => $k2, 'price' => $prodValue];
+                            }
+                        break;
+                        case 'value':
+                            if (is_array($prodConf)) {
+                                $bAdd = intval($priceCalcTemp['add']);
+                                $prodConfArray = $prodConf;
+                                krsort($prodConfArray);
 
-								$priceValue = 0;
-								$bValueSet = false;
+                                $priceValue = 0;
+                                $bValueSet = false;
 
-								if (count($fieldArray)) {
+                                if (count($fieldArray)) {
 
-									foreach($prodConfArray as $k3 => $rangeConf) {
+                                    foreach($prodConfArray as $k3 => $rangeConf) {
 
-										if (
-											substr($k3, -1) == '.' &&
+                                        if (
+                                            substr($k3, -1) == '.' &&
                                             isset($rangeConf) && is_array($rangeConf) &&
-											!empty($rangeConf['range']) &&
-											!empty($rangeConf['price'])
-										) {
+                                            !empty($rangeConf['range']) &&
+                                            !empty($rangeConf['price'])
+                                        ) {
 
-											$rangeArray = GeneralUtility::trimExplode(',', $rangeConf['range']);
-											if (count($rangeArray) != count($fieldArray)) {
-												continue;
-											}
+                                            $rangeArray = GeneralUtility::trimExplode(',', $rangeConf['range']);
+                                            if (count($rangeArray) != count($fieldArray)) {
+                                                continue;
+                                            }
 
-											$k3number = substr($k3, 0, -1);
+                                            $k3number = substr($k3, 0, -1);
 
-											if (is_numeric($k3number)) {
+                                            if (is_numeric($k3number)) {
 
-												$rangeIndex = 0;
-												$bRangeValid = true;
-												foreach ($fieldArray as $theField) {
-													$value = $row[$theField];
-													$rangeValueArray = GeneralUtility::trimExplode('-', $rangeArray[$rangeIndex]);
+                                                $rangeIndex = 0;
+                                                $bRangeValid = true;
+                                                foreach ($fieldArray as $theField) {
+                                                    $value = $row[$theField];
+                                                    $rangeValueArray = GeneralUtility::trimExplode('-', $rangeArray[$rangeIndex]);
 
-													if (
-														$value < $rangeValueArray['0']
-														|| $value > $rangeValueArray['1']
-													) {
-														$bRangeValid = false;
-														break;
-													}
-													$rangeIndex++;
-												}
+                                                    if (
+                                                        $value < $rangeValueArray['0']
+                                                        || $value > $rangeValueArray['1']
+                                                    ) {
+                                                        $bRangeValid = false;
+                                                        break;
+                                                    }
+                                                    $rangeIndex++;
+                                                }
 
-												if ($bRangeValid) {
-													$priceValue = $rangeConf['price'];
-													break;
-												}
-											}
-										}
-									}
+                                                if ($bRangeValid) {
+                                                    $priceValue = $rangeConf['price'];
+                                                    break;
+                                                }
+                                            }
+                                        }
+                                    }
 
-									if ($bRangeValid) {
-										$newPriceItems[$k1][] = ['sort' => $sort, 'item' => $k2, 'price' => $priceValue, 'add' => $bAdd];
-									}
-								}
-							}
-						break;
-					}
-					//=> actItem uid = catched uid
-				}
-			} // foreach ($itemArray as $sort=>$actItemArray)
-			$countTotal += $priceCalcCount;
+                                    if ($bRangeValid) {
+                                        $newPriceItems[$k1][] = ['sort' => $sort, 'item' => $k2, 'price' => $priceValue, 'add' => $bAdd];
+                                    }
+                                }
+                            }
+                        break;
+                    }
+                    //=> actItem uid = catched uid
+                }
+            } // foreach ($itemArray as $sort=>$actItemArray)
+            $countTotal += $priceCalcCount;
 
-			if ($additive == 0) {
-				switch ($calctype) {
-					case 'count':
+            if ($additive == 0) {
+                switch ($calctype) {
+                    case 'count':
 
-						if (is_array($countedItems[$k1])) {
-							$additionalCount = 0;
-							$activateArray = [];
+                        if (is_array($countedItems[$k1])) {
+                            $additionalCount = 0;
+                            $activateArray = [];
 
-							foreach ($countedItems[$k1] as $k2 => $countedItemsRow) {
-								if ($countedItemsRow['active'] === false) {
-									$tmpArray = $itemArray[$countedItemsRow['sort']][$countedItemsRow['item']];
-									$additionalCount += $tmpArray['count'];
-									$activateArray[] = $k2;
-								}
-							}
+                            foreach ($countedItems[$k1] as $k2 => $countedItemsRow) {
+                                if ($countedItemsRow['active'] === false) {
+                                    $tmpArray = $itemArray[$countedItemsRow['sort']][$countedItemsRow['item']];
+                                    $additionalCount += $tmpArray['count'];
+                                    $activateArray[] = $k2;
+                                }
+                            }
 
-							if ($additionalCount > 0) {
-								$prodType = $prodConf['type'];
-								$prodConfArray = $prodConf;
-								krsort($prodConfArray);
+                            if ($additionalCount > 0) {
+                                $prodType = $prodConf['type'];
+                                $prodConfArray = $prodConf;
+                                krsort($prodConfArray);
 
                                 if ($prodType != 'percent') {
                                     foreach ($prodConfArray as $k2 => $prodv) {
@@ -408,111 +408,111 @@ class tx_ttproducts_discountprice extends tx_ttproducts_pricecalc_base implement
                                         }
                                     }
                                 }
-							}
+                            }
 
-							foreach ($countedItems[$k1] as $k2 => $countedItemsRow) {
+                            foreach ($countedItems[$k1] as $k2 => $countedItemsRow) {
 
-								if ($countedItemsRow['active'] === true) {
+                                if ($countedItemsRow['active'] === true) {
 
-									$item = &$itemArray[$countedItemsRow['sort']][$countedItemsRow['item']];
-									$row2 = &$item['rec'];
-									$row2[$type] = $countedItemsRow['price']; // direct write into $row and into $itemArray
-									$item[$type] = $countedItemsRow['price'];
+                                    $item = &$itemArray[$countedItemsRow['sort']][$countedItemsRow['item']];
+                                    $row2 = &$item['rec'];
+                                    $row2[$type] = $countedItemsRow['price']; // direct write into $row and into $itemArray
+                                    $item[$type] = $countedItemsRow['price'];
 
-									$discountArray[$row['uid']] += $countedItemsRow['price'];
-									$priceReduction[$row['uid']] = 1; // remember the reduction in order not to calculate another price with $priceCalc
-								}
-							}
-							if (isset($item)) {
-								unset($item);
-							}
-							if (isset($row2)) {
-								unset($row2);
-							}
-						}
-					break;
-					case 'value':
-					case 'price':
-						if (isset($newPriceItems[$k1]) && is_array($newPriceItems[$k1])) {
+                                    $discountArray[$row['uid']] += $countedItemsRow['price'];
+                                    $priceReduction[$row['uid']] = 1; // remember the reduction in order not to calculate another price with $priceCalc
+                                }
+                            }
+                            if (isset($item)) {
+                                unset($item);
+                            }
+                            if (isset($row2)) {
+                                unset($row2);
+                            }
+                        }
+                    break;
+                    case 'value':
+                    case 'price':
+                        if (isset($newPriceItems[$k1]) && is_array($newPriceItems[$k1])) {
 
-							$bNeedsDivision = false;
-							$this->handlePriceItems(
-								$newPriceItems[$k1],
-								$itemArray,
-								$priceReduction,
-								$discountArray,
-								$type,
-								$bNeedsDivision
-							);
-						}
-					break;
-				}
-			}
-		} // foreach ($conf as $k1 => $priceCalcTemp)
+                            $bNeedsDivision = false;
+                            $this->handlePriceItems(
+                                $newPriceItems[$k1],
+                                $itemArray,
+                                $priceReduction,
+                                $discountArray,
+                                $type,
+                                $bNeedsDivision
+                            );
+                        }
+                    break;
+                }
+            }
+        } // foreach ($conf as $k1 => $priceCalcTemp)
 
-		if ($additive == 1) {
+        if ($additive == 1) {
 
-			switch ($calctype) {
-				case 'count':
-					foreach ($conf as $k1 => $priceCalcTemp) {
-						if (!is_array($priceCalcTemp)) {
-							continue;
-						}
+            switch ($calctype) {
+                case 'count':
+                    foreach ($conf as $k1 => $priceCalcTemp) {
+                        if (!is_array($priceCalcTemp)) {
+                            continue;
+                        }
 
-						if ($countedItems[$k1] == NULL/* || $countedItems[$k1]['active'] == false*/) {
-							continue;
-						}
+                        if ($countedItems[$k1] == NULL/* || $countedItems[$k1]['active'] == false*/) {
+                            continue;
+                        }
 
-						krsort($priceCalcTemp['prod.']);
-						foreach ($priceCalcTemp['prod.'] as $k2 => $price2) {
-							if ($countTotal >= (float) $k2) { // search the price from the total count
-								if ((float) $k2 > 1) {
-									// store the discount price in all calculated items from before
-									if (is_array ($countedItems[$k1])) {
+                        krsort($priceCalcTemp['prod.']);
+                        foreach ($priceCalcTemp['prod.'] as $k2 => $price2) {
+                            if ($countTotal >= (float) $k2) { // search the price from the total count
+                                if ((float) $k2 > 1) {
+                                    // store the discount price in all calculated items from before
+                                    if (is_array ($countedItems[$k1])) {
 
-										foreach ($countedItems[$k1] as $k3 => $v3) {
-											if ($v3['active'] == false) {
-												continue;
-											}
+                                        foreach ($countedItems[$k1] as $k3 => $v3) {
+                                            if ($v3['active'] == false) {
+                                                continue;
+                                            }
 
-											foreach ($itemArray[$v3['sort']] as $k1 => $actItem) {
-												$row = $actItem['rec'];
-												if ($type == 'calc') {
-													$itemArray[$v3['sort']][$k1][$type] = $price2;
-												}
-												$discountArray[$row['uid']] += $price2;
-												$priceReduction[$row['uid']] = 1; // remember the reduction in order not to calculate another price with $priceCalc later
-											}
-										}
-									}
-								}
-								break; // finish
-							}
-						}
-					}
-				break;
-				case 'price':
-					foreach ($conf as $k1 => $priceCalcTemp) {
-						if (!is_array($priceCalcTemp)) {
-							continue;
-						}
+                                            foreach ($itemArray[$v3['sort']] as $k1 => $actItem) {
+                                                $row = $actItem['rec'];
+                                                if ($type == 'calc') {
+                                                    $itemArray[$v3['sort']][$k1][$type] = $price2;
+                                                }
+                                                $discountArray[$row['uid']] += $price2;
+                                                $priceReduction[$row['uid']] = 1; // remember the reduction in order not to calculate another price with $priceCalc later
+                                            }
+                                        }
+                                    }
+                                }
+                                break; // finish
+                            }
+                        }
+                    }
+                break;
+                case 'price':
+                    foreach ($conf as $k1 => $priceCalcTemp) {
+                        if (!is_array($priceCalcTemp)) {
+                            continue;
+                        }
 
-						if (isset($newPriceItems[$k1]) && is_array($newPriceItems[$k1])) {
-							$this->handlePriceItems(
-								$newPriceItems[$k1],
-								$itemArray,
-								$priceReduction,
-								$discountArray,
-								$type,
-								true
-							);
-						}
-					}
-				break;
-			}
-		} else	{	// nothing
-		}
-	} // getCalculatedData
+                        if (isset($newPriceItems[$k1]) && is_array($newPriceItems[$k1])) {
+                            $this->handlePriceItems(
+                                $newPriceItems[$k1],
+                                $itemArray,
+                                $priceReduction,
+                                $discountArray,
+                                $type,
+                                true
+                            );
+                        }
+                    }
+                break;
+            }
+        } else	{	// nothing
+        }
+    } // getCalculatedData
 }
 
 

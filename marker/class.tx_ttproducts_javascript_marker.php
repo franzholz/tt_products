@@ -42,46 +42,46 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
 class tx_ttproducts_javascript_marker implements \TYPO3\CMS\Core\SingletonInterface {
-	protected $marker = 'JAVASCRIPT';
+    protected $marker = 'JAVASCRIPT';
 
 
-	/**
-	 * Template marker substitution
-	 * Fills in the markerArray with data for a JavaScript
-	 *
-	 * @param	array		reference to an item array with all the data of the item
-	 * @param	string		title of the category
-	 * @param	integer		number of images to be shown
-	 * @param	object		the image cObj to be used
-	 * @param	array		information about the parent HTML form
-	 * @return	array
-	 * @access private
-	 */
-	public function getMarkerArray (&$markerArray, $itemMarkerArray, $cObj) {
+    /**
+     * Template marker substitution
+     * Fills in the markerArray with data for a JavaScript
+     *
+     * @param	array		reference to an item array with all the data of the item
+     * @param	string		title of the category
+     * @param	integer		number of images to be shown
+     * @param	object		the image cObj to be used
+     * @param	array		information about the parent HTML form
+     * @return	array
+     * @access private
+     */
+    public function getMarkerArray (&$markerArray, $itemMarkerArray, $cObj) {
 
-		$cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
-		$conf = $cnfObj->getConf();
-		$templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+        $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
+        $conf = $cnfObj->getConf();
+        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 
-		if (isset($conf['javaScript.'])) {
-			$javaScriptObj = GeneralUtility::makeInstance('tx_ttproducts_javascript');
+        if (isset($conf['javaScript.'])) {
+            $javaScriptObj = GeneralUtility::makeInstance('tx_ttproducts_javascript');
 
-			$jsItemMarkerArray = [];
-			foreach ($itemMarkerArray as $marker => $value) {
-				$jsItemMarkerArray[$marker] = $javaScriptObj->jsspecialchars($value);
-			}
+            $jsItemMarkerArray = [];
+            foreach ($itemMarkerArray as $marker => $value) {
+                $jsItemMarkerArray[$marker] = $javaScriptObj->jsspecialchars($value);
+            }
 
-			foreach ($conf['javaScript.'] as $key => $confJS) {
-				$marker = rtrim($key, '.');
-				$jsText =
-					$templateService->substituteMarkerArray($confJS['value'], $jsItemMarkerArray);
-				$paramsArray = [$marker => $jsText];
-				$javaScriptObj->set('direct', $paramsArray, $cObj->currentRecord);
-				$marker = '###' . $this->marker . '_' . strtoupper($marker) . '###';
-				$markerArray[$marker] = '';
-			}
-		}
-	}
+            foreach ($conf['javaScript.'] as $key => $confJS) {
+                $marker = rtrim($key, '.');
+                $jsText =
+                    $templateService->substituteMarkerArray($confJS['value'], $jsItemMarkerArray);
+                $paramsArray = [$marker => $jsText];
+                $javaScriptObj->set('direct', $paramsArray, $cObj->currentRecord);
+                $marker = '###' . $this->marker . '_' . strtoupper($marker) . '###';
+                $markerArray[$marker] = '';
+            }
+        }
+    }
 }
 
 

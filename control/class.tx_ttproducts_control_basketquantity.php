@@ -42,59 +42,59 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_control_basketquantity implements \TYPO3\CMS\Core\SingletonInterface {
 
-	public function getQuantityMarker ( // deprecated. used only for DAM
-		$marker,
-		$prodUid,
-		$uid
-	)	{
-		if ($marker != '' && $uid) {
-			$rc = 'FIELD_QTY_' . $prodUid . '_' . $marker . '_' . $uid;
-		} else {
-			$rc = 'FIELD_QTY';
-		}
-		return $rc;
-	}
+    public function getQuantityMarker ( // deprecated. used only for DAM
+        $marker,
+        $prodUid,
+        $uid
+    )	{
+        if ($marker != '' && $uid) {
+            $rc = 'FIELD_QTY_' . $prodUid . '_' . $marker . '_' . $uid;
+        } else {
+            $rc = 'FIELD_QTY';
+        }
+        return $rc;
+    }
 
 
-	public function getQuantityMarkerArray ( // deprecated. used only for DAM
-		$relatedIds,
-		$rowArray,
-		&$markerArray
-	) {
-		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
-		$prodViewObj = $tablesObj->get('tt_products',true);
+    public function getQuantityMarkerArray ( // deprecated. used only for DAM
+        $relatedIds,
+        $rowArray,
+        &$markerArray
+    ) {
+        $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
+        $prodViewObj = $tablesObj->get('tt_products',true);
 
-		$basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
-		$quantityArray = $basketObj->getQuantityArray($relatedIds, $rowArray);
+        $basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
+        $quantityArray = $basketObj->getQuantityArray($relatedIds, $rowArray);
 
-		foreach ($rowArray as $functablename => $functableRowArray) {
+        foreach ($rowArray as $functablename => $functableRowArray) {
 
-			$viewObj = $tablesObj->get($functablename, true);
-			$modelObj = $viewObj->getModelObj();
-			$marker = $viewObj->getMarker();
+            $viewObj = $tablesObj->get($functablename, true);
+            $modelObj = $viewObj->getModelObj();
+            $marker = $viewObj->getMarker();
 
-			foreach ($relatedIds as $uid) {
-				foreach ($functableRowArray as $subRow) {
-					$subuid = $subRow['uid'];
-					$quantityMarker = self::getQuantityMarker($marker, $uid, $subuid);
+            foreach ($relatedIds as $uid) {
+                foreach ($functableRowArray as $subRow) {
+                    $subuid = $subRow['uid'];
+                    $quantityMarker = self::getQuantityMarker($marker, $uid, $subuid);
 
-					if (
-						isset($quantityArray[$uid]) &&
-						is_array($quantityArray[$uid]) &&
-						isset($quantityArray[$uid][$functablename]) &&
-						is_array($quantityArray[$uid][$functablename])
-					) {
-						$count = strval($quantityArray[$uid][$functablename][$subuid]);
-						if (!isset($count)) {
-							$count = '';
-						}
-					} else {
-						$count = '';
-					}
-					$markerArray['###' . $quantityMarker . '###'] = $count;
-				}
-			}
-		}
-	}
+                    if (
+                        isset($quantityArray[$uid]) &&
+                        is_array($quantityArray[$uid]) &&
+                        isset($quantityArray[$uid][$functablename]) &&
+                        is_array($quantityArray[$uid][$functablename])
+                    ) {
+                        $count = strval($quantityArray[$uid][$functablename][$subuid]);
+                        if (!isset($count)) {
+                            $count = '';
+                        }
+                    } else {
+                        $count = '';
+                    }
+                    $markerArray['###' . $quantityMarker . '###'] = $count;
+                }
+            }
+        }
+    }
 }
 

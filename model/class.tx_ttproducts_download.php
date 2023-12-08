@@ -41,68 +41,68 @@ use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_download extends tx_ttproducts_article_base {
-	public $relatedArray = []; // array of related products
-	public $marker = 'DOWNLOAD';
-	public $type = 'download';
-	public $piVar='download';
-	public $articleArray = [];
-	protected $tableAlias = 'download';
+    public $relatedArray = []; // array of related products
+    public $marker = 'DOWNLOAD';
+    public $type = 'download';
+    public $piVar='download';
+    public $articleArray = [];
+    protected $tableAlias = 'download';
 
 
-	public function getOrderedUid(
-		$downloadUid,
-		$falUid,
-		$multiOrderArray
-	) {
-		$orderUid = 0;
+    public function getOrderedUid(
+        $downloadUid,
+        $falUid,
+        $multiOrderArray
+    ) {
+        $orderUid = 0;
 
-		if (
-			isset($multiOrderArray) &&
-			is_array($multiOrderArray) &&
-			count($multiOrderArray)
-		) {
-			foreach($multiOrderArray as $orderRow) {
-				if (
-					isset($orderRow['fal_variants']) &&
-					$orderRow['fal_variants'] != ''
-				) {
-					$position = strpos($orderRow['fal_variants'], 'dl=' . $downloadUid . tx_ttproducts_variant_int::EXTERNAL_QUANTITY_SEPARATOR);
+        if (
+            isset($multiOrderArray) &&
+            is_array($multiOrderArray) &&
+            count($multiOrderArray)
+        ) {
+            foreach($multiOrderArray as $orderRow) {
+                if (
+                    isset($orderRow['fal_variants']) &&
+                    $orderRow['fal_variants'] != ''
+                ) {
+                    $position = strpos($orderRow['fal_variants'], 'dl=' . $downloadUid . tx_ttproducts_variant_int::EXTERNAL_QUANTITY_SEPARATOR);
 
-					if ($position !== 0) {
-						continue;
-					}
+                    if ($position !== 0) {
+                        continue;
+                    }
 
-					$position = strpos($orderRow['fal_variants'], tx_ttproducts_variant_int::EXTERNAL_QUANTITY_SEPARATOR . 'fal=');
-					$orderFalUid = substr($orderRow['fal_variants'], $position + strlen(tx_ttproducts_variant_int::EXTERNAL_QUANTITY_SEPARATOR . 'fal='));
+                    $position = strpos($orderRow['fal_variants'], tx_ttproducts_variant_int::EXTERNAL_QUANTITY_SEPARATOR . 'fal=');
+                    $orderFalUid = substr($orderRow['fal_variants'], $position + strlen(tx_ttproducts_variant_int::EXTERNAL_QUANTITY_SEPARATOR . 'fal='));
 
-					if (
-						$orderFalUid = $falUid
-					) {
-						$orderUid = $orderRow['uid'];
-						break;
-					}
-				}
-			}
-		}
+                    if (
+                        $orderFalUid = $falUid
+                    ) {
+                        $orderUid = $orderRow['uid'];
+                        break;
+                    }
+                }
+            }
+        }
 
-		return $orderUid;
-	}
+        return $orderUid;
+    }
 
 
-	public function getOrderedDownloadFalArray (
+    public function getOrderedDownloadFalArray (
         $orderObj,
         $downloadUid,
         $multiOrderArray
     ) {
-		$downloadUid = intval($downloadUid);
-		$orderedFalArray = [];
-		if (
-			$downloadUid &&
-			isset($multiOrderArray) &&
-			is_array($multiOrderArray) &&
-			count($multiOrderArray)
-		) {
-			foreach($multiOrderArray as $orderRow) {
+        $downloadUid = intval($downloadUid);
+        $orderedFalArray = [];
+        if (
+            $downloadUid &&
+            isset($multiOrderArray) &&
+            is_array($multiOrderArray) &&
+            count($multiOrderArray)
+        ) {
+            foreach($multiOrderArray as $orderRow) {
                 $falUid =
                     $orderObj->getFal(
                         $tmp,
@@ -112,25 +112,25 @@ class tx_ttproducts_download extends tx_ttproducts_article_base {
                 if ($falUid) {
                     $orderedFalArray[] = $falUid;
                 }
-			}
-		}
+            }
+        }
 
-		return $orderedFalArray;
-	}
+        return $orderedFalArray;
+    }
 
 
-	public function getFileArray (
+    public function getFileArray (
         $orderObj,
-		$row,
-		$multiOrderArray,
-		$checkPriceZero = false
-	) {
-		$fileArray = [];
+        $row,
+        $multiOrderArray,
+        $checkPriceZero = false
+    ) {
+        $fileArray = [];
 
-		if (
-			\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('filelist') &&
-			$row['file_uid']
-		) {
+        if (
+            \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('filelist') &&
+            $row['file_uid']
+        ) {
 // mm Beziehung auswerten in Datensätze von file $fileUid
 // tt_products_downloads_mm_sysfile (
 // 	uid int(11) NOT NULL auto_increment,
@@ -143,134 +143,134 @@ class tx_ttproducts_download extends tx_ttproducts_article_base {
 // 	uid_foreign int(11) DEFAULT '0' NOT NULL,
 // 	sorting int(10) DEFAULT '0' NOT NULL,
 // 	sorting_foreign
-			$orderedFalArray =
-				$this->getOrderedDownloadFalArray(
+            $orderedFalArray =
+                $this->getOrderedDownloadFalArray(
                     $orderObj,
-					$row['uid'],
-					$multiOrderArray
-				);
-			$orderedFalArray = array_unique($orderedFalArray);
+                    $row['uid'],
+                    $multiOrderArray
+                );
+            $orderedFalArray = array_unique($orderedFalArray);
 
-			if (!empty($orderedFalArray)) {
-				$orderedFalArray = $GLOBALS['TYPO3_DB']->cleanIntArray($orderedFalArray);
+            if (!empty($orderedFalArray)) {
+                $orderedFalArray = $GLOBALS['TYPO3_DB']->cleanIntArray($orderedFalArray);
 
-				$where_clause = 'uid IN (' . implode(',', $orderedFalArray) . ')';
-				$where_clause .= ' AND uid_foreign=' . intval($row['uid']) . ' AND tablenames="tt_products_downloads" AND fieldname="file_uid"' ;
-				$where_clause .= \JambageCom\Div2007\Utility\TableUtility::enableFields('sys_file_reference');
-				$sysfileRowArray =
-					$GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
-						'*',
-						'sys_file_reference',
-						$where_clause,
-						'',
-						'sorting',
-						'',
-						'uid_local'
-					);
-			}
+                $where_clause = 'uid IN (' . implode(',', $orderedFalArray) . ')';
+                $where_clause .= ' AND uid_foreign=' . intval($row['uid']) . ' AND tablenames="tt_products_downloads" AND fieldname="file_uid"' ;
+                $where_clause .= \JambageCom\Div2007\Utility\TableUtility::enableFields('sys_file_reference');
+                $sysfileRowArray =
+                    $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
+                        '*',
+                        'sys_file_reference',
+                        $where_clause,
+                        '',
+                        'sorting',
+                        '',
+                        'uid_local'
+                    );
+            }
 
-			if (
-				is_array($sysfileRowArray)
-			) {
-				$storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\StorageRepository');
-				$storage = $storageRepository->findByUid(1);
+            if (
+                is_array($sysfileRowArray)
+            ) {
+                $storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\StorageRepository');
+                $storage = $storageRepository->findByUid(1);
 
-				foreach($sysfileRowArray as $fileUid => $sysfileRow) {
-					if (
-						$checkPriceZero &&
-						$sysfileRow['tx_ttproducts_price_enable'] && // check non free downloads against the order data
-						$sysfileRow['tx_ttproducts_price'] > 0
-					) {
-						continue;
-					}
+                foreach($sysfileRowArray as $fileUid => $sysfileRow) {
+                    if (
+                        $checkPriceZero &&
+                        $sysfileRow['tx_ttproducts_price_enable'] && // check non free downloads against the order data
+                        $sysfileRow['tx_ttproducts_price'] > 0
+                    ) {
+                        continue;
+                    }
 
                     $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
-					$fileObj = $resourceFactory->getFileReferenceObject($sysfileRow['uid']);
-					$fileInfo = $storage->getFileInfo($fileObj);
+                    $fileObj = $resourceFactory->getFileReferenceObject($sysfileRow['uid']);
+                    $fileInfo = $storage->getFileInfo($fileObj);
                     $fileArray[$sysfileRow['uid']] = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/' . 'fileadmin' . $fileInfo['identifier'];
-				}
-			}
-		} else if ($row['path'] != '') {
+                }
+            }
+        } else if ($row['path'] != '') {
             $path = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/'  . $row['path'] . '/';
-			$fileArray =
-				\TYPO3\CMS\Core\Utility\GeneralUtility::getAllFilesAndFoldersInPath(
-					$fileArray,
-					$path,
-					'',
-					1,
-					1,
-					$GLOBALS['TYPO3_CONF_VARS']['EXT']['excludeForPackaging']
-				);
-			usort($fileArray, 'version_compare');
+            $fileArray =
+                \TYPO3\CMS\Core\Utility\GeneralUtility::getAllFilesAndFoldersInPath(
+                    $fileArray,
+                    $path,
+                    '',
+                    1,
+                    1,
+                    $GLOBALS['TYPO3_CONF_VARS']['EXT']['excludeForPackaging']
+                );
+            usort($fileArray, 'version_compare');
 
-			$fileArray = array_reverse($fileArray, true);
-		}
+            $fileArray = array_reverse($fileArray, true);
+        }
 
-		return $fileArray;
-	}
+        return $fileArray;
+    }
 
 
-	public function getRelatedUidArray (
-		$uids,
-		$tagMarkerArray,
-		$parenttable = 'tt_products'
-	) {
-		$resultArray = [];
-		$downloadUidArray = [];
-		$bAllowed = true;
+    public function getRelatedUidArray (
+        $uids,
+        $tagMarkerArray,
+        $parenttable = 'tt_products'
+    ) {
+        $resultArray = [];
+        $downloadUidArray = [];
+        $bAllowed = true;
 
-		if ($parenttable == 'tt_products') {
-			$uidArray = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $uids);
-			$mmTable = 'tt_products_products_mm_downloads';
+        if ($parenttable == 'tt_products') {
+            $uidArray = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $uids);
+            $mmTable = 'tt_products_products_mm_downloads';
 
-			foreach ($uidArray as $uid) {
-				if (intval($uid) == $uid) {
-					$where_clause = 'uid_local = ' . intval($uid);
-					$rowArray = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows('*', $mmTable, $where_clause);
+            foreach ($uidArray as $uid) {
+                if (intval($uid) == $uid) {
+                    $where_clause = 'uid_local = ' . intval($uid);
+                    $rowArray = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows('*', $mmTable, $where_clause);
 
-					if (isset($rowArray) && is_array($rowArray)) {
-						foreach ($rowArray as $row) {
-							$downloadUidArray[] = $row['uid_foreign'];
-						}
-					}
-				}
-			}
+                    if (isset($rowArray) && is_array($rowArray)) {
+                        foreach ($rowArray as $row) {
+                            $downloadUidArray[] = $row['uid_foreign'];
+                        }
+                    }
+                }
+            }
 
-			if (empty($downloadUidArray)) {
-				$bAllowed = false;
-			}
-		}
+            if (empty($downloadUidArray)) {
+                $bAllowed = false;
+            }
+        }
 
-		$where_clause = '';
-		$tagWhere = '';
+        $where_clause = '';
+        $tagWhere = '';
 
-		if (is_array($tagMarkerArray) && ($tagMarkerArray)) {
-			$newTagMarkerArray = [];
-			foreach ($tagMarkerArray as $tagMarker) {
-				if (strpos($tagMarker, '_') === false) {
-					$newTagMarkerArray[] = $tagMarker;
-				}
-			}
+        if (is_array($tagMarkerArray) && ($tagMarkerArray)) {
+            $newTagMarkerArray = [];
+            foreach ($tagMarkerArray as $tagMarker) {
+                if (strpos($tagMarker, '_') === false) {
+                    $newTagMarkerArray[] = $tagMarker;
+                }
+            }
 
-			$tagMarkerArray = $newTagMarkerArray;
-			$tagMarkerArray = $GLOBALS['TYPO3_DB']->fullQuoteArray(
-				$tagMarkerArray,
-				$this->getTableObj()->getName()
-			);
-			$tags = implode(',', $tagMarkerArray);
-			$tagWhere = ' AND marker IN (' . $tags . ')';
-		}
+            $tagMarkerArray = $newTagMarkerArray;
+            $tagMarkerArray = $GLOBALS['TYPO3_DB']->fullQuoteArray(
+                $tagMarkerArray,
+                $this->getTableObj()->getName()
+            );
+            $tags = implode(',', $tagMarkerArray);
+            $tagWhere = ' AND marker IN (' . $tags . ')';
+        }
 
-		if (is_array($downloadUidArray) && count($downloadUidArray)) {
-			$where_clause = 'uid IN (' . implode(',', $downloadUidArray) . ')' .
-				$tagWhere;
-		}
+        if (is_array($downloadUidArray) && count($downloadUidArray)) {
+            $where_clause = 'uid IN (' . implode(',', $downloadUidArray) . ')' .
+                $tagWhere;
+        }
 
-		if ($bAllowed) {
-			$resultArray = $this->get('', '', false, $where_clause);
-		}
+        if ($bAllowed) {
+            $resultArray = $this->get('', '', false, $where_clause);
+        }
 
-		return $resultArray;
-	}
+        return $resultArray;
+    }
 }
 

@@ -43,73 +43,73 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 
 class tx_ttproducts_voucher_view extends tx_ttproducts_table_base_view {
-	public $amount;
-	public $code;
-	public $bValid;
-	public $marker = 'VOUCHER';
-	public $usedCodeArray = [];
+    public $amount;
+    public $code;
+    public $bValid;
+    public $marker = 'VOUCHER';
+    public $usedCodeArray = [];
 
 
-	/**
-	 * Template marker substitution
-	 * Fills in the markerArray with data for the voucher
-	 *
-	 * @return	void
-	 * @access private
-	 */
-	public function getSubpartMarkerArray (
-		&$subpartArray,
-		&$wrappedSubpartArray,
-		$charset = ''
-	) {
-		$modelObj = $this->getModelObj();
-		$languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
-		$subpartArray['###SUB_VOUCHERCODE###'] = '';
-		$code = $modelObj->getVoucherCode();
+    /**
+     * Template marker substitution
+     * Fills in the markerArray with data for the voucher
+     *
+     * @return	void
+     * @access private
+     */
+    public function getSubpartMarkerArray (
+        &$subpartArray,
+        &$wrappedSubpartArray,
+        $charset = ''
+    ) {
+        $modelObj = $this->getModelObj();
+        $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
+        $subpartArray['###SUB_VOUCHERCODE###'] = '';
+        $code = $modelObj->getVoucherCode();
         $wrappedSubpartArray['###SUB_VOUCHERCODE_START###'] = [];
 
-		if (
-			$modelObj->getValid() &&
-			$code != ''
-		) {
-			$subpartArray['###SUB_VOUCHERCODE_DISCOUNTWRONG###'] = '';
-			$wrappedSubpartArray['###SUB_VOUCHERCODE_DISCOUNT###'] = [];
-		} else {
-			if (!empty($code)) {
-				$tmp = $languageObj->getLabel('voucher_invalid');
-				$tmpArray = explode('|', $tmp);
-				$subpartArray['###SUB_VOUCHERCODE_DISCOUNT###'] = $tmpArray[0] . htmlspecialchars($modelObj->getVoucherCode()) . $tmpArray[1];
-				$wrappedSubpartArray['###SUB_VOUCHERCODE_DISCOUNTWRONG###'] = [];
-			} else {
-				$subpartArray['###SUB_VOUCHERCODE_DISCOUNT###'] = '';
-				$subpartArray['###SUB_VOUCHERCODE_DISCOUNTWRONG###'] = '';
-			}
-		}
-	}
+        if (
+            $modelObj->getValid() &&
+            $code != ''
+        ) {
+            $subpartArray['###SUB_VOUCHERCODE_DISCOUNTWRONG###'] = '';
+            $wrappedSubpartArray['###SUB_VOUCHERCODE_DISCOUNT###'] = [];
+        } else {
+            if (!empty($code)) {
+                $tmp = $languageObj->getLabel('voucher_invalid');
+                $tmpArray = explode('|', $tmp);
+                $subpartArray['###SUB_VOUCHERCODE_DISCOUNT###'] = $tmpArray[0] . htmlspecialchars($modelObj->getVoucherCode()) . $tmpArray[1];
+                $wrappedSubpartArray['###SUB_VOUCHERCODE_DISCOUNTWRONG###'] = [];
+            } else {
+                $subpartArray['###SUB_VOUCHERCODE_DISCOUNT###'] = '';
+                $subpartArray['###SUB_VOUCHERCODE_DISCOUNTWRONG###'] = '';
+            }
+        }
+    }
 
 
-	/**
-	 * Template marker substitution
-	 * Fills in the markerArray with data for the voucher
-	 *
-	 * @return	void
-	 * @access private
-	 */
-	public function getMarkerArray (
-		&$markerArray
-	) {
-		$priceViewObj = GeneralUtility::makeInstance('tx_ttproducts_field_price_view');
-		$modelObj = $this->getModelObj();
-		$markerArray['###INSERT_VOUCHERCODE###'] = 'recs[tt_products][vouchercode]';
+    /**
+     * Template marker substitution
+     * Fills in the markerArray with data for the voucher
+     *
+     * @return	void
+     * @access private
+     */
+    public function getMarkerArray (
+        &$markerArray
+    ) {
+        $priceViewObj = GeneralUtility::makeInstance('tx_ttproducts_field_price_view');
+        $modelObj = $this->getModelObj();
+        $markerArray['###INSERT_VOUCHERCODE###'] = 'recs[tt_products][vouchercode]';
 
-		$voucherCode = $modelObj->getVoucherCode();
-		if (!$voucherCode) {
-			$voucherCode = $modelObj->getLastVoucherCodeUsed();
-		}
+        $voucherCode = $modelObj->getVoucherCode();
+        if (!$voucherCode) {
+            $voucherCode = $modelObj->getLastVoucherCodeUsed();
+        }
 
-		$amount = $modelObj->getRebateAmount();
-		$markerArray['###VALUE_VOUCHERCODE###'] = htmlspecialchars($voucherCode);
-		$markerArray['###VOUCHER_DISCOUNT###'] = $priceViewObj->priceFormat(abs($amount));
-	} // getMarkerArray
+        $amount = $modelObj->getRebateAmount();
+        $markerArray['###VALUE_VOUCHERCODE###'] = htmlspecialchars($voucherCode);
+        $markerArray['###VOUCHER_DISCOUNT###'] = $priceViewObj->priceFormat(abs($amount));
+    } // getMarkerArray
 }
 

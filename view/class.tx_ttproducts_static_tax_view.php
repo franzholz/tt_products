@@ -39,7 +39,7 @@
 
 
 class tx_ttproducts_static_tax_view extends tx_ttproducts_table_base_view {
-	public $marker = 'STATICTAX';
+    public $marker = 'STATICTAX';
 
 }
 

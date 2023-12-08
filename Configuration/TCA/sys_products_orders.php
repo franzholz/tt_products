@@ -41,7 +41,7 @@ $result = [
                 'eval' => 'datetime,int',
                 'renderType' => 'inputDateTime',
                 'default' => 0,
-				'readOnly' => 1
+                'readOnly' => 1
             ]
         ],
         'crdate' => [
@@ -53,7 +53,7 @@ $result = [
                 'eval' => 'datetime,int',
                 'renderType' => 'inputDateTime',
                 'default' => 0,
-				'readOnly' => 1
+                'readOnly' => 1
             ]
         ],
         'sys_language_uid' => [

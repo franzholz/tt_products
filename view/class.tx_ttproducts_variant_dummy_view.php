@@ -40,34 +40,34 @@
 
 
 class tx_ttproducts_variant_dummy_view implements tx_ttproducts_variant_view_int, \TYPO3\CMS\Core\SingletonInterface {
-	public $modelObj;
+    public $modelObj;
 
-	public function init($modelObj) {
-		$this->modelObj = $modelObj;
-	}
+    public function init($modelObj) {
+        $this->modelObj = $modelObj;
+    }
 
-	public function getVariantSubpartMarkerArray (
-		&$markerArray,
-		&$subpartArray,
-		&$wrappedSubpartArray,
-		$row,
-		$tempContent,
-		$bUseSelects,
-		$conf,
-		$bHasAdditional,
-		$bGiftService
-	) {
-	}
+    public function getVariantSubpartMarkerArray (
+        &$markerArray,
+        &$subpartArray,
+        &$wrappedSubpartArray,
+        $row,
+        $tempContent,
+        $bUseSelects,
+        $conf,
+        $bHasAdditional,
+        $bGiftService
+    ) {
+    }
 
-	public function removeEmptyMarkerSubpartArray (
-		&$markerArray,
-		&$subpartArray,
-		&$wrappedSubpartArray,
-		$row,
-		$conf,
-		$bHasAdditional,
-		$bGiftService
-	) {
-	}
+    public function removeEmptyMarkerSubpartArray (
+        &$markerArray,
+        &$subpartArray,
+        &$wrappedSubpartArray,
+        $row,
+        $conf,
+        $bHasAdditional,
+        $bGiftService
+    ) {
+    }
 }
 

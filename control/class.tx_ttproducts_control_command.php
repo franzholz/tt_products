@@ -44,222 +44,222 @@ use JambageCom\Div2007\Utility\ExtensionUtility;
 
 class tx_ttproducts_control_command {
 
-	static protected $commandVar = 'cmd';
+    static protected $commandVar = 'cmd';
 
-	static public function getCommandVar () {
-		return self::$commandVar;
-	}
+    static public function getCommandVar () {
+        return self::$commandVar;
+    }
 
-	static public function getVariantVars ($piVars) {
-		$result = [];
+    static public function getVariantVars ($piVars) {
+        $result = [];
 
-		$paramsTableArray = tx_ttproducts_model_control::getParamsTableArray();
-		if (isset($piVars) && is_array($piVars)) {
-			foreach ($piVars as $piVar => $v) {
+        $paramsTableArray = tx_ttproducts_model_control::getParamsTableArray();
+        if (isset($piVars) && is_array($piVars)) {
+            foreach ($piVars as $piVar => $v) {
                 if (!isset($paramsTableArray[$piVar])) {
-					$result[$piVar] = $v;
-				}
-			}
-		}
+                    $result[$piVar] = $v;
+                }
+            }
+        }
 
-		return $result;
-	}
+        return $result;
+    }
 
-	static public function doProcessing (
-		$theCode,
-		$conf,
-		$bIsAllowedBE,
-		$bValidUpdateCode,
-		$trackingCode,
-		$pid_list,
-		$recursive
-	) {
+    static public function doProcessing (
+        $theCode,
+        $conf,
+        $bIsAllowedBE,
+        $bValidUpdateCode,
+        $trackingCode,
+        $pid_list,
+        $recursive
+    ) {
         $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
-		$tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
-		$cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-		$bHasBeenOrdered = false;
+        $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
+        $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
+        $bHasBeenOrdered = false;
 
-		$pidListObj = GeneralUtility::makeInstance('tx_ttproducts_pid_list');
-		$pidListObj->applyRecursive($recursive, $pid_list, true);
-		$pidListObj->setPageArray();
+        $pidListObj = GeneralUtility::makeInstance('tx_ttproducts_pid_list');
+        $pidListObj->applyRecursive($recursive, $pid_list, true);
+        $pidListObj->setPageArray();
 
-		$postVar = self::getCommandVar();
-		$cmdData = GeneralUtility::_GP($postVar);
+        $postVar = self::getCommandVar();
+        $cmdData = GeneralUtility::_GP($postVar);
 
-		switch ($theCode) {
-			case 'DOWNLOAD':
-				if (
-					\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('addons_em') &&
-					isset($cmdData['download']) ||
-					isset($cmdData['fal'])
-				) {
-					$falUid = intval($cmdData['fal']);
-					$downloadTable = $tablesObj->get('tt_products_downloads', false);
-					$downloadVar =
-						tx_ttproducts_model_control::getPiVar(
-							$downloadTable->getFuncTablename()
-						);
-					$piVars = tx_ttproducts_model_control::getPiVars();
-					$variantVars = self::getVariantVars($piVars);
-					$orderVar =
-						tx_ttproducts_model_control::getPiVar(
-							'sys_products_orders'
-						);
-					$orderUid = 0;
+        switch ($theCode) {
+            case 'DOWNLOAD':
+                if (
+                    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('addons_em') &&
+                    isset($cmdData['download']) ||
+                    isset($cmdData['fal'])
+                ) {
+                    $falUid = intval($cmdData['fal']);
+                    $downloadTable = $tablesObj->get('tt_products_downloads', false);
+                    $downloadVar =
+                        tx_ttproducts_model_control::getPiVar(
+                            $downloadTable->getFuncTablename()
+                        );
+                    $piVars = tx_ttproducts_model_control::getPiVars();
+                    $variantVars = self::getVariantVars($piVars);
+                    $orderVar =
+                        tx_ttproducts_model_control::getPiVar(
+                            'sys_products_orders'
+                        );
+                    $orderUid = 0;
 
-					if ($trackingCode != '') {
-						$trackingArray = explode('-', $trackingCode);
-						$count = count($trackingArray);
-						if ($count >= 2) {
-							$orderUid = intval($trackingArray[$count - 2]);
-						}
-					} else if (isset($piVars[$orderVar])) {
-						$orderUid = intval($piVars[$orderVar]);
-					}
+                    if ($trackingCode != '') {
+                        $trackingArray = explode('-', $trackingCode);
+                        $count = count($trackingArray);
+                        if ($count >= 2) {
+                            $orderUid = intval($trackingArray[$count - 2]);
+                        }
+                    } else if (isset($piVars[$orderVar])) {
+                        $orderUid = intval($piVars[$orderVar]);
+                    }
 
-					$feusers_uid = $GLOBALS['TSFE']->fe_user->user['uid'];
-					$orderObj = $tablesObj->get('sys_products_orders'); // order
-					$orderObj->getDownloadWhereClauses(
-						$feusers_uid,
-						$trackingCode,
-						$whereOrders,
-						$whereProducts
-					);
+                    $feusers_uid = $GLOBALS['TSFE']->fe_user->user['uid'];
+                    $orderObj = $tablesObj->get('sys_products_orders'); // order
+                    $orderObj->getDownloadWhereClauses(
+                        $feusers_uid,
+                        $trackingCode,
+                        $whereOrders,
+                        $whereProducts
+                    );
 
-					$uid = intval($piVars[$downloadVar]);
-					$downloadAuthorization = $cnf->getDownloadConf('authorization');
-					$validFeUser = false;
-					if (
-						$downloadAuthorization == 'FE' &&
-						$feusers_uid > 0
-					) {
-						$validFeUser = true;
-					}
+                    $uid = intval($piVars[$downloadVar]);
+                    $downloadAuthorization = $cnf->getDownloadConf('authorization');
+                    $validFeUser = false;
+                    if (
+                        $downloadAuthorization == 'FE' &&
+                        $feusers_uid > 0
+                    ) {
+                        $validFeUser = true;
+                    }
 
-					if (
-						$feusers_uid &&
-						(
-							$orderUid &&
-							(
-								$trackingCode != '' ||
-								$bIsAllowedBE && $bValidUpdateCode
-							) ||
-							$validFeUser
-						)
-					) {
-						$from = '';
-						$orderObj->getOrderedAndGainedProducts(
-							$from,
-							$whereOrders,
-							'',
-							$whereProducts,
-							false,
-							$pid_list,
-							$productRowArray,
-							$multiOrderArray
-						);
+                    if (
+                        $feusers_uid &&
+                        (
+                            $orderUid &&
+                            (
+                                $trackingCode != '' ||
+                                $bIsAllowedBE && $bValidUpdateCode
+                            ) ||
+                            $validFeUser
+                        )
+                    ) {
+                        $from = '';
+                        $orderObj->getOrderedAndGainedProducts(
+                            $from,
+                            $whereOrders,
+                            '',
+                            $whereProducts,
+                            false,
+                            $pid_list,
+                            $productRowArray,
+                            $multiOrderArray
+                        );
 
-						if (
-							$validFeUser &&
-							!$orderUid
-						) { // determine if an order exists
-							$orderUid =
-								$downloadTable->getOrderedUid(
-									$uid,
-									$falUid,
-									$multiOrderArray
-								);
-						}
+                        if (
+                            $validFeUser &&
+                            !$orderUid
+                        ) { // determine if an order exists
+                            $orderUid =
+                                $downloadTable->getOrderedUid(
+                                    $uid,
+                                    $falUid,
+                                    $multiOrderArray
+                                );
+                        }
 
-						$orderRow = [];
-						if ($orderUid) {
-							$orderRow = $orderObj->get($orderUid);
-						}
+                        $orderRow = [];
+                        if ($orderUid) {
+                            $orderRow = $orderObj->get($orderUid);
+                        }
 
-						$downloadArray = [];
+                        $downloadArray = [];
 
-						if ($orderUid && is_array($productRowArray) && count($productRowArray)) {
-							$productUidArray = [];
-							foreach ($productRowArray as $productRow) {
-								$productUidArray[$productRow['uid']] = $productRow['uid'];
-							}
-							$downloadArray =
-								$downloadTable->getRelatedUidArray(
-									implode(',', $productUidArray),
-									$downloadTagArray,
-									'tt_products'
-								);
-						}
+                        if ($orderUid && is_array($productRowArray) && count($productRowArray)) {
+                            $productUidArray = [];
+                            foreach ($productRowArray as $productRow) {
+                                $productUidArray[$productRow['uid']] = $productRow['uid'];
+                            }
+                            $downloadArray =
+                                $downloadTable->getRelatedUidArray(
+                                    implode(',', $productUidArray),
+                                    $downloadTagArray,
+                                    'tt_products'
+                                );
+                        }
 
-						foreach ($downloadArray as $downloadRow) {
-							if ($downloadRow['uid'] == $uid) {
-								$bHasBeenOrdered = true;
-								break;
-							}
-						}
-					}
+                        foreach ($downloadArray as $downloadRow) {
+                            if ($downloadRow['uid'] == $uid) {
+                                $bHasBeenOrdered = true;
+                                break;
+                            }
+                        }
+                    }
 
-					if (
+                    if (
                         (
                             $bHasBeenOrdered ||
                             $bIsAllowedBE && $bValidUpdateCode
                         ) && 
                         isset($piVars[$downloadVar])
                     ) {
-						$row = $downloadTable->get($uid, '', false);
-						if (isset($row) && is_array($row)) {
+                        $row = $downloadTable->get($uid, '', false);
+                        if (isset($row) && is_array($row)) {
 
-							if (isset($cmdData['fal'])) {
+                            if (isset($cmdData['fal'])) {
                                 tx_ttproducts_api_download::fetchFal(intval($cmdData['fal']));
-							} else {
-								$fileArray =
-									$downloadTable->getFileArray(
+                            } else {
+                                $fileArray =
+                                    $downloadTable->getFileArray(
                                         $orderObj,
-										$row,
-										$multiOrderArray
-									);
-								$filename = basename($row['path']);
-								$filenameDividerPos = strpos($filename, '-');
-								if ($filenameDividerPos !== false) {
-									$extKey = substr($filename, 0, $filenameDividerPos);
-								} else {
-									$extKey = $filename;
-								}
-								$path = $fileArray[$cmdData['download']] . $extKey . '/';
-								$extInfo = ExtensionUtility::getExtensionInfo($extKey, $path);
+                                        $row,
+                                        $multiOrderArray
+                                    );
+                                $filename = basename($row['path']);
+                                $filenameDividerPos = strpos($filename, '-');
+                                if ($filenameDividerPos !== false) {
+                                    $extKey = substr($filename, 0, $filenameDividerPos);
+                                } else {
+                                    $extKey = $filename;
+                                }
+                                $path = $fileArray[$cmdData['download']] . $extKey . '/';
+                                $extInfo = ExtensionUtility::getExtensionInfo($extKey, $path);
 
-								// Ausführen des Kommandos und EXIT
-								tx_addonsem_file_div::extBackup(
-									$extKey,
-									$path,
-									$extInfo,
-									$orderRow,
-									$variantVars
-								);
-							}
-						}
-					} else {
-						if (!$feusers_uid) {
-							$message = $languageObj->getLabel('download_requires_felogin');
-							echo $message;
-						}
+                                // Ausführen des Kommandos und EXIT
+                                tx_addonsem_file_div::extBackup(
+                                    $extKey,
+                                    $path,
+                                    $extInfo,
+                                    $orderRow,
+                                    $variantVars
+                                );
+                            }
+                        }
+                    } else {
+                        if (!$feusers_uid) {
+                            $message = $languageObj->getLabel('download_requires_felogin');
+                            echo $message;
+                        }
 
-						if (!isset($piVars[$downloadVar])) {
-							debug ($piVars, 'download command: no parameter download has been set'); // keep this
+                        if (!isset($piVars[$downloadVar])) {
+                            debug ($piVars, 'download command: no parameter download has been set'); // keep this
                             $message = $languageObj->getLabel('error_download');
                             echo $message;
-						} else if (!$bHasBeenOrdered) {
-							debug ($bHasBeenOrdered, 'DOWNLOAD is not allowed because the product has not been ordered by the FE user with uid = ' . $feusers_uid . '. Therefore nothing happens here.'); // keep this
-						} else if (!$feusers_uid) {
-							debug ($piVars, 'Internal error. No FE User has been selected'); // keep this
-						}
-					}
-					exit;
-				} else {
-					// nothing
-				}
-				break;
-		}
-	}
+                        } else if (!$bHasBeenOrdered) {
+                            debug ($bHasBeenOrdered, 'DOWNLOAD is not allowed because the product has not been ordered by the FE user with uid = ' . $feusers_uid . '. Therefore nothing happens here.'); // keep this
+                        } else if (!$feusers_uid) {
+                            debug ($piVars, 'Internal error. No FE User has been selected'); // keep this
+                        }
+                    }
+                    exit;
+                } else {
+                    // nothing
+                }
+                break;
+        }
+    }
 }
 

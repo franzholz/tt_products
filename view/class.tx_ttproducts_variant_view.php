@@ -39,96 +39,96 @@
 
 
 class tx_ttproducts_variant_view implements tx_ttproducts_variant_view_int, \TYPO3\CMS\Core\SingletonInterface {
-	public $modelObj;
+    public $modelObj;
 
 
-	public function init($modelObj) {
-		$this->modelObj = $modelObj;
-	}
+    public function init($modelObj) {
+        $this->modelObj = $modelObj;
+    }
 
-	public function getVariantSubpartMarkerArray (
-		&$markerArray,
-		&$subpartArray,
-		&$wrappedSubpartArray,
-		$row,
-		$tempContent,
-		$bUseSelects,
-		$conf,
-		$bHasAdditional,
-		$bGiftService
-	) {
-		$this->removeEmptyMarkerSubpartArray(
-			$markerArray,
-			$subpartArray,
-			$wrappedSubpartArray,
-			$row,
-			$conf,
-			$bHasAdditional,
-			$bGiftService
-		);
-	}
+    public function getVariantSubpartMarkerArray (
+        &$markerArray,
+        &$subpartArray,
+        &$wrappedSubpartArray,
+        $row,
+        $tempContent,
+        $bUseSelects,
+        $conf,
+        $bHasAdditional,
+        $bGiftService
+    ) {
+        $this->removeEmptyMarkerSubpartArray(
+            $markerArray,
+            $subpartArray,
+            $wrappedSubpartArray,
+            $row,
+            $conf,
+            $bHasAdditional,
+            $bGiftService
+        );
+    }
 
-	public function removeEmptyMarkerSubpartArray (
-		&$markerArray,
-		&$subpartArray,
-		&$wrappedSubpartArray,
-		$row,
-		$conf,
-		$bHasAdditional,
-		$bGiftService
-	) {
-		$areaArray = [];
-		$remMarkerArray = [];
-		$variantConf = $this->modelObj->conf;
+    public function removeEmptyMarkerSubpartArray (
+        &$markerArray,
+        &$subpartArray,
+        &$wrappedSubpartArray,
+        $row,
+        $conf,
+        $bHasAdditional,
+        $bGiftService
+    ) {
+        $areaArray = [];
+        $remMarkerArray = [];
+        $variantConf = $this->modelObj->conf;
 
         $maxKey = 0;
-		if (is_array($variantConf)) {
-			foreach ($variantConf as $key => $field) {
-				if ($field != 'additional') {	// no additional here
-					if (
-						!isset($row[$field]) ||
-						trim($row[$field]) == '' ||
-						!$conf['select' . ucfirst($field)]
-					) {
-						$remSubpartArray[] = 'display_variant' . $key;
-					} else {
-						$remMarkerArray[] = 'display_variant' . $key;
-					}
-				}
-				if ($key > $maxKey) {
+        if (is_array($variantConf)) {
+            foreach ($variantConf as $key => $field) {
+                if ($field != 'additional') {	// no additional here
+                    if (
+                        !isset($row[$field]) ||
+                        trim($row[$field]) == '' ||
+                        !$conf['select' . ucfirst($field)]
+                    ) {
+                        $remSubpartArray[] = 'display_variant' . $key;
+                    } else {
+                        $remMarkerArray[] = 'display_variant' . $key;
+                    }
+                }
+                if ($key > $maxKey) {
                     $maxKey = $key;
-				}
-			}
-		}
+                }
+            }
+        }
 
         for ($i = $maxKey + 1; $i <= 32; ++$i) { // remove more variants from the future
             $remSubpartArray[] = 'display_variant' . $i;
         }
 
-		if ($bHasAdditional) {
-			$remSubpartArray[] = 'display_variant5_isNotSingle';
-			$remMarkerArray[] = 'display_variant5_isSingle';
-		} else {
-			$remSubpartArray[] = 'display_variant5_isSingle';
-			$remMarkerArray[] = 'display_variant5_isNotSingle';
-		}
+        if ($bHasAdditional) {
+            $remSubpartArray[] = 'display_variant5_isNotSingle';
+            $remMarkerArray[] = 'display_variant5_isSingle';
+        } else {
+            $remSubpartArray[] = 'display_variant5_isSingle';
+            $remMarkerArray[] = 'display_variant5_isNotSingle';
+        }
 
-		if ($bGiftService) {
-			$remSubpartArray[] = 'display_variant5_NoGiftService';
-			$remMarkerArray[] = 'display_variant5_giftService';
-		} else {
-			$remSubpartArray[] = 'display_variant5_giftService';
-			$remMarkerArray[] = 'display_variant5_NoGiftService';
-		}
+        if ($bGiftService) {
+            $remSubpartArray[] = 'display_variant5_NoGiftService';
+            $remMarkerArray[] = 'display_variant5_giftService';
+        } else {
+            $remSubpartArray[] = 'display_variant5_giftService';
+            $remMarkerArray[] = 'display_variant5_NoGiftService';
+        }
 
-		foreach ($remSubpartArray as $k => $subpart) {
-			$subpartArray['###' . $subpart . '###'] = '';
-		}
+        foreach ($remSubpartArray as $k => $subpart) {
+            $subpartArray['###' . $subpart . '###'] = '';
+        }
 
-		foreach ($remMarkerArray as $k => $marker) {
-			$markerArray['<!-- ###' . $marker . '### -->'] = '';
-			$wrappedSubpartArray['###' . $marker . '###'] = '';
-		}
-	}
+        foreach ($remMarkerArray as $k => $marker) {
+            $markerArray['<!-- ###' . $marker . '### -->'] = '';
+            $wrappedSubpartArray['###' . $marker . '###'] = '';
+        }
+    }
 }
 

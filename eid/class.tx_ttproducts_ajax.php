@@ -44,94 +44,94 @@ use JambageCom\Div2007\Utility\FrontendUtility;
 
 
 class tx_ttproducts_ajax implements \TYPO3\CMS\Core\SingletonInterface {
-	public $taxajax;	// xajax object
-	public $conf; 	// conf coming from JavaScript via Ajax
+    public $taxajax;	// xajax object
+    public $conf; 	// conf coming from JavaScript via Ajax
 
 
-	public function init () {
-		$result = false;
-		if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded(TAXAJAX_EXT)) {
+    public function init () {
+        $result = false;
+        if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded(TAXAJAX_EXT)) {
  
-			$this->taxajax = GeneralUtility::makeInstance('tx_taxajax');
+            $this->taxajax = GeneralUtility::makeInstance('tx_taxajax');
 
-			// Encoding of the response to FE charset
-			$this->taxajax->setCharEncoding('utf-8');
-			$result = true;
-		}
-		return $result;
-	}
-
-
-	public function setConf ($conf) {
-		$this->conf = $conf;
-	}
+            // Encoding of the response to FE charset
+            $this->taxajax->setCharEncoding('utf-8');
+            $result = true;
+        }
+        return $result;
+    }
 
 
-	public function getConf () {
-		return $this->conf;
-	}
+    public function setConf ($conf) {
+        $this->conf = $conf;
+    }
 
 
-	static public function getStoredRecs () {
-		$result = tx_ttproducts_control_session::readSession('ajax');
-		return $result;
-	}
+    public function getConf () {
+        return $this->conf;
+    }
 
-	static public function setStoredRecs ($valArray) {
-		tx_ttproducts_control_basket::store('ajax', $valArray);
-	}
 
-	public function main (
-		$cObj,
-		$urlObj,
-		$debug,
-		$piVarSingle = 'product',
-		$piVarCat = 'cat'
-	) {
-			// Do you want messages in the status bar?
-		// $this->taxajax->statusMessagesOn();
+    static public function getStoredRecs () {
+        $result = tx_ttproducts_control_session::readSession('ajax');
+        return $result;
+    }
 
-			// Turn only on during testing
-		if ($debug) {
-			$this->taxajax->debugOn();
-			$filepath = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/typo3temp/var/log/taxajax.log';
-			$this->taxajax->setLogFile($filepath);
-			$this->taxajax->errorHandlerOn();
-		} else {
-			$this->taxajax->debugOff();
-		}
+    static public function setStoredRecs ($valArray) {
+        tx_ttproducts_control_basket::store('ajax', $valArray);
+    }
 
-		$this->taxajax->setWrapperPrefix('');
+    public function main (
+        $cObj,
+        $urlObj,
+        $debug,
+        $piVarSingle = 'product',
+        $piVarCat = 'cat'
+    ) {
+            // Do you want messages in the status bar?
+        // $this->taxajax->statusMessagesOn();
+
+            // Turn only on during testing
+        if ($debug) {
+            $this->taxajax->debugOn();
+            $filepath = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/typo3temp/var/log/taxajax.log';
+            $this->taxajax->setLogFile($filepath);
+            $this->taxajax->errorHandlerOn();
+        } else {
+            $this->taxajax->debugOff();
+        }
+
+        $this->taxajax->setWrapperPrefix('');
 
         $addQueryString = [
             'taxajax' => TT_PRODUCTS_EXT
         ];
 
-		$excludeList = '';
-		$queryString = $urlObj->getLinkParams(
-			$excludeList,
-			[],
-			true,
-			false,
-			0,
-			$piVarSingle,
-			$piVarCat
-		);
+        $excludeList = '';
+        $queryString = $urlObj->getLinkParams(
+            $excludeList,
+            [],
+            true,
+            false,
+            0,
+            $piVarSingle,
+            $piVarCat
+        );
 
-		$queryString = array_merge($queryString, $addQueryString);
+        $queryString = array_merge($queryString, $addQueryString);
 
-		$linkConf = [];
+        $linkConf = [];
 
-		$target = '';
-		$reqURI = FrontendUtility::getTypoLink_URL(
-			$cObj,
-			$GLOBALS['TSFE']->id,
-			$queryString,
-			$target,
-			$linkConf
-		);
+        $target = '';
+        $reqURI = FrontendUtility::getTypoLink_URL(
+            $cObj,
+            $GLOBALS['TSFE']->id,
+            $queryString,
+            $target,
+            $linkConf
+        );
 
-		$this->taxajax->setRequestURI($reqURI);
-	}
+        $this->taxajax->setRequestURI($reqURI);
+    }
 }
 

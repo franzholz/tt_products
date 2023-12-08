@@ -42,166 +42,166 @@ use TYPO3\CMS\Core\Utility\MathUtility;
 
 
 class tx_ttproducts_orderaddress_view extends tx_ttproducts_table_base_view {
-	public $dataArray; // array of read in frontend users
-	public $table;		 // object of the type tx_table_db
-	public $fields = [];
-	public $tableconf;
-	public $piVar = 'fe';
-	public $marker = 'FEUSER';
-	public $image;
+    public $dataArray; // array of read in frontend users
+    public $table;		 // object of the type tx_table_db
+    public $fields = [];
+    public $tableconf;
+    public $piVar = 'fe';
+    public $marker = 'FEUSER';
+    public $image;
 
 
 
-	public function getWrappedSubpartArray (
-		$viewTagArray,
-		$useBackPid,
-		&$subpartArray,
-		&$wrappedSubpartArray
-	) {
-		$marker = 'FE_GROUP';
-		$markerLogin = 'LOGIN';
-		$markerNologin = 'NOLOGIN';
-		foreach ($viewTagArray as $tag => $value) {
-			if (strpos($tag, $marker . '_') === 0) {
-				$tagPart1 = substr($tag, strlen($marker . '_'));
-				$offset = strpos($tagPart1, '_TEMPLATE');
-				if ($offset > 0) {
-					$groupNumber = substr($tagPart1, 0, $offset);
+    public function getWrappedSubpartArray (
+        $viewTagArray,
+        $useBackPid,
+        &$subpartArray,
+        &$wrappedSubpartArray
+    ) {
+        $marker = 'FE_GROUP';
+        $markerLogin = 'LOGIN';
+        $markerNologin = 'NOLOGIN';
+        foreach ($viewTagArray as $tag => $value) {
+            if (strpos($tag, $marker . '_') === 0) {
+                $tagPart1 = substr($tag, strlen($marker . '_'));
+                $offset = strpos($tagPart1, '_TEMPLATE');
+                if ($offset > 0) {
+                    $groupNumber = substr($tagPart1, 0, $offset);
 
-					if (MathUtility::canBeInterpretedAsInteger($groupNumber)) {
+                    if (MathUtility::canBeInterpretedAsInteger($groupNumber)) {
                         $comparatorNumber = $groupNumber;
                         if (!$comparatorNumber) {
                             $comparatorNumber = -1; // Also a logged in Front End User has group 0! 
                         }
 
-						if (GeneralUtility::inList($GLOBALS['TSFE']->gr_list, $comparatorNumber)) {
-							$wrappedSubpartArray['###FE_GROUP_' . $groupNumber . '_TEMPLATE###'] = ['', ''];
-						} else {
-							$subpartArray['###FE_GROUP_' . $groupNumber . '_TEMPLATE###'] = '';
-						}
-					}
-				}
-			} else if (strpos($tag, $markerLogin . '_') === 0) {
+                        if (GeneralUtility::inList($GLOBALS['TSFE']->gr_list, $comparatorNumber)) {
+                            $wrappedSubpartArray['###FE_GROUP_' . $groupNumber . '_TEMPLATE###'] = ['', ''];
+                        } else {
+                            $subpartArray['###FE_GROUP_' . $groupNumber . '_TEMPLATE###'] = '';
+                        }
+                    }
+                }
+            } else if (strpos($tag, $markerLogin . '_') === 0) {
                 if (
                     \JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn() &&
                     isset($GLOBALS['TSFE']->fe_user->user) &&
                     is_array($GLOBALS['TSFE']->fe_user->user) &&
                     isset($GLOBALS['TSFE']->fe_user->user['uid'])
                 ) {
-					$wrappedSubpartArray['###LOGIN_TEMPLATE###'] = ['', ''];
-				} else {
-					$subpartArray['###LOGIN_TEMPLATE###'] = '';
-				}
-			} else if (strpos($tag, $markerNologin . '_') === 0) {
+                    $wrappedSubpartArray['###LOGIN_TEMPLATE###'] = ['', ''];
+                } else {
+                    $subpartArray['###LOGIN_TEMPLATE###'] = '';
+                }
+            } else if (strpos($tag, $markerNologin . '_') === 0) {
                 if (
                     isset($GLOBALS['TSFE']->fe_user->user) &&
                     is_array($GLOBALS['TSFE']->fe_user->user) &&
                     isset($GLOBALS['TSFE']->fe_user->user['uid'])
                 ) {
-					$subpartArray['###NOLOGIN_TEMPLATE###'] = '';
-				} else {
-					$wrappedSubpartArray['###NOLOGIN_TEMPLATE###'] = ['', ''];
-				}
+                    $subpartArray['###NOLOGIN_TEMPLATE###'] = '';
+                } else {
+                    $wrappedSubpartArray['###NOLOGIN_TEMPLATE###'] = ['', ''];
+                }
             }
-		}
+        }
 
-		if (
-			isset($viewTagArray['FE_CONDITION1_TRUE_TEMPLATE']) ||
-			isset($viewTagArray['FE_CONDITION1_FALSE_TEMPLATE'])
-		) {
-			if (
-				$this->getModelObj()->getCondition() ||
-				!$this->getModelObj()->getConditionRecord()
-			) {
-				$wrappedSubpartArray['###FE_CONDITION1_TRUE_TEMPLATE###'] = ['', ''];
-				$subpartArray['###FE_CONDITION1_FALSE_TEMPLATE###'] = '';
-			} else {
-				$wrappedSubpartArray['###FE_CONDITION1_FALSE_TEMPLATE###'] = ['', ''];
-				$subpartArray['###FE_CONDITION1_TRUE_TEMPLATE###'] = '';
-			}
-		}
-	}
+        if (
+            isset($viewTagArray['FE_CONDITION1_TRUE_TEMPLATE']) ||
+            isset($viewTagArray['FE_CONDITION1_FALSE_TEMPLATE'])
+        ) {
+            if (
+                $this->getModelObj()->getCondition() ||
+                !$this->getModelObj()->getConditionRecord()
+            ) {
+                $wrappedSubpartArray['###FE_CONDITION1_TRUE_TEMPLATE###'] = ['', ''];
+                $subpartArray['###FE_CONDITION1_FALSE_TEMPLATE###'] = '';
+            } else {
+                $wrappedSubpartArray['###FE_CONDITION1_FALSE_TEMPLATE###'] = ['', ''];
+                $subpartArray['###FE_CONDITION1_TRUE_TEMPLATE###'] = '';
+            }
+        }
+    }
 
 
-	/**
-	 * Template marker substitution
-	 * Fills in the markerArray with data for a product
-	 *
-	 * @param	array		reference to an item array with all the data of the item
-	 * @param	string		title of the category
-	 * @param	integer		number of images to be shown
-	 * @param	object		the image cObj to be used
-	 * @param	array		information about the parent HTML form
-	 * @return	array
-	 * @access private
-	 */
-	public function getAddressMarkerArray (
-		$functablename,
-		$row,
-		&$markerArray,
-		$bSelect,
-		$type
-	) {
-		$fieldOutputArray = [];
-		$modelObj = $this->getModelObj();
-		$selectInfoFields = $modelObj->getSelectInfoFields();
-		$languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
+    /**
+     * Template marker substitution
+     * Fills in the markerArray with data for a product
+     *
+     * @param	array		reference to an item array with all the data of the item
+     * @param	string		title of the category
+     * @param	integer		number of images to be shown
+     * @param	object		the image cObj to be used
+     * @param	array		information about the parent HTML form
+     * @return	array
+     * @access private
+     */
+    public function getAddressMarkerArray (
+        $functablename,
+        $row,
+        &$markerArray,
+        $bSelect,
+        $type
+    ) {
+        $fieldOutputArray = [];
+        $modelObj = $this->getModelObj();
+        $selectInfoFields = $modelObj->getSelectInfoFields();
+        $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
 
-		if ($bSelect) {
-			foreach ($selectInfoFields as $field) {
-				$tablename = $modelObj->getTCATableFromField($field);
-				$fieldOutputArray[$field] =
-					tx_ttproducts_form_div::createSelect(
-						$languageObj,
-						$GLOBALS['TCA'][$tablename]['columns'][$field]['config']['items'],
-						'recs[' . $type . '][' . $field . ']',
-						(is_array($row) && isset($row[$field]) ? $row[$field] : ''),
-						true,
-						true,
-						[],
-						'select',
-						['id' => 'field_' . $type . '_' . $field] /* Add ID for field to be able to use labels. */
-					);
-			}
-		} else {
-			foreach ($selectInfoFields as $field) {
-				$tablename = $modelObj->getTCATableFromField($field);
-				$itemConfig = $GLOBALS['TCA'][$tablename]['columns'][$field]['config']['items'];
+        if ($bSelect) {
+            foreach ($selectInfoFields as $field) {
+                $tablename = $modelObj->getTCATableFromField($field);
+                $fieldOutputArray[$field] =
+                    tx_ttproducts_form_div::createSelect(
+                        $languageObj,
+                        $GLOBALS['TCA'][$tablename]['columns'][$field]['config']['items'],
+                        'recs[' . $type . '][' . $field . ']',
+                        (is_array($row) && isset($row[$field]) ? $row[$field] : ''),
+                        true,
+                        true,
+                        [],
+                        'select',
+                        ['id' => 'field_' . $type . '_' . $field] /* Add ID for field to be able to use labels. */
+                    );
+            }
+        } else {
+            foreach ($selectInfoFields as $field) {
+                $tablename = $modelObj->getTCATableFromField($field);
+                $itemConfig = $GLOBALS['TCA'][$tablename]['columns'][$field]['config']['items'];
 
-				if (
+                if (
                     isset($row[$field]) &&
-					$row[$field] != '' &&
-					isset($itemConfig) &&
-					is_array($itemConfig)
-				) {
-					$tcaValue = '';
-					foreach ($itemConfig as $subItemConfig) {
-						if (
-							isset($subItemConfig) &&
-							is_array($subItemConfig) &&
-							$subItemConfig['1'] == $row[$field]
-						) {
-							$tcaValue = $subItemConfig['0'];
-							break;
-						}
-					}
+                    $row[$field] != '' &&
+                    isset($itemConfig) &&
+                    is_array($itemConfig)
+                ) {
+                    $tcaValue = '';
+                    foreach ($itemConfig as $subItemConfig) {
+                        if (
+                            isset($subItemConfig) &&
+                            is_array($subItemConfig) &&
+                            $subItemConfig['1'] == $row[$field]
+                        ) {
+                            $tcaValue = $subItemConfig['0'];
+                            break;
+                        }
+                    }
 
-					$tmp = $languageObj->splitLabel($tcaValue);
-					$fieldOutputArray[$field] = htmlspecialchars(
+                    $tmp = $languageObj->splitLabel($tcaValue);
+                    $fieldOutputArray[$field] = htmlspecialchars(
                         $languageObj->getLabel(
-							$tmp
-						)
-					);
-				} else {
-					$fieldOutputArray[$field] = '';
-				}
-			}
-		}
+                            $tmp
+                        )
+                    );
+                } else {
+                    $fieldOutputArray[$field] = '';
+                }
+            }
+        }
 
-		foreach ($fieldOutputArray as $field => $fieldOutput) {
-			$markerkey = '###' . ($type == 'personinfo' ? 'PERSON' : 'DELIVERY') . '_'. strtoupper($field) . '###';
-			$markerArray[$markerkey] = $fieldOutput;
-		}
-	} // getAddressMarkerArray
+        foreach ($fieldOutputArray as $field => $fieldOutput) {
+            $markerkey = '###' . ($type == 'personinfo' ? 'PERSON' : 'DELIVERY') . '_'. strtoupper($field) . '###';
+            $markerArray[$markerkey] = $fieldOutput;
+        }
+    } // getAddressMarkerArray
 }
 

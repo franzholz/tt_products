@@ -44,108 +44,108 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_control_product {
 
-	/**
-	 */
-	static public function getPresetVariantArray (
-		$itemTable,
-		$row,
-		$useArticles
-	) {
-		$uid = $row['uid'];
-		$functablename = $itemTable->getFuncTablename();;
-		$basketVar = tx_ttproducts_model_control::getBasketVar();
-		$presetVariantArray = [];
-		$basketArray = GeneralUtility::_GP($basketVar);
+    /**
+     */
+    static public function getPresetVariantArray (
+        $itemTable,
+        $row,
+        $useArticles
+    ) {
+        $uid = $row['uid'];
+        $functablename = $itemTable->getFuncTablename();;
+        $basketVar = tx_ttproducts_model_control::getBasketVar();
+        $presetVariantArray = [];
+        $basketArray = GeneralUtility::_GP($basketVar);
 
-		if (
-			isset($basketArray) && is_array($basketArray) &&
-			isset($basketArray[$uid]) && is_array($basketArray[$uid]) &&
-			isset($_POST[$basketVar]) && is_array($_POST[$basketVar]) &&
-			isset($_POST[$basketVar][$uid])
-		) {
-			$presetVariantArray = $_POST[$basketVar][$uid];
-		}
+        if (
+            isset($basketArray) && is_array($basketArray) &&
+            isset($basketArray[$uid]) && is_array($basketArray[$uid]) &&
+            isset($_POST[$basketVar]) && is_array($_POST[$basketVar]) &&
+            isset($_POST[$basketVar][$uid])
+        ) {
+            $presetVariantArray = $_POST[$basketVar][$uid];
+        }
 
-		$storedRecs = tx_ttproducts_control_basket::getStoredVariantRecs();
-		if (
-			isset($storedRecs) &&
-			is_array($storedRecs) &&
-			isset($storedRecs[$functablename]) &&
-			is_array($storedRecs[$functablename]) &&
-			isset($storedRecs[$functablename][$uid])
-		) {
-			$variantRow = $storedRecs[$functablename][$uid];
-			$variant =
-				$itemTable->variant->getVariantFromProductRow(
-					$row,
-					$variantRow,
-					$useArticles,
-					false
-				);
+        $storedRecs = tx_ttproducts_control_basket::getStoredVariantRecs();
+        if (
+            isset($storedRecs) &&
+            is_array($storedRecs) &&
+            isset($storedRecs[$functablename]) &&
+            is_array($storedRecs[$functablename]) &&
+            isset($storedRecs[$functablename][$uid])
+        ) {
+            $variantRow = $storedRecs[$functablename][$uid];
+            $variant =
+                $itemTable->variant->getVariantFromProductRow(
+                    $row,
+                    $variantRow,
+                    $useArticles,
+                    false
+                );
 
-			$presetVariantArray = $variant;
-		}
+            $presetVariantArray = $variant;
+        }
 
-		return $presetVariantArray;
-	} // getPresetVariantArray
-
-
-	static public function getActiveArticleNo () {
-		$result = tx_ttproducts_model_control::getPiVarValue('tt_products_articles');
-		return $result;
-	}
+        return $presetVariantArray;
+    } // getPresetVariantArray
 
 
-	static public function addAjax (
-		$tablesObj,
-		$languageObj,
-		$theCode,
-		$functablename
-	) {
-		if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('taxajax')) {
+    static public function getActiveArticleNo () {
+        $result = tx_ttproducts_model_control::getPiVarValue('tt_products_articles');
+        return $result;
+    }
 
-			$itemTable = $tablesObj->get($functablename, false);
 
-			$selectableVariantFieldArray = $itemTable->variant->getSelectableFieldArray();
-			$editFieldArray = $itemTable->editVariant->getFieldArray();
-			$fieldArray = [];
+    static public function addAjax (
+        $tablesObj,
+        $languageObj,
+        $theCode,
+        $functablename
+    ) {
+        if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('taxajax')) {
 
-			if (
-				isset($selectableVariantFieldArray) &&
-				is_array($selectableVariantFieldArray)
-			) {
-				$fieldArray = $selectableVariantFieldArray;
-			}
+            $itemTable = $tablesObj->get($functablename, false);
 
-			if (isset($editFieldArray) && is_array($editFieldArray)) {
-				$fieldArray = array_merge($fieldArray, $editFieldArray);
-			}
+            $selectableVariantFieldArray = $itemTable->variant->getSelectableFieldArray();
+            $editFieldArray = $itemTable->editVariant->getFieldArray();
+            $fieldArray = [];
 
-			$param = [$functablename => $fieldArray];
-			$bUseColorbox = false;
-			$tableConf = $itemTable->getTableConf($theCode);
-			if (
-				is_array($tableConf) &&
-				isset($tableConf['jquery.']) &&
-				isset($tableConf['jquery.']['colorbox']) &&
-				$tableConf['jquery.']['colorbox']
-			) {
-				$bUseColorbox = true;
-			}
+            if (
+                isset($selectableVariantFieldArray) &&
+                is_array($selectableVariantFieldArray)
+            ) {
+                $fieldArray = $selectableVariantFieldArray;
+            }
 
-			$javaScriptObj = GeneralUtility::makeInstance('tx_ttproducts_javascript');
-			$javaScriptObj->set(
-				$languageObj,
-				'fetchdata',
-				$param
-			);
+            if (isset($editFieldArray) && is_array($editFieldArray)) {
+                $fieldArray = array_merge($fieldArray, $editFieldArray);
+            }
 
-			if (
-				$bUseColorbox
-			) {
-				$javaScriptObj->set($languageObj, 'colorbox');
-			}
-		}
-	}
+            $param = [$functablename => $fieldArray];
+            $bUseColorbox = false;
+            $tableConf = $itemTable->getTableConf($theCode);
+            if (
+                is_array($tableConf) &&
+                isset($tableConf['jquery.']) &&
+                isset($tableConf['jquery.']['colorbox']) &&
+                $tableConf['jquery.']['colorbox']
+            ) {
+                $bUseColorbox = true;
+            }
+
+            $javaScriptObj = GeneralUtility::makeInstance('tx_ttproducts_javascript');
+            $javaScriptObj->set(
+                $languageObj,
+                'fetchdata',
+                $param
+            );
+
+            if (
+                $bUseColorbox
+            ) {
+                $javaScriptObj->set($languageObj, 'colorbox');
+            }
+        }
+    }
 }
 

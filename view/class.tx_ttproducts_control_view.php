@@ -41,76 +41,76 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_control_view {
 
-	/**
-	 * Template marker substitution
-	 * Fills in the markerArray with data for a country
-	 *
-	 * @param	array		reference to an item array with all the data of the item
-	 * @param	array		marker array
-	 * @return	array
-	 * @access private
-	 */
-	function getMarkerArray (&$markerArray, &$allMarkers, $tableConfArray) {
-		if (isset($tableConfArray) && is_array($tableConfArray)) {
+    /**
+     * Template marker substitution
+     * Fills in the markerArray with data for a country
+     *
+     * @param	array		reference to an item array with all the data of the item
+     * @param	array		marker array
+     * @return	array
+     * @access private
+     */
+    function getMarkerArray (&$markerArray, &$allMarkers, $tableConfArray) {
+        if (isset($tableConfArray) && is_array($tableConfArray)) {
             $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
-			$allValueArray = [];
-			$controlArray = tx_ttproducts_model_control::getControlArray();
-			$separator = ';';
+            $allValueArray = [];
+            $controlArray = tx_ttproducts_model_control::getControlArray();
+            $separator = ';';
 
-			foreach ($tableConfArray as $functablename => $tableConf) {
+            foreach ($tableConfArray as $functablename => $tableConf) {
 
-				if (isset($tableConf['view.']) && is_array($tableConf['view.'])) {
-					foreach ($tableConf['view.'] as $type => $typeConf) {
+                if (isset($tableConf['view.']) && is_array($tableConf['view.'])) {
+                    foreach ($tableConf['view.'] as $type => $typeConf) {
 
-						if (is_array($typeConf)) {
-							$type = substr($type,0,strpos($type,'.'));
-							foreach ($typeConf as $numberx => $numberConf) {
-								$number = substr($numberx, 0, strpos($numberx, '.'));
-								$markerkey = strtoupper($type) . $number;
-								if (!empty($allMarkers[$markerkey])) {
-									$allValueArray[$type . $separator . $number] = $numberConf;
-								}
-							}
-						}
-					}
-				}
-			}
+                        if (is_array($typeConf)) {
+                            $type = substr($type,0,strpos($type,'.'));
+                            foreach ($typeConf as $numberx => $numberConf) {
+                                $number = substr($numberx, 0, strpos($numberx, '.'));
+                                $markerkey = strtoupper($type) . $number;
+                                if (!empty($allMarkers[$markerkey])) {
+                                    $allValueArray[$type . $separator . $number] = $numberConf;
+                                }
+                            }
+                        }
+                    }
+                }
+            }
 
-			if (isset($allValueArray) && is_array($allValueArray)) {
+            if (isset($allValueArray) && is_array($allValueArray)) {
 
-				foreach ($allValueArray as $key => $xValueArray) {
-					$keyArray = GeneralUtility::trimExplode($separator, $key);
-					$type = $keyArray[0];
-					$valueArray = tx_ttproducts_form_div::fetchValueArray($xValueArray['valueArray.']);
-					$attributeArray = $xValueArray['attribute.'];
+                foreach ($allValueArray as $key => $xValueArray) {
+                    $keyArray = GeneralUtility::trimExplode($separator, $key);
+                    $type = $keyArray[0];
+                    $valueArray = tx_ttproducts_form_div::fetchValueArray($xValueArray['valueArray.']);
+                    $attributeArray = $xValueArray['attribute.'];
 
-					if (in_array($type, ['sortSelect', 'filterSelect'])) {
-						$out = tx_ttproducts_form_div::createSelect(
-							$languageObj,
-							$valueArray,
-							tx_ttproducts_model_control::getPrefixId() . '[' . tx_ttproducts_model_control::getControlVar() . '][' . $keyArray[0] . '][' . $keyArray[1] . ']',
-							$controlArray[$keyArray[0]][$keyArray[1]],
-							true,
-							true,
-							[],
-							'select',
-							$attributeArray,
-							''
-						);
-					} else if ($type == 'filterInput') {
-						$out = tx_ttproducts_form_div::createTag(
-							'input',
-							tx_ttproducts_model_control::getPrefixId() . '[' . tx_ttproducts_model_control::getControlVar() . '][' . $keyArray[0] . '][' . $keyArray[1] . ']',
-							$controlArray[$keyArray[0]][$keyArray[1]],
-							$attributeArray
-						);
-					}
-					$markerkey = strtoupper($keyArray[0]  . $keyArray[1]);
-					$markerArray['###' . $markerkey . '_LABEL###'] = $xValueArray['label'];
-					$markerArray['###' . $markerkey . '###'] = $out;
-				}
-			}
-		}
-	} // function getMarkerArray
+                    if (in_array($type, ['sortSelect', 'filterSelect'])) {
+                        $out = tx_ttproducts_form_div::createSelect(
+                            $languageObj,
+                            $valueArray,
+                            tx_ttproducts_model_control::getPrefixId() . '[' . tx_ttproducts_model_control::getControlVar() . '][' . $keyArray[0] . '][' . $keyArray[1] . ']',
+                            $controlArray[$keyArray[0]][$keyArray[1]],
+                            true,
+                            true,
+                            [],
+                            'select',
+                            $attributeArray,
+                            ''
+                        );
+                    } else if ($type == 'filterInput') {
+                        $out = tx_ttproducts_form_div::createTag(
+                            'input',
+                            tx_ttproducts_model_control::getPrefixId() . '[' . tx_ttproducts_model_control::getControlVar() . '][' . $keyArray[0] . '][' . $keyArray[1] . ']',
+                            $controlArray[$keyArray[0]][$keyArray[1]],
+                            $attributeArray
+                        );
+                    }
+                    $markerkey = strtoupper($keyArray[0]  . $keyArray[1]);
+                    $markerArray['###' . $markerkey . '_LABEL###'] = $xValueArray['label'];
+                    $markerArray['###' . $markerkey . '###'] = $out;
+                }
+            }
+        }
+    } // function getMarkerArray
 }
 

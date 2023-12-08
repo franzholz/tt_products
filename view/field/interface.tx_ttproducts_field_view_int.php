@@ -39,30 +39,30 @@
 
 
 interface tx_ttproducts_field_view_int {
-	public function init ($modelObj);
-	public function needsInit ();
-	public function getModelObj ();
-	public function getRowMarkerArray (
-		$functablename,
-		$fieldname,
-		$row,
-		$markerKey,
-		&$markerArray,
-		$fieldMarkerArray,
-		$tagArray,
-		$theCode,
-		$id,
-		$basketExtra,
-		$basketRecs,
-		&$bSkip,
-		$bHtml = true,
-		$charset = '',
-		$prefix = '',
-		$suffix = '',
-		$imageNum = 0,
-		$imageRenderObj = '',
-		$linkWrap = false,
-		$bEnableTaxZero = false
-	);
+    public function init ($modelObj);
+    public function needsInit ();
+    public function getModelObj ();
+    public function getRowMarkerArray (
+        $functablename,
+        $fieldname,
+        $row,
+        $markerKey,
+        &$markerArray,
+        $fieldMarkerArray,
+        $tagArray,
+        $theCode,
+        $id,
+        $basketExtra,
+        $basketRecs,
+        &$bSkip,
+        $bHtml = true,
+        $charset = '',
+        $prefix = '',
+        $suffix = '',
+        $imageNum = 0,
+        $imageRenderObj = '',
+        $linkWrap = false,
+        $bEnableTaxZero = false
+    );
 }
 
