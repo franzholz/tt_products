@@ -344,7 +344,7 @@ class tx_ttproducts_basketitem_view implements SingletonInterface
                 $quantityMarker = '###';
                 foreach ($callFunctableArray as $marker => $callFunctablename) {
                     $quantityMarker .=
-                        tx_ttproducts_control_basketquantity::getQuantityMarker($marker, $uid, '###' . $marker . '_UID###');
+                        (new tx_ttproducts_control_basketquantity())->getQuantityMarker($marker, $uid, '###' . $marker . '_UID###');
                 }
                 $quantityMarker .= '###';
             } elseif (

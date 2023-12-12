@@ -273,7 +273,7 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base
         $bIsZeroTax = false;
 
         $bTax = ($tax == 1);
-        $price = $this->toNumber(true, $price);
+        $price = static::toNumber(true, $price);
 
         if (
             $bEnableTaxZero &&
@@ -318,7 +318,7 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base
         }
 
         $result =
-            $this->getPriceTax(
+            static::getPriceTax(
                 $price,
                 $bTax,
                 $bTaxIncluded,

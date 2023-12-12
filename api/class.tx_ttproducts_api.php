@@ -316,7 +316,7 @@ class tx_ttproducts_api
                 $result = intval($rowArray['0']['uid']);
             }
         } elseif ($bAllowCreation) {
-            $password = substr(md5(rand()), 0, 12);
+            $password = substr(md5(random_int(0, mt_getrandmax())), 0, 12);
             $infoObj->password = $password;
             try {
                 $hashInstance = GeneralUtility::makeInstance(PasswordHashFactory::class)->getDefaultHashInstance('FE');

@@ -91,7 +91,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
 
                 if ($this->conf['advanceOrderNumberWithInteger']) {
                     $rndParts = explode(',', $this->conf['advanceOrderNumberWithInteger']);
-                    $randomValue = rand(intval($rndParts[0]), intval($rndParts[1]));
+                    $randomValue = random_int(intval($rndParts[0]), intval($rndParts[1]));
                     $advanceUid = $prevUid + MathUtility::forceIntegerInRange($randomValue, 1);
                 } else {
                     $advanceUid = $prevUid + 1;

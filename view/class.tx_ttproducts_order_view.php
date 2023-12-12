@@ -737,7 +737,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view
                 $res1 = $GLOBALS['TYPO3_DB']->exec_SELECTquery('name ', 'fe_users', 'uid=' . intval($feusers_uid));
                 $row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res1);
                 $GLOBALS['TYPO3_DB']->sql_free_result($res1);
-                $this->setFeuserMarker($feuserMarker, $row, $markerArray);
+                static::setFeuserMarker($feuserMarker, $row, $markerArray);
 
                 $markerArray['###' . $fegroupMarker . '_TITLE###'] = '';
             }
@@ -965,7 +965,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view
                 $row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res1);
                 $GLOBALS['TYPO3_DB']->sql_free_result($res1);
 
-                $this->setFeuserMarker(
+                static::setFeuserMarker(
                     $feuserMarker,
                     $row,
                     $markerArray

@@ -426,7 +426,7 @@ class ParameterApi implements SingletonInterface
         $fieldArray = GeneralUtility::trimExplode(',', $fields);
         if (isset($fieldArray) && is_array($fieldArray)) {
             $rcArray = [];
-            $regexpDelimiter = $this->determineRegExpDelimiter($delimiter);
+            $regexpDelimiter = static::determineRegExpDelimiter($delimiter);
 
             foreach ($fieldArray as $field) {
                 $rcArray[] =

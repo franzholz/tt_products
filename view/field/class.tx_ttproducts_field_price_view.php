@@ -276,7 +276,7 @@ class tx_ttproducts_field_price_view extends tx_ttproducts_field_base_view
             );
 
         foreach ($priceTaxArray as $priceKey => $priceValue) {
-            $displayTax = $this->convertKey($priceKey, $field);
+            $displayTax = static::convertKey($priceKey, $field);
 
             if ($displayTax !== false) {
                 $displayKey = $priceMarkerPrefix . $displayTax;
