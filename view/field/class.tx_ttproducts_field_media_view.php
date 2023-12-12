@@ -395,7 +395,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
                     $meta = $val;
                 }
 
-                $cObj->alternativeData = ($meta ? $meta : $imageRow);
+                $cObj->alternativeData = ($meta ?: $imageRow);
                 if (isset($imageConf['params'])) {
                     $imageConf['params'] = preg_replace('/\s+/', ' ', $imageConf['params']);
                 }
@@ -450,7 +450,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
                 if ($tagkey && isset($specialConf[$tagkey])) {
                     foreach ($specialConf[$tagkey] as $specialConfType => $specialImageConf) {
                         $theImageConf = array_merge($imageConf, $specialImageConf);
-                        $cObj->alternativeData = ($meta ? $meta : $imageRow); // has to be redone here
+                        $cObj->alternativeData = ($meta ?: $imageRow); // has to be redone here
 
                         $this->replaceMarkerArray(
                             $markerArray,
@@ -586,7 +586,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
             }
 
             // $confParentTableConf = $this->getTableConf($conftable, $theCode);
-            $conftable = ($conftable ? $conftable : $functablename);
+            $conftable = ($conftable ?: $functablename);
             $generateArray = ['generateImage', 'generatePath'];
             $nameArray = [];
 
@@ -716,7 +716,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
             );
 
         $actImgCode = current($theImgCode);
-        $markerArray['###' . $markerKey . '###'] = $actImgCode ? $actImgCode : ''; // for compatibility only
+        $markerArray['###' . $markerKey . '###'] = $actImgCode ?: ''; // for compatibility only
 
         $c = 1;
         $countArray = [];

@@ -153,9 +153,9 @@ class tx_ttproducts_basket implements SingletonInterface
         }
         $newGiftData = GeneralUtility::_GP('ttp_gift');
         $extVars = $piVars['variants'] ?? '';
-        $extVars = ($extVars ? $extVars : GeneralUtility::_GP('ttp_extvars'));
+        $extVars = ($extVars ?: GeneralUtility::_GP('ttp_extvars'));
         $uid = $piVars['product'] ?? '';
-        $uid = ($uid ? $uid : GeneralUtility::_GP('tt_products'));
+        $uid = ($uid ?: GeneralUtility::_GP('tt_products'));
         $sameGiftData = true;
         $identGiftnumber = 0;
 

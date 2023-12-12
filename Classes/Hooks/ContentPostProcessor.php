@@ -75,7 +75,7 @@ class ContentPostProcessor
                     $pageTitle = $row['title'];
                     break;
                 case 2:
-                    $pageTitle = $row['subtitle'] ? $row['subtitle'] : $row['title'];
+                    $pageTitle = $row['subtitle'] ?: $row['title'];
                     break;
                 case 12:
                     $pageTitle = $row['title'] . ' / ' . $row['subtitle'];

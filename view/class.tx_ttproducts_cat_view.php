@@ -164,7 +164,7 @@ class tx_ttproducts_cat_view implements SingletonInterface
 
             // Fill marker arrays
             $backPID = $piVars['backPID'] ?? '';
-            $backPID = ($backPID ? $backPID : GeneralUtility::_GP('backPID'));
+            $backPID = ($backPID ?: GeneralUtility::_GP('backPID'));
             $basketPID = $this->conf['PIDbasket'];
             $pid = $backPID;
 

@@ -79,7 +79,7 @@ abstract class tx_ttproducts_catlist_view_base implements SingletonInterface
         $this->pidListObj->applyRecursive($recursive, $pid_list, true);
         $this->pidListObj->setPageArray();
 
-        $this->htmlTagMain = ($this->htmlTagMain ? $this->htmlTagMain : $this->conf['displayCatListType']);
+        $this->htmlTagMain = ($this->htmlTagMain ?: $this->conf['displayCatListType']);
 
         if (!$this->htmlTagElement) {
             switch ($this->htmlTagMain) {
@@ -615,7 +615,7 @@ abstract class tx_ttproducts_catlist_view_base implements SingletonInterface
                         );	// read only related categories
                 } else {
                     // read in all categories
-                    $latest = ($latest ? $latest : '');
+                    $latest = ($latest ?: '');
                     $relatedArray =
                         $categoryTable->get(
                             '',

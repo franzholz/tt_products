@@ -97,7 +97,7 @@ class tx_ttproducts_control_creator implements SingletonInterface
 
         $tmp = $cObj->stdWrap($conf['pid_list'] ?? '', $conf['pid_list.'] ?? '');
         $pid_list = (!empty($cObj->data['pages']) ? $cObj->data['pages'] : (!empty($conf['pid_list.']) ? trim($tmp) : ''));
-        $pid_list = ($pid_list ? $pid_list : $conf['pid_list'] ?? '');
+        $pid_list = ($pid_list ?: $conf['pid_list'] ?? '');
         $config['pid_list'] = ($pid_list ?? $config['storeRootPid'] ?? 0);
 
         $recursive = (!empty($cObj->data['recursive']) ? $cObj->data['recursive'] : $conf['recursive'] ?? 99);

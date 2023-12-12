@@ -104,7 +104,7 @@ abstract class tx_ttproducts_table_base implements SingletonInterface
 
         $this->setFuncTablename($functablename);
         $tablename = $cnf->getTableName($functablename);
-        $tablename = ($tablename ? $tablename : $functablename);
+        $tablename = ($tablename ?: $functablename);
 
         if (!isset($GLOBALS['TCA'][$tablename])) {
             debug($tablename, 'Table not found in $GLOBALS[\'TCA\']: ' . $tablename . ' in file class.tx_ttproducts_table_base.php'); // keep this
@@ -159,7 +159,7 @@ abstract class tx_ttproducts_table_base implements SingletonInterface
 
         $labelfieldname = $this->getLabelFieldname();
 
-        $this->fieldArray[$labelfieldname] = (!empty($this->tableDesc['name']) && is_array($GLOBALS['TCA'][$this->tableDesc['name']]['ctrl']) ? $this->tableDesc['name'] : ($GLOBALS['TCA'][$tablename]['ctrl']['label'] ? $GLOBALS['TCA'][$tablename]['ctrl']['label'] : 'name'));
+        $this->fieldArray[$labelfieldname] = (!empty($this->tableDesc['name']) && is_array($GLOBALS['TCA'][$this->tableDesc['name']]['ctrl']) ? $this->tableDesc['name'] : ($GLOBALS['TCA'][$tablename]['ctrl']['label'] ?: 'name'));
 
         $this->defaultFieldArray[$this->fieldArray[$labelfieldname]] = $this->fieldArray[$labelfieldname];
 

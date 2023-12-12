@@ -447,7 +447,7 @@ class tx_ttproducts_tracking implements SingletonInterface
                 $markerArray['###ORDER_STATUS###'] = $v['status'];
 
                 $info = $statusCodeArray[$v['status']];
-                $markerArray['###ORDER_STATUS_INFO###'] = ($info ? $info : $v['info']);
+                $markerArray['###ORDER_STATUS_INFO###'] = ($info ?: $v['info']);
                 $markerArray['###ORDER_STATUS_COMMENT###'] = nl2br($v['comment']);
                 $statusItemOut_c .= $templateService->substituteMarkerArrayCached($statusItemOut, $markerArray);
             }

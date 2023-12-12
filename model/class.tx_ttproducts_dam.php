@@ -173,7 +173,7 @@ class tx_ttproducts_dam extends tx_ttproducts_article_base
                             $categoryAnd
                         );
                     if ($bLeadingOperator) {
-                        $operator = ($operator ? $operator : 'OR');
+                        $operator = ($operator ?: 'OR');
                         $where .= ($whereNew ? ' ' . $operator . ' ' . $whereNew : '');
                     } else {
                         $where .= $whereNew;

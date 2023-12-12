@@ -67,8 +67,8 @@ class tx_ttproducts_email_div
         $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 
-        $sendername = ($sendername ? $sendername : $conf['orderEmail_fromName']);
-        $senderemail = ($senderemail ? $senderemail : $conf['orderEmail_from']);
+        $sendername = ($sendername ?: $conf['orderEmail_fromName']);
+        $senderemail = ($senderemail ?: $conf['orderEmail_from']);
 
         // Notification email
         $recipients = $recipient;
@@ -101,7 +101,7 @@ class tx_ttproducts_email_div
                 $markerArray['###ORDER_STATUS_TIME###'] = $cObj->stdWrap($v['time'], $conf['statusDate_stdWrap.']);
                 $markerArray['###ORDER_STATUS###'] = $v['status'];
                 $info = $statusCodeArray[$v['status']];
-                $markerArray['###ORDER_STATUS_INFO###'] = ($info ? $info : $v['info']);
+                $markerArray['###ORDER_STATUS_INFO###'] = ($info ?: $v['info']);
                 $markerArray['###ORDER_STATUS_COMMENT###'] = $v['comment'];
                 $markerArray['###PID_TRACKING###'] = $conf['PIDtracking'];
                 $markerArray['###PERSON_NAME###'] = $orderData['billing']['name'];
@@ -163,8 +163,8 @@ class tx_ttproducts_email_div
         $bHtmlMail = false
     ) {
         $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
-        $sendername = ($giftRow['personname'] ? $giftRow['personname'] : $conf['orderEmail_fromName']);
-        $senderemail = ($giftRow['personemail'] ? $giftRow['personemail'] : $conf['orderEmail_from']);
+        $sendername = ($giftRow['personname'] ?: $conf['orderEmail_fromName']);
+        $senderemail = ($giftRow['personemail'] ?: $conf['orderEmail_from']);
         $recipients = $recipient;
         $recipients = GeneralUtility::trimExplode(',', $recipients, 1);
 

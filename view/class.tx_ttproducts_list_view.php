@@ -525,7 +525,7 @@ class tx_ttproducts_list_view implements SingletonInterface
                 $conf['useArticles']
             );
         }
-        $pidMemo = ($conf['PIDmemo'] ? $conf['PIDmemo'] : $GLOBALS['TSFE']->id);
+        $pidMemo = ($conf['PIDmemo'] ?: $GLOBALS['TSFE']->id);
 
         $sqlTableArray = [];
         $tableAliasArray = [];
@@ -738,7 +738,7 @@ class tx_ttproducts_list_view implements SingletonInterface
         if (!empty($piVars['newitemdays'])) {
             $newitemdays = $piVars['newitemdays'];
         }
-        $newitemdays = ($newitemdays ? $newitemdays : GeneralUtility::_GP('newitemdays'));
+        $newitemdays = ($newitemdays ?: GeneralUtility::_GP('newitemdays'));
 
         if (
             ($newitemdays || $theCode == 'LISTNEWITEMS') &&
@@ -964,7 +964,7 @@ class tx_ttproducts_list_view implements SingletonInterface
                 break;
             case 'LISTGIFTS':
                 $formName = 'GiftForm';
-                $where .= ' AND ' . ($conf['whereGift'] ? $conf['whereGift'] : '1=0');
+                $where .= ' AND ' . ($conf['whereGift'] ?: '1=0');
                 $templateArea = 'ITEM_LIST_GIFTS_TEMPLATE' . $templateObj->getTemplateSuffix();
                 break;
             case 'LISTHIGHLIGHTS':
@@ -1014,7 +1014,7 @@ class tx_ttproducts_list_view implements SingletonInterface
 
                 // Substitute a few markers
                 $out = $t['search'];
-                $tmpPid = ($conf['PIDsearch'] ? $conf['PIDsearch'] : $GLOBALS['TSFE']->id);
+                $tmpPid = ($conf['PIDsearch'] ?: $GLOBALS['TSFE']->id);
                 $addQueryString = [];
                 $this->getSearchParams($addQueryString);
 
@@ -1275,7 +1275,7 @@ class tx_ttproducts_list_view implements SingletonInterface
                 $bItemPostHtml = (strpos($t['item'], 'ITEM_SINGLE_POST_HTML') !== false);
                 // Get products count
                 $selectConf = [];
-                $allowedPages = ($pid ? $pid : $this->pidListObj->getPidlist());
+                $allowedPages = ($pid ?: $this->pidListObj->getPidlist());
 
                 if ($additionalPages) {
                     $allowedPages .= ',' . $additionalPages;
@@ -1442,7 +1442,7 @@ class tx_ttproducts_list_view implements SingletonInterface
                 } elseif ($itemTable->getType() == 'article' || $itemTable->getType() == 'dam') {
                     $viewProductsTagArray = [];
                     $productsParentArray = [];
-                    $tmpFramework = ($t['productAndItemsFrameWork'] ? $t['productAndItemsFrameWork'] : $t['categoryAndItemsFrameWork']);
+                    $tmpFramework = ($t['productAndItemsFrameWork'] ?: $t['categoryAndItemsFrameWork']);
                     $productsFieldsArray = $markerObj->getMarkerFields(
                         $tmpFramework,
                         $tablesObj->get('tt_products')->getTableObj()->tableFieldArray,
@@ -2291,14 +2291,14 @@ class tx_ttproducts_list_view implements SingletonInterface
                             }
                         }
                         $temp = $cssConf['default'] ?? '';
-                        $css_current = ($temp ? $temp : $conf['CSSListDefault'] ?? '');	// only for backwards compatibility
+                        $css_current = ($temp ?: $conf['CSSListDefault'] ?? '');	// only for backwards compatibility
 
                         if (
                             isset($this->uidArray[$itemTable->getType()]) &&
                             $row['uid'] == $this->uidArray[$itemTable->getType()]
                         ) {
                             $temp = $cssConf['current'] ?? '';
-                            $css_current = ($temp ? $temp : $conf['CSSListCurrent'] ?? '');
+                            $css_current = ($temp ?: $conf['CSSListCurrent'] ?? '');
                         }
                         $css_current = ($css_current ? ' class="' . $css_current . '"' : '');
 

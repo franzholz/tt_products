@@ -330,7 +330,7 @@ class tx_ttproducts_single_view implements SingletonInterface
                     $excludeList .= ($excludeList != '' ? ',' : '') . $prefixId . '[' . $categoryPivar . ']';
                 }
             }
-            $pidMemo = ($this->conf['PIDmemo'] ? $this->conf['PIDmemo'] : $GLOBALS['TSFE']->id);
+            $pidMemo = ($this->conf['PIDmemo'] ?: $GLOBALS['TSFE']->id);
 
             tx_ttproducts_control_memo::getWrappedSubpartArray(
                 $wrappedSubpartArray,
@@ -408,7 +408,7 @@ class tx_ttproducts_single_view implements SingletonInterface
             }
 
             $backPID = $piVars['backPID'] ?? '';
-            $backPID = ($backPID ? $backPID : GeneralUtility::_GP('backPID'));
+            $backPID = ($backPID ?: GeneralUtility::_GP('backPID'));
             $basketPID = $this->conf['PIDbasket'];
             $bNeedSingleParams = false;
 
@@ -420,7 +420,7 @@ class tx_ttproducts_single_view implements SingletonInterface
                         $row
                     );
             } elseif (!empty($this->conf['clickIntoBasket']) && ($basketPID || $backPID)) {
-                $pid = ($basketPID ? $basketPID : $backPID);
+                $pid = ($basketPID ?: $backPID);
             } else {
                 $pid = $GLOBALS['TSFE']->id;
                 $bNeedSingleParams = true;
@@ -1429,7 +1429,7 @@ class tx_ttproducts_single_view implements SingletonInterface
             }
         } else {
             $errorCode[0] = 'wrong_parameter';
-            $errorCode[1] = ($this->type ? $this->type : 'product');
+            $errorCode[1] = ($this->type ?: 'product');
             $errorCode[2] = intval($this->uidArray[$this->type] ?? 0);
             $errorCode[3] = $this->pidListObj->getPidlist();
         }

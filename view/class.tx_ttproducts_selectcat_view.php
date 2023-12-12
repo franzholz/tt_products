@@ -114,7 +114,7 @@ class tx_ttproducts_selectcat_view extends tx_ttproducts_catlist_view_base
             }
 
             $menu = $conf['CSS.'][$functablename . '.']['menu'];
-            $menu = ($menu ? $menu : $categoryTableView->getPivar() . '-' . $contentId . '-' . $depth);
+            $menu = ($menu ?: $categoryTableView->getPivar() . '-' . $contentId . '-' . $depth);
             $fillOnchange = '';
             if ($method == 'clickShow') {
                 if ($bSeparated) {

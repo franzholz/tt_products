@@ -196,8 +196,8 @@ class tx_ttproducts_marker implements SingletonInterface
         $markerArray['###LOCALE_ALL###'] = $GLOBALS['TSFE']->config['config']['locale_all'] ?? '';
 
         $backPID = $piVars['backPID'] ?? '';
-        $backPID = ($backPID ? $backPID : GeneralUtility::_GP('backPID'));
-        $backPID = ($backPID ? $backPID : (!empty($conf['PIDlistDisplay']) ? $conf['PIDlistDisplay'] : $GLOBALS['TSFE']->id ?? 0));
+        $backPID = ($backPID ?: GeneralUtility::_GP('backPID'));
+        $backPID = ($backPID ?: (!empty($conf['PIDlistDisplay']) ? $conf['PIDlistDisplay'] : $GLOBALS['TSFE']->id ?? 0));
         $markerArray['###BACK_PID###'] = $backPID;
 
         // Call all addGlobalMarkers hooks at the end of this method

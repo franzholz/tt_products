@@ -75,7 +75,7 @@ class tx_ttproducts_orderaddress extends tx_ttproducts_table_base
                 is_array($this->tableconf['ALL.'])
             ) {
                 $tmp = $this->tableconf['ALL.']['requiredFields'];
-                $requiredFields = ($tmp ? $tmp : $requiredFields);
+                $requiredFields = ($tmp ?: $requiredFields);
             }
             $requiredListArray = GeneralUtility::trimExplode(',', $requiredFields);
             $this->getTableObj()->setRequiredFieldArray($requiredListArray);

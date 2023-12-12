@@ -77,7 +77,7 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base
             $requiredFields = 'uid,pid';
             if (!empty($this->tableconf['requiredFields'])) {
                 $tmp = $tableconf['requiredFields'];
-                $requiredFields = ($tmp ? $tmp : $requiredFields);
+                $requiredFields = ($tmp ?: $requiredFields);
             }
             $requiredListArray = GeneralUtility::trimExplode(',', $requiredFields);
             $this->getTableObj()->setRequiredFieldArray($requiredListArray);

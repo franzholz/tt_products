@@ -246,13 +246,13 @@ class PluginApi
 
         $templateSuffix = FlexformUtility::get(self::getFlexform(), 'template_suffix');
         $templateSuffix = strtoupper($templateSuffix);
-        $config['templateSuffix'] = ($templateSuffix ? $templateSuffix : $config['templateSuffix']);
+        $config['templateSuffix'] = ($templateSuffix ?: $config['templateSuffix']);
         $config['templateSuffix'] = ($config['templateSuffix'] ? '_' . $config['templateSuffix'] : '');
-        $config['limit'] = $conf['limit'] ? $conf['limit'] : 50;
+        $config['limit'] = $conf['limit'] ?: 50;
         $config['limitImage'] = MathUtility::forceIntegerInRange($conf['limitImage'], 0, 50, 1);
-        $config['limitImage'] = $config['limitImage'] ? $config['limitImage'] : 1;
+        $config['limitImage'] = $config['limitImage'] ?: 1;
         $config['limitImageSingle'] = MathUtility::forceIntegerInRange($conf['limitImageSingle'], 0, 50, 1);
-        $config['limitImageSingle'] = $config['limitImageSingle'] ? $config['limitImageSingle'] : 1;
+        $config['limitImageSingle'] = $config['limitImageSingle'] ?: 1;
 
         if (!empty($conf['priceNoReseller'])) {
             $config['priceNoReseller'] = MathUtility::forceIntegerInRange($conf['priceNoReseller'], 2, 10);
@@ -279,7 +279,7 @@ class PluginApi
             return false;
         }
 
-        $backPID = ($backPID ? $backPID : GeneralUtility::_GP('backPID'));
+        $backPID = ($backPID ?: GeneralUtility::_GP('backPID'));
 
         $config['backPID'] = $backPID;
 
@@ -289,9 +289,7 @@ class PluginApi
                 $conf['PIDbasket'] && $conf['clickIntoBasket'] ?
                     $conf['PIDbasket'] :
                         (
-                            $backPID ?
-                                $backPID :
-                                $GLOBALS['TSFE']->id
+                            $backPID ?: $GLOBALS['TSFE']->id
                         )
             );
 

@@ -696,7 +696,7 @@ class tx_ttproducts_product extends tx_ttproducts_article_base
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 
         $instockField = $cnfObj->getTableDesc($this->getTableObj()->name, 'inStock');
-        $instockField = ($instockField ? $instockField : 'inStock');
+        $instockField = ($instockField ?: 'inStock');
         if (
             $this->getTableObj()->name == 'tt_products' ||
             is_array($GLOBALS['TCA'][$this->getTableObj()->name]['columns']['inStock'])
@@ -776,7 +776,7 @@ class tx_ttproducts_product extends tx_ttproducts_article_base
                             $categoryAnd
                         );
                     if ($bLeadingOperator) {
-                        $operator = ($operator ? $operator : 'OR');
+                        $operator = ($operator ?: 'OR');
                         $where .= ($whereNew ? ' ' . $operator . ' ' . $whereNew : '');
                     } else {
                         $where .= $whereNew;

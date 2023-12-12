@@ -57,7 +57,7 @@ class tx_ttproducts_subpartmarker implements SingletonInterface
             $sPBody = substr($subpartMarker, 3, -3);
             $altSPM = trim($cObj->stdWrap($conf['altMainMarkers.'][$sPBody], $conf['altMainMarkers.'][$sPBody . '.']));
         }
-        $rc = $altSPM ? $altSPM : $subpartMarker;
+        $rc = $altSPM ?: $subpartMarker;
 
         return $rc;
     } // spMarker

@@ -123,7 +123,7 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base
     {
         $tableDesc = $this->getTableDesc();
         $instockField = $tableDesc['inStock'];
-        $instockField = ($instockField ? $instockField : 'inStock');
+        $instockField = ($instockField ?: 'inStock');
 
         if (is_array($this->getTableObj()->tableFieldArray[$instockField])) {
             $uid = intval($uid);
@@ -212,7 +212,7 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $tableconf = $cnf->getTableConf($this->getFuncTablename(), $theCode);
         $rc = [];
-        $where = ($where ? $where : '1=1 ') . $this->getTableObj()->enableFields();
+        $where = ($where ?: '1=1 ') . $this->getTableObj()->enableFields();
 
         // Fetching the products
         $res = $this->getTableObj()->exec_SELECTquery('*', $where, '', $GLOBALS['TYPO3_DB']->stripOrderBy($orderBy));

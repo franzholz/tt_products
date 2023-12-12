@@ -360,7 +360,7 @@ class tx_ttproducts_basketitem_view implements SingletonInterface
                 }
                 $quantityMarker = $filterQuantity;
             } else {
-                $quantityMarker = $quantity ? $quantity : '';
+                $quantityMarker = $quantity ?: '';
             }
 
             $markerArray['###FIELD_QTY###'] = $quantityMarker;

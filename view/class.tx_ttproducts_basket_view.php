@@ -327,7 +327,7 @@ class tx_ttproducts_basket_view implements SingletonInterface
         if ($templateCode == '') {
             $templateObj = GeneralUtility::makeInstance('tx_ttproducts_template');
             $errorCode[0] = 'empty_template';
-            $errorCode[1] = ($templateFilename ? $templateFilename : $templateObj->getTemplateFile());
+            $errorCode[1] = ($templateFilename ?: $templateObj->getTemplateFile());
 
             return '';
         }
@@ -434,7 +434,7 @@ class tx_ttproducts_basket_view implements SingletonInterface
             $templateObj = GeneralUtility::makeInstance('tx_ttproducts_template');
             $errorCode[0] = 'no_subtemplate';
             $errorCode[1] = '###' . $subpartMarker . $templateObj->getTemplateSuffix() . '###';
-            $errorCode[2] = ($templateFilename ? $templateFilename : $templateObj->getTemplateFile());
+            $errorCode[2] = ($templateFilename ?: $templateObj->getTemplateFile());
 
             return '';
         }
@@ -1124,7 +1124,7 @@ class tx_ttproducts_basket_view implements SingletonInterface
                 }
             }
             $markerArray['###HIDDENFIELDS###'] = $hiddenFields;
-            $pid = ($conf['PIDbasket'] ? $conf['PIDbasket'] : $GLOBALS['TSFE']->id);
+            $pid = ($conf['PIDbasket'] ?: $GLOBALS['TSFE']->id);
 
             $confCache = [];
             $excludeList = '';

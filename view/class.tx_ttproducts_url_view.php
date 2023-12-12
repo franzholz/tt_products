@@ -146,8 +146,8 @@ class tx_ttproducts_url_view implements SingletonInterface
         // disable caching as soon as someone enters products into the basket, enters user data etc.
         // $addQueryString['no_cache'] = 1;
         // Add's URL-markers to the $markerArray and returns it
-        $basketPid = ($this->conf['PIDbasket'] ? $this->conf['PIDbasket'] : $GLOBALS['TSFE']->id);
-        $formUrlPid = ($pidNext ? $pidNext : $GLOBALS['TSFE']->id);
+        $basketPid = ($this->conf['PIDbasket'] ?: $GLOBALS['TSFE']->id);
+        $formUrlPid = ($pidNext ?: $GLOBALS['TSFE']->id);
         $singleExcludeList = $this->getSingleExcludeList($excludeList);
 
         $useBackPid = ($useBackPid && $pidNext && $pidNext != $GLOBALS['TSFE']->id);
@@ -289,7 +289,7 @@ class tx_ttproducts_url_view implements SingletonInterface
         $prefixId = tx_ttproducts_model_control::getPrefixId();
 
         $temp = $piVars[$param] ?? '';
-        $temp = ($temp ? $temp : (GeneralUtility::_GP($param) && ($param != 'pid') ? GeneralUtility::_GP($param) : 0));
+        $temp = ($temp ?: (GeneralUtility::_GP($param) && ($param != 'pid') ? GeneralUtility::_GP($param) : 0));
 
         if ($temp) {
             if ($bUsePrefix) {

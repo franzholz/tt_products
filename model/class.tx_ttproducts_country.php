@@ -62,7 +62,7 @@ class tx_ttproducts_country extends tx_ttproducts_table_base
             $requiredFields = 'uid,pid';
             if (!empty($this->tableconf['requiredFields'])) {
                 $tmp = $this->tableconf['requiredFields'];
-                $requiredFields = ($tmp ? $tmp : $requiredFields);
+                $requiredFields = ($tmp ?: $requiredFields);
             }
             $requiredListArray = GeneralUtility::trimExplode(',', $requiredFields);
             $this->getTableObj()->setRequiredFieldArray($requiredListArray);
@@ -101,7 +101,7 @@ class tx_ttproducts_country extends tx_ttproducts_table_base
             }
 
             $whereString .= ' ' . $pageRepository->enableFields($this->getTablename());
-            $fields = ($fields ? $fields : '*');
+            $fields = ($fields ?: '*');
             // Fetching the products
 
             $res = $this->getTableObj()->exec_SELECTquery($fields, $whereString);

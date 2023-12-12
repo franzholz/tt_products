@@ -812,7 +812,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
         }
 
         $tmp = $orderData['calculatedArray'];
-        $calculatedArray = ($tmp ? $tmp : []);
+        $calculatedArray = ($tmp ?: []);
         $infoArray = [];
         $infoArray['billing'] = $orderData['billing'];
         $infoArray['delivery'] = $orderData['delivery'];

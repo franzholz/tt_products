@@ -532,7 +532,7 @@ class PaymentShippingHandling
                 '<input type="radio" name="recs[tt_products][' . $pskey . ']' . $htmlInputAddition . '" onClick="' . $submitCode . '" value="###VALUE###"###CHECKED###> ###TITLE### &nbsp;&nbsp;&nbsp; ###IMAGE###<br>';
         }
 
-        $wrap = $wrap ? $wrap : '<select id="' . $pskey . ($subkey != '' ? '-' . $subkey : '') . '-select" name="recs[tt_products][' . $pskey . ']' . $htmlInputAddition . '" onChange="' . $submitCode . '">|</select>';
+        $wrap = $wrap ?: '<select id="' . $pskey . ($subkey != '' ? '-' . $subkey : '') . '-select" name="recs[tt_products][' . $pskey . ']' . $htmlInputAddition . '" onChange="' . $submitCode . '">|</select>';
         $t = [];
         $localBasketExtra = [];
         if ($subkey != '') {

@@ -90,7 +90,7 @@ class tx_ttproducts_template implements SingletonInterface
             if (empty($errorCode)) {
                 $errorCode[0] = 'no_template';
                 $errorCode[1] = ' plugin.' . TT_PRODUCTS_EXT . '.' . $tmplText . ' = ' .
-                    ($templateFile ? $templateFile : '');
+                    ($templateFile ?: '');
             }
         }
 

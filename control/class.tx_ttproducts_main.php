@@ -1300,7 +1300,7 @@ class tx_ttproducts_main implements SingletonInterface
             $bSingleFromList
         ) {
             $extVars = $piVars['variants'] ?? '';
-            $extVars = ($extVars ? $extVars : GeneralUtility::_GP('ttp_extvars'));
+            $extVars = ($extVars ?: GeneralUtility::_GP('ttp_extvars'));
             $showAmount = $cnf->getBasketConf('view', 'showAmount');
 
             if (!count($this->tt_product_single)) {

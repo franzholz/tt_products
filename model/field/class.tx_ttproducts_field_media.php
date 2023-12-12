@@ -51,7 +51,7 @@ class tx_ttproducts_field_media extends tx_ttproducts_field_base
         ) {
             $dirname = $imageRow['file_path'];
         } else {
-            $dirname = ($this->conf['defaultImageDir'] ? $this->conf['defaultImageDir'] : ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['imageFolder'] ? $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['imageFolder'] . '/' : 'uploads/pics/'));
+            $dirname = ($this->conf['defaultImageDir'] ?: ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['imageFolder'] ? $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['imageFolder'] . '/' : 'uploads/pics/'));
         }
 
         return $dirname;

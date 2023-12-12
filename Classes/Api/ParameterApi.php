@@ -584,7 +584,7 @@ class ParameterApi implements SingletonInterface
                     $positionSearchKey = key($positionSearchVars);
                     $positionSearchValue = current($positionSearchVars);
                     $partArray = GeneralUtility::trimExplode('|', $positionSearchKey);
-                    $delimiter = ($partArray[2] ? $partArray[2] : '');
+                    $delimiter = ($partArray[2] ?: '');
                     $searchTablename = '';
                     $searchParam = $partArray[0];
                     $searchField = $partArray[1];

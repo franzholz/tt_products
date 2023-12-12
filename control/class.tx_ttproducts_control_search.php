@@ -98,7 +98,7 @@ class tx_ttproducts_control_search implements SingletonInterface, tx_ttproducts_
         $config['templateSuffix'] = strtoupper($this->conf['templateSuffix']);
         $templateSuffix = FlexformUtility::get($flexformArray, 'template_suffix');
         $templateSuffix = strtoupper($templateSuffix);
-        $config['templateSuffix'] = ($templateSuffix ? $templateSuffix : $config['templateSuffix']);
+        $config['templateSuffix'] = ($templateSuffix ?: $config['templateSuffix']);
         $config['templateSuffix'] = ($config['templateSuffix'] ? '_' . $config['templateSuffix'] : '');
 
         $languageObj = GeneralUtility::makeInstance(Localization::class);

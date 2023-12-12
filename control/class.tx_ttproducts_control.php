@@ -441,8 +441,8 @@ class tx_ttproducts_control implements SingletonInterface
         $languageKey = '';
 
         if ($checkRequired || $checkAllowed) {
-            $check = ($checkRequired ? $checkRequired : $checkAllowed);
-            $check = ($check ? $check : $giftRequired);
+            $check = ($checkRequired ?: $checkAllowed);
+            $check = ($check ?: $giftRequired);
             if (
                 $checkAllowed == 'email'
             ) {
