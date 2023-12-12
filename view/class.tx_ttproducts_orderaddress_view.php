@@ -38,6 +38,7 @@
  */
 use JambageCom\Div2007\Utility\CompatibilityUtility;
 use JambageCom\TtProducts\Api\Localization;
+use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
@@ -73,7 +74,7 @@ class tx_ttproducts_orderaddress_view extends tx_ttproducts_table_base_view
                             $comparatorNumber = -1; // Also a logged in Front End User has group 0!
                         }
 
-                        if (GeneralUtility::inList($GLOBALS['TSFE']->gr_list, $comparatorNumber)) {
+                        if (GeneralUtility::inList(implode(',', GeneralUtility::makeInstance(Context::class)->getPropertyFromAspect('frontend.user', 'groupIds')), $comparatorNumber)) {
                             $wrappedSubpartArray['###FE_GROUP_' . $groupNumber . '_TEMPLATE###'] = ['', ''];
                         } else {
                             $subpartArray['###FE_GROUP_' . $groupNumber . '_TEMPLATE###'] = '';

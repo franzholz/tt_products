@@ -40,6 +40,7 @@ use JambageCom\Div2007\Api\OldStaticInfoTablesApi;
 use JambageCom\Div2007\Api\StaticInfoTablesApi;
 use JambageCom\TtProducts\Api\ControlApi;
 use JambageCom\TtProducts\Api\Localization;
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -92,7 +93,7 @@ class tx_ttproducts_control_creator implements SingletonInterface
         ) {
             $conf['errorLog'] = '';
         } elseif ($conf['errorLog']) {
-            $conf['errorLog'] = GeneralUtility::resolveBackPath(PATH_typo3conf . '../' . $conf['errorLog']);
+            $conf['errorLog'] = GeneralUtility::resolveBackPath(Environment::getLegacyConfigPath() . '/../' . $conf['errorLog']);
         }
 
         $tmp = $cObj->stdWrap($conf['pid_list'] ?? '', $conf['pid_list.'] ?? '');
