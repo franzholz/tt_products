@@ -39,6 +39,7 @@
 use JambageCom\Div2007\Utility\FrontendUtility;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
+use TYPO3\CMS\Core\Resource\StorageRepository;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
@@ -171,7 +172,7 @@ class tx_ttproducts_fal_view extends tx_ttproducts_article_base_view
                 $paramArray
             );
 
-            $storageRepository = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\StorageRepository');
+            $storageRepository = GeneralUtility::makeInstance(StorageRepository::class);
             $storage = $storageRepository->getDefaultStorage();
             $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
 

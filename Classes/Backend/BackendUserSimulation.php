@@ -15,6 +15,7 @@ namespace JambageCom\TtProducts\Backend;
  * The TYPO3 project - inspiring people to share!
  */
 use TYPO3\CMS\Core\Authentication\AbstractUserAuthentication;
+use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MailUtility;
 
@@ -419,7 +420,7 @@ This is a dump of the failures:
                 }
                 $from = MailUtility::getSystemFrom();
                 /** @var $mail \TYPO3\CMS\Core\Mail\MailMessage */
-                $mail = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Mail\\MailMessage');
+                $mail = GeneralUtility::makeInstance(MailMessage::class);
                 $mail->setTo($email)->setFrom($from)->setSubject($subject)->setBody($email_body);
                 $mail->send();
                 // Logout written to log

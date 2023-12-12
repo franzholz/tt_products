@@ -14,6 +14,8 @@
 
 namespace JambageCom\TtProducts\Controller\Plugin;
 
+use TYPO3\CMS\Core\Imaging\IconProvider\BitmapIconProvider;
+use TYPO3\CMS\Core\Imaging\IconRegistry;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -49,10 +51,10 @@ class WizardIcon
 
         $iconIdentifier = 'extensions-tt_products-wizard';
         /** @var \TYPO3\CMS\Core\Imaging\IconRegistry $iconRegistry */
-        $iconRegistry = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Imaging\\IconRegistry');
+        $iconRegistry = GeneralUtility::makeInstance(IconRegistry::class);
         $iconRegistry->registerIcon(
             $iconIdentifier,
-            'TYPO3\\CMS\\Core\\Imaging\\IconProvider\\BitmapIconProvider',
+            BitmapIconProvider::class,
             [
                 'source' => 'EXT:' . TT_PRODUCTS_EXT . '/' . $wizardIcon,
             ]

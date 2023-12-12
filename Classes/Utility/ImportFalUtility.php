@@ -39,8 +39,10 @@ namespace JambageCom\TtProducts\Utility;
  */
 use JambageCom\Div2007\Utility\TableUtility;
 use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\DataHandling\DataHandler;
 use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
+use TYPO3\CMS\Core\Resource\StorageRepository;
 use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -61,7 +63,7 @@ class ImportFalUtility
         }
 
         /** @var $storageRepository \TYPO3\CMS\Core\Resource\StorageRepository */
-        $storageRepository = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\StorageRepository');
+        $storageRepository = GeneralUtility::makeInstance(StorageRepository::class);
         $storage = $storageRepository->getDefaultStorage();
         $targetDirectory = self::TARGET_DIRECTORY;
         $targetFolder = null;
@@ -162,7 +164,7 @@ class ImportFalUtility
                                             }
 
                                             /** @var \TYPO3\CMS\Core\DataHandling\DataHandler $tce */
-                                            $tce = GeneralUtility::makeInstance('TYPO3\CMS\Core\DataHandling\DataHandler'); // create TCE instance
+                                            $tce = GeneralUtility::makeInstance(DataHandler::class); // create TCE instance
                                             $tce->start($data, []);
                                             $tce->process_datamap();
 

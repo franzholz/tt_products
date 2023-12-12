@@ -39,6 +39,7 @@
 use JambageCom\Div2007\Utility\TableUtility;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
+use TYPO3\CMS\Core\Resource\StorageRepository;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -172,7 +173,7 @@ class tx_ttproducts_download extends tx_ttproducts_article_base
             if (
                 is_array($sysfileRowArray)
             ) {
-                $storageRepository = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\StorageRepository');
+                $storageRepository = GeneralUtility::makeInstance(StorageRepository::class);
                 $storage = $storageRepository->getDefaultStorage();
 
                 foreach ($sysfileRowArray as $fileUid => $sysfileRow) {

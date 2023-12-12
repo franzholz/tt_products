@@ -38,6 +38,7 @@
  */
 use JambageCom\Div2007\Utility\TableUtility;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
+use TYPO3\CMS\Core\Resource\StorageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_field_media extends tx_ttproducts_field_base
@@ -136,7 +137,7 @@ class tx_ttproducts_field_media extends tx_ttproducts_field_base
                 !$skip &&
                 !empty($sysfileRowArray)
             ) {
-                $storageRepository = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\StorageRepository');
+                $storageRepository = GeneralUtility::makeInstance(StorageRepository::class);
                 $storage = $storageRepository->getDefaultStorage();
 
                 foreach ($sysfileRowArray as $fileUid => $sysfileRow) {

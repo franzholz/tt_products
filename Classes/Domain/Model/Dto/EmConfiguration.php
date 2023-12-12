@@ -38,13 +38,13 @@ class EmConfiguration
                 $position = strpos($key, '.');
                 $property = substr($key, 0, $position);
                 if (
-                    property_exists(__CLASS__, $property) &&
+                    property_exists(self::class, $property) &&
                     is_array($this->$property)
                 ) {
                     $this->$property =
                         array_merge($this->$property, $value);
                 }
-            } elseif (property_exists(__CLASS__, $key)) {
+            } elseif (property_exists(self::class, $key)) {
                 $this->$key = $value;
             }
         }
