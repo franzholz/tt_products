@@ -60,7 +60,7 @@ call_user_func(function ($extensionKey, $table) {
             'image_uid',
             [
                 'appearance' => [
-                    'createNewRelationLinkTitle' => 'LLL:EXT:cms/locallang_ttc.xlf:images.addFileReference',
+                    'createNewRelationLinkTitle' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:images.addFileReference',
                     'collapseAll' => true,
                 ],
                 'foreign_types' => [
@@ -87,7 +87,7 @@ call_user_func(function ($extensionKey, $table) {
             'smallimage_uid',
             [
                 'appearance' => [
-                    'createNewRelationLinkTitle' => 'LLL:EXT:cms/locallang_ttc.xlf:images.addFileReference',
+                    'createNewRelationLinkTitle' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:images.addFileReference',
                     'collapseAll' => true,
                 ],
                 'foreign_types' => [

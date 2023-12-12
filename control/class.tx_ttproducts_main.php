@@ -637,10 +637,6 @@ class tx_ttproducts_main implements SingletonInterface
                             $tablename = $conf['table.'][$functablename];
                         }
 
-                        if (!isset($GLOBALS['TCA'][$tablename]['columns'])) {
-                            GeneralUtility::loadTCA($tablename);
-                        }
-
                         $addressExtKeyTable = tx_ttproducts_control_address::getAddressExtKeyTable();
 
                         if (
