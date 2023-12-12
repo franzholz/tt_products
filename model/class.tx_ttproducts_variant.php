@@ -428,7 +428,7 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, SingletonInter
         return $rc;
     }
 
-    public function getSelectableArray()
+    public function getSelectableArray(): ?array
     {
         return $this->selectableArray;
     }
@@ -619,7 +619,7 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, SingletonInter
         return $this->fieldArray;
     }
 
-    public function getSelectableFieldArray()
+    public function getSelectableFieldArray(): array
     {
         return $this->selectableFieldArray;
     }

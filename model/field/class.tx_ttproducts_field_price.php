@@ -181,7 +181,7 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base
         $this->bTaxIncluded = $bTaxIncluded;
     }
 
-    public function getTaxMode()
+    public function getTaxMode(): ?int
     {
         return $this->taxMode;
     }

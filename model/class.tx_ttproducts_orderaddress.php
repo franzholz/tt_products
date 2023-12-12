@@ -179,12 +179,12 @@ class tx_ttproducts_orderaddress extends tx_ttproducts_table_base
         }
     }
 
-    public function getCondition()
+    public function getCondition(): bool
     {
         return $this->bCondition;
     }
 
-    public function getConditionRecord()
+    public function getConditionRecord(): bool
     {
         return $this->bConditionRecord;
     }

@@ -133,7 +133,7 @@ class tx_ttproducts_variant_dummy implements tx_ttproducts_variant_int, Singleto
         return $rc;
     }
 
-    public function getSelectableArray()
+    public function getSelectableArray(): array
     {
         return $this->selectableArray;
     }

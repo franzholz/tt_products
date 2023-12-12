@@ -76,7 +76,7 @@ class tx_ttproducts_css implements SingletonInterface
         $this->bIncluded = true;
     }
 
-    public function getIncluded()
+    public function getIncluded(): bool
     {
         return $this->bIncluded;
     }
