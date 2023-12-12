@@ -350,7 +350,7 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base
         $calculationField = '',
         $bUseExt = false,
         $mergePrices = true
-    ) {
+    ): bool {
         $fieldArray = [];
         $fieldArray['data'] = ['itemnumber', 'image', 'smallimage'];
         $fieldArray['number'] = ['weight', 'inStock'];

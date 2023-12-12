@@ -93,7 +93,7 @@ abstract class tx_ttproducts_table_base implements SingletonInterface
             'usebydate' => 'tx_ttproducts_field_datetime',
         ];
 
-    public function init($functablename)
+    public function init($functablename): bool
     {
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $this->config = $cnf->getConfig();

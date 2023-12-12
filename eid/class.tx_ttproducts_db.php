@@ -56,7 +56,7 @@ class tx_ttproducts_db implements SingletonInterface
     public $LOCAL_LANG_charset = [];	// Local Language content charset for individual labels (overriding)
     public $LOCAL_LANG_loaded = 0;		// Flag that tells if the locallang file has been fetch (or tried to be fetched) already.
 
-    public function init(&$conf, &$config, $ajax, $pObj, $cObj, &$errorCode)
+    public function init(&$conf, &$config, $ajax, $pObj, $cObj, &$errorCode): bool
     {
         $this->conf = $conf;
 

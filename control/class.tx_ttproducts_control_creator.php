@@ -57,7 +57,7 @@ class tx_ttproducts_control_creator implements SingletonInterface
         &$errorCode,
         array $recs = [],
         array $basketRec = []
-    ) {
+    ): bool {
         if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
             $staticInfoApi = GeneralUtility::makeInstance(StaticInfoTablesApi::class);
         } else {

@@ -58,7 +58,7 @@ class tx_ttproducts_control_search implements SingletonInterface, tx_ttproducts_
     public $codeArray;			// Codes
     public $errorMessage;
 
-    public function init(&$content, &$conf, &$config, $cObj, $pibaseClass, &$error_code)
+    public function init(&$content, &$conf, &$config, $cObj, $pibaseClass, &$error_code): bool
     {
         $pibaseObj = GeneralUtility::makeInstance($pibaseClass);
         $this->cObj = $cObj;

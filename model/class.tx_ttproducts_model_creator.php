@@ -48,7 +48,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_model_creator implements SingletonInterface
 {
-    public function init($conf, $config, $cObj)
+    public function init($conf, $config, $cObj): bool
     {
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         if (version_compare(PHP_VERSION, '8.0.0') >= 0) {

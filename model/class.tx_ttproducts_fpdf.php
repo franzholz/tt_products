@@ -48,7 +48,7 @@ class tx_ttproducts_fpdf extends FPDF
     protected $style;
     protected $size;
 
-    public function init($family, $style, $size)
+    public function init($family, $style, $size): bool
     {
         $this->family = $family;
         $this->style = $style;

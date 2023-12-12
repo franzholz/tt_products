@@ -111,7 +111,7 @@ class tx_ttproducts_orderaddress extends tx_ttproducts_table_base
         return $rc;
     }
 
-    public function isUserInGroup($feuser, $group)
+    public function isUserInGroup($feuser, $group): bool
     {
         $groups = explode(',', $feuser['usergroup']);
         foreach ($groups as $singlegroup) {

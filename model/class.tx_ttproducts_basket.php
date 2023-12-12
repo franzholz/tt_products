@@ -76,7 +76,7 @@ class tx_ttproducts_basket implements SingletonInterface
         $pibaseClass,
         $updateMode,
         $bStoreBasket
-    ) {
+    ): bool {
         $this->setMaxTax(0.0);
 
         $formerBasket = tx_ttproducts_control_basket::getRecs();

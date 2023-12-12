@@ -78,7 +78,7 @@ abstract class tx_ttproducts_field_base_view implements tx_ttproducts_field_view
         $value,
         $tableConf,
         $tagArray
-    ) {
+    ): bool {
         // overwrite this!
         return false;
     }
@@ -95,7 +95,7 @@ abstract class tx_ttproducts_field_base_view implements tx_ttproducts_field_view
         $tagArray,
         $theCode = '',
         $id = '1'
-    ) {
+    ): bool {
         // overwrite this!
         return false;
     }

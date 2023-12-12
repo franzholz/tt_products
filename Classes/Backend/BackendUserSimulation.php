@@ -76,10 +76,8 @@ class BackendUserSimulation extends AbstractUserAuthentication
 
     /**
      * Returns true if user is admin.
-     *
-     * @return bool
      */
-    public function isAdmin()
+    public function isAdmin(): bool
     {
         return true;
     }
@@ -144,7 +142,7 @@ class BackendUserSimulation extends AbstractUserAuthentication
      *
      * @todo Define visibility
      */
-    public function checkAuthMode($table, $field, $value, $authMode)
+    public function checkAuthMode($table, $field, $value, $authMode): bool
     {
         return true;
     }
@@ -158,7 +156,7 @@ class BackendUserSimulation extends AbstractUserAuthentication
      *
      * @todo Define visibility
      */
-    public function checkLanguageAccess($langValue)
+    public function checkLanguageAccess($langValue): bool
     {
         return true;
     }
@@ -181,7 +179,7 @@ class BackendUserSimulation extends AbstractUserAuthentication
      *
      * @todo Define visibility
      */
-    public function recordEditAccessInternals($table, $idOrRow, $newRecord = false, $deletedRecord = false, $checkFullLanguageAccess = false)
+    public function recordEditAccessInternals($table, $idOrRow, $newRecord = false, $deletedRecord = false, $checkFullLanguageAccess = false): bool
     {
         return true; // editing is always allowed
     }
@@ -200,7 +198,7 @@ class BackendUserSimulation extends AbstractUserAuthentication
      *
      * @todo Define visibility
      */
-    public function workspaceCannotEditRecord($table, $recData)
+    public function workspaceCannotEditRecord($table, $recData): bool
     {
         return false; // editing is always allowed
     }
@@ -235,7 +233,7 @@ class BackendUserSimulation extends AbstractUserAuthentication
      *
      * @todo Define visibility
      */
-    public function workspaceAllowAutoCreation($table, $id, $recpid)
+    public function workspaceAllowAutoCreation($table, $id, $recpid): bool
     {
         return false; // no support for workspaces
     }

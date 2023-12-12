@@ -41,7 +41,7 @@ use TYPO3\CMS\Core\SingletonInterface;
  */
 class tx_ttproducts_edit_variant_dummy implements tx_ttproducts_edit_variant_int, SingletonInterface
 {
-    public function init($itemTable)
+    public function init($itemTable): bool
     {
         return true;
     }

@@ -352,7 +352,7 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base
         $tax,
         array $uidArray,
         array $basketRecs
-    ) {
+    ): bool {
         if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
             $staticInfoApi = GeneralUtility::makeInstance(StaticInfoTablesApi::class);
         } else {

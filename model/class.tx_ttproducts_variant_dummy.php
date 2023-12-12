@@ -47,7 +47,7 @@ class tx_ttproducts_variant_dummy implements tx_ttproducts_variant_int, Singleto
     /**
      * setting the local variables.
      */
-    public function init($itemTable, $tablename, $useArticles)
+    public function init($itemTable, $tablename, $useArticles): bool
     {
         return true;
     } // init

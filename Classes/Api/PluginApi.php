@@ -234,7 +234,7 @@ class PluginApi
         &$pageAsCategory,
         &$errorCode,
         $backPID
-    ) {
+    ): bool {
         $eInfo = ExtensionUtility::getExtensionInfo(TT_PRODUCTS_EXT);
         $config['version'] = $eInfo['version'];
 

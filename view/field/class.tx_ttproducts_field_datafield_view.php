@@ -204,7 +204,7 @@ class tx_ttproducts_field_datafield_view extends tx_ttproducts_field_base_view
         $tagArray,
         $theCode = '',
         $id = '1'
-    ) {
+    ): bool {
         $dirname = $this->modelObj->getDirname($row, $fieldname);
         $upperField = strtoupper($fieldname);
         $marker = $markerKey . '_' . $upperField;

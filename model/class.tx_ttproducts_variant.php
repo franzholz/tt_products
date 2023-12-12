@@ -62,7 +62,7 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, SingletonInter
         $itemTable,
         $tablename,
         $useArticles
-    ) {
+    ): bool {
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 
         $tmpArray = $cnf->getTableDesc($tablename);

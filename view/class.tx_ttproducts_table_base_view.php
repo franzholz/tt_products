@@ -50,7 +50,7 @@ abstract class tx_ttproducts_table_base_view implements SingletonInterface
     public $marker;		// can be overridden
     public $tablesWithoutView = ['tt_products_emails'];
 
-    public function init($modelObj)
+    public function init($modelObj): bool
     {
         $this->modelObj = $modelObj;
         $this->bHasBeenInitialised = true;
