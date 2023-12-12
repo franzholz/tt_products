@@ -471,7 +471,7 @@ class tx_ttproducts_basket_calculate implements SingletonInterface
                         if (!empty($taxInfo)) {
                             foreach ($taxInfo as $countryCode => $countryRows) {
                                 foreach ($countryRows as $k => $taxRow) {
-                                    $countryTax = strval($taxRow['tx_rate'], 2);
+                                    $countryTax = strval($taxRow['tx_rate']);
 
                                     if (!isset($this->calculatedArray['priceNoTax']['goodssametaxtotal'][$countryCode][$countryTax])) {
                                         $this->calculatedArray['priceNoTax']['goodssametaxtotal'][$countryCode][$countryTax] = 0;
@@ -611,7 +611,7 @@ class tx_ttproducts_basket_calculate implements SingletonInterface
                     $row = $actItem['rec'];
                     if (!empty($row['bulkily'])) {
                         $value = floatval($this->conf['bulkilyAddition']) * $basketExt[$row['uid']][$viewTableObj->getVariant()->getVariantFromRow($row)];
-                        $tax = ($bulkilyFeeTax != '' ? $bulkilyFeeTax : $shippingTax);
+                        $tax = ($bulkilyFeeTax != 0 ? $bulkilyFeeTax : $shippingTax);
                         $taxRow['tax'] = floatval($tax);
                         $this->calculatedArray['shipping']['priceTax'] +=
                             $priceObj->getModePrice(

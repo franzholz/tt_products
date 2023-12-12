@@ -163,7 +163,7 @@ class tx_ttproducts_edit_variant implements SingletonInterface
 
                         if (
                             !GeneralUtility::isValidUrl($url) ||
-                            !GeneralUtility::getUrl($url, 0, false, $report) && $report['error'] != 22 // CURLE_HTTP_RETURNED_ERROR
+                            !GeneralUtility::getUrl($url) && $report['error'] != 22 // CURLE_HTTP_RETURNED_ERROR
                         ) {
                             $result = false;
                             break;

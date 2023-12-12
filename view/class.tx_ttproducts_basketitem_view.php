@@ -259,7 +259,7 @@ class tx_ttproducts_basketitem_view implements SingletonInterface
                                 PREG_SPLIT_NO_EMPTY
                             );
 
-                        $imageFileArray = '';
+                        $imageFileArray = [];
 
                         if ($variantValue && $prodTmpRow[0]) {
                             $key = array_search(trim($articleRow[$field]), $prodTmpRow, true);
@@ -404,7 +404,7 @@ class tx_ttproducts_basketitem_view implements SingletonInterface
                     $variantValue = $row[$field] ?? '';
                     $prodTmpRow = preg_split('/[\h]*' . $variantSeparator . '[\h]*/', $variantValue, -1, PREG_SPLIT_NO_EMPTY);
 
-                    $imageFileArray = '';
+                    $imageFileArray = [];
 
                     if ($bSelect && $variantValue && $prodTmpRow[0]) {
                         $selectConfKey = $viewTable->variant->getSelectConfKey($field);

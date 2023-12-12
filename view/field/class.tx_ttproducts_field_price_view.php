@@ -285,7 +285,7 @@ class tx_ttproducts_field_price_view extends tx_ttproducts_field_base_view
                 } else {
                     $priceMarkerArray['###' . $displayKey . '###'] =
                         $this->printPrice(
-                            $this->priceFormat($priceValue, $taxInclExcl)
+                            $this->priceFormat($priceValue)
                         );
                 }
 
@@ -309,8 +309,8 @@ class tx_ttproducts_field_price_view extends tx_ttproducts_field_base_view
 
         if ($field == 'price') {
             // price if discounted by credipoints
-            $priceMarkerArray['###PRICE_IF_DISCOUNTED_BY_CREDITPOINTS_TAX###'] = $this->printPrice($this->priceFormat($priceTaxArray['tax'] - $pricefactor * ($row['creditpoints'] ?? 0), $taxInclExcl));
-            $priceMarkerArray['###PRICE_IF_DISCOUNTED_BY_CREDITPOINTS_NO_TAX###'] = $this->printPrice($this->priceFormat($priceTaxArray['notax'] - $pricefactor * ($row['creditpoints'] ?? 0), $taxInclExcl));
+            $priceMarkerArray['###PRICE_IF_DISCOUNTED_BY_CREDITPOINTS_TAX###'] = $this->printPrice($this->priceFormat($priceTaxArray['tax'] - $pricefactor * ($row['creditpoints'] ?? 0)));
+            $priceMarkerArray['###PRICE_IF_DISCOUNTED_BY_CREDITPOINTS_NO_TAX###'] = $this->printPrice($this->priceFormat($priceTaxArray['notax'] - $pricefactor * ($row['creditpoints'] ?? 0)));
         }
 
         if (is_array($markerArray)) {
