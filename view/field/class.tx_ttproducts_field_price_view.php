@@ -207,7 +207,7 @@ class tx_ttproducts_field_price_view extends tx_ttproducts_field_base_view
             isset(self::$convertArray[$fieldname]) &&
             is_array(self::$convertArray[$fieldname])
         ) {
-            if (strpos($priceType, $fieldname) === 0) {
+            if (strpos($priceType, (string)$fieldname) === 0) {
                 $priceType = substr($priceType, strlen($fieldname));
             }
 

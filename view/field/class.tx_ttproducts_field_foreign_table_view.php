@@ -94,7 +94,7 @@ class tx_ttproducts_field_foreign_table_view extends tx_ttproducts_field_base_vi
                 $foreignMarker = $foreignTableViewObj->getMarker();
 
                 foreach ($tagArray as $theTag => $v) {
-                    if (strpos($theTag, $foreignMarker) === 0) {
+                    if (strpos($theTag, (string)$foreignMarker) === 0) {
                         $rowMarkerArray['###' . $theTag . '###'] = '';
                     }
                 }

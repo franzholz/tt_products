@@ -361,7 +361,7 @@ class tx_ttproducts_url_view implements SingletonInterface
             $tmpArray = GeneralUtility::trimExplode(',', $excludeList);
             if (isset($tmpArray) && is_array($tmpArray) && $tmpArray['0']) {
                 foreach ($tmpArray as $param) {
-                    if (strpos($param, $prefixId) === false) {
+                    if (strpos($param, (string)$prefixId) === false) {
                         $excludeListArray[] = $prefixId . '[' . $param . ']';
                     }
                 }

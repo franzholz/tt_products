@@ -184,7 +184,7 @@ class tx_ttproducts_gifts_div
                     foreach ($basketExt['gift'] as $giftnumber => $giftRow) {
                         foreach ($giftRow as $field => $value) {
                             if (
-                                strpos($field, $fName) !== false &&
+                                strpos($field, (string)$fName) !== false &&
                                 preg_match('/' . $checkExpr . '/', $value) == 0
                             ) {
                                 $wrongGiftNumber = $giftnumber;

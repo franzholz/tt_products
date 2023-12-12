@@ -277,7 +277,7 @@ abstract class tx_ttproducts_table_base implements SingletonInterface
             }
 
             if ($where_clause) {
-                if (strpos($where_clause, $enableFields) !== false) {
+                if (strpos($where_clause, (string)$enableFields) !== false) {
                     $bUseEnableFields = false;
                 }
                 $where .= ' AND ( ' . $where_clause . ' )';

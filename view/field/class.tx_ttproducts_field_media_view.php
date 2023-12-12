@@ -841,7 +841,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
 
             if (isset($tagArray) && is_array($tagArray)) {
                 foreach ($tagArray as $value => $k1) {
-                    if (strpos($value, $markerKey) !== false) {
+                    if (strpos($value, (string)$markerKey) !== false) {
                         $keyMarker = '###' . $value . '###';
                         $foundPos = strpos($value, $markerKey . '_ID');
 

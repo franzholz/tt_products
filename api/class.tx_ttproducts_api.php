@@ -218,9 +218,9 @@ class tx_ttproducts_api
 
         if (
             $subpartMarker != '' &&
-            strpos($templateCode, $subpartMarker) !== false ||
+            strpos($templateCode, (string)$subpartMarker) !== false ||
             $alternativeSubpartMarker != '' &&
-            strpos($templateCode, $alternativeSubpartMarker) !== false
+            strpos($templateCode, (string)$alternativeSubpartMarker) !== false
         ) {
             $errorTemplateCode = $templateCode;
         } else {
@@ -233,8 +233,8 @@ class tx_ttproducts_api
             );
             if (
                 $errorTemplateCode == '' ||
-                strpos($errorTemplateCode, $subpartMarker) === false &&
-                strpos($errorTemplateCode, $alternativeSubpartMarker) === false
+                strpos($errorTemplateCode, (string)$subpartMarker) === false &&
+                strpos($errorTemplateCode, (string)$alternativeSubpartMarker) === false
             ) {
                 $errorTemplateCode = $templateObj->get(
                     'ERROR',
@@ -250,7 +250,7 @@ class tx_ttproducts_api
             if ($subpartMarker != '' || $alternativeSubpartMarker != '') {
                 if (
                     $subpartMarker != '' &&
-                    strpos($errorTemplateCode, $subpartMarker) !== false
+                    strpos($errorTemplateCode, (string)$subpartMarker) !== false
                 ) {
                     $errorOut =
                         $templateService->getSubpart(
@@ -259,7 +259,7 @@ class tx_ttproducts_api
                         );
                 } elseif (
                     $alternativeSubpartMarker != '' &&
-                    strpos($errorTemplateCode, $alternativeSubpartMarker) !== false
+                    strpos($errorTemplateCode, (string)$alternativeSubpartMarker) !== false
                 ) {
                     $errorOut =
                         $templateService->getSubpart(
@@ -923,7 +923,7 @@ class tx_ttproducts_api
             $emailControlArray['customer']['none']['recipient'] = array_unique($emailControlArray['customer']['none']['recipient']);
         }
         $customerHTMLmailContent = '';
-        $posEmailPlaintext = strpos($templateCode, $emailControlArray['customer']['none']['template']);
+        $posEmailPlaintext = strpos($templateCode, (string)$emailControlArray['customer']['none']['template']);
 
         if (
             $templateCode != '' &&

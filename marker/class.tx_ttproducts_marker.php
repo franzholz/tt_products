@@ -442,7 +442,7 @@ class tx_ttproducts_marker implements SingletonInterface
 
                     foreach ($this->markerArray as $k => $marker) {
                         if ($marker != $prefixParam) {
-                            $bMarkerFound = strpos($tag, $marker);
+                            $bMarkerFound = strpos($tag, (string)$marker);
                             if ($bMarkerFound == 0 && $bMarkerFound !== false) {
                                 unset($retTagArray[$tag]);
                             }

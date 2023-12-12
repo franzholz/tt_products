@@ -1516,8 +1516,7 @@ class tx_ttproducts_basket implements SingletonInterface
                 is_array($row['ext']['records'])
             ) {
                 $externalRowArray = $row['ext']['records'];
-                end($externalRowArray);
-                $funcTablename = key($externalRowArray);
+                $funcTablename = array_key_last($externalRowArray);
                 $lastRowArray = current($externalRowArray);
                 reset($externalRowArray);
             }

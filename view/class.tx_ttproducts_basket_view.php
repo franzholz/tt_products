@@ -501,7 +501,7 @@ class tx_ttproducts_basket_view implements SingletonInterface
                 if (
                     strpos(
                         $t['item'],
-                        $articleViewObj->getMarker()
+                        (string)$articleViewObj->getMarker()
                     ) !== false
                 ) {
                     $bCopyProduct2Article = true;

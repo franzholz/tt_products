@@ -179,7 +179,7 @@ abstract class tx_ttproducts_table_base_view implements SingletonInterface
             foreach ($tagArray as $theTag => $v) {
                 foreach ($emptyMarkerArray as $theMarker) {
                     if (
-                        strpos($theTag, $theMarker) === 0 &&
+                        strpos($theTag, (string)$theMarker) === 0 &&
                         !isset($resultMarkerArray['###' . $theTag . '###'])
                     ) {
                         $resultMarkerArray['###' . $theTag . '###'] = '';
@@ -239,7 +239,7 @@ abstract class tx_ttproducts_table_base_view implements SingletonInterface
             // $markerKey = $this->marker.'_'.$upperField.'_';
             if (is_array($tagArray)) {
                 foreach ($tagArray as $tag => $v1) {
-                    if (strpos($tag, $this->marker) === 0) {
+                    if (strpos($tag, (string)$this->marker) === 0) {
                         $bCondition = false;
                         $tagPartArray = explode('_', $tag);
                         $tagCount = count($tagPartArray);
@@ -445,7 +445,7 @@ abstract class tx_ttproducts_table_base_view implements SingletonInterface
             }
             if (is_array($tagArray)) {
                 foreach ($tagArray as $tag => $v1) {
-                    if (strpos($tag, $this->marker) === 0) {
+                    if (strpos($tag, (string)$this->marker) === 0) {
                         $subpartArray['###' . $tag . '###'] = '';
                     }
                 }

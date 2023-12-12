@@ -162,7 +162,7 @@ class tx_ttproducts_sql
                 $comparator = '';
                 $position = false;
                 foreach (self::$comparatorConversionArray as $k => $comparator) {
-                    $position = strpos($condition, $comparator);
+                    $position = strpos($condition, (string)$comparator);
                     if ($position !== false) {
                         break;
                     }

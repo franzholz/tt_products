@@ -1264,7 +1264,7 @@ class tx_ttproducts_list_view implements SingletonInterface
                 isset($articleViewObj) &&
                 is_object($articleViewObj) &&
                 (
-                    strpos($t['item'], $articleViewObj->getMarker()) ||
+                    strpos($t['item'], (string)$articleViewObj->getMarker()) ||
                     strpos($t['item'], 'PRICE')
                 )
             ) {
@@ -1307,7 +1307,7 @@ class tx_ttproducts_list_view implements SingletonInterface
                     $bTableAlreadyPresent = false;
 
                     foreach ($sqlTableArray['from'] as $fromTables) {
-                        if (strpos($fromTables, $addressTablename) !== false) {
+                        if (strpos($fromTables, (string)$addressTablename) !== false) {
                             $bTableAlreadyPresent = true;
                         }
                     }
@@ -1655,7 +1655,7 @@ class tx_ttproducts_list_view implements SingletonInterface
                         is_array($filterConf['where.']['field.'])
                     ) {
                         foreach ($filterConf['where.']['field.'] as $field => $value) {
-                            if (strpos($value, $field) === false) {
+                            if (strpos($value, (string)$field) === false) {
                                 $selectConf['where'] .= ' AND ' . $field . ' = ' . $GLOBALS['TYPO3_DB']->fullQuoteStr(quotemeta($value), $tablename);
                             } else {
                                 $selectConf['where'] .= ' AND ' . $value;
