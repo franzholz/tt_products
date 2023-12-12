@@ -183,7 +183,7 @@ class tx_ttproducts_edit_variant_view implements tx_ttproducts_edit_variant_view
                         $markerArray
                     );
 
-                    $subpartContent = $cObj->getSubpart($templateCode, $subpartMarker);
+                    $subpartContent = GeneralUtility::makeInstance(MarkerBasedTemplateService::class)->getSubpart($templateCode, $subpartMarker);
                     $content =
                         $templateService->substituteMarkerArrayCached(
                             $subpartContent,

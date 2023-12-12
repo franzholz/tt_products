@@ -88,7 +88,7 @@ class tx_ttproducts_pdf_view
                     $itemObj = GeneralUtility::makeInstance('tx_ttproducts_basketitem');
                     $path = $pathsite . $generationConf['handleLib.']['path'];
 
-                    GeneralUtility::requireOnce($path . '/src/PhpWord/Autoloader.php');
+                    require_once $path . '/src/PhpWord/Autoloader.php';
                     Autoloader::register();
 
                     $phpWord = new PhpWord();
@@ -238,7 +238,7 @@ class tx_ttproducts_pdf_view
 
                     $name = $nameInfo['dirname'] . '/' . $nameInfo['filename'] . '-out.docx';
                     $document->saveAs($name);
-                    GeneralUtility::requireOnce($path . '/samples/Sample_Footer.php');
+                    require_once $path . '/samples/Sample_Footer.php';
                     $phpWord = IOFactory::load($name);
 
                     if (is_array($generationConf['handleLib.']['rendererLibrary.'])) {
