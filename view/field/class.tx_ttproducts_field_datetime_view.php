@@ -30,20 +30,18 @@
  * functions for the date and time field view
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
 
- 
 use JambageCom\Div2007\Utility\FrontendUtility;
 
-
-class tx_ttproducts_field_datetime_view extends tx_ttproducts_field_base_view {
-
-    public function getRowMarkerArray (
+class tx_ttproducts_field_datetime_view extends tx_ttproducts_field_base_view
+{
+    public function getRowMarkerArray(
         $functablename,
         $fieldname,
         $row,
@@ -75,4 +73,3 @@ class tx_ttproducts_field_datetime_view extends tx_ttproducts_field_base_view {
         return $value;
     }
 }
-

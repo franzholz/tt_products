@@ -30,47 +30,49 @@
  * functions for the content
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-class tx_ttproducts_content extends tx_ttproducts_table_base {
+class tx_ttproducts_content extends tx_ttproducts_table_base
+{
     public $dataArray = []; // array of read in contents
     public $dataPageArray = []; // array of read in contents with page id as index
     public $table;		 // object of the type tx_table_db
 
     /**
-     * Getting all tt_products_cat categories into internal array
+     * Getting all tt_products_cat categories into internal array.
      */
-    public function init ($functablename) {
+    public function init($functablename)
+    {
         $result = parent::init($functablename);
 
-        $this->getTableObj()->setDefaultFieldArray(['uid'=>'uid', 'pid'=>'pid', 't3ver_oid'=>'t3ver_oid', 'tstamp'=>'tstamp', 'sorting'=> 'sorting',
-        'deleted' => 'deleted', 'hidden'=>'hidden', 'starttime' => 'starttime', 'endtime' => 'endtime', 'fe_group' => 'fe_group']);
+        $this->getTableObj()->setDefaultFieldArray(['uid' => 'uid', 'pid' => 'pid', 't3ver_oid' => 't3ver_oid', 'tstamp' => 'tstamp', 'sorting' => 'sorting',
+        'deleted' => 'deleted', 'hidden' => 'hidden', 'starttime' => 'starttime', 'endtime' => 'endtime', 'fe_group' => 'fe_group']);
         $this->getTableObj()->setTCAFieldArray('tt_content');
 
         return $result;
     } // init
 
-    public function getFromPid ($pid) {
+    public function getFromPid($pid)
+    {
         $rcArray = $this->dataPageArray[$pid];
 
         if (!is_array($rcArray)) {
             $sql = GeneralUtility::makeInstance('tx_table_db_access');
             $sql->prepareFields($this->getTableObj(), 'select', '*');
             $sql->prepareFields($this->getTableObj(), 'orderBy', 'sorting');
-            $sql->prepareWhereFields ($this->getTableObj(), 'pid', '=', intval($pid));
+            $sql->prepareWhereFields($this->getTableObj(), 'pid', '=', intval($pid));
             $api =
                 GeneralUtility::makeInstance(\JambageCom\Div2007\Api\Frontend::class);
             $sys_language_uid = $api->getLanguageId();
 
-            $sql->prepareWhereFields ($this->getTableObj(), 'sys_language_uid', '=', intval($sys_language_uid));
+            $sql->prepareWhereFields($this->getTableObj(), 'sys_language_uid', '=', intval($sys_language_uid));
 
             $enableFields = $this->getTableObj()->enableFields();
             $sql->where_clause .= $enableFields;
@@ -84,14 +86,15 @@ class tx_ttproducts_content extends tx_ttproducts_table_base {
             $tmp = $this->dataPageArray[$pid];
             $rcArray = (is_array($tmp) ? $tmp : []);
         }
+
         return $rcArray;
     }
 
     // returns the Path of all categories above, separated by '/'
-    public function getCategoryPath ($uid) {
+    public function getCategoryPath($uid)
+    {
         $rc = '';
 
         return $rc;
     }
 }
-

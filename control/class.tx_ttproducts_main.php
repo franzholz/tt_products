@@ -30,27 +30,26 @@
  * main loop
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
 
+use JambageCom\Div2007\Utility\FrontendUtility;
+use JambageCom\TtProducts\Api\PluginApi;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
-use JambageCom\Div2007\Utility\FrontendUtility;
-
-use JambageCom\TtProducts\Api\PluginApi;
-
-class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
-        // Internal
+class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface
+{
+    // Internal
     public $uid_list = '';			// List of existing uid's from the basket, set by initBasket()
     public $orderRecord = [];		// Will hold the order record if fetched.
 
-        // Internal: init():
+    // Internal: init():
     public $conf;
     public $tt_product_single = [];
     public $control;			// object for the control of the application
@@ -72,7 +71,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
      *
      * @var array
      */
-    static protected $uncachedCodes = [
+    protected static $uncachedCodes = [
         'BASKET',
         'BILL',
         'DELIVERY',
@@ -86,7 +85,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
         'OVERVIEW',
         'PAYMENT',
         'SEARCH',
-        'TRACKING'
+        'TRACKING',
     ];
 
     public $cObj;
@@ -97,14 +96,15 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
     }
 
     /**
-     * does the initialization stuff
+     * does the initialization stuff.
      *
      * @param	string		content string
      * @param	string		configuration array
      * @param	string		modified configuration array
+     *
      * @return	  bool		if true processing should be done
      */
-    public function init (
+    public function init(
         &$conf,
         &$config,
         &$cObj,
@@ -126,7 +126,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
         $flexformArray = PluginApi::getFlexform();
         $flexformTyposcript = \JambageCom\Div2007\Utility\FlexformUtility::get($flexformArray, 'myTS');
 
-        if($flexformTyposcript) {
+        if ($flexformTyposcript) {
             $tsparser = GeneralUtility::makeInstance(
                 \TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser::class
             );
@@ -138,8 +138,8 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
             $conf = $tsparser->setup;
         }
         $this->pibaseClass = $pibaseClass;
-        $conf['code'] = $conf['code'] ?? '';
-        $conf['code.'] = $conf['code.'] ?? [];
+        $conf['code'] ??= '';
+        $conf['code.'] ??= [];
 
         $config['code'] =
             \JambageCom\Div2007\Utility\ConfigUtility::getSetupOrFFvalue(
@@ -207,7 +207,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
             $conf
         );
 
-            // initialise AJAX at the beginning because the AJAX functions can set piVars
+        // initialise AJAX at the beginning because the AJAX functions can set piVars
         if (!$bRunAjax) {
             $result = PluginApi::initAjax(
                 $this->ajax,
@@ -253,11 +253,11 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
         }
 
         if (!$bRunAjax && \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('taxajax')) {
-            if(!empty($_POST['xajax'])) {
+            if (!empty($_POST['xajax'])) {
                 global $trans;
                 $trans = $this;
                 $this->ajax->taxajax->processRequests();
-                exit();
+                exit;
             }
         }
 
@@ -281,7 +281,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 
                     if ($bParamValIsInt) {
                         $this->tt_product_single[$param] = intval($paramVal);
-                    } else if (!is_array($paramVal)) {
+                    } elseif (!is_array($paramVal)) {
                         $error_detail = $param;
                         break;
                     }
@@ -291,6 +291,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
             if ($error_detail != '') {
                 $errorCode[0] = 'wrong_' . $error_detail;
                 $errorCode[1] = htmlspecialchars($paramVal);
+
                 return false;
             }
         }
@@ -301,16 +302,16 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
             T3JQUERY === true
         ) {
             tx_t3jquery::addJqJS();
-        } else if (!empty($conf['pathToJquery'])) {
-        // if none of the previous is true, you need to include your own library
+        } elseif (!empty($conf['pathToJquery'])) {
+            // if none of the previous is true, you need to include your own library
             $GLOBALS['TSFE']->additionalHeaderData[TT_PRODUCTS_EXT . '-jquery'] = '<script src="' . GeneralUtility::getFileAbsFileName($conf['pathToJquery']) . '" type="text/javascript" ></script>';
         }
 
         return $result;
     } // init
 
-
-    public function destruct () {
+    public function destruct()
+    {
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $tablesObj->destruct();
 
@@ -320,8 +321,8 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
         }
     }
 
-
-    public function run (&$cObj, $pibaseClass, &$errorCode, $content = '', $bRunAjax = false) {
+    public function run(&$cObj, $pibaseClass, &$errorCode, $content = '', $bRunAjax = false)
+    {
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $conf = $cnf->getConf();
         $config = $cnf->getConfig();
@@ -352,7 +353,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
             $this->codeArray = ['HELP'];
         }
 
-        if ((\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('taxajax'))) {
+        if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('taxajax')) {
             if ($bRunAjax) {
                 // TODO: get AJAX configuration
             } else {
@@ -466,8 +467,8 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
         $content = '';
         $tableArray = array_keys($tablesObj->getTableClassArray());
 
-        foreach($this->codeArray as $theCode) {
-            $theCode = (string) trim($theCode);
+        foreach ($this->codeArray as $theCode) {
+            $theCode = (string)trim($theCode);
             $contentTmp = '';
             if ($conf['fe']) {
                 $templateCode =
@@ -483,7 +484,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 
             $bHidePlugin = false;
 
-            foreach($tableArray as $functablename) {
+            foreach ($tableArray as $functablename) {
                 $tableConf = $cnf->getTableConf($functablename, $theCode);
                 if (!empty($tableConf)) {
                     $hideIds = '';
@@ -496,10 +497,10 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 
                     if ($functablename == 'tt_products_cat') {
                         if (isset($tableConf['hideChildless'])) {
-                            $hideChildless = (boolean) $tableConf['hideChildless'];
+                            $hideChildless = (bool)$tableConf['hideChildless'];
                         }
                         if (isset($tableConf['hideZero'])) {
-                            $hideZero = (boolean) $tableConf['hideZero'];
+                            $hideZero = (bool)$tableConf['hideZero'];
                         }
                     }
 
@@ -531,7 +532,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
                                     $categoryTable = $tablesObj->get($categoryfunctablename, false);
                                     foreach ($currentArray as $currentUid) {
                                         $childs =
-                                            $categoryTable->getAllChildCats (
+                                            $categoryTable->getAllChildCats(
                                                 $config['pid_list'],
                                                 '',
                                                 $currentUid
@@ -556,7 +557,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
                 continue;
             }
 
-            switch($theCode) {
+            switch ($theCode) {
                 case 'CONTROL': // this will come with tt_products 3.1
                     continue 2;
                     break;
@@ -596,7 +597,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
                             $errorMessage,
                             $errorCode
                         );
-                break;
+                    break;
                 case 'LISTCAT':
                 case 'LISTDAMCAT':
                 case 'LISTAD':
@@ -636,17 +637,17 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
                             !\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($addressExtKeyTable[$tablename])
                         ) {
                             $languageObj->getLabel('extension_missing');
-                            $messageArr =  explode('|', $message);
+                            $messageArr = explode('|', $message);
                             $errorMessage = $messageArr[0] . $addressExtKeyTable[$tablename] . $messageArr[1];
-                        } else if (!$tablename) {
+                        } elseif (!$tablename) {
                             $message = $languageObj->getLabel('setup_missing');
-                            $messageArr =  explode('|', $message);
+                            $messageArr = explode('|', $message);
                             $errorMessage = $messageArr[0] . 'table.address' . $messageArr[1];
                         }
-                    } else if (substr($theCode, -6, 6) == 'DAMCAT') {
+                    } elseif (substr($theCode, -6, 6) == 'DAMCAT') {
                         $functablename = 'tx_dam_cat';
-                    } else if (substr($theCode, -3, 3) == 'CAT') {
-                        if ($this->pageAsCategory)	{
+                    } elseif (substr($theCode, -3, 3) == 'CAT') {
+                        if ($this->pageAsCategory) {
                             $functablename = 'pages';
                         } else {
                             $functablename = 'tt_products_cat';
@@ -657,13 +658,13 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
                         $templateArea = $codeTemplateArray[$theCode];
                         if (substr($theCode, 0, 6) == 'SELECT') {
                             $categoryClass = 'tx_ttproducts_selectcat_view';
-                        } else if (substr($theCode, 0, 4) == 'LIST') {
+                        } elseif (substr($theCode, 0, 4) == 'LIST') {
                             $categoryClass = 'tx_ttproducts_catlist_view';
-                        } else if (substr($theCode, 0, 4) == 'MENU') {
+                        } elseif (substr($theCode, 0, 4) == 'MENU') {
                             $categoryClass = 'tx_ttproducts_menucat_view';
                         }
 
-                            // category view
+                        // category view
                         $categoryView = GeneralUtility::makeInstance($categoryClass);
                         $categoryView->init(
                             $cObj,
@@ -685,7 +686,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
                             $basketRecs
                         );
                     }
-                break;
+                    break;
                 case 'SINGLE':
                     $contentTmp =
                         $this->products_display(
@@ -697,7 +698,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
                             $errorMessage,
                             $errorCode
                         );
-                break;
+                    break;
                 case 'BASKET':
                 case 'FINALIZE':
                 case 'INFO':
@@ -708,8 +709,8 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
                     }
                     $contentTmp = $contentBasket;
                     $contentBasket = '';
-                        // nothing here any more. This work is done in the control processing before
-                        // This line is necessary because some activities might have overriden these CODEs
+                    // nothing here any more. This work is done in the control processing before
+                    // This line is necessary because some activities might have overriden these CODEs
                     break;
                 case 'BILL':
                 case 'DELIVERY':
@@ -724,7 +725,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
                             $theCode,
                             $conf
                         );
-                break;
+                    break;
                 case 'MEMO':
                 case 'MEMODAM':
                 case 'MEMODAMOVERVIEW':
@@ -747,7 +748,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
                             $this->pid,
                             $errorCode
                         );
-                break;
+                    break;
                 case 'DOWNLOAD':
                     tx_ttproducts_control_access::getVariables(
                         $conf,
@@ -768,7 +769,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
                     );
                     $onlyProductsWithFalOrders = $conf['downloadViewOnlyProductsFal'];
 
-                        // order view
+                    // order view
                     $orderView = $tablesObj->get('sys_products_orders', true);
                     $contentTmp = $orderView->printDownloadView(
                         $pibaseClass,
@@ -784,7 +785,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
                         $onlyProductsWithFalOrders,
                         $errorCode
                     );
-                break;
+                    break;
                 case 'ORDERS':
                     if (!$bRunAjax && $this->convertToUserInt($cObj)) {
                         return '';
@@ -797,7 +798,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
                         $trackingCode
                     );
 
-                        // order view
+                    // order view
                     $orderView = $tablesObj->get('sys_products_orders', true);
                     $contentTmp = $orderView->printView(
                         $pibaseClass,
@@ -812,7 +813,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
                         $trackingCode,
                         $errorCode
                     );
-                break;
+                    break;
                 case 'SINGLECAT':
                 case 'SINGLEDAMCAT':
                 case 'SINGLEAD':
@@ -837,23 +838,25 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
                             $config['templateSuffix']
                         );
                     }
-                break;
+                    break;
                 case 'SCRIPT':
                     $contentTmp = '';
-                break;
+                    break;
                 case 'TEST':
                     $contentTmp = '';
 
                     $test = 0;
-                    if (!$test) continue 2;
+                    if (!$test) {
+                        continue 2;
+                    }
 
                     $scriptPath = '';
                     $defaultSettings = [];
 
                     $buildScriptOptions = $defaultSettings;
                     $paramString = '';
-                    foreach($buildScriptOptions as $param => $value) {
-                        if(strlen($value) > 0) {
+                    foreach ($buildScriptOptions as $param => $value) {
+                        if (strlen($value) > 0) {
                             $value = '"' . $value . '"';
                         }
                         $paramsString .= ' ' . $param . ' ' . $value;
@@ -874,7 +877,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
                     $commandOut = exec($scriptCall, $output);
                     $contentTmp = '<br>TEST:' . $scriptCall . '</br><br/><br>' . $commandOut . '<br/>';
 
-                        // Call all test hooks
+                    // Call all test hooks
                     if (
                         isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['test']) &&
                         is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['test'])
@@ -883,7 +886,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
                             if (count($errorCode)) {
                                 break;
                             }
-                            $hookObj= GeneralUtility::makeInstance($classRef);
+                            $hookObj = GeneralUtility::makeInstance($classRef);
                             if (method_exists($hookObj, 'test')) {
                                 $contentTmp .= $hookObj->test(
                                     $this,
@@ -900,7 +903,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
                             }
                         }
                     }
-                break;
+                    break;
                 case 'USER1':
                 case 'USER2':
                 case 'USER3':
@@ -916,7 +919,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
                             $templateCode,
                             $theCode
                         );
-                break;
+                    break;
                 default:	// 'HELP'
                     if (!$bRunAjax && $this->convertToUserInt($cObj)) {
                         return '';
@@ -933,14 +936,12 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
             }
 
             if (!empty($errorCode[0])) {
-
                 $errorConf = [];
                 if (isset($this->conf['error.'])) {
                     $errorConf = $this->conf['error.'];
                 }
 
                 foreach ($errorCode as $key => $indice) {
-
                     if (
                         isset($errorConf[$indice . '.']) &&
                         isset($errorConf[$indice . '.']['redirect.']) &&
@@ -998,7 +999,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
                         $pibaseObj->prefixId,
                         $cObj->data['uid'] ?? ''
                     );
-            } else if (!$bErrorFound) {
+            } elseif (!$bErrorFound) {
                 $content .= $contentTmp;
             }
 
@@ -1051,9 +1052,8 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
             $result = '';
         }
 
-        $showConfigurationError = 
+        $showConfigurationError =
             $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['error']['configuration'];
-
 
         if ($showConfigurationError && !$conf['defaultSetup']) {
             $result .= '<h1>Error: The default tt_products setup is missing.</h1>';
@@ -1061,7 +1061,6 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 
         $control = tx_ttproducts_control_basket::readControl();
         if ($control) {
-
             $control['pid'] = $GLOBALS['TSFE']->id;
             tx_ttproducts_control_basket::writeControl($control);
         }
@@ -1071,16 +1070,16 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
         return $result;
     }
 
-
     /**
      * Converts the plugin to USER_INT if it is not USER_INT already. After
      * calling this function the plugin should return if the function returns
      * true. The content will be ignored and the plugin will be called again
      * later as USER_INT.
      *
-     * @return boolean true if the plugin should return immediately
+     * @return bool true if the plugin should return immediately
      */
-    protected function convertToUserInt (&$cObj) {
+    protected function convertToUserInt(&$cObj)
+    {
         $result = false;
         if (
             method_exists($cObj, 'getUserObjectType') &&
@@ -1091,23 +1090,21 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
             unset($cObj->data['_original_pi_flexform']);
             $result = true;
         }
+
         return $result;
     }
 
-
-    public function set_no_cache () {
+    public function set_no_cache()
+    {
         // Should never be used!
     }
 
-
     /**
-     * Order tracking
+     * Order tracking.
      *
-     *
-     * @param	integer		Code: TRACKING, BILL or DELIVERY
-     * @return	void
+     * @param	int		Code: TRACKING, BILL or DELIVERY
      */
-    public function products_tracking (
+    public function products_tracking(
         &$errorCode,
         $templateCode,
         $theCode,
@@ -1203,7 +1200,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
                         $content = '<a href="' . $relfilename . '" >' . $message . '</a>';
                         break;
                     default:
-                        debug ('error in '.TT_PRODUCTS_EXT.' calling function products_tracking with $theCode = "' . $theCode . '"'); // keep this
+                        debug('error in ' . TT_PRODUCTS_EXT . ' calling function products_tracking with $theCode = "' . $theCode . '"'); // keep this
                 }
             } else {	// ... else output error page
                 $subpartMarker = '###TRACKING_WRONG_NUMBER###';
@@ -1223,6 +1220,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
                 $errorCode[0] = 'no_subtemplate';
                 $errorCode[1] = '###' . $subpartMarker . $templateObj->getTemplateSuffix() . '###';
                 $errorCode[2] = $templateObj->getTemplateFile();
+
                 return '';
             }
 
@@ -1240,24 +1238,24 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
             );
 
         $content = $templateService->substituteMarkerArray($content, $markerArray);
+
         return $content;
     }  // products_tracking
 
-
-    public function setSingleFromList ($bValue) {
+    public function setSingleFromList($bValue)
+    {
         $this->bSingleFromList = $bValue;
     }
 
-
-    public function getSingleFromList () {
+    public function getSingleFromList()
+    {
         return $this->bSingleFromList;
     }
 
-
     /**
-     * Displaying single products/ the products list / searching
+     * Displaying single products/ the products list / searching.
      */
-    public function products_display (
+    public function products_display(
         $cObj,
         $basketExtra,
         $basketRecs,
@@ -1275,15 +1273,13 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 
         if (
             (
-                (
-                    ($theCode == 'SEARCH') && $conf['listViewOnSearch'] == '1' ||
-                    (strpos($theCode, 'LIST') !== false)
-                ) &&
-                $theCode != 'LISTARTICLES' &&
-                count($this->tt_product_single) &&
-                !$conf['NoSingleViewOnList'] &&
-                !$this->getSingleFromList()
-            )
+                ($theCode == 'SEARCH') && $conf['listViewOnSearch'] == '1' ||
+                (strpos($theCode, 'LIST') !== false)
+            ) &&
+            $theCode != 'LISTARTICLES' &&
+            count($this->tt_product_single) &&
+            !$conf['NoSingleViewOnList'] &&
+            !$this->getSingleFromList()
         ) {
             $this->setSingleFromList(true);
             $bSingleFromList = true;
@@ -1300,7 +1296,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
             if (!count($this->tt_product_single)) {
                 if ($conf['defaultProductID']) {
                     $this->tt_product_single['product'] = $conf['defaultProductID'];
-                } else if ($conf['defaultArticleID']) {
+                } elseif ($conf['defaultArticleID']) {
                     $this->tt_product_single['article'] = $conf['defaultArticleID'];
                 }
             }
@@ -1316,7 +1312,6 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
             }
 
             if (!is_object($this->singleView)) {
-
                 // List single product:
                 $this->singleView = GeneralUtility::makeInstance('tx_ttproducts_single_view');
             }
@@ -1340,12 +1335,12 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
             $ctrlContent = $cObj->cObjGetSingle($conf['SINGLECTRL'], $conf['SINGLECTRL.']);
             $content .= $ctrlContent;
         } else {
-    // page where to usually go
+            // page where to usually go
             $pid = ($conf['PIDbasket'] && $conf['clickIntoBasket'] ? $conf['PIDbasket'] : $GLOBALS['TSFE']->id);
 
             // List all products:
             $listView = GeneralUtility::makeInstance('tx_ttproducts_list_view');
-            $listView->init (
+            $listView->init(
                 $pid,
                 $this->tt_product_single,
                 $config['pid_list'],
@@ -1360,7 +1355,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
 
             if ($theCode == 'LISTARTICLES' && $conf['useArticles']) {
                 $functablename = 'tt_products_articles';
-            } else if ($theCode == 'LISTDAM') {
+            } elseif ($theCode == 'LISTDAM') {
                 $functablename = 'tx_dam';
             } else {
                 $functablename = 'tt_products';
@@ -1388,5 +1383,3 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface {
         return $content;
     }	// products_display
 }
-
-

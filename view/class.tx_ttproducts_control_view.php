@@ -30,27 +30,30 @@
  * functions for the control of views
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class tx_ttproducts_control_view {
-
+class tx_ttproducts_control_view
+{
     /**
      * Template marker substitution
-     * Fills in the markerArray with data for a country
+     * Fills in the markerArray with data for a country.
      *
      * @param	array		reference to an item array with all the data of the item
      * @param	array		marker array
+     *
      * @return	array
+     *
      * @access private
      */
-    function getMarkerArray (&$markerArray, &$allMarkers, $tableConfArray) {
+    public function getMarkerArray(&$markerArray, &$allMarkers, $tableConfArray)
+    {
         if (isset($tableConfArray) && is_array($tableConfArray)) {
             $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
             $allValueArray = [];
@@ -58,12 +61,10 @@ class tx_ttproducts_control_view {
             $separator = ';';
 
             foreach ($tableConfArray as $functablename => $tableConf) {
-
                 if (isset($tableConf['view.']) && is_array($tableConf['view.'])) {
                     foreach ($tableConf['view.'] as $type => $typeConf) {
-
                         if (is_array($typeConf)) {
-                            $type = substr($type,0,strpos($type,'.'));
+                            $type = substr($type, 0, strpos($type, '.'));
                             foreach ($typeConf as $numberx => $numberConf) {
                                 $number = substr($numberx, 0, strpos($numberx, '.'));
                                 $markerkey = strtoupper($type) . $number;
@@ -77,7 +78,6 @@ class tx_ttproducts_control_view {
             }
 
             if (isset($allValueArray) && is_array($allValueArray)) {
-
                 foreach ($allValueArray as $key => $xValueArray) {
                     $keyArray = GeneralUtility::trimExplode($separator, $key);
                     $type = $keyArray[0];
@@ -97,7 +97,7 @@ class tx_ttproducts_control_view {
                             $attributeArray,
                             ''
                         );
-                    } else if ($type == 'filterInput') {
+                    } elseif ($type == 'filterInput') {
                         $out = tx_ttproducts_form_div::createTag(
                             'input',
                             tx_ttproducts_model_control::getPrefixId() . '[' . tx_ttproducts_model_control::getControlVar() . '][' . $keyArray[0] . '][' . $keyArray[1] . ']',
@@ -105,7 +105,7 @@ class tx_ttproducts_control_view {
                             $attributeArray
                         );
                     }
-                    $markerkey = strtoupper($keyArray[0]  . $keyArray[1]);
+                    $markerkey = strtoupper($keyArray[0] . $keyArray[1]);
                     $markerArray['###' . $markerkey . '_LABEL###'] = $xValueArray['label'];
                     $markerArray['###' . $markerkey . '###'] = $out;
                 }
@@ -113,4 +113,3 @@ class tx_ttproducts_control_view {
         }
     } // function getMarkerArray
 }
-

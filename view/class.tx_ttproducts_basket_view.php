@@ -34,22 +34,22 @@
  * @author	Franz Holzinger <franz@ttproducts.de>
  * @author	Klaus Zierer <zierer@pz-systeme.de>
  * @author	Els Verberne <verberne@bendoo.nl>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
-
-use TYPO3\CMS\Core\Context\Context;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 use JambageCom\Div2007\Utility\CompatibilityUtility;
 use JambageCom\Div2007\Utility\ErrorUtility;
 use JambageCom\Div2007\Utility\FrontendUtility;
 use JambageCom\TtProducts\Api\PaymentShippingHandling;
+use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
+class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface
+{
     public $conf;
     public $config;
     public $price; // price object
@@ -59,15 +59,11 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
     public $errorCode;
     public $useArticles;
 
-
     /**
      * Initialized the basket, setting the deliveryInfo if a users is logged in
-     * $basketObj is the TYPO3 default shopping basket array from ses-data
-     *
-     * @param	string		  $fieldname is the field in the table you want to create a JavaScript for
-     * @return	  void
+     * $basketObj is the TYPO3 default shopping basket array from ses-data.
      */
-    public function init (
+    public function init(
         $useArticles,
         $errorCode,
         $urlArray = []
@@ -79,8 +75,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
         $this->urlObj->setUrlArray($urlArray);
     } // init
 
-
-    public function getMarkerArray (
+    public function getMarkerArray(
         $basketExtra,
         $calculatedArray,
         $taxArray
@@ -92,7 +87,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $conf = $cnf->conf;
 
-            // This is the total for the goods in the basket.
+        // This is the total for the goods in the basket.
         $markerArray['###PRICE_GOODSTOTAL_TAX###'] = $priceViewObj->priceFormat($calculatedArray['priceTax']['goodstotal']['ALL'] + $calculatedArray['deposittax']['goodstotal']['ALL']);
         $markerArray['###PRICE_GOODSTOTAL_NO_TAX###'] = $priceViewObj->priceFormat($calculatedArray['priceNoTax']['goodstotal']['ALL'] + $calculatedArray['depositnotax']['goodstotal']['ALL']);
         $markerArray['###PRICE_GOODSTOTAL_ONLY_TAX###'] = $priceViewObj->priceFormat($calculatedArray['priceTax']['goodstotal']['ALL'] - $calculatedArray['priceNoTax']['goodstotal']['ALL'] + $calculatedArray['deposittax']['goodstotal']['ALL'] - $calculatedArray['depositnotax']['goodstotal']['ALL']);
@@ -137,7 +132,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
                     $markerArray['###PRICE_TAXRATE_ONLY_TAX' . ($k + 1) . '###'] = $label;
 
                     $label = $priceViewObj->priceFormat(($calculatedArray['priceNoTax']['goodssametaxtotal']['ALL'][$taxstr] +
-                    ($calculatedArray['depositnotax']['goodssametaxtotal']['ALL'][$taxstr]) ?? 0) * ($taxrate / 100));
+                    $calculatedArray['depositnotax']['goodssametaxtotal']['ALL'][$taxstr] ?? 0) * ($taxrate / 100));
                     $markerArray['###PRICE_TAXRATE_GOODSTOTAL_ONLY_TAX' . ($k + 1) . '###'] = $label;
                 } else {
                     $zeroPrice = $priceViewObj->priceFormat(0);
@@ -157,8 +152,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
         return $markerArray;
     }
 
-
-    static public function getDiscountSubpartArray(
+    public static function getDiscountSubpartArray(
         &$subpartArray,
         &$wrappedSubpartArray,
         $calculatedArray
@@ -171,8 +165,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
         }
     }
 
-
-    public function getBoundaryMarkerArray (
+    public function getBoundaryMarkerArray(
         $templateCode,
         $cObj,
         $cnf,
@@ -220,13 +213,12 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
                 ) {
                     $subpartArray['###MESSAGE_' . $markerKey . '###'] = '';
                     $tmpSubpart = $templateService->getSubpart($templateCode, '###MESSAGE_' . $markerKey . '_ERROR###');
-                    $subpartArray['###MESSAGE_' . $markerKey . '_ERROR###'] = $templateService->substituteMarkerArray($tmpSubpart,  $markerArray);
+                    $subpartArray['###MESSAGE_' . $markerKey . '_ERROR###'] = $templateService->substituteMarkerArray($tmpSubpart, $markerArray);
                     $priceSuccessArray[$boundaryType] = false;
                 }
             }
 
             if ($priceSuccessArray[$boundaryType]) {
-
                 $subpartArray['###MESSAGE_' . $markerKey . '_ERROR###'] = '';
                 $tmpSubpart = $templateService->getSubpart($templateCode, '###MESSAGE_' . $markerKey . '###');
                 $subpartArray['###MESSAGE_' . $markerKey . '###'] = $templateService->substituteMarkerArray($tmpSubpart, $markerArray);
@@ -240,12 +232,11 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
         }
     }
 
-
     /**
      * This generates the shopping basket layout and also calculates the totals. Very important function.
      * TODO: basket view must not make any complex reading of data of articles. Only the itemarray of the basket should be treated with at all.
      */
-    public function getView (
+    public function getView(
         &$errorCode,
         $templateCode,
         $theCode,
@@ -264,13 +255,13 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
         $basketExtra = [],
         $basketRecs = []
     ) {
-            /*
+        /*
 
-                Very central function in the library.
-                By default it extracts the subpart, ###BASKET_TEMPLATE###, from the $templateCode (if given, else the default $this->templateCode)
-                and substitutes a lot of fields and subparts.
-                Any pre-preparred fields can be set in $mainMarkerArray, which is substituted in the subpart before the item-and-categories part is substituted.
-            */
+            Very central function in the library.
+            By default it extracts the subpart, ###BASKET_TEMPLATE###, from the $templateCode (if given, else the default $this->templateCode)
+            and substitutes a lot of fields and subparts.
+            Any pre-preparred fields can be set in $mainMarkerArray, which is substituted in the subpart before the item-and-categories part is substituted.
+        */
         $out = '';
         $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
         $calculationField = \JambageCom\TtProducts\Model\Field\FieldInterface::PRICE_CALCULATED;
@@ -332,9 +323,10 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
             $templateObj = GeneralUtility::makeInstance('tx_ttproducts_template');
             $errorCode[0] = 'empty_template';
             $errorCode[1] = ($templateFilename ? $templateFilename : $templateObj->getTemplateFile());
+
             return '';
         }
-            // Getting subparts from the template code.
+        // Getting subparts from the template code.
         $t = [];
 
         $tempContent =
@@ -405,7 +397,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
         if (isset($mainMarkerArray) && is_array($mainMarkerArray)) {
             $markerArray = array_merge($markerArray, $mainMarkerArray);
         }
-            // add Global Marker Array
+        // add Global Marker Array
         $globalMarkerArray = $markerObj->getGlobalMarkerArray();
         $markerArray = array_merge($markerArray, $globalMarkerArray);
 
@@ -427,7 +419,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
         $subpartEmptyArray = [
             'EMAIL_PLAINTEXT_TEMPLATE_SHOP',
             'EMAIL_HTML_TEMPLATE_SHOP',
-            'BASKET_ORDERCONFIRMATION_NOSAVE_TEMPLATE'
+            'BASKET_ORDERCONFIRMATION_NOSAVE_TEMPLATE',
         ];
 
         if (
@@ -438,6 +430,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
             $errorCode[0] = 'no_subtemplate';
             $errorCode[1] = '###' . $subpartMarker . $templateObj->getTemplateSuffix() . '###';
             $errorCode[2] = ($templateFilename ? $templateFilename : $templateObj->getTemplateFile());
+
             return '';
         }
 
@@ -449,6 +442,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
                     $errorCode[0] = 'template_invalid_marker_border';
                     $errorCode[1] = '###' . $subpartMarker . '###';
                     $errorCode[2] = htmlspecialchars(implode('|', $matches['0']));
+
                     return '';
                 }
             }
@@ -457,7 +451,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
                 $t['basketFrameWork'] = html_entity_decode($t['basketFrameWork'], ENT_QUOTES);
             }
 
-                // If there is a specific section for the billing address if user is logged in (used because the address may then be hardcoded from the database
+            // If there is a specific section for the billing address if user is logged in (used because the address may then be hardcoded from the database
             if (
                 trim(
                     $templateService->getSubpart(
@@ -478,8 +472,8 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
             $t['item'] = $templateService->getSubpart($t['itemFrameWork'], '###ITEM_SINGLE###');
             $t['taxes'] = $templateService->getSubpart($t['basketFrameWork'], '###COUNTRY_TAXRATES###');
 
-            $currentP='';
-            $itemsOut='';
+            $currentP = '';
+            $itemsOut = '';
             $viewTagArray = [];
             $markerFieldArray = ['BULKILY_WARNING' => 'bulkily',
                 'PRODUCT_SPECIAL_PREP' => 'special_preparation',
@@ -500,8 +494,10 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 
             if ($this->useArticles == 0) {
                 if (
-                    strpos($t['item'],
-                    $articleViewObj->getMarker()) !== false
+                    strpos(
+                        $t['item'],
+                        $articleViewObj->getMarker()
+                    ) !== false
                 ) {
                     $bCopyProduct2Article = true;
                 }
@@ -593,7 +589,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
                             [
                                 'rec' => $row,
                                 'limitQuantity' => $minQuantity,
-                                'quantity' => $quantity
+                                'quantity' => $quantity,
                             ];
                     }
                     if ($maxQuantity != '0.00' && $quantity > $maxQuantity) {
@@ -601,7 +597,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
                             [
                                 'rec' => $row,
                                 'limitQuantity' => $maxQuantity,
-                                'quantity' => $quantity
+                                'quantity' => $quantity,
                             ];
                     }
                     $count++;
@@ -620,7 +616,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
                     $pidcategory = ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['pageAsCategory'] == 1 ? $pid : '');
                     $currentPnew = $pidcategory . '_' . $actItem['rec']['category'];
 
-                        // Print Category Title
+                    // Print Category Title
                     if ($currentPnew != $currentP) {
                         if ($itemsOut) {
                             $out .=
@@ -648,7 +644,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
                                 $catTmp = $tablesObj->get('tt_products_cat')->get($actItem['rec']['category']);
                                 $catTmp = $catTmp['title'] ?? '';
                             }
-                            $catTitle = $pageCatTitle.$catTmp;
+                            $catTitle = $pageCatTitle . $catTmp;
                             $cObj->setCurrentVal($catTitle);
                             $markerArray['###CATEGORY_TITLE###'] =
                                 $cObj->cObjGetSingle(
@@ -659,7 +655,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 
                             $categoryQuantity = $basketObj->getCategoryQuantity();
 
-                                // compatible with bill/delivery
+                            // compatible with bill/delivery
                             $currentCategory = $row['category'];
                             $markerArray['###CATEGORY_QTY###'] = $categoryQuantity[$currentCategory];
 
@@ -672,7 +668,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
                             $out .= $templateService->substituteMarkerArray($t['categoryFrameWork'], $markerArray);
                         }
                     }
-                        // Fill marker arrays
+                    // Fill marker arrays
                     $wrappedSubpartArray = [];
                     $subpartArray = [];
                     $markerArray = [];
@@ -711,7 +707,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
                     $catTitle = $catRow['title'] ?? '';
                     $tmp = [];
 
-                        // use the product if no article row has been found
+                    // use the product if no article row has been found
                     $prodVariantRow = $row;
 
                     if (isset($actItem[$calculationField])) {
@@ -761,12 +757,12 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
                                 is_array($extArray['mergeArticles'])
                             ) {
                                 $prodVariantRow = $extArray['mergeArticles'];
-                            } else if (
+                            } elseif (
                                 isset($extArray[$articleTable->getFuncTablename()]) &&
                                 is_array($extArray[$articleTable->getFuncTablename()])
                             ) {
                                 $articleExtArray = $extArray[$articleTable->getFuncTablename()];
-                                foreach($articleExtArray as $k => $articleData) {
+                                foreach ($articleExtArray as $k => $articleData) {
                                     $articleRows[$k] = $articleTable->get($articleData['uid']);
                                 }
                             } else {
@@ -781,7 +777,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
                             is_array($articleRows) &&
                             !empty($articleRows)
                         ) {
-                            $bKeepNotEmpty = (boolean) $conf['keepProductData']; // Auskommentieren nicht möglich wenn mehrere Artikel dem Produkt zugewiesen werden
+                            $bKeepNotEmpty = (bool)$conf['keepProductData']; // Auskommentieren nicht möglich wenn mehrere Artikel dem Produkt zugewiesen werden
 
                             if ($this->useArticles == 3) {
                                 $itemTable->fillVariantsFromArticles(
@@ -790,7 +786,6 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
                                 $itemTable->getVariant()->modifyRowFromVariant($prodVariantRow);
                             }
                             foreach ($articleRows as $articleRow) {
-
                                 $itemTable->mergeAttributeFields(
                                     $prodVariantRow,
                                     $articleRow,
@@ -900,10 +895,10 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 
                     $pricecredits_total_totunits_no_tax = 0;
                     $pricecredits_total_totunits_tax = 0;
-                    if ($row['category'] == ($conf['creditsCategory'] ?? -1 )) {
+                    if ($row['category'] == ($conf['creditsCategory'] ?? -1)) {
                         // creditpoint system start
                         $pricecredits_total_totunits_no_tax = $actItem['totalNoTax'] * ($row['unit_factor'] ?? 0);
-                        $pricecredits_total_totunits_tax = $actItem['totalTax'] * ( $row['unit_factor'] ?? 0);
+                        $pricecredits_total_totunits_tax = $actItem['totalTax'] * ($row['unit_factor'] ?? 0);
                     }
                     $markerArray['###PRICE_TOTAL_TOTUNITS_NO_TAX###'] = $priceViewObj->priceFormat($pricecredits_total_totunits_no_tax);
                     $markerArray['###PRICE_TOTAL_TOTUNITS_TAX###'] = $priceViewObj->priceFormat($pricecredits_total_totunits_tax);
@@ -946,9 +941,9 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
                         $damItem = [];
                         $damItem['rec'] = $damRow;
                         $damCategoryArray =
-                            $tablesObj->get('tx_dam_cat')->getCategoryArray ($damRow);
+                            $tablesObj->get('tx_dam_cat')->getCategoryArray($damRow);
                         if (!empty($damCategoryArray)) {
-                            reset ($damCategoryArray);
+                            reset($damCategoryArray);
                             $damCat = current($damCategoryArray);
                         }
 
@@ -1015,7 +1010,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
                     $wrappedSubpartArray['###LINK_ITEM###'] =
                         [
                             '<a class="singlelink" href="' . htmlspecialchars($tempUrl) . '"' . $css_current . '>',
-                            '</a>'
+                            '</a>',
                         ];
 
                     if (is_object($itemTableView->getVariant())) {
@@ -1036,10 +1031,9 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
                         $useBackPid,
                         $subpartArray,
                         $wrappedSubpartArray
-                    
                     );
 
-                // workaround for TYPO3 bug #44270
+                    // workaround for TYPO3 bug #44270
                     $tempContent = $templateService->substituteMarkerArrayCached(
                         $t['item'],
                         [],
@@ -1091,7 +1085,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
                 isset($taxRateArray[$shopCountryArray['country_code']])
             ) {
                 $taxArray = $taxRateArray[$shopCountryArray['country_code']];
-            } else if (
+            } elseif (
                 isset($taxRateArray) &&
                 is_array($taxRateArray)
             ) {
@@ -1107,7 +1101,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
                     $taxArray
                 );
 
-                // Initializing the markerArray for the rest of the template
+            // Initializing the markerArray for the rest of the template
             $markerArray = $mainMarkerArray;
             $markerArray = array_merge($markerArray, $basketMarkerArray);
             $activityArray = tx_ttproducts_model_activity::getActivityArray();
@@ -1116,7 +1110,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
                 $activity = '';
                 if (!empty($activityArray['products_payment'])) {
                     $activity = 'payment';
-                } else if (!empty($activityArray['products_info'])) {
+                } elseif (!empty($activityArray['products_info'])) {
                     $activity = 'info';
                 }
                 if ($activity) {
@@ -1134,7 +1128,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
                 isset($viewParamConf) &&
                 is_array($viewParamConf) &&
                 !empty($viewParamConf['ignore'])
-            ){
+            ) {
                 $excludeList = $viewParamConf['ignore'];
             }
 
@@ -1154,10 +1148,10 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
             );
 
             $htmlUrl = htmlspecialchars(
-                    $url,
-                    ENT_NOQUOTES,
-                    'UTF-8'
-                );
+                $url,
+                ENT_NOQUOTES,
+                'UTF-8'
+            );
 
             $wrappedSubpartArray['###LINK_BASKET###'] = ['<a href="' . $htmlUrl . '">', '</a>'];
 
@@ -1172,7 +1166,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 
             // for receipt from DIBS script
             $markerArray['###TRANSACT_CODE###'] = GeneralUtility::_GP('transact');
-            $markerArray['###CUR_SYM###'] = ' ' . ($bHtml ?  htmlentities($conf['currencySymbol'], ENT_QUOTES) : $conf['currencySymbol']);
+            $markerArray['###CUR_SYM###'] = ' ' . ($bHtml ? htmlentities($conf['currencySymbol'], ENT_QUOTES) : $conf['currencySymbol']);
             $discountValue = tx_ttproducts_basket_calculate::getRealDiscount($calculatedArray, true);
 
             $markerArray['###PRICE_TAX_DISCOUNT###'] = $markerArray['###PRICE_DISCOUNT_TAX###'] = $priceViewObj->priceFormat($discountValue);
@@ -1204,7 +1198,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
             $billdeliveryObj->getMarkerArray($markerArray, $trackingCode, 'bill');
             $billdeliveryObj->getMarkerArray($markerArray, $trackingCode, 'delivery');
 
-                // URL
+            // URL
             $markerArray = $this->urlObj->addURLMarkers(
                 0,
                 $markerArray,
@@ -1220,16 +1214,15 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 
             $pricefactor = tx_ttproducts_creditpoints_div::getPriceFactor($conf);
 
-    /* Added els6: do not execute the redeeming of the gift certificate if template = OVERVIEW */
+            // Added els6: do not execute the redeeming of the gift certificate if template = OVERVIEW
             if ($subpartMarker != 'BASKET_OVERVIEW_TEMPLATE') {
+                // Added Franz: GIFT CERTIFICATE
+                $markerArray['###GIFT_CERTIFICATE_UNIQUE_NUMBER_NAME###'] = 'recs[tt_products][giftcode]'; // deprecated
+                $markerArray['###FORM_NAME###'] = 'BasketForm';
+                $markerArray['###FORM_NAME_GIFT_CERTIFICATE###'] = 'BasketGiftForm';
 
-    // Added Franz: GIFT CERTIFICATE
-                $markerArray['###GIFT_CERTIFICATE_UNIQUE_NUMBER_NAME###']='recs[tt_products][giftcode]'; // deprecated
-                $markerArray['###FORM_NAME###']='BasketForm';
-                $markerArray['###FORM_NAME_GIFT_CERTIFICATE###']='BasketGiftForm';
-
-    /* Added els5: markerarrays for gift certificates */
-    /* Added Els6: routine for redeeming the gift certificate (other way then proposed by Franz */
+                // Added els5: markerarrays for gift certificates
+                // Added Els6: routine for redeeming the gift certificate (other way then proposed by Franz
                 $markerArray['###INSERT_GIFTCODE###'] = 'recs[tt_products][giftcode]';
                 $markerArray['###VALUE_GIFTCODE###'] = htmlspecialchars($basketObj->recs['tt_products']['giftcode'] ?? '');
                 $cpArray = tx_ttproducts_control_session::readSession('cp');
@@ -1250,8 +1243,8 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
                         $subpartArray['###SUB_GIFTCODE_DISCOUNT_true###'] = '';
                     }
                 } else {
-                    $uniqueId = GeneralUtility::trimExplode ('-', $basketObj->recs['tt_products']['giftcode'], true);
-                    $query='uid=\'' . intval($uniqueId[0]) . '\' AND crdate=\'' . intval($uniqueId[1]) . '\'';
+                    $uniqueId = GeneralUtility::trimExplode('-', $basketObj->recs['tt_products']['giftcode'], true);
+                    $query = 'uid=\'' . intval($uniqueId[0]) . '\' AND crdate=\'' . intval($uniqueId[1]) . '\'';
                     $giftRes = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tt_products_gifts', $query);
                     $row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($giftRes);
                     $GLOBALS['TYPO3_DB']->sql_free_result($giftRes);
@@ -1260,7 +1253,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
                     $markerArray['###VALUE_GIFTCODE_USED###'] = htmlspecialchars($basketObj->recs['tt_products']['giftcode'] ?? '');
 
                     if ($row && $creditpointsGifts && $pricefactor > 0) {
-                        $subpartArray['###SUB_GIFTCODE_DISCOUNTWRONG###']= '';
+                        $subpartArray['###SUB_GIFTCODE_DISCOUNTWRONG###'] = '';
                         if ($creditpointsGifts == '') {
                             $subpartArray['###SUB_GIFTCODE_DISCOUNT_true###'] = '';
                         }
@@ -1272,9 +1265,10 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
                     }
                 }
             }
-            $amountCreditpoints = (            
+            $amountCreditpoints = (
                 CompatibilityUtility::isLoggedIn()
- ? $GLOBALS['TSFE']->fe_user->user['tt_products_creditpoints'] : 0) + intval($creditpointsGifts);
+ ? $GLOBALS['TSFE']->fe_user->user['tt_products_creditpoints'] : 0
+            ) + intval($creditpointsGifts);
             $markerArray['###AMOUNT_CREDITPOINTS###'] = $amountCreditpoints;
             $autoCreditpointsTotal = (CompatibilityUtility::isLoggedIn() ? $GLOBALS['TSFE']->fe_user->user['tt_products_creditpoints'] : 0);
 
@@ -1297,10 +1291,10 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
             $max2_creditpoints = 0;
 
             if ($pricefactor > 0) {
-                $max2_creditpoints = intval (($calculatedArray['priceTax']['total']['ALL'] - $calculatedArray['priceTax']['vouchertotal']['ALL']) / $pricefactor );
+                $max2_creditpoints = intval(($calculatedArray['priceTax']['total']['ALL'] - $calculatedArray['priceTax']['vouchertotal']['ALL']) / $pricefactor);
             }
             // real maximum amount of creditpoint to change is minimum of both maximums
-            $markerArray['###AMOUNT_CREDITPOINTS_MAX###'] = number_format(min($max1_creditpoints,$max2_creditpoints), 0);
+            $markerArray['###AMOUNT_CREDITPOINTS_MAX###'] = number_format(min($max1_creditpoints, $max2_creditpoints), 0);
 
             // if quantity is 0 than
             if ($amountCreditpoints == '0') {
@@ -1318,19 +1312,19 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
             if (empty($basketObj->recs['tt_products']['creditpoints'])) {
                 $markerArray['###AMOUNT_CREDITPOINTS_QTY###'] = 0;
                 $subpartArray['###SUB_CREDITPOINTS_DISCOUNT###'] = '';
-    /* Added Els8: put credit_discount 0 for plain text email */
+                // Added Els8: put credit_discount 0 for plain text email
                 $markerArray['###CREDIT_DISCOUNT###'] = '0.00';
             } else {
                 // quantity chosen can not be larger than the maximum amount, above calculated
-                if ($basketObj->recs['tt_products']['creditpoints'] > min ($max1_creditpoints,$max2_creditpoints)) {
-                    $basketObj->recs['tt_products']['creditpoints'] = min ($max1_creditpoints, $max2_creditpoints);
+                if ($basketObj->recs['tt_products']['creditpoints'] > min($max1_creditpoints, $max2_creditpoints)) {
+                    $basketObj->recs['tt_products']['creditpoints'] = min($max1_creditpoints, $max2_creditpoints);
                 }
                 $markerArray['###AMOUNT_CREDITPOINTS_QTY###'] = number_format($basketObj->recs['tt_products']['creditpoints'], 0);
                 $subpartArray['###SUB_CREDITPOINTS_DISCOUNT_EMPTY###'] = '';
                 $markerArray['###CREDIT_DISCOUNT###'] = $priceViewObj->priceFormat($calculatedArray['priceTax']['creditpoints']);
             }
 
-    /* Added els5: CREDITPOINTS_SPENDED: creditpoint needed, check if user has this amount of creditpoints on his account (winkelwagen.tmpl), only if user has logged in */
+            // Added els5: CREDITPOINTS_SPENDED: creditpoint needed, check if user has this amount of creditpoints on his account (winkelwagen.tmpl), only if user has logged in
             $markerArray['###CREDITPOINTS_SPENDED###'] = $sum_pricecredits_total_totunits_no_tax;
             if ($sum_pricecredits_total_totunits_no_tax <= $amountCreditpoints) {
                 $subpartArray['###SUB_CREDITPOINTS_SPENDED_EMPTY###'] = '';
@@ -1385,7 +1379,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
                 }
             }
 
-            if (count($quantityArray['minimum']) || count($quantityArray['maximum'])/* || !$minPriceSuccess*/) {
+            if (count($quantityArray['minimum']) || count($quantityArray['maximum'])/* || !$minPriceSuccess */) {
                 $subpartArray['###MESSAGE_NO_ERROR###'] = '';
             } else {
                 $subpartArray['###MESSAGE_ERROR###'] = '';
@@ -1428,7 +1422,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 
             $wrappedSubpartArray['###LINK_AGB###'] = [
                 '<a href="' . htmlspecialchars($tempUrl) . '" target="' . $conf['AGBtarget'] . '">',
-                '</a>'
+                '</a>',
             ];
 
             $pidPrivacy = intval($conf['PIDprivacy']);
@@ -1447,7 +1441,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
                 );
             $wrappedSubpartArray['###LINK_PRIVACY###'] = [
                 '<a href="' . htmlspecialchars($tempUrl) . '" target="' . $conf['AGBtarget'] . '">',
-                '</a>'
+                '</a>',
             ];
 
             $pidRevocation = intval($conf['PIDrevocation']);
@@ -1468,10 +1462,10 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
 
             $wrappedSubpartArray['###LINK_REVOCATION###'] = [
                 '<a href="' . htmlspecialchars($tempUrl) . '" target="' . $conf['AGBtarget'] . '">',
-                '</a>'
+                '</a>',
             ];
 
-                // Final substitution:
+            // Final substitution:
             if (!\JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn()) {		// Remove section for FE_USERs only, if there are no fe_user
                 $subpartArray['###FE_USER_SECTION###'] = '';
             }
@@ -1496,55 +1490,41 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
             );
 
             $priceCalcMarkerArray = [
-                'PRICE_TOTAL_TAX' =>
-                    $calculatedArray['priceTax']['total']['ALL'] +
+                'PRICE_TOTAL_TAX' => $calculatedArray['priceTax']['total']['ALL'] +
                     $calculatedArray['deposittax']['goodstotal']['ALL'],
-                'PRICE_TOTAL_NO_TAX' =>
-                    $calculatedArray['priceNoTax']['total']['ALL'] +
+                'PRICE_TOTAL_NO_TAX' => $calculatedArray['priceNoTax']['total']['ALL'] +
                     $calculatedArray['depositnotax']['goodstotal']['ALL'],
-                'PRICE_TOTAL_0_TAX' =>
-                    $calculatedArray['price0Tax']['total']['ALL'] +
+                'PRICE_TOTAL_0_TAX' => $calculatedArray['price0Tax']['total']['ALL'] +
                     $calculatedArray['depositnotax']['goodstotal']['ALL'],
-                'PRICE_TOTAL_ONLY_TAX' =>
-                    $calculatedArray['priceTax']['total']['ALL'] -
+                'PRICE_TOTAL_ONLY_TAX' => $calculatedArray['priceTax']['total']['ALL'] -
                     $calculatedArray['priceNoTax']['total']['ALL'] +
                     $calculatedArray['deposittax']['goodstotal']['ALL'] -
                     $calculatedArray['depositnotax']['goodstotal']['ALL'],
-                'PRICE_GOODSTOTAL_0_TAX' =>
-                    $calculatedArray['price0Tax']['goodstotal']['ALL'],
-                'PRICE_GOODSTOTAL_0_NO_TAX' =>
-                    $calculatedArray['price0NoTax']['goodstotal']['ALL'],
-                'PRICE_VOUCHERTOTAL_TAX' =>
-                    $calculatedArray['priceTax']['vouchertotal']['ALL'] +
+                'PRICE_GOODSTOTAL_0_TAX' => $calculatedArray['price0Tax']['goodstotal']['ALL'],
+                'PRICE_GOODSTOTAL_0_NO_TAX' => $calculatedArray['price0NoTax']['goodstotal']['ALL'],
+                'PRICE_VOUCHERTOTAL_TAX' => $calculatedArray['priceTax']['vouchertotal']['ALL'] +
                     $calculatedArray['deposittax']['goodstotal']['ALL'],
-                'PRICE_VOUCHERTOTAL_NO_TAX' =>
-                    $calculatedArray['priceNoTax']['vouchertotal']['ALL'] +
+                'PRICE_VOUCHERTOTAL_NO_TAX' => $calculatedArray['priceNoTax']['vouchertotal']['ALL'] +
                     $calculatedArray['depositnotax']['goodstotal']['ALL'],
-                'PRICE_VOUCHERGOODSTOTAL_TAX' =>
-                    $calculatedArray['priceTax']['vouchergoodstotal']['ALL'] +
+                'PRICE_VOUCHERGOODSTOTAL_TAX' => $calculatedArray['priceTax']['vouchergoodstotal']['ALL'] +
                     $calculatedArray['deposittax']['goodstotal']['ALL'],
-                'PRICE_VOUCHERGOODSTOTAL_NO_TAX' =>
-                    $calculatedArray['priceNoTax']['vouchergoodstotal']['ALL'] +
+                'PRICE_VOUCHERGOODSTOTAL_NO_TAX' => $calculatedArray['priceNoTax']['vouchergoodstotal']['ALL'] +
                     $calculatedArray['depositnotax']['goodstotal']['ALL'],
-                'PRICE_TOTAL_TAX_WITHOUT_PAYMENT' =>
-                    $calculatedArray['priceTax']['total']['ALL'] +
+                'PRICE_TOTAL_TAX_WITHOUT_PAYMENT' => $calculatedArray['priceTax']['total']['ALL'] +
                     $calculatedArray['deposittax']['goodstotal']['ALL'] -
                     $calculatedArray['payment']['priceTax'],
-                'PRICE_TOTAL_NO_TAX_WITHOUT_PAYMENT' =>
-                    $calculatedArray['priceNoTax']['total']['ALL'] +
+                'PRICE_TOTAL_NO_TAX_WITHOUT_PAYMENT' => $calculatedArray['priceNoTax']['total']['ALL'] +
                         $calculatedArray['depositnotax']['goodstotal']['ALL'] -
                         $calculatedArray['payment']['priceNoTax'],
-                'PRICE_TOTAL_TAX_CENT' =>
-                    intval(round(100 * $calculatedArray['priceTax']['total']['ALL'])),
-                'PRICE_VOUCHERTOTAL_TAX_CENT' =>
-                    intval(
-                        round(
-                            100 * (
-                                $calculatedArray['priceTax']['vouchertotal']['ALL'] +
-                                $calculatedArray['deposittax']['goodstotal']['ALL']
-                            )
+                'PRICE_TOTAL_TAX_CENT' => intval(round(100 * $calculatedArray['priceTax']['total']['ALL'])),
+                'PRICE_VOUCHERTOTAL_TAX_CENT' => intval(
+                    round(
+                        100 * (
+                            $calculatedArray['priceTax']['vouchertotal']['ALL'] +
+                            $calculatedArray['deposittax']['goodstotal']['ALL']
                         )
                     )
+                ),
             ];
 
             foreach ($priceCalcMarkerArray as $markerKey => $value) {
@@ -1585,7 +1565,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
                         foreach ($taxInfoArray as $countryCode => $taxArray) {
                             foreach ($taxArray as $k => $taxRow) {
                                 $theTax = $taxRow['tx_rate'] * 0.01;
-                                $markerKey = 'STATICTAX_' . ($taxId) . '_' . ($k + 1);
+                                $markerKey = 'STATICTAX_' . $taxId . '_' . ($k + 1);
                                 $staticTaxMarkerArray = [];
 
                                 $staticTaxViewObj->getRowMarkerArray(
@@ -1615,7 +1595,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
                                 $countrySubpartArray = [];
                                 $countryWrappedSubpartArray = [];
                                 foreach ($staticTaxMarkerArray as $key => $value) {
-                                    $countryMarkerKey =  str_replace($markerKey, 'STATICTAX', $key);
+                                    $countryMarkerKey = str_replace($markerKey, 'STATICTAX', $key);
                                     $countryMarkerArray[$countryMarkerKey] = $value;
                                 }
 
@@ -1632,11 +1612,11 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
                                 $priceArray['priceTax'] = $priceArray['priceNoTax'] * (1 + $theTax);
                                 $priceArray['onlyTax'] = $priceArray['priceTax'] - $priceArray['priceNoTax'];
                                 $priceCalcMarkerArray2 = [
-                                    'PRICE_TOTAL_ONLY_TAX' => $priceArray['onlyTax']
+                                    'PRICE_TOTAL_ONLY_TAX' => $priceArray['onlyTax'],
                                 ];
 
                                 foreach ($priceCalcMarkerArray2 as $markerKey => $value) {
-                                    $markerArray['###STATICTAX_' . ($taxId) . '_' . ($k + 1) . '_' . $markerKey . '###'] = $countryMarkerArray['###' . $markerKey . '###'] = $priceViewObj->priceFormat($value);
+                                    $markerArray['###STATICTAX_' . $taxId . '_' . ($k + 1) . '_' . $markerKey . '###'] = $countryMarkerArray['###' . $markerKey . '###'] = $priceViewObj->priceFormat($value);
                                 }
 
                                 $countryMarkerArray['###COUNTRY_CODE###'] = $countryCode;
@@ -1650,7 +1630,6 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
                             }
                         }
                     } // $t['taxes']
-
 
                     foreach ($viewTaxTagArray as $theTag => $v1) {
                         if (!isset($markerArray['###' . $theTag . '###'])) {
@@ -1680,13 +1659,13 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
                 $wrappedSubpartArray
             );
 
-                // Call all getBasketView hooks at the end of this method
+            // Call all getBasketView hooks at the end of this method
             if (
                 isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['getBasketView']) &&
                 is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['getBasketView'])
             ) {
                 foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['getBasketView'] as $classRef) {
-                    $hookObj= GeneralUtility::makeInstance($classRef);
+                    $hookObj = GeneralUtility::makeInstance($classRef);
                     if (method_exists($hookObj, 'getMarkerArrays')) {
                         $hookObj->getMarkerArrays(
                             $this,
@@ -1749,13 +1728,13 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
                 $wrappedSubpartArray
             );
 
-                // This cObject may be used to call a function which manipulates the shopping basket based on settings in an external order system. The output is included in the top of the order (HTML) on the basket-page.
-            $externalCObject =  \JambageCom\Div2007\Utility\ObsoleteUtility::getExternalCObject($this, 'externalProcessing');
+            // This cObject may be used to call a function which manipulates the shopping basket based on settings in an external order system. The output is included in the top of the order (HTML) on the basket-page.
+            $externalCObject = \JambageCom\Div2007\Utility\ObsoleteUtility::getExternalCObject($this, 'externalProcessing');
 
             $markerArray['###EXTERNAL_COBJECT###'] = $externalCObject . '';  // adding extra preprocessing CObject
 
- // workaround for TYPO3 bug #44270
-                // substitute the main subpart with the rendered content.
+            // workaround for TYPO3 bug #44270
+            // substitute the main subpart with the rendered content.
             $frameWork =
                 $templateService->substituteMarkerArrayCached(
                     $frameWork,
@@ -1768,10 +1747,8 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface {
                     $frameWork,
                     $markerArray
                 ); // workaround for TYPO3 bug
-
         } // if ($t['basketFrameWork'])
 
         return $out;
     } // getView
 }
-

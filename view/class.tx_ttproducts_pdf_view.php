@@ -31,28 +31,28 @@
  * functions for the creation of PDF files
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
  */
 
- 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-
-class tx_ttproducts_pdf_view {
-
+class tx_ttproducts_pdf_view
+{
     /**
-     * generates the bill as a PDF file
+     * generates the bill as a PDF file.
      *
      * @param	string		reference to an item array with all the data of the item
+     *
      * @return	string / boolean	returns the absolute filename of the PDF bill or false
      * 		 			for the tt_producst record, $row
+     *
      * @access private
      */
-    public function generate (
+    public function generate(
         $cObj,
         $basketView,
         $infoViewObj,
@@ -84,7 +84,7 @@ class tx_ttproducts_pdf_view {
                     $itemObj = GeneralUtility::makeInstance('tx_ttproducts_basketitem');
                     $path = $pathsite . $generationConf['handleLib.']['path'];
 
-                    GeneralUtility::requireOnce ($path . '/src/PhpWord/Autoloader.php');
+                    GeneralUtility::requireOnce($path . '/src/PhpWord/Autoloader.php');
                     \PhpOffice\PhpWord\Autoloader::register();
 
                     $phpWord = new \PhpOffice\PhpWord\PhpWord();
@@ -232,13 +232,12 @@ class tx_ttproducts_pdf_view {
                         $document->setValue('header_' . ($k + 1), $header);
                     }
 
-                    $name = $nameInfo['dirname'] . '/' . $nameInfo['filename'] . '-out'. '.docx';
+                    $name = $nameInfo['dirname'] . '/' . $nameInfo['filename'] . '-out.docx';
                     $document->saveAs($name);
-                    GeneralUtility::requireOnce ($path . '/samples/Sample_Footer.php');
+                    GeneralUtility::requireOnce($path . '/samples/Sample_Footer.php');
                     $phpWord = \PhpOffice\PhpWord\IOFactory::load($name);
 
                     if (is_array($generationConf['handleLib.']['rendererLibrary.'])) {
-
                         $pathsite = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/';
                         $rendererName = \PhpOffice\PhpWord\Settings::PDF_RENDERER_DOMPDF;	//   PDF_RENDERER_MPDF PDF_RENDERER_TCPDF
                         $rendererLibraryPath = $pathsite . $generationConf['handleLib.']['rendererLibrary.']['path'];
@@ -259,4 +258,3 @@ class tx_ttproducts_pdf_view {
         return $result;
     }
 }
-

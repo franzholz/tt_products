@@ -30,17 +30,17 @@
  * edit variant interface
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
  */
+interface tx_ttproducts_edit_variant_view_int
+{
+    public function init($modelObj);
 
-
-interface tx_ttproducts_edit_variant_view_int {
-
-    public function init ($modelObj);
-    public function getSubpartMarkerArray (
+    public function getSubpartMarkerArray(
         $templateCode,
         $functablename,
         $row,
@@ -51,6 +51,3 @@ interface tx_ttproducts_edit_variant_view_int {
         &$wrappedSubpartArray
     );
 }
-
-
-

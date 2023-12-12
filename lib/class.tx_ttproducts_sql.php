@@ -30,27 +30,27 @@
  * functions for creating sql queries on arrays
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
-
-class tx_ttproducts_sql {
-    static public $comparatorConversionArray = [
+class tx_ttproducts_sql
+{
+    public static $comparatorConversionArray = [
         'le' => '<=',
         'lt' => '<',
         'ge' => '>=',
-        'gt' => '>'
+        'gt' => '>',
     ];
 
-
-    static public function transformComparator ($comparator) {
+    public static function transformComparator($comparator)
+    {
         $result = false;
 
         $convertedComparator = self::$comparatorConversionArray[$comparator];
@@ -61,8 +61,8 @@ class tx_ttproducts_sql {
         return $result;
     }
 
-
-    static public function getWhere4Field($tablename, $field, $comparator, $comparand) {
+    public static function getWhere4Field($tablename, $field, $comparator, $comparand)
+    {
         $result = '';
 
         if (isset($GLOBALS['TCA'][$tablename]) && isset($GLOBALS['TCA'][$tablename]['columns'][$field])) {
@@ -81,8 +81,8 @@ class tx_ttproducts_sql {
         return $result;
     }
 
-
-    static public function convertDate ($date) {
+    public static function convertDate($date)
+    {
         $result = false;
         $delimiter = '.';
 
@@ -101,45 +101,45 @@ class tx_ttproducts_sql {
                 $result = $unixTime;
             }
         }
+
         return $result;
     }
 
-
-    static public function isValid ($row, $where) {
-        $whereArray = GeneralUtility::trimExplode ('AND', $where);
+    public static function isValid($row, $where)
+    {
+        $whereArray = GeneralUtility::trimExplode('AND', $where);
         $isValid = true;
 
-        foreach($whereArray as $k3 => $condition) {
-
+        foreach ($whereArray as $k3 => $condition) {
             if (strpos($condition, '=') !== false) {
                 if ($condition == '1=1' || $condition == '1 = 1') {
                     // nothing: $isValid = true;
                 } else {
-                    $args = GeneralUtility::trimExplode ('=', $condition);
+                    $args = GeneralUtility::trimExplode('=', $condition);
 
                     if ($row[$args[0]] != $args[1]) {
                         $isValid = false;
                     }
                 }
-            } else if (strpos($condition, 'IN') !== false) {
+            } elseif (strpos($condition, 'IN') !== false) {
                 $split = 'IN';
                 $isValidRow = false;
                 if (strpos($condition, 'NOT IN') !== false) {
                     $split = 'NOT IN';
                     $isValidRow = true;
                 }
-                $args = GeneralUtility::trimExplode ($split, $condition);
-                $leftBracket = strpos($args[1],'(');
-                $rightBracket = strpos($args[1],')');
+                $args = GeneralUtility::trimExplode($split, $condition);
+                $leftBracket = strpos($args[1], '(');
+                $rightBracket = strpos($args[1], ')');
                 if ($leftBracket !== false && $rightBracket !== false) {
-                    $args[1] = substr($args[1], $leftBracket+1, $rightBracket-$leftBracket-1);
+                    $args[1] = substr($args[1], $leftBracket + 1, $rightBracket - $leftBracket - 1);
                     $argArray = GeneralUtility::trimExplode(',', $args[1]);
                     if (is_array($argArray)) {
-                        foreach($argArray as $arg) {
-                            $leftQuote = strpos($arg,'\'');
-                            $rightQuote = strrpos($arg,'\'');
+                        foreach ($argArray as $arg) {
+                            $leftQuote = strpos($arg, '\'');
+                            $rightQuote = strrpos($arg, '\'');
                             if ($leftQuote !== false && $rightQuote !== false) {
-                                $arg = substr($arg, $leftQuote+1, $rightQuote-$leftQuote-1);
+                                $arg = substr($arg, $leftQuote + 1, $rightQuote - $leftQuote - 1);
                             }
                             if ($row[$args[0]] == $arg) {
                                 if ($split == 'IN') {
@@ -154,7 +154,7 @@ class tx_ttproducts_sql {
                     }
                     $isValid = $isValidRow;
                 }
-            } else if (
+            } elseif (
                 strpos($condition, '<') !== false ||
                 strpos($condition, '>') !== false ||
                 strpos($condition, '=') !== false
@@ -199,17 +199,14 @@ class tx_ttproducts_sql {
                 } else {
                     $isValid = false;
                 }
-            } else if ($condition != '') {
+            } elseif ($condition != '') {
                 $isValid = false;
             }
             if ($isValid == false) {
                 break;
             }
         }
-        return ($isValid);
+
+        return $isValid;
     }
 }
-
-
-
-

@@ -1,4 +1,5 @@
 <?php
+
 namespace JambageCom\TtProducts\Model\Field;
 
 /*
@@ -15,14 +16,13 @@ namespace JambageCom\TtProducts\Model\Field;
  */
 
 /**
- * interface for database table fields
+ * interface for database table fields.
  */
 interface FieldInterface
 {
-    const DISCOUNT = 'discount';
-    const DISCOUNT_DISABLE = 'discount_disable';
-    const PRICE_CALCULATED = 'calc';
-    const PRICE_CALCULATED_ADDITION = 'calc_add';
-    const EXTERNAL_FIELD_PREFIX = 'tx_ttproducts_';
+    public const DISCOUNT = 'discount';
+    public const DISCOUNT_DISABLE = 'discount_disable';
+    public const PRICE_CALCULATED = 'calc';
+    public const PRICE_CALCULATED_ADDITION = 'calc_add';
+    public const EXTERNAL_FIELD_PREFIX = 'tx_ttproducts_';
 }
-

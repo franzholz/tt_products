@@ -1,8 +1,8 @@
 <?php
+
 defined('TYPO3') || die('Access denied.');
 
-call_user_func(function($extensionKey)
-{
+call_user_func(function ($extensionKey) {
     $tables = [
         'tt_products',
         'tt_products_language',
@@ -20,7 +20,7 @@ call_user_func(function($extensionKey)
         'sys_products_accounts',
         'sys_products_cards',
         'sys_products_orders',
-        'sys_file_reference'
+        'sys_file_reference',
     ];
 
     foreach ($tables as $table) {
@@ -36,7 +36,7 @@ call_user_func(function($extensionKey)
         'tt_products_texts',
         'sys_products_accounts',
         'sys_products_cards',
-        'sys_products_orders'
+        'sys_products_orders',
     ];
     $languageSubpath = '/Resources/Private/Language/';
 
@@ -45,7 +45,7 @@ call_user_func(function($extensionKey)
     }
 
     if (
-        defined ('TYPO3_MODE') &&
+        defined('TYPO3_MODE') &&
         TYPO3_MODE == 'BE'
     ) {
         $GLOBALS['TBE_MODULES_EXT']['xMOD_db_new_content_el']['addElClasses']['JambageCom\\TtProducts\\Controller\\Plugin\\WizardIcon'] = PATH_BE_TTPRODUCTS . 'Classes/Controller/Plugin/WizardIcon.php';
@@ -72,4 +72,3 @@ call_user_func(function($extensionKey)
         );
     }
 }, 'tt_products');
-

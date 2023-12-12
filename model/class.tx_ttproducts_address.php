@@ -30,22 +30,22 @@
  * functions for the frontend users addresses
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-class tx_ttproducts_address extends tx_ttproducts_category_base {
-
+class tx_ttproducts_address extends tx_ttproducts_category_base
+{
     /**
-     * Getting all address values into internal array
+     * Getting all address values into internal array.
      */
-    public function init ($functablename) {
+    public function init($functablename)
+    {
         $result = parent::init($functablename);
         if ($result) {
             $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
@@ -75,11 +75,12 @@ class tx_ttproducts_address extends tx_ttproducts_category_base {
                 $this->fieldArray = array_merge($this->fieldArray, $tabledesc);
             }
         }
+
         return $result;
     } // init
 
-
-    public function getRootCat () {
+    public function getRootCat()
+    {
         $result = $this->conf['rootAddressID'] ?? '';
 
         if ($result == '') {
@@ -89,8 +90,7 @@ class tx_ttproducts_address extends tx_ttproducts_category_base {
         return $result;
     }
 
-
-    public function getRelationArray (
+    public function getRelationArray(
         $dataArray,
         $excludeCats = '',
         $rootUids = '',
@@ -101,7 +101,6 @@ class tx_ttproducts_address extends tx_ttproducts_category_base {
 
         if (is_array($dataArray)) {
             foreach ($dataArray as $k => $row) {
-
                 $uid = $row['uid'];
                 foreach ($row as $field => $value) {
                     $relationArray[$uid][$field] = $value;
@@ -128,8 +127,8 @@ class tx_ttproducts_address extends tx_ttproducts_category_base {
         return $relationArray;
     }
 
-
-    public function fetchAddressArray ($itemArray) {
+    public function fetchAddressArray($itemArray)
+    {
         $result = [];
 
         foreach ($itemArray as $sort => $actItemArray) {
@@ -147,5 +146,3 @@ class tx_ttproducts_address extends tx_ttproducts_category_base {
         return $result;
     }
 }
-
-

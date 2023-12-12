@@ -30,29 +30,30 @@
  * functions for additional texts
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
  */
 
 use JambageCom\Div2007\Utility\FrontendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-class tx_ttproducts_text_view extends tx_ttproducts_table_base_view {
+class tx_ttproducts_text_view extends tx_ttproducts_table_base_view
+{
     public $marker = 'TEXT';
-
 
     /**
      * Template marker substitution
-     * Fills in the markerArray with data for a product
+     * Fills in the markerArray with data for a product.
      *
      * @param	array		reference to an item array with all the data of the item
      * @param	array		Returns a markerArray ready for substitution with information
+     *
      * @access private
      */
-    public function getRowsMarkerArray (
+    public function getRowsMarkerArray(
         $rowArray,
         &$markerArray,
         $parentMarker,
@@ -74,7 +75,7 @@ class tx_ttproducts_text_view extends tx_ttproducts_table_base_view {
 
                 if (FrontendUtility::hasRTEparser()) {
                     $value = FrontendUtility::RTEcssText($cObj, $value);
-                } else if (is_array($conf['parseFunc.'])) {
+                } elseif (is_array($conf['parseFunc.'])) {
                     $value = $cObj->parseFunc($value, $conf['parseFunc.']);
                 }
                 $markerArray['###' . $marker . '###'] = $value;
@@ -82,7 +83,6 @@ class tx_ttproducts_text_view extends tx_ttproducts_table_base_view {
                 $markerArray['###' . $markerTitle . '###'] = $row['title'];
             }
         }
-
 
         if (isset($tagArray) && is_array($tagArray)) {
             foreach ($tagArray as $tag) {
@@ -94,4 +94,3 @@ class tx_ttproducts_text_view extends tx_ttproducts_table_base_view {
         }
     }
 }
-

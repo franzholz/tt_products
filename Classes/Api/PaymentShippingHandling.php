@@ -36,59 +36,56 @@ namespace JambageCom\TtProducts\Api;
  * @author  René Fritz <r.fritz@colorcube.de>
  * @author  Franz Holzinger <franz@ttproducts.de>
  * @author  Klaus Zierer <zierer@pz-systeme.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
-
-
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\MathUtility;
 
 use JambageCom\Div2007\Utility\ExtensionUtility;
 use JambageCom\Div2007\Utility\FrontendUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 
+class PaymentShippingHandling
+{
+    public static $priceObj;	// price functions
+    protected static $typeArray = ['handling', 'shipping', 'payment'];
+    protected static $voucher;
 
-
-class PaymentShippingHandling {
-    static public $priceObj;	// price functions
-    static protected $typeArray = ['handling', 'shipping', 'payment'];
-    static protected $voucher;
-
-    static public function init ($priceObj, $voucher) {
+    public static function init($priceObj, $voucher)
+    {
         self::setPriceObj($priceObj);	// new independant price object
         self::setVoucher($voucher);
     }
 
-
-    static public function getTypeArray () {
+    public static function getTypeArray()
+    {
         return self::$typeArray;
     }
 
-
-    static public function setVoucher ($voucher) {
+    public static function setVoucher($voucher)
+    {
         self::$voucher = $voucher;
     }
 
-
-    static public function getVoucher () {
+    public static function getVoucher()
+    {
         self::$voucher;
     }
 
-
-    static public function setPriceObj ($value) {
+    public static function setPriceObj($value)
+    {
         self::$priceObj = $value;
     }
 
-
-    static public function getPriceObj () {
+    public static function getPriceObj()
+    {
         return self::$priceObj;
     }
 
-
-    static public function getScriptPrices (
+    public static function getScriptPrices(
         &$calculatedArray,
         &$itemArray,
         $basketExtra,
@@ -103,7 +100,7 @@ class PaymentShippingHandling {
             is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$hookVar][$pskey])
         ) {
             foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$hookVar][$pskey] as $classRef) {
-                $hookObj= GeneralUtility::makeInstance($classRef);
+                $hookObj = GeneralUtility::makeInstance($classRef);
                 if (method_exists($hookObj, 'init')) {
                     $hookObj->init();
                 }
@@ -120,8 +117,7 @@ class PaymentShippingHandling {
         }
     }
 
-
-    static protected function helperSubpartArray (
+    protected static function helperSubpartArray(
         $markerPrefix,
         $bActive,
         $keyMarker,
@@ -140,15 +136,15 @@ class PaymentShippingHandling {
         }
     }
 
-
     /**
      * Template marker substitution
-     * Fills in the subpartArray with data depending on payment and shipping
+     * Fills in the subpartArray with data depending on payment and shipping.
      *
      * @param	array		reference to an item array with all the data of the item
+     *
      * @access private
      */
-    static public function getSubpartArrays (
+    public static function getSubpartArrays(
         $basketExtra,
         $markerArray,
         &$subpartArray,
@@ -173,7 +169,7 @@ class PaymentShippingHandling {
             \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($handleLib)
         ) {
             $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
-                // Payment Transactor
+            // Payment Transactor
             \tx_transactor_api::init($languageObj, '', $conf);
 
             \tx_transactor_api::getItemMarkerSubpartArrays(
@@ -186,8 +182,7 @@ class PaymentShippingHandling {
             $subpartArray['###MESSAGE_PAYMENT_TRANSACTOR_YES###'] = '';
         }
 
-        foreach($typeArray as $k => $pskey) {
-
+        foreach ($typeArray as $k => $pskey) {
             if (in_array($pskey, $psArray)) {
                 $marker = strtoupper($pskey);
                 $markerPrefix = 'MESSAGE_' . $marker;
@@ -215,13 +210,12 @@ class PaymentShippingHandling {
         }
         $tagArray = $markerObj->getAllMarkers($framework);
 
-        foreach($typeArray as $k => $pskey) {
+        foreach ($typeArray as $k => $pskey) {
             $marker = strtoupper($pskey);
             $markerPrefix = 'MESSAGE_' . $marker;
 
             if (isset($conf[$pskey . '.']) && is_array($conf[$pskey . '.'])) {
-                foreach($conf[$pskey . '.'] as $k2 => $v2) {
-
+                foreach ($conf[$pskey . '.'] as $k2 => $v2) {
                     $k2int = substr($k2, 0, -1);
 
                     if (
@@ -269,10 +263,8 @@ class PaymentShippingHandling {
             }
             $bCheckNE = in_array($pskey, $psArray);
 
-            foreach($tagArray as $k3 => $v3) {
-
+            foreach ($tagArray as $k3 => $v3) {
                 if (strpos($k3, $markerPrefix) === 0 && !isset($subpartArray['###' . $k3 . '###'])) {
-
                     if ($bCheckNE && strpos($k3, '_NE_') !== false) {
                         $wrappedSubpartArray['###' . $k3 . '###'] = '';
                         $tmpSubpartArray[$pskey] = $templateService->getSubpart($framework, '###' . $k3 . '###');
@@ -281,7 +273,7 @@ class PaymentShippingHandling {
                                 $tmpSubpartArray[$pskey],
                                 $markerArray
                             );
-                    } else if (!isset($wrappedSubpartArray['###' . $k3 . '###'])) {
+                    } elseif (!isset($wrappedSubpartArray['###' . $k3 . '###'])) {
                         $subpartArray['###' . $k3 . '###'] = '';
                     }
                 }
@@ -291,8 +283,7 @@ class PaymentShippingHandling {
         }
     }
 
-
-    static protected function getTypeMarkerArray (
+    protected static function getTypeMarkerArray(
         $theCode,
         &$markerArray,
         $pskey,
@@ -350,8 +341,7 @@ class PaymentShippingHandling {
         $markerArray['###' . $markerkey . '_IMAGE###'] = $imageCode;
     }
 
-
-    static public function getMarkerArray (
+    public static function getMarkerArray(
         $theCode,
         &$markerArray,
         $pid,
@@ -391,15 +381,13 @@ class PaymentShippingHandling {
         $markerArray['###DELIVERYCOSTS###'] = $priceViewObj->priceFormat(self::getDeliveryCosts($calculatedArray));
 
         if (isset($basketExtra['handling.'])) {
-
-// 			foreach ($basketExtra['handling.'] as $k => $confArray)	{
-// 				$this->getTypeMarkerArray($markerArray, 'handling', $basketUrl);
-// 			}
+            // 			foreach ($basketExtra['handling.'] as $k => $confArray)	{
+            // 				$this->getTypeMarkerArray($markerArray, 'handling', $basketUrl);
+            // 			}
 
             foreach ($basketExtra['handling.'] as $k => $confArray) {
-                if (strpos($k,'.') == strlen($k) - 1) {
-
-                    $k1 = substr($k,0,strlen($k) - 1);
+                if (strpos($k, '.') == strlen($k) - 1) {
+                    $k1 = substr($k, 0, strlen($k) - 1);
                     if (
                         MathUtility::canBeInterpretedAsInteger($k1)
                     ) {
@@ -419,17 +407,18 @@ class PaymentShippingHandling {
         }
     }
 
-
     /**
      * Template marker substitution
-     * Fills in the markerArray with data for a product
+     * Fills in the markerArray with data for a product.
      *
      * @param	array		reference to an item array with all the data of the item
      * @param	array		marker array
+     *
      * @return	array
+     *
      * @access private
      */
-    static public function getModelMarkerArray (
+    public static function getModelMarkerArray(
         $theCode,
         $title,
         $value,
@@ -437,7 +426,7 @@ class PaymentShippingHandling {
         $activeArray,
         &$markerArray
     ) {
-            // Returns a markerArray ready for substitution with information for the tt_producst record, $row
+        // Returns a markerArray ready for substitution with information for the tt_producst record, $row
 
         $markerArray['###VALUE###'] = $value;
         $markerArray['###CHECKED###'] = ($value == implode('-', $activeArray) ? ' checked="checked"' : '');
@@ -445,11 +434,10 @@ class PaymentShippingHandling {
         $markerArray['###IMAGE###'] = $imageCode;
     }
 
-
     /**
-     * Generates a radio or selector box for payment shipping
+     * Generates a radio or selector box for payment shipping.
      */
-    static public function generateRadioSelect (
+    public static function generateRadioSelect(
         $theCode,
         $pskey,
         $subkey,
@@ -462,13 +450,13 @@ class PaymentShippingHandling {
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $conf = $cnf->getConf();
 
-/*
-            The conf-array for the payment/shipping/handling configuration has numeric keys for the elements
-            But there are also these properties:
-            .radio	  [boolean]	Enables radiobuttons instead of the default, selector-boxes
-            .wrap		[string]	<select>|</select> - wrap for the selectorboxes.  Only if .radio is false. See default value below
-            .template	[string]	Template string for the display of radiobuttons.  Only if .radio is true. See default below
-            */
+        /*
+                    The conf-array for the payment/shipping/handling configuration has numeric keys for the elements
+                    But there are also these properties:
+                    .radio	  [boolean]	Enables radiobuttons instead of the default, selector-boxes
+                    .wrap		[string]	<select>|</select> - wrap for the selectorboxes.  Only if .radio is false. See default value below
+                    .template	[string]	Template string for the display of radiobuttons.  Only if .radio is true. See default below
+                    */
         $cObj = FrontendUtility::getContentObjectRenderer();
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $active = $basketExtra[$pskey] ?? '';
@@ -556,8 +544,7 @@ class PaymentShippingHandling {
         $bWrapSelect = (count($confArray) > 1);
 
         if (is_array($confArray)) {
-            foreach($confArray as $key => $item) {
-
+            foreach ($confArray as $key => $item) {
                 if (
                     (!isset($item['show']) || $item['show']) &&
                     (
@@ -566,8 +553,8 @@ class PaymentShippingHandling {
                         intval($item['showLimit']) == 0
                     )
                 ) {
-                    if (empty($activeArray)) { 
-                    // TODO: Make it configurable if the first item of the payment/shipping setup shall automatically be made active.
+                    if (empty($activeArray)) {
+                        // TODO: Make it configurable if the first item of the payment/shipping setup shall automatically be made active.
                         $activeArray = [$key];
                     }
                     $addItems = [];
@@ -625,8 +612,7 @@ class PaymentShippingHandling {
                         is_array($addItems)
                     ) {
                         if ($type) {	// radio
-
-                            foreach($addItems as $k1 => $row) {
+                            foreach ($addItems as $k1 => $row) {
                                 $image = '';
                                 if (isset($item['image.'])) {
                                     $image = $item['image.'];
@@ -634,7 +620,6 @@ class PaymentShippingHandling {
                                 $title = $item['title'];
 
                                 if (is_array($row) && $tableName != '') {
-
                                     if (
                                         isset($itemTableView) &&
                                         is_object($itemTableView)
@@ -753,8 +738,8 @@ class PaymentShippingHandling {
         return $out;
     } // generateRadioSelect
 
-
-    static protected function matchCondition ($confArray, $calculatedArray, $key) {
+    protected static function matchCondition($confArray, $calculatedArray, $key)
+    {
         $result = true;
 
         if (
@@ -770,8 +755,7 @@ class PaymentShippingHandling {
         return $result;
     }
 
-
-    static public function getConfiguredPrice (
+    public static function getConfiguredPrice(
         $pskey,
         $subkey,
         $row,
@@ -796,9 +780,9 @@ class PaymentShippingHandling {
             $minPrice = 0;
             $priceNew = 0;
             if (isset($confArray['WherePIDMinPrice.'])) {
-                    // compare PIDList with values set in priceTaxWherePIDMinPrice in the SETUP
-                    // if they match, get the min. price
-                    // if more than one entry for priceTaxWherePIDMinPrice exists, the highest is value will be taken into account
+                // compare PIDList with values set in priceTaxWherePIDMinPrice in the SETUP
+                // if they match, get the min. price
+                // if more than one entry for priceTaxWherePIDMinPrice exists, the highest is value will be taken into account
                 foreach ($confArray['WherePIDMinPrice.'] as $minPricePID => $minPriceValue) {
                     foreach ($itemArray as $sort => $actItemArray) {
                         foreach ($actItemArray as $k1 => $actItem) {
@@ -825,13 +809,10 @@ class PaymentShippingHandling {
                         break;
                     }
                 }
-            } else if ($confArray['type'] == 'weight') {
-
+            } elseif ($confArray['type'] == 'weight') {
                 foreach ($confArray as $k1 => $price1) {
                     if (
-                        (
-                            MathUtility::canBeInterpretedAsInteger($k1)
-                        ) &&
+                        MathUtility::canBeInterpretedAsInteger($k1) &&
                         self::matchCondition($confArray, $calculatedArray, $k1) &&
                         ($calculatedArray['weight'] * 1000 >= $k1)
                     ) {
@@ -839,23 +820,21 @@ class PaymentShippingHandling {
                         break;
                     }
                 }
-            } else if ($confArray['type'] == 'price') {
+            } elseif ($confArray['type'] == 'price') {
                 foreach ($confArray as $k1 => $price1) {
                     if (
-                        (
-                            MathUtility::canBeInterpretedAsInteger($k1)
-                        ) &&
+                        MathUtility::canBeInterpretedAsInteger($k1) &&
                         $priceTotalTax >= $k1
                     ) {
                         $priceNew = $price1;
                         break;
                     }
                 }
-            } else if (
+            } elseif (
                 $confArray['type'] == 'objectMethod' &&
                 isset($confArray['class'])
             ) {
-                $obj= GeneralUtility::makeInstance($confArray['class']);
+                $obj = GeneralUtility::makeInstance($confArray['class']);
                 if (method_exists($obj, 'getConfiguredPrice')) {
                     $funcParams1 = $confArray['method.'];
                     $priceNew =
@@ -879,8 +858,8 @@ class PaymentShippingHandling {
                 }
             }
 
-            if(is_array($funcParams)) {
-                $hookObj= GeneralUtility::makeInstance($funcParams['class']);
+            if (is_array($funcParams)) {
+                $hookObj = GeneralUtility::makeInstance($funcParams['class']);
                 if (method_exists($hookObj, 'init')) {
                     $hookObj->init();
                 }
@@ -901,7 +880,7 @@ class PaymentShippingHandling {
                         $priceNoTax,
                         $funcParams
                     );
-                };
+                }
             }
 
             // compare the price to the min. price
@@ -912,8 +891,8 @@ class PaymentShippingHandling {
             $resetPrice = false;
 
             if (isset($confArray['noCostsAmount'])) {
-            // the total products price as from the payment/shipping is free
-                $noCostsAmount = (double) $confArray['noCostsAmount'];
+                // the total products price as from the payment/shipping is free
+                $noCostsAmount = (float)$confArray['noCostsAmount'];
                 if ($priceTotalTax >= $noCostsAmount) {
                     $resetPrice = true;
                 }
@@ -929,7 +908,7 @@ class PaymentShippingHandling {
             }
 
             if (isset($confArray['noCostsAmount.']) && isset($confArray['noCostsAmount.']['upTo'])) {
-                $noCostsAmount = (double) $confArray['noCostsAmount.']['upTo'];
+                $noCostsAmount = (float)$confArray['noCostsAmount.']['upTo'];
                 if ($priceTotalTax <= $noCostsAmount) {
                     $resetPrice = true;
                 }
@@ -972,8 +951,7 @@ class PaymentShippingHandling {
         }
     }
 
-
-    static public function getDiscountPrices (
+    public static function getDiscountPrices(
         $pskey,
         $confArray,
         $row,
@@ -991,7 +969,7 @@ class PaymentShippingHandling {
 
         if ($pskey == 'shipping') {
             $calcSetup = 'shippingcalc';
-        } else if ($pskey == 'handling') {
+        } elseif ($pskey == 'handling') {
             $calcSetup = 'handlingcalc';
         }
 
@@ -1059,8 +1037,7 @@ class PaymentShippingHandling {
         }
     }
 
-
-    static public function addItemShippingPrices (
+    public static function addItemShippingPrices(
         &$priceShippingTax,
         &$priceShippingNoTax,
         $row,
@@ -1068,20 +1045,18 @@ class PaymentShippingHandling {
         $basketRecs,
         $taxIncluded,
         $itemArray
-    )	{
-
+    ) {
         foreach ($itemArray as $sort => $actItemArray) {
-
             // $actItemArray = all items array
             foreach ($actItemArray as $k2 => $actItem) {
                 $row = $actItem['rec'];
-// 				$shippingPrice = $actItem['shipping'] + $row['shipping'];
-// 				$row['tax'] = $actItem['tax'];
+                // 				$shippingPrice = $actItem['shipping'] + $row['shipping'];
+                // 				$row['tax'] = $actItem['tax'];
 
-// 				if ($shippingPrice)	{
-// 					$priceShippingTax += $this->priceObj->getPrice($shippingPrice,true,$row,$taxIncluded,true);
-// 					$priceShippingNoTax += $this->priceObj->getPrice($shippingPrice,false,$row,$taxIncluded,true);
-// 				}
+                // 				if ($shippingPrice)	{
+                // 					$priceShippingTax += $this->priceObj->getPrice($shippingPrice,true,$row,$taxIncluded,true);
+                // 					$priceShippingNoTax += $this->priceObj->getPrice($shippingPrice,false,$row,$taxIncluded,true);
+                // 				}
 
                 if (!empty($row['bulkily'])) {
                     $value = floatval($basketExtra['shipping.']['bulkilyAddition'] ?? '') * $actItem['count'];
@@ -1112,8 +1087,7 @@ class PaymentShippingHandling {
         }
     }
 
-
-    static public function getPrices (
+    public static function getPrices(
         $basketExtra,
         $basketRecs,
         $taxIncluded,
@@ -1129,7 +1103,7 @@ class PaymentShippingHandling {
         &$calculatedArray,
         &$priceTax,
         &$priceNoTax,
-        &$resetPrice 
+        &$resetPrice
     ) {
         $cObj = FrontendUtility::getContentObjectRenderer();
 
@@ -1173,8 +1147,8 @@ class PaymentShippingHandling {
                 $resetPrice,
                 $tmp
             );
-        } else if (isset($basketConf['price'])) {
-            $priceAdd = doubleVal($basketConf['price']);
+        } elseif (isset($basketConf['price'])) {
+            $priceAdd = doubleval($basketConf['price']);
 
             if ($priceAdd) {
                 $priceTaxAdd =
@@ -1188,10 +1162,10 @@ class PaymentShippingHandling {
                         true
                     );
             } else {
-                $priceTaxAdd = doubleVal($basketConf['priceTax']);
+                $priceTaxAdd = doubleval($basketConf['priceTax']);
             }
             $priceTax += $priceTaxAdd;
-            $priceNoTaxAdd = doubleVal($basketConf['priceNoTax']);
+            $priceNoTaxAdd = doubleval($basketConf['priceNoTax']);
 
             if (!$priceNoTaxAdd) {
                 $priceNoTaxAdd =
@@ -1273,27 +1247,26 @@ class PaymentShippingHandling {
         }
     }
 
-
-    static public function getBasketConf (
+    public static function getBasketConf(
         $basketExtra,
         $pskey,
         $subkey = ''
     ) {
         $basketConf = [];
-        if (isset($basketExtra[$pskey.'.'])) {
+        if (isset($basketExtra[$pskey . '.'])) {
             if ($subkey != '' && !empty($basketExtra[$pskey . '.'][$subkey . '.'])) {
                 $basketConf = $basketExtra[$pskey . '.'][$subkey . '.'];
-            } else if (
+            } elseif (
                 isset($basketExtra[$pskey . '.'])
             ) {
                 $basketConf = $basketExtra[$pskey . '.'];
             }
         }
+
         return $basketConf;
     }
 
-
-    static public function getSpecialPrices (
+    public static function getSpecialPrices(
         $basketExtra,
         $basketRecs,
         $pskey,
@@ -1305,9 +1278,9 @@ class PaymentShippingHandling {
     ) {
         $basketConf = self::getBasketConf($basketExtra, $pskey, $subkey);
 
-        $perc = doubleVal($basketConf['percentOfGoodstotal'] ?? 0);
-        if ($perc)  {
-            $priceShipping = doubleVal(($calculatedArray['priceTax']['goodstotal']['ALL'] / 100) * $perc);
+        $perc = doubleval($basketConf['percentOfGoodstotal'] ?? 0);
+        if ($perc) {
+            $priceShipping = doubleval(($calculatedArray['priceTax']['goodstotal']['ALL'] / 100) * $perc);
             $dum = self::$priceObj->getPrice(
                 $basketExtra,
                 $basketRecs,
@@ -1346,13 +1319,12 @@ class PaymentShippingHandling {
 
             if ($calcScript) {
                 $confScript = $basketConf['calculationScript.'];
-                include($calcScript);
+                include $calcScript;
             }
         }
     }
 
-
-    static public function getPaymentShippingData (
+    public static function getPaymentShippingData(
         $basketExtra,
         $basketRecs,
         $conf,
@@ -1372,8 +1344,8 @@ class PaymentShippingHandling {
         $row = $shippingRow;
         $taxIncluded = self::$priceObj->getTaxIncluded();
 
-        $weigthFactor = doubleVal($basketExtra['shipping.']['priceFactWeight'] ?? 0);
-        if($weigthFactor > 0) {
+        $weigthFactor = doubleval($basketExtra['shipping.']['priceFactWeight'] ?? 0);
+        if ($weigthFactor > 0) {
             $priceShipping = $calculatedArray['weight'] * $weigthFactor;
             $priceShippingTax +=
                 self::$priceObj->getPrice(
@@ -1397,8 +1369,8 @@ class PaymentShippingHandling {
                 );
         }
 
-        $countFactor = doubleVal($basketExtra['shipping.']['priceFactCount'] ?? 0);
-        if($countFactor > 0) {
+        $countFactor = doubleval($basketExtra['shipping.']['priceFactCount'] ?? 0);
+        if ($countFactor > 0) {
             $priceShipping = $countTotal * $countFactor;
             $priceShippingTax +=
                 self::$priceObj->getPrice(
@@ -1458,7 +1430,6 @@ class PaymentShippingHandling {
         );
 
         if (!$resetPrice) {
-
             $discountArray = [];
             $basketConf = self::getBasketConf($basketExtra, 'shipping');
 
@@ -1477,14 +1448,14 @@ class PaymentShippingHandling {
             );
         }
 
-            // Payment
+        // Payment
         $pricePayment = $pricePaymentTax = $pricePaymentNoTax = 0;
         $taxpercentage = '';
         $row = $paymentRow;
         $payment = 0;
-        $perc = doubleVal($basketExtra['payment.']['percentOfTotalShipping'] ?? 0);
+        $perc = doubleval($basketExtra['payment.']['percentOfTotalShipping'] ?? 0);
         if ($perc) {
-            $payment = ($calculatedArray['priceTax']['goodstotal']['ALL'] + $calculatedArray['shipping']['priceTax'] ) * doubleVal($perc);
+            $payment = ($calculatedArray['priceTax']['goodstotal']['ALL'] + $calculatedArray['shipping']['priceTax']) * doubleval($perc);
         }
 
         if ($payment) {
@@ -1545,18 +1516,17 @@ class PaymentShippingHandling {
         );
     } // getPaymentShippingData
 
-
-    static public function getHandlingData (
-            $basketExtra,
-            $basketRecs,
-            $conf,
-            $iso3Seller,
-            $iso3Buyer,
-            $countTotal,
-            $priceTotalTax,
-            &$calculatedArray,
-            $itemArray
-        ) {
+    public static function getHandlingData(
+        $basketExtra,
+        $basketRecs,
+        $conf,
+        $iso3Seller,
+        $iso3Buyer,
+        $countTotal,
+        $priceTotalTax,
+        &$calculatedArray,
+        $itemArray
+    ) {
         $taxIncluded = self::$priceObj->getTaxIncluded();
 
         if (
@@ -1570,10 +1540,9 @@ class PaymentShippingHandling {
             }
 
             foreach ($basketExtra[$pskey . '.'] as $k => $handlingRow) {
-
                 if (strpos($k, '.') == strlen($k) - 1) {
                     $k1 = substr($k, 0, strlen($k) - 1);
-                    if  (
+                    if (
                         MathUtility::canBeInterpretedAsInteger($k1)
                     ) {
                         $tax =
@@ -1639,11 +1608,10 @@ class PaymentShippingHandling {
         }
     } // getHandlingData
 
-
     /**
-     * Include handle script
+     * Include handle script.
      */
-    static public function includeHandleScript (
+    public static function includeHandleScript(
         $handleScript,
         $confScript,
         $activity,
@@ -1653,15 +1621,15 @@ class PaymentShippingHandling {
     ) {
         $content = '';
 
-        include($handleScript);
+        include $handleScript;
+
         return $content;
     } // includeHandleScript
 
-
     /**
-     * get the TAXpercentage from the shipping if available
+     * get the TAXpercentage from the shipping if available.
      */
-    static public function getTaxPercentage (
+    public static function getTaxPercentage(
         $basketExtra,
         $pskey = 'shipping',
         $subkey = ''
@@ -1676,7 +1644,7 @@ class PaymentShippingHandling {
             isset($basketExtra[$pskey . '.']['TAXpercentage'])
         ) {
             $result = doubleval($basketExtra[$pskey . '.']['TAXpercentage']);
-        } else if (
+        } elseif (
             $subkey != '' &&
             !empty($basketExtra[$pskey . '.']) &&
             isset($basketExtra[$pskey . '.'][$subkey . '.']) &&
@@ -1690,7 +1658,7 @@ class PaymentShippingHandling {
                 isset($conf[$pskey . '.']['TAXpercentage'])
             ) {
                 $result = doubleval($conf[$pskey . '.']['TAXpercentage']);
-            } else if (
+            } elseif (
                 isset($conf[$pskey . '.']) &&
                 isset($conf[$pskey . '.'][$subkey . '.']) &&
                 isset($conf[$pskey . '.'][$subkey . '.']['TAXpercentage'])
@@ -1698,14 +1666,14 @@ class PaymentShippingHandling {
                 $result = doubleval($conf[$pskey . '.'][$subkey . '.']['TAXpercentage']);
             }
         }
+
         return $result;
     }
 
-
     /**
-     * get the replaceTAXpercentage from the shipping if available
+     * get the replaceTAXpercentage from the shipping if available.
      */
-    static public function getReplaceTaxPercentage (
+    public static function getReplaceTaxPercentage(
         $basketExtra,
         $pskey = 'shipping',
         $itemTax = ''
@@ -1730,25 +1698,26 @@ class PaymentShippingHandling {
                 $result = doubleval($basketExtra[$pskey . '.']['replaceTAXpercentage.'][$itemTax]);
             }
         }
+
         return $result;
     }
-
 
     /**
-     * get the delivery costs
+     * get the delivery costs.
      */
-    static public function getDeliveryCosts ($calculatedArray) {
+    public static function getDeliveryCosts($calculatedArray)
+    {
         $result = $calculatedArray['shipping']['priceTax'] + $calculatedArray['payment']['priceTax'];
+
         return $result;
     }
-
 
     /**
      * get the where condition for a shipping entry
-     * E.g.:  30.where.static_countries = cn_short_local = 'Deutschland'
+     * E.g.:  30.where.static_countries = cn_short_local = 'Deutschland'.
      */
-    static public function getWhere ($basketExtra, $tablename) {
-
+    public static function getWhere($basketExtra, $tablename)
+    {
         $result = '';
 
         if (
@@ -1764,14 +1733,15 @@ class PaymentShippingHandling {
                     if (version_compare($sitVersion, '2.0.1', '>=')) {
                         $result = $basketExtra['shipping.']['where.'][$tablename];
                     }
-                break;
+                    break;
             }
         }
+
         return $result;
     }
 
-
-    static public function getAddRequiredInfoFields ($type, $basketExtra) {
+    public static function getAddRequiredInfoFields($type, $basketExtra)
+    {
         $resultArray = [];
         $pskeyArray = self::getTypeArray();
         foreach ($pskeyArray as $pskey) {
@@ -1785,7 +1755,7 @@ class PaymentShippingHandling {
                     isset($basketExtra[$pskey . '.']['addRequiredInfoFields.'][$type])
                 ) {
                     $tmp = $basketExtra[$pskey . '.']['addRequiredInfoFields.'][$type];
-                } else if (
+                } elseif (
                     isset($basketExtra[$pskey . '.']['addRequiredInfoFields'])
                 ) {
                     $tmp = $basketExtra[$pskey . '.']['addRequiredInfoFields'];
@@ -1797,42 +1767,45 @@ class PaymentShippingHandling {
             }
         }
         $result = implode(',', $resultArray);
+
         return $result;
     }
 
-
-    static public function get ($pskey, $setup, $basketExtra) {
+    public static function get($pskey, $setup, $basketExtra)
+    {
         $result = '';
         $tmp = $basketExtra[$pskey . '.'][$setup] ?? '';
         if ($tmp != '') {
             $result = trim($tmp);
         }
+
         return $result;
     }
 
-
-    static public function useCreditcard ($basketExtra) {
+    public static function useCreditcard($basketExtra)
+    {
         $result = false;
         $payConf = $basketExtra['payment.'] ?? [];
         if (is_array($payConf) && !empty($payConf['creditcards'])) {
             $result = true;
         }
+
         return $result;
     }
 
-
-    static public function useAccount ($basketExtra) {
+    public static function useAccount($basketExtra)
+    {
         $result = false;
         $payConf = $basketExtra['payment.'] ?? [];
         if (is_array($payConf) && !empty($payConf['accounts'])) {
             $result = true;
         }
+
         return $result;
     }
 
-
-    static public function getHandleLib ($request, $basketExtra) {
-
+    public static function getHandleLib($request, $basketExtra)
+    {
         $result = false;
         $payConf = $basketExtra['payment.'] ?? [];
         $handleLib = '';
@@ -1843,7 +1816,7 @@ class PaymentShippingHandling {
 
         if (
             (
-                strpos($handleLib,'transactor') !== false ||
+                strpos($handleLib, 'transactor') !== false ||
                 strpos($handleLib, 'paymentlib') !== false
             ) &&
             isset($payConf['handleLib.']) &&

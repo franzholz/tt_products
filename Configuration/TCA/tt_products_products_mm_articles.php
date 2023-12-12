@@ -1,11 +1,11 @@
 <?php
+
 defined('TYPO3') || die('Access denied.');
 
 $extensionKey = 'tt_products';
 $result = null;
 $languageSubpath = '/Resources/Private/Language/';
 $languageLglPath = 'LLL:EXT:core' . $languageSubpath . 'locallang_general.xlf:LGL.';
-
 
 if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['articleMode'] >= '1') {
     $result = [
@@ -15,11 +15,11 @@ if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['articleMode'] >= '1')
             'tstamp' => 'tstamp',
             'delete' => 'deleted',
             'enablecolumns' => [
-                'disabled' => 'hidden'
+                'disabled' => 'hidden',
             ],
             'prependAtCopy' => $languageLglPath . 'prependAtCopy',
             'crdate' => 'crdate',
-            'iconfile' => 'EXT:' . $extensionKey . '/Resources/Public/Icons/' . 'tt_products_relations.gif',
+            'iconfile' => 'EXT:' . $extensionKey . '/Resources/Public/Icons/tt_products_relations.gif',
             'hideTable' => true,
         ],
         'columns' => [
@@ -30,8 +30,8 @@ if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['articleMode'] >= '1')
                     'renderType' => 'selectSingle',
                     'foreign_table' => 'tt_products',
                     'maxitems' => 1,
-                    'default' => 0
-                ]
+                    'default' => 0,
+                ],
             ],
             'uid_foreign' => [
                 'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_products_mm_articles.uid_foreign',
@@ -40,27 +40,27 @@ if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['articleMode'] >= '1')
                     'renderType' => 'selectSingle',
                     'foreign_table' => 'tt_products_articles',
                     'maxitems' => 1,
-                    'default' => 0
-                ]
+                    'default' => 0,
+                ],
             ],
             'sorting' => [
                 'config' => [
                     'type' => 'passthrough',
-                    'default' => 0
-                ]
+                    'default' => 0,
+                ],
             ],
             'sorting_foreign' => [
                 'config' => [
                     'type' => 'passthrough',
-                    'default' => 0
-                ]
+                    'default' => 0,
+                ],
             ],
         ],
         'types' => [
             '0' => [
-                'showitem' => ''
-            ]
-        ]
+                'showitem' => '',
+            ],
+        ],
     ];
 }
 

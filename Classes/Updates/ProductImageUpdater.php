@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace JambageCom\TtProducts\Updates;
@@ -17,23 +18,18 @@ namespace JambageCom\TtProducts\Updates;
  */
 
 use Doctrine\DBAL\ParameterType;
-
+use JambageCom\TtProducts\Api\UpgradeApi;
 use Symfony\Component\Console\Output\OutputInterface;
-
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Install\Updates\ChattyInterface;
-use TYPO3\CMS\Install\Updates\Confirmation;
 use TYPO3\CMS\Install\Updates\ConfirmableInterface;
+use TYPO3\CMS\Install\Updates\Confirmation;
 use TYPO3\CMS\Install\Updates\DatabaseUpdatedPrerequisite;
 use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
-use TYPO3\CMS\Install\Service\UpgradeWizardsService;
-
-use JambageCom\TtProducts\Api\UpgradeApi;
-
 
 class ProductImageUpdater implements UpgradeWizardInterface, ConfirmableInterface, ChattyInterface
 {
-    const TABLES = 'tt_products,tt_products_language,tt_products_cat,tt_products_articles';
+    public const TABLES = 'tt_products,tt_products_language,tt_products_cat,tt_products_articles';
 
     protected $tableFields = [
         'tt_products' => ['image', 'smallimage'],
@@ -42,7 +38,7 @@ class ProductImageUpdater implements UpgradeWizardInterface, ConfirmableInterfac
         'tt_products_articles' => ['image', 'smallimage'],
     ];
 
-     /**
+    /**
      * @var OutputInterface
      */
     protected $output;
@@ -51,7 +47,7 @@ class ProductImageUpdater implements UpgradeWizardInterface, ConfirmableInterfac
      * @var string
      */
     protected $title = 'EXT:' . TT_PRODUCTS_EXT . ' - Migrate all images of the tables ' . self::TABLES . ' to sys_file_references';
-        
+
     /**
      * @var string
      */
@@ -62,23 +58,23 @@ class ProductImageUpdater implements UpgradeWizardInterface, ConfirmableInterfac
     }
 
     /**
-    * Setter injection for output into upgrade wizards
-    */
+     * Setter injection for output into upgrade wizards.
+     */
     public function setOutput(OutputInterface $output): void
     {
         $this->output = $output;
     }
 
     /**
-    * Get title
-    */
+     * Get title.
+     */
     public function getTitle(): string
     {
         return $this->title;
     }
 
     /**
-     * Get description
+     * Get description.
      *
      * @return string Longer description of this updater
      */
@@ -96,8 +92,8 @@ class ProductImageUpdater implements UpgradeWizardInterface, ConfirmableInterfac
     }
 
     /**
-    * Return a confirmation message instance
-    */
+     * Return a confirmation message instance.
+     */
     public function getConfirmation(): Confirmation
     {
         $upgradeApi = GeneralUtility::makeInstance(UpgradeApi::class);
@@ -109,10 +105,10 @@ class ProductImageUpdater implements UpgradeWizardInterface, ConfirmableInterfac
             }
             $fields = $this->tableFields[$table];
             $elementCount = 0;
-            foreach ($fields as $field) { 
+            foreach ($fields as $field) {
                 $elementCount += $upgradeApi->countOfTableFieldMigrations($table, $field, $field . '_uid', ParameterType::STRING, \PDO::PARAM_INT);
             }
-            
+
             if ($elementCount) {
                 $title .= sprintf('%d %s images can possibly be migrated.' . PHP_EOL, $elementCount, $table);
             }
@@ -130,17 +126,18 @@ class ProductImageUpdater implements UpgradeWizardInterface, ConfirmableInterfac
             false,
             $confirm,
             $deny,
-            ($elementCount > 0)
+            $elementCount > 0
         );
 
         return $result;
     }
 
     /**
-     * Performs the database update
+     * Performs the database update.
      *
      * @param array &$databaseQueries Queries done in this update
      * @param string &$customMessage Custom message
+     *
      * @return bool
      */
     public function performUpdate(array &$databaseQueries, &$customMessage)
@@ -153,7 +150,7 @@ class ProductImageUpdater implements UpgradeWizardInterface, ConfirmableInterfac
                 continue;
             }
             $fields = $this->tableFields[$table];
-            foreach ($fields as $field) { 
+            foreach ($fields as $field) {
                 // user decided to migrate, migrate and mark wizard as done
                 $queries = $upgradeApi->performTableFieldFalMigrations(
                     $customMessage,
@@ -164,7 +161,7 @@ class ProductImageUpdater implements UpgradeWizardInterface, ConfirmableInterfac
                     \PDO::PARAM_INT,
                     '' // no default path uploads/pics here
                 );
-            
+
                 if (!empty($queries)) {
                     foreach ($queries as $query) {
                         $databaseQueries[] = $query;
@@ -172,31 +169,33 @@ class ProductImageUpdater implements UpgradeWizardInterface, ConfirmableInterfac
                 }
             }
         }
-        
+
         if ($customMessage != '') {
             $result = false;
         }
+
         return $result;
     }
 
     /**
-    * Execute the update
-    * Called when a wizard reports that an update is necessary
-    */
+     * Execute the update
+     * Called when a wizard reports that an update is necessary.
+     */
     public function executeUpdate(): bool
     {
         $queries = [];
         $message = '';
         $result = $this->performUpdate($queries, $message);
         $this->output->write($message);
+
         return $result;
     }
 
-        /**
-        * Is an update necessary?
-        * Is used to determine whether a wizard needs to be run.
-        * Check if data for migration exists.
-        */
+    /**
+     * Is an update necessary?
+     * Is used to determine whether a wizard needs to be run.
+     * Check if data for migration exists.
+     */
     public function updateNecessary(): bool
     {
         $upgradeApi = GeneralUtility::makeInstance(UpgradeApi::class);
@@ -207,12 +206,12 @@ class ProductImageUpdater implements UpgradeWizardInterface, ConfirmableInterfac
                 continue;
             }
             $fields = $this->tableFields[$table];
-            foreach ($fields as $field) { 
-                $elementCount += 
+            foreach ($fields as $field) {
+                $elementCount +=
                     $upgradeApi->countOfTableFieldMigrations(
                         $table,
-                        $field, 
-                        $field . '_uid', 
+                        $field,
+                        $field . '_uid',
                         ParameterType::STRING,
                         \PDO::PARAM_INT
                     );
@@ -224,20 +223,21 @@ class ProductImageUpdater implements UpgradeWizardInterface, ConfirmableInterfac
                 break;
             }
         }
-        return ($elementCount > 0);
-    } 
-    
+
+        return $elementCount > 0;
+    }
+
     /**
      * Returns an array of class names of Prerequisite classes
      * This way a wizard can define dependencies like "database up-to-date" or
-     * "reference index updated"
+     * "reference index updated".
      *
      * @return string[]
      */
-    public function getPrerequisites (): array
+    public function getPrerequisites(): array
     {
         return [
-            DatabaseUpdatedPrerequisite::class
+            DatabaseUpdatedPrerequisite::class,
         ];
     }
 }

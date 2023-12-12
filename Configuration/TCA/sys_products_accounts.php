@@ -1,4 +1,5 @@
 <?php
+
 defined('TYPO3') || die('Access denied.');
 
 $extensionKey = 'tt_products';
@@ -23,7 +24,7 @@ $result = [
         'tstamp' => 'tstamp',
         'prependAtCopy' => $languageLglPath . 'prependAtCopy',
         'crdate' => 'crdate',
-        'iconfile' => 'EXT:' . $extensionKey . '/Resources/Public/Icons/' . 'sys_products_accounts.gif',
+        'iconfile' => 'EXT:' . $extensionKey . '/Resources/Public/Icons/sys_products_accounts.gif',
         'searchFields' => 'owner_name,' . $accountField,
     ],
     'columns' => [
@@ -35,8 +36,8 @@ $result = [
                 'size' => '24',
                 'max' => '24',
                 'eval' => 'required,trim',
-                'default' => null
-            ]
+                'default' => null,
+            ],
         ],
         'ac_number' => [
             'exclude' => 0,
@@ -46,8 +47,8 @@ $result = [
                 'size' => '40',
                 'max' => '80',
                 'eval' => 'required,trim',
-                'default' => null
-            ]
+                'default' => null,
+            ],
         ],
         'owner_name' => [
             'exclude' => 0,
@@ -56,8 +57,8 @@ $result = [
                 'type' => 'input',
                 'size' => '40',
                 'max' => '80',
-                'default' => null
-            ]
+                'default' => null,
+            ],
         ],
         'bic' => [
             'exclude' => 1,
@@ -67,17 +68,16 @@ $result = [
                 'size' => '11',
                 'max' => '11',
                 'eval' => 'required,trim',
-                'default' => null
-            ]
+                'default' => null,
+            ],
         ],
     ],
     'types' => [
-        '1' => ['showitem' => 'iban, ac_number, owner_name, bic']
+        '1' => ['showitem' => 'iban, ac_number, owner_name, bic'],
     ],
     'palettes' => [
-        '1' => ['showitem' => '']
-    ]
+        '1' => ['showitem' => ''],
+    ],
 ];
 
 return $result;
-

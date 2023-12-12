@@ -30,16 +30,13 @@
  * functions for the sys_category
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
-
-
-
-class tx_ttproducts_syscategory extends tx_ttproducts_category {
+class tx_ttproducts_syscategory extends tx_ttproducts_category
+{
     protected $tableAlias = 'syscat';
-
 }

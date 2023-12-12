@@ -30,24 +30,24 @@
  * AJAX control over select boxes for categories
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
  *
  *+
  */
 
- 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-class tx_ttproducts_selectcat_view extends tx_ttproducts_catlist_view_base {
-
+class tx_ttproducts_selectcat_view extends tx_ttproducts_catlist_view_base
+{
     protected $htmlTagMain = 'select';	// main HTML tag
     protected $htmlTagElement = 'option';
 
     // returns the products list view
-    public function printView (
+    public function printView(
         $functablename,
         &$templateCode,
         $theCode,
@@ -65,7 +65,7 @@ class tx_ttproducts_selectcat_view extends tx_ttproducts_catlist_view_base {
 
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
-        $categoryTableView = $tablesObj->get($functablename,1);
+        $categoryTableView = $tablesObj->get($functablename, 1);
         $categoryTable = $categoryTableView->getModelObj();
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $conf = $cnf->getConf();
@@ -100,7 +100,7 @@ class tx_ttproducts_selectcat_view extends tx_ttproducts_catlist_view_base {
         if (empty($error_code)) {
             $count = 0;
             $depth = 1;
-            if($pos = strpos($t['listFrameWork'], '###CATEGORY_SINGLE_')) {
+            if ($pos = strpos($t['listFrameWork'], '###CATEGORY_SINGLE_')) {
                 $bSeparated = true;
             }
 
@@ -178,8 +178,7 @@ class tx_ttproducts_selectcat_view extends tx_ttproducts_catlist_view_base {
                 foreach ($catArray[$depth] as $k => $actCategory) {
                     if (!$categoryArray[$actCategory]['reference_category']) {
                         $valueArray[$actCategory] = $categoryArray[$actCategory]['title'];
-                    } else
-                        {
+                    } else {
                     }
                 }
             }
@@ -305,4 +304,3 @@ class tx_ttproducts_selectcat_view extends tx_ttproducts_catlist_view_base {
         return $content;
     }
 }
-

@@ -30,25 +30,24 @@
  * basket price calculation functions
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
 
+use JambageCom\TtProducts\Model\Field\FieldInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
-
-use \JambageCom\TtProducts\Model\Field\FieldInterface;
-
-class tx_ttproducts_field_price extends tx_ttproducts_field_base {
+class tx_ttproducts_field_price extends tx_ttproducts_field_base
+{
     private $bHasBeenInitialised = false;
     private $bTaxIncluded;	// if tax is already included in the price
     private $taxMode;
     public $priceConf; 	// price configuration
-    static protected $priceFieldArray = array (
+    protected static $priceFieldArray = [
         'price',
         'price2',
         'pricetax',
@@ -80,9 +79,9 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base {
         'discountbyproductunotax',
         'discountbyproductwtax',
         'discountbyproductwnotax',
-    );
+    ];
 
-    static protected $convertArray = [
+    protected static $convertArray = [
         'tax' => 'priceTax',
         'notax' => 'priceNoTax',
         '0tax' => 'price0Tax',
@@ -96,7 +95,7 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base {
         'wtax' => 'priceWeightUnitTax',
         'wnotax' => 'priceWeightUnitNoTax',
     ];
-    static protected $fieldConvertArray = [
+    protected static $fieldConvertArray = [
         'tax' => 'pricetax',
         'notax' => 'pricenotax',
         'onlytax' => 'priceonlytax',
@@ -113,7 +112,7 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base {
         'skontonotax' => 'pricenotaxdiscount',
     ];
 
-    static protected $fieldKeepArray = [
+    protected static $fieldKeepArray = [
         'taxperc',
         'calc',
         'skontotaxperc',
@@ -128,9 +127,8 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base {
         'surcharge2notax',
     ];
 
-
-    public function preInit ($priceConf) {
-
+    public function preInit($priceConf)
+    {
         parent::init();
 
         $this->priceConf = $priceConf;
@@ -146,48 +144,49 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base {
         }
     } // init
 
-
-    public function needsInit () {
+    public function needsInit()
+    {
         return !$this->bHasBeenInitialised;
     }
 
     /**
-     * Changes the string value to integer or float and considers the German float ',' separator
+     * Changes the string value to integer or float and considers the German float ',' separator.
      *
      * @param		bool	convert to float?
      * @param		string	quantity
+     *
      * @return	    float or integer string value
      */
-    static public function toNumber ($bToFloat, $text) {
+    public static function toNumber($bToFloat, $text)
+    {
         $result = '';
         if ($bToFloat) {
-            $text = (string) $text;
+            $text = (string)$text;
             // enable the German display of float
-            $result = (float) str_replace (',', '.', $text);
+            $result = (float)str_replace(',', '.', $text);
         } else {
-            $result = (int) $text;
+            $result = (int)$text;
         }
 
         return $result;
     }
 
-
-    public function getTaxIncluded () {
+    public function getTaxIncluded()
+    {
         return $this->bTaxIncluded;
     }
 
-
-    public function setTaxIncluded ($bTaxIncluded = true) {
+    public function setTaxIncluded($bTaxIncluded = true)
+    {
         $this->bTaxIncluded = $bTaxIncluded;
     }
 
-
-    public function getTaxMode () {
+    public function getTaxMode()
+    {
         return $this->taxMode;
     }
 
-
-    static public function getPriceTax (
+    public static function getPriceTax(
         $price,
         $bTax,
         $bTaxIncluded,
@@ -210,11 +209,10 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base {
         return $result;
     }
 
-
     /**
-     * return the price with tax mode considered
+     * return the price with tax mode considered.
      */
-    public function getModePrice (
+    public function getModePrice(
         $basketExtra,
         $basketRecs,
         $taxMode,
@@ -235,32 +233,30 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base {
         );
 
         if ($taxMode == '2') {
-
             $result = round($result, 2);
         }
 
         return $result;
     }
 
-
     /** reduces price by discount for FE user **/
-    static public function getDiscountPrice (
+    public static function getDiscountPrice(
         $price,
         $discount = ''
     ) {
         if (floatval($discount) != 0) {
             $price = $price * (1 - $discount / 100);
         }
+
         return $price;
     }
-
 
     /**
      * Returns the $price with either tax or not tax, based on if $tax is true or false.
      * This function reads the TypoScript configuration to see whether prices in the database
      * are entered with or without tax. That's why this function is needed.
      */
-     public function getPrice (
+    public function getPrice(
         $basketExtra,
         $basketRecs,
         $price,
@@ -328,12 +324,12 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base {
                 $bTaxIncluded,
                 $taxFactor
             );
+
         return $result;
     } // getPrice
 
-
     // function using getPrice and considering a reduced price for resellers
-    public function getResellerPrice (
+    public function getResellerPrice(
         $basketExtra,
         $basketRecs,
         $row,
@@ -348,7 +344,7 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base {
             isset($this->priceConf['priceNoReseller']) &&
             MathUtility::canBeInterpretedAsInteger($this->priceConf['priceNoReseller'])
         ) {
-                // get reseller group number
+            // get reseller group number
             $priceNo = intval($this->priceConf['priceNoReseller']);
         }
 
@@ -381,19 +377,20 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base {
         return $result;
     } // getResellerPrice
 
-
-    static public function getPriceFieldArray () {
+    public static function getPriceFieldArray()
+    {
         return self::$priceFieldArray;
     }
 
-    static public function convertIntoRow (&$row, $priceTaxArray) {
+    public static function convertIntoRow(&$row, $priceTaxArray)
+    {
         foreach ($priceTaxArray as $field => $value) {
             if (isset(self::$fieldConvertArray[$field])) {
                 $finalField = self::$fieldConvertArray[$field];
                 if (!isset($row[$finalField])) {
                     $row[$finalField] = $value;
                 }
-            } else if (in_array($field, self::$fieldKeepArray)) {
+            } elseif (in_array($field, self::$fieldKeepArray)) {
                 if (!isset($row[$field])) {
                     $row[$field] = $value;
                 }
@@ -401,13 +398,13 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base {
         }
     }
 
-    static public function getSkonto (
+    public static function getSkonto(
         $relativePrice,
         $priceNumTax,
         &$skonto,
         &$skontoTaxPerc
     ) {
-        $skonto = ((double) $relativePrice - (double) $priceNumTax);
+        $skonto = ((float)$relativePrice - (float)$priceNumTax);
 
         if (floatval($relativePrice) != 0) {
             $skontoTaxPerc = (($skonto / $relativePrice) * 100);
@@ -416,8 +413,7 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base {
         }
     }
 
-
-    static public function calculateEndPrice (
+    public static function calculateEndPrice(
         $price,
         $row,
         $discountField
@@ -455,9 +451,8 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base {
         return $result;
     }
 
-
     // fetches all calculated prices for a row
-    public function getPriceTaxArray (
+    public function getPriceTaxArray(
         &$taxInfoArray,
         $discountPriceMode,
         $basketExtra,
@@ -486,7 +481,7 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base {
                     $shortField !== false
                 ) {
                     $priceArray[$shortField] = $value;
-                } else if (
+                } elseif (
                     in_array($priceField, self::$fieldKeepArray)
                 ) {
                     $priceArray[$priceField] = $value;
@@ -625,11 +620,10 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base {
                     $this->getPrice(
                         $basketExtra,
                         $basketRecs,
-                        (
-                            isset($row['unit_factor']) && ($row['unit_factor'] > 0) ?
-                                ($priceArray['notax'] / $row['unit_factor']) :
-                                0
-                        ),
+
+                        isset($row['unit_factor']) && ($row['unit_factor'] > 0) ?
+                            ($priceArray['notax'] / $row['unit_factor']) :
+                            0,
                         false,
                         $row,
                         false,
@@ -651,11 +645,10 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base {
                     $this->getPrice(
                         $basketExtra,
                         $basketRecs,
-                        (
-                            $row['weight'] > 0 ?
-                                ($priceArray['notax'] / $internalRow['weight']) :
-                                0
-                        ),
+
+                        $row['weight'] > 0 ?
+                            ($priceArray['notax'] / $internalRow['weight']) :
+                            0,
                         false,
                         $row,
                         false,
@@ -714,7 +707,7 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base {
                     $this->getPrice(
                         $basketExtra,
                         $basketRecs,
-                        (isset($row['unit_factor']) && ($row['unit_factor'] > 0) ?  ($priceArray['discountbyproductpricenotax'] / $row['unit_factor']) : 0),
+                        isset($row['unit_factor']) && ($row['unit_factor'] > 0) ? ($priceArray['discountbyproductpricenotax'] / $row['unit_factor']) : 0,
                         false,
                         $row,
                         false,
@@ -735,11 +728,10 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base {
                     $this->getPrice(
                         $basketExtra,
                         $basketRecs,
-                        (
-                            $row['weight'] > 0 ?
-                                ($priceArray['discountbyproductpricenotax'] / $internalRow['weight']) :
-                                0
-                        ),
+
+                        $row['weight'] > 0 ?
+                            ($priceArray['discountbyproductpricenotax'] / $internalRow['weight']) :
+                            0,
                         false,
                         $row,
                         false,
@@ -755,7 +747,7 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base {
                         false,
                         $bEnableTaxZero
                     );
-            } else if (strpos($fieldname, 'price') === 0) {
+            } elseif (strpos($fieldname, 'price') === 0) {
                 $internalRow['price'] =
                     self::calculateEndPrice(
                         $row['price'],
@@ -772,7 +764,7 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base {
                 }
 
                 $pricelen = strlen('price');
-                $priceNum = substr($fieldname, $pricelen /*, strlen($fieldName) - $pricelen*/);
+                $priceNum = substr($fieldname, $pricelen /* , strlen($fieldName) - $pricelen */);
                 $priceArray[$priceNum . 'tax'] =
                     $this->getPrice(
                         $basketExtra,
@@ -801,7 +793,7 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base {
                 if ($discountPriceMode == 0) {
                     $relativePrice = $price0tax;
                     $priceNumTax = $priceArray[$priceNum . 'tax'];
-                } else if ($discountPriceMode == 1) {
+                } elseif ($discountPriceMode == 1) {
                     $relativePrice = $priceArray[$priceNum . 'tax'];
                     $priceNumTax = $internalRow['price'];
                 }
@@ -812,7 +804,7 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base {
                     $priceArray[$priceNum . 'skontotax'],
                     $priceArray[$priceNum . 'skontotaxperc']
                 );
-            } else if (in_array($fieldname, ['directcost', 'deposit'])) {
+            } elseif (in_array($fieldname, ['directcost', 'deposit'])) {
                 $priceArray[$fieldname . 'tax'] =
                     $this->getPrice(
                         $basketExtra,
@@ -868,8 +860,8 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base {
         return $priceArray;
     }
 
-
-    static public function convertOldPriceArray ($row) {
+    public static function convertOldPriceArray($row)
+    {
         $result = [];
 
         foreach (self::$convertArray as $newField => $oldField) {
@@ -877,11 +869,12 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base {
                 $result[$oldField] = $row[$newField];
             }
         }
+
         return $result;
     }
 
-
-    static public function convertNewPriceArray ($row) {
+    public static function convertNewPriceArray($row)
+    {
         $result = [];
 
         foreach (self::$convertArray as $newField => $oldField) {
@@ -889,10 +882,12 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base {
                 $result[$newField] = $row[$oldField];
             }
         }
+
         return $result;
     }
 
-    static public function getWithoutTaxedPrices ($record) {
+    public static function getWithoutTaxedPrices($record)
+    {
         $newRecord = [];
         foreach ($record as $field => $value) {
             $hasTax = strpos($field, 'tax');
@@ -900,7 +895,7 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base {
                 $newRecord[$field] = $value;
             }
         }
+
         return $newRecord;
     }
 }
-

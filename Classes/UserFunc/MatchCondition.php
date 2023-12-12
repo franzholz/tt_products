@@ -1,6 +1,6 @@
 <?php
-namespace JambageCom\TtProducts\UserFunc;
 
+namespace JambageCom\TtProducts\UserFunc;
 
 /***************************************************************
 *  Copyright notice
@@ -33,23 +33,20 @@ namespace JambageCom\TtProducts\UserFunc;
  * functions for the TypoScript conditions
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
 
 use Psr\Http\Message\ServerRequestInterface;
-
-use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-class MatchCondition {
-
-    public function checkShipping (
+class MatchCondition
+{
+    public function checkShipping(
         $params
     ) {
         $result = false;
@@ -57,7 +54,7 @@ class MatchCondition {
         if (
             ($GLOBALS['TYPO3_REQUEST'] ?? null) instanceof ServerRequestInterface &&
             ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isFrontend() &&
-            isset($params) && 
+            isset($params) &&
             is_array($params)
         ) {
             \tx_ttproducts_control_basket::storeNewRecs();
@@ -73,7 +70,7 @@ class MatchCondition {
             $value = '';
             if (strpos($params['2'], $operator) !== false) {
                 $value = ltrim($params['2'], ' =');
-            } else if (strpos($params['2'], 'IN') !== false) {
+            } elseif (strpos($params['2'], 'IN') !== false) {
                 $operator = 'IN';
                 if (strpos($params['2'], 'NOT IN') !== false) {
                     $operator = 'NOT IN';
@@ -83,15 +80,15 @@ class MatchCondition {
 
             if ($operator == '=') {
                 $result = ($infoArray[$type][$field] == $value);
-            } else if ($operator == 'IN') {
+            } elseif ($operator == 'IN') {
                 $valueArray = GeneralUtility::trimExplode(',', $value);
                 $result = in_array($infoArray[$type][$field], $valueArray);
-            } else if ($operator == 'NOT IN') {
+            } elseif ($operator == 'NOT IN') {
                 $valueArray = GeneralUtility::trimExplode(',', $value);
                 $result = !in_array($infoArray[$type][$field], $valueArray);
             }
 
-//             \tx_ttproducts_control_basket::destruct();
+            //             \tx_ttproducts_control_basket::destruct();
 
             if (
                 !$result &&
@@ -109,10 +106,10 @@ class MatchCondition {
 
                 if ($operator == '=') {
                     $result = ($GLOBALS['TSFE']->fe_user->user[$field] == $value);
-                } else if ($operator == 'IN') {
+                } elseif ($operator == 'IN') {
                     $valueArray = GeneralUtility::trimExplode(',', $value);
                     $result = in_array($GLOBALS['TSFE']->fe_user->user[$field], $valueArray);
-                } else if ($operator == 'NOT IN') {
+                } elseif ($operator == 'NOT IN') {
                     $valueArray = GeneralUtility::trimExplode(',', $value);
                     $result = !in_array($GLOBALS['TSFE']->fe_user->user[$field], $valueArray);
                 }
@@ -122,7 +119,8 @@ class MatchCondition {
         return $result;
     }
 
-    public function hasBulkilyItem ($params) {
+    public function hasBulkilyItem($params)
+    {
         $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
 
         $rcArray = \JambageCom\TtProducts\Api\BasketApi::getRecords($conf);
@@ -136,10 +134,11 @@ class MatchCondition {
         }
 
         \tx_ttproducts_control_basket::destruct();
-        return ($bBukily);
+
+        return $bBukily;
     }
 
-    public function checkWeight (
+    public function checkWeight(
         $params
     ) {
         $result = false;
@@ -154,8 +153,7 @@ class MatchCondition {
         ) {
             $result = true;
         }
+
         return $result;
     }
 }
-
-

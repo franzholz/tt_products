@@ -33,15 +33,13 @@ namespace JambageCom\TtProducts\Api;
  * functions for the payment
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
-
-class PriceApi {
-
-    static public function mergeRows (
+class PriceApi
+{
+    public static function mergeRows(
         array &$targetRow,
         array $sourceRow,
         $field,
@@ -97,7 +95,7 @@ class PriceApi {
             }
         }
 
-        if($bKeepNotEmpty) {
+        if ($bKeepNotEmpty) {
             if (
                 (
                     !isset($targetRow[$field]) ||
@@ -112,4 +110,3 @@ class PriceApi {
         }
     }
 }
-

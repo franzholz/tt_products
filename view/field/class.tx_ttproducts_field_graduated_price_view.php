@@ -30,19 +30,18 @@
  * graduated price view functions
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-class tx_ttproducts_field_graduated_price_view extends tx_ttproducts_field_base_view {
-
-    public function getItemSubpartArrays (
+class tx_ttproducts_field_graduated_price_view extends tx_ttproducts_field_base_view
+{
+    public function getItemSubpartArrays(
         $templateCode,
         $markerKey,
         $functablename,
@@ -81,8 +80,7 @@ class tx_ttproducts_field_graduated_price_view extends tx_ttproducts_field_base_
         );
     }
 
-
-    public function getRowMarkerArray (
+    public function getRowMarkerArray(
         $functablename,
         $fieldname,
         $row,
@@ -120,4 +118,3 @@ class tx_ttproducts_field_graduated_price_view extends tx_ttproducts_field_base_
         );
     }
 }
-

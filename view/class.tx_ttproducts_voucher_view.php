@@ -30,34 +30,30 @@
  * functions for the voucher system
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
-
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-
-class tx_ttproducts_voucher_view extends tx_ttproducts_table_base_view {
+class tx_ttproducts_voucher_view extends tx_ttproducts_table_base_view
+{
     public $amount;
     public $code;
     public $bValid;
     public $marker = 'VOUCHER';
     public $usedCodeArray = [];
 
-
     /**
      * Template marker substitution
-     * Fills in the markerArray with data for the voucher
+     * Fills in the markerArray with data for the voucher.
      *
-     * @return	void
      * @access private
      */
-    public function getSubpartMarkerArray (
+    public function getSubpartMarkerArray(
         &$subpartArray,
         &$wrappedSubpartArray,
         $charset = ''
@@ -87,15 +83,13 @@ class tx_ttproducts_voucher_view extends tx_ttproducts_table_base_view {
         }
     }
 
-
     /**
      * Template marker substitution
-     * Fills in the markerArray with data for the voucher
+     * Fills in the markerArray with data for the voucher.
      *
-     * @return	void
      * @access private
      */
-    public function getMarkerArray (
+    public function getMarkerArray(
         &$markerArray
     ) {
         $priceViewObj = GeneralUtility::makeInstance('tx_ttproducts_field_price_view');
@@ -112,4 +106,3 @@ class tx_ttproducts_voucher_view extends tx_ttproducts_table_base_view {
         $markerArray['###VOUCHER_DISCOUNT###'] = $priceViewObj->priceFormat(abs($amount));
     } // getMarkerArray
 }
-

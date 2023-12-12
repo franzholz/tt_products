@@ -30,32 +30,31 @@
  * functions for the order addresses
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
-
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-class tx_ttproducts_orderaddress extends tx_ttproducts_table_base {
-    var $dataArray; // array of read in frontend users
-    var $table;		 // object of the type tx_table_db
-    var $fields = [];
-    var $tableconf;
-    var $piVar = 'fe';
+class tx_ttproducts_orderaddress extends tx_ttproducts_table_base
+{
+    public $dataArray; // array of read in frontend users
+    public $table;		 // object of the type tx_table_db
+    public $fields = [];
+    public $tableconf;
+    public $piVar = 'fe';
 
     private $bCondition = false;
     private $bConditionRecord = false;
 
-
     /**
-     * Getting all tt_products_cat categories into internal array
+     * Getting all tt_products_cat categories into internal array.
      */
-    public function init ($functablename) {
+    public function init($functablename)
+    {
         $result = parent::init($functablename);
 
         if ($result) {
@@ -64,9 +63,9 @@ class tx_ttproducts_orderaddress extends tx_ttproducts_table_base {
             $this->tableconf = $cnf->getTableConf($functablename);
             $tablename = $this->getTablename();
 
-    // 			// image
-    // 		$this->image = GeneralUtility::makeInstance('tx_ttproducts_field_image_view');
-    // 		$this->image->init($this->pibase);
+            // 			// image
+            // 		$this->image = GeneralUtility::makeInstance('tx_ttproducts_field_image_view');
+            // 		$this->image->init($this->pibase);
 
             $this->getTableObj()->setTCAFieldArray($tablename);
             $this->fieldArray['payment'] = ($this->tableconf['payment'] ?? '');
@@ -85,24 +84,25 @@ class tx_ttproducts_orderaddress extends tx_ttproducts_table_base {
         return $result;
     } // init
 
-
-    public function getSelectInfoFields() {
+    public function getSelectInfoFields()
+    {
         $result = ['salutation', 'tt_products_business_partner', 'tt_products_organisation_form'];
 
         return $result;
     }
 
-
-    public function getTCATableFromField ($field) {
+    public function getTCATableFromField($field)
+    {
         $result = 'fe_users';
         if ($field == 'salutation') {
             $result = 'sys_products_orders';
         }
+
         return $result;
     }
 
-
-    public function getFieldName ($field) {
+    public function getFieldName($field)
+    {
         $rc = $field;
         if (is_array($this->fieldArray) && $this->fieldArray[$field]) {
             $rc = $this->fieldArray[$field];
@@ -111,30 +111,32 @@ class tx_ttproducts_orderaddress extends tx_ttproducts_table_base {
         return $rc;
     }
 
-
-    public function isUserInGroup ($feuser, $group) {
+    public function isUserInGroup($feuser, $group)
+    {
         $groups = explode(',', $feuser['usergroup']);
-        foreach ($groups as $singlegroup)
-            if ($singlegroup == $group)
+        foreach ($groups as $singlegroup) {
+            if ($singlegroup == $group) {
                 return true;
+            }
+        }
+
         return false;
     } // isUserInGroup
 
-
-    public function setCondition ($row, $funcTablename) {
-
+    public function setCondition($row, $funcTablename)
+    {
         $bCondition = false;
         $this->bConditionRecord = false;
 
-        if (isset($this->conf['conf.'][$funcTablename.'.']['ALL.']['fe_users.']['date_of_birth.']['period.']['y'])) {
-            $year = $this->conf['conf.'][$funcTablename.'.']['ALL.']['fe_users.']['date_of_birth.']['period.']['y'];
+        if (isset($this->conf['conf.'][$funcTablename . '.']['ALL.']['fe_users.']['date_of_birth.']['period.']['y'])) {
+            $year = $this->conf['conf.'][$funcTablename . '.']['ALL.']['fe_users.']['date_of_birth.']['period.']['y'];
             $infoViewObj = GeneralUtility::makeInstance('tx_ttproducts_info_view');
 
             if ($infoViewObj->infoArray['billing']['date_of_birth']) {
                 $timeTemp = $infoViewObj->infoArray['billing']['date_of_birth'];
                 $bAge = true;
-            } else if ($GLOBALS['TSFE']->fe_user->user) {
-                $timeTemp = date('d-m-Y', ($GLOBALS['TSFE']->fe_user->user['date_of_birth']));
+            } elseif ($GLOBALS['TSFE']->fe_user->user) {
+                $timeTemp = date('d-m-Y', $GLOBALS['TSFE']->fe_user->user['date_of_birth']);
                 $bAge = true;
             } else {
                 $bAge = false;
@@ -155,13 +157,13 @@ class tx_ttproducts_orderaddress extends tx_ttproducts_table_base {
             $bCondition = true;
         }
 
-        $whereConf = $this->conf['conf.'][$funcTablename.'.']['ALL.']['fe_users.']['where'] ?? '';
-        
+        $whereConf = $this->conf['conf.'][$funcTablename . '.']['ALL.']['fe_users.']['where'] ?? '';
+
         if (!empty($whereConf)) {
             $whereArray = GeneralUtility::trimExplode('IN', $whereConf);
-            $pos1 = strpos ($whereArray[1], '(');
-            $pos2 = strpos ($whereArray[1], ')');
-            $inString = substr ($whereArray[1], $pos1 + 1, $pos2 - $pos1 - 1);
+            $pos1 = strpos($whereArray[1], '(');
+            $pos2 = strpos($whereArray[1], ')');
+            $inString = substr($whereArray[1], $pos1 + 1, $pos2 - $pos1 - 1);
 
             $valueArray = GeneralUtility::trimExplode(',', $inString);
             foreach ($valueArray as $value) {
@@ -177,35 +179,35 @@ class tx_ttproducts_orderaddress extends tx_ttproducts_table_base {
         }
     }
 
-
-    public function getCondition () {
+    public function getCondition()
+    {
         return $this->bCondition;
     }
 
-
-    public function getConditionRecord () {
+    public function getConditionRecord()
+    {
         return $this->bConditionRecord;
     }
 
-
-    public function getCreditpoints () {
-
+    public function getCreditpoints()
+    {
         $rc = false;
         if (
             \JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn() &&
             isset($GLOBALS['TSFE']->fe_user->user) &&
-            is_array(($GLOBALS['TSFE']->fe_user->user)
-        )) {
+            is_array(
+                $GLOBALS['TSFE']->fe_user->user
+            )) {
             $rc = $GLOBALS['TSFE']->fe_user->user['tt_products_creditpoints'];
         }
+
         return $rc;
     }
 
-
-    public function getPid () {
+    public function getPid()
+    {
         $result = $this->conf['PIDuserFolder'];
+
         return $result;
     }
 }
-
-

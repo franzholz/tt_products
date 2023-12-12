@@ -30,17 +30,17 @@
  * account functions
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-class tx_ttproducts_account extends tx_ttproducts_table_base {
+class tx_ttproducts_account extends tx_ttproducts_table_base
+{
     public $pibase; // reference to object of pibase
     public $conf;
     public $acArray;	// credit card data
@@ -51,9 +51,8 @@ class tx_ttproducts_account extends tx_ttproducts_table_base {
     public $useAsterisk = false;
     public $sepa = true;
 
-
-    public function init ($functablename) {
-
+    public function init($functablename)
+    {
         $result = true;
 
         if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['sepa']) {
@@ -112,21 +111,21 @@ class tx_ttproducts_account extends tx_ttproducts_table_base {
         return $result;
     }
 
-
-    public function getIsAllowed () {
+    public function getIsAllowed()
+    {
         return $this->bIsAllowed;
     }
-
 
     // **************************
     // ORDER related functions
     // **************************
     /**
-     * Create a new credit card record
+     * Create a new credit card record.
      *
      * This creates a new account record on the page with pid PID_sys_products_orders. This page must exist!
      */
-    public function create ($uid, $acArray) {
+    public function create($uid, $acArray)
+    {
         $newId = 0;
         $pid = intval($this->conf['PID_sys_products_orders']);
         if (!$pid) {
@@ -146,13 +145,13 @@ class tx_ttproducts_account extends tx_ttproducts_table_base {
             $GLOBALS['TSFE']->sys_page->getPage_noCheck($pid)
         ) {
             $time = time();
-            $newFields = array (
+            $newFields = [
                 'pid' => intval($pid),
                 'tstamp' => $time,
                 'crdate' => $time,
                 'owner_name' => $acArray['owner_name'],
                 'bic' => $acArray['bic'],
-            );
+            ];
 
             if (strcmp($acArray[$accountField], $this->asterisk) != 0) {
                 $newFields[$accountField] = $acArray[$accountField];
@@ -166,21 +165,23 @@ class tx_ttproducts_account extends tx_ttproducts_table_base {
                 $newId = $GLOBALS['TYPO3_DB']->sql_insert_id();
             }
         }
+
         return $newId;
     } // create
 
-
-    public function getUid () {
+    public function getUid()
+    {
         $result = 0;
         $accountArray = tx_ttproducts_control_session::readSession('ac');
         if (isset($accountArray['ac_uid'])) {
             $result = $accountArray['ac_uid'];
         }
+
         return $result;
     }
 
-
-    public function getRow ($uid, $bFieldArrayAll = false) {
+    public function getRow($uid, $bFieldArrayAll = false)
+    {
         $result = [];
         if ($bFieldArrayAll) {
             foreach ($this->requiredFieldArray as $k => $field) {
@@ -206,17 +207,17 @@ class tx_ttproducts_account extends tx_ttproducts_table_base {
                 $result = $row;
             }
         }
+
         return $result;
     }
-
 
     /**
      * Returns the label of the record, Usage in the following format:
      *
-     * @param	array		$row: current record
      * @return	string		Label of the record
      */
-    public function getLabel ($row) {
+    public function getLabel($row)
+    {
         $result = $row['owner_name'] . ':';
 
         if ($this->sepa) {
@@ -228,19 +229,16 @@ class tx_ttproducts_account extends tx_ttproducts_table_base {
         return $result;
     }
 
-
-
-     /**
+    /**
      * Returns the label of the record, Usage in the following format:
      * taken from https://codedump.io/share/uL5GlRG5SjCL/1/validate-iban-php
      * It fits the
      * http://en.wikipedia.org/wiki/International_Bank_Account_Number#Validating_the_IBAN
      *
-     * @param	array		$row: current record
      * @return	string		Label of the record
      */
-
-    static public function checkIBAN ($iban) {
+    public static function checkIBAN($iban)
+    {
         $result = false;
 
         if (!extension_loaded('bcmath')) {
@@ -250,27 +248,26 @@ class tx_ttproducts_account extends tx_ttproducts_table_base {
         $iban = strtolower(str_replace(' ', '', $iban));
         $Countries = [
             'al' => 28, 'ad' => 24, 'at' => 20, 'az' => 28, 'bh' => 22, 'be' => 16, 'ba' => 20, 'br' => 29, 'bg' => 22, 'cr' => 21, 'hr' => 21, 'cy' => 28, 'cz' => 24, 'dk' => 18, 'do' => 28,
-            'ee' => 20, 'fo '=> 18, 'fi' => 18, 'fr' => 27, 'ge' => 22, 'de' => 22, 'gi' => 23, 'gr' => 27, 'gl' => 18, 'gt' => 28, 'hu' => 28, 'is' => 26, 'ie' => 22, 'il' => 23, 'it' => 27,
-            'jo' => 30, 'kz' => 20, 'kw' => 30, 'lv' => 21, 'lb' => 28, 'li' => 21, 'lt' => 20, 'lu' => 20, 'mk' => 19, 'mt' =>31, 'mr' => 27, 'mu' => 30, 'mc' => 27, 'md' => 24, 'me' => 22, 'nl' => 18, 'no' => 15, 'pk' => 24, 'ps' => 29,
+            'ee' => 20, 'fo ' => 18, 'fi' => 18, 'fr' => 27, 'ge' => 22, 'de' => 22, 'gi' => 23, 'gr' => 27, 'gl' => 18, 'gt' => 28, 'hu' => 28, 'is' => 26, 'ie' => 22, 'il' => 23, 'it' => 27,
+            'jo' => 30, 'kz' => 20, 'kw' => 30, 'lv' => 21, 'lb' => 28, 'li' => 21, 'lt' => 20, 'lu' => 20, 'mk' => 19, 'mt' => 31, 'mr' => 27, 'mu' => 30, 'mc' => 27, 'md' => 24, 'me' => 22, 'nl' => 18, 'no' => 15, 'pk' => 24, 'ps' => 29,
             'pl' => 28, 'pt' => 25, 'qa' => 29, 'ro' => 24, 'sm' => 27, 'sa' => 24, 'rs' => 22, 'sk' => 24, 'si' => 19, 'es' => 24, 'se' => 24, 'ch' => 21, 'tn' => 24, 'tr' => 26, 'ae' => 23, 'gb' => 22, 'vg' => 24];
         $Chars =
             [
-                'a' => 10, 'b' => 11, 'c' => 12, 'd' => 13, 'e' => 14, 'f' => 15, 'g' => 16, 'h' => 17, 'i' =>  18, 'j' => 19, 'k' => 20, 'l' => 21, 'm' => 22, 'n' => 23, 'o' => 24, 'p' => 25, 'q' => 26, 'r' => 27, 's' => 28, 't' => 29, 'u' => 30, 'v' => 31, 'w' => 32, 'x' => 33, 'y' => 34, 'z' => 35];
+                'a' => 10, 'b' => 11, 'c' => 12, 'd' => 13, 'e' => 14, 'f' => 15, 'g' => 16, 'h' => 17, 'i' => 18, 'j' => 19, 'k' => 20, 'l' => 21, 'm' => 22, 'n' => 23, 'o' => 24, 'p' => 25, 'q' => 26, 'r' => 27, 's' => 28, 't' => 29, 'u' => 30, 'v' => 31, 'w' => 32, 'x' => 33, 'y' => 34, 'z' => 35];
 
-        if(strlen($iban) == $Countries[substr($iban, 0, 2)]) {
-
+        if (strlen($iban) == $Countries[substr($iban, 0, 2)]) {
             $MovedChar = substr($iban, 4) . substr($iban, 0, 4);
             $MovedCharArray = str_split($MovedChar);
             $NewString = '';
 
-            foreach($MovedCharArray as $key => $value){
-                if(!is_numeric($MovedCharArray[$key])){
+            foreach ($MovedCharArray as $key => $value) {
+                if (!is_numeric($MovedCharArray[$key])) {
                     $MovedCharArray[$key] = $Chars[$MovedCharArray[$key]];
                 }
                 $NewString .= $MovedCharArray[$key];
             }
 
-            if(bcmod($NewString, '97') == 1) {
+            if (bcmod($NewString, '97') == 1) {
                 $result = true;
             }
         }
@@ -278,11 +275,11 @@ class tx_ttproducts_account extends tx_ttproducts_table_base {
         return $result;
     }
 
-
     /**
-     * Checks if required fields for bank accounts are filled in
+     * Checks if required fields for bank accounts are filled in.
      */
-    public function checkRequired () {
+    public function checkRequired()
+    {
         $result = '';
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('static_info_tables_banks_de')) {
@@ -296,7 +293,7 @@ class tx_ttproducts_account extends tx_ttproducts_table_base {
             }
 
             $isValid = true;
-            switch($field) {
+            switch ($field) {
                 case 'iban':
                     $isValid = self::checkIBAN($this->acArray[$field]);
                     break;
@@ -320,9 +317,7 @@ class tx_ttproducts_account extends tx_ttproducts_table_base {
                 break;
             }
         }
+
         return $result;
     } // checkRequired
 }
-
-
-

@@ -30,27 +30,29 @@
  * model functions for a basket item object
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
-
-class tx_ttproducts_basketitem implements \TYPO3\CMS\Core\SingletonInterface {
-
+class tx_ttproducts_basketitem implements \TYPO3\CMS\Core\SingletonInterface
+{
     /**
-     * gets the quantity of an item
+     * gets the quantity of an item.
      *
      * @param	array		reference to an item array with all the data of the item
      * @param	string		overwrite amount or 'basket'
+     *
      * @return	array
+     *
      * @access private
      */
-    public function getQuantity (
+    public function getQuantity(
         &$item,
         $overwriteAmount = ''
     ) {
@@ -61,19 +63,21 @@ class tx_ttproducts_basketitem implements \TYPO3\CMS\Core\SingletonInterface {
         ) {
             $result = intval($overwriteAmount);
         }
+
         return $result;
     }
 
-
     /**
-     * gets the minimum necessary and maximum possible quantity of an item
+     * gets the minimum necessary and maximum possible quantity of an item.
      *
      * @param	array		reference to an item array with all the data of the item
      * @param	string		overwrite amount or 'basket'
+     *
      * @return	array
+     *
      * @access private
      */
-    public function getMinMaxQuantity (
+    public function getMinMaxQuantity(
         $item,
         &$minQuantity,
         &$maxQuantity
@@ -91,5 +95,3 @@ class tx_ttproducts_basketitem implements \TYPO3\CMS\Core\SingletonInterface {
         }
     }
 }
-
-

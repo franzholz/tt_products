@@ -30,23 +30,21 @@
  * functions for the control of the single view
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
-
-
-class tx_ttproducts_control_single implements \TYPO3\CMS\Core\SingletonInterface {
-
+class tx_ttproducts_control_single implements \TYPO3\CMS\Core\SingletonInterface
+{
     /**
-     * Triggers events when the single view has been called
+     * Triggers events when the single view has been called.
      *
-     * @return	void
      * @access private
      */
-    function triggerEvents ($conf) {
+    public function triggerEvents($conf)
+    {
         if (
             !empty($conf['active']) &&
             isset($conf['trigger.'])
@@ -60,7 +58,6 @@ class tx_ttproducts_control_single implements \TYPO3\CMS\Core\SingletonInterface
                 $mmTablename = 'sys_products_fe_users_mm_visited_products';
 
                 if ($uid && in_array($mmTablename, $triggerConf)) {	// check if this trigger has been activated
-
                     $where = 'uid_local=' . intval($GLOBALS['TSFE']->fe_user->user['uid']) . ' AND uid_foreign=' . intval($uid);
                     $mmArray = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows('*', $mmTablename, $where, '', 'tstamp', '1');
                     $time = time();
@@ -69,14 +66,14 @@ class tx_ttproducts_control_single implements \TYPO3\CMS\Core\SingletonInterface
                         $updateFields = $mmArray['0'];
                         $updateFields['uid_foreign'] = $uid;
                         $updateFields['tstamp'] = $time;
-                        $updateFields['qty'] += 1;
+                        ++$updateFields['qty'];
                         $GLOBALS['TYPO3_DB']->exec_UPDATEquery($mmTablename, $where, $updateFields);
                     } else {
                         $insertFields = [
                             'tstamp' => $time,
                             'uid_local' => $GLOBALS['TSFE']->fe_user->user['uid'],
                             'uid_foreign' => $uid,
-                            'qty' => 1
+                            'qty' => 1,
                         ];
                         $GLOBALS['TYPO3_DB']->exec_INSERTquery($mmTablename, $insertFields);
                     }
@@ -86,28 +83,24 @@ class tx_ttproducts_control_single implements \TYPO3\CMS\Core\SingletonInterface
             $tablename = 'sys_products_visited_products';
 
             if ($uid && in_array($tablename, $triggerConf)) {	// check if this trigger has been activated
-
                 $where = 'uid=' . intval($uid);
                 $rowArray = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows('*', $tablename, $where, '', 'tstamp', '1');
                 $time = time();
                 if ($rowArray) {
-
                     $updateFields = $rowArray['0'];
                     $updateFields['tstamp'] = $time;
-                    $updateFields['qty'] += 1;
+                    ++$updateFields['qty'];
                     $GLOBALS['TYPO3_DB']->exec_UPDATEquery($tablename, $where, $updateFields);
                 } else {
-                    $insertFields = array (
+                    $insertFields = [
                         'pid' => $GLOBALS['TSFE']->id,
                         'tstamp' => $time,
                         'uid' => $uid,
-                        'qty' => 1
-                    );
+                        'qty' => 1,
+                    ];
                     $GLOBALS['TYPO3_DB']->exec_INSERTquery($tablename, $insertFields);
                 }
             }
         }
     } // triggerEvents
 }
-
-

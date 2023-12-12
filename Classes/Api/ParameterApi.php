@@ -33,19 +33,17 @@ namespace JambageCom\TtProducts\Api;
  * functions for the view
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-
 // replacement for the former class tx_ttproducts_model_control
 //
-class ParameterApi implements \TYPO3\CMS\Core\SingletonInterface {
+class ParameterApi implements \TYPO3\CMS\Core\SingletonInterface
+{
     protected $piVars = [];
     protected $piVarsDefault = [];
     protected $andVars = [];
@@ -80,20 +78,21 @@ class ParameterApi implements \TYPO3\CMS\Core\SingletonInterface {
     protected $basketIntoIdPrefix = 'basket-into-id';
     protected $basketInputErrorIdPrefix = 'basket-input-error-id';
 
-    public function setPiVars ($value)
+    public function setPiVars($value)
     {
         $this->piVars = $value;
     }
 
-    /* if a default value is set then it will merge the current $this->piVars array onto these default values. */
-    public function getPiVars ()
+    // if a default value is set then it will merge the current $this->piVars array onto these default values.
+    public function getPiVars()
     {
         $result = $this->piVars;
+
         return $result;
     }
 
     // formerly getParamsTableArray and getParamsTable
-    public function getParameterTable ($parameter = '')
+    public function getParameterTable($parameter = '')
     {
         $result = false;
 
@@ -106,10 +105,11 @@ class ParameterApi implements \TYPO3\CMS\Core\SingletonInterface {
         } else {
             $result = $this->parameterTable;
         }
+
         return $result;
     }
 
-    public function getPiVarValue ($functablename)
+    public function getPiVarValue($functablename)
     {
         $piVars = $this->getPiVars();
         $piVar = $this->getPiVar($functablename);
@@ -122,30 +122,33 @@ class ParameterApi implements \TYPO3\CMS\Core\SingletonInterface {
         ) {
             $result = $piVars[$piVar];
         }
+
         return $result;
     }
 
-    public function getTagName ($uid, $fieldname) {
+    public function getTagName($uid, $fieldname)
+    {
         $result = $this->getBasketVar() . '[' . $uid . '][' . $fieldname . ']';
+
         return $result;
     }
 
-        // neu Anfang variant
-    static public function determineRegExpDelimiter ($delimiter)
+    // neu Anfang variant
+    public static function determineRegExpDelimiter($delimiter)
     {
         $regexpDelimiter = $delimiter;
         if ($delimiter == ';') {
-// 			$regexpDelimiter = '[.semicolon.]';
-// Leads to MYSQL ERROR:
-// Got error 'POSIX collating elements are not supported at offset 46' from regexp
+            // 			$regexpDelimiter = '[.semicolon.]';
+            // Leads to MYSQL ERROR:
+            // Got error 'POSIX collating elements are not supported at offset 46' from regexp
 
             $regexpDelimiter = ';';
         }
         switch ($delimiter) {
             case ';':
-// 				$regexpDelimiter = '[.semicolon.]';
-// Leads to MYSQL ERROR:
-// Got error 'POSIX collating elements are not supported at offset 46' from regexp
+                // 				$regexpDelimiter = '[.semicolon.]';
+                // Leads to MYSQL ERROR:
+                // Got error 'POSIX collating elements are not supported at offset 46' from regexp
                 break;
             case '\n':
                 $regexpDelimiter = '[\n]';
@@ -154,25 +157,23 @@ class ParameterApi implements \TYPO3\CMS\Core\SingletonInterface {
 
         return $regexpDelimiter;
     }
-        // neu Ende variant
+    // neu Ende variant
 
-    public function getBasketIntoIdPrefix ()
+    public function getBasketIntoIdPrefix()
     {
         return $this->basketIntoIdPrefix;
     }
 
-    public function getBasketInputErrorIdPrefix ()
+    public function getBasketInputErrorIdPrefix()
     {
         return $this->basketInputErrorIdPrefix;
     }
 
     /**
-    * If internal TypoScript property "_DEFAULT_PI_VARS." is set then it will merge the current $this->piVars array onto these default values.
-    * Store the internal TypoScript property "_DEFAULT_PI_VARS." if set.
-    *
-    * @return void
-    */
-    public function setPiVarDefaults ($piVarsDefault)
+     * If internal TypoScript property "_DEFAULT_PI_VARS." is set then it will merge the current $this->piVars array onto these default values.
+     * Store the internal TypoScript property "_DEFAULT_PI_VARS." if set.
+     */
+    public function setPiVarDefaults($piVarsDefault)
     {
         if (
             isset($piVarsDefault) &&
@@ -182,29 +183,30 @@ class ParameterApi implements \TYPO3\CMS\Core\SingletonInterface {
         }
     }
 
-    public function getPiVarDefaults ()
+    public function getPiVarDefaults()
     {
         return $this->piVarsDefault;
     }
 
-    public function setPrefixId ($prefixId)
+    public function setPrefixId($prefixId)
     {
         $this->prefixId = $prefixId;
     }
 
-    public function getPrefixId ()
+    public function getPrefixId()
     {
         return $this->prefixId;
     }
 
-    public function getPiVar ($functablename)
+    public function getPiVar($functablename)
     {
         $paramsTableArray = $this->getParameterTable();
         $result = array_search($functablename, $paramsTableArray);
+
         return $result;
     }
 
-    public function setAndVar ($k, $v)
+    public function setAndVar($k, $v)
     {
         if (isset($this->andVars[$k])) {
             $this->andVars[$k] .= ',' . $v;
@@ -213,54 +215,56 @@ class ParameterApi implements \TYPO3\CMS\Core\SingletonInterface {
         }
     }
 
-    public function getAndVar ($k)
+    public function getAndVar($k)
     {
         $result = false;
 
         if (isset($this->andVars[$k])) {
             $result = $this->andVars[$k];
         }
+
         return $result;
     }
 
-    public function getPointerPiVar ($theCode)
+    public function getPointerPiVar($theCode)
     {
         $pointerParamsTableArray = $this->getPointerParamsCodeArray();
         $result = array_search($theCode, $pointerParamsTableArray);
+
         return $result;
     }
 
-    public function getPointerParamsCodeArray ()
+    public function getPointerParamsCodeArray()
     {
         return $this->pointerParamsCodeArray;
     }
 
-    public function getBasketVar ()
+    public function getBasketVar()
     {
         return $this->basketVar;
     }
 
-    public function getBasketParamVar ()
+    public function getBasketParamVar()
     {
         return $this->basketParamVar;
     }
 
-    public function getSearchboxVar ()
+    public function getSearchboxVar()
     {
         return $this->searchboxVar;
     }
 
-    public function getControlVar ()
+    public function getControlVar()
     {
         return $this->controlVar;
     }
 
-    public function getOrderViewVar ()
+    public function getOrderViewVar()
     {
         return $this->orderViewVar;
     }
 
-    public function getControlArray ()
+    public function getControlArray()
     {
         $piVars = $this->getPiVars();
         $allValueArray = [];
@@ -274,20 +278,21 @@ class ParameterApi implements \TYPO3\CMS\Core\SingletonInterface {
         return $resultArray;
     }
 
-    public function getBasketExtRaw () {
+    public function getBasketExtRaw()
+    {
         $basketVar = $this->getBasketVar();
         $result = GeneralUtility::_GP($basketVar);
+
         return $result;
     }
 
-    public function getTableConfArrays (
+    public function getTableConfArrays(
         $cObj,
         array $functableArray,
         $theCode,
         array &$tableConfArray,
         array &$viewConfArray
-    )
-    {
+    ) {
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 
         foreach ($functableArray as $ft) {
@@ -305,21 +310,18 @@ class ParameterApi implements \TYPO3\CMS\Core\SingletonInterface {
         }
 
         if (isset($viewConfArray) && is_array($viewConfArray)) {
-
             $controlArray = $this->getControlArray();
             $typeArray = ['sortSelect', 'filterSelect', 'filterInput'];
             $typeSelectArray = ['sortSelect', 'filterSelect'];
 
             foreach ($viewConfArray as $ftname => $funcViewConfArray) {
-
                 foreach ($typeArray as $type) {
                     if (isset($controlArray[$type]) && is_array($controlArray[$type])) {
                         if (in_array($type, $typeSelectArray)) {
                             $fitArray = [];
                             foreach ($controlArray[$type] as $k => $v) {
-
                                 if ($v != '') {
-                                    $valueArray = $funcViewConfArray[$type.'.'][$k.'.']['valueArray.'];
+                                    $valueArray = $funcViewConfArray[$type . '.'][$k . '.']['valueArray.'];
                                     $bFitValueArray = [];
                                     foreach ($valueArray as $valueConf) {
                                         if (isset($valueConf['field']) && $valueConf['value'] == $v && !$bFitValueArray[$v]) {
@@ -346,7 +348,7 @@ class ParameterApi implements \TYPO3\CMS\Core\SingletonInterface {
                                         }
                                         $tableConfArray[$ftname]['orderBy'] = implode(',', $fieldArray);
                                     }
-                                break;
+                                    break;
                                 case 'filterSelect':
                                     foreach ($fitArray as $fitRow) {
                                         $field = $fitRow['field'];
@@ -358,7 +360,7 @@ class ParameterApi implements \TYPO3\CMS\Core\SingletonInterface {
                                             }
 
                                             if (isset($fitRow['key.'])) {
-                                                $key = $cObj->stdWrap($fitRow['key'],$fitRow['key.']);
+                                                $key = $cObj->stdWrap($fitRow['key'], $fitRow['key.']);
                                             } else {
                                                 $key = $fitRow['key'];
                                             }
@@ -370,12 +372,12 @@ class ParameterApi implements \TYPO3\CMS\Core\SingletonInterface {
                                             }
                                         }
                                     }
-                                break;
+                                    break;
                             }
-                        } else if ($type == 'filterInput') {
+                        } elseif ($type == 'filterInput') {
                             foreach ($controlArray[$type] as $k => $v) {
                                 if ($v != '') {
-                                    $fitRow = $funcViewConfArray[$type.'.'][$k.'.'];
+                                    $fitRow = $funcViewConfArray[$type . '.'][$k . '.'];
                                     $field = $fitRow['field'];
                                     $tableConfArray[$ftname]['filter.']['where.']['field.'][$field] = $v;
                                     if (!empty($fitRow['delimiter'])) {
@@ -390,15 +392,14 @@ class ParameterApi implements \TYPO3\CMS\Core\SingletonInterface {
         }
     }
 
-    public function getTableVars (
+    public function getTableVars(
         $searchFunctablename,
         &$searchTablename,
         &$searchAlias,
         &$tableAliasArray,
         &$bUseSearchboxArray,
         &$enableFieldArray
-    )
-    {
+    ) {
         if ($searchFunctablename != '') {
             $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
             $tableObj = $tablesObj->get($searchFunctablename, false);
@@ -413,15 +414,14 @@ class ParameterApi implements \TYPO3\CMS\Core\SingletonInterface {
         }
     }
 
-    public function getWhereByFields (
+    public function getWhereByFields(
         $tablename,
         $alias,
         $aliasPostfix,
         $fields,
         $sword,
         $delimiter
-    )
-    {
+    ) {
         $rc = false;
         $fieldArray = GeneralUtility::trimExplode(',', $fields);
         if (isset($fieldArray) && is_array($fieldArray)) {
@@ -430,17 +430,19 @@ class ParameterApi implements \TYPO3\CMS\Core\SingletonInterface {
 
             foreach ($fieldArray as $field) {
                 $rcArray[] =
-                    $alias . $aliasPostfix . '.' .$field . ' REGEXP ' .
+                    $alias . $aliasPostfix . '.' . $field . ' REGEXP ' .
                         $GLOBALS['TYPO3_DB']->fullQuoteStr(
-                            '^([[:print:]]*[' . $regexpDelimiter . '])*' . '(' . $sword . ')([[:print:]]*[[:blank:]]*)*([' . $regexpDelimiter . '][[:print:]]*)*$', $tablename
+                            '^([[:print:]]*[' . $regexpDelimiter . '])*(' . $sword . ')([[:print:]]*[[:blank:]]*)*([' . $regexpDelimiter . '][[:print:]]*)*$',
+                            $tablename
                         );
             }
             $rc = implode(' OR ', $rcArray);
         }
+
         return $rc;
     }
 
-    public function getSearchInfo (
+    public function getSearchInfo(
         $cObj,
         $searchVars,
         $functablename,
@@ -465,15 +467,14 @@ class ParameterApi implements \TYPO3\CMS\Core\SingletonInterface {
 
         $aliasPostfix = '';
         if ($sqlTableIndex) {
-            $aliasPostfix = ($sqlTableIndex+1);
+            $aliasPostfix = ($sqlTableIndex + 1);
         }
 
         if (isset($searchVars['uid'])) {
             $contentObj = $tablesObj->get('tt_content', false);
             $contentRow = $contentObj->get($searchVars['uid']);
 
-            if(isset($contentRow['pi_flexform']) && $contentRow['pi_flexform'] != '') {
-
+            if (isset($contentRow['pi_flexform']) && $contentRow['pi_flexform'] != '') {
                 $contentRow['pi_flexform'] = GeneralUtility::xml2array($contentRow['pi_flexform']);
                 $searchObj = GeneralUtility::makeInstance('tx_ttproducts_control_search');	// fetch and store it as persistent object
                 $controlConfig = $searchObj->getControlConfig($cObj, $cnf->conf, $contentRow);
@@ -532,12 +533,11 @@ class ParameterApi implements \TYPO3\CMS\Core\SingletonInterface {
                 $foundKey = 0;
 
                 if ($position == 'local' && isset($keyFieldArray[$searchFieldArray['local']]) && ExtensionManagementUtility::isLoaded('searchbox')) {	// Todo
-
                     GeneralUtility::requireOnce(PATH_BE_searchbox . 'model/class.tx_searchbox_model.php');
                     $modelObj = GeneralUtility::makeInstance('tx_searchbox_model');
 
                     $fullKeyFieldArray = $modelObj->getKeyFieldArray($tablename, '', '-', $searchFieldArray['local'], '1', $tmpCount);
-                } else if (isset($fullKeyFieldArray)) {
+                } elseif (isset($fullKeyFieldArray)) {
                     unset($fullKeyFieldArray);
                 }
 
@@ -557,7 +557,6 @@ class ParameterApi implements \TYPO3\CMS\Core\SingletonInterface {
                     }
 
                     if ($searchKey == $positionSearchVars[$position] || (is_array($searchParamArray[$position]) && key($searchParamArray[$position]) == $k || !is_array($searchParamArray[$position]) && $searchParamArray[$position] == $k)) {
-
                         if (substr($searchValue, 0, 1) == '\'' && substr($searchValue, -1) == '\'') {
                             $searchValue = substr($searchValue, 1, strlen($searchValue) - 2);
                         }
@@ -579,12 +578,12 @@ class ParameterApi implements \TYPO3\CMS\Core\SingletonInterface {
                     isset($searchVars[$position]) &&
                     isset($positionSearchVars) &&
                     is_array($positionSearchVars) &&
-                    count($positionSearchVars) && 
+                    count($positionSearchVars) &&
                     $searchVars[$foundKey] != 'all'
                 ) {
                     $positionSearchKey = key($positionSearchVars);
                     $positionSearchValue = current($positionSearchVars);
-                    $partArray = GeneralUtility::trimExplode('|',$positionSearchKey);
+                    $partArray = GeneralUtility::trimExplode('|', $positionSearchKey);
                     $delimiter = ($partArray[2] ? $partArray[2] : '');
                     $searchTablename = '';
                     $searchParam = $partArray[0];
@@ -599,29 +598,28 @@ class ParameterApi implements \TYPO3\CMS\Core\SingletonInterface {
                     );
 
                     if ($searchTablename != '') {
-
-                        $field = ($searchField!='' && isset($GLOBALS['TCA'][$searchTablename]['columns'][$searchField]) ? $searchField : 'title');
+                        $field = ($searchField != '' && isset($GLOBALS['TCA'][$searchTablename]['columns'][$searchField]) ? $searchField : 'title');
                         $configArray = $GLOBALS['TCA'][$searchTablename]['columns'][$field]['config'];
 
-                        if (isset($configArray) && is_array($configArray) || in_array($field,$enableFieldArray)) {
+                        if (isset($configArray) && is_array($configArray) || in_array($field, $enableFieldArray)) {
                             if ($configArray['eval'] == 'date') {
                                 $searchboxWhere = 'YEAR(' . $searchAlias . $aliasPostfix . '.' . $field . ')=' . $GLOBALS['TYPO3_DB']->fullQuoteStr($positionSearchValue, $searchTablename);
                             } else {
                                 if ($delimiter != '') {
                                     if ($searchVars['query'] == 'IN') {
                                         $valueArray = [];
-                                        $tmpParamArray = GeneralUtility::trimExplode(',',$positionSearchValue);
+                                        $tmpParamArray = GeneralUtility::trimExplode(',', $positionSearchValue);
                                         foreach ($tmpParamArray as $param => $v) {
                                             if ($v != '') {
-                                                $valueArray[] = $GLOBALS['TYPO3_DB']->fullQuoteStr($v, $searchTablename);;
+                                                $valueArray[] = $GLOBALS['TYPO3_DB']->fullQuoteStr($v, $searchTablename);
                                             }
                                         }
-                                        $searchboxWhereArray=[];
+                                        $searchboxWhereArray = [];
                                         foreach ($valueArray as $v) {
-                                            $searchboxWhereArray[] = $searchAlias.$aliasPostfix . '.' . $field . ' REGEXP ' . $GLOBALS['TYPO3_DB']->fullQuoteStr('.*[' . $delimiter . ']*' . $positionSearchValue . '[' . $delimiter . ']*.*', $searchTablename);
+                                            $searchboxWhereArray[] = $searchAlias . $aliasPostfix . '.' . $field . ' REGEXP ' . $GLOBALS['TYPO3_DB']->fullQuoteStr('.*[' . $delimiter . ']*' . $positionSearchValue . '[' . $delimiter . ']*.*', $searchTablename);
                                         }
-                                        $searchboxWhere = implode(' OR ',$searchboxWhereArray);
-                                        // TODO
+                                        $searchboxWhere = implode(' OR ', $searchboxWhereArray);
+                                    // TODO
                                     } else {
                                         $searchboxWhere =
                                             $this->getWhereByFields(
@@ -636,17 +634,17 @@ class ParameterApi implements \TYPO3\CMS\Core\SingletonInterface {
                                 } else {
                                     if ($searchVars['query'] == 'IN') {
                                         $valueArray = [];
-                                        $tmpParamArray = GeneralUtility::trimExplode(',',$positionSearchValue);
+                                        $tmpParamArray = GeneralUtility::trimExplode(',', $positionSearchValue);
                                         foreach ($tmpParamArray as $param => $v) {
                                             if ($v != '') {
                                                 $valueArray[] = $v;
                                             }
                                         }
-                                        $searchboxWhereArray=[];
+                                        $searchboxWhereArray = [];
                                         foreach ($valueArray as $v) {
-                                            $searchboxWhereArray[] = $searchAlias.$aliasPostfix . '.' . $field . ' LIKE ' . $GLOBALS['TYPO3_DB']->fullQuoteStr($v . '%', $searchTablename);
+                                            $searchboxWhereArray[] = $searchAlias . $aliasPostfix . '.' . $field . ' LIKE ' . $GLOBALS['TYPO3_DB']->fullQuoteStr($v . '%', $searchTablename);
                                         }
-                                        $searchboxWhere = '(' . implode(' OR ' ,$searchboxWhereArray) . ')';
+                                        $searchboxWhere = '(' . implode(' OR ', $searchboxWhereArray) . ')';
                                     } else {
                                         $searchboxWhere = $searchAlias . $aliasPostfix . '.' . $field . ' LIKE ' . $GLOBALS['TYPO3_DB']->fullQuoteStr($positionSearchValue . '%', $searchTablename);
                                     }
@@ -654,9 +652,9 @@ class ParameterApi implements \TYPO3\CMS\Core\SingletonInterface {
                             }
                             $newSqlTableArray = [];
                             if ($position == 'foreign') {
-                                $foreignTableInfo = $tablesObj->getForeignTableInfo($theTable,$searchFieldArray['local']);
+                                $foreignTableInfo = $tablesObj->getForeignTableInfo($theTable, $searchFieldArray['local']);
                                 $foreignTableInfo['table_field'] = $searchFieldArray['local'];
-                                $tablesObj->prepareSQL($foreignTableInfo,$tableAliasArray,$aliasPostfix,$newSqlTableArray);
+                                $tablesObj->prepareSQL($foreignTableInfo, $tableAliasArray, $aliasPostfix, $newSqlTableArray);
                             }
                             $sqlTableArray[$position][$sqlTableIndex] = $cnf->getTableName($paramsTableArray[$searchParam]);
                             if (!empty($foreignTableInfo['where'])) {
@@ -677,5 +675,3 @@ class ParameterApi implements \TYPO3\CMS\Core\SingletonInterface {
         }
     }
 }
-
-

@@ -15,42 +15,37 @@ namespace JambageCom\TtProducts\Api;
  * The TYPO3 project - inspiring people to share!
  */
 
-
 /**
  * Part of the tt_products (Shop System) extension.
  *
  * functions for the payment
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
 
 use Doctrine\DBAL\ParameterType;
-
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerAwareTrait;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
-use TYPO3\CMS\Core\Database\Query\Restriction\DeletedRestriction;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use Psr\Log\LoggerAwareInterface;
-use Psr\Log\LoggerAwareTrait;
 
-
-class UpgradeApi implements LoggerAwareInterface {
+class UpgradeApi implements LoggerAwareInterface
+{
     use LoggerAwareTrait;
 
-    public function getEmptyValues (
+    public function getEmptyValues(
         &$oldEmpty,
         &$newEmpty,
         $oldType,
         $newType,
         $queryBuilder
-    )
-    {
+    ) {
         $stringEmpty = $queryBuilder->createNamedParameter('');
         $integerEmpty = $queryBuilder->createNamedParameter(0);
         $oldEmpty = $newEmpty = $stringEmpty;
@@ -62,7 +57,7 @@ class UpgradeApi implements LoggerAwareInterface {
         }
     }
 
-    public function countOfProductMMArticleMigrations ()
+    public function countOfProductMMArticleMigrations()
     {
         $count = 0;
 
@@ -86,13 +81,14 @@ class UpgradeApi implements LoggerAwareInterface {
                         )
                     )
                 )
-                ->execute()->fetchColumn(0);
+                ->execute()->fetchColumn(0)
+            ;
         }
 
         return $count;
     }
 
-    public function countOfMMTableMigrations ($mmTable, $uidLocalOldField)
+    public function countOfMMTableMigrations($mmTable, $uidLocalOldField)
     {
         $count = 0;
         /** @var QueryBuilder $queryBuilder */
@@ -109,8 +105,9 @@ class UpgradeApi implements LoggerAwareInterface {
             ->setMaxResults(1)
             ->orderBy('crdate', 'DESC')
             ->execute()
-            ->fetchAll();
-    
+            ->fetchAll()
+        ;
+
         if (!empty($affectedRows)) {
             $row = $affectedRows['0'];
             if (
@@ -137,16 +134,15 @@ class UpgradeApi implements LoggerAwareInterface {
                             )
                         )
                     )
-                    ->execute()->fetchColumn(0);
-                }
-                
+                    ->execute()->fetchColumn(0)
+                ;
             }
+        }
 
         return $count;
     }
 
-
-    public function countOfTableFieldMigrations ($table, $oldField, $newField, $oldType = ParameterType::STRING, $newType = ParameterType::STRING)
+    public function countOfTableFieldMigrations($table, $oldField, $newField, $oldType = ParameterType::STRING, $newType = ParameterType::STRING)
     {
         $count = 0;
 
@@ -183,17 +179,16 @@ class UpgradeApi implements LoggerAwareInterface {
             ->andWhere($conditions)
             ->setMaxResults(1)
             ->execute()
-            ->fetchColumn(0);
+            ->fetchColumn(0)
+        ;
 
         return $count;
     }
 
     /**
-     * Perform migration of tt_products_articles relations to tt_products via the product_uid field into a mm table relation between tt_products and tt_products_articles
-     *
-     * @return array
+     * Perform migration of tt_products_articles relations to tt_products via the product_uid field into a mm table relation between tt_products and tt_products_articles.
      */
-    public function performProductMMArticleMigration (): array
+    public function performProductMMArticleMigration(): array
     {
         $mmTable = 'tt_products_products_mm_articles';
         $articleTable = 'tt_products_articles';
@@ -202,7 +197,8 @@ class UpgradeApi implements LoggerAwareInterface {
 
         /** @var Connection $connection */
         $connection = GeneralUtility::makeInstance(ConnectionPool::class)
-            ->getConnectionForTable($articleTable);
+            ->getConnectionForTable($articleTable)
+        ;
         $queryBuilder = $connection->createQueryBuilder();
         $queryBuilder->getRestrictions()->removeAll();
         $fields = [$articleTable . '.uid', $articleTable . '.pid', $articleTable . '.uid_product'];
@@ -225,7 +221,8 @@ class UpgradeApi implements LoggerAwareInterface {
                     )
                 )
             )
-            ->execute();
+            ->execute()
+        ;
 
         // Migrate entries
         while ($record = $statement->fetch()) {
@@ -233,7 +230,8 @@ class UpgradeApi implements LoggerAwareInterface {
 
             /** @var Connection $connection */
             $connection = GeneralUtility::makeInstance(ConnectionPool::class)
-            ->getConnectionForTable($mmTable);
+            ->getConnectionForTable($mmTable)
+            ;
             $queryBuilder = $connection->createQueryBuilder();
             $queryBuilder->getRestrictions()->removeAll();
             $mmCount = $queryBuilder->count('uid')
@@ -254,7 +252,8 @@ class UpgradeApi implements LoggerAwareInterface {
                         )
                     )
                 )
-                ->execute()->fetchColumn(0);
+                ->execute()->fetchColumn(0)
+            ;
 
             if ($mmCount == 0) {
                 $queryBuilder = $connection->createQueryBuilder();
@@ -269,15 +268,17 @@ class UpgradeApi implements LoggerAwareInterface {
                         'tstamp' => $time,
                         'sorting' => 1,
                         'uid_local' => $prodUid,
-                        'uid_foreign' => intval($record['uid'])
-                    ]);
-                
+                        'uid_foreign' => intval($record['uid']),
+                    ])
+                ;
+
                 $databaseQueries[] = $queryBuilder->getSQL();
                 $affectedRows = $queryBuilder->execute();
 
                 /** @var Connection $connection */
                 $connection = GeneralUtility::makeInstance(ConnectionPool::class)
-                ->getConnectionForTable($productTable);
+                ->getConnectionForTable($productTable)
+                ;
                 $queryBuilder = $connection->createQueryBuilder();
                 $queryBuilder->getRestrictions()->removeAll();
 
@@ -287,11 +288,11 @@ class UpgradeApi implements LoggerAwareInterface {
                         $queryBuilder->expr()->andX(
                             $queryBuilder->expr()->eq(
                                 'uid',
-                                    $queryBuilder->createNamedParameter($prodUid, \PDO::PARAM_INT)
+                                $queryBuilder->createNamedParameter($prodUid, \PDO::PARAM_INT)
                             ),
                             $queryBuilder->expr()->eq(
                                 'deleted',
-                                    $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
+                                $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
                             )
                         )
                     )
@@ -301,7 +302,8 @@ class UpgradeApi implements LoggerAwareInterface {
                             'article_uid',
                             $queryBuilder->createNamedParameter(1, \PDO::PARAM_INT)
                         )
-                    );
+                    )
+                ;
 
                 $databaseQueries[] = $queryBuilder->getSQL();
                 $affectedRows = $queryBuilder->execute();
@@ -312,18 +314,17 @@ class UpgradeApi implements LoggerAwareInterface {
     }
 
     /**
-     * Perform migration of tt_products_articles relations to tt_products via the product_uid field into a mm table relation between tt_products and tt_products_articles
-     *
-     * @return array
+     * Perform migration of tt_products_articles relations to tt_products via the product_uid field into a mm table relation between tt_products and tt_products_articles.
      */
-    public function performProductMMGraduatedPriceMigration (): array
+    public function performProductMMGraduatedPriceMigration(): array
     {
         $mmTable = 'tt_products_mm_graduated_price';
         $databaseQueries = [];
 
         /** @var Connection $connection */
         $connection = GeneralUtility::makeInstance(ConnectionPool::class)
-            ->getConnectionForTable($mmTable);
+            ->getConnectionForTable($mmTable)
+        ;
         $queryBuilder = $connection->createQueryBuilder();
         $queryBuilder->getRestrictions()->removeAll();
 
@@ -359,7 +360,8 @@ class UpgradeApi implements LoggerAwareInterface {
             ->set('uid_local', $queryBuilder->quoteIdentifier('product_uid'), false)
             ->set('uid_foreign', $queryBuilder->quoteIdentifier('graduated_price_uid'), false)
             ->set('sorting', $queryBuilder->quoteIdentifier('productsort'), false)
-            ->set('sorting_foreign', $queryBuilder->quoteIdentifier('graduatedsort'), false);
+            ->set('sorting_foreign', $queryBuilder->quoteIdentifier('graduatedsort'), false)
+        ;
 
         $databaseQueries[] = $queryBuilder->getSQL();
         $affectedRows = $queryBuilder->execute();
@@ -368,18 +370,17 @@ class UpgradeApi implements LoggerAwareInterface {
     }
 
     /**
-     * Perform migration of tt_products_articles relations to tt_products via the product_uid field into a mm table relation between tt_products and tt_products_articles
-     *
-     * @return array
+     * Perform migration of tt_products_articles relations to tt_products via the product_uid field into a mm table relation between tt_products and tt_products_articles.
      */
-    public function performOrderMMProductMigration (): array
+    public function performOrderMMProductMigration(): array
     {
         $mmTable = 'sys_products_orders_mm_tt_products';
         $databaseQueries = [];
 
         /** @var Connection $connection */
         $connection = GeneralUtility::makeInstance(ConnectionPool::class)
-            ->getConnectionForTable($mmTable);
+            ->getConnectionForTable($mmTable)
+        ;
         $queryBuilder = $connection->createQueryBuilder();
         $queryBuilder->getRestrictions()->removeAll();
 
@@ -413,21 +414,23 @@ class UpgradeApi implements LoggerAwareInterface {
                 )
             )
             ->set('uid_local', $queryBuilder->quoteIdentifier('sys_products_orders_uid'), false)
-            ->set('uid_foreign', $queryBuilder->quoteIdentifier('tt_products_uid'), false);
-            
+            ->set('uid_foreign', $queryBuilder->quoteIdentifier('tt_products_uid'), false)
+        ;
+
         $databaseQueries[] = $queryBuilder->getSQL();
         $affectedRows = $queryBuilder->execute();
 
         return $databaseQueries;
     }
 
-    public function performTableFieldMigrations ($table, $oldField, $newField, $oldFieldtype = ParameterType::STRING, $newFieldtype = ParameterType::STRING)
+    public function performTableFieldMigrations($table, $oldField, $newField, $oldFieldtype = ParameterType::STRING, $newFieldtype = ParameterType::STRING)
     {
         $databaseQueries = [];
 
         /** @var Connection $connection */
         $connection = GeneralUtility::makeInstance(ConnectionPool::class)
-            ->getConnectionForTable($table);
+            ->getConnectionForTable($table)
+        ;
         $queryBuilder = $connection->createQueryBuilder();
         $queryBuilder->getRestrictions()->removeAll();
         $this->getEmptyValues(
@@ -459,24 +462,23 @@ class UpgradeApi implements LoggerAwareInterface {
                     )
                 )
             )
-            ->set($newField, $queryBuilder->quoteIdentifier($oldField), false);
-            
+            ->set($newField, $queryBuilder->quoteIdentifier($oldField), false)
+        ;
+
         $databaseQueries[] = $queryBuilder->getSQL();
         $affectedRows = $queryBuilder->execute();
 
         return $databaseQueries;
     }
-    
+
     /**
      * Migrates a single field.
      *
-     * @param array $row
      * @param string $customMessage
-     * @param array $databaseQueries
      *
      * @throws \Exception
      */
-    public function performTableFieldFalMigrations (
+    public function performTableFieldFalMigrations(
         &$customMessage,
         $table,
         $oldField,
@@ -484,13 +486,13 @@ class UpgradeApi implements LoggerAwareInterface {
         $oldFieldtype = ParameterType::STRING,
         $newFieldtype = ParameterType::STRING,
         $sourcePath = ''
-    )
-    {
+    ) {
         $databaseQueries = [];
 
         /** @var Connection $connection */
         $connection = GeneralUtility::makeInstance(ConnectionPool::class)
-            ->getConnectionForTable($table);
+            ->getConnectionForTable($table)
+        ;
         $queryBuilder = $connection->createQueryBuilder();
         $queryBuilder->getRestrictions()->removeAll();
         $this->getEmptyValues(
@@ -520,8 +522,9 @@ class UpgradeApi implements LoggerAwareInterface {
                         $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
                     )
                 )
-            );
-        
+            )
+        ;
+
         $databaseQueries[] = $queryBuilder->getSQL();
         $statement = $queryBuilder->execute();
 
@@ -539,10 +542,11 @@ class UpgradeApi implements LoggerAwareInterface {
                 );
             }
         }
+
         return $databaseQueries;
     }
 
-    protected function migrateField (
+    protected function migrateField(
         &$customMessage,
         &$databaseQueries,
         $table,
@@ -550,8 +554,7 @@ class UpgradeApi implements LoggerAwareInterface {
         $oldField,
         $newField,
         $sourcePath = ''
-    )
-    {
+    ) {
         if (
             empty($table) ||
             empty($oldField) ||
@@ -576,7 +579,7 @@ class UpgradeApi implements LoggerAwareInterface {
             $storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\StorageRepository::class);
             $defaultStorage = $storageRepository->findByUid(1);
         }
-        $storageUid = (int) $defaultStorage->getUid();
+        $storageUid = (int)$defaultStorage->getUid();
         $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
         $fieldItems = explode(',', $row[$oldField]);
         $pathSite = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/';
@@ -585,7 +588,7 @@ class UpgradeApi implements LoggerAwareInterface {
             $fileUid = null;
             $existingFileRecord = null;
             $sourceExists = false;
-            $sourcePathFile = $pathSite . $sourcePath  . '/' . basename($item);
+            $sourcePathFile = $pathSite . $sourcePath . '/' . basename($item);
             $targetPath = 'user_upload';
             $targetDirectory = $pathSite . $fileadminDirectory . $targetPath;
             $targetDirectoryFile = $targetDirectory . '/' . basename($item);
@@ -697,9 +700,10 @@ class UpgradeApi implements LoggerAwareInterface {
                                 )
                             )
                         )
-                        ->execute()->fetchColumn(0);
+                        ->execute()->fetchColumn(0)
+                    ;
 
-                        // if the file record has already been assigned to this table
+                    // if the file record has already been assigned to this table
                     if ($count > 0) {
                         continue;
                     }
@@ -739,4 +743,3 @@ class UpgradeApi implements LoggerAwareInterface {
         }
     }
 }
-

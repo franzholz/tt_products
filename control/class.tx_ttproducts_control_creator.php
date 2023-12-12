@@ -30,22 +30,19 @@
  * class for control initialization
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
-
-
-
-class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterface {
-
-    public function init (
+class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterface
+{
+    public function init(
         &$conf,
         &$config,
         $pObj,
@@ -65,8 +62,8 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
 
         if (!empty($conf['PIDstoreRoot'])) {
             $config['storeRootPid'] = $conf['PIDstoreRoot'];
-        } else if (
-            defined ('TYPO3_MODE') &&
+        } elseif (
+            defined('TYPO3_MODE') &&
             TYPO3_MODE == 'FE'
         ) {
             foreach ($GLOBALS['TSFE']->tmpl->rootLine as $k => $row) {
@@ -89,14 +86,14 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
             $conf['errorLog'] == '{$plugin.tt_products.file.errorLog}'
         ) {
             $conf['errorLog'] = '';
-        } else if ($conf['errorLog']) {
+        } elseif ($conf['errorLog']) {
             $conf['errorLog'] = GeneralUtility::resolveBackPath(PATH_typo3conf . '../' . $conf['errorLog']);
         }
 
         $tmp = $cObj->stdWrap($conf['pid_list'] ?? '', $conf['pid_list.'] ?? '');
         $pid_list = (!empty($cObj->data['pages']) ? $cObj->data['pages'] : (!empty($conf['pid_list.']) ? trim($tmp) : ''));
         $pid_list = ($pid_list ? $pid_list : $conf['pid_list'] ?? '');
-        $config['pid_list'] = (isset($pid_list) ? $pid_list : $config['storeRootPid'] ?? 0);
+        $config['pid_list'] = ($pid_list ?? $config['storeRootPid'] ?? 0);
 
         $recursive = (!empty($cObj->data['recursive']) ? $cObj->data['recursive'] : $conf['recursive'] ?? 99);
         $config['recursive'] = MathUtility::forceIntegerInRange($recursive, 0, 100);
@@ -118,6 +115,7 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
 
         if ($result == false) {
             $errorCode = $markerObj->getErrorCode();
+
             return false;
         }
         tx_ttproducts_control_basket::init(
@@ -137,7 +135,6 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
         ) {
             $conf['table.']['voucher'] = 'tx_voucher_codes';
         }
-
 
         $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
         $cnfObj->init(
@@ -162,7 +159,7 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
 
         tx_ttproducts_control_basket::setInfoArray($infoArray);
 
-            // price
+        // price
         $priceObj = GeneralUtility::makeInstance('tx_ttproducts_field_price');
         $priceObj->init(
             $cObj,
@@ -173,11 +170,11 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
             $priceObj
         );
 
-            // image
+        // image
         $imageObj = GeneralUtility::makeInstance('tx_ttproducts_field_image');
         $imageObj->init($cObj);
 
-            // image view
+        // image view
         $imageViewObj = GeneralUtility::makeInstance('tx_ttproducts_field_image_view');
         $imageViewObj->init($imageObj);
 
@@ -185,7 +182,7 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
         $cssObj->init();
 
         $javaScriptObj = GeneralUtility::makeInstance('tx_ttproducts_javascript');
-            // JavaScript
+        // JavaScript
         $javaScriptObj->init(
             $ajax
         );
@@ -195,15 +192,15 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
             $templateObj->setTemplateSuffix($config['templateSuffix']);
         }
 
-            // Call all init hooks
+        // Call all init hooks
         if (
             isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['init']) &&
             is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['init'])
         ) {
             $tableClassArray = $tablesObj->getTableClassArray();
 
-            foreach($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['init'] as $classRef) {
-                $hookObj= GeneralUtility::makeInstance($classRef);
+            foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['init'] as $classRef) {
+                $hookObj = GeneralUtility::makeInstance($classRef);
                 if (method_exists($hookObj, 'init')) {
                     $hookObj->init($languageObj, $tableClassArray);
                 }
@@ -214,9 +211,8 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
         return true;
     }
 
-
-    static public function getLanguageObj ($pLangObj, $cObj, $conf) {
-
+    public static function getLanguageObj($pLangObj, $cObj, $conf)
+    {
         $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
         $languageSubpath = '/Resources/Private/Language/';
 
@@ -249,8 +245,8 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
         return $languageObj;
     }
 
-    public function destruct () {
+    public function destruct()
+    {
         tx_ttproducts_control_basket::destruct();
     }
 }
-

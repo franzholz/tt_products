@@ -30,20 +30,20 @@
  * functions for the page
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
  */
 
- 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+class tx_ttproducts_model_control
+{
+    public static $controlVar = 'ctrl';
 
-class tx_ttproducts_model_control {
-    static public $controlVar = 'ctrl';
-
-    static public $paramsTableArray = [
+    public static $paramsTableArray = [
         'a' => 'address',
         'article' => 'tt_products_articles',
         'cat' => 'tt_products_cat',
@@ -59,37 +59,37 @@ class tx_ttproducts_model_control {
         'product' => 'tt_products',
     ];
 
-    static public $pointerParamsCodeArray = [
+    public static $pointerParamsCodeArray = [
         'pointer' => 'CATLIST',
         'pp' => 'LIST',
     ];
 
-    static public $basketVar = 'ttp_basket';
-    static public $searchboxVar = 'searchbox';
-    static private $basketParamVar = 'basket';
-    static private $orderViewVar = 'orderview';
-    static private $prefixId = 'tt_products';
-    static private $piVars = [];
-    static private $piVarsDefault = [];
-    static private $andVars = [];
-    static private $basketIntoIdPrefix = 'basket-into-id';
-    static private $basketInputErrorIdPrefix = 'basket-input-error-id';
+    public static $basketVar = 'ttp_basket';
+    public static $searchboxVar = 'searchbox';
+    private static $basketParamVar = 'basket';
+    private static $orderViewVar = 'orderview';
+    private static $prefixId = 'tt_products';
+    private static $piVars = [];
+    private static $piVarsDefault = [];
+    private static $andVars = [];
+    private static $basketIntoIdPrefix = 'basket-into-id';
+    private static $basketInputErrorIdPrefix = 'basket-input-error-id';
 
-
-    static public function determineRegExpDelimiter ($delimiter) {
+    public static function determineRegExpDelimiter($delimiter)
+    {
         $regexpDelimiter = $delimiter;
         if ($delimiter == ';') {
-// 			$regexpDelimiter = '[.semicolon.]';
-// Leads to MYSQL ERROR:
-// Got error 'POSIX collating elements are not supported at offset 46' from regexp
+            // 			$regexpDelimiter = '[.semicolon.]';
+            // Leads to MYSQL ERROR:
+            // Got error 'POSIX collating elements are not supported at offset 46' from regexp
 
             $regexpDelimiter = ';';
         }
         switch ($delimiter) {
             case ';':
-// 				$regexpDelimiter = '[.semicolon.]';
-// Leads to MYSQL ERROR:
-// Got error 'POSIX collating elements are not supported at offset 46' from regexp
+                // 				$regexpDelimiter = '[.semicolon.]';
+                // Leads to MYSQL ERROR:
+                // Got error 'POSIX collating elements are not supported at offset 46' from regexp
                 break;
             case '\n':
                 $regexpDelimiter = '[\n]';
@@ -99,23 +99,21 @@ class tx_ttproducts_model_control {
         return $regexpDelimiter;
     }
 
-
-    static public function getBasketIntoIdPrefix () {
+    public static function getBasketIntoIdPrefix()
+    {
         return self::$basketIntoIdPrefix;
     }
 
-
-    static public function getBasketInputErrorIdPrefix () {
+    public static function getBasketInputErrorIdPrefix()
+    {
         return self::$basketInputErrorIdPrefix;
     }
 
     /**
      * If internal TypoScript property "_DEFAULT_PI_VARS." is set then it will merge the current $this->piVars array onto these default values.
      * Store the internal TypoScript property "_DEFAULT_PI_VARS." if set.
-     *
-     * @return void
      */
-    static public function setPiVarDefaults ($piVarsDefault)
+    public static function setPiVarDefaults($piVarsDefault)
     {
         if (
             isset($piVarsDefault) &&
@@ -125,38 +123,44 @@ class tx_ttproducts_model_control {
         }
     }
 
-    static public function getPiVarDefaults () {
+    public static function getPiVarDefaults()
+    {
         return self::$piVarsDefault;
     }
 
-    static public function setPrefixId ($prefixId) {
+    public static function setPrefixId($prefixId)
+    {
         self::$prefixId = $prefixId;
     }
 
-
-    static public function getPrefixId () {
+    public static function getPrefixId()
+    {
         return self::$prefixId;
     }
 
-    static public function setPiVars ($value) {
+    public static function setPiVars($value)
+    {
         self::$piVars = $value;
     }
 
-    /* if a default value is set then it will merge the current self::$piVars array onto these default values. */
-    static public function getPiVars () {
+    // if a default value is set then it will merge the current self::$piVars array onto these default values.
+    public static function getPiVars()
+    {
         $result = self::$piVars;
+
         return $result;
     }
 
-
-    static public function getPiVar ($functablename) {
+    public static function getPiVar($functablename)
+    {
         $paramsTableArray = self::getParamsTableArray();
         $result = array_search($functablename, $paramsTableArray);
+
         return $result;
     }
 
-
-    static public function setAndVar ($k, $v) {
+    public static function setAndVar($k, $v)
+    {
         if (isset(self::$andVars[$k])) {
             self::$andVars[$k] .= ',' . $v;
         } else {
@@ -164,18 +168,19 @@ class tx_ttproducts_model_control {
         }
     }
 
-
-    static public function getAndVar ($k) {
+    public static function getAndVar($k)
+    {
         $result = false;
 
         if (isset(self::$andVars[$k])) {
             $result = self::$andVars[$k];
         }
+
         return $result;
     }
 
-
-    static public function getPiVarValue ($functablename) {
+    public static function getPiVarValue($functablename)
+    {
         $piVars = self::getPiVars();
         $piVar = self::getPiVar($functablename);
         $result = false;
@@ -187,63 +192,66 @@ class tx_ttproducts_model_control {
         ) {
             $result = $piVars[$piVar];
         }
+
         return $result;
     }
 
-
-    static public function getParamsTableArray () {
+    public static function getParamsTableArray()
+    {
         return self::$paramsTableArray;
     }
 
-
-    static public function getParamsTable ($piVar) {
+    public static function getParamsTable($piVar)
+    {
         $result = false;
 
         if (isset(self::$paramsTableArray[$piVar])) {
             $result = self::$paramsTableArray[$piVar];
         }
+
         return $result;
     }
 
-
-    static public function getPointerPiVar ($theCode) {
+    public static function getPointerPiVar($theCode)
+    {
         $pointerParamsTableArray = self::getPointerParamsCodeArray();
-        $rc = array_search($theCode,$pointerParamsTableArray);
+        $rc = array_search($theCode, $pointerParamsTableArray);
+
         return $rc;
     }
 
-
-    static public function getPointerParamsCodeArray () {
+    public static function getPointerParamsCodeArray()
+    {
         return self::$pointerParamsCodeArray;
     }
 
-
-    static public function getBasketVar () {
+    public static function getBasketVar()
+    {
         return self::$basketVar;
     }
 
-
-    static public function getBasketParamVar () {
+    public static function getBasketParamVar()
+    {
         return self::$basketParamVar;
     }
 
-
-    static public function getSearchboxVar () {
+    public static function getSearchboxVar()
+    {
         return self::$searchboxVar;
     }
 
-
-    static public function getControlVar () {
+    public static function getControlVar()
+    {
         return self::$controlVar;
     }
 
-
-    static public function getOrderViewVar () {
+    public static function getOrderViewVar()
+    {
         return self::$orderViewVar;
     }
 
-
-    static public function getControlArray () {
+    public static function getControlArray()
+    {
         $piVars = self::getPiVars();
 
         $allValueArray = [];
@@ -257,8 +265,7 @@ class tx_ttproducts_model_control {
         return $resultArray;
     }
 
-
-    static public function getTableConfArrays (
+    public static function getTableConfArrays(
         $cObj,
         array $functableArray,
         $theCode,
@@ -280,19 +287,16 @@ class tx_ttproducts_model_control {
         }
 
         if (isset($viewConfArray) && is_array($viewConfArray)) {
-
             $controlArray = self::getControlArray();
             $typeArray = ['sortSelect', 'filterSelect', 'filterInput'];
             $typeSelectArray = ['sortSelect', 'filterSelect'];
 
             foreach ($viewConfArray as $ftname => $funcViewConfArray) {
-
                 foreach ($typeArray as $type) {
                     if (isset($controlArray[$type]) && is_array($controlArray[$type])) {
                         if (in_array($type, $typeSelectArray)) {
                             $fitArray = [];
                             foreach ($controlArray[$type] as $k => $v) {
-
                                 if ($v != '') {
                                     $valueArray = $funcViewConfArray[$type . '.'][$k . '.']['valueArray.'];
                                     $bFitValueArray = [];
@@ -323,7 +327,7 @@ class tx_ttproducts_model_control {
                                         }
                                         $tableConfArray[$ftname]['orderBy'] = implode(',', $fieldArray);
                                     }
-                                break;
+                                    break;
                                 case 'filterSelect':
                                     foreach ($fitArray as $fitRow) {
                                         $field = $fitRow['field'];
@@ -335,7 +339,7 @@ class tx_ttproducts_model_control {
                                             }
 
                                             if (isset($fitRow['key.'])) {
-                                                $key = $cObj->stdWrap($fitRow['key'],$fitRow['key.']);
+                                                $key = $cObj->stdWrap($fitRow['key'], $fitRow['key.']);
                                             } else {
                                                 $key = $fitRow['key'];
                                             }
@@ -347,9 +351,9 @@ class tx_ttproducts_model_control {
                                             }
                                         }
                                     }
-                                break;
+                                    break;
                             }
-                        } else if ($type == 'filterInput') {
+                        } elseif ($type == 'filterInput') {
                             foreach ($controlArray[$type] as $k => $v) {
                                 if ($v != '') {
                                     $fitRow = $funcViewConfArray[$type . '.'][$k . '.'];
@@ -367,8 +371,7 @@ class tx_ttproducts_model_control {
         }
     }
 
-
-    static public function getTableVars (
+    public static function getTableVars(
         $searchFunctablename,
         &$searchTablename,
         &$searchAlias,
@@ -391,8 +394,7 @@ class tx_ttproducts_model_control {
         }
     }
 
-
-    static public function getWhereByFields (
+    public static function getWhereByFields(
         $tablename,
         $alias,
         $aliasPostfix,
@@ -410,16 +412,17 @@ class tx_ttproducts_model_control {
                 $rcArray[] =
                     $alias . $aliasPostfix . '.' . $field . ' REGEXP ' .
                         $GLOBALS['TYPO3_DB']->fullQuoteStr(
-                            '^([[:print:]]*[' . $regexpDelimiter . '])*' . '(' . $sword . ')([[:print:]]*[[:blank:]]*)*([' . $regexpDelimiter . '][[:print:]]*)*$', $tablename
+                            '^([[:print:]]*[' . $regexpDelimiter . '])*(' . $sword . ')([[:print:]]*[[:blank:]]*)*([' . $regexpDelimiter . '][[:print:]]*)*$',
+                            $tablename
                         );
             }
             $rc = implode(' OR ', $rcArray);
         }
+
         return $rc;
     }
 
-
-    static public function getSearchInfo (
+    public static function getSearchInfo(
         $cObj,
         array $searchVars,
         $functablename,
@@ -448,10 +451,10 @@ class tx_ttproducts_model_control {
         }
 
         if (isset($searchVars['uid'])) {
-            $contentObj = $tablesObj->get('tt_content',false);
+            $contentObj = $tablesObj->get('tt_content', false);
             $contentRow = $contentObj->get($searchVars['uid']);
 
-            if(
+            if (
                 isset($contentRow['pi_flexform']) &&
                 $contentRow['pi_flexform'] != ''
             ) {
@@ -483,10 +486,10 @@ class tx_ttproducts_model_control {
 
         $tmpArray = [];
         $tmpArray[0] = (
-                is_array($searchVars['local']) ? 
-                key($searchVars['local']) : 
+            is_array($searchVars['local']) ?
+                key($searchVars['local']) :
                 $searchVars['local']
-            );
+        );
         if (is_array($searchVars['local'])) {
             $tmpArray[0] = key($searchVars['local']);
             $localParam = current($searchVars['local']);
@@ -518,12 +521,11 @@ class tx_ttproducts_model_control {
                 $foundKey = 0;
 
                 if ($position == 'local' && isset($keyFieldArray[$searchFieldArray['local']]) && \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('searchbox')) {	// Todo
-
                     GeneralUtility::requireOnce(PATH_BE_searchbox . 'model/class.tx_searchbox_model.php');
                     $modelObj = GeneralUtility::makeInstance('tx_searchbox_model');
 
                     $fullKeyFieldArray = $modelObj->getKeyFieldArray($tablename, '', '-', $searchFieldArray['local'], '1', $tmpCount);
-                } else if (isset($fullKeyFieldArray)) {
+                } elseif (isset($fullKeyFieldArray)) {
                     unset($fullKeyFieldArray);
                 }
 
@@ -543,12 +545,11 @@ class tx_ttproducts_model_control {
                     }
 
                     if ($searchKey == $positionSearchVars[$position] || (is_array($searchParamArray[$position]) && key($searchParamArray[$position]) == $k || !is_array($searchParamArray[$position]) && $searchParamArray[$position] == $k)) {
-
                         if (substr($searchValue, 0, 1) == '\'' && substr($searchValue, -1) == '\'') {
-                            $searchValue = substr($searchValue,1,strlen($searchValue)-2);
+                            $searchValue = substr($searchValue, 1, strlen($searchValue) - 2);
                         }
                         if (isset($fullKeyFieldArray) && is_array($fullKeyFieldArray)) {
-                            $tmpArray = GeneralUtility::trimExplode('|',$searchKey);
+                            $tmpArray = GeneralUtility::trimExplode('|', $searchKey);
 
                             if ($tmpArray[1] == $searchFieldArray[$position] && isset($fullKeyFieldArray[$searchValue])) {
                                 $searchValue = $fullKeyFieldArray[$searchValue];
@@ -562,10 +563,9 @@ class tx_ttproducts_model_control {
                 }
 
                 if (isset($searchVars[$position]) && isset($positionSearchVars) && is_array($positionSearchVars) && count($positionSearchVars) && $searchVars[$foundKey] != 'all') {
-
                     $positionSearchKey = key($positionSearchVars);
                     $positionSearchValue = current($positionSearchVars);
-                    $partArray = GeneralUtility::trimExplode('|',$positionSearchKey);
+                    $partArray = GeneralUtility::trimExplode('|', $positionSearchKey);
                     $delimiter = ($partArray[2] ? $partArray[2] : '');
                     $searchTablename = '';
                     $searchParam = $partArray[0];
@@ -580,29 +580,28 @@ class tx_ttproducts_model_control {
                     );
 
                     if ($searchTablename != '') {
-
-                        $field = ($searchField!='' && isset($GLOBALS['TCA'][$searchTablename]['columns'][$searchField]) ? $searchField : 'title');
+                        $field = ($searchField != '' && isset($GLOBALS['TCA'][$searchTablename]['columns'][$searchField]) ? $searchField : 'title');
                         $configArray = $GLOBALS['TCA'][$searchTablename]['columns'][$field]['config'];
 
-                        if (isset($configArray) && is_array($configArray) || in_array($field,$enableFieldArray)) {
+                        if (isset($configArray) && is_array($configArray) || in_array($field, $enableFieldArray)) {
                             if ($configArray['eval'] == 'date') {
                                 $searchboxWhere = 'YEAR(' . $searchAlias . $aliasPostfix . '.' . $field . ')=' . $GLOBALS['TYPO3_DB']->fullQuoteStr($positionSearchValue, $searchTablename);
                             } else {
                                 if ($delimiter != '') {
                                     if ($searchVars['query'] == 'IN') {
                                         $valueArray = [];
-                                        $tmpParamArray = GeneralUtility::trimExplode(',',$positionSearchValue);
+                                        $tmpParamArray = GeneralUtility::trimExplode(',', $positionSearchValue);
                                         foreach ($tmpParamArray as $param => $v) {
                                             if ($v != '') {
-                                                $valueArray[] = $GLOBALS['TYPO3_DB']->fullQuoteStr($v, $searchTablename);;
+                                                $valueArray[] = $GLOBALS['TYPO3_DB']->fullQuoteStr($v, $searchTablename);
                                             }
                                         }
-                                        $searchboxWhereArray=[];
+                                        $searchboxWhereArray = [];
                                         foreach ($valueArray as $v) {
-                                            $searchboxWhereArray[] = $searchAlias.$aliasPostfix . '.' . $field . ' REGEXP ' . $GLOBALS['TYPO3_DB']->fullQuoteStr('.*[' . $delimiter . ']*' . $positionSearchValue . '[' . $delimiter . ']*.*', $searchTablename);
+                                            $searchboxWhereArray[] = $searchAlias . $aliasPostfix . '.' . $field . ' REGEXP ' . $GLOBALS['TYPO3_DB']->fullQuoteStr('.*[' . $delimiter . ']*' . $positionSearchValue . '[' . $delimiter . ']*.*', $searchTablename);
                                         }
                                         $searchboxWhere = implode(' OR ', $searchboxWhereArray);
-                                        // TODO
+                                    // TODO
                                     } else {
                                         $searchboxWhere =
                                             self::getWhereByFields(
@@ -617,17 +616,17 @@ class tx_ttproducts_model_control {
                                 } else {
                                     if ($searchVars['query'] == 'IN') {
                                         $valueArray = [];
-                                        $tmpParamArray = GeneralUtility::trimExplode(',',$positionSearchValue);
+                                        $tmpParamArray = GeneralUtility::trimExplode(',', $positionSearchValue);
                                         foreach ($tmpParamArray as $param => $v) {
                                             if ($v != '') {
                                                 $valueArray[] = $v;
                                             }
                                         }
-                                        $searchboxWhereArray=[];
+                                        $searchboxWhereArray = [];
                                         foreach ($valueArray as $v) {
-                                            $searchboxWhereArray[] = $searchAlias.$aliasPostfix . '.' . $field . ' LIKE ' . $GLOBALS['TYPO3_DB']->fullQuoteStr($v . '%', $searchTablename);
+                                            $searchboxWhereArray[] = $searchAlias . $aliasPostfix . '.' . $field . ' LIKE ' . $GLOBALS['TYPO3_DB']->fullQuoteStr($v . '%', $searchTablename);
                                         }
-                                        $searchboxWhere = '(' . implode(' OR ' ,$searchboxWhereArray) . ')';
+                                        $searchboxWhere = '(' . implode(' OR ', $searchboxWhereArray) . ')';
                                     } else {
                                         $searchboxWhere = $searchAlias . $aliasPostfix . '.' . $field . ' LIKE ' . $GLOBALS['TYPO3_DB']->fullQuoteStr($positionSearchValue . '%', $searchTablename);
                                     }
@@ -635,9 +634,9 @@ class tx_ttproducts_model_control {
                             }
                             $newSqlTableArray = [];
                             if ($position == 'foreign') {
-                                $foreignTableInfo = $tablesObj->getForeignTableInfo($theTable,$searchFieldArray['local']);
+                                $foreignTableInfo = $tablesObj->getForeignTableInfo($theTable, $searchFieldArray['local']);
                                 $foreignTableInfo['table_field'] = $searchFieldArray['local'];
-                                $tablesObj->prepareSQL($foreignTableInfo,$tableAliasArray,$aliasPostfix,$newSqlTableArray);
+                                $tablesObj->prepareSQL($foreignTableInfo, $tableAliasArray, $aliasPostfix, $newSqlTableArray);
                             }
                             $sqlTableArray[$position][$sqlTableIndex] = $cnf->getTableName($paramsTableArray[$searchParam]);
                             if (!empty($foreignTableInfo['where'])) {
@@ -658,5 +657,3 @@ class tx_ttproducts_model_control {
         }
     }
 }
-
-

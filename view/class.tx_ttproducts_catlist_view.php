@@ -30,21 +30,18 @@
  * category list view functions
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-use JambageCom\Div2007\Utility\FrontendUtility;
-
-
-class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base {
-
-    public function getChildsContent (
+class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base
+{
+    public function getChildsContent(
         $theCode,
         $t,
         $functablename,
@@ -124,7 +121,7 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base {
                 !empty($grandChildArray) &&
                 $depth + 1 <= $maxDepth
             ) {
-                $childsOut .= 
+                $childsOut .=
                     $this->renderChilds(
                         $theCode,
                         $t,
@@ -179,7 +176,6 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base {
         return $childsOut;
     }
 
-
     protected function renderChilds(
         $theCode,
         $t,
@@ -196,11 +192,9 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base {
         $pageAsCategory,
         $childRow,
         $subCategoryMarkerArray
-    ) 
-    {
+    ) {
         $childsOut = '';
         if (isset($childArray) && is_array($childArray)) {
-
             $childsOut =
                 $this->getChildsContent(
                     $theCode,
@@ -220,11 +214,12 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base {
                     $subCategoryMarkerArray
                 );
         }
+
         return $childsOut;
     }
 
     // returns the category list view
-    public function printView (
+    public function printView(
         $functablename,
         &$templateCode,
         $theCode,
@@ -271,7 +266,7 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base {
 
         if (!empty($error_code)) {
             // nothing
-        } else if (count($categoryArray)) {
+        } elseif (count($categoryArray)) {
             $count = 0;
             $countArray = [];
             $countArray[0] = 0;
@@ -313,13 +308,13 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base {
             if ($currentCat) {
             } else {
                 $currentCat = array_key_first($categoryArray);
-            }    
+            }
 
             if (
                 isset($catArray['1']) &&
                 is_array($catArray['1'])
             ) {
-                foreach($catArray['1'] as $actCategory) {
+                foreach ($catArray['1'] as $actCategory) {
                     $row = $categoryArray[$actCategory];
                     $markerArray = [];
                     $iCount++;
@@ -327,7 +322,7 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base {
                         $functablename,
                         $markerArray,
                         $linkOutArray,
-                        1, 
+                        1,
                         $maxDepth,
                         $iCount,
                         $actCategory,
@@ -467,7 +462,6 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base {
         }
 
         if ($contentEmpty != '') {
-
             $globalMarkerArray = $markerObj->getGlobalMarkerArray();
             $content =
                 $templateService->substituteMarkerArray(
@@ -479,8 +473,7 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base {
         return $content;
     }
 
-
-    public function getItemSubpartArrays (
+    public function getItemSubpartArrays(
         $templateCode,
         $functablename,
         $row,
@@ -509,13 +502,11 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base {
         );
     }
 
-
     /**
      * Template marker substitution
-     * Fills in the markerArray with data for a category
-     *
+     * Fills in the markerArray with data for a category.
      */
-    public function getMarkerArray (
+    public function getMarkerArray(
         $functablename,
         &$markerArray,
         &$linkOutArray,
@@ -608,4 +599,3 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base {
         $markerArray['###LIST_LINK_URL###'] = htmlspecialchars($linkUrl);
     }
 }
-

@@ -63,5 +63,14 @@
     "typo3/cms": {
       "extension-key": "tt_products"
     }
+  },
+  "require-dev": {
+    "friendsofphp/php-cs-fixer": "^3.40"
+  },
+  "config": {
+    "allow-plugins": {
+      "typo3/cms-composer-installers": true,
+      "typo3/class-alias-loader": true
+    }
   }
 }

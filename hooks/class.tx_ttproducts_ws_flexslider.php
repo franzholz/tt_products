@@ -30,27 +30,25 @@
  * hook functions for the extension ws_flexslider
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
-
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-class tx_ttproducts_ws_flexslider {
-
-    public function getUid (
+class tx_ttproducts_ws_flexslider
+{
+    public function getUid(
         $pObj,
         &$imageField,
         &$imageArray
     ) {
         $uid = 0;
 
-        $params =  GeneralUtility::_GP('tt_products');
+        $params = GeneralUtility::_GP('tt_products');
         if (isset($params) && is_array($params)) {
             $uid = $params['cat'];
         }
@@ -70,7 +68,7 @@ class tx_ttproducts_ws_flexslider {
         return $uid;
     }
 
-    protected function getImages (
+    protected function getImages(
         WapplerSystems\WsFlexslider\Controller\FlexsliderController $pObj,
         $uid,
         $table,
@@ -96,4 +94,3 @@ class tx_ttproducts_ws_flexslider {
         return $imageArray;
     }
 }
-

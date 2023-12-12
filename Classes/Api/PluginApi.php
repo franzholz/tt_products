@@ -33,33 +33,29 @@ namespace JambageCom\TtProducts\Api;
  * functions for the view
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
-
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\MathUtility;
 
 use JambageCom\Div2007\Utility\ErrorUtility;
 use JambageCom\Div2007\Utility\ExtensionUtility;
 use JambageCom\Div2007\Utility\FrontendUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 
-
-
-
-abstract class RelatedProductsTypes {
-    const SystemCategory = 1;
+abstract class RelatedProductsTypes
+{
+    public const SystemCategory = 1;
 }
 
+class PluginApi
+{
+    private static $bHasBeenInitialised = false;
+    private static $flexformArray = [];
 
-class PluginApi {
-
-    static private $bHasBeenInitialised = false;
-    static private $flexformArray = [];
-
-    static public function init ($conf) {
+    public static function init($conf)
+    {
         $piVarsDefault = [];
         $parameterApi = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\ParameterApi::class);
         $prefixId = $parameterApi->getPrefixId();
@@ -98,7 +94,7 @@ class PluginApi {
         );
     }
 
-    static public function init2 (
+    public static function init2(
         &$conf,
         &$config,
         $cObj,
@@ -113,7 +109,7 @@ class PluginApi {
             $conf
         );
 
-            // initialise AJAX at the beginning because the AJAX functions can set piVars
+        // initialise AJAX at the beginning because the AJAX functions can set piVars
         if (!$bRunAjax) {
             $result = self::initAjax(
                 $ajaxObj,
@@ -160,10 +156,11 @@ class PluginApi {
         if ($result) {
             self::$bHasBeenInitialised = true;
         }
+
         return $result;
     }
 
-    static public function initFlexform (
+    public static function initFlexform(
         $cObj
     ) {
         if (!empty($cObj->data['pi_flexform'])) {
@@ -173,11 +170,13 @@ class PluginApi {
         }
     }
 
-    static public function getFlexform () {
+    public static function getFlexform()
+    {
         return self::$flexformArray;
     }
 
-    static public function isRelatedCode ($code) {
+    public static function isRelatedCode($code)
+    {
         $result = false;
         if (
             substr($code, 0, 11) == 'LISTRELATED'
@@ -188,7 +187,7 @@ class PluginApi {
         return $result;
     }
 
-    static public function initUrl (
+    public static function initUrl(
         &$urlObj,
         $cObj,
         $conf
@@ -199,7 +198,7 @@ class PluginApi {
         }
     }
 
-    static public function initAjax (
+    public static function initAjax(
         &$ajaxObj,
         $urlObj,
         $cObj,
@@ -222,10 +221,11 @@ class PluginApi {
                 \tx_ttproducts_model_control::getPivar('tt_products_cat')
             );
         }
+
         return $result;
     }
 
-    static public function initConfig (
+    public static function initConfig(
         &$config,
         &$conf,
         &$pid,
@@ -256,7 +256,7 @@ class PluginApi {
             $config['priceNoReseller'] = MathUtility::forceIntegerInRange($conf['priceNoReseller'], 2, 10);
         }
 
-            // If the current record should be displayed.
+        // If the current record should be displayed.
         $config['displayCurrentRecord'] = $conf['displayCurrentRecord'] ?? '';
 
         if (
@@ -273,6 +273,7 @@ class PluginApi {
             $errorCode['2'] = '1';
             $errorCode['3'] = '2';
             $errorCode['4'] = $conf['TAXmode'];
+
             return false;
         }
 
@@ -293,10 +294,12 @@ class PluginApi {
             );
 
         $pageAsCategory = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['pageAsCategory'];
+
         return true;
     }
 
-    public function getRelatedProductsBySystemCategory ($content, $pluginConf) {
+    public function getRelatedProductsBySystemCategory($content, $pluginConf)
+    {
         $result = '';
         $errorCode = [];
 
@@ -316,8 +319,7 @@ class PluginApi {
         return $result;
     }
 
-
-    public function getRelatedProducts (
+    public function getRelatedProducts(
         &$errorCode,
         $content,
         $pluginConf,
@@ -352,6 +354,7 @@ class PluginApi {
             default:
                 $errorCode['0'] = 'wrong_type';
                 $errorCode['1'] = $type;
+
                 return false;
                 break;
         }
@@ -408,7 +411,6 @@ class PluginApi {
             );
 
         if (!empty($relatedIds)) {
-
             $listView = GeneralUtility::makeInstance('tx_ttproducts_list_view');
             $listView->init(
                 $pid,
@@ -462,4 +464,3 @@ class PluginApi {
         return $result;
     }
 }
-

@@ -31,33 +31,31 @@
  * functions for the product
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
-
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-
-abstract class tx_ttproducts_article_base_view extends tx_ttproducts_table_base_view {
+abstract class tx_ttproducts_article_base_view extends tx_ttproducts_table_base_view
+{
     private $dataArray = []; // array of read in products
     private $table;	 // object of the type tx_table_db
 
     public $tabledesc;
     public $fields = [];
     public $type; 	// the type of table 'article' or 'product'
-            // this gets in lower case also used for the URL parameter
+    // this gets in lower case also used for the URL parameter
     public $variant;       // object for the product variant attributes, must initialized in the init function
     public $editVariant; 	// object for the product editable variant attributes, must initialized in the init function
     protected $mm_table = ''; // only set if a mm table is used
     protected $graduatedPriceObject = false;
 
-
-    public function init ($modelObj) {
+    public function init($modelObj)
+    {
         $result = parent::init($modelObj);
 
         if ($result) {
@@ -87,24 +85,27 @@ abstract class tx_ttproducts_article_base_view extends tx_ttproducts_table_base_
         return $result;
     }
 
-    public function setGraduatedPriceObject ($value) {
+    public function setGraduatedPriceObject($value)
+    {
         $this->graduatedPriceObject = $value;
     }
 
-
-    public function getGraduatedPriceObject () {
+    public function getGraduatedPriceObject()
+    {
         return $this->graduatedPriceObject;
     }
 
-    public function getEditVariant () {
+    public function getEditVariant()
+    {
         return $this->editVariant;
     }
 
-    public function getVariant () {
+    public function getVariant()
+    {
         return $this->variant;
     }
 
-    public function getItemMarkerSubpartArrays (
+    public function getItemMarkerSubpartArrays(
         $templateCode,
         $functablename,
         $row,
@@ -133,7 +134,7 @@ abstract class tx_ttproducts_article_base_view extends tx_ttproducts_table_base_
         );
     }
 
-    public function getItemSubpartArrays (
+    public function getItemSubpartArrays(
         &$templateCode,
         $functablename,
         $row,
@@ -160,8 +161,7 @@ abstract class tx_ttproducts_article_base_view extends tx_ttproducts_table_base_
         );
     }
 
-
-    public function getCurrentPriceMarkerArray (
+    public function getCurrentPriceMarkerArray(
         &$markerArray,
         $markerKey,
         $originalName,
@@ -206,8 +206,7 @@ abstract class tx_ttproducts_article_base_view extends tx_ttproducts_table_base_
         );
     }
 
-
-    public function getPriceMarkerArray (
+    public function getPriceMarkerArray(
         $basketExtra,
         $basketRecs,
         &$markerArray,
@@ -242,21 +241,22 @@ abstract class tx_ttproducts_article_base_view extends tx_ttproducts_table_base_
         }
     }
 
-
     /**
      * Template marker substitution
-     * Fills in the markerArray with data for a product
+     * Fills in the markerArray with data for a product.
      *
      * @param	array		reference to an item array with all the data of the item
      * @param	string		title of the category
-     * @param	integer		number of images to be shown
+     * @param	int		number of images to be shown
      * @param	object		the image cObj to be used
      * @param	array		information about the parent HTML form
+     *
      * @return	array		Returns a markerArray ready for substitution with information
      * 			 		for the tt_producst record, $row
+     *
      * @access private
      */
-    public function getModelMarkerArray (
+    public function getModelMarkerArray(
         $row,
         $markerKey,
         &$markerArray,
@@ -332,4 +332,3 @@ abstract class tx_ttproducts_article_base_view extends tx_ttproducts_table_base_
         );
     }
 }
-

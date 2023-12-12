@@ -25,7 +25,6 @@
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -34,24 +33,23 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * label functions for the tables
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
  */
-class tx_ttproducts_table_label {
-
-
+class tx_ttproducts_table_label
+{
     /**
      * Factory function which is called by label_userFunc. The function decides how to build the label.
      * The result is directly written to $params['title'], since this parameter is passed by reference.
      *
      * The function gets the label from the proper model.
      *
-     * @param	array		$params: Parameters, passed by reference!
-     * @param	object		$pObj: Parent object from the calling function, not used.
      * @return	string		The result is also written into $params['title']
      */
-    public function getLabel (
+    public function getLabel(
         &$params,
         $pObj
     ) {
@@ -86,4 +84,3 @@ class tx_ttproducts_table_label {
         return $label;
     }
 }
-

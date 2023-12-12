@@ -30,29 +30,25 @@
  * control functions for a product item object
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
 
- 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-
-class tx_ttproducts_control_product {
-
-    /**
-     */
-    static public function getPresetVariantArray (
+class tx_ttproducts_control_product
+{
+    public static function getPresetVariantArray(
         $itemTable,
         $row,
         $useArticles
     ) {
         $uid = $row['uid'];
-        $functablename = $itemTable->getFuncTablename();;
+        $functablename = $itemTable->getFuncTablename();
+
         $basketVar = tx_ttproducts_model_control::getBasketVar();
         $presetVariantArray = [];
         $basketArray = GeneralUtility::_GP($basketVar);
@@ -89,21 +85,20 @@ class tx_ttproducts_control_product {
         return $presetVariantArray;
     } // getPresetVariantArray
 
-
-    static public function getActiveArticleNo () {
+    public static function getActiveArticleNo()
+    {
         $result = tx_ttproducts_model_control::getPiVarValue('tt_products_articles');
+
         return $result;
     }
 
-
-    static public function addAjax (
+    public static function addAjax(
         $tablesObj,
         $languageObj,
         $theCode,
         $functablename
     ) {
         if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('taxajax')) {
-
             $itemTable = $tablesObj->get($functablename, false);
 
             $selectableVariantFieldArray = $itemTable->variant->getSelectableFieldArray();
@@ -148,4 +143,3 @@ class tx_ttproducts_control_product {
         }
     }
 }
-

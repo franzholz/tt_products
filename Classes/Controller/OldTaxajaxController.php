@@ -2,7 +2,6 @@
 
 namespace JambageCom\TtProducts\Controller;
 
-
 /***************************************************************
 *  Copyright notice
 *
@@ -35,35 +34,24 @@ namespace JambageCom\TtProducts\Controller;
  *
  * @author  Kasper Skårhøj <kasperYYYY@typo3.com>
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-
-
-
+use JambageCom\Div2007\Utility\FrontendUtility;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-use JambageCom\Div2007\Utility\FrontendUtility;
-
-
-class OldTaxajaxController {
-
-    /**
-    * @param ServerRequestInterface $request
-    * @param ResponseInterface $response
-    * @return ResponseInterface
-    */
-    public function processRequest (
+class OldTaxajaxController
+{
+    public function processRequest(
         ServerRequestInterface $request,
-        ResponseInterface $response): ResponseInterface
-    {
+        ResponseInterface $response
+    ): ResponseInterface {
         global $TSFE, $BE_USER, $TYPO3_CONF_VARS, $error;
 
         $pageId = FrontendUtility::getPageId($request);
@@ -73,11 +61,9 @@ class OldTaxajaxController {
 
         FrontendUtility::init($pageId);
 
-
         // ******************************************************
         // Start with tt_products
         // ******************************************************
-
 
         $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
         $config = [];
@@ -97,19 +83,19 @@ class OldTaxajaxController {
 
         $SOBE->init($conf, $config, $ajax, $tmp, $cObj, $errorCode);
 
-        if(!empty($_POST['xajax'])) {
+        if (!empty($_POST['xajax'])) {
             global $trans;
 
             $trans = $this;
             $ajax->taxajax->processRequests();
 
             $SOBE->destruct();
-            exit();
+            exit;
         }
         $SOBE->main();
         $SOBE->printContent();
         $SOBE->destruct();
+
         return $response;
     }
 }
-

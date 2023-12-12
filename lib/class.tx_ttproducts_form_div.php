@@ -30,19 +30,18 @@
  * functions for the display of forms
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-class tx_ttproducts_form_div {
-
-    static public function createSelect (
+class tx_ttproducts_form_div
+{
+    public static function createSelect(
         $languageObj,
         $valueArray,
         $name,
@@ -74,7 +73,6 @@ class tx_ttproducts_form_div {
             }
 
             foreach ($valueArray as $key => $parts) {
-
                 if (is_array($parts)) {
                     $selectKey = $parts['1'];
                     $selectValue = $parts['0'];
@@ -105,7 +103,7 @@ class tx_ttproducts_form_div {
 
                     if ($key == -1) {
                         $selectedText = ($useXHTML ? ' disabled="disabled"' : ' disabled');
-                    } else if (strcmp($selectKey, $selectedKey) == 0) {
+                    } elseif (strcmp($selectKey, $selectedKey) == 0) {
                         switch ($type) {
                             case 'select':
                                 $selectedText = ($useXHTML ? ' selected="selected"' : ' selected');
@@ -117,7 +115,8 @@ class tx_ttproducts_form_div {
                                 $paramArray['checked'] = 'checked';
                                 break;
                             default:
-                                debug ($type, 'ERROR: unknown type'); // keep this
+                                debug($type, 'ERROR: unknown type'); // keep this
+
                                 return false;
                                 break;
                         }
@@ -133,7 +132,7 @@ class tx_ttproducts_form_div {
                             $inputText = self::createTag('input', $name, $valueText, $preParamArray, $paramArray);
 
                             if ($layout == '') {
-                                $inputText .=  ' ' . $nameText . '<br ' . ($useXHTML ? '/' : '') . '>';
+                                $inputText .= ' ' . $nameText . '<br ' . ($useXHTML ? '/' : '') . '>';
                             }
                             $inputTextArray = [$inputText];
                             break;
@@ -178,38 +177,40 @@ class tx_ttproducts_form_div {
         return $result;
     }
 
-
     // fetches the valueArray needed for the functions of this class from a valueArray setup
-    static public function fetchValueArray ($confArray) {
+    public static function fetchValueArray($confArray)
+    {
         $resultArray = [];
         if (is_array($confArray)) {
             foreach ($confArray as $k => $vArray) {
                 $resultArray[] =
                     [
                         0 => $vArray['label'],
-                        1 => $vArray['value']
+                        1 => $vArray['value'],
                     ];
             }
         }
+
         return $resultArray;
     }
 
-
-    static public function getKeyValueArray ($valueArray) {
+    public static function getKeyValueArray($valueArray)
+    {
         $resultArray = [];
 
         foreach ($valueArray as $k => $row) {
             $resultArray[$row[1]] = $row[0];
         }
+
         return $resultArray;
     }
 
-    static protected function getAttributeString ($mainAttributeArray) {
+    protected static function getAttributeString($mainAttributeArray)
+    {
         $useXHTML = !empty($GLOBALS['TSFE']->config['config']['xhtmlDoctype']);
         $resultArray = [];
 
         if (is_array($mainAttributeArray) && count($mainAttributeArray)) {
-
             foreach ($mainAttributeArray as $attribute => $value) {
                 if (
                     $useXHTML ||
@@ -224,10 +225,11 @@ class tx_ttproducts_form_div {
             }
         }
         $result = implode(' ', $resultArray);
+
         return $result;
     }
 
-    static public function createTag (
+    public static function createTag(
         $tag,
         $name,
         $value,
@@ -259,4 +261,3 @@ class tx_ttproducts_form_div {
         return $result;
     }
 }
-

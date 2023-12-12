@@ -30,26 +30,21 @@
  * order functions
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
 
-
+use JambageCom\Div2007\Utility\FrontendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-use JambageCom\Div2007\Utility\FrontendUtility;
-
-
-
-class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
+class tx_ttproducts_order_view extends tx_ttproducts_table_base_view
+{
     public $marker = 'ORDER';
 
-
-    protected function init2 (
+    protected function init2(
         $bValidUpdateCode,
         $theCode,
         &$pid_list,
@@ -117,15 +112,14 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
         );
     }
 
-
-    static public function setFeuserMarker ($feuserMarker, $row, &$markerArray) {
+    public static function setFeuserMarker($feuserMarker, $row, &$markerArray)
+    {
         $markerArray['###' . $feuserMarker . '_NUMBER###'] = $row['uid'];
         $markerArray['###' . $feuserMarker . '_NAME###'] = $row['name'];
     }
 
-
     /** add the markers for uid, date and the tracking number which is stored in the basket recs */
-    public function getBasketRecsMarkerArray (
+    public function getBasketRecsMarkerArray(
         &$markerArray,
         $orderArray
     ) {
@@ -140,7 +134,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
             isset($orderArray['crdate']) &&
             isset($orderArray['tracking_code'])
         ) {
-                // order
+            // order
             $orderObj = $this->getModelObj();
 
             $markerArray['###ORDER_UID###'] = $orderArray['uid'];
@@ -162,8 +156,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
         }
     }
 
-
-    public function getOrderMarkerSubpartArrays (
+    public function getOrderMarkerSubpartArrays(
         $pibaseClass,
         $templateCode,
         $frameWork,
@@ -208,7 +201,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
             $orderitem = $templateService->getSubpart($frameWork, '###ORDER_ITEM###');
             $tablename = 'fe_users';
 
-            while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
+            while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
                 $markerArray['###TRACKING_CODE###'] = $row['tracking_code'];
                 $markerArray['###ORDER_DATE###'] = $cObj->stdWrap($row['crdate'], $conf['orderDate_stdWrap.'] ?? '');
 
@@ -231,13 +224,13 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
             }
 
             if (strpos($frameWork, '###CREDIT_POINTS_VOUCHER###') !== false) {
-
                 $res2 = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
                     'username',
                     $tablename,
                     'tt_products_vouchercode=' .
                         $GLOBALS['TYPO3_DB']->fullQuoteStr(
-                            $username, $tablename
+                            $username,
+                            $tablename
                         )
                 );
                 $num_rows = $GLOBALS['TYPO3_DB']->sql_num_rows($res2) * 5;
@@ -247,7 +240,6 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
             }
 
             if (strpos($frameWork, '###CREDIT_POINTS_TOTAL###') !== false) {
-
                 $res3 = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
                     'tt_products_creditpoints ',
                     $tablename,
@@ -256,7 +248,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
                 $totalcreditpoints = 0;
 
                 if ($res3 !== false) {
-                    while($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res3)) {
+                    while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res3)) {
                         $totalcreditpoints = $row['tt_products_creditpoints'];
                     }
                     $GLOBALS['TYPO3_DB']->sql_free_result($res3);
@@ -292,8 +284,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
         }
     }
 
-
-    public function getProductMarkerSubpartArrays (
+    public function getProductMarkerSubpartArrays(
         $pibaseClass,
         $templateCode,
         $frameWork,
@@ -375,8 +366,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
         $markerArray['###ORDER_PRODUCT_UID###'] = $content;
     }
 
-
-    public function getFrameWork (
+    public function getFrameWork(
         $templateCode,
         $subPartMarker,
         $bValidUpdateCode,
@@ -395,7 +385,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
             $validFeUser
         ) {
             // nothing
-        } else if ($bNeedTrackingInfo) {
+        } elseif ($bNeedTrackingInfo) {
             $subPartMarker = 'TRACKING_ENTER_NUMBER';
         } elseif (!$feusers_uid) {
             $subPartMarker = 'MEMO_NOT_LOGGED_IN';
@@ -418,8 +408,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
         return $frameWork;
     }
 
-
-    public function processFeuserSelect (
+    public function processFeuserSelect(
         $piVars,
         $prefix,
         $tableconf,
@@ -478,8 +467,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
         return $result;
     }
 
-
-    public function printView (
+    public function printView(
         $pibaseClass,
         $templateCode,
         $theCode,
@@ -565,6 +553,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
             $error_code[0] = 'no_subtemplate';
             $error_code[1] = '###' . $subPartMarker . '###';
             $error_code[2] = $templateObj->getTemplateFile();
+
             return '';
         }
 
@@ -575,11 +564,9 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
         }
 
         if ($bUnlock && $bValidUpdateCode) {
-
             $markerKey = $feuserMarker . '_SELECT';
 
             if (strpos($frameWork, '###' . $markerKey . '###') !== false) {
-
                 $markerArray['###' . $markerKey . '###'] =
                     $this->processFeuserSelect(
                         $piVars,
@@ -656,7 +643,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
             $markerArray['###' . $markerKey . '###'] = $text;
             $viewType = $selectedKey;
 
-    // MESSAGE_VIEW
+            // MESSAGE_VIEW
 
             $formConf = $cnf->getFormConf($theCode);
 
@@ -702,7 +689,6 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
 
             foreach ($tagArray as $tag => $v) {
                 if (($pos = strpos($tag, 'MESSAGE_VIEW')) === 0) {
-
                     $markerViewType = substr($tag, strlen('MESSAGE_VIEW_'));
 
                     if ($viewType == $markerViewType || $markerViewType == 'NULL' && $viewType == '') {
@@ -726,7 +712,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
                 ) {
                     $selectedKey = $piVars[$orderPiVar][$fieldPiVar][$piVarType] ?? 0;
                     $type = 'input';
-                    $tagName = $prefix . '[' . $orderPiVar . ']' . '[' . $fieldPiVar . ']' . '[' . $piVarType . ']';
+                    $tagName = $prefix . '[' . $orderPiVar . '][' . $fieldPiVar . '][' . $piVarType . ']';
 
                     $htmlTag = tx_ttproducts_form_div::createTag(
                         $type,
@@ -740,7 +726,6 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
         }
 
         if ($bUnlock || $feusers_uid) {
-
             $orderBy = $tableconf['orderBy'];
             if ($orderBy == '') {
                 $orderBy = 'crdate';
@@ -750,7 +735,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
                 $res1 = $GLOBALS['TYPO3_DB']->exec_SELECTquery('name ', 'fe_users', 'uid=' . intval($feusers_uid));
                 $row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res1);
                 $GLOBALS['TYPO3_DB']->sql_free_result($res1);
-                $this->setFeuserMarker ($feuserMarker, $row, $markerArray);
+                $this->setFeuserMarker($feuserMarker, $row, $markerArray);
 
                 $markerArray['###' . $fegroupMarker . '_TITLE###'] = '';
             }
@@ -768,13 +753,12 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
             }
 
             if ($feusers_uid || $fegroups_uid) {
-
                 $where = '';
 
                 if ($feusers_uid) {
                     $where = 'feusers_uid = ' . intval($feusers_uid);
                     $from = '';
-                } else if ($fegroups_uid) {
+                } elseif ($fegroups_uid) {
                     $orderAlias = $orderObj->getAlias();
                     $from = $functablename . ' ' . $orderAlias . ' LEFT JOIN fe_users ON ' . $orderAlias . '.feusers_uid = fe_users.uid';
                     $where = 'fe_users.usergroup = ' . $fegroups_uid;
@@ -797,7 +781,6 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
                                             $comparand
                                         );
                                     if ($whereField !== false) {
-
                                         $where .= $whereField;
                                     }
                                 }
@@ -879,9 +862,8 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
         return $content;
     }
 
-
-// download
-    public function printDownloadView (
+    // download
+    public function printDownloadView(
         $pibaseClass,
         $templateCode,
         $theCode,
@@ -929,7 +911,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
         );
         $hiddenFields = tx_ttproducts_admin_control_view::getHiddenField($updateCode);
         $markerArray['###ADMIN_HIDDENFIELDS###'] = $hiddenFields;
-        $markerArray['###TRACKING_NUMBER###'] =  $trackingCode;
+        $markerArray['###TRACKING_NUMBER###'] = $trackingCode;
         $subPartMarker = 'DOWNLOAD_LIST_TEMPLATE';
 
         $frameWork = $this->getFrameWork(
@@ -954,11 +936,9 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
         }
 
         if ($bUnlock && $bValidUpdateCode) {
-
             $markerKey = $feuserMarker . '_SELECT';
 
             if (strpos($frameWork, '###' . $markerKey . '###') !== false) {
-
                 $markerArray['###' . $markerKey . '###'] =
                     $this->processFeuserSelect(
                         $piVars,
@@ -972,7 +952,6 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
         }
 
         if ($feusers_uid || $trackingCode != '') {
-
             $where = '';
             if ($feusers_uid) {
                 $res1 =
@@ -1038,9 +1017,9 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
         return $content;
     }
 
-
-#######################
-    public function getSingleOrder ($row) {
+    // ######################
+    public function getSingleOrder($row)
+    {
         $result = '';
         $from = '';
         $where = '';
@@ -1070,4 +1049,3 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view {
         return $result;
     }
 }
-

@@ -30,25 +30,27 @@
  * view functions
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
  */
-
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-class tx_ttproducts_gifts_div {
+class tx_ttproducts_gifts_div
+{
     /**
-     * returns if the product has been put into the basket as a gift
+     * returns if the product has been put into the basket as a gift.
      *
-     * @param	integer	 uid of the product
-     * @param	integer	 variant of the product only size is used now --> TODO
+     * @param	int	 uid of the product
+     * @param	int	 variant of the product only size is used now --> TODO
+     *
      * @return  array	all gift numbers for this product
      */
-    static public function getGiftNumbers ($uid, $variant, $basketExt) {
+    public static function getGiftNumbers($uid, $variant, $basketExt)
+    {
         $giftArray = [];
 
         if ($basketExt['gift']) {
@@ -62,12 +64,11 @@ class tx_ttproducts_gifts_div {
         return $giftArray;
     }
 
-
     /**
-     * Adds gift markers to a markerArray
+     * Adds gift markers to a markerArray.
      */
-    static public function addGiftMarkers ($markerArray, $giftnumber, $code = 'LISTGIFTS', $id = '1') {
-
+    public static function addGiftMarkers($markerArray, $giftnumber, $code = 'LISTGIFTS', $id = '1')
+    {
         $basketExt = tx_ttproducts_control_basket::getBasketExt();
 
         $markerArray['###GIFTNO###'] = $giftnumber;
@@ -81,21 +82,20 @@ class tx_ttproducts_gifts_div {
         // here again, because this is here in ITEM_LIST view
         //	  $markerArray['###FIELD_QTY###'] =  '';
 
-        $markerArray['###FIELD_NAME_PERSON_NAME###']='ttp_gift[personname]';
-        $markerArray['###FIELD_NAME_PERSON_EMAIL###']='ttp_gift[personemail]';
-        $markerArray['###FIELD_NAME_DELIVERY_NAME###']='ttp_gift[deliveryname]';
-        $markerArray['###FIELD_NAME_DELIVERY_EMAIL###']='ttp_gift[deliveryemail]';
-        $markerArray['###FIELD_NAME_GIFT_NOTE###']='ttp_gift[note]';
+        $markerArray['###FIELD_NAME_PERSON_NAME###'] = 'ttp_gift[personname]';
+        $markerArray['###FIELD_NAME_PERSON_EMAIL###'] = 'ttp_gift[personemail]';
+        $markerArray['###FIELD_NAME_DELIVERY_NAME###'] = 'ttp_gift[deliveryname]';
+        $markerArray['###FIELD_NAME_DELIVERY_EMAIL###'] = 'ttp_gift[deliveryemail]';
+        $markerArray['###FIELD_NAME_GIFT_NOTE###'] = 'ttp_gift[note]';
 
         return $markerArray;
     } // addGiftMarkers
 
-
     /**
-     * Saves the orderRecord and returns the result
-     *
+     * Saves the orderRecord and returns the result.
      */
-    static public function saveOrderRecord ($orderUid, $pid, &$giftBasket) {
+    public static function saveOrderRecord($orderUid, $pid, &$giftBasket)
+    {
         $rc = '';
 
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
@@ -108,7 +108,7 @@ class tx_ttproducts_gifts_div {
                 foreach ($product as $variant => $count) {
                     $productObj->variant->modifyRowFromVariant($row, $variant);
                     $articleRow = $productObj->getArticleRow($row, $theCode);
-                    if (count ($articleRow)) {
+                    if (count($articleRow)) {
                         $amount += intval($articleRow['price']) * $count;
                     } else {
                         $amount += intval($row['price']) * $count;
@@ -123,13 +123,13 @@ class tx_ttproducts_gifts_div {
                 'crdate' => time(),
                 'deleted' => 0,
 
-                'ordernumber'	=> $orderUid,
-                'personname'	=> $rec['personname'],
-                'personemail'	=> $rec['personemail'],
-                'deliveryname'	=> $rec['deliveryname'],
+                'ordernumber' => $orderUid,
+                'personname' => $rec['personname'],
+                'personemail' => $rec['personemail'],
+                'deliveryname' => $rec['deliveryname'],
                 'deliveryemail' => $rec['deliveryemail'],
-                'note'			=> $rec['note'],
-                'amount'		=> $amount,
+                'note' => $rec['note'],
+                'amount' => $amount,
             ];
             // Saving the gifts order record
 
@@ -142,12 +142,12 @@ class tx_ttproducts_gifts_div {
             foreach ($rec['item'] as $productid => $product) {
                 foreach ($product as $variant => $count) {
                     $row = [];
-                    $productObj->variant->modifyRowFromVariant ($row, $variant);
+                    $productObj->variant->modifyRowFromVariant($row, $variant);
 
-                    $query='uid_product=\'' . intval($productid) . '\'';
+                    $query = 'uid_product=\'' . intval($productid) . '\'';
                     foreach ($variantFields as $k => $field) {
                         if ($row[$field]) {
-                            $query .= ' AND ' . $field . '=' . $GLOBALS['TYPO3_DB']->fullQuoteStr($row[$field],'tt_products_articles');
+                            $query .= ' AND ' . $field . '=' . $GLOBALS['TYPO3_DB']->fullQuoteStr($row[$field], 'tt_products_articles');
                         }
                     }
                     $articleRes = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid', 'tt_products_articles', $query);
@@ -156,7 +156,7 @@ class tx_ttproducts_gifts_div {
                         $insertFields['uid_foreign'] = $articleRow['uid'];
                         $insertFields['count'] = $count;
                         // Saving the gifts mm order record
-                            $GLOBALS['TYPO3_DB']->exec_INSERTquery('tt_products_gifts_articles_mm',	$insertFields);
+                        $GLOBALS['TYPO3_DB']->exec_INSERTquery('tt_products_gifts_articles_mm', $insertFields);
                     }
                 }
             }
@@ -165,8 +165,8 @@ class tx_ttproducts_gifts_div {
         return $rc;
     }
 
-
-    static public function checkRequired ($basketExt, $infoViewObj, &$wrongGiftNumber) {
+    public static function checkRequired($basketExt, $infoViewObj, &$wrongGiftNumber)
+    {
         $result = '';
         $wrongGiftNumber = 0;
 
@@ -179,11 +179,9 @@ class tx_ttproducts_gifts_div {
             // RegEx-Check
             $checkFieldsExpr = $infoViewObj->getFieldChecks('gift');
 
-            if (($checkFieldsExpr) && (is_array($checkFieldsExpr))) {
+            if ($checkFieldsExpr && is_array($checkFieldsExpr)) {
                 foreach ($checkFieldsExpr as $fName => $checkExpr) {
-
                     foreach ($basketExt['gift'] as $giftnumber => $giftRow) {
-
                         foreach ($giftRow as $field => $value) {
                             if (
                                 strpos($field, $fName) !== false &&
@@ -202,8 +200,8 @@ class tx_ttproducts_gifts_div {
         return $result;
     }
 
-
-    static public function deleteGiftNumber ($giftnumber) {
+    public static function deleteGiftNumber($giftnumber)
+    {
         $giftArray = [];
         $basketExt = tx_ttproducts_control_basket::getBasketExt();
 
@@ -233,18 +231,19 @@ class tx_ttproducts_gifts_div {
         }
     }
 
-
-    static public function isGift ($row, $whereGift) {
+    public static function isGift($row, $whereGift)
+    {
         $result = false;
 
         if (strlen($whereGift)) {
             $result = tx_ttproducts_sql::isValid($row, $whereGift);
         }
+
         return $result;
     }
 
-
-    static public function useTaxZero ($row, $giftConf, $whereGift) {
+    public static function useTaxZero($row, $giftConf, $whereGift)
+    {
         $result = false;
         if (
             self::isGift($row, $whereGift) &&
@@ -258,7 +257,4 @@ class tx_ttproducts_gifts_div {
 
         return $result;
     }
-
 }
-
-

@@ -30,16 +30,12 @@
  * functions for the product
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
-
-class tx_ttproducts_field_foreign_table extends tx_ttproducts_field_base {
-
+class tx_ttproducts_field_foreign_table extends tx_ttproducts_field_base
+{
 }
-
-
-

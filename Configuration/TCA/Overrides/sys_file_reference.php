@@ -1,8 +1,8 @@
 <?php
+
 defined('TYPO3') || die('Access denied.');
 
-call_user_func(function($extensionKey, $table)
-{
+call_user_func(function ($extensionKey, $table) {
     $languageSubpath = '/Resources/Private/Language/';
 
     $temporaryColumns = [
@@ -13,8 +13,8 @@ call_user_func(function($extensionKey, $table)
                 'type' => 'input',
                 'size' => '40',
                 'max' => '256',
-                'default' => null
-            ]
+                'default' => null,
+            ],
         ],
         'tx_ttproducts_startpoint' => [
             'exclude' => 0,
@@ -23,8 +23,8 @@ call_user_func(function($extensionKey, $table)
                 'type' => 'input',
                 'size' => '40',
                 'max' => '256',
-                'default' => null
-            ]
+                'default' => null,
+            ],
         ],
         'tx_ttproducts_endpoint' => [
             'exclude' => 0,
@@ -33,16 +33,16 @@ call_user_func(function($extensionKey, $table)
                 'type' => 'input',
                 'size' => '40',
                 'max' => '256',
-                'default' => null
-            ]
+                'default' => null,
+            ],
         ],
         'tx_ttproducts_price_enable' => [
             'exclude' => 1,
             'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_file_reference.tx_ttproducts_price_enable',
             'config' => [
                 'type' => 'check',
-                'default' => 0
-            ]
+                'default' => 0,
+            ],
         ],
         'tx_ttproducts_price' => [
             'exclude' => 1,
@@ -52,14 +52,13 @@ call_user_func(function($extensionKey, $table)
                 'size' => '20',
                 'eval' => 'trim,double2',
                 'max' => '20',
-                'default' => 0
-            ]
+                'default' => 0,
+            ],
         ],
     ];
 
     $fieldArray = array_keys($temporaryColumns);
     $fieldList = implode(',', $fieldArray);
-
 
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns($table, $temporaryColumns);
 

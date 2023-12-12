@@ -30,20 +30,18 @@
  * foreign table view functions
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
 
- 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-class tx_ttproducts_field_foreign_table_view extends tx_ttproducts_field_base_view {
-
-    public function getItemSubpartArrays (
+class tx_ttproducts_field_foreign_table_view extends tx_ttproducts_field_base_view
+{
+    public function getItemSubpartArrays(
         &$templateCode,
         $markerKey,
         $functablename,
@@ -63,8 +61,7 @@ class tx_ttproducts_field_foreign_table_view extends tx_ttproducts_field_base_vi
         $tablename = $itemTableObj->getTablename();
     }
 
-
-    public function getRowMarkerArray (
+    public function getRowMarkerArray(
         $functablename,
         $fieldname,
         $row,
@@ -91,22 +88,20 @@ class tx_ttproducts_field_foreign_table_view extends tx_ttproducts_field_base_vi
         $foreigntablename = '';
         $rowMarkerArray = [];
         if ($GLOBALS['TCA'][$tablename]['columns'][$fieldname]['config']['type'] == 'group') {
-
             $foreigntablename = $GLOBALS['TCA'][$tablename]['columns'][$fieldname]['config']['allowed'];
             $foreignTableViewObj = $tablesObj->get($foreigntablename, true);
             if (!$row[$fieldname]) {
                 $foreignMarker = $foreignTableViewObj->getMarker();
 
                 foreach ($tagArray as $theTag => $v) {
-                    if (strpos($theTag,$foreignMarker) === 0) {
-                        $rowMarkerArray['###'.$theTag.'###'] = '';
+                    if (strpos($theTag, $foreignMarker) === 0) {
+                        $rowMarkerArray['###' . $theTag . '###'] = '';
                     }
                 }
             }
         }
 
         if ($foreigntablename != '' && $row[$fieldname] > 0) {
-
             $foreignTableObj = $foreignTableViewObj->getModelObj();
             if ($GLOBALS['TCA'][$tablename]['columns'][$fieldname]['config']['internal_type'] == 'db') {
                 $foreignRow = $foreignTableObj->get($row[$fieldname]);
@@ -115,8 +110,8 @@ class tx_ttproducts_field_foreign_table_view extends tx_ttproducts_field_base_vi
                     $foreignRow,
                     '',
                     $rowMarkerArray,
-                    $tmp=[],
-                    $tmp=[],
+                    $tmp = [],
+                    $tmp = [],
                     $tagArray,
                     $theCode,
                     $basketExtra,
@@ -132,9 +127,7 @@ class tx_ttproducts_field_foreign_table_view extends tx_ttproducts_field_base_vi
                     $bEnableTaxZero
                 );
             }
-        //
         }
         $markerArray = array_merge($markerArray, $rowMarkerArray);
     }
 }
-

@@ -30,35 +30,32 @@
  * memo functions
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
  */
- 
- 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 use JambageCom\Div2007\Utility\FrontendUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-class tx_ttproducts_memo_view implements \TYPO3\CMS\Core\SingletonInterface {
+class tx_ttproducts_memo_view implements \TYPO3\CMS\Core\SingletonInterface
+{
     public $pid_list;
     public $pid; // pid where to go
     public $useArticles;
     public $memoItems;
 
-
-    public function init (
-            $theCode,
-            $pid_list,
-            $conf,
-            $useArticles
-        ) {
+    public function init(
+        $theCode,
+        $pid_list,
+        $conf,
+        $useArticles
+    ) {
         $cObj = FrontendUtility::getContentObjectRenderer();
 
         $this->pid_list = $pid_list;
         $this->useArticles = $useArticles;
-// 		$fe_user_uid = $GLOBALS['TSFE']->fe_user->user['uid'];
+        // 		$fe_user_uid = $GLOBALS['TSFE']->fe_user->user['uid'];
 
         $this->memoItems = [];
 
@@ -74,11 +71,10 @@ class tx_ttproducts_memo_view implements \TYPO3\CMS\Core\SingletonInterface {
         }
     }
 
-
     /**
-     * Displays the memo
+     * Displays the memo.
      */
-    public function printView (
+    public function printView(
         $templateCode,
         $theCode,
         $conf,
@@ -96,7 +92,6 @@ class tx_ttproducts_memo_view implements \TYPO3\CMS\Core\SingletonInterface {
             tx_ttproducts_control_memo::bUseSession($conf)
         ) {
             if ($this->memoItems) {
-
                 // List all products:
                 $listView = GeneralUtility::makeInstance('tx_ttproducts_list_view');
                 $listView->init(
@@ -108,10 +103,10 @@ class tx_ttproducts_memo_view implements \TYPO3\CMS\Core\SingletonInterface {
                 if ($theCode == 'MEMO') {
                     $theTable = 'tt_products';
                     $templateArea = 'MEMO_TEMPLATE';
-                } else if ($theCode == 'MEMODAM') {
+                } elseif ($theCode == 'MEMODAM') {
                     $theTable = 'tx_dam';
                     $templateArea = 'MEMODAM_TEMPLATE';
-                } else if ($theCode == 'MEMODAMOVERVIEW') {
+                } elseif ($theCode == 'MEMODAMOVERVIEW') {
                     $theTable = 'tx_dam';
                     $templateArea = 'MEMODAM_OVERVIEW_TEMPLATE';
                 } else {
@@ -122,7 +117,7 @@ class tx_ttproducts_memo_view implements \TYPO3\CMS\Core\SingletonInterface {
                     $templateCode,
                     $theCode,
                     $theTable,
-                    ($this->memoItems ? implode(',', $this->memoItems) : []),
+                    $this->memoItems ? implode(',', $this->memoItems) : [],
                     false,
                     '',
                     $errorCode,
@@ -138,14 +133,14 @@ class tx_ttproducts_memo_view implements \TYPO3\CMS\Core\SingletonInterface {
                 $cObj = FrontendUtility::getContentObjectRenderer();
 
                 $templateArea = 'MEMO_EMPTY';
-                $content = $templateService->getSubpart($templateCode,$subpartmarkerObj->spMarker('###'.$templateArea.'###'));
+                $content = $templateService->getSubpart($templateCode, $subpartmarkerObj->spMarker('###' . $templateArea . '###'));
                 $content = $markerObj->replaceGlobalMarkers($content);
             }
-        } else if (tx_ttproducts_control_memo::bIsAllowed('fe_users', $conf)) {
+        } elseif (tx_ttproducts_control_memo::bIsAllowed('fe_users', $conf)) {
             $subpartmarkerObj = GeneralUtility::makeInstance('tx_ttproducts_subpartmarker');
 
             $templateArea = 'MEMO_NOT_LOGGED_IN';
-// 			$templateAreaMarker = $subpartmarkerObj->spMarker('###'.$templateArea.'###');
+            // 			$templateAreaMarker = $subpartmarkerObj->spMarker('###'.$templateArea.'###');
 
             $content = tx_ttproducts_api::getErrorOut(
                 $theCode,
@@ -153,7 +148,7 @@ class tx_ttproducts_memo_view implements \TYPO3\CMS\Core\SingletonInterface {
                 $subpartmarkerObj->spMarker('###' . $templateArea . $config['templateSuffix'] . '###'),
                 $subpartmarkerObj->spMarker('###' . $templateArea . '###'),
                 $errorCode
-            ) ;
+            );
 
             $content = $markerObj->replaceGlobalMarkers($content);
         }
@@ -165,22 +160,22 @@ class tx_ttproducts_memo_view implements \TYPO3\CMS\Core\SingletonInterface {
             $errorCode[2] = $templateObj->getTemplateFile();
             $content = false;
         }
+
         return $content;
     }
 
-
-    public function getFieldMarkerArray (
+    public function getFieldMarkerArray(
         $row,
         $markerKey,
         &$markerArray,
         $tagArray,
         &$bUseCheckBox
-    )	{
+    ) {
         $fieldKey = 'FIELD_' . $markerKey . '_NAME';
         if (isset($tagArray[$fieldKey])) {
-            $markerArray['###'.$fieldKey.'###'] = tx_ttproducts_model_control::getPrefixId() . '[memo][' . $row['uid'] . ']';
+            $markerArray['###' . $fieldKey . '###'] = tx_ttproducts_model_control::getPrefixId() . '[memo][' . $row['uid'] . ']';
         }
-        $fieldKey = 'FIELD_'.$markerKey.'_CHECK';
+        $fieldKey = 'FIELD_' . $markerKey . '_CHECK';
 
         if (isset($tagArray[$fieldKey])) {
             $bUseCheckBox = true;
@@ -189,22 +184,20 @@ class tx_ttproducts_memo_view implements \TYPO3\CMS\Core\SingletonInterface {
             } else {
                 $value = 0;
             }
-            $checkString = ($value ? 'checked="checked"':'');
-            $markerArray['###'.$fieldKey.'###'] = $checkString;
+            $checkString = ($value ? 'checked="checked"' : '');
+            $markerArray['###' . $fieldKey . '###'] = $checkString;
         } else {
             $bUseCheckBox = false;
         }
     }
 
-
-    public function getHiddenFields (
+    public function getHiddenFields(
         $uidArray,
         &$markerArray,
         $bUseCheckBox
     ) {
         if ($bUseCheckBox) {
-            $markerArray['###HIDDENFIELDS###'] .= '<input type="hidden" name="' . tx_ttproducts_model_control::getPrefixId() . '[memo][uids]" value="' . implode(',',$uidArray) . '" />';
+            $markerArray['###HIDDENFIELDS###'] .= '<input type="hidden" name="' . tx_ttproducts_model_control::getPrefixId() . '[memo][uids]" value="' . implode(',', $uidArray) . '" />';
         }
     }
 }
-

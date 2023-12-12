@@ -30,19 +30,21 @@
  * interface for all database table field view classes
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
  */
+interface tx_ttproducts_field_view_int
+{
+    public function init($modelObj);
 
+    public function needsInit();
 
+    public function getModelObj();
 
-interface tx_ttproducts_field_view_int {
-    public function init ($modelObj);
-    public function needsInit ();
-    public function getModelObj ();
-    public function getRowMarkerArray (
+    public function getRowMarkerArray(
         $functablename,
         $fieldname,
         $row,
@@ -65,4 +67,3 @@ interface tx_ttproducts_field_view_int {
         $bEnableTaxZero = false
     );
 }
-

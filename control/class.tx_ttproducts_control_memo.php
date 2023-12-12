@@ -30,42 +30,43 @@
  * functions for the control of the single view
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
 
+use JambageCom\Div2007\Utility\FrontendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
-use JambageCom\Div2007\Utility\FrontendUtility;
-
-
-class tx_ttproducts_control_memo {
-
-    static protected $memoTableFieldArray = [
+class tx_ttproducts_control_memo
+{
+    protected static $memoTableFieldArray = [
         'tt_products' => 'memoItems',
-        'tx_dam' => 'memodam'
+        'tx_dam' => 'memodam',
     ];
-    static protected $memoItemArray = [];
-    static protected $controlVars = [
+    protected static $memoItemArray = [];
+    protected static $controlVars = [
         'addmemo',
         'delmemo',
         'upmemo',
-        'downmemo'
+        'downmemo',
     ];
 
-    static public function getControlVars () {
+    public static function getControlVars()
+    {
         return self::$controlVars;
     }
 
-    static public function getMemoTableFieldArray () {
+    public static function getMemoTableFieldArray()
+    {
         return self::$memoTableFieldArray;
     }
 
-    static public function bIsAllowed ($type, $conf) {
+    public static function bIsAllowed($type, $conf)
+    {
         $result = false;
 
         if (
@@ -76,11 +77,12 @@ class tx_ttproducts_control_memo {
                 $result = true;
             }
         }
+
         return $result;
     }
 
-    static public function bUseFeuser ($conf) {
-
+    public static function bUseFeuser($conf)
+    {
         $result = false;
         $fe_user_uid = tx_div2007::getFrontEndUser('uid');
 
@@ -91,13 +93,15 @@ class tx_ttproducts_control_memo {
         return $result;
     }
 
-    static public function bUseSession ($conf) {
+    public static function bUseSession($conf)
+    {
         $result = self::bIsAllowed('session', $conf);
+
         return $result;
     }
 
-    static public function process ($functablename, $piVars, $conf) {
-
+    public static function process($functablename, $piVars, $conf)
+    {
         $bMemoChanged = false;
         self::loadMemo($functablename, $conf);
 
@@ -124,7 +128,7 @@ class tx_ttproducts_control_memo {
             foreach ($piVars['memo'] as $k => $v) {
                 if (MathUtility::canBeInterpretedAsInteger($k) && $k != '' && $v) {
                     $memoArray['addmemo'][] = intval($k);
-                } else if ($k == 'uids') {
+                } elseif ($k == 'uids') {
                     $uidArray = explode(',', $v);
                     foreach ($uidArray as $uid) {
                         if (MathUtility::canBeInterpretedAsInteger($uid) && $uid != '' && in_array($uid, $memoItems)) {
@@ -185,27 +189,31 @@ class tx_ttproducts_control_memo {
         }
 
         if ($bMemoChanged) {
-
             self::saveMemo($functablename, $memoItems, $conf);
             self::setMemoItems($functablename, $memoItems);
         }
     }
 
-    static public function getMemoField ($functablename, $bFeuser) {
+    public static function getMemoField($functablename, $bFeuser)
+    {
         if (isset(self::$memoTableFieldArray[$functablename])) {
             $result = ($bFeuser ? 'tt_products_' : '') . self::$memoTableFieldArray[$functablename];
         } else {
             $result = false;
         }
+
         return $result;
     }
 
-    static public function getMemoItems ($functablename) {
+    public static function getMemoItems($functablename)
+    {
         $result = self::$memoItemArray[$functablename];
+
         return $result;
     }
 
-    static public function setMemoItems ($functablename, $v) {
+    public static function setMemoItems($functablename, $v)
+    {
         if (!is_array($v)) {
             if ($v == '') {
                 $v = [];
@@ -216,7 +224,8 @@ class tx_ttproducts_control_memo {
         self::$memoItemArray[$functablename] = $v;
     }
 
-    static public function readSessionMemoItems ($functablename) {
+    public static function readSessionMemoItems($functablename)
+    {
         $result = '';
         $session = tx_ttproducts_control_session::readSessionData();
         $tableArray = self::getMemoTableFieldArray();
@@ -233,7 +242,8 @@ class tx_ttproducts_control_memo {
         return $result;
     }
 
-    static public function readFeUserMemoItems ($functablename) {
+    public static function readFeUserMemoItems($functablename)
+    {
         $result = '';
         $feuserField = self::getMemoField($functablename, true);
 
@@ -244,13 +254,13 @@ class tx_ttproducts_control_memo {
         return $result;
     }
 
-    static public function loadMemo ($functablename, $conf) {
+    public static function loadMemo($functablename, $conf)
+    {
         $memoItems = '';
-// 		$bFeuser = self::bUseFeuser($conf);
-// 		$theField = self::getMemoField($functablename, $bFeuser);
+        // 		$bFeuser = self::bUseFeuser($conf);
+        // 		$theField = self::getMemoField($functablename, $bFeuser);
 
         if (self::bUseFeuser($conf)) {
-
             $memoItems = self::readFeUserMemoItems($functablename);
         } else {
             $memoItems = self::readSessionMemoItems($functablename);
@@ -258,7 +268,8 @@ class tx_ttproducts_control_memo {
         self::setMemoItems($functablename, $memoItems);
     }
 
-    static public function saveMemo ($functablename, $memoItems, $conf) {
+    public static function saveMemo($functablename, $memoItems, $conf)
+    {
         $bFeuser = self::bUseFeuser($conf);
         $feuserField = self::getMemoField($functablename, $bFeuser);
 
@@ -273,8 +284,8 @@ class tx_ttproducts_control_memo {
         }
     }
 
-    static public function copySession2Feuser ($params, $pObj, $conf) {
-
+    public static function copySession2Feuser($params, $pObj, $conf)
+    {
         $tableArray = self::getMemoTableFieldArray();
         foreach ($tableArray as $functablename => $type) {
             $memoItems = self::readSessionMemoItems($functablename);
@@ -290,9 +301,9 @@ class tx_ttproducts_control_memo {
     }
 
     /**
-     * Adds link markers to a wrapped subpart array
+     * Adds link markers to a wrapped subpart array.
      */
-    static public function getWrappedSubpartArray (
+    public static function getWrappedSubpartArray(
         &$wrappedSubpartArray,
         $pidMemo,
         $uid,
@@ -324,5 +335,3 @@ class tx_ttproducts_control_memo {
         }
     }
 }
-
-

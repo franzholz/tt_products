@@ -30,21 +30,18 @@
  * functions for the note field view
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
-
 
 use JambageCom\Div2007\Utility\FrontendUtility;
 
-
-
-class tx_ttproducts_field_note_view extends tx_ttproducts_field_base_view {
-
-    public function getRowMarkerArray (
+class tx_ttproducts_field_note_view extends tx_ttproducts_field_base_view
+{
+    public function getRowMarkerArray(
         $functablename,
         $fieldname,
         $row,
@@ -81,12 +78,12 @@ class tx_ttproducts_field_note_view extends tx_ttproducts_field_base_view {
         ) {
             $cObj = FrontendUtility::getContentObjectRenderer();
 
-                // Extension CSS styled content
+            // Extension CSS styled content
             if (FrontendUtility::hasRTEparser()) {
                 $value = FrontendUtility::RTEcssText($cObj, $value);
-            } else if (is_array($this->conf['parseFunc.'])) {
+            } elseif (is_array($this->conf['parseFunc.'])) {
                 $value = $cObj->parseFunc($value, $this->conf['parseFunc.']);
-            } else if ($this->conf['nl2brNote']) {
+            } elseif ($this->conf['nl2brNote']) {
                 $value = nl2br($value);
             }
         }
@@ -94,4 +91,3 @@ class tx_ttproducts_field_note_view extends tx_ttproducts_field_base_view {
         return $value;
     }
 }
-

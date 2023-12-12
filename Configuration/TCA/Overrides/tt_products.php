@@ -1,11 +1,11 @@
 <?php
+
 defined('TYPO3') || die('Access denied.');
 
 use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-call_user_func(function($extensionKey, $table)
-{
+call_user_func(function ($extensionKey, $table) {
     $configuration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\JambageCom\TtProducts\Domain\Model\Dto\EmConfiguration::class);
     $whereTaxCategory = '';
     $bSelectTaxMode = false;
@@ -68,16 +68,15 @@ call_user_func(function($extensionKey, $table)
                             'expandAll' => 0,
                             'showHeader' => true,
                             'maxLevels' => 99,
-                        ]
+                        ],
                     ],
                     'exclude' => 1,
-                    'default' => 0
-                ]
+                    'default' => 0,
+                ],
             ];
             $addFields[] = 'taxcat_id';
             $firstField = 'taxcat_id';
         }
-
 
         if (\TYPO3\CMS\Core\Utility\GeneralUtility::inList($taxFields, 'tax_id')) {
             $temporaryColumns['tax_id'] = [
@@ -94,8 +93,8 @@ call_user_func(function($extensionKey, $table)
                         ['LLL:EXT:' . $extensionKeyStaticTaxes . $languageSubpath . 'locallang_db.xlf:static_taxes.tx_rate_id.I.4', '4'],
                         ['LLL:EXT:' . $extensionKeyStaticTaxes . $languageSubpath . 'locallang_db.xlf:static_taxes.tx_rate_id.I.5', '5'],
                     ],
-                    'default' => 0
-                ]
+                    'default' => 0,
+                ],
             ];
 
             $addFields[] = 'tax_id';
@@ -142,8 +141,8 @@ call_user_func(function($extensionKey, $table)
                     'selectedListStyle' => 'width:450px',
                     'minitems' => 0,
                     'maxitems' => 1000,
-                    'default' => 0
-                ]
+                    'default' => 0,
+                ],
             ];
             break;
         case '2':
@@ -164,8 +163,8 @@ call_user_func(function($extensionKey, $table)
     if (version_compare($version, '11.5.0', '>=')) {
         $GLOBALS['TCA'][$table]['columns']['syscat'] = [
             'config' => [
-                'type' => 'category'
-            ]
+                'type' => 'category',
+            ],
         ];
 
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes(
@@ -189,8 +188,7 @@ call_user_func(function($extensionKey, $table)
             'syscat',
             [
                 // Set a custom label
-                'label' =>
-                    'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products.syscat',
+                'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products.syscat',
                 // This field can be an exclude-field
                 'exclude' => 1,
                 // Override generic configuration, e.g. sort by title rather than by sorting
@@ -209,7 +207,7 @@ call_user_func(function($extensionKey, $table)
     // TODO.
     $palleteAddition = '';
 
-        // nothing. This is the default behaviour
+    // nothing. This is the default behaviour
 
     if (!empty($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['addressTable'])) {
         $GLOBALS['TCA'][$table]['columns']['address'] = [
@@ -222,8 +220,8 @@ call_user_func(function($extensionKey, $table)
                 'size' => 1,
                 'minitems' => 0,
                 'maxitems' => 1,
-                'default' => 0
-            ]
+                'default' => 0,
+            ],
         ];
 
         $newFields = 'address';
@@ -242,19 +240,19 @@ call_user_func(function($extensionKey, $table)
         in_array($table, $orderBySortingTablesArray)
     ) {
         $GLOBALS['TCA'][$table]['ctrl']['sortby'] = 'sorting';
-        $GLOBALS['TCA'][$table]['columns']['sorting'] = 
+        $GLOBALS['TCA'][$table]['columns']['sorting'] =
             [
                 'config' => [
                     'type' => 'passthrough',
-                    'default' => 0
-                ]
+                    'default' => 0,
+                ],
             ];
     }
 
     $GLOBALS['TCA'][$table]['columns']['slug']['config']['eval'] = $configuration->getSlugBehaviour();
 
-    $excludeArray =  
-        ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['exclude']);
+    $excludeArray =
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['exclude'];
 
     if (
         isset($excludeArray) &&

@@ -31,19 +31,18 @@
  *
  * @author	Klaus Zierer <zierer@pz-systeme.de>
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-class tx_ttproducts_csv implements \TYPO3\CMS\Core\SingletonInterface {
-
-    public function create (
+class tx_ttproducts_csv implements \TYPO3\CMS\Core\SingletonInterface
+{
+    public function create(
         $functablename,
         $conf,
         $itemArray,
@@ -73,8 +72,8 @@ class tx_ttproducts_csv implements \TYPO3\CMS\Core\SingletonInterface {
             $csvlinehead = '';
             $csvlineperson = '';
             $csvlinedelivery = '';
-            $infoFields = explode(',','feusers_uid,name,cnum,first_name,last_name,salutation,address,telephone,fax,email,company,city,zip,state,country,agb,business_partner,organisation_form');
-            foreach($infoFields as $fName) {
+            $infoFields = explode(',', 'feusers_uid,name,cnum,first_name,last_name,salutation,address,telephone,fax,email,company,city,zip,state,country,agb,business_partner,organisation_form');
+            foreach ($infoFields as $fName) {
                 if ($csvlinehead != '') {
                     $csvlinehead .= ';';
                     $csvlineperson .= ';';
@@ -94,7 +93,7 @@ class tx_ttproducts_csv implements \TYPO3\CMS\Core\SingletonInterface {
             if ($accountUid) {
                 $accountRow = $accountObj->getRow($accountUid, 0, true);
                 if (is_array($accountRow) && count($accountRow)) {
-                    $csvlineAccount = '"' . implode('";"',$accountRow) . '"';
+                    $csvlineAccount = '"' . implode('";"', $accountRow) . '"';
                     $accountdescr = '"' . implode('";"', array_keys($accountRow)) . '"';
                 }
             }
@@ -112,19 +111,19 @@ class tx_ttproducts_csv implements \TYPO3\CMS\Core\SingletonInterface {
             // Build field list
             $csvfields = explode(',', $conf['CSVfields']);
             $csvfieldcount = count($csvfields);
-            for ($a = 0; $a < $csvfieldcount; $a++)	{
+            for ($a = 0; $a < $csvfieldcount; $a++) {
                 $csvfields[$a] = trim($csvfields[$a]);
             }
 
             // Write description header
             $csvdescr = '"uid";"count"';
-// 			$variantFieldArray = $itemTable->variant->getSelectableFieldArray();
-// 			if (count($variantFieldArray)) {
-// 				$csvdescr .= ';"' . implode('";"',$variantFieldArray) . '"';
-// 			}
+            // 			$variantFieldArray = $itemTable->variant->getSelectableFieldArray();
+            // 			if (count($variantFieldArray)) {
+            // 				$csvdescr .= ';"' . implode('";"',$variantFieldArray) . '"';
+            // 			}
 
             if ($csvfieldcount) {
-                foreach($csvfields as $csvfield) {
+                foreach ($csvfields as $csvfield) {
                     $csvdescr .= ';"' . $csvfield . '"';
                 }
             }
@@ -153,10 +152,10 @@ class tx_ttproducts_csv implements \TYPO3\CMS\Core\SingletonInterface {
                         // product belongs to another basket
                         continue;
                     }
-// 					$variants = explode(';', $itemTable->variant->getVariantFromRow($row));
+                    // 					$variants = explode(';', $itemTable->variant->getVariantFromRow($row));
                     $csvdata = '"' . intval($row['uid']) . '";"' .
                         intval($actItem['count']) . '"';
-                    foreach($csvfields as $csvfield) {
+                    foreach ($csvfields as $csvfield) {
                         $csvdata .= ';"' . $row[$csvfield] . '"';
                     }
 
@@ -193,12 +192,8 @@ class tx_ttproducts_csv implements \TYPO3\CMS\Core\SingletonInterface {
             $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
 
             $message = $languageObj->getLabel('no_csv_creation');
-            $messageArr =  explode('|', $message);
+            $messageArr = explode('|', $message);
             $errorMessage = $messageArr[0] . $csvFilepath . $messageArr[1];
         }
     }
 }
-
-
-
-

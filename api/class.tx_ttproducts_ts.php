@@ -30,20 +30,21 @@
  * functions to be called from TypoScript
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
  */
-
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+class tx_ttproducts_ts implements \TYPO3\CMS\Core\SingletonInterface
+{
+    public static $count = 0;
 
-class tx_ttproducts_ts implements \TYPO3\CMS\Core\SingletonInterface {
-    static $count = 0;
-
-    protected function getChilds ($uid = 0) {
+    protected function getChilds($uid = 0)
+    {
         $enableFields = \JambageCom\Div2007\Utility\TableUtility::enableFields('pages');
         $where = 'pid = ' . $uid . $enableFields;
 
@@ -59,14 +60,12 @@ class tx_ttproducts_ts implements \TYPO3\CMS\Core\SingletonInterface {
         return $childs;
     }
 
-
-    protected function getAllChilds ($uid = 0) {
-
+    protected function getAllChilds($uid = 0)
+    {
         $childs = $this->getChilds($uid);
         $allChilds = $childs;
 
         if (isset($childs) && is_array($childs) && count($childs)) {
-
             foreach ($childs as $child) {
                 $grandchilds = $this->getAllChilds($child);
                 if (isset($grandchilds) && is_array($grandchilds) && count($grandchilds)) {
@@ -78,8 +77,8 @@ class tx_ttproducts_ts implements \TYPO3\CMS\Core\SingletonInterface {
         return $allChilds;
     }
 
-
-    protected function getProductCount ($uid = 0) {
+    protected function getProductCount($uid = 0)
+    {
         $result = 0;
         $allChilds = $this->getAllChilds($uid);
 
@@ -98,8 +97,8 @@ class tx_ttproducts_ts implements \TYPO3\CMS\Core\SingletonInterface {
         return $result;
     }
 
-
-    protected function getMemoCount ($uid = 0) {
+    protected function getMemoCount($uid = 0)
+    {
         $result = 0;
         $enableFields = \JambageCom\Div2007\Utility\TableUtility::enableFields('tt_content');
         $where = 'pid = ' . $uid . $enableFields;
@@ -128,9 +127,8 @@ class tx_ttproducts_ts implements \TYPO3\CMS\Core\SingletonInterface {
                             'vDEF'
                         );
 
-                    $codeArray = GeneralUtility::trimExplode(',' , $codes);
+                    $codeArray = GeneralUtility::trimExplode(',', $codes);
                     if (in_array('MEMO', $codeArray)) {
-
                         $bMemoFound = true;
                         break;
                     }
@@ -152,17 +150,18 @@ class tx_ttproducts_ts implements \TYPO3\CMS\Core\SingletonInterface {
         return $result;
     }
 
-
     /**
-    * Used to show the product count in a page menu used with pages as categories
-    *
-    * @param	array		The menu item array, $this->I (in the parent object)
-    * @param	array		TypoScript configuration for the function. Notice that the property "parentObj" is a reference to the parent (calling) object (the tslib_Xmenu class instantiated)
-    * @return	array		The processed $I array returned (and stored in $this->I of the parent object again)
-    * @see tslib_menu::userProcess(), tslib_tmenu::writeMenu(), tslib_gmenu::writeMenu()
-    */
-    public function pageProductCount_IProcFunc ($I, $conf) {
-
+     * Used to show the product count in a page menu used with pages as categories.
+     *
+     * @param	array		The menu item array, $this->I (in the parent object)
+     * @param	array		TypoScript configuration for the function. Notice that the property "parentObj" is a reference to the parent (calling) object (the tslib_Xmenu class instantiated)
+     *
+     * @return	array		The processed $I array returned (and stored in $this->I of the parent object again)
+     *
+     * @see tslib_menu::userProcess(), tslib_tmenu::writeMenu(), tslib_gmenu::writeMenu()
+     */
+    public function pageProductCount_IProcFunc($I, $conf)
+    {
         self::$count++;
         $itemRow = $conf['parentObj']->menuArr[$I['key']];
         $memoCount = $this->getMemoCount($itemRow['uid']);
@@ -180,9 +179,8 @@ class tx_ttproducts_ts implements \TYPO3\CMS\Core\SingletonInterface {
         return $I;
     }
 
-
-    public function processMemo () {
-
+    public function processMemo()
+    {
         $functablename = 'tt_products';
         $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
         $piVars = GeneralUtility::_GPmerged('tt_products');
@@ -190,6 +188,3 @@ class tx_ttproducts_ts implements \TYPO3\CMS\Core\SingletonInterface {
         tx_ttproducts_control_memo::process($functablename, $piVars, $conf);
     }
 }
-
-
-

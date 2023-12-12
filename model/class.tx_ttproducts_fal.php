@@ -30,19 +30,19 @@
  * functions for the FAL File Abstraction Layer
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
  */
-
-
-class tx_ttproducts_fal extends tx_ttproducts_article_base {
+class tx_ttproducts_fal extends tx_ttproducts_article_base
+{
     public $marker = 'FAL';
     public $type = 'fal';
     public $piVar = 'fal';
 
-    static public $copyFieldArray = [
+    public static $copyFieldArray = [
         'title',
         'link',
         'description',
@@ -51,9 +51,6 @@ class tx_ttproducts_fal extends tx_ttproducts_article_base {
         'tx_ttproducts_startpoint',
         'tx_ttproducts_endpoint',
         'tx_ttproducts_price_enable',
-        'tx_ttproducts_price'
+        'tx_ttproducts_price',
     ];
-
 }
-
-

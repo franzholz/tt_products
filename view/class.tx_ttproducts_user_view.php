@@ -30,18 +30,18 @@
  * functions for user defined output (use the hooks or XCLASS this by your extensions)
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-class tx_ttproducts_user_view  {
-
-    public function printView (
+class tx_ttproducts_user_view
+{
+    public function printView(
         $pibaseClass,
         $templateCode,
         $theCode
@@ -49,7 +49,7 @@ class tx_ttproducts_user_view  {
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $conf = $cnf->getConf();
         $content = '';
-        $num = $theCode{4};
+        $num = $theCode[4];
 
         $pibaseObj = GeneralUtility::makeInstance('' . $pibaseClass);
         $cObj = $pibaseObj->cObj;
@@ -58,19 +58,17 @@ class tx_ttproducts_user_view  {
             $content = $cObj->cObjGetSingle($conf['USEROBJ' . $num], $conf['USEROBJ' . $num . '.']);
         }
 
-// Test Fancybox Anfang
+        // Test Fancybox Anfang
 
-$content = chr(13) . '<b>Test Fancybox</b>' . chr(13);
+        $content = chr(13) . '<b>Test Fancybox</b>' . chr(13);
 
+        // $content .= '<a data-fancybox-type="ajax" class="lightbox" href="http://koeln.nmedien.de/index.php?id=364">Hier zur Fancybox</a>';
 
-// $content .= '<a data-fancybox-type="ajax" class="lightbox" href="http://koeln.nmedien.de/index.php?id=364">Hier zur Fancybox</a>';
+        $content .= '<a data-fancybox-type="ajax" class="lightbox" href="http://koeln.meine-webseite.de/index.php?id=339&amp;tt_products[product]=21">Hier zur Fancybox</a>';
 
-$content .= '<a data-fancybox-type="ajax" class="lightbox" href="http://koeln.meine-webseite.de/index.php?id=339&amp;tt_products[product]=21">Hier zur Fancybox</a>';
+        $content .= chr(13);
 
-
-$content .= chr(13);
-
-$content .= '<script type="text/javascript">
+        $content .= '<script type="text/javascript">
 	$(document).ready(function() {
 		$(\'a.lightbox\').fancybox({
 			padding : 10,
@@ -91,10 +89,8 @@ $content .= '<script type="text/javascript">
 	});
 </script>';
 
-
-// Test Fancybox Ende
+        // Test Fancybox Ende
 
         return $content;
     }
 }
-

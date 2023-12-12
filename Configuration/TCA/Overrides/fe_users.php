@@ -1,8 +1,8 @@
 <?php
+
 defined('TYPO3') || die('Access denied.');
 
-call_user_func(function($extensionKey, $table)
-{
+call_user_func(function ($extensionKey, $table) {
     $languageSubpath = '/Resources/Private/Language/';
 
     $temporaryColumns = [
@@ -14,8 +14,8 @@ call_user_func(function($extensionKey, $table)
                 'size' => '20',
                 'max' => '50',
                 'eval' => 'trim',
-                'default' => null
-            ]
+                'default' => null,
+            ],
         ],
         'static_info_country' => [
             'exclude' => 0,
@@ -25,8 +25,8 @@ call_user_func(function($extensionKey, $table)
                 'size' => '5',
                 'max' => '3',
                 'eval' => '',
-                'default' => null
-            ]
+                'default' => null,
+            ],
         ],
         'zone' => [
             'exclude' => 0,
@@ -36,8 +36,8 @@ call_user_func(function($extensionKey, $table)
                 'size' => '20',
                 'max' => '40',
                 'eval' => 'trim',
-                'default' => null
-            ]
+                'default' => null,
+            ],
         ],
         'tt_products_memoItems' => [
             'exclude' => 1,
@@ -48,7 +48,7 @@ call_user_func(function($extensionKey, $table)
                 'max' => '256',
                 'eval' => 'null',
                 'default' => null,
-            ]
+            ],
         ],
         'tt_products_memodam' => [
             'exclude' => 1,
@@ -59,7 +59,7 @@ call_user_func(function($extensionKey, $table)
                 'max' => '256',
                 'eval' => 'null',
                 'default' => null,
-            ]
+            ],
         ],
         'tt_products_discount' => [
             'exclude' => 1,
@@ -71,10 +71,10 @@ call_user_func(function($extensionKey, $table)
                 'eval' => 'trim,double2',
                 'range' => [
                     'upper' => '100',
-                    'lower' => '0'
+                    'lower' => '0',
                 ],
-                'default' => 0
-            ]
+                'default' => 0,
+            ],
         ],
         'tt_products_creditpoints' => [
             'exclude' => 1,
@@ -84,8 +84,8 @@ call_user_func(function($extensionKey, $table)
                 'size' => '5',
                 'max' => '20',
                 'eval' => 'trim,integer',
-                'default' => 0
-            ]
+                'default' => 0,
+            ],
         ],
         'tt_products_vouchercode' => [
             'exclude' => 1,
@@ -94,8 +94,8 @@ call_user_func(function($extensionKey, $table)
                 'type' => 'input',
                 'size' => '20',
                 'max' => '256',
-                'default' => null
-            ]
+                'default' => null,
+            ],
         ],
         'tt_products_vat' => [
             'exclude' => 1,
@@ -104,16 +104,16 @@ call_user_func(function($extensionKey, $table)
                 'type' => 'input',
                 'size' => '15',
                 'max' => '15',
-                'default' => null
-            ]
+                'default' => null,
+            ],
         ],
         'tt_products_payment_bill' => [
             'exclude' => 1,
             'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_payment_bill',
             'config' => [
                 'type' => 'check',
-                'default' => 0
-            ]
+                'default' => 0,
+            ],
         ],
         'tt_products_business_partner' => [
             'exclude' => 1,
@@ -127,8 +127,8 @@ call_user_func(function($extensionKey, $table)
                 ],
                 'size' => 1,
                 'maxitems' => 1,
-                'default' => 0
-            ]
+                'default' => 0,
+            ],
         ],
         'tt_products_organisation_form' => [
             'exclude' => 1,
@@ -167,8 +167,8 @@ call_user_func(function($extensionKey, $table)
                 ],
                 'size' => 1,
                 'maxitems' => 1,
-                'default' => 'U'
-            ]
+                'default' => 'U',
+            ],
         ],
     ];
 

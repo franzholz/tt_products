@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace JambageCom\TtProducts\Updates;
@@ -16,28 +17,21 @@ namespace JambageCom\TtProducts\Updates;
  * The TYPO3 project - inspiring people to share!
  */
 
-
+use JambageCom\TtProducts\Api\UpgradeApi;
 use Symfony\Component\Console\Output\OutputInterface;
-
-
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Install\Service\UpgradeWizardsService;
 use TYPO3\CMS\Install\Updates\ChattyInterface;
-use TYPO3\CMS\Install\Updates\Confirmation;
 use TYPO3\CMS\Install\Updates\ConfirmableInterface;
+use TYPO3\CMS\Install\Updates\Confirmation;
 use TYPO3\CMS\Install\Updates\DatabaseUpdatedPrerequisite;
 use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
-use TYPO3\CMS\Install\Service\UpgradeWizardsService;
-
-
-
-use JambageCom\TtProducts\Api\UpgradeApi;
-
 
 class ProductMMGraduatedPriceTtProductsUpdater implements UpgradeWizardInterface, ConfirmableInterface, ChattyInterface
 {
-    const TABLE = 'tt_products_mm_graduated_price';
+    public const TABLE = 'tt_products_mm_graduated_price';
 
-     /**
+    /**
      * @var OutputInterface
      */
     protected $output;
@@ -61,9 +55,7 @@ class ProductMMGraduatedPriceTtProductsUpdater implements UpgradeWizardInterface
     }
 
     /**
-     * Setter injection for output into upgrade wizards
-     *
-     * @param OutputInterface $output
+     * Setter injection for output into upgrade wizards.
      */
     public function setOutput(OutputInterface $output): void
     {
@@ -71,9 +63,7 @@ class ProductMMGraduatedPriceTtProductsUpdater implements UpgradeWizardInterface
     }
 
     /**
-     * Get title
-     *
-     * @return string
+     * Get title.
      */
     public function getTitle(): string
     {
@@ -81,7 +71,7 @@ class ProductMMGraduatedPriceTtProductsUpdater implements UpgradeWizardInterface
     }
 
     /**
-     * Get description
+     * Get description.
      *
      * @return string Longer description of this updater
      */
@@ -99,9 +89,7 @@ class ProductMMGraduatedPriceTtProductsUpdater implements UpgradeWizardInterface
     }
 
     /**
-     * Return a confirmation message instance
-     *
-     * @return \TYPO3\CMS\Install\Updates\Confirmation
+     * Return a confirmation message instance.
      */
     public function getConfirmation(): Confirmation
     {
@@ -130,10 +118,11 @@ class ProductMMGraduatedPriceTtProductsUpdater implements UpgradeWizardInterface
     }
 
     /**
-     * Performs the database update
+     * Performs the database update.
      *
      * @param array &$databaseQueries Queries done in this update
      * @param string &$customMessage Custom message
+     *
      * @return bool
      */
     public function performUpdate(array &$databaseQueries, &$customMessage)
@@ -151,9 +140,7 @@ class ProductMMGraduatedPriceTtProductsUpdater implements UpgradeWizardInterface
 
     /**
      * Execute the update
-     * Called when a wizard reports that an update is necessary
-     *
-     * @return bool
+     * Called when a wizard reports that an update is necessary.
      */
     public function executeUpdate(): bool
     {
@@ -161,6 +148,7 @@ class ProductMMGraduatedPriceTtProductsUpdater implements UpgradeWizardInterface
         $message = '';
         $result = $this->performUpdate($queries, $message);
         $this->output->write($message);
+
         return $result;
     }
 
@@ -168,35 +156,34 @@ class ProductMMGraduatedPriceTtProductsUpdater implements UpgradeWizardInterface
      * Is an update necessary?
      * Is used to determine whether a wizard needs to be run.
      * Check if data for migration exists.
-     *
-     * @return bool
      */
     public function updateNecessary(): bool
     {
         $elementCount = $this->upgradeApi->countOfMMTableMigrations(self::TABLE, 'product_uid');
-        return ($elementCount > 0);
+
+        return $elementCount > 0;
     }
 
     /**
      * Returns an array of class names of Prerequisite classes
      * This way a wizard can define dependencies like "database up-to-date" or
-     * "reference index updated"
+     * "reference index updated".
      *
      * @return string[]
      */
     public function getPrerequisites(): array
     {
         return [
-            DatabaseUpdatedPrerequisite::class
+            DatabaseUpdatedPrerequisite::class,
         ];
     }
 
     /**
      * Marks some wizard as being "seen" so that it will not be shown again.
      */
-//     protected function markWizardAsDone() {
-//         $service = GeneralUtility::makeInstance(UpgradeWizardsService::class);
-// 
-//         $service->markWizardAsDone($this->getIdentifier());
-//     }
+    //     protected function markWizardAsDone() {
+    //         $service = GeneralUtility::makeInstance(UpgradeWizardsService::class);
+    //
+    //         $service->markWizardAsDone($this->getIdentifier());
+    //     }
 }
