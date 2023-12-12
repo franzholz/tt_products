@@ -321,7 +321,7 @@ class tx_ttproducts_main implements SingletonInterface
         return $result;
     } // init
 
-    public function destruct()
+    public function destruct(): void
     {
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $tablesObj->destruct();
@@ -1100,7 +1100,7 @@ class tx_ttproducts_main implements SingletonInterface
         return $result;
     }
 
-    public function set_no_cache()
+    public function set_no_cache(): void
     {
         // Should never be used!
     }
@@ -1248,7 +1248,7 @@ class tx_ttproducts_main implements SingletonInterface
         return $content;
     }  // products_tracking
 
-    public function setSingleFromList($bValue)
+    public function setSingleFromList($bValue): void
     {
         $this->bSingleFromList = $bValue;
     }

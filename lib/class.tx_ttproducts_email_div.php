@@ -63,7 +63,7 @@ class tx_ttproducts_email_div
         $basketRecs,
         $sendername = '',
         $senderemail = ''
-    ) {
+    ): void {
         $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 
@@ -161,7 +161,7 @@ class tx_ttproducts_email_div
         $templateCode,
         $templateMarker,
         $bHtmlMail = false
-    ) {
+    ): void {
         $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $sendername = ($giftRow['personname'] ?: $conf['orderEmail_fromName']);
         $senderemail = ($giftRow['personemail'] ?: $conf['orderEmail_from']);

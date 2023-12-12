@@ -54,7 +54,7 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view
     public function generateRadioSelect(
         $theCode,
         $row
-    ) {
+    ): void {
     }
 
     /**
@@ -79,7 +79,7 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view
         $multiOrderArray,
         $productRowArray,
         $checkPriceZero = false
-    ) {
+    ): void {
         $error = false;
         $cObj = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
         $cObj->start([]);

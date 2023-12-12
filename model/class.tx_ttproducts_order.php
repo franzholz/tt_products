@@ -199,7 +199,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
         return $orderUid;
     } // getBlankUid
 
-    public function setCurrentData($key, $value)
+    public function setCurrentData($key, $value): void
     {
         $this->currentArray[$key] = $value;
     }
@@ -211,7 +211,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
         return $result;
     }
 
-    public function setUid($uid)
+    public function setUid($uid): void
     {
         $this->setCurrentData('uid', $uid);
     }
@@ -227,13 +227,13 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
         return $result;
     }
 
-    public function clearUid()
+    public function clearUid(): void
     {
         $this->setCurrentData('uid', '');
         tx_ttproducts_control_basket::store('order', []);
     }
 
-    public function updateRecord($orderUid, array $fieldsArray)
+    public function updateRecord($orderUid, array $fieldsArray): void
     {
         // Saving the order record
         $GLOBALS['TYPO3_DB']->exec_UPDATEquery(
@@ -313,7 +313,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
         $usedCreditpoints,
         $voucherCount,
         $bOnlyStatusChange
-    ) {
+    ): void {
         $billingInfo = $infoViewOb->infoArray['billing'];
         $deliveryInfo = $infoViewOb->infoArray['delivery'];
         $feusers_uid = 0;
@@ -623,7 +623,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
         $orderUid,
         $itemArray,
         $theCode
-    ) {
+    ): void {
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $editFieldArray = [];
         $selectableVariantFieldArray = [];
@@ -1130,7 +1130,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
         $pid_list,
         &$productRowArray,
         &$multiOrderArray
-    ) {
+    ): void {
         $multiOrderArray = [];
         $productRowArray = [];
 
@@ -1219,7 +1219,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
         $pid_list,
         &$productRowArray,
         &$multiOrderArray
-    ) {
+    ): void {
         $productRowArray = [];
         $multiOrderArray = [];
 
@@ -1273,7 +1273,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
         $trackingCode,
         &$whereOrders,
         &$whereProducts
-    ) {
+    ): void {
         $whereOrders = '1=1';
 
         if ($feusers_uid) {

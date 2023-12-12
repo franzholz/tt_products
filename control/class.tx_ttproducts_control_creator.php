@@ -251,7 +251,7 @@ class tx_ttproducts_control_creator implements SingletonInterface
         return $languageObj;
     }
 
-    public function destruct()
+    public function destruct(): void
     {
         tx_ttproducts_control_basket::destruct();
     }

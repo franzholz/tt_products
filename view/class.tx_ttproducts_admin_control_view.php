@@ -50,7 +50,7 @@ class tx_ttproducts_admin_control_view
         $bValidUpdateCode,
         &$subpartArray,
         &$wrappedSubpartArray
-    ) {
+    ): void {
         // Display admin-interface if access.
         if (!$bIsAllowed) {
             $subpartArray['###ADMIN_CONTROL###'] = '';

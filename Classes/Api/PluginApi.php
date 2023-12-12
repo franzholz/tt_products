@@ -56,7 +56,7 @@ class PluginApi
     private static bool $bHasBeenInitialised = false;
     private static $flexformArray = [];
 
-    public static function init($conf)
+    public static function init($conf): void
     {
         $piVarsDefault = [];
         $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
@@ -164,7 +164,7 @@ class PluginApi
 
     public static function initFlexform(
         $cObj
-    ) {
+    ): void {
         if (!empty($cObj->data['pi_flexform'])) {
             self::$flexformArray = GeneralUtility::xml2array($cObj->data['pi_flexform']);
         } else {
@@ -193,7 +193,7 @@ class PluginApi
         &$urlObj,
         $cObj,
         $conf
-    ) {
+    ): void {
         if (!isset($urlObj)) {
             $urlObj = GeneralUtility::makeInstance('tx_ttproducts_url_view');
             $urlObj->init($conf);

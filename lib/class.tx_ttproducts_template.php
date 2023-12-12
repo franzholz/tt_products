@@ -49,7 +49,7 @@ class tx_ttproducts_template implements SingletonInterface
         return $this->templateFile;
     }
 
-    public function setTemplateSuffix($value)
+    public function setTemplateSuffix($value): void
     {
         $this->templateSuffix = $value;
     }

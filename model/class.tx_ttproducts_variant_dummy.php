@@ -55,7 +55,7 @@ class tx_ttproducts_variant_dummy implements tx_ttproducts_variant_int, Singleto
     /**
      * getting the articles for a product.
      */
-    public function getUseArticles()
+    public function getUseArticles(): void
     {
     }
 
@@ -84,7 +84,7 @@ class tx_ttproducts_variant_dummy implements tx_ttproducts_variant_int, Singleto
      *
      * @see getVariantFromRow
      */
-    public function modifyRowFromVariant(&$row, $variant = '')
+    public function modifyRowFromVariant(&$row, $variant = ''): void
     {
     }
 
@@ -99,11 +99,11 @@ class tx_ttproducts_variant_dummy implements tx_ttproducts_variant_int, Singleto
      *
      * @see modifyRowFromVariant
      */
-    public function getVariantFromRow($row)
+    public function getVariantFromRow($row): void
     {
     }
 
-    public function getVariantFromProductRow($row, $variantRow, $useArticles)
+    public function getVariantFromProductRow($row, $variantRow, $useArticles): void
     {
     }
 
@@ -118,11 +118,11 @@ class tx_ttproducts_variant_dummy implements tx_ttproducts_variant_int, Singleto
      *
      * @see modifyRowFromVariant
      */
-    public function getVariantFromRawRow($row)
+    public function getVariantFromRawRow($row): void
     {
     }
 
-    public function getVariantRow($row = '', $varianArray = [])
+    public function getVariantRow($row = '', $varianArray = []): void
     {
     }
 
@@ -138,15 +138,15 @@ class tx_ttproducts_variant_dummy implements tx_ttproducts_variant_int, Singleto
         return $this->selectableArray;
     }
 
-    public function getVariantValuesByArticle($articleRowArray, $productRow, $withSemicolon = false)
+    public function getVariantValuesByArticle($articleRowArray, $productRow, $withSemicolon = false): void
     {
     }
 
-    public function filterArticleRowsByVariant($row, $variant, $articleRows, $bCombined = false)
+    public function filterArticleRowsByVariant($row, $variant, $articleRows, $bCombined = false): void
     {
     }
 
-    public function getFieldArray()
+    public function getFieldArray(): void
     {
     }
 
@@ -155,7 +155,7 @@ class tx_ttproducts_variant_dummy implements tx_ttproducts_variant_int, Singleto
         return $this->selectableFieldArray;
     }
 
-    public function getAdditionalKey()
+    public function getAdditionalKey(): void
     {
     }
 }

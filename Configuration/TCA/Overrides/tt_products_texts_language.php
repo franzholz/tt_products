@@ -5,7 +5,7 @@ defined('TYPO3') || die('Access denied.');
 use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-call_user_func(function ($extensionKey, $table) {
+call_user_func(function ($extensionKey, $table): void {
     $orderBySortingTablesArray = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['orderBySortingTables']);
     $languageSubpath = '/Resources/Private/Language/';
     $languageLglPath = 'LLL:EXT:core' . $languageSubpath . 'locallang_general.xlf:LGL.';

@@ -47,7 +47,7 @@ class tx_ttproducts_control_single implements SingletonInterface
      *
      * @access private
      */
-    public function triggerEvents($conf)
+    public function triggerEvents($conf): void
     {
         if (
             !empty($conf['active']) &&

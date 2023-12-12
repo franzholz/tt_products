@@ -512,7 +512,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
         $suffix = '',
         $imageRenderObj = 'image',
         $linkWrap = false  // neu
-    ) {
+    ): void {
         $imageRow = $row;
         $bImages = false;
         $imageMarkerArray = [];
@@ -831,7 +831,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
         $imageRenderObj = 'image',
         $linkWrap = false, // neu
         $bEnableTaxZero = false
-    ) {
+    ): void {
         if ($bHtml) {
             $bSkip = true;
             if (strpos($fieldname, 'smallimage') !== false) {

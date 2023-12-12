@@ -75,7 +75,7 @@ class tx_ttproducts_page_view extends tx_ttproducts_category_base_view
         $id,
         $prefix,
         $linkWrap = ''
-    ) {
+    ): void {
         $functablename = $this->modelObj->getFuncTablename();
         $row = $this->modelObj->get($pid);
         // 		$imageObj = GeneralUtility::makeInstance('tx_ttproducts_field_image_view');

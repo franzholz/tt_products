@@ -89,7 +89,7 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base
     public function initTaxes(
         $infoArray,
         $conf
-    ) {
+    ): void {
         if (
             isset($infoArray) &&
             is_array($infoArray) &&
@@ -163,7 +163,7 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base
         return $this->uidStore;
     }
 
-    public function setUidStore($uid)
+    public function setUidStore($uid): void
     {
         $this->uidStore = $uid;
     }
@@ -173,12 +173,12 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base
         return $this->setShopCountryCode;
     }
 
-    public function setShopCountryCode($setShopCountryCode)
+    public function setShopCountryCode($setShopCountryCode): void
     {
         $this->setShopCountryCode = $setShopCountryCode;
     }
 
-    public function setStoreData($uidStore)
+    public function setStoreData($uidStore): void
     {
         if (self::isInstalled() && $uidStore > 0) {
             $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
@@ -261,7 +261,7 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base
         return $result;
     }
 
-    public function setAllTaxesArray($taxArray, $taxId = '')
+    public function setAllTaxesArray($taxArray, $taxId = ''): void
     {
         if ($taxId > 0) {
             $this->allTaxesArray[$taxId] = $taxArray;
@@ -281,7 +281,7 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base
         return $result;
     }
 
-    public function setTax($tax, $taxId)
+    public function setTax($tax, $taxId): void
     {
         if ($taxId > 0) {
             $this->taxArray[$taxId] = $tax;
@@ -298,13 +298,13 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base
         return $result;
     }
 
-    public function setTaxId($taxId)
+    public function setTaxId($taxId): void
     {
         $this->taxIdArray[] = $taxId;
         $this->taxIdArray = array_unique($this->taxIdArray);
     }
 
-    public function storeValues($countryArray)
+    public function storeValues($countryArray): void
     {
         $this->countryArray = $countryArray;
     }
@@ -421,7 +421,7 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base
         return true;
     }
 
-    public static function setNeed4StaticTax($value)
+    public static function setNeed4StaticTax($value): void
     {
         self::$need4StaticTax = $value;
     }
@@ -466,7 +466,7 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base
         array $row,
         &$tax,
         &$taxInfoArray
-    ) {
+    ): void {
         $extArray = [];
         $categoryArray = [];
 

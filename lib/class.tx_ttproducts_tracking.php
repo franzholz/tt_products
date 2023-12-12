@@ -55,7 +55,7 @@ class tx_ttproducts_tracking implements SingletonInterface
     /**
      * $basket is the TYPO3 default shopping basket array from ses-data.
      */
-    public function init($cObj)
+    public function init($cObj): void
     {
         $this->cObj = $cObj;
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
@@ -99,7 +99,7 @@ class tx_ttproducts_tracking implements SingletonInterface
         $this->setStatusCodeArray($statusCodeArray);
     }
 
-    public function setStatusCodeArray(&$statusCodeArray)
+    public function setStatusCodeArray(&$statusCodeArray): void
     {
         $this->statusCodeArray = $statusCodeArray;
     }
@@ -130,7 +130,7 @@ class tx_ttproducts_tracking implements SingletonInterface
         $status_log,
         &$orderPaid,
         &$orderClosed
-    ) {
+    ): void {
         $orderPaid = false;
         $orderClosed = false;
         if (isset($status_log) && is_array($status_log)) {

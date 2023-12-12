@@ -51,7 +51,7 @@ class tx_ttproducts_memo_view implements SingletonInterface
         $pid_list,
         $conf,
         $useArticles
-    ) {
+    ): void {
         $cObj = FrontendUtility::getContentObjectRenderer();
 
         $this->pid_list = $pid_list;
@@ -171,7 +171,7 @@ class tx_ttproducts_memo_view implements SingletonInterface
         &$markerArray,
         $tagArray,
         &$bUseCheckBox
-    ) {
+    ): void {
         $fieldKey = 'FIELD_' . $markerKey . '_NAME';
         if (isset($tagArray[$fieldKey])) {
             $markerArray['###' . $fieldKey . '###'] = tx_ttproducts_model_control::getPrefixId() . '[memo][' . $row['uid'] . ']';
@@ -196,7 +196,7 @@ class tx_ttproducts_memo_view implements SingletonInterface
         $uidArray,
         &$markerArray,
         $bUseCheckBox
-    ) {
+    ): void {
         if ($bUseCheckBox) {
             $markerArray['###HIDDENFIELDS###'] .= '<input type="hidden" name="' . tx_ttproducts_model_control::getPrefixId() . '[memo][uids]" value="' . implode(',', $uidArray) . '" />';
         }

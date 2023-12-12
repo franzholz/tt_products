@@ -115,12 +115,12 @@ class tx_ttproducts_marker implements SingletonInterface
         return $this->errorCode;
     }
 
-    public function setErrorCode($errorCode)
+    public function setErrorCode($errorCode): void
     {
         $this->errorCode = $errorCode;
     }
 
-    public function setLangArray(&$langArray)
+    public function setLangArray(&$langArray): void
     {
         $this->langArray = $langArray;
     }
@@ -148,7 +148,7 @@ class tx_ttproducts_marker implements SingletonInterface
     /**
      * getting the global markers.
      */
-    public function setGlobalMarkerArray($conf, $piVars, $locallang, $LLkey)
+    public function setGlobalMarkerArray($conf, $piVars, $locallang, $LLkey): void
     {
         $cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
         $markerArray = [];

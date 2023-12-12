@@ -52,7 +52,7 @@ class tx_ttproducts_url_view implements SingletonInterface
      *
      * @param		array		array urls which should be overridden with marker key as index
      */
-    public function init($conf)
+    public function init($conf): void
     {
         $this->conf = $conf;
     }
@@ -78,7 +78,7 @@ class tx_ttproducts_url_view implements SingletonInterface
         return $singleExcludeList;
     }
 
-    public function setUrlArray($urlArray)
+    public function setUrlArray($urlArray): void
     {
         $this->urlArray = $urlArray;
     }
@@ -91,7 +91,7 @@ class tx_ttproducts_url_view implements SingletonInterface
         $addQueryString = [],
         $css_current = '',
         $useBackPid = true
-    ) {
+    ): void {
         $cObj = FrontendUtility::getContentObjectRenderer();
         $commandArray =
             [
@@ -283,7 +283,7 @@ class tx_ttproducts_url_view implements SingletonInterface
     /**
      * Returns a url for use in forms and links.
      */
-    public function addQueryStringParam(&$queryString, $param, $bUsePrefix = false)
+    public function addQueryStringParam(&$queryString, $param, $bUsePrefix = false): void
     {
         $piVars = tx_ttproducts_model_control::getPiVars();
         $prefixId = tx_ttproducts_model_control::getPrefixId();

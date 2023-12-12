@@ -57,7 +57,7 @@ class tx_ttproducts_orderaddress_view extends tx_ttproducts_table_base_view
         $useBackPid,
         &$subpartArray,
         &$wrappedSubpartArray
-    ) {
+    ): void {
         $marker = 'FE_GROUP';
         $markerLogin = 'LOGIN';
         $markerNologin = 'NOLOGIN';
@@ -142,7 +142,7 @@ class tx_ttproducts_orderaddress_view extends tx_ttproducts_table_base_view
         &$markerArray,
         $bSelect,
         $type
-    ) {
+    ): void {
         $fieldOutputArray = [];
         $modelObj = $this->getModelObj();
         $selectInfoFields = $modelObj->getSelectInfoFields();

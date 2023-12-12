@@ -44,7 +44,7 @@ class tx_ttproducts_search_view implements SingletonInterface
     public $conf;
     public $config;
 
-    public function init()
+    public function init(): void
     {
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 

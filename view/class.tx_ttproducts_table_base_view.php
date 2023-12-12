@@ -63,7 +63,7 @@ abstract class tx_ttproducts_table_base_view implements SingletonInterface
         return !$this->bHasBeenInitialised;
     }
 
-    public function destruct()
+    public function destruct(): void
     {
         $this->bHasBeenInitialised = false;
     }
@@ -90,12 +90,12 @@ abstract class tx_ttproducts_table_base_view implements SingletonInterface
         return $this->piVar;
     }
 
-    public function setPivar($piVar)
+    public function setPivar($piVar): void
     {
         $this->piVar = $piVar;
     }
 
-    public function setMarker($marker)
+    public function setMarker($marker): void
     {
         $this->marker = $marker;
     }
@@ -174,7 +174,7 @@ abstract class tx_ttproducts_table_base_view implements SingletonInterface
         $tagArray,
         $emptyMarkerArray,
         &$resultMarkerArray
-    ) {
+    ): void {
         if (isset($tagArray) && is_array($tagArray)) {
             foreach ($tagArray as $theTag => $v) {
                 foreach ($emptyMarkerArray as $theMarker) {
@@ -201,7 +201,7 @@ abstract class tx_ttproducts_table_base_view implements SingletonInterface
         $basketRecs = [],
         $id = '',
         $checkPriceZero = false
-    ) {
+    ): void {
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $tableconf = $cnf->getTableConf($functablename, $theCode);
@@ -587,7 +587,7 @@ abstract class tx_ttproducts_table_base_view implements SingletonInterface
         $suffix = '',	// this could be a number to discern between repeated rows
         $linkWrap = '',
         $bEnableTaxZero = false
-    ) {
+    ): void {
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $conf = $cnf->getConf();
 

@@ -57,7 +57,7 @@ class tx_ttproducts_hooks_pool extends tx_pool_hooks_base
         &$docHeaderButtons,
         &$markerArray,
         $pOb
-    ) {
+    ): void {
         $content = '<b>Suche &uuml;ber tt_products</b><br/>';
 
         if (ExtensionManagementUtility::isLoaded('searchbox')) {

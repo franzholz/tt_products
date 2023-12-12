@@ -106,7 +106,7 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base
         return $result;
     } // init
 
-    public function setGraduatedPriceObject($value)
+    public function setGraduatedPriceObject($value): void
     {
         $this->graduatedPriceObject = $value;
     }
@@ -119,7 +119,7 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base
     /**
      * Reduces the instock value of the orderRecord with the amount and returns the result.
      */
-    public function reduceInStock($uid, $count)
+    public function reduceInStock($uid, $count): void
     {
         $tableDesc = $this->getTableDesc();
         $instockField = $tableDesc['inStock'];
@@ -136,7 +136,7 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base
     /**
      * Reduces the instock value of the orderRecords with the sold items and returns the result.
      */
-    public function reduceInStockItems($itemArray, $useArticles)
+    public function reduceInStockItems($itemArray, $useArticles): void
     {
     }
 
@@ -147,7 +147,7 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base
         $uid,
         $type,
         $orderBy = ''
-    ) {
+    ): void {
     }
 
     public function getType()
@@ -181,7 +181,7 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base
         return $where;
     }
 
-    public function addselectConfCat($catObject, $cat, &$selectConf)
+    public function addselectConfCat($catObject, $cat, &$selectConf): void
     {
     }
 
@@ -305,7 +305,7 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base
 
     public function clearSelectableVariantFields(
         &$targetRow
-    ) {
+    ): void {
         $fieldArray = $this->getVariant()->getFieldArray();
         $selectableArray = $this->getVariant()->getSelectableArray();
         $count = 0;
@@ -321,7 +321,7 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base
         &$targetRow,
         $sourceRow,
         $bKeepNotEmpty = true
-    ) {
+    ): void {
         $variantFieldArray = $this->getVariant()->getFieldArray();
 
         if (isset($variantFieldArray) && is_array($variantFieldArray)) {
@@ -470,10 +470,10 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base
     public function mergeGraduatedPrice(
         &$targetRow,
         $count
-    ) {
+    ): void {
     }
 
-    public function getTotalDiscount(&$row, $pid = 0)
+    public function getTotalDiscount(&$row, $pid = 0): void
     {
     }
 }

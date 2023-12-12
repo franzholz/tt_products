@@ -75,7 +75,7 @@ class tx_ttproducts_control implements SingletonInterface
             'finalize' => 'products_finalize',
         ];
 
-    public function init($pibaseClass, $funcTablename, $useArticles)
+    public function init($pibaseClass, $funcTablename, $useArticles): void
     {
         $this->pibaseClass = $pibaseClass;
         $this->pibase = GeneralUtility::makeInstance('' . $pibaseClass);

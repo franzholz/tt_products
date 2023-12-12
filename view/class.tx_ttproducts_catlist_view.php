@@ -484,7 +484,7 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base
         $basketExtra,
         $basketRecs,
         $id
-    ) {
+    ): void {
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $categoryTableView = $tablesObj->get($functablename, true);
 
@@ -521,7 +521,7 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base
         $theCode,
         $basketExtra,
         $basketRecs
-    ) {
+    ): void {
         $pibaseObj = GeneralUtility::makeInstance('' . $this->pibaseClass);
         $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
         $conf = $cnfObj->getConf();

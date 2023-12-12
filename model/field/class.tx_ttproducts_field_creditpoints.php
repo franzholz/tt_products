@@ -78,7 +78,7 @@ class tx_ttproducts_field_creditpoints extends tx_ttproducts_field_base
         return $rc;
     }
 
-    public function getBasketMissingCreditpoints($addCreditpoints, &$missing, &$remaining)
+    public function getBasketMissingCreditpoints($addCreditpoints, &$missing, &$remaining): void
     {
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $feuserTable = $tablesObj->get('fe_users', false);
@@ -90,7 +90,7 @@ class tx_ttproducts_field_creditpoints extends tx_ttproducts_field_base
         $remaining = $feuserCreditpoints - $creditpointsTotal;
     }
 
-    public function getMissingCreditpoints($fieldname, $row, &$missing, &$remaining)
+    public function getMissingCreditpoints($fieldname, $row, &$missing, &$remaining): void
     {
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $feuserTable = $tablesObj->get('fe_users', false);

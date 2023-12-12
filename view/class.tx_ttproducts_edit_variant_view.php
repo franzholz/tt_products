@@ -45,7 +45,7 @@ class tx_ttproducts_edit_variant_view implements tx_ttproducts_edit_variant_view
 {
     protected $modelObj;
 
-    public function init($modelObj)
+    public function init($modelObj): void
     {
         $this->modelObj = $modelObj;
     }
@@ -62,7 +62,7 @@ class tx_ttproducts_edit_variant_view implements tx_ttproducts_edit_variant_view
         $theCode,
         $config,
         &$markerArray
-    ) {
+    ): void {
         if (isset($config) && is_array($config)) {
             $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
             $itemTableView = $tablesObj->get($functablename, true);
@@ -154,7 +154,7 @@ class tx_ttproducts_edit_variant_view implements tx_ttproducts_edit_variant_view
         $tagArray,
         &$subpartArray,
         &$wrappedSubpartArray
-    ) {
+    ): void {
         // 		###edit_variant1###
         $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $editConf = $this->getModelObj()->getValidConfig($row);

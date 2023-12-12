@@ -61,7 +61,7 @@ class tx_ttproducts_ajax implements SingletonInterface
         return $result;
     }
 
-    public function setConf($conf)
+    public function setConf($conf): void
     {
         $this->conf = $conf;
     }
@@ -78,7 +78,7 @@ class tx_ttproducts_ajax implements SingletonInterface
         return $result;
     }
 
-    public static function setStoredRecs($valArray)
+    public static function setStoredRecs($valArray): void
     {
         tx_ttproducts_control_basket::store('ajax', $valArray);
     }
@@ -89,7 +89,7 @@ class tx_ttproducts_ajax implements SingletonInterface
         $debug,
         $piVarSingle = 'product',
         $piVarCat = 'cat'
-    ) {
+    ): void {
         // Do you want messages in the status bar?
         // $this->taxajax->statusMessagesOn();
 

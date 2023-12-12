@@ -41,7 +41,7 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
  */
 class ContentPostProcessor
 {
-    public function setPageTitle(&$params, TypoScriptFrontendController &$pObj)
+    public function setPageTitle(&$params, TypoScriptFrontendController &$pObj): void
     {
         $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
         $piVars = \tx_ttproducts_model_control::getPiVars();

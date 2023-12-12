@@ -65,7 +65,7 @@ class tx_ttproducts_billdelivery implements SingletonInterface
         return $rc;
     }
 
-    public function getMarkerArray(&$markerArray, $tracking, $type)
+    public function getMarkerArray(&$markerArray, $tracking, $type): void
     {
         $markerprefix = strtoupper($type);
         $relfilename = $this->getRelFilename($tracking, $type);
@@ -80,7 +80,7 @@ class tx_ttproducts_billdelivery implements SingletonInterface
         return $filename;
     }
 
-    public function writeFile($filename, $content)
+    public function writeFile($filename, $content): void
     {
         $theFile = fopen($filename, 'wb');
         fwrite($theFile, $content);

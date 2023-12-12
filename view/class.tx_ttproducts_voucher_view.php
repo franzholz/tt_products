@@ -57,7 +57,7 @@ class tx_ttproducts_voucher_view extends tx_ttproducts_table_base_view
         &$subpartArray,
         &$wrappedSubpartArray,
         $charset = ''
-    ) {
+    ): void {
         $modelObj = $this->getModelObj();
         $languageObj = GeneralUtility::makeInstance(Localization::class);
         $subpartArray['###SUB_VOUCHERCODE###'] = '';
@@ -91,7 +91,7 @@ class tx_ttproducts_voucher_view extends tx_ttproducts_table_base_view
      */
     public function getMarkerArray(
         &$markerArray
-    ) {
+    ): void {
         $priceViewObj = GeneralUtility::makeInstance('tx_ttproducts_field_price_view');
         $modelObj = $this->getModelObj();
         $markerArray['###INSERT_VOUCHERCODE###'] = 'recs[tt_products][vouchercode]';

@@ -49,7 +49,7 @@ class tx_ttproducts_field_tax extends tx_ttproducts_field_base
         $uidStore,
         $infoArray,
         $conf
-    ) {
+    ): void {
         parent::init();
 
         if ($useStaticTaxes) { // change static_taxes
@@ -88,7 +88,7 @@ class tx_ttproducts_field_tax extends tx_ttproducts_field_base
         return $this->useStaticTaxes;
     }
 
-    public function setUseStaticTaxes($useStaticTaxes)
+    public function setUseStaticTaxes($useStaticTaxes): void
     {
         $this->useStaticTaxes = $useStaticTaxes;
     }

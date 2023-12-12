@@ -2,7 +2,7 @@
 
 defined('TYPO3') || die('Access denied.');
 
-call_user_func(function ($extensionKey) {
+call_user_func(function ($extensionKey): void {
     if (!defined('TT_PRODUCTS_EXT')) {
         define('TT_PRODUCTS_EXT', 'tt_products');
     }

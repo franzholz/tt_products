@@ -107,7 +107,7 @@ class tx_ttproducts_discountprice extends tx_ttproducts_pricecalc_base implement
         $taxIncluded,
         $bMergeArticles = true,
         $uid = 0
-    ) {
+    ): void {
         if (!$conf || !$itemArray || !count($itemArray)) {
             return;
         }

@@ -114,7 +114,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view
         );
     }
 
-    public static function setFeuserMarker($feuserMarker, $row, &$markerArray)
+    public static function setFeuserMarker($feuserMarker, $row, &$markerArray): void
     {
         $markerArray['###' . $feuserMarker . '_NUMBER###'] = $row['uid'];
         $markerArray['###' . $feuserMarker . '_NAME###'] = $row['name'];
@@ -124,7 +124,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view
     public function getBasketRecsMarkerArray(
         &$markerArray,
         $orderArray
-    ) {
+    ): void {
         $cObj = FrontendUtility::getContentObjectRenderer();
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $conf = $cnf->conf;
@@ -172,7 +172,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view
         &$markerArray,
         &$subpartArray,
         &$error_code
-    ) {
+    ): void {
         if ($from == '') {
             $from = 'sys_products_orders';
         }
@@ -304,7 +304,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view
         &$markerArray,
         &$subpartArray,
         &$error_code
-    ) {
+    ): void {
         $content = '';
         $orderObj = $this->getModelObj(); // order
 

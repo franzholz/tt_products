@@ -101,7 +101,7 @@ class tx_ttproducts_basketitem_view implements SingletonInterface
         &$markerArray,
         &$subpartArray,
         &$wrappedSubpartArray
-    ) {
+    ): void {
         $productFuncTablename = 'tt_products';
 
         if (isset($productRowArray) && is_array($productRowArray)) {
@@ -207,7 +207,7 @@ class tx_ttproducts_basketitem_view implements SingletonInterface
         $parentRow = [],
         $callFunctableArray = [],  // deprecated
         $filterRowArray = []
-    ) {
+    ): void {
         $productFuncTablename = 'tt_products';
         $basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');

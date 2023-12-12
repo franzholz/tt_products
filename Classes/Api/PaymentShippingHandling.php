@@ -56,7 +56,7 @@ class PaymentShippingHandling
     protected static $typeArray = ['handling', 'shipping', 'payment'];
     protected static $voucher;
 
-    public static function init($priceObj, $voucher)
+    public static function init($priceObj, $voucher): void
     {
         self::setPriceObj($priceObj);	// new independant price object
         self::setVoucher($voucher);
@@ -67,17 +67,17 @@ class PaymentShippingHandling
         return self::$typeArray;
     }
 
-    public static function setVoucher($voucher)
+    public static function setVoucher($voucher): void
     {
         self::$voucher = $voucher;
     }
 
-    public static function getVoucher()
+    public static function getVoucher(): void
     {
         self::$voucher;
     }
 
-    public static function setPriceObj($value)
+    public static function setPriceObj($value): void
     {
         self::$priceObj = $value;
     }
@@ -92,7 +92,7 @@ class PaymentShippingHandling
         &$itemArray,
         $basketExtra,
         $pskey = 'shipping'
-    ) {
+    ): void {
         $hookVar = 'scriptPrices';
         if (
             $hookVar &&
@@ -152,7 +152,7 @@ class PaymentShippingHandling
         &$subpartArray,
         &$wrappedSubpartArray,
         $framework
-    ) {
+    ): void {
         $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $cObj = FrontendUtility::getContentObjectRenderer();
         $markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
@@ -350,7 +350,7 @@ class PaymentShippingHandling
         $useBackPid,
         $calculatedArray,
         $basketExtra
-    ) {
+    ): void {
         $cObj = FrontendUtility::getContentObjectRenderer();
         $priceViewObj = GeneralUtility::makeInstance('tx_ttproducts_field_price_view');
         $urlObj = GeneralUtility::makeInstance('tx_ttproducts_url_view');
@@ -427,7 +427,7 @@ class PaymentShippingHandling
         $imageCode,
         $activeArray,
         &$markerArray
-    ) {
+    ): void {
         // Returns a markerArray ready for substitution with information for the tt_producst record, $row
 
         $markerArray['###VALUE###'] = $value;
@@ -772,7 +772,7 @@ class PaymentShippingHandling
         &$priceNoTax,
         &$resetPrice,
         &$funcParams = ''
-    ) {
+    ): void {
         $resetPrice = false;
 
         if (
@@ -965,7 +965,7 @@ class PaymentShippingHandling
         &$discountArray,
         &$priceTax,
         &$priceNoTax
-    ) {
+    ): void {
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $conf = $cnf->getConf();
 
@@ -1047,7 +1047,7 @@ class PaymentShippingHandling
         $basketRecs,
         $taxIncluded,
         $itemArray
-    ) {
+    ): void {
         foreach ($itemArray as $sort => $actItemArray) {
             // $actItemArray = all items array
             foreach ($actItemArray as $k2 => $actItem) {
@@ -1106,7 +1106,7 @@ class PaymentShippingHandling
         &$priceTax,
         &$priceNoTax,
         &$resetPrice
-    ) {
+    ): void {
         $cObj = FrontendUtility::getContentObjectRenderer();
 
         if (!empty($basketExtra[$pskey . '.'])) {
@@ -1277,7 +1277,7 @@ class PaymentShippingHandling
         $calculatedArray,
         &$priceShippingTax,
         &$priceShippingNoTax
-    ) {
+    ): void {
         $basketConf = self::getBasketConf($basketExtra, $pskey, $subkey);
 
         $perc = doubleval($basketConf['percentOfGoodstotal'] ?? 0);
@@ -1342,7 +1342,7 @@ class PaymentShippingHandling
         &$priceShippingNoTax,
         &$pricePaymentTax,
         &$pricePaymentNoTax
-    ) {
+    ): void {
         $row = $shippingRow;
         $taxIncluded = self::$priceObj->getTaxIncluded();
 
@@ -1528,7 +1528,7 @@ class PaymentShippingHandling
         $priceTotalTax,
         &$calculatedArray,
         $itemArray
-    ) {
+    ): void {
         $taxIncluded = self::$priceObj->getTaxIncluded();
 
         if (

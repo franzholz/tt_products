@@ -127,7 +127,7 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base
         'surcharge2notax',
     ];
 
-    public function preInit($priceConf)
+    public function preInit($priceConf): void
     {
         parent::init();
 
@@ -176,7 +176,7 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base
         return $this->bTaxIncluded;
     }
 
-    public function setTaxIncluded($bTaxIncluded = true)
+    public function setTaxIncluded($bTaxIncluded = true): void
     {
         $this->bTaxIncluded = $bTaxIncluded;
     }
@@ -382,7 +382,7 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base
         return self::$priceFieldArray;
     }
 
-    public static function convertIntoRow(&$row, $priceTaxArray)
+    public static function convertIntoRow(&$row, $priceTaxArray): void
     {
         foreach ($priceTaxArray as $field => $value) {
             if (isset(self::$fieldConvertArray[$field])) {
@@ -403,7 +403,7 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base
         $priceNumTax,
         &$skonto,
         &$skontoTaxPerc
-    ) {
+    ): void {
         $skonto = ((float)$relativePrice - (float)$priceNumTax);
 
         if (floatval($relativePrice) != 0) {

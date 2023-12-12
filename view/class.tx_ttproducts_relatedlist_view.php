@@ -45,7 +45,7 @@ class tx_ttproducts_relatedlist_view implements SingletonInterface
 {
     public $pidListObj;
 
-    public function init($pid_list, $recursive)
+    public function init($pid_list, $recursive): void
     {
         $this->pidListObj = GeneralUtility::makeInstance('tx_ttproducts_pid_list');
         $this->pidListObj->applyRecursive($recursive, $pid_list, true);

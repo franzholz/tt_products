@@ -48,7 +48,7 @@ abstract class tx_ttproducts_field_base_view implements tx_ttproducts_field_view
     public $conf;		// original configuration
     public $config;		// modified configuration
 
-    public function init($modelObj)
+    public function init($modelObj): void
     {
         $this->modelObj = $modelObj;
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');

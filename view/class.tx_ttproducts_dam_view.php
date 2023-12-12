@@ -44,7 +44,7 @@ class tx_ttproducts_dam_view extends tx_ttproducts_article_base_view
     /**
      * Sets the markers for DAM specific FORM fields.
      */
-    public function setFormMarkerArray($uid, &$markerArray)
+    public function setFormMarkerArray($uid, &$markerArray): void
     {
         $markerArray['###DAM_FIELD_NAME###'] = 'ttp_basket[dam]';
         $markerArray['###DAM_UID###'] = intval($uid);

@@ -110,7 +110,7 @@ class tx_ttproducts_page extends tx_ttproducts_category_base
     } // init
 
     // initalisation for code dependant configuration
-    public function initCodeConf($theCode, $tableConf)
+    public function initCodeConf($theCode, $tableConf): void
     {
         parent::initCodeConf($theCode, $tableConf);
         if ($this->bUseLanguageTable($tableConf)) {

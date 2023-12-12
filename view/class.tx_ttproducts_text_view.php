@@ -58,7 +58,7 @@ class tx_ttproducts_text_view extends tx_ttproducts_table_base_view
         &$markerArray,
         $parentMarker,
         $tagArray
-    ) {
+    ): void {
         $bFoundTagArray = [];
         $cObj = ControlApi::getCObj();
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');

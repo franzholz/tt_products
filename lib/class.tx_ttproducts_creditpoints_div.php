@@ -146,7 +146,7 @@ class tx_ttproducts_creditpoints_div
     /**
      * adds the number of creditpoints for the frontend user.
      */
-    public static function addCreditPoints($username, $creditpoints)
+    public static function addCreditPoints($username, $creditpoints): void
     {
         if ($username) {
             $uid_voucher = '';

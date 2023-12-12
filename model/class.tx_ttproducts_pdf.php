@@ -61,29 +61,29 @@ class tx_ttproducts_pdf implements SingletonInterface
         return true;
     }
 
-    public function setHeader($header)
+    public function setHeader($header): void
     {
         $this->header = $header;
     }
 
-    public function setFooter($footer)
+    public function setFooter($footer): void
     {
         $this->footer = $footer;
     }
 
-    public function setBody($body)
+    public function setBody($body): void
     {
         $this->body = $body;
     }
 
-    public function Header()
+    public function Header(): void
     {
         // Police Arial gras 15
         $this->SetFont('Arial', 'B', 15);
         $this->MultiCell(0, 6, $this->header, 1);
     }
 
-    public function Footer()
+    public function Footer(): void
     {
         // Positionnement à 1,5 cm du bas
         $this->SetY(-15);
@@ -92,7 +92,7 @@ class tx_ttproducts_pdf implements SingletonInterface
         $this->MultiCell(0, 6, $this->footer, 1);
     }
 
-    private function addEmptyColumns($bLastLine)
+    private function addEmptyColumns($bLastLine): void
     {
         $row = [];
         $row['1'] = '';
@@ -110,14 +110,14 @@ class tx_ttproducts_pdf implements SingletonInterface
         }
     }
 
-    private function getDimensions(&$widthArray)
+    private function getDimensions(&$widthArray): void
     {
         // Column widths
         $widthArray = [80, 25, 40, 45];
     }
 
     // Better table
-    public function ImprovedTable($header, array $data)
+    public function ImprovedTable($header, array $data): void
     {
         $this->getDimensions($widthArray);
 
@@ -230,7 +230,7 @@ class tx_ttproducts_pdf implements SingletonInterface
         $this->Ln();
     }
 
-    public function Body()
+    public function Body(): void
     {
         $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
 

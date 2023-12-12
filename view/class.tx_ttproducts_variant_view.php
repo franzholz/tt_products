@@ -43,7 +43,7 @@ class tx_ttproducts_variant_view implements tx_ttproducts_variant_view_int, Sing
 {
     public $modelObj;
 
-    public function init($modelObj)
+    public function init($modelObj): void
     {
         $this->modelObj = $modelObj;
     }
@@ -58,7 +58,7 @@ class tx_ttproducts_variant_view implements tx_ttproducts_variant_view_int, Sing
         $conf,
         $bHasAdditional,
         $bGiftService
-    ) {
+    ): void {
         $this->removeEmptyMarkerSubpartArray(
             $markerArray,
             $subpartArray,
@@ -78,7 +78,7 @@ class tx_ttproducts_variant_view implements tx_ttproducts_variant_view_int, Sing
         $conf,
         $bHasAdditional,
         $bGiftService
-    ) {
+    ): void {
         $areaArray = [];
         $remMarkerArray = [];
         $variantConf = $this->modelObj->conf;

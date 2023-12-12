@@ -90,7 +90,7 @@ class tx_ttproducts_product extends tx_ttproducts_article_base
 
     public function fixTableConf(
         &$tableConf
-    ) {
+    ): void {
         if (
             ExtensionManagementUtility::isLoaded('static_info_tables_taxes')
         ) {
@@ -133,7 +133,7 @@ class tx_ttproducts_product extends tx_ttproducts_article_base
 
     public function fillVariantsFromArticles(
         &$row
-    ) {
+    ): void {
         $articleRowArray = $this->getArticleRows($row['uid']);
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $articleObj = $tablesObj->get('tt_products_articles');

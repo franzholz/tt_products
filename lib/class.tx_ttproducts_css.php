@@ -48,7 +48,7 @@ class tx_ttproducts_css implements SingletonInterface
     /**
      * Getting all tt_products_cat categories into internal array.
      */
-    public function init()
+    public function init(): void
     {
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $this->isCssStyled = (isset($cnf->conf['templateStyle']) && $cnf->conf['templateStyle'] == 'css-styled');
@@ -71,7 +71,7 @@ class tx_ttproducts_css implements SingletonInterface
         return $result;
     }
 
-    public function setIncluded()
+    public function setIncluded(): void
     {
         $this->bIncluded = true;
     }

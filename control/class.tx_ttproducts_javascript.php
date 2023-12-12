@@ -50,7 +50,7 @@ class tx_ttproducts_javascript implements SingletonInterface
     public $fixInternetExplorer;
     private array $bIncludedArray = [];
 
-    public function init($ajax)
+    public function init($ajax): void
     {
         if (
             isset($ajax) &&
@@ -622,7 +622,7 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
         return GeneralUtility::makeInstance(\TYPO3\CMS\Core\Page\PageRenderer::class);
     }
 
-    public function setIncluded($filename)
+    public function setIncluded($filename): void
     {
         $this->bIncludedArray[$filename] = true;
     }

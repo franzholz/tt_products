@@ -58,7 +58,7 @@ class tx_ttproducts_javascript_marker implements SingletonInterface
      *
      * @access private
      */
-    public function getMarkerArray(&$markerArray, $itemMarkerArray, $cObj)
+    public function getMarkerArray(&$markerArray, $itemMarkerArray, $cObj): void
     {
         $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
         $conf = $cnfObj->getConf();

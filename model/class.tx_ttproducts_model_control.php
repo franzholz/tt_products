@@ -113,7 +113,7 @@ class tx_ttproducts_model_control
      * If internal TypoScript property "_DEFAULT_PI_VARS." is set then it will merge the current $this->piVars array onto these default values.
      * Store the internal TypoScript property "_DEFAULT_PI_VARS." if set.
      */
-    public static function setPiVarDefaults($piVarsDefault)
+    public static function setPiVarDefaults($piVarsDefault): void
     {
         if (
             isset($piVarsDefault) &&
@@ -128,7 +128,7 @@ class tx_ttproducts_model_control
         return self::$piVarsDefault;
     }
 
-    public static function setPrefixId($prefixId)
+    public static function setPrefixId($prefixId): void
     {
         self::$prefixId = $prefixId;
     }
@@ -138,7 +138,7 @@ class tx_ttproducts_model_control
         return self::$prefixId;
     }
 
-    public static function setPiVars($value)
+    public static function setPiVars($value): void
     {
         self::$piVars = $value;
     }
@@ -159,7 +159,7 @@ class tx_ttproducts_model_control
         return $result;
     }
 
-    public static function setAndVar($k, $v)
+    public static function setAndVar($k, $v): void
     {
         if (isset(self::$andVars[$k])) {
             self::$andVars[$k] .= ',' . $v;
@@ -271,7 +271,7 @@ class tx_ttproducts_model_control
         $theCode,
         array &$tableConfArray,
         array &$viewConfArray
-    ) {
+    ): void {
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 
         foreach ($functableArray as $ft) {
@@ -378,7 +378,7 @@ class tx_ttproducts_model_control
         &$tableAliasArray,
         &$bUseSearchboxArray,
         &$enableFieldArray
-    ) {
+    ): void {
         if ($searchFunctablename != '') {
             $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 
@@ -432,7 +432,7 @@ class tx_ttproducts_model_control
         &$sqlTableArray,
         &$sqlTableIndex,
         &$latest
-    ) {
+    ): void {
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 

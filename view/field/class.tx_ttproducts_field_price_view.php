@@ -232,7 +232,7 @@ class tx_ttproducts_field_price_view extends tx_ttproducts_field_base_view
         $id,
         $bEnableTaxZero = false,
         $notOverwritePriceIfSet = true
-    ) {
+    ): void {
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $conf = $cnf->getConf();
         $config = $cnf->getConfig();
@@ -341,7 +341,7 @@ class tx_ttproducts_field_price_view extends tx_ttproducts_field_base_view
         $imageRenderObj = '',
         $linkWrap = false,
         $bEnableTaxZero = false
-    ) {
+    ): void {
         $notOverwritePriceIfSet = true;
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $conf = $cnf->getConf();

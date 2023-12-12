@@ -181,7 +181,7 @@ class tx_ttproducts_ts implements SingletonInterface
         return $I;
     }
 
-    public function processMemo()
+    public function processMemo(): void
     {
         $functablename = 'tt_products';
         $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];

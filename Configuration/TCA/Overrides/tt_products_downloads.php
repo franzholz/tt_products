@@ -2,7 +2,7 @@
 
 defined('TYPO3') || die('Access denied.');
 
-call_user_func(function ($extensionKey, $table) {
+call_user_func(function ($extensionKey, $table): void {
     $configuration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\JambageCom\TtProducts\Domain\Model\Dto\EmConfiguration::class);
 
     $orderBySortingTablesArray = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['orderBySortingTables']);

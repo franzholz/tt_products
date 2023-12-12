@@ -65,7 +65,7 @@ class tx_ttproducts_list_view implements SingletonInterface
         $uidArray,
         $pid_list,
         $recursive
-    ) {
+    ): void {
         $this->pid = $pid;
         $this->uidArray = $uidArray;
 
@@ -154,7 +154,7 @@ class tx_ttproducts_list_view implements SingletonInterface
      *
      * @return	[type]		...
      */
-    public function getSearchParams(&$queryString)
+    public function getSearchParams(&$queryString): void
     {
         $sword = GeneralUtility::_GP('sword');
 
@@ -303,7 +303,7 @@ class tx_ttproducts_list_view implements SingletonInterface
         &$markerArray,
         &$subpartArray,
         &$wrappedSubpartArray
-    ) {
+    ): void {
         $cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
         $languageObj = GeneralUtility::makeInstance(Localization::class);
         $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);

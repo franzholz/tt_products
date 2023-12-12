@@ -123,7 +123,7 @@ class tx_ttproducts_orderaddress extends tx_ttproducts_table_base
         return false;
     } // isUserInGroup
 
-    public function setCondition($row, $funcTablename)
+    public function setCondition($row, $funcTablename): void
     {
         $bCondition = false;
         $this->bConditionRecord = false;

@@ -2,7 +2,7 @@
 
 defined('TYPO3') || die('Access denied.');
 
-call_user_func(function ($extensionKey, $table) {
+call_user_func(function ($extensionKey, $table): void {
     // add folder icon
     $pageType = 'ttpproduct';
     $languageSubpath = '/Resources/Private/Language/';

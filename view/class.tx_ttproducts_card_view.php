@@ -58,7 +58,7 @@ class tx_ttproducts_card_view extends tx_ttproducts_table_base_view
      *
      * @access private
      */
-    public function getMarkerArray($row, &$markerArray, array $allowedArray, $tablename = 'sys_products_cards')
+    public function getMarkerArray($row, &$markerArray, array $allowedArray, $tablename = 'sys_products_cards'): void
     {
         $languageObj = GeneralUtility::makeInstance(Localization::class);
         $cObj = FrontendUtility::getContentObjectRenderer();

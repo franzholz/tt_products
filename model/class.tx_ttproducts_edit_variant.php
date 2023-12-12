@@ -58,7 +58,7 @@ class tx_ttproducts_edit_variant implements SingletonInterface
     /**
      * setting the local variables.
      */
-    public function init(&$itemTable)
+    public function init(&$itemTable): void
     {
         $this->itemTable = $itemTable;
     }

@@ -50,7 +50,7 @@ class tx_ttproducts_graduated_price
     protected $parentObject = false;
     protected $foreignConfig = [];
 
-    public function setParent($parentObject)
+    public function setParent($parentObject): void
     {
         $this->parentObject = $parentObject;
     }
@@ -75,7 +75,7 @@ class tx_ttproducts_graduated_price
         return !$this->bHasBeenInitialised;
     }
 
-    public function destruct()
+    public function destruct(): void
     {
         $this->bHasBeenInitialised = false;
     }

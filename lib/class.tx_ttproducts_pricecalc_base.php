@@ -63,6 +63,6 @@ class tx_ttproducts_pricecalc_base implements SingletonInterface
         $taxIncluded,
         $bMergeArticles = true,
         $uid = 0
-    ) {
+    ): void {
     } // getCalculatedData
 }

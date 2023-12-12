@@ -363,7 +363,7 @@ class tx_ttproducts_basket implements SingletonInterface
         return true;
     } // init
 
-    public function setCategoryQuantity($categoryQuantity)
+    public function setCategoryQuantity($categoryQuantity): void
     {
         $this->categoryQuantity = $categoryQuantity;
     }
@@ -373,7 +373,7 @@ class tx_ttproducts_basket implements SingletonInterface
         return $this->categoryQuantity;
     }
 
-    public function setCategoryArray($categoryArray)
+    public function setCategoryArray($categoryArray): void
     {
         $this->categoryArray = $categoryArray;
     }
@@ -440,7 +440,7 @@ class tx_ttproducts_basket implements SingletonInterface
         return $result;
     }
 
-    public function removeEditVariants($removeArray)
+    public function removeEditVariants($removeArray): void
     {
         $modified = false;
         $itemArray = $this->getItemArray();
@@ -491,7 +491,7 @@ class tx_ttproducts_basket implements SingletonInterface
         return $result;
     }
 
-    public function setItemArray($itemArray)
+    public function setItemArray($itemArray): void
     {
         $this->itemArray = $itemArray;
     }
@@ -521,7 +521,7 @@ class tx_ttproducts_basket implements SingletonInterface
         $newGiftData,
         $identGiftnumber,
         $sameGiftData
-    ) {
+    ): void {
         $priceObj = GeneralUtility::makeInstance('tx_ttproducts_field_price');
 
         // quantities for single values are stored in an array. This is necessary because a HTML checkbox does not send any values if it has been unchecked
@@ -654,7 +654,7 @@ class tx_ttproducts_basket implements SingletonInterface
      * @param 		int			uid of the product
      * @param		string		variant of the product
      */
-    public function removeGift($giftnumber, $uid, $variant)
+    public function removeGift($giftnumber, $uid, $variant): void
     {
         $basketExt = tx_ttproducts_control_basket::getBasketExt();
 
@@ -743,7 +743,7 @@ class tx_ttproducts_basket implements SingletonInterface
     /**
      * Empties the shopping basket!
      */
-    public function clearBasket($bForce = false)
+    public function clearBasket($bForce = false): void
     {
         if (
             $this->conf['debug'] != '1' ||
@@ -827,7 +827,7 @@ class tx_ttproducts_basket implements SingletonInterface
         return $this->uidArray;
     }
 
-    public function setUidArray($uidArray)
+    public function setUidArray($uidArray): void
     {
         $this->uidArray = $uidArray;
     }
@@ -1396,7 +1396,7 @@ class tx_ttproducts_basket implements SingletonInterface
         $useArticles,
         $priceTaxNotVarying,
         $funcTablename
-    ) {
+    ): void {
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
         $conf = $cnfObj->conf;
@@ -1574,7 +1574,7 @@ class tx_ttproducts_basket implements SingletonInterface
         $calculObj->setBaseCalculatedArray($calculatedArray);
     }
 
-    public function setMaxTax($tax)
+    public function setMaxTax($tax): void
     {
         $this->maxTax = $tax;
     }
@@ -1665,7 +1665,7 @@ class tx_ttproducts_basket implements SingletonInterface
         return $row;
     }
 
-    public function calculate(&$itemArray)
+    public function calculate(&$itemArray): void
     {
         $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
         $useArticles = $cnfObj->getUseArticles();
@@ -1682,7 +1682,7 @@ class tx_ttproducts_basket implements SingletonInterface
         );
     }
 
-    public function calculateSums()
+    public function calculateSums(): void
     {
         $getShopCountryCode = '';
         $pricefactor = tx_ttproducts_creditpoints_div::getPriceFactor($this->conf);
@@ -1713,7 +1713,7 @@ class tx_ttproducts_basket implements SingletonInterface
         return $calculatedArray;
     }
 
-    public function addVoucherSums()
+    public function addVoucherSums(): void
     {
         $calculObj = GeneralUtility::makeInstance('tx_ttproducts_basket_calculate');
         $calculObj->addVoucherSums();

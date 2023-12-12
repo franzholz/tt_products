@@ -97,7 +97,7 @@ class tx_ttproducts_control_product
         $languageObj,
         $theCode,
         $functablename
-    ) {
+    ): void {
         if (ExtensionManagementUtility::isLoaded('taxajax')) {
             $itemTable = $tablesObj->get($functablename, false);
 

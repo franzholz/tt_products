@@ -74,7 +74,7 @@ class tx_ttproducts_address_view extends tx_ttproducts_category_base_view
         $id,
         $prefix,
         $linkWrap = ''
-    ) {
+    ): void {
         $titleField = $this->getModelObj()->fieldArray['title'];
         $row = ($category ? $this->getModelObj()->get($category) : [$titleField => '', 'pid' => $pid]);
         $catTitle = '';

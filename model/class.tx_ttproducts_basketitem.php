@@ -81,7 +81,7 @@ class tx_ttproducts_basketitem implements SingletonInterface
         $item,
         &$minQuantity,
         &$maxQuantity
-    ) {
+    ): void {
         $row = $item['rec'];
         $minQuantity = $row['basketminquantity'];
         $maxQuantity = $row['basketmaxquantity'];

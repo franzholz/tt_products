@@ -97,7 +97,7 @@ class tx_ttproducts_pi_search_base extends AbstractPlugin implements SingletonIn
         return $content;
     }
 
-    public function set($bRunAjax)
+    public function set($bRunAjax): void
     {
         $this->bRunAjax = $bRunAjax;
     }

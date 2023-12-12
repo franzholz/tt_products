@@ -43,7 +43,7 @@ class tx_ttproducts_variant_dummy_view implements tx_ttproducts_variant_view_int
 {
     public $modelObj;
 
-    public function init($modelObj)
+    public function init($modelObj): void
     {
         $this->modelObj = $modelObj;
     }
@@ -58,7 +58,7 @@ class tx_ttproducts_variant_dummy_view implements tx_ttproducts_variant_view_int
         $conf,
         $bHasAdditional,
         $bGiftService
-    ) {
+    ): void {
     }
 
     public function removeEmptyMarkerSubpartArray(
@@ -69,6 +69,6 @@ class tx_ttproducts_variant_dummy_view implements tx_ttproducts_variant_view_int
         $conf,
         $bHasAdditional,
         $bGiftService
-    ) {
+    ): void {
     }
 }

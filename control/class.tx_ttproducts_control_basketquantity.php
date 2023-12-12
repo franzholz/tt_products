@@ -60,7 +60,7 @@ class tx_ttproducts_control_basketquantity implements SingletonInterface
         $relatedIds,
         $rowArray,
         &$markerArray
-    ) {
+    ): void {
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $prodViewObj = $tablesObj->get('tt_products', true);
 

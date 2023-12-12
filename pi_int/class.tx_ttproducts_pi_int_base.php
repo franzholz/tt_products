@@ -96,7 +96,7 @@ class tx_ttproducts_pi_int_base extends AbstractPlugin implements SingletonInter
         return $content;
     }
 
-    public function set($bRunAjax)
+    public function set($bRunAjax): void
     {
         $this->bRunAjax = $bRunAjax;
     }

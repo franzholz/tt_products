@@ -54,7 +54,7 @@ class tx_ttproducts_csv implements SingletonInterface
         $basketExtra,
         &$csvFilepath,
         &$errorMessage
-    ) {
+    ): void {
         $basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
         $priceViewObj = GeneralUtility::makeInstance('tx_ttproducts_field_price_view');
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');

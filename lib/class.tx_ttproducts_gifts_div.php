@@ -200,7 +200,7 @@ class tx_ttproducts_gifts_div
         return $result;
     }
 
-    public static function deleteGiftNumber($giftnumber)
+    public static function deleteGiftNumber($giftnumber): void
     {
         $giftArray = [];
         $basketExt = tx_ttproducts_control_basket::getBasketExt();

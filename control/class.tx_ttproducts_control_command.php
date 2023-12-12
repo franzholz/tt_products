@@ -74,7 +74,7 @@ class tx_ttproducts_control_command
         $trackingCode,
         $pid_list,
         $recursive
-    ) {
+    ): void {
         $languageObj = GeneralUtility::makeInstance(Localization::class);
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');

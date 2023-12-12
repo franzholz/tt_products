@@ -73,7 +73,7 @@ class tx_ttproducts_category_view extends tx_ttproducts_category_base_view
         $id,
         $prefix,
         $linkWrap = ''
-    ) {
+    ): void {
         $modelObj = $this->getModelObj();
         $row = ($category ? $modelObj->get($category) : ['title' => '', 'pid' => $pid]);
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');

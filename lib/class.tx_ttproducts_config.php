@@ -50,7 +50,7 @@ class tx_ttproducts_config implements SingletonInterface
     /**
      * Getting the configurations.
      */
-    public function init($conf, $config)
+    public function init($conf, $config): void
     {
         $this->conf = $conf;
 
@@ -63,7 +63,7 @@ class tx_ttproducts_config implements SingletonInterface
         return !$this->bHasBeenInitialised;
     }
 
-    public function setConf($key, $value)
+    public function setConf($key, $value): void
     {
         if ($key != '') {
             $this->conf[$key] = $value;
@@ -82,7 +82,7 @@ class tx_ttproducts_config implements SingletonInterface
         return $result;
     }
 
-    public function setConfig($value)
+    public function setConfig($value): void
     {
         $this->config = $value;
     }

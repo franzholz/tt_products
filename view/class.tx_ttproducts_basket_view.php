@@ -72,7 +72,7 @@ class tx_ttproducts_basket_view implements SingletonInterface
         $useArticles,
         $errorCode,
         $urlArray = []
-    ) {
+    ): void {
         $this->errorCode = $errorCode;
         $this->useArticles = $useArticles;
 
@@ -161,7 +161,7 @@ class tx_ttproducts_basket_view implements SingletonInterface
         &$subpartArray,
         &$wrappedSubpartArray,
         $calculatedArray
-    ) {
+    ): void {
         $discountValue = tx_ttproducts_basket_calculate::getRealDiscount($calculatedArray);
         if ($discountValue) {
             $wrappedSubpartArray['###DISCOUNT_NOT_EMPTY###'] = '';
@@ -179,7 +179,7 @@ class tx_ttproducts_basket_view implements SingletonInterface
         $markerArray,
         &$subpartArray,
         &$wrappedSubpartArray
-    ) {
+    ): void {
         $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $basketConfArray = [];
         // check the basket limits

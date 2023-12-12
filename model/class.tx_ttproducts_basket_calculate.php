@@ -53,7 +53,7 @@ class tx_ttproducts_basket_calculate implements SingletonInterface
         return $this->baseCalculatedArray;
     }
 
-    public function setBaseCalculatedArray(array $calculatedArray)
+    public function setBaseCalculatedArray(array $calculatedArray): void
     {
         $this->baseCalculatedArray = $calculatedArray;
     }
@@ -63,7 +63,7 @@ class tx_ttproducts_basket_calculate implements SingletonInterface
         return $this->calculatedArray;
     }
 
-    public function setCalculatedArray($calculatedArray)
+    public function setCalculatedArray($calculatedArray): void
     {
         $this->calculatedArray = $calculatedArray;
     }
@@ -118,7 +118,7 @@ class tx_ttproducts_basket_calculate implements SingletonInterface
         return $goodsTotalTax;
     }
 
-    public function clear($taxMode = 1)
+    public function clear($taxMode = 1): void
     {
         $this->calculatedArray = $this->getBaseCalculatedArray();
         $this->calculatedArray['priceTax'] = [];
@@ -187,7 +187,7 @@ class tx_ttproducts_basket_calculate implements SingletonInterface
         $maxTax,
         $roundFormat, // Todo: remove unused format
         &$itemArray
-    ) {
+    ): void {
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         // 		$paymentshippingObj = GeneralUtility::makeInstance('tx_ttproducts_paymentshipping');
         $taxObj = GeneralUtility::makeInstance('tx_ttproducts_field_tax');
@@ -788,7 +788,7 @@ class tx_ttproducts_basket_calculate implements SingletonInterface
         $pricefactor,
         $creditpoints,
         $getShopCountryCode
-    ) {
+    ): void {
         $creditpointsObj = GeneralUtility::makeInstance('tx_ttproducts_field_creditpoints');
 
         // Todo: consider the $roundFormat parameter .XXXXXXXXXX

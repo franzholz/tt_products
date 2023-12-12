@@ -60,7 +60,7 @@ class tx_ttproducts_fal_view extends tx_ttproducts_article_base_view
         $basketExtra = [],
         $basketRecs = [],
         $id = ''
-    ) {
+    ): void {
         parent::getItemSubpartArrays(
             $templateCode,
             $functablename,
@@ -111,7 +111,7 @@ class tx_ttproducts_fal_view extends tx_ttproducts_article_base_view
         $multiOrderArray = [],
         $productRowArray = [],
         $bEnableTaxZero = false
-    ) {
+    ): void {
         parent::getModelMarkerArray(
             $row,
             $markerParam,

@@ -78,7 +78,7 @@ class ParameterApi implements SingletonInterface
     protected $basketIntoIdPrefix = 'basket-into-id';
     protected $basketInputErrorIdPrefix = 'basket-input-error-id';
 
-    public function setPiVars($value)
+    public function setPiVars($value): void
     {
         $this->piVars = $value;
     }
@@ -173,7 +173,7 @@ class ParameterApi implements SingletonInterface
      * If internal TypoScript property "_DEFAULT_PI_VARS." is set then it will merge the current $this->piVars array onto these default values.
      * Store the internal TypoScript property "_DEFAULT_PI_VARS." if set.
      */
-    public function setPiVarDefaults($piVarsDefault)
+    public function setPiVarDefaults($piVarsDefault): void
     {
         if (
             isset($piVarsDefault) &&
@@ -188,7 +188,7 @@ class ParameterApi implements SingletonInterface
         return $this->piVarsDefault;
     }
 
-    public function setPrefixId($prefixId)
+    public function setPrefixId($prefixId): void
     {
         $this->prefixId = $prefixId;
     }
@@ -206,7 +206,7 @@ class ParameterApi implements SingletonInterface
         return $result;
     }
 
-    public function setAndVar($k, $v)
+    public function setAndVar($k, $v): void
     {
         if (isset($this->andVars[$k])) {
             $this->andVars[$k] .= ',' . $v;
@@ -292,7 +292,7 @@ class ParameterApi implements SingletonInterface
         $theCode,
         array &$tableConfArray,
         array &$viewConfArray
-    ) {
+    ): void {
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 
         foreach ($functableArray as $ft) {
@@ -399,7 +399,7 @@ class ParameterApi implements SingletonInterface
         &$tableAliasArray,
         &$bUseSearchboxArray,
         &$enableFieldArray
-    ) {
+    ): void {
         if ($searchFunctablename != '') {
             $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
             $tableObj = $tablesObj->get($searchFunctablename, false);
@@ -452,7 +452,7 @@ class ParameterApi implements SingletonInterface
         &$sqlTableArray,
         &$sqlTableIndex,
         &$latest
-    ) {
+    ): void {
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 

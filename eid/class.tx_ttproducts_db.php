@@ -108,11 +108,11 @@ class tx_ttproducts_db implements SingletonInterface
         return true;
     }
 
-    public function main()
+    public function main(): void
     {
     }
 
-    public function printContent()
+    public function printContent(): void
     {
     }
 
@@ -910,7 +910,7 @@ class tx_ttproducts_db implements SingletonInterface
         return $result;
     }
 
-    public function destruct()
+    public function destruct(): void
     {
         $controlCreatorObj = GeneralUtility::makeInstance('tx_ttproducts_control_creator');
         $controlCreatorObj->destruct();

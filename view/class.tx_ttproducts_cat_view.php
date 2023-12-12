@@ -58,7 +58,7 @@ class tx_ttproducts_cat_view implements SingletonInterface
         $pid,
         $pid_list,
         $recursive
-    ) {
+    ): void {
         $this->pibase = $pibase;
         $this->cObj = $pibase->cObj;
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');

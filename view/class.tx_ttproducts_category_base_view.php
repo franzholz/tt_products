@@ -52,7 +52,7 @@ abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base
         &$markerArray,
         $catTitle,
         $prefix
-    ) {
+    ): void {
         $cObj = FrontendUtility::getContentObjectRenderer();
         $cObj->setCurrentVal($catTitle);
         $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
@@ -80,7 +80,7 @@ abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base
         &$tagArray,
         $pid,
         $linkMarker
-    ) {
+    ): void {
         $cObj = FrontendUtility::getContentObjectRenderer();
         $addQueryString = [];
         $addQueryString[$this->piVar] = $row['uid'];
@@ -157,7 +157,7 @@ abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base
         $basketRecs,
         $id,
         $prefix
-    ) {
+    ): void {
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $config = $cnf->getConfig();
 
@@ -203,7 +203,7 @@ abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base
         }
     }
 
-    public function addAllCatTagsMarker(&$markerArray, $tagArray, $prefix)
+    public function addAllCatTagsMarker(&$markerArray, $tagArray, $prefix): void
     {
         $outArray = [];
 

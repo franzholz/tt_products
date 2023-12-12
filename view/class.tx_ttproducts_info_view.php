@@ -81,7 +81,7 @@ class tx_ttproducts_info_view implements SingletonInterface
         return $result;
     } // init
 
-    public function init2($infoArray)
+    public function init2($infoArray): void
     {
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 
@@ -118,7 +118,7 @@ class tx_ttproducts_info_view implements SingletonInterface
     /**
      * Fills in all empty fields in the delivery info array.
      */
-    public function mapPersonIntoDelivery($basketExtra)
+    public function mapPersonIntoDelivery($basketExtra): void
     {
         // all of the delivery address will be overwritten when no address and no email address have been filled in
         if (
@@ -348,7 +348,7 @@ class tx_ttproducts_info_view implements SingletonInterface
         &$markerArray,
         $bHtml,
         $bSelectSalutation
-    ) {
+    ): void {
         $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $conf = $cnf->getConf();

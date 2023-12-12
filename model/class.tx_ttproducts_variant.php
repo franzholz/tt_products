@@ -117,7 +117,7 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, SingletonInter
         return true;
     } // init
 
-    public function setSeparator($separator)
+    public function setSeparator($separator): void
     {
         $this->separator = $separator;
     }
@@ -127,7 +127,7 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, SingletonInter
         return $this->separator;
     }
 
-    public function setSplitSeparator($separator)
+    public function setSplitSeparator($separator): void
     {
         $this->splitSeparator = $separator;
     }
@@ -137,7 +137,7 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, SingletonInter
         return $this->splitSeparator;
     }
 
-    public function setImplodeSeparator($separator)
+    public function setImplodeSeparator($separator): void
     {
         $this->implodeSeparator = $separator;
     }
@@ -172,7 +172,7 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, SingletonInter
     public function modifyRowFromVariant(
         &$row,
         $variant = ''
-    ) {
+    ): void {
         if (!$variant) {
             $variant = $this->getVariantFromRow($row);
         }

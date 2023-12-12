@@ -83,7 +83,7 @@ class MoveItemsWizardModuleFunctionController
      *
      * @see \TYPO3\CMS\Backend\Module\BaseScriptClass::checkExtObj()
      */
-    public function init($pObj)
+    public function init($pObj): void
     {
         $this->pObj = $pObj;
         // Local lang:
@@ -187,7 +187,7 @@ class MoveItemsWizardModuleFunctionController
      *
      * @see \TYPO3\CMS\Backend\Module\BaseScriptClass::checkExtObj()
      */
-    public function checkExtObj()
+    public function checkExtObj(): void
     {
         if (is_array($this->extClassConf) && $this->extClassConf['name']) {
             $this->extObj = GeneralUtility::makeInstance($this->extClassConf['name']);

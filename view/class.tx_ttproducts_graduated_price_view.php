@@ -53,7 +53,7 @@ class tx_ttproducts_graduated_price_view extends tx_ttproducts_table_base_view
         $bEnableTaxZero,
         &$markerArray,
         $suffix = ''
-    ) {
+    ): void {
         if (isset($priceFormula) && is_array($priceFormula)) {
             $marker = $this->getMarker();
             $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
@@ -136,7 +136,7 @@ class tx_ttproducts_graduated_price_view extends tx_ttproducts_table_base_view
         $basketExtra = [],
         $basketRecs = [],
         $id = '1'
-    ) {
+    ): void {
         $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $subpartmarkerObj = GeneralUtility::makeInstance('tx_ttproducts_subpartmarker');
         $local_cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
@@ -195,7 +195,7 @@ class tx_ttproducts_graduated_price_view extends tx_ttproducts_table_base_view
         $basketRecs,
         &$markerArray,
         $tagArray
-    ) {
+    ): void {
         if ($this->getModelObj()->hasDiscountPrice($row)) {
             $priceFormulaArray = $this->getModelObj()->getFormulasByItem($row['uid']);
             foreach ($priceFormulaArray as $k => $priceFormula) {

@@ -48,7 +48,7 @@ class PriceApi
         $calculationField = '',
         $bKeepNotEmpty = true,
         $bUseExt = false
-    ) {
+    ): void {
         $calculatedValue = 0;
         $value = 0;
         if (isset($sourceRow[$field])) {

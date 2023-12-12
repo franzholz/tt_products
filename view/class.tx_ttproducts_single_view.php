@@ -63,7 +63,7 @@ class tx_ttproducts_single_view implements SingletonInterface
         $useArticles,
         $pid_list,
         $recursive
-    ) {
+    ): void {
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $this->conf = $cnf->getConf();
         $this->config = $cnf->getConfig();

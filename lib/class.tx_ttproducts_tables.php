@@ -79,7 +79,7 @@ class tx_ttproducts_tables implements SingletonInterface
         return $this->tableClassArray;
     }
 
-    public function setTableClassArray($tableClassArray)
+    public function setTableClassArray($tableClassArray): void
     {
         $this->tableClassArray = $tableClassArray;
     }
@@ -237,7 +237,7 @@ class tx_ttproducts_tables implements SingletonInterface
         $tableAliasArray,
         $aliasPostfix,
         &$sqlArray
-    ) {
+    ): void {
         if (
             empty($foreignTableInfoArray['mmtable']) &&
             !empty($foreignTableInfoArray['foreign_table'])
@@ -263,7 +263,7 @@ class tx_ttproducts_tables implements SingletonInterface
         }
     }
 
-    public function destruct()
+    public function destruct(): void
     {
         foreach ($this->usedObjectArray as $className => $bFreeMemory) {
             if ($bFreeMemory) {

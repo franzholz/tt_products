@@ -42,7 +42,7 @@ class ControlApi
     protected static $conf = [];
     protected static $cObj;
 
-    public static function init($conf, $cObj)
+    public static function init($conf, $cObj): void
     {
         static::$conf = $conf;
         static::$cObj = $cObj;

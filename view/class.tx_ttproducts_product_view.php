@@ -78,7 +78,7 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view
         $basketRecs = [],
         $iCount = '',
         $checkPriceZero = false
-    ) {
+    ): void {
         $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
         $conf = $cnfObj->getConf();
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
@@ -210,7 +210,7 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view
         $productRowArray = [],
         $bEnableTaxZero = false,
         $notOverwritePriceIfSet = true
-    ) {
+    ): void {
         // Returns a markerArray ready for substitution with information for the tt_producst record, $row
         $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');

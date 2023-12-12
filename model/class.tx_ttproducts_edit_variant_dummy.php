@@ -46,19 +46,19 @@ class tx_ttproducts_edit_variant_dummy implements tx_ttproducts_edit_variant_int
         return true;
     }
 
-    public function getFieldArray()
+    public function getFieldArray(): void
     {
     }
 
-    public function getVariantFromRawRow($row)
+    public function getVariantFromRawRow($row): void
     {
     }
 
-    public function getVariantRowFromProductRow($row)
+    public function getVariantRowFromProductRow($row): void
     {
     }
 
-    public function getValidConfig($row)
+    public function getValidConfig($row): void
     {
     }
 }

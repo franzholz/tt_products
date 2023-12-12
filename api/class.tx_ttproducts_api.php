@@ -431,7 +431,7 @@ class tx_ttproducts_api
         $markerArray,
         &$subject,
         &$text
-    ) {
+    ): void {
         $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $parts = preg_split('/[\n\r]+/', $templateCode, 2);	// First line is subject
         $subject = trim($parts[0]);

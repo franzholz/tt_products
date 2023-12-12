@@ -52,7 +52,7 @@ class tx_ttproducts_control_view
      *
      * @access private
      */
-    public function getMarkerArray(&$markerArray, &$allMarkers, $tableConfArray)
+    public function getMarkerArray(&$markerArray, &$allMarkers, $tableConfArray): void
     {
         if (isset($tableConfArray) && is_array($tableConfArray)) {
             $languageObj = GeneralUtility::makeInstance(Localization::class);

@@ -44,7 +44,7 @@ class tx_ttproducts_api_download
 {
     public static function fetchFal(
         $fileReferenceUid
-    ) {
+    ): void {
         $storageRepository = GeneralUtility::makeInstance(StorageRepository::class);
         $storage = $storageRepository->getDefaultStorage();
         $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);

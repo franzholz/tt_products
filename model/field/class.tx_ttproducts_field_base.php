@@ -45,7 +45,7 @@ abstract class tx_ttproducts_field_base implements tx_ttproducts_field_int, Sing
     public $conf;		// original configuration
     public $config;		// modified configuration
 
-    public function init()
+    public function init(): void
     {
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $this->conf = $cnf->conf;

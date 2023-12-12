@@ -44,7 +44,7 @@ class PaymentApi
     private static $storeRecord;
     private static $storeIso3;
 
-    public static function setStoreRecord($value)
+    public static function setStoreRecord($value): void
     {
         self::$storeRecord = $value;
         if (
@@ -61,7 +61,7 @@ class PaymentApi
         return self::$storeRecord;
     }
 
-    public static function setStoreIso3($value)
+    public static function setStoreIso3($value): void
     {
         self::$storeIso3 = $value;
     }

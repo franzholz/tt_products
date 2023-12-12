@@ -128,7 +128,7 @@ class tx_ttproducts_model_creator implements SingletonInterface
         return true;
     }
 
-    public function destruct()
+    public function destruct(): void
     {
     }
 }

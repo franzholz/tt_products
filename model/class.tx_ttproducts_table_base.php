@@ -192,12 +192,12 @@ abstract class tx_ttproducts_table_base implements SingletonInterface
         return $this->enable;
     }
 
-    public function clear()
+    public function clear(): void
     {
         $this->dataArray = [];
     }
 
-    public function setLabelFieldname($labelfieldname)
+    public function setLabelFieldname($labelfieldname): void
     {
         $this->labelfieldname = $labelfieldname;
     }
@@ -384,7 +384,7 @@ abstract class tx_ttproducts_table_base implements SingletonInterface
         return !$this->bHasBeenInitialised;
     }
 
-    public function destruct()
+    public function destruct(): void
     {
         $this->bHasBeenInitialised = false;
     }
@@ -454,7 +454,7 @@ abstract class tx_ttproducts_table_base implements SingletonInterface
         return $this->functablename;
     }
 
-    private function setFuncTablename($tablename)
+    private function setFuncTablename($tablename): void
     {
         $this->functablename = $tablename;
     }
@@ -464,7 +464,7 @@ abstract class tx_ttproducts_table_base implements SingletonInterface
         return $this->tablename;
     }
 
-    private function setTablename($tablename)
+    private function setTablename($tablename): void
     {
         $this->tablename = $tablename;
     }
@@ -481,7 +481,7 @@ abstract class tx_ttproducts_table_base implements SingletonInterface
         return $this->theCode;
     }
 
-    public function setCode($theCode)
+    public function setCode($theCode): void
     {
         $this->theCode = $theCode;
     }
@@ -495,7 +495,7 @@ abstract class tx_ttproducts_table_base implements SingletonInterface
     public function initCodeConf(
         $theCode,
         $tableConf
-    ) {
+    ): void {
         if ($theCode != $this->getCode()) {
             $this->setCode($theCode);
             if (
@@ -540,7 +540,7 @@ abstract class tx_ttproducts_table_base implements SingletonInterface
         }
     }
 
-    public function translateByFields(&$dataArray, $theCode)
+    public function translateByFields(&$dataArray, $theCode): void
     {
         $langFieldArray = $this->getLanguageFieldArray($theCode);
 
@@ -581,7 +581,7 @@ abstract class tx_ttproducts_table_base implements SingletonInterface
         return $rc;
     }
 
-    public function fixTableConf(&$tableConf)
+    public function fixTableConf(&$tableConf): void
     {
         // nothing. Override this for your table if needed
     }
@@ -599,7 +599,7 @@ abstract class tx_ttproducts_table_base implements SingletonInterface
         return $result;
     }
 
-    public function setTableConf($tableConf)
+    public function setTableConf($tableConf): void
     {
         $this->tableConf = $tableConf;
     }
@@ -609,7 +609,7 @@ abstract class tx_ttproducts_table_base implements SingletonInterface
         return $this->tableDesc;
     }
 
-    public function setTableDesc($tableDesc)
+    public function setTableDesc($tableDesc): void
     {
         $this->tableDesc = tableDesc;
     }
@@ -681,13 +681,13 @@ abstract class tx_ttproducts_table_base implements SingletonInterface
         return $this->tableObj;
     }
 
-    public function reset()
+    public function reset(): void
     {
         $this->insertRowArray = [];
         $this->setInsertKey(0);
     }
 
-    public function setInsertKey($k)
+    public function setInsertKey($k): void
     {
         $this->insertKey = $k;
     }
@@ -700,7 +700,7 @@ abstract class tx_ttproducts_table_base implements SingletonInterface
     public function addInsertRow(
         $row,
         &$k = ''
-    ) {
+    ): void {
         $bUseInsertKey = false;
 
         if ($k == '') {

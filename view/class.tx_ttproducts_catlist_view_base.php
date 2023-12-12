@@ -65,7 +65,7 @@ abstract class tx_ttproducts_catlist_view_base implements SingletonInterface
         $pid_list,
         $recursive,
         $pid
-    ) {
+    ): void {
         $this->pibaseClass = $pibaseClass;
         $this->pibase = GeneralUtility::makeInstance('' . $pibaseClass);
         $this->cObj = $cObj;
@@ -129,7 +129,7 @@ abstract class tx_ttproducts_catlist_view_base implements SingletonInterface
         &$categoryArray,
         &$catArray,
         $categoryRootArray
-    ) {
+    ): void {
         $depth = 1;
         $childlessArray = [];
         foreach ($categoryArray as $category => $row) {
@@ -191,7 +191,7 @@ abstract class tx_ttproducts_catlist_view_base implements SingletonInterface
         return $this->tableConfArray;
     }
 
-    public function setTableConfArray($tableConfArray)
+    public function setTableConfArray($tableConfArray): void
     {
         $this->tableConfArray = $tableConfArray;
     }
@@ -201,7 +201,7 @@ abstract class tx_ttproducts_catlist_view_base implements SingletonInterface
         return $this->viewConfArray;
     }
 
-    public function setViewConfArray($viewConfArray)
+    public function setViewConfArray($viewConfArray): void
     {
         $this->viewConfArray = $viewConfArray;
     }
@@ -228,7 +228,7 @@ abstract class tx_ttproducts_catlist_view_base implements SingletonInterface
         &$t,
         &$templateCode,
         $area
-    ) {
+    ): void {
         $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
         $subpartmarkerObj = GeneralUtility::makeInstance('tx_ttproducts_subpartmarker');
@@ -255,7 +255,7 @@ abstract class tx_ttproducts_catlist_view_base implements SingletonInterface
         $maxPages,
         $imageArray,
         $imageActiveArray
-    ) {
+    ): void {
         $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $subpartmarkerObj = GeneralUtility::makeInstance('tx_ttproducts_subpartmarker');
         $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');

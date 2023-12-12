@@ -98,7 +98,7 @@ class tx_ttproducts_pi1_base extends AbstractPlugin implements SingletonInterfac
         return $content;
     }
 
-    public function set($bRunAjax)
+    public function set($bRunAjax): void
     {
         $this->bRunAjax = $bRunAjax;
     }

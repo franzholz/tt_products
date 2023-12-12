@@ -45,7 +45,7 @@ class UpgradeApi implements LoggerAwareInterface
         $oldType,
         $newType,
         $queryBuilder
-    ) {
+    ): void {
         $stringEmpty = $queryBuilder->createNamedParameter('');
         $integerEmpty = $queryBuilder->createNamedParameter(0);
         $oldEmpty = $newEmpty = $stringEmpty;

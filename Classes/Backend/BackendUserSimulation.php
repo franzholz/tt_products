@@ -389,7 +389,7 @@ class BackendUserSimulation extends AbstractUserAuthentication
      *
      * @todo Define visibility
      */
-    public function checkLogFailures($email, $secondsBack = 3600, $max = 3)
+    public function checkLogFailures($email, $secondsBack = 3600, $max = 3): void
     {
         if ($email) {
             // Get last flag set in the log for sending
