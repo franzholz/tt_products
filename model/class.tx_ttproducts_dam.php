@@ -191,7 +191,7 @@ class tx_ttproducts_dam extends tx_ttproducts_article_base
         return $where;
     }
 
-    public function addConfCat($catObject, &$selectConf, $aliasArray)
+    public function addConfCat($catObject, &$selectConf, $aliasArray): string
     {
         $tableNameArray = [];
 
@@ -237,7 +237,7 @@ class tx_ttproducts_dam extends tx_ttproducts_article_base
         return implode(',', $tableNameArray);
     }
 
-    public function getPageUidsCat($cat)
+    public function getPageUidsCat($cat): string
     {
         $uidArray = [];
 

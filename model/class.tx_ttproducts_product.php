@@ -814,7 +814,7 @@ class tx_ttproducts_product extends tx_ttproducts_article_base
         $catObject,
         &$selectConf,
         $aliasArray
-    ) {
+    ): string {
         $tableNameArray = [];
 
         // Call all addWhere hooks for categories at the end of this method
@@ -862,7 +862,7 @@ class tx_ttproducts_product extends tx_ttproducts_article_base
         return implode(',', $tableNameArray);
     }
 
-    public function getPageUidsCat($cat)
+    public function getPageUidsCat($cat): string
     {
         $uidArray = [];
 
