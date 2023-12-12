@@ -14,7 +14,7 @@ namespace JambageCom\TtProducts\Controller\Module;
  *
  * The TYPO3 project - inspiring people to share!
  */
-
+use JambageCom\TtProducts\Utility\ImportFalUtility;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
@@ -112,7 +112,7 @@ class ImportFalWizardModuleFunctionController
         $execute = GeneralUtility::_GP('execute');
 
         if ($execute) {
-            $importFal = GeneralUtility::makeInstance(\JambageCom\TtProducts\Utility\ImportFalUtility::class);
+            $importFal = GeneralUtility::makeInstance(ImportFalUtility::class);
             $importResult =
                 $importFal->importAll(
                     $infoArray,

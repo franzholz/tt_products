@@ -14,7 +14,7 @@ namespace JambageCom\TtProducts\Controller\Module;
  *
  * The TYPO3 project - inspiring people to share!
  */
-
+use JambageCom\TtProducts\Utility\CreateLanguagesUtility;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
@@ -116,7 +116,7 @@ class CreateLanguagesWizardModuleFunctionController
         $execute = GeneralUtility::_GP('execute');
 
         if ($execute) {
-            $createLanguages = GeneralUtility::makeInstance(\JambageCom\TtProducts\Utility\CreateLanguagesUtility::class);
+            $createLanguages = GeneralUtility::makeInstance(CreateLanguagesUtility::class);
             $view->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName(
                 'EXT:' . TT_PRODUCTS_EXT . '/Resources/Private/Templates/CreateLanguagesFinished.html'
             ));

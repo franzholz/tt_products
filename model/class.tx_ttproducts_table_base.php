@@ -36,11 +36,13 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use JambageCom\Div2007\Api\Frontend;
+use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
-abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInterface
+abstract class tx_ttproducts_table_base implements SingletonInterface
 {
     protected $bHasBeenInitialised = false;
     public $conf;
@@ -422,7 +424,7 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
                     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['fieldClass'][$funcTablename] as $extKey => $hookArray
                 ) {
                     if (
-                        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($extKey) &&
+                        ExtensionManagementUtility::isLoaded($extKey) &&
                         is_array($hookArray) &&
                         isset($hookArray[$fieldname])
                     ) {
@@ -562,7 +564,7 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
     {
         $rc = false;
         $api =
-            GeneralUtility::makeInstance(\JambageCom\Div2007\Api\Frontend::class);
+            GeneralUtility::makeInstance(Frontend::class);
         $sys_language_uid = $api->getLanguageId();
 
         if (is_numeric($sys_language_uid)) {

@@ -2,6 +2,8 @@
 
 namespace JambageCom\TtProducts\Api;
 
+use JambageCom\Div2007\Base\TranslationBase;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -80,7 +82,7 @@ class PaymentApi
     }
 
     public static function getPayMode(
-        \JambageCom\Div2007\Base\TranslationBase $languageObj,
+        TranslationBase $languageObj,
         $basketExtra
     ) {
         $result = 0;

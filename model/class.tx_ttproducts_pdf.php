@@ -36,10 +36,11 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class tx_ttproducts_pdf implements \TYPO3\CMS\Core\SingletonInterface
+class tx_ttproducts_pdf implements SingletonInterface
 {
     private $header;
     private $footer;
@@ -231,7 +232,7 @@ class tx_ttproducts_pdf implements \TYPO3\CMS\Core\SingletonInterface
 
     public function Body()
     {
-        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
 
         // $xPos = $this->GetX();
         $tempContent = $templateService->getSubpart($this->body, '###PDF_TABLE_1###');

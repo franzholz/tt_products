@@ -37,11 +37,12 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
 use JambageCom\Div2007\Utility\FrontendUtility;
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class tx_ttproducts_cat_view implements \TYPO3\CMS\Core\SingletonInterface
+class tx_ttproducts_cat_view implements SingletonInterface
 {
     public $pibase; // reference to object of pibase
     public $conf;
@@ -81,7 +82,7 @@ class tx_ttproducts_cat_view implements \TYPO3\CMS\Core\SingletonInterface
         &$error_code,
         $templateSuffix = ''
     ) {
-        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $tableViewObj = $tablesObj->get($functablename, true);
         $tableObj = $tableViewObj->getModelObj();

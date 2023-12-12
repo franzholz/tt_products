@@ -34,11 +34,12 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
 use JambageCom\Div2007\Utility\FrontendUtility;
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class tx_ttproducts_memo_view implements \TYPO3\CMS\Core\SingletonInterface
+class tx_ttproducts_memo_view implements SingletonInterface
 {
     public $pid_list;
     public $pid; // pid where to go
@@ -81,7 +82,7 @@ class tx_ttproducts_memo_view implements \TYPO3\CMS\Core\SingletonInterface
         $pid,
         &$errorCode
     ) {
-        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
         $content = '';
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');

@@ -36,8 +36,9 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
 use JambageCom\Div2007\Utility\ExtensionUtility;
+use JambageCom\TtProducts\Api\Localization;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_control_command
@@ -74,7 +75,7 @@ class tx_ttproducts_control_command
         $pid_list,
         $recursive
     ) {
-        $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
+        $languageObj = GeneralUtility::makeInstance(Localization::class);
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $bHasBeenOrdered = false;
@@ -89,7 +90,7 @@ class tx_ttproducts_control_command
         switch ($theCode) {
             case 'DOWNLOAD':
                 if (
-                    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('addons_em') &&
+                    ExtensionManagementUtility::isLoaded('addons_em') &&
                     isset($cmdData['download']) ||
                     isset($cmdData['fal'])
                 ) {

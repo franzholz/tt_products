@@ -36,7 +36,7 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use JambageCom\TtProducts\Api\Localization;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_control_view
@@ -55,7 +55,7 @@ class tx_ttproducts_control_view
     public function getMarkerArray(&$markerArray, &$allMarkers, $tableConfArray)
     {
         if (isset($tableConfArray) && is_array($tableConfArray)) {
-            $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
+            $languageObj = GeneralUtility::makeInstance(Localization::class);
             $allValueArray = [];
             $controlArray = tx_ttproducts_model_control::getControlArray();
             $separator = ';';

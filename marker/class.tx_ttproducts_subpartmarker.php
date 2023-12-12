@@ -37,11 +37,12 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
 use JambageCom\Div2007\Utility\FrontendUtility;
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class tx_ttproducts_subpartmarker implements \TYPO3\CMS\Core\SingletonInterface
+class tx_ttproducts_subpartmarker implements SingletonInterface
 {
     /**
      * Returning template subpart marker.
@@ -97,7 +98,7 @@ class tx_ttproducts_subpartmarker implements \TYPO3\CMS\Core\SingletonInterface
      */
     public function getSubpart($content, $marker, &$error_code)
     {
-        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $result = $templateService->getSubpart($content, $marker);
 
         if (!$result) {

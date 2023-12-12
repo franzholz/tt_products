@@ -36,8 +36,8 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
 use JambageCom\Div2007\Utility\FrontendUtility;
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -178,7 +178,7 @@ class tx_ttproducts_fal_view extends tx_ttproducts_article_base_view
             $fileObj = $resourceFactory->getFileReferenceObject($row['uid']);
             $fileInfo = $storage->getFileInfo($fileObj);
 
-            $path = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/';
+            $path = Environment::getPublicPath() . '/';
 
             $file = $path . 'fileadmin' . $fileInfo['identifier'];
             $filename = basename($file);

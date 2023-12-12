@@ -1,4 +1,7 @@
 <?php
+
+use TYPO3\CMS\Core\SingletonInterface;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -36,7 +39,7 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-class tx_ttproducts_edit_variant_dummy_view implements tx_ttproducts_edit_variant_view_int, \TYPO3\CMS\Core\SingletonInterface
+class tx_ttproducts_edit_variant_dummy_view implements tx_ttproducts_edit_variant_view_int, SingletonInterface
 {
     public function init($modelObj)
     {

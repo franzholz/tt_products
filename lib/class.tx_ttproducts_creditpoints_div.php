@@ -36,7 +36,7 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use JambageCom\Div2007\Utility\CompatibilityUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_creditpoints_div
@@ -46,7 +46,7 @@ class tx_ttproducts_creditpoints_div
         $result = 0;
 
         if (
-            \JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn() &&
+            CompatibilityUtility::isLoggedIn() &&
             isset($GLOBALS['TSFE']->fe_user) &&
             is_array($GLOBALS['TSFE']->fe_user->user)
         ) {

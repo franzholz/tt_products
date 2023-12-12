@@ -90,7 +90,7 @@ class tx_ttproducts_graduated_price
         $this->setParent($parentObject);
 
         $foreignConfig =
-            \JambageCom\Div2007\Utility\TableUtility::getForeignTableInfo(
+            TableUtility::getForeignTableInfo(
                 $parentObject->getTablename(),
                 $fieldname
             );

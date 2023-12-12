@@ -36,13 +36,21 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use JambageCom\Div2007\Utility\CompatibilityUtility;
 use JambageCom\Div2007\Utility\FrontendUtility;
+use JambageCom\Div2007\Utility\HtmlUtility;
+use JambageCom\TtProducts\Api\ControlApi;
+use JambageCom\TtProducts\Api\Localization;
 use JambageCom\TtProducts\Api\PaymentShippingHandling;
+use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
+use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
+use TYPO3\CMS\Frontend\Resource\FilePathSanitizer;
 
-class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface
+class tx_ttproducts_control implements SingletonInterface
 {
     public $pibase; // reference to object of pibase
     public $pibaseClass;
@@ -217,8 +225,8 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface
     {
         $transactorConf = '';
 
-        $transactorConf = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-            \TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class
+        $transactorConf = GeneralUtility::makeInstance(
+            ExtensionConfiguration::class
         )->get($handleLib);
 
         return $transactorConf;
@@ -252,7 +260,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface
             $infoViewObj = GeneralUtility::makeInstance('tx_ttproducts_info_view');
             $handleScript = '';
             if (isset($basketExtra['payment.']['handleScript'])) {
-                $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
+                $sanitizer = GeneralUtility::makeInstance(FilePathSanitizer::class);
                 $handleScript = $sanitizer->sanitize($basketExtra['payment.']['handleScript']);
             }
 
@@ -272,7 +280,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface
                 );
             } elseif (
                 strpos($handleLib, 'paymentlib') === false &&
-                \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($handleLib)
+                ExtensionManagementUtility::isLoaded($handleLib)
             ) {
                 $transactorConf = $this->getTransactorConf($handleLib);
                 $useNewTransactor = false;
@@ -299,7 +307,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface
                         method_exists($callingClassName, 'init') &&
                         method_exists($callingClassName, 'includeHandleLib')
                     ) {
-                        $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
+                        $languageObj = GeneralUtility::makeInstance(Localization::class);
                         call_user_func($callingClassName . '::init', $languageObj, $this->cObj, $this->conf);
                         $addQueryString = [];
                         $excludeList = '';
@@ -343,7 +351,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface
                     $paymentScript = true;
                     // Payment Transactor or any alternative extension besides paymentlib
                     // Get references to the concerning baskets
-                    $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
+                    $languageObj = GeneralUtility::makeInstance(Localization::class);
                     $addQueryString = [];
                     $excludeList = '';
                     $linkParams =
@@ -439,8 +447,8 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface
                 $checkAllowed == 'email'
             ) {
                 if (
-                    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('sr_feuser_register') ||
-                    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('agency')
+                    ExtensionManagementUtility::isLoaded('sr_feuser_register') ||
+                    ExtensionManagementUtility::isLoaded('agency')
                 ) {
                     $languageKey = 'evalErrors_email_email';
                 } else {
@@ -448,15 +456,15 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface
                 }
             }
 
-            if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('agency')) {
+            if (ExtensionManagementUtility::isLoaded('agency')) {
                 if (!$languageKey) {
                     $languageKey = 'missing_' . $check;
                 }
                 $label = $GLOBALS['TSFE']->sL('LLL:EXT:agency/pi/locallang.xml:' . $languageKey);
                 $editPID = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_agency.']['editPID'];
 
-                if (\JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn() && $editPID) {
-                    $cObj = \JambageCom\TtProducts\Api\ControlApi::getCObj();
+                if (CompatibilityUtility::isLoggedIn() && $editPID) {
+                    $cObj = ControlApi::getCObj();
                     $addParams = ['products_payment' => 1];
                     $addParams = $this->urlObj->getLinkParams('', $addParams, true);
                     // 					$agencyBackUrl =
@@ -483,14 +491,14 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface
                             $addParams
                         );
                 }
-            } elseif (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('sr_feuser_register')) {
+            } elseif (ExtensionManagementUtility::isLoaded('sr_feuser_register')) {
                 if (!$languageKey) {
                     $languageKey = 'missing_' . $check;
                 }
                 $label = $GLOBALS['TSFE']->sL('LLL:EXT:sr_feuser_register/Resources/Private/Language/locallang.xlf:' . $languageKey);
                 $editPID = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_srfeuserregister_pi1.']['editPID'];
 
-                if (\JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn() && $editPID) {
+                if (CompatibilityUtility::isLoggedIn() && $editPID) {
                     $addParams = ['products_payment' => 1];
                     $addParams =
                         $this->urlObj->getLinkParams(
@@ -588,15 +596,15 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface
         &$bFinalize,
         &$bFinalVerify
     ) {
-        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $empty = '';
-        $cObj = \JambageCom\TtProducts\Api\ControlApi::getCObj();
+        $cObj = ControlApi::getCObj();
         $basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
         $basketView = GeneralUtility::makeInstance('tx_ttproducts_basket_view');
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
         $subpartmarkerObj = GeneralUtility::makeInstance('tx_ttproducts_subpartmarker');
-        $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
+        $languageObj = GeneralUtility::makeInstance(Localization::class);
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $taxObj = GeneralUtility::makeInstance('tx_ttproducts_field_tax');
         $content = '';
@@ -778,7 +786,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface
                     }
 
                     if ($shortActivity) {
-                        $xhtmlFix = \JambageCom\Div2007\Utility\HtmlUtility::getXhtmlFix();
+                        $xhtmlFix = HtmlUtility::getXhtmlFix();
                         $hiddenFields .= '<input type="hidden" name="' . TT_PRODUCTS_EXT . '[activity][' . $shortActivity . ']" value="1"' . $xhtmlFix . '>';
                     }
                 }
@@ -972,7 +980,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface
         $cardRow = [];
         $accountObj = null;
 
-        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $basketView = GeneralUtility::makeInstance('tx_ttproducts_basket_view');
         $infoViewObj = GeneralUtility::makeInstance('tx_ttproducts_info_view');
@@ -980,7 +988,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface
         $markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
         $subpartmarkerObj = GeneralUtility::makeInstance('tx_ttproducts_subpartmarker');
         $basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
-        $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
+        $languageObj = GeneralUtility::makeInstance(Localization::class);
         $templateObj = GeneralUtility::makeInstance('tx_ttproducts_template');
         $orderUid = false;
         $orderNumber = '';

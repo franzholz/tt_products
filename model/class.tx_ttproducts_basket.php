@@ -39,11 +39,15 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use JambageCom\TtProducts\Api\BasketApi;
+use JambageCom\TtProducts\Api\ParameterApi;
+use JambageCom\TtProducts\Api\PriceApi;
+use JambageCom\TtProducts\Model\Field\FieldInterface;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
-class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface
+class tx_ttproducts_basket implements SingletonInterface
 {
     public $conf;
 
@@ -79,8 +83,8 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface
         $pibaseObj = GeneralUtility::makeInstance('' . $pibaseClass);
         $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
         $this->recs = $formerBasket;	// Sets it internally
-        $parameterApi = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\ParameterApi::class);
-        $basketApi = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\BasketApi::class);
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
+        $basketApi = GeneralUtility::makeInstance(BasketApi::class);
         $piVars = $parameterApi->getPiVars();
         $gpVars = GeneralUtility::_GP('tt_products');
         $payment =
@@ -878,7 +882,7 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface
         $externalRowArray = [], // Download
         $bEnableTaxZero = false
     ) {
-        $calculationField = \JambageCom\TtProducts\Model\Field\FieldInterface::PRICE_CALCULATED;
+        $calculationField = FieldInterface::PRICE_CALCULATED;
         $pricetablesCalculator = GeneralUtility::makeInstance('tx_ttproducts_pricetablescalc');
 
         $prodFuncTablename = 'tt_products';
@@ -926,7 +930,7 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface
         } else {
             debug($tmp, 'internal error in tt_products method getItem'); // keep this
         }
-        $totalDiscountField = \JambageCom\TtProducts\Model\Field\FieldInterface::DISCOUNT;
+        $totalDiscountField = FieldInterface::DISCOUNT;
         $viewTableObj->getTotalDiscount($row, tx_ttproducts_control_basket::getPidListObj()->getPidlist());
         if (isset($row[$totalDiscountField])) {
             $priceRow[$totalDiscountField] = $row[$totalDiscountField];
@@ -939,7 +943,7 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface
             !empty($externalRowArray)
         ) {
             $newPrice = $priceRow['price'];
-            $priceIsModified = \JambageCom\TtProducts\Api\BasketApi::getRecordvariantAndPriceFromRows(
+            $priceIsModified = BasketApi::getRecordvariantAndPriceFromRows(
                 $recordVariant,
                 $newPrice,
                 $externalUidArray,
@@ -1047,7 +1051,7 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface
 
                 $bIsAddedPrice = $cnfObj->hasConfig($articleRow, 'isAddedPrice');
 
-                \JambageCom\TtProducts\Api\PriceApi::mergeRows(
+                PriceApi::mergeRows(
                     $priceRow,
                     $articleRow,
                     'price',
@@ -1179,7 +1183,7 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface
         $variantSeparator = $viewTableObj->getVariant()->getSplitSeparator();
 
         $uid = $row['uid'];
-        $calculationField = \JambageCom\TtProducts\Model\Field\FieldInterface::PRICE_CALCULATED;
+        $calculationField = FieldInterface::PRICE_CALCULATED;
 
         $bextVarArray = GeneralUtility::trimExplode('|', $bextVarLine);
         $bextVars = $bextVarArray[0];
@@ -1626,7 +1630,7 @@ class tx_ttproducts_basket implements \TYPO3\CMS\Core\SingletonInterface
     // get a virtual basket
     public function getMergedRowFromItemArray(array $itemArray, $basketExtra)
     {
-        $calculationField = \JambageCom\TtProducts\Model\Field\FieldInterface::PRICE_CALCULATED;
+        $calculationField = FieldInterface::PRICE_CALCULATED;
         $row = false;
         if (count($itemArray)) {
             $row = [];

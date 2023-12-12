@@ -36,11 +36,17 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use JambageCom\Div2007\Utility\TableUtility;
+use JambageCom\TtProducts\Api\BasketApi;
+use JambageCom\TtProducts\Api\Localization;
+use JambageCom\TtProducts\Api\PaymentApi;
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
+use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
-class tx_ttproducts_tracking implements \TYPO3\CMS\Core\SingletonInterface
+class tx_ttproducts_tracking implements SingletonInterface
 {
     public $cObj;
     public $conf;		  // original configuration
@@ -179,13 +185,13 @@ class tx_ttproducts_tracking implements \TYPO3\CMS\Core\SingletonInterface
         &$orderRecord,
         $bValidUpdateCode
     ) {
-        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $bUseXHTML = !empty($GLOBALS['TSFE']->config['config']['xhtmlDoctype']);
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $orderObj = $tablesObj->get('sys_products_orders');
         $markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
         $pibaseObj = GeneralUtility::makeInstance('tx_ttproducts_pi1_base');
-        $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
+        $languageObj = GeneralUtility::makeInstance(Localization::class);
         $basketView = GeneralUtility::makeInstance('tx_ttproducts_basket_view');
         $infoViewObj = GeneralUtility::makeInstance('tx_ttproducts_info_view');
         // 		$paymentshippingObj = GeneralUtility::makeInstance('tx_ttproducts_paymentshipping');
@@ -206,7 +212,7 @@ class tx_ttproducts_tracking implements \TYPO3\CMS\Core\SingletonInterface
             is_array($orderRow) &&
             $orderRow['uid']
         ) {
-            $basketRec = \JambageCom\TtProducts\Api\BasketApi::getBasketRec($orderRow);
+            $basketRec = BasketApi::getBasketRec($orderRow);
             $basketExtra =
                 tx_ttproducts_control_basket::getBasketExtras(
                     $tablesObj,
@@ -262,7 +268,7 @@ class tx_ttproducts_tracking implements \TYPO3\CMS\Core\SingletonInterface
                                 is_array($orderRow) &&
                                 $orderRow['uid']
                             ) {
-                                $basketRec = \JambageCom\TtProducts\Api\BasketApi::getBasketRec($orderRow);
+                                $basketRec = BasketApi::getBasketRec($orderRow);
                                 $basketExtra =
                                     tx_ttproducts_control_basket::getBasketExtras(
                                         $tablesObj,
@@ -275,7 +281,7 @@ class tx_ttproducts_tracking implements \TYPO3\CMS\Core\SingletonInterface
 
                                 if (
                                     $whereGift != '' &&
-                                    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('voucher')
+                                    ExtensionManagementUtility::isLoaded('voucher')
                                 ) {
                                     $hidden = tx_ttproducts_voucher::unhideGifts(
                                         $voucherUidArray,
@@ -316,7 +322,7 @@ class tx_ttproducts_tracking implements \TYPO3\CMS\Core\SingletonInterface
                                 }
                             }
 
-                            $payMode = \JambageCom\TtProducts\Api\PaymentApi::getPayMode($languageObj, $basketExtra);
+                            $payMode = PaymentApi::getPayMode($languageObj, $basketExtra);
 
                             $fieldsArray['date_of_payment'] = $date;
                             if (!$payMode) {
@@ -546,7 +552,7 @@ class tx_ttproducts_tracking implements \TYPO3\CMS\Core\SingletonInterface
                 $orderBy = 'crdate'; // Todo: all order by fields must be reversed to keep the history program logic
             }
 
-            $enableFields = \JambageCom\Div2007\Utility\TableUtility::enableFields('sys_products_orders');
+            $enableFields = TableUtility::enableFields('sys_products_orders');
 
             // Get unprocessed orders.
             $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(

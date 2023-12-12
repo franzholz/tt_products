@@ -63,7 +63,7 @@ class ControlApi
         $overwriteMode = false;
         $conf = self::getConf();
 
-        $checkField = \JambageCom\TtProducts\Api\CustomerApi::getPossibleCheckField();
+        $checkField = CustomerApi::getPossibleCheckField();
 
         if (
             (

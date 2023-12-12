@@ -36,7 +36,7 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_hooks_pool extends tx_pool_hooks_base
@@ -60,7 +60,7 @@ class tx_ttproducts_hooks_pool extends tx_pool_hooks_base
     ) {
         $content = '<b>Suche &uuml;ber tt_products</b><br/>';
 
-        if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('searchbox')) {
+        if (ExtensionManagementUtility::isLoaded('searchbox')) {
             // 			GeneralUtility::requireOnce(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('searchbox') . 'view/class.tx_searchbox_view.php');
             $searchBoxObj = GeneralUtility::makeInstance('tx_searchbox_view');
 
@@ -74,7 +74,7 @@ class tx_ttproducts_hooks_pool extends tx_pool_hooks_base
             $dbListConf = $searchBoxObj->getDblistConf($this->prefixId);
         }
 
-        if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('db_list')) {
+        if (ExtensionManagementUtility::isLoaded('db_list')) {
             // 			GeneralUtility::requireOnce(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('db_list') . 'class.tx_dblist_script.php');
             $dbListObj = GeneralUtility::makeInstance('tx_dblist_script');
             $dbListObj->init($this->vars, $dbListConf);

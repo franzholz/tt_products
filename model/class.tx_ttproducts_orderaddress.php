@@ -36,7 +36,7 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use JambageCom\Div2007\Utility\CompatibilityUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_orderaddress extends tx_ttproducts_table_base
@@ -193,7 +193,7 @@ class tx_ttproducts_orderaddress extends tx_ttproducts_table_base
     {
         $rc = false;
         if (
-            \JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn() &&
+            CompatibilityUtility::isLoggedIn() &&
             isset($GLOBALS['TSFE']->fe_user->user) &&
             is_array(
                 $GLOBALS['TSFE']->fe_user->user

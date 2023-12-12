@@ -36,10 +36,10 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-abstract class tx_ttproducts_field_base implements tx_ttproducts_field_int, \TYPO3\CMS\Core\SingletonInterface
+abstract class tx_ttproducts_field_base implements tx_ttproducts_field_int, SingletonInterface
 {
     private $bHasBeenInitialised = false;
     public $conf;		// original configuration

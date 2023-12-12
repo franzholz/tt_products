@@ -36,11 +36,13 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
 use JambageCom\TtProducts\Model\Field\FieldInterface;
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
-abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\SingletonInterface
+abstract class tx_ttproducts_table_base_view implements SingletonInterface
 {
     private $bHasBeenInitialised = false;
     public $piVar;
@@ -492,8 +494,8 @@ abstract class tx_ttproducts_table_base_view implements \TYPO3\CMS\Core\Singleto
         array $markerArray,
         &$theMarkerArray
     ) {
-        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
-        $local_cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
+        $local_cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
 
         $newRow = [];
         foreach ($row as $field => $value) {

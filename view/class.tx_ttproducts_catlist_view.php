@@ -36,7 +36,7 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base
@@ -58,7 +58,7 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base
         $childRow,
         $subCategoryMarkerArray
     ) {
-        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
 
         $subCategoryMarker = '';
         if (
@@ -230,7 +230,7 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base
         $basketExtra,
         $basketRecs
     ) {
-        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
         $t = [];
         $ctrlArray = [];

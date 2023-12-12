@@ -36,10 +36,11 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class tx_ttproducts_javascript_marker implements \TYPO3\CMS\Core\SingletonInterface
+class tx_ttproducts_javascript_marker implements SingletonInterface
 {
     protected $marker = 'JAVASCRIPT';
 
@@ -61,7 +62,7 @@ class tx_ttproducts_javascript_marker implements \TYPO3\CMS\Core\SingletonInterf
     {
         $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
         $conf = $cnfObj->getConf();
-        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
 
         if (isset($conf['javaScript.'])) {
             $javaScriptObj = GeneralUtility::makeInstance('tx_ttproducts_javascript');

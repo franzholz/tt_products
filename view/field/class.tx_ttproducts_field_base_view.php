@@ -36,10 +36,11 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-abstract class tx_ttproducts_field_base_view implements tx_ttproducts_field_view_int, \TYPO3\CMS\Core\SingletonInterface
+abstract class tx_ttproducts_field_base_view implements tx_ttproducts_field_view_int, SingletonInterface
 {
     private $bHasBeenInitialised = false;
     public $modelObj;
@@ -112,7 +113,7 @@ abstract class tx_ttproducts_field_base_view implements tx_ttproducts_field_view
         $theCode = '',
         $id = '1'
     ) {
-        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $result = false;
         $newContent = '';
         $markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');

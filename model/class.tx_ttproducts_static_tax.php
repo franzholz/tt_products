@@ -36,8 +36,12 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use JambageCom\Div2007\Api\OldStaticInfoTablesApi;
+use JambageCom\Div2007\Api\StaticInfoTablesApi;
+use JambageCom\Div2007\Utility\CompatibilityUtility;
 use JambageCom\Div2007\Utility\ExtensionUtility;
+use JambageCom\StaticInfoTablesTaxes\Api\TaxApi;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
@@ -113,7 +117,7 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base
                 $shippingCountryCode = $infoArray['delivery']['country_code'];
             }
 
-            \JambageCom\StaticInfoTablesTaxes\Api\TaxApi::init(
+            TaxApi::init(
                 $shopCountryCode = '',
                 $shopCountrySubdivisionCode = '',
                 $shippingCountryCode,
@@ -133,7 +137,7 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base
 
         if (
             !$result &&
-            \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('static_info_tables_taxes')) {
+            ExtensionManagementUtility::isLoaded('static_info_tables_taxes')) {
             $eInfo = ExtensionUtility::getExtensionInfo('static_info_tables_taxes');
 
             if (is_array($eInfo)) {
@@ -308,7 +312,7 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base
     public function getCategoryArray($uidArray)
     {
         $result = [];
-        $pageRepository = \JambageCom\Div2007\Utility\CompatibilityUtility::getPageRepository();
+        $pageRepository = CompatibilityUtility::getPageRepository();
 
         $isValid = true;
         foreach ($uidArray as $uid) {
@@ -350,9 +354,9 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base
         array $basketRecs
     ) {
         if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
-            $staticInfoApi = GeneralUtility::makeInstance(\JambageCom\Div2007\Api\StaticInfoTablesApi::class);
+            $staticInfoApi = GeneralUtility::makeInstance(StaticInfoTablesApi::class);
         } else {
-            $staticInfoApi = GeneralUtility::makeInstance(\JambageCom\Div2007\Api\OldStaticInfoTablesApi::class);
+            $staticInfoApi = GeneralUtility::makeInstance(OldStaticInfoTablesApi::class);
         }
 
         $countryArray = $this->countryArray;
@@ -396,7 +400,7 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base
         $zoneCode = '';
 
         $taxInfoArray =
-            \JambageCom\StaticInfoTablesTaxes\Api\TaxApi::fetchCountryTaxes(
+            TaxApi::fetchCountryTaxes(
                 $countryCode,
                 $zoneCode,
                 $staticInfoApi,
@@ -502,7 +506,7 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base
                 isset($extArray['records']['sys_file_reference'])
             ) {
                 // TODO
-                $categoryArray[] = \JambageCom\StaticInfoTablesTaxes\Api\TaxApi::EU_CATEGORY_DIGITAL_MEDIA_EBOOK;
+                $categoryArray[] = TaxApi::EU_CATEGORY_DIGITAL_MEDIA_EBOOK;
                 // EU download media detected. This overwrites the tax class of the product, if available.
             }
 
@@ -517,9 +521,9 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base
                 $uid = $row['uid'];
                 $taxInfoArray = [];
                 if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
-                    $staticInfoApi = GeneralUtility::makeInstance(\JambageCom\Div2007\Api\StaticInfoTablesApi::class);
+                    $staticInfoApi = GeneralUtility::makeInstance(StaticInfoTablesApi::class);
                 } else {
-                    $staticInfoApi = GeneralUtility::makeInstance(\JambageCom\Div2007\Api\OldStaticInfoTablesApi::class);
+                    $staticInfoApi = GeneralUtility::makeInstance(OldStaticInfoTablesApi::class);
                 }
                 $countryArray = $this->countryArray;
 
@@ -549,7 +553,7 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base
                     $zoneCode = '';
 
                     $taxInfoArray =
-                        \JambageCom\StaticInfoTablesTaxes\Api\TaxApi::fetchCountryTaxes(
+                        TaxApi::fetchCountryTaxes(
                             $countryCode,
                             $zoneCode,
                             $staticInfoApi,
@@ -590,7 +594,7 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base
                             $tax = $taxRow['tx_rate'];
                         } else { // calculate together many taxes and use them as one single tax. (Canada)
                             $priceOne =
-                                \JambageCom\StaticInfoTablesTaxes\Api\TaxApi::applyConsumerTaxes(
+                                TaxApi::applyConsumerTaxes(
                                     $taxInfoArray,
                                     doubleval(1)
                                 );

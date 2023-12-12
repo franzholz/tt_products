@@ -36,11 +36,12 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
 use JambageCom\Div2007\Utility\FrontendUtility;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
-class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface
+class tx_ttproducts_url_view implements SingletonInterface
 {
     public $conf;
     public $urlArray;
@@ -91,7 +92,7 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface
         $css_current = '',
         $useBackPid = true
     ) {
-        $cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
+        $cObj = FrontendUtility::getContentObjectRenderer();
         $commandArray =
             [
                 'basket',
@@ -136,7 +137,7 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface
         $backPid = 0,
         $bExcludeSingleVar = true
     ) {
-        $cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
+        $cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
         $charset = 'UTF-8';
         $urlMarkerArray = [];
         $conf = [];

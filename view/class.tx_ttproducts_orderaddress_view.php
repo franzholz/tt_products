@@ -36,6 +36,8 @@
  * @package TYPO3
  * @subpackage tt_products
  */
+use JambageCom\Div2007\Utility\CompatibilityUtility;
+use JambageCom\TtProducts\Api\Localization;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
@@ -80,7 +82,7 @@ class tx_ttproducts_orderaddress_view extends tx_ttproducts_table_base_view
                 }
             } elseif (strpos($tag, $markerLogin . '_') === 0) {
                 if (
-                    \JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn() &&
+                    CompatibilityUtility::isLoggedIn() &&
                     isset($GLOBALS['TSFE']->fe_user->user) &&
                     is_array($GLOBALS['TSFE']->fe_user->user) &&
                     isset($GLOBALS['TSFE']->fe_user->user['uid'])
@@ -143,7 +145,7 @@ class tx_ttproducts_orderaddress_view extends tx_ttproducts_table_base_view
         $fieldOutputArray = [];
         $modelObj = $this->getModelObj();
         $selectInfoFields = $modelObj->getSelectInfoFields();
-        $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
+        $languageObj = GeneralUtility::makeInstance(Localization::class);
 
         if ($bSelect) {
             foreach ($selectInfoFields as $field) {

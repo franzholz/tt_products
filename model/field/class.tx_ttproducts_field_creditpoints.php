@@ -36,7 +36,7 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use JambageCom\Div2007\Utility\CompatibilityUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_field_creditpoints extends tx_ttproducts_field_base
@@ -107,7 +107,7 @@ class tx_ttproducts_field_creditpoints extends tx_ttproducts_field_base
     public function pay()
     {
         $rc = false;
-        if (\JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn()) {
+        if (CompatibilityUtility::isLoggedIn()) {
             //			$whereGeneral = '(fe_users_uid="'.$GLOBALS['TSFE']->fe_user->user['uid'].'" OR fe_users_uid=0) ';
 
             $creditpointsTotal = $this->getBasketTotal();

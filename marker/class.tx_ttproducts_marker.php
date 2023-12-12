@@ -36,14 +36,17 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
 use JambageCom\Div2007\Utility\FrontendUtility;
+use JambageCom\TtProducts\Api\Localization;
 use JambageCom\TtProducts\Model\Field\FieldInterface;
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
-class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface
+class tx_ttproducts_marker implements SingletonInterface
 {
     public $markerArray;
     public $globalMarkerArray;
@@ -62,7 +65,7 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface
     {
         $this->markerArray = ['CATEGORY', 'PRODUCT', 'ARTICLE'];
         $markerFile = $conf['markerFile'] ?? '';
-        $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
+        $languageObj = GeneralUtility::makeInstance(Localization::class);
         $language = $languageObj->getLanguage();
         $languageSubpath = '/Resources/Private/Language/';
         $defaultMarkerFile = 'EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_marker.xlf';
@@ -134,7 +137,7 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface
 
     public function replaceGlobalMarkers(&$content, $markerArray = [])
     {
-        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $globalMarkerArray = $this->getGlobalMarkerArray();
         $markerArray = array_merge($globalMarkerArray, $markerArray);
         $result = $templateService->substituteMarkerArrayCached($content, $markerArray);
@@ -147,7 +150,7 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface
      */
     public function setGlobalMarkerArray($conf, $piVars, $locallang, $LLkey)
     {
-        $cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
+        $cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
         $markerArray = [];
         $language = $GLOBALS['TSFE']->config['config']['language'] ?? '';
         if ($language == '') {

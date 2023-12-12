@@ -36,8 +36,8 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
 use JambageCom\Div2007\Utility\FrontendUtility;
+use JambageCom\TtProducts\Api\Localization;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_card_view extends tx_ttproducts_table_base_view
@@ -60,7 +60,7 @@ class tx_ttproducts_card_view extends tx_ttproducts_table_base_view
      */
     public function getMarkerArray($row, &$markerArray, array $allowedArray, $tablename = 'sys_products_cards')
     {
-        $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
+        $languageObj = GeneralUtility::makeInstance(Localization::class);
         $cObj = FrontendUtility::getContentObjectRenderer();
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $conf = $cnf->getConf();

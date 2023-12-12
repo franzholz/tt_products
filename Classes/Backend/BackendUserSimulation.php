@@ -14,8 +14,9 @@ namespace JambageCom\TtProducts\Backend;
  *
  * The TYPO3 project - inspiring people to share!
  */
-
+use TYPO3\CMS\Core\Authentication\AbstractUserAuthentication;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MailUtility;
 
 /**
  * TYPO3 backend user simulation
@@ -25,7 +26,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  *
  * @internal
  */
-class BackendUserSimulation extends \TYPO3\CMS\Core\Authentication\AbstractUserAuthentication
+class BackendUserSimulation extends AbstractUserAuthentication
 {
     /**
      * User workspace.
@@ -416,7 +417,7 @@ This is a dump of the failures:
                     ) . ':  ' . @sprintf($testRows['details'], (string)$theData[0], (string)$theData[1], (string)$theData[2]);
                     $email_body .= LF;
                 }
-                $from = \TYPO3\CMS\Core\Utility\MailUtility::getSystemFrom();
+                $from = MailUtility::getSystemFrom();
                 /** @var $mail \TYPO3\CMS\Core\Mail\MailMessage */
                 $mail = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Mail\\MailMessage');
                 $mail->setTo($email)->setFrom($from)->setSubject($subject)->setBody($email_body);

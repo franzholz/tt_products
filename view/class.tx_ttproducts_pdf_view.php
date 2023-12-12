@@ -37,7 +37,11 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use PhpOffice\PhpWord\Autoloader;
+use PhpOffice\PhpWord\IOFactory;
+use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Settings;
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_pdf_view
@@ -80,14 +84,14 @@ class tx_ttproducts_pdf_view
         ) {
             switch (strtoupper($generationConf['handleLib'])) {
                 case 'PHPWORD':
-                    $pathsite = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/';
+                    $pathsite = Environment::getPublicPath() . '/';
                     $itemObj = GeneralUtility::makeInstance('tx_ttproducts_basketitem');
                     $path = $pathsite . $generationConf['handleLib.']['path'];
 
                     GeneralUtility::requireOnce($path . '/src/PhpWord/Autoloader.php');
-                    \PhpOffice\PhpWord\Autoloader::register();
+                    Autoloader::register();
 
-                    $phpWord = new \PhpOffice\PhpWord\PhpWord();
+                    $phpWord = new PhpWord();
                     $templateFile = $pathsite . $generationConf['handleLib.']['template'];
 
                     if (!file_exists($templateFile)) {
@@ -235,14 +239,14 @@ class tx_ttproducts_pdf_view
                     $name = $nameInfo['dirname'] . '/' . $nameInfo['filename'] . '-out.docx';
                     $document->saveAs($name);
                     GeneralUtility::requireOnce($path . '/samples/Sample_Footer.php');
-                    $phpWord = \PhpOffice\PhpWord\IOFactory::load($name);
+                    $phpWord = IOFactory::load($name);
 
                     if (is_array($generationConf['handleLib.']['rendererLibrary.'])) {
-                        $pathsite = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/';
-                        $rendererName = \PhpOffice\PhpWord\Settings::PDF_RENDERER_DOMPDF;	//   PDF_RENDERER_MPDF PDF_RENDERER_TCPDF
+                        $pathsite = Environment::getPublicPath() . '/';
+                        $rendererName = Settings::PDF_RENDERER_DOMPDF;	//   PDF_RENDERER_MPDF PDF_RENDERER_TCPDF
                         $rendererLibraryPath = $pathsite . $generationConf['handleLib.']['rendererLibrary.']['path'];
-                        \PhpOffice\PhpWord\Settings::setPdfRenderer($rendererName, $rendererLibraryPath);
-                        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'PDF');
+                        Settings::setPdfRenderer($rendererName, $rendererLibraryPath);
+                        $objWriter = IOFactory::createWriter($phpWord, 'PDF');
                         $name = $nameInfo['dirname'] . '/' . $nameInfo['filename'] . '-' . $orderArray['tracking_code'] . '.pdf';
                         $objWriter->save($name);
 

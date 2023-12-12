@@ -36,15 +36,18 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
 use JambageCom\Div2007\Utility\FrontendUtility;
+use JambageCom\Div2007\Utility\TableUtility;
+use JambageCom\TtProducts\Api\ControlApi;
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
 {
     public function getImageCode($imageConf, $theCode, $domain = '')
     {
-        $cObj = \JambageCom\TtProducts\Api\ControlApi::getCObj();
+        $cObj = ControlApi::getCObj();
 
         $contentObject = 'IMAGE';
         $imageCode =
@@ -75,7 +78,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
         $meta,
         &$imageConf
     ) {
-        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         if (!empty($meta)) {
             $this->getExtItemMarkerArray($markerArray, $imageConf, $row);
         }
@@ -358,7 +361,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
                     $bUseImage = true;
                 }
 
-                if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('dam') && $bUseImage && $bImages) {
+                if (ExtensionManagementUtility::isLoaded('dam') && $bUseImage && $bImages) {
                     $damObj = GeneralUtility::makeInstance('tx_dam');
                     if (method_exists($damObj, 'meta_getDataForFile')) {
                         $fieldList = 'uid,pid,tstamp,crdate,active,media_type,title,category,index_type,file_mime_type,file_mime_subtype,
@@ -566,7 +569,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
                     $foreignfield = $tempConf['uid_foreign'];
                     $fieldconfParent['generateImage'] = $tempConf['field.'];
                     $where_clause = $conftable . '.' . $foreignfield . '=' . $imageRow[$localfield];
-                    $enableFields = \JambageCom\Div2007\Utility\TableUtility::enableFields($conftable);
+                    $enableFields = TableUtility::enableFields($conftable);
                     $where_clause .= $enableFields;
                     $res =
                         $GLOBALS['TYPO3_DB']->exec_SELECTquery(

@@ -37,12 +37,12 @@ namespace JambageCom\TtProducts\Api;
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 // replacement for the former class tx_ttproducts_model_control
 //
-class ParameterApi implements \TYPO3\CMS\Core\SingletonInterface
+class ParameterApi implements SingletonInterface
 {
     protected $piVars = [];
     protected $piVarsDefault = [];

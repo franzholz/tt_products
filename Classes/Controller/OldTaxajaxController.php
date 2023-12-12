@@ -72,10 +72,10 @@ class OldTaxajaxController
         // tt_products specific parts
 
         // Make instance:
-        $ajax = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_ttproducts_ajax');
+        $ajax = GeneralUtility::makeInstance('tx_ttproducts_ajax');
         $ajax->init();
 
-        $SOBE = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('tx_ttproducts_db');
+        $SOBE = GeneralUtility::makeInstance('tx_ttproducts_db');
         $errorCode = '';
         $tmp = '';
         $cObj = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');	// Local cObj.

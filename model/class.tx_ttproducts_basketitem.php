@@ -36,11 +36,11 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
-class tx_ttproducts_basketitem implements \TYPO3\CMS\Core\SingletonInterface
+class tx_ttproducts_basketitem implements SingletonInterface
 {
     /**
      * gets the quantity of an item.

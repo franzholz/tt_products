@@ -36,8 +36,15 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use JambageCom\Div2007\Api\Frontend;
+use JambageCom\Div2007\Api\OldStaticInfoTablesApi;
+use JambageCom\Div2007\Api\StaticInfoTablesApi;
+use JambageCom\Div2007\Security\TransmissionSecurity;
+use JambageCom\Div2007\Utility\CompatibilityUtility;
+use JambageCom\TtProducts\Api\ControlApi;
 use JambageCom\TtProducts\Api\CustomerApi;
+use JambageCom\TtProducts\Api\PaymentShippingHandling;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
@@ -68,7 +75,7 @@ class tx_ttproducts_control_basket
             // TODO  transmission security
             $errorCode = [];
             $errorMessage = '';
-            $security = GeneralUtility::makeInstance(\JambageCom\Div2007\Security\TransmissionSecurity::class);
+            $security = GeneralUtility::makeInstance(TransmissionSecurity::class);
             $decryptionResult = $security->decryptIncomingFields(
                 $recs,
                 $errorCode,
@@ -79,7 +86,7 @@ class tx_ttproducts_control_basket
         if (
             is_array($recs)
         ) {
-            $api = GeneralUtility::makeInstance(\JambageCom\Div2007\Api\Frontend::class);
+            $api = GeneralUtility::makeInstance(Frontend::class);
             // If any record registration is submitted, register the record.
             $api->record_registration(
                 $recs,
@@ -290,7 +297,7 @@ class tx_ttproducts_control_basket
                     $val['type'] == 'fe_users'
                 ) {
                     if (
-                        \JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn() &&
+                        CompatibilityUtility::isLoggedIn() &&
                         is_array($GLOBALS['TSFE']->fe_user->user)
                     ) {
                         $paymentField = $tablesObj->get('fe_users')->getFieldName('payment');
@@ -697,9 +704,9 @@ class tx_ttproducts_control_basket
     public static function setCountry(&$infoArray, $basketExtra)
     {
         if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
-            $staticInfoApi = GeneralUtility::makeInstance(\JambageCom\Div2007\Api\StaticInfoTablesApi::class);
+            $staticInfoApi = GeneralUtility::makeInstance(StaticInfoTablesApi::class);
         } else {
-            $staticInfoApi = GeneralUtility::makeInstance(\JambageCom\Div2007\Api\OldStaticInfoTablesApi::class);
+            $staticInfoApi = GeneralUtility::makeInstance(OldStaticInfoTablesApi::class);
         }
 
         if (
@@ -745,7 +752,7 @@ class tx_ttproducts_control_basket
     {
         $result = true;
 
-        $shippingType = \JambageCom\TtProducts\Api\PaymentShippingHandling::get(
+        $shippingType = PaymentShippingHandling::get(
             'shipping',
             'type',
             $basketExtra
@@ -791,8 +798,8 @@ class tx_ttproducts_control_basket
         if (
             isset($GLOBALS['TSFE']) &&
             $GLOBALS['TSFE'] instanceof TypoScriptFrontendController &&
-            \JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn() &&
-            \JambageCom\TtProducts\Api\ControlApi::isOverwriteMode($infoArray)
+            CompatibilityUtility::isLoggedIn() &&
+            ControlApi::isOverwriteMode($infoArray)
         ) {
             $address = '';
             $infoArray['billing']['feusers_uid'] =
@@ -851,9 +858,9 @@ class tx_ttproducts_control_basket
                     $useStaticInfoCountry
                 ) {
                     if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
-                        $staticInfoApi = GeneralUtility::makeInstance(\JambageCom\Div2007\Api\StaticInfoTablesApi::class);
+                        $staticInfoApi = GeneralUtility::makeInstance(StaticInfoTablesApi::class);
                     } else {
-                        $staticInfoApi = GeneralUtility::makeInstance(\JambageCom\Div2007\Api\OldStaticInfoTablesApi::class);
+                        $staticInfoApi = GeneralUtility::makeInstance(OldStaticInfoTablesApi::class);
                     }
 
                     if (
@@ -908,7 +915,7 @@ class tx_ttproducts_control_basket
 
     public static function getAjaxVariantFunction($row, $functablename, $theCode)
     {
-        if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('taxajax')) {
+        if (ExtensionManagementUtility::isLoaded('taxajax')) {
             $result = 'doFetchRow(\'' . $functablename . '\',\'' . strtolower($theCode) . '\',' . $row['uid'] . ');';
         } else {
             $result = '';

@@ -36,7 +36,7 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_fpdf extends FPDF
@@ -230,7 +230,7 @@ class tx_ttproducts_fpdf extends FPDF
 
     public function Body()
     {
-        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         // $xPos = $this->GetX();
         $tempContent = $templateService->getSubpart($this->body, '###PDF_TABLE_1###');
         if (empty($tempContent)) {

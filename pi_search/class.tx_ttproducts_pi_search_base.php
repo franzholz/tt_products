@@ -40,12 +40,14 @@
  * @see file tt_products/static/old_style/constants.txt
  * @see TSref
  */
-
+use JambageCom\TtProducts\Api\ParameterApi;
 use JambageCom\TtProducts\Api\PluginApi;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+use TYPO3\CMS\Frontend\Plugin\AbstractPlugin;
 
-class tx_ttproducts_pi_search_base extends \TYPO3\CMS\Frontend\Plugin\AbstractPlugin implements \TYPO3\CMS\Core\SingletonInterface
+class tx_ttproducts_pi_search_base extends AbstractPlugin implements SingletonInterface
 {
     public $prefixId = TT_PRODUCTS_EXT;
     public $scriptRelPath = 'pi_search_base/class.tx_ttproducts_pi_search_base.php';	// Path to this script relative to the extension dir.
@@ -64,7 +66,7 @@ class tx_ttproducts_pi_search_base extends \TYPO3\CMS\Frontend\Plugin\AbstractPl
     public function main($content, $conf)
     {
         tx_ttproducts_model_control::setPrefixId($this->prefixId);
-        $parameterApi = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\ParameterApi::class);
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
         $parameterApi->setPrefixId($this->prefixId);
         PluginApi::init($conf);
 

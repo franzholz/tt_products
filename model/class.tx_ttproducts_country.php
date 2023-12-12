@@ -36,7 +36,7 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use JambageCom\Div2007\Utility\CompatibilityUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_country extends tx_ttproducts_table_base
@@ -89,7 +89,7 @@ class tx_ttproducts_country extends tx_ttproducts_table_base
             $rc = $this->dataArray[$country_code];
         }
         if (!$rc || $where) {
-            $pageRepository = \JambageCom\Div2007\Utility\CompatibilityUtility::getPageRepository();
+            $pageRepository = CompatibilityUtility::getPageRepository();
 
             if (!empty($country_code)) {
                 $whereString = 'cn_iso_3 = ' . $GLOBALS['TYPO3_DB']->fullQuoteStr($country_code, $this->getTableObj()->name);

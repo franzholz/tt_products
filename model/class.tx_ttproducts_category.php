@@ -36,8 +36,9 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
 use JambageCom\Div2007\Utility\ExtensionUtility;
+use JambageCom\Div2007\Utility\TableUtility;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
@@ -65,7 +66,7 @@ class tx_ttproducts_category extends tx_ttproducts_category_base
             $tablename = $this->getTablename();
             $tableObj->setTCAFieldArray($tablename);
 
-            if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('mbi_products_categories')) {
+            if (ExtensionManagementUtility::isLoaded('mbi_products_categories')) {
                 $extensionInfo = ExtensionUtility::getExtensionInfo('mbi_products_categories');
                 if (version_compare($extensionInfo['version'], '0.5.0', '>=')) {
                     $tableDesc = $cnf->getTableDesc($functablename);
@@ -79,7 +80,7 @@ class tx_ttproducts_category extends tx_ttproducts_category_base
                     $prodTableDesc = $cnf->getTableDesc($prodfunctablename);
                     $prodtablename = $prodOb->getTablename();
                     $categoryField = ($prodTableDesc['category'] ? $prodTableDesc['category'] : 'category');
-                    $rcArray = \JambageCom\Div2007\Utility\TableUtility::getForeignTableInfo($prodtablename, $categoryField);
+                    $rcArray = TableUtility::getForeignTableInfo($prodtablename, $categoryField);
                     $this->setMMTablename($rcArray['mmtable']);
                 }
             }
@@ -90,7 +91,7 @@ class tx_ttproducts_category extends tx_ttproducts_category_base
                 $parentField = 'parent_id';
             }
 
-            if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('mbi_products_categories')) {
+            if (ExtensionManagementUtility::isLoaded('mbi_products_categories')) {
                 $this->parentField = $parentField;
                 if ($functablename == 'tt_products_cat') {
                     $this->referenceField = 'reference_category';

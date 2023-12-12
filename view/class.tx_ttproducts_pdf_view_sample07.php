@@ -1,5 +1,11 @@
 <?php
 
+use PhpOffice\PhpWord\Autoloader;
+use PhpOffice\PhpWord\IOFactory;
+use PhpOffice\PhpWord\PhpWord;
+use PhpOffice\PhpWord\Settings;
+use TYPO3\CMS\Core\Core\Environment;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -70,14 +76,14 @@ class tx_ttproducts_pdf_view_sample07
         if (is_array($generationConf['handleLib.'])) {
             switch (strtoupper($generationConf['handleLib'])) {
                 case 'PHPWORD':
-                    $pathsite = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/';
+                    $pathsite = Environment::getPublicPath() . '/';
 
                     $path = $pathsite . $generationConf['handleLib.']['path'];
 
                     require_once $path . '/src/PhpWord/Autoloader.php';
-                    \PhpOffice\PhpWord\Autoloader::register();
+                    Autoloader::register();
 
-                    $phpWord = new \PhpOffice\PhpWord\PhpWord();
+                    $phpWord = new PhpWord();
 
                     $document = $phpWord->loadTemplate($path . '/samples/resources/Sample_07_TemplateCloneRow.docx');
 
@@ -169,14 +175,14 @@ class tx_ttproducts_pdf_view_sample07
 
                     require_once $path . '/samples/Sample_Footer.php';
 
-                    $pathsite = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/';
-                    $phpWord = \PhpOffice\PhpWord\IOFactory::load($pathsite . $name);
+                    $pathsite = Environment::getPublicPath() . '/';
+                    $phpWord = IOFactory::load($pathsite . $name);
 
                     if (is_array($generationConf['handleLib.']['rendererLibrary.'])) {
-                        $rendererName = \PhpOffice\PhpWord\Settings::PDF_RENDERER_DOMPDF;	//   PDF_RENDERER_MPDF PDF_RENDERER_TCPDF
-                        $rendererLibraryPath = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/' . $generationConf['handleLib.']['rendererLibrary.']['path'];
-                        \PhpOffice\PhpWord\Settings::setPdfRenderer($rendererName, $rendererLibraryPath);
-                        $objWriter = \PhpOffice\PhpWord\IOFactory::createWriter($phpWord, 'PDF');
+                        $rendererName = Settings::PDF_RENDERER_DOMPDF;	//   PDF_RENDERER_MPDF PDF_RENDERER_TCPDF
+                        $rendererLibraryPath = Environment::getPublicPath() . '/' . $generationConf['handleLib.']['rendererLibrary.']['path'];
+                        Settings::setPdfRenderer($rendererName, $rendererLibraryPath);
+                        $objWriter = IOFactory::createWriter($phpWord, 'PDF');
                         $objWriter->save('fileadmin/Sample_07_TemplateCloneRow.pdf');
 
                         $result = true;

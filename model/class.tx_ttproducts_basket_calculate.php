@@ -36,11 +36,14 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use JambageCom\TtProducts\Api\CustomerApi;
+use JambageCom\TtProducts\Api\PaymentApi;
 use JambageCom\TtProducts\Api\PaymentShippingHandling;
+use JambageCom\TtProducts\Model\Field\FieldInterface;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterface
+class tx_ttproducts_basket_calculate implements SingletonInterface
 {
     protected $calculatedArray = [];
     protected $baseCalculatedArray = [];
@@ -195,11 +198,11 @@ class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterfa
         $shippingTax = '';
         $taxInfoArray = '';
         $bEnableTaxZero = false;
-        $calculationField = \JambageCom\TtProducts\Model\Field\FieldInterface::PRICE_CALCULATED;
-        $calculationAdditionField = \JambageCom\TtProducts\Model\Field\FieldInterface::PRICE_CALCULATED_ADDITION;
+        $calculationField = FieldInterface::PRICE_CALCULATED;
+        $calculationAdditionField = FieldInterface::PRICE_CALCULATED_ADDITION;
 
-        $iso3Seller = \JambageCom\TtProducts\Api\PaymentApi::getStoreIso3('DEU');
-        $iso3Buyer = \JambageCom\TtProducts\Api\CustomerApi::getBillingIso3('DEU');
+        $iso3Seller = PaymentApi::getStoreIso3('DEU');
+        $iso3Buyer = CustomerApi::getBillingIso3('DEU');
 
         $this->clear($conf['TAXmode']);
 

@@ -36,14 +36,21 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use JambageCom\Div2007\Api\OldStaticInfoTablesApi;
+use JambageCom\Div2007\Api\StaticInfoTablesApi;
 use JambageCom\Div2007\Utility\ExtensionUtility;
 use JambageCom\Div2007\Utility\StaticInfoTablesUtility;
+use JambageCom\TtProducts\Api\ControlApi;
 use JambageCom\TtProducts\Api\CustomerApi;
+use JambageCom\TtProducts\Api\Localization;
+use JambageCom\TtProducts\Api\PaymentShippingHandling;
 use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
+use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface
+class tx_ttproducts_info_view implements SingletonInterface
 {
     public $conf;
     public $config;
@@ -118,7 +125,7 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface
             (
                 !trim($this->infoArray['delivery']['address']) &&
                 !trim($this->infoArray['delivery']['email']) ||
-                JambageCom\TtProducts\Api\ControlApi::isOverwriteMode($this->infoArray)
+                ControlApi::isOverwriteMode($this->infoArray)
             ) &&
             tx_ttproducts_control_basket::needsDeliveryAddresss($basketExtra)
         ) {
@@ -256,9 +263,9 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface
     {
         $rc = '';
         if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
-            $staticInfoApi = GeneralUtility::makeInstance(\JambageCom\Div2007\Api\StaticInfoTablesApi::class);
+            $staticInfoApi = GeneralUtility::makeInstance(StaticInfoTablesApi::class);
         } else {
-            $staticInfoApi = GeneralUtility::makeInstance(\JambageCom\Div2007\Api\OldStaticInfoTablesApi::class);
+            $staticInfoApi = GeneralUtility::makeInstance(OldStaticInfoTablesApi::class);
         }
         $where = $this->getWhereAllowedCountries($basketExtra);
 
@@ -291,14 +298,14 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface
     public function getWhereAllowedCountries($basketExtra)
     {
         if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
-            $staticInfoApi = GeneralUtility::makeInstance(\JambageCom\Div2007\Api\StaticInfoTablesApi::class);
+            $staticInfoApi = GeneralUtility::makeInstance(StaticInfoTablesApi::class);
         } else {
-            $staticInfoApi = GeneralUtility::makeInstance(\JambageCom\Div2007\Api\OldStaticInfoTablesApi::class);
+            $staticInfoApi = GeneralUtility::makeInstance(OldStaticInfoTablesApi::class);
         }
         $where = '';
 
         if ($staticInfoApi->isActive()) {
-            $where = \JambageCom\TtProducts\Api\PaymentShippingHandling::getWhere($basketExtra, 'static_countries');
+            $where = PaymentShippingHandling::getWhere($basketExtra, 'static_countries');
         }
 
         return $where;
@@ -342,11 +349,11 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface
         $bHtml,
         $bSelectSalutation
     ) {
-        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $conf = $cnf->getConf();
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
-        $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
+        $languageObj = GeneralUtility::makeInstance(Localization::class);
         $context = GeneralUtility::makeInstance(Context::class);
 
         $fields = CustomerApi::getFields();
@@ -356,9 +363,9 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface
         $selectInfoFields = $orderAddressObj->getSelectInfoFields();
         $piVars = tx_ttproducts_model_control::getPiVars();
         if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
-            $staticInfoApi = GeneralUtility::makeInstance(\JambageCom\Div2007\Api\StaticInfoTablesApi::class);
+            $staticInfoApi = GeneralUtility::makeInstance(StaticInfoTablesApi::class);
         } else {
-            $staticInfoApi = GeneralUtility::makeInstance(\JambageCom\Div2007\Api\OldStaticInfoTablesApi::class);
+            $staticInfoApi = GeneralUtility::makeInstance(OldStaticInfoTablesApi::class);
         }
 
         foreach ($infoFields as $k => $fName) {
@@ -414,7 +421,7 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface
                 // nothing to do
                 $bReady = true;
             } elseif (
-                \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('static_info_tables')
+                ExtensionManagementUtility::isLoaded('static_info_tables')
             ) {
                 $eInfo = ExtensionUtility::getExtensionInfo('static_info_tables');
                 $sitVersion = $eInfo['version'];
@@ -613,7 +620,7 @@ class tx_ttproducts_info_view implements \TYPO3\CMS\Core\SingletonInterface
         $markerArray['###DELIVERY_DESIRED_TIME###'] = $this->infoArray['delivery']['desired_time'] ?? '';
         $markerArray['###DELIVERY_STORE_SELECT###'] = '';
 
-        $shippingType = \JambageCom\TtProducts\Api\PaymentShippingHandling::get(
+        $shippingType = PaymentShippingHandling::get(
             'shipping',
             'type',
             $basketExtra

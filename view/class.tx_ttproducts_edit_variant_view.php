@@ -36,10 +36,12 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
-class tx_ttproducts_edit_variant_view implements tx_ttproducts_edit_variant_view_int, \TYPO3\CMS\Core\SingletonInterface
+class tx_ttproducts_edit_variant_view implements tx_ttproducts_edit_variant_view_int, SingletonInterface
 {
     protected $modelObj;
 
@@ -154,11 +156,11 @@ class tx_ttproducts_edit_variant_view implements tx_ttproducts_edit_variant_view
         &$wrappedSubpartArray
     ) {
         // 		###edit_variant1###
-        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $editConf = $this->getModelObj()->getValidConfig($row);
 
         if (isset($editConf) && is_array($editConf)) {
-            $cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
+            $cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
 
             foreach ($editConf as $k => $config) {
                 if (isset($config['suffix'])) {

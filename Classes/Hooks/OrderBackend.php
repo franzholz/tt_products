@@ -39,18 +39,19 @@ namespace JambageCom\TtProducts\Hooks;
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\TypoScript\TemplateService;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\RootlineUtility;
 
-class OrderBackend implements \TYPO3\CMS\Core\SingletonInterface
+class OrderBackend implements SingletonInterface
 {
     public function displayCategoryTree($parameterArray, $fobj)
     {
         $result = false;
 
-        if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('mbi_products_categories')) {
+        if (ExtensionManagementUtility::isLoaded('mbi_products_categories')) {
             $treeObj = false;
 
             if (class_exists('JambageCom\\MbiProductsCategories\\View\\TreeSelector')) {

@@ -36,10 +36,12 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use JambageCom\Div2007\Utility\TableUtility;
+use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class tx_ttproducts_tables implements \TYPO3\CMS\Core\SingletonInterface
+class tx_ttproducts_tables implements SingletonInterface
 {
     protected $tableClassArray = [
         'address' => 'tx_ttproducts_address',
@@ -90,7 +92,7 @@ class tx_ttproducts_tables implements \TYPO3\CMS\Core\SingletonInterface
             if (isset($this->needExtensionArray[$functablename])) {
                 $neededExtension = $this->needExtensionArray[$functablename];
             }
-            if (empty($neededExtension) || \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($neededExtension)) {
+            if (empty($neededExtension) || ExtensionManagementUtility::isLoaded($neededExtension)) {
                 $rc = $this->tableClassArray[$functablename] . ($bView ? '_view' : '');
             } else {
                 $rc = 'skip';
@@ -126,11 +128,11 @@ class tx_ttproducts_tables implements \TYPO3\CMS\Core\SingletonInterface
                 } else {
                     [$extKey, $className] = GeneralUtility::trimExplode(':', $className, true);
 
-                    if (!\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($extKey)) {
+                    if (!ExtensionManagementUtility::isLoaded($extKey)) {
                         debug('Error in ' . TT_PRODUCTS_EXT . '. No extension "' . $extKey . '" has been activated to use class class.' . $className . '.', 'internal error');
                         continue;
                     }
-                    $path = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($extKey);
+                    $path = ExtensionManagementUtility::extPath($extKey);
                 }
                 $classRef = 'class.' . $className;
                 $classFile = $path . $k . '/' . $classRef . '.php';
@@ -224,7 +226,7 @@ class tx_ttproducts_tables implements \TYPO3\CMS\Core\SingletonInterface
         if ($fieldname != '') {
             $tableObj = $this->get($functablename, false);
             $tablename = $tableObj->getTableName($functablename);
-            $rc = \JambageCom\Div2007\Utility\TableUtility::getForeignTableInfo($tablename, $fieldname);
+            $rc = TableUtility::getForeignTableInfo($tablename, $fieldname);
         }
 
         return $rc;

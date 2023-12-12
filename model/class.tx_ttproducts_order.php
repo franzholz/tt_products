@@ -36,10 +36,18 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use JambageCom\Div2007\Api\Frontend;
+use JambageCom\Div2007\Base\TranslationBase;
+use JambageCom\Div2007\Utility\CompatibilityUtility;
+use JambageCom\Div2007\Utility\SystemUtility;
+use JambageCom\Div2007\Utility\TableUtility;
+use JambageCom\TtProducts\Api\BasketApi;
+use JambageCom\TtProducts\Api\Localization;
+use JambageCom\TtProducts\Api\PaymentApi;
 use JambageCom\TtProducts\Api\PaymentShippingHandling;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 class tx_ttproducts_order extends tx_ttproducts_table_base
 {
@@ -250,7 +258,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
 
         $where = ($tracking ? 'tracking_code=' . $GLOBALS['TYPO3_DB']->fullQuoteStr($tracking, 'sys_products_orders') : 'uid=' . intval($orderUid));
 
-        $enableFields = \JambageCom\Div2007\Utility\TableUtility::enableFields('sys_products_orders');
+        $enableFields = TableUtility::enableFields('sys_products_orders');
 
         $res = $GLOBALS['TYPO3_DB']->exec_SELECTquery(
             '*',
@@ -296,7 +304,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
         $amount,
         $orderConfirmationHTML,
         $infoViewOb,
-        JambageCom\Div2007\Base\TranslationBase $languageObj,
+        TranslationBase $languageObj,
         $status,
         $basketExtra,
         $giftcode,
@@ -433,7 +441,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
             $fieldsArray['giftcode'] = $giftcode;
 
             $api =
-                GeneralUtility::makeInstance(\JambageCom\Div2007\Api\Frontend::class);
+                GeneralUtility::makeInstance(Frontend::class);
             $sys_language_uid = $api->getLanguageId();
             $fieldsArray['sys_language_uid'] = $sys_language_uid;
 
@@ -505,7 +513,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
             }
 
             if (
-                \JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn() &&
+                CompatibilityUtility::isLoggedIn() &&
                 $GLOBALS['TSFE']->fe_user->user['uid'] &&
                 count($fieldsArrayFeUsers)
             ) {
@@ -541,7 +549,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
 
         if ($status == 1) {
             $payMode =
-                \JambageCom\TtProducts\Api\PaymentApi::getPayMode(
+                PaymentApi::getPayMode(
                     $languageObj,
                     $basketExtra
                 );
@@ -696,7 +704,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
                     ) {
                         $newTitleArray = [];
                         $externalRowArray = $extArray['records'];
-                        \JambageCom\TtProducts\Api\BasketApi::getRecordvariantAndPriceFromRows(
+                        BasketApi::getRecordvariantAndPriceFromRows(
                             $falVariants,
                             $dummyPrice,
                             $externalUidArray,
@@ -774,7 +782,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
         $orderData = unserialize($row['orderData']);
         if ($orderData === false) {
             $orderData =
-                \JambageCom\Div2007\Utility\SystemUtility::unserialize(
+                SystemUtility::unserialize(
                     $row['orderData'],
                     false
                 );
@@ -856,7 +864,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
             $accountUid = $account->getUid();
         }
 
-        $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
+        $languageObj = GeneralUtility::makeInstance(Localization::class);
         $infoViewOb = GeneralUtility::makeInstance('tx_ttproducts_info_view');
         if (
             $infoViewOb->needsInit() ||
@@ -1012,7 +1020,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
         $productObj = $tablesObj->get('tt_products', false);
         $falObj = $tablesObj->get('sys_file_reference', false);
         $variantSeparator = $productObj->variant->getSplitSeparator();
-        $local_cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
+        $local_cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
 
         $tablename = $this->getTablename();
 
@@ -1128,7 +1136,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
 
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $productObj = $tablesObj->get('tt_products', false);
-        $local_cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
+        $local_cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
         $tablename = $this->getTablename();
         $variantSeparator = $productObj->variant->getSplitSeparator();
 

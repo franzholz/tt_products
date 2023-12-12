@@ -36,7 +36,7 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use JambageCom\Div2007\Utility\CompatibilityUtility;
 use JambageCom\TtProducts\Model\Field\FieldInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
@@ -418,7 +418,7 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base
         $row,
         $discountField
     ) {
-        $calculationField = \JambageCom\TtProducts\Model\Field\FieldInterface::PRICE_CALCULATED;
+        $calculationField = FieldInterface::PRICE_CALCULATED;
         $maxDiscount = 0;
         $discount = 0;
 
@@ -427,7 +427,7 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base
         }
 
         if (
-            \JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn() &&
+            CompatibilityUtility::isLoggedIn() &&
             isset($GLOBALS['TSFE']->fe_user) &&
             isset($GLOBALS['TSFE']->fe_user->user)
         ) {

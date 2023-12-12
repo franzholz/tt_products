@@ -36,11 +36,12 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
 use JambageCom\Div2007\Utility\FrontendUtility;
+use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class tx_ttproducts_relatedlist_view implements \TYPO3\CMS\Core\SingletonInterface
+class tx_ttproducts_relatedlist_view implements SingletonInterface
 {
     public $pidListObj;
 
@@ -182,7 +183,7 @@ class tx_ttproducts_relatedlist_view implements \TYPO3\CMS\Core\SingletonInterfa
                 break;
 
             case 'tx_dam':
-                if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('dam')) {
+                if (ExtensionManagementUtility::isLoaded('dam')) {
                     if ($uid > 0) {
                         $damext = ['tx_dam' => [
                                 ['uid' => $uid],

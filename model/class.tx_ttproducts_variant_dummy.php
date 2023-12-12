@@ -1,4 +1,7 @@
 <?php
+
+use TYPO3\CMS\Core\SingletonInterface;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -36,7 +39,7 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-class tx_ttproducts_variant_dummy implements tx_ttproducts_variant_int, \TYPO3\CMS\Core\SingletonInterface
+class tx_ttproducts_variant_dummy implements tx_ttproducts_variant_int, SingletonInterface
 {
     private $selectableArray = [];
     public $conf;	// reduced local conf

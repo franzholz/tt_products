@@ -36,7 +36,8 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use JambageCom\Div2007\Utility\MailUtility;
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_email_div
@@ -63,7 +64,7 @@ class tx_ttproducts_email_div
         $sendername = '',
         $senderemail = ''
     ) {
-        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 
         $sendername = ($sendername ? $sendername : $conf['orderEmail_fromName']);
@@ -129,7 +130,7 @@ class tx_ttproducts_email_div
                 $subject = trim($parts[0]);
                 $plain_message = trim($parts[1]);
                 $tmp = '';
-                \JambageCom\Div2007\Utility\MailUtility::send(
+                MailUtility::send(
                     implode(',', $recipients),
                     $subject,
                     $plain_message,
@@ -161,7 +162,7 @@ class tx_ttproducts_email_div
         $templateMarker,
         $bHtmlMail = false
     ) {
-        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $sendername = ($giftRow['personname'] ? $giftRow['personname'] : $conf['orderEmail_fromName']);
         $senderemail = ($giftRow['personemail'] ? $giftRow['personemail'] : $conf['orderEmail_from']);
         $recipients = $recipient;
@@ -202,7 +203,7 @@ class tx_ttproducts_email_div
                         $markerObj->getGlobalMarkerArray()
                     );
 
-                    \JambageCom\Div2007\Utility\MailUtility::send(
+                    MailUtility::send(
                         $recipients,
                         $subject,
                         $emailContent,
@@ -219,7 +220,7 @@ class tx_ttproducts_email_div
                     );
                 } else {		// ... else just plain text...
                     $tmp = '';
-                    \JambageCom\Div2007\Utility\MailUtility::send(
+                    MailUtility::send(
                         $recipients,
                         $subject,
                         $emailContent,

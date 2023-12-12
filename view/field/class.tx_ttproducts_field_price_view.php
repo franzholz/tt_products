@@ -36,9 +36,10 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
 use JambageCom\Div2007\Utility\FrontendUtility;
+use JambageCom\TtProducts\Api\Localization;
 use JambageCom\TtProducts\Api\PaymentShippingHandling;
+use JambageCom\TtProducts\Model\Field\FieldInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_field_price_view extends tx_ttproducts_field_base_view
@@ -112,7 +113,7 @@ class tx_ttproducts_field_price_view extends tx_ttproducts_field_base_view
     {
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $conf = $cnf->getConf();
-        $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
+        $languageObj = GeneralUtility::makeInstance(Localization::class);
 
         if ($conf['usePriceTag'] && (isset($conf['priceTagObj.']))) {
             $cObj = FrontendUtility::getContentObjectRenderer();
@@ -235,13 +236,13 @@ class tx_ttproducts_field_price_view extends tx_ttproducts_field_base_view
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $conf = $cnf->getConf();
         $config = $cnf->getConfig();
-        $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
+        $languageObj = GeneralUtility::makeInstance(Localization::class);
 
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $itemTableView = $tablesObj->get($functablename, true);
         $itemTable = $itemTableView->getModelObj();
         $modelObj = $this->getModelObj();
-        $totalDiscountField = \JambageCom\TtProducts\Model\Field\FieldInterface::DISCOUNT;
+        $totalDiscountField = FieldInterface::DISCOUNT;
 
         if ($priceMarkerPrefix != '') {
             $priceMarkerPrefix .= '_';
@@ -348,7 +349,7 @@ class tx_ttproducts_field_price_view extends tx_ttproducts_field_base_view
         $itemTableView = $tablesObj->get($functablename, true);
         $itemTable = $itemTableView->getModelObj();
         $modelObj = $this->getModelObj();
-        $totalDiscountField = \JambageCom\TtProducts\Model\Field\FieldInterface::DISCOUNT;
+        $totalDiscountField = FieldInterface::DISCOUNT;
         $marker = strtoupper($fieldname);
         $taxFromShipping = PaymentShippingHandling::getReplaceTaxPercentage($basketExtra);
         $taxInclExcl = (

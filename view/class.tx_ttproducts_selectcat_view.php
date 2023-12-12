@@ -38,7 +38,8 @@
  *
  *+
  */
-
+use JambageCom\TtProducts\Api\Localization;
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_selectcat_view extends tx_ttproducts_catlist_view_base
@@ -58,13 +59,13 @@ class tx_ttproducts_selectcat_view extends tx_ttproducts_catlist_view_base
         $basketExtra,
         $basketRecs
     ) {
-        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $content = '';
         $out = '';
         $where = '';
 
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
-        $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
+        $languageObj = GeneralUtility::makeInstance(Localization::class);
         $categoryTableView = $tablesObj->get($functablename, 1);
         $categoryTable = $categoryTableView->getModelObj();
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');

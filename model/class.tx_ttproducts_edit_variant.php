@@ -36,7 +36,6 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
 /*
     editVariant {
         default {
@@ -47,14 +46,12 @@
             suffix = height
         }
     }
-
 note: the price calculation shall not been implemented because it does not make sense to make calculation only on a height. If you have a 3D object, then the surface must be calculated to determine a price. This will be a multiplication of many edit fields.
-
 */
-
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class tx_ttproducts_edit_variant implements \TYPO3\CMS\Core\SingletonInterface
+class tx_ttproducts_edit_variant implements SingletonInterface
 {
     protected $itemTable;
 

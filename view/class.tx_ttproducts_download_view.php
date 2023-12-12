@@ -36,8 +36,10 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
 use JambageCom\Div2007\Utility\FrontendUtility;
+use JambageCom\TtProducts\Api\Localization;
+use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
@@ -81,7 +83,7 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view
         $error = false;
         $cObj = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
         $cObj->start([]);
-        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $functablename = 'tt_products';
         $itemTableView = $tablesObj->get($functablename, true);
@@ -101,7 +103,7 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view
         // 				<br/>
         // 			<!-- ###DOWNLOAD_SINGLE### end -->
 
-        $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
+        $languageObj = GeneralUtility::makeInstance(Localization::class);
         $postVar = tx_ttproducts_control_command::getCommandVar();
         $downloadVar = tx_ttproducts_model_control::getPiVar($this->getModelObj()->getFuncTablename());
         $bAddonsEM = ExtensionManagementUtility::isLoaded('addons_em');
@@ -201,7 +203,7 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view
                         continue;
                     }
 
-                    $path = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/';
+                    $path = Environment::getPublicPath() . '/';
                     $path = $path . $row['path'] . '/';
 
                     // $directLink = TYPO3_SITE_SCRIPT;

@@ -1,4 +1,7 @@
 <?php
+
+use TYPO3\CMS\Core\Utility\ArrayUtility;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -117,7 +120,7 @@ class tx_ttproducts_control_session
                     unset($allSessionData[$extKey][$key]);
                 }
             }
-            \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($allSessionData[$extKey], $data);
+            ArrayUtility::mergeRecursiveWithOverrule($allSessionData[$extKey], $data);
         } else {
             $allSessionData[$extKey] = $data;
         }

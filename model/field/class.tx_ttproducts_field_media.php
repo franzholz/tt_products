@@ -36,7 +36,7 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use JambageCom\Div2007\Utility\TableUtility;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
@@ -92,7 +92,7 @@ class tx_ttproducts_field_media extends tx_ttproducts_field_base
 
                 if (count($uidArray)) {
                     $where_clause = 'uid_foreign IN (' . implode(',', $uidArray) . ') AND tablenames="' . $theTablename . '" AND fieldname="' . $imageField . '"';
-                    $where_clause .= \JambageCom\Div2007\Utility\TableUtility::enableFields('sys_file_reference');
+                    $where_clause .= TableUtility::enableFields('sys_file_reference');
                     $sysfileRowArray =
                         $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
                             '*',
@@ -115,7 +115,7 @@ class tx_ttproducts_field_media extends tx_ttproducts_field_base
                 if ($imageRow[$imageField]) {
                     $theTablename = $tablename;
                     $where_clause = 'uid_foreign=' . intval($imageRow['uid']) . ' AND tablenames="' . $theTablename . '" AND fieldname="' . $imageField . '"';
-                    $where_clause .= \JambageCom\Div2007\Utility\TableUtility::enableFields('sys_file_reference');
+                    $where_clause .= TableUtility::enableFields('sys_file_reference');
                     $sysfileRowArray =
                         $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
                             '*',

@@ -36,8 +36,10 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
 use JambageCom\Div2007\Utility\FrontendUtility;
+use JambageCom\Div2007\Utility\TableUtility;
+use JambageCom\TtProducts\Api\Localization;
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_order_view extends tx_ttproducts_table_base_view
@@ -174,7 +176,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view
         if ($from == '') {
             $from = 'sys_products_orders';
         }
-        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $cObj = FrontendUtility::getContentObjectRenderer();
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $conf = $cnf->conf;
@@ -376,7 +378,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view
         $validFeUser,
         &$error_code
     ) {
-        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $subpartmarkerObj = GeneralUtility::makeInstance('tx_ttproducts_subpartmarker');
 
         if (
@@ -418,7 +420,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view
     ) {
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $feusersObj = $tablesObj->get('fe_users', false);
-        $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
+        $languageObj = GeneralUtility::makeInstance(Localization::class);
 
         $result = '';
 
@@ -480,10 +482,10 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view
         $trackingCode,
         &$error_code
     ) {
-        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $orderObj = $this->getModelObj(); // order
-        $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
+        $languageObj = GeneralUtility::makeInstance(Localization::class);
         $markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
         $feusers_uid = 0;
         $itemTable = null;
@@ -585,7 +587,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view
                 foreach ($pidArray as $k => $v) {
                     $pidArray[$k] = intval($v);
                 }
-                $enableFields = \JambageCom\Div2007\Utility\TableUtility::enableFields('fe_groups');
+                $enableFields = TableUtility::enableFields('fe_groups');
                 $where = 'pid IN (' . implode(',', $pidArray) . ')' . $enableFields;
 
                 $feGroupArray =
@@ -877,7 +879,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view
         $onlyProductsWithFalOrders,
         &$error_code
     ) {
-        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $orderObj = $this->getModelObj();
 

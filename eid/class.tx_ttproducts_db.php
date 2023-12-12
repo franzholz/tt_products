@@ -37,10 +37,14 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use JambageCom\Div2007\Utility\HtmlUtility;
+use JambageCom\TtProducts\Api\Localization;
+use JambageCom\TtProducts\Api\ParameterApi;
+use JambageCom\TtProducts\Model\Field\FieldInterface;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface
+class tx_ttproducts_db implements SingletonInterface
 {
     protected $extKey = TT_PRODUCTS_EXT;	// The extension key.
     protected $conf;			// configuration from template
@@ -271,7 +275,7 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface
                                     $basketExtra
                                 );
 
-                            $totalDiscountField = \JambageCom\TtProducts\Model\Field\FieldInterface::DISCOUNT;
+                            $totalDiscountField = FieldInterface::DISCOUNT;
                             $itemTable->getTotalDiscount($modifiedRow);
                             $priceTaxArray = [];
                             $taxInfoArray = [];
@@ -338,7 +342,7 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface
 
     protected function generateErrorResponse($uid, $editErrorArray)
     {
-        $bUseXHTML = \JambageCom\Div2007\Utility\HtmlUtility::useXHTML();
+        $bUseXHTML = HtmlUtility::useXHTML();
 
         // Instantiate the tx_xajax_response object
         $objResponse = new tx_taxajax_response($this->ajax->taxajax->getCharEncoding(), true);
@@ -369,12 +373,12 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface
         $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
         $config = $cnfObj->getConfig();
         $conf = $cnfObj->getConf();
-        $bUseXHTML = \JambageCom\Div2007\Utility\HtmlUtility::useXHTML();
+        $bUseXHTML = HtmlUtility::useXHTML();
 
         $theCode = strtoupper($view);
         $imageObj = GeneralUtility::makeInstance('tx_ttproducts_field_image');
         $imageViewObj = GeneralUtility::makeInstance('tx_ttproducts_field_image_view');
-        $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
+        $languageObj = GeneralUtility::makeInstance(Localization::class);
 
         $imageObj->init($this->cObj);
         $imageViewObj->init($imageObj);
@@ -851,7 +855,7 @@ class tx_ttproducts_db implements \TYPO3\CMS\Core\SingletonInterface
         }
 
         // We put our incomming data to the regular piVars
-        $parameterApi = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\ParameterApi::class);
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
         $parameterApi->setPiVars($piVars);
         // We put our incomming data to the regular piVars
         tx_ttproducts_model_control::setPiVars($piVars);

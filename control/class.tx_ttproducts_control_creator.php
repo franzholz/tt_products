@@ -36,11 +36,16 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use JambageCom\Div2007\Api\OldStaticInfoTablesApi;
+use JambageCom\Div2007\Api\StaticInfoTablesApi;
+use JambageCom\TtProducts\Api\ControlApi;
+use JambageCom\TtProducts\Api\Localization;
+use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
-class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterface
+class tx_ttproducts_control_creator implements SingletonInterface
 {
     public function init(
         &$conf,
@@ -53,9 +58,9 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
         array $basketRec = []
     ) {
         if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
-            $staticInfoApi = GeneralUtility::makeInstance(\JambageCom\Div2007\Api\StaticInfoTablesApi::class);
+            $staticInfoApi = GeneralUtility::makeInstance(StaticInfoTablesApi::class);
         } else {
-            $staticInfoApi = GeneralUtility::makeInstance(\JambageCom\Div2007\Api\OldStaticInfoTablesApi::class);
+            $staticInfoApi = GeneralUtility::makeInstance(OldStaticInfoTablesApi::class);
         }
 
         $useStaticInfoTables = $staticInfoApi->init();
@@ -129,7 +134,7 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
 
         // corrections in the Setup:
         if (
-            \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('voucher') &&
+            ExtensionManagementUtility::isLoaded('voucher') &&
             isset($conf['gift.']['type']) &&
             $conf['gift.']['type'] == 'voucher'
         ) {
@@ -142,7 +147,7 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
             $config
         );
 
-        \JambageCom\TtProducts\Api\ControlApi::init($conf, $cObj);
+        ControlApi::init($conf, $cObj);
         $infoArray = tx_ttproducts_control_basket::getStoredInfoArray();
         if (!empty($conf['useStaticInfoCountry'])) {
             tx_ttproducts_control_basket::setCountry(
@@ -213,7 +218,7 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
 
     public static function getLanguageObj($pLangObj, $cObj, $conf)
     {
-        $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
+        $languageObj = GeneralUtility::makeInstance(Localization::class);
         $languageSubpath = '/Resources/Private/Language/';
 
         $confLocalLang = [];

@@ -37,10 +37,12 @@ namespace JambageCom\TtProducts\Api;
  * @package TYPO3
  * @subpackage tt_products
  */
-
 use JambageCom\Div2007\Utility\ErrorUtility;
 use JambageCom\Div2007\Utility\ExtensionUtility;
+use JambageCom\Div2007\Utility\FlexformUtility;
 use JambageCom\Div2007\Utility\FrontendUtility;
+use TYPO3\CMS\Core\Utility\ArrayUtility;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
@@ -57,7 +59,7 @@ class PluginApi
     public static function init($conf)
     {
         $piVarsDefault = [];
-        $parameterApi = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\ParameterApi::class);
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
         $prefixId = $parameterApi->getPrefixId();
         $defaults = $conf['_DEFAULT_PI_VARS.'] ?? '';
         if (
@@ -78,7 +80,7 @@ class PluginApi
         if (!empty($piVarsDefault)) {
             $tmp = $piVarsDefault;
             if (is_array($piVars)) {
-                \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule(
+                ArrayUtility::mergeRecursiveWithOverrule(
                     $tmp,
                     $piVars
                 );
@@ -206,7 +208,7 @@ class PluginApi
     ) {
         $result = true;
 
-        if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('taxajax')) {
+        if (ExtensionManagementUtility::isLoaded('taxajax')) {
             $ajaxObj = GeneralUtility::makeInstance('tx_ttproducts_ajax');
             $result = $ajaxObj->init();
             if (!$result) {
@@ -236,13 +238,13 @@ class PluginApi
         $eInfo = ExtensionUtility::getExtensionInfo(TT_PRODUCTS_EXT);
         $config['version'] = $eInfo['version'];
 
-        $config['defaultCategoryID'] = \JambageCom\Div2007\Utility\FlexformUtility::get(self::getFlexform(), 'categorySelection');
+        $config['defaultCategoryID'] = FlexformUtility::get(self::getFlexform(), 'categorySelection');
 
         // get template suffix string
 
         $config['templateSuffix'] = strtoupper($conf['templateSuffix'] ?? '');
 
-        $templateSuffix = \JambageCom\Div2007\Utility\FlexformUtility::get(self::getFlexform(), 'template_suffix');
+        $templateSuffix = FlexformUtility::get(self::getFlexform(), 'template_suffix');
         $templateSuffix = strtoupper($templateSuffix);
         $config['templateSuffix'] = ($templateSuffix ? $templateSuffix : $config['templateSuffix']);
         $config['templateSuffix'] = ($config['templateSuffix'] ? '_' . $config['templateSuffix'] : '');
@@ -312,7 +314,7 @@ class PluginApi
             );
 
         if ($errorCode[0]) {
-            $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
+            $languageObj = GeneralUtility::makeInstance(Localization::class);
             $result .= ErrorUtility::getMessage($languageObj, $errorCode);
         }
 
@@ -332,7 +334,7 @@ class PluginApi
 
         if (!self::$bHasBeenInitialised) {
             $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
-            \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($conf, $pluginConf);
+            ArrayUtility::mergeRecursiveWithOverrule($conf, $pluginConf);
             $config = [];
             $cObj = FrontendUtility::getContentObjectRenderer([]);
 

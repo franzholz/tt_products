@@ -42,11 +42,13 @@ namespace JambageCom\TtProducts\Api;
  * @package TYPO3
  * @subpackage tt_products
  */
-
 use JambageCom\Div2007\Utility\ExtensionUtility;
 use JambageCom\Div2007\Utility\FrontendUtility;
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
+use TYPO3\CMS\Frontend\Resource\FilePathSanitizer;
 
 class PaymentShippingHandling
 {
@@ -151,7 +153,7 @@ class PaymentShippingHandling
         &$wrappedSubpartArray,
         $framework
     ) {
-        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $cObj = FrontendUtility::getContentObjectRenderer();
         $markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
@@ -166,9 +168,9 @@ class PaymentShippingHandling
 
         if (
             strpos($handleLib, 'transactor') !== false &&
-            \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($handleLib)
+            ExtensionManagementUtility::isLoaded($handleLib)
         ) {
-            $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
+            $languageObj = GeneralUtility::makeInstance(Localization::class);
             // Payment Transactor
             \tx_transactor_api::init($languageObj, '', $conf);
 
@@ -446,7 +448,7 @@ class PaymentShippingHandling
         $useBackPid,
         &$basketExtra
     ) {
-        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $conf = $cnf->getConf();
 
@@ -571,7 +573,7 @@ class PaymentShippingHandling
                         $itemTableView = $tablesObj->get($tableName, true);
                         $itemTable = $itemTableView->getModelObj();
 
-                        if (($tableName == 'static_countries') && \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('static_info_tables')) {
+                        if (($tableName == 'static_countries') && ExtensionManagementUtility::isLoaded('static_info_tables')) {
                             $viewTagArray = [];
 
                             if (is_object($itemTable)) {
@@ -1195,7 +1197,7 @@ class PaymentShippingHandling
 
                 if (
                     $handleLib &&
-                    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($handleLib) &&
+                    ExtensionManagementUtility::isLoaded($handleLib) &&
                     isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$handleLib]) &&
                     isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$handleLib]['api'])
                 ) {
@@ -1314,7 +1316,7 @@ class PaymentShippingHandling
         $calculationScript = $basketConf['calculationScript'] ?? '';
         if ($calculationScript != '') {
             $calcScript = '';
-            $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
+            $sanitizer = GeneralUtility::makeInstance(FilePathSanitizer::class);
             $calcScript = $sanitizer->sanitize($calculationScript);
 
             if ($calcScript) {
@@ -1726,7 +1728,7 @@ class PaymentShippingHandling
         ) {
             switch ($tablename) {
                 case 'static_countries':
-                    if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('static_info_tables')) {
+                    if (ExtensionManagementUtility::isLoaded('static_info_tables')) {
                         $eInfo = ExtensionUtility::getExtensionInfo('static_info_tables');
                         $sitVersion = $eInfo['version'];
                     }
@@ -1823,7 +1825,7 @@ class PaymentShippingHandling
             is_array($payConf['handleLib.']) &&
             isset($payConf['handleLib.']['gatewaymode']) &&
             $payConf['handleLib.']['gatewaymode'] == $request &&
-            \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($handleLib)
+            ExtensionManagementUtility::isLoaded($handleLib)
         ) {
             $result = $handleLib;
         }

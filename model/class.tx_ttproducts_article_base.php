@@ -36,7 +36,7 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use JambageCom\TtProducts\Api\PriceApi;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
@@ -403,7 +403,7 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base
 
                     if ($type == 'price') {
                         if ($mergePrices) {
-                            \JambageCom\TtProducts\Api\PriceApi::mergeRows(
+                            PriceApi::mergeRows(
                                 $targetRow,
                                 $sourceRow,
                                 $field,

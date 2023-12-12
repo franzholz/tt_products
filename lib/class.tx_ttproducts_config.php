@@ -36,10 +36,12 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use JambageCom\Div2007\Utility\FlexformUtility;
+use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class tx_ttproducts_config implements \TYPO3\CMS\Core\SingletonInterface
+class tx_ttproducts_config implements SingletonInterface
 {
     public $conf;
     public $config;
@@ -151,7 +153,7 @@ class tx_ttproducts_config implements \TYPO3\CMS\Core\SingletonInterface
                     isset($this->conf[$type . '.'][$tablename . '.'][$theCode . '.'])
                 ) {
                     $tempConf = $this->conf[$type . '.'][$tablename . '.'][$theCode . '.'];
-                    \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($specialConf, $tempConf);
+                    ArrayUtility::mergeRecursiveWithOverrule($specialConf, $tempConf);
                 }
                 if (
                     isset($specialConf['orderBy']) &&
@@ -168,7 +170,7 @@ class tx_ttproducts_config implements \TYPO3\CMS\Core\SingletonInterface
                     isset($this->conf[$type . '.'][$theCode . '.'])
                 ) {
                     $tempConf = $this->conf[$type . '.'][$theCode . '.'];
-                    \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($specialConf, $tempConf);
+                    ArrayUtility::mergeRecursiveWithOverrule($specialConf, $tempConf);
                 }
             }
         }
@@ -329,7 +331,7 @@ class tx_ttproducts_config implements \TYPO3\CMS\Core\SingletonInterface
 
         if (isset($row[$configField])) {
             $config = GeneralUtility::xml2array($row[$configField]);
-            $hasConfig = \JambageCom\Div2007\Utility\FlexformUtility::get($config, $check);
+            $hasConfig = FlexformUtility::get($config, $check);
         }
 
         return $hasConfig;

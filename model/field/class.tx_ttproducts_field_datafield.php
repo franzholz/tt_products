@@ -1,4 +1,7 @@
 <?php
+
+use JambageCom\Div2007\Utility\FileAbstractionUtility;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -51,7 +54,7 @@ class tx_ttproducts_field_datafield extends tx_ttproducts_field_base
     public function getDataFileArray($tableName, $row, $fieldName)
     {
         $result = [];
-        $fileRecords = \JambageCom\Div2007\Utility\FileAbstractionUtility::getFileRecords(
+        $fileRecords = FileAbstractionUtility::getFileRecords(
             $tableName,
             $fieldName,
             [$row['uid']]
@@ -61,7 +64,7 @@ class tx_ttproducts_field_datafield extends tx_ttproducts_field_base
                 $fileReferenceUid = $fileRecord['uid'];
                 $fileObj = null;
                 $fileInfo = null;
-                \JambageCom\Div2007\Utility\FileAbstractionUtility::getFileInfo(
+                FileAbstractionUtility::getFileInfo(
                     $fileObj,
                     $fileInfo,
                     $fileReferenceUid
