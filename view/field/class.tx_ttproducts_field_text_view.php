@@ -30,19 +30,18 @@
  * functions for the title field
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-class tx_ttproducts_field_text_view extends tx_ttproducts_field_base_view {
-
-    public function getRowMarkerArray (
+class tx_ttproducts_field_text_view extends tx_ttproducts_field_base_view
+{
+    public function getRowMarkerArray(
         $functablename,
         $fieldname,
         $row,
@@ -82,7 +81,7 @@ class tx_ttproducts_field_text_view extends tx_ttproducts_field_base_view {
                 $dummy
             );
 
-        if ($bHtml && $charset != '' && in_array($fieldname, $htmlentitiesArray))	{
+        if ($bHtml && $charset != '' && in_array($fieldname, $htmlentitiesArray)) {
             $bConvertNewlines = $this->conf['nl2brNote'];
             if (
                 $bConvertNewlines &&
@@ -99,4 +98,3 @@ class tx_ttproducts_field_text_view extends tx_ttproducts_field_base_view {
         return $value;
     }
 }
-

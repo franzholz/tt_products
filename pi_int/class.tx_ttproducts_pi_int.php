@@ -30,21 +30,21 @@
  * variable content plugins for the shop system.
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
+ *
  * @see file tt_products/static/old_style/constants.txt
  * @see TSref
- *
  */
 
- 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
-
-class tx_ttproducts_pi_int implements \TYPO3\CMS\Core\SingletonInterface {
-
+class tx_ttproducts_pi_int implements \TYPO3\CMS\Core\SingletonInterface
+{
     public $cObj;
 
     public function setContentObjectRenderer(ContentObjectRenderer $cObj): void
@@ -55,8 +55,8 @@ class tx_ttproducts_pi_int implements \TYPO3\CMS\Core\SingletonInterface {
     /**
      * Main method. Call this from TypoScript by a USER cObject.
      */
-    public function main ($content, $conf) {
-
+    public function main($content, $conf)
+    {
         $pibaseObj = GeneralUtility::makeInstance('tx_ttproducts_pi_int_base');
         $pibaseObj->cObj = $this->cObj;
         $confMain = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
@@ -65,7 +65,6 @@ class tx_ttproducts_pi_int implements \TYPO3\CMS\Core\SingletonInterface {
         $languageSubpath = '/Resources/Private/Language/';
 
         if (!empty($conf['templateFile'])) {
-
             $content = $pibaseObj->main($content, $conf);
         } else {
             if (count($conf) > 2) {
@@ -79,6 +78,7 @@ class tx_ttproducts_pi_int implements \TYPO3\CMS\Core\SingletonInterface {
                 );
             }
         }
+
         return $content;
     }
 }

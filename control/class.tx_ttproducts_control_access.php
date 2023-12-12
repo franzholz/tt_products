@@ -30,19 +30,18 @@
  * functions for the control of the access
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-class tx_ttproducts_control_access implements \TYPO3\CMS\Core\SingletonInterface {
-
-    static public function getVariables (
+class tx_ttproducts_control_access implements \TYPO3\CMS\Core\SingletonInterface
+{
+    public static function getVariables(
         $conf,
         &$updateCode,
         &$bIsAllowed,
@@ -50,7 +49,7 @@ class tx_ttproducts_control_access implements \TYPO3\CMS\Core\SingletonInterface
         &$trackingCode
     ) {
         if (!$conf['update_code']) {
-            throw new exception('ERROR in tt_products: The setup "update_code" must not be empty');
+            throw new Exception('ERROR in tt_products: The setup "update_code" must not be empty');
         }
 
         $updateCode = GeneralUtility::_GP('update_code') ?? '';
@@ -71,21 +70,22 @@ class tx_ttproducts_control_access implements \TYPO3\CMS\Core\SingletonInterface
         $trackingCode = GeneralUtility::_GP('tracking') ?? '';
     }
 
-
-    static public function isAllowed ($bRequireBEAdmin) {
+    public static function isAllowed($bRequireBEAdmin)
+    {
         $beUserLogin = false;
         $context = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Context\Context::class);
         $beUserLogin = $context->getPropertyFromAspect('backend.user', 'isLoggedIn');
 
         $result = (!$bRequireBEAdmin || $beUserLogin);
+
         return $result;
     }
 
-
     /**
-     * Returns 1 if user is a shop admin
+     * Returns 1 if user is a shop admin.
      */
-    static public function isValidUpdateCode ($bRequireBEAdmin, $password, &$updateCode) {
+    public static function isValidUpdateCode($bRequireBEAdmin, $password, &$updateCode)
+    {
         $result = false;
 
         if (self::isAllowed($bRequireBEAdmin)) {
@@ -99,4 +99,3 @@ class tx_ttproducts_control_access implements \TYPO3\CMS\Core\SingletonInterface
         return $result;
     }
 }
-

@@ -30,18 +30,18 @@
  * functions for the creditpoints field view
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
-
-
-class tx_ttproducts_field_creditpoints_view extends tx_ttproducts_field_base_view {
+class tx_ttproducts_field_creditpoints_view extends tx_ttproducts_field_base_view
+{
     protected $addedFieldArray = ['creditpoints_missing', 'creditpoints_remaining'];
 
-    public function modifyItemSubpartRow ($fieldname, $row, &$addedFieldArray) {
+    public function modifyItemSubpartRow($fieldname, $row, &$addedFieldArray)
+    {
         $modelObj = $this->getModelObj();
         $rc = $row;
         $creditpointsMissing = 0;
@@ -50,10 +50,11 @@ class tx_ttproducts_field_creditpoints_view extends tx_ttproducts_field_base_vie
         $rc['creditpoints_missing'] = $creditpointsMissing;
         $rc['creditpoints_remaining'] = $creditpointsRemaining;
         $addedFieldArray = array_merge($addedFieldArray, $this->addedFieldArray);
+
         return $rc;
     }
 
-    public function getRowMarkerArray (
+    public function getRowMarkerArray(
         $functablename,
         $fieldname,
         $row,
@@ -86,7 +87,7 @@ class tx_ttproducts_field_creditpoints_view extends tx_ttproducts_field_base_vie
                 $dummy
             );
 
-        $value = number_format($value,'0');
+        $value = number_format($value, '0');
         $modifiedRow[$fieldname] = $value;
         foreach ($this->addedFieldArray as $addedField) {
             $value =
@@ -98,9 +99,9 @@ class tx_ttproducts_field_creditpoints_view extends tx_ttproducts_field_base_vie
                     $basketRecs,
                     $dummy
                 );
-            $modifiedRow[$addedField] = number_format($value,'0');
+            $modifiedRow[$addedField] = number_format($value, '0');
         }
+
         return $modifiedRow;
     }
 }
-

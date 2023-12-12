@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace JambageCom\TtProducts\Updates;
@@ -16,24 +17,20 @@ namespace JambageCom\TtProducts\Updates;
  * The TYPO3 project - inspiring people to share!
  */
 
+use JambageCom\TtProducts\Api\UpgradeApi;
 use Symfony\Component\Console\Output\OutputInterface;
-
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Install\Updates\ChattyInterface;
-use TYPO3\CMS\Install\Updates\Confirmation;
 use TYPO3\CMS\Install\Updates\ConfirmableInterface;
+use TYPO3\CMS\Install\Updates\Confirmation;
 use TYPO3\CMS\Install\Updates\DatabaseUpdatedPrerequisite;
 use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
-use TYPO3\CMS\Install\Service\UpgradeWizardsService;
-
-use JambageCom\TtProducts\Api\UpgradeApi;
-
 
 class OrderMMProductTtProductsUpdater implements UpgradeWizardInterface, ConfirmableInterface, ChattyInterface
 {
-    const TABLE = 'sys_products_orders_mm_tt_products';
+    public const TABLE = 'sys_products_orders_mm_tt_products';
 
-     /**
+    /**
      * @var OutputInterface
      */
     protected $output;
@@ -57,9 +54,7 @@ class OrderMMProductTtProductsUpdater implements UpgradeWizardInterface, Confirm
     }
 
     /**
-     * Setter injection for output into upgrade wizards
-     *
-     * @param OutputInterface $output
+     * Setter injection for output into upgrade wizards.
      */
     public function setOutput(OutputInterface $output): void
     {
@@ -67,9 +62,7 @@ class OrderMMProductTtProductsUpdater implements UpgradeWizardInterface, Confirm
     }
 
     /**
-     * Get title
-     *
-     * @return string
+     * Get title.
      */
     public function getTitle(): string
     {
@@ -77,7 +70,7 @@ class OrderMMProductTtProductsUpdater implements UpgradeWizardInterface, Confirm
     }
 
     /**
-     * Get description
+     * Get description.
      *
      * @return string Longer description of this updater
      */
@@ -95,9 +88,7 @@ class OrderMMProductTtProductsUpdater implements UpgradeWizardInterface, Confirm
     }
 
     /**
-     * Return a confirmation message instance
-     *
-     * @return \TYPO3\CMS\Install\Updates\Confirmation
+     * Return a confirmation message instance.
      */
     public function getConfirmation(): Confirmation
     {
@@ -126,10 +117,11 @@ class OrderMMProductTtProductsUpdater implements UpgradeWizardInterface, Confirm
     }
 
     /**
-     * Performs the database update
+     * Performs the database update.
      *
      * @param array &$databaseQueries Queries done in this update
      * @param string &$customMessage Custom message
+     *
      * @return bool
      */
     public function performUpdate(array &$databaseQueries, &$customMessage)
@@ -147,9 +139,7 @@ class OrderMMProductTtProductsUpdater implements UpgradeWizardInterface, Confirm
 
     /**
      * Execute the update
-     * Called when a wizard reports that an update is necessary
-     *
-     * @return bool
+     * Called when a wizard reports that an update is necessary.
      */
     public function executeUpdate(): bool
     {
@@ -157,6 +147,7 @@ class OrderMMProductTtProductsUpdater implements UpgradeWizardInterface, Confirm
         $message = '';
         $result = $this->performUpdate($queries, $message);
         $this->output->write($message);
+
         return $result;
     }
 
@@ -164,26 +155,25 @@ class OrderMMProductTtProductsUpdater implements UpgradeWizardInterface, Confirm
      * Is an update necessary?
      * Is used to determine whether a wizard needs to be run.
      * Check if data for migration exists.
-     *
-     * @return bool
      */
     public function updateNecessary(): bool
     {
         $elementCount = $this->upgradeApi->countOfMMTableMigrations(self::TABLE, 'sys_products_orders_uid');
-        return ($elementCount > 0);
+
+        return $elementCount > 0;
     }
 
     /**
      * Returns an array of class names of Prerequisite classes
      * This way a wizard can define dependencies like "database up-to-date" or
-     * "reference index updated"
+     * "reference index updated".
      *
      * @return string[]
      */
     public function getPrerequisites(): array
     {
         return [
-            DatabaseUpdatedPrerequisite::class
+            DatabaseUpdatedPrerequisite::class,
         ];
     }
 }

@@ -1,8 +1,8 @@
 <?php
+
 defined('TYPO3') || die('Access denied.');
 
-call_user_func(function($extensionKey, $table)
-{
+call_user_func(function ($extensionKey, $table) {
     $configuration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\JambageCom\TtProducts\Domain\Model\Dto\EmConfiguration::class);
 
     $orderBySortingTablesArray = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['orderBySortingTables']);
@@ -11,19 +11,19 @@ call_user_func(function($extensionKey, $table)
         in_array($table, $orderBySortingTablesArray)
     ) {
         $GLOBALS['TCA'][$table]['ctrl']['sortby'] = 'sorting';
-        $GLOBALS['TCA'][$table]['columns']['sorting'] = 
+        $GLOBALS['TCA'][$table]['columns']['sorting'] =
             [
                 'config' => [
                     'type' => 'passthrough',
-                    'default' => 0
-                ]
+                    'default' => 0,
+                ],
             ];
     }
 
     $GLOBALS['TCA'][$table]['columns']['slug']['config']['eval'] = $configuration->getSlugBehaviour();
 
-    $excludeArray =  
-        ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['exclude']);
+    $excludeArray =
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['exclude'];
 
     if (
         isset($excludeArray) &&

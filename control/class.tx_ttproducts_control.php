@@ -30,23 +30,20 @@
  * class with functions to control all activities
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
- 
+
+use JambageCom\Div2007\Utility\FrontendUtility;
+use JambageCom\TtProducts\Api\PaymentShippingHandling;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
-use JambageCom\Div2007\Utility\ExtensionUtility;
-use JambageCom\Div2007\Utility\FrontendUtility;
-
-use JambageCom\TtProducts\Api\PaymentShippingHandling;
-
-
-class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
+class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface
+{
     public $pibase; // reference to object of pibase
     public $pibaseClass;
     public $cObj;
@@ -58,20 +55,20 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
     public $urlArray; // overridden url destinations
     public $useArticles;
 
-
-    static public $nextActivity = [
-            'basket'  => 'info',
-            'info'    => 'payment',
-            'payment' => 'finalize'
+    public static $nextActivity = [
+            'basket' => 'info',
+            'info' => 'payment',
+            'payment' => 'finalize',
         ];
-    static public $activityMap = [
-            'basket'  => 'products_basket',
-            'info'    => 'products_info',
+    public static $activityMap = [
+            'basket' => 'products_basket',
+            'info' => 'products_info',
             'payment' => 'products_payment',
-            'finalize' => 'products_finalize'
+            'finalize' => 'products_finalize',
         ];
 
-    public function init ($pibaseClass, $funcTablename, $useArticles) {
+    public function init($pibaseClass, $funcTablename, $useArticles)
+    {
         $this->pibaseClass = $pibaseClass;
         $this->pibase = GeneralUtility::makeInstance('' . $pibaseClass);
         $this->cObj = $this->pibase->cObj;
@@ -94,8 +91,8 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
         $this->urlObj->setUrlArray($this->urlArray);
     } // init
 
-
-    protected function getOrderUid (&$orderArray) {
+    protected function getOrderUid(&$orderArray)
+    {
         $basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
         $orderUid = 0;
         $result = false;
@@ -120,8 +117,8 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
         return $result;
     }
 
-
-    protected function getOrdernumber ($orderUid) {
+    protected function getOrdernumber($orderUid)
+    {
         $result = '';
 
         if ($orderUid) {
@@ -129,22 +126,19 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
             $orderObj = $tablesObj->get('sys_products_orders');
             $result = $orderObj->getNumber($orderUid);
         }
+
         return $result;
     }
 
-
     /**
-     * returns the activities in the order in which they have to be processed
-     *
-     * @param		string		  $fieldname is the field in the table you want to create a JavaScript for
-     * @return	  void
+     * returns the activities in the order in which they have to be processed.
      */
-    public function transformActivities ($activities) {
+    public function transformActivities($activities)
+    {
         $retActivities = [];
         $codeActivities = [];
         $codeActivityArray = [
-            '1' =>
-                'products_overview',
+            '1' => 'products_overview',
                 'products_basket',
                 'products_info',
                 'products_payment',
@@ -153,26 +147,25 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
                 'products_finalize',
         ];
 
-        $activityArray =  [
-            '1' =>
-            'products_redeem_gift',
-            'products_clear_basket'
+        $activityArray = [
+            '1' => 'products_redeem_gift',
+            'products_clear_basket',
         ];
 
-/*		if ($activities['products_basket']) {
-            $basketActivityArray = array(
-                '1' =>
-                    'products_info',
-                    'products_payment',
-                    'products_finalize'
-                );
-            // if 'products_basket' has been set, then the user should always return to the basket page
-            foreach ($basketActivityArray as $k => $activity) {
-                if ($activities[$activity]) {
-                    unset($activities[$activity]);
-                }
-            }
-        }*/
+        /*		if ($activities['products_basket']) {
+                    $basketActivityArray = array(
+                        '1' =>
+                            'products_info',
+                            'products_payment',
+                            'products_finalize'
+                        );
+                    // if 'products_basket' has been set, then the user should always return to the basket page
+                    foreach ($basketActivityArray as $k => $activity) {
+                        if ($activities[$activity]) {
+                            unset($activities[$activity]);
+                        }
+                    }
+                }*/
 
         if (is_array($activities)) {
             foreach ($activities as $activity => $value) {
@@ -183,7 +176,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
         }
 
         if (!empty($codeActivities['products_info'])) {
-            if(!empty($codeActivities['products_payment'])) {
+            if (!empty($codeActivities['products_payment'])) {
                 $codeActivities['products_payment'] = false;
             }
         }
@@ -217,10 +210,11 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
             $retActivities = array_merge($retActivities, $codeActivities);
         }
 
-        return ($retActivities);
+        return $retActivities;
     }
 
-    protected function getTransactorConf ($handleLib) {
+    protected function getTransactorConf($handleLib)
+    {
         $transactorConf = '';
 
         $transactorConf = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
@@ -230,7 +224,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
         return $transactorConf;
     }
 
-    protected function processPayment (
+    protected function processPayment(
         $orderUid,
         $orderNumber,
         $cardRow,
@@ -276,13 +270,13 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
                     $this->pibase,
                     $infoViewObj
                 );
-            } else if (
+            } elseif (
                 strpos($handleLib, 'paymentlib') === false &&
                 \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($handleLib)
             ) {
                 $transactorConf = $this->getTransactorConf($handleLib);
                 $useNewTransactor = false;
-            
+
                 if (
                     !empty($transactorConf)
                 ) {
@@ -338,7 +332,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
                             &$markerArray,
                             &$templateFilename,
                             &$localTemplateCode,
-                            &$errorMessage
+                            &$errorMessage,
                         ];
                         $content = call_user_func_array(
                             $callingClassName . '::includeHandleLib',
@@ -347,8 +341,8 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
                     }
                 } else {
                     $paymentScript = true;
-                        // Payment Transactor or any alternative extension besides paymentlib
-                // Get references to the concerning baskets
+                    // Payment Transactor or any alternative extension besides paymentlib
+                    // Get references to the concerning baskets
                     $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
                     $addQueryString = [];
                     $excludeList = '';
@@ -418,11 +412,11 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
                 }
             }
         }
+
         return $content;
     } // processPayment
 
-
-    public function getErrorLabel (
+    public function getErrorLabel(
         $languageObj,
         $accountObj,
         $cardObj,
@@ -439,8 +433,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
         $languageKey = '';
 
         if ($checkRequired || $checkAllowed) {
-
-            $check = ($checkRequired ? $checkRequired: $checkAllowed);
+            $check = ($checkRequired ? $checkRequired : $checkAllowed);
             $check = ($check ? $check : $giftRequired);
             if (
                 $checkAllowed == 'email'
@@ -464,10 +457,10 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 
                 if (\JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn() && $editPID) {
                     $cObj = \JambageCom\TtProducts\Api\ControlApi::getCObj();
-                    $addParams = array ('products_payment' => 1);
+                    $addParams = ['products_payment' => 1];
                     $addParams = $this->urlObj->getLinkParams('', $addParams, true);
-// 					$agencyBackUrl =
-// 						$this->pibase->pi_getPageLink($GLOBALS['TSFE']->id, '', $addParams);
+                    // 					$agencyBackUrl =
+                    // 						$this->pibase->pi_getPageLink($GLOBALS['TSFE']->id, '', $addParams);
                     $agencyBackUrl =
                         FrontendUtility::getTypoLink_URL(
                             $cObj,
@@ -490,8 +483,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
                             $addParams
                         );
                 }
-
-            } else if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('sr_feuser_register')) {
+            } elseif (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('sr_feuser_register')) {
                 if (!$languageKey) {
                     $languageKey = 'missing_' . $check;
                 }
@@ -499,7 +491,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
                 $editPID = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_srfeuserregister_pi1.']['editPID'];
 
                 if (\JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn() && $editPID) {
-                    $addParams = array ('products_payment' => 1);
+                    $addParams = ['products_payment' => 1];
                     $addParams =
                         $this->urlObj->getLinkParams(
                             '',
@@ -533,22 +525,22 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
                     $tmpArray = GeneralUtility::trimExplode('|', $languageObj->getLabel('missing'));
                     $label = $languageObj->getLabel('missing_' . $check);
                     if ($label) {
-                        $label = $tmpArray[0] . ' ' . $label . ' '. $tmpArray[1];
+                        $label = $tmpArray[0] . ' ' . $label . ' ' . $tmpArray[1];
                     } else {
                         $label = 'field: ' . $check;
                     }
                 }
             }
-        } else if ($pidagb && empty($_REQUEST['recs']['personinfo']['agb']) && !GeneralUtility::_GET('products_payment') && empty($infoArray['billing']['agb'])) {
-                // so AGB has not been accepted
+        } elseif ($pidagb && empty($_REQUEST['recs']['personinfo']['agb']) && !GeneralUtility::_GET('products_payment') && empty($infoArray['billing']['agb'])) {
+            // so AGB has not been accepted
             $label = $languageObj->getLabel('accept_AGB');
 
             $addQueryString['agb'] = 0;
-        } else if ($cardRequired) {
+        } elseif ($cardRequired) {
             $label = '*' . $languageObj->getLabel($cardObj->getTablename() . '.' . $cardRequired) . '*';
-        } else if ($accountRequired) {
-            $label = '*' . $languageObj->getLabel($accountObj->getTablename()) . ': ' . $languageObj->getLabel($accountObj->getTablename() . '.' . $accountRequired) .  '*';
-        } else if ($paymentErrorMsg) {
+        } elseif ($accountRequired) {
+            $label = '*' . $languageObj->getLabel($accountObj->getTablename()) . ': ' . $languageObj->getLabel($accountObj->getTablename() . '.' . $accountRequired) . '*';
+        } elseif ($paymentErrorMsg) {
             $label = $paymentErrorMsg;
         } else {
             $message = $languageObj->getLabel('internal_error');
@@ -559,8 +551,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
         return $label;
     }
 
-
-    public function getContent (
+    public function getContent(
         $templateCode,
         $templateFilename,
         array $mainMarkerArray,
@@ -627,7 +618,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
                                 'products_customized_payment',
                                 'products_verify',
                                 'products_finalize',
-                                'unknown'
+                                'unknown',
                             ]
                         );
                 }
@@ -665,7 +656,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
                         $subpartmarkerObj->spMarker('###BASKET_OVERVIEW_EMPTY###')
                     );
                 }
-            } else if (
+            } elseif (
                 !empty($this->activityArray['products_basket']) ||
                 !empty($this->activityArray['products_info']) ||
                 !empty($this->activityArray['products_payment'])
@@ -677,8 +668,8 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
                     $subpartmarkerObj->spMarker('###' . $subpart . $this->config['templateSuffix'] . '###'),
                     $subpartmarkerObj->spMarker('###' . $subpart . '###'),
                     $errorCode
-                ) ;
-            } else if (!empty($this->activityArray['products_finalize'])) {
+                );
+            } elseif (!empty($this->activityArray['products_finalize'])) {
                 // Todo: Neuabsenden einer bereits abgesendeten Bestellung. Der Warenkorb ist schon gelöscht.
                 if (!$orderArray) {
                     $contentEmpty = $languageObj->getLabel('order_already_finalized');
@@ -704,9 +695,9 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
                 isset($shopCountryArray) &&
                 is_array($shopCountryArray) &&
                 isset($shopCountryArray['country_code'])
-            ){
+            ) {
                 $taxArray = $taxRateArray[$shopCountryArray['country_code']];
-            } else if (
+            } elseif (
                 isset($taxRateArray) &&
                 is_array($taxRateArray)
             ) {
@@ -722,7 +713,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
                     $taxArray
                 );
             $markerArray = $basketMarkerArray;
-        } else if (
+        } elseif (
             empty($checkRequired) &&
             empty($checkAllowed) &&
             empty($cardRequired) &&
@@ -782,7 +773,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
                     $nextActivity = '';
                     foreach ($activityArray as $activity) {
                         $shortActivity = array_search($activity, static::$activityMap);
-                        $nextActivity  = static::$nextActivity[$activity] ?? '';
+                        $nextActivity = static::$nextActivity[$activity] ?? '';
                         break;
                     }
 
@@ -836,7 +827,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
                         $errorRow = $errorArray['rec'];
                         $errorRowArray[] = $errorRow;
                         $message = $languageObj->getLabel('error_edit_variant_range');
-                        $messageArr =  explode('|', $message);
+                        $messageArr = explode('|', $message);
 
                         if (
                             isset($errorArray['error']) &&
@@ -901,7 +892,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
                     false
                 );
             }
-        } else if (
+        } elseif (
             $theCode != 'OVERVIEW' &&
             (
                 $currentPaymentActivity != 'finalize' ||
@@ -957,8 +948,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
         return $content;
     } // getContent
 
-
-    public function processActivities (
+    public function processActivities(
         $activityArray,
         $activityVarsArray,
         $codeActivityArray,
@@ -1015,9 +1005,9 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
                 MathUtility::canBeInterpretedAsInteger($conf[$pidType])
             ) {
                 $pidArray[$pidType] = $conf[$pidType];
-            } else if ($pidType != 'PIDthanks') {
+            } elseif ($pidType != 'PIDthanks') {
                 $pidArray[$pidType] = $conf['PIDbasket'];
-             }
+            }
         }
 
         $mainMarkerArray = [];
@@ -1069,7 +1059,6 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
                     $checkArray = GeneralUtility::trimExplode(',', $activityConf['check']);
 
                     foreach ($checkArray as $checkType) {
-
                         switch ($checkType) {
                             case 'account':
                                 if (PaymentShippingHandling::useAccount($basketExtra)) {
@@ -1109,8 +1098,8 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
                     }
                 }
 
-                    // perform action
-                switch($activity) {
+                // perform action
+                switch ($activity) {
                     case 'products_clear_basket':
                         // Empties the shopping basket!
                         $basketObj->clearBasket(true);
@@ -1120,7 +1109,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
                         $calculObj->setCalculatedArray($calculatedArray);
                         $calculObj->clear();
                         $calculatedArray = $calculObj->getCalculatedArray();
-                    break;
+                        break;
                     case 'products_basket':
                         if (
                             count($activityArray) == 1 ||
@@ -1128,20 +1117,20 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
                         ) {
                             $basket_tmpl = 'BASKET_TEMPLATE';
                         }
-                    break;
+                        break;
                     case 'products_overview':
                         $basket_tmpl = 'BASKET_OVERVIEW_TEMPLATE';
 
                         if (!empty($codeActivityArray[$activity])) {
                             $theCode = 'OVERVIEW';
                         }
-                    break;
+                        break;
                     case 'products_redeem_gift': 	// this shall never be the only activity
                         if (trim($GLOBALS['TSFE']->fe_user->user['username']) == '') {
                             $basket_tmpl = 'BASKET_TEMPLATE_NOT_LOGGED_IN';
                         } else {
-                            $uniqueId = GeneralUtility::trimExplode ('-', $basketObj->recs['tt_products']['giftcode'], true);
-                            $query='uid=\'' . intval($uniqueId[0]) . '\' AND crdate=\'' . intval($uniqueId[1]) . '\'' . ' AND NOT deleted' ;
+                            $uniqueId = GeneralUtility::trimExplode('-', $basketObj->recs['tt_products']['giftcode'], true);
+                            $query = 'uid=\'' . intval($uniqueId[0]) . '\' AND crdate=\'' . intval($uniqueId[1]) . '\' AND NOT deleted';
                             $giftRes = $GLOBALS['TYPO3_DB']->exec_SELECTquery('*', 'tt_products_gifts', $query);
                             $row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($giftRes);
 
@@ -1150,25 +1139,25 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
                                 $money = $row['amount'];
                                 $uid = $row['uid'];
                                 $fieldsArray = [];
-                                $fieldsArray['deleted']=1;
-                                    // Delete the gift record
-                                $GLOBALS['TYPO3_DB']->exec_UPDATEquery('tt_products_gifts', 'uid='.intval($uid), $fieldsArray);
+                                $fieldsArray['deleted'] = 1;
+                                // Delete the gift record
+                                $GLOBALS['TYPO3_DB']->exec_UPDATEquery('tt_products_gifts', 'uid=' . intval($uid), $fieldsArray);
                                 $creditpoints = $money / $pricefactor;
                                 tx_ttproducts_creditpoints_div::addCreditPoints($GLOBALS['TSFE']->fe_user->user['username'], $creditpoints);
-                                $cpArray =  tx_ttproducts_control_session::readSession('cp');
+                                $cpArray = tx_ttproducts_control_session::readSession('cp');
                                 $cpArray['gift']['amount'] += $creditpoints;
                                 tx_ttproducts_control_basket::store('cp', $cpArray);
                             }
                         }
-                    break;
+                        break;
                     case 'products_info':
                         $basket_tmpl = 'BASKET_INFO_TEMPLATE';
 
-                        if (!empty($codeActivityArray[$activity]) ||  
+                        if (!empty($codeActivityArray[$activity]) ||
                             empty($activityArray['products_basket'])) {
                             $theCode = 'INFO';
                         }
-                    break;
+                        break;
                     case 'products_payment':
                         $bPayment = true;
                         $orderUid = $this->getOrderUid($orderArray);
@@ -1181,7 +1170,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
                                     $basketExtra
                                 );
 
-                            if (strpos($handleLib,'transactor') !== false) {
+                            if (strpos($handleLib, 'transactor') !== false) {
                                 // Payment Transactor
                                 tx_transactor_api::init($this->pibase, $this->cObj, $conf);
                                 $referenceId = tx_transactor_api::getReferenceUid(
@@ -1227,7 +1216,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
                                             $orderUid,
                                             $orderNumber,
                                             $this->conf['orderEmail_to'] ?? '',
-                                            $cardRow
+                                            $cardRow,
                                         ];
 
                                         $paymentErrorMsg = call_user_func_array(
@@ -1250,7 +1239,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
                                         $cardRow
                                     );
                                 }
-                            } else if (strpos($handleLib,'paymentlib') !== false) {
+                            } elseif (strpos($handleLib, 'paymentlib') !== false) {
                                 $paymentlib = GeneralUtility::makeInstance('tx_ttproducts_paymentlib');
                                 $paymentlib->init($this->pibase, $basketView, $this->urlObj);
                                 $referenceId = $paymentlib->getReferenceUid();
@@ -1265,13 +1254,13 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
 
                         if (
                             !empty($codeActivityArray[$activity]) ||
-                             empty($activityArray['products_basket'])          
+                             empty($activityArray['products_basket'])
                         ) {
                             $theCode = 'PAYMENT';
                         }
                         $basket_tmpl = 'BASKET_PAYMENT_TEMPLATE';
-                    break;
-                    // a special step after payment and before finalization needed for some payment methods
+                        break;
+                        // a special step after payment and before finalization needed for some payment methods
                     case 'products_customized_payment': // deprecated
                     case 'products_verify':
                         $bPayment = true;
@@ -1279,7 +1268,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
                         if (
                             !$bBasketEmpty &&
                             (
-                                $conf['paymentActivity'] == 'verify' || $conf['paymentActivity'] == 'customized' /* deprecated */
+                                $conf['paymentActivity'] == 'verify' || $conf['paymentActivity'] == 'customized' // deprecated
                             )
                         ) {
                             $orderUid = $this->getOrderUid($orderArray);
@@ -1315,7 +1304,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
                         } else {
                             $mainMarkerArray['###MESSAGE_PAYMENT_SCRIPT###'] = '';
                         }
-                    break;
+                        break;
                     case 'products_finalize':
                         $bPayment = true;
                         $handleLib = PaymentShippingHandling::getHandleLib('request', $basketExtra);
@@ -1348,7 +1337,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
                             );
                             $paymentErrorMsg = $errorMessage;
 
-                            if($bFinalize == false) {
+                            if ($bFinalize == false) {
                                 $label = $paymentErrorMsg;
                                 $markerArray['###ERROR_DETAILS###'] = $label;
                                 $basket_tmpl = 'BASKET_TEMPLATE'; // step back to the basket page
@@ -1365,11 +1354,11 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
                         ) {
                             $theCode = 'FINALIZE';
                         }
-                    break;
+                        break;
                     default:
                         // nothing yet
                         $activity = 'unknown';
-                    break;
+                        break;
                 } // switch
             }	// if ($value)
             $templateFilename = '';
@@ -1440,7 +1429,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
             }
         } // foreach ($activityArray as $activity=>$value)
 
-            // finalization at the end so that after every activity this can be called
+        // finalization at the end so that after every activity this can be called
         if ($bFinalize && !$bBasketEmpty && $orderUid) {
             $checkRequired = $infoViewObj->checkRequired('billing', $basketExtra);
 
@@ -1482,7 +1471,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
                     $mainMarkerArray['###MESSAGE_PAYMENT_SCRIPT###'] = '';
                 }
 
-                    // order finalization
+                // order finalization
                 $activityFinalize = GeneralUtility::makeInstance('tx_ttproducts_activity_finalize');
                 if (intval($conf['alwaysInStock'])) {
                     $alwaysInStock = 1;
@@ -1610,7 +1599,6 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
         return $content;
     } // processActivities
 
-
     /**
      * Do all the things to be done for this activity
      * former functions products_basket and basketView::printView
@@ -1618,9 +1606,10 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
      * Also the 'products_...' script parameters are used here.
      *
      * @param	array		  CODEs for display mode
+     *
      * @return	string	text to display
      */
-    public function doProcessing (
+    public function doProcessing(
         $codes,
         $calculatedArray,
         $basketExtra,
@@ -1661,7 +1650,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
             'overview' => 'products_overview',
             'payment' => 'products_payment',
             'redeem_gift' => 'products_redeem_gift',
-            'verify' => 'products_verify'
+            'verify' => 'products_verify',
         ];
 
         $update = GeneralUtility::_POST('products_update') || GeneralUtility::_POST('products_update_x');
@@ -1677,7 +1666,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
             }
         }
 
-            // use '_x' for coordinates from Internet Explorer if button images are used
+        // use '_x' for coordinates from Internet Explorer if button images are used
         if (GeneralUtility::_GP('products_redeem_gift') || GeneralUtility::_GP('products_redeem_gift_x')) {
             $activityArray['products_redeem_gift'] = true;
         }
@@ -1691,7 +1680,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
         if (!$update) {
             if (GeneralUtility::_GP('products_payment') || GeneralUtility::_GP('products_payment_x')) {
                 $activityArray['products_payment'] = true;
-            } else if (GeneralUtility::_GP('products_info') || GeneralUtility::_GP('products_info_x')) {
+            } elseif (GeneralUtility::_GP('products_info') || GeneralUtility::_GP('products_info_x')) {
                 $activityArray['products_info'] = true;
             }
         }
@@ -1802,8 +1791,7 @@ class tx_ttproducts_control implements \TYPO3\CMS\Core\SingletonInterface {
                 $errorMessage
             );
         }
+
         return $content;
     }
 }
-
-

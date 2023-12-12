@@ -1,6 +1,6 @@
 <?php
-defined('TYPO3') || die('Access denied.');
 
+defined('TYPO3') || die('Access denied.');
 
 // ******************************************************************
 // order to gained products table,  sys_products_orders_mm_gained_tt_products
@@ -16,20 +16,19 @@ $result = [
         'tstamp' => 'tstamp',
         'delete' => 'deleted',
         'enablecolumns' => [
-            'disabled' => 'hidden'
+            'disabled' => 'hidden',
         ],
         'prependAtCopy' => $languageLglPath . 'prependAtCopy',
         'crdate' => 'crdate',
-        'iconfile' => 'EXT:' . $extensionKey . '/Resources/Public/Icons/' . 'tt_products_relations.gif',
+        'iconfile' => 'EXT:' . $extensionKey . '/Resources/Public/Icons/tt_products_relations.gif',
         'hideTable' => true,
     ],
     'types' => [
         '0' => [
-            'showitem' => ''
-        ]
+            'showitem' => '',
+        ],
     ],
-    'columns' => []
+    'columns' => [],
 ];
 
 return $result;
-

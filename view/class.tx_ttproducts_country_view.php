@@ -30,34 +30,32 @@
  * functions for the static_info_countries table view
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
-
-
-
-class tx_ttproducts_country_view extends tx_ttproducts_table_base_view {
-
+class tx_ttproducts_country_view extends tx_ttproducts_table_base_view
+{
     /**
      * Template marker substitution
-     * Fills in the markerArray with data for a country
+     * Fills in the markerArray with data for a country.
      *
      * @param	array		reference to an item array with all the data of the item
      * @param	array		marker array
+     *
      * @return	array
+     *
      * @access private
      */
-    public function getRowMarkers (&$markerArray, $prefix, $row) {
-
+    public function getRowMarkers(&$markerArray, $prefix, $row)
+    {
         $thePrefix = $prefix . '_' . $this->getMarker() . '_';
         foreach ($row as $field => $value) {
             $markerKey = $thePrefix . strtoupper($field);
             $markerArray['###' . $markerKey . '###'] =
                 htmlspecialchars($value);
         }
-    }    
+    }
 }
-

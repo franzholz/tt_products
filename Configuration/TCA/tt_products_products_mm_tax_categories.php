@@ -1,4 +1,5 @@
 <?php
+
 defined('TYPO3') || die('Access denied.');
 
 $languageSubpath = '/Resources/Private/Language/';
@@ -24,15 +25,14 @@ $result = [
             'config' => [
                 'type' => 'passthrough',
                 'default' => null,
-            ]
+            ],
         ],
     ],
     'types' => [
         '0' => [
-            'showitem' => ''
-        ]
-    ]
+            'showitem' => '',
+        ],
+    ],
 ];
 
 return $result;
-

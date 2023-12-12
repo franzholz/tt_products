@@ -1,7 +1,5 @@
 <?php
 
-
-
 /***************************************************************
 *  Copyright notice
 *
@@ -33,25 +31,25 @@
  * functions for the creation of PDF files
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
  */
-
-
-
-class tx_ttproducts_pdf_view_sample07 {
-
+class tx_ttproducts_pdf_view_sample07
+{
     /**
-     * generates the bill as a PDF file
+     * generates the bill as a PDF file.
      *
      * @param	string		reference to an item array with all the data of the item
+     *
      * @return	string / boolean	returns the absolute filename of the PDF bill or false
      * 		 			for the tt_producst record, $row
+     *
      * @access private
      */
-    public function generate (
+    public function generate(
         $cObj,
         $basketView,
         $infoViewObj,
@@ -76,7 +74,7 @@ class tx_ttproducts_pdf_view_sample07 {
 
                     $path = $pathsite . $generationConf['handleLib.']['path'];
 
-                    require_once($path . '/src/PhpWord/Autoloader.php');
+                    require_once $path . '/src/PhpWord/Autoloader.php';
                     \PhpOffice\PhpWord\Autoloader::register();
 
                     $phpWord = new \PhpOffice\PhpWord\PhpWord();
@@ -169,7 +167,7 @@ class tx_ttproducts_pdf_view_sample07 {
                     $name = 'fileadmin/Sample_07_TemplateCloneRow.docx';
                     $document->saveAs($name);
 
-                    require_once($path . '/samples/Sample_Footer.php');
+                    require_once $path . '/samples/Sample_Footer.php';
 
                     $pathsite = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/';
                     $phpWord = \PhpOffice\PhpWord\IOFactory::load($pathsite . $name);
@@ -193,4 +191,3 @@ class tx_ttproducts_pdf_view_sample07 {
         return $result;
     }
 }
-

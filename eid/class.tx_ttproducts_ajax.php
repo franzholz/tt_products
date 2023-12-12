@@ -30,68 +30,68 @@
  * eID compatible AJAX functions
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
 
-
+use JambageCom\Div2007\Utility\FrontendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-use JambageCom\Div2007\Utility\FrontendUtility;
-
-
-class tx_ttproducts_ajax implements \TYPO3\CMS\Core\SingletonInterface {
+class tx_ttproducts_ajax implements \TYPO3\CMS\Core\SingletonInterface
+{
     public $taxajax;	// xajax object
     public $conf; 	// conf coming from JavaScript via Ajax
 
-
-    public function init () {
+    public function init()
+    {
         $result = false;
         if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded(TAXAJAX_EXT)) {
- 
             $this->taxajax = GeneralUtility::makeInstance('tx_taxajax');
 
             // Encoding of the response to FE charset
             $this->taxajax->setCharEncoding('utf-8');
             $result = true;
         }
+
         return $result;
     }
 
-
-    public function setConf ($conf) {
+    public function setConf($conf)
+    {
         $this->conf = $conf;
     }
 
-
-    public function getConf () {
+    public function getConf()
+    {
         return $this->conf;
     }
 
-
-    static public function getStoredRecs () {
+    public static function getStoredRecs()
+    {
         $result = tx_ttproducts_control_session::readSession('ajax');
+
         return $result;
     }
 
-    static public function setStoredRecs ($valArray) {
+    public static function setStoredRecs($valArray)
+    {
         tx_ttproducts_control_basket::store('ajax', $valArray);
     }
 
-    public function main (
+    public function main(
         $cObj,
         $urlObj,
         $debug,
         $piVarSingle = 'product',
         $piVarCat = 'cat'
     ) {
-            // Do you want messages in the status bar?
+        // Do you want messages in the status bar?
         // $this->taxajax->statusMessagesOn();
 
-            // Turn only on during testing
+        // Turn only on during testing
         if ($debug) {
             $this->taxajax->debugOn();
             $filepath = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/typo3temp/var/log/taxajax.log';
@@ -104,7 +104,7 @@ class tx_ttproducts_ajax implements \TYPO3\CMS\Core\SingletonInterface {
         $this->taxajax->setWrapperPrefix('');
 
         $addQueryString = [
-            'taxajax' => TT_PRODUCTS_EXT
+            'taxajax' => TT_PRODUCTS_EXT,
         ];
 
         $excludeList = '';
@@ -134,4 +134,3 @@ class tx_ttproducts_ajax implements \TYPO3\CMS\Core\SingletonInterface {
         $this->taxajax->setRequestURI($reqURI);
     }
 }
-

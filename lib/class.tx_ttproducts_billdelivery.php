@@ -30,34 +30,31 @@
  * bill and delivery functions
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-
-
-class tx_ttproducts_billdelivery implements \TYPO3\CMS\Core\SingletonInterface {
+class tx_ttproducts_billdelivery implements \TYPO3\CMS\Core\SingletonInterface
+{
     public $tableArray;
     public $price;		 // object for price functions
     public $typeArray = ['bill', 'delivery'];
 
-
-
-    public function getTypeArray () {
+    public function getTypeArray()
+    {
         return $this->typeArray;
     }
 
-
     /**
-     * get the relative filename of the bill or delivery file by the tracking code
+     * get the relative filename of the bill or delivery file by the tracking code.
      */
-    public function getRelFilename ($tracking, $type, $fileExtension = 'html') {
+    public function getRelFilename($tracking, $type, $fileExtension = 'html')
+    {
         $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
         $conf = $cnfObj->getConf();
 
@@ -66,29 +63,29 @@ class tx_ttproducts_billdelivery implements \TYPO3\CMS\Core\SingletonInterface {
         return $rc;
     }
 
-
-    public function getMarkerArray (&$markerArray, $tracking, $type) {
+    public function getMarkerArray(&$markerArray, $tracking, $type)
+    {
         $markerprefix = strtoupper($type);
         $relfilename = $this->getRelFilename($tracking, $type);
         $markerArray['###' . $markerprefix . '_FILENAME###'] = $relfilename;
     }
 
-
-    public function getFileAbsFileName ($type, $tracking, $fileExtension) {
+    public function getFileAbsFileName($type, $tracking, $fileExtension)
+    {
         $relfilename = $this->getRelFilename($tracking, $type, $fileExtension);
         $filename = GeneralUtility::getFileAbsFileName($relfilename);
+
         return $filename;
     }
 
-
-    public function writeFile ($filename, $content) {
+    public function writeFile($filename, $content)
+    {
         $theFile = fopen($filename, 'wb');
         fwrite($theFile, $content);
         fclose($theFile);
     }
 
-
-    public function generateBill (
+    public function generateBill(
         $cObj,
         $templateCode,
         $mainMarkerArray,
@@ -110,10 +107,10 @@ class tx_ttproducts_billdelivery implements \TYPO3\CMS\Core\SingletonInterface {
         $billGeneratedFromHook = false;
 
         // Hook
-            // Call all billing delivery hooks
+        // Call all billing delivery hooks
         if (isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['billdelivery']) && is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['billdelivery'])) {
             foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['billdelivery'] as $classRef) {
-                $hookObj= GeneralUtility::makeInstance($classRef);
+                $hookObj = GeneralUtility::makeInstance($classRef);
 
                 if (method_exists($hookObj, 'generateBill')) {
                     $billGeneratedFromHook = $hookObj->generateBill(
@@ -139,7 +136,6 @@ class tx_ttproducts_billdelivery implements \TYPO3\CMS\Core\SingletonInterface {
 
         if (!$billGeneratedFromHook && isset($orderArray['bill_no'])) {
             if ($generationType == 'pdf') {
-
                 $absFileName =
                     $this->getFileAbsFileName(
                         $type,
@@ -170,7 +166,7 @@ class tx_ttproducts_billdelivery implements \TYPO3\CMS\Core\SingletonInterface {
                     $generationConf,
                     $absFileName
                 );
-            } else if ($generationType == 'html') {
+            } elseif ($generationType == 'html') {
                 $subpart = $typeCode . '_TEMPLATE';
                 $content = $basketView->getView(
                     $errorCode,
@@ -213,11 +209,10 @@ class tx_ttproducts_billdelivery implements \TYPO3\CMS\Core\SingletonInterface {
         return $result;
     }
 
-
     /**
-     * Bill,Delivery Generation from tracking code
+     * Bill,Delivery Generation from tracking code.
      */
-    public function getInformation (
+    public function getInformation(
         $theCode,
         $orderRow,
         $templateCode,
@@ -241,9 +236,9 @@ class tx_ttproducts_billdelivery implements \TYPO3\CMS\Core\SingletonInterface {
         $globalMarkerArray = $markerObj->getGlobalMarkerArray();
         $orderObj = $tablesObj->get('sys_products_orders');
         $infoViewObj = GeneralUtility::makeInstance('tx_ttproducts_info_view');
-// 		$paymentshippingObj = GeneralUtility::makeInstance('tx_ttproducts_paymentshipping');
+        // 		$paymentshippingObj = GeneralUtility::makeInstance('tx_ttproducts_paymentshipping');
 
-            // initialize order data.
+        // initialize order data.
         $orderData = $orderObj->getOrderData($orderRow);
         $itemArray =
             $orderObj->getItemArray(
@@ -262,9 +257,9 @@ class tx_ttproducts_billdelivery implements \TYPO3\CMS\Core\SingletonInterface {
             );
 
         if ($type == 'bill') {
-            $subpartMarker='BILL_TEMPLATE';
+            $subpartMarker = 'BILL_TEMPLATE';
         } else {
-            $subpartMarker='DELIVERY_TEMPLATE';
+            $subpartMarker = 'DELIVERY_TEMPLATE';
         }
 
         $orderArray = [];
@@ -296,8 +291,3 @@ class tx_ttproducts_billdelivery implements \TYPO3\CMS\Core\SingletonInterface {
         return $content;
     }
 }
-
-
-
-
-

@@ -30,20 +30,19 @@
  * dummy edit variant class for tables which do not have any edit variants
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
  */
-
-
-
-class tx_ttproducts_edit_variant_dummy_view implements tx_ttproducts_edit_variant_view_int, \TYPO3\CMS\Core\SingletonInterface {
-
-    public function init($modelObj) {
+class tx_ttproducts_edit_variant_dummy_view implements tx_ttproducts_edit_variant_view_int, \TYPO3\CMS\Core\SingletonInterface
+{
+    public function init($modelObj)
+    {
     }
 
-    public function getSubpartMarkerArray (
+    public function getSubpartMarkerArray(
         $templateCode,
         $functablename,
         $row,
@@ -54,6 +53,4 @@ class tx_ttproducts_edit_variant_dummy_view implements tx_ttproducts_edit_varian
         &$wrappedSubpartArray
     ) {
     }
-
 }
-

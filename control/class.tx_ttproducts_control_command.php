@@ -30,27 +30,27 @@
  * control function for the commands.
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
  */
 
-
+use JambageCom\Div2007\Utility\ExtensionUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-use JambageCom\Div2007\Utility\ExtensionUtility;
+class tx_ttproducts_control_command
+{
+    protected static $commandVar = 'cmd';
 
-
-class tx_ttproducts_control_command {
-
-    static protected $commandVar = 'cmd';
-
-    static public function getCommandVar () {
+    public static function getCommandVar()
+    {
         return self::$commandVar;
     }
 
-    static public function getVariantVars ($piVars) {
+    public static function getVariantVars($piVars)
+    {
         $result = [];
 
         $paramsTableArray = tx_ttproducts_model_control::getParamsTableArray();
@@ -65,7 +65,7 @@ class tx_ttproducts_control_command {
         return $result;
     }
 
-    static public function doProcessing (
+    public static function doProcessing(
         $theCode,
         $conf,
         $bIsAllowedBE,
@@ -113,7 +113,7 @@ class tx_ttproducts_control_command {
                         if ($count >= 2) {
                             $orderUid = intval($trackingArray[$count - 2]);
                         }
-                    } else if (isset($piVars[$orderVar])) {
+                    } elseif (isset($piVars[$orderVar])) {
                         $orderUid = intval($piVars[$orderVar]);
                     }
 
@@ -203,12 +203,11 @@ class tx_ttproducts_control_command {
                         (
                             $bHasBeenOrdered ||
                             $bIsAllowedBE && $bValidUpdateCode
-                        ) && 
+                        ) &&
                         isset($piVars[$downloadVar])
                     ) {
                         $row = $downloadTable->get($uid, '', false);
                         if (isset($row) && is_array($row)) {
-
                             if (isset($cmdData['fal'])) {
                                 tx_ttproducts_api_download::fetchFal(intval($cmdData['fal']));
                             } else {
@@ -245,13 +244,13 @@ class tx_ttproducts_control_command {
                         }
 
                         if (!isset($piVars[$downloadVar])) {
-                            debug ($piVars, 'download command: no parameter download has been set'); // keep this
+                            debug($piVars, 'download command: no parameter download has been set'); // keep this
                             $message = $languageObj->getLabel('error_download');
                             echo $message;
-                        } else if (!$bHasBeenOrdered) {
-                            debug ($bHasBeenOrdered, 'DOWNLOAD is not allowed because the product has not been ordered by the FE user with uid = ' . $feusers_uid . '. Therefore nothing happens here.'); // keep this
-                        } else if (!$feusers_uid) {
-                            debug ($piVars, 'Internal error. No FE User has been selected'); // keep this
+                        } elseif (!$bHasBeenOrdered) {
+                            debug($bHasBeenOrdered, 'DOWNLOAD is not allowed because the product has not been ordered by the FE user with uid = ' . $feusers_uid . '. Therefore nothing happens here.'); // keep this
+                        } elseif (!$feusers_uid) {
+                            debug($piVars, 'Internal error. No FE User has been selected'); // keep this
                         }
                     }
                     exit;
@@ -262,4 +261,3 @@ class tx_ttproducts_control_command {
         }
     }
 }
-

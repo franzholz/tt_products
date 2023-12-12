@@ -30,28 +30,29 @@
  * functions for the creation of PDF files using FPDF
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
  */
-
 
 use TYPO3\CMS\Core\Charset\CharsetConverter;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-class tx_ttproducts_fpdf_view {
-
+class tx_ttproducts_fpdf_view
+{
     /**
-     * generates the bill as a PDF file
+     * generates the bill as a PDF file.
      *
      * @param	string		reference to an item array with all the data of the item
+     *
      * @return	string / boolean	returns the absolute filename of the PDF bill or false
      * 		 			for the tt_producst record, $row
+     *
      * @access private
      */
-    public function generate (
+    public function generate(
         $cObj,
         $basketView,
         $infoViewObj,
@@ -70,8 +71,8 @@ class tx_ttproducts_fpdf_view {
         $result = false;
         $renderCharset = 'UTF-8';
 
-// require_once '/path/to/src/PhpWord/Autoloader.php';
-// \PhpOffice\PhpWord\Autoloader::register();
+        // require_once '/path/to/src/PhpWord/Autoloader.php';
+        // \PhpOffice\PhpWord\Autoloader::register();
 
         $subpart = $typeCode . '_PDF_HEADER_TEMPLATE';
         $header = $basketView->getView(
@@ -161,12 +162,10 @@ class tx_ttproducts_fpdf_view {
         $pdf->setBody($body);
         $pdf->Body();
 
-        //$pdf->MultiCell(0, 4, $body, 1);
+        // $pdf->MultiCell(0, 4, $body, 1);
         $pdf->Output($absFileName, 'F');
         $result = $absFileName;
 
         return $result;
     }
 }
-
-

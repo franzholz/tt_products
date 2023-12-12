@@ -1,4 +1,5 @@
 <?php
+
 defined('TYPO3') || die('Access denied.');
 
 $extensionKey = 'tt_products';
@@ -22,7 +23,7 @@ $result = [
         ],
         'prependAtCopy' => $languageLglPath . 'prependAtCopy',
         'crdate' => 'crdate',
-        'iconfile' => 'EXT:' . $extensionKey . '/Resources/Public/Icons/' . 'tt_products_relations.gif',
+        'iconfile' => 'EXT:' . $extensionKey . '/Resources/Public/Icons/tt_products_relations.gif',
         'hideTable' => true,
     ],
     'columns' => [
@@ -33,8 +34,8 @@ $result = [
                 'renderType' => 'selectSingle',
                 'foreign_table' => 'tt_products',
                 'maxitems' => 1,
-                'default' => 0
-            ]
+                'default' => 0,
+            ],
         ],
         'uid_foreign' => [
             'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_accessory_products_products_mm.uid_foreign',
@@ -43,26 +44,25 @@ $result = [
                 'renderType' => 'selectSingle',
                 'foreign_table' => 'tt_products',
                 'maxitems' => 1,
-                'default' => 0
-            ]
+                'default' => 0,
+            ],
         ],
         'sorting' => [
             'config' => [
                 'type' => 'passthrough',
-            ]
+            ],
         ],
         'sorting_foreign' => [
             'config' => [
                 'type' => 'passthrough',
-            ]
+            ],
         ],
     ],
     'types' => [
         '0' => [
-            'showitem' => ''
-        ]
-    ]
+            'showitem' => '',
+        ],
+    ],
 ];
 
 return $result;
-

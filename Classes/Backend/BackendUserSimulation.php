@@ -1,4 +1,5 @@
 <?php
+
 namespace JambageCom\TtProducts\Backend;
 
 /**
@@ -14,7 +15,6 @@ namespace JambageCom\TtProducts\Backend;
  * The TYPO3 project - inspiring people to share!
  */
 
-use TYPO3\CMS\Core\Resource\ResourceStorage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
@@ -22,29 +22,36 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * This class is only needed in TYPO3 6.2 to use the \TYPO3\CMS\Core\DataHandling\DataHandler in the Front End.
  *
  * @author Franz Holzinger <franz@ttproducts.de>
+ *
  * @internal
  */
-class BackendUserSimulation extends \TYPO3\CMS\Core\Authentication\AbstractUserAuthentication {
+class BackendUserSimulation extends \TYPO3\CMS\Core\Authentication\AbstractUserAuthentication
+{
     /**
      * User workspace.
      * -99 is ERROR (none available)
      * -1 is offline
      * 0 is online
-     * >0 is custom workspaces
+     * >0 is custom workspaces.
+     *
      * @var int
      */
     public $workspace = -99;
 
     /**
-     * Custom workspace record if any
+     * Custom workspace record if any.
+     *
      * @var array
+     *
      * @todo Define visibility
      */
     public $workspaceRec = [];
 
     /**
-     * Contains last error message
+     * Contains last error message.
+     *
      * @var string
+     *
      * @todo Define visibility
      */
     public $errorMsg = '';
@@ -55,9 +62,10 @@ class BackendUserSimulation extends \TYPO3\CMS\Core\Authentication\AbstractUserA
     public $firstMainGroup = 0;
 
     /**
-     * Constructor
+     * Constructor.
      */
-    public function __construct ($userid) {
+    public function __construct($userid)
+    {
         parent::__construct();
         $this->user['username'] = 'tt_products_user' . $userid;
         $this->user['uid'] = intval($userid);
@@ -65,11 +73,12 @@ class BackendUserSimulation extends \TYPO3\CMS\Core\Authentication\AbstractUserA
     }
 
     /**
-     * Returns true if user is admin
+     * Returns true if user is admin.
      *
-     * @return boolean
+     * @return bool
      */
-    public function isAdmin () {
+    public function isAdmin()
+    {
         return true;
     }
 
@@ -81,16 +90,20 @@ class BackendUserSimulation extends \TYPO3\CMS\Core\Authentication\AbstractUserA
      * So this security check just makes it easier to make safe user configurations.
      * If the user is admin OR if this feature is disabled
      * (fx. by setting TYPO3_CONF_VARS['BE']['lockBeUserToDBmounts']=0) then it returns "1" right away
-     * Otherwise the function will return the uid of the webmount which was first found in the rootline of the input page $id
+     * Otherwise the function will return the uid of the webmount which was first found in the rootline of the input page $id.
      *
-     * @param integer $id Page ID to check
+     * @param int $id Page ID to check
      * @param string $readPerms Content of "->getPagePermsClause(1)" (read-permissions). If not set, they will be internally calculated (but if you have the correct value right away you can save that database lookup!)
-     * @param bool|int $exitOnError If set, then the function will exit with an error message.
-     * @throws \RuntimeException
+     * @param bool|int $exitOnError if set, then the function will exit with an error message
+     *
      * @return int|null The page UID of a page in the rootline that matched a mount point
+     *
+     * @throws \RuntimeException
+     *
      * @todo Define visibility
      */
-    public function isInWebMount ($id, $readPerms = '', $exitOnError = 0) {
+    public function isInWebMount($id, $readPerms = '', $exitOnError = 0)
+    {
         return 1;
     }
 
@@ -106,39 +119,47 @@ class BackendUserSimulation extends \TYPO3\CMS\Core\Authentication\AbstractUserA
      * The 95% use of this function is "->getPagePermsClause(1)" which will
      * return WHERE clauses for *selecting* pages in backend listings - in other words this will check read permissions.
      *
-     * @param integer $perms Permission mask to use, see function description
+     * @param int $perms Permission mask to use, see function description
+     *
      * @return string Part of where clause. Prefix " AND " to this.
+     *
      * @todo Define visibility
      */
-    public function getPagePermsClause ($perms) {
+    public function getPagePermsClause($perms)
+    {
         return ' 1=1';
     }
 
     /**
-     * Checking the authMode of a select field with authMode set
+     * Checking the authMode of a select field with authMode set.
      *
      * @param string $table Table name
      * @param string $field Field name (must be configured in TCA and of type "select" with authMode set!)
      * @param string $value Value to evaluation (single value, must not contain any of the chars ":,|")
      * @param string $authMode Auth mode keyword (explicitAllow, explicitDeny, individual)
-     * @return boolean Whether access is granted or not
+     *
+     * @return bool Whether access is granted or not
+     *
      * @todo Define visibility
      */
-    public function checkAuthMode ($table, $field, $value, $authMode) {
+    public function checkAuthMode($table, $field, $value, $authMode)
+    {
         return true;
     }
 
     /**
      * Checking if a language value (-1, 0 and >0 for sys_language records) is allowed to be edited by the user.
      *
-     * @param integer $langValue Language value to evaluate
-     * @return boolean Returns true if the language value is allowed, otherwise false.
+     * @param int $langValue Language value to evaluate
+     *
+     * @return bool returns true if the language value is allowed, otherwise false
+     *
      * @todo Define visibility
      */
-    public function checkLanguageAccess($langValue) {
+    public function checkLanguageAccess($langValue)
+    {
         return true;
     }
-
 
     /**
      * Checking if a user has editing access to a record from a $GLOBALS['TCA'] table.
@@ -150,13 +171,16 @@ class BackendUserSimulation extends \TYPO3\CMS\Core\Authentication\AbstractUserA
      *
      * @param string $table Table name
      * @param mixed $idOrRow If integer, then this is the ID of the record. If Array this just represents fields in the record.
-     * @param boolean $newRecord Set, if testing a new (non-existing) record array. Will disable certain checks that doesn't make much sense in that context.
-     * @param boolean $deletedRecord Set, if testing a deleted record array.
-     * @param boolean $checkFullLanguageAccess Set, whenever access to all translations of the record is required
-     * @return boolean true if OK, otherwise false
+     * @param bool $newRecord Set, if testing a new (non-existing) record array. Will disable certain checks that doesn't make much sense in that context.
+     * @param bool $deletedRecord set, if testing a deleted record array
+     * @param bool $checkFullLanguageAccess Set, whenever access to all translations of the record is required
+     *
+     * @return bool true if OK, otherwise false
+     *
      * @todo Define visibility
      */
-    public function recordEditAccessInternals ($table, $idOrRow, $newRecord = false, $deletedRecord = false, $checkFullLanguageAccess = false) {
+    public function recordEditAccessInternals($table, $idOrRow, $newRecord = false, $deletedRecord = false, $checkFullLanguageAccess = false)
+    {
         return true; // editing is always allowed
     }
 
@@ -165,14 +189,17 @@ class BackendUserSimulation extends \TYPO3\CMS\Core\Authentication\AbstractUserA
      * Rules for editing in offline mode:
      * - record supports versioning and is an offline version from workspace and has the corrent stage
      * - or record (any) is in a branch where there is a page which is a version from the workspace
-     *   and where the stage is not preventing records
+     *   and where the stage is not preventing records.
      *
      * @param string $table Table of record
      * @param array $recData Integer (record uid) or array where fields are at least: pid, t3ver_wsid, t3ver_stage (if versioningWS is set)
+     *
      * @return string String error code, telling the failure state. false=All ok
+     *
      * @todo Define visibility
      */
-    public function workspaceCannotEditRecord ($table, $recData) {
+    public function workspaceCannotEditRecord($table, $recData)
+    {
         return false; // editing is always allowed
     }
 
@@ -183,12 +210,15 @@ class BackendUserSimulation extends \TYPO3\CMS\Core\Authentication\AbstractUserA
      * of versioning because the element was within a versionized branch
      * but NOT ok in terms of the state the root point had!
      *
-     * @param integer $pid PID value to check for. OBSOLETE!
+     * @param int $pid PID value to check for. OBSOLETE!
      * @param string $table Table name
+     *
      * @return mixed Returns false if a live record cannot be created and must be versionized in order to do so. 2 means a) Workspace is "Live" or workspace allows "live edit" of records from non-versionized tables (and the $table is not versionizable). 1 and -1 means the pid is inside a versionized branch where -1 means that the branch-point did NOT allow a new record according to its state.
+     *
      * @todo Define visibility
      */
-    public function workspaceAllowLiveRecordsInPID($pid, $table) {
+    public function workspaceAllowLiveRecordsInPID($pid, $table)
+    {
         return 2;
     }
 
@@ -196,12 +226,15 @@ class BackendUserSimulation extends \TYPO3\CMS\Core\Authentication\AbstractUserA
      * Evaluates if auto creation of a version of a record is allowed.
      *
      * @param string $table Table of the record
-     * @param integer $id UID of record
-     * @param integer $recpid PID of record
-     * @return boolean true if ok.
+     * @param int $id UID of record
+     * @param int $recpid PID of record
+     *
+     * @return bool true if ok
+     *
      * @todo Define visibility
      */
-    public function workspaceAllowAutoCreation ($table, $id, $recpid) {
+    public function workspaceAllowAutoCreation($table, $id, $recpid)
+    {
         return false; // no support for workspaces
     }
 
@@ -211,10 +244,13 @@ class BackendUserSimulation extends \TYPO3\CMS\Core\Authentication\AbstractUserA
      *
      * @param string $objectString Pointer to an "object" in the TypoScript array, fx. 'options.dontMountAdminMounts'
      * @param array|string $config Optional TSconfig array: If array, then this is used and not $this->userTS. If not array, $this->userTS is used.
-     * @return array An array with two keys, "value" and "properties" where "value" is a string with the value of the object string and "properties" is an array with the properties of the object string.
+     *
+     * @return array an array with two keys, "value" and "properties" where "value" is a string with the value of the object string and "properties" is an array with the properties of the object string
+     *
      * @todo Define visibility
      */
-    public function getTSConfig ($objectString, $config = '') {
+    public function getTSConfig($objectString, $config = '')
+    {
         if (!is_array($config)) {
             // Getting Root-ts if not sent
             $config = $this->userTS;
@@ -233,55 +269,69 @@ class BackendUserSimulation extends \TYPO3\CMS\Core\Authentication\AbstractUserA
                 $TSConf['properties'] = $config[$key . '.'];
             }
         }
+
         return $TSConf;
     }
 
     /**
-     * Returns the "value" of the $objectString from the BE_USERS "User TSconfig" array
+     * Returns the "value" of the $objectString from the BE_USERS "User TSconfig" array.
      *
      * @param string $objectString Object string, eg. "somestring.someproperty.somesubproperty
+     *
      * @return string The value for that object string (object path)
+     *
      * @see 	getTSConfig()
+     *
      * @todo Define visibility
      */
-    public function getTSConfigVal ($objectString) {
+    public function getTSConfigVal($objectString)
+    {
         $TSConf = $this->getTSConfig($objectString);
+
         return $TSConf['value'];
     }
 
     /**
-     * Returns the "properties" of the $objectString from the BE_USERS "User TSconfig" array
+     * Returns the "properties" of the $objectString from the BE_USERS "User TSconfig" array.
      *
      * @param string $objectString Object string, eg. "somestring.someproperty.somesubproperty
+     *
      * @return array The properties for that object string (object path) - if any
+     *
      * @see 	getTSConfig()
+     *
      * @todo Define visibility
      */
-    public function getTSConfigProp ($objectString) {
+    public function getTSConfigProp($objectString)
+    {
         $TSConf = $this->getTSConfig($objectString);
+
         return $TSConf['properties'];
     }
 
     /**
      * Writes an entry in the logfile/table
-     * Documentation in "TYPO3 Core API"
+     * Documentation in "TYPO3 Core API".
      *
-     * @param integer $type Denotes which module that has submitted the entry. See "TYPO3 Core API". Use "4" for extensions.
-     * @param integer $action Denotes which specific operation that wrote the entry. Use "0" when no sub-categorizing applies
-     * @param integer $error Flag. 0 = message, 1 = error (user problem), 2 = System Error (which should not happen), 3 = security notice (admin)
-     * @param integer $details_nr The message number. Specific for each $type and $action. This will make it possible to translate errormessages to other languages
+     * @param int $type Denotes which module that has submitted the entry. See "TYPO3 Core API". Use "4" for extensions.
+     * @param int $action Denotes which specific operation that wrote the entry. Use "0" when no sub-categorizing applies
+     * @param int $error Flag. 0 = message, 1 = error (user problem), 2 = System Error (which should not happen), 3 = security notice (admin)
+     * @param int $details_nr The message number. Specific for each $type and $action. This will make it possible to translate errormessages to other languages
      * @param string $details Default text that follows the message (in english!). Possibly translated by identification through type/action/details_nr
      * @param array $data Data that follows the log. Might be used to carry special information. If an array the first 5 entries (0-4) will be sprintf'ed with the details-text
      * @param string $tablename Table name. Special field used by tce_main.php.
      * @param int|string $recuid Record UID. Special field used by tce_main.php.
      * @param int|string $recpid Record PID. Special field used by tce_main.php. OBSOLETE
-     * @param integer $event_pid The page_uid (pid) where the event occurred. Used to select log-content for specific pages.
+     * @param int $event_pid The page_uid (pid) where the event occurred. Used to select log-content for specific pages.
      * @param string $NEWid Special field used by tce_main.php. NEWid string of newly created records.
-     * @param integer $userId Alternative Backend User ID (used for logging login actions where this is not yet known).
-     * @return integer Log entry ID.
+     * @param int $userId alternative Backend User ID (used for logging login actions where this is not yet known)
+     *
+     * @return int log entry ID
+     *
      * @todo Define visibility
      */
-    public function writelog ($type, $action, $error, $details_nr, $details, $data, $tablename = '', $recuid = '', $recpid = '', $event_pid = -1, $NEWid = '', $userId = 0) {
+    public function writelog($type, $action, $error, $details_nr, $details, $data, $tablename = '', $recuid = '', $recpid = '', $event_pid = -1, $NEWid = '', $userId = 0)
+    {
         if (!$userId && isset($this->user['uid'])) {
             $userId = $this->user['uid'];
         }
@@ -300,22 +350,26 @@ class BackendUserSimulation extends \TYPO3\CMS\Core\Authentication\AbstractUserA
             'tstamp' => time(),
             'event_pid' => (int)$event_pid,
             'NEWid' => $NEWid,
-            'workspace' => $this->workspace
+            'workspace' => $this->workspace,
         ];
         $this->db->exec_INSERTquery('sys_log', $fields_values);
+
         return $this->db->sql_insert_id();
     }
 
     /**
-     * Simple logging function
+     * Simple logging function.
      *
      * @param string $message Log message
      * @param string $extKey Option extension key / module name
-     * @param integer $error Error level. 0 = message, 1 = error (user problem), 2 = System Error (which should not happen), 3 = security notice (admin)
-     * @return integer Log entry UID
+     * @param int $error Error level. 0 = message, 1 = error (user problem), 2 = System Error (which should not happen), 3 = security notice (admin)
+     *
+     * @return int Log entry UID
+     *
      * @todo Define visibility
      */
-    public function simplelog ($message, $extKey = '', $error = 0) {
+    public function simplelog($message, $extKey = '', $error = 0)
+    {
         return $this->writelog(4, 0, $error, 0, ($extKey ? '[' . $extKey . '] ' : '') . $message, []);
     }
 
@@ -326,13 +380,15 @@ class BackendUserSimulation extends \TYPO3\CMS\Core\Authentication\AbstractUserA
      * If so, an email with a warning is sent to $email.
      *
      * @param string $email Email address
-     * @param integer $secondsBack Number of sections back in time to check. This is a kind of limit for how many failures an hour for instance.
-     * @param integer $max Max allowed failures before a warning mail is sent
-     * @return void
+     * @param int $secondsBack Number of sections back in time to check. This is a kind of limit for how many failures an hour for instance.
+     * @param int $max Max allowed failures before a warning mail is sent
+     *
      * @access private
+     *
      * @todo Define visibility
      */
-    public function checkLogFailures ($email, $secondsBack = 3600, $max = 3) {
+    public function checkLogFailures($email, $secondsBack = 3600, $max = 3)
+    {
         if ($email) {
             // Get last flag set in the log for sending
             $theTimeBack = $GLOBALS['EXEC_TIME'] - $secondsBack;
@@ -355,9 +411,9 @@ This is a dump of the failures:
                 while ($testRows = $this->db->sql_fetch_assoc($res)) {
                     $theData = unserialize($testRows['log_data']);
                     $email_body .= date(
-                            $GLOBALS['TYPO3_CONF_VARS']['SYS']['ddmmyy'] . ' ' . $GLOBALS['TYPO3_CONF_VARS']['SYS']['hhmm'],
-                            $testRows['tstamp']
-                        ) . ':  ' . @sprintf($testRows['details'], (string)$theData[0], (string)$theData[1], (string)$theData[2]);
+                        $GLOBALS['TYPO3_CONF_VARS']['SYS']['ddmmyy'] . ' ' . $GLOBALS['TYPO3_CONF_VARS']['SYS']['hhmm'],
+                        $testRows['tstamp']
+                    ) . ':  ' . @sprintf($testRows['details'], (string)$theData[0], (string)$theData[1], (string)$theData[2]);
                     $email_body .= LF;
                 }
                 $from = \TYPO3\CMS\Core\Utility\MailUtility::getSystemFrom();
@@ -371,7 +427,4 @@ This is a dump of the failures:
             }
         }
     }
-
 }
-
-

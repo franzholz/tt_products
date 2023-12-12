@@ -30,17 +30,17 @@
  * variant interface
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
  */
+interface tx_ttproducts_variant_view_int
+{
+    public function init($modelObj);
 
-
-interface tx_ttproducts_variant_view_int {
-
-    public function init ($modelObj);
-    public function getVariantSubpartMarkerArray (
+    public function getVariantSubpartMarkerArray(
         &$markerArray,
         &$subpartArray,
         &$wrappedSubpartArray,
@@ -52,8 +52,7 @@ interface tx_ttproducts_variant_view_int {
         $bGiftService
     );
 
-
-    public function removeEmptyMarkerSubpartArray (
+    public function removeEmptyMarkerSubpartArray(
         &$markerArray,
         &$subpartArray,
         &$wrappedSubpartArray,
@@ -62,7 +61,4 @@ interface tx_ttproducts_variant_view_int {
         $bHasAdditional,
         $bGiftService
     );
-
 }
-
-

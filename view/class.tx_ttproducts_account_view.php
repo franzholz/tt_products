@@ -30,29 +30,32 @@
  * account functions
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
-
-class tx_ttproducts_account_view extends tx_ttproducts_table_base_view {
+class tx_ttproducts_account_view extends tx_ttproducts_table_base_view
+{
     public $marker = 'ACCOUNT';
 
     /**
      * Template marker substitution
-     * Fills in the markerArray with data for a product
+     * Fills in the markerArray with data for a product.
      *
      * @param	array		reference to an item array with all the data of the item
      * @param	string		title of the category
-     * @param	integer		number of images to be shown
+     * @param	int		number of images to be shown
      * @param	object		the image cObj to be used
      * @param	array		information about the parent HTML form
+     *
      * @return	array
+     *
      * @access private
      */
-    public function getMarkerArray ($row, &$markerArray, $bIsAllowed) {
+    public function getMarkerArray($row, &$markerArray, $bIsAllowed)
+    {
         $viewRow = [];
         $modelObj = $this->getModelObj();
 

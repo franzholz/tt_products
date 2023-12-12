@@ -1,11 +1,11 @@
 <?php
+
 defined('TYPO3') || die('Access denied.');
 
 use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-call_user_func(function($extensionKey, $table)
-{
+call_user_func(function ($extensionKey, $table) {
     $languageSubpath = '/Resources/Private/Language/';
     $languageLglPath = 'LLL:EXT:core' . $languageSubpath . 'locallang_general.xlf:LGL.';
 
@@ -15,12 +15,12 @@ call_user_func(function($extensionKey, $table)
         in_array($table, $orderBySortingTablesArray)
     ) {
         $GLOBALS['TCA'][$table]['ctrl']['sortby'] = 'sorting';
-        $GLOBALS['TCA'][$table]['columns']['sorting'] = 
+        $GLOBALS['TCA'][$table]['columns']['sorting'] =
             [
                 'config' => [
                     'type' => 'passthrough',
-                    'default' => 0
-                ]
+                    'default' => 0,
+                ],
             ];
     }
 
@@ -40,14 +40,14 @@ call_user_func(function($extensionKey, $table)
                 'foreign_table_where' => 'ORDER BY sys_language.title',
                 'items' => [
                     [$languageLglPath . 'allLanguages', -1],
-                    [$languageLglPath . 'default_value', 0]
+                    [$languageLglPath . 'default_value', 0],
                 ],
-                'default' => 0
-            ]
+                'default' => 0,
+            ],
         ];
     }
-    $excludeArray =  
-        ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['exclude']);
+    $excludeArray =
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['exclude'];
 
     if (
         isset($excludeArray) &&

@@ -30,10 +30,11 @@
  * function to add a variant edit field to products
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
  */
 
 /*
@@ -51,22 +52,22 @@ note: the price calculation shall not been implemented because it does not make 
 
 */
 
-
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-class tx_ttproducts_edit_variant implements \TYPO3\CMS\Core\SingletonInterface {
+class tx_ttproducts_edit_variant implements \TYPO3\CMS\Core\SingletonInterface
+{
     protected $itemTable;
 
     /**
-     * setting the local variables
+     * setting the local variables.
      */
-    public function init (&$itemTable) {
+    public function init(&$itemTable)
+    {
         $this->itemTable = $itemTable;
     }
 
-    public function getFieldArray () {
-
+    public function getFieldArray()
+    {
         $result = [];
         $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
         $conf = $cnfObj->conf;
@@ -93,10 +94,12 @@ class tx_ttproducts_edit_variant implements \TYPO3\CMS\Core\SingletonInterface {
         }
 
         $result = array_unique($result);
+
         return $result;
     }
 
-    public function getVariantFromRawRow ($row) {
+    public function getVariantFromRawRow($row)
+    {
         $fieldArray = $this->getFieldArray();
         $variantArray = [];
 
@@ -111,14 +114,18 @@ class tx_ttproducts_edit_variant implements \TYPO3\CMS\Core\SingletonInterface {
     }
 
     /**
-     * Returns the variant extVar number from the incoming product row and the index in the variant array
+     * Returns the variant extVar number from the incoming product row and the index in the variant array.
      *
      * @param	array	the basket raw row
+     *
      * @return  string	  variants separated by variantSeparator
+     *
      * @access private
+     *
      * @see modifyRowFromVariant
      */
-    public function getVariantRowFromProductRow ($row) {
+    public function getVariantRowFromProductRow($row)
+    {
         $variantRow = false;
 
         if (
@@ -131,26 +138,26 @@ class tx_ttproducts_edit_variant implements \TYPO3\CMS\Core\SingletonInterface {
                 }
             }
         }
+
         return $variantRow;
     }
 
-    public function evalValues ($dataValue, $config) {
-
+    public function evalValues($dataValue, $config)
+    {
         $result = true;
         $listOfCommands = GeneralUtility::trimExplode(',', $config, 1);
 
-        foreach($listOfCommands as $cmd) {
+        foreach ($listOfCommands as $cmd) {
             $cmdParts = preg_split('/\[|\]/', $cmd); // Point is to enable parameters after each command enclosed in brackets [..]. These will be in position 1 in the array.
             $theCmd = trim($cmdParts[0]);
 
-            switch($theCmd) {
-
+            switch ($theCmd) {
                 case 'required':
                     if (empty($dataValue) && $dataValue !== '0') {
                         $result = false;
                         break;
                     }
-                break;
+                    break;
 
                 case 'wwwURL':
                     if ($dataValue) {
@@ -159,29 +166,27 @@ class tx_ttproducts_edit_variant implements \TYPO3\CMS\Core\SingletonInterface {
 
                         if (
                             !GeneralUtility::isValidUrl($url) ||
-                            !GeneralUtility::getUrl($url, 0, false, $report) && $report['error'] != 22 /* CURLE_HTTP_RETURNED_ERROR */
+                            !GeneralUtility::getUrl($url, 0, false, $report) && $report['error'] != 22 // CURLE_HTTP_RETURNED_ERROR
                         ) {
                             $result = false;
                             break;
                         }
                     }
-                break;
-
+                    break;
             }
         }
 
         return $result;
     }
 
-    public function checkValid (array $config, array $row) {
-
+    public function checkValid(array $config, array $row)
+    {
         $result = true;
         $checkedArray = [];
         $rowConfig = [];
         $resultArray = [];
 
         foreach ($config as $k => $rowConfig) {
-
             if ($rowConfig['suffix']) {
                 $evalArray = '';
                 $rangeArray = '';
@@ -221,7 +226,7 @@ class tx_ttproducts_edit_variant implements \TYPO3\CMS\Core\SingletonInterface {
                                 break;
                             }
                         }
-                    } else if (
+                    } elseif (
                         isset($evalArray) &&
                         is_array($evalArray) &&
                         count($evalArray)
@@ -246,16 +251,15 @@ class tx_ttproducts_edit_variant implements \TYPO3\CMS\Core\SingletonInterface {
             }
         }
 
-
-        if (is_array($resultArray) && ($resultArray)) {
+        if (is_array($resultArray) && $resultArray) {
             $result = $resultArray;
         }
 
         return $result;
     }
 
-    public function getValidConfig ($row) {
-
+    public function getValidConfig($row)
+    {
         $result = false;
 
         $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
@@ -269,7 +273,7 @@ class tx_ttproducts_edit_variant implements \TYPO3\CMS\Core\SingletonInterface {
             foreach ($editVariantConfig as $k => $config) {
                 if ($k == 'default.') {
                     // nothing
-                } else if (strpos($k, '.') == strlen($k) - 1) {
+                } elseif (strpos($k, '.') == strlen($k) - 1) {
                     $count++;
                     $bIsValid = true;
                     if (isset($config['sql.']) && isset($config['sql.'])) {
@@ -302,4 +306,3 @@ class tx_ttproducts_edit_variant implements \TYPO3\CMS\Core\SingletonInterface {
         return $result;
     }
 }
-

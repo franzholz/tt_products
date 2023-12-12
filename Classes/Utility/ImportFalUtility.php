@@ -33,21 +33,20 @@ namespace JambageCom\TtProducts\Utility;
  * functions for the import of images into FAL
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
 
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+class ImportFalUtility
+{
+    public const ORIGINAL_DIRECTORY = 'uploads/pics/';
+    public const TARGET_DIRECTORY = 'user_upload/';
 
-class ImportFalUtility {
-    const ORIGINAL_DIRECTORY = 'uploads/pics/';
-    const TARGET_DIRECTORY   = 'user_upload/';
-
-    static public function importAll (
+    public static function importAll(
         &$infoArray,
         $currId
     ) {
@@ -80,7 +79,7 @@ class ImportFalUtility {
         foreach ($tableMediaArray as $tablename => $imageFieldnameArray) {
             $imageCount = 0;
             foreach ($imageFieldnameArray as $imageFieldname) {
-                $imageFalFieldname =  $imageFieldname . '_uid';
+                $imageFalFieldname = $imageFieldname . '_uid';
 
                 $rowArray =
                     $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
@@ -90,16 +89,14 @@ class ImportFalUtility {
                     );
 
                 if (is_array($rowArray) && count($rowArray)) {
-
                     foreach ($rowArray as $k => $row) {
-    //                  if ($k != 3) continue; // Test
+                        //                  if ($k != 3) continue; // Test
 
                         if (!empty($row[$imageFieldname])) {
                             $imageArray = explode(',', $row[$imageFieldname]);
                             $sysfileRowArray = [];
                             if (intval($row[$imageFalFieldname]) != 0) {
-
-                                $where_clause = 'uid_foreign=' . intval($row['uid']) . ' AND tablenames="' . $tablename . '" AND fieldname="' . $imageFalFieldname . '"' ;
+                                $where_clause = 'uid_foreign=' . intval($row['uid']) . ' AND tablenames="' . $tablename . '" AND fieldname="' . $imageFalFieldname . '"';
                                 $where_clause .= \JambageCom\Div2007\Utility\TableUtility::deleteClause('sys_file_reference');
 
                                 $sysfileRowArray =
@@ -123,23 +120,23 @@ class ImportFalUtility {
 
                                     // Check if the file is already known by FAL, if not add it
                                     $targetFileName = 'fileadmin/' . $targetDirectory . $image;
-//                                      $file = $storage->getFile($targetFileName);
+                                    //                                      $file = $storage->getFile($targetFileName);
 
-//                                      if (!($file instanceof \TYPO3\CMS\Core\Resource\File)) {
+                                    //                                      if (!($file instanceof \TYPO3\CMS\Core\Resource\File)) {
 
                                     if (!file_exists(\TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/' . $targetFileName)) {
                                         $fullSourceFileName = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/' . self::ORIGINAL_DIRECTORY . $image;
                                         // Move the file to the storage and index it (indexing creates the sys_file entry)
                                         $file = $storage->addFile($fullSourceFileName, $targetFolder, '', 'cancel');
-//                                         $fileRepository->addToIndex($file);
+                                        //                                         $fileRepository->addToIndex($file);
                                     }
 
                                     $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
                                     $file = $resourceFactory->getFileObjectFromCombinedIdentifier($fileIdentifier);
                                     if ($file instanceof \TYPO3\CMS\Core\Resource\File) {
                                         $fileUid = $file->getUid();
-    //                                  $properties = $file->getProperties();
-    //                                  $fileInfo = $storage->getFileInfo($file);
+                                        //                                  $properties = $file->getProperties();
+                                        //                                  $fileInfo = $storage->getFileInfo($file);
 
                                         if (
                                             empty($sysfileRowArray) ||
@@ -194,4 +191,3 @@ class ImportFalUtility {
         return $result;
     }
 }
-

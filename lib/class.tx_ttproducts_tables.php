@@ -30,15 +30,17 @@
  * table class for creation of database table classes and table view classes
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class tx_ttproducts_tables implements \TYPO3\CMS\Core\SingletonInterface {
+class tx_ttproducts_tables implements \TYPO3\CMS\Core\SingletonInterface
+{
     protected $tableClassArray = [
         'address' => 'tx_ttproducts_address',
         'fe_users' => 'tx_ttproducts_orderaddress',
@@ -66,21 +68,22 @@ class tx_ttproducts_tables implements \TYPO3\CMS\Core\SingletonInterface {
         'static_countries' => 'static_info_tables',
         'sys_file_reference' => 'filelist',
         'tx_dam' => 'dam',
-        'tx_dam_cat' => 'dam'
+        'tx_dam_cat' => 'dam',
     ];
     protected $usedObjectArray = [];
 
-
-    public function getTableClassArray () {
+    public function getTableClassArray()
+    {
         return $this->tableClassArray;
     }
 
-    public function setTableClassArray ($tableClassArray) {
+    public function setTableClassArray($tableClassArray)
+    {
         $this->tableClassArray = $tableClassArray;
     }
 
-    public function getTableClass ($functablename, $bView = false) {
-
+    public function getTableClass($functablename, $bView = false)
+    {
         $rc = '';
         if ($functablename) {
             $neededExtension = '';
@@ -93,11 +96,13 @@ class tx_ttproducts_tables implements \TYPO3\CMS\Core\SingletonInterface {
                 $rc = 'skip';
             }
         }
+
         return $rc;
     }
 
-    /* set the $bView to true if you want to get the view class */
-    public function get ($functablename, $bView = false, $bInit = true) {
+    // set the $bView to true if you want to get the view class
+    public function get($functablename, $bView = false, $bInit = true)
+    {
         $classNameArray = [];
         $tableObjArray = [];
         $resultInit = true;
@@ -109,7 +114,8 @@ class tx_ttproducts_tables implements \TYPO3\CMS\Core\SingletonInterface {
         }
 
         if (!$classNameArray['model'] || $bView && !$classNameArray['view']) {
-            debug ('Error in '.TT_PRODUCTS_EXT.'. No class found after calling function tx_ttproducts_tables::get with parameters "' . $functablename . '", ' . $bView . ' . ','internal error'); // keep this
+            debug('Error in ' . TT_PRODUCTS_EXT . '. No class found after calling function tx_ttproducts_tables::get with parameters "' . $functablename . '", ' . $bView . ' . ', 'internal error'); // keep this
+
             return false;
         }
 
@@ -118,10 +124,10 @@ class tx_ttproducts_tables implements \TYPO3\CMS\Core\SingletonInterface {
                 if (strpos($className, ':') === false) {
                     $path = PATH_BE_TTPRODUCTS;
                 } else {
-                    list($extKey, $className) = GeneralUtility::trimExplode(':', $className, true);
+                    [$extKey, $className] = GeneralUtility::trimExplode(':', $className, true);
 
                     if (!\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($extKey)) {
-                        debug ('Error in '.TT_PRODUCTS_EXT.'. No extension "' . $extKey . '" has been activated to use class class.' . $className . '.','internal error');
+                        debug('Error in ' . TT_PRODUCTS_EXT . '. No extension "' . $extKey . '" has been activated to use class class.' . $className . '.', 'internal error');
                         continue;
                     }
                     $path = \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($extKey);
@@ -134,7 +140,7 @@ class tx_ttproducts_tables implements \TYPO3\CMS\Core\SingletonInterface {
                     $tableObj[$k] = GeneralUtility::makeInstance($className);	// fetch and store it as persistent object
                     $this->usedObjectArray[$className] = true;
                 } else {
-                    debug ($classFile, 'File not found: ' . $classFile . ' in file class.tx_ttproducts_tables.php'); // keep this
+                    debug($classFile, 'File not found: ' . $classFile . ' in file class.tx_ttproducts_tables.php'); // keep this
                 }
             }
         }
@@ -148,12 +154,12 @@ class tx_ttproducts_tables implements \TYPO3\CMS\Core\SingletonInterface {
         } else {
             if ($classNameArray['model'] == 'skip') {
                 if (isset($this->needExtensionArray[$functablename])) {
-                    debug ('The extension \'' . $this->needExtensionArray[$functablename] . '\' needed for table \'' . $functablename . '\' has not been installed.', 'internal error in ' . TT_PRODUCTS_EXT); // keep this
+                    debug('The extension \'' . $this->needExtensionArray[$functablename] . '\' needed for table \'' . $functablename . '\' has not been installed.', 'internal error in ' . TT_PRODUCTS_EXT); // keep this
                 } else {
-                    debug ('Table \'' . $functablename . '\' is not configured.', 'internal error in ' . TT_PRODUCTS_EXT); // keep this
+                    debug('Table \'' . $functablename . '\' is not configured.', 'internal error in ' . TT_PRODUCTS_EXT); // keep this
                 }
             } else {
-                debug ('Object for \'' . $functablename . '\' has not been found.', 'internal error in ' . TT_PRODUCTS_EXT); // keep this
+                debug('Object for \'' . $functablename . '\' has not been found.', 'internal error in ' . TT_PRODUCTS_EXT); // keep this
             }
         }
 
@@ -165,7 +171,6 @@ class tx_ttproducts_tables implements \TYPO3\CMS\Core\SingletonInterface {
             is_object($tableObj['model'])
         ) {
             if ($bInit && $tableObj['view']->needsInit()) {
-
                 $resultInit = $tableObj['view']->init(
                     $tableObj['model']
                 );
@@ -176,11 +181,12 @@ class tx_ttproducts_tables implements \TYPO3\CMS\Core\SingletonInterface {
         if ($resultInit) {
             $result = ($bView ? $tableObj['view'] : $tableObj['model'] ?? false);
         }
+
         return $result;
     }
 
-    public function getMM ($functablename) {
-
+    public function getMM($functablename)
+    {
         $tableObj = GeneralUtility::makeInstance('tx_ttproducts_mm_table');
 
         if (isset($tableObj) && is_object($tableObj)) {
@@ -190,8 +196,9 @@ class tx_ttproducts_tables implements \TYPO3\CMS\Core\SingletonInterface {
                 );
             }
         } else {
-            debug ('Object for \'' . $functablename . '\' has not been found.', 'internal error in ' . TT_PRODUCTS_EXT); // keep this
+            debug('Object for \'' . $functablename . '\' has not been found.', 'internal error in ' . TT_PRODUCTS_EXT); // keep this
         }
+
         return $tableObj;
     }
 
@@ -203,32 +210,34 @@ class tx_ttproducts_tables implements \TYPO3\CMS\Core\SingletonInterface {
      * @param	string		field of the table
      *
      * @return	array		infos about the table and foreign table:
-                    table         ... name of the table
-                    foreign_table ... name of the foreign table
-                    mmtable       ... name of the mm table
-                    foreign_field ... name of the field in the mm table which joins with
-                                      the foreign table
-     * @access	public
+     * table         ... name of the table
+     * foreign_table ... name of the foreign table
+     * mmtable       ... name of the mm table
+     * foreign_field ... name of the field in the mm table which joins with
+     * the foreign table
      *
+     * @access	public
      */
-    public function getForeignTableInfo ($functablename, $fieldname) {
+    public function getForeignTableInfo($functablename, $fieldname)
+    {
         $rc = [];
         if ($fieldname != '') {
             $tableObj = $this->get($functablename, false);
             $tablename = $tableObj->getTableName($functablename);
             $rc = \JambageCom\Div2007\Utility\TableUtility::getForeignTableInfo($tablename, $fieldname);
         }
+
         return $rc;
     }
 
-    public function prepareSQL (
+    public function prepareSQL(
         $foreignTableInfoArray,
         $tableAliasArray,
         $aliasPostfix,
         &$sqlArray
     ) {
         if (
-            empty($foreignTableInfoArray['mmtable']) && 
+            empty($foreignTableInfoArray['mmtable']) &&
             !empty($foreignTableInfoArray['foreign_table'])
         ) {
             $fieldname = $foreignTableInfoArray['table_field'];
@@ -247,12 +256,13 @@ class tx_ttproducts_tables implements \TYPO3\CMS\Core\SingletonInterface {
             }
 
             $sqlArray['local'] = $tablename;
-            $sqlArray['from'] = $tablename.' '.$tablealiasname.$aliasPostfix.' INNER JOIN '.$foreigntablename.' '.$foreigntablealiasname.$aliasPostfix.' ON '.$tablealiasname.$aliasPostfix.'.'.$fieldname.'='.$foreigntablealiasname.$aliasPostfix.'.uid';
-            $sqlArray['where'] = $tablealiasname.'.uid='.$tablealiasname.$aliasPostfix.'.uid';
+            $sqlArray['from'] = $tablename . ' ' . $tablealiasname . $aliasPostfix . ' INNER JOIN ' . $foreigntablename . ' ' . $foreigntablealiasname . $aliasPostfix . ' ON ' . $tablealiasname . $aliasPostfix . '.' . $fieldname . '=' . $foreigntablealiasname . $aliasPostfix . '.uid';
+            $sqlArray['where'] = $tablealiasname . '.uid=' . $tablealiasname . $aliasPostfix . '.uid';
         }
     }
 
-    public function destruct() {
+    public function destruct()
+    {
         foreach ($this->usedObjectArray as $className => $bFreeMemory) {
             if ($bFreeMemory) {
                 $object = GeneralUtility::makeInstance($className);
@@ -261,6 +271,3 @@ class tx_ttproducts_tables implements \TYPO3\CMS\Core\SingletonInterface {
         }
     }
 }
-
-
-

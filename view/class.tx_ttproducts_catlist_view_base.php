@@ -30,20 +30,18 @@
  * category list view functions
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
-use JambageCom\Div2007\Utility\FrontendUtility;
-
-
-abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\SingletonInterface {
+abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\SingletonInterface
+{
     public $pibaseClass;
     public $cObj;
     public $conf;
@@ -57,8 +55,7 @@ abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\Single
     public $viewConfArray = [];
     private $tMarkers;	// all markers which are found in the template subpart for the whole view $t['listFrameWork']
 
-
-    public function init (
+    public function init(
         $cObj,
         $pibaseClass,
         $pid_list,
@@ -95,17 +92,17 @@ abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\Single
         }
     }
 
-
-    public function getTabs ($depth) {
+    public function getTabs($depth)
+    {
         $result = '';
         for ($i = 0; $i < $depth; $i++) {
             $result .= chr(9);
         }
+
         return $result;
     }
 
-
-    public function getActiveRootline (
+    public function getActiveRootline(
         $cat,
         $categoryArray
     ) {
@@ -119,40 +116,40 @@ abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\Single
                 $result[$uid] = true;
             }
         }
+
         return $result;
     }
 
-
     // sets the 'depth' field
-    public function setDepths (
+    public function setDepths(
         &$categoryArray,
         &$catArray,
         $categoryRootArray
     ) {
         $depth = 1;
         $childlessArray = [];
-        foreach($categoryArray as $category => $row) {
-                // is it a leaf in a tree ?
+        foreach ($categoryArray as $category => $row) {
+            // is it a leaf in a tree ?
             if (
                 empty($row['child_category'])
             ) {
-                $childlessArray[] = (int) $category;
+                $childlessArray[] = (int)$category;
             }
         }
 
-        foreach($childlessArray as $k => $category) {
+        foreach ($childlessArray as $k => $category) {
             $count = 0;
-            $lastCategory = $actCategory = (int) $category;
+            $lastCategory = $actCategory = (int)$category;
             $lastDepth = 0;
 
             // determine the highest parent
-            while(
+            while (
                 $lastCategory &&
                 empty($categoryArray[$lastCategory]['depth']) &&
                 $count < 20
             ) {
                 $count++;
-                $lastCategory = (int) $categoryArray[$lastCategory]['parent_category'];
+                $lastCategory = (int)$categoryArray[$lastCategory]['parent_category'];
             }
 
             if ($lastCategory > 0) {
@@ -165,13 +162,13 @@ abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\Single
             // now write the calculated count into the fields
             $lastCategory = $actCategory;
 
-            while(
+            while (
                 $lastCategory &&
                 isset($categoryArray[$lastCategory]) &&
                 empty($categoryArray[$lastCategory]['depth'])
             ) {
                 $categoryArray[$lastCategory]['depth'] = $depth--;
-                $lastCategory = (int) $categoryArray[$lastCategory]['parent_category'];
+                $lastCategory = (int)$categoryArray[$lastCategory]['parent_category'];
             }
         }
 
@@ -185,28 +182,28 @@ abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\Single
         ksort($catArray);
     }
 
-
-    public function getTableConfArray () {
+    public function getTableConfArray()
+    {
         return $this->tableConfArray;
     }
 
-
-    public function setTableConfArray ($tableConfArray) {
+    public function setTableConfArray($tableConfArray)
+    {
         $this->tableConfArray = $tableConfArray;
     }
 
-
-    public function getViewConfArray () {
+    public function getViewConfArray()
+    {
         return $this->viewConfArray;
     }
 
-
-    public function setViewConfArray ($viewConfArray) {
+    public function setViewConfArray($viewConfArray)
+    {
         $this->viewConfArray = $viewConfArray;
     }
 
-
-    public function getTemplateMarkers (&$t) {
+    public function getTemplateMarkers(&$t)
+    {
         if (is_array($this->tMarkers)) {
             $rc = $this->tMarkers;
         } else {
@@ -214,16 +211,16 @@ abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\Single
             $rc = $markerObj->getAllMarkers($t['listFrameWork']);
             $this->setTemplateMarkers($rc);
         }
+
         return $rc;
     }
 
-
-    protected function setTemplateMarkers (&$tMarkers) {
+    protected function setTemplateMarkers(&$tMarkers)
+    {
         $this->tMarkers = $tMarkers;
     }
 
-
-    public function getFrameWork (
+    public function getFrameWork(
         &$t,
         &$templateCode,
         $area
@@ -232,22 +229,21 @@ abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\Single
         $markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
         $subpartmarkerObj = GeneralUtility::makeInstance('tx_ttproducts_subpartmarker');
         $subpart = $subpartmarkerObj->spMarker('###' . $area . '###');
-        $t['listFrameWork'] = $templateService->getSubpart($templateCode,$subpart);
+        $t['listFrameWork'] = $templateService->getSubpart($templateCode, $subpart);
 
-                // add Global Marker Array
+        // add Global Marker Array
         $globalMarkerArray = $markerObj->getGlobalMarkerArray();
         $t['listFrameWork'] = $templateService->substituteMarkerArrayCached($t['listFrameWork'], $globalMarkerArray);
 
         if ($t['listFrameWork']) {
             $t['categoryFrameWork'] = $templateService->getSubpart($t['listFrameWork'], '###CATEGORY_SINGLE###');
 
-//		###SUBCATEGORY_A_1###
+            //		###SUBCATEGORY_A_1###
             $t['linkCategoryFrameWork'] = $templateService->getSubpart($t['categoryFrameWork'], '###LINK_CATEGORY###');
         }
     }
 
-
-    public function getBrowserMarkerArray (
+    public function getBrowserMarkerArray(
         &$markerArray,
         &$t,
         $resCount,
@@ -256,14 +252,14 @@ abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\Single
         $imageArray,
         $imageActiveArray
     ) {
-        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class); 
+        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
         $subpartmarkerObj = GeneralUtility::makeInstance('tx_ttproducts_subpartmarker');
         $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
         $conf = $cnfObj->getConf();
         $parameterApi = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\ParameterApi::class);
 
         $t['browseFrameWork'] = $templateService->getSubpart($t['listFrameWork'], $subpartmarkerObj->spMarker('###LINK_BROWSE###'));
-        $markerArray['###BROWSE_LINKS###']='';
+        $markerArray['###BROWSE_LINKS###'] = '';
 
         if (!empty($t['browseFrameWork'])) {
             $pibaseObj = GeneralUtility::makeInstance('' . $this->pibaseClass);
@@ -276,7 +272,7 @@ abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\Single
             ) {
                 $browserConf = $tableConfArray['view.']['browser.'];
             }
-            
+
             if (
                 isset($browserConf) &&
                 is_array($browserConf)
@@ -322,9 +318,8 @@ abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\Single
         }
     }
 
-
     // returns the category view arrays
-    protected function getPrintViewArrays (
+    protected function getPrintViewArrays(
         $functablename,
         &$templateCode,
         &$t,
@@ -343,7 +338,7 @@ abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\Single
         &$rootpathArray,
         &$subCategoryMarkerArray,
         &$ctrlArray
-     ) {
+    ) {
         $pibaseObj = GeneralUtility::makeInstance('' . $this->pibaseClass);
         $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
         $rc = true;
@@ -414,7 +409,7 @@ abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\Single
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 
         if (empty($error_code) && $t['listFrameWork'] && is_object($categoryTable)) {
-//		###SUBCATEGORY_A_1###
+            //		###SUBCATEGORY_A_1###
             $subCategoryMarkerArray = [];
             $catArray = [];
             $dataArray = '';
@@ -426,24 +421,24 @@ abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\Single
                 $ctrlArray['bUseBrowser'] = true;
             }
 
-            while(($pos = strpos($t['linkCategoryFrameWork'], '###SUBCATEGORY_', $offset)) !== false) {
+            while (($pos = strpos($t['linkCategoryFrameWork'], '###SUBCATEGORY_', $offset)) !== false) {
                 if (($posEnd = strpos($t['linkCategoryFrameWork'], '###', $pos + 1)) !== false) {
                     $marker = substr($t['linkCategoryFrameWork'], $pos + 3, $posEnd - $pos - 3);
                     $tmpArray = explode('_', $marker);
                     $count = count($tmpArray);
                     if ($count) {
-                        $theDepth = intval($tmpArray[$count-1]);
+                        $theDepth = intval($tmpArray[$count - 1]);
                         if ($theDepth > $depth) {
                             $depth = $theDepth;
                         }
                         $subCategoryMarkerArray[$theDepth] = $marker;
                     }
                 }
-                $offset = $pos+1;
+                $offset = $pos + 1;
             }
             $subpartArray = [];
             $subpartArray['###LINK_CATEGORY###'] = '###CATEGORY_TMP###';
-            $tmp = $templateService->substituteMarkerArrayCached($t['categoryFrameWork'], [],$subpartArray);
+            $tmp = $templateService->substituteMarkerArrayCached($t['categoryFrameWork'], [], $subpartArray);
             $htmlParts = GeneralUtility::trimExplode('###CATEGORY_TMP###', $tmp);
             $rootCat = $categoryTable->getRootCat() ?? '';
             $currentCat = $categoryTable->getParamDefault($theCode, $piVars[tx_ttproducts_model_control::getPiVar($functablename)] ?? '');
@@ -473,7 +468,6 @@ abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\Single
                     is_array($tableConf['filter.']['where.']['field.'])
                 ) {
                     foreach ($tableConf['filter.']['where.']['field.'] as $field => $value) {
-
                         if (trim($value) != '') {
                             $where_clause =
                                 tx_ttproducts_model_control::getWhereByFields(
@@ -490,7 +484,7 @@ abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\Single
 
                 if ($searchboxWhere != '') {
                     if ($where_clause != '') {
-                        $where_clause = '(' . $where_clause . ') AND (' . $searchboxWhere.')';
+                        $where_clause = '(' . $where_clause . ') AND (' . $searchboxWhere . ')';
                     } else {
                         $where_clause = $searchboxWhere;
                     }
@@ -549,7 +543,7 @@ abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\Single
 
                     $allowedCats = implode(',', $allowedCatArray);
                     $excludeCat = $rootCat;
-                } else if ($tableConf['onlyChildsOfCurrent']) {
+                } elseif ($tableConf['onlyChildsOfCurrent']) {
                     $pids = $this->pidListObj->getPidlist();
                     if (!$rootCat) {
                         $rootCat =
@@ -569,7 +563,7 @@ abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\Single
                             $pids,
                             $orderBy
                         );	// read only related categories
-                } else if ($tableConf['rootChildsOfCurrent']) {
+                } elseif ($tableConf['rootChildsOfCurrent']) {
                     $pids = $this->pidListObj->getPidlist();
                     $childrenCat =
                         $categoryTable->getAllChildCats(
@@ -641,7 +635,7 @@ abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\Single
 
                 if (
                     isset($tableConf['special.']) &&
-                    is_array($tableConf['special.']) && 
+                    is_array($tableConf['special.']) &&
                     strlen($tableConf['special.']['no'])
                 ) {
                     $excludeCat = $tableConf['special.']['no'];
@@ -678,7 +672,7 @@ abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\Single
             $this->setDepths($categoryArray, $catArray, $rootArray);
             $depth = 1;
             if ($bUseFilter) {
-                $catArray[(int) $depth] = $allowedCatArray;
+                $catArray[(int)$depth] = $allowedCatArray;
             }
 
             if ($ctrlArray['bUseBrowser']) {
@@ -694,19 +688,19 @@ abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\Single
                 );
                 $t['listFrameWork'] = $templateService->substituteMarkerArrayCached($t['listFrameWork'], $browseMarkerArray);
             }
-        } else if (!$t['listFrameWork']) {
+        } elseif (!$t['listFrameWork']) {
             $templateObj = GeneralUtility::makeInstance('tx_ttproducts_template');
             $error_code[0] = 'no_subtemplate';
             $error_code[1] = '###' . $templateArea . $templateSuffix . '###';
             $error_code[2] = $templateObj->getTemplateFile();
             $rc = false;
-        } else if (!is_object($categoryTable)) {
+        } elseif (!is_object($categoryTable)) {
             $error_code[0] = 'internal_error';
             $error_code[1] = 'TTP_1';
             $error_code[2] = $functablename;
             $rc = false;
         }
+
         return $rc;
     } // printView
 }
-

@@ -30,17 +30,15 @@
  * functions for the inStock field view
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
-
-
-class tx_ttproducts_field_instock_view extends tx_ttproducts_field_base_view {
-
-    public function getRowMarkerArray (
+class tx_ttproducts_field_instock_view extends tx_ttproducts_field_base_view
+{
+    public function getRowMarkerArray(
         $functablename,
         $fieldname,
         $row,
@@ -66,7 +64,7 @@ class tx_ttproducts_field_instock_view extends tx_ttproducts_field_base_view {
             $markerArray['###' . $markerKey . '_INSTOCK_UNIT###'] = $this->conf['inStockPieces'];
         } else {
             $value = $this->conf['notInStockMessage'];
-            $markerArray['###'.$markerKey.'_INSTOCK_UNIT###'] = '';
+            $markerArray['###' . $markerKey . '_INSTOCK_UNIT###'] = '';
         }
 
         return $value;

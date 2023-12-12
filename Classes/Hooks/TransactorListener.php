@@ -33,27 +33,24 @@ namespace JambageCom\TtProducts\Hooks;
  * hook functions for the Transactor API extension
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
 
+use JambageCom\Div2007\Utility\FrontendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Lang\LanguageService;
 
-
-use JambageCom\Div2007\Utility\FrontendUtility;
-
-
-class TransactorListener {
-
-    public function execute (
+class TransactorListener
+{
+    public function execute(
         $pObj,
         $params
     ) {
-// Process the ID, type and other parameters
+        // Process the ID, type and other parameters
         // After this point we have an array, $page in TSFE, which is the page-record of the current page, $id
         $parameterApi = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\ParameterApi::class);
         $basketApi = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\BasketApi::class);
@@ -74,7 +71,7 @@ class TransactorListener {
             $GLOBALS['LANG'] = GeneralUtility::makeInstance(LanguageService::class);
             $GLOBALS['LANG']->init('en');
         }
-// neu Ende
+        // neu Ende
 
         $transactionRow = $params['row'];
         $testMode = $params['testmode'];
@@ -138,7 +135,6 @@ class TransactorListener {
         }
 
         if ($orderUid && $referenceId) {
-
             if (isset($orderRow) && is_array($orderRow) && $orderRow['hidden']) {
                 $calculatedArray = [];
                 $infoArray = [];
@@ -175,7 +171,7 @@ class TransactorListener {
                             '_',
                             $key,
                             $parameter
-                        ); 
+                        );
                     }
                 }
 
@@ -200,7 +196,6 @@ class TransactorListener {
                 }
 
                 if ($templateCode != '' && $errorCode == '') {
-
                     $errorMessage = '';
                     $basketView = GeneralUtility::makeInstance('tx_ttproducts_basket_view');
                     $basketView->init(
@@ -235,4 +230,3 @@ class TransactorListener {
         }
     }
 }
-

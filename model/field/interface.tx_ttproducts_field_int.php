@@ -30,17 +30,17 @@
  * interface for all database table field data classes
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
  */
-
-
-interface tx_ttproducts_field_int {
-
+interface tx_ttproducts_field_int
+{
     public function needsInit();
-    public function getFieldValue (
+
+    public function getFieldValue(
         &$taxInfoArray,
         array $row,
         $fieldname,
@@ -49,5 +49,3 @@ interface tx_ttproducts_field_int {
         $bEnableTaxZero
     );
 }
-
-

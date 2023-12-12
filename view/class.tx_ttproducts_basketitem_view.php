@@ -30,20 +30,19 @@
  * view functions for a basket item object
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
  */
 
+use JambageCom\Div2007\Utility\FrontendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-use JambageCom\Div2007\Utility\FrontendUtility;
-
-
-class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterface {
-
-    public function getQuantityName (
+class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterface
+{
+    public function getQuantityName(
         $uid,
         $functablename,
         $externalRow,
@@ -77,7 +76,7 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
             if ($piVar !== false) {
                 $externalQuantity = '[' . $externalQuantity . $piVar . '=' . intval($externalRow['uid']) . ']';
             }
-        } else if (isset($callFunctableArray) && is_array($callFunctableArray)) {
+        } elseif (isset($callFunctableArray) && is_array($callFunctableArray)) {
             foreach ($callFunctableArray as $callFunctablename) {
                 $funcMarker = $tablesObj->get($callFunctablename, true)->getMarker();
                 $externalQuantity .= '[###' . $funcMarker . '_UID###]';
@@ -85,10 +84,11 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
         }
 
         $basketQuantityName = $basketVar . '[' . $uid . ']' . $externalQuantity . '[quantity]';
+
         return $basketQuantityName;
     }
 
-    public function getItemMarkerSubpartArrays (
+    public function getItemMarkerSubpartArrays(
         $templateCode,
         $functablename,
         $row,
@@ -133,11 +133,9 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
         $css_current = '';
 
         foreach ($cmdArray as $cmd) {
-
             $upperCmd = strtoupper($cmd);
 
             if (isset($tagArray['LINK_BASKET_' . $upperCmd])) {
-
                 $addQueryString[$cmd] = $uid;
                 $basketVar = tx_ttproducts_model_control::getBasketParamVar();
                 if (isset($row['ext'])) {
@@ -145,9 +143,9 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
                 }
 
                 if (
-                    isset($extArray)
-                    && is_array($extArray)
-                    && isset($extArray['extVarLine'])
+                    isset($extArray) &&
+                    is_array($extArray) &&
+                    isset($extArray['extVarLine'])
                 ) {
                     $addQueryString[$basketVar] = md5($extArray['extVarLine']);
 
@@ -165,7 +163,7 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
                     $wrappedSubpartArray['###LINK_BASKET_' . $upperCmd . '###'] =
                         [
                             '<a href="' . htmlspecialchars($pageLink) . '"' . $css_current . '>',
-                            '</a>'
+                            '</a>',
                         ];
                     unset($addQueryString[$basketVar]);
                 } else {
@@ -178,17 +176,19 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
 
     /**
      * Template marker substitution
-     * Fills in the markerArray with data for a product
+     * Fills in the markerArray with data for a product.
      *
      * @param	array		reference to an item array with all the data of the item
      * @param	string		title of the category
-     * @param	integer		number of images to be shown
+     * @param	int		number of images to be shown
      * @param	object		the image cObj to be used
      * @param	array		information about the parent HTML form
+     *
      * @return	array
+     *
      * @access private
      */
-    public function getItemMarkerArray (
+    public function getItemMarkerArray(
         $functablename,
         $useCache,
         $item,
@@ -247,8 +247,7 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
                 $articleRow = $articleObj->get($articleNo);
 
                 if (isset($fieldArray) && is_array($fieldArray)) {
-
-                    foreach($fieldArray as $k => $field) {
+                    foreach ($fieldArray as $k => $field) {
                         $variantValue = $row[$field] ?? '';
                         $prodTmpRow =
                             preg_split(
@@ -271,7 +270,7 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
             }
         }
 
-            // Returns a markerArray ready for substitution with information for the tt_producst record, $row
+        // Returns a markerArray ready for substitution with information for the tt_producst record, $row
 
         $extArray = '';
         if (isset($row['ext'])) {
@@ -282,12 +281,12 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
         if (is_array($extArray)) {
             if (isset($extArray['extVarLine'])) {
                 $variant = $extArray['extVarLine'];
-            } else if (
+            } elseif (
                 isset($extArray['tt_products']) &&
                 is_array($extArray['tt_products'])
             ) {
                 $variant = $viewTable->variant->getVariantFromRow($row);
-            } else if (isset($extArray['tx_dam'])) {
+            } elseif (isset($extArray['tx_dam'])) {
                 $variant = $extArray['tx_dam'][0]['vars'];
             }
         }
@@ -315,7 +314,7 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
         $attributeFieldName = ($bUseRadioBox && !empty($radioInputArray['name']) ? $radioInputArray['name'] : $basketQuantityName);
         $markerArray['###FIELD_NAME###'] = htmlspecialchars($attributeFieldName);
 
-            // check need for comments
+        // check need for comments
         if (
             $useCache &&
             $showAmount == 'basket' &&
@@ -346,7 +345,7 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
                         tx_ttproducts_control_basketquantity::getQuantityMarker($marker, $uid, '###' . $marker . '_UID###');
                 }
                 $quantityMarker .= '###';
-            } else if (
+            } elseif (
                 isset($filterRowArray) &&
                 is_array($filterRowArray) &&
                 count($filterRowArray)
@@ -376,7 +375,7 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
 
         $markerArray['###IN_STOCK_ID###'] = 'in-stock-id-' . $row['uid'];
 
-        $markerArray['###BASKET_IN_STOCK###'] = $languageObj->getLabel(($row['inStock'] > 0 ? 'in_stock' : 'not_in_stock'));
+        $markerArray['###BASKET_IN_STOCK###'] = $languageObj->getLabel($row['inStock'] > 0 ? 'in_stock' : 'not_in_stock');
 
         $fileName = $conf['basketPic'];
         $basketFile = '';
@@ -384,14 +383,14 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
         $basketFile = $sanitizer->sanitize($fileName);
 
         $markerArray['###IMAGE_BASKET_SRC###'] = $basketFile;
-        $fileresource =  FrontendUtility::fileResource($basketFile);
+        $fileresource = FrontendUtility::fileResource($basketFile);
         $markerArray['###IMAGE_BASKET###'] = $fileresource;
 
         if (isset($fieldArray) && is_array($fieldArray)) {
             $formConf = $cnfObj->getFormConf($theCode);
             $tablename = $viewTable->getTablename();
 
-            foreach($fieldArray as $k => $field) {
+            foreach ($fieldArray as $k => $field) {
                 if (!isset($selectableArray[$k])) { // additional
                     continue;
                 }
@@ -426,7 +425,6 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
                                 foreach ($prodTmpRow as $k2 => $variantVal) {
                                     $tmpImgCode = '';
                                     foreach ($theFormConf['imageImport.'] as $k3 => $imageImport) {
-
                                         if (is_array($imageImport['prod.'])) {
                                             if (isset($imageImport['sql.'])) {
                                                 $bIsValid =
@@ -460,7 +458,7 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
                         $prodTranslatedRow = $prodTmpRow;
                         $type = '';
                         $selectedKey = '0';
-                        switch($selectableArray[$k]) {
+                        switch ($selectableArray[$k]) {
                             case 1:
                                 $type = 'select';
                                 break;
@@ -536,7 +534,6 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
         $prodAdditionalText['single'] = '';
 
         if ($bUseRadioBox) {
-
             $params = 'type="' . $radioInputArray['type'] . '"';
             $params .= (!empty($radioInputArray['params']) ? ' ' . $radioInputArray['params'] : '');
             if ($radioInputArray['checked'] == $uid) {
@@ -549,7 +546,7 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
             $isSingleProduct = $viewTable->hasAdditional($row, 'isSingle');
             if ($isSingleProduct) {
                 $message = $languageObj->getLabel('additional_single');
-                $prodAdditionalText['single'] = $message . '<input type="checkbox" name="' . $basketQuantityName . '" ' . ($quantity ? 'checked="checked"' : '') . 'onchange = "this.form[this.name+\'[1]\'].value=(this.checked ? 1 : 0);"' . ' value="1">';
+                $prodAdditionalText['single'] = $message . '<input type="checkbox" name="' . $basketQuantityName . '" ' . ($quantity ? 'checked="checked"' : '') . 'onchange = "this.form[this.name+\'[1]\'].value=(this.checked ? 1 : 0);" value="1">';
                 $hiddenText .= '<input type="hidden" name="' . $basketQuantityName . '[1]" value="' . ($quantity ? '1' : '0') . '">';
             }
 
@@ -564,7 +561,7 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
                 reset($extArray['tx_dam']);
                 $damext = current($extArray['tx_dam']);
                 $damUid = $damext['uid'];
-            } else if (
+            } elseif (
                 $isImageProduct &&
                 isset($damParam)
             ) {
@@ -593,7 +590,7 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
             $giftServicePostfix = '[giftservice]';
             $message = $languageObj->getLabel('additional_gift_service');
             $value = ($bGiftService ? '1' : '0');
-            $prodAdditionalText['giftService'] = $message . '<input type="checkbox" name="' . $basketAdditionalName . $giftServicePostfix . '" ' . ($value ? 'checked="checked"' : '') . 'onchange = "this.form[this.name+\'[1]\'].value=(this.checked ? 1 : 0);"' . ' value="' . $value . '">';
+            $prodAdditionalText['giftService'] = $message . '<input type="checkbox" name="' . $basketAdditionalName . $giftServicePostfix . '" ' . ($value ? 'checked="checked"' : '') . 'onchange = "this.form[this.name+\'[1]\'].value=(this.checked ? 1 : 0);" value="' . $value . '">';
             $hiddenText .= '<input type="hidden" name="' . $basketAdditionalName . $giftServicePostfix . '[1]" value="' . $value . '">';
         } else {
             $prodAdditionalText['giftService'] = '';
@@ -609,4 +606,3 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
         }
     } // getItemMarkerArray
 }
-

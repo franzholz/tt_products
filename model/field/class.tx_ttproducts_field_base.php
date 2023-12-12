@@ -30,22 +30,23 @@
  * base class for all database table fields classes
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
  */
-
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-abstract class tx_ttproducts_field_base implements tx_ttproducts_field_int, \TYPO3\CMS\Core\SingletonInterface {
+abstract class tx_ttproducts_field_base implements tx_ttproducts_field_int, \TYPO3\CMS\Core\SingletonInterface
+{
     private $bHasBeenInitialised = false;
     public $conf;		// original configuration
     public $config;		// modified configuration
 
-    public function init () {
+    public function init()
+    {
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $this->conf = $cnf->conf;
         $this->config = $cnf->config;
@@ -53,11 +54,12 @@ abstract class tx_ttproducts_field_base implements tx_ttproducts_field_int, \TYP
         $this->bHasBeenInitialised = true;
     }
 
-    public function needsInit () {
+    public function needsInit()
+    {
         return !$this->bHasBeenInitialised;
     }
 
-    public function getFieldValue (
+    public function getFieldValue(
         &$taxInfoArray,
         array $row,
         $fieldname,
@@ -70,7 +72,7 @@ abstract class tx_ttproducts_field_base implements tx_ttproducts_field_int, \TYP
         if (isset($row[$fieldname])) {
             $result = $row[$fieldname];
         }
+
         return $result;
     }
 }
-

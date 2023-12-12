@@ -33,34 +33,30 @@ namespace JambageCom\TtProducts\Api;
  * functions for the customer
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
 
- 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-abstract class CustomerTypes {
-    const Billing = 1;
-    const Delivery = 2;
+abstract class CustomerTypes
+{
+    public const Billing = 1;
+    public const Delivery = 2;
 }
 
-
-
-class CustomerApi {
-    static private $billingInfo;
-    static private $shippingInfo;
-    static private $fields =
+class CustomerApi
+{
+    private static $billingInfo;
+    private static $shippingInfo;
+    private static $fields =
     'name,cnum,first_name,last_name,username,email,telephone,title,salutation,address,house_no,telephone,fax,email,company,city,zip,state,country,country_code,tt_products_vat,date_of_birth,tt_products_business_partner,tt_products_organisation_form';
-    static private $requiredInfoFields = '';
-    static protected $possibleCheckFieldArray = ['name', 'last_name', 'email', 'telephone'];
-    static protected $creditpointfields = 'tt_products_creditpoints,tt_products_vouchercode';
+    private static $requiredInfoFields = '';
+    protected static $possibleCheckFieldArray = ['name', 'last_name', 'email', 'telephone'];
+    protected static $creditpointfields = 'tt_products_creditpoints,tt_products_vouchercode';
 
-
-    static public function init (
+    public static function init(
         $conf,
         $billingRow,
         $deliveryRow,
@@ -118,8 +114,8 @@ class CustomerApi {
         self::setRequiredInfoFields($requiredInfoFields);
     }
 
-
-    static public function setBillingInfo (array $value) {
+    public static function setBillingInfo(array $value)
+    {
         if (
             isset($value['name']) &&
             isset($value['email'])
@@ -128,13 +124,13 @@ class CustomerApi {
         }
     }
 
-
-    static public function getBillingInfo () {
+    public static function getBillingInfo()
+    {
         return self::$billingInfo;
     }
 
-
-    static public function setShippingInfo (array $value) {
+    public static function setShippingInfo(array $value)
+    {
         if (
             isset($value['name']) &&
             isset($value['email'])
@@ -143,13 +139,13 @@ class CustomerApi {
         }
     }
 
-
-    static public function getShippingInfo () {
+    public static function getShippingInfo()
+    {
         return self::$shippingInfo;
     }
 
-
-    static public function getBillingIso3 ($defaultValue = '') {
+    public static function getBillingIso3($defaultValue = '')
+    {
         $result = '';
 
         $billingInfo = self::getBillingInfo();
@@ -159,38 +155,38 @@ class CustomerApi {
             isset($billingInfo['static_info_country'])
         ) {
             $result = $billingInfo['static_info_country'];
-        } else if ($defaultValue != '') {
+        } elseif ($defaultValue != '') {
             $result = $defaultValue;
         }
 
         return $result;
     }
 
-
-    static public function setFields ($fields) {
+    public static function setFields($fields)
+    {
         self::$fields = $fields;
     }
 
-
-    static public function getFields () {
+    public static function getFields()
+    {
         return self::$fields;
     }
 
-
-    static public function getCreditPointFields () {
+    public static function getCreditPointFields()
+    {
         return self::$creditpointfields;
     }
 
-
-    static public function setRequiredInfoFields ($requiredInfoFields) {
+    public static function setRequiredInfoFields($requiredInfoFields)
+    {
         self::$requiredInfoFields = $requiredInfoFields;
     }
 
-
     /**
-     * Checks if required fields are filled in
+     * Checks if required fields are filled in.
      */
-    static public function getRequiredInfoFields ($type) {
+    public static function getRequiredInfoFields($type)
+    {
         $result = false;
         if (
             isset(self::$requiredInfoFields[$type]) &&
@@ -202,8 +198,8 @@ class CustomerApi {
         return $result;
     }
 
-
-    static public function getPossibleCheckField () {
+    public static function getPossibleCheckField()
+    {
         $requiredInfoFields = self::getRequiredInfoFields('billing');
         $checkField = '';
         foreach (self::$possibleCheckFieldArray as $possibleCheckField) {
@@ -215,8 +211,4 @@ class CustomerApi {
 
         return $checkField;
     }
-
-
 }
-
-

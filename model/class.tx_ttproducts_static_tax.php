@@ -30,34 +30,33 @@
  * functions for the static_taxes table
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
 
-
+use JambageCom\Div2007\Utility\ExtensionUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
-use JambageCom\Div2007\Utility\ExtensionUtility;
-
-
-class tx_ttproducts_static_tax extends tx_ttproducts_table_base {
+class tx_ttproducts_static_tax extends tx_ttproducts_table_base
+{
     protected $uidStore;
     protected $setShopCountryCode;
     private $allTaxesArray = [];
     private $taxArray;
     private $countryArray = [];
     private $taxIdArray = [];
-    static private $isInstalled = false;
-    static private $need4StaticTax = false; // if the usage of static_info_tables_taxes is required due to some circumstances: E.g. if download products inside of the EU are sold
+    private static $isInstalled = false;
+    private static $need4StaticTax = false; // if the usage of static_info_tables_taxes is required due to some circumstances: E.g. if download products inside of the EU are sold
 
     /**
-     * Getting all tt_products_cat categories into internal array
+     * Getting all tt_products_cat categories into internal array.
      */
-    public function init ($functablename) {
+    public function init($functablename)
+    {
         $result = false;
 
         if (self::isInstalled()) {
@@ -72,7 +71,7 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base {
             $this->getTableObj()->setTCAFieldArray('static_taxes');
 
             $requiredFields = 'uid,pid';
-            if (!empty($this->tableconf['requiredFields']))	{
+            if (!empty($this->tableconf['requiredFields'])) {
                 $tmp = $tableconf['requiredFields'];
                 $requiredFields = ($tmp ? $tmp : $requiredFields);
             }
@@ -83,7 +82,7 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base {
         return $result;
     } // init
 
-    public function initTaxes (
+    public function initTaxes(
         $infoArray,
         $conf
     ) {
@@ -99,7 +98,6 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base {
             $taxTitleArray = [];
 
             foreach ($conf['TAXpercentage.'] as $key => $confArray) {
-
                 $position = strpos($key, '.');
                 $index = substr($key, 0, $position);
                 $whereArray[$index] = $confArray['where.']['static_countries'];
@@ -129,7 +127,8 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base {
         }
     }
 
-    static public function isInstalled () {
+    public static function isInstalled()
+    {
         $result = self::$isInstalled;
 
         if (
@@ -148,28 +147,35 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base {
         return $result;
     }
 
-    public function isValid () {
+    public function isValid()
+    {
         $result = self::isInstalled() && !$this->needsInit() && $this->getUidStore();
+
         return $result;
     }
 
-    public function getUidStore () {
+    public function getUidStore()
+    {
         return $this->uidStore;
     }
 
-    public function setUidStore ($uid) {
+    public function setUidStore($uid)
+    {
         $this->uidStore = $uid;
     }
 
-    public function getShopCountryCode () {
+    public function getShopCountryCode()
+    {
         return $this->setShopCountryCode;
     }
 
-    public function setShopCountryCode ($setShopCountryCode) {
+    public function setShopCountryCode($setShopCountryCode)
+    {
         $this->setShopCountryCode = $setShopCountryCode;
     }
 
-    public function setStoreData ($uidStore) {
+    public function setStoreData($uidStore)
+    {
         if (self::isInstalled() && $uidStore > 0) {
             $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
             $orderAdressObj = $tablesObj->get('address', false);
@@ -228,14 +234,15 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base {
                     $this->setShopCountryCode($theCountryCode);
                 }
             }
-/*			$allTaxesArray = [];
-            $this->getStaticTax($row,$tax,$allTaxesArray); // call it to set the member variables*/
+            /*			$allTaxesArray = [];
+                        $this->getStaticTax($row,$tax,$allTaxesArray); // call it to set the member variables*/
         }
     }
 
-    protected function didValuesChange (array $countryArray) {
+    protected function didValuesChange(array $countryArray)
+    {
         if (
-            is_array($this->countryArray['shipping']) && 
+            is_array($this->countryArray['shipping']) &&
             count($this->countryArray['shipping'])
         ) {
             $result = (
@@ -246,10 +253,12 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base {
         } else {
             $result = (is_array($countryArray['shipping']) && (count($countryArray['shipping']) > 0));
         }
+
         return $result;
     }
 
-    public function setAllTaxesArray ($taxArray, $taxId = '') {
+    public function setAllTaxesArray($taxArray, $taxId = '')
+    {
         if ($taxId > 0) {
             $this->allTaxesArray[$taxId] = $taxArray;
         } else {
@@ -257,22 +266,26 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base {
         }
     }
 
-    public function getAllTaxesArray ($taxId = '') {
+    public function getAllTaxesArray($taxId = '')
+    {
         if ($taxId > 0) {
             $result = $this->allTaxesArray[$taxId];
         } else {
             $result = $this->allTaxesArray;
         }
+
         return $result;
     }
 
-    public function setTax ($tax, $taxId) {
+    public function setTax($tax, $taxId)
+    {
         if ($taxId > 0) {
             $this->taxArray[$taxId] = $tax;
         }
     }
 
-    public function getTaxArray ($taxId) {
+    public function getTaxArray($taxId)
+    {
         $result = false;
         if ($taxId > 0) {
             $result = $this->taxArray[$taxId];
@@ -281,16 +294,19 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base {
         return $result;
     }
 
-    public function setTaxId ($taxId) {
+    public function setTaxId($taxId)
+    {
         $this->taxIdArray[] = $taxId;
         $this->taxIdArray = array_unique($this->taxIdArray);
     }
 
-    public function storeValues ($countryArray) {
+    public function storeValues($countryArray)
+    {
         $this->countryArray = $countryArray;
     }
 
-    public function getCategoryArray ($uidArray) {
+    public function getCategoryArray($uidArray)
+    {
         $result = [];
         $pageRepository = \JambageCom\Div2007\Utility\CompatibilityUtility::getPageRepository();
 
@@ -326,7 +342,7 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base {
         return $result;
     }
 
-    public function getTaxInfo (
+    public function getTaxInfo(
         &$taxInfoArray,
         &$shopCountryArray,
         $tax,
@@ -360,7 +376,7 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base {
             isset($deliveryInfo) &&
             is_array($deliveryInfo)
         ) {
-            $countryArray['shipping']['country_code'] =  $deliveryInfo['country_code'];
+            $countryArray['shipping']['country_code'] = $deliveryInfo['country_code'];
             $countryArray['shipping']['zone'] = $deliveryInfo['zone'];
         }
 
@@ -368,7 +384,7 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base {
             isset($personInfo) &&
             is_array($personInfo)
         ) {
-            $countryArray['billing']['country_code'] =  $personInfo['country_code'];
+            $countryArray['billing']['country_code'] = $personInfo['country_code'];
             $countryArray['billing']['zone'] = $personInfo['zone'];
         }
         $categoryArray = [];
@@ -397,18 +413,21 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base {
                 true
             );
         $shopCountryArray = $countryArray['shop'];
+
         return true;
     }
 
-    static public function setNeed4StaticTax ($value) {
+    public static function setNeed4StaticTax($value)
+    {
         self::$need4StaticTax = $value;
     }
 
-    static public function getNeed4StaticTax () {
+    public static function getNeed4StaticTax()
+    {
         return self::$need4StaticTax;
     }
 
-    static public function need4StaticTax (
+    public static function need4StaticTax(
         array $row
     ) {
         if (self::getNeed4StaticTax()) {
@@ -438,7 +457,7 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base {
         return $result;
     }
 
-    public function getStaticTax (
+    public function getStaticTax(
         $basketRecs,
         array $row,
         &$tax,
@@ -590,5 +609,3 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base {
         }
     }
 }
-
-

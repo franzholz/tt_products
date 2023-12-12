@@ -30,16 +30,17 @@
  * functions for the PDF generation
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-class tx_ttproducts_pdf implements \TYPO3\CMS\Core\SingletonInterface {
+class tx_ttproducts_pdf implements \TYPO3\CMS\Core\SingletonInterface
+{
     private $header;
     private $footer;
     private $body;
@@ -48,8 +49,8 @@ class tx_ttproducts_pdf implements \TYPO3\CMS\Core\SingletonInterface {
     protected $style;
     protected $size;
 
-
-    public function init ($family, $style, $size) {
+    public function init($family, $style, $size)
+    {
         $this->family = $family;
         $this->style = $style;
         $this->size = $size;
@@ -59,34 +60,39 @@ class tx_ttproducts_pdf implements \TYPO3\CMS\Core\SingletonInterface {
         return true;
     }
 
-    public function setHeader ($header) {
+    public function setHeader($header)
+    {
         $this->header = $header;
     }
 
-    public function setFooter ($footer) {
+    public function setFooter($footer)
+    {
         $this->footer = $footer;
     }
 
-    public function setBody ($body) {
+    public function setBody($body)
+    {
         $this->body = $body;
     }
 
-    public function Header () {
-        //Police Arial gras 15
+    public function Header()
+    {
+        // Police Arial gras 15
         $this->SetFont('Arial', 'B', 15);
         $this->MultiCell(0, 6, $this->header, 1);
     }
 
-    public function Footer () {
-        //Positionnement à 1,5 cm du bas
+    public function Footer()
+    {
+        // Positionnement à 1,5 cm du bas
         $this->SetY(-15);
-        //Police Arial gras 15
+        // Police Arial gras 15
         $this->SetFont('Arial', 'I', 8);
         $this->MultiCell(0, 6, $this->footer, 1);
     }
 
-    private function addEmptyColumns($bLastLine) {
-
+    private function addEmptyColumns($bLastLine)
+    {
         $row = [];
         $row['1'] = '';
         $row['2'] = '';
@@ -103,13 +109,15 @@ class tx_ttproducts_pdf implements \TYPO3\CMS\Core\SingletonInterface {
         }
     }
 
-    private function getDimensions (&$widthArray) {
-        //Column widths
+    private function getDimensions(&$widthArray)
+    {
+        // Column widths
         $widthArray = [80, 25, 40, 45];
     }
 
-    //Better table
-    public function ImprovedTable ($header, array $data) {
+    // Better table
+    public function ImprovedTable($header, array $data)
+    {
         $this->getDimensions($widthArray);
 
         $totalWidth = 0;
@@ -117,9 +125,9 @@ class tx_ttproducts_pdf implements \TYPO3\CMS\Core\SingletonInterface {
             $totalWidth += $width;
         }
 
-        //Header
+        // Header
         if (is_array($header)) {
-            for($i = 0; $i < count($header); $i++) {
+            for ($i = 0; $i < count($header); $i++) {
                 $this->Cell($widthArray[$i], 7, $header[$i], 1, 0, 'C');
             }
         }
@@ -129,8 +137,8 @@ class tx_ttproducts_pdf implements \TYPO3\CMS\Core\SingletonInterface {
         $rowCount = 4;
         $columnNo = 1;
 
-        //Data. The keys must start with 1
-        foreach($data as $k1 => $row) {
+        // Data. The keys must start with 1
+        foreach ($data as $k1 => $row) {
             $bLastLine = ($k1 == $dataCount);
             if ($bLastLine) {
                 $this->SetFont($this->family, 'B', $this->size);
@@ -139,7 +147,6 @@ class tx_ttproducts_pdf implements \TYPO3\CMS\Core\SingletonInterface {
             $rowCount = count($row);
 
             foreach ($row as $k2 => $v2) {
-
                 if ($columnNo > 4) {
                     $columnNo = 1;
                 }
@@ -152,7 +159,7 @@ class tx_ttproducts_pdf implements \TYPO3\CMS\Core\SingletonInterface {
                 unset($value);
 
                 if ($l2 > $widthArray[$k2] - 5) {
-                    $subStringCount = intval ($l2 / ($widthArray[$k2] - 10)) + 1;
+                    $subStringCount = intval($l2 / ($widthArray[$k2] - 10)) + 1;
                     $averageStringLength = strlen($v2) / $subStringCount;
                     if (!isset($additonalRow)) {
                         $additonalRow = [];
@@ -200,12 +207,12 @@ class tx_ttproducts_pdf implements \TYPO3\CMS\Core\SingletonInterface {
                 }
 
                 if (isset($additonalRow) && is_array($additonalRow)) {
-            //		$this->Ln();
+                    //		$this->Ln();
 
                     foreach ($additonalRow as $k3 => $subValue) {
                         $bLastSubRow = ($k3 == ($subRowCount - 1));
 
-                        $this->Cell($widthArray['0'], 6, $subValue, 'LR', ($subRowCount > 1 && !$bLastSubRow ? 1 : 0));
+                        $this->Cell($widthArray['0'], 6, $subValue, 'LR', $subRowCount > 1 && !$bLastSubRow ? 1 : 0);
                         $this->addEmptyColumns($bLastLine);
                         $this->Ln();
                     }
@@ -217,12 +224,13 @@ class tx_ttproducts_pdf implements \TYPO3\CMS\Core\SingletonInterface {
 
         $this->SetFont($this->family, $this->style, $this->size);
 
-        //Closure line
+        // Closure line
         $this->Cell(array_sum($w), 0, '', 'T');
         $this->Ln();
     }
 
-    public function Body () {
+    public function Body()
+    {
         $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
 
         // $xPos = $this->GetX();
@@ -239,15 +247,13 @@ class tx_ttproducts_pdf implements \TYPO3\CMS\Core\SingletonInterface {
         $this->ImprovedTable($header, $dataArray);
 
         $restBody = $templateService->substituteMarkerArrayCached(
-                $this->body,
-                [],
-                ['###PDF_TABLE_1###' => ''],
-                []
-            );
+            $this->body,
+            [],
+            ['###PDF_TABLE_1###' => ''],
+            []
+        );
 
         // $this->SetX($xPos);
         $this->MultiCell(0, 4, $restBody, '1L');
     }
 }
-
-

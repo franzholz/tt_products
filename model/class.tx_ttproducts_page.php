@@ -30,28 +30,28 @@
  * functions for the page
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
  */
-
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
-
-class tx_ttproducts_page extends tx_ttproducts_category_base {
-    var $noteArray = []; 	// array of pages with notes
-    var $piVar = 'pid';
-    var $pageAsCategory;		// > 0 if pages are used as categories
+class tx_ttproducts_page extends tx_ttproducts_category_base
+{
+    public $noteArray = []; 	// array of pages with notes
+    public $piVar = 'pid';
+    public $pageAsCategory;		// > 0 if pages are used as categories
     protected $tableAlias = 'page';
 
-
     /**
-     * Getting all tt_products_cat categories into internal array
+     * Getting all tt_products_cat categories into internal array.
      */
-    function init ($tablename) {
+    public function init($tablename)
+    {
         $result = parent::init($tablename);
 
         if ($result) {
@@ -68,26 +68,26 @@ class tx_ttproducts_page extends tx_ttproducts_category_base {
             $requiredListArray = GeneralUtility::trimExplode(',', $requiredFields);
             $this->getTableObj()->setRequiredFieldArray($requiredListArray);
             if (
-                isset($this->tableconf['language.']) &&#
+                isset($this->tableconf['language.']) &&
                 isset($this->tableconf['language.']['type']) &&
                 $this->tableconf['language.']['type'] == 'field' &&
                 isset($this->tableconf['language.']['field.'])
             ) {
                 $addRequiredFields = [];
                 $addRequiredFields = $this->tableconf['language.']['field.'];
-                $this->getTableObj()->addRequiredFieldArray ($addRequiredFields);
+                $this->getTableObj()->addRequiredFieldArray($addRequiredFields);
             }
 
             if (!empty($this->tableconf['generatePath.']) &&
                 isset($this->tableconf['generatePath.']['type']) &&
                 $this->tableconf['generatePath.']['type'] == 'tablefields' &&
                 !empty($this->tableconf['generatePath.']['field.'])
-                ) {
+            ) {
                 $addRequiredFields = [];
                 foreach ($this->tableconf['generatePath.']['field.'] as $field => $value) {
                     $addRequiredFields[] = $field;
                 }
-                $this->getTableObj()->addRequiredFieldArray ($addRequiredFields);
+                $this->getTableObj()->addRequiredFieldArray($addRequiredFields);
             }
 
             $this->getTableObj()->setTCAFieldArray($tablename, 'pages');
@@ -109,22 +109,25 @@ class tx_ttproducts_page extends tx_ttproducts_category_base {
         return $result;
     } // init
 
-    /* initalisation for code dependant configuration */
-    public function initCodeConf ($theCode,$tableConf) {
-        parent::initCodeConf ($theCode,$tableConf);
+    // initalisation for code dependant configuration
+    public function initCodeConf($theCode, $tableConf)
+    {
+        parent::initCodeConf($theCode, $tableConf);
         if ($this->bUseLanguageTable($tableConf)) {
             $this->getTableObj()->setForeignUidArray($this->getTableObj()->langname, 'pid');
         }
     }
 
-    public function getRootCat () {
+    public function getRootCat()
+    {
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $rc = $cnf->config['rootPageID'] ?? '';
+
         return $rc;
     }
 
-
-    public function getNotes ($uid) {
+    public function getNotes($uid)
+    {
         $rowArray = $this->noteArray[$uid];
         $rcArray = [];
         if (!is_array($rowArray) && $uid) {
@@ -134,45 +137,50 @@ class tx_ttproducts_page extends tx_ttproducts_category_base {
         foreach ($rowArray as $k => $row) {
             $rcArray[] = $row['uid_foreign'];
         }
+
         return $rcArray;
     }
 
-
-    public function getParent ($uid=0) {
+    public function getParent($uid = 0)
+    {
         $rc = [];
-        $row = $this->get ($uid);
+        $row = $this->get($uid);
         if ($row['pid']) {
-            $rc = $this->get ($row['pid']);
+            $rc = $this->get($row['pid']);
         }
+
         return $rc;
     }
 
-
-    public function getRowCategory ($row) {
+    public function getRowCategory($row)
+    {
         $rc = $row['pid'];
+
         return $rc;
     }
 
-
-    public function getRowPid($row) {
+    public function getRowPid($row)
+    {
         $rc = $row['uid'];
+
         return $rc;
     }
 
-
-    public function getParamDefault ($theCode, $pid) {
+    public function getParamDefault($theCode, $pid)
+    {
         $pid = ($pid ?? $this->conf['defaultPageID'] ?? '');
         if ($pid) {
-            $pid = implode(',',GeneralUtility::intExplode(',', $pid));
+            $pid = implode(',', GeneralUtility::intExplode(',', $pid));
         }
+
         return $pid;
     }
 
-    public function getRelationArray ($dataArray, $excludeCats = '',$rootUids = '',$allowedCats = '') {
-
+    public function getRelationArray($dataArray, $excludeCats = '', $rootUids = '', $allowedCats = '')
+    {
         $relationArray = [];
         $pageArray = $dataArray;
-        $excludeArray = GeneralUtility::trimExplode (',', $excludeCats);
+        $excludeArray = GeneralUtility::trimExplode(',', $excludeCats);
         foreach ($excludeArray as $k => $cat) {
             $excludeKey = array_search($cat, $pageArray);
             unset($pageArray[$excludeKey]);
@@ -188,9 +196,9 @@ class tx_ttproducts_page extends tx_ttproducts_category_base {
         }
 
         foreach ($pageArray as $k => $uid) {
-            $row = $this->get ($uid);
+            $row = $this->get($uid);
             if ($row) {
-                if (in_array($row['shortcut'],$excludeArray)) {	// do not show shortcuts to the excluded page
+                if (in_array($row['shortcut'], $excludeArray)) {	// do not show shortcuts to the excluded page
                     $excludeKey = array_search($row['uid'], $pageArray);
                     unset($pageArray[$excludeKey]);
                     continue;
@@ -213,7 +221,7 @@ class tx_ttproducts_page extends tx_ttproducts_category_base {
                     if (!is_array($relationArray[$parentId]['child_category'])) {
                         $relationArray[$parentId]['child_category'] = [];
                     }
-                    $relationArray[$parentId]['child_category'][] = (int) $uid;
+                    $relationArray[$parentId]['child_category'][] = (int)$uid;
                 }
             }
         }
@@ -222,14 +230,14 @@ class tx_ttproducts_page extends tx_ttproducts_category_base {
     }
 
     /**
-     * Returning the pid out from the row using the where clause
+     * Returning the pid out from the row using the where clause.
      */
-    public function getPID ($conf, $confExt, $row, $rootRow = [])
+    public function getPID($conf, $confExt, $row, $rootRow = [])
     {
         $result = 0;
         if ($confExt) {
             foreach ($confExt as $k1 => $param) {
-                $type  = $param['type'];
+                $type = $param['type'];
                 $where = $param['where'];
                 $isValid = false;
                 if ($where) {
@@ -261,7 +269,7 @@ class tx_ttproducts_page extends tx_ttproducts_category_base {
                             }
                             break;
                     }
-                    break;  //ready with the foreach loop
+                    break;  // ready with the foreach loop
                 }
             }
         }
@@ -278,6 +286,3 @@ class tx_ttproducts_page extends tx_ttproducts_category_base {
         return $result;
     } // getPID
 }
-
-
-

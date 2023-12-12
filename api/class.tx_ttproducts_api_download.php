@@ -30,21 +30,19 @@
  * Download API functions
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
  */
-
-
 
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-class tx_ttproducts_api_download {
-
-    static public function fetchFal (
+class tx_ttproducts_api_download
+{
+    public static function fetchFal(
         $fileReferenceUid
     ) {
         $storageRepository = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\StorageRepository');
@@ -62,14 +60,13 @@ class tx_ttproducts_api_download {
         }
 
         ob_end_clean();
-        header("Cache-Control: must-revalidate, post-check=0, pre-check=0");
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
         header('Content-Type: ' . $mimeType);
-        header("Content-Type: application/download");
+        header('Content-Type: application/download');
         header('Content-Disposition: attachment; filename=' . $properties['name']);
         header('Content-Length: ' . $properties['size']);
 
         echo $content;
         exit;
-
     }
 }

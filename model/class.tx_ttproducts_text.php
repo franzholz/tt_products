@@ -30,19 +30,18 @@
  * functions for additional texts
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
  */
-
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-class tx_ttproducts_text extends tx_ttproducts_table_base {
-
-    public function getChildUidArray (
+class tx_ttproducts_text extends tx_ttproducts_table_base
+{
+    public function getChildUidArray(
         $theCode,
         $uid,
         $tagMarkerArray,
@@ -62,7 +61,7 @@ class tx_ttproducts_text extends tx_ttproducts_table_base {
                 $tagMarkerArray,
                 $this->getTableObj()->getName()
             );
-            $tags = implode(',',$tagMarkerArray);
+            $tags = implode(',', $tagMarkerArray);
             $tagWhere = ' AND marker IN (' . $tags . ')';
         }
 
@@ -91,4 +90,3 @@ class tx_ttproducts_text extends tx_ttproducts_table_base {
         return $resultArray;
     }
 }
-

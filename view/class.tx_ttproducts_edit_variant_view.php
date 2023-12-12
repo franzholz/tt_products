@@ -30,29 +30,30 @@
  * function to add a variant edit field to products
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-class tx_ttproducts_edit_variant_view implements tx_ttproducts_edit_variant_view_int, \TYPO3\CMS\Core\SingletonInterface {
-
+class tx_ttproducts_edit_variant_view implements tx_ttproducts_edit_variant_view_int, \TYPO3\CMS\Core\SingletonInterface
+{
     protected $modelObj;
 
-    public function init ($modelObj) {
+    public function init($modelObj)
+    {
         $this->modelObj = $modelObj;
     }
 
-    public function getModelObj () {
+    public function getModelObj()
+    {
         return $this->modelObj;
     }
 
-    public function getMarkerArray (
+    public function getMarkerArray(
         $bEditable,
         $row,
         $functablename,
@@ -142,7 +143,7 @@ class tx_ttproducts_edit_variant_view implements tx_ttproducts_edit_variant_view
         }
     }
 
-    public function getSubpartMarkerArray (
+    public function getSubpartMarkerArray(
         $templateCode,
         $functablename,
         $row,
@@ -152,7 +153,7 @@ class tx_ttproducts_edit_variant_view implements tx_ttproducts_edit_variant_view
         &$subpartArray,
         &$wrappedSubpartArray
     ) {
-// 		###edit_variant1###
+        // 		###edit_variant1###
         $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
         $editConf = $this->getModelObj()->getValidConfig($row);
 
@@ -194,11 +195,9 @@ class tx_ttproducts_edit_variant_view implements tx_ttproducts_edit_variant_view
         foreach ($tagArray as $tag => $number) {
             if (strpos($tag, 'edit_variant') === 0) {
                 if (!isset($subpartArray['###' . $tag . '###'])) {
-
                     $subpartArray['###' . $tag . '###'] = '';
                 }
             }
         }
     }
 }
-

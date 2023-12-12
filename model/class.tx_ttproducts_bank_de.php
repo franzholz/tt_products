@@ -30,17 +30,12 @@
  * functions for the static_banks_de table
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
-
-
-
-
-class tx_ttproducts_bank_de extends tx_ttproducts_table_base {
-
+class tx_ttproducts_bank_de extends tx_ttproducts_table_base
+{
 }
-

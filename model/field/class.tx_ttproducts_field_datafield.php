@@ -30,28 +30,25 @@
  * functions for the data sheets
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
-
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-
-
-class tx_ttproducts_field_datafield extends tx_ttproducts_field_base {
-
-    public function getDirname ($row, $fieldname) {
-
+class tx_ttproducts_field_datafield extends tx_ttproducts_field_base
+{
+    public function getDirname($row, $fieldname)
+    {
         $dirname = $GLOBALS['TCA']['tt_products']['columns'][$fieldname]['config']['uploadfolder'];
         if (!$dirname) {
-            $dirname = 'uploads/tx_ttproducts/' . $fieldname .'/';
+            $dirname = 'uploads/tx_ttproducts/' . $fieldname . '/';
         }
+
         return $dirname;
     }
 
-    public function getDataFileArray ($tableName, $row, $fieldName) 
+    public function getDataFileArray($tableName, $row, $fieldName)
     {
         $result = [];
         $fileRecords = \JambageCom\Div2007\Utility\FileAbstractionUtility::getFileRecords(
@@ -72,7 +69,7 @@ class tx_ttproducts_field_datafield extends tx_ttproducts_field_base {
                 $result[] = 'fileadmin/' . $fileInfo['identifier'];
             }
         }
+
         return $result;
     }
 }
-

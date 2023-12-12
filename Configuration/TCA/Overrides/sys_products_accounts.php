@@ -1,8 +1,8 @@
 <?php
+
 defined('TYPO3') || die('Access denied.');
 
-call_user_func(function($extensionKey, $table)
-{
+call_user_func(function ($extensionKey, $table) {
     if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['sepa']) {
         unset($GLOBALS['TCA'][$table]['columns']['ac_number']);
         if (!$GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['bic']) {
@@ -18,12 +18,12 @@ call_user_func(function($extensionKey, $table)
         in_array($table, $orderBySortingTablesArray)
     ) {
         $GLOBALS['TCA'][$table]['ctrl']['sortby'] = 'sorting';
-        $GLOBALS['TCA'][$table]['columns']['sorting'] = 
+        $GLOBALS['TCA'][$table]['columns']['sorting'] =
             [
                 'config' => [
                     'type' => 'passthrough',
-                    'default' => 0
-                ]
+                    'default' => 0,
+                ],
             ];
     }
 }, 'tt_products', basename(__FILE__, '.php'));

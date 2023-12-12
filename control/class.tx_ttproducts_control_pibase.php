@@ -30,19 +30,18 @@
  * functions for the control coming from the pibase object
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
+class tx_ttproducts_control_pibase
+{
+    public static $pi_USER_INT_obj = false;
 
-
-class tx_ttproducts_control_pibase {
-    static public $pi_USER_INT_obj = false;
-
-    static public function getIsUserIntObject ()  {
+    public static function getIsUserIntObject()
+    {
         return self::$pi_USER_INT_obj;
     }
 }
-

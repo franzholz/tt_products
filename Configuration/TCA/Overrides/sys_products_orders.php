@@ -1,11 +1,11 @@
 <?php
+
 defined('TYPO3') || die('Access denied.');
 
 use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-call_user_func(function($extensionKey, $table)
-{
+call_user_func(function ($extensionKey, $table) {
     $configuration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\JambageCom\TtProducts\Domain\Model\Dto\EmConfiguration::class);
     $languageSubpath = '/Resources/Private/Language/';
     $languageLglPath = 'LLL:EXT:core' . $languageSubpath . 'locallang_general.xlf:LGL.';
@@ -16,17 +16,16 @@ call_user_func(function($extensionKey, $table)
         in_array($table, $orderBySortingTablesArray)
     ) {
         $GLOBALS['TCA'][$table]['ctrl']['sortby'] = 'sorting';
-        $GLOBALS['TCA'][$table]['columns']['sorting'] = 
+        $GLOBALS['TCA'][$table]['columns']['sorting'] =
             [
                 'config' => [
                     'type' => 'passthrough',
-                    'default' => 0
-                ]
+                    'default' => 0,
+                ],
             ];
     }
 
     if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('voucher')) {
-
         $temporaryColumns = [
             'gained_voucher' => [
                 'exclude' => 1,
@@ -36,7 +35,7 @@ call_user_func(function($extensionKey, $table)
                     'appearance' => [
                         'collapseAll' => true,
                         'newRecordLinkAddTitle' => true,
-                        'useCombination' => true
+                        'useCombination' => true,
                     ],
                     'foreign_table' => 'sys_products_orders_mm_gained_voucher_codes',
                     'foreign_field' => 'uid_local',
@@ -44,7 +43,7 @@ call_user_func(function($extensionKey, $table)
                     'foreign_label' => 'uid_foreign',
                     'foreign_selector' => 'uid_foreign',
                     'foreign_unique' => 'uid_foreign',
-                    'maxitems' => 100
+                    'maxitems' => 100,
                 ],
             ],
         ];
@@ -77,17 +76,17 @@ call_user_func(function($extensionKey, $table)
                 'foreign_table_where' => 'ORDER BY sys_language.title',
                 'items' => [
                     [$languageLglPath . 'allLanguages', -1],
-                    [$languageLglPath . 'default_value', 0]
+                    [$languageLglPath . 'default_value', 0],
                 ],
-                'default' => 0
-            ]
+                'default' => 0,
+            ],
         ];
     }
-        
+
     $GLOBALS['TCA'][$table]['columns']['slug']['config']['eval'] = $configuration->getSlugBehaviour();
 
-    $excludeArray =  
-        ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['exclude']);
+    $excludeArray =
+        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['exclude'];
 
     if (
         isset($excludeArray) &&

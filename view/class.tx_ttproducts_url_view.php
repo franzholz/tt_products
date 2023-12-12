@@ -30,36 +30,34 @@
  * url marker functions
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
  */
 
+use JambageCom\Div2007\Utility\FrontendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-use JambageCom\Div2007\Utility\FrontendUtility;
-
-
-class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
+class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface
+{
     public $conf;
     public $urlArray;
 
-
     /**
      * Initialized the marker object
-     * $basket is the TYPO3 default shopping basket array from ses-data
+     * $basket is the TYPO3 default shopping basket array from ses-data.
      *
-     * @param		string		$fieldname is the field in the table you want to create a JavaScript for
-    * @param		array		array urls which should be overridden with marker key as index
-     * @return	  void
+     * @param		array		array urls which should be overridden with marker key as index
      */
-    public function init ($conf) {
+    public function init($conf)
+    {
         $this->conf = $conf;
     }
 
-
-    public function getSingleExcludeList ($excludeList) {
+    public function getSingleExcludeList($excludeList)
+    {
         $excludeListArray = GeneralUtility::trimExplode(',', $excludeList);
         $singleExcludeListArray =
             [
@@ -67,7 +65,7 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
                 'product',
                 'variants',
                 'dam',
-                'fal'
+                'fal',
             ];
         $singleExcludeListArray = array_merge($excludeListArray, $singleExcludeListArray);
 
@@ -75,19 +73,19 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
             unset($singleExcludeListArray[0]);
         }
         $singleExcludeList = implode(',', $singleExcludeListArray);
+
         return $singleExcludeList;
     }
 
-
-    public function setUrlArray ($urlArray) {
+    public function setUrlArray($urlArray)
+    {
         $this->urlArray = $urlArray;
     }
 
-
     /**
-     * Adds link markers to a wrapped subpart array
+     * Adds link markers to a wrapped subpart array.
      */
-    public function getWrappedSubpartArray (
+    public function getWrappedSubpartArray(
         &$wrappedSubpartArray,
         $addQueryString = [],
         $css_current = '',
@@ -106,11 +104,10 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
                 'tracking',
                 'billing',
                 'delivery',
-                'agb'
+                'agb',
             ];
 
         foreach ($commandArray as $command) {
-
             $pidBasket = (!empty($this->conf['PID' . $command]) ? $this->conf['PID' . $command] : $GLOBALS['TSFE']->id);
             $pageLink = FrontendUtility::getTypoLink_URL(
                 $cObj,
@@ -127,11 +124,10 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
         }
     }
 
-
     /**
-     * Adds URL markers to a markerArray
+     * Adds URL markers to a markerArray.
      */
-    public function addURLMarkers (
+    public function addURLMarkers(
         $pidNext,
         $markerArray,
         $addQueryString = [],
@@ -148,7 +144,7 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
 
         // disable caching as soon as someone enters products into the basket, enters user data etc.
         // $addQueryString['no_cache'] = 1;
-            // Add's URL-markers to the $markerArray and returns it
+        // Add's URL-markers to the $markerArray and returns it
         $basketPid = ($this->conf['PIDbasket'] ? $this->conf['PIDbasket'] : $GLOBALS['TSFE']->id);
         $formUrlPid = ($pidNext ? $pidNext : $GLOBALS['TSFE']->id);
         $singleExcludeList = $this->getSingleExcludeList($excludeList);
@@ -166,12 +162,12 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
         $urlConfig = [
             'FORM_URL' => [
                     'pid' => $formUrlPid,
-                    'excludeList' => $urlExcludeList
+                    'excludeList' => $urlExcludeList,
                 ],
             'FORM_URL_CURRENT' => [
                     'pid' => $GLOBALS['TSFE']->id,
-                    'excludeList' => $excludeList
-                ]
+                    'excludeList' => $excludeList,
+                ],
         ];
 
         foreach ($urlConfig as $markerKey => $keyConfig) {
@@ -211,7 +207,7 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
                 'user2',
                 'user3',
                 'user4',
-                'user5'
+                'user5',
             ];
 
         foreach ($commandArray as $command) {
@@ -251,13 +247,13 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
             }
         }
 
-            // Call all addURLMarkers hooks at the end of this method
+        // Call all addURLMarkers hooks at the end of this method
         if (
             isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['addURLMarkers']) &&
             is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['addURLMarkers'])
         ) {
-            foreach  ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['addURLMarkers'] as $classRef) {
-                $hookObj= GeneralUtility::makeInstance($classRef);
+            foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['addURLMarkers'] as $classRef) {
+                $hookObj = GeneralUtility::makeInstance($classRef);
                 if (method_exists($hookObj, 'addURLMarkers')) {
                     $hookObj->addURLMarkers(
                         $cObj,
@@ -279,14 +275,15 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
         } else {
             $markerArray = $urlMarkerArray;
         }
+
         return $markerArray;
     } // addURLMarkers
 
-
     /**
-     * Returns a url for use in forms and links
+     * Returns a url for use in forms and links.
      */
-    public function addQueryStringParam (&$queryString, $param, $bUsePrefix = false) {
+    public function addQueryStringParam(&$queryString, $param, $bUsePrefix = false)
+    {
         $piVars = tx_ttproducts_model_control::getPiVars();
         $prefixId = tx_ttproducts_model_control::getPrefixId();
 
@@ -302,11 +299,10 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
         }
     }
 
-
     /**
-     * Returns a url for use in forms and links
+     * Returns a url for use in forms and links.
      */
-    public function getLinkParams (
+    public function getLinkParams(
         $excludeList = '',
         $addQueryString = [],
         $bUsePrefix = false,
@@ -328,7 +324,7 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
                 empty($addQueryString[$prefixId . '[backPID]'])
             ) {
                 $queryString[$prefixId . '[backPID]'] = $backPid;
-            } else if (empty($addQueryString['backPID'])) {
+            } elseif (empty($addQueryString['backPID'])) {
                 $queryString['backPID'] = $backPid;
             }
         }
@@ -363,7 +359,7 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
             $excludeListArray = [];
             $tmpArray = GeneralUtility::trimExplode(',', $excludeList);
             if (isset($tmpArray) && is_array($tmpArray) && $tmpArray['0']) {
-                foreach($tmpArray as $param) {
+                foreach ($tmpArray as $param) {
                     if (strpos($param, $prefixId) === false) {
                         $excludeListArray[] = $prefixId . '[' . $param . ']';
                     }
@@ -384,7 +380,7 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
             }
         }
 
-        foreach($queryString as $key => $val) {
+        foreach ($queryString as $key => $val) {
             if (
                 $val == '' ||
                 (
@@ -396,13 +392,13 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
             }
         }
 
-            // Call all getLinkParams hooks at the end of this method
+        // Call all getLinkParams hooks at the end of this method
         if (
             isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['getLinkParams']) &&
             is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['getLinkParams'])
         ) {
-            foreach  ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['getLinkParams'] as $classRef) {
-                $hookObj= GeneralUtility::makeInstance($classRef);
+            foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['getLinkParams'] as $classRef) {
+                $hookObj = GeneralUtility::makeInstance($classRef);
                 if (method_exists($hookObj, 'getLinkParams')) {
                     $hookObj->getLinkParams(
                         $this,
@@ -421,4 +417,3 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface {
         return $queryString;
     }
 }
-

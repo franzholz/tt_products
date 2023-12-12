@@ -30,27 +30,26 @@
  * credit card functions
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
+class tx_ttproducts_card extends tx_ttproducts_table_base
+{
+    public $ccArray;	// credit card data
+    public $allowedArray = []; // allowed uids of credit cards
+    public $inputFieldArray = ['cc_type', 'cc_number_1', 'cc_number_2', 'cc_number_3', 'cc_number_4', 'owner_name', 'cvv2', 'endtime_mm', 'endtime_yy'];
+    public $sizeArray = ['cc_type' => 4, 'cc_number_1' => 4, 'cc_number_2' => 4, 'cc_number_3' => 4, 'cc_number_4' => 4, 'owner_name' => 0, 'cvv2' => 4, 'endtime_mm' => 2, 'endtime_yy' => 2];
+    public $asteriskArray = [2 => '**', 4 => '****'];
 
-
-class tx_ttproducts_card extends tx_ttproducts_table_base {
-    var $ccArray;	// credit card data
-    var $allowedArray = []; // allowed uids of credit cards
-    var $inputFieldArray = ['cc_type', 'cc_number_1','cc_number_2','cc_number_3', 'cc_number_4', 'owner_name', 'cvv2', 'endtime_mm', 'endtime_yy'];
-    var $sizeArray = ['cc_type' => 4, 'cc_number_1' => 4,'cc_number_2' => 4,'cc_number_3' => 4, 'cc_number_4' => 4, 'owner_name' => 0, 'cvv2' => 4, 'endtime_mm' => 2, 'endtime_yy'  => 2];
-    var $asteriskArray = [2 => '**', 4 => '****'];
-
-
-    public function init ($functablename) {
+    public function init($functablename)
+    {
         $result = true;
 
         $basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
@@ -65,21 +64,20 @@ class tx_ttproducts_card extends tx_ttproducts_table_base {
 
         $this->ccArray = $formerBasket['creditcard'] ?? [];
         if (isset($allowedUids)) {
-            $this->allowedArray = GeneralUtility::trimExplode(',',$allowedUids);
+            $this->allowedArray = GeneralUtility::trimExplode(',', $allowedUids);
         }
         $bNumberRecentlyModified = false;
 
         foreach ($this->inputFieldArray as $k => $field) {
             $size = $this->sizeArray[$field];
             if ($size) {
-                if (isset($this->ccArray[$field]) && strcmp ($this->ccArray[$field], $this->asteriskArray[$size]) != 0) {
+                if (isset($this->ccArray[$field]) && strcmp($this->ccArray[$field], $this->asteriskArray[$size]) != 0) {
                     $bNumberRecentlyModified = true;
                 }
             }
         }
 
         if ($bNumberRecentlyModified) {
-
             $ccArray = tx_ttproducts_control_session::readSession('cc');
             if (!$ccArray) {
                 $ccArray = [];
@@ -87,11 +85,11 @@ class tx_ttproducts_card extends tx_ttproducts_table_base {
 
             $allowedTags = '';
             foreach ($ccArray as $type => $ccRow) {
-                $ccArray[$type] = strip_tags ($ccRow, $allowedTags);
+                $ccArray[$type] = strip_tags($ccRow, $allowedTags);
             }
 
             if ($this->ccArray) {
-                $newId = $this->create ($ccArray['cc_uid'], $this->ccArray);
+                $newId = $this->create($ccArray['cc_uid'], $this->ccArray);
 
                 if ($newId) {
                     $ccArray['cc_uid'] = $newId;
@@ -101,7 +99,7 @@ class tx_ttproducts_card extends tx_ttproducts_table_base {
                         $this->ccArray['cc_number_' . $i] = ($this->ccArray['cc_number_' . $i] ? $this->asteriskArray[$this->sizeArray['cc_number_' . $i]] : '');
                     }
 
-                    $this->ccArray['cvv2'] = ($this->ccArray['cvv2'] ? $this->asteriskArray[$this->sizeArray['cvv2']] : '' );
+                    $this->ccArray['cvv2'] = ($this->ccArray['cvv2'] ? $this->asteriskArray[$this->sizeArray['cvv2']] : '');
                     if (!is_array($this->conf['payment.']['creditcardSelect.']['mm.'])) {
                         $this->ccArray['endtime_mm'] = ($this->ccArray['endtime_mm'] ? $this->asteriskArray[$this->sizeArray['endtime_mm']] : '');
                     }
@@ -115,17 +113,17 @@ class tx_ttproducts_card extends tx_ttproducts_table_base {
         return $result;
     }
 
-
     // **************************
     // ORDER related functions
     // **************************
 
     /**
-     * Create a new credit card record
+     * Create a new credit card record.
      *
      * This creates a new credit card record on the page with pid PID_sys_products_orders. That page must exist!
      */
-    public function create ($uid, $ccArray) {
+    public function create($uid, $ccArray)
+    {
         $newId = 0;
         $tablename = $this->getTablename();
         $pid = intval($this->conf['PID_sys_products_orders']);
@@ -142,9 +140,9 @@ class tx_ttproducts_card extends tx_ttproducts_table_base {
                     'second' => 0, // second
                     'month' => intval($ccArray['endtime_mm']), // month
                     'day' => 28, // day
-                    'year' => intval($ccArray['endtime_yy']) // year
+                    'year' => intval($ccArray['endtime_yy']), // year
                 ];
-            $endtime = mktime ($timeArray['hour'], $timeArray['minute'], $timeArray['second'], $timeArray['month'], $timeArray['day'], $timeArray['year']);
+            $endtime = mktime($timeArray['hour'], $timeArray['minute'], $timeArray['second'], $timeArray['month'], $timeArray['day'], $timeArray['year']);
 
             if (!empty($GLOBALS['TYPO3_CONF_VARS']['SYS']['serverTimeZone'])) {
                 $endtime += ($GLOBALS['TYPO3_CONF_VARS']['SYS']['serverTimeZone'] * 3600);
@@ -154,7 +152,7 @@ class tx_ttproducts_card extends tx_ttproducts_table_base {
                 $ccArray['cc_number_' . $i] = ($ccArray['cc_number_' . $i] ? $ccArray['cc_number_' . $i] : '   ');
             }
 
-            $newFields = array (
+            $newFields = [
                 'pid' => intval($pid),
                 'tstamp' => $time,
                 'crdate' => $time,
@@ -162,8 +160,8 @@ class tx_ttproducts_card extends tx_ttproducts_table_base {
                 'owner_name' => $ccArray['owner_name'],
                 'cc_number' => $ccArray['cc_number_1'] . $ccArray['cc_number_2'] . $ccArray['cc_number_3'] . $ccArray['cc_number_4'],
                 'cc_type' => $ccArray['cc_type'],
-                'cvv2' => $ccArray['cvv2']
-            );
+                'cvv2' => $ccArray['cvv2'],
+            ];
 
             if ($uid) {
                 $where_clause = 'uid=' . $uid;
@@ -173,7 +171,7 @@ class tx_ttproducts_card extends tx_ttproducts_table_base {
                 for ($i = 1; $i <= 4; ++$i) {
                     $tmpOldPart = '';
                     if (!empty($row['cc_number'])) {
-                        $tmpOldPart = substr($row['cc_number'], ($i-1) * 4, 4);
+                        $tmpOldPart = substr($row['cc_number'], ($i - 1) * 4, 4);
                     }
                     if (isset($ccArray['cc_number_' . $i])) {
                         if (strcmp($ccArray['cc_number_' . $i], $this->asteriskArray[$this->sizeArray['cc_number_' . $i]]) == 0) {
@@ -188,7 +186,7 @@ class tx_ttproducts_card extends tx_ttproducts_table_base {
                         unset($newFields[$field]); // prevent from change into asterisks
                     }
                 }
-                $newFields['cc_number'] = $ccArray['cc_number_1'] . $ccArray['cc_number_2'].$ccArray['cc_number_3'].$ccArray['cc_number_4'];
+                $newFields['cc_number'] = $ccArray['cc_number_1'] . $ccArray['cc_number_2'] . $ccArray['cc_number_3'] . $ccArray['cc_number_4'];
                 $oldEndtime = getdate($row['endtime']);
                 if (strcmp($ccArray['endtime_mm'], $this->asteriskArray[$this->sizeArray['endtime_mm']]) == 0) {
                     $ccArray['endtime_mm'] = $oldEndtime['mon'];
@@ -204,7 +202,7 @@ class tx_ttproducts_card extends tx_ttproducts_table_base {
                         'second' => 0, // second
                         'month' => intval($ccArray['endtime_mm']), // month
                         'day' => 28, // day
-                        'year' => intval($ccArray['endtime_yy']) // year
+                        'year' => intval($ccArray['endtime_yy']), // year
                     ];
                 $endtime = mktime($timeArray['hour'], $timeArray['minute'], $timeArray['second'], $timeArray['month'], $timeArray['day'], $timeArray['year']);
 
@@ -221,26 +219,28 @@ class tx_ttproducts_card extends tx_ttproducts_table_base {
                 $newId = $GLOBALS['TYPO3_DB']->sql_insert_id();
             }
         }
+
         return $newId;
     } // create
 
-
-    public function getUid () {
+    public function getUid()
+    {
         $result = 0;
         $ccArray = tx_ttproducts_control_session::readSession('cc');
         if (isset($ccArray['cc_uid'])) {
             $result = $ccArray['cc_uid'];
         }
+
         return $result;
     }
 
-
-    public function getAllowedArray () {
+    public function getAllowedArray()
+    {
         return $this->allowedArray;
     }
 
-
-    public function getRow ($uid, $bFieldArrayAll = false) {
+    public function getRow($uid, $bFieldArrayAll = false)
+    {
         $rcArray = [];
         if ($bFieldArrayAll) {
             foreach ($this->inputFieldArray as $k => $field) {
@@ -266,18 +266,19 @@ class tx_ttproducts_card extends tx_ttproducts_table_base {
                 $rcArray = $row;
             }
         }
+
         return $rcArray;
     }
 
-
     /**
-     * Checks if required fields for credit cards and bank accounts are filled in
+     * Checks if required fields for credit cards and bank accounts are filled in.
      */
-    public function checkRequired () {
+    public function checkRequired()
+    {
         $rc = '';
         $allowedArray = $this->getAllowedArray();
 
-        foreach ($this->inputFieldArray as $k => $field)	{
+        foreach ($this->inputFieldArray as $k => $field) {
             if ($field == 'cc_type' && empty($allowedArray)) {
                 continue;
             }
@@ -291,7 +292,7 @@ class tx_ttproducts_card extends tx_ttproducts_table_base {
                 break;
             }
         }
+
         return $rc;
     } // checkRequired
 }
-

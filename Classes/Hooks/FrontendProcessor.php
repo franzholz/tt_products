@@ -33,14 +33,13 @@ namespace JambageCom\TtProducts\Hooks;
  * hook for front end processing like after a login
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
  */
-
-class FrontendProcessor {
-
-    public function loginConfirmed ($params, $pObj)
+class FrontendProcessor
+{
+    public function loginConfirmed($params, $pObj)
     {
         $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
 
@@ -48,7 +47,7 @@ class FrontendProcessor {
         $this->resetAdresses($params, $pObj);
     }
 
-    public function resetAdresses (&$params, $pObj)
+    public function resetAdresses(&$params, $pObj)
     {
         $recs = \tx_ttproducts_control_basket::getStoredRecs();
 
@@ -59,5 +58,3 @@ class FrontendProcessor {
         }
     }
 }
-
-

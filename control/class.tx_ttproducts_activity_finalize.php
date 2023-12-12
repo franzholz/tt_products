@@ -30,21 +30,18 @@
  * base class for the finalization activity
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
-
-
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-class tx_ttproducts_activity_finalize implements \TYPO3\CMS\Core\SingletonInterface {
-
-    public function getEmailControlArray (
+class tx_ttproducts_activity_finalize implements \TYPO3\CMS\Core\SingletonInterface
+{
+    public function getEmailControlArray(
         $templateCode,
         $conf,
         $fromArray
@@ -85,7 +82,7 @@ class tx_ttproducts_activity_finalize implements \TYPO3\CMS\Core\SingletonInterf
         return $emailControlArray;
     }
 
-    public function doProcessing (
+    public function doProcessing(
         $templateCode,
         $mainMarkerArray,
         $functablename,
@@ -165,10 +162,10 @@ class tx_ttproducts_activity_finalize implements \TYPO3\CMS\Core\SingletonInterf
 
             if (is_array($instockTableArray) && $conf['warningInStockLimit']) {
                 $tableDescArray =
-                    array (
+                    [
                         'tt_products' => 'product',
-                        'tt_products_articles' => 'article'
-                    );
+                        'tt_products_articles' => 'article',
+                    ];
                 foreach ($instockTableArray as $tablename => $instockArray) {
                     $tableDesc = $languageObj->getLabel($tableDescArray[$tablename]);
 
@@ -282,7 +279,7 @@ class tx_ttproducts_activity_finalize implements \TYPO3\CMS\Core\SingletonInterf
                                     );
                                 }
                             }
-                        break;
+                            break;
                     }
                 }
             }
@@ -313,5 +310,3 @@ class tx_ttproducts_activity_finalize implements \TYPO3\CMS\Core\SingletonInterf
         return $result;
     } // doProcessing
 }
-
-

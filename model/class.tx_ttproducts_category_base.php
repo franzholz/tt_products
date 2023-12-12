@@ -30,53 +30,64 @@
  * functions for the category
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproduct.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
-
-
-abstract class tx_ttproducts_category_base extends tx_ttproducts_table_base {
+abstract class tx_ttproducts_category_base extends tx_ttproducts_table_base
+{
     protected $titleArray; // associative array of read in categories with title as index
     protected $mm_table = ''; // only set if a mm table is used
     public $parentField; // field name for parent
     public $referenceField; // field name for reference element
     public $categoryField = 'category';
 
-    public function getFromTitle ($title) {
+    public function getFromTitle($title)
+    {
         $rc = [];
+
         return $rc;
     }
 
-    public function getParent ($uid=0) {
+    public function getParent($uid = 0)
+    {
         $rc = [];
+
         return $rc;
     }
 
-    public function getRootCat () {
+    public function getRootCat()
+    {
         $rc = 0;
+
         return $rc;
     }
 
-    public function getRowCategory ($row) {
+    public function getRowCategory($row)
+    {
         $rc = '';
+
         return $rc;
     }
 
-    public function setMMTablename ($mm_table) {
+    public function setMMTablename($mm_table)
+    {
         $this->mm_table = $mm_table;
     }
 
-    public function getMMTablename () {
+    public function getMMTablename()
+    {
         return $this->mm_table;
     }
 
-    public function hasSpecialConf ($cat, $theCode, $type) {
+    public function hasSpecialConf($cat, $theCode, $type)
+    {
         $rc = false;
         $conf = $this->getTableConf($theCode);
 
@@ -90,49 +101,58 @@ abstract class tx_ttproducts_category_base extends tx_ttproducts_table_base {
         return $rc;
     }
 
-    public function getRowPid ($row) {
+    public function getRowPid($row)
+    {
         $rc = '';
+
         return $rc;
     }
 
-    public function getParamDefault ($theCode, $piVars) {
+    public function getParamDefault($theCode, $piVars)
+    {
         $rc = '';
+
         return $rc;
     }
 
-    public function getChildUidArray ($uid) {
+    public function getChildUidArray($uid)
+    {
         $rcArray = [];
+
         return $rcArray;
     }
 
-    public function getRelated ($rootUids, $currentCat, $pid = 0, $orderBy = '') {
+    public function getRelated($rootUids, $currentCat, $pid = 0, $orderBy = '')
+    {
         $rcArray = [];
+
         return $rcArray;
     }
 
-    public function getCategoryArray ($productRow, $orderBy = '') {
+    public function getCategoryArray($productRow, $orderBy = '')
+    {
         $catArray = [];
         $uid = 0;
         if (is_array($productRow)) {
             $uid = $productRow['uid'];
         }
 
-        if($this->getMMTablename()) {
+        if ($this->getMMTablename()) {
             $hookVar = '';
             $functablename = $this->getFuncTablename();
             if ($functablename == 'tt_products_cat') {
                 $hookVar = 'prodCategory';
-            } else if($functablename == 'tx_dam_cat') {
+            } elseif ($functablename == 'tx_dam_cat') {
                 $hookVar = 'DAMCategory';
             }
-                // Call all addWhere hooks for categories at the end of this method
+            // Call all addWhere hooks for categories at the end of this method
             if (
                 $hookVar &&
-                isset ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$hookVar]) &&
-                is_array ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$hookVar])
+                isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$hookVar]) &&
+                is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$hookVar])
             ) {
                 foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$hookVar] as $classRef) {
-                    $hookObj= GeneralUtility::makeInstance($classRef);
+                    $hookObj = GeneralUtility::makeInstance($classRef);
                     if (method_exists($hookObj, 'init')) {
                         $hookObj->init($this->parentField);
                     }
@@ -147,13 +167,15 @@ abstract class tx_ttproducts_category_base extends tx_ttproducts_table_base {
                     }
                 }
             }
-        } else if ($uid && isset($productRow[$this->categoryField])) {
+        } elseif ($uid && isset($productRow[$this->categoryField])) {
             $catArray = [$productRow[$this->categoryField]];
         }
+
         return $catArray;
     }
 
-    public function getDepth ($theCode) {
+    public function getDepth($theCode)
+    {
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $functablename = $this->getFuncTablename();
         $tableconf = $cnf->getTableConf($functablename, $theCode);
@@ -161,28 +183,30 @@ abstract class tx_ttproducts_category_base extends tx_ttproducts_table_base {
         if (!isset($result)) {
             $result = 1;
         }
+
         return $result;
     }
 
-    public function getLineArray ($start, $endArray) {
+    public function getLineArray($start, $endArray)
+    {
         $catArray = [];
         $hookVar = '';
-        $functablename = $this->getFuncTablename ();
+        $functablename = $this->getFuncTablename();
         if ($functablename == 'tt_products_cat') {
             $hookVar = 'prodCategory';
-        } else if($functablename == 'tx_dam_cat') {
+        } elseif ($functablename == 'tx_dam_cat') {
             $hookVar = 'DAMCategory';
         }
 
         $tmpArray = [];
-            // Call all addWhere hooks for categories at the end of this method
+        // Call all addWhere hooks for categories at the end of this method
         if (
-            $hookVar && 
+            $hookVar &&
             isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$hookVar]) &&
             is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$hookVar])
         ) {
             foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$hookVar] as $classRef) {
-                $hookObj= GeneralUtility::makeInstance($classRef);
+                $hookObj = GeneralUtility::makeInstance($classRef);
                 if (method_exists($hookObj, 'init')) {
                     $hookObj->init($this->parentField);
                 }
@@ -197,29 +221,32 @@ abstract class tx_ttproducts_category_base extends tx_ttproducts_table_base {
                 }
             }
         }
+
         return $catArray;
     }
 
-    public function getHookVar () {
+    public function getHookVar()
+    {
         $funcTablename = $this->getFuncTablename();
         if ($funcTablename == 'tt_products_cat') {
             $rc = 'prodCategory';
-        } else if ($funcTablename == 'tx_dam_cat') {
+        } elseif ($funcTablename == 'tx_dam_cat') {
             $rc = 'DAMCategory';
         }
+
         return $rc;
     }
 
-    public function getChildCategoryArray ($cat) {
-
+    public function getChildCategoryArray($cat)
+    {
         $catArray = [];
         $hookVar = $this->getHookVar();
 
         $tmpArray = [];
-            // Call all addWhere hooks for categories at the end of this method
-        if ($hookVar && is_array ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$hookVar])) {
-            foreach  ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$hookVar] as $classRef) {
-                $hookObj= GeneralUtility::makeInstance($classRef);
+        // Call all addWhere hooks for categories at the end of this method
+        if ($hookVar && is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$hookVar])) {
+            foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$hookVar] as $classRef) {
+                $hookObj = GeneralUtility::makeInstance($classRef);
                 if (method_exists($hookObj, 'init')) {
                     $hookObj->init($this->parentField);
                 }
@@ -237,20 +264,19 @@ abstract class tx_ttproducts_category_base extends tx_ttproducts_table_base {
         return $catArray;
     }
 
-    public function getRootArray ($rootCat, $categoryArray, $autoRoot = true) {
+    public function getRootArray($rootCat, $categoryArray, $autoRoot = true)
+    {
         $rootArray = [];
         $rootCatArray = GeneralUtility::trimExplode(',', $rootCat);
         foreach ($categoryArray as $uid => $row) {
             if (
-                (
-                    MathUtility::canBeInterpretedAsInteger($uid)
-                ) &&
+                MathUtility::canBeInterpretedAsInteger($uid) &&
                 (
                     in_array($uid, $rootCatArray) ||
                     (
-                      $autoRoot &&
+                        $autoRoot &&
                       (
-                        $this->parentField == '' ||
+                          $this->parentField == '' ||
                         (
                             !$row[$this->parentField] ||
                             !isset($categoryArray[$row[$this->parentField]]) // It is also a root if the parent is outside of the allowed pages
@@ -262,10 +288,12 @@ abstract class tx_ttproducts_category_base extends tx_ttproducts_table_base {
                 $rootArray[] = $uid;
             }
         }
+
         return $rootArray;
     }
 
-    public function getRootpathArray (&$relationArray, $rootCat, $currentCat) {
+    public function getRootpathArray(&$relationArray, $rootCat, $currentCat)
+    {
         $rootpathArray = [];
         $rootCatArray = GeneralUtility::trimExplode(',', $rootCat);
         $uid = $currentCat;
@@ -281,22 +309,23 @@ abstract class tx_ttproducts_category_base extends tx_ttproducts_table_base {
                 }
             } while (
                 $row &&
-                !in_array($lastUid,$rootCatArray) &&
+                !in_array($lastUid, $rootCatArray) &&
                 !empty($uid) &&
                 $count < 199
             );
         }
+
         return $rootpathArray;
     }
 
-    public function getRelationArray (
+    public function getRelationArray(
         $dataArray,
         $excludeCats = '',
         $rootUids = '',
         $allowedCats = ''
     ) {
         $relationArray = [];
+
         return $relationArray;
     }
 }
-

@@ -30,28 +30,25 @@
  * functions for the category
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
 
- 
+use JambageCom\Div2007\Utility\FrontendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-use JambageCom\Div2007\Utility\FrontendUtility;
-
-
-abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base_view {
+abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base_view
+{
     public $dataArray;  // array of read in categories
     public $marker = 'CATEGORY';
     public $markerObj;
     public $mm_table = ''; // only set if a mm table is used
     public $parentField; // reference field name for parent
 
-
-    public function setMarkerArrayCatTitle (
+    public function setMarkerArrayCatTitle(
         &$markerArray,
         $catTitle,
         $prefix
@@ -65,18 +62,17 @@ abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base
         $markerArray['###' . $prefix . $this->getMarker() . '_TITLE###'] = $title;
     }
 
-
-    public function getMarkerArrayCatTitle (
+    public function getMarkerArrayCatTitle(
         $markerArray,
         $prefix = ''
     ) {
         $markerKey = '###' . $prefix . $this->getMarker() . '_TITLE###';
         $result = $markerArray[$markerKey];
+
         return $result;
     }
 
-
-    public function &getSubpartArrays (
+    public function &getSubpartArrays(
         &$urlmarkerObj,
         $row,
         &$subpartArray,
@@ -109,24 +105,25 @@ abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base
                         )
                     )
             . '">',
-                '</a>'
+                '</a>',
             ];
     }
 
-
     /**
      * Template marker substitution
-     * Fills in the markerArray with data for a product
+     * Fills in the markerArray with data for a product.
      *
      * @param	array		reference to an item array with all the data of the item
-     * @param	integer		number of images to be shown
+     * @param	int		number of images to be shown
      * @param	object		the image cObj to be used
      * @param	array		information about the parent HTML form
+     *
      * @return	array		Returns a markerArray ready for substitution with information
      * 			 			for the tt_producst record, $row
+     *
      * @access private
      */
-    abstract function getMarkerArray (
+    abstract public function getMarkerArray(
         &$markerArray,
         $markerKey,
         $category,
@@ -138,13 +135,13 @@ abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base
         $pageAsCategory = 0,
         $theCode,
         $basketExtra,
-        $basketRecs, 
+        $basketRecs,
         $id,
         $prefix,
         $linkWrap = ''
     );
 
-    public function getParentMarkerArray (
+    public function getParentMarkerArray(
         $parentArray,
         $row,
         &$markerArray,
@@ -206,8 +203,8 @@ abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base
         }
     }
 
-
-    public function addAllCatTagsMarker (&$markerArray, $tagArray, $prefix) {
+    public function addAllCatTagsMarker(&$markerArray, $tagArray, $prefix)
+    {
         $outArray = [];
 
         if (isset($tagArray) && is_array($tagArray)) {
@@ -219,4 +216,3 @@ abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base
         $markerArray['###ALLCATTAGS###'] = implode(' ', $outArray);
     }
 }
-

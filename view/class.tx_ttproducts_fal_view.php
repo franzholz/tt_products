@@ -30,27 +30,25 @@
  * functions for the FAL File Abstraction Layer
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
  */
 
+use JambageCom\Div2007\Utility\FrontendUtility;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
-
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
 
-use JambageCom\Div2007\Utility\FrontendUtility;
-
-
-class tx_ttproducts_fal_view extends tx_ttproducts_article_base_view {
+class tx_ttproducts_fal_view extends tx_ttproducts_article_base_view
+{
     public $marker = 'FAL';
     public $piVar = 'fal';
 
-
-    public function getItemSubpartArrays (
+    public function getItemSubpartArrays(
         &$templateCode,
         $functablename,
         $row,
@@ -76,20 +74,21 @@ class tx_ttproducts_fal_view extends tx_ttproducts_article_base_view {
         );
     }
 
-
     /**
      * Template marker substitution
-     * Fills in the markerArray with data for a product
+     * Fills in the markerArray with data for a product.
      *
      * @param   array       reference to an item array with all the data of the item
      * @param   string      title of the category
-     * @param   integer     number of images to be shown
+     * @param   int     number of images to be shown
      * @param   object      the image cObj to be used
      * @param   array       information about the parent HTML form
+     *
      * @return  array
+     *
      * @access private
      */
-    public function getModelMarkerArray (
+    public function getModelMarkerArray(
         $row,
         $markerParam,
         &$markerArray,
@@ -186,10 +185,9 @@ class tx_ttproducts_fal_view extends tx_ttproducts_article_base_view {
             $downloadImageFile = PathUtility::getAbsoluteWebPath(ExtensionManagementUtility::extPath(TT_PRODUCTS_EXT) . 'Resources/Public/Icons/system-extension-download.png');
 
             $content .= '<a href="' . htmlspecialchars($url) . '" title="' .
-                $GLOBALS['TSFE']->sL(DIV2007_LANGUAGE_PATH . 'locallang_common.xlf:download') . ' ' . $filename . '">' . $filename . '<img src="' . $downloadImageFile . '">' . '</a>';
+                $GLOBALS['TSFE']->sL(DIV2007_LANGUAGE_PATH . 'locallang_common.xlf:download') . ' ' . $filename . '">' . $filename . '<img src="' . $downloadImageFile . '"></a>';
 
             $markerArray['###' . $markerLink . '###'] = $content;
         }
     }
 }
-

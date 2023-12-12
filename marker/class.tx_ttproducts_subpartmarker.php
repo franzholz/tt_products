@@ -31,48 +31,48 @@
  *
  * @author	Kasper Skårhøj <kasperYYYY@typo3.com>
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
 
+use JambageCom\Div2007\Utility\FrontendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-use JambageCom\Div2007\Utility\FrontendUtility;
-
-class tx_ttproducts_subpartmarker implements \TYPO3\CMS\Core\SingletonInterface {
-
+class tx_ttproducts_subpartmarker implements \TYPO3\CMS\Core\SingletonInterface
+{
     /**
-     * Returning template subpart marker
+     * Returning template subpart marker.
      */
-    public function spMarker ($subpartMarker) {
-
+    public function spMarker($subpartMarker)
+    {
         $altSPM = '';
         if (isset($conf['altMainMarkers.'])) {
             $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
             $conf = $cnfObj->getConf();
             $cObj = FrontendUtility::getContentObjectRenderer();
             $sPBody = substr($subpartMarker, 3, -3);
-            $altSPM = trim($cObj->stdWrap($conf['altMainMarkers.'][$sPBody], $conf['altMainMarkers.'][$sPBody.'.']));
+            $altSPM = trim($cObj->stdWrap($conf['altMainMarkers.'][$sPBody], $conf['altMainMarkers.'][$sPBody . '.']));
         }
         $rc = $altSPM ? $altSPM : $subpartMarker;
+
         return $rc;
     } // spMarker
 
-
     /**
-     * Returning template subpart array
+     * Returning template subpart array.
      */
-    public function getTemplateSubParts ($templateCode, $subItemMarkerArray) {
+    public function getTemplateSubParts($templateCode, $subItemMarkerArray)
+    {
         $rc = [];
         foreach ($subItemMarkerArray as $key => $subItemMarker) {
-            $rc[$subItemMarker] = substr($this->spMarker('###'.$subItemMarker . '_TEMPLATE###'), 3, -3);
+            $rc[$subItemMarker] = substr($this->spMarker('###' . $subItemMarker . '_TEMPLATE###'), 3, -3);
         }
+
         return $rc;
     } // getTemplate
-
 
     /**
      * Returns a subpart from the input content stream.
@@ -86,14 +86,17 @@ class tx_ttproducts_subpartmarker implements \TYPO3\CMS\Core\SingletonInterface 
      * " World. How are ". The input content string could just as well have
      * been "Hello ###sub1### World. How are ###sub1### you?" and the result
      * would be the same
-     * Wrapper for t3lib_parsehtml::getSubpart which behaves identical
+     * Wrapper for t3lib_parsehtml::getSubpart which behaves identical.
      *
-     * @param	string		The content stream, typically HTML template content.
+     * @param	string		the content stream, typically HTML template content
      * @param	string		The marker string, typically on the form "###[the marker string]###"
-     * @return	string		The subpart found, if found.
+     *
+     * @return	string		the subpart found, if found
+     *
      * @see substituteSubpart(), t3lib_parsehtml::getSubpart()
      */
-    public function getSubpart ($content, $marker, &$error_code) {
+    public function getSubpart($content, $marker, &$error_code)
+    {
         $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
         $result = $templateService->getSubpart($content, $marker);
 
@@ -103,7 +106,7 @@ class tx_ttproducts_subpartmarker implements \TYPO3\CMS\Core\SingletonInterface 
             $error_code[1] = $marker;
             $error_code[2] = $templateObj->getTemplateFile();
         }
+
         return $result;
     }
 }
-

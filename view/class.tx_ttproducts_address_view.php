@@ -30,35 +30,35 @@
  * functions for the frontend users
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
 
- 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-class tx_ttproducts_address_view extends tx_ttproducts_category_base_view {
+class tx_ttproducts_address_view extends tx_ttproducts_category_base_view
+{
     public $piVar = 'a';
     public $marker = 'ADDRESS';
 
-
     /**
      * Template marker substitution
-     * Fills in the markerArray with data for the address
+     * Fills in the markerArray with data for the address.
      *
      * @param	array		reference to an item array with all the data of the item
-     * @param	integer		number of images to be shown
+     * @param	int		number of images to be shown
      * @param	object		the image cObj to be used
      * @param	array		information about the parent HTML form
+     *
      * @return	array		Returns a markerArray ready for substitution with information
      * 				for the tt_producst record, $row
+     *
      * @access private
      */
-    public function getMarkerArray (
+    public function getMarkerArray(
         &$markerArray,
         $markerKey,
         $category,
@@ -76,10 +76,10 @@ class tx_ttproducts_address_view extends tx_ttproducts_category_base_view {
         $linkWrap = ''
     ) {
         $titleField = $this->getModelObj()->fieldArray['title'];
-        $row = ($category ? $this->getModelObj()->get($category) : array ($titleField => '', 'pid' => $pid));
+        $row = ($category ? $this->getModelObj()->get($category) : [$titleField => '', 'pid' => $pid]);
         $catTitle = '';
 
-        if (($row[$titleField])) {
+        if ($row[$titleField]) {
             $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
             $tableConfig = $cnf->getTableConf('address', $theCode);
             $catTitle .= ($tableConfig['separator'] . $row[$titleField]);
@@ -107,4 +107,3 @@ class tx_ttproducts_address_view extends tx_ttproducts_category_base_view {
         );
     }
 }
-

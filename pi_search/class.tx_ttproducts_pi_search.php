@@ -30,19 +30,21 @@
  * Search plugins for the shop system.
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
+ *
  * @see file Configuration/TypoScript/PluginSetup/Main/constants.txt
  * @see TSref
- *
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
-
-class tx_ttproducts_pi_search {
+class tx_ttproducts_pi_search
+{
     public $cObj;
 
     public function setContentObjectRenderer(ContentObjectRenderer $cObj): void
@@ -53,14 +55,13 @@ class tx_ttproducts_pi_search {
     /**
      * Main method. Call this from TypoScript by a USER cObject.
      */
-    public function main($content, $conf) {
-
+    public function main($content, $conf)
+    {
         $pibaseObj = GeneralUtility::makeInstance('tx_ttproducts_pi_search_base');
         $pibaseObj->cObj = $this->cObj;
         $languageSubpath = '/Resources/Private/Language/';
 
         if (!empty($conf['templateFile'])) {
-
             $content = $pibaseObj->main($content, $conf);
         } else {
             $errorText = $GLOBALS['TSFE']->sL(
@@ -73,5 +74,3 @@ class tx_ttproducts_pi_search {
         return $content;
     }
 }
-
-

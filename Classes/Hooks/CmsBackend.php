@@ -33,15 +33,11 @@ namespace JambageCom\TtProducts\Hooks;
  * hook functions for the TYPO3 cms
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
-
-
-class CmsBackend extends \JambageCom\Div2007\Base\CmsHookBase {
+class CmsBackend extends \JambageCom\Div2007\Base\CmsHookBase
+{
     public $extensionKey = TT_PRODUCTS_EXT;
-
 }
-

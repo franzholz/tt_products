@@ -30,19 +30,19 @@
  * creditpoints functions
  *
  * @author  Els Verberne <verberne@bendoo.nl>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-
-class tx_ttproducts_creditpoints_div {
-    static public function getCreditPointsFeuser () {
+class tx_ttproducts_creditpoints_div
+{
+    public static function getCreditPointsFeuser()
+    {
         $result = 0;
 
         if (
@@ -56,7 +56,8 @@ class tx_ttproducts_creditpoints_div {
         return $result;
     }
 
-    static public function getPriceFactor ($conf) {
+    public static function getPriceFactor($conf)
+    {
         $pricefactor = 0;
 
         if (isset($conf['creditpoints.'])) {
@@ -72,8 +73,8 @@ class tx_ttproducts_creditpoints_div {
         return $pricefactor;
     }
 
-    static public function getUsedCreditpoints ($recs) {
-
+    public static function getUsedCreditpoints($recs)
+    {
         $creditpoints = 0;
         $creditpointsObj = GeneralUtility::makeInstance('tx_ttproducts_field_creditpoints');
 
@@ -81,8 +82,8 @@ class tx_ttproducts_creditpoints_div {
 
         if ($autoCreditpointsTotal > 0) {
             $creditpoints = $autoCreditpointsTotal;
-        } else if (
-            isset($recs) &&	is_array($recs) &&
+        } elseif (
+            isset($recs) && is_array($recs) &&
             isset($recs['tt_products']) && is_array($recs['tt_products']) &&
             isset($recs['tt_products']['creditpoints']) &&
             $recs['tt_products']['creditpoints'] > 0
@@ -97,13 +98,15 @@ class tx_ttproducts_creditpoints_div {
         }
 
         $creditpoints = doubleval($creditpoints);
+
         return $creditpoints;
     }
 
     /**
-     * Returns the number of creditpoints for the frontend user
+     * Returns the number of creditpoints for the frontend user.
      */
-    static public function getCreditPoints ($amount, $creditpointsConf) {
+    public static function getCreditPoints($amount, $creditpointsConf)
+    {
         $type = '';
         $creditpoints = 0;
         if (is_array($creditpointsConf)) {
@@ -136,19 +139,19 @@ class tx_ttproducts_creditpoints_div {
                 }
             }
         }
+
         return $creditpoints;
     } // getCreditPoints
 
-
     /**
-     * adds the number of creditpoints for the frontend user
+     * adds the number of creditpoints for the frontend user.
      */
-    static public function addCreditPoints ($username, $creditpoints) {
-
+    public static function addCreditPoints($username, $creditpoints)
+    {
         if ($username) {
             $uid_voucher = '';
             // get the "old" creditpoints for the user
-            $res1 = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid, tt_products_creditpoints', 'fe_users', 'username=' . $GLOBALS['TYPO3_DB']->fullQuoteStr($username,'tt_products_creditpoints'));
+            $res1 = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid, tt_products_creditpoints', 'fe_users', 'username=' . $GLOBALS['TYPO3_DB']->fullQuoteStr($username, 'tt_products_creditpoints'));
             if ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res1)) {
                 $ttproductscreditpoints = $row['tt_products_creditpoints'];
                 $uid_voucher = $row['uid'];
@@ -166,6 +169,3 @@ class tx_ttproducts_creditpoints_div {
         }
     }
 }
-
-
-

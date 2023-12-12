@@ -30,19 +30,18 @@
  * functions for the product
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
 
-
+use JambageCom\Div2007\Utility\FrontendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-use JambageCom\Div2007\Utility\FrontendUtility;
-
-class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
+class tx_ttproducts_product_view extends tx_ttproducts_article_base_view
+{
     public $relatedArray = []; // array of related products
     public $marker = 'PRODUCT';
     public $type = 'product';
@@ -50,8 +49,7 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
     public $articleArray = [];
     public $datafield;
 
-
-    public function init (
+    public function init(
         $modelObj
     ) {
         $this->variant = GeneralUtility::makeInstance('tx_ttproducts_variant_view');
@@ -62,8 +60,7 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
         return $result;
     }
 
-
-    public function getItemMarkerSubpartArrays (
+    public function getItemMarkerSubpartArrays(
         $templateCode,
         $functablename,
         $row,
@@ -106,7 +103,7 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
 
         if (is_array($extArray) && isset($extArray['tt_products']) && is_array($extArray['tt_products'])) {
             $variant = $extArray['tt_products'][0]['vars'];
-        } else if (is_array($extArray) && isset($extArray['tx_dam'])) {
+        } elseif (is_array($extArray) && isset($extArray['tx_dam'])) {
             $variant = $extArray['tx_dam'][0]['vars'];
         }
         $bGiftService = true;
@@ -131,7 +128,6 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
                 $basketRecs
             );
         }
-
 
         // download subparts
 
@@ -176,17 +172,19 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
 
     /**
      * Template marker substitution
-     * Fills in the markerArray with data for a product
+     * Fills in the markerArray with data for a product.
      *
      * @param	array		reference to an item array with all the data of the item
      * @param	string		title of the category
-     * @param	integer		number of images to be shown
+     * @param	int		number of images to be shown
      * @param	object		the image cObj to be used
      * @param	array		information about the parent HTML form
+     *
      * @return	array
+     *
      * @access private
      */
-    public function getModelMarkerArray (
+    public function getModelMarkerArray(
         $row,
         $markerParam,
         &$markerArray,
@@ -210,7 +208,7 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
         $bEnableTaxZero = false,
         $notOverwritePriceIfSet = true
     ) {
-            // Returns a markerArray ready for substitution with information for the tt_producst record, $row
+        // Returns a markerArray ready for substitution with information for the tt_producst record, $row
         $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $modelObj = $this->getModelObj();
@@ -242,7 +240,7 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
             $notOverwritePriceIfSet
         );
 
-            // Subst. fields
+        // Subst. fields
         $markerArray['###' . $this->getMarker() . '_UNIT###'] = $row['unit'] ?? '';
         $markerArray['###' . $this->getMarker() . '_UNIT_FACTOR###'] = $row['unit_factor'] ?? '0';
         $markerArray['###' . $this->getMarker() . '_WWW###'] = $row['www'] ?? '';
@@ -264,7 +262,6 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
             $addressViewObj = $tablesObj->get('address', true);
 
             if (is_object($addressViewObj)) {
-
                 if (
                     ($conf['table.']['address'] != 'tt_address' || \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded(TT_ADDRESS_EXT)) &&
                     $addressUid &&
@@ -304,20 +301,20 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
             if ($row['note_uid']) {
                 $pageObj = $tablesObj->get('pages');
 
-                $notePageArray = $pageObj->getNotes ($row['uid']);
+                $notePageArray = $pageObj->getNotes($row['uid']);
                 $contentConf = $cnfObj->getTableConf('tt_content', $code);
 
-                foreach($notePageArray as $k => $pid) {
+                foreach ($notePageArray as $k => $pid) {
                     $pageRow = $pageObj->get($pid);
                     $pageMarkerKey = 'PRODUCT_NOTE_UID_' . ($k + 1);
                     $contentArray = $tablesObj->get('tt_content')->getFromPid($pid);
                     $countArray = [];
-                    foreach($contentArray as $k2 => $contentEl) {
+                    foreach ($contentArray as $k2 => $contentEl) {
                         $cType = $contentEl['CType'];
                         $countArray[$cType] = intval($countArray[$cType]) + 1;
                         $markerKey = $pageMarkerKey . '_' . $countArray[$cType] . '_' . strtoupper($cType);
 
-                        foreach($tagArray as $index => $v) {
+                        foreach ($tagArray as $index => $v) {
                             $pageFoundPos = strpos($index, $pageMarkerKey);
                             if ($pageFoundPos == 0 && $pageFoundPos !== false) {
                                 $fieldName = str_replace($pageMarkerKey . '_', '', $index);
@@ -329,23 +326,23 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
                                 continue;
                             }
                             $fieldPos = strrpos($index, '_');
-                            $fieldName = substr($index, $fieldPos+1);
+                            $fieldName = substr($index, $fieldPos + 1);
                             $markerArray['###' . $index . '###'] = $contentEl[$fieldName];
                             if (
-                                isset ($contentConf['displayFields.']) &&
-                                is_array ($contentConf['displayFields.']) &&
+                                isset($contentConf['displayFields.']) &&
+                                is_array($contentConf['displayFields.']) &&
                                 $contentConf['displayFields.'][$fieldName] == 'RTEcssText'
                             ) {
-                                    // Extension CSS styled content
+                                // Extension CSS styled content
                                 if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('css_styled_content')) {
                                     $markerArray['###' . $index . '###'] =
                                         FrontendUtility::RTEcssText(
                                             $local_cObj,
                                             $contentEl[$fieldName]
                                         );
-                                } else if (is_array($conf['parseFunc.'])) {
+                                } elseif (is_array($conf['parseFunc.'])) {
                                     $markerArray['###' . $index . '###'] =
-                                        $cObj->parseFunc($contentEl[$fieldName],$conf['parseFunc.']);
+                                        $cObj->parseFunc($contentEl[$fieldName], $conf['parseFunc.']);
                                 }
                             }
                         }
@@ -354,7 +351,7 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
             }
 
             foreach ($tagArray as $key => $val) {
-                if (strpos($key,'PRODUCT_NOTE_UID') !== false) {
+                if (strpos($key, 'PRODUCT_NOTE_UID') !== false) {
                     if (!isset($markerArray['###' . $key . '###'])) {
                         $markerArray['###' . $key . '###'] = '';
                     }
@@ -363,7 +360,7 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
 
             $extKey = '';
 
-                // check need for rating
+            // check need for rating
             if (
                 (
                     isset($tagArray['RATING']) ||
@@ -379,11 +376,10 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
 
             if (
                 $extKey != '' &&
-                \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($extKey) && 
+                \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($extKey) &&
                 $api != '' &&
                 class_exists($api)
-            )
-            {
+            ) {
                 $apiObj = GeneralUtility::makeInstance($api);
                 if (method_exists($apiObj, 'getDefaultConfig')) {
                     $ratingConf = $apiObj->getDefaultConfig();
@@ -400,11 +396,11 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
                 $ratingConf['ref'] = TT_PRODUCTS_EXT . '_' . $row['uid'];
 
                 $cObj = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
-                /* @var $cObj TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer */
+                // @var $cObj TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer
                 $cObj->start([]);
                 $markerArray['###RATING###'] = $cObj->cObjGetSingle($cObjectType, $ratingConf);
                 $cObj = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
-                /* @var $cObj TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer */
+                // @var $cObj TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer
                 $cObj->start([]);
                 $ratingConf['mode'] = 'static';
                 $markerArray['###RATING_STATIC###'] = $cObj->cObjGetSingle($cObjectType, $ratingConf);
@@ -414,7 +410,7 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
             }
 
             $extKey = '';
-                // check need for comments
+            // check need for comments
             if (
                 isset($tagArray['COMMENT']) &&
                 isset($conf['COMMENT']) &&
@@ -450,7 +446,7 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
                 $linkParams = $urlObj->getLinkParams(
                     '',
                     [
-                        'product' => $row['uid']
+                        'product' => $row['uid'],
                     ],
                     true,
                     false,
@@ -474,5 +470,3 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view {
         }
     } // getModelMarkerArray
 }
-
-

@@ -1,6 +1,6 @@
 <?php
-namespace JambageCom\TtProducts\Hooks;
 
+namespace JambageCom\TtProducts\Hooks;
 
 /***************************************************************
 *  Copyright notice
@@ -33,22 +33,21 @@ namespace JambageCom\TtProducts\Hooks;
  * hook functions for the TYPO3 BE
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-
 use TYPO3\CMS\Core\TypoScript\TemplateService;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\RootlineUtility;
 
-
-class OrderBackend implements \TYPO3\CMS\Core\SingletonInterface {
-
-    public function displayCategoryTree ($parameterArray, $fobj) {
+class OrderBackend implements \TYPO3\CMS\Core\SingletonInterface
+{
+    public function displayCategoryTree($parameterArray, $fobj)
+    {
         $result = false;
 
         if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('mbi_products_categories')) {
@@ -56,12 +55,12 @@ class OrderBackend implements \TYPO3\CMS\Core\SingletonInterface {
 
             if (class_exists('JambageCom\\MbiProductsCategories\\View\\TreeSelector')) {
                 $treeObj = GeneralUtility::makeInstance('JambageCom\\MbiProductsCategories\\View\\TreeSelector');
-            } else if (class_exists('tx_mbiproductscategories_treeview')) {
+            } elseif (class_exists('tx_mbiproductscategories_treeview')) {
                 $treeObj = GeneralUtility::makeInstance('tx_mbiproductscategories_treeview');
             }
 
             if (is_object($treeObj)) {
-                $result = 
+                $result =
                     $treeObj->displayCategoryTree(
                         $parameterArray,
                         $fobj
@@ -73,20 +72,20 @@ class OrderBackend implements \TYPO3\CMS\Core\SingletonInterface {
     }
 
     // Called from the backend page and list module for a single order record to open the TCE
-    public function tceSingleOrder ($data) {
-
+    public function tceSingleOrder($data)
+    {
         $table = $data['tableName'];
         $field = $data['fieldName'];
-        $row   = $data['databaseRow'];
+        $row = $data['databaseRow'];
         $parameterArray = $data['parameterArray'];
 
-            // Field configuration from TCA:
+        // Field configuration from TCA:
         $config = $parameterArray['fieldConf']['config'];
         $pageId = $this->getCurrentPageId();
         $template = GeneralUtility::makeInstance(TemplateService::class);
         $template->tt_track = false;
         $rootline = GeneralUtility::makeInstance(
-            RootlineUtility::class, 
+            RootlineUtility::class,
             $pageId
         )->get();
         $template->runThroughTemplates($rootline, 0);
@@ -119,24 +118,25 @@ class OrderBackend implements \TYPO3\CMS\Core\SingletonInterface {
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $orderView = $tablesObj->get('sys_products_orders', true);
         $result = $orderView->getSingleOrder($row);
+
         return $result;
     }
 
-
-    public function displayOrderHtml ($parameterArray, $fobj) {
+    public function displayOrderHtml($parameterArray, $fobj)
+    {
         $result = 'ERROR';
         $table = '';
         $field = '';
-        $row   = [];
+        $row = [];
         $config = [];
 
         $data = $parameterArray;
         $table = $data['tableName'];
         $field = $data['fieldName'];
-        $row   = $data['databaseRow'];
+        $row = $data['databaseRow'];
         $parameterArray = $data['parameterArray'];
-        
-                // Field configuration from TCA:
+
+        // Field configuration from TCA:
         $config = $parameterArray['fieldConf']['config'];
         $orderData = unserialize($row['orderData']);
         if (
@@ -164,11 +164,11 @@ class OrderBackend implements \TYPO3\CMS\Core\SingletonInterface {
         if (isset($_GET['returnUrl'])) {
             $parseUrl = parse_url($_GET['returnUrl']);
             $query = $parseUrl['query'];
-            
+
             $resultParser = parse_str(parse_url($_GET['returnUrl'])['query'], $params);
-            $result = (int) $params['id'];
+            $result = (int)$params['id'];
         }
+
         return $result;
     }
 }
-

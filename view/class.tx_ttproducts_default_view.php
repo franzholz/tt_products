@@ -30,16 +30,12 @@
  * functions for the default view which can be used by most tables
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
  */
-
-
-
-class tx_ttproducts_default_view extends tx_ttproducts_table_base_view {
-
-
+class tx_ttproducts_default_view extends tx_ttproducts_table_base_view
+{
 }
-

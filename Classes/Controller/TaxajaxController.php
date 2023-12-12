@@ -2,7 +2,6 @@
 
 namespace JambageCom\TtProducts\Controller;
 
-
 /***************************************************************
 *  Copyright notice
 *
@@ -35,33 +34,26 @@ namespace JambageCom\TtProducts\Controller;
  *
  * @author  Kasper Skårhøj <kasperYYYY@typo3.com>
  * @author  Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
-
-use TYPO3\CMS\Core\Http\NullResponse;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-
 
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use TYPO3\CMS\Core\Http\NullResponse;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-
-
-class TaxajaxController {
-
+class TaxajaxController
+{
     /**
-    * @param ServerRequestInterface $request
-    * @param ResponseInterface $response
-    * @return ResponseInterface
-    */
-    public function processRequest (
+     * @return ResponseInterface
+     */
+    public function processRequest(
         ServerRequestInterface $request
-    )
-    {
+    ) {
         // ******************************************************
         // Start with tt_products
         // ******************************************************
@@ -85,17 +77,16 @@ class TaxajaxController {
 
         $SOBE->init($conf, $config, $ajax, $tmp, $cObj, $errorCode);
 
-        if(!empty($_POST['xajax'])) {
-
+        if (!empty($_POST['xajax'])) {
             $ajax->taxajax->processRequests();
 
             $SOBE->destruct();
-            exit();
+            exit;
         }
         $SOBE->main();
         $SOBE->printContent();
         $SOBE->destruct();
+
         return new NullResponse();
     }
 }
-

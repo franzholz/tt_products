@@ -30,32 +30,32 @@
  * control functions for an address item object
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
 
 use TYPO3\CMS\Core\Utility\MathUtility;
 
-class tx_ttproducts_control_address {
-
-    static protected $addressExtKeyTable = array(
+class tx_ttproducts_control_address
+{
+    protected static $addressExtKeyTable = [
         'tt_address' => TT_ADDRESS_EXT,
         'tx_partner_main' => PARTNER_EXT,
         'tx_party_addresses' => PARTY_EXT,
         'tx_party_parties' => PARTY_EXT,
-        'fe_users' => '0'
-    );
+        'fe_users' => '0',
+    ];
 
-
-    static public function getAddressExtKeyTable () {
+    public static function getAddressExtKeyTable()
+    {
         return self::$addressExtKeyTable;
     }
 
-
-    static public function getAddressTablename (&$extKey) {
+    public static function getAddressTablename(&$extKey)
+    {
         $emClass = '\\TYPO3\\CMS\\Core\\Utility\\ExtensionManagementUtility';
         $extKey = '';
         $addressTable = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['addressTable'];
@@ -64,7 +64,6 @@ class tx_ttproducts_control_address {
             $addressExtKeyTable = self::getAddressExtKeyTable();
 
             foreach ($addressExtKeyTable as $addressTable => $extKey) {
-
                 $testIntResult = MathUtility::canBeInterpretedAsInteger($extKey);
                 if (
                     $testIntResult
@@ -84,4 +83,3 @@ class tx_ttproducts_control_address {
         return $addressTable;
     }
 }
-

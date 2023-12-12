@@ -30,16 +30,13 @@
  * display of the static taxes
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
+ *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
+ *
  * @package TYPO3
  * @subpackage tt_products
- *
- *
  */
-
-
-class tx_ttproducts_static_tax_view extends tx_ttproducts_table_base_view {
+class tx_ttproducts_static_tax_view extends tx_ttproducts_table_base_view
+{
     public $marker = 'STATICTAX';
-
 }
-
