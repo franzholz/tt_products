@@ -421,7 +421,7 @@ This is a dump of the failures:
                 $from = MailUtility::getSystemFrom();
                 /** @var $mail \TYPO3\CMS\Core\Mail\MailMessage */
                 $mail = GeneralUtility::makeInstance(MailMessage::class);
-                $mail->setTo($email)->setFrom($from)->setSubject($subject)->setBody($email_body);
+                $mail->setTo($email)->setFrom($from)->setSubject($subject)->text($email_body);
                 $mail->send();
                 // Logout written to log
                 $this->writelog(255, 4, 0, 3, 'Failure warning (%s failures within %s seconds) sent by email to %s', [$this->db->sql_num_rows($res), $secondsBack, $email]);
