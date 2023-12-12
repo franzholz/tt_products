@@ -45,7 +45,7 @@ class tx_ttproducts_config implements SingletonInterface
 {
     public $conf;
     public $config;
-    private $bHasBeenInitialised = false;
+    private bool $bHasBeenInitialised = false;
 
     /**
      * Getting the configurations.

@@ -53,7 +53,7 @@ abstract class RelatedProductsTypes
 
 class PluginApi
 {
-    private static $bHasBeenInitialised = false;
+    private static bool $bHasBeenInitialised = false;
     private static $flexformArray = [];
 
     public static function init($conf)

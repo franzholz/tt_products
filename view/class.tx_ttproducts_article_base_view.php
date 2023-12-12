@@ -1,4 +1,3 @@
-
 <?php
 /***************************************************************
 *  Copyright notice
@@ -42,7 +41,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 abstract class tx_ttproducts_article_base_view extends tx_ttproducts_table_base_view
 {
-    private $dataArray = []; // array of read in products
+    private array $dataArray = []; // array of read in products
     private $table;	 // object of the type tx_table_db
 
     public $tabledesc;

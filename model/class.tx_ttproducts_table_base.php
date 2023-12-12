@@ -64,7 +64,7 @@ abstract class tx_ttproducts_table_base implements SingletonInterface
     private $tableDesc;
     private $theCode;
     private $orderBy;
-    private $fieldClassArray = [
+    private array $fieldClassArray = [
             'ac_uid' => 'tx_ttproducts_field_foreign_table',
             'crdate' => 'tx_ttproducts_field_datetime',
             'creditpoints' => 'tx_ttproducts_field_creditpoints',

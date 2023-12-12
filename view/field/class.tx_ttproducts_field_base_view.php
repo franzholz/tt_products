@@ -42,7 +42,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 abstract class tx_ttproducts_field_base_view implements tx_ttproducts_field_view_int, SingletonInterface
 {
-    private $bHasBeenInitialised = false;
+    private bool $bHasBeenInitialised = false;
     public $modelObj;
     public $cObj;
     public $conf;		// original configuration

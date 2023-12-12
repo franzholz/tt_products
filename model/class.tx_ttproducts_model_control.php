@@ -66,14 +66,14 @@ class tx_ttproducts_model_control
 
     public static $basketVar = 'ttp_basket';
     public static $searchboxVar = 'searchbox';
-    private static $basketParamVar = 'basket';
-    private static $orderViewVar = 'orderview';
+    private static string $basketParamVar = 'basket';
+    private static string $orderViewVar = 'orderview';
     private static $prefixId = 'tt_products';
     private static $piVars = [];
-    private static $piVarsDefault = [];
-    private static $andVars = [];
-    private static $basketIntoIdPrefix = 'basket-into-id';
-    private static $basketInputErrorIdPrefix = 'basket-input-error-id';
+    private static array $piVarsDefault = [];
+    private static array $andVars = [];
+    private static string $basketIntoIdPrefix = 'basket-into-id';
+    private static string $basketInputErrorIdPrefix = 'basket-input-error-id';
 
     public static function determineRegExpDelimiter($delimiter)
     {

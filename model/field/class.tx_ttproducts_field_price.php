@@ -43,9 +43,9 @@ use TYPO3\CMS\Core\Utility\MathUtility;
 
 class tx_ttproducts_field_price extends tx_ttproducts_field_base
 {
-    private $bHasBeenInitialised = false;
+    private bool $bHasBeenInitialised = false;
     private $bTaxIncluded;	// if tax is already included in the price
-    private $taxMode;
+    private ?int $taxMode = null;
     public $priceConf; 	// price configuration
     protected static $priceFieldArray = [
         'price',

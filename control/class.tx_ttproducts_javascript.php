@@ -48,7 +48,7 @@ class tx_ttproducts_javascript implements SingletonInterface
     public $bCopyrightShown;
     public $copyright;
     public $fixInternetExplorer;
-    private $bIncludedArray = [];
+    private array $bIncludedArray = [];
 
     public function init($ajax)
     {

@@ -61,8 +61,8 @@ class tx_ttproducts_control_basket
     protected static $basketExt = [];	// "Basket Extension" - holds extended attributes
     protected static $basketExtra = [];	// initBasket() uses this for additional information like the current payment/shipping methods
     protected static $infoArray = [];
-    private static $pidListObj;
-    private static $bHasBeenInitialised = false;
+    private static ?object $pidListObj = null;
+    private static bool $bHasBeenInitialised = false;
     private static $funcTablename;			// tt_products or tt_products_articles
 
     public static function storeNewRecs($transmissionSecurity = false)
@@ -885,11 +885,7 @@ class tx_ttproducts_control_basket
                 }
             }
 
-            $infoArray['billing']['agb'] =
-                (
-                    $infoArray['billing']['agb'] ??
-                        $GLOBALS['TSFE']->fe_user->user['agb']
-                );
+            $infoArray['billing']['agb'] ??= $GLOBALS['TSFE']->fe_user->user['agb'];
 
             $dateBirth = $infoArray['billing']['date_of_birth'];
             $tmpPos = strpos($dateBirth, '-');

@@ -41,7 +41,7 @@ use TYPO3\CMS\Core\SingletonInterface;
  */
 class tx_ttproducts_variant_dummy implements tx_ttproducts_variant_int, SingletonInterface
 {
-    private $selectableArray = [];
+    private array $selectableArray = [];
     public $conf;	// reduced local conf
 
     /**

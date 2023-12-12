@@ -44,7 +44,7 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 abstract class tx_ttproducts_table_base_view implements SingletonInterface
 {
-    private $bHasBeenInitialised = false;
+    private bool $bHasBeenInitialised = false;
     public $piVar;
     public $modelObj;
     public $marker;		// can be overridden

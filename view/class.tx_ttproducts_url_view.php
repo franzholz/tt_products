@@ -68,7 +68,7 @@ class tx_ttproducts_url_view implements SingletonInterface
                 'dam',
                 'fal',
             ];
-        $singleExcludeListArray = array_merge($excludeListArray, $singleExcludeListArray);
+        $singleExcludeListArray = [...$excludeListArray, ...$singleExcludeListArray];
 
         if (!$singleExcludeListArray[0]) {
             unset($singleExcludeListArray[0]);

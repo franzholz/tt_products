@@ -43,7 +43,7 @@ class tx_ttproducts_css implements SingletonInterface
 {
     public $conf;
     protected $isCssStyled;
-    private $bIncluded = false;
+    private bool $bIncluded = false;
 
     /**
      * Getting all tt_products_cat categories into internal array.

@@ -41,7 +41,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 abstract class tx_ttproducts_field_base implements tx_ttproducts_field_int, SingletonInterface
 {
-    private $bHasBeenInitialised = false;
+    private bool $bHasBeenInitialised = false;
     public $conf;		// original configuration
     public $config;		// modified configuration
 

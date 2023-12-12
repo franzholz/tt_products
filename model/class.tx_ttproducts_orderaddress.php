@@ -47,8 +47,8 @@ class tx_ttproducts_orderaddress extends tx_ttproducts_table_base
     public $tableconf;
     public $piVar = 'fe';
 
-    private $bCondition = false;
-    private $bConditionRecord = false;
+    private bool $bCondition = false;
+    private bool $bConditionRecord = false;
 
     /**
      * Getting all tt_products_cat categories into internal array.

@@ -168,7 +168,7 @@ class tx_ttproducts_page extends tx_ttproducts_category_base
 
     public function getParamDefault($theCode, $pid)
     {
-        $pid = ($pid ?? $this->conf['defaultPageID'] ?? '');
+        $pid ??= $this->conf['defaultPageID'] ?? '';
         if ($pid) {
             $pid = implode(',', GeneralUtility::intExplode(',', $pid));
         }

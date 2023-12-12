@@ -45,9 +45,9 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, SingletonInter
     public $conf;	// reduced local conf
     public $itemTable;
     private $useArticles;
-    private $selectableArray;
+    private ?array $selectableArray = null;
     public $fieldArray = [];	// array of fields which are variants with ';' or by other characters separated values
-    private $selectableFieldArray = [];
+    private array $selectableFieldArray = [];
     public $firstVariantRow = '';
     public $additionalKey;
     public $additionalField = 'additional';

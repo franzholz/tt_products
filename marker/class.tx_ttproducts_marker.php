@@ -53,7 +53,7 @@ class tx_ttproducts_marker implements SingletonInterface
     public $urlArray;
     private $langArray;
     private $errorCode = [];
-    private $specialArray = ['eq', 'ne', 'lt', 'le', 'gt', 'ge', 'id', 'fn'];
+    private array $specialArray = ['eq', 'ne', 'lt', 'le', 'gt', 'ge', 'id', 'fn'];
 
     /**
      * Initialized the marker object

@@ -552,7 +552,7 @@ class tx_ttproducts_list_view implements SingletonInterface
 
         if ($calllevel == 0) {
             $sword = GeneralUtility::_GP('sword');
-            $sword = ($sword ?? GeneralUtility::_GP('swords'));
+            $sword ??= GeneralUtility::_GP('swords');
 
             if (!isset($sword)) {
                 $postVars = GeneralUtility::_POST($prefixId);

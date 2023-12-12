@@ -50,10 +50,10 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base
     protected $uidStore;
     protected $setShopCountryCode;
     private $allTaxesArray = [];
-    private $taxArray;
+    private ?array $taxArray = null;
     private $countryArray = [];
-    private $taxIdArray = [];
-    private static $isInstalled = false;
+    private array $taxIdArray = [];
+    private static bool $isInstalled = false;
     private static $need4StaticTax = false; // if the usage of static_info_tables_taxes is required due to some circumstances: E.g. if download products inside of the EU are sold
 
     /**
