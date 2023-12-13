@@ -46,7 +46,7 @@ class tx_ttproducts_api_download
         $fileReferenceUid
     ) {
         $storageRepository = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\StorageRepository');
-        $storage = $storageRepository->findByUid(1);
+        $storage = $storageRepository->getDefaultStorage();
         $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
         $fileObj = $resourceFactory->getFileReferenceObject($fileReferenceUid);
 

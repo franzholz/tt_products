@@ -172,7 +172,7 @@ class tx_ttproducts_fal_view extends tx_ttproducts_article_base_view
             );
 
             $storageRepository = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\StorageRepository');
-            $storage = $storageRepository->findByUid(1);
+            $storage = $storageRepository->getDefaultStorage();
             $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
 
             $fileObj = $resourceFactory->getFileReferenceObject($row['uid']);

@@ -171,7 +171,7 @@ class tx_ttproducts_download extends tx_ttproducts_article_base
                 is_array($sysfileRowArray)
             ) {
                 $storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\StorageRepository');
-                $storage = $storageRepository->findByUid(1);
+                $storage = $storageRepository->getDefaultStorage();
 
                 foreach ($sysfileRowArray as $fileUid => $sysfileRow) {
                     if (
