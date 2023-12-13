@@ -415,7 +415,13 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
 
             $fieldsArray['note'] = $deliveryInfo['note'] ?? null;
             $fieldsArray['date_of_birth'] = $dateBirth ?? null;
-            $fieldsArray['radio1'] = $deliveryInfo['radio1'] ?? null;
+
+            $radio1Value = $deliveryInfo['radio1'] ?? null;
+            $radio1Value = MathUtility::canBeInterpretedAsInteger($radio1Value) ? (int)$radio1Value : null;
+
+            if (is_int($radio1Value)) {
+                $fieldsArray['radio1'] = $radio1Value;
+            }
 
             if (
                 isset($giftServiceArticleArray) &&
