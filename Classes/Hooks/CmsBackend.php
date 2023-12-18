@@ -2,6 +2,8 @@
 
 namespace JambageCom\TtProducts\Hooks;
 
+use JambageCom\Div2007\Base\CmsHookBase;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -37,7 +39,7 @@ namespace JambageCom\TtProducts\Hooks;
  * @package TYPO3
  * @subpackage tt_products
  */
-class CmsBackend extends \JambageCom\Div2007\Base\CmsHookBase
+class CmsBackend extends CmsHookBase
 {
     public $extensionKey = TT_PRODUCTS_EXT;
 }

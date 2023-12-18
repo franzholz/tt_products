@@ -36,11 +36,13 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use JambageCom\Div2007\Api\Frontend;
+use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
-abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInterface
+abstract class tx_ttproducts_table_base implements SingletonInterface
 {
     protected $bHasBeenInitialised = false;
     public $conf;
@@ -62,7 +64,7 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
     private $tableDesc;
     private $theCode;
     private $orderBy;
-    private $fieldClassArray = [
+    private array $fieldClassArray = [
             'ac_uid' => 'tx_ttproducts_field_foreign_table',
             'crdate' => 'tx_ttproducts_field_datetime',
             'creditpoints' => 'tx_ttproducts_field_creditpoints',
@@ -91,7 +93,7 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
             'usebydate' => 'tx_ttproducts_field_datetime',
         ];
 
-    public function init($functablename)
+    public function init($functablename): bool
     {
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $this->config = $cnf->getConfig();
@@ -102,7 +104,7 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
 
         $this->setFuncTablename($functablename);
         $tablename = $cnf->getTableName($functablename);
-        $tablename = ($tablename ? $tablename : $functablename);
+        $tablename = ($tablename ?: $functablename);
 
         if (!isset($GLOBALS['TCA'][$tablename])) {
             debug($tablename, 'Table not found in $GLOBALS[\'TCA\']: ' . $tablename . ' in file class.tx_ttproducts_table_base.php'); // keep this
@@ -157,7 +159,7 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
 
         $labelfieldname = $this->getLabelFieldname();
 
-        $this->fieldArray[$labelfieldname] = (!empty($this->tableDesc['name']) && is_array($GLOBALS['TCA'][$this->tableDesc['name']]['ctrl']) ? $this->tableDesc['name'] : ($GLOBALS['TCA'][$tablename]['ctrl']['label'] ? $GLOBALS['TCA'][$tablename]['ctrl']['label'] : 'name'));
+        $this->fieldArray[$labelfieldname] = (!empty($this->tableDesc['name']) && is_array($GLOBALS['TCA'][$this->tableDesc['name']]['ctrl']) ? $this->tableDesc['name'] : ($GLOBALS['TCA'][$tablename]['ctrl']['label'] ?: 'name'));
 
         $this->defaultFieldArray[$this->fieldArray[$labelfieldname]] = $this->fieldArray[$labelfieldname];
 
@@ -190,12 +192,12 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
         return $this->enable;
     }
 
-    public function clear()
+    public function clear(): void
     {
         $this->dataArray = [];
     }
 
-    public function setLabelFieldname($labelfieldname)
+    public function setLabelFieldname($labelfieldname): void
     {
         $this->labelfieldname = $labelfieldname;
     }
@@ -275,7 +277,7 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
             }
 
             if ($where_clause) {
-                if (strpos($where_clause, $enableFields) !== false) {
+                if (strpos($where_clause, (string)$enableFields) !== false) {
                     $bUseEnableFields = false;
                 }
                 $where .= ' AND ( ' . $where_clause . ' )';
@@ -382,7 +384,7 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
         return !$this->bHasBeenInitialised;
     }
 
-    public function destruct()
+    public function destruct(): void
     {
         $this->bHasBeenInitialised = false;
     }
@@ -422,7 +424,7 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
                     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['fieldClass'][$funcTablename] as $extKey => $hookArray
                 ) {
                     if (
-                        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($extKey) &&
+                        ExtensionManagementUtility::isLoaded($extKey) &&
                         is_array($hookArray) &&
                         isset($hookArray[$fieldname])
                     ) {
@@ -452,7 +454,7 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
         return $this->functablename;
     }
 
-    private function setFuncTablename($tablename)
+    private function setFuncTablename($tablename): void
     {
         $this->functablename = $tablename;
     }
@@ -462,7 +464,7 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
         return $this->tablename;
     }
 
-    private function setTablename($tablename)
+    private function setTablename($tablename): void
     {
         $this->tablename = $tablename;
     }
@@ -479,7 +481,7 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
         return $this->theCode;
     }
 
-    public function setCode($theCode)
+    public function setCode($theCode): void
     {
         $this->theCode = $theCode;
     }
@@ -493,7 +495,7 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
     public function initCodeConf(
         $theCode,
         $tableConf
-    ) {
+    ): void {
         if ($theCode != $this->getCode()) {
             $this->setCode($theCode);
             if (
@@ -538,7 +540,7 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
         }
     }
 
-    public function translateByFields(&$dataArray, $theCode)
+    public function translateByFields(&$dataArray, $theCode): void
     {
         $langFieldArray = $this->getLanguageFieldArray($theCode);
 
@@ -562,7 +564,7 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
     {
         $rc = false;
         $api =
-            GeneralUtility::makeInstance(\JambageCom\Div2007\Api\Frontend::class);
+            GeneralUtility::makeInstance(Frontend::class);
         $sys_language_uid = $api->getLanguageId();
 
         if (is_numeric($sys_language_uid)) {
@@ -579,7 +581,7 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
         return $rc;
     }
 
-    public function fixTableConf(&$tableConf)
+    public function fixTableConf(&$tableConf): void
     {
         // nothing. Override this for your table if needed
     }
@@ -597,7 +599,7 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
         return $result;
     }
 
-    public function setTableConf($tableConf)
+    public function setTableConf($tableConf): void
     {
         $this->tableConf = $tableConf;
     }
@@ -607,7 +609,7 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
         return $this->tableDesc;
     }
 
-    public function setTableDesc($tableDesc)
+    public function setTableDesc($tableDesc): void
     {
         $this->tableDesc = tableDesc;
     }
@@ -679,13 +681,13 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
         return $this->tableObj;
     }
 
-    public function reset()
+    public function reset(): void
     {
         $this->insertRowArray = [];
         $this->setInsertKey(0);
     }
 
-    public function setInsertKey($k)
+    public function setInsertKey($k): void
     {
         $this->insertKey = $k;
     }
@@ -698,7 +700,7 @@ abstract class tx_ttproducts_table_base implements \TYPO3\CMS\Core\SingletonInte
     public function addInsertRow(
         $row,
         &$k = ''
-    ) {
+    ): void {
         $bUseInsertKey = false;
 
         if ($k == '') {

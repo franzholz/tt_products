@@ -36,18 +36,19 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
-class tx_ttproducts_discountprice extends tx_ttproducts_pricecalc_base implements \TYPO3\CMS\Core\SingletonInterface
+class tx_ttproducts_discountprice extends tx_ttproducts_pricecalc_base implements SingletonInterface
 {
     public function getDiscountPrice($conf)
     {
         $result = false;
 
         if (isset($conf['discountprice.'])) {
-            $gr_list = explode(',', $GLOBALS['TSFE']->gr_list);
+            $gr_list = explode(',', implode(',', GeneralUtility::makeInstance(Context::class)->getPropertyFromAspect('frontend.user', 'groupIds')));
 
             if ($conf['getDiscountPrice']) {
                 $result = true;
@@ -106,7 +107,7 @@ class tx_ttproducts_discountprice extends tx_ttproducts_pricecalc_base implement
         $taxIncluded,
         $bMergeArticles = true,
         $uid = 0
-    ) {
+    ): void {
         if (!$conf || !$itemArray || !count($itemArray)) {
             return;
         }

@@ -37,8 +37,13 @@ namespace JambageCom\TtProducts\Utility;
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use JambageCom\Div2007\Utility\TableUtility;
+use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\DataHandling\DataHandler;
+use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
+use TYPO3\CMS\Core\Resource\StorageRepository;
+use TYPO3\CMS\Core\Utility\DebugUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class ImportFalUtility
@@ -58,7 +63,7 @@ class ImportFalUtility
         }
 
         /** @var $storageRepository \TYPO3\CMS\Core\Resource\StorageRepository */
-        $storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\StorageRepository');
+        $storageRepository = GeneralUtility::makeInstance(StorageRepository::class);
         $storage = $storageRepository->getDefaultStorage();
         $targetDirectory = self::TARGET_DIRECTORY;
         $targetFolder = null;
@@ -97,7 +102,7 @@ class ImportFalUtility
                             $sysfileRowArray = [];
                             if (intval($row[$imageFalFieldname]) != 0) {
                                 $where_clause = 'uid_foreign=' . intval($row['uid']) . ' AND tablenames="' . $tablename . '" AND fieldname="' . $imageFalFieldname . '"';
-                                $where_clause .= \JambageCom\Div2007\Utility\TableUtility::deleteClause('sys_file_reference');
+                                $where_clause .= TableUtility::deleteClause('sys_file_reference');
 
                                 $sysfileRowArray =
                                     $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
@@ -124,8 +129,8 @@ class ImportFalUtility
 
                                     //                                      if (!($file instanceof \TYPO3\CMS\Core\Resource\File)) {
 
-                                    if (!file_exists(\TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/' . $targetFileName)) {
-                                        $fullSourceFileName = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/' . self::ORIGINAL_DIRECTORY . $image;
+                                    if (!file_exists(Environment::getPublicPath() . '/' . $targetFileName)) {
+                                        $fullSourceFileName = Environment::getPublicPath() . '/' . self::ORIGINAL_DIRECTORY . $image;
                                         // Move the file to the storage and index it (indexing creates the sys_file entry)
                                         $file = $storage->addFile($fullSourceFileName, $targetFolder, '', 'cancel');
                                         //                                         $fileRepository->addToIndex($file);
@@ -133,7 +138,7 @@ class ImportFalUtility
 
                                     $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
                                     $file = $resourceFactory->getFileObjectFromCombinedIdentifier($fileIdentifier);
-                                    if ($file instanceof \TYPO3\CMS\Core\Resource\File) {
+                                    if ($file instanceof File) {
                                         $fileUid = $file->getUid();
                                         //                                  $properties = $file->getProperties();
                                         //                                  $fileInfo = $storage->getFileInfo($file);
@@ -159,12 +164,12 @@ class ImportFalUtility
                                             }
 
                                             /** @var \TYPO3\CMS\Core\DataHandling\DataHandler $tce */
-                                            $tce = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\CMS\Core\DataHandling\DataHandler'); // create TCE instance
+                                            $tce = GeneralUtility::makeInstance(DataHandler::class); // create TCE instance
                                             $tce->start($data, []);
                                             $tce->process_datamap();
 
                                             if ($tce->errorLog) {
-                                                $content .= 'TCE->errorLog:' . \TYPO3\CMS\Core\Utility\DebugUtility::viewArray($tce->errorLog);
+                                                $content .= 'TCE->errorLog:' . DebugUtility::viewArray($tce->errorLog);
                                             } else {
                                                 // nothing
                                             }

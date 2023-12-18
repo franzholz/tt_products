@@ -36,11 +36,15 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use JambageCom\Div2007\Base\BrowserBase;
+use JambageCom\TtProducts\Api\Localization;
+use JambageCom\TtProducts\Api\ParameterApi;
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
-abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\SingletonInterface
+abstract class tx_ttproducts_catlist_view_base implements SingletonInterface
 {
     public $pibaseClass;
     public $cObj;
@@ -61,7 +65,7 @@ abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\Single
         $pid_list,
         $recursive,
         $pid
-    ) {
+    ): void {
         $this->pibaseClass = $pibaseClass;
         $this->pibase = GeneralUtility::makeInstance('' . $pibaseClass);
         $this->cObj = $cObj;
@@ -75,7 +79,7 @@ abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\Single
         $this->pidListObj->applyRecursive($recursive, $pid_list, true);
         $this->pidListObj->setPageArray();
 
-        $this->htmlTagMain = ($this->htmlTagMain ? $this->htmlTagMain : $this->conf['displayCatListType']);
+        $this->htmlTagMain = ($this->htmlTagMain ?: $this->conf['displayCatListType']);
 
         if (!$this->htmlTagElement) {
             switch ($this->htmlTagMain) {
@@ -125,7 +129,7 @@ abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\Single
         &$categoryArray,
         &$catArray,
         $categoryRootArray
-    ) {
+    ): void {
         $depth = 1;
         $childlessArray = [];
         foreach ($categoryArray as $category => $row) {
@@ -187,7 +191,7 @@ abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\Single
         return $this->tableConfArray;
     }
 
-    public function setTableConfArray($tableConfArray)
+    public function setTableConfArray($tableConfArray): void
     {
         $this->tableConfArray = $tableConfArray;
     }
@@ -197,7 +201,7 @@ abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\Single
         return $this->viewConfArray;
     }
 
-    public function setViewConfArray($viewConfArray)
+    public function setViewConfArray($viewConfArray): void
     {
         $this->viewConfArray = $viewConfArray;
     }
@@ -224,8 +228,8 @@ abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\Single
         &$t,
         &$templateCode,
         $area
-    ) {
-        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+    ): void {
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
         $subpartmarkerObj = GeneralUtility::makeInstance('tx_ttproducts_subpartmarker');
         $subpart = $subpartmarkerObj->spMarker('###' . $area . '###');
@@ -251,19 +255,19 @@ abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\Single
         $maxPages,
         $imageArray,
         $imageActiveArray
-    ) {
-        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+    ): void {
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $subpartmarkerObj = GeneralUtility::makeInstance('tx_ttproducts_subpartmarker');
         $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
         $conf = $cnfObj->getConf();
-        $parameterApi = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\ParameterApi::class);
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
 
         $t['browseFrameWork'] = $templateService->getSubpart($t['listFrameWork'], $subpartmarkerObj->spMarker('###LINK_BROWSE###'));
         $markerArray['###BROWSE_LINKS###'] = '';
 
         if (!empty($t['browseFrameWork'])) {
             $pibaseObj = GeneralUtility::makeInstance('' . $this->pibaseClass);
-            $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
+            $languageObj = GeneralUtility::makeInstance(Localization::class);
             $tableConfArray = $this->getTableConfArray();
             $piVars = tx_ttproducts_model_control::getPiVars();
             $browserConf = [];
@@ -286,7 +290,7 @@ abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\Single
             }
 
             $pagefloat = 0;
-            $browseObj = GeneralUtility::makeInstance(\JambageCom\Div2007\Base\BrowserBase::class);
+            $browseObj = GeneralUtility::makeInstance(BrowserBase::class);
             $browseObj->init(
                 $conf,
                 $piVars,
@@ -340,7 +344,7 @@ abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\Single
         &$ctrlArray
     ) {
         $pibaseObj = GeneralUtility::makeInstance('' . $this->pibaseClass);
-        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $rc = true;
         $mode = '';
         $allowedCats = '';
@@ -611,7 +615,7 @@ abstract class tx_ttproducts_catlist_view_base implements \TYPO3\CMS\Core\Single
                         );	// read only related categories
                 } else {
                     // read in all categories
-                    $latest = ($latest ? $latest : '');
+                    $latest = ($latest ?: '');
                     $relatedArray =
                         $categoryTable->get(
                             '',

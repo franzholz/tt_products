@@ -36,7 +36,8 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use JambageCom\Div2007\Utility\MailUtility;
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_email_div
@@ -62,12 +63,12 @@ class tx_ttproducts_email_div
         $basketRecs,
         $sendername = '',
         $senderemail = ''
-    ) {
-        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+    ): void {
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 
-        $sendername = ($sendername ? $sendername : $conf['orderEmail_fromName']);
-        $senderemail = ($senderemail ? $senderemail : $conf['orderEmail_from']);
+        $sendername = ($sendername ?: $conf['orderEmail_fromName']);
+        $senderemail = ($senderemail ?: $conf['orderEmail_from']);
 
         // Notification email
         $recipients = $recipient;
@@ -100,7 +101,7 @@ class tx_ttproducts_email_div
                 $markerArray['###ORDER_STATUS_TIME###'] = $cObj->stdWrap($v['time'], $conf['statusDate_stdWrap.']);
                 $markerArray['###ORDER_STATUS###'] = $v['status'];
                 $info = $statusCodeArray[$v['status']];
-                $markerArray['###ORDER_STATUS_INFO###'] = ($info ? $info : $v['info']);
+                $markerArray['###ORDER_STATUS_INFO###'] = ($info ?: $v['info']);
                 $markerArray['###ORDER_STATUS_COMMENT###'] = $v['comment'];
                 $markerArray['###PID_TRACKING###'] = $conf['PIDtracking'];
                 $markerArray['###PERSON_NAME###'] = $orderData['billing']['name'];
@@ -129,7 +130,7 @@ class tx_ttproducts_email_div
                 $subject = trim($parts[0]);
                 $plain_message = trim($parts[1]);
                 $tmp = '';
-                \JambageCom\Div2007\Utility\MailUtility::send(
+                MailUtility::send(
                     implode(',', $recipients),
                     $subject,
                     $plain_message,
@@ -160,10 +161,10 @@ class tx_ttproducts_email_div
         $templateCode,
         $templateMarker,
         $bHtmlMail = false
-    ) {
-        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
-        $sendername = ($giftRow['personname'] ? $giftRow['personname'] : $conf['orderEmail_fromName']);
-        $senderemail = ($giftRow['personemail'] ? $giftRow['personemail'] : $conf['orderEmail_from']);
+    ): void {
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
+        $sendername = ($giftRow['personname'] ?: $conf['orderEmail_fromName']);
+        $senderemail = ($giftRow['personemail'] ?: $conf['orderEmail_from']);
         $recipients = $recipient;
         $recipients = GeneralUtility::trimExplode(',', $recipients, 1);
 
@@ -202,7 +203,7 @@ class tx_ttproducts_email_div
                         $markerObj->getGlobalMarkerArray()
                     );
 
-                    \JambageCom\Div2007\Utility\MailUtility::send(
+                    MailUtility::send(
                         $recipients,
                         $subject,
                         $emailContent,
@@ -219,7 +220,7 @@ class tx_ttproducts_email_div
                     );
                 } else {		// ... else just plain text...
                     $tmp = '';
-                    \JambageCom\Div2007\Utility\MailUtility::send(
+                    MailUtility::send(
                         $recipients,
                         $subject,
                         $emailContent,

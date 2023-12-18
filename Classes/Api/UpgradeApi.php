@@ -14,7 +14,6 @@ namespace JambageCom\TtProducts\Api;
  *
  * The TYPO3 project - inspiring people to share!
  */
-
 /**
  * Part of the tt_products (Shop System) extension.
  *
@@ -25,14 +24,15 @@ namespace JambageCom\TtProducts\Api;
  * @package TYPO3
  * @subpackage tt_products
  */
-
 use Doctrine\DBAL\ParameterType;
 use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Database\Connection;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Database\Query\QueryBuilder;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
+use TYPO3\CMS\Core\Resource\StorageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class UpgradeApi implements LoggerAwareInterface
@@ -45,7 +45,7 @@ class UpgradeApi implements LoggerAwareInterface
         $oldType,
         $newType,
         $queryBuilder
-    ) {
+    ): void {
         $stringEmpty = $queryBuilder->createNamedParameter('');
         $integerEmpty = $queryBuilder->createNamedParameter(0);
         $oldEmpty = $newEmpty = $stringEmpty;
@@ -576,13 +576,13 @@ class UpgradeApi implements LoggerAwareInterface
         $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
         $defaultStorage = $resourceFactory->getDefaultStorage();
         if (!is_object($defaultStorage)) {
-            $storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\StorageRepository::class);
+            $storageRepository = GeneralUtility::makeInstance(StorageRepository::class);
             $defaultStorage = $storageRepository->getDefaultStorage();
         }
         $storageUid = (int)$defaultStorage->getUid();
         $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
         $fieldItems = explode(',', $row[$oldField]);
-        $pathSite = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/';
+        $pathSite = Environment::getPublicPath() . '/';
 
         foreach ($fieldItems as $item) {
             $fileUid = null;

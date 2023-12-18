@@ -40,15 +40,20 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
 use JambageCom\Div2007\Utility\CompatibilityUtility;
 use JambageCom\Div2007\Utility\ErrorUtility;
 use JambageCom\Div2007\Utility\FrontendUtility;
+use JambageCom\Div2007\Utility\ObsoleteUtility;
+use JambageCom\TtProducts\Api\Localization;
 use JambageCom\TtProducts\Api\PaymentShippingHandling;
+use JambageCom\TtProducts\Model\Field\FieldInterface;
 use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
+use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface
+class tx_ttproducts_basket_view implements SingletonInterface
 {
     public $conf;
     public $config;
@@ -67,7 +72,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface
         $useArticles,
         $errorCode,
         $urlArray = []
-    ) {
+    ): void {
         $this->errorCode = $errorCode;
         $this->useArticles = $useArticles;
 
@@ -156,7 +161,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface
         &$subpartArray,
         &$wrappedSubpartArray,
         $calculatedArray
-    ) {
+    ): void {
         $discountValue = tx_ttproducts_basket_calculate::getRealDiscount($calculatedArray);
         if ($discountValue) {
             $wrappedSubpartArray['###DISCOUNT_NOT_EMPTY###'] = '';
@@ -174,8 +179,8 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface
         $markerArray,
         &$subpartArray,
         &$wrappedSubpartArray
-    ) {
-        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+    ): void {
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $basketConfArray = [];
         // check the basket limits
         $basketConfArray['minimum'] = $cnf->getBasketConf('minPrice');
@@ -263,15 +268,15 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface
             Any pre-preparred fields can be set in $mainMarkerArray, which is substituted in the subpart before the item-and-categories part is substituted.
         */
         $out = '';
-        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
-        $calculationField = \JambageCom\TtProducts\Model\Field\FieldInterface::PRICE_CALCULATED;
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
+        $calculationField = FieldInterface::PRICE_CALCULATED;
         $basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
         $markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
         $subpartmarkerObj = GeneralUtility::makeInstance('tx_ttproducts_subpartmarker');
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $creditpointsObj = GeneralUtility::makeInstance('tx_ttproducts_field_creditpoints');
         $basketExt = tx_ttproducts_control_basket::getBasketExt();
-        $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
+        $languageObj = GeneralUtility::makeInstance(Localization::class);
         $itemObj = GeneralUtility::makeInstance('tx_ttproducts_basketitem');
         $basketItemView = GeneralUtility::makeInstance('tx_ttproducts_basketitem_view');
         $cObj = FrontendUtility::getContentObjectRenderer();
@@ -322,7 +327,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface
         if ($templateCode == '') {
             $templateObj = GeneralUtility::makeInstance('tx_ttproducts_template');
             $errorCode[0] = 'empty_template';
-            $errorCode[1] = ($templateFilename ? $templateFilename : $templateObj->getTemplateFile());
+            $errorCode[1] = ($templateFilename ?: $templateObj->getTemplateFile());
 
             return '';
         }
@@ -429,7 +434,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface
             $templateObj = GeneralUtility::makeInstance('tx_ttproducts_template');
             $errorCode[0] = 'no_subtemplate';
             $errorCode[1] = '###' . $subpartMarker . $templateObj->getTemplateSuffix() . '###';
-            $errorCode[2] = ($templateFilename ? $templateFilename : $templateObj->getTemplateFile());
+            $errorCode[2] = ($templateFilename ?: $templateObj->getTemplateFile());
 
             return '';
         }
@@ -496,7 +501,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface
                 if (
                     strpos(
                         $t['item'],
-                        $articleViewObj->getMarker()
+                        (string)$articleViewObj->getMarker()
                     ) !== false
                 ) {
                     $bCopyProduct2Article = true;
@@ -530,7 +535,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface
 
             $damViewTagArray = [];
             // DAM support
-            if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('dam') || !empty($piVars['dam'])) {
+            if (ExtensionManagementUtility::isLoaded('dam') || !empty($piVars['dam'])) {
                 $damParentArray = [];
                 $damViewObj = $tablesObj->get('tx_dam', true);
                 $damObj = $damViewObj->getModelObj();
@@ -1119,7 +1124,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface
                 }
             }
             $markerArray['###HIDDENFIELDS###'] = $hiddenFields;
-            $pid = ($conf['PIDbasket'] ? $conf['PIDbasket'] : $GLOBALS['TSFE']->id);
+            $pid = ($conf['PIDbasket'] ?: $GLOBALS['TSFE']->id);
 
             $confCache = [];
             $excludeList = '';
@@ -1466,7 +1471,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface
             ];
 
             // Final substitution:
-            if (!\JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn()) {		// Remove section for FE_USERs only, if there are no fe_user
+            if (!CompatibilityUtility::isLoggedIn()) {		// Remove section for FE_USERs only, if there are no fe_user
                 $subpartArray['###FE_USER_SECTION###'] = '';
             }
 
@@ -1729,7 +1734,7 @@ class tx_ttproducts_basket_view implements \TYPO3\CMS\Core\SingletonInterface
             );
 
             // This cObject may be used to call a function which manipulates the shopping basket based on settings in an external order system. The output is included in the top of the order (HTML) on the basket-page.
-            $externalCObject = \JambageCom\Div2007\Utility\ObsoleteUtility::getExternalCObject($this, 'externalProcessing');
+            $externalCObject = ObsoleteUtility::getExternalCObject($this, 'externalProcessing');
 
             $markerArray['###EXTERNAL_COBJECT###'] = $externalCObject . '';  // adding extra preprocessing CObject
 

@@ -36,8 +36,11 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use JambageCom\Div2007\Utility\TableUtility;
+use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
+use TYPO3\CMS\Core\Resource\StorageRepository;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_download extends tx_ttproducts_article_base
@@ -126,7 +129,7 @@ class tx_ttproducts_download extends tx_ttproducts_article_base
         $fileArray = [];
 
         if (
-            \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('filelist') &&
+            ExtensionManagementUtility::isLoaded('filelist') &&
             $row['file_uid']
         ) {
             // mm Beziehung auswerten in Datensätze von file $fileUid
@@ -154,7 +157,7 @@ class tx_ttproducts_download extends tx_ttproducts_article_base
 
                 $where_clause = 'uid IN (' . implode(',', $orderedFalArray) . ')';
                 $where_clause .= ' AND uid_foreign=' . intval($row['uid']) . ' AND tablenames="tt_products_downloads" AND fieldname="file_uid"';
-                $where_clause .= \JambageCom\Div2007\Utility\TableUtility::enableFields('sys_file_reference');
+                $where_clause .= TableUtility::enableFields('sys_file_reference');
                 $sysfileRowArray =
                     $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
                         '*',
@@ -170,7 +173,7 @@ class tx_ttproducts_download extends tx_ttproducts_article_base
             if (
                 is_array($sysfileRowArray)
             ) {
-                $storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\StorageRepository');
+                $storageRepository = GeneralUtility::makeInstance(StorageRepository::class);
                 $storage = $storageRepository->getDefaultStorage();
 
                 foreach ($sysfileRowArray as $fileUid => $sysfileRow) {
@@ -185,13 +188,13 @@ class tx_ttproducts_download extends tx_ttproducts_article_base
                     $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
                     $fileObj = $resourceFactory->getFileReferenceObject($sysfileRow['uid']);
                     $fileInfo = $storage->getFileInfo($fileObj);
-                    $fileArray[$sysfileRow['uid']] = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/fileadmin' . $fileInfo['identifier'];
+                    $fileArray[$sysfileRow['uid']] = Environment::getPublicPath() . '/fileadmin' . $fileInfo['identifier'];
                 }
             }
         } elseif ($row['path'] != '') {
-            $path = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/' . $row['path'] . '/';
+            $path = Environment::getPublicPath() . '/' . $row['path'] . '/';
             $fileArray =
-                \TYPO3\CMS\Core\Utility\GeneralUtility::getAllFilesAndFoldersInPath(
+                GeneralUtility::getAllFilesAndFoldersInPath(
                     $fileArray,
                     $path,
                     '',
@@ -217,7 +220,7 @@ class tx_ttproducts_download extends tx_ttproducts_article_base
         $bAllowed = true;
 
         if ($parenttable == 'tt_products') {
-            $uidArray = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $uids);
+            $uidArray = GeneralUtility::trimExplode(',', $uids);
             $mmTable = 'tt_products_products_mm_downloads';
 
             foreach ($uidArray as $uid) {

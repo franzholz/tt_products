@@ -1,4 +1,8 @@
 <?php
+
+use JambageCom\Div2007\Utility\CompatibilityUtility;
+use TYPO3\CMS\Core\SingletonInterface;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -36,14 +40,14 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-class tx_ttproducts_control_single implements \TYPO3\CMS\Core\SingletonInterface
+class tx_ttproducts_control_single implements SingletonInterface
 {
     /**
      * Triggers events when the single view has been called.
      *
      * @access private
      */
-    public function triggerEvents($conf)
+    public function triggerEvents($conf): void
     {
         if (
             !empty($conf['active']) &&
@@ -54,7 +58,7 @@ class tx_ttproducts_control_single implements \TYPO3\CMS\Core\SingletonInterface
             $piVar = tx_ttproducts_model_control::getPiVar('tt_products');
             $uid = $piVars[$piVar] ?? '';
 
-            if (\JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn()) {
+            if (CompatibilityUtility::isLoggedIn()) {
                 $mmTablename = 'sys_products_fe_users_mm_visited_products';
 
                 if ($uid && in_array($mmTablename, $triggerConf)) {	// check if this trigger has been activated

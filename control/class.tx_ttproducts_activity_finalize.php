@@ -36,10 +36,14 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use JambageCom\Div2007\Utility\CompatibilityUtility;
+use JambageCom\Div2007\Utility\MailUtility;
+use JambageCom\TtProducts\Api\Localization;
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class tx_ttproducts_activity_finalize implements \TYPO3\CMS\Core\SingletonInterface
+class tx_ttproducts_activity_finalize implements SingletonInterface
 {
     public function getEmailControlArray(
         $templateCode,
@@ -98,12 +102,12 @@ class tx_ttproducts_activity_finalize implements \TYPO3\CMS\Core\SingletonInterf
         &$errorCode,
         &$errorMessage
     ) {
-        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
         $basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
         $markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
-        $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
+        $languageObj = GeneralUtility::makeInstance(Localization::class);
         $orderObj = $tablesObj->get('sys_products_orders');
 
         $basketView = GeneralUtility::makeInstance('tx_ttproducts_basket_view');
@@ -195,7 +199,7 @@ class tx_ttproducts_activity_finalize implements \TYPO3\CMS\Core\SingletonInterf
                                 ) {
                                     foreach ($emailControlArray['shop']['none']['recipient'] as $key => $recipient) {
                                         $tmp = '';
-                                        \JambageCom\Div2007\Utility\MailUtility::send(
+                                        MailUtility::send(
                                             $recipient,
                                             $subject,
                                             $content,
@@ -221,7 +225,7 @@ class tx_ttproducts_activity_finalize implements \TYPO3\CMS\Core\SingletonInterf
 
         if (
             !empty($infoViewObj->infoArray['billing']['email']) &&
-            !\JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn() &&
+            !CompatibilityUtility::isLoggedIn() &&
             (
                 empty($GLOBALS['TSFE']->fe_user->user) ||
                 trim($GLOBALS['TSFE']->fe_user->user['username']) == ''
@@ -254,7 +258,7 @@ class tx_ttproducts_activity_finalize implements \TYPO3\CMS\Core\SingletonInterf
                             $memoItems = '';
 
                             if (
-                                \JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn() &&
+                                CompatibilityUtility::isLoggedIn() &&
                                 !empty($GLOBALS['TSFE']->fe_user->user[$feuserField])
                             ) {
                                 $memoItems = $GLOBALS['TSFE']->fe_user->user[$feuserField];

@@ -36,11 +36,14 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use JambageCom\TtProducts\Api\CustomerApi;
+use JambageCom\TtProducts\Api\PaymentApi;
 use JambageCom\TtProducts\Api\PaymentShippingHandling;
+use JambageCom\TtProducts\Model\Field\FieldInterface;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterface
+class tx_ttproducts_basket_calculate implements SingletonInterface
 {
     protected $calculatedArray = [];
     protected $baseCalculatedArray = [];
@@ -50,7 +53,7 @@ class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterfa
         return $this->baseCalculatedArray;
     }
 
-    public function setBaseCalculatedArray(array $calculatedArray)
+    public function setBaseCalculatedArray(array $calculatedArray): void
     {
         $this->baseCalculatedArray = $calculatedArray;
     }
@@ -60,7 +63,7 @@ class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterfa
         return $this->calculatedArray;
     }
 
-    public function setCalculatedArray($calculatedArray)
+    public function setCalculatedArray($calculatedArray): void
     {
         $this->calculatedArray = $calculatedArray;
     }
@@ -115,7 +118,7 @@ class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterfa
         return $goodsTotalTax;
     }
 
-    public function clear($taxMode = 1)
+    public function clear($taxMode = 1): void
     {
         $this->calculatedArray = $this->getBaseCalculatedArray();
         $this->calculatedArray['priceTax'] = [];
@@ -184,7 +187,7 @@ class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterfa
         $maxTax,
         $roundFormat, // Todo: remove unused format
         &$itemArray
-    ) {
+    ): void {
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         // 		$paymentshippingObj = GeneralUtility::makeInstance('tx_ttproducts_paymentshipping');
         $taxObj = GeneralUtility::makeInstance('tx_ttproducts_field_tax');
@@ -195,11 +198,11 @@ class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterfa
         $shippingTax = '';
         $taxInfoArray = '';
         $bEnableTaxZero = false;
-        $calculationField = \JambageCom\TtProducts\Model\Field\FieldInterface::PRICE_CALCULATED;
-        $calculationAdditionField = \JambageCom\TtProducts\Model\Field\FieldInterface::PRICE_CALCULATED_ADDITION;
+        $calculationField = FieldInterface::PRICE_CALCULATED;
+        $calculationAdditionField = FieldInterface::PRICE_CALCULATED_ADDITION;
 
-        $iso3Seller = \JambageCom\TtProducts\Api\PaymentApi::getStoreIso3('DEU');
-        $iso3Buyer = \JambageCom\TtProducts\Api\CustomerApi::getBillingIso3('DEU');
+        $iso3Seller = PaymentApi::getStoreIso3('DEU');
+        $iso3Buyer = CustomerApi::getBillingIso3('DEU');
 
         $this->clear($conf['TAXmode']);
 
@@ -468,7 +471,7 @@ class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterfa
                         if (!empty($taxInfo)) {
                             foreach ($taxInfo as $countryCode => $countryRows) {
                                 foreach ($countryRows as $k => $taxRow) {
-                                    $countryTax = strval($taxRow['tx_rate'], 2);
+                                    $countryTax = strval($taxRow['tx_rate']);
 
                                     if (!isset($this->calculatedArray['priceNoTax']['goodssametaxtotal'][$countryCode][$countryTax])) {
                                         $this->calculatedArray['priceNoTax']['goodssametaxtotal'][$countryCode][$countryTax] = 0;
@@ -608,7 +611,7 @@ class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterfa
                     $row = $actItem['rec'];
                     if (!empty($row['bulkily'])) {
                         $value = floatval($this->conf['bulkilyAddition']) * $basketExt[$row['uid']][$viewTableObj->getVariant()->getVariantFromRow($row)];
-                        $tax = ($bulkilyFeeTax != '' ? $bulkilyFeeTax : $shippingTax);
+                        $tax = ($bulkilyFeeTax != 0 ? $bulkilyFeeTax : $shippingTax);
                         $taxRow['tax'] = floatval($tax);
                         $this->calculatedArray['shipping']['priceTax'] +=
                             $priceObj->getModePrice(
@@ -785,7 +788,7 @@ class tx_ttproducts_basket_calculate implements \TYPO3\CMS\Core\SingletonInterfa
         $pricefactor,
         $creditpoints,
         $getShopCountryCode
-    ) {
+    ): void {
         $creditpointsObj = GeneralUtility::makeInstance('tx_ttproducts_field_creditpoints');
 
         // Todo: consider the $roundFormat parameter .XXXXXXXXXX

@@ -36,8 +36,8 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use WapplerSystems\WsFlexslider\Controller\FlexsliderController;
 
 class tx_ttproducts_ws_flexslider
 {
@@ -69,7 +69,7 @@ class tx_ttproducts_ws_flexslider
     }
 
     protected function getImages(
-        WapplerSystems\WsFlexslider\Controller\FlexsliderController $pObj,
+        FlexsliderController $pObj,
         $uid,
         $table,
         $imageField

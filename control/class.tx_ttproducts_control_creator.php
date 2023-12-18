@@ -36,11 +36,17 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use JambageCom\Div2007\Api\OldStaticInfoTablesApi;
+use JambageCom\Div2007\Api\StaticInfoTablesApi;
+use JambageCom\TtProducts\Api\ControlApi;
+use JambageCom\TtProducts\Api\Localization;
+use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
-class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterface
+class tx_ttproducts_control_creator implements SingletonInterface
 {
     public function init(
         &$conf,
@@ -51,11 +57,11 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
         &$errorCode,
         array $recs = [],
         array $basketRec = []
-    ) {
+    ): bool {
         if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
-            $staticInfoApi = GeneralUtility::makeInstance(\JambageCom\Div2007\Api\StaticInfoTablesApi::class);
+            $staticInfoApi = GeneralUtility::makeInstance(StaticInfoTablesApi::class);
         } else {
-            $staticInfoApi = GeneralUtility::makeInstance(\JambageCom\Div2007\Api\OldStaticInfoTablesApi::class);
+            $staticInfoApi = GeneralUtility::makeInstance(OldStaticInfoTablesApi::class);
         }
 
         $useStaticInfoTables = $staticInfoApi->init();
@@ -87,12 +93,12 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
         ) {
             $conf['errorLog'] = '';
         } elseif ($conf['errorLog']) {
-            $conf['errorLog'] = GeneralUtility::resolveBackPath(PATH_typo3conf . '../' . $conf['errorLog']);
+            $conf['errorLog'] = GeneralUtility::resolveBackPath(Environment::getLegacyConfigPath() . '/../' . $conf['errorLog']);
         }
 
         $tmp = $cObj->stdWrap($conf['pid_list'] ?? '', $conf['pid_list.'] ?? '');
         $pid_list = (!empty($cObj->data['pages']) ? $cObj->data['pages'] : (!empty($conf['pid_list.']) ? trim($tmp) : ''));
-        $pid_list = ($pid_list ? $pid_list : $conf['pid_list'] ?? '');
+        $pid_list = ($pid_list ?: $conf['pid_list'] ?? '');
         $config['pid_list'] = ($pid_list ?? $config['storeRootPid'] ?? 0);
 
         $recursive = (!empty($cObj->data['recursive']) ? $cObj->data['recursive'] : $conf['recursive'] ?? 99);
@@ -129,7 +135,7 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
 
         // corrections in the Setup:
         if (
-            \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('voucher') &&
+            ExtensionManagementUtility::isLoaded('voucher') &&
             isset($conf['gift.']['type']) &&
             $conf['gift.']['type'] == 'voucher'
         ) {
@@ -142,7 +148,7 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
             $config
         );
 
-        \JambageCom\TtProducts\Api\ControlApi::init($conf, $cObj);
+        ControlApi::init($conf, $cObj);
         $infoArray = tx_ttproducts_control_basket::getStoredInfoArray();
         if (!empty($conf['useStaticInfoCountry'])) {
             tx_ttproducts_control_basket::setCountry(
@@ -213,7 +219,7 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
 
     public static function getLanguageObj($pLangObj, $cObj, $conf)
     {
-        $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
+        $languageObj = GeneralUtility::makeInstance(Localization::class);
         $languageSubpath = '/Resources/Private/Language/';
 
         $confLocalLang = [];
@@ -245,7 +251,7 @@ class tx_ttproducts_control_creator implements \TYPO3\CMS\Core\SingletonInterfac
         return $languageObj;
     }
 
-    public function destruct()
+    public function destruct(): void
     {
         tx_ttproducts_control_basket::destruct();
     }

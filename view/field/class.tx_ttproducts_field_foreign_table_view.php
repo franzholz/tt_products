@@ -55,7 +55,7 @@ class tx_ttproducts_field_foreign_table_view extends tx_ttproducts_field_base_vi
         $basketExtra = [],
         $basketRecs = [],
         $id = '1'
-    ) {
+    ): void {
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $itemTableObj = $tablesObj->get($functablename, false);
         $tablename = $itemTableObj->getTablename();
@@ -81,7 +81,7 @@ class tx_ttproducts_field_foreign_table_view extends tx_ttproducts_field_base_vi
         $imageNum = 0,
         $imageRenderObj = '',
         $bEnableTaxZero = false
-    ) {
+    ): void {
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $itemTableObj = $tablesObj->get($functablename, false);
         $tablename = $itemTableObj->getTablename();
@@ -94,7 +94,7 @@ class tx_ttproducts_field_foreign_table_view extends tx_ttproducts_field_base_vi
                 $foreignMarker = $foreignTableViewObj->getMarker();
 
                 foreach ($tagArray as $theTag => $v) {
-                    if (strpos($theTag, $foreignMarker) === 0) {
+                    if (strpos($theTag, (string)$foreignMarker) === 0) {
                         $rowMarkerArray['###' . $theTag . '###'] = '';
                     }
                 }

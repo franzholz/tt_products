@@ -21,7 +21,6 @@ $result = [
         'crdate' => 'crdate',
         'mainpalette' => 1,
         'iconfile' => 'EXT:' . $extensionKey . '/Resources/Public/Icons/sys_products_orders.gif',
-        'dividers2tabs' => '1',
         'searchFields' => 'uid,name,first_name,last_name,vat_id,address,zip,city,telephone,email,giftcode,bill_no,tracking_code',
     ],
     'columns' => [

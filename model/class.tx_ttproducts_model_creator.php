@@ -36,18 +36,25 @@
  * @package TYPO3
  * @subpackage tt_products
  */
+use JambageCom\Div2007\Api\OldStaticInfoTablesApi;
+use JambageCom\Div2007\Api\StaticInfoTablesApi;
 use JambageCom\Div2007\Utility\ExtensionUtility;
+use JambageCom\Div2007\Utility\TableUtility;
+use JambageCom\TtProducts\Api\PaymentApi;
+use JambageCom\TtProducts\Api\PaymentShippingHandling;
+use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class tx_ttproducts_model_creator implements \TYPO3\CMS\Core\SingletonInterface
+class tx_ttproducts_model_creator implements SingletonInterface
 {
-    public function init($conf, $config, $cObj)
+    public function init($conf, $config, $cObj): bool
     {
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
-            $staticInfoApi = GeneralUtility::makeInstance(\JambageCom\Div2007\Api\StaticInfoTablesApi::class);
+            $staticInfoApi = GeneralUtility::makeInstance(StaticInfoTablesApi::class);
         } else {
-            $staticInfoApi = GeneralUtility::makeInstance(\JambageCom\Div2007\Api\OldStaticInfoTablesApi::class);
+            $staticInfoApi = GeneralUtility::makeInstance(OldStaticInfoTablesApi::class);
         }
 
         $useStaticInfoTables = $staticInfoApi->isActive();
@@ -57,7 +64,7 @@ class tx_ttproducts_model_creator implements \TYPO3\CMS\Core\SingletonInterface
             !empty($conf['useStaticTaxes']) &&
             $useStaticInfoTables
         ) {
-            if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('static_info_tables_taxes')) {
+            if (ExtensionManagementUtility::isLoaded('static_info_tables_taxes')) {
                 $eInfo2 = ExtensionUtility::getExtensionInfo('static_info_tables_taxes');
 
                 if (is_array($eInfo2)) {
@@ -75,7 +82,7 @@ class tx_ttproducts_model_creator implements \TYPO3\CMS\Core\SingletonInterface
             $tmpArray = GeneralUtility::trimExplode(',', $conf['UIDstore']);
             $UIDstore = intval($tmpArray['0']);
             if ($UIDstore) {
-                $where_clause = 'uid = ' . $UIDstore . \JambageCom\Div2007\Utility\TableUtility::enableFields('fe_users');
+                $where_clause = 'uid = ' . $UIDstore . TableUtility::enableFields('fe_users');
                 $storeRecord =
                     $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow(
                         '*',
@@ -83,7 +90,7 @@ class tx_ttproducts_model_creator implements \TYPO3\CMS\Core\SingletonInterface
                         $where_clause
                     );
                 if ($storeRecord) {
-                    \JambageCom\TtProducts\Api\PaymentApi::setStoreRecord($storeRecord);
+                    PaymentApi::setStoreRecord($storeRecord);
                 }
             }
         }
@@ -108,7 +115,7 @@ class tx_ttproducts_model_creator implements \TYPO3\CMS\Core\SingletonInterface
         // 		$paymentshippingObj->init($priceObj);
         $paymentPriceObj = clone $priceObj;
         $voucher = GeneralUtility::makeInstance('tx_ttproducts_voucher');
-        \JambageCom\TtProducts\Api\PaymentShippingHandling::init($paymentPriceObj, $voucher);
+        PaymentShippingHandling::init($paymentPriceObj, $voucher);
 
         $basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket'); // TODO: initialization
         // 		$basketObj->init (
@@ -121,7 +128,7 @@ class tx_ttproducts_model_creator implements \TYPO3\CMS\Core\SingletonInterface
         return true;
     }
 
-    public function destruct()
+    public function destruct(): void
     {
     }
 }

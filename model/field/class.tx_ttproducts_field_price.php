@@ -36,16 +36,16 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use JambageCom\Div2007\Utility\CompatibilityUtility;
 use JambageCom\TtProducts\Model\Field\FieldInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
 class tx_ttproducts_field_price extends tx_ttproducts_field_base
 {
-    private $bHasBeenInitialised = false;
+    private bool $bHasBeenInitialised = false;
     private $bTaxIncluded;	// if tax is already included in the price
-    private $taxMode;
+    private ?int $taxMode = null;
     public $priceConf; 	// price configuration
     protected static $priceFieldArray = [
         'price',
@@ -127,7 +127,7 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base
         'surcharge2notax',
     ];
 
-    public function preInit($priceConf)
+    public function preInit($priceConf): void
     {
         parent::init();
 
@@ -176,12 +176,12 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base
         return $this->bTaxIncluded;
     }
 
-    public function setTaxIncluded($bTaxIncluded = true)
+    public function setTaxIncluded($bTaxIncluded = true): void
     {
         $this->bTaxIncluded = $bTaxIncluded;
     }
 
-    public function getTaxMode()
+    public function getTaxMode(): ?int
     {
         return $this->taxMode;
     }
@@ -273,7 +273,7 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base
         $bIsZeroTax = false;
 
         $bTax = ($tax == 1);
-        $price = $this->toNumber(true, $price);
+        $price = static::toNumber(true, $price);
 
         if (
             $bEnableTaxZero &&
@@ -318,7 +318,7 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base
         }
 
         $result =
-            $this->getPriceTax(
+            static::getPriceTax(
                 $price,
                 $bTax,
                 $bTaxIncluded,
@@ -382,7 +382,7 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base
         return self::$priceFieldArray;
     }
 
-    public static function convertIntoRow(&$row, $priceTaxArray)
+    public static function convertIntoRow(&$row, $priceTaxArray): void
     {
         foreach ($priceTaxArray as $field => $value) {
             if (isset(self::$fieldConvertArray[$field])) {
@@ -403,7 +403,7 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base
         $priceNumTax,
         &$skonto,
         &$skontoTaxPerc
-    ) {
+    ): void {
         $skonto = ((float)$relativePrice - (float)$priceNumTax);
 
         if (floatval($relativePrice) != 0) {
@@ -418,7 +418,7 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base
         $row,
         $discountField
     ) {
-        $calculationField = \JambageCom\TtProducts\Model\Field\FieldInterface::PRICE_CALCULATED;
+        $calculationField = FieldInterface::PRICE_CALCULATED;
         $maxDiscount = 0;
         $discount = 0;
 
@@ -427,7 +427,7 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base
         }
 
         if (
-            \JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn() &&
+            CompatibilityUtility::isLoggedIn() &&
             isset($GLOBALS['TSFE']->fe_user) &&
             isset($GLOBALS['TSFE']->fe_user->user)
         ) {

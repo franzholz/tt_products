@@ -39,11 +39,12 @@
  * @see file tt_products/static/old_style/constants.txt
  * @see TSref
  */
-
+use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
-class tx_ttproducts_pi_int implements \TYPO3\CMS\Core\SingletonInterface
+class tx_ttproducts_pi_int implements SingletonInterface
 {
     public $cObj;
 
@@ -60,7 +61,7 @@ class tx_ttproducts_pi_int implements \TYPO3\CMS\Core\SingletonInterface
         $pibaseObj = GeneralUtility::makeInstance('tx_ttproducts_pi_int_base');
         $pibaseObj->cObj = $this->cObj;
         $confMain = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
-        \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($confMain, $conf);
+        ArrayUtility::mergeRecursiveWithOverrule($confMain, $conf);
         $conf = $confMain;
         $languageSubpath = '/Resources/Private/Language/';
 

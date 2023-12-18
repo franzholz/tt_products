@@ -49,7 +49,7 @@ class tx_ttproducts_country_view extends tx_ttproducts_table_base_view
      *
      * @access private
      */
-    public function getRowMarkers(&$markerArray, $prefix, $row)
+    public function getRowMarkers(&$markerArray, $prefix, $row): void
     {
         $thePrefix = $prefix . '_' . $this->getMarker() . '_';
         foreach ($row as $field => $value) {

@@ -36,7 +36,8 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use JambageCom\TtProducts\Api\ControlApi;
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base
@@ -58,12 +59,12 @@ class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base
     ) {
         $t = [];
         $ctrlArray = [];
-        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
         $pibaseObj = GeneralUtility::makeInstance('' . $this->pibaseClass);
         $javaScriptMarker = GeneralUtility::makeInstance('tx_ttproducts_javascript_marker');
         $prefixId = tx_ttproducts_model_control::getPrefixId();
-        $cObj = \JambageCom\TtProducts\Api\ControlApi::getCObj();
+        $cObj = ControlApi::getCObj();
 
         parent::getPrintViewArrays(
             $functablename,

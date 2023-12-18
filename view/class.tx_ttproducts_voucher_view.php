@@ -36,7 +36,7 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use JambageCom\TtProducts\Api\Localization;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_voucher_view extends tx_ttproducts_table_base_view
@@ -57,9 +57,9 @@ class tx_ttproducts_voucher_view extends tx_ttproducts_table_base_view
         &$subpartArray,
         &$wrappedSubpartArray,
         $charset = ''
-    ) {
+    ): void {
         $modelObj = $this->getModelObj();
-        $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
+        $languageObj = GeneralUtility::makeInstance(Localization::class);
         $subpartArray['###SUB_VOUCHERCODE###'] = '';
         $code = $modelObj->getVoucherCode();
         $wrappedSubpartArray['###SUB_VOUCHERCODE_START###'] = [];
@@ -91,7 +91,7 @@ class tx_ttproducts_voucher_view extends tx_ttproducts_table_base_view
      */
     public function getMarkerArray(
         &$markerArray
-    ) {
+    ): void {
         $priceViewObj = GeneralUtility::makeInstance('tx_ttproducts_field_price_view');
         $modelObj = $this->getModelObj();
         $markerArray['###INSERT_VOUCHERCODE###'] = 'recs[tt_products][vouchercode]';

@@ -39,7 +39,7 @@ namespace JambageCom\TtProducts\Hooks;
  */
 class FrontendProcessor
 {
-    public function loginConfirmed($params, $pObj)
+    public function loginConfirmed($params, $pObj): void
     {
         $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
 
@@ -47,7 +47,7 @@ class FrontendProcessor
         $this->resetAdresses($params, $pObj);
     }
 
-    public function resetAdresses(&$params, $pObj)
+    public function resetAdresses(&$params, $pObj): void
     {
         $recs = \tx_ttproducts_control_basket::getStoredRecs();
 

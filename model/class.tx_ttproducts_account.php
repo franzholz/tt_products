@@ -36,7 +36,7 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_account extends tx_ttproducts_table_base
@@ -282,7 +282,7 @@ class tx_ttproducts_account extends tx_ttproducts_table_base
     {
         $result = '';
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
-        if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('static_info_tables_banks_de')) {
+        if (ExtensionManagementUtility::isLoaded('static_info_tables_banks_de')) {
             $bankObj = $tablesObj->get('static_banks_de');
         }
 

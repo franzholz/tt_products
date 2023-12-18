@@ -36,18 +36,18 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
-class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Core\SingletonInterface
+class tx_ttproducts_variant implements tx_ttproducts_variant_int, SingletonInterface
 {
     public $conf;	// reduced local conf
     public $itemTable;
     private $useArticles;
-    private $selectableArray;
+    private ?array $selectableArray = null;
     public $fieldArray = [];	// array of fields which are variants with ';' or by other characters separated values
-    private $selectableFieldArray = [];
+    private array $selectableFieldArray = [];
     public $firstVariantRow = '';
     public $additionalKey;
     public $additionalField = 'additional';
@@ -62,7 +62,7 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Cor
         $itemTable,
         $tablename,
         $useArticles
-    ) {
+    ): bool {
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 
         $tmpArray = $cnf->getTableDesc($tablename);
@@ -117,7 +117,7 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Cor
         return true;
     } // init
 
-    public function setSeparator($separator)
+    public function setSeparator($separator): void
     {
         $this->separator = $separator;
     }
@@ -127,7 +127,7 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Cor
         return $this->separator;
     }
 
-    public function setSplitSeparator($separator)
+    public function setSplitSeparator($separator): void
     {
         $this->splitSeparator = $separator;
     }
@@ -137,7 +137,7 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Cor
         return $this->splitSeparator;
     }
 
-    public function setImplodeSeparator($separator)
+    public function setImplodeSeparator($separator): void
     {
         $this->implodeSeparator = $separator;
     }
@@ -172,7 +172,7 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Cor
     public function modifyRowFromVariant(
         &$row,
         $variant = ''
-    ) {
+    ): void {
         if (!$variant) {
             $variant = $this->getVariantFromRow($row);
         }
@@ -428,7 +428,7 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Cor
         return $rc;
     }
 
-    public function getSelectableArray()
+    public function getSelectableArray(): ?array
     {
         return $this->selectableArray;
     }
@@ -619,7 +619,7 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, \TYPO3\CMS\Cor
         return $this->fieldArray;
     }
 
-    public function getSelectableFieldArray()
+    public function getSelectableFieldArray(): array
     {
         return $this->selectableFieldArray;
     }

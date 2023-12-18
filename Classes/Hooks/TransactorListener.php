@@ -39,10 +39,14 @@ namespace JambageCom\TtProducts\Hooks;
  * @package TYPO3
  * @subpackage tt_products
  */
-
 use JambageCom\Div2007\Utility\FrontendUtility;
+use JambageCom\Div2007\Utility\MarkerUtility;
+use JambageCom\TtProducts\Api\BasketApi;
+use JambageCom\TtProducts\Api\ParameterApi;
+use JambageCom\TtProducts\Api\PaymentShippingHandling;
+use TYPO3\CMS\Core\Core\Bootstrap;
+use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Lang\LanguageService;
 
 class TransactorListener
 {
@@ -52,8 +56,8 @@ class TransactorListener
     ) {
         // Process the ID, type and other parameters
         // After this point we have an array, $page in TSFE, which is the page-record of the current page, $id
-        $parameterApi = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\ParameterApi::class);
-        $basketApi = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\BasketApi::class);
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
+        $basketApi = GeneralUtility::makeInstance(BasketApi::class);
 
         if (
             !isset($params['row']) ||
@@ -63,7 +67,7 @@ class TransactorListener
             return false;
         }
 
-        $callingClassName3 = \TYPO3\CMS\Core\Core\Bootstrap::class;
+        $callingClassName3 = Bootstrap::class;
         $bootStrap = call_user_func([$callingClassName3, 'getInstance']);
         $bootStrap->loadExtensionTables(true);
 
@@ -165,7 +169,7 @@ class TransactorListener
                 ) {
                     $parameters = $params['parameters'];
                     foreach ($parameters as $key => $parameter) {
-                        \JambageCom\Div2007\Utility\MarkerUtility::addMarkers(
+                        MarkerUtility::addMarkers(
                             $mainMarkerArray,
                             'TRANSACTOR',
                             '_',
@@ -176,7 +180,7 @@ class TransactorListener
                 }
 
                 $basketExtra =
-                    \JambageCom\TtProducts\Api\PaymentShippingHandling::getBasketExtras(
+                    PaymentShippingHandling::getBasketExtras(
                         $tablesObj,
                         $basketRec,
                         $conf

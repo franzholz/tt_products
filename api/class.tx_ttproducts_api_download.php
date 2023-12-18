@@ -36,16 +36,16 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
 use TYPO3\CMS\Core\Resource\ResourceFactory;
+use TYPO3\CMS\Core\Resource\StorageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_api_download
 {
     public static function fetchFal(
         $fileReferenceUid
-    ) {
-        $storageRepository = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\StorageRepository');
+    ): void {
+        $storageRepository = GeneralUtility::makeInstance(StorageRepository::class);
         $storage = $storageRepository->getDefaultStorage();
         $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
         $fileObj = $resourceFactory->getFileReferenceObject($fileReferenceUid);

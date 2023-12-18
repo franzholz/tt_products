@@ -36,7 +36,6 @@ $result = [
         'versioningWS' => true,
         'origUid' => 't3_origuid',
         'iconfile' => 'EXT:' . $extensionKey . '/Resources/Public/Icons/tt_products_articles.gif',
-        'dividers2tabs' => '1',
         'searchFields' => 'title,subtitle,itemnumber,keyword,note,note2',
     ],
     'columns' => [

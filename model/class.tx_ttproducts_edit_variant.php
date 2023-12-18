@@ -36,7 +36,6 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
 /*
     editVariant {
         default {
@@ -47,21 +46,19 @@
             suffix = height
         }
     }
-
 note: the price calculation shall not been implemented because it does not make sense to make calculation only on a height. If you have a 3D object, then the surface must be calculated to determine a price. This will be a multiplication of many edit fields.
-
 */
-
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class tx_ttproducts_edit_variant implements \TYPO3\CMS\Core\SingletonInterface
+class tx_ttproducts_edit_variant implements SingletonInterface
 {
     protected $itemTable;
 
     /**
      * setting the local variables.
      */
-    public function init(&$itemTable)
+    public function init(&$itemTable): void
     {
         $this->itemTable = $itemTable;
     }
@@ -166,7 +163,7 @@ class tx_ttproducts_edit_variant implements \TYPO3\CMS\Core\SingletonInterface
 
                         if (
                             !GeneralUtility::isValidUrl($url) ||
-                            !GeneralUtility::getUrl($url, 0, false, $report) && $report['error'] != 22 // CURLE_HTTP_RETURNED_ERROR
+                            !GeneralUtility::getUrl($url) && $report['error'] != 22 // CURLE_HTTP_RETURNED_ERROR
                         ) {
                             $result = false;
                             break;

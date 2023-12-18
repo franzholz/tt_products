@@ -54,7 +54,7 @@ class tx_ttproducts_account_view extends tx_ttproducts_table_base_view
      *
      * @access private
      */
-    public function getMarkerArray($row, &$markerArray, $bIsAllowed)
+    public function getMarkerArray($row, &$markerArray, $bIsAllowed): void
     {
         $viewRow = [];
         $modelObj = $this->getModelObj();

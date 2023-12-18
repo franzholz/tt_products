@@ -121,10 +121,8 @@ class OrderMMProductTtProductsUpdater implements UpgradeWizardInterface, Confirm
      *
      * @param array &$databaseQueries Queries done in this update
      * @param string &$customMessage Custom message
-     *
-     * @return bool
      */
-    public function performUpdate(array &$databaseQueries, &$customMessage)
+    public function performUpdate(array &$databaseQueries, &$customMessage): bool
     {
         // user decided to migrate, migrate and mark wizard as done
         $queries = $this->upgradeApi->performOrderMMProductMigration();

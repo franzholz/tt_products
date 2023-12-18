@@ -59,7 +59,7 @@ class tx_ttproducts_field_image_view extends tx_ttproducts_field_media_view
         $imageRenderObj = '',
         $linkWrap = false,
         $bEnableTaxZero = false
-    ) {
+    ): void {
         parent::getRowMarkerArray(
             $functablename,
             $fieldname,

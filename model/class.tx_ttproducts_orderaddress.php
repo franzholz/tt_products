@@ -36,7 +36,7 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use JambageCom\Div2007\Utility\CompatibilityUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_orderaddress extends tx_ttproducts_table_base
@@ -47,8 +47,8 @@ class tx_ttproducts_orderaddress extends tx_ttproducts_table_base
     public $tableconf;
     public $piVar = 'fe';
 
-    private $bCondition = false;
-    private $bConditionRecord = false;
+    private bool $bCondition = false;
+    private bool $bConditionRecord = false;
 
     /**
      * Getting all tt_products_cat categories into internal array.
@@ -75,7 +75,7 @@ class tx_ttproducts_orderaddress extends tx_ttproducts_table_base
                 is_array($this->tableconf['ALL.'])
             ) {
                 $tmp = $this->tableconf['ALL.']['requiredFields'];
-                $requiredFields = ($tmp ? $tmp : $requiredFields);
+                $requiredFields = ($tmp ?: $requiredFields);
             }
             $requiredListArray = GeneralUtility::trimExplode(',', $requiredFields);
             $this->getTableObj()->setRequiredFieldArray($requiredListArray);
@@ -111,7 +111,7 @@ class tx_ttproducts_orderaddress extends tx_ttproducts_table_base
         return $rc;
     }
 
-    public function isUserInGroup($feuser, $group)
+    public function isUserInGroup($feuser, $group): bool
     {
         $groups = explode(',', $feuser['usergroup']);
         foreach ($groups as $singlegroup) {
@@ -123,7 +123,7 @@ class tx_ttproducts_orderaddress extends tx_ttproducts_table_base
         return false;
     } // isUserInGroup
 
-    public function setCondition($row, $funcTablename)
+    public function setCondition($row, $funcTablename): void
     {
         $bCondition = false;
         $this->bConditionRecord = false;
@@ -179,12 +179,12 @@ class tx_ttproducts_orderaddress extends tx_ttproducts_table_base
         }
     }
 
-    public function getCondition()
+    public function getCondition(): bool
     {
         return $this->bCondition;
     }
 
-    public function getConditionRecord()
+    public function getConditionRecord(): bool
     {
         return $this->bConditionRecord;
     }
@@ -193,7 +193,7 @@ class tx_ttproducts_orderaddress extends tx_ttproducts_table_base
     {
         $rc = false;
         if (
-            \JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn() &&
+            CompatibilityUtility::isLoggedIn() &&
             isset($GLOBALS['TSFE']->fe_user->user) &&
             is_array(
                 $GLOBALS['TSFE']->fe_user->user

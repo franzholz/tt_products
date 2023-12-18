@@ -36,7 +36,7 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_model_control
@@ -66,14 +66,14 @@ class tx_ttproducts_model_control
 
     public static $basketVar = 'ttp_basket';
     public static $searchboxVar = 'searchbox';
-    private static $basketParamVar = 'basket';
-    private static $orderViewVar = 'orderview';
+    private static string $basketParamVar = 'basket';
+    private static string $orderViewVar = 'orderview';
     private static $prefixId = 'tt_products';
     private static $piVars = [];
-    private static $piVarsDefault = [];
-    private static $andVars = [];
-    private static $basketIntoIdPrefix = 'basket-into-id';
-    private static $basketInputErrorIdPrefix = 'basket-input-error-id';
+    private static array $piVarsDefault = [];
+    private static array $andVars = [];
+    private static string $basketIntoIdPrefix = 'basket-into-id';
+    private static string $basketInputErrorIdPrefix = 'basket-input-error-id';
 
     public static function determineRegExpDelimiter($delimiter)
     {
@@ -113,7 +113,7 @@ class tx_ttproducts_model_control
      * If internal TypoScript property "_DEFAULT_PI_VARS." is set then it will merge the current $this->piVars array onto these default values.
      * Store the internal TypoScript property "_DEFAULT_PI_VARS." if set.
      */
-    public static function setPiVarDefaults($piVarsDefault)
+    public static function setPiVarDefaults($piVarsDefault): void
     {
         if (
             isset($piVarsDefault) &&
@@ -128,7 +128,7 @@ class tx_ttproducts_model_control
         return self::$piVarsDefault;
     }
 
-    public static function setPrefixId($prefixId)
+    public static function setPrefixId($prefixId): void
     {
         self::$prefixId = $prefixId;
     }
@@ -138,7 +138,7 @@ class tx_ttproducts_model_control
         return self::$prefixId;
     }
 
-    public static function setPiVars($value)
+    public static function setPiVars($value): void
     {
         self::$piVars = $value;
     }
@@ -159,7 +159,7 @@ class tx_ttproducts_model_control
         return $result;
     }
 
-    public static function setAndVar($k, $v)
+    public static function setAndVar($k, $v): void
     {
         if (isset(self::$andVars[$k])) {
             self::$andVars[$k] .= ',' . $v;
@@ -271,7 +271,7 @@ class tx_ttproducts_model_control
         $theCode,
         array &$tableConfArray,
         array &$viewConfArray
-    ) {
+    ): void {
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 
         foreach ($functableArray as $ft) {
@@ -378,7 +378,7 @@ class tx_ttproducts_model_control
         &$tableAliasArray,
         &$bUseSearchboxArray,
         &$enableFieldArray
-    ) {
+    ): void {
         if ($searchFunctablename != '') {
             $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 
@@ -432,7 +432,7 @@ class tx_ttproducts_model_control
         &$sqlTableArray,
         &$sqlTableIndex,
         &$latest
-    ) {
+    ): void {
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 
@@ -520,8 +520,8 @@ class tx_ttproducts_model_control
                 $positionSearchVars = [];
                 $foundKey = 0;
 
-                if ($position == 'local' && isset($keyFieldArray[$searchFieldArray['local']]) && \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('searchbox')) {	// Todo
-                    GeneralUtility::requireOnce(PATH_BE_searchbox . 'model/class.tx_searchbox_model.php');
+                if ($position == 'local' && isset($keyFieldArray[$searchFieldArray['local']]) && ExtensionManagementUtility::isLoaded('searchbox')) {	// Todo
+                    require_once PATH_BE_searchbox . 'model/class.tx_searchbox_model.php';
                     $modelObj = GeneralUtility::makeInstance('tx_searchbox_model');
 
                     $fullKeyFieldArray = $modelObj->getKeyFieldArray($tablename, '', '-', $searchFieldArray['local'], '1', $tmpCount);
@@ -566,7 +566,7 @@ class tx_ttproducts_model_control
                     $positionSearchKey = key($positionSearchVars);
                     $positionSearchValue = current($positionSearchVars);
                     $partArray = GeneralUtility::trimExplode('|', $positionSearchKey);
-                    $delimiter = ($partArray[2] ? $partArray[2] : '');
+                    $delimiter = ($partArray[2] ?: '');
                     $searchTablename = '';
                     $searchParam = $partArray[0];
                     $searchField = $partArray[1];

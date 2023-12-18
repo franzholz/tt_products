@@ -36,10 +36,10 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class tx_ttproducts_control_user_int implements \TYPO3\CMS\Core\SingletonInterface
+class tx_ttproducts_control_user_int implements SingletonInterface
 {
     /**
      * Main method for the control object for the single view.

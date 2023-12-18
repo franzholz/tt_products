@@ -1,4 +1,7 @@
 <?php
+
+use TYPO3\CMS\Core\SingletonInterface;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -36,26 +39,26 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-class tx_ttproducts_edit_variant_dummy implements tx_ttproducts_edit_variant_int, \TYPO3\CMS\Core\SingletonInterface
+class tx_ttproducts_edit_variant_dummy implements tx_ttproducts_edit_variant_int, SingletonInterface
 {
-    public function init($itemTable)
+    public function init($itemTable): bool
     {
         return true;
     }
 
-    public function getFieldArray()
+    public function getFieldArray(): void
     {
     }
 
-    public function getVariantFromRawRow($row)
+    public function getVariantFromRawRow($row): void
     {
     }
 
-    public function getVariantRowFromProductRow($row)
+    public function getVariantRowFromProductRow($row): void
     {
     }
 
-    public function getValidConfig($row)
+    public function getValidConfig($row): void
     {
     }
 }

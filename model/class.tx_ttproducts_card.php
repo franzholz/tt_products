@@ -149,7 +149,7 @@ class tx_ttproducts_card extends tx_ttproducts_table_base
             }
 
             for ($i = 1; $i <= 4; ++$i) {
-                $ccArray['cc_number_' . $i] = ($ccArray['cc_number_' . $i] ? $ccArray['cc_number_' . $i] : '   ');
+                $ccArray['cc_number_' . $i] = ($ccArray['cc_number_' . $i] ?: '   ');
             }
 
             $newFields = [

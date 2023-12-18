@@ -1,4 +1,7 @@
 <?php
+
+use TYPO3\CMS\Core\SingletonInterface;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -36,11 +39,11 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-class tx_ttproducts_variant_view implements tx_ttproducts_variant_view_int, \TYPO3\CMS\Core\SingletonInterface
+class tx_ttproducts_variant_view implements tx_ttproducts_variant_view_int, SingletonInterface
 {
     public $modelObj;
 
-    public function init($modelObj)
+    public function init($modelObj): void
     {
         $this->modelObj = $modelObj;
     }
@@ -55,7 +58,7 @@ class tx_ttproducts_variant_view implements tx_ttproducts_variant_view_int, \TYP
         $conf,
         $bHasAdditional,
         $bGiftService
-    ) {
+    ): void {
         $this->removeEmptyMarkerSubpartArray(
             $markerArray,
             $subpartArray,
@@ -75,7 +78,7 @@ class tx_ttproducts_variant_view implements tx_ttproducts_variant_view_int, \TYP
         $conf,
         $bHasAdditional,
         $bGiftService
-    ) {
+    ): void {
         $areaArray = [];
         $remMarkerArray = [];
         $variantConf = $this->modelObj->conf;

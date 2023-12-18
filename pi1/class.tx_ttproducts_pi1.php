@@ -43,11 +43,11 @@
  * @see file tt_products/static/old_style/constants.txt
  * @see TSref
  */
-
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
-class tx_ttproducts_pi1 implements \TYPO3\CMS\Core\SingletonInterface
+class tx_ttproducts_pi1 implements SingletonInterface
 {
     public $cObj;
 

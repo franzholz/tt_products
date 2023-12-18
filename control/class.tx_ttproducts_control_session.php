@@ -1,4 +1,7 @@
 <?php
+
+use TYPO3\CMS\Core\Utility\ArrayUtility;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -59,7 +62,7 @@ class tx_ttproducts_control_session
         return $result;
     }
 
-    public static function writeSession($key, $value)
+    public static function writeSession($key, $value): void
     {
         // Storing value ONLY if there is a confirmed cookie set,
         // otherwise a shellscript could easily be spamming the fe_sessions table
@@ -104,7 +107,7 @@ class tx_ttproducts_control_session
      */
     public static function writeSessionData(
         array $data
-    ) {
+    ): void {
         $clearSession = empty($data);
         $extKey = TT_PRODUCTS_EXT;
         // Read all session data
@@ -117,7 +120,7 @@ class tx_ttproducts_control_session
                     unset($allSessionData[$extKey][$key]);
                 }
             }
-            \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($allSessionData[$extKey], $data);
+            ArrayUtility::mergeRecursiveWithOverrule($allSessionData[$extKey], $data);
         } else {
             $allSessionData[$extKey] = $data;
         }

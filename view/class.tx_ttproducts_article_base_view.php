@@ -1,4 +1,3 @@
-
 <?php
 /***************************************************************
 *  Copyright notice
@@ -42,7 +41,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 abstract class tx_ttproducts_article_base_view extends tx_ttproducts_table_base_view
 {
-    private $dataArray = []; // array of read in products
+    private array $dataArray = []; // array of read in products
     private $table;	 // object of the type tx_table_db
 
     public $tabledesc;
@@ -85,7 +84,7 @@ abstract class tx_ttproducts_article_base_view extends tx_ttproducts_table_base_
         return $result;
     }
 
-    public function setGraduatedPriceObject($value)
+    public function setGraduatedPriceObject($value): void
     {
         $this->graduatedPriceObject = $value;
     }
@@ -119,7 +118,7 @@ abstract class tx_ttproducts_article_base_view extends tx_ttproducts_table_base_
         $basketExtra = [],
         $basketRecs = [],
         $iCount = ''
-    ) {
+    ): void {
         $this->getItemSubpartArrays(
             $templateCode,
             $functablename,
@@ -146,7 +145,7 @@ abstract class tx_ttproducts_article_base_view extends tx_ttproducts_table_base_
         $basketRecs = [],
         $id = '',
         $checkPriceZero = false
-    ) {
+    ): void {
         parent::getItemSubpartArrays(
             $templateCode,
             $functablename,
@@ -174,7 +173,7 @@ abstract class tx_ttproducts_article_base_view extends tx_ttproducts_table_base_
         $basketRecs,
         $bEnableTaxZero = false,
         $notOverwritePriceIfSet = true
-    ) {
+    ): void {
         if (is_array($mergedRow)) {
             $row = $mergedRow;
             if (is_array($originalRow) && count($originalRow)) {
@@ -216,7 +215,7 @@ abstract class tx_ttproducts_article_base_view extends tx_ttproducts_table_base_
         $theCode,
         $bEnableTaxZero = false,
         $notOverwritePriceIfSet = true
-    ) {
+    ): void {
         $modelObj = $this->getModelObj();
         $priceViewObj = GeneralUtility::makeInstance('tx_ttproducts_field_price_view');
         $functablename = $modelObj->getFuncTablename();

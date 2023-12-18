@@ -76,7 +76,7 @@ abstract class tx_ttproducts_category_base extends tx_ttproducts_table_base
         return $rc;
     }
 
-    public function setMMTablename($mm_table)
+    public function setMMTablename($mm_table): void
     {
         $this->mm_table = $mm_table;
     }

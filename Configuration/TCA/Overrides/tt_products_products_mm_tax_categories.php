@@ -2,7 +2,7 @@
 
 defined('TYPO3') || die('Access denied.');
 
-call_user_func(function ($extensionKey, $table) {
+call_user_func(function ($extensionKey, $table): void {
     $extensionKeyStaticTaxes = 'static_info_tables_taxes';
     $imagePath = 'EXT:' . $extensionKeyStaticTaxes . '/Resources/Public/Icons/';
     $languageSubpath = '/Resources/Private/Language/';

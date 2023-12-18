@@ -36,7 +36,7 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use JambageCom\Div2007\Api\Frontend;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_content extends tx_ttproducts_table_base
@@ -69,7 +69,7 @@ class tx_ttproducts_content extends tx_ttproducts_table_base
             $sql->prepareFields($this->getTableObj(), 'orderBy', 'sorting');
             $sql->prepareWhereFields($this->getTableObj(), 'pid', '=', intval($pid));
             $api =
-                GeneralUtility::makeInstance(\JambageCom\Div2007\Api\Frontend::class);
+                GeneralUtility::makeInstance(Frontend::class);
             $sys_language_uid = $api->getLanguageId();
 
             $sql->prepareWhereFields($this->getTableObj(), 'sys_language_uid', '=', intval($sys_language_uid));

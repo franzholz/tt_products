@@ -36,8 +36,9 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 class tx_ttproducts_graduated_price_view extends tx_ttproducts_table_base_view
 {
@@ -52,7 +53,7 @@ class tx_ttproducts_graduated_price_view extends tx_ttproducts_table_base_view
         $bEnableTaxZero,
         &$markerArray,
         $suffix = ''
-    ) {
+    ): void {
         if (isset($priceFormula) && is_array($priceFormula)) {
             $marker = $this->getMarker();
             $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
@@ -135,10 +136,10 @@ class tx_ttproducts_graduated_price_view extends tx_ttproducts_table_base_view
         $basketExtra = [],
         $basketRecs = [],
         $id = '1'
-    ) {
-        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+    ): void {
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $subpartmarkerObj = GeneralUtility::makeInstance('tx_ttproducts_subpartmarker');
-        $local_cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
+        $local_cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
 
         $t = [];
         $t['listFrameWork'] = $templateService->getSubpart($templateCode, '###GRADPRICE_FORMULA_ITEMS###');
@@ -194,7 +195,7 @@ class tx_ttproducts_graduated_price_view extends tx_ttproducts_table_base_view
         $basketRecs,
         &$markerArray,
         $tagArray
-    ) {
+    ): void {
         if ($this->getModelObj()->hasDiscountPrice($row)) {
             $priceFormulaArray = $this->getModelObj()->getFormulasByItem($row['uid']);
             foreach ($priceFormulaArray as $k => $priceFormula) {

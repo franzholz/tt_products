@@ -2,7 +2,7 @@
 
 defined('TYPO3') || die('Access denied.');
 
-call_user_func(function ($extensionKey, $table) {
+call_user_func(function ($extensionKey, $table): void {
     if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['sepa']) {
         unset($GLOBALS['TCA'][$table]['columns']['ac_number']);
         if (!$GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['bic']) {

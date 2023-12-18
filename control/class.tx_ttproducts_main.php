@@ -36,14 +36,25 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use JambageCom\Div2007\Utility\ConfigUtility;
+use JambageCom\Div2007\Utility\ErrorUtility;
+use JambageCom\Div2007\Utility\FlexformUtility;
 use JambageCom\Div2007\Utility\FrontendUtility;
+use JambageCom\Div2007\Utility\ViewUtility;
+use JambageCom\TtProducts\Api\ControlApi;
+use JambageCom\TtProducts\Api\Localization;
 use JambageCom\TtProducts\Api\PluginApi;
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
+use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\HttpUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+use TYPO3\CMS\Frontend\Resource\FilePathSanitizer;
 
-class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface
+class tx_ttproducts_main implements SingletonInterface
 {
     // Internal
     public $uid_list = '';			// List of existing uid's from the basket, set by initBasket()
@@ -124,11 +135,11 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface
         PluginApi::initFlexform($cObj);
 
         $flexformArray = PluginApi::getFlexform();
-        $flexformTyposcript = \JambageCom\Div2007\Utility\FlexformUtility::get($flexformArray, 'myTS');
+        $flexformTyposcript = FlexformUtility::get($flexformArray, 'myTS');
 
         if ($flexformTyposcript) {
             $tsparser = GeneralUtility::makeInstance(
-                \TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser::class
+                TypoScriptParser::class
             );
             // Copy conf into existing setup
             $tsparser->setup = $conf;
@@ -142,7 +153,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface
         $conf['code.'] ??= [];
 
         $config['code'] =
-            \JambageCom\Div2007\Utility\ConfigUtility::getSetupOrFFvalue(
+            ConfigUtility::getSetupOrFFvalue(
                 $cObj,
                 $conf['code'],
                 $conf['code.'],
@@ -155,7 +166,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface
         $this->codeArray = GeneralUtility::trimExplode(',', $config['code'], 1);
 
         $required_pivars =
-            \JambageCom\Div2007\Utility\FlexformUtility::get(
+            FlexformUtility::get(
                 $flexformArray,
                 'required_pivars'
             );
@@ -182,7 +193,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface
             $bDoProcessing &&
             (
                 method_exists($cObj, 'getUserObjectType') &&
-                $cObj->getUserObjectType() == TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::OBJECTTYPE_USER
+                $cObj->getUserObjectType() == ContentObjectRenderer::OBJECTTYPE_USER
             )
         ) {
             $intersection =
@@ -252,7 +263,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface
             return false;
         }
 
-        if (!$bRunAjax && \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('taxajax')) {
+        if (!$bRunAjax && ExtensionManagementUtility::isLoaded('taxajax')) {
             if (!empty($_POST['xajax'])) {
                 global $trans;
                 $trans = $this;
@@ -310,7 +321,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface
         return $result;
     } // init
 
-    public function destruct()
+    public function destruct(): void
     {
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $tablesObj->destruct();
@@ -328,7 +339,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface
         $config = $cnf->getConfig();
         $piVars = tx_ttproducts_model_control::getPiVars();
         $urlObj = GeneralUtility::makeInstance('tx_ttproducts_url_view');
-        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
 
         if (!empty($conf['no_cache']) && $this->convertToUserInt($cObj)) {
             // Compatibility with previous versions where users could set
@@ -340,7 +351,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface
         $bStoreBasket = true;
         $errorMessage = '';
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
-        $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
+        $languageObj = GeneralUtility::makeInstance(Localization::class);
         $pibaseObj = GeneralUtility::makeInstance('' . $pibaseClass);
         $templateObj = GeneralUtility::makeInstance('tx_ttproducts_template');
         $showAmount = $cnf->getBasketConf('view', 'showAmount');
@@ -353,7 +364,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface
             $this->codeArray = ['HELP'];
         }
 
-        if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('taxajax')) {
+        if (ExtensionManagementUtility::isLoaded('taxajax')) {
             if ($bRunAjax) {
                 // TODO: get AJAX configuration
             } else {
@@ -626,15 +637,11 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface
                             $tablename = $conf['table.'][$functablename];
                         }
 
-                        if (!isset($GLOBALS['TCA'][$tablename]['columns'])) {
-                            GeneralUtility::loadTCA($tablename);
-                        }
-
                         $addressExtKeyTable = tx_ttproducts_control_address::getAddressExtKeyTable();
 
                         if (
                             isset($addressExtKeyTable[$tablename]) &&
-                            !\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($addressExtKeyTable[$tablename])
+                            !ExtensionManagementUtility::isLoaded($addressExtKeyTable[$tablename])
                         ) {
                             $languageObj->getLabel('extension_missing');
                             $messageArr = explode('|', $message);
@@ -962,23 +969,23 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface
                         );
 
                         if ($url != '') {
-                            \TYPO3\CMS\Core\Utility\HttpUtility::redirect($url);
+                            HttpUtility::redirect($url);
                         }
                     }
                 }
 
-                $contentTmp .= \JambageCom\Div2007\Utility\ErrorUtility::getMessage($languageObj, $errorCode);
+                $contentTmp .= ErrorUtility::getMessage($languageObj, $errorCode);
                 $errorCode = [];
             }
 
             if ($contentTmp == 'error') {
                 $fileName = 'EXT:' . TT_PRODUCTS_EXT . '/Resources/Public/Templates/products_help.tmpl';
-                $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
+                $sanitizer = GeneralUtility::makeInstance(FilePathSanitizer::class);
                 $fileName = $sanitizer->sanitize($fileName);
 
                 $helpTemplate = file_get_contents($fileName);
                 $content .=
-                    \JambageCom\Div2007\Utility\ViewUtility::displayHelpPage(
+                    ViewUtility::displayHelpPage(
                         $languageObj,
                         $cObj,
                         $helpTemplate,
@@ -1008,7 +1015,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface
                 $fileName = $javaScriptConf['file'];
                 $incFile = '';
 
-                $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
+                $sanitizer = GeneralUtility::makeInstance(FilePathSanitizer::class);
                 $incFile = $sanitizer->sanitize($fileName);
 
                 if ($incFile != '' && !$javaScriptObj->getIncluded($incFile)) {
@@ -1034,7 +1041,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface
                 $fileName = $cssObj->conf['file'];
                 $incFile = '';
 
-                $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
+                $sanitizer = GeneralUtility::makeInstance(FilePathSanitizer::class);
                 $incFile = $sanitizer->sanitize($fileName);
 
                 if ($incFile != '') {
@@ -1082,7 +1089,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface
         $result = false;
         if (
             method_exists($cObj, 'getUserObjectType') &&
-            $cObj->getUserObjectType() == TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::OBJECTTYPE_USER
+            $cObj->getUserObjectType() == ContentObjectRenderer::OBJECTTYPE_USER
         ) {
             $cObj->convertToUserIntObject();
             $cObj->data['pi_flexform'] = $cObj->data['_original_pi_flexform'];
@@ -1093,7 +1100,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface
         return $result;
     }
 
-    public function set_no_cache()
+    public function set_no_cache(): void
     {
         // Should never be used!
     }
@@ -1115,11 +1122,11 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface
         $updateCode = '';
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $subpartmarkerObj = GeneralUtility::makeInstance('tx_ttproducts_subpartmarker');
-        $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
+        $languageObj = GeneralUtility::makeInstance(Localization::class);
         $markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
 
-        $cObj = \JambageCom\TtProducts\Api\ControlApi::getCObj();
-        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+        $cObj = ControlApi::getCObj();
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $globalMarkerArray = $markerObj->getGlobalMarkerArray();
 
         $trackingTemplateCode = $templateCode;
@@ -1241,7 +1248,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface
         return $content;
     }  // products_tracking
 
-    public function setSingleFromList($bValue)
+    public function setSingleFromList($bValue): void
     {
         $this->bSingleFromList = $bValue;
     }
@@ -1289,7 +1296,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface
             $bSingleFromList
         ) {
             $extVars = $piVars['variants'] ?? '';
-            $extVars = ($extVars ? $extVars : GeneralUtility::_GP('ttp_extvars'));
+            $extVars = ($extVars ?: GeneralUtility::_GP('ttp_extvars'));
             $showAmount = $cnf->getBasketConf('view', 'showAmount');
 
             if (!count($this->tt_product_single)) {
@@ -1359,7 +1366,7 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface
             } else {
                 $functablename = 'tt_products';
             }
-            $allowedItems = \JambageCom\Div2007\Utility\FlexformUtility::get(PluginApi::getFlexform(), 'productSelection');
+            $allowedItems = FlexformUtility::get(PluginApi::getFlexform(), 'productSelection');
 
             $bAllPages = false;
             $templateArea = $templateArea . $config['templateSuffix'];

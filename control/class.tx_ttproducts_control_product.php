@@ -36,7 +36,7 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_control_product
@@ -97,8 +97,8 @@ class tx_ttproducts_control_product
         $languageObj,
         $theCode,
         $functablename
-    ) {
-        if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('taxajax')) {
+    ): void {
+        if (ExtensionManagementUtility::isLoaded('taxajax')) {
             $itemTable = $tablesObj->get($functablename, false);
 
             $selectableVariantFieldArray = $itemTable->variant->getSelectableFieldArray();

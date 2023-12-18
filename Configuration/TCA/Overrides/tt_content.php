@@ -2,7 +2,7 @@
 
 defined('TYPO3') || die('Access denied.');
 
-call_user_func(function ($extensionKey, $table) {
+call_user_func(function ($extensionKey, $table): void {
     $languageSubpath = '/Resources/Private/Language/';
 
     $GLOBALS['TCA'][$table]['types']['list']['subtypes_excludelist']['5'] = 'layout';

@@ -65,7 +65,7 @@ class tx_ttproducts_field_datafield_view extends tx_ttproducts_field_base_view
         $dataFile,
         $fieldname,
         $tableConf
-    ) {
+    ): void {
         $cObj = FrontendUtility::getContentObjectRenderer();
         if (isset($tagArray[$marker])) {
             if (
@@ -94,7 +94,7 @@ class tx_ttproducts_field_datafield_view extends tx_ttproducts_field_base_view
         $value,
         $tableConf,
         $tagArray
-    ) {
+    ): void {
         $dirname = $this->modelObj->getDirname($row, $fieldname);
         $upperField = strtoupper($fieldname);
         $marker = $markerKey . '_LINK_' . $upperField;
@@ -124,7 +124,7 @@ class tx_ttproducts_field_datafield_view extends tx_ttproducts_field_base_view
         $basketExtra = [],
         $basketRecs = [],
         $id = '1'
-    ) {
+    ): void {
         $upperField = '';
         $funcFieldname = $this->getFuncFieldname($row, $fieldname);
         if ($funcFieldname != '') {
@@ -204,7 +204,7 @@ class tx_ttproducts_field_datafield_view extends tx_ttproducts_field_base_view
         $tagArray,
         $theCode = '',
         $id = '1'
-    ) {
+    ): bool {
         $dirname = $this->modelObj->getDirname($row, $fieldname);
         $upperField = strtoupper($fieldname);
         $marker = $markerKey . '_' . $upperField;
@@ -242,7 +242,7 @@ class tx_ttproducts_field_datafield_view extends tx_ttproducts_field_base_view
         $imageConf,
         $dirname,
         $dataFile
-    ) {
+    ): void {
         $imageConf['file'] = $dirname . '/' . $dataFile;
         // 		$iconImgCode = $this->cObj->IMAGE($imageConf);
         $imageObj = GeneralUtility::makeInstance('tx_ttproducts_field_image_view');
@@ -268,7 +268,7 @@ class tx_ttproducts_field_datafield_view extends tx_ttproducts_field_base_view
         $theCode,
         $imageRenderObj,
         $filename
-    ) {
+    ): void {
         $extensionPos = strrpos($filename, '.');
         $extension = '';
         if ($extensionPos !== false) {
@@ -348,7 +348,7 @@ class tx_ttproducts_field_datafield_view extends tx_ttproducts_field_base_view
         $imageRenderObj = '',
         $linkWrap = false,
         $bEnableTaxZero = false
-    ) {
+    ): void {
         $funcFieldname = $this->getFuncFieldname($row, $fieldname);
         $val = $row[$fieldname];
         $dataFileArray = [];

@@ -36,8 +36,9 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
 use JambageCom\Div2007\Utility\FrontendUtility;
+use JambageCom\Div2007\Utility\TableUtility;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_voucher extends tx_ttproducts_table_base
@@ -55,7 +56,7 @@ class tx_ttproducts_voucher extends tx_ttproducts_table_base
     public function init($functablename)
     {
         $result = false;
-        if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('voucher')) {
+        if (ExtensionManagementUtility::isLoaded('voucher')) {
             $result = parent::init($functablename);
         }
 
@@ -165,7 +166,7 @@ class tx_ttproducts_voucher extends tx_ttproducts_table_base
 
             if (
                 is_array($voucherRelationRows) &&
-                \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('voucher')
+                ExtensionManagementUtility::isLoaded('voucher')
             ) {
                 $table = 'tx_voucher_codes';
 
@@ -194,7 +195,7 @@ class tx_ttproducts_voucher extends tx_ttproducts_table_base
         return $this->amount;
     }
 
-    public function setAmount($amount)
+    public function setAmount($amount): void
     {
         $this->amount = $amount;
     }
@@ -204,7 +205,7 @@ class tx_ttproducts_voucher extends tx_ttproducts_table_base
         return $this->amountType;
     }
 
-    public function setAmountType($amountType)
+    public function setAmountType($amountType): void
     {
         $this->amountType = $amountType;
     }
@@ -230,7 +231,7 @@ class tx_ttproducts_voucher extends tx_ttproducts_table_base
         return $amount;
     }
 
-    public function setUsedVoucherCodeArray($usedVoucherCodeArray)
+    public function setUsedVoucherCodeArray($usedVoucherCodeArray): void
     {
         if (isset($usedVoucherCodeArray) && is_array($usedVoucherCodeArray)) {
             $this->usedVoucherCodeArray = $usedVoucherCodeArray;
@@ -286,7 +287,7 @@ class tx_ttproducts_voucher extends tx_ttproducts_table_base
         return $result;
     }
 
-    public function setVoucherCodeUsed($code, $row)
+    public function setVoucherCodeUsed($code, $row): void
     {
         array_push($this->usedVoucherCodeArray, $row);
     }
@@ -296,7 +297,7 @@ class tx_ttproducts_voucher extends tx_ttproducts_table_base
         return $this->voucherCode;
     }
 
-    public function setVoucherCode($code)
+    public function setVoucherCode($code): void
     {
         $this->voucherCode = $code;
     }
@@ -311,7 +312,7 @@ class tx_ttproducts_voucher extends tx_ttproducts_table_base
         return $result;
     }
 
-    public function setValid($bValid = true)
+    public function setValid($bValid = true): void
     {
         $this->bValid = $bValid;
     }
@@ -321,7 +322,7 @@ class tx_ttproducts_voucher extends tx_ttproducts_table_base
         return $this->bValid;
     }
 
-    public function delete()
+    public function delete(): void
     {
         $voucherCode = $this->getLastVoucherCodeUsed();
         $voucherArray = $this->getVoucherArray($voucherCode);
@@ -365,7 +366,7 @@ class tx_ttproducts_voucher extends tx_ttproducts_table_base
         }
     }
 
-    public function doProcessing($recs)
+    public function doProcessing($recs): void
     {
         $voucherCode = $recs['tt_products']['vouchercode'] ?? '';
         $this->setVoucherCode($voucherCode);
@@ -406,7 +407,7 @@ class tx_ttproducts_voucher extends tx_ttproducts_table_base
                 $whereGeneral = '(fe_users_uid="' . intval($GLOBALS['TSFE']->fe_user->user['uid']) . '" OR fe_users_uid=0) ';
                 $whereGeneral .= 'AND code=' . $GLOBALS['TYPO3_DB']->fullQuoteStr($voucherCode, $voucherTable);
             }
-            $enableFields = \JambageCom\Div2007\Utility\TableUtility::enableFields($voucherTable);
+            $enableFields = TableUtility::enableFields($voucherTable);
 
             $where = $whereGeneral . $enableFields;
             $fields = implode(',', $voucherfieldArray);

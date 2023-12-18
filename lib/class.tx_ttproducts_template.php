@@ -36,10 +36,10 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class tx_ttproducts_template implements \TYPO3\CMS\Core\SingletonInterface
+class tx_ttproducts_template implements SingletonInterface
 {
     private $templateFile;
     protected $templateSuffix = '';
@@ -49,7 +49,7 @@ class tx_ttproducts_template implements \TYPO3\CMS\Core\SingletonInterface
         return $this->templateFile;
     }
 
-    public function setTemplateSuffix($value)
+    public function setTemplateSuffix($value): void
     {
         $this->templateSuffix = $value;
     }
@@ -90,7 +90,7 @@ class tx_ttproducts_template implements \TYPO3\CMS\Core\SingletonInterface
             if (empty($errorCode)) {
                 $errorCode[0] = 'no_template';
                 $errorCode[1] = ' plugin.' . TT_PRODUCTS_EXT . '.' . $tmplText . ' = ' .
-                    ($templateFile ? $templateFile : '');
+                    ($templateFile ?: '');
             }
         }
 

@@ -36,7 +36,8 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use JambageCom\Div2007\Utility\PhpUtility;
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
@@ -45,7 +46,7 @@ class tx_ttproducts_pricetablescalc extends tx_ttproducts_pricecalc_base
     public function calculateValue($formula, $row)
     {
         $result = false;
-        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
         $conf = $cnf->getConf();
@@ -108,13 +109,13 @@ class tx_ttproducts_pricetablescalc extends tx_ttproducts_pricecalc_base
 
             try {	// take care of divisions by zero
                 if (
-                    !\JambageCom\Div2007\Utility\PhpUtility::php_is_secure($phpCode)
+                    !PhpUtility::php_is_secure($phpCode)
                 ) {
                     throw new RuntimeException('Error in tt_products: The graduated price for "' . htmlspecialchars($formula) . '" is unsecure.', 50003);
                 }
 
                 $syntaxCheck =
-                    \JambageCom\Div2007\Utility\PhpUtility::php_syntax_error($phpCode);
+                    PhpUtility::php_syntax_error($phpCode);
                 if (
                     is_array($syntaxCheck)
                 ) {

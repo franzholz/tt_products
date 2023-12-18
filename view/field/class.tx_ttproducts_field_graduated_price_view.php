@@ -55,7 +55,7 @@ class tx_ttproducts_field_graduated_price_view extends tx_ttproducts_field_base_
         $basketExtra = [],
         $basketRecs = [],
         $id = '1'
-    ) {
+    ): void {
         $bTaxIncluded = $this->conf['TAXincluded'];
         $bEnableTaxZero = 0;
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
@@ -101,7 +101,7 @@ class tx_ttproducts_field_graduated_price_view extends tx_ttproducts_field_base_
         $imageRenderObj = '',
         $linkWrap = false,
         $bEnableTaxZero = false
-    ) {
+    ): void {
         $bTaxIncluded = $this->conf['TAXincluded'];
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $viewItemTableObj = $tablesObj->get($functablename, true);

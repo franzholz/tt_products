@@ -36,8 +36,11 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
 use JambageCom\Div2007\Utility\FrontendUtility;
+use JambageCom\Div2007\Utility\ObsoleteUtility;
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
+use TYPO3\CMS\Core\Utility\ArrayUtility;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_product_view extends tx_ttproducts_article_base_view
@@ -75,7 +78,7 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view
         $basketRecs = [],
         $iCount = '',
         $checkPriceZero = false
-    ) {
+    ): void {
         $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
         $conf = $cnfObj->getConf();
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
@@ -207,9 +210,9 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view
         $productRowArray = [],
         $bEnableTaxZero = false,
         $notOverwritePriceIfSet = true
-    ) {
+    ): void {
         // Returns a markerArray ready for substitution with information for the tt_producst record, $row
-        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $modelObj = $this->getModelObj();
         $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
@@ -248,7 +251,7 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view
 
         if (!empty($conf['itemMarkerArrayFunc'])) {
             $markerArray =
-                \JambageCom\Div2007\Utility\ObsoleteUtility::userProcess(
+                ObsoleteUtility::userProcess(
                     $this,
                     $conf,
                     'itemMarkerArrayFunc',
@@ -263,7 +266,7 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view
 
             if (is_object($addressViewObj)) {
                 if (
-                    ($conf['table.']['address'] != 'tt_address' || \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded(TT_ADDRESS_EXT)) &&
+                    ($conf['table.']['address'] != 'tt_address' || ExtensionManagementUtility::isLoaded(TT_ADDRESS_EXT)) &&
                     $addressUid &&
                     $modelObj->fieldArray['address']
                 ) {
@@ -334,7 +337,7 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view
                                 $contentConf['displayFields.'][$fieldName] == 'RTEcssText'
                             ) {
                                 // Extension CSS styled content
-                                if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('css_styled_content')) {
+                                if (ExtensionManagementUtility::isLoaded('css_styled_content')) {
                                     $markerArray['###' . $index . '###'] =
                                         FrontendUtility::RTEcssText(
                                             $local_cObj,
@@ -376,7 +379,7 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view
 
             if (
                 $extKey != '' &&
-                \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($extKey) &&
+                ExtensionManagementUtility::isLoaded($extKey) &&
                 $api != '' &&
                 class_exists($api)
             ) {
@@ -385,7 +388,7 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view
                     $ratingConf = $apiObj->getDefaultConfig();
                     if (isset($ratingConf) && is_array($ratingConf)) {
                         $tmpConf = $conf1;
-                        \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($tmpConf, $ratingConf);
+                        ArrayUtility::mergeRecursiveWithOverrule($tmpConf, $ratingConf);
                         $ratingConf = $tmpConf;
                     } else {
                         $ratingConf = $conf1;
@@ -426,14 +429,14 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view
                 }
             }
 
-            if ($extKey != '' && \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($extKey) && $api != '' && class_exists($api)) {
+            if ($extKey != '' && ExtensionManagementUtility::isLoaded($extKey) && $api != '' && class_exists($api)) {
                 $apiObj = GeneralUtility::makeInstance($api);
 
                 if (method_exists($apiObj, 'getDefaultConfig')) {
                     $commentConf = $apiObj->getDefaultConfig($param);
                     if (isset($commentConf) && is_array($commentConf)) {
                         $tmpConf = $conf1;
-                        \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($tmpConf, $commentConf);
+                        ArrayUtility::mergeRecursiveWithOverrule($tmpConf, $commentConf);
                         $commentConf = $tmpConf;
                     } else {
                         $commentConf = $conf1;

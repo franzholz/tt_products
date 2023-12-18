@@ -36,8 +36,8 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
 use JambageCom\Div2007\Utility\FrontendUtility;
+use JambageCom\TtProducts\Api\ControlApi;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_text_view extends tx_ttproducts_table_base_view
@@ -58,9 +58,9 @@ class tx_ttproducts_text_view extends tx_ttproducts_table_base_view
         &$markerArray,
         $parentMarker,
         $tagArray
-    ) {
+    ): void {
         $bFoundTagArray = [];
-        $cObj = \JambageCom\TtProducts\Api\ControlApi::getCObj();
+        $cObj = ControlApi::getCObj();
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $conf = $cnf->getConf();
         $config = $cnf->getConfig();

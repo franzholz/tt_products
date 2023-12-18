@@ -36,18 +36,19 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-abstract class tx_ttproducts_field_base_view implements tx_ttproducts_field_view_int, \TYPO3\CMS\Core\SingletonInterface
+abstract class tx_ttproducts_field_base_view implements tx_ttproducts_field_view_int, SingletonInterface
 {
-    private $bHasBeenInitialised = false;
+    private bool $bHasBeenInitialised = false;
     public $modelObj;
     public $cObj;
     public $conf;		// original configuration
     public $config;		// modified configuration
 
-    public function init($modelObj)
+    public function init($modelObj): void
     {
         $this->modelObj = $modelObj;
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
@@ -77,7 +78,7 @@ abstract class tx_ttproducts_field_base_view implements tx_ttproducts_field_view
         $value,
         $tableConf,
         $tagArray
-    ) {
+    ): bool {
         // overwrite this!
         return false;
     }
@@ -94,7 +95,7 @@ abstract class tx_ttproducts_field_base_view implements tx_ttproducts_field_view
         $tagArray,
         $theCode = '',
         $id = '1'
-    ) {
+    ): bool {
         // overwrite this!
         return false;
     }
@@ -112,7 +113,7 @@ abstract class tx_ttproducts_field_base_view implements tx_ttproducts_field_view
         $theCode = '',
         $id = '1'
     ) {
-        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $result = false;
         $newContent = '';
         $markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');

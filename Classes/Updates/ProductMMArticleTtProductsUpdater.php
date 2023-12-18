@@ -122,10 +122,8 @@ class ProductMMArticleTtProductsUpdater implements UpgradeWizardInterface, Confi
      *
      * @param array &$databaseQueries Queries done in this update
      * @param string &$customMessage Custom message
-     *
-     * @return bool
      */
-    public function performUpdate(array &$databaseQueries, &$customMessage)
+    public function performUpdate(array &$databaseQueries, &$customMessage): bool
     {
         $queries = $this->upgradeApi->performProductMMArticleMigration();
         if (!empty($queries)) {

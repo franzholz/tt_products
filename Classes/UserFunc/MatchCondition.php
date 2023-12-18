@@ -39,7 +39,8 @@ namespace JambageCom\TtProducts\UserFunc;
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use JambageCom\Div2007\Utility\CompatibilityUtility;
+use JambageCom\TtProducts\Api\BasketApi;
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -97,7 +98,7 @@ class MatchCondition
                     !is_array($infoArray[$type]) ||
                     !isset($infoArray[$type][$field])
                 ) &&
-                \JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn()
+                CompatibilityUtility::isLoggedIn()
             ) {
                 if ($field == 'country_code') {
                     $field = 'static_info_country';
@@ -123,7 +124,7 @@ class MatchCondition
     {
         $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
 
-        $rcArray = \JambageCom\TtProducts\Api\BasketApi::getRecords($conf);
+        $rcArray = BasketApi::getRecords($conf);
 
         $bBukily = false;
         foreach ($rcArray as $uid => $row) {
@@ -144,8 +145,8 @@ class MatchCondition
         $result = false;
         $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
 
-        $rcArray = \JambageCom\TtProducts\Api\BasketApi::getRecords($conf);
-        $weight = \JambageCom\TtProducts\Api\BasketApi::getWeight($rcArray);
+        $rcArray = BasketApi::getRecords($conf);
+        $weight = BasketApi::getWeight($rcArray);
 
         if (
             $weight >= floatval($params['0']) &&
