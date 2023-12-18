@@ -71,14 +71,12 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
         $languageSubpath = '/Resources/Private/Language/';
 		$defaultMarkerFile = 'EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_marker.xlf';
 		$languageObj->loadLocalLang($defaultMarkerFile);
-        $sanitizer = GeneralUtility::makeInstance(FilePathSanitizer::class);
 
 		if ($language == '' || $language == 'default' || $language == 'en') {
             if (!$markerFile) {
                 $markerFile = $defaultMarkerFile;
             }
 			if ($markerFile) {
-                $markerFile = $sanitizer->sanitize($markerFile);
 				$languageObj->loadLocalLang($markerFile);
 			}
 		} else {
@@ -103,8 +101,6 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface {
 			if (!$markerFile) {
                 throw new \RuntimeException('Error in tt_products: No marker file for language "' . $language . '" set.', 50011);
             }
-            $markerFile = $sanitizer->sanitize($markerFile);
-// 			$markerFile = $GLOBALS['TSFE']->tmpl->getFileName($markerFile);
 			$languageObj->loadLocalLang($markerFile);
 		}
 		$locallang = $languageObj->getLocallang();
