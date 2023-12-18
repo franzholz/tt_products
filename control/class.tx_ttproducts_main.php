@@ -1066,7 +1066,6 @@ class tx_ttproducts_main implements \TYPO3\CMS\Core\SingletonInterface
         }
 
         $this->destruct();
-
         return $result;
     }
 

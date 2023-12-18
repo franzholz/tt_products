@@ -480,6 +480,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
                     $uid_voucher = $row['uid'];
                 }
                 $GLOBALS['TYPO3_DB']->sql_free_result($res);
+
                 if (
                     ($uid_voucher != '') &&
                     !empty($deliveryInfo['feusers_uid']) &&
@@ -592,6 +593,10 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
                 unset($fieldsArray[$field]);
             }
         }
+
+        $fieldsArray = array_filter($fieldsArray, function($a) {
+            return trim($a) !== '';
+        });
 
         // Saving the order record
         $GLOBALS['TYPO3_DB']->exec_UPDATEquery(
