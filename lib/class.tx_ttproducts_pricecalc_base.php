@@ -1,4 +1,7 @@
 <?php
+
+use TYPO3\CMS\Core\SingletonInterface;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -36,7 +39,7 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-class tx_ttproducts_pricecalc_base implements \TYPO3\CMS\Core\SingletonInterface
+class tx_ttproducts_pricecalc_base implements SingletonInterface
 {
     public function getPrice($conf, $offset, $num = '1')
     {
@@ -60,6 +63,6 @@ class tx_ttproducts_pricecalc_base implements \TYPO3\CMS\Core\SingletonInterface
         $taxIncluded,
         $bMergeArticles = true,
         $uid = 0
-    ) {
+    ): void {
     } // getCalculatedData
 }

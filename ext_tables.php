@@ -2,7 +2,7 @@
 
 defined('TYPO3') || die('Access denied.');
 
-call_user_func(function ($extensionKey) {
+call_user_func(function ($extensionKey): void {
     $tables = [
         'tt_products',
         'tt_products_language',
@@ -48,7 +48,7 @@ call_user_func(function ($extensionKey) {
         defined('TYPO3_MODE') &&
         TYPO3_MODE == 'BE'
     ) {
-        $GLOBALS['TBE_MODULES_EXT']['xMOD_db_new_content_el']['addElClasses']['JambageCom\\TtProducts\\Controller\\Plugin\\WizardIcon'] = PATH_BE_TTPRODUCTS . 'Classes/Controller/Plugin/WizardIcon.php';
+        $GLOBALS['TBE_MODULES_EXT']['xMOD_db_new_content_el']['addElClasses'][\JambageCom\TtProducts\Controller\Plugin\WizardIcon::class] = PATH_BE_TTPRODUCTS . 'Classes/Controller/Plugin/WizardIcon.php';
 
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::insertModuleFunction(
             'web_func',

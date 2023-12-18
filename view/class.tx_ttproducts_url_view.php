@@ -36,11 +36,12 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
 use JambageCom\Div2007\Utility\FrontendUtility;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
-class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface
+class tx_ttproducts_url_view implements SingletonInterface
 {
     public $conf;
     public $urlArray;
@@ -51,7 +52,7 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface
      *
      * @param		array		array urls which should be overridden with marker key as index
      */
-    public function init($conf)
+    public function init($conf): void
     {
         $this->conf = $conf;
     }
@@ -67,7 +68,7 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface
                 'dam',
                 'fal',
             ];
-        $singleExcludeListArray = array_merge($excludeListArray, $singleExcludeListArray);
+        $singleExcludeListArray = [...$excludeListArray, ...$singleExcludeListArray];
 
         if (!$singleExcludeListArray[0]) {
             unset($singleExcludeListArray[0]);
@@ -77,7 +78,7 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface
         return $singleExcludeList;
     }
 
-    public function setUrlArray($urlArray)
+    public function setUrlArray($urlArray): void
     {
         $this->urlArray = $urlArray;
     }
@@ -90,8 +91,8 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface
         $addQueryString = [],
         $css_current = '',
         $useBackPid = true
-    ) {
-        $cObj = \JambageCom\Div2007\Utility\FrontendUtility::getContentObjectRenderer();
+    ): void {
+        $cObj = FrontendUtility::getContentObjectRenderer();
         $commandArray =
             [
                 'basket',
@@ -136,7 +137,7 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface
         $backPid = 0,
         $bExcludeSingleVar = true
     ) {
-        $cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
+        $cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
         $charset = 'UTF-8';
         $urlMarkerArray = [];
         $conf = [];
@@ -145,8 +146,8 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface
         // disable caching as soon as someone enters products into the basket, enters user data etc.
         // $addQueryString['no_cache'] = 1;
         // Add's URL-markers to the $markerArray and returns it
-        $basketPid = ($this->conf['PIDbasket'] ? $this->conf['PIDbasket'] : $GLOBALS['TSFE']->id);
-        $formUrlPid = ($pidNext ? $pidNext : $GLOBALS['TSFE']->id);
+        $basketPid = ($this->conf['PIDbasket'] ?: $GLOBALS['TSFE']->id);
+        $formUrlPid = ($pidNext ?: $GLOBALS['TSFE']->id);
         $singleExcludeList = $this->getSingleExcludeList($excludeList);
 
         $useBackPid = ($useBackPid && $pidNext && $pidNext != $GLOBALS['TSFE']->id);
@@ -282,13 +283,13 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface
     /**
      * Returns a url for use in forms and links.
      */
-    public function addQueryStringParam(&$queryString, $param, $bUsePrefix = false)
+    public function addQueryStringParam(&$queryString, $param, $bUsePrefix = false): void
     {
         $piVars = tx_ttproducts_model_control::getPiVars();
         $prefixId = tx_ttproducts_model_control::getPrefixId();
 
         $temp = $piVars[$param] ?? '';
-        $temp = ($temp ? $temp : (GeneralUtility::_GP($param) && ($param != 'pid') ? GeneralUtility::_GP($param) : 0));
+        $temp = ($temp ?: (GeneralUtility::_GP($param) && ($param != 'pid') ? GeneralUtility::_GP($param) : 0));
 
         if ($temp) {
             if ($bUsePrefix) {
@@ -360,7 +361,7 @@ class tx_ttproducts_url_view implements \TYPO3\CMS\Core\SingletonInterface
             $tmpArray = GeneralUtility::trimExplode(',', $excludeList);
             if (isset($tmpArray) && is_array($tmpArray) && $tmpArray['0']) {
                 foreach ($tmpArray as $param) {
-                    if (strpos($param, $prefixId) === false) {
+                    if (strpos($param, (string)$prefixId) === false) {
                         $excludeListArray[] = $prefixId . '[' . $param . ']';
                     }
                 }

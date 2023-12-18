@@ -36,9 +36,12 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
 use JambageCom\Div2007\Utility\ExtensionUtility;
+use JambageCom\Div2007\Utility\FlexformUtility;
 use JambageCom\Div2007\Utility\SystemCategoryUtility;
+use JambageCom\Div2007\Utility\TableUtility;
+use JambageCom\TtProducts\Model\Field\FieldInterface;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
@@ -87,9 +90,9 @@ class tx_ttproducts_product extends tx_ttproducts_article_base
 
     public function fixTableConf(
         &$tableConf
-    ) {
+    ): void {
         if (
-            \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('static_info_tables_taxes')
+            ExtensionManagementUtility::isLoaded('static_info_tables_taxes')
         ) {
             $eInfo = ExtensionUtility::getExtensionInfo('static_info_tables_taxes');
 
@@ -130,7 +133,7 @@ class tx_ttproducts_product extends tx_ttproducts_article_base
 
     public function fillVariantsFromArticles(
         &$row
-    ) {
+    ): void {
         $articleRowArray = $this->getArticleRows($row['uid']);
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $articleObj = $tablesObj->get('tt_products_articles');
@@ -599,7 +602,7 @@ class tx_ttproducts_product extends tx_ttproducts_article_base
 
                         $parentFuncTablename = $tablename = 'tt_products_downloads';
                         $where_clause .=
-                            \JambageCom\Div2007\Utility\TableUtility::enableFields(
+                            TableUtility::enableFields(
                                 $tablename
                             );
 
@@ -614,7 +617,7 @@ class tx_ttproducts_product extends tx_ttproducts_article_base
                         $fileTablename = 'sys_file_reference';
                         $fileField = 'file_uid';
 
-                        $enable_where_clause = \JambageCom\Div2007\Utility\TableUtility::enableFields($fileTablename);
+                        $enable_where_clause = TableUtility::enableFields($fileTablename);
 
                         if (
                             isset($downloadRowArray) &&
@@ -693,7 +696,7 @@ class tx_ttproducts_product extends tx_ttproducts_article_base
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 
         $instockField = $cnfObj->getTableDesc($this->getTableObj()->name, 'inStock');
-        $instockField = ($instockField ? $instockField : 'inStock');
+        $instockField = ($instockField ?: 'inStock');
         if (
             $this->getTableObj()->name == 'tt_products' ||
             is_array($GLOBALS['TCA'][$this->getTableObj()->name]['columns']['inStock'])
@@ -735,7 +738,7 @@ class tx_ttproducts_product extends tx_ttproducts_article_base
         $hasAdditional = false;
         if (isset($row['additional'])) {
             $additional = GeneralUtility::xml2array($row['additional']);
-            $hasAdditional = \JambageCom\Div2007\Utility\FlexformUtility::get($additional, $check);
+            $hasAdditional = FlexformUtility::get($additional, $check);
         }
 
         return $hasAdditional;
@@ -773,7 +776,7 @@ class tx_ttproducts_product extends tx_ttproducts_article_base
                             $categoryAnd
                         );
                     if ($bLeadingOperator) {
-                        $operator = ($operator ? $operator : 'OR');
+                        $operator = ($operator ?: 'OR');
                         $where .= ($whereNew ? ' ' . $operator . ' ' . $whereNew : '');
                     } else {
                         $where .= $whereNew;
@@ -811,7 +814,7 @@ class tx_ttproducts_product extends tx_ttproducts_article_base
         $catObject,
         &$selectConf,
         $aliasArray
-    ) {
+    ): string {
         $tableNameArray = [];
 
         // Call all addWhere hooks for categories at the end of this method
@@ -859,7 +862,7 @@ class tx_ttproducts_product extends tx_ttproducts_article_base
         return implode(',', $tableNameArray);
     }
 
-    public function getPageUidsCat($cat)
+    public function getPageUidsCat($cat): string
     {
         $uidArray = [];
 
@@ -948,7 +951,7 @@ class tx_ttproducts_product extends tx_ttproducts_article_base
                     break;
             }
 
-            $discountField = \JambageCom\TtProducts\Model\Field\FieldInterface::DISCOUNT;
+            $discountField = FieldInterface::DISCOUNT;
             $row[$discountField] = $discount;
         }
     }

@@ -37,10 +37,10 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class tx_ttproducts_control_basketquantity implements \TYPO3\CMS\Core\SingletonInterface
+class tx_ttproducts_control_basketquantity implements SingletonInterface
 {
     public function getQuantityMarker(// deprecated. used only for DAM
         $marker,
@@ -60,7 +60,7 @@ class tx_ttproducts_control_basketquantity implements \TYPO3\CMS\Core\SingletonI
         $relatedIds,
         $rowArray,
         &$markerArray
-    ) {
+    ): void {
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $prodViewObj = $tablesObj->get('tt_products', true);
 

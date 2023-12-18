@@ -42,11 +42,13 @@ namespace JambageCom\TtProducts\Api;
  * @package TYPO3
  * @subpackage tt_products
  */
-
 use JambageCom\Div2007\Utility\ExtensionUtility;
 use JambageCom\Div2007\Utility\FrontendUtility;
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
+use TYPO3\CMS\Frontend\Resource\FilePathSanitizer;
 
 class PaymentShippingHandling
 {
@@ -54,7 +56,7 @@ class PaymentShippingHandling
     protected static $typeArray = ['handling', 'shipping', 'payment'];
     protected static $voucher;
 
-    public static function init($priceObj, $voucher)
+    public static function init($priceObj, $voucher): void
     {
         self::setPriceObj($priceObj);	// new independant price object
         self::setVoucher($voucher);
@@ -65,17 +67,17 @@ class PaymentShippingHandling
         return self::$typeArray;
     }
 
-    public static function setVoucher($voucher)
+    public static function setVoucher($voucher): void
     {
         self::$voucher = $voucher;
     }
 
-    public static function getVoucher()
+    public static function getVoucher(): void
     {
         self::$voucher;
     }
 
-    public static function setPriceObj($value)
+    public static function setPriceObj($value): void
     {
         self::$priceObj = $value;
     }
@@ -90,7 +92,7 @@ class PaymentShippingHandling
         &$itemArray,
         $basketExtra,
         $pskey = 'shipping'
-    ) {
+    ): void {
         $hookVar = 'scriptPrices';
         if (
             $hookVar &&
@@ -150,8 +152,8 @@ class PaymentShippingHandling
         &$subpartArray,
         &$wrappedSubpartArray,
         $framework
-    ) {
-        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+    ): void {
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $cObj = FrontendUtility::getContentObjectRenderer();
         $markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
@@ -166,9 +168,9 @@ class PaymentShippingHandling
 
         if (
             strpos($handleLib, 'transactor') !== false &&
-            \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($handleLib)
+            ExtensionManagementUtility::isLoaded($handleLib)
         ) {
-            $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
+            $languageObj = GeneralUtility::makeInstance(Localization::class);
             // Payment Transactor
             \tx_transactor_api::init($languageObj, '', $conf);
 
@@ -348,7 +350,7 @@ class PaymentShippingHandling
         $useBackPid,
         $calculatedArray,
         $basketExtra
-    ) {
+    ): void {
         $cObj = FrontendUtility::getContentObjectRenderer();
         $priceViewObj = GeneralUtility::makeInstance('tx_ttproducts_field_price_view');
         $urlObj = GeneralUtility::makeInstance('tx_ttproducts_url_view');
@@ -425,7 +427,7 @@ class PaymentShippingHandling
         $imageCode,
         $activeArray,
         &$markerArray
-    ) {
+    ): void {
         // Returns a markerArray ready for substitution with information for the tt_producst record, $row
 
         $markerArray['###VALUE###'] = $value;
@@ -446,7 +448,7 @@ class PaymentShippingHandling
         $useBackPid,
         &$basketExtra
     ) {
-        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $conf = $cnf->getConf();
 
@@ -530,7 +532,7 @@ class PaymentShippingHandling
                 '<input type="radio" name="recs[tt_products][' . $pskey . ']' . $htmlInputAddition . '" onClick="' . $submitCode . '" value="###VALUE###"###CHECKED###> ###TITLE### &nbsp;&nbsp;&nbsp; ###IMAGE###<br>';
         }
 
-        $wrap = $wrap ? $wrap : '<select id="' . $pskey . ($subkey != '' ? '-' . $subkey : '') . '-select" name="recs[tt_products][' . $pskey . ']' . $htmlInputAddition . '" onChange="' . $submitCode . '">|</select>';
+        $wrap = $wrap ?: '<select id="' . $pskey . ($subkey != '' ? '-' . $subkey : '') . '-select" name="recs[tt_products][' . $pskey . ']' . $htmlInputAddition . '" onChange="' . $submitCode . '">|</select>';
         $t = [];
         $localBasketExtra = [];
         if ($subkey != '') {
@@ -571,7 +573,7 @@ class PaymentShippingHandling
                         $itemTableView = $tablesObj->get($tableName, true);
                         $itemTable = $itemTableView->getModelObj();
 
-                        if (($tableName == 'static_countries') && \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('static_info_tables')) {
+                        if (($tableName == 'static_countries') && ExtensionManagementUtility::isLoaded('static_info_tables')) {
                             $viewTagArray = [];
 
                             if (is_object($itemTable)) {
@@ -770,7 +772,7 @@ class PaymentShippingHandling
         &$priceNoTax,
         &$resetPrice,
         &$funcParams = ''
-    ) {
+    ): void {
         $resetPrice = false;
 
         if (
@@ -963,7 +965,7 @@ class PaymentShippingHandling
         &$discountArray,
         &$priceTax,
         &$priceNoTax
-    ) {
+    ): void {
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $conf = $cnf->getConf();
 
@@ -1045,7 +1047,7 @@ class PaymentShippingHandling
         $basketRecs,
         $taxIncluded,
         $itemArray
-    ) {
+    ): void {
         foreach ($itemArray as $sort => $actItemArray) {
             // $actItemArray = all items array
             foreach ($actItemArray as $k2 => $actItem) {
@@ -1104,7 +1106,7 @@ class PaymentShippingHandling
         &$priceTax,
         &$priceNoTax,
         &$resetPrice
-    ) {
+    ): void {
         $cObj = FrontendUtility::getContentObjectRenderer();
 
         if (!empty($basketExtra[$pskey . '.'])) {
@@ -1195,7 +1197,7 @@ class PaymentShippingHandling
 
                 if (
                     $handleLib &&
-                    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($handleLib) &&
+                    ExtensionManagementUtility::isLoaded($handleLib) &&
                     isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$handleLib]) &&
                     isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$handleLib]['api'])
                 ) {
@@ -1275,7 +1277,7 @@ class PaymentShippingHandling
         $calculatedArray,
         &$priceShippingTax,
         &$priceShippingNoTax
-    ) {
+    ): void {
         $basketConf = self::getBasketConf($basketExtra, $pskey, $subkey);
 
         $perc = doubleval($basketConf['percentOfGoodstotal'] ?? 0);
@@ -1314,7 +1316,7 @@ class PaymentShippingHandling
         $calculationScript = $basketConf['calculationScript'] ?? '';
         if ($calculationScript != '') {
             $calcScript = '';
-            $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
+            $sanitizer = GeneralUtility::makeInstance(FilePathSanitizer::class);
             $calcScript = $sanitizer->sanitize($calculationScript);
 
             if ($calcScript) {
@@ -1340,7 +1342,7 @@ class PaymentShippingHandling
         &$priceShippingNoTax,
         &$pricePaymentTax,
         &$pricePaymentNoTax
-    ) {
+    ): void {
         $row = $shippingRow;
         $taxIncluded = self::$priceObj->getTaxIncluded();
 
@@ -1526,7 +1528,7 @@ class PaymentShippingHandling
         $priceTotalTax,
         &$calculatedArray,
         $itemArray
-    ) {
+    ): void {
         $taxIncluded = self::$priceObj->getTaxIncluded();
 
         if (
@@ -1726,7 +1728,7 @@ class PaymentShippingHandling
         ) {
             switch ($tablename) {
                 case 'static_countries':
-                    if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('static_info_tables')) {
+                    if (ExtensionManagementUtility::isLoaded('static_info_tables')) {
                         $eInfo = ExtensionUtility::getExtensionInfo('static_info_tables');
                         $sitVersion = $eInfo['version'];
                     }
@@ -1823,7 +1825,7 @@ class PaymentShippingHandling
             is_array($payConf['handleLib.']) &&
             isset($payConf['handleLib.']['gatewaymode']) &&
             $payConf['handleLib.']['gatewaymode'] == $request &&
-            \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($handleLib)
+            ExtensionManagementUtility::isLoaded($handleLib)
         ) {
             $result = $handleLib;
         }

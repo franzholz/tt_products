@@ -100,7 +100,7 @@ class tx_ttproducts_control_memo
         return $result;
     }
 
-    public static function process($functablename, $piVars, $conf)
+    public static function process($functablename, $piVars, $conf): void
     {
         $bMemoChanged = false;
         self::loadMemo($functablename, $conf);
@@ -212,7 +212,7 @@ class tx_ttproducts_control_memo
         return $result;
     }
 
-    public static function setMemoItems($functablename, $v)
+    public static function setMemoItems($functablename, $v): void
     {
         if (!is_array($v)) {
             if ($v == '') {
@@ -254,7 +254,7 @@ class tx_ttproducts_control_memo
         return $result;
     }
 
-    public static function loadMemo($functablename, $conf)
+    public static function loadMemo($functablename, $conf): void
     {
         $memoItems = '';
         // 		$bFeuser = self::bUseFeuser($conf);
@@ -268,7 +268,7 @@ class tx_ttproducts_control_memo
         self::setMemoItems($functablename, $memoItems);
     }
 
-    public static function saveMemo($functablename, $memoItems, $conf)
+    public static function saveMemo($functablename, $memoItems, $conf): void
     {
         $bFeuser = self::bUseFeuser($conf);
         $feuserField = self::getMemoField($functablename, $bFeuser);
@@ -284,7 +284,7 @@ class tx_ttproducts_control_memo
         }
     }
 
-    public static function copySession2Feuser($params, $pObj, $conf)
+    public static function copySession2Feuser($params, $pObj, $conf): void
     {
         $tableArray = self::getMemoTableFieldArray();
         foreach ($tableArray as $functablename => $type) {
@@ -313,7 +313,7 @@ class tx_ttproducts_control_memo
         $addQueryString = [],
         $css_current = '',
         $useBackPid = true
-    ) {
+    ): void {
         $cmdArray = ['add', 'del'];
 
         foreach ($cmdArray as $cmd) {

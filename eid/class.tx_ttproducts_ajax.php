@@ -36,11 +36,13 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
 use JambageCom\Div2007\Utility\FrontendUtility;
+use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class tx_ttproducts_ajax implements \TYPO3\CMS\Core\SingletonInterface
+class tx_ttproducts_ajax implements SingletonInterface
 {
     public $taxajax;	// xajax object
     public $conf; 	// conf coming from JavaScript via Ajax
@@ -48,7 +50,7 @@ class tx_ttproducts_ajax implements \TYPO3\CMS\Core\SingletonInterface
     public function init()
     {
         $result = false;
-        if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded(TAXAJAX_EXT)) {
+        if (ExtensionManagementUtility::isLoaded(TAXAJAX_EXT)) {
             $this->taxajax = GeneralUtility::makeInstance('tx_taxajax');
 
             // Encoding of the response to FE charset
@@ -59,7 +61,7 @@ class tx_ttproducts_ajax implements \TYPO3\CMS\Core\SingletonInterface
         return $result;
     }
 
-    public function setConf($conf)
+    public function setConf($conf): void
     {
         $this->conf = $conf;
     }
@@ -76,7 +78,7 @@ class tx_ttproducts_ajax implements \TYPO3\CMS\Core\SingletonInterface
         return $result;
     }
 
-    public static function setStoredRecs($valArray)
+    public static function setStoredRecs($valArray): void
     {
         tx_ttproducts_control_basket::store('ajax', $valArray);
     }
@@ -87,14 +89,14 @@ class tx_ttproducts_ajax implements \TYPO3\CMS\Core\SingletonInterface
         $debug,
         $piVarSingle = 'product',
         $piVarCat = 'cat'
-    ) {
+    ): void {
         // Do you want messages in the status bar?
         // $this->taxajax->statusMessagesOn();
 
         // Turn only on during testing
         if ($debug) {
             $this->taxajax->debugOn();
-            $filepath = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/typo3temp/var/log/taxajax.log';
+            $filepath = Environment::getPublicPath() . '/typo3temp/var/log/taxajax.log';
             $this->taxajax->setLogFile($filepath);
             $this->taxajax->errorHandlerOn();
         } else {

@@ -36,13 +36,20 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use JambageCom\Div2007\Utility\ConfigUtility;
+use JambageCom\Div2007\Utility\FlexformUtility;
 use JambageCom\Div2007\Utility\FrontendUtility;
+use JambageCom\Div2007\Utility\ViewUtility;
+use JambageCom\TtProducts\Api\Localization;
+use JambageCom\TtProducts\Api\ParameterApi;
 use JambageCom\TtProducts\Api\PluginApi;
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
+use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\Resource\FilePathSanitizer;
 
-class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface, tx_ttproducts_field_int
+class tx_ttproducts_control_search implements SingletonInterface, tx_ttproducts_field_int
 {
     public $cObj;
     public $conf;
@@ -51,18 +58,18 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
     public $codeArray;			// Codes
     public $errorMessage;
 
-    public function init(&$content, &$conf, &$config, $cObj, $pibaseClass, &$error_code)
+    public function init(&$content, &$conf, &$config, $cObj, $pibaseClass, &$error_code): bool
     {
         $pibaseObj = GeneralUtility::makeInstance($pibaseClass);
         $this->cObj = $cObj;
-        $parameterApi = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\ParameterApi::class);
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
 
         PluginApi::initFlexform($cObj);
-        $flexformArray = \JambageCom\TtProducts\Api\PluginApi::getFlexform();
-        $flexformTyposcript = \JambageCom\Div2007\Utility\FlexformUtility::get($flexformArray, 'myTS');
+        $flexformArray = PluginApi::getFlexform();
+        $flexformTyposcript = FlexformUtility::get($flexformArray, 'myTS');
         if ($flexformTyposcript) {
             $tsparser = GeneralUtility::makeInstance(
-                \TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser::class
+                TypoScriptParser::class
             );
             // Copy conf into existing setup
             $tsparser->setup = $conf;
@@ -89,12 +96,12 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
         $this->codeArray = GeneralUtility::trimExplode(',', $config['code'], 1);
         $config['LLkey'] = $pibaseObj->LLkey;
         $config['templateSuffix'] = strtoupper($this->conf['templateSuffix']);
-        $templateSuffix = \JambageCom\Div2007\Utility\FlexformUtility::get($flexformArray, 'template_suffix');
+        $templateSuffix = FlexformUtility::get($flexformArray, 'template_suffix');
         $templateSuffix = strtoupper($templateSuffix);
-        $config['templateSuffix'] = ($templateSuffix ? $templateSuffix : $config['templateSuffix']);
+        $config['templateSuffix'] = ($templateSuffix ?: $config['templateSuffix']);
         $config['templateSuffix'] = ($config['templateSuffix'] ? '_' . $config['templateSuffix'] : '');
 
-        $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
+        $languageObj = GeneralUtility::makeInstance(Localization::class);
         $languageSubpath = '/Resources/Private/Language/';
         $languageObj->loadLocalLang('EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'PiSearch/locallang.xlf');
         $markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
@@ -113,13 +120,13 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
 
     public function getControlConfig($cObj, &$conf, &$row)
     {
-        $parameterApi = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\ParameterApi::class);
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $ctrlArray = $parameterApi->getParameterTable();
 
         $config = [];
         $config['code'] =
-            \JambageCom\Div2007\Utility\ConfigUtility::getSetupOrFFvalue(
+            ConfigUtility::getSetupOrFFvalue(
                 $cObj,
                 $conf['code'],
                 $conf['code.'],
@@ -142,7 +149,7 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
         ];
 
         foreach ($flexformConfigArray as $flexformConfig) {
-            $tmpConfig = \JambageCom\Div2007\Utility\FlexformUtility::get($row['pi_flexform'] ?? '', $flexformConfig);
+            $tmpConfig = FlexformUtility::get($row['pi_flexform'] ?? '', $flexformConfig);
             $config[$flexformConfig] = $tmpConfig;
         }
         $config['local_table'] = $cnf->getTableName($ctrlArray[$config['local_param']]);
@@ -164,7 +171,7 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
     {
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $templateObj = GeneralUtility::makeInstance('tx_ttproducts_template');
-        $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
+        $languageObj = GeneralUtility::makeInstance(Localization::class);
         $pibaseObj = GeneralUtility::makeInstance($pibaseClass);
         $subpartmarkerObj = GeneralUtility::makeInstance('tx_ttproducts_subpartmarker');
         $searchViewObj = GeneralUtility::makeInstance('tx_ttproducts_search_view');
@@ -190,7 +197,7 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
                 $errorMessage = str_replace('|', 'plugin.tt_products.templateFile', $errorText);
             }
 
-            $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+            $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
             $theTemplateCode =
                 $templateService->getSubpart(
                     $templateCode,
@@ -283,7 +290,7 @@ class tx_ttproducts_control_search implements \TYPO3\CMS\Core\SingletonInterface
                 //                 $GLOBALS['TSFE']->tmpl->getFileName($fileName);
                 $helpTemplate = file_get_contents($pathFilename);
                 $content .=
-                    \JambageCom\Div2007\Utility\ViewUtility::displayHelpPage(
+                    ViewUtility::displayHelpPage(
                         $languageObj,
                         $this->cObj,
                         $helpTemplate,

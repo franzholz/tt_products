@@ -36,16 +36,18 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use JambageCom\Div2007\Utility\FlexformUtility;
+use JambageCom\Div2007\Utility\TableUtility;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class tx_ttproducts_ts implements \TYPO3\CMS\Core\SingletonInterface
+class tx_ttproducts_ts implements SingletonInterface
 {
     public static $count = 0;
 
     protected function getChilds($uid = 0)
     {
-        $enableFields = \JambageCom\Div2007\Utility\TableUtility::enableFields('pages');
+        $enableFields = TableUtility::enableFields('pages');
         $where = 'pid = ' . $uid . $enableFields;
 
         $rows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows('uid', 'pages', $where);
@@ -84,7 +86,7 @@ class tx_ttproducts_ts implements \TYPO3\CMS\Core\SingletonInterface
 
         if (isset($allChilds) && is_array($allChilds) && count($allChilds)) {
             $pids = implode(',', $allChilds);
-            $enableFields = \JambageCom\Div2007\Utility\TableUtility::enableFields('tt_products');
+            $enableFields = TableUtility::enableFields('tt_products');
             $where = 'pid IN (' . $pids . ')' . $enableFields;
             $rows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows('uid', 'tt_products', $where);
             $result = false;
@@ -100,7 +102,7 @@ class tx_ttproducts_ts implements \TYPO3\CMS\Core\SingletonInterface
     protected function getMemoCount($uid = 0)
     {
         $result = 0;
-        $enableFields = \JambageCom\Div2007\Utility\TableUtility::enableFields('tt_content');
+        $enableFields = TableUtility::enableFields('tt_content');
         $where = 'pid = ' . $uid . $enableFields;
 
         $rows = $GLOBALS['TYPO3_DB']->exec_SELECTgetRows('uid,CType,list_type,pi_flexform', 'tt_content', $where);
@@ -119,7 +121,7 @@ class tx_ttproducts_ts implements \TYPO3\CMS\Core\SingletonInterface
                 ) {
                     $flexformArray = GeneralUtility::xml2array($row['pi_flexform']);
                     $codes =
-                        \JambageCom\Div2007\Utility\FlexformUtility::get(
+                        FlexformUtility::get(
                             $flexformArray,
                             $fieldName,
                             'sDEF',
@@ -179,7 +181,7 @@ class tx_ttproducts_ts implements \TYPO3\CMS\Core\SingletonInterface
         return $I;
     }
 
-    public function processMemo()
+    public function processMemo(): void
     {
         $functablename = 'tt_products';
         $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];

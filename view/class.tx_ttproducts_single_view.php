@@ -36,11 +36,15 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
 use JambageCom\Div2007\Utility\FrontendUtility;
+use JambageCom\TtProducts\Api\ControlApi;
+use JambageCom\TtProducts\Api\Localization;
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
+use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface
+class tx_ttproducts_single_view implements SingletonInterface
 {
     public $conf;
     public $config;
@@ -59,7 +63,7 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface
         $useArticles,
         $pid_list,
         $recursive
-    ) {
+    ): void {
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $this->conf = $cnf->getConf();
         $this->config = $cnf->getConfig();
@@ -73,7 +77,7 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface
             } elseif (isset($uidArray['article'])) {
                 $this->uid = $uidArray['article'];
                 $this->type = 'article';
-            } elseif (isset($uidArray['dam']) && \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('dam')) {
+            } elseif (isset($uidArray['dam']) && ExtensionManagementUtility::isLoaded('dam')) {
                 $this->type = 'dam';
                 $this->uid = $uidArray['dam'];
             }
@@ -97,16 +101,16 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface
         $pageAsCategory,
         $templateSuffix = ''
     ) {
-        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
         $markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $subpartmarkerObj = GeneralUtility::makeInstance('tx_ttproducts_subpartmarker');
         $javaScriptMarker = GeneralUtility::makeInstance('tx_ttproducts_javascript_marker');
-        $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
+        $languageObj = GeneralUtility::makeInstance(Localization::class);
         $urlObj = GeneralUtility::makeInstance('tx_ttproducts_url_view');
-        $cObj = \JambageCom\TtProducts\Api\ControlApi::getCObj();
+        $cObj = ControlApi::getCObj();
 
         $piVars = tx_ttproducts_model_control::getPiVars();
         $conf = $cnf->getConf();
@@ -147,7 +151,7 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface
         $itemTableViewArray = [];
         $itemTableViewArray['product'] = $tablesObj->get('tt_products', true);
         $itemTableViewArray['article'] = $tablesObj->get('tt_products_articles', true);
-        if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('dam')) {
+        if (ExtensionManagementUtility::isLoaded('dam')) {
             $itemTableArray['dam'] = $tablesObj->get('tx_dam');
             $itemTableViewArray['dam'] = $tablesObj->get('tx_dam', true);
         }
@@ -326,7 +330,7 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface
                     $excludeList .= ($excludeList != '' ? ',' : '') . $prefixId . '[' . $categoryPivar . ']';
                 }
             }
-            $pidMemo = ($this->conf['PIDmemo'] ? $this->conf['PIDmemo'] : $GLOBALS['TSFE']->id);
+            $pidMemo = ($this->conf['PIDmemo'] ?: $GLOBALS['TSFE']->id);
 
             tx_ttproducts_control_memo::getWrappedSubpartArray(
                 $wrappedSubpartArray,
@@ -404,7 +408,7 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface
             }
 
             $backPID = $piVars['backPID'] ?? '';
-            $backPID = ($backPID ? $backPID : GeneralUtility::_GP('backPID'));
+            $backPID = ($backPID ?: GeneralUtility::_GP('backPID'));
             $basketPID = $this->conf['PIDbasket'];
             $bNeedSingleParams = false;
 
@@ -416,7 +420,7 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface
                         $row
                     );
             } elseif (!empty($this->conf['clickIntoBasket']) && ($basketPID || $backPID)) {
-                $pid = ($basketPID ? $basketPID : $backPID);
+                $pid = ($basketPID ?: $backPID);
             } else {
                 $pid = $GLOBALS['TSFE']->id;
                 $bNeedSingleParams = true;
@@ -450,7 +454,7 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface
 
             $forminfoArray = ['###FORM_NAME###' => 'item_' . $this->uid];
 
-            if ($this->type == 'product' && \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('taxajax')) {
+            if ($this->type == 'product' && ExtensionManagementUtility::isLoaded('taxajax')) {
                 tx_ttproducts_control_product::addAjax(
                     $tablesObj,
                     $languageObj,
@@ -735,7 +739,7 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface
                     }
                 }
 
-                if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('taxajax')) {
+                if (ExtensionManagementUtility::isLoaded('taxajax')) {
                     $ajaxObj = GeneralUtility::makeInstance('tx_ttproducts_ajax');
                     $storedRecs = $ajaxObj->getStoredRecs();
 
@@ -1425,7 +1429,7 @@ class tx_ttproducts_single_view implements \TYPO3\CMS\Core\SingletonInterface
             }
         } else {
             $errorCode[0] = 'wrong_parameter';
-            $errorCode[1] = ($this->type ? $this->type : 'product');
+            $errorCode[1] = ($this->type ?: 'product');
             $errorCode[2] = intval($this->uidArray[$this->type] ?? 0);
             $errorCode[3] = $this->pidListObj->getPidlist();
         }

@@ -36,7 +36,7 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
 class tx_ttproducts_control_address
@@ -56,7 +56,7 @@ class tx_ttproducts_control_address
 
     public static function getAddressTablename(&$extKey)
     {
-        $emClass = '\\TYPO3\\CMS\\Core\\Utility\\ExtensionManagementUtility';
+        $emClass = ExtensionManagementUtility::class;
         $extKey = '';
         $addressTable = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['addressTable'];
 

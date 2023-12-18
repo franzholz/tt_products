@@ -36,7 +36,7 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_form_div
@@ -57,7 +57,7 @@ class tx_ttproducts_form_div
         $keyMarkerArray = ''
     ) {
         $result = false;
-        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $useXHTML = !empty($GLOBALS['TSFE']->config['config']['xhtmlDoctype']);
         $flags = ENT_QUOTES;
 

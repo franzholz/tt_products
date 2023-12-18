@@ -50,7 +50,7 @@ class tx_ttproducts_pid_list
     /**
      * Sets the pid_list internal var.
      */
-    public function setPidlist($pid_list)
+    public function setPidlist($pid_list): void
     {
         if ($pid_list == -1) {
             $this->allPages = true;
@@ -86,7 +86,7 @@ class tx_ttproducts_pid_list
     /**
      * Sets the pid_list internal var.
      */
-    public function setPageArray()
+    public function setPageArray(): void
     {
         $this->pageArray = GeneralUtility::trimExplode(',', $this->pid_list);
         $this->pageArray = array_flip($this->pageArray);
@@ -114,7 +114,7 @@ class tx_ttproducts_pid_list
      *
      * @return	[type]		...
      */
-    public function applyRecursive($recursive, &$pids, $bStore = false)
+    public function applyRecursive($recursive, &$pids, $bStore = false): void
     {
         if (
             defined('TYPO3_MODE') &&

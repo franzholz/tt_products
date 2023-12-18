@@ -36,7 +36,7 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use JambageCom\TtProducts\Api\PriceApi;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
@@ -106,7 +106,7 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base
         return $result;
     } // init
 
-    public function setGraduatedPriceObject($value)
+    public function setGraduatedPriceObject($value): void
     {
         $this->graduatedPriceObject = $value;
     }
@@ -119,11 +119,11 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base
     /**
      * Reduces the instock value of the orderRecord with the amount and returns the result.
      */
-    public function reduceInStock($uid, $count)
+    public function reduceInStock($uid, $count): void
     {
         $tableDesc = $this->getTableDesc();
         $instockField = $tableDesc['inStock'];
-        $instockField = ($instockField ? $instockField : 'inStock');
+        $instockField = ($instockField ?: 'inStock');
 
         if (is_array($this->getTableObj()->tableFieldArray[$instockField])) {
             $uid = intval($uid);
@@ -136,7 +136,7 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base
     /**
      * Reduces the instock value of the orderRecords with the sold items and returns the result.
      */
-    public function reduceInStockItems($itemArray, $useArticles)
+    public function reduceInStockItems($itemArray, $useArticles): void
     {
     }
 
@@ -147,7 +147,7 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base
         $uid,
         $type,
         $orderBy = ''
-    ) {
+    ): void {
     }
 
     public function getType()
@@ -181,7 +181,7 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base
         return $where;
     }
 
-    public function addselectConfCat($catObject, $cat, &$selectConf)
+    public function addselectConfCat($catObject, $cat, &$selectConf): void
     {
     }
 
@@ -212,7 +212,7 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $tableconf = $cnf->getTableConf($this->getFuncTablename(), $theCode);
         $rc = [];
-        $where = ($where ? $where : '1=1 ') . $this->getTableObj()->enableFields();
+        $where = ($where ?: '1=1 ') . $this->getTableObj()->enableFields();
 
         // Fetching the products
         $res = $this->getTableObj()->exec_SELECTquery('*', $where, '', $GLOBALS['TYPO3_DB']->stripOrderBy($orderBy));
@@ -305,7 +305,7 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base
 
     public function clearSelectableVariantFields(
         &$targetRow
-    ) {
+    ): void {
         $fieldArray = $this->getVariant()->getFieldArray();
         $selectableArray = $this->getVariant()->getSelectableArray();
         $count = 0;
@@ -321,7 +321,7 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base
         &$targetRow,
         $sourceRow,
         $bKeepNotEmpty = true
-    ) {
+    ): void {
         $variantFieldArray = $this->getVariant()->getFieldArray();
 
         if (isset($variantFieldArray) && is_array($variantFieldArray)) {
@@ -350,7 +350,7 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base
         $calculationField = '',
         $bUseExt = false,
         $mergePrices = true
-    ) {
+    ): bool {
         $fieldArray = [];
         $fieldArray['data'] = ['itemnumber', 'image', 'smallimage'];
         $fieldArray['number'] = ['weight', 'inStock'];
@@ -403,7 +403,7 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base
 
                     if ($type == 'price') {
                         if ($mergePrices) {
-                            \JambageCom\TtProducts\Api\PriceApi::mergeRows(
+                            PriceApi::mergeRows(
                                 $targetRow,
                                 $sourceRow,
                                 $field,
@@ -470,10 +470,10 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base
     public function mergeGraduatedPrice(
         &$targetRow,
         $count
-    ) {
+    ): void {
     }
 
-    public function getTotalDiscount(&$row, $pid = 0)
+    public function getTotalDiscount(&$row, $pid = 0): void
     {
     }
 }

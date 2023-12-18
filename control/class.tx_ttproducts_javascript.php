@@ -34,21 +34,23 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
 use JambageCom\Div2007\Utility\FrontendUtility;
+use TYPO3\CMS\Core\Page\AssetCollector;
+use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
 
-class tx_ttproducts_javascript implements \TYPO3\CMS\Core\SingletonInterface
+class tx_ttproducts_javascript implements SingletonInterface
 {
     public $ajax;
     public $bAjaxAdded;
     public $bCopyrightShown;
     public $copyright;
     public $fixInternetExplorer;
-    private $bIncludedArray = [];
+    private array $bIncludedArray = [];
 
-    public function init($ajax)
+    public function init($ajax): void
     {
         if (
             isset($ajax) &&
@@ -224,7 +226,7 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
                 break;
             case 'selectcat':
                 if (
-                    !\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded(TAXAJAX_EXT)
+                    !ExtensionManagementUtility::isLoaded(TAXAJAX_EXT)
                 ) {
                     return false;
                 }
@@ -486,7 +488,7 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
 
             case 'fetchdata':
                 if (
-                    !\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded(TAXAJAX_EXT) ||
+                    !ExtensionManagementUtility::isLoaded(TAXAJAX_EXT) ||
                     !is_array($params)
                 ) {
                     return false;
@@ -572,7 +574,7 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
                 ) {
                     $path =
                         PathUtility::stripPathSitePrefix(
-                            \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath(TAXAJAX_EXT)
+                            ExtensionManagementUtility::extPath(TAXAJAX_EXT)
                         );
                     $code = $this->ajax->taxajax->getJavascript($path);
                     $this->bXajaxAdded = true;
@@ -583,7 +585,7 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
 
             case 'colorbox':
                 $JSfieldname = 'tx_ttproducts-colorbox';
-                $colorboxFile = \TYPO3\CMS\Core\Utility\PathUtility::getAbsoluteWebPath(PATH_BE_TTPRODUCTS . 'Resources/Public/JavaScript/tt_products_colorbox.js');
+                $colorboxFile = PathUtility::getAbsoluteWebPath(PATH_BE_TTPRODUCTS . 'Resources/Public/JavaScript/tt_products_colorbox.js');
 
                 FrontendUtility::addJavascriptFile(
                     $colorboxFile,
@@ -605,7 +607,7 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
                     $pageRenderer = $this->getPageRenderer();
                     $pageRenderer->addHeaderData($code);
                 } else {
-                    $assetCollector = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Page\AssetCollector::class);
+                    $assetCollector = GeneralUtility::makeInstance(AssetCollector::class);
                     $assetCollector->addInlineJavaScript($JSfieldname, $code, [], ['priority' => true]);
                 }
             }
@@ -620,7 +622,7 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
         return GeneralUtility::makeInstance(\TYPO3\CMS\Core\Page\PageRenderer::class);
     }
 
-    public function setIncluded($filename)
+    public function setIncluded($filename): void
     {
         $this->bIncludedArray[$filename] = true;
     }

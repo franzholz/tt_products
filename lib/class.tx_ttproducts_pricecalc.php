@@ -52,7 +52,7 @@ class tx_ttproducts_pricecalc extends tx_ttproducts_pricecalc_base
         $taxIncluded,
         $bMergeArticles = true,
         $uid = 0
-    ) {
+    ): void {
         $sql = GeneralUtility::makeInstance('tx_ttproducts_sql');
 
         if (!$itemArray || !count($itemArray)) {

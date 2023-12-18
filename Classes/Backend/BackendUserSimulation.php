@@ -14,8 +14,10 @@ namespace JambageCom\TtProducts\Backend;
  *
  * The TYPO3 project - inspiring people to share!
  */
-
+use TYPO3\CMS\Core\Authentication\AbstractUserAuthentication;
+use TYPO3\CMS\Core\Mail\MailMessage;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MailUtility;
 
 /**
  * TYPO3 backend user simulation
@@ -25,7 +27,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  *
  * @internal
  */
-class BackendUserSimulation extends \TYPO3\CMS\Core\Authentication\AbstractUserAuthentication
+class BackendUserSimulation extends AbstractUserAuthentication
 {
     /**
      * User workspace.
@@ -74,10 +76,8 @@ class BackendUserSimulation extends \TYPO3\CMS\Core\Authentication\AbstractUserA
 
     /**
      * Returns true if user is admin.
-     *
-     * @return bool
      */
-    public function isAdmin()
+    public function isAdmin(): bool
     {
         return true;
     }
@@ -142,7 +142,7 @@ class BackendUserSimulation extends \TYPO3\CMS\Core\Authentication\AbstractUserA
      *
      * @todo Define visibility
      */
-    public function checkAuthMode($table, $field, $value, $authMode)
+    public function checkAuthMode($table, $field, $value, $authMode): bool
     {
         return true;
     }
@@ -156,7 +156,7 @@ class BackendUserSimulation extends \TYPO3\CMS\Core\Authentication\AbstractUserA
      *
      * @todo Define visibility
      */
-    public function checkLanguageAccess($langValue)
+    public function checkLanguageAccess($langValue): bool
     {
         return true;
     }
@@ -179,7 +179,7 @@ class BackendUserSimulation extends \TYPO3\CMS\Core\Authentication\AbstractUserA
      *
      * @todo Define visibility
      */
-    public function recordEditAccessInternals($table, $idOrRow, $newRecord = false, $deletedRecord = false, $checkFullLanguageAccess = false)
+    public function recordEditAccessInternals($table, $idOrRow, $newRecord = false, $deletedRecord = false, $checkFullLanguageAccess = false): bool
     {
         return true; // editing is always allowed
     }
@@ -198,7 +198,7 @@ class BackendUserSimulation extends \TYPO3\CMS\Core\Authentication\AbstractUserA
      *
      * @todo Define visibility
      */
-    public function workspaceCannotEditRecord($table, $recData)
+    public function workspaceCannotEditRecord($table, $recData): bool
     {
         return false; // editing is always allowed
     }
@@ -233,7 +233,7 @@ class BackendUserSimulation extends \TYPO3\CMS\Core\Authentication\AbstractUserA
      *
      * @todo Define visibility
      */
-    public function workspaceAllowAutoCreation($table, $id, $recpid)
+    public function workspaceAllowAutoCreation($table, $id, $recpid): bool
     {
         return false; // no support for workspaces
     }
@@ -387,7 +387,7 @@ class BackendUserSimulation extends \TYPO3\CMS\Core\Authentication\AbstractUserA
      *
      * @todo Define visibility
      */
-    public function checkLogFailures($email, $secondsBack = 3600, $max = 3)
+    public function checkLogFailures($email, $secondsBack = 3600, $max = 3): void
     {
         if ($email) {
             // Get last flag set in the log for sending
@@ -416,10 +416,10 @@ This is a dump of the failures:
                     ) . ':  ' . @sprintf($testRows['details'], (string)$theData[0], (string)$theData[1], (string)$theData[2]);
                     $email_body .= LF;
                 }
-                $from = \TYPO3\CMS\Core\Utility\MailUtility::getSystemFrom();
+                $from = MailUtility::getSystemFrom();
                 /** @var $mail \TYPO3\CMS\Core\Mail\MailMessage */
-                $mail = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Mail\\MailMessage');
-                $mail->setTo($email)->setFrom($from)->setSubject($subject)->setBody($email_body);
+                $mail = GeneralUtility::makeInstance(MailMessage::class);
+                $mail->setTo($email)->setFrom($from)->setSubject($subject)->text($email_body);
                 $mail->send();
                 // Logout written to log
                 $this->writelog(255, 4, 0, 3, 'Failure warning (%s failures within %s seconds) sent by email to %s', [$this->db->sql_num_rows($res), $secondsBack, $email]);

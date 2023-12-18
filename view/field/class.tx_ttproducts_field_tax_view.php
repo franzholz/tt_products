@@ -55,7 +55,7 @@ class tx_ttproducts_field_tax_view extends tx_ttproducts_field_base_view
         $basketExtra = [],
         $basketRecs = [],
         $id = '1'
-    ) {
+    ): void {
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $staticTaxViewObj = $tablesObj->get('static_taxes', true);
 
@@ -97,6 +97,6 @@ class tx_ttproducts_field_tax_view extends tx_ttproducts_field_base_view
         $imageRenderObj = '',
         $linkWrap = false,
         $bEnableTaxZero = false
-    ) {
+    ): void {
     }
 }

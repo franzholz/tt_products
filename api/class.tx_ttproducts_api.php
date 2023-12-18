@@ -36,9 +36,18 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use JambageCom\Div2007\Utility\CompatibilityUtility;
+use JambageCom\Div2007\Utility\MailUtility;
+use JambageCom\Div2007\Utility\ObsoleteUtility;
+use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Crypto\PasswordHashing\InvalidPasswordHashException;
+use TYPO3\CMS\Core\Crypto\PasswordHashing\PasswordHashFactory;
+use TYPO3\CMS\Core\Html\HtmlParser;
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 class tx_ttproducts_api
 {
@@ -204,14 +213,14 @@ class tx_ttproducts_api
         $alternativeSubpartMarker,
         &$errorCode
     ) {
-        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $result = false;
 
         if (
             $subpartMarker != '' &&
-            strpos($templateCode, $subpartMarker) !== false ||
+            strpos($templateCode, (string)$subpartMarker) !== false ||
             $alternativeSubpartMarker != '' &&
-            strpos($templateCode, $alternativeSubpartMarker) !== false
+            strpos($templateCode, (string)$alternativeSubpartMarker) !== false
         ) {
             $errorTemplateCode = $templateCode;
         } else {
@@ -224,8 +233,8 @@ class tx_ttproducts_api
             );
             if (
                 $errorTemplateCode == '' ||
-                strpos($errorTemplateCode, $subpartMarker) === false &&
-                strpos($errorTemplateCode, $alternativeSubpartMarker) === false
+                strpos($errorTemplateCode, (string)$subpartMarker) === false &&
+                strpos($errorTemplateCode, (string)$alternativeSubpartMarker) === false
             ) {
                 $errorTemplateCode = $templateObj->get(
                     'ERROR',
@@ -241,7 +250,7 @@ class tx_ttproducts_api
             if ($subpartMarker != '' || $alternativeSubpartMarker != '') {
                 if (
                     $subpartMarker != '' &&
-                    strpos($errorTemplateCode, $subpartMarker) !== false
+                    strpos($errorTemplateCode, (string)$subpartMarker) !== false
                 ) {
                     $errorOut =
                         $templateService->getSubpart(
@@ -250,7 +259,7 @@ class tx_ttproducts_api
                         );
                 } elseif (
                     $alternativeSubpartMarker != '' &&
-                    strpos($errorTemplateCode, $alternativeSubpartMarker) !== false
+                    strpos($errorTemplateCode, (string)$alternativeSubpartMarker) !== false
                 ) {
                     $errorOut =
                         $templateService->getSubpart(
@@ -287,7 +296,7 @@ class tx_ttproducts_api
         $infoArray = $infoObj->infoArray;
         $apostrophe = $conf['orderEmail_apostrophe'];
 
-        $pid = ($conf['PIDuserFolder'] ? $conf['PIDuserFolder'] : ($conf['PIDbasket'] ? $conf['PIDbasket'] : $GLOBALS['TSFE']->id));
+        $pid = ($conf['PIDuserFolder'] ?: ($conf['PIDbasket'] ?: $GLOBALS['TSFE']->id));
         $pid = intval($pid);
         $username = strtolower(trim($infoArray['billing']['email']));
         $rowArray =
@@ -307,12 +316,12 @@ class tx_ttproducts_api
                 $result = intval($rowArray['0']['uid']);
             }
         } elseif ($bAllowCreation) {
-            $password = substr(md5(rand()), 0, 12);
+            $password = substr(md5(random_int(0, mt_getrandmax())), 0, 12);
             $infoObj->password = $password;
             try {
-                $hashInstance = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Crypto\PasswordHashing\PasswordHashFactory::class)->getDefaultHashInstance('FE');
+                $hashInstance = GeneralUtility::makeInstance(PasswordHashFactory::class)->getDefaultHashInstance('FE');
                 $password = $hashInstance->getHashedPassword($password);
-            } catch (TYPO3\CMS\Core\Crypto\PasswordHashing\InvalidPasswordHashException $e) {
+            } catch (InvalidPasswordHashException $e) {
                 debug($tmp, 'no FE user could be generated!'); // keep this
             }
             $tableFieldArray = $tablesObj->get('fe_users')->getTableObj()->tableFieldArray;
@@ -333,9 +342,9 @@ class tx_ttproducts_api
             }
 
             if (
-                \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('agency') ||
-                \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('femanager') ||
-                \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('sr_feuser_register')
+                ExtensionManagementUtility::isLoaded('agency') ||
+                ExtensionManagementUtility::isLoaded('femanager') ||
+                ExtensionManagementUtility::isLoaded('sr_feuser_register')
             ) {
                 if ($conf['useStaticInfoCountry'] && isset($infoArray['billing']['country_code'])) {
                     $insertFields['static_info_country'] = $infoArray['billing']['country_code'];
@@ -381,7 +390,7 @@ class tx_ttproducts_api
                     $plain_message = trim($parts[1]);
                     $tmp = '';
 
-                    \JambageCom\Div2007\Utility\MailUtility::send(
+                    MailUtility::send(
                         $infoArray['billing']['email'],
                         $apostrophe . $subject . $apostrophe,
                         $plain_message,
@@ -422,8 +431,8 @@ class tx_ttproducts_api
         $markerArray,
         &$subject,
         &$text
-    ) {
-        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+    ): void {
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $parts = preg_split('/[\n\r]+/', $templateCode, 2);	// First line is subject
         $subject = trim($parts[0]);
         $text = trim($parts[1]);
@@ -501,7 +510,7 @@ class tx_ttproducts_api
         $bDebug,
         &$errorMessage
     ) {
-        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $result = true;
         $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config'); // init ok
         // $markerObj  init ok
@@ -516,7 +525,7 @@ class tx_ttproducts_api
 
         $emailObj = $tablesObj->get('tt_products_emails');
         $orderObj = $tablesObj->get('sys_products_orders');
-        $cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
+        $cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
         $conf = $cnfObj->getConf();
         $customerEmailHTML = '';
 
@@ -683,7 +692,7 @@ class tx_ttproducts_api
 
             $csv = GeneralUtility::makeInstance('tx_ttproducts_csv');
 
-            $csvfilepath = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/' . $conf['CSVdestination'];
+            $csvfilepath = Environment::getPublicPath() . '/' . $conf['CSVdestination'];
 
             $csv->create(
                 $functablename,
@@ -728,7 +737,7 @@ class tx_ttproducts_api
                 );
 
             if ($orderXML) {
-                $csvfilepath = \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/' . $conf['XMLdestination'];
+                $csvfilepath = Environment::getPublicPath() . '/' . $conf['XMLdestination'];
 
                 if (substr($xmlFilepath, strlen($xmlFilepath) - 1, 1) != '/') {
                     $xmlFilepath .= '/';
@@ -783,7 +792,7 @@ class tx_ttproducts_api
                     if (!empty($emailConfig['to.'])) {
                         $toConfig = $emailConfig['to.'];
                         if (
-                            \JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn() &&
+                            CompatibilityUtility::isLoggedIn() &&
                             !empty($GLOBALS['TSFE']->fe_user->user) &&
                             !empty($GLOBALS['TSFE']->fe_user->user['username']) &&
                             $toConfig['table'] == 'fe_users' &&
@@ -914,7 +923,7 @@ class tx_ttproducts_api
             $emailControlArray['customer']['none']['recipient'] = array_unique($emailControlArray['customer']['none']['recipient']);
         }
         $customerHTMLmailContent = '';
-        $posEmailPlaintext = strpos($templateCode, $emailControlArray['customer']['none']['template']);
+        $posEmailPlaintext = strpos($templateCode, (string)$emailControlArray['customer']['none']['template']);
 
         if (
             $templateCode != '' &&
@@ -937,7 +946,7 @@ class tx_ttproducts_api
 
                 // Remove image tags to the products:
                 if (!empty($conf['orderEmail_htmlmail.']['removeImagesWithPrefix'])) {
-                    $htmlParser = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Html\HtmlParser::class);
+                    $htmlParser = GeneralUtility::makeInstance(HtmlParser::class);
                     $htmlMailParts = $htmlParser->splitTags('img', $customerHTMLmailContent);
 
                     foreach ($htmlMailParts as $kkk => $vvv) {
@@ -1187,7 +1196,7 @@ class tx_ttproducts_api
                                 is_array($suffixControlArray['recipient'])
                             ) {
                                 foreach ($suffixControlArray['recipient'] as $recipientEmail) {
-                                    \JambageCom\Div2007\Utility\MailUtility::send(
+                                    MailUtility::send(
                                         $recipientEmail,
                                         $apostrophe . $subject . $apostrophe,
                                         $textContent,
@@ -1307,7 +1316,7 @@ class tx_ttproducts_api
                             $HTMLmailContent = '';
                         }
 
-                        \JambageCom\Div2007\Utility\MailUtility::send(
+                        MailUtility::send(
                             $confpart['email'],
                             $apostrophe . $subject . $apostrophe,
                             $textContent,
@@ -1331,7 +1340,7 @@ class tx_ttproducts_api
                 isset($emailControlArray['radio1']['recipient'])
             ) {
                 foreach ($emailControlArray['radio1']['recipient'] as $key => $recipient) {
-                    \JambageCom\Div2007\Utility\MailUtility::send(
+                    MailUtility::send(
                         $recipient,
                         $apostrophe . $emailControlArray['radio1']['none']['subject'] . $apostrophe,
                         $emailControlArray['radio1']['none']['plaintext'],
@@ -1356,10 +1365,10 @@ class tx_ttproducts_api
 
         // This cObject may be used to call a function which clears settings in an external order system.
         // The output is NOT included anywhere
-        \JambageCom\Div2007\Utility\ObsoleteUtility::getExternalCObject($pObj, 'externalFinalizing');
+        ObsoleteUtility::getExternalCObject($pObj, 'externalFinalizing');
 
         if (!empty($conf['externalOrderProcessFunc'])) {
-            \JambageCom\Div2007\Utility\ObsoleteUtility::userProcess(
+            ObsoleteUtility::userProcess(
                 $pObj,
                 $conf,
                 'externalOrderProcessFunc',

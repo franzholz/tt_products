@@ -37,10 +37,12 @@ namespace JambageCom\TtProducts\Api;
  * @package TYPO3
  * @subpackage tt_products
  */
-
 use JambageCom\Div2007\Utility\ErrorUtility;
 use JambageCom\Div2007\Utility\ExtensionUtility;
+use JambageCom\Div2007\Utility\FlexformUtility;
 use JambageCom\Div2007\Utility\FrontendUtility;
+use TYPO3\CMS\Core\Utility\ArrayUtility;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
@@ -51,13 +53,13 @@ abstract class RelatedProductsTypes
 
 class PluginApi
 {
-    private static $bHasBeenInitialised = false;
+    private static bool $bHasBeenInitialised = false;
     private static $flexformArray = [];
 
-    public static function init($conf)
+    public static function init($conf): void
     {
         $piVarsDefault = [];
-        $parameterApi = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\ParameterApi::class);
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
         $prefixId = $parameterApi->getPrefixId();
         $defaults = $conf['_DEFAULT_PI_VARS.'] ?? '';
         if (
@@ -78,7 +80,7 @@ class PluginApi
         if (!empty($piVarsDefault)) {
             $tmp = $piVarsDefault;
             if (is_array($piVars)) {
-                \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule(
+                ArrayUtility::mergeRecursiveWithOverrule(
                     $tmp,
                     $piVars
                 );
@@ -162,7 +164,7 @@ class PluginApi
 
     public static function initFlexform(
         $cObj
-    ) {
+    ): void {
         if (!empty($cObj->data['pi_flexform'])) {
             self::$flexformArray = GeneralUtility::xml2array($cObj->data['pi_flexform']);
         } else {
@@ -191,7 +193,7 @@ class PluginApi
         &$urlObj,
         $cObj,
         $conf
-    ) {
+    ): void {
         if (!isset($urlObj)) {
             $urlObj = GeneralUtility::makeInstance('tx_ttproducts_url_view');
             $urlObj->init($conf);
@@ -206,7 +208,7 @@ class PluginApi
     ) {
         $result = true;
 
-        if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('taxajax')) {
+        if (ExtensionManagementUtility::isLoaded('taxajax')) {
             $ajaxObj = GeneralUtility::makeInstance('tx_ttproducts_ajax');
             $result = $ajaxObj->init();
             if (!$result) {
@@ -232,25 +234,25 @@ class PluginApi
         &$pageAsCategory,
         &$errorCode,
         $backPID
-    ) {
+    ): bool {
         $eInfo = ExtensionUtility::getExtensionInfo(TT_PRODUCTS_EXT);
         $config['version'] = $eInfo['version'];
 
-        $config['defaultCategoryID'] = \JambageCom\Div2007\Utility\FlexformUtility::get(self::getFlexform(), 'categorySelection');
+        $config['defaultCategoryID'] = FlexformUtility::get(self::getFlexform(), 'categorySelection');
 
         // get template suffix string
 
         $config['templateSuffix'] = strtoupper($conf['templateSuffix'] ?? '');
 
-        $templateSuffix = \JambageCom\Div2007\Utility\FlexformUtility::get(self::getFlexform(), 'template_suffix');
+        $templateSuffix = FlexformUtility::get(self::getFlexform(), 'template_suffix');
         $templateSuffix = strtoupper($templateSuffix);
-        $config['templateSuffix'] = ($templateSuffix ? $templateSuffix : $config['templateSuffix']);
+        $config['templateSuffix'] = ($templateSuffix ?: $config['templateSuffix']);
         $config['templateSuffix'] = ($config['templateSuffix'] ? '_' . $config['templateSuffix'] : '');
-        $config['limit'] = $conf['limit'] ? $conf['limit'] : 50;
+        $config['limit'] = $conf['limit'] ?: 50;
         $config['limitImage'] = MathUtility::forceIntegerInRange($conf['limitImage'], 0, 50, 1);
-        $config['limitImage'] = $config['limitImage'] ? $config['limitImage'] : 1;
+        $config['limitImage'] = $config['limitImage'] ?: 1;
         $config['limitImageSingle'] = MathUtility::forceIntegerInRange($conf['limitImageSingle'], 0, 50, 1);
-        $config['limitImageSingle'] = $config['limitImageSingle'] ? $config['limitImageSingle'] : 1;
+        $config['limitImageSingle'] = $config['limitImageSingle'] ?: 1;
 
         if (!empty($conf['priceNoReseller'])) {
             $config['priceNoReseller'] = MathUtility::forceIntegerInRange($conf['priceNoReseller'], 2, 10);
@@ -277,7 +279,7 @@ class PluginApi
             return false;
         }
 
-        $backPID = ($backPID ? $backPID : GeneralUtility::_GP('backPID'));
+        $backPID = ($backPID ?: GeneralUtility::_GP('backPID'));
 
         $config['backPID'] = $backPID;
 
@@ -287,9 +289,7 @@ class PluginApi
                 $conf['PIDbasket'] && $conf['clickIntoBasket'] ?
                     $conf['PIDbasket'] :
                         (
-                            $backPID ?
-                                $backPID :
-                                $GLOBALS['TSFE']->id
+                            $backPID ?: $GLOBALS['TSFE']->id
                         )
             );
 
@@ -312,7 +312,7 @@ class PluginApi
             );
 
         if ($errorCode[0]) {
-            $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
+            $languageObj = GeneralUtility::makeInstance(Localization::class);
             $result .= ErrorUtility::getMessage($languageObj, $errorCode);
         }
 
@@ -332,7 +332,7 @@ class PluginApi
 
         if (!self::$bHasBeenInitialised) {
             $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
-            \TYPO3\CMS\Core\Utility\ArrayUtility::mergeRecursiveWithOverrule($conf, $pluginConf);
+            ArrayUtility::mergeRecursiveWithOverrule($conf, $pluginConf);
             $config = [];
             $cObj = FrontendUtility::getContentObjectRenderer([]);
 

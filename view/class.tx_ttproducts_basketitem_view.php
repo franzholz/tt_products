@@ -36,11 +36,13 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
 use JambageCom\Div2007\Utility\FrontendUtility;
+use JambageCom\TtProducts\Api\Localization;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\Resource\FilePathSanitizer;
 
-class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterface
+class tx_ttproducts_basketitem_view implements SingletonInterface
 {
     public function getQuantityName(
         $uid,
@@ -99,7 +101,7 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
         &$markerArray,
         &$subpartArray,
         &$wrappedSubpartArray
-    ) {
+    ): void {
         $productFuncTablename = 'tt_products';
 
         if (isset($productRowArray) && is_array($productRowArray)) {
@@ -205,11 +207,11 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
         $parentRow = [],
         $callFunctableArray = [],  // deprecated
         $filterRowArray = []
-    ) {
+    ): void {
         $productFuncTablename = 'tt_products';
         $basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
-        $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
+        $languageObj = GeneralUtility::makeInstance(Localization::class);
         $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
         $itemObj = GeneralUtility::makeInstance('tx_ttproducts_basketitem');
 
@@ -257,7 +259,7 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
                                 PREG_SPLIT_NO_EMPTY
                             );
 
-                        $imageFileArray = '';
+                        $imageFileArray = [];
 
                         if ($variantValue && $prodTmpRow[0]) {
                             $key = array_search(trim($articleRow[$field]), $prodTmpRow, true);
@@ -342,7 +344,7 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
                 $quantityMarker = '###';
                 foreach ($callFunctableArray as $marker => $callFunctablename) {
                     $quantityMarker .=
-                        tx_ttproducts_control_basketquantity::getQuantityMarker($marker, $uid, '###' . $marker . '_UID###');
+                        (new tx_ttproducts_control_basketquantity())->getQuantityMarker($marker, $uid, '###' . $marker . '_UID###');
                 }
                 $quantityMarker .= '###';
             } elseif (
@@ -358,7 +360,7 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
                 }
                 $quantityMarker = $filterQuantity;
             } else {
-                $quantityMarker = $quantity ? $quantity : '';
+                $quantityMarker = $quantity ?: '';
             }
 
             $markerArray['###FIELD_QTY###'] = $quantityMarker;
@@ -379,7 +381,7 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
 
         $fileName = $conf['basketPic'];
         $basketFile = '';
-        $sanitizer = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\Resource\FilePathSanitizer::class);
+        $sanitizer = GeneralUtility::makeInstance(FilePathSanitizer::class);
         $basketFile = $sanitizer->sanitize($fileName);
 
         $markerArray['###IMAGE_BASKET_SRC###'] = $basketFile;
@@ -402,7 +404,7 @@ class tx_ttproducts_basketitem_view implements \TYPO3\CMS\Core\SingletonInterfac
                     $variantValue = $row[$field] ?? '';
                     $prodTmpRow = preg_split('/[\h]*' . $variantSeparator . '[\h]*/', $variantValue, -1, PREG_SPLIT_NO_EMPTY);
 
-                    $imageFileArray = '';
+                    $imageFileArray = [];
 
                     if ($bSelect && $variantValue && $prodTmpRow[0]) {
                         $selectConfKey = $viewTable->variant->getSelectConfKey($field);

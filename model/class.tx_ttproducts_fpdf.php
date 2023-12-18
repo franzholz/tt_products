@@ -36,7 +36,7 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_fpdf extends FPDF
@@ -48,7 +48,7 @@ class tx_ttproducts_fpdf extends FPDF
     protected $style;
     protected $size;
 
-    public function init($family, $style, $size)
+    public function init($family, $style, $size): bool
     {
         $this->family = $family;
         $this->style = $style;
@@ -59,29 +59,29 @@ class tx_ttproducts_fpdf extends FPDF
         return true;
     }
 
-    public function setHeader($header)
+    public function setHeader($header): void
     {
         $this->header = $header;
     }
 
-    public function setFooter($footer)
+    public function setFooter($footer): void
     {
         $this->footer = $footer;
     }
 
-    public function setBody($body)
+    public function setBody($body): void
     {
         $this->body = $body;
     }
 
-    public function Header()
+    public function Header(): void
     {
         // Police Arial gras 15
         $this->SetFont('Arial', 'B', 15);
         $this->MultiCell(0, 6, $this->header, 1);
     }
 
-    public function Footer()
+    public function Footer(): void
     {
         // Positionnement à 1,5 cm du bas
         $this->SetY(-15);
@@ -90,7 +90,7 @@ class tx_ttproducts_fpdf extends FPDF
         $this->MultiCell(0, 6, $this->footer, 1);
     }
 
-    private function addEmptyColumns($bLastLine)
+    private function addEmptyColumns($bLastLine): void
     {
         $row = [];
         $row['1'] = '';
@@ -108,14 +108,14 @@ class tx_ttproducts_fpdf extends FPDF
         }
     }
 
-    private function getDimensions(&$widthArray)
+    private function getDimensions(&$widthArray): void
     {
         // Column widths
         $widthArray = [80, 25, 40, 45];
     }
 
     // Better table
-    public function ImprovedTable($header, array $data)
+    public function ImprovedTable($header, array $data): void
     {
         $this->getDimensions($widthArray);
 
@@ -230,7 +230,7 @@ class tx_ttproducts_fpdf extends FPDF
 
     public function Body()
     {
-        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         // $xPos = $this->GetX();
         $tempContent = $templateService->getSubpart($this->body, '###PDF_TABLE_1###');
         if (empty($tempContent)) {

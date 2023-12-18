@@ -14,7 +14,7 @@ namespace JambageCom\TtProducts\Controller\Module;
  *
  * The TYPO3 project - inspiring people to share!
  */
-
+use JambageCom\TtProducts\Utility\MoveItemsUtility;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
@@ -83,7 +83,7 @@ class MoveItemsWizardModuleFunctionController
      *
      * @see \TYPO3\CMS\Backend\Module\BaseScriptClass::checkExtObj()
      */
-    public function init($pObj)
+    public function init($pObj): void
     {
         $this->pObj = $pObj;
         // Local lang:
@@ -116,7 +116,7 @@ class MoveItemsWizardModuleFunctionController
         $execute = GeneralUtility::_GP('execute');
 
         if ($execute) {
-            $moveItems = GeneralUtility::makeInstance(\JambageCom\TtProducts\Utility\MoveItemsUtility::class);
+            $moveItems = GeneralUtility::makeInstance(MoveItemsUtility::class);
             $view->setTemplatePathAndFilename(GeneralUtility::getFileAbsFileName(
                 'EXT:' . TT_PRODUCTS_EXT . '/Resources/Private/Templates/MoveItemsFinished.html'
             ));
@@ -187,7 +187,7 @@ class MoveItemsWizardModuleFunctionController
      *
      * @see \TYPO3\CMS\Backend\Module\BaseScriptClass::checkExtObj()
      */
-    public function checkExtObj()
+    public function checkExtObj(): void
     {
         if (is_array($this->extClassConf) && $this->extClassConf['name']) {
             $this->extObj = GeneralUtility::makeInstance($this->extClassConf['name']);
@@ -222,7 +222,7 @@ class MoveItemsWizardModuleFunctionController
     /**
      * Returns LanguageService.
      *
-     * @return \TYPO3\CMS\Lang\LanguageService
+     * @return \TYPO3\CMS\Core\Localization\LanguageService
      */
     protected function getLanguageService()
     {

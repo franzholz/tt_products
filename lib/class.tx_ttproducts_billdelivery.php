@@ -36,10 +36,12 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use JambageCom\TtProducts\Api\BasketApi;
+use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class tx_ttproducts_billdelivery implements \TYPO3\CMS\Core\SingletonInterface
+class tx_ttproducts_billdelivery implements SingletonInterface
 {
     public $tableArray;
     public $price;		 // object for price functions
@@ -63,7 +65,7 @@ class tx_ttproducts_billdelivery implements \TYPO3\CMS\Core\SingletonInterface
         return $rc;
     }
 
-    public function getMarkerArray(&$markerArray, $tracking, $type)
+    public function getMarkerArray(&$markerArray, $tracking, $type): void
     {
         $markerprefix = strtoupper($type);
         $relfilename = $this->getRelFilename($tracking, $type);
@@ -78,7 +80,7 @@ class tx_ttproducts_billdelivery implements \TYPO3\CMS\Core\SingletonInterface
         return $filename;
     }
 
-    public function writeFile($filename, $content)
+    public function writeFile($filename, $content): void
     {
         $theFile = fopen($filename, 'wb');
         fwrite($theFile, $content);
@@ -144,7 +146,7 @@ class tx_ttproducts_billdelivery implements \TYPO3\CMS\Core\SingletonInterface
                     );
                 $className = 'tx_ttproducts_pdf_view';
                 if (
-                    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('fpdf') // use FPDF
+                    ExtensionManagementUtility::isLoaded('fpdf') // use FPDF
                 ) {
                     $className = 'tx_ttproducts_fpdf_view';
                 }
@@ -248,7 +250,7 @@ class tx_ttproducts_billdelivery implements \TYPO3\CMS\Core\SingletonInterface
             );
         $infoViewObj->init2($infoArray);
 
-        $basketRec = \JambageCom\TtProducts\Api\BasketApi::getBasketRec($orderRow);
+        $basketRec = BasketApi::getBasketRec($orderRow);
         $basketExtra =
             tx_ttproducts_control_basket::getBasketExtras(
                 $tablesObj,

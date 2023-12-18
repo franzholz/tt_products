@@ -64,7 +64,7 @@ class tx_ttproducts_address extends tx_ttproducts_category_base
 
             if (!empty($tableconf['requiredFields'])) {
                 $tmp = $tableconf['requiredFields'];
-                $requiredFields = ($tmp ? $tmp : $requiredFields);
+                $requiredFields = ($tmp ?: $requiredFields);
             }
 
             $requiredListArray = GeneralUtility::trimExplode(',', $requiredFields);

@@ -36,8 +36,9 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use JambageCom\Div2007\Utility\TableUtility;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
+use TYPO3\CMS\Core\Resource\StorageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_field_media extends tx_ttproducts_field_base
@@ -51,7 +52,7 @@ class tx_ttproducts_field_media extends tx_ttproducts_field_base
         ) {
             $dirname = $imageRow['file_path'];
         } else {
-            $dirname = ($this->conf['defaultImageDir'] ? $this->conf['defaultImageDir'] : ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['imageFolder'] ? $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['imageFolder'] . '/' : 'uploads/pics/'));
+            $dirname = ($this->conf['defaultImageDir'] ?: ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['imageFolder'] ? $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['imageFolder'] . '/' : 'uploads/pics/'));
         }
 
         return $dirname;
@@ -92,7 +93,7 @@ class tx_ttproducts_field_media extends tx_ttproducts_field_base
 
                 if (count($uidArray)) {
                     $where_clause = 'uid_foreign IN (' . implode(',', $uidArray) . ') AND tablenames="' . $theTablename . '" AND fieldname="' . $imageField . '"';
-                    $where_clause .= \JambageCom\Div2007\Utility\TableUtility::enableFields('sys_file_reference');
+                    $where_clause .= TableUtility::enableFields('sys_file_reference');
                     $sysfileRowArray =
                         $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
                             '*',
@@ -115,7 +116,7 @@ class tx_ttproducts_field_media extends tx_ttproducts_field_base
                 if ($imageRow[$imageField]) {
                     $theTablename = $tablename;
                     $where_clause = 'uid_foreign=' . intval($imageRow['uid']) . ' AND tablenames="' . $theTablename . '" AND fieldname="' . $imageField . '"';
-                    $where_clause .= \JambageCom\Div2007\Utility\TableUtility::enableFields('sys_file_reference');
+                    $where_clause .= TableUtility::enableFields('sys_file_reference');
                     $sysfileRowArray =
                         $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(
                             '*',
@@ -136,8 +137,8 @@ class tx_ttproducts_field_media extends tx_ttproducts_field_base
                 !$skip &&
                 !empty($sysfileRowArray)
             ) {
-                $storageRepository = GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Resource\\StorageRepository');
-                $storage = $storageRepository->findByUid(1);
+                $storageRepository = GeneralUtility::makeInstance(StorageRepository::class);
+                $storage = $storageRepository->getDefaultStorage();
 
                 foreach ($sysfileRowArray as $fileUid => $sysfileRow) {
                     $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);

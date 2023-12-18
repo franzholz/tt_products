@@ -36,15 +36,18 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
 use JambageCom\Div2007\Utility\FrontendUtility;
+use JambageCom\Div2007\Utility\TableUtility;
+use JambageCom\TtProducts\Api\ControlApi;
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
 {
     public function getImageCode($imageConf, $theCode, $domain = '')
     {
-        $cObj = \JambageCom\TtProducts\Api\ControlApi::getCObj();
+        $cObj = ControlApi::getCObj();
 
         $contentObject = 'IMAGE';
         $imageCode =
@@ -75,7 +78,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
         $meta,
         &$imageConf
     ) {
-        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         if (!empty($meta)) {
             $this->getExtItemMarkerArray($markerArray, $imageConf, $row);
         }
@@ -358,7 +361,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
                     $bUseImage = true;
                 }
 
-                if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('dam') && $bUseImage && $bImages) {
+                if (ExtensionManagementUtility::isLoaded('dam') && $bUseImage && $bImages) {
                     $damObj = GeneralUtility::makeInstance('tx_dam');
                     if (method_exists($damObj, 'meta_getDataForFile')) {
                         $fieldList = 'uid,pid,tstamp,crdate,active,media_type,title,category,index_type,file_mime_type,file_mime_subtype,
@@ -392,7 +395,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
                     $meta = $val;
                 }
 
-                $cObj->alternativeData = ($meta ? $meta : $imageRow);
+                $cObj->alternativeData = ($meta ?: $imageRow);
                 if (isset($imageConf['params'])) {
                     $imageConf['params'] = preg_replace('/\s+/', ' ', $imageConf['params']);
                 }
@@ -447,7 +450,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
                 if ($tagkey && isset($specialConf[$tagkey])) {
                     foreach ($specialConf[$tagkey] as $specialConfType => $specialImageConf) {
                         $theImageConf = array_merge($imageConf, $specialImageConf);
-                        $cObj->alternativeData = ($meta ? $meta : $imageRow); // has to be redone here
+                        $cObj->alternativeData = ($meta ?: $imageRow); // has to be redone here
 
                         $this->replaceMarkerArray(
                             $markerArray,
@@ -509,7 +512,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
         $suffix = '',
         $imageRenderObj = 'image',
         $linkWrap = false  // neu
-    ) {
+    ): void {
         $imageRow = $row;
         $bImages = false;
         $imageMarkerArray = [];
@@ -566,7 +569,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
                     $foreignfield = $tempConf['uid_foreign'];
                     $fieldconfParent['generateImage'] = $tempConf['field.'];
                     $where_clause = $conftable . '.' . $foreignfield . '=' . $imageRow[$localfield];
-                    $enableFields = \JambageCom\Div2007\Utility\TableUtility::enableFields($conftable);
+                    $enableFields = TableUtility::enableFields($conftable);
                     $where_clause .= $enableFields;
                     $res =
                         $GLOBALS['TYPO3_DB']->exec_SELECTquery(
@@ -583,7 +586,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
             }
 
             // $confParentTableConf = $this->getTableConf($conftable, $theCode);
-            $conftable = ($conftable ? $conftable : $functablename);
+            $conftable = ($conftable ?: $functablename);
             $generateArray = ['generateImage', 'generatePath'];
             $nameArray = [];
 
@@ -713,7 +716,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
             );
 
         $actImgCode = current($theImgCode);
-        $markerArray['###' . $markerKey . '###'] = $actImgCode ? $actImgCode : ''; // for compatibility only
+        $markerArray['###' . $markerKey . '###'] = $actImgCode ?: ''; // for compatibility only
 
         $c = 1;
         $countArray = [];
@@ -828,7 +831,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
         $imageRenderObj = 'image',
         $linkWrap = false, // neu
         $bEnableTaxZero = false
-    ) {
+    ): void {
         if ($bHtml) {
             $bSkip = true;
             if (strpos($fieldname, 'smallimage') !== false) {
@@ -838,7 +841,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
 
             if (isset($tagArray) && is_array($tagArray)) {
                 foreach ($tagArray as $value => $k1) {
-                    if (strpos($value, $markerKey) !== false) {
+                    if (strpos($value, (string)$markerKey) !== false) {
                         $keyMarker = '###' . $value . '###';
                         $foundPos = strpos($value, $markerKey . '_ID');
 

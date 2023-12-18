@@ -106,7 +106,7 @@ class tx_ttproducts_dam extends tx_ttproducts_article_base
     /**
      * Sets the markers for DAM specific FORM fields.
      */
-    public function setFormMarkerArray($uid, &$markerArray)
+    public function setFormMarkerArray($uid, &$markerArray): void
     {
         $markerArray['###DAM_FIELD_NAME###'] = 'ttp_basket[dam]';
         $markerArray['###DAM_UID###'] = intval($uid);
@@ -122,7 +122,7 @@ class tx_ttproducts_dam extends tx_ttproducts_article_base
      *
      * @see getVariantFromRow
      */
-    public function modifyItemRow(&$row, $uid)
+    public function modifyItemRow(&$row, $uid): void
     {
         $damRow = $this->get($uid);
 
@@ -173,7 +173,7 @@ class tx_ttproducts_dam extends tx_ttproducts_article_base
                             $categoryAnd
                         );
                     if ($bLeadingOperator) {
-                        $operator = ($operator ? $operator : 'OR');
+                        $operator = ($operator ?: 'OR');
                         $where .= ($whereNew ? ' ' . $operator . ' ' . $whereNew : '');
                     } else {
                         $where .= $whereNew;
@@ -191,7 +191,7 @@ class tx_ttproducts_dam extends tx_ttproducts_article_base
         return $where;
     }
 
-    public function addConfCat($catObject, &$selectConf, $aliasArray)
+    public function addConfCat($catObject, &$selectConf, $aliasArray): string
     {
         $tableNameArray = [];
 
@@ -237,7 +237,7 @@ class tx_ttproducts_dam extends tx_ttproducts_article_base
         return implode(',', $tableNameArray);
     }
 
-    public function getPageUidsCat($cat)
+    public function getPageUidsCat($cat): string
     {
         $uidArray = [];
 

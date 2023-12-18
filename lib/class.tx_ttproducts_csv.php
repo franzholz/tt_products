@@ -37,10 +37,11 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use JambageCom\TtProducts\Api\Localization;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class tx_ttproducts_csv implements \TYPO3\CMS\Core\SingletonInterface
+class tx_ttproducts_csv implements SingletonInterface
 {
     public function create(
         $functablename,
@@ -53,7 +54,7 @@ class tx_ttproducts_csv implements \TYPO3\CMS\Core\SingletonInterface
         $basketExtra,
         &$csvFilepath,
         &$errorMessage
-    ) {
+    ): void {
         $basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
         $priceViewObj = GeneralUtility::makeInstance('tx_ttproducts_field_price_view');
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
@@ -189,7 +190,7 @@ class tx_ttproducts_csv implements \TYPO3\CMS\Core\SingletonInterface
             }
             fclose($csvFile);
         } else {
-            $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
+            $languageObj = GeneralUtility::makeInstance(Localization::class);
 
             $message = $languageObj->getLabel('no_csv_creation');
             $messageArr = explode('|', $message);

@@ -36,6 +36,9 @@
  * @package TYPO3
  * @subpackage tt_products
  */
+use JambageCom\Div2007\Utility\CompatibilityUtility;
+use JambageCom\TtProducts\Api\Localization;
+use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
@@ -54,7 +57,7 @@ class tx_ttproducts_orderaddress_view extends tx_ttproducts_table_base_view
         $useBackPid,
         &$subpartArray,
         &$wrappedSubpartArray
-    ) {
+    ): void {
         $marker = 'FE_GROUP';
         $markerLogin = 'LOGIN';
         $markerNologin = 'NOLOGIN';
@@ -71,7 +74,7 @@ class tx_ttproducts_orderaddress_view extends tx_ttproducts_table_base_view
                             $comparatorNumber = -1; // Also a logged in Front End User has group 0!
                         }
 
-                        if (GeneralUtility::inList($GLOBALS['TSFE']->gr_list, $comparatorNumber)) {
+                        if (GeneralUtility::inList(implode(',', GeneralUtility::makeInstance(Context::class)->getPropertyFromAspect('frontend.user', 'groupIds')), $comparatorNumber)) {
                             $wrappedSubpartArray['###FE_GROUP_' . $groupNumber . '_TEMPLATE###'] = ['', ''];
                         } else {
                             $subpartArray['###FE_GROUP_' . $groupNumber . '_TEMPLATE###'] = '';
@@ -80,7 +83,7 @@ class tx_ttproducts_orderaddress_view extends tx_ttproducts_table_base_view
                 }
             } elseif (strpos($tag, $markerLogin . '_') === 0) {
                 if (
-                    \JambageCom\Div2007\Utility\CompatibilityUtility::isLoggedIn() &&
+                    CompatibilityUtility::isLoggedIn() &&
                     isset($GLOBALS['TSFE']->fe_user->user) &&
                     is_array($GLOBALS['TSFE']->fe_user->user) &&
                     isset($GLOBALS['TSFE']->fe_user->user['uid'])
@@ -139,11 +142,11 @@ class tx_ttproducts_orderaddress_view extends tx_ttproducts_table_base_view
         &$markerArray,
         $bSelect,
         $type
-    ) {
+    ): void {
         $fieldOutputArray = [];
         $modelObj = $this->getModelObj();
         $selectInfoFields = $modelObj->getSelectInfoFields();
-        $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
+        $languageObj = GeneralUtility::makeInstance(Localization::class);
 
         if ($bSelect) {
             foreach ($selectInfoFields as $field) {

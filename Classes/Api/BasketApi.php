@@ -37,7 +37,7 @@ namespace JambageCom\TtProducts\Api;
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use JambageCom\Div2007\Utility\TableUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class BasketApi
@@ -135,7 +135,7 @@ class BasketApi
                 return false;
             }
             //             $where .= ' AND uid IN (' . implode(',', $uidArr) . ')';
-            $where .= ' AND uid IN (' . implode(',', $uidArr) . ')' . ($pid_list != '' ? ' AND pid IN (' . $pid_list . ')' : '') . \JambageCom\Div2007\Utility\TableUtility::enableFields($funcTablename);
+            $where .= ' AND uid IN (' . implode(',', $uidArr) . ')' . ($pid_list != '' ? ' AND pid IN (' . $pid_list . ')' : '') . TableUtility::enableFields($funcTablename);
 
             $rows =
                 $GLOBALS['TYPO3_DB']->exec_SELECTgetRows(

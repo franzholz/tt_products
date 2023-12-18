@@ -56,14 +56,14 @@ class tx_ttproducts_page extends tx_ttproducts_category_base
 
         if ($result) {
             $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-            $tablename = ($tablename ? $tablename : 'pages');
+            $tablename = ($tablename ?: 'pages');
             $this->tableconf = $cnf->getTableConf('pages');
             $this->pageAsCategory = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['pageAsCategory'];
 
             $requiredFields = 'uid,pid,title,subtitle,media,shortcut';
             if (!empty($this->tableconf['requiredFields'])) {
                 $tmp = $this->tableconf['requiredFields'];
-                $requiredFields = ($tmp ? $tmp : $requiredFields);
+                $requiredFields = ($tmp ?: $requiredFields);
             }
             $requiredListArray = GeneralUtility::trimExplode(',', $requiredFields);
             $this->getTableObj()->setRequiredFieldArray($requiredListArray);
@@ -110,7 +110,7 @@ class tx_ttproducts_page extends tx_ttproducts_category_base
     } // init
 
     // initalisation for code dependant configuration
-    public function initCodeConf($theCode, $tableConf)
+    public function initCodeConf($theCode, $tableConf): void
     {
         parent::initCodeConf($theCode, $tableConf);
         if ($this->bUseLanguageTable($tableConf)) {
@@ -168,7 +168,7 @@ class tx_ttproducts_page extends tx_ttproducts_category_base
 
     public function getParamDefault($theCode, $pid)
     {
-        $pid = ($pid ?? $this->conf['defaultPageID'] ?? '');
+        $pid ??= $this->conf['defaultPageID'] ?? '';
         if ($pid) {
             $pid = implode(',', GeneralUtility::intExplode(',', $pid));
         }

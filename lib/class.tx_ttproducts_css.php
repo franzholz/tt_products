@@ -36,19 +36,19 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class tx_ttproducts_css implements \TYPO3\CMS\Core\SingletonInterface
+class tx_ttproducts_css implements SingletonInterface
 {
     public $conf;
     protected $isCssStyled;
-    private $bIncluded = false;
+    private bool $bIncluded = false;
 
     /**
      * Getting all tt_products_cat categories into internal array.
      */
-    public function init()
+    public function init(): void
     {
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $this->isCssStyled = (isset($cnf->conf['templateStyle']) && $cnf->conf['templateStyle'] == 'css-styled');
@@ -71,12 +71,12 @@ class tx_ttproducts_css implements \TYPO3\CMS\Core\SingletonInterface
         return $result;
     }
 
-    public function setIncluded()
+    public function setIncluded(): void
     {
         $this->bIncluded = true;
     }
 
-    public function getIncluded()
+    public function getIncluded(): bool
     {
         return $this->bIncluded;
     }

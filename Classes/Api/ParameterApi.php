@@ -37,12 +37,12 @@ namespace JambageCom\TtProducts\Api;
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 // replacement for the former class tx_ttproducts_model_control
 //
-class ParameterApi implements \TYPO3\CMS\Core\SingletonInterface
+class ParameterApi implements SingletonInterface
 {
     protected $piVars = [];
     protected $piVarsDefault = [];
@@ -78,7 +78,7 @@ class ParameterApi implements \TYPO3\CMS\Core\SingletonInterface
     protected $basketIntoIdPrefix = 'basket-into-id';
     protected $basketInputErrorIdPrefix = 'basket-input-error-id';
 
-    public function setPiVars($value)
+    public function setPiVars($value): void
     {
         $this->piVars = $value;
     }
@@ -173,7 +173,7 @@ class ParameterApi implements \TYPO3\CMS\Core\SingletonInterface
      * If internal TypoScript property "_DEFAULT_PI_VARS." is set then it will merge the current $this->piVars array onto these default values.
      * Store the internal TypoScript property "_DEFAULT_PI_VARS." if set.
      */
-    public function setPiVarDefaults($piVarsDefault)
+    public function setPiVarDefaults($piVarsDefault): void
     {
         if (
             isset($piVarsDefault) &&
@@ -188,7 +188,7 @@ class ParameterApi implements \TYPO3\CMS\Core\SingletonInterface
         return $this->piVarsDefault;
     }
 
-    public function setPrefixId($prefixId)
+    public function setPrefixId($prefixId): void
     {
         $this->prefixId = $prefixId;
     }
@@ -206,7 +206,7 @@ class ParameterApi implements \TYPO3\CMS\Core\SingletonInterface
         return $result;
     }
 
-    public function setAndVar($k, $v)
+    public function setAndVar($k, $v): void
     {
         if (isset($this->andVars[$k])) {
             $this->andVars[$k] .= ',' . $v;
@@ -292,7 +292,7 @@ class ParameterApi implements \TYPO3\CMS\Core\SingletonInterface
         $theCode,
         array &$tableConfArray,
         array &$viewConfArray
-    ) {
+    ): void {
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 
         foreach ($functableArray as $ft) {
@@ -399,7 +399,7 @@ class ParameterApi implements \TYPO3\CMS\Core\SingletonInterface
         &$tableAliasArray,
         &$bUseSearchboxArray,
         &$enableFieldArray
-    ) {
+    ): void {
         if ($searchFunctablename != '') {
             $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
             $tableObj = $tablesObj->get($searchFunctablename, false);
@@ -426,7 +426,7 @@ class ParameterApi implements \TYPO3\CMS\Core\SingletonInterface
         $fieldArray = GeneralUtility::trimExplode(',', $fields);
         if (isset($fieldArray) && is_array($fieldArray)) {
             $rcArray = [];
-            $regexpDelimiter = $this->determineRegExpDelimiter($delimiter);
+            $regexpDelimiter = static::determineRegExpDelimiter($delimiter);
 
             foreach ($fieldArray as $field) {
                 $rcArray[] =
@@ -452,7 +452,7 @@ class ParameterApi implements \TYPO3\CMS\Core\SingletonInterface
         &$sqlTableArray,
         &$sqlTableIndex,
         &$latest
-    ) {
+    ): void {
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 
@@ -533,7 +533,7 @@ class ParameterApi implements \TYPO3\CMS\Core\SingletonInterface
                 $foundKey = 0;
 
                 if ($position == 'local' && isset($keyFieldArray[$searchFieldArray['local']]) && ExtensionManagementUtility::isLoaded('searchbox')) {	// Todo
-                    GeneralUtility::requireOnce(PATH_BE_searchbox . 'model/class.tx_searchbox_model.php');
+                    require_once PATH_BE_searchbox . 'model/class.tx_searchbox_model.php';
                     $modelObj = GeneralUtility::makeInstance('tx_searchbox_model');
 
                     $fullKeyFieldArray = $modelObj->getKeyFieldArray($tablename, '', '-', $searchFieldArray['local'], '1', $tmpCount);
@@ -584,7 +584,7 @@ class ParameterApi implements \TYPO3\CMS\Core\SingletonInterface
                     $positionSearchKey = key($positionSearchVars);
                     $positionSearchValue = current($positionSearchVars);
                     $partArray = GeneralUtility::trimExplode('|', $positionSearchKey);
-                    $delimiter = ($partArray[2] ? $partArray[2] : '');
+                    $delimiter = ($partArray[2] ?: '');
                     $searchTablename = '';
                     $searchParam = $partArray[0];
                     $searchField = $partArray[1];

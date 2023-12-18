@@ -36,21 +36,24 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
 use JambageCom\Div2007\Utility\FrontendUtility;
+use JambageCom\TtProducts\Api\Localization;
 use JambageCom\TtProducts\Model\Field\FieldInterface;
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
-class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface
+class tx_ttproducts_marker implements SingletonInterface
 {
     public $markerArray;
     public $globalMarkerArray;
     public $urlArray;
     private $langArray;
     private $errorCode = [];
-    private $specialArray = ['eq', 'ne', 'lt', 'le', 'gt', 'ge', 'id', 'fn'];
+    private array $specialArray = ['eq', 'ne', 'lt', 'le', 'gt', 'ge', 'id', 'fn'];
 
     /**
      * Initialized the marker object
@@ -62,7 +65,7 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface
     {
         $this->markerArray = ['CATEGORY', 'PRODUCT', 'ARTICLE'];
         $markerFile = $conf['markerFile'] ?? '';
-        $languageObj = GeneralUtility::makeInstance(\JambageCom\TtProducts\Api\Localization::class);
+        $languageObj = GeneralUtility::makeInstance(Localization::class);
         $language = $languageObj->getLanguage();
         $languageSubpath = '/Resources/Private/Language/';
         $defaultMarkerFile = 'EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_marker.xlf';
@@ -112,12 +115,12 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface
         return $this->errorCode;
     }
 
-    public function setErrorCode($errorCode)
+    public function setErrorCode($errorCode): void
     {
         $this->errorCode = $errorCode;
     }
 
-    public function setLangArray(&$langArray)
+    public function setLangArray(&$langArray): void
     {
         $this->langArray = $langArray;
     }
@@ -134,7 +137,7 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface
 
     public function replaceGlobalMarkers(&$content, $markerArray = [])
     {
-        $templateService = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Service\MarkerBasedTemplateService::class);
+        $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $globalMarkerArray = $this->getGlobalMarkerArray();
         $markerArray = array_merge($globalMarkerArray, $markerArray);
         $result = $templateService->substituteMarkerArrayCached($content, $markerArray);
@@ -145,9 +148,9 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface
     /**
      * getting the global markers.
      */
-    public function setGlobalMarkerArray($conf, $piVars, $locallang, $LLkey)
+    public function setGlobalMarkerArray($conf, $piVars, $locallang, $LLkey): void
     {
-        $cObj = GeneralUtility::makeInstance(\TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer::class);
+        $cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
         $markerArray = [];
         $language = $GLOBALS['TSFE']->config['config']['language'] ?? '';
         if ($language == '') {
@@ -193,8 +196,8 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface
         $markerArray['###LOCALE_ALL###'] = $GLOBALS['TSFE']->config['config']['locale_all'] ?? '';
 
         $backPID = $piVars['backPID'] ?? '';
-        $backPID = ($backPID ? $backPID : GeneralUtility::_GP('backPID'));
-        $backPID = ($backPID ? $backPID : (!empty($conf['PIDlistDisplay']) ? $conf['PIDlistDisplay'] : $GLOBALS['TSFE']->id ?? 0));
+        $backPID = ($backPID ?: GeneralUtility::_GP('backPID'));
+        $backPID = ($backPID ?: (!empty($conf['PIDlistDisplay']) ? $conf['PIDlistDisplay'] : $GLOBALS['TSFE']->id ?? 0));
         $markerArray['###BACK_PID###'] = $backPID;
 
         // Call all addGlobalMarkers hooks at the end of this method
@@ -439,7 +442,7 @@ class tx_ttproducts_marker implements \TYPO3\CMS\Core\SingletonInterface
 
                     foreach ($this->markerArray as $k => $marker) {
                         if ($marker != $prefixParam) {
-                            $bMarkerFound = strpos($tag, $marker);
+                            $bMarkerFound = strpos($tag, (string)$marker);
                             if ($bMarkerFound == 0 && $bMarkerFound !== false) {
                                 unset($retTagArray[$tag]);
                             }

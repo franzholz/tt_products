@@ -2,7 +2,7 @@
 
 defined('TYPO3') || die('Access denied.');
 
-call_user_func(function ($extensionKey) {
+call_user_func(function ($extensionKey): void {
     if (!defined('TT_PRODUCTS_EXT')) {
         define('TT_PRODUCTS_EXT', 'tt_products');
     }
@@ -160,7 +160,7 @@ call_user_func(function ($extensionKey) {
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tslib/class.tslib_fe.php']['contentPostProc-cached'][] = 'JambageCom\\TtProducts\\Hooks\\ContentPostProcessor->setPageTitle';
     }
 
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tce']['formevals']['JambageCom\\Div2007\\Hooks\\Evaluation\\Double6'] = '';
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['tce']['formevals'][\JambageCom\Div2007\Hooks\Evaluation\Double6::class] = '';
 
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPItoST43($extensionKey, 'pi_int/class.tx_ttproducts_pi_int.php', '_pi_int', 'list_type', 0);
 
@@ -193,9 +193,9 @@ call_user_func(function ($extensionKey) {
         /** @var \TYPO3\CMS\Extbase\SignalSlot\Dispatcher $signalSlotDispatcher */
         $signalSlotDispatcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('\\TYPO3\\CMS\\Extbase\\SignalSlot\\Dispatcher');
         $signalSlotDispatcher->connect(
-            '\\JambageCom\\DbList\\RecordList\\DatabaseRecordList',     // Signal class name
+            \JambageCom\DbList\RecordList\DatabaseRecordList::class,     // Signal class name
             'beforeSetCsvRow',                                           // Signal name
-            '\\JambageCom\\TtProducts\\Slots\\DatabaseRecordListSlots', // Slot class name
+            \JambageCom\TtProducts\Slots\DatabaseRecordListSlots::class, // Slot class name
             'addValuesToCsvRow'                                          // Slot name
         );
     }
@@ -208,7 +208,7 @@ call_user_func(function ($extensionKey) {
         $icons = [
             'apps-pagetree-folder-contains-' . $pageType => 'apps-pagetree-folder-contains-tt_products.svg',
         ];
-        $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('TYPO3\\CMS\\Core\\Imaging\\IconRegistry');
+        $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconRegistry::class);
         foreach ($icons as $identifier => $filename) {
             $iconRegistry->registerIcon(
                 $identifier,

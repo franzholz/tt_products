@@ -50,7 +50,7 @@ class tx_ttproducts_graduated_price
     protected $parentObject = false;
     protected $foreignConfig = [];
 
-    public function setParent($parentObject)
+    public function setParent($parentObject): void
     {
         $this->parentObject = $parentObject;
     }
@@ -75,7 +75,7 @@ class tx_ttproducts_graduated_price
         return !$this->bHasBeenInitialised;
     }
 
-    public function destruct()
+    public function destruct(): void
     {
         $this->bHasBeenInitialised = false;
     }
@@ -90,7 +90,7 @@ class tx_ttproducts_graduated_price
         $this->setParent($parentObject);
 
         $foreignConfig =
-            \JambageCom\Div2007\Utility\TableUtility::getForeignTableInfo(
+            TableUtility::getForeignTableInfo(
                 $parentObject->getTablename(),
                 $fieldname
             );

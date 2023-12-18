@@ -42,7 +42,7 @@ class ControlApi
     protected static $conf = [];
     protected static $cObj;
 
-    public static function init($conf, $cObj)
+    public static function init($conf, $cObj): void
     {
         static::$conf = $conf;
         static::$cObj = $cObj;
@@ -63,7 +63,7 @@ class ControlApi
         $overwriteMode = false;
         $conf = self::getConf();
 
-        $checkField = \JambageCom\TtProducts\Api\CustomerApi::getPossibleCheckField();
+        $checkField = CustomerApi::getPossibleCheckField();
 
         if (
             (

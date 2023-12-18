@@ -61,7 +61,7 @@ class CustomerApi
         $billingRow,
         $deliveryRow,
         $basketExtra
-    ) {
+    ): void {
         if (
             isset($basketRecs) &&
             is_array($basketRecs) &&
@@ -114,7 +114,7 @@ class CustomerApi
         self::setRequiredInfoFields($requiredInfoFields);
     }
 
-    public static function setBillingInfo(array $value)
+    public static function setBillingInfo(array $value): void
     {
         if (
             isset($value['name']) &&
@@ -129,7 +129,7 @@ class CustomerApi
         return self::$billingInfo;
     }
 
-    public static function setShippingInfo(array $value)
+    public static function setShippingInfo(array $value): void
     {
         if (
             isset($value['name']) &&
@@ -162,7 +162,7 @@ class CustomerApi
         return $result;
     }
 
-    public static function setFields($fields)
+    public static function setFields($fields): void
     {
         self::$fields = $fields;
     }
@@ -177,7 +177,7 @@ class CustomerApi
         return self::$creditpointfields;
     }
 
-    public static function setRequiredInfoFields($requiredInfoFields)
+    public static function setRequiredInfoFields($requiredInfoFields): void
     {
         self::$requiredInfoFields = $requiredInfoFields;
     }
