@@ -577,7 +577,7 @@ class UpgradeApi implements LoggerAwareInterface
         $defaultStorage = $resourceFactory->getDefaultStorage();
         if (!is_object($defaultStorage)) {
             $storageRepository = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Resource\StorageRepository::class);
-            $defaultStorage = $storageRepository->findByUid(1);
+            $defaultStorage = $storageRepository->getDefaultStorage();
         }
         $storageUid = (int)$defaultStorage->getUid();
         $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
