@@ -592,6 +592,10 @@ class tx_ttproducts_order extends tx_ttproducts_table_base {
             }
         }
 
+        $fieldsArray = array_filter($fieldsArray, function($a) {
+            return trim($a) !== '';
+        });
+
 			// Saving the order record
 		$GLOBALS['TYPO3_DB']->exec_UPDATEquery(
 			'sys_products_orders',
