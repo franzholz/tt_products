@@ -53,7 +53,7 @@ class tx_ttproducts_category extends tx_ttproducts_category_base
      */
     public function init(
         $functablename
-    ) {
+    ): bool {
         $tablename = $functablename;
 
         $result = parent::init($functablename);

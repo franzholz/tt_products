@@ -44,7 +44,7 @@ class tx_ttproducts_address extends tx_ttproducts_category_base
     /**
      * Getting all address values into internal array.
      */
-    public function init($functablename)
+    public function init($functablename): bool
     {
         $result = parent::init($functablename);
         if ($result) {

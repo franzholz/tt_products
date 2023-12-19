@@ -51,7 +51,7 @@ class tx_ttproducts_account extends tx_ttproducts_table_base
     public $useAsterisk = false;
     public $sepa = true;
 
-    public function init($functablename)
+    public function init($functablename): bool
     {
         $result = true;
 

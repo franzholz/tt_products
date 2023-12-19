@@ -50,7 +50,7 @@ class tx_ttproducts_page extends tx_ttproducts_category_base
     /**
      * Getting all tt_products_cat categories into internal array.
      */
-    public function init($tablename)
+    public function init($tablename): bool
     {
         $result = parent::init($tablename);
 

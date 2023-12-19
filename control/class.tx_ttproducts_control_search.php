@@ -333,4 +333,20 @@ class tx_ttproducts_control_search implements SingletonInterface, tx_ttproducts_
 
         return $rc;
     }
+
+    public function needsInit()
+    {
+        throw new \RuntimeException('Method not implemented', 1702973173);
+    }
+
+    public function getFieldValue(
+        &$taxInfoArray,
+        array $row,
+        $fieldname,
+        $basketExtra,
+        $basketRecs,
+        $bEnableTaxZero
+    ) {
+        throw new \RuntimeException('Method not implemented', 1702973203);
+    }
 }

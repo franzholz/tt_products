@@ -53,7 +53,7 @@ class tx_ttproducts_voucher extends tx_ttproducts_table_base
     /**
      * Getting all voucher codes into internal array.
      */
-    public function init($functablename)
+    public function init($functablename): bool
     {
         $result = false;
         if (ExtensionManagementUtility::isLoaded('voucher')) {
