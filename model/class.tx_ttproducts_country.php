@@ -48,7 +48,7 @@ class tx_ttproducts_country extends tx_ttproducts_table_base
     /**
      * Getting all tt_products_cat categories into internal array.
      */
-    public function init($functablename)
+    public function init($functablename): bool
     {
         $result = parent::init($functablename);
 

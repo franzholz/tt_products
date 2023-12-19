@@ -80,8 +80,9 @@ class tx_ttproducts_field_foreign_table_view extends tx_ttproducts_field_base_vi
         $suffix = '',
         $imageNum = 0,
         $imageRenderObj = '',
+        $linkWrap = false,
         $bEnableTaxZero = false
-    ): void {
+    ) {
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $itemTableObj = $tablesObj->get($functablename, false);
         $tablename = $itemTableObj->getTablename();

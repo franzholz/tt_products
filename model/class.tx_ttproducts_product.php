@@ -68,7 +68,7 @@ class tx_ttproducts_product extends tx_ttproducts_article_base
      */
     public function init(
         $functablename = 'tt_products'
-    ) {
+    ): bool {
         $result = parent::init($functablename);
 
         if ($result) {

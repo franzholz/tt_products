@@ -94,7 +94,7 @@ class tx_ttproducts_field_datafield_view extends tx_ttproducts_field_base_view
         $value,
         $tableConf,
         $tagArray
-    ): void {
+    ): bool {
         $dirname = $this->modelObj->getDirname($row, $fieldname);
         $upperField = strtoupper($fieldname);
         $marker = $markerKey . '_LINK_' . $upperField;
@@ -108,6 +108,8 @@ class tx_ttproducts_field_datafield_view extends tx_ttproducts_field_base_view
             $fieldname,
             $tableConf
         );
+
+        return true;
     }
 
     public function getItemSubpartArrays(
@@ -348,7 +350,7 @@ class tx_ttproducts_field_datafield_view extends tx_ttproducts_field_base_view
         $imageRenderObj = '',
         $linkWrap = false,
         $bEnableTaxZero = false
-    ): void {
+    ) {
         $funcFieldname = $this->getFuncFieldname($row, $fieldname);
         $val = $row[$fieldname];
         $dataFileArray = [];
