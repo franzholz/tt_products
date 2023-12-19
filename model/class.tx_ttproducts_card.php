@@ -48,7 +48,7 @@ class tx_ttproducts_card extends tx_ttproducts_table_base
     public $sizeArray = ['cc_type' => 4, 'cc_number_1' => 4, 'cc_number_2' => 4, 'cc_number_3' => 4, 'cc_number_4' => 4, 'owner_name' => 0, 'cvv2' => 4, 'endtime_mm' => 2, 'endtime_yy' => 2];
     public $asteriskArray = [2 => '**', 4 => '****'];
 
-    public function init($functablename)
+    public function init($functablename): bool
     {
         $result = true;
 

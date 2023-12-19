@@ -57,7 +57,7 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base
     /**
      * Getting all tt_products_cat categories into internal array.
      */
-    public function init($functablename)
+    public function init($functablename): bool
     {
         $result = parent::init($functablename);
 
@@ -136,7 +136,7 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base
     /**
      * Reduces the instock value of the orderRecords with the sold items and returns the result.
      */
-    public function reduceInStockItems($itemArray, $useArticles): void
+    public function reduceInStockItems($itemArray, $useArticles)
     {
     }
 
@@ -147,7 +147,7 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base
         $uid,
         $type,
         $orderBy = ''
-    ): void {
+    ) {
     }
 
     public function getType()
@@ -181,7 +181,7 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base
         return $where;
     }
 
-    public function addselectConfCat($catObject, $cat, &$selectConf): void
+    public function addselectConfCat($catObject, $cat, &$selectConf)
     {
     }
 
@@ -473,7 +473,7 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base
     ): void {
     }
 
-    public function getTotalDiscount(&$row, $pid = 0): void
+    public function getTotalDiscount(&$row, $pid = 0)
     {
     }
 }

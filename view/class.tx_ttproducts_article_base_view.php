@@ -53,7 +53,7 @@ abstract class tx_ttproducts_article_base_view extends tx_ttproducts_table_base_
     protected $mm_table = ''; // only set if a mm table is used
     protected $graduatedPriceObject = false;
 
-    public function init($modelObj)
+    public function init($modelObj): bool
     {
         $result = parent::init($modelObj);
 

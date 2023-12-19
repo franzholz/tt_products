@@ -54,7 +54,7 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view
 
     public function init(
         $modelObj
-    ) {
+    ): bool {
         $this->variant = GeneralUtility::makeInstance('tx_ttproducts_variant_view');
         $this->editVariant = GeneralUtility::makeInstance('tx_ttproducts_edit_variant_view');
 

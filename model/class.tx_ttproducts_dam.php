@@ -55,7 +55,7 @@ class tx_ttproducts_dam extends tx_ttproducts_article_base
     /**
      * DAM elements.
      */
-    public function init($functablename)
+    public function init($functablename): bool
     {
         $result = parent::init($functablename);
 
