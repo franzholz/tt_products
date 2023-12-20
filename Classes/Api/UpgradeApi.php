@@ -577,7 +577,7 @@ class UpgradeApi implements LoggerAwareInterface
         $defaultStorage = $resourceFactory->getDefaultStorage();
         if (!is_object($defaultStorage)) {
             $storageRepository = GeneralUtility::makeInstance(StorageRepository::class);
-            $defaultStorage = $storageRepository->getDefaultStorage();
+            $defaultStorage = $storageRepository->getDefaultStorage() ?? $storageRepository->findByUid(1);
         }
         $storageUid = (int)$defaultStorage->getUid();
         $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);

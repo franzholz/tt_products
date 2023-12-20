@@ -138,7 +138,7 @@ class tx_ttproducts_field_media extends tx_ttproducts_field_base
                 !empty($sysfileRowArray)
             ) {
                 $storageRepository = GeneralUtility::makeInstance(StorageRepository::class);
-                $storage = $storageRepository->getDefaultStorage();
+                $storage = $storageRepository->getDefaultStorage() ?? $storageRepository->findByUid(1);
 
                 foreach ($sysfileRowArray as $fileUid => $sysfileRow) {
                     $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
