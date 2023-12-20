@@ -174,7 +174,7 @@ class tx_ttproducts_download extends tx_ttproducts_article_base
                 is_array($sysfileRowArray)
             ) {
                 $storageRepository = GeneralUtility::makeInstance(StorageRepository::class);
-                $storage = $storageRepository->getDefaultStorage();
+                $storage = $storageRepository->getDefaultStorage() ?? $storageRepository->findByUid(1);
 
                 foreach ($sysfileRowArray as $fileUid => $sysfileRow) {
                     if (

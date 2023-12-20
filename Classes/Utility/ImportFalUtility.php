@@ -64,7 +64,8 @@ class ImportFalUtility
 
         /** @var $storageRepository \TYPO3\CMS\Core\Resource\StorageRepository */
         $storageRepository = GeneralUtility::makeInstance(StorageRepository::class);
-        $storage = $storageRepository->getDefaultStorage();
+        $storage = $storageRepository->getDefaultStorage() ?? $storageRepository->findByUid(1);
+
         $targetDirectory = self::TARGET_DIRECTORY;
         $targetFolder = null;
         if (!$storage->hasFolder('/' . $targetDirectory)) {

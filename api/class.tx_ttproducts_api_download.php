@@ -46,7 +46,7 @@ class tx_ttproducts_api_download
         $fileReferenceUid
     ): void {
         $storageRepository = GeneralUtility::makeInstance(StorageRepository::class);
-        $storage = $storageRepository->getDefaultStorage();
+        $storage = $storageRepository->getDefaultStorage() ?? $storageRepository->findByUid(1);
         $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
         $fileObj = $resourceFactory->getFileReferenceObject($fileReferenceUid);
 
