@@ -88,7 +88,10 @@ class tx_ttproducts_card extends tx_ttproducts_table_base
                 $ccArray[$type] = strip_tags($ccRow, $allowedTags);
             }
 
-            if ($this->ccArray) {
+            if (
+                $this->ccArray &&
+                isset($ccArray['cc_uid'])
+            ) {
                 $newId = $this->create($ccArray['cc_uid'], $this->ccArray);
 
                 if ($newId) {
