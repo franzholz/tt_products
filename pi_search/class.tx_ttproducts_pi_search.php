@@ -36,8 +36,6 @@
  * @package TYPO3
  * @subpackage tt_products
  *
- * @see file Configuration/TypoScript/PluginSetup/Main/constants.txt
- * @see TSref
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;

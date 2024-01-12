@@ -40,8 +40,6 @@
  * @package TYPO3
  * @subpackage tt_products
  *
- * @see file tt_products/static/old_style/constants.txt
- * @see TSref
  */
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
