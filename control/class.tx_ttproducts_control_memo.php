@@ -84,7 +84,7 @@ class tx_ttproducts_control_memo
     public static function bUseFeuser($conf)
     {
         $result = false;
-        $fe_user_uid = tx_div2007::getFrontEndUser('uid');
+        $fe_user_uid = FrontendUtility::getFrontEndUser('uid');
 
         if ($fe_user_uid) {
             $result = self::bIsAllowed('fe_users', $conf);
@@ -277,7 +277,7 @@ class tx_ttproducts_control_memo
         $fieldsArray[$feuserField] = implode(',', $memoItems);
 
         if ($bFeuser) {
-            $fe_user_uid = tx_div2007::getFrontEndUser('uid');
+            $fe_user_uid = FrontendUtility::getFrontEndUser('uid');
             $GLOBALS['TYPO3_DB']->exec_UPDATEquery('fe_users', 'uid=' . $fe_user_uid, $fieldsArray);
         } else {
             tx_ttproducts_control_session::writeSessionData($fieldsArray);

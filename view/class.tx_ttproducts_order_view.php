@@ -74,7 +74,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view
         $feusers_uid = 0;
 
         if (!$bValidUpdateCode) {
-            $feusers_uid = tx_div2007::getFrontEndUser('uid');
+            $feusers_uid = FrontendUtility::getFrontEndUser('uid');
         }
 
         $functablename = $orderObj->getFuncTablename();
