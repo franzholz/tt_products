@@ -128,6 +128,15 @@ class tx_ttproducts_main implements SingletonInterface
         $this->tt_product_single = [];
         $piVars = tx_ttproducts_model_control::getPiVars();
 
+        if (
+            ExtensionManagementUtility::isLoaded('party')
+        ) {
+            // Hook for extending the tt_products classes
+            $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_products']['fieldClass']['address']['party'] =
+            [
+                'addresses' => 'tx_party_models_addresses',
+            ];
+        }
         $pibaseObj = GeneralUtility::makeInstance('' . $pibaseClass);
 
         // Save the original flexform in case if we need it later as USER_INT

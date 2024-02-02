@@ -123,13 +123,15 @@ class tx_ttproducts_info_view implements SingletonInterface
         // all of the delivery address will be overwritten when no address and no email address have been filled in
         if (
             (
-                !trim($this->infoArray['delivery']['address']) &&
-                !trim($this->infoArray['delivery']['email']) ||
+                (
+                    empty($this->infoArray['delivery']['address']) &&
+                    empty($this->infoArray['delivery']['email'])
+                ) ||
                 ControlApi::isOverwriteMode($this->infoArray)
             ) &&
             tx_ttproducts_control_basket::needsDeliveryAddresss($basketExtra)
         ) {
-            $address = trim($this->infoArray['delivery']['address']);
+            $hasAddress = !empty($this->infoArray['delivery']['address']);
             $fields = CustomerApi::getFields();
             $fieldArray = GeneralUtility::trimExplode(',', $fields . ',feusers_uid');
 
@@ -140,7 +142,7 @@ class tx_ttproducts_info_view implements SingletonInterface
                         !isset($this->infoArray['delivery'][$fName]) ||
                         $this->infoArray['delivery'][$fName] == '' ||
                         (
-                            $this->infoArray['delivery'][$fName] == '0' && !$address
+                            $this->infoArray['delivery'][$fName] == '0' && !$hasAddress
                         ) ||
                         in_array($fName, ['country', 'country_code', 'zone'])
                     )
