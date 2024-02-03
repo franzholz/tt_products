@@ -37,12 +37,14 @@
  * @package TYPO3
  * @subpackage tt_products
  */
+use Psr\Http\Message\ServerRequestInterface;
+use TYPO3\CMS\Core\Http\ApplicationType;
+use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 use JambageCom\Div2007\Utility\HtmlUtility;
 use JambageCom\TtProducts\Api\Localization;
 use JambageCom\TtProducts\Api\ParameterApi;
 use JambageCom\TtProducts\Model\Field\FieldInterface;
-use TYPO3\CMS\Core\SingletonInterface;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_db implements SingletonInterface
 {
@@ -79,8 +81,8 @@ class tx_ttproducts_db implements SingletonInterface
         $controlCreatorObj = GeneralUtility::makeInstance('tx_ttproducts_control_creator');
 
         if (
-            defined('TYPO3_MODE') &&
-            TYPO3_MODE == 'FE'
+            ($GLOBALS['TYPO3_REQUEST'] ?? null) instanceof ServerRequestInterface &&
+            ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isFrontend()
         ) {
             \tx_ttproducts_control_basket::storeNewRecs($conf['transmissionSecurity']);
             $recs = tx_ttproducts_control_basket::getStoredRecs();

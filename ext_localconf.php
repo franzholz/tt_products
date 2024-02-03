@@ -24,18 +24,6 @@ call_user_func(function ($extensionKey): void {
         define('ADDONS_EXT', 'addons_tt_products');
     }
 
-    if (!defined('PARTY_EXT')) {
-        define('PARTY_EXT', 'party');
-    }
-
-    if (!defined('TT_ADDRESS_EXT')) {
-        define('TT_ADDRESS_EXT', 'tt_address');
-    }
-
-    if (!defined('PARTNER_EXT')) {
-        define('PARTNER_EXT', 'partner');
-    }
-
     if (!defined('POOL_EXT')) {
         define('POOL_EXT', 'pool');
     }
@@ -57,13 +45,8 @@ call_user_func(function ($extensionKey): void {
         define('TAXAJAX_EXT', 'taxajax');
     }
 
-    if (!defined('DAM_EXT')) {
-        define('DAM_EXT', 'dam');
-    }
-
     if (
-        defined('TYPO3_MODE') &&
-        TYPO3_MODE == 'FE' && \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded(TAXAJAX_EXT)
+        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded(TAXAJAX_EXT)
     ) {
         $GLOBALS['TYPO3_CONF_VARS']['FE']['taxajax_include'][$extensionKey] = \JambageCom\TtProducts\Controller\TaxajaxController::class . '::processRequest';
     }
@@ -186,40 +169,8 @@ call_user_func(function ($extensionKey): void {
 
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['addressTable'] = $addressTable;
 
-    if (
-        defined('TYPO3_MODE') &&
-        TYPO3_MODE == 'BE' && \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('db_list')
-    ) {
-        /** @var \TYPO3\CMS\Extbase\SignalSlot\Dispatcher $signalSlotDispatcher */
-        $signalSlotDispatcher = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance('\\TYPO3\\CMS\\Extbase\\SignalSlot\\Dispatcher');
-        $signalSlotDispatcher->connect(
-            \JambageCom\DbList\RecordList\DatabaseRecordList::class,     // Signal class name
-            'beforeSetCsvRow',                                           // Signal name
-            \JambageCom\TtProducts\Slots\DatabaseRecordListSlots::class, // Slot class name
-            'addValuesToCsvRow'                                          // Slot name
-        );
-    }
-
-    if (
-        defined('TYPO3_MODE') &&
-        TYPO3_MODE == 'BE'
-    ) {
-        $pageType = 'ttproducts'; // a maximum of 10 characters
-        $icons = [
-            'apps-pagetree-folder-contains-' . $pageType => 'apps-pagetree-folder-contains-tt_products.svg',
-        ];
-        $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconRegistry::class);
-        foreach ($icons as $identifier => $filename) {
-            $iconRegistry->registerIcon(
-                $identifier,
-                $iconRegistry->detectIconProvider($filename),
-                ['source' => 'EXT:' . $extensionKey . '/Resources/Public/Icons/apps/' . $filename]
-            );
-        }
-
-        // Register Status Report Hook
-        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['reports']['tx_reports']['status']['providers']['Shop System'][] = \JambageCom\TtProducts\Hooks\StatusProvider::class;
-    }
+    // Register Status Report Hook
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['reports']['tx_reports']['status']['providers']['Shop System'][] = \JambageCom\TtProducts\Hooks\StatusProvider::class;
 
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['productMMArticleTtProducts']
         = \JambageCom\TtProducts\Updates\ProductMMArticleTtProductsUpdater::class;

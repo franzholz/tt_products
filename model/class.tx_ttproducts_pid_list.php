@@ -37,8 +37,11 @@
  * @subpackage tt_products
  */
 
-use JambageCom\Div2007\Utility\FrontendUtility;
+use Psr\Http\Message\ServerRequestInterface;
+use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+
+use JambageCom\Div2007\Utility\FrontendUtility;
 
 class tx_ttproducts_pid_list
 {
@@ -117,8 +120,10 @@ class tx_ttproducts_pid_list
     public function applyRecursive($recursive, &$pids, $bStore = false): void
     {
         if (
-            defined('TYPO3_MODE') &&
-            TYPO3_MODE == 'BE'
+
+            !(($GLOBALS['TYPO3_REQUEST'] ?? null) instanceof ServerRequestInterface &&
+            ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isFrontend())
+        )
         ) {
             return;
         }

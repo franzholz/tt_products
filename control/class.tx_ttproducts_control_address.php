@@ -42,10 +42,10 @@ use TYPO3\CMS\Core\Utility\MathUtility;
 class tx_ttproducts_control_address
 {
     protected static $addressExtKeyTable = [
-        'tt_address' => TT_ADDRESS_EXT,
-        'tx_partner_main' => PARTNER_EXT,
-        'tx_party_addresses' => PARTY_EXT,
-        'tx_party_parties' => PARTY_EXT,
+        'tt_address' => 'tt_address',
+        'tx_partner_main' => 'partner',
+        'tx_party_addresses' => 'party',
+        'tx_party_parties' => 'party',
         'fe_users' => '0',
     ];
 
