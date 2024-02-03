@@ -36,10 +36,14 @@
  * @package TYPO3
  * @subpackage tt_products
  */
+
+use Psr\Http\Message\ServerRequestInterface;
+
 use JambageCom\Div2007\Api\OldStaticInfoTablesApi;
 use JambageCom\Div2007\Api\StaticInfoTablesApi;
 use JambageCom\TtProducts\Api\ControlApi;
 use JambageCom\TtProducts\Api\Localization;
+use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
@@ -69,8 +73,8 @@ class tx_ttproducts_control_creator implements SingletonInterface
         if (!empty($conf['PIDstoreRoot'])) {
             $config['storeRootPid'] = $conf['PIDstoreRoot'];
         } elseif (
-            defined('TYPO3_MODE') &&
-            TYPO3_MODE == 'FE'
+            ($GLOBALS['TYPO3_REQUEST'] ?? null) instanceof ServerRequestInterface &&
+            ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isFrontend()
         ) {
             foreach ($GLOBALS['TSFE']->tmpl->rootLine as $k => $row) {
                 if ($row['doktype'] == 1) {

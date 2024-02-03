@@ -18,8 +18,6 @@ tax.fields = tax
 sepa = 1
   # cat=basic/enable; type=boolean; label=BIC: If 1, then the BIC code must be entered for the accounts. The IBAN number can be sufficient without the BIC.
 bic = 1
-  # cat=basic/enable; type=string; label=Backend CSV: iban ... if an IBAN field shall be added. db_list must be installed.
-backend.csv.sys_products_orders = iban
   # cat=basic/enable; type=string; label=BE template: file path to the template for the BE module
 templateFile = EXT:tt_products/Resources/Public/Templates/example_template_bill_de.tmpl
   # cat=basic/enable; type=string; label=template check: Perl regular expression to check the template file for validity

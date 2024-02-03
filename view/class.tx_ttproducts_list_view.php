@@ -831,9 +831,9 @@ class tx_ttproducts_list_view implements SingletonInterface
         $addrTablename = $conf['table.']['address'];
         if (
             (
-                $addrTablename == 'tx_party_addresses' && ExtensionManagementUtility::isLoaded(PARTY_EXT) ||
-                $addrTablename == 'tx_partner_main' && ExtensionManagementUtility::isLoaded(PARTNER_EXT) ||
-                $addrTablename == 'tt_address' && ExtensionManagementUtility::isLoaded(TT_ADDRESS_EXT)
+                $addrTablename == 'tx_party_addresses' && ExtensionManagementUtility::isLoaded('party') ||
+                $addrTablename == 'tx_partner_main' && ExtensionManagementUtility::isLoaded('partner') ||
+                $addrTablename == 'tt_address' && ExtensionManagementUtility::isLoaded('tt_address')
             ) &&
             $addressUid && $itemTable->fieldArray['address']
         ) {

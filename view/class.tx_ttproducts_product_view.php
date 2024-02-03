@@ -266,7 +266,7 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view
 
             if (is_object($addressViewObj)) {
                 if (
-                    ($conf['table.']['address'] != 'tt_address' || ExtensionManagementUtility::isLoaded(TT_ADDRESS_EXT)) &&
+                    ($conf['table.']['address'] != 'tt_address' || ExtensionManagementUtility::isLoaded('tt_address')) &&
                     $addressUid &&
                     $modelObj->fieldArray['address']
                 ) {
