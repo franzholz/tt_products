@@ -74,15 +74,6 @@ class tx_ttproducts_hooks_pool extends tx_pool_hooks_base
             $dbListConf = $searchBoxObj->getDblistConf($this->prefixId);
         }
 
-        if (ExtensionManagementUtility::isLoaded('db_list')) {
-            // 			GeneralUtility::requireOnce(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath('db_list') . 'class.tx_dblist_script.php');
-            $dbListObj = GeneralUtility::makeInstance('tx_dblist_script');
-            $dbListObj->init($this->vars, $dbListConf);
-
-            $dbListObj->clearCache();
-            $dbListObj->main($docHeaderButtons, $markerArray, $pOb);
-            $content .= $dbListObj->getContent();
-        }
         parent::getViewData($content, $header, $docHeaderButtons, $markerArray, $pOb);
     }
 }
