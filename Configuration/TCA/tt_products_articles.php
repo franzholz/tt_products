@@ -218,7 +218,7 @@ $result = [
                     ['', ''],
                 ],
                 'default' => null,
-                'authMode' => $GLOBALS['TYPO3_CONF_VARS']['BE']['explicitADmode'],
+                'authMode' => $GLOBALS['TYPO3_CONF_VARS']['BE']['explicitADmode'] ?? 'explicitAllow',
                 'default' => null,
             ],
         ],
@@ -477,7 +477,7 @@ $result = [
                     ['', ''],
                 ],
                 'default' => null,
-                'authMode' => $GLOBALS['TYPO3_CONF_VARS']['BE']['explicitADmode'],
+                'authMode' => $GLOBALS['TYPO3_CONF_VARS']['BE']['explicitADmode'] ?? 'explicitAllow',
             ],
         ],
         'config' => [
