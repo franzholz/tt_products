@@ -9,9 +9,12 @@ call_user_func(function ($extensionKey, $table): void {
 
     $addToModuleSelection = true;
     foreach ($GLOBALS['TCA']['pages']['columns']['module']['config']['items'] as $item) {
-        if ($item['1'] == $pageType) {
+        if (
+            isset($item[1]) &&
+            $item[1] == $pageType
+        ) {
             $addToModuleSelection = false;
-            continue;
+            break;
         }
     }
 
