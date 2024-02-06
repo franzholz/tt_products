@@ -56,7 +56,7 @@ class tx_ttproducts_pi_search
     public function main($content, $conf)
     {
         $pibaseObj = GeneralUtility::makeInstance('tx_ttproducts_pi_search_base');
-        $pibaseObj->cObj = $this->cObj;
+        $pibaseObj->setContentObjectRenderer($this->cObj);
         $languageSubpath = '/Resources/Private/Language/';
 
         if (!empty($conf['templateFile'])) {

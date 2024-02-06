@@ -1347,7 +1347,10 @@ class tx_ttproducts_main implements SingletonInterface
                 $config['templateSuffix']
             );
 
-            $ctrlContent = $cObj->cObjGetSingle($conf['SINGLECTRL'], $conf['SINGLECTRL.']);
+            $ctrlContent = '';
+            if (isset($conf['SINGLECTRL']) && isset($conf['SINGLECTRL.'])) {
+                $ctrlContent = $cObj->cObjGetSingle($conf['SINGLECTRL'], $conf['SINGLECTRL.']);
+            }
             $content .= $ctrlContent;
         } else {
             // page where to usually go

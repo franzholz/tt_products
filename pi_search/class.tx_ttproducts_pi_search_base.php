@@ -58,6 +58,11 @@ class tx_ttproducts_pi_search_base extends AbstractPlugin implements SingletonIn
         $this->cObj = $cObj;
     }
 
+    public function getContentObjectRenderer(): ContentObjectRenderer
+    {
+        return $this->cObj;
+    }
+
     /**
      * Main method. Call this from TypoScript by a USER cObject.
      */

@@ -60,7 +60,7 @@ class tx_ttproducts_pi1 implements SingletonInterface
     public function main($content, $conf)
     {
         $pibaseObj = GeneralUtility::makeInstance('tx_ttproducts_pi1_base');
-        $pibaseObj->cObj = $this->cObj;
+        $pibaseObj->setContentObjectRenderer($this->cObj);
         $languageSubpath = '/Resources/Private/Language/';
 
         if (!empty($conf['templateFile']) || !empty($conf['templateFile.'])) {

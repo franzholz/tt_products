@@ -58,7 +58,7 @@ class tx_ttproducts_pi_int implements SingletonInterface
     public function main($content, $conf)
     {
         $pibaseObj = GeneralUtility::makeInstance('tx_ttproducts_pi_int_base');
-        $pibaseObj->cObj = $this->cObj;
+        $pibaseObj->setContentObjectRenderer($this->cObj);
         $confMain = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
         ArrayUtility::mergeRecursiveWithOverrule($confMain, $conf);
         $conf = $confMain;

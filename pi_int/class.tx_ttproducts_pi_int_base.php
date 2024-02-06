@@ -57,6 +57,11 @@ class tx_ttproducts_pi_int_base extends AbstractPlugin implements SingletonInter
         $this->cObj = $cObj;
     }
 
+    public function getContentObjectRenderer(): ContentObjectRenderer
+    {
+        return $this->cObj;
+    }
+
     /**
      * Main method. Call this from TypoScript by a USER cObject.
      */

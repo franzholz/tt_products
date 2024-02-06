@@ -564,8 +564,8 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base
         $linkConf['parameter'] = $pid;
         $linkConf['additionalParams'] = GeneralUtility::implodeArrayForUrl('', $urlParameters);
 
-        $pibaseObj->cObj->typolink('', $linkConf);
-        $linkUrl = $pibaseObj->cObj->lastTypoLinkUrl;
+        $pibaseObj->getContentObjectRenderer()->typolink('', $linkConf);
+        $linkUrl = $pibaseObj->getContentObjectRenderer()->lastTypoLinkUrl;
         $linkOutArray = ['<a href="' . htmlspecialchars($linkUrl) . '" ' . $css . '>', '</a>'];
 
         $linkOut =
