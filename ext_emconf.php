@@ -14,12 +14,12 @@ $EM_CONF[$_EXTKEY] = [
   'category' => 'plugin',
   'constraints' => [
     'depends' => [
-      'div2007' => '1.15.0-2.0.99',
+      'div2007' => '1.17.0-2.0.99',
       'filelist' => '10.4.0-12.4.99',
       'table' => '0.11.0-0.0.0',
       'tsparser' => '0.9.0-0.0.0',
       'typo3db_legacy' => '1.0.0-1.2.99',
-      'typo3' => '10.4.0-11.5.99',
+      'typo3' => '10.4.0-12.4.99',
     ],
     'conflicts' => [
     ],
