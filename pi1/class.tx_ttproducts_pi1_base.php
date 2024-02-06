@@ -57,6 +57,11 @@ class tx_ttproducts_pi1_base extends AbstractPlugin implements SingletonInterfac
         $this->cObj = $cObj;
     }
 
+    public function getContentObjectRenderer(): ContentObjectRenderer
+    {
+        return $this->cObj;
+    }
+
     /**
      * Main method. Call this from TypoScript by a USER or USER_INT cObject.
      */

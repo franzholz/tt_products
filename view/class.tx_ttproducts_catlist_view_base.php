@@ -311,7 +311,7 @@ abstract class tx_ttproducts_catlist_view_base implements SingletonInterface
                 BrowserUtility::render(
                     $browseObj,
                     $languageObj,
-                    $pibaseObj->cObj,
+                    $pibaseObj->getContentObjectRenderer(),
                     $parameterApi->getPrefixId(),
                     true,
                     1,
@@ -374,7 +374,7 @@ abstract class tx_ttproducts_catlist_view_base implements SingletonInterface
         $viewConfArray = [];
         $searchVars = $piVars[tx_ttproducts_model_control::getSearchboxVar()] ?? '';
         tx_ttproducts_model_control::getTableConfArrays(
-            $pibaseObj->cObj,
+            $pibaseObj->getContentObjectRenderer(),
             $functableArray,
             $theCode,
             $tableConfArray,
@@ -453,7 +453,7 @@ abstract class tx_ttproducts_catlist_view_base implements SingletonInterface
             }
 
             if ($pageAsCategory && $functablename == 'pages') {
-                $excludeCat = $pibaseObj->cObj->data['pages'];
+                $excludeCat = $pibaseObj->getContentObjectRenderer()->data['pages'];
 
                 if (!$rootCat) {
                     $rootCat = $excludeCat;

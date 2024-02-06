@@ -768,7 +768,7 @@ class tx_ttproducts_db implements SingletonInterface
         $pibaseObj = GeneralUtility::makeInstance('tx_ttproducts_pi1_base');
         $mainObj = GeneralUtility::makeInstance('tx_ttproducts_main');
 
-        $pibaseObj->cObj = $this->cObj;
+        $pibaseObj->setContentObjectRenderer($this->cObj);
 
         if (
             isset($data) &&
@@ -861,7 +861,7 @@ class tx_ttproducts_db implements SingletonInterface
         $parameterApi->setPiVars($piVars);
         // We put our incomming data to the regular piVars
         tx_ttproducts_model_control::setPiVars($piVars);
-        $pibaseObj->cObj = $this->cObj;
+        $pibaseObj->setContentObjectRenderer($this->cObj);
 
         // Instantiate the tx_xajax_response object
         $objResponse = new tx_xajax_response();

@@ -214,9 +214,9 @@ class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base
                     $linkConf = [];
                     $linkConf['parameter'] = $pid;
                     $linkConf['additionalParams'] = GeneralUtility::implodeArrayForUrl('', $urlParameters);
-                    $linkConf['ATagParams'] = $pibaseObj->cObj->getATagParams($linkConf);
+                    $linkConf['ATagParams'] = $pibaseObj->getContentObjectRenderer()->getATagParams($linkConf);
 
-                    $theLinkWrap = $pibaseObj->cObj->typolink('|', $linkConf);
+                    $theLinkWrap = $pibaseObj->getContentObjectRenderer()->typolink('|', $linkConf);
                     $tagArray = $markerObj->getAllMarkers($theLinkWrap);
                     $linkMarkerArray = [];
 

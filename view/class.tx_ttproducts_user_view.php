@@ -52,7 +52,7 @@ class tx_ttproducts_user_view
         $num = $theCode[4];
 
         $pibaseObj = GeneralUtility::makeInstance('' . $pibaseClass);
-        $cObj = $pibaseObj->cObj;
+        $cObj = $pibaseObj->getContentObjectRenderer();
 
         if (isset($conf['USEROBJ' . $num . '.']) && is_array($conf['USEROBJ' . $num . '.'])) {
             $content = $cObj->cObjGetSingle($conf['USEROBJ' . $num], $conf['USEROBJ' . $num . '.']);
