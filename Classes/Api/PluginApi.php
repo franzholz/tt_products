@@ -37,6 +37,9 @@ namespace JambageCom\TtProducts\Api;
  * @package TYPO3
  * @subpackage tt_products
  */
+
+use Psr\EventDispatcher\EventDispatcherInterface;
+
 use JambageCom\Div2007\Utility\ErrorUtility;
 use JambageCom\Div2007\Utility\ExtensionUtility;
 use JambageCom\Div2007\Utility\FlexformUtility;
@@ -361,7 +364,9 @@ class PluginApi
 
         $funcTablename = 'tt_products';
 
-        $relatedListView = GeneralUtility::makeInstance('tx_ttproducts_relatedlist_view');
+        $eventDispatcher = GeneralUtility::makeInstance(EventDispatcherInterface::class);
+        $relatedListView = GeneralUtility::makeInstance(RelatedList::class, $eventDispatcher);
+
         $relatedListView->init(
             $config['pid_list'],
             $config['recursive']

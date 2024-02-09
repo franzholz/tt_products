@@ -395,7 +395,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
                     $meta = $val;
                 }
 
-                $cObj->alternativeData = ($meta ?: $imageRow);
+                $alternativeData = ($meta ?: $imageRow);
                 if (isset($imageConf['params'])) {
                     $imageConf['params'] = preg_replace('/\s+/', ' ', $imageConf['params']);
                 }
@@ -413,7 +413,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
                 $this->replaceMarkerArray(
                     $markerArray,
                     $fieldMarkerArray,
-                    $cObj->alternativeData,
+                    $alternativeData,
                     $meta,
                     $imageConf
                 );
@@ -450,12 +450,12 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
                 if ($tagkey && isset($specialConf[$tagkey])) {
                     foreach ($specialConf[$tagkey] as $specialConfType => $specialImageConf) {
                         $theImageConf = array_merge($imageConf, $specialImageConf);
-                        $cObj->alternativeData = ($meta ?: $imageRow); // has to be redone here
+                        $alternativeData = ($meta ?: $imageRow); // has to be redone here
 
                         $this->replaceMarkerArray(
                             $markerArray,
                             $fieldMarkerArray,
-                            $cObj->alternativeData,
+                            $alternativeData,
                             $meta,
                             $theImageConf
                         );

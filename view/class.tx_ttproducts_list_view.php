@@ -52,6 +52,8 @@ use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
+use TYPO3\CMS\Core\Utility\StringUtility;
+
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 class tx_ttproducts_list_view implements SingletonInterface
@@ -1280,7 +1282,7 @@ class tx_ttproducts_list_view implements SingletonInterface
                 if ($additionalPages) {
                     $allowedPages .= ',' . $additionalPages;
                 }
-                $allowedPages = GeneralUtility::uniqueList($allowedPages);
+                $allowedPages = StringUtility::uniqueList($allowedPages);
 
                 if (!empty($allowedPages)) {
                     $selectConf['pidInList'] = $allowedPages;
@@ -1914,7 +1916,7 @@ class tx_ttproducts_list_view implements SingletonInterface
                             $templateCode,
                             $mergeTagArray,
                             $functablename,
-                            '',
+                            current($this->uidArray),
                             $this->uidArray,
                             $parentProductRow,
                             true,

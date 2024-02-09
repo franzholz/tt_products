@@ -62,6 +62,10 @@ class tx_ttproducts_control implements SingletonInterface
     public $urlObj; // url functions
     public $urlArray; // overridden url destinations
     public $useArticles;
+    /**
+     * @var EventDispatcherInterface
+     */
+    protected $eventDispatcher;
 
     public static $nextActivity = [
             'basket' => 'info',

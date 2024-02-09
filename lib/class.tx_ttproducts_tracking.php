@@ -45,6 +45,7 @@ use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
+use TYPO3\CMS\Core\Utility\StringUtility;
 
 class tx_ttproducts_tracking implements SingletonInterface
 {
@@ -527,7 +528,7 @@ class tx_ttproducts_tracking implements SingletonInterface
                 $fields = 'uid';
             }
             $fields .= ',crdate,tracking_code,status,status_log,bill_no,name,amount,feusers_uid';
-            $fields = GeneralUtility::uniqueList($fields);
+            $fields = StringUtility::uniqueList($fields);
             $history = [];
             $fieldMarkerArray = [];
             $oldMode = preg_match('/###OTHER_ORDERS_OPTIONS###\s*<\/select>/i', $templateCode);

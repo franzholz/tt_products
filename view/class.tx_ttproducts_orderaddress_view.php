@@ -175,19 +175,19 @@ class tx_ttproducts_orderaddress_view extends tx_ttproducts_table_base_view
                     isset($itemConfig) &&
                     is_array($itemConfig)
                 ) {
-                    $tcaValue = '';
+                    $tcaLabel = '';
                     foreach ($itemConfig as $subItemConfig) {
                         if (
                             isset($subItemConfig) &&
                             is_array($subItemConfig) &&
-                            $subItemConfig['1'] == $row[$field]
+                            $subItemConfig['value'] == $row[$field]
                         ) {
-                            $tcaValue = $subItemConfig['0'];
+                            $tcaLabel = $subItemConfig['label'];
                             break;
                         }
                     }
 
-                    $tmp = $languageObj->splitLabel($tcaValue);
+                    $tmp = $languageObj->splitLabel($tcaLabel);
                     $fieldOutputArray[$field] = htmlspecialchars(
                         $languageObj->getLabel(
                             $tmp

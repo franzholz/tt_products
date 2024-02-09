@@ -52,7 +52,7 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base
     public $variant;       // object for the product variant attributes, must initialized in the init function
     public $editVariant; 	// object for the product editable variant attributes, must initialized in the init function
     public $mm_table = ''; // only set if a mm table is used
-    protected $graduatedPriceObj = false;
+    protected $graduatedPriceObject = false;
 
     /**
      * Getting all tt_products_cat categories into internal array.
