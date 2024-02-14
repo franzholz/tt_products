@@ -40,6 +40,8 @@
  * @package TYPO3
  * @subpackage tt_products
  */
+use Psr\EventDispatcher\EventDispatcherInterface;
+
 use JambageCom\Div2007\Utility\CompatibilityUtility;
 use JambageCom\Div2007\Utility\ErrorUtility;
 use JambageCom\Div2007\Utility\FrontendUtility;
@@ -1687,7 +1689,8 @@ class tx_ttproducts_basket_view implements SingletonInterface
             }
 
             $pidListObj = tx_ttproducts_control_basket::getPidListObj();
-            $relatedListView = GeneralUtility::makeInstance('tx_ttproducts_relatedlist_view');
+            $eventDispatcher = GeneralUtility::makeInstance(EventDispatcherInterface::class);
+            $relatedListView = GeneralUtility::makeInstance('tx_ttproducts_relatedlist_view', $eventDispatcher);
             $relatedListView->init(
                 $pidListObj->getPidlist(),
                 $pidListObj->getRecursive()

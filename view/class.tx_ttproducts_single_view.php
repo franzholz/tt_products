@@ -36,6 +36,8 @@
  * @package TYPO3
  * @subpackage tt_products
  */
+use Psr\EventDispatcher\EventDispatcherInterface;
+
 use JambageCom\Div2007\Utility\FrontendUtility;
 use JambageCom\TtProducts\Api\ControlApi;
 use JambageCom\TtProducts\Api\Localization;
@@ -1282,7 +1284,8 @@ class tx_ttproducts_single_view implements SingletonInterface
                     );
                 }
 
-                $relatedListView = GeneralUtility::makeInstance('tx_ttproducts_relatedlist_view');
+                $eventDispatcher = GeneralUtility::makeInstance(EventDispatcherInterface::class);
+                $relatedListView = GeneralUtility::makeInstance('tx_ttproducts_relatedlist_view', $eventDispatcher);
                 $relatedListView->init(
                     $this->pidListObj->getPidlist(),
                     $this->pidListObj->getRecursive()
