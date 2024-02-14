@@ -123,7 +123,6 @@ class tx_ttproducts_pid_list
 
             !(($GLOBALS['TYPO3_REQUEST'] ?? null) instanceof ServerRequestInterface &&
             ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isFrontend())
-        )
         ) {
             return;
         }
