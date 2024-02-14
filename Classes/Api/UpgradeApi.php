@@ -81,7 +81,7 @@ class UpgradeApi implements LoggerAwareInterface
                         )
                     )
                 )
-                ->execute()->fetchColumn(0)
+                ->execute()->fetchOne()
             ;
         }
 
@@ -134,7 +134,7 @@ class UpgradeApi implements LoggerAwareInterface
                             )
                         )
                     )
-                    ->execute()->fetchColumn(0)
+                    ->execute()->fetchOne()
                 ;
             }
         }
@@ -179,7 +179,7 @@ class UpgradeApi implements LoggerAwareInterface
             ->andWhere($conditions)
             ->setMaxResults(1)
             ->execute()
-            ->fetchColumn(0)
+            ->fetchOne()
         ;
 
         return $count;
@@ -252,7 +252,7 @@ class UpgradeApi implements LoggerAwareInterface
                         )
                     )
                 )
-                ->execute()->fetchColumn(0)
+                ->execute()->fetchOne()
             ;
 
             if ($mmCount == 0) {
@@ -700,7 +700,7 @@ class UpgradeApi implements LoggerAwareInterface
                                 )
                             )
                         )
-                        ->execute()->fetchColumn(0)
+                        ->execute()->fetchOne()
                     ;
 
                     // if the file record has already been assigned to this table

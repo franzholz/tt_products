@@ -381,7 +381,7 @@ class PluginApi
                 $funcTablename,
                 $itemViewObj->getMarker(),
                 $uid,
-                $conf['useArticles']
+                $conf['useArticles'] ?? 3
             );
         $funcArray = $addListArray[$subtype] ?? [];
         $pid = $GLOBALS['TSFE']->id;
