@@ -24,10 +24,10 @@
     "GPL-2.0-or-later"
   ],
   "require": {
-    "typo3/cms-core": "^10.4 || ^11.5 || ^12.4",
-    "typo3/cms-filelist": "^10.4 || ^11.5 || ^12.4",
+    "typo3/cms-core": "^11.5 || ^12.4",
+    "typo3/cms-filelist": "^11.5 || ^12.4",
     "jambagecom/div2007": "^1.17 || ^2.0",
-    "jambagecom/table": "^0.11",
+    "jambagecom/table": "^0.13",
     "jambagecom/tsparser": "^0.9.0",
     "friendsoftypo3/typo3db-legacy": "^1"
   },
