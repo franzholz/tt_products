@@ -1167,7 +1167,7 @@ class PaymentShippingHandling
                 $priceTaxAdd = doubleval($basketConf['priceTax']);
             }
             $priceTax += $priceTaxAdd;
-            $priceNoTaxAdd = doubleval($basketConf['priceNoTax']);
+            $priceNoTaxAdd = doubleval($basketConf['priceNoTax']  ?? 0);
 
             if (!$priceNoTaxAdd) {
                 $priceNoTaxAdd =

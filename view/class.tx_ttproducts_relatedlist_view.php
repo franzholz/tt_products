@@ -36,14 +36,29 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-use JambageCom\Div2007\Utility\FrontendUtility;
+
+use Psr\EventDispatcher\EventDispatcherInterface;
+
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+use JambageCom\Div2007\Utility\FrontendUtility;
+
+use JambageCom\TtProducts\Event\AddRelatedListEvent;
+
 class tx_ttproducts_relatedlist_view implements SingletonInterface
 {
     public $pidListObj;
+
+    /**
+     * Constructor.
+     */
+    public function __construct(
+        private readonly EventDispatcherInterface $eventDispatcher,
+    )
+    {
+    }
 
     public function init($pid_list, $recursive): void
     {
@@ -92,6 +107,7 @@ class tx_ttproducts_relatedlist_view implements SingletonInterface
         $funcTablename,
         $marker,
         $uid,
+        array $paramUidArray,
         $useArticles
     ) {
         $result = false;
@@ -211,9 +227,34 @@ class tx_ttproducts_relatedlist_view implements SingletonInterface
                 break;
         }
 
+        /** @var DoingThisAndThatEvent $event */
+        $event = $this->eventDispatcher->dispatch(
+            new AddRelatedListEvent(
+                $result,
+                $theCode,
+                $funcTablename,
+                $uid,
+                $paramUidArray,
+                $useArticles
+            )
+        );
+
+        $eventResult = $event->getResult();
+
+        //     debug ($slotResult, 'getAddListArray Pos 1 $slotResult');
+        //         debug ('B');
+        if (
+            isset($eventResult) &&
+            is_array($eventResult)
+        ) {
+            $result = $eventResult;
+        }
+
         if (is_array($result)) {
-            foreach ($result as $subtype => $funcArray) {
-                if (!isset($GLOBALS['TCA'][$funcArray['functablename']]['columns'])) {
+            foreach ($result as $subtype => $funcArray) { // neu
+                //         debug ($funcArray, '$funcArray');
+                $tablename = $cnfObj->getTableName($funcArray['funcTablename']);
+                if ($tablename == '' || !isset($GLOBALS['TCA'][$tablename]['columns'])) {
                     unset($result[$subtype]); // if the current TYPO3 version does not support the needed foreign table
                 }
             }
@@ -228,7 +269,7 @@ class tx_ttproducts_relatedlist_view implements SingletonInterface
         $viewTagArray,
         $funcTablename,
         $uid,
-        $paramUidArray,
+        array $paramUidArray,
         $parentProductRow,
         $notOverwritePriceIfSet,
         $multiOrderArray,
@@ -239,8 +280,11 @@ class tx_ttproducts_relatedlist_view implements SingletonInterface
     ) {
         $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
         $config = $cnfObj->getConfig();
+        if (!in_array($uid, $paramUidArray)) {
+            $paramUidArray[] = $uid;
+        }
 
-        $result = false;
+        $result = [];
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $itemViewObj = $tablesObj->get($funcTablename, true);
         $addListArray =
@@ -249,6 +293,7 @@ class tx_ttproducts_relatedlist_view implements SingletonInterface
                 $funcTablename,
                 $itemViewObj->getMarker(),
                 $uid,
+                $paramUidArray,
                 $useArticles
             );
 

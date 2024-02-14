@@ -74,8 +74,8 @@ class tx_ttproducts_form_div
 
             foreach ($valueArray as $key => $parts) {
                 if (is_array($parts)) {
-                    $selectKey = $parts['1'];
-                    $selectValue = $parts['0'];
+                    $selectKey = $parts['value'];
+                    $selectValue = $parts['label'];
                 } else {
                     $selectKey = $key;
                     $selectValue = $parts;

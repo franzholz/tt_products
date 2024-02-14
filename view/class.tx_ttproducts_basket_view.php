@@ -634,7 +634,7 @@ class tx_ttproducts_basket_view implements SingletonInterface
                         $itemsOut = '';		// Clear the item-code var
                         $currentP = $currentPnew;
 
-                        if ($conf['displayBasketCatHeader']) {
+                        if (!empty($conf['displayBasketCatHeader'])) {
                             $markerArray = [];
                             $pageCatTitle = '';
                             if (
@@ -782,7 +782,7 @@ class tx_ttproducts_basket_view implements SingletonInterface
                             is_array($articleRows) &&
                             !empty($articleRows)
                         ) {
-                            $bKeepNotEmpty = (bool)$conf['keepProductData']; // Auskommentieren nicht möglich wenn mehrere Artikel dem Produkt zugewiesen werden
+                            $bKeepNotEmpty = (bool) ($conf['keepProductData'] ?? 1); // Auskommentieren nicht möglich wenn mehrere Artikel dem Produkt zugewiesen werden
 
                             if ($this->useArticles == 3) {
                                 $itemTable->fillVariantsFromArticles(
@@ -1697,8 +1697,8 @@ class tx_ttproducts_basket_view implements SingletonInterface
                 $templateCode,
                 $viewTagArray,
                 $funcTablename,
+                current($basketObj->getUidArray()),
                 $basketObj->getUidArray(),
-                [],
                 [],
                 false,
                 $multiOrderArray,

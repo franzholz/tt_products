@@ -46,6 +46,7 @@ class tx_ttproducts_page extends tx_ttproducts_category_base
     public $piVar = 'pid';
     public $pageAsCategory;		// > 0 if pages are used as categories
     protected $tableAlias = 'page';
+    protected $tableconf;
 
     /**
      * Getting all tt_products_cat categories into internal array.
