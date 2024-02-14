@@ -30,7 +30,6 @@ call_user_func(function ($extensionKey): void {
 
     // The autoloader does not work in ext_localconf.php and in the folder Configuratin/TCA
     require_once PATH_BE_TTPRODUCTS . 'control/class.tx_ttproducts_control_address.php';
-
     require_once PATH_BE_TTPRODUCTS . 'Classes/Domain/Model/Dto/EmConfiguration.php';
 
     if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded(POOL_EXT)) {

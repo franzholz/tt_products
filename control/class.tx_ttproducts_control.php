@@ -1504,7 +1504,7 @@ class tx_ttproducts_control implements SingletonInterface
                     $orderArray,
                     $productRowArray,
                     $alwaysInStock,
-                    $conf['useArticles'],
+                    $conf['useArticles'] ?? 3,
                     $addressArray,
                     $bFinalVerify,
                     $basketExt,

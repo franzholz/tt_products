@@ -65,8 +65,8 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, SingletonInter
     ): bool {
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 
-        $tmpArray = $cnf->getTableDesc($tablename);
-        $this->conf = (is_array($tmpArray) && is_array($tmpArray['variant.']) ? $tmpArray['variant.'] : []);
+        $tableDesc = $cnf->getTableDesc($tablename);
+        $this->conf = ($tableDesc['variant.'] ?? []);
         $this->itemTable = $itemTable;
         $this->useArticles = $useArticles;
         $this->selectableArray = [];

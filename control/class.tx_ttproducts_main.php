@@ -421,7 +421,7 @@ class tx_ttproducts_main implements SingletonInterface
             $basketExt,
             $basketExtra,
             $basketRecs,
-            $conf['useArticles'],
+            $conf['useArticles'] ?? 3,
             $conf['priceTAXnotVarying'],
             tx_ttproducts_control_basket::getFuncTablename()
         );
