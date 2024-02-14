@@ -988,7 +988,7 @@ class tx_ttproducts_main implements SingletonInterface
             }
 
             if ($contentTmp == 'error') {
-                $fileName = 'EXT:' . TT_PRODUCTS_EXT . '/Resources/Public/Templates/products_help.tmpl';
+                $fileName = 'EXT:' . TT_PRODUCTS_EXT . '/Resources/Private/Templates/products_help.tmpl';
                 $sanitizer = GeneralUtility::makeInstance(FilePathSanitizer::class);
                 $fileName = $sanitizer->sanitize($fileName);
 

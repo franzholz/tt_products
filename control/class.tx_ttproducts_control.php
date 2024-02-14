@@ -83,7 +83,7 @@ class tx_ttproducts_control implements SingletonInterface
     {
         $this->pibaseClass = $pibaseClass;
         $this->pibase = GeneralUtility::makeInstance('' . $pibaseClass);
-        $this->cObj = $this->pibase->cObj;
+        $this->cObj = $this->pibase->getContentObjectRenderer();
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $this->conf = $cnf->conf;
         $this->config = $cnf->config;

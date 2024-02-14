@@ -19,7 +19,7 @@ sepa = 1
   # cat=basic/enable; type=boolean; label=BIC: If 1, then the BIC code must be entered for the accounts. The IBAN number can be sufficient without the BIC.
 bic = 1
   # cat=basic/enable; type=string; label=BE template: file path to the template for the BE module
-templateFile = EXT:tt_products/Resources/Public/Templates/example_template_bill_de.tmpl
+templateFile = EXT:tt_products/Resources/Private/Templates/example_template_bill_de.tmpl
   # cat=basic/enable; type=string; label=template check: Perl regular expression to check the template file for validity
 templateCheck = /([^#]+(#{2}|#{5}|#{7,8})([^#])+?)/
   # cat=basic/enable; type=integer; label=endtime year: Enter the year for the endtime field. Some Microsoft Windows systems are limited to 2038 for the PHP function mktime.

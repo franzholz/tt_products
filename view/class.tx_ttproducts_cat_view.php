@@ -60,7 +60,7 @@ class tx_ttproducts_cat_view implements SingletonInterface
         $recursive
     ): void {
         $this->pibase = $pibase;
-        $this->cObj = $pibase->cObj;
+        $this->cObj = $pibase->getContentObjectRenderer();
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $this->conf = $cnf->getConf();
         $this->config = $cnf->getConfig();
