@@ -6,5 +6,5 @@
 
 plugin.tx_ttproducts_pi_search {
     # cat=plugin.products/file; type=file[html,htm,tmpl,txt]; label= Template File: This is a simple textfile for the display of the search box.
-  file.templateFile = EXT:tt_products/Resources/Public/Templates/products_search.html
+  file.templateFile = EXT:tt_products/Resources/Private/Templates/products_search.html
 }

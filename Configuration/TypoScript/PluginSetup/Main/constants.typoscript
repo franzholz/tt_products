@@ -9,7 +9,7 @@ plugin.tt_products {
   transmissionSecurity = 1
 
     # cat=plugin.products/file; type=file[html,htm,tmpl,txt]; label= Template File: This is a simple textfile where each part of the shopping basket is defined with HTML-code. To see an example with explanations, take a look at EXT:tt_products/pi1/products_template.tmpl which is the default.
-  file.templateFile = EXT:tt_products/Resources/Public/Templates/example_locallang_xml.html
+  file.templateFile = EXT:tt_products/Resources/Private/Templates/example_locallang_xml.html
     # cat=plugin.products/file; type=file[IMAGE_EXT]; label= Alternative Image: This image is used if there is no image present for the product
   file.noImageAvailable =
 
