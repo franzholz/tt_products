@@ -241,8 +241,6 @@ class tx_ttproducts_relatedlist_view implements SingletonInterface
 
         $eventResult = $event->getResult();
 
-        //     debug ($slotResult, 'getAddListArray Pos 1 $slotResult');
-        //         debug ('B');
         if (
             isset($eventResult) &&
             is_array($eventResult)
@@ -252,7 +250,6 @@ class tx_ttproducts_relatedlist_view implements SingletonInterface
 
         if (is_array($result)) {
             foreach ($result as $subtype => $funcArray) { // neu
-                //         debug ($funcArray, '$funcArray');
                 $tablename = $cnfObj->getTableName($funcArray['funcTablename']);
                 if ($tablename == '' || !isset($GLOBALS['TCA'][$tablename]['columns'])) {
                     unset($result[$subtype]); // if the current TYPO3 version does not support the needed foreign table

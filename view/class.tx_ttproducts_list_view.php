@@ -37,6 +37,9 @@
  * @package TYPO3
  * @subpackage tt_products
  */
+
+use Psr\EventDispatcher\EventDispatcherInterface;
+
 use JambageCom\Div2007\Base\BrowserBase;
 use JambageCom\Div2007\Utility\BrowserUtility;
 use JambageCom\Div2007\Utility\CompatibilityUtility;
@@ -487,7 +490,8 @@ class tx_ttproducts_list_view implements SingletonInterface
             $externalRowArray[$parentFuncTablename] = current($parentRows); // Todo: erweitern, damit die Datensätze mit dem jeweils zugehörenden Vater-Datensatz verbunden werden
         }
 
-        $relatedListView = GeneralUtility::makeInstance('tx_ttproducts_relatedlist_view');
+        $eventDispatcher = GeneralUtility::makeInstance(EventDispatcherInterface::class);
+        $relatedListView = GeneralUtility::makeInstance('tx_ttproducts_relatedlist_view', $eventDispatcher);
         $relatedListView->init($this->pidListObj->getPidlist(), 0);
 
         $piVars = tx_ttproducts_model_control::getPiVars();
