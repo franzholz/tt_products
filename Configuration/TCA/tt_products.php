@@ -845,7 +845,7 @@ $result = [
                 'items' => [
                     ['', ''],
                 ],
-                'default' => null,
+                'default' => '',
                 'authMode' => $GLOBALS['TYPO3_CONF_VARS']['BE']['explicitADmode'] ?? 'explicitAllow',
             ],
         ],
