@@ -52,9 +52,12 @@ class tx_ttproducts_email extends tx_ttproducts_table_base
         $result = parent::init($functablename);
 
         if ($result) {
+            $tableObj = $this->getTableObj();
             $tablename = $this->getTablename();
-            $this->getTableObj()->addDefaultFieldArray(['sorting' => 'sorting']);
-            $this->getTableObj()->setTCAFieldArray('tt_products_emails');
+            if (isset($GLOBALS['TCA'][$tablename]['columns']['sorting'])) {
+                $tableObj->addDefaultFieldArray(['sorting' => 'sorting']);
+            }
+            $tableObj->setTCAFieldArray('tt_products_emails');
         }
 
         return $result;

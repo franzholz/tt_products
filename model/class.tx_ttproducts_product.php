@@ -82,7 +82,9 @@ class tx_ttproducts_product extends tx_ttproducts_article_base
 
             $tableObj = $this->getTableObj();
             $tableObj->setConfig($tableConfig);
-            $tableObj->addDefaultFieldArray(['sorting' => 'sorting']);
+            if (isset($GLOBALS['TCA'][$tableObj->getName()]['columns']['sorting'])) {
+                $tableObj->addDefaultFieldArray(['sorting' => 'sorting']);
+            }
         }
 
         return $result;
