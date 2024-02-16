@@ -100,12 +100,12 @@ class tx_ttproducts_control_memo
         return $result;
     }
 
-    public static function process($functablename, $piVars, $conf): void
+    public static function process($funcTablename, $piVars, $conf): void
     {
         $bMemoChanged = false;
-        self::loadMemo($functablename, $conf);
+        self::loadMemo($funcTablename, $conf);
 
-        $memoItems = self::getMemoItems($functablename);
+        $memoItems = self::getMemoItems($funcTablename);
         if (!is_array($memoItems)) {
             $memoItems = [];
         }
@@ -189,15 +189,15 @@ class tx_ttproducts_control_memo
         }
 
         if ($bMemoChanged) {
-            self::saveMemo($functablename, $memoItems, $conf);
-            self::setMemoItems($functablename, $memoItems);
+            self::saveMemo($funcTablename, $memoItems, $conf);
+            self::setMemoItems($funcTablename, $memoItems);
         }
     }
 
-    public static function getMemoField($functablename, $bFeuser)
+    public static function getMemoField($funcTablename, $bFeuser)
     {
-        if (isset(self::$memoTableFieldArray[$functablename])) {
-            $result = ($bFeuser ? 'tt_products_' : '') . self::$memoTableFieldArray[$functablename];
+        if (isset(self::$memoTableFieldArray[$funcTablename])) {
+            $result = ($bFeuser ? 'tt_products_' : '') . self::$memoTableFieldArray[$funcTablename];
         } else {
             $result = false;
         }
@@ -205,14 +205,14 @@ class tx_ttproducts_control_memo
         return $result;
     }
 
-    public static function getMemoItems($functablename)
+    public static function getMemoItems($funcTablename)
     {
-        $result = self::$memoItemArray[$functablename];
+        $result = self::$memoItemArray[$funcTablename];
 
         return $result;
     }
 
-    public static function setMemoItems($functablename, $v): void
+    public static function setMemoItems($funcTablename, $v): void
     {
         if (!is_array($v)) {
             if ($v == '') {
@@ -221,15 +221,15 @@ class tx_ttproducts_control_memo
                 $v = explode(',', $v);
             }
         }
-        self::$memoItemArray[$functablename] = $v;
+        self::$memoItemArray[$funcTablename] = $v;
     }
 
-    public static function readSessionMemoItems($functablename)
+    public static function readSessionMemoItems($funcTablename)
     {
         $result = '';
         $session = tx_ttproducts_control_session::readSessionData();
         $tableArray = self::getMemoTableFieldArray();
-        $field = $tableArray[$functablename];
+        $field = $tableArray[$funcTablename];
 
         if (
             $field != '' &&
@@ -242,10 +242,10 @@ class tx_ttproducts_control_memo
         return $result;
     }
 
-    public static function readFeUserMemoItems($functablename)
+    public static function readFeUserMemoItems($funcTablename)
     {
         $result = '';
-        $feuserField = self::getMemoField($functablename, true);
+        $feuserField = self::getMemoField($funcTablename, true);
 
         if ($GLOBALS['TSFE']->fe_user->user[$feuserField]) {
             $result = explode(',', $GLOBALS['TSFE']->fe_user->user[$feuserField]);
@@ -254,24 +254,24 @@ class tx_ttproducts_control_memo
         return $result;
     }
 
-    public static function loadMemo($functablename, $conf): void
+    public static function loadMemo($funcTablename, $conf): void
     {
         $memoItems = '';
         // 		$bFeuser = self::bUseFeuser($conf);
-        // 		$theField = self::getMemoField($functablename, $bFeuser);
+        // 		$theField = self::getMemoField($funcTablename, $bFeuser);
 
         if (self::bUseFeuser($conf)) {
-            $memoItems = self::readFeUserMemoItems($functablename);
+            $memoItems = self::readFeUserMemoItems($funcTablename);
         } else {
-            $memoItems = self::readSessionMemoItems($functablename);
+            $memoItems = self::readSessionMemoItems($funcTablename);
         }
-        self::setMemoItems($functablename, $memoItems);
+        self::setMemoItems($funcTablename, $memoItems);
     }
 
-    public static function saveMemo($functablename, $memoItems, $conf): void
+    public static function saveMemo($funcTablename, $memoItems, $conf): void
     {
         $bFeuser = self::bUseFeuser($conf);
-        $feuserField = self::getMemoField($functablename, $bFeuser);
+        $feuserField = self::getMemoField($funcTablename, $bFeuser);
 
         $fieldsArray = [];
         $fieldsArray[$feuserField] = implode(',', $memoItems);
@@ -287,15 +287,15 @@ class tx_ttproducts_control_memo
     public static function copySession2Feuser($params, $pObj, $conf): void
     {
         $tableArray = self::getMemoTableFieldArray();
-        foreach ($tableArray as $functablename => $type) {
-            $memoItems = self::readSessionMemoItems($functablename);
+        foreach ($tableArray as $funcTablename => $type) {
+            $memoItems = self::readSessionMemoItems($funcTablename);
 
             if (!empty($memoItems) && is_array($memoItems)) {
-                $feuserMemoItems = self::readFeUserMemoItems($functablename);
+                $feuserMemoItems = self::readFeUserMemoItems($funcTablename);
                 if (isset($feuserMemoItems) && is_array($feuserMemoItems)) {
                     $memoItems = array_merge($feuserMemoItems, $memoItems);
                 }
-                self::saveMemo($functablename, $memoItems, $conf);
+                self::saveMemo($funcTablename, $memoItems, $conf);
             }
         }
     }

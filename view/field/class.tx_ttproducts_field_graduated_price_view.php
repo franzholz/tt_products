@@ -44,7 +44,7 @@ class tx_ttproducts_field_graduated_price_view extends tx_ttproducts_field_base_
     public function getItemSubpartArrays(
         $templateCode,
         $markerKey,
-        $functablename,
+        $funcTablename,
         $row,
         $fieldname,
         $tableConf,
@@ -59,7 +59,7 @@ class tx_ttproducts_field_graduated_price_view extends tx_ttproducts_field_base_
         $bTaxIncluded = $this->conf['TAXincluded'];
         $bEnableTaxZero = 0;
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
-        $viewItemTableObj = $tablesObj->get($functablename, true);
+        $viewItemTableObj = $tablesObj->get($funcTablename, true);
         $priceFormulaArray = $viewItemTableObj->getModelObj()->getGraduatedPriceObject()->getFormulasByItem($row['uid']);
 
         $priceTablesViewObj = $viewItemTableObj->getGraduatedPriceObject();
@@ -81,7 +81,7 @@ class tx_ttproducts_field_graduated_price_view extends tx_ttproducts_field_base_
     }
 
     public function getRowMarkerArray(
-        $functablename,
+        $funcTablename,
         $fieldname,
         $row,
         $markerKey,
@@ -104,7 +104,7 @@ class tx_ttproducts_field_graduated_price_view extends tx_ttproducts_field_base_
     ): void {
         $bTaxIncluded = $this->conf['TAXincluded'];
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
-        $viewItemTableObj = $tablesObj->get($functablename, true);
+        $viewItemTableObj = $tablesObj->get($funcTablename, true);
 
         $priceTablesViewObj = $viewItemTableObj->getGraduatedPriceObject();
         $priceTablesViewObj->getPriceMarkerArray(

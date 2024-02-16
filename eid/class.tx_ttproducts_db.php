@@ -399,17 +399,17 @@ class tx_ttproducts_db implements SingletonInterface
 
         $articleTcaColumns = $GLOBALS['TCA']['tt_products_articles']['columns'];
 
-        foreach ($rowArray as $functablename => $row) { // tt-products-list-1-size
+        foreach ($rowArray as $funcTablename => $row) { // tt-products-list-1-size
             if (
-                !isset($tableObjArray[$functablename]) ||
-                !is_object($tableObjArray[$functablename])
+                !isset($tableObjArray[$funcTablename]) ||
+                !is_object($tableObjArray[$funcTablename])
             ) {
                 $suffix = '-from-tt-products-articles';
             } else {
                 $suffix = '';
             }
 
-            $itemTableView = $tablesObj->get($functablename, true);
+            $itemTableView = $tablesObj->get($funcTablename, true);
             $itemTable = $itemTableView->getModelObj();
             $tablename = $itemTable->getTablename();
             $tableconf = $itemTable->getTableConf($theCode);
@@ -420,11 +420,11 @@ class tx_ttproducts_db implements SingletonInterface
                 $pidListObj = GeneralUtility::makeInstance('tx_ttproducts_pid_list');
                 $pidListObj->applyRecursive($config['recursive'], $config['pid_list'], true);
 
-                $categoryfunctablename = 'tt_products_cat';
-                $categoryTableView = $tablesObj->get($categoryfunctablename, true);
+                $categoryFuncTablename = 'tt_products_cat';
+                $categoryTableView = $tablesObj->get($categoryFuncTablename, true);
                 $categoryTable = $categoryTableView->getModelObj();
                 $piVars = tx_ttproducts_model_control::getPiVars();
-                $categoryPivar = tx_ttproducts_model_control::getPiVar($categoryfunctablename);
+                $categoryPivar = tx_ttproducts_model_control::getPiVar($categoryFuncTablename);
 
                 $currentCat =
                     $categoryTable->getParamDefault(
@@ -448,7 +448,7 @@ class tx_ttproducts_db implements SingletonInterface
                     );
             }
 
-            $jsTableNamesId = str_replace('_', '-', $functablename) . $suffix;
+            $jsTableNamesId = str_replace('_', '-', $funcTablename) . $suffix;
             $uid = $row['uid'];
             $errorId = tx_ttproducts_model_control::getBasketInputErrorIdPrefix() . '-' . $uid;
             $objResponse->addAssign($errorId, 'innerHTML', '');
@@ -504,7 +504,7 @@ class tx_ttproducts_db implements SingletonInterface
                             $linkWrap = false;
                             $modifiedValue =
                                 $fieldViewObj->getRowMarkerArray(
-                                    $functablename,
+                                    $funcTablename,
                                     $field,
                                     $row,
                                     $tmp,

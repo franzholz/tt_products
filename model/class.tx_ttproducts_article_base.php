@@ -57,9 +57,9 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base
     /**
      * Getting all tt_products_cat categories into internal array.
      */
-    public function init($functablename): bool
+    public function init($funcTablename): bool
     {
-        $result = parent::init($functablename);
+        $result = parent::init($funcTablename);
 
         if ($result) {
             $type = $this->getType();
@@ -291,11 +291,11 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base
         return $result;
     }
 
-    public function getNeededUrlParams($functablename, $theCode)
+    public function getNeededUrlParams($funcTablename, $theCode)
     {
         $rc = '';
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-        $tableconf = $cnf->getTableConf($functablename, $theCode);
+        $tableconf = $cnf->getTableConf($funcTablename, $theCode);
         if (is_array($tableconf) && isset($tableconf['urlparams'])) {
             $rc = $tableconf['urlparams'];
         }

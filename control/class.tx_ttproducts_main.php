@@ -442,9 +442,9 @@ class tx_ttproducts_main implements SingletonInterface
         $templateCode = '';
 
         if (!$errorMessage && !count($errorCode)) {
-            $functablename = 'tt_products';
+            $funcTablename = 'tt_products';
             tx_ttproducts_control_memo::process(
-                $functablename,
+                $funcTablename,
                 $piVars,
                 $conf
             );
@@ -504,8 +504,8 @@ class tx_ttproducts_main implements SingletonInterface
 
             $bHidePlugin = false;
 
-            foreach ($tableArray as $functablename) {
-                $tableConf = $cnf->getTableConf($functablename, $theCode);
+            foreach ($tableArray as $funcTablename) {
+                $tableConf = $cnf->getTableConf($funcTablename, $theCode);
                 if (!empty($tableConf)) {
                     $hideIds = '';
                     $hideChildless = false;
@@ -515,7 +515,7 @@ class tx_ttproducts_main implements SingletonInterface
                         $hideIds = $tableConf['hideID'];
                     }
 
-                    if ($functablename == 'tt_products_cat') {
+                    if ($funcTablename == 'tt_products_cat') {
                         if (isset($tableConf['hideChildless'])) {
                             $hideChildless = (bool)$tableConf['hideChildless'];
                         }
@@ -530,7 +530,7 @@ class tx_ttproducts_main implements SingletonInterface
                         $hideZero
                     ) {
                         $hideIdArray = GeneralUtility::trimExplode(',', $hideIds);
-                        $piVar = tx_ttproducts_model_control::getPiVar($functablename);
+                        $piVar = tx_ttproducts_model_control::getPiVar($funcTablename);
 
                         if (isset($piVars[$piVar])) {
                             $currentArray = GeneralUtility::trimExplode(',', $piVars[$piVar]);
@@ -548,8 +548,8 @@ class tx_ttproducts_main implements SingletonInterface
                         if (!$bHidePlugin) {
                             if (isset($piVars[$piVar])) {
                                 if ($hideChildless) {
-                                    $categoryfunctablename = 'tt_products_cat';
-                                    $categoryTable = $tablesObj->get($categoryfunctablename, false);
+                                    $categoryFuncTablename = 'tt_products_cat';
+                                    $categoryTable = $tablesObj->get($categoryFuncTablename, false);
                                     foreach ($currentArray as $currentUid) {
                                         $childs =
                                             $categoryTable->getAllChildCats(
@@ -641,9 +641,9 @@ class tx_ttproducts_main implements SingletonInterface
 
                     if (substr($theCode, -2, 2) == 'AD') {
                         $tablename = '';
-                        $functablename = 'address';
+                        $funcTablename = 'address';
                         if (is_array($conf['table.'])) {
-                            $tablename = $conf['table.'][$functablename];
+                            $tablename = $conf['table.'][$funcTablename];
                         }
 
                         $addressExtKeyTable = tx_ttproducts_control_address::getAddressExtKeyTable();
@@ -661,12 +661,12 @@ class tx_ttproducts_main implements SingletonInterface
                             $errorMessage = $messageArr[0] . 'table.address' . $messageArr[1];
                         }
                     } elseif (substr($theCode, -6, 6) == 'DAMCAT') {
-                        $functablename = 'tx_dam_cat';
+                        $funcTablename = 'tx_dam_cat';
                     } elseif (substr($theCode, -3, 3) == 'CAT') {
                         if ($this->pageAsCategory) {
-                            $functablename = 'pages';
+                            $funcTablename = 'pages';
                         } else {
-                            $functablename = 'tt_products_cat';
+                            $funcTablename = 'tt_products_cat';
                         }
                     }
 
@@ -691,7 +691,7 @@ class tx_ttproducts_main implements SingletonInterface
                         );
 
                         $contentTmp = $categoryView->printView(
-                            $functablename,
+                            $funcTablename,
                             $templateCode,
                             $theCode,
                             $errorCode,
@@ -841,13 +841,13 @@ class tx_ttproducts_main implements SingletonInterface
                         $config['recursive']
                     );
                     $tableInfoArray = ['SINGLECAT' => 'tt_products_cat', 'SINGLEDAMCAT' => 'tx_dam_cat', 'SINGLEAD' => 'address'];
-                    $functablename = $tableInfoArray[$theCode];
-                    $uid = $piVars[tx_ttproducts_model_control::getPivar($functablename)];
+                    $funcTablename = $tableInfoArray[$theCode];
+                    $uid = $piVars[tx_ttproducts_model_control::getPivar($funcTablename)];
 
                     if ($uid) {
                         $contentTmp = $catView->printView(
                             $templateCode,
-                            $functablename,
+                            $funcTablename,
                             $uid,
                             $theCode,
                             $errorCode,
@@ -1372,11 +1372,11 @@ class tx_ttproducts_main implements SingletonInterface
             }
 
             if ($theCode == 'LISTARTICLES' && $conf['useArticles']) {
-                $functablename = 'tt_products_articles';
+                $funcTablename = 'tt_products_articles';
             } elseif ($theCode == 'LISTDAM') {
-                $functablename = 'tx_dam';
+                $funcTablename = 'tx_dam';
             } else {
-                $functablename = 'tt_products';
+                $funcTablename = 'tt_products';
             }
             $allowedItems = FlexformUtility::get(PluginApi::getFlexform(), 'productSelection');
 
@@ -1385,7 +1385,7 @@ class tx_ttproducts_main implements SingletonInterface
             $content = $listView->printView(
                 $templateCode,
                 $theCode,
-                $functablename,
+                $funcTablename,
                 $allowedItems,
                 $bAllPages,
                 '',

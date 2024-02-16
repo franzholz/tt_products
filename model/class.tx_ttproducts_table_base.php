@@ -58,7 +58,7 @@ abstract class tx_ttproducts_table_base implements SingletonInterface
     protected $dataArray;
     protected $labelfieldname = 'title';
     protected $enable = false;
-    private $functablename;
+    private $funcTablename;
     private $tablename;
     private $tableConf;
     private $tableDesc;
@@ -93,7 +93,7 @@ abstract class tx_ttproducts_table_base implements SingletonInterface
             'usebydate' => 'tx_ttproducts_field_datetime',
         ];
 
-    public function init($functablename): bool
+    public function init($funcTablename): bool
     {
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $this->config = $cnf->getConfig();
@@ -102,13 +102,13 @@ abstract class tx_ttproducts_table_base implements SingletonInterface
         $this->tableObj = GeneralUtility::makeInstance('tx_table_db');
         $this->insertKey = 0;
 
-        $this->setFuncTablename($functablename);
-        $tablename = $cnf->getTableName($functablename);
-        $tablename = ($tablename ?: $functablename);
+        $this->setFuncTablename($funcTablename);
+        $tablename = $cnf->getTableName($funcTablename);
+        $tablename = ($tablename ?: $funcTablename);
 
         if (!isset($GLOBALS['TCA'][$tablename])) {
             debug($tablename, 'Table not found in $GLOBALS[\'TCA\']: ' . $tablename . ' in file class.tx_ttproducts_table_base.php'); // keep this
-            $errorText = 'ERROR in the setup of "tt_products.table.' . $functablename . '": wrong table name "' . $tablename . '".';
+            $errorText = 'ERROR in the setup of "tt_products.table.' . $funcTablename . '": wrong table name "' . $tablename . '".';
             $lastUnderscore = strrpos($tablename, '_');
             $extName = substr($tablename, 0, $lastUnderscore);
             if (strpos($extName, 'tx') === 0) {
@@ -120,7 +120,7 @@ abstract class tx_ttproducts_table_base implements SingletonInterface
         }
 
         $this->setTablename($tablename);
-        $this->tableDesc = $cnf->getTableDesc($functablename);
+        $this->tableDesc = $cnf->getTableDesc($funcTablename);
 
         $checkDefaultFieldArray =
             [
@@ -451,12 +451,12 @@ abstract class tx_ttproducts_table_base implements SingletonInterface
 
     public function getFuncTablename()
     {
-        return $this->functablename;
+        return $this->funcTablename;
     }
 
     private function setFuncTablename($tablename): void
     {
-        $this->functablename = $tablename;
+        $this->funcTablename = $tablename;
     }
 
     public function getTablename()

@@ -44,7 +44,7 @@ class tx_ttproducts_field_tax_view extends tx_ttproducts_field_base_view
     public function getItemSubpartArrays(
         &$templateCode,
         $markerKey,
-        $functablename,
+        $funcTablename,
         $row,
         $fieldname,
         $tableConf,
@@ -77,7 +77,7 @@ class tx_ttproducts_field_tax_view extends tx_ttproducts_field_base_view
     }
 
     public function getRowMarkerArray(
-        $functablename,
+        $funcTablename,
         $fieldname,
         $row,
         $markerKey,

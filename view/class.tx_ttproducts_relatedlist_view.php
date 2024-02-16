@@ -125,7 +125,7 @@ class tx_ttproducts_relatedlist_view implements SingletonInterface
                             'code' => 'LISTRELATEDARTICLES',
                             'additionalPages' => $conf['pidsRelatedArticles'] ?? '',
                             'mergeRow' => [],
-                            'functablename' => 'tt_products_articles',
+                            'funcTablename' => 'tt_products_articles',
                             'callFunctableArray' => [],
                             'cached' => true,
                         ],
@@ -136,7 +136,7 @@ class tx_ttproducts_relatedlist_view implements SingletonInterface
                             'code' => 'LISTRELATEDACCESSORY',
                             'additionalPages' => $conf['pidsRelatedAccessories'] ?? '',
                             'mergeRow' => [],
-                            'functablename' => 'tt_products',
+                            'funcTablename' => 'tt_products',
                             'callFunctableArray' => [],
                             'cached' => true,
                         ],
@@ -147,7 +147,7 @@ class tx_ttproducts_relatedlist_view implements SingletonInterface
                             'code' => 'LISTRELATED',
                             'additionalPages' => $conf['pidsRelatedProducts'] ?? '',
                             'mergeRow' => [],
-                            'functablename' => 'tt_products',
+                            'funcTablename' => 'tt_products',
                             'callFunctableArray' => [],
                             'cached' => true,
                         ],
@@ -158,7 +158,7 @@ class tx_ttproducts_relatedlist_view implements SingletonInterface
                             'code' => 'LISTRELATEDBYSYSTEMCATEGORY',
                             'additionalPages' => $conf['pidsRelatedProducts'] ?? '',
                             'mergeRow' => [],
-                            'functablename' => 'tt_products',
+                            'funcTablename' => 'tt_products',
                             'callFunctableArray' => [],
                             'cached' => false,
                         ],
@@ -169,7 +169,7 @@ class tx_ttproducts_relatedlist_view implements SingletonInterface
                             'code' => 'LISTRELATEDCOMPLETEDOWNLOAD',
                             'additionalPages' => $conf['pidsRelatedDownloads'] ?? '',
                             'mergeRow' => [],
-                            'functablename' => 'sys_file_reference',
+                            'funcTablename' => 'sys_file_reference',
                             'callFunctableArray' => [],
                             'cached' => true,
                         ],
@@ -180,7 +180,7 @@ class tx_ttproducts_relatedlist_view implements SingletonInterface
                             'code' => 'LISTRELATEDALLDOWNLOAD',
                             'additionalPages' => $conf['pidsRelatedDownloads'] ?? '',
                             'mergeRow' => [],
-                            'functablename' => 'sys_file_reference',
+                            'funcTablename' => 'sys_file_reference',
                             'callFunctableArray' => [],
                             'cached' => true,
                         ],
@@ -191,7 +191,7 @@ class tx_ttproducts_relatedlist_view implements SingletonInterface
                             'code' => 'LISTRELATEDPARTIALDOWNLOAD',
                             'additionalPages' => $conf['pidsRelatedDownloads'] ?? '',
                             'mergeRow' => [],
-                            'functablename' => 'sys_file_reference',
+                            'funcTablename' => 'sys_file_reference',
                             'callFunctableArray' => [],
                             'cached' => true,
                         ],
@@ -218,7 +218,7 @@ class tx_ttproducts_relatedlist_view implements SingletonInterface
                                 'code' => $theCode,
                                 'additionalPages' => false,
                                 'mergeRow' => $extArray,
-                                'functablename' => 'tt_products',
+                                'funcTablename' => 'tt_products',
                                 'callFunctableArray' => [$marker => 'tx_dam'],
                                 'cached' => true,
                             ],
@@ -306,9 +306,9 @@ class tx_ttproducts_relatedlist_view implements SingletonInterface
                 if (isset($viewTagArray[$funcArray['marker']]) && $funcArray['require']) {
                     $relatedItemObj = $itemObj;
                     $parentFuncTablename = '';
-                    if ($funcTablename != $funcArray['functablename']) {
-                        $relatedItemObj = $tablesObj->get($funcArray['functablename'], false);
-                        $parentFuncTablename = $funcArray['functablename'];
+                    if ($funcTablename != $funcArray['funcTablename']) {
+                        $relatedItemObj = $tablesObj->get($funcArray['funcTablename'], false);
+                        $parentFuncTablename = $funcArray['funcTablename'];
                     }
                     $tableConf = $relatedItemObj->getTableConf($funcArray['code']);
                     $orderBy = '';
@@ -348,7 +348,7 @@ class tx_ttproducts_relatedlist_view implements SingletonInterface
                         }
 
                         $parentDataArray = [
-                            'functablename' => $funcTablename,
+                            'funcTablename' => $funcTablename,
                             'uid' => $uid,
                         ];
 
@@ -358,7 +358,7 @@ class tx_ttproducts_relatedlist_view implements SingletonInterface
                         $tmpContent = $listView->printView(
                             $templateCode,
                             $funcArray['code'],
-                            $funcArray['functablename'],
+                            $funcArray['funcTablename'],
                             implode(',', $relatedIds),
                             $listPids,
                             '',

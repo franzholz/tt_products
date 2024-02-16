@@ -426,7 +426,7 @@ class tx_ttproducts_list_view implements SingletonInterface
     public function printView(
         $templateCode,
         $theCode,
-        $functablename,
+        $funcTablename,
         $allowedItems,
         $additionalPages,
         $hiddenFields,
@@ -588,31 +588,31 @@ class tx_ttproducts_list_view implements SingletonInterface
             $formName = $formNameArray[$theCode];
         }
 
-        $itemTableView = $tablesObj->get($functablename, true);
+        $itemTableView = $tablesObj->get($funcTablename, true);
         $itemTable = $itemTableView->getModelObj();
         $tablename = $itemTable->getTablename();
-        $categoryfunctablename = '';
+        $categoryFuncTablename = '';
 
         if ($itemTable->getType() == 'dam') {
-            $categoryfunctablename = 'tx_dam_cat';
+            $categoryFuncTablename = 'tx_dam_cat';
         } else {
-            if ($functablename == 'tt_products') {
+            if ($funcTablename == 'tt_products') {
                 if (!$pageAsCategory || $pageAsCategory == 1) {
-                    $categoryfunctablename = 'tt_products_cat';
+                    $categoryFuncTablename = 'tt_products_cat';
                 } else {
-                    $categoryfunctablename = 'pages';
+                    $categoryFuncTablename = 'pages';
                 }
             }
         }
         $useCategories = true;
-        if ($categoryfunctablename == '') {
-            $categoryfunctablename = 'tt_products_cat';
+        if ($categoryFuncTablename == '') {
+            $categoryFuncTablename = 'tt_products_cat';
             $useCategories = false;
         }
         $keyFieldArray = $itemTable->getKeyFieldArray($theCode);
         $tableConfArray = [];
         $viewConfArray = [];
-        $functableArray = [$functablename, $categoryfunctablename];
+        $functableArray = [$funcTablename, $categoryFuncTablename];
         tx_ttproducts_model_control::getTableConfArrays(
             $cObj,
             $functableArray,
@@ -621,7 +621,7 @@ class tx_ttproducts_list_view implements SingletonInterface
             $viewConfArray
         );
 
-        $itemTable->initCodeConf($theCode, $tableConfArray[$functablename]);
+        $itemTable->initCodeConf($theCode, $tableConfArray[$funcTablename]);
         $prodAlias = $itemTable->getTableObj()->getAlias();
         $tableAliasArray[$tablename] = $itemTable->getAlias();
         $itemTableArray[$itemTable->getType()] = $itemTable;
@@ -675,19 +675,19 @@ class tx_ttproducts_list_view implements SingletonInterface
         }
 
         $cssConf = $cnfObj->getCSSConf($itemTable->getFuncTablename(), $theCode);
-        $categoryPivar = tx_ttproducts_model_control::getPiVar($categoryfunctablename);
+        $categoryPivar = tx_ttproducts_model_control::getPiVar($categoryFuncTablename);
 
         if ($useCategories) {
-            $categoryTableView = $tablesObj->get($categoryfunctablename, true);
+            $categoryTableView = $tablesObj->get($categoryFuncTablename, true);
             $categoryTable = $categoryTableView->getModelObj();
-            $tableConfArray[$categoryfunctablename] = $categoryTable->getTableConf($theCode);
+            $tableConfArray[$categoryFuncTablename] = $categoryTable->getTableConf($theCode);
             $catTableConf = $categoryTable->getTableConf($theCode);
             $categoryTable->initCodeConf($theCode, $catTableConf);
             $categoryAnd = tx_ttproducts_model_control::getAndVar($categoryPivar);
         }
         $whereArray = '';
-        if (!empty($piVars[tx_ttproducts_model_control::getPiVar($functablename)])) {
-            $whereArray = $piVars[tx_ttproducts_model_control::getPiVar($functablename)];
+        if (!empty($piVars[tx_ttproducts_model_control::getPiVar($funcTablename)])) {
+            $whereArray = $piVars[tx_ttproducts_model_control::getPiVar($funcTablename)];
         }
 
         if (is_array($whereArray)) {
@@ -748,14 +748,14 @@ class tx_ttproducts_list_view implements SingletonInterface
 
         if (
             ($newitemdays || $theCode == 'LISTNEWITEMS') &&
-            is_array($tableConfArray[$functablename]) &&
-            is_array($tableConfArray[$functablename]['controlFields.'])
+            is_array($tableConfArray[$funcTablename]) &&
+            is_array($tableConfArray[$funcTablename]['controlFields.'])
         ) {
             if (!$newitemdays) {
                 $newitemdays = $conf['newItemDays'];
             }
             $temptime = time() - 86400 * intval(trim($newitemdays));
-            $timeFieldArray = GeneralUtility::trimExplode(',', $tableConfArray[$functablename]['controlFields.']['newItemDays']);
+            $timeFieldArray = GeneralUtility::trimExplode(',', $tableConfArray[$funcTablename]['controlFields.']['newItemDays']);
             $whereTimeFieldArray = [];
             foreach ($timeFieldArray as $k => $value) {
                 $whereTimeFieldArray[] = $tableAliasArray[$tablename] . '.' . $value . ' >= ' . $temptime;
@@ -789,7 +789,7 @@ class tx_ttproducts_list_view implements SingletonInterface
             tx_ttproducts_model_control::getSearchInfo(
                 $cObj,
                 $searchVars,
-                $functablename,
+                $funcTablename,
                 $tablename,
                 $searchboxWhere,
                 $bUseSearchboxArray,
@@ -829,8 +829,8 @@ class tx_ttproducts_list_view implements SingletonInterface
                 }
             }
         }
-        if ($allowedItems != '') { // formerly: !$tableConfArray[$functablename]['orderBy'] &&
-            $tableConfArray[$functablename]['orderBy'] = 'FIELD(' . $prodAlias . '.uid, ' . $allowedItems . ')';
+        if ($allowedItems != '') { // formerly: !$tableConfArray[$funcTablename]['orderBy'] &&
+            $tableConfArray[$funcTablename]['orderBy'] = 'FIELD(' . $prodAlias . '.uid, ' . $allowedItems . ')';
         }
 
         $whereAddress = '';
@@ -872,9 +872,9 @@ class tx_ttproducts_list_view implements SingletonInterface
         if ($whereAddress == '') { // do not mix address with category filter
             $bForceCatParams = false;
 
-            if (isset($tableConfArray[$functablename]['filter.']) && is_array($tableConfArray[$functablename]['filter.']) &&
-                isset($tableConfArray[$functablename]['filter.']['param.']) && is_array($tableConfArray[$functablename]['filter.']['param.']) &&
-                $tableConfArray[$functablename]['filter.']['param.']['cat'] == 'gp') {
+            if (isset($tableConfArray[$funcTablename]['filter.']) && is_array($tableConfArray[$funcTablename]['filter.']) &&
+                isset($tableConfArray[$funcTablename]['filter.']['param.']) && is_array($tableConfArray[$funcTablename]['filter.']['param.']) &&
+                $tableConfArray[$funcTablename]['filter.']['param.']['cat'] == 'gp') {
                 $bForceCatParams = true;
             }
 
@@ -897,7 +897,7 @@ class tx_ttproducts_list_view implements SingletonInterface
             }
 
             if ($whereCat == '' && ($allowedItems == '' || $bForceCatParams)) {
-                $neededParams = $itemTable->getNeededUrlParams($functablename, $theCode);
+                $neededParams = $itemTable->getNeededUrlParams($funcTablename, $theCode);
                 $needArray = GeneralUtility::trimExplode(',', $neededParams);
                 $bListStartEmpty = false;
                 foreach ($needArray as $k => $param) {
@@ -912,7 +912,7 @@ class tx_ttproducts_list_view implements SingletonInterface
             }
 
             if ($searchboxWhere != '') {
-                if ($bUseSearchboxArray[$categoryfunctablename]) {
+                if ($bUseSearchboxArray[$categoryFuncTablename]) {
                     $whereCat .= ' AND ' . $searchboxWhere;
                 } else {
                     $whereProduct = ' AND ' . $searchboxWhere;
@@ -1085,7 +1085,7 @@ class tx_ttproducts_list_view implements SingletonInterface
             $relatedArray = $categoryTable->getRelated($rootCat, $currentCat, $this->pidListObj->getPidlist());	// read only related categories;
             $excludeCat = 0;
             $categoryArray = $categoryTable->getRelationArray($relatedArray, $excludeCat, $rootCat, implode(',', array_keys($relatedArray)));
-            $rootCatArray = $categoryTable->getRootArray($rootCat, $categoryArray, $tableConfArray[$functablename]['autoRoot'] ?? 0);
+            $rootCatArray = $categoryTable->getRootArray($rootCat, $categoryArray, $tableConfArray[$funcTablename]['autoRoot'] ?? 0);
 
             if ($conf['clickItemsIntoSubmenu']) {
                 $childCatArray = $categoryTable->getChildCategoryArray($currentCat);
@@ -1095,7 +1095,7 @@ class tx_ttproducts_list_view implements SingletonInterface
             }
         }
 
-        $limit = $tableConfArray[$functablename]['limit'] ?? $config['limit'];
+        $limit = $tableConfArray[$funcTablename]['limit'] ?? $config['limit'];
         $limit = intval($limit);
         $begin_at = 0;
 
@@ -1361,16 +1361,16 @@ class tx_ttproducts_list_view implements SingletonInterface
                 $displayConf = [];
                 // Get products count
                 $displayConf['columns'] = '';
-                if (isset($tableConfArray[$functablename]['displayColumns.'])) {
-                    $displayConf['columns'] = $tableConfArray[$functablename]['displayColumns.'];
+                if (isset($tableConfArray[$funcTablename]['displayColumns.'])) {
+                    $displayConf['columns'] = $tableConfArray[$funcTablename]['displayColumns.'];
                     if (is_array($displayConf['columns'])) {
                         $displayColumns = $displayConf['columns']['1'];
                         ksort($displayConf['columns'], SORT_STRING);
                     }
                 }
                 $displayConf['header'] = '';
-                if (isset($tableConfArray[$functablename]['displayHeader.'])) {
-                    $displayConf['header'] = $tableConfArray[$functablename]['displayHeader.'];
+                if (isset($tableConfArray[$funcTablename]['displayHeader.'])) {
+                    $displayConf['header'] = $tableConfArray[$funcTablename]['displayHeader.'];
                     if (is_array($displayConf['header'])) {
                         ksort($displayConf['header'], SORT_STRING);
                     }
@@ -1381,16 +1381,16 @@ class tx_ttproducts_list_view implements SingletonInterface
                     $categorySorting = 'sorting';
                 }
 
-                $selectConf['orderBy'] = $tableConfArray[$functablename]['orderBy'];
+                $selectConf['orderBy'] = $tableConfArray[$funcTablename]['orderBy'];
                 // performing query for display:
                 if (!$selectConf['orderBy']) {
                     $selectConf['orderBy'] = $conf['orderBy'];
                 }
                 $tmpArray = GeneralUtility::trimExplode(',', $selectConf['orderBy']);
-                $orderByArray[$functablename] = $tmpArray[0]; // $orderByProduct
+                $orderByArray[$funcTablename] = $tmpArray[0]; // $orderByProduct
 
                 if ($useCategories) {
-                    $orderByCat = $tableConfArray[$categoryfunctablename]['orderBy'];
+                    $orderByCat = $tableConfArray[$categoryFuncTablename]['orderBy'];
                 }
 
                 // sorting by category not yet possible for articles
@@ -1470,10 +1470,10 @@ class tx_ttproducts_list_view implements SingletonInterface
                 if (
                     $itemTable->getType() != 'product'
                 ) {
-                    $defaultFieldsArray = $tablesObj->get($functablename)->getTableObj()->getDefaultFieldArray();
+                    $defaultFieldsArray = $tablesObj->get($funcTablename)->getTableObj()->getDefaultFieldArray();
 
                     $tcaFieldsArray = TableUtility::getFields($tablename);
-                    $noTcaFieldsArray = $tablesObj->get($functablename)->getTableObj()->getNoTcaFieldArray();
+                    $noTcaFieldsArray = $tablesObj->get($funcTablename)->getTableObj()->getNoTcaFieldArray();
 
                     $fieldsArray = array_merge($defaultFieldsArray, $tcaFieldsArray, $noTcaFieldsArray);
                 }
@@ -1557,7 +1557,7 @@ class tx_ttproducts_list_view implements SingletonInterface
                         $selectConf['from'] = $catTables . $tmpDelim . $selectConf['from'];
                     }
 
-                    if ($categoryTable->bUseLanguageTable($tableConfArray[$categoryfunctablename])) {
+                    if ($categoryTable->bUseLanguageTable($tableConfArray[$categoryFuncTablename])) {
                         $joinTables = $selectConf['leftjoin'];
                         $categoryTable->getTableObj()->transformLanguage($joinTables, $selectConf['where'], true);
                         $selectConf['leftjoin'] = $joinTables;
@@ -1566,9 +1566,9 @@ class tx_ttproducts_list_view implements SingletonInterface
 
                 $collateConf = [];
                 if (
-                    isset($tableConfArray[$functablename]['collate.'])
+                    isset($tableConfArray[$funcTablename]['collate.'])
                 ) {
-                    $collateConf[$functablename] = $tableConfArray[$functablename]['collate.'];
+                    $collateConf[$funcTablename] = $tableConfArray[$funcTablename]['collate.'];
                 }
 
                 $selectFields = implode(',', $fieldsArray);
@@ -1647,8 +1647,8 @@ class tx_ttproducts_list_view implements SingletonInterface
                 // $selectConf['where'] = $join.$itemTable->getTableObj()->transformWhere($selectConf['where']);
                 $selectConf['where'] = $join . ' ' . $selectConf['where'];
 
-                if (isset($tableConfArray[$functablename]['filter.']) && is_array($tableConfArray[$functablename]['filter.'])) {
-                    $filterConf = $tableConfArray[$functablename]['filter.'];
+                if (isset($tableConfArray[$funcTablename]['filter.']) && is_array($tableConfArray[$funcTablename]['filter.'])) {
+                    $filterConf = $tableConfArray[$funcTablename]['filter.'];
 
                     if (
                         isset($filterConf['regexp.']) &&
@@ -1706,7 +1706,7 @@ class tx_ttproducts_list_view implements SingletonInterface
                 $GLOBALS['TYPO3_DB']->sql_free_result($res);
                 $productsCount = (is_array($row) ? $row['0'] : 0);
 
-                $browserConf = $this->getBrowserConf($tableConfArray[$functablename]); // needed for the replacement of the method pi_linkTP_keepPIvars by BrowserUtility::linkTPKeepCtrlVars and the page browser
+                $browserConf = $this->getBrowserConf($tableConfArray[$funcTablename]); // needed for the replacement of the method pi_linkTP_keepPIvars by BrowserUtility::linkTPKeepCtrlVars and the page browser
                 $maxPages = 10000;
                 if (isset($browserConf['maxPages'])) {
                     $maxPages = intval($browserConf['maxPages']);
@@ -1744,8 +1744,8 @@ class tx_ttproducts_list_view implements SingletonInterface
                         $GLOBALS['TYPO3_DB']->stripOrderBy($selectConf['orderBy']);
                 }
 
-                if (isset($tableConfArray[$functablename]['groupBy'])) {
-                    $selectConf['groupBy'] = $tableConfArray[$functablename]['groupBy'];
+                if (isset($tableConfArray[$funcTablename]['groupBy'])) {
+                    $selectConf['groupBy'] = $tableConfArray[$funcTablename]['groupBy'];
 
                     $selectConf['groupBy'] = $itemTable->getTableObj()->transformOrderby($selectConf['groupBy']);
 
@@ -1925,7 +1925,7 @@ class tx_ttproducts_list_view implements SingletonInterface
                             $theCode,
                             $templateCode,
                             $mergeTagArray,
-                            $functablename,
+                            $funcTablename,
                             current($this->uidArray),
                             $this->uidArray,
                             $parentProductRow,
@@ -2019,7 +2019,7 @@ class tx_ttproducts_list_view implements SingletonInterface
 
                         if ($useCategories) {
                             if (
-                                empty($tableConfArray[$categoryfunctablename]['onlyDefaultCategory']) &&
+                                empty($tableConfArray[$categoryFuncTablename]['onlyDefaultCategory']) &&
                                 $categoryTable->getFuncTablename() == 'tt_products_cat'
                             ) {
                                 $currentCat = $row['category'];
@@ -2027,7 +2027,7 @@ class tx_ttproducts_list_view implements SingletonInterface
                             $catArray = $categoryTable->getCategoryArray($row, $categorySorting);
 
                             if (
-                                empty($tableConfArray[$categoryfunctablename]['onlyDefaultCategory']) &&
+                                empty($tableConfArray[$categoryFuncTablename]['onlyDefaultCategory']) &&
                                 is_array($catArray) &&
                                 count($catArray)
                             ) {
@@ -2174,7 +2174,7 @@ class tx_ttproducts_list_view implements SingletonInterface
                                         $catRow = $categoryTable->get($displayCat);
                                         $categoryTableView->getItemSubpartArrays(
                                             $t['categoryAndItemsFrameWork'],
-                                            $functablename,
+                                            $funcTablename,
                                             $catRow,
                                             $categorySubpartArray,
                                             $categoryWrappedSubpartArray,
@@ -2323,11 +2323,11 @@ class tx_ttproducts_list_view implements SingletonInterface
                         if (
                             isset($parentDataArray) &&
                             is_array($parentDataArray) &&
-                            isset($parentDataArray['functablename']) &&
+                            isset($parentDataArray['funcTablename']) &&
                             isset($parentDataArray['uid'])
                         ) {
                             if (
-                                $parentDataArray['functablename'] == 'tt_products' &&
+                                $parentDataArray['funcTablename'] == 'tt_products' &&
                                 (
                                     $conf['noArticleSingleView'] ||
                                     $itemTable->getType() != 'article'
@@ -2520,7 +2520,7 @@ class tx_ttproducts_list_view implements SingletonInterface
 
                         $allVariants =
                             $basketObj->getAllVariants(
-                                $functablename,
+                                $funcTablename,
                                 $row,
                                 $prodVariantRow
                             );
@@ -2553,7 +2553,7 @@ class tx_ttproducts_list_view implements SingletonInterface
                                 $basketExt1,
                                 $basketExtra,
                                 $basketRecs,
-                                $functablename,
+                                $funcTablename,
                                 $externalRowArray,
                                 $theCode == 'LISTGIFTS'
                             );
@@ -2597,7 +2597,7 @@ class tx_ttproducts_list_view implements SingletonInterface
                             }
 
                             $basketItemView->getItemMarkerArray(
-                                $functablename,
+                                $funcTablename,
                                 true,
                                 $item,
                                 $markerArray,
@@ -2619,7 +2619,7 @@ class tx_ttproducts_list_view implements SingletonInterface
                                 $theCode,
                                 $templateCode,
                                 $viewTagArray,
-                                $functablename,
+                                $funcTablename,
                                 $row['uid'],
                                 $this->uidArray,
                                 $prodRow,
@@ -2669,11 +2669,11 @@ class tx_ttproducts_list_view implements SingletonInterface
                         if (
                             $itemTable->getType() == 'product' &&
                             $useCategories &&
-                            isset($tableConfArray[$categoryfunctablename]) &&
-                            isset($tableConfArray[$categoryfunctablename]['tagmark.'])
+                            isset($tableConfArray[$categoryFuncTablename]) &&
+                            isset($tableConfArray[$categoryFuncTablename]['tagmark.'])
                         ) {
                             $tagArray = [];
-                            $tagConf = $tableConfArray[$categoryfunctablename]['tagmark.'];
+                            $tagConf = $tableConfArray[$categoryFuncTablename]['tagmark.'];
                             foreach ($catArray as $loopCategory) {
                                 $catRow =
                                     $categoryTable->get(
@@ -2782,7 +2782,7 @@ class tx_ttproducts_list_view implements SingletonInterface
 
                             $basketItemView->getItemMarkerSubpartArrays(
                                 $t['item'],
-                                $functablename,
+                                $funcTablename,
                                 $row,
                                 $theCode,
                                 $viewTagArray,

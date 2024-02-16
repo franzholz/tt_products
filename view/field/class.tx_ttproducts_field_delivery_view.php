@@ -53,7 +53,7 @@ class tx_ttproducts_field_delivery_view extends tx_ttproducts_field_base_view
      * @access private
      */
     public function getRowMarkerArray(
-        $functablename,
+        $funcTablename,
         $fieldname,
         $row,
         $markerKey,
@@ -80,7 +80,7 @@ class tx_ttproducts_field_delivery_view extends tx_ttproducts_field_base_view
         if (isset($row[$fieldname])) {
             $imageObj = GeneralUtility::makeInstance('tx_ttproducts_field_image_view');
             $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-            $tableconf = $cnf->getTableConf($functablename, $theCode);
+            $tableconf = $cnf->getTableConf($funcTablename, $theCode);
             $domain = $conf['domain'] ?? '';
             $cObj = FrontendUtility::getContentObjectRenderer();
 

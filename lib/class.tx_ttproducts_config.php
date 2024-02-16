@@ -103,14 +103,14 @@ class tx_ttproducts_config implements SingletonInterface
         return $result;
     }
 
-    public function getTableDesc($functablename, $type = '')
+    public function getTableDesc($funcTablename, $type = '')
     {
         $tableDesc = [];
         if (
             isset($this->conf['table.']) &&
-            isset($this->conf['table.'][$functablename . '.'])
+            isset($this->conf['table.'][$funcTablename . '.'])
         ) {
-            $tableDesc = $this->conf['table.'][$functablename . '.'];
+            $tableDesc = $this->conf['table.'][$funcTablename . '.'];
         }
 
         if ($type && isset($tableDesc[$type])) {
@@ -122,16 +122,16 @@ class tx_ttproducts_config implements SingletonInterface
         return $result;
     }
 
-    public function getTableName($functablename)
+    public function getTableName($funcTablename)
     {
         if (
             isset($this->conf['table.']) &&
             is_array($this->conf['table.']) &&
-            isset($this->conf['table.'][$functablename])
+            isset($this->conf['table.'][$funcTablename])
         ) {
-            $result = $this->conf['table.'][$functablename];
+            $result = $this->conf['table.'][$funcTablename];
         } else {
-            $result = $functablename;
+            $result = $funcTablename;
         }
 
         return $result;
@@ -178,16 +178,16 @@ class tx_ttproducts_config implements SingletonInterface
         return $specialConf;
     }
 
-    public function getTableConf($functablename, $theCode = '')
+    public function getTableConf($funcTablename, $theCode = '')
     {
-        $tableConf = $this->getSpecialConf('conf', $functablename, $theCode);
+        $tableConf = $this->getSpecialConf('conf', $funcTablename, $theCode);
 
         return $tableConf;
     }
 
-    public function getCSSConf($functablename, $theCode = '')
+    public function getCSSConf($funcTablename, $theCode = '')
     {
-        $cssConf = $this->getSpecialConf('CSS', $functablename, $theCode);
+        $cssConf = $this->getSpecialConf('CSS', $funcTablename, $theCode);
 
         return $cssConf;
     }

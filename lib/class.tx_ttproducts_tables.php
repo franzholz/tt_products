@@ -84,16 +84,16 @@ class tx_ttproducts_tables implements SingletonInterface
         $this->tableClassArray = $tableClassArray;
     }
 
-    public function getTableClass($functablename, $bView = false)
+    public function getTableClass($funcTablename, $bView = false)
     {
         $rc = '';
-        if ($functablename) {
+        if ($funcTablename) {
             $neededExtension = '';
-            if (isset($this->needExtensionArray[$functablename])) {
-                $neededExtension = $this->needExtensionArray[$functablename];
+            if (isset($this->needExtensionArray[$funcTablename])) {
+                $neededExtension = $this->needExtensionArray[$funcTablename];
             }
             if (empty($neededExtension) || ExtensionManagementUtility::isLoaded($neededExtension)) {
-                $rc = $this->tableClassArray[$functablename] . ($bView ? '_view' : '');
+                $rc = $this->tableClassArray[$funcTablename] . ($bView ? '_view' : '');
             } else {
                 $rc = 'skip';
             }
@@ -103,20 +103,20 @@ class tx_ttproducts_tables implements SingletonInterface
     }
 
     // set the $bView to true if you want to get the view class
-    public function get($functablename, $bView = false, $bInit = true)
+    public function get($funcTablename, $bView = false, $bInit = true)
     {
         $classNameArray = [];
         $tableObjArray = [];
         $resultInit = true;
 
-        $classNameArray['model'] = $this->getTableClass($functablename, false);
+        $classNameArray['model'] = $this->getTableClass($funcTablename, false);
 
         if ($bView) {
-            $classNameArray['view'] = $this->getTableClass($functablename, true);
+            $classNameArray['view'] = $this->getTableClass($funcTablename, true);
         }
 
         if (!$classNameArray['model'] || $bView && !$classNameArray['view']) {
-            debug('Error in ' . TT_PRODUCTS_EXT . '. No class found after calling function tx_ttproducts_tables::get with parameters "' . $functablename . '", ' . $bView . ' . ', 'internal error'); // keep this
+            debug('Error in ' . TT_PRODUCTS_EXT . '. No class found after calling function tx_ttproducts_tables::get with parameters "' . $funcTablename . '", ' . $bView . ' . ', 'internal error'); // keep this
 
             return false;
         }
@@ -150,18 +150,18 @@ class tx_ttproducts_tables implements SingletonInterface
         if (isset($tableObj['model']) && is_object($tableObj['model'])) {
             if ($bInit && $tableObj['model']->needsInit()) {
                 $resultInit = $tableObj['model']->init(
-                    $functablename
+                    $funcTablename
                 );
             }
         } else {
             if ($classNameArray['model'] == 'skip') {
-                if (isset($this->needExtensionArray[$functablename])) {
-                    debug('The extension \'' . $this->needExtensionArray[$functablename] . '\' needed for table \'' . $functablename . '\' has not been installed.', 'internal error in ' . TT_PRODUCTS_EXT); // keep this
+                if (isset($this->needExtensionArray[$funcTablename])) {
+                    debug('The extension \'' . $this->needExtensionArray[$funcTablename] . '\' needed for table \'' . $funcTablename . '\' has not been installed.', 'internal error in ' . TT_PRODUCTS_EXT); // keep this
                 } else {
-                    debug('Table \'' . $functablename . '\' is not configured.', 'internal error in ' . TT_PRODUCTS_EXT); // keep this
+                    debug('Table \'' . $funcTablename . '\' is not configured.', 'internal error in ' . TT_PRODUCTS_EXT); // keep this
                 }
             } else {
-                debug('Object for \'' . $functablename . '\' has not been found.', 'internal error in ' . TT_PRODUCTS_EXT); // keep this
+                debug('Object for \'' . $funcTablename . '\' has not been found.', 'internal error in ' . TT_PRODUCTS_EXT); // keep this
             }
         }
 
@@ -187,18 +187,18 @@ class tx_ttproducts_tables implements SingletonInterface
         return $result;
     }
 
-    public function getMM($functablename)
+    public function getMM($funcTablename)
     {
         $tableObj = GeneralUtility::makeInstance('tx_ttproducts_mm_table');
 
         if (isset($tableObj) && is_object($tableObj)) {
-            if ($tableObj->needsInit() || $tableObj->getFuncTablename() != $functablename) {
+            if ($tableObj->needsInit() || $tableObj->getFuncTablename() != $funcTablename) {
                 $tableObj->init(
-                    $functablename
+                    $funcTablename
                 );
             }
         } else {
-            debug('Object for \'' . $functablename . '\' has not been found.', 'internal error in ' . TT_PRODUCTS_EXT); // keep this
+            debug('Object for \'' . $funcTablename . '\' has not been found.', 'internal error in ' . TT_PRODUCTS_EXT); // keep this
         }
 
         return $tableObj;
@@ -220,12 +220,12 @@ class tx_ttproducts_tables implements SingletonInterface
      *
      * @access	public
      */
-    public function getForeignTableInfo($functablename, $fieldname)
+    public function getForeignTableInfo($funcTablename, $fieldname)
     {
         $rc = [];
         if ($fieldname != '') {
-            $tableObj = $this->get($functablename, false);
-            $tablename = $tableObj->getTableName($functablename);
+            $tableObj = $this->get($funcTablename, false);
+            $tablename = $tableObj->getTableName($funcTablename);
             $rc = TableUtility::getForeignTableInfo($tablename, $fieldname);
         }
 

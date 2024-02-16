@@ -48,9 +48,9 @@ class tx_ttproducts_content extends tx_ttproducts_table_base
     /**
      * Getting all tt_products_cat categories into internal array.
      */
-    public function init($functablename): bool
+    public function init($funcTablename): bool
     {
-        $result = parent::init($functablename);
+        $result = parent::init($funcTablename);
 
         $this->getTableObj()->setDefaultFieldArray(['uid' => 'uid', 'pid' => 'pid', 't3ver_oid' => 't3ver_oid', 'tstamp' => 'tstamp', 'sorting' => 'sorting',
         'deleted' => 'deleted', 'hidden' => 'hidden', 'starttime' => 'starttime', 'endtime' => 'endtime', 'fe_group' => 'fe_group']);

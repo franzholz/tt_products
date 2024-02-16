@@ -324,7 +324,7 @@ abstract class tx_ttproducts_catlist_view_base implements SingletonInterface
 
     // returns the category view arrays
     protected function getPrintViewArrays(
-        $functablename,
+        $funcTablename,
         &$templateCode,
         &$t,
         &$htmlParts,
@@ -369,7 +369,7 @@ abstract class tx_ttproducts_catlist_view_base implements SingletonInterface
         $ctrlArray['bUseBrowser'] = false;
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 
-        $functableArray = [$functablename];
+        $functableArray = [$funcTablename];
         $tableConfArray = [];
         $viewConfArray = [];
         $searchVars = $piVars[tx_ttproducts_model_control::getSearchboxVar()] ?? '';
@@ -381,12 +381,12 @@ abstract class tx_ttproducts_catlist_view_base implements SingletonInterface
             $viewConfArray
         );
 
-        $categoryTable = $tablesObj->get($functablename, 0);
+        $categoryTable = $tablesObj->get($funcTablename, 0);
         $tablename = $categoryTable->getTablename();
         $aliasPostfix = '';
         $alias = $categoryTable->getAlias() . $aliasPostfix;
         $categoryTable->clear();
-        $tableConf = $tableConfArray[$functablename];
+        $tableConf = $tableConfArray[$funcTablename];
         $categoryTable->initCodeConf($theCode, $tableConf);
         $this->setTableConfArray($tableConfArray);
         $this->setViewConfArray($viewConfArray);
@@ -400,7 +400,7 @@ abstract class tx_ttproducts_catlist_view_base implements SingletonInterface
             tx_ttproducts_model_control::getSearchInfo(
                 $this->cObj,
                 $searchVars,
-                $functablename,
+                $funcTablename,
                 $tablename,
                 $searchboxWhere,
                 $bUseSearchboxArray,
@@ -445,14 +445,14 @@ abstract class tx_ttproducts_catlist_view_base implements SingletonInterface
             $tmp = $templateService->substituteMarkerArrayCached($t['categoryFrameWork'], [], $subpartArray);
             $htmlParts = GeneralUtility::trimExplode('###CATEGORY_TMP###', $tmp);
             $rootCat = $categoryTable->getRootCat() ?? '';
-            $currentCat = $categoryTable->getParamDefault($theCode, $piVars[tx_ttproducts_model_control::getPiVar($functablename)] ?? '');
+            $currentCat = $categoryTable->getParamDefault($theCode, $piVars[tx_ttproducts_model_control::getPiVar($funcTablename)] ?? '');
 
             $startCat = $currentCat;
             if (strpos($theCode, 'SELECT') !== false) {
                 $startCat = 0;
             }
 
-            if ($pageAsCategory && $functablename == 'pages') {
+            if ($pageAsCategory && $funcTablename == 'pages') {
                 $excludeCat = $pibaseObj->getContentObjectRenderer()->data['pages'];
 
                 if (!$rootCat) {
@@ -644,8 +644,8 @@ abstract class tx_ttproducts_catlist_view_base implements SingletonInterface
                 ) {
                     $excludeCat = $tableConf['special.']['no'];
                 }
-            } // if ($pageAsCategory && $functablename == 'pages')
-            if ($functablename == 'pages') {
+            } // if ($pageAsCategory && $funcTablename == 'pages')
+            if ($funcTablename == 'pages') {
                 $allowedCats = $this->pidListObj->getPidlist($rootCat);
             }
 
@@ -701,7 +701,7 @@ abstract class tx_ttproducts_catlist_view_base implements SingletonInterface
         } elseif (!is_object($categoryTable)) {
             $error_code[0] = 'internal_error';
             $error_code[1] = 'TTP_1';
-            $error_code[2] = $functablename;
+            $error_code[2] = $funcTablename;
             $rc = false;
         }
 

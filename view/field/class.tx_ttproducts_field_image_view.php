@@ -39,7 +39,7 @@
 class tx_ttproducts_field_image_view extends tx_ttproducts_field_media_view
 {
     public function getRowMarkerArray(
-        $functablename,
+        $funcTablename,
         $fieldname,
         $row,
         $markerKey,
@@ -61,7 +61,7 @@ class tx_ttproducts_field_image_view extends tx_ttproducts_field_media_view
         $bEnableTaxZero = false
     ): void {
         parent::getRowMarkerArray(
-            $functablename,
+            $funcTablename,
             $fieldname,
             $row,
             $markerKey,

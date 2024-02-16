@@ -47,7 +47,7 @@ class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base
 
     // returns the products list view
     public function printView(
-        $functablename,
+        $funcTablename,
         &$templateCode,
         $theCode,
         &$error_code,
@@ -67,7 +67,7 @@ class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base
         $cObj = ControlApi::getCObj();
 
         parent::getPrintViewArrays(
-            $functablename,
+            $funcTablename,
             $templateCode,
             $t,
             $htmlParts,
@@ -91,7 +91,7 @@ class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base
             $markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
             $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 
-            $categoryTableView = $tablesObj->get($functablename, true);
+            $categoryTableView = $tablesObj->get($funcTablename, true);
             $categoryTable = $categoryTableView->getModelObj();
             $maxDepth = $categoryTable->getDepth($theCode);
 
@@ -114,7 +114,7 @@ class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base
             $catConf['cssMode'] ??= 0;
 
             $cssObj = GeneralUtility::makeInstance('tx_ttproducts_css');
-            $cssConf = $cssObj->getConf($functablename, $theCode);
+            $cssConf = $cssObj->getConf($funcTablename, $theCode);
             $fill = '';
             $menu = 'm' . $depth;
             $idMain = $categoryTableView->getPivar() . $mainCount;

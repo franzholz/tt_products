@@ -228,8 +228,8 @@ class tx_ttproducts_control_search implements SingletonInterface, tx_ttproducts_
                     );
                     break;
                 case 'KEYFIELD':
-                    $functablename = ($this->config['foreign_table'] ?? $this->config['local_table']);
-                    $tableConf = $cnf->getTableConf($functablename, $theCode);
+                    $funcTablename = ($this->config['foreign_table'] ?? $this->config['local_table']);
+                    $tableConf = $cnf->getTableConf($funcTablename, $theCode);
 
                     if (isset($tableConf['view.']) && is_array($tableConf['view.']) &&
                         isset($tableConf['view.']['valueArray.']) && is_array($tableConf['view.']['valueArray.'])

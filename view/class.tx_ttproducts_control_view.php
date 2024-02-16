@@ -60,7 +60,7 @@ class tx_ttproducts_control_view
             $controlArray = tx_ttproducts_model_control::getControlArray();
             $separator = ';';
 
-            foreach ($tableConfArray as $functablename => $tableConf) {
+            foreach ($tableConfArray as $funcTablename => $tableConf) {
                 if (isset($tableConf['view.']) && is_array($tableConf['view.'])) {
                     foreach ($tableConf['view.'] as $type => $typeConf) {
                         if (is_array($typeConf)) {

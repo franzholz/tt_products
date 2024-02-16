@@ -54,7 +54,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view
         $orderObj,
         $cnf,
         &$itemTable,
-        &$functablename,
+        &$funcTablename,
         &$tableconf,
         &$feusers_uid,
         &$validFeUser,
@@ -77,9 +77,9 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view
             $feusers_uid = FrontendUtility::getFrontEndUser('uid');
         }
 
-        $functablename = $orderObj->getFuncTablename();
+        $funcTablename = $orderObj->getFuncTablename();
 
-        $tableconf = $cnf->getTableConf($functablename, $theCode);
+        $tableconf = $cnf->getTableConf($funcTablename, $theCode);
         $validFeUser = false;
         if ($theCode == 'DOWNLOAD') {
             $downloadAuthorization = $cnf->getDownloadConf('authorization');
@@ -489,7 +489,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view
         $markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
         $feusers_uid = 0;
         $itemTable = null;
-        $functablename = '';
+        $funcTablename = '';
         $tableconf = [];
         $validFeUser = false;
         $pid = 0;
@@ -507,7 +507,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view
             $orderObj,
             $cnf,
             $itemTable,
-            $functablename,
+            $funcTablename,
             $tableconf,
             $feusers_uid,
             $validFeUser,
@@ -762,10 +762,10 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view
                     $from = '';
                 } elseif ($fegroups_uid) {
                     $orderAlias = $orderObj->getAlias();
-                    $from = $functablename . ' ' . $orderAlias . ' LEFT JOIN fe_users ON ' . $orderAlias . '.feusers_uid = fe_users.uid';
+                    $from = $funcTablename . ' ' . $orderAlias . ' LEFT JOIN fe_users ON ' . $orderAlias . '.feusers_uid = fe_users.uid';
                     $where = 'fe_users.usergroup = ' . $fegroups_uid;
                 }
-                $whereArray = $piVars[tx_ttproducts_model_control::getPiVar($functablename)] ?? '';
+                $whereArray = $piVars[tx_ttproducts_model_control::getPiVar($funcTablename)] ?? '';
 
                 if (is_array($whereArray)) {
                     foreach ($whereArray as $field => $value) {
@@ -891,7 +891,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view
             $orderObj,
             $cnf,
             $itemTable,
-            $functablename,
+            $funcTablename,
             $tableconf,
             $feusers_uid,
             $validFeUser,

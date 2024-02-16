@@ -191,7 +191,7 @@ abstract class tx_ttproducts_table_base_view implements SingletonInterface
 
     public function getItemSubpartArrays(
         &$templateCode,
-        $functablename,
+        $funcTablename,
         $row,
         &$subpartArray,
         &$wrappedSubpartArray,
@@ -204,7 +204,7 @@ abstract class tx_ttproducts_table_base_view implements SingletonInterface
     ): void {
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-        $tableconf = $cnf->getTableConf($functablename, $theCode);
+        $tableconf = $cnf->getTableConf($funcTablename, $theCode);
 
         if (
             isset($row) &&
@@ -319,7 +319,7 @@ abstract class tx_ttproducts_table_base_view implements SingletonInterface
                 }
             }
 
-            $itemTableObj = $tablesObj->get($functablename, false);
+            $itemTableObj = $tablesObj->get($funcTablename, false);
             $tablename = $itemTableObj->getTablename();
 
             foreach ($row as $field => $value) {
@@ -415,7 +415,7 @@ abstract class tx_ttproducts_table_base_view implements SingletonInterface
                         $fieldViewObj->getItemSubpartArrays(
                             $templateCode,
                             $this->marker,
-                            $functablename,
+                            $funcTablename,
                             $row,
                             $field,
                             $tableconf,
@@ -437,7 +437,7 @@ abstract class tx_ttproducts_table_base_view implements SingletonInterface
                 $wrappedSubpartArray['###' . $markerKey . '###'] = '';
             }
         } else { // if !empty($row)
-            $itemTableObj = $tablesObj->get($functablename, false);
+            $itemTableObj = $tablesObj->get($funcTablename, false);
             $tablename = $itemTableObj->getTablename();
             $markerKey = $this->marker . '_NOT_EMPTY';
             if (isset($tagArray[$markerKey])) {
@@ -461,8 +461,8 @@ abstract class tx_ttproducts_table_base_view implements SingletonInterface
             if ($this->marker) {
                 $marker = $this->marker;
             } else {
-                $functablename = $this->getModelObj()->getFuncTablename();
-                $marker = strtoupper($functablename);
+                $funcTablename = $this->getModelObj()->getFuncTablename();
+                $marker = strtoupper($funcTablename);
             }
         }
 
@@ -471,8 +471,8 @@ abstract class tx_ttproducts_table_base_view implements SingletonInterface
 
     public function getId($row, $midId, $theCode)
     {
-        $functablename = $this->getModelObj()->getFuncTablename();
-        $extTableName = str_replace('_', '-', $functablename);
+        $funcTablename = $this->getModelObj()->getFuncTablename();
+        $extTableName = str_replace('_', '-', $funcTablename);
         $preId = $extTableName;
 
         if ($midId) {
@@ -568,7 +568,7 @@ abstract class tx_ttproducts_table_base_view implements SingletonInterface
 
     // This can also add additional fields to the row.
     public function getRowMarkerArray(
-        $functablename,
+        $funcTablename,
         $row,
         $markerKey,
         &$markerArray,
@@ -627,15 +627,15 @@ abstract class tx_ttproducts_table_base_view implements SingletonInterface
                 }
             }
             $row = $newRow;
-            $functablename = $this->getModelObj()->getFuncTablename();
-            $extTableName = str_replace('_', '-', $functablename);
+            $funcTablename = $this->getModelObj()->getFuncTablename();
+            $extTableName = str_replace('_', '-', $funcTablename);
             $mainId = $this->getId($row, $id, $theCode);
             $markerPrefix = ($marker != '' ? $marker . '_' : '');
             $rowMarkerArray['###' . $markerPrefix . 'ID###'] = $mainId;
             $rowMarkerArray['###' . $markerPrefix . 'NAME###'] = $extTableName . '-' . $row['uid'];
-            $tableconf = $cnf->getTableConf($functablename, $theCode);
+            $tableconf = $cnf->getTableConf($funcTablename, $theCode);
 
-            $tabledesc = $cnf->getTableDesc($functablename);
+            $tabledesc = $cnf->getTableDesc($funcTablename);
 
             $fieldMarkerArray = $this->createFieldMarkerArray($row, $markerPrefix, $suffix);
 
@@ -681,7 +681,7 @@ abstract class tx_ttproducts_table_base_view implements SingletonInterface
                     $fieldViewObj = $this->getObj($classname);
                     $modifiedRow =
                         $fieldViewObj->getRowMarkerArray(
-                            $functablename,
+                            $funcTablename,
                             $field,
                             $row,
                             $markerKey,
@@ -733,7 +733,7 @@ abstract class tx_ttproducts_table_base_view implements SingletonInterface
             }
         } else {
             $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
-            $tablename = $cnf->getTableName($functablename);
+            $tablename = $cnf->getTableName($funcTablename);
             // 			$tablename = $this->getModelObj()->getTablename();
             $tmpMarkerArray = [];
             $tmpMarkerArray[] = $marker;
@@ -765,7 +765,7 @@ abstract class tx_ttproducts_table_base_view implements SingletonInterface
             $this,
             $rowMarkerArray,
             $cObjectMarkerArray,
-            $functablename,
+            $funcTablename,
             $row,
             $imageNum,
             $imageRenderObj,
@@ -785,7 +785,7 @@ abstract class tx_ttproducts_table_base_view implements SingletonInterface
         $pObj,
         &$markerArray,
         &$cObjectMarkerArray,
-        $functablename,
+        $funcTablename,
         $row,
         $imageNum,
         $imageRenderObj,
@@ -811,7 +811,7 @@ abstract class tx_ttproducts_table_base_view implements SingletonInterface
                         $pObj,
                         $markerArray,
                         $cObjectMarkerArray,
-                        $functablename,
+                        $funcTablename,
                         $row,
                         $imageNum,
                         $imageRenderObj,

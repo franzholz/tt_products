@@ -39,7 +39,7 @@
 class tx_ttproducts_field_instock_view extends tx_ttproducts_field_base_view
 {
     public function getRowMarkerArray(
-        $functablename,
+        $funcTablename,
         $fieldname,
         $row,
         $markerKey,

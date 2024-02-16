@@ -76,7 +76,7 @@ class tx_ttproducts_cat_view implements SingletonInterface
     // returns the single view
     public function printView(
         $templateCode,
-        $functablename,
+        $funcTablename,
         $uid,
         $theCode,
         &$error_code,
@@ -84,7 +84,7 @@ class tx_ttproducts_cat_view implements SingletonInterface
     ) {
         $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
-        $tableViewObj = $tablesObj->get($functablename, true);
+        $tableViewObj = $tablesObj->get($funcTablename, true);
         $tableObj = $tableViewObj->getModelObj();
         $markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
         $subpartmarkerObj = GeneralUtility::makeInstance('tx_ttproducts_subpartmarker');
@@ -96,11 +96,11 @@ class tx_ttproducts_cat_view implements SingletonInterface
         if ($this->config['displayCurrentRecord']) {
             $row = $this->cObj->data;
         } elseif ($uid) {
-            $pidField = ($functablename == 'pages' ? 'uid' : 'pid');
+            $pidField = ($funcTablename == 'pages' ? 'uid' : 'pid');
             $where = $pidField . ' IN (' . $this->pidListObj->getPidlist() . ')';
             $row = $tableObj->get($uid, 0, true, $where);
             $row = $tableObj->get($uid, 0, true, $where);
-            $tableConf = $cnf->getTableConf($functablename, $theCode);
+            $tableConf = $cnf->getTableConf($funcTablename, $theCode);
             $tableObj->clear();
             $tableObj->initCodeConf($theCode, $tableConf);
             $tableLangFields = $cnf->getTranslationFields($tableConf);
@@ -227,7 +227,7 @@ class tx_ttproducts_cat_view implements SingletonInterface
                 'listcatImage',
                 $viewParentCatTagArray,
                 [],
-                $functablename == 'pages',
+                $funcTablename == 'pages',
                 $theCode,
                 tx_ttproducts_control_basket::getBasketExtra(),
                 tx_ttproducts_control_basket::getRecs(),
@@ -408,7 +408,7 @@ class tx_ttproducts_cat_view implements SingletonInterface
                 );
         } else {
             $error_code[0] = 'wrong_parameter';
-            $error_code[1] = (($functablename == 'pages') ? 'page' : 'cat');
+            $error_code[1] = (($funcTablename == 'pages') ? 'page' : 'cat');
             $error_code[2] = intval($uid);
             $error_code[3] = $this->pidListObj->getPidlist();
         }

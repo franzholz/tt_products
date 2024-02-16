@@ -45,7 +45,7 @@ class tx_ttproducts_graduated_price
     protected $bHasBeenInitialised = false;
     public $mmArray = [];
     public $dataArray = []; // array of read in products
-    public $functablename = 'tt_products_graduated_price';
+    public $funcTablename = 'tt_products_graduated_price';
     public $mm_table = ''; // mm table
     protected $parentObject = false;
     protected $foreignConfig = [];
@@ -62,7 +62,7 @@ class tx_ttproducts_graduated_price
 
     public function getTablename()
     {
-        return $this->functablename;
+        return $this->funcTablename;
     }
 
     public function getMMTablename()
@@ -97,7 +97,7 @@ class tx_ttproducts_graduated_price
 
         if ($foreignConfig) {
             $this->foreignConfig = $foreignConfig;
-            $this->functablename = $foreignConfig['foreign_table'];
+            $this->funcTablename = $foreignConfig['foreign_table'];
             $this->mm_table = $foreignConfig['mmtable'];
             $result = true;
         }

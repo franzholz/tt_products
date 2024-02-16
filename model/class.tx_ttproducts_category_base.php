@@ -139,10 +139,10 @@ abstract class tx_ttproducts_category_base extends tx_ttproducts_table_base
 
         if ($this->getMMTablename()) {
             $hookVar = '';
-            $functablename = $this->getFuncTablename();
-            if ($functablename == 'tt_products_cat') {
+            $funcTablename = $this->getFuncTablename();
+            if ($funcTablename == 'tt_products_cat') {
                 $hookVar = 'prodCategory';
-            } elseif ($functablename == 'tx_dam_cat') {
+            } elseif ($funcTablename == 'tx_dam_cat') {
                 $hookVar = 'DAMCategory';
             }
             // Call all addWhere hooks for categories at the end of this method
@@ -177,8 +177,8 @@ abstract class tx_ttproducts_category_base extends tx_ttproducts_table_base
     public function getDepth($theCode)
     {
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-        $functablename = $this->getFuncTablename();
-        $tableconf = $cnf->getTableConf($functablename, $theCode);
+        $funcTablename = $this->getFuncTablename();
+        $tableconf = $cnf->getTableConf($funcTablename, $theCode);
         $result = $tableconf['hierarchytiers'];
         if (!isset($result)) {
             $result = 1;
@@ -191,10 +191,10 @@ abstract class tx_ttproducts_category_base extends tx_ttproducts_table_base
     {
         $catArray = [];
         $hookVar = '';
-        $functablename = $this->getFuncTablename();
-        if ($functablename == 'tt_products_cat') {
+        $funcTablename = $this->getFuncTablename();
+        if ($funcTablename == 'tt_products_cat') {
             $hookVar = 'prodCategory';
-        } elseif ($functablename == 'tx_dam_cat') {
+        } elseif ($funcTablename == 'tx_dam_cat') {
             $hookVar = 'DAMCategory';
         }
 

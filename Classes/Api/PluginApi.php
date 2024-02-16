@@ -392,10 +392,10 @@ class PluginApi
 
         if (
             !empty($funcArray) &&
-            $funcTablename != $funcArray['functablename']
+            $funcTablename != $funcArray['funcTablename']
         ) {
-            $relatedItemObj = $tablesObj->get($funcArray['functablename'], false);
-            $parentFuncTablename = $funcArray['functablename'];
+            $relatedItemObj = $tablesObj->get($funcArray['funcTablename'], false);
+            $parentFuncTablename = $funcArray['funcTablename'];
         }
         $tableConf = $relatedItemObj->getTableConf($funcArray['code']);
         $orderBy = '';
@@ -442,7 +442,7 @@ class PluginApi
             $tmpContent = $listView->printView(
                 $templateCode,
                 $funcArray['code'],
-                $funcArray['functablename'],
+                $funcArray['funcTablename'],
                 implode(',', $relatedIds),
                 $listPids,
                 '',

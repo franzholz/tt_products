@@ -267,7 +267,7 @@
     * bugfix issue #74: The FE session has not been stored.
 
 2020-10-09 Franz Holzinger <franz@ttproducts.de>
-    * bugfix with memo item function: wrong functablename memoItems instead of tt_products
+    * bugfix with memo item function: wrong funcTablename memoItems instead of tt_products
 
 2020-10-05 Franz Holzinger <franz@ttproducts.de>
     * bugfix with discountprice: $k3 == 'type' is true with a value of 0.

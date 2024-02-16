@@ -46,7 +46,7 @@ class tx_ttproducts_basketitem_view implements SingletonInterface
 {
     public function getQuantityName(
         $uid,
-        $functablename,
+        $funcTablename,
         $externalRow,
         $parentFuncTablename,
         $parentRow,
@@ -57,7 +57,7 @@ class tx_ttproducts_basketitem_view implements SingletonInterface
         $externalQuantity = '';
 
         if (
-            $functablename != 'tt_products' &&
+            $funcTablename != 'tt_products' &&
             is_array($externalRow) &&
             isset($externalRow['uid'])
         ) {
@@ -73,7 +73,7 @@ class tx_ttproducts_basketitem_view implements SingletonInterface
                 }
             }
 
-            $piVar = tx_ttproducts_model_control::getPiVar($functablename);
+            $piVar = tx_ttproducts_model_control::getPiVar($funcTablename);
 
             if ($piVar !== false) {
                 $externalQuantity = '[' . $externalQuantity . $piVar . '=' . intval($externalRow['uid']) . ']';
@@ -92,7 +92,7 @@ class tx_ttproducts_basketitem_view implements SingletonInterface
 
     public function getItemMarkerSubpartArrays(
         $templateCode,
-        $functablename,
+        $funcTablename,
         $row,
         $theCode,
         $tagArray,
@@ -191,7 +191,7 @@ class tx_ttproducts_basketitem_view implements SingletonInterface
      * @access private
      */
     public function getItemMarkerArray(
-        $functablename,
+        $funcTablename,
         $useCache,
         $item,
         &$markerArray,
@@ -240,7 +240,7 @@ class tx_ttproducts_basketitem_view implements SingletonInterface
             $theCode == 'SINGLE' &&
             empty($presetVariantArray) &&
             $bSelect &&
-            $functablename == 'tt_products'
+            $funcTablename == 'tt_products'
         ) {
             $articleNo = tx_ttproducts_control_product::getActiveArticleNo();
 
@@ -306,7 +306,7 @@ class tx_ttproducts_basketitem_view implements SingletonInterface
         $basketQuantityName =
             $this->getQuantityName(
                 $row['uid'],
-                $functablename,
+                $funcTablename,
                 $externalRow,
                 $parentFuncTablename,
                 $parentRow,
@@ -556,7 +556,7 @@ class tx_ttproducts_basketitem_view implements SingletonInterface
             $damParam = tx_ttproducts_model_control::getPiVarValue('tx_dam');
 
             if (
-                $functablename == 'tt_products' &&
+                $funcTablename == 'tt_products' &&
                 is_array($extArray) &&
                 isset($extArray['tx_dam'])
             ) {

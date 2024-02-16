@@ -138,8 +138,8 @@ class tx_ttproducts_ts implements SingletonInterface
             }
 
             if ($bMemoFound) {
-                $functablename = 'tt_products';
-                $memoItems = tx_ttproducts_control_memo::readSessionMemoItems($functablename);
+                $funcTablename = 'tt_products';
+                $memoItems = tx_ttproducts_control_memo::readSessionMemoItems($funcTablename);
                 if ($memoItems != '') {
                     $memoArray = GeneralUtility::trimExplode(',', $memoItems);
                     $count = count($memoArray);
@@ -183,10 +183,10 @@ class tx_ttproducts_ts implements SingletonInterface
 
     public function processMemo(): void
     {
-        $functablename = 'tt_products';
+        $funcTablename = 'tt_products';
         $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
         $piVars = GeneralUtility::_GPmerged('tt_products');
 
-        tx_ttproducts_control_memo::process($functablename, $piVars, $conf);
+        tx_ttproducts_control_memo::process($funcTablename, $piVars, $conf);
     }
 }

@@ -44,7 +44,7 @@ class tx_ttproducts_field_foreign_table_view extends tx_ttproducts_field_base_vi
     public function getItemSubpartArrays(
         &$templateCode,
         $markerKey,
-        $functablename,
+        $funcTablename,
         &$row,
         $fieldname,
         $tableConf,
@@ -57,12 +57,12 @@ class tx_ttproducts_field_foreign_table_view extends tx_ttproducts_field_base_vi
         $id = '1'
     ): void {
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
-        $itemTableObj = $tablesObj->get($functablename, false);
+        $itemTableObj = $tablesObj->get($funcTablename, false);
         $tablename = $itemTableObj->getTablename();
     }
 
     public function getRowMarkerArray(
-        $functablename,
+        $funcTablename,
         $fieldname,
         $row,
         $markerKey,
@@ -84,7 +84,7 @@ class tx_ttproducts_field_foreign_table_view extends tx_ttproducts_field_base_vi
         $bEnableTaxZero = false
     ) {
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
-        $itemTableObj = $tablesObj->get($functablename, false);
+        $itemTableObj = $tablesObj->get($funcTablename, false);
         $tablename = $itemTableObj->getTablename();
         $foreigntablename = '';
         $rowMarkerArray = [];

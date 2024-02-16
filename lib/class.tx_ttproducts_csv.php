@@ -44,7 +44,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class tx_ttproducts_csv implements SingletonInterface
 {
     public function create(
-        $functablename,
+        $funcTablename,
         $conf,
         $itemArray,
         $calculatedArray,
@@ -60,7 +60,7 @@ class tx_ttproducts_csv implements SingletonInterface
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $orderObj = $tablesObj->get('sys_products_orders');
         $accountObj = $tablesObj->get('sys_products_accounts');
-        $itemTable = $tablesObj->get($functablename, false);
+        $itemTable = $tablesObj->get($funcTablename, false);
 
         $csvFilepath = trim($csvFilepath);
         if ($csvFilepath[strlen($csvFilepath) - 1] != '/') {

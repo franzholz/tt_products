@@ -77,13 +77,13 @@ class tx_ttproducts_category_view extends tx_ttproducts_category_base_view
         $modelObj = $this->getModelObj();
         $row = ($category ? $modelObj->get($category) : ['title' => '', 'pid' => $pid]);
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
-        $functablename = $modelObj->getFuncTablename();
+        $funcTablename = $modelObj->getFuncTablename();
 
         // 		$imageObj = GeneralUtility::makeInstance('tx_ttproducts_field_image_view');
         //
         // 			// Get image
         // 		$imageObj->getRowMarkerArrayEnhanced(
-        // 			$functablename,
+        // 			$funcTablename,
         // 			$row,
         // 			$this->marker,
         // 			$markerArray,
@@ -111,7 +111,7 @@ class tx_ttproducts_category_view extends tx_ttproducts_category_base_view
         }
         $this->setMarkerArrayCatTitle($markerArray, $catTitle, $prefix);
         parent::getRowMarkerArray(
-            $functablename,
+            $funcTablename,
             $row,
             $markerKey,
             $markerArray,

@@ -48,9 +48,9 @@ class tx_ttproducts_text extends tx_ttproducts_table_base
         $parenttable = 'tt_products'
     ) {
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-        $functablename = $this->getFuncTablename();
+        $funcTablename = $this->getFuncTablename();
         $fallback = false;
-        $tableConf = $cnf->getTableConf($functablename, $theCode);
+        $tableConf = $cnf->getTableConf($funcTablename, $theCode);
         $fallback = $cnf->getFallback($tableConf);
 
         $resultArray = [];

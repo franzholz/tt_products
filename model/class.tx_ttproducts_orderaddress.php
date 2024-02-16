@@ -53,14 +53,14 @@ class tx_ttproducts_orderaddress extends tx_ttproducts_table_base
     /**
      * Getting all tt_products_cat categories into internal array.
      */
-    public function init($functablename): bool
+    public function init($funcTablename): bool
     {
-        $result = parent::init($functablename);
+        $result = parent::init($funcTablename);
 
         if ($result) {
             $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 
-            $this->tableconf = $cnf->getTableConf($functablename);
+            $this->tableconf = $cnf->getTableConf($funcTablename);
             $tablename = $this->getTablename();
 
             // 			// image

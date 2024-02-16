@@ -137,7 +137,7 @@ class tx_ttproducts_orderaddress_view extends tx_ttproducts_table_base_view
      * @access private
      */
     public function getAddressMarkerArray(
-        $functablename,
+        $funcTablename,
         $row,
         &$markerArray,
         $bSelect,

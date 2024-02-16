@@ -44,7 +44,7 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base
     public function getChildsContent(
         $theCode,
         $t,
-        $functablename,
+        $funcTablename,
         $categoryArray,
         array $catArray,
         array $childArray,
@@ -99,7 +99,7 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base
                 }
             }
             $this->getMarkerArray(
-                $functablename,
+                $funcTablename,
                 $markerArray,
                 $linkOutArray,
                 $depth + 1,
@@ -125,7 +125,7 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base
                     $this->renderChilds(
                         $theCode,
                         $t,
-                        $functablename,
+                        $funcTablename,
                         $categoryArray,
                         $catArray,
                         $grandChildArray,
@@ -179,7 +179,7 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base
     protected function renderChilds(
         $theCode,
         $t,
-        $functablename,
+        $funcTablename,
         $categoryArray,
         $catArray,
         $childArray,
@@ -199,7 +199,7 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base
                 $this->getChildsContent(
                     $theCode,
                     $t,
-                    $functablename,
+                    $funcTablename,
                     $categoryArray,
                     $catArray,
                     $childArray,
@@ -220,7 +220,7 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base
 
     // returns the category list view
     public function printView(
-        $functablename,
+        $funcTablename,
         &$templateCode,
         $theCode,
         &$error_code,
@@ -235,7 +235,7 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base
         $t = [];
         $ctrlArray = [];
         parent::getPrintViewArrays(
-            $functablename,
+            $funcTablename,
             $templateCode,
             $t,
             $htmlParts,
@@ -261,7 +261,7 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base
         $markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
         $subpartmarkerObj = GeneralUtility::makeInstance('tx_ttproducts_subpartmarker');
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
-        $catView = $tablesObj->get($functablename, true);
+        $catView = $tablesObj->get($funcTablename, true);
         $catTableObj = $catView->getModelObj();
 
         if (!empty($error_code)) {
@@ -319,7 +319,7 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base
                     $markerArray = [];
                     $iCount++;
                     $this->getMarkerArray(
-                        $functablename,
+                        $funcTablename,
                         $markerArray,
                         $linkOutArray,
                         1,
@@ -343,7 +343,7 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base
                             $this->renderChilds(
                                 $theCode,
                                 $t,
-                                $functablename,
+                                $funcTablename,
                                 $categoryArray,
                                 $catArray,
                                 $childArray,
@@ -368,7 +368,7 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base
                         $wrappedSubpartArray = [];
                         $catView->getItemSubpartArrays(
                             $t['listFrameWork'],
-                            $functablename,
+                            $funcTablename,
                             $row,
                             $subpartArray,
                             $wrappedSubpartArray,
@@ -390,7 +390,7 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base
 
                     $this->getItemSubpartArrays(
                         $t['categoryFrameWork'],
-                        $functablename,
+                        $funcTablename,
                         $row,
                         $subpartArray,
                         $wrappedSubpartArray,
@@ -475,7 +475,7 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base
 
     public function getItemSubpartArrays(
         $templateCode,
-        $functablename,
+        $funcTablename,
         $row,
         &$subpartArray,
         &$wrappedSubpartArray,
@@ -486,11 +486,11 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base
         $id
     ): void {
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
-        $categoryTableView = $tablesObj->get($functablename, true);
+        $categoryTableView = $tablesObj->get($funcTablename, true);
 
         $categoryTableView->getItemSubpartArrays(
             $templateCode,
-            $functablename,
+            $funcTablename,
             $row,
             $subpartArray,
             $wrappedSubpartArray,
@@ -507,7 +507,7 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base
      * Fills in the markerArray with data for a category.
      */
     public function getMarkerArray(
-        $functablename,
+        $funcTablename,
         &$markerArray,
         &$linkOutArray,
         $depth,
@@ -532,12 +532,12 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base
 
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $pageObj = $tablesObj->get('pages');
-        $categoryTableView = $tablesObj->get($functablename, true);
+        $categoryTableView = $tablesObj->get($funcTablename, true);
         $categoryTable = $categoryTableView->getModelObj();
 
         $cssConf =
             $cnfObj->getCSSConf(
-                $functablename,
+                $funcTablename,
                 $theCode
             );
 

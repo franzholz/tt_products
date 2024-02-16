@@ -853,13 +853,13 @@ class tx_ttproducts_basket implements SingletonInterface
                         isset($extArray) &&
                         is_array($extArray)
                     ) {
-                        foreach ($rowArray as $functablename => $functableRowArray) {
-                            $subExtArray = $extArray[$functablename];
+                        foreach ($rowArray as $funcTablename => $functableRowArray) {
+                            $subExtArray = $extArray[$funcTablename];
                             if (isset($subExtArray) && is_array($subExtArray)) {
                                 foreach ($functableRowArray as $subRow) {
                                     $extItem = ['uid' => $subRow['uid']];
                                     if (in_array($extItem, $subExtArray)) {
-                                        $rc[$uid][$functablename][$subRow['uid']] = $actItem['count'];
+                                        $rc[$uid][$funcTablename][$subRow['uid']] = $actItem['count'];
                                     }
                                 }
                             }

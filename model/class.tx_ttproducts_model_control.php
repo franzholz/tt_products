@@ -151,10 +151,10 @@ class tx_ttproducts_model_control
         return $result;
     }
 
-    public static function getPiVar($functablename)
+    public static function getPiVar($funcTablename)
     {
         $paramsTableArray = self::getParamsTableArray();
-        $result = array_search($functablename, $paramsTableArray);
+        $result = array_search($funcTablename, $paramsTableArray);
 
         return $result;
     }
@@ -179,10 +179,10 @@ class tx_ttproducts_model_control
         return $result;
     }
 
-    public static function getPiVarValue($functablename)
+    public static function getPiVarValue($funcTablename)
     {
         $piVars = self::getPiVars();
-        $piVar = self::getPiVar($functablename);
+        $piVar = self::getPiVar($funcTablename);
         $result = false;
 
         if (
@@ -425,7 +425,7 @@ class tx_ttproducts_model_control
     public static function getSearchInfo(
         $cObj,
         array $searchVars,
-        $functablename,
+        $funcTablename,
         $tablename,
         &$searchboxWhere,
         &$bUseSearchboxArray,
@@ -506,7 +506,7 @@ class tx_ttproducts_model_control
         $searchFieldArray['local'] = $tmpArray[1];
         $searchFieldArray['foreign'] = '';
 
-        if (self::getPiVar($functablename) == $searchParamArray['local']) {
+        if (self::getPiVar($funcTablename) == $searchParamArray['local']) {
             $sqlTableArray['from'] = [];
             $sqlTableArray['join'] = [];
             $sqlTableArray['local'] = [];

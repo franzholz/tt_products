@@ -59,12 +59,12 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base
     /**
      * Getting all tt_products_cat categories into internal array.
      */
-    public function init($functablename): bool
+    public function init($funcTablename): bool
     {
         $result = false;
 
         if (self::isInstalled()) {
-            $result = parent::init($functablename);
+            $result = parent::init($funcTablename);
             if (!$result) {
                 return false;
             }

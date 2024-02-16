@@ -51,9 +51,9 @@ class tx_ttproducts_article extends tx_ttproducts_article_base
     /**
      * Getting all tt_products_cat categories into internal array.
      */
-    public function init($functablename): bool
+    public function init($funcTablename): bool
     {
-        $result = parent::init($functablename);
+        $result = parent::init($funcTablename);
 
         if ($result) {
             $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
@@ -139,7 +139,7 @@ class tx_ttproducts_article extends tx_ttproducts_article_base
         } else {
             $requiredFields = 'uid,pid,category,price,price2,directcost';
         }
-        $instockField = $cnf->getTableDesc($functablename, 'inStock');
+        $instockField = $cnf->getTableDesc($funcTablename, 'inStock');
         if ($instockField && !$this->conf['alwaysInStock']) {
             $requiredFields = $requiredFields . ',' . $instockField;
         }
