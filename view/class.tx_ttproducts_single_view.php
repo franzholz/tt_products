@@ -1097,6 +1097,13 @@ class tx_ttproducts_single_view implements SingletonInterface
                             );
                         $count = count($orderByFieldArray);
 
+                        if (
+                            !isset($GLOBALS['TCA'][$tablename]['columns']['sorting']) &&
+                            in_array('sorting', $orderByFieldArray)
+                        ) {
+                            throw new RuntimeException('Error in tt_products: No "sorting" field is set in the backend for table "' . $tablename . '", but it is set in the setup of orderBy.', 1708024007);
+                        }
+
                         if ($count) {
                             $bDefaultOrder = false;
                             $queryPrevPrefixArray = [];

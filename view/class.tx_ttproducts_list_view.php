@@ -1375,6 +1375,12 @@ class tx_ttproducts_list_view implements SingletonInterface
                         ksort($displayConf['header'], SORT_STRING);
                     }
                 }
+
+                $categorySorting = 'uid';
+                if (isset($GLOBALS['TCA'][$categoryTable->getTableObj()->getName()]['columns']['sorting'])) {
+                    $categorySorting = 'sorting';
+                }
+
                 $selectConf['orderBy'] = $tableConfArray[$functablename]['orderBy'];
                 // performing query for display:
                 if (!$selectConf['orderBy']) {
@@ -2018,8 +2024,7 @@ class tx_ttproducts_list_view implements SingletonInterface
                             ) {
                                 $currentCat = $row['category'];
                             }
-
-                            $catArray = $categoryTable->getCategoryArray($row, 'sorting');
+                            $catArray = $categoryTable->getCategoryArray($row, $categorySorting);
 
                             if (
                                 empty($tableConfArray[$categoryfunctablename]['onlyDefaultCategory']) &&
