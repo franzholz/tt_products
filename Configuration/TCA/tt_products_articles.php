@@ -219,7 +219,7 @@ $result = [
                 ],
                 'default' => null,
                 'authMode' => $GLOBALS['TYPO3_CONF_VARS']['BE']['explicitADmode'] ?? 'explicitAllow',
-                'default' => null,
+                'default' => '',
             ],
         ],
         'graduated_config' => [
@@ -251,6 +251,7 @@ $result = [
                         </T3DataStructure>
                         ',
                 ],
+                'eval' => 'null',
             ],
         ],
         'graduated_price_enable' => [
@@ -476,7 +477,7 @@ $result = [
                 'items' => [
                     ['', ''],
                 ],
-                'default' => null,
+                'default' => '',
                 'authMode' => $GLOBALS['TYPO3_CONF_VARS']['BE']['explicitADmode'] ?? 'explicitAllow',
             ],
         ],
@@ -509,7 +510,6 @@ $result = [
                         ',
                 ],
                 'eval' => 'null',
-                'default' => null,
             ],
         ],
         'image' => [
