@@ -106,7 +106,7 @@ abstract class tx_ttproducts_article_base_view extends tx_ttproducts_table_base_
 
     public function getItemMarkerSubpartArrays(
         $templateCode,
-        $functablename,
+        $funcTablename,
         $row,
         &$markerArray,
         &$subpartArray,
@@ -121,7 +121,7 @@ abstract class tx_ttproducts_article_base_view extends tx_ttproducts_table_base_
     ): void {
         $this->getItemSubpartArrays(
             $templateCode,
-            $functablename,
+            $funcTablename,
             $row,
             $subpartArray,
             $wrappedSubpartArray,
@@ -135,7 +135,7 @@ abstract class tx_ttproducts_article_base_view extends tx_ttproducts_table_base_
 
     public function getItemSubpartArrays(
         &$templateCode,
-        $functablename,
+        $funcTablename,
         $row,
         &$subpartArray,
         &$wrappedSubpartArray,
@@ -148,7 +148,7 @@ abstract class tx_ttproducts_article_base_view extends tx_ttproducts_table_base_
     ): void {
         parent::getItemSubpartArrays(
             $templateCode,
-            $functablename,
+            $funcTablename,
             $row,
             $subpartArray,
             $wrappedSubpartArray,
@@ -218,14 +218,14 @@ abstract class tx_ttproducts_article_base_view extends tx_ttproducts_table_base_
     ): void {
         $modelObj = $this->getModelObj();
         $priceViewObj = GeneralUtility::makeInstance('tx_ttproducts_field_price_view');
-        $functablename = $modelObj->getFuncTablename();
+        $funcTablename = $modelObj->getFuncTablename();
 
         $mainId = $this->getId($row, $id, $theCode);
 
-        foreach ($GLOBALS['TCA'][$functablename]['columns'] as $field => $fieldTCA) {
+        foreach ($GLOBALS['TCA'][$funcTablename]['columns'] as $field => $fieldTCA) {
             if (strpos($field, 'price') === 0) {
                 $priceViewObj->getModelMarkerArray(
-                    $functablename,
+                    $funcTablename,
                     $basketExtra,
                     $basketRecs,
                     $field,

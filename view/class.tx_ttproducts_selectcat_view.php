@@ -49,7 +49,7 @@ class tx_ttproducts_selectcat_view extends tx_ttproducts_catlist_view_base
 
     // returns the products list view
     public function printView(
-        $functablename,
+        $funcTablename,
         &$templateCode,
         $theCode,
         &$error_code,
@@ -66,7 +66,7 @@ class tx_ttproducts_selectcat_view extends tx_ttproducts_catlist_view_base
 
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $languageObj = GeneralUtility::makeInstance(Localization::class);
-        $categoryTableView = $tablesObj->get($functablename, 1);
+        $categoryTableView = $tablesObj->get($funcTablename, 1);
         $categoryTable = $categoryTableView->getModelObj();
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $conf = $cnf->getConf();
@@ -78,7 +78,7 @@ class tx_ttproducts_selectcat_view extends tx_ttproducts_catlist_view_base
         $ctrlArray = [];
 
         parent::getPrintViewArrays(
-            $functablename,
+            $funcTablename,
             $templateCode,
             $t,
             $htmlParts,
@@ -113,7 +113,7 @@ class tx_ttproducts_selectcat_view extends tx_ttproducts_catlist_view_base
                 $contentId = substr($this->cObj->currentRecord, $contentIdPos + 1);
             }
 
-            $menu = $conf['CSS.'][$functablename . '.']['menu'];
+            $menu = $conf['CSS.'][$funcTablename . '.']['menu'];
             $menu = ($menu ?: $categoryTableView->getPivar() . '-' . $contentId . '-' . $depth);
             $fillOnchange = '';
             if ($method == 'clickShow') {

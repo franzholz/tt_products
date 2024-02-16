@@ -47,7 +47,7 @@ class tx_ttproducts_control_product
         $useArticles
     ) {
         $uid = $row['uid'];
-        $functablename = $itemTable->getFuncTablename();
+        $funcTablename = $itemTable->getFuncTablename();
 
         $basketVar = tx_ttproducts_model_control::getBasketVar();
         $presetVariantArray = [];
@@ -66,11 +66,11 @@ class tx_ttproducts_control_product
         if (
             isset($storedRecs) &&
             is_array($storedRecs) &&
-            isset($storedRecs[$functablename]) &&
-            is_array($storedRecs[$functablename]) &&
-            isset($storedRecs[$functablename][$uid])
+            isset($storedRecs[$funcTablename]) &&
+            is_array($storedRecs[$funcTablename]) &&
+            isset($storedRecs[$funcTablename][$uid])
         ) {
-            $variantRow = $storedRecs[$functablename][$uid];
+            $variantRow = $storedRecs[$funcTablename][$uid];
             $variant =
                 $itemTable->variant->getVariantFromProductRow(
                     $row,
@@ -96,10 +96,10 @@ class tx_ttproducts_control_product
         $tablesObj,
         $languageObj,
         $theCode,
-        $functablename
+        $funcTablename
     ): void {
         if (ExtensionManagementUtility::isLoaded('taxajax')) {
-            $itemTable = $tablesObj->get($functablename, false);
+            $itemTable = $tablesObj->get($funcTablename, false);
 
             $selectableVariantFieldArray = $itemTable->variant->getSelectableFieldArray();
             $editFieldArray = $itemTable->editVariant->getFieldArray();
@@ -116,7 +116,7 @@ class tx_ttproducts_control_product
                 $fieldArray = array_merge($fieldArray, $editFieldArray);
             }
 
-            $param = [$functablename => $fieldArray];
+            $param = [$funcTablename => $fieldArray];
             $bUseColorbox = false;
             $tableConf = $itemTable->getTableConf($theCode);
             if (

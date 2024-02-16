@@ -52,15 +52,15 @@ class tx_ttproducts_category extends tx_ttproducts_category_base
      * initialization with table object and language table.
      */
     public function init(
-        $functablename
+        $funcTablename
     ): bool {
-        $tablename = $functablename;
+        $tablename = $funcTablename;
 
-        $result = parent::init($functablename);
+        $result = parent::init($funcTablename);
 
         if ($result) {
             $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-            $this->tableconf = $cnf->getTableConf($functablename);
+            $this->tableconf = $cnf->getTableConf($funcTablename);
             $tableObj = $this->getTableObj();
             if (isset($GLOBALS['TCA'][$tableObj->getName()]['columns']['sorting'])) {
                 $tableObj->addDefaultFieldArray(['sorting' => 'sorting']);
@@ -71,15 +71,15 @@ class tx_ttproducts_category extends tx_ttproducts_category_base
             if (ExtensionManagementUtility::isLoaded('mbi_products_categories')) {
                 $extensionInfo = ExtensionUtility::getExtensionInfo('mbi_products_categories');
                 if (version_compare($extensionInfo['version'], '0.5.0', '>=')) {
-                    $tableDesc = $cnf->getTableDesc($functablename);
+                    $tableDesc = $cnf->getTableDesc($funcTablename);
                     $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
-                    $functablenameArray = GeneralUtility::trimExplode(',', $tableDesc['leafFuncTables']);
-                    $prodfunctablename = $functablenameArray[0];
-                    if (!$prodfunctablename) {
-                        $prodfunctablename = 'tt_products';
+                    $funcTablenameArray = GeneralUtility::trimExplode(',', $tableDesc['leafFuncTables']);
+                    $prodFuncTablename = $funcTablenameArray[0];
+                    if (!$prodFuncTablename) {
+                        $prodFuncTablename = 'tt_products';
                     }
-                    $prodOb = $tablesObj->get($prodfunctablename, false);
-                    $prodTableDesc = $cnf->getTableDesc($prodfunctablename);
+                    $prodOb = $tablesObj->get($prodFuncTablename, false);
+                    $prodTableDesc = $cnf->getTableDesc($prodFuncTablename);
                     $prodtablename = $prodOb->getTablename();
                     $categoryField = ($prodTableDesc['category'] ?: 'category');
                     $rcArray = TableUtility::getForeignTableInfo($prodtablename, $categoryField);
@@ -87,15 +87,15 @@ class tx_ttproducts_category extends tx_ttproducts_category_base
                 }
             }
 
-            if ($functablename == 'tt_products_cat') {
+            if ($funcTablename == 'tt_products_cat') {
                 $parentField = 'parent_category';
-            } elseif ($functablename == 'tx_dam_cat') {
+            } elseif ($funcTablename == 'tx_dam_cat') {
                 $parentField = 'parent_id';
             }
 
             if (ExtensionManagementUtility::isLoaded('mbi_products_categories')) {
                 $this->parentField = $parentField;
-                if ($functablename == 'tt_products_cat') {
+                if ($funcTablename == 'tt_products_cat') {
                     $this->referenceField = 'reference_category';
                 }
             }
@@ -104,7 +104,7 @@ class tx_ttproducts_category extends tx_ttproducts_category_base
             //				(!$this->catconf['language.'] ||
             //				!$this->catconf['language.']['type'])) {
 
-            if ($this->bUseLanguageTable($this->tableconf) && ($functablename == 'tt_products_cat')) {
+            if ($this->bUseLanguageTable($this->tableconf) && ($funcTablename == 'tt_products_cat')) {
                 $this->getTableObj()->setLanguage($this->config['LLkey']);
                 $langTable = 'tt_products_cat_language'; // TODO: DAM alternative language
                 $tableObj->setLangName($langTable);
@@ -125,10 +125,10 @@ class tx_ttproducts_category extends tx_ttproducts_category_base
 
     public function getRootCat()
     {
-        $functablename = $this->getFuncTablename();
-        if ($functablename == 'tt_products_cat') {
+        $funcTablename = $this->getFuncTablename();
+        if ($funcTablename == 'tt_products_cat') {
             $result = $this->conf['rootCategoryID'] ?? '';
-        } elseif ($functablename == 'tx_dam_cat') {
+        } elseif ($funcTablename == 'tx_dam_cat') {
             $result = $this->conf['rootDAMCategoryID'] ?? '';
         }
 

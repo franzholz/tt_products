@@ -86,7 +86,7 @@ abstract class tx_ttproducts_field_base_view implements tx_ttproducts_field_view
     public function getRepeatedRowMarkerArray(
         &$markerArray,
         $markerKey,
-        $functablename,
+        $funcTablename,
         $row,
         $fieldname,
         $key,
@@ -105,7 +105,7 @@ abstract class tx_ttproducts_field_base_view implements tx_ttproducts_field_view
         &$wrappedSubpartArray,
         $templateCode,
         $markerKey,
-        $functablename,
+        $funcTablename,
         $row,
         $fieldname,
         $tableConf,
@@ -140,7 +140,7 @@ abstract class tx_ttproducts_field_base_view implements tx_ttproducts_field_view
                     $resultRowMarker = $this->getRepeatedRowMarkerArray(
                         $repeatedMarkerArray,
                         $markerKey,
-                        $functablename,
+                        $funcTablename,
                         $row,
                         $fieldname,
                         $key,

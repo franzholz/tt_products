@@ -55,7 +55,7 @@ class tx_ttproducts_field_creditpoints_view extends tx_ttproducts_field_base_vie
     }
 
     public function getRowMarkerArray(
-        $functablename,
+        $funcTablename,
         $fieldname,
         $row,
         $markerKey,

@@ -58,14 +58,14 @@ class tx_ttproducts_edit_variant_view implements tx_ttproducts_edit_variant_view
     public function getMarkerArray(
         $bEditable,
         $row,
-        $functablename,
+        $funcTablename,
         $theCode,
         $config,
         &$markerArray
     ): void {
         if (isset($config) && is_array($config)) {
             $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
-            $itemTableView = $tablesObj->get($functablename, true);
+            $itemTableView = $tablesObj->get($funcTablename, true);
             $uid = $row['uid'];
             $mainAttributes = '';
 
@@ -93,7 +93,7 @@ class tx_ttproducts_edit_variant_view implements tx_ttproducts_edit_variant_view
                     }
                 }
 
-                $ajaxFunction = tx_ttproducts_control_basket::getAjaxVariantFunction($row, $functablename, $theCode);
+                $ajaxFunction = tx_ttproducts_control_basket::getAjaxVariantFunction($row, $funcTablename, $theCode);
                 $splitArray = preg_split('/ *= */', $mainAttributes);
                 $mainAttributesArray = [];
 
@@ -147,7 +147,7 @@ class tx_ttproducts_edit_variant_view implements tx_ttproducts_edit_variant_view
 
     public function getSubpartMarkerArray(
         $templateCode,
-        $functablename,
+        $funcTablename,
         $row,
         $theCode,
         $bEditable,
@@ -177,7 +177,7 @@ class tx_ttproducts_edit_variant_view implements tx_ttproducts_edit_variant_view
                     $this->getMarkerArray(
                         $bEditable,
                         $row,
-                        $functablename,
+                        $funcTablename,
                         $theCode,
                         $config,
                         $markerArray

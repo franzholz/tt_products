@@ -67,9 +67,9 @@ class tx_ttproducts_product extends tx_ttproducts_article_base
      * Getting all tt_products_cat categories into internal array.
      */
     public function init(
-        $functablename = 'tt_products'
+        $funcTablename = 'tt_products'
     ): bool {
-        $result = parent::init($functablename);
+        $result = parent::init($funcTablename);
 
         if ($result) {
             $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
@@ -929,8 +929,8 @@ class tx_ttproducts_product extends tx_ttproducts_article_base
                 ['1', '2']
             )
         ) {
-            $categoryfunctablename = 'tt_products_cat';
-            $categoryTable = $tablesObj->get($categoryfunctablename, false);
+            $categoryFuncTablename = 'tt_products_cat';
+            $categoryTable = $tablesObj->get($categoryFuncTablename, false);
             $discount = 0;
 
             switch ($conf['discountFieldMode']) {

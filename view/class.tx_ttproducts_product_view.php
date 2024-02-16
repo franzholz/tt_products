@@ -65,7 +65,7 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view
 
     public function getItemMarkerSubpartArrays(
         $templateCode,
-        $functablename,
+        $funcTablename,
         $row,
         &$markerArray,
         &$subpartArray,
@@ -85,7 +85,7 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view
 
         parent::getItemMarkerSubpartArrays(
             $templateCode,
-            $functablename,
+            $funcTablename,
             $row,
             $markerArray,
             $subpartArray,
@@ -119,7 +119,7 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view
             $datafieldViewObj->getItemSubpartArrays(
                 $templateCode,
                 $this->getMarker(),
-                $functablename,
+                $funcTablename,
                 $row,
                 'datasheet_uid',
                 $this->getModelObj()->getTableConf($theCode),

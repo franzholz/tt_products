@@ -175,12 +175,12 @@ class tx_ttproducts_field_media extends tx_ttproducts_field_base
     }
 
     public function getMediaNum(
-        $functablename,
+        $funcTablename,
         $fieldname,
         $theCode
     ) {
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-        $tableConf = $cnf->getTableConf($functablename, $theCode);
+        $tableConf = $cnf->getTableConf($funcTablename, $theCode);
 
         $mediaNum = $tableConf['limitImage'] ?? '';
         if (!$mediaNum) {

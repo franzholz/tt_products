@@ -51,7 +51,7 @@ class tx_ttproducts_fal_view extends tx_ttproducts_article_base_view
 
     public function getItemSubpartArrays(
         &$templateCode,
-        $functablename,
+        $funcTablename,
         $row,
         &$subpartArray,
         &$wrappedSubpartArray,
@@ -63,7 +63,7 @@ class tx_ttproducts_fal_view extends tx_ttproducts_article_base_view
     ): void {
         parent::getItemSubpartArrays(
             $templateCode,
-            $functablename,
+            $funcTablename,
             $row,
             $subpartArray,
             $wrappedSubpartArray,

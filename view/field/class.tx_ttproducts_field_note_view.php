@@ -42,7 +42,7 @@ use JambageCom\Div2007\Utility\FrontendUtility;
 class tx_ttproducts_field_note_view extends tx_ttproducts_field_base_view
 {
     public function getRowMarkerArray(
-        $functablename,
+        $funcTablename,
         $fieldname,
         $row,
         $markerKey,

@@ -49,7 +49,7 @@ class tx_ttproducts_email_div
         $cObj,
         $conf,
         $config,
-        $functablename,
+        $funcTablename,
         $orderNumber,
         $recipient,
         $v,
@@ -107,16 +107,16 @@ class tx_ttproducts_email_div
                 $markerArray['###PERSON_NAME###'] = $orderData['billing']['name'];
                 $markerArray['###DELIVERY_NAME###'] = $orderData['delivery']['name'];
 
-                $feusersObj = $tablesObj->get($functablename, true);
+                $feusersObj = $tablesObj->get($funcTablename, true);
                 $feusersObj->getAddressMarkerArray(
-                    $functablename,
+                    $funcTablename,
                     $orderData['billing'],
                     $markerArray,
                     false,
                     'person'
                 );
                 $feusersObj->getAddressMarkerArray(
-                    $functablename,
+                    $funcTablename,
                     $orderData['delivery'],
                     $markerArray,
                     false,

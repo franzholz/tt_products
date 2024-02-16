@@ -497,7 +497,7 @@ class tx_ttproducts_api
         $pObj,
         $templateCode,
         $mainMarkerArray,
-        $functablename,
+        $funcTablename,
         $orderUid,
         &$orderArray,
         $itemArray,
@@ -695,7 +695,7 @@ class tx_ttproducts_api
             $csvfilepath = Environment::getPublicPath() . '/' . $conf['CSVdestination'];
 
             $csv->create(
-                $functablename,
+                $funcTablename,
                 $conf,
                 $itemArray,
                 $calculatedArray,
@@ -1389,7 +1389,7 @@ class tx_ttproducts_api
                         $infoViewObj,
                         $templateCode,
                         $basketView,
-                        $functablename,
+                        $funcTablename,
                         $orderUid,
                         $orderConfirmationHTML,
                         $errorMessage,

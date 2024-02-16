@@ -42,7 +42,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class tx_ttproducts_field_text_view extends tx_ttproducts_field_base_view
 {
     public function getRowMarkerArray(
-        $functablename,
+        $funcTablename,
         $fieldname,
         $row,
         $markerKey,
@@ -65,7 +65,7 @@ class tx_ttproducts_field_text_view extends tx_ttproducts_field_base_view
     ) {
         $htmlentitiesArray = [];
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-        $tableconf = $cnf->getTableConf($functablename, $theCode);
+        $tableconf = $cnf->getTableConf($funcTablename, $theCode);
 
         if (is_array($tableconf['functions.']) && isset($tableconf['functions.']['htmlentities'])) {
             $htmlentitiesArray = GeneralUtility::trimExplode(',', $tableconf['functions.']['htmlentities']);

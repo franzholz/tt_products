@@ -909,10 +909,10 @@ class tx_ttproducts_control_basket
         return $result;
     }
 
-    public static function getAjaxVariantFunction($row, $functablename, $theCode)
+    public static function getAjaxVariantFunction($row, $funcTablename, $theCode)
     {
         if (ExtensionManagementUtility::isLoaded('taxajax')) {
-            $result = 'doFetchRow(\'' . $functablename . '\',\'' . strtolower($theCode) . '\',' . $row['uid'] . ');';
+            $result = 'doFetchRow(\'' . $funcTablename . '\',\'' . strtolower($theCode) . '\',' . $row['uid'] . ');';
         } else {
             $result = '';
         }

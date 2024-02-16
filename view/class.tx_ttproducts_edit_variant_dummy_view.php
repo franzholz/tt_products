@@ -47,7 +47,7 @@ class tx_ttproducts_edit_variant_dummy_view implements tx_ttproducts_edit_varian
 
     public function getSubpartMarkerArray(
         $templateCode,
-        $functablename,
+        $funcTablename,
         $row,
         $theCode,
         $bEditable,

@@ -213,7 +213,7 @@ class TransactorListener
                             $this,
                             $templateCode,
                             $mainMarkerArray,
-                            $functablename = 'tt_products',
+                            $funcTablename = 'tt_products',
                             $orderUid,
                             $orderRow,
                             $itemArray,

@@ -254,7 +254,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
     }
 
     public function getCodeMarkerArray(
-        $functablename,
+        $funcTablename,
         $markerKey,
         $theCode,
         $imageRow,
@@ -270,7 +270,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
     ) {
         $cObj = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');	// Local cObj.
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
-        $theTableObj = $tablesObj->get($functablename);
+        $theTableObj = $tablesObj->get($funcTablename);
         $theTablename = $theTableObj->getTablename();
         $cObj->start($imageRow, $theTablename);
         $tableConf = [];
@@ -281,7 +281,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
 
         if (is_array($imageArray) && count($imageArray)) {
             $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-            $tableConf = $cnf->getTableConf($functablename, $theCode);
+            $tableConf = $cnf->getTableConf($funcTablename, $theCode);
             if (is_array($tableConf) && isset($tableConf['imageMarker.'])) {
                 $imageMarkerArray = $tableConf['imageMarker.'];
             }
@@ -495,7 +495,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
     }
 
     private function getMediaMarkerArray(
-        $functablename,
+        $funcTablename,
         $fieldname,
         &$row,
         $mediaNum,
@@ -518,9 +518,9 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
         $imageMarkerArray = [];
         $dirname = '';
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-        $tableConf = $cnf->getTableConf($functablename, $theCode);
+        $tableConf = $cnf->getTableConf($funcTablename, $theCode);
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
-        $theTableObj = $tablesObj->get($functablename);
+        $theTableObj = $tablesObj->get($funcTablename);
         $theTablename = $theTableObj->getTablename();
         $cObj = FrontendUtility::getContentObjectRenderer();
 
@@ -535,7 +535,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
         }
         $imgs = [];
         $imageField = 'image';
-        if ($functablename == 'pages') {
+        if ($funcTablename == 'pages') {
             $imageField = 'media';
         }
 
@@ -586,7 +586,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
             }
 
             // $confParentTableConf = $this->getTableConf($conftable, $theCode);
-            $conftable = ($conftable ?: $functablename);
+            $conftable = ($conftable ?: $funcTablename);
             $generateArray = ['generateImage', 'generatePath'];
             $nameArray = [];
 
@@ -700,7 +700,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
         // +++		$linkWrap = false;
         $theImgCode =
             $this->getCodeMarkerArray(
-                $functablename,
+                $funcTablename,
                 $markerKey,
                 $theCode,
                 $imageRow,
@@ -811,7 +811,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
     }
 
     public function getRowMarkerArray(
-        $functablename,
+        $funcTablename,
         $fieldname,
         $row,
         $markerKey,
@@ -865,7 +865,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
                 if (!$mediaNum) {
                     $mediaNum =
                         $this->getModelObj()->getMediaNum(
-                            $functablename,
+                            $funcTablename,
                             $fieldname,
                             $theCode
                         );
@@ -873,7 +873,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
 
                 if ($mediaNum) {
                     $this->getMediaMarkerArray(
-                        $functablename,
+                        $funcTablename,
                         $fieldname,
                         $row,
                         $mediaNum,

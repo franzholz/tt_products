@@ -89,7 +89,7 @@ class tx_ttproducts_activity_finalize implements SingletonInterface
     public function doProcessing(
         $templateCode,
         $mainMarkerArray,
-        $functablename,
+        $funcTablename,
         $orderUid,
         &$orderArray,
         $productRowArray,
@@ -157,7 +157,7 @@ class tx_ttproducts_activity_finalize implements SingletonInterface
         if (!$bAlwaysInStock) {
             $emailControlArray = $this->getEmailControlArray($templateCode, $conf, $defaultFromArray);
 
-            $itemObj = $tablesObj->get($functablename);
+            $itemObj = $tablesObj->get($funcTablename);
             $instockTableArray =
                 $itemObj->reduceInStockItems(
                     $basketObj->getItemArray(),
@@ -294,7 +294,7 @@ class tx_ttproducts_activity_finalize implements SingletonInterface
                 $this,
                 $templateCode,
                 $mainMarkerArray,
-                $functablename,
+                $funcTablename,
                 $orderUid,
                 $orderArray,
                 $basketObj->getItemArray(),

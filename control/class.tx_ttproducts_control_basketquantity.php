@@ -67,8 +67,8 @@ class tx_ttproducts_control_basketquantity implements SingletonInterface
         $basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
         $quantityArray = $basketObj->getQuantityArray($relatedIds, $rowArray);
 
-        foreach ($rowArray as $functablename => $functableRowArray) {
-            $viewObj = $tablesObj->get($functablename, true);
+        foreach ($rowArray as $funcTablename => $functableRowArray) {
+            $viewObj = $tablesObj->get($funcTablename, true);
             $modelObj = $viewObj->getModelObj();
             $marker = $viewObj->getMarker();
 
@@ -80,10 +80,10 @@ class tx_ttproducts_control_basketquantity implements SingletonInterface
                     if (
                         isset($quantityArray[$uid]) &&
                         is_array($quantityArray[$uid]) &&
-                        isset($quantityArray[$uid][$functablename]) &&
-                        is_array($quantityArray[$uid][$functablename])
+                        isset($quantityArray[$uid][$funcTablename]) &&
+                        is_array($quantityArray[$uid][$funcTablename])
                     ) {
-                        $count = strval($quantityArray[$uid][$functablename][$subuid]);
+                        $count = strval($quantityArray[$uid][$funcTablename][$subuid]);
                         if (!isset($count)) {
                             $count = '';
                         }

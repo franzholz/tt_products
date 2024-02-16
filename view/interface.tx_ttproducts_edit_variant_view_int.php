@@ -42,7 +42,7 @@ interface tx_ttproducts_edit_variant_view_int
 
     public function getSubpartMarkerArray(
         $templateCode,
-        $functablename,
+        $funcTablename,
         $row,
         $theCode,
         $bEditable,

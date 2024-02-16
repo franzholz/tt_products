@@ -64,11 +64,11 @@ class tx_ttproducts_memo_view implements SingletonInterface
             tx_ttproducts_control_memo::bUseFeuser($conf) ||
             tx_ttproducts_control_memo::bUseSession($conf)
         ) {
-            $functablename = 'tt_products';
+            $funcTablename = 'tt_products';
             if (strpos($theCode, 'DAM') !== false) {
-                $functablename = 'tx_dam';
+                $funcTablename = 'tx_dam';
             }
-            $this->memoItems = tx_ttproducts_control_memo::getMemoItems($functablename);
+            $this->memoItems = tx_ttproducts_control_memo::getMemoItems($funcTablename);
         }
     }
 

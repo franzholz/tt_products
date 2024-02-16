@@ -222,7 +222,7 @@ class tx_ttproducts_field_price_view extends tx_ttproducts_field_base_view
     }
 
     public function getModelMarkerArray(
-        $functablename,
+        $funcTablename,
         $basketExtra,
         $basketRecs,
         $field,
@@ -239,7 +239,7 @@ class tx_ttproducts_field_price_view extends tx_ttproducts_field_base_view
         $languageObj = GeneralUtility::makeInstance(Localization::class);
 
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
-        $itemTableView = $tablesObj->get($functablename, true);
+        $itemTableView = $tablesObj->get($funcTablename, true);
         $itemTable = $itemTableView->getModelObj();
         $modelObj = $this->getModelObj();
         $totalDiscountField = FieldInterface::DISCOUNT;
@@ -321,7 +321,7 @@ class tx_ttproducts_field_price_view extends tx_ttproducts_field_base_view
     } // getModelMarkerArray
 
     public function getRowMarkerArray(
-        $functablename,
+        $funcTablename,
         $fieldname,
         $row,
         $markerKey,
@@ -346,7 +346,7 @@ class tx_ttproducts_field_price_view extends tx_ttproducts_field_base_view
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $conf = $cnf->getConf();
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
-        $itemTableView = $tablesObj->get($functablename, true);
+        $itemTableView = $tablesObj->get($funcTablename, true);
         $itemTable = $itemTableView->getModelObj();
         $modelObj = $this->getModelObj();
         $totalDiscountField = FieldInterface::DISCOUNT;

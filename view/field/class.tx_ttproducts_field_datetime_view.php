@@ -42,7 +42,7 @@ use JambageCom\Div2007\Utility\FrontendUtility;
 class tx_ttproducts_field_datetime_view extends tx_ttproducts_field_base_view
 {
     public function getRowMarkerArray(
-        $functablename,
+        $funcTablename,
         $fieldname,
         $row,
         $markerKey,
@@ -65,7 +65,7 @@ class tx_ttproducts_field_datetime_view extends tx_ttproducts_field_base_view
     ) {
         $cObj = FrontendUtility::getContentObjectRenderer();
         $stdWrap = 'date_stdWrap.';
-        if ($fieldname == 'usebydate' && $functablename == 'tt_products') {
+        if ($fieldname == 'usebydate' && $funcTablename == 'tt_products') {
             $stdWrap = 'usebyDate_stdWrap.';
         }
         $value = $cObj->stdWrap($row[$fieldname], $this->conf[$stdWrap]);

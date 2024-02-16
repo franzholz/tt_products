@@ -44,14 +44,14 @@ class tx_ttproducts_address extends tx_ttproducts_category_base
     /**
      * Getting all address values into internal array.
      */
-    public function init($functablename): bool
+    public function init($funcTablename): bool
     {
-        $result = parent::init($functablename);
+        $result = parent::init($funcTablename);
         if ($result) {
             $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 
-            $tableconf = $cnf->getTableConf($functablename);
-            $tabledesc = $cnf->getTableDesc($functablename);
+            $tableconf = $cnf->getTableConf($funcTablename);
+            $tabledesc = $cnf->getTableDesc($funcTablename);
 
             $tableObj = $this->getTableObj();
             $tablename = $this->getTablename();

@@ -55,9 +55,9 @@ class tx_ttproducts_dam extends tx_ttproducts_article_base
     /**
      * DAM elements.
      */
-    public function init($functablename): bool
+    public function init($funcTablename): bool
     {
-        $result = parent::init($functablename);
+        $result = parent::init($funcTablename);
 
         if ($result) {
             $this->tableArray = $tableArray;
@@ -65,7 +65,7 @@ class tx_ttproducts_dam extends tx_ttproducts_article_base
             $tableObj->addDefaultFieldArray(['sorting' => 'sorting']);
 
             $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-            $tablename = $cnf->getTableName($functablename);
+            $tablename = $cnf->getTableName($funcTablename);
             $tableObj->setTCAFieldArray($tablename, 'dam');
         }
 

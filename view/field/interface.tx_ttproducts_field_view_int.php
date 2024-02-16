@@ -45,7 +45,7 @@ interface tx_ttproducts_field_view_int
     public function getModelObj();
 
     public function getRowMarkerArray(
-        $functablename,
+        $funcTablename,
         $fieldname,
         $row,
         $markerKey,

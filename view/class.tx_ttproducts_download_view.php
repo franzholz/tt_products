@@ -85,8 +85,8 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view
         $cObj->start([]);
         $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
-        $functablename = 'tt_products';
-        $itemTableView = $tablesObj->get($functablename, true);
+        $funcTablename = 'tt_products';
+        $itemTableView = $tablesObj->get($funcTablename, true);
         $itemTable = $itemTableView->getModelObj();
         $orderObj = $tablesObj->get('sys_products_orders');
         $variantSeparator = $itemTable->getVariant()->getSplitSeparator();

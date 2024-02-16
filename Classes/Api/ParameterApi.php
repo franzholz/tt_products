@@ -110,10 +110,10 @@ class ParameterApi implements SingletonInterface
         return $result;
     }
 
-    public function getPiVarValue($functablename)
+    public function getPiVarValue($funcTablename)
     {
         $piVars = $this->getPiVars();
-        $piVar = $this->getPiVar($functablename);
+        $piVar = $this->getPiVar($funcTablename);
         $result = false;
 
         if (
@@ -199,10 +199,10 @@ class ParameterApi implements SingletonInterface
         return $this->prefixId;
     }
 
-    public function getPiVar($functablename)
+    public function getPiVar($funcTablename)
     {
         $paramsTableArray = $this->getParameterTable();
-        $result = array_search($functablename, $paramsTableArray);
+        $result = array_search($funcTablename, $paramsTableArray);
 
         return $result;
     }
@@ -446,7 +446,7 @@ class ParameterApi implements SingletonInterface
     public function getSearchInfo(
         $cObj,
         $searchVars,
-        $functablename,
+        $funcTablename,
         $tablename,
         &$searchboxWhere,
         &$bUseSearchboxArray,
@@ -519,7 +519,7 @@ class ParameterApi implements SingletonInterface
         $searchFieldArray['local'] = $tmpArray[1];
         $searchFieldArray['foreign'] = '';
 
-        if (self::getPiVar($functablename) == $searchParamArray['local']) {
+        if (self::getPiVar($funcTablename) == $searchParamArray['local']) {
             $sqlTableArray['from'] = [];
             $sqlTableArray['join'] = [];
             $sqlTableArray['local'] = [];

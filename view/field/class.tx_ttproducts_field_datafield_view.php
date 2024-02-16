@@ -115,7 +115,7 @@ class tx_ttproducts_field_datafield_view extends tx_ttproducts_field_base_view
     public function getItemSubpartArrays(
         &$templateCode,
         $markerKey,
-        $functablename,
+        $funcTablename,
         &$row,
         $fieldname,
         $tableConf,
@@ -133,7 +133,7 @@ class tx_ttproducts_field_datafield_view extends tx_ttproducts_field_base_view
             $dirname = '';
             $dataFileArray =
                 $this->getModelObj()->getDataFileArray(
-                    $functablename,
+                    $funcTablename,
                     $row,
                     $fieldname
                 );
@@ -143,7 +143,7 @@ class tx_ttproducts_field_datafield_view extends tx_ttproducts_field_base_view
                 $wrappedSubpartArray,
                 $templateCode,
                 $markerKey,
-                $functablename,
+                $funcTablename,
                 $row,
                 $fieldname,
                 $tableConf,
@@ -197,7 +197,7 @@ class tx_ttproducts_field_datafield_view extends tx_ttproducts_field_base_view
     public function getRepeatedRowMarkerArray(
         &$markerArray,
         $markerKey,
-        $functablename,
+        $funcTablename,
         $row,
         $fieldname,
         $key,
@@ -330,7 +330,7 @@ class tx_ttproducts_field_datafield_view extends tx_ttproducts_field_base_view
      * @access private
      */
     public function getRowMarkerArray(
-        $functablename,
+        $funcTablename,
         $fieldname,
         $row,
         $markerKey,
@@ -395,7 +395,7 @@ class tx_ttproducts_field_datafield_view extends tx_ttproducts_field_base_view
                 //  alle Files holen
                 $dataFileArray =
                     $this->getModelObj()->getDataFileArray(
-                        $functablename,
+                        $funcTablename,
                         $row,
                         $fieldname
                     );
