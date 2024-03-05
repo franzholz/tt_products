@@ -235,8 +235,10 @@ class BasketApi
     ) {
         $extraArray = [];
         foreach ($typeArray as $type) {
-            $tmpArray = GeneralUtility::trimExplode(':', $row[$type]);
-            $extraArray[$type] = $tmpArray['0'];
+            if (!empty($row[$type])) {
+                $tmpArray = GeneralUtility::trimExplode(':', $row[$type]);
+                $extraArray[$type] = $tmpArray['0'];
+            }
         }
 
         $basketRec = ['tt_products' => $extraArray];
