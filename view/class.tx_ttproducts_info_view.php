@@ -284,7 +284,7 @@ class tx_ttproducts_info_view implements SingletonInterface
                         'billing' :
                         'delivery'
                 );
-                $row = $countryObj->isoGet($this->infoArray[$type]['country_code'], $where);
+                $row = $countryObj->isoGet($this->infoArray[$type]['country_code'] ?? '' , $where);
                 if (!$row) {
                     $rc = 'country';
                 }

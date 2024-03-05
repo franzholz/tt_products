@@ -203,10 +203,11 @@ class tx_ttproducts_tracking implements SingletonInterface
         $statusCodeArray = [];
 
         $allowUpdateFields = ['email', 'email_notify', 'status', 'status_log'];
-        $newData = $piVars['data'];
+        $newData = $piVars['data'] ?? '';
         $bStatusValid = false;
         $basketRec = [];
         $basketExtra = [];
+        $status_log = [];
 
         if (
             isset($orderRow) &&
@@ -238,6 +239,7 @@ class tx_ttproducts_tracking implements SingletonInterface
             }
 
             if (
+                isset($orderRecord['status']) &&
                 is_array($orderRecord['status']) &&
                 isset($statusCodeArray) &&
                 is_array($statusCodeArray)
@@ -579,11 +581,20 @@ class tx_ttproducts_tracking implements SingletonInterface
 
                 if ($oldMode) {
                     $markerArray['###OTHER_ORDERS_OPTIONS###'] .=
-                        '<option ' . $class . ' value="' . $row['tracking_code'] . '"' . ($row['uid'] == $orderRow['uid'] ? 'selected="selected"' : '') . '>' .
-                            htmlspecialchars(
-                                $row['uid'] . ' (' . $row['bill_no'] . '): ' .
-                                $row['name'] . ' (' . $priceViewObj->priceFormat($row['amount']) . ' ' . $this->conf['currencySymbol'] . ') /' . $row['status']
-                            ) .
+                        '<option ' . $class . ' value="' . $row['tracking_code'] . '"' .
+                        (
+                            (!empty($orderRow) && ($row['uid'] == $orderRow['uid'])) ?
+                                'selected="selected"' : ''
+                        ) . '>';
+
+
+
+                    $markerArray['###OTHER_ORDERS_OPTIONS###'] .=
+                        htmlspecialchars(
+                            $row['uid'] . ' (' . $row['bill_no'] . '): ' .
+                                $row['name'] . ' (' . $priceViewObj->priceFormat($row['amount']) .
+                                ' ' . $this->conf['currencySymbol'] . ') /' . $row['status']
+                        ) .
                         '</option>';
                 } else {
                     if (isset($row['feusers_uid']) && $bUseHistoryMarkers) {
@@ -678,7 +689,7 @@ class tx_ttproducts_tracking implements SingletonInterface
 
         // Final things
         if (!$bHasTrackingTemplate) {
-            $markerArray['###ORDER_HTML_OUTPUT###'] = $orderData['html_output'];	// The save order-information in HTML-format
+            $markerArray['###ORDER_HTML_OUTPUT###'] = $orderData['html_output'] ?? '';	// The save order-information in HTML-format
         } elseif (isset($orderRow) && is_array($orderRow) && $orderRow['uid']) {
             $itemArray = $orderObj->getItemArray($orderRow, $calculatedArray, $infoArray);
             $infoViewObj->init2($infoArray);
@@ -726,18 +737,18 @@ class tx_ttproducts_tracking implements SingletonInterface
             $markerArray['###ORDER_HTML_OUTPUT###'] = '';
         }
 
-        if (isset($orderData) && is_array($orderData)) {
+        if (isset($orderData['html_output'])) {
             $markerArray['###ORDERCONFIRMATION_HTML_OUTPUT###'] = $orderData['html_output'];	// The save order-information in HTML-format
         } else {
             $markerArray['###ORDERCONFIRMATION_HTML_OUTPUT###'] = '';
         }
 
         $checkedHTML = ($bUseXHTML ? 'checked="checked"' : 'checked');
-        $markerArray['###FIELD_EMAIL_NOTIFY###'] = $orderRow['email_notify'] ? ' ' . $checkedHTML : '';
+        $markerArray['###FIELD_EMAIL_NOTIFY###'] = !empty($orderRow['email_notify']) ? ' ' . $checkedHTML : '';
 
-        $markerArray['###FIELD_EMAIL###'] = $orderRow['email'];
-        $markerArray['###ORDER_UID###'] = $markerArray['###ORDER_ORDER_NO###'] = $orderObj->getNumber($orderRow['uid']);
-        $markerArray['###ORDER_DATE###'] = $this->cObj->stdWrap($orderRow['crdate'], $this->conf['orderDate_stdWrap.'] ?? '');
+        $markerArray['###FIELD_EMAIL###'] = $orderRow['email'] ?? '';
+        $markerArray['###ORDER_UID###'] = $markerArray['###ORDER_ORDER_NO###'] = $orderObj->getNumber($orderRow['uid'] ?? 0);
+        $markerArray['###ORDER_DATE###'] = $this->cObj->stdWrap($orderRow['crdate'] ?? '', $this->conf['orderDate_stdWrap.'] ?? '');
         $markerArray['###TRACKING_NUMBER###'] = $trackingCode;
         $markerArray['###UPDATE_CODE###'] = $updateCode;
         $markerArray['###TRACKING_DATA_NAME###'] = $pibaseObj->prefixId . '[data]';

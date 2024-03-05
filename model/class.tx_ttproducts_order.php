@@ -778,14 +778,19 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
 
     public function getOrderData($row)
     {
+        $orderData = false;
+
         // initialize order data.
-        $orderData = unserialize($row['orderData']);
-        if ($orderData === false) {
-            $orderData =
+        if (!empty($row)) {
+            $orderData = unserialize($row['orderData']);
+
+            if ($orderData === false) {
+                $orderData =
                 SystemUtility::unserialize(
                     $row['orderData'],
                     false
                 );
+            }
         }
 
         return $orderData;

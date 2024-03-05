@@ -36,7 +36,7 @@
     "jambagecom/addons-em": "^0.6",
     "jambagecom/taxajax": "^1.0",
     "jambagecom/static-info-tables-taxes": "^0.6",
-    "sjbr/static-info-tables": "^6.7 || ^6.8 || ^6.9 || ^11.5|| ^12"
+    "sjbr/static-info-tables": "^11.5|| ^12"
   },
   "autoload": {
     "psr-4": {
