@@ -244,6 +244,8 @@ class tx_ttproducts_form_div
         $spaceArray = [];
         $spaceArray['pre'] = ($preMainAttributes != '' ? ' ' : '');
         $spaceArray['post'] = ($mainAttributes != '' ? ' ' : '');
+        $attributeTextArray['pre'] = '';
+        $attributeTextArray['post'] = '';
 
         foreach ($attributeArray as $k => $attributes) {
             if (isset($attributes) && is_array($attributes)) {

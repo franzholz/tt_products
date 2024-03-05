@@ -94,7 +94,7 @@ class tx_ttproducts_control_command
                     isset($cmdData['download']) ||
                     isset($cmdData['fal'])
                 ) {
-                    $falUid = intval($cmdData['fal']);
+                    $falUid = intval($cmdData['fal'] ?? 0);
                     $downloadTable = $tablesObj->get('tt_products_downloads', false);
                     $downloadVar =
                         tx_ttproducts_model_control::getPiVar(
@@ -127,7 +127,7 @@ class tx_ttproducts_control_command
                         $whereProducts
                     );
 
-                    $uid = intval($piVars[$downloadVar]);
+                    $uid = intval($piVars[$downloadVar] ?? 0);
                     $downloadAuthorization = $cnf->getDownloadConf('authorization');
                     $validFeUser = false;
                     if (

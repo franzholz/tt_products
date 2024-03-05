@@ -181,7 +181,7 @@ class tx_ttproducts_tables implements SingletonInterface
 
         $result = false;
         if ($resultInit) {
-            $result = ($bView ? $tableObj['view'] : $tableObj['model'] ?? false);
+            $result = ($bView ? $tableObj['view'] ?? false : $tableObj['model'] ?? false);
         }
 
         return $result;
