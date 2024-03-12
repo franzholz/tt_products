@@ -83,7 +83,8 @@ class tx_ttproducts_form_div
 
                 if ($bTranslateText) {
                     $tmp = $languageObj->splitLabel($selectValue);
-                    $text = $languageObj->getLabel($tmp);
+                    $usedLang = '';
+                    $text = $languageObj->getLabel($tmp, $usedLang);
                 } else {
                     $text = '';
                 }
@@ -163,6 +164,7 @@ class tx_ttproducts_form_div
 
             if ($bSelectTags && $type == 'select' && $name != '') {
                 $mainAttributes = '';
+
                 if (isset($mainAttributeArray) && is_array($mainAttributeArray)) {
                     $mainAttributes = self::getAttributeString($mainAttributeArray);
                 }
