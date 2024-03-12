@@ -184,6 +184,7 @@ class tx_ttproducts_control_command
                             foreach ($productRowArray as $productRow) {
                                 $productUidArray[$productRow['uid']] = $productRow['uid'];
                             }
+                            $downloadTagArray = [];
                             $downloadArray =
                                 $downloadTable->getRelatedUidArray(
                                     implode(',', $productUidArray),
