@@ -22,12 +22,15 @@ class EmConfiguration
      *
      * @param array $configuration em configuration
      */
-    public function __construct(array $configuration = [])
+    public function __construct($extensionKey, array $configuration = [])
     {
+        $this->extensionKey = $extensionKey;
+        $this->templateFile = 'EXT:' . $this->extensionKey . '/Resources/Private/Templates/example_locallang_xml.html';
+
         if (empty($configuration)) {
             try {
                 $extensionConfiguration = GeneralUtility::makeInstance(ExtensionConfiguration::class);
-                $configuration = $extensionConfiguration->get(TT_PRODUCTS_EXT);
+                $configuration = $extensionConfiguration->get($extensionKey);
             } catch (\Exception $exception) {
                 // do nothing
             }
@@ -49,6 +52,9 @@ class EmConfiguration
             }
         }
     }
+
+    /** @var string */
+    protected $extensionKey = '';
 
     /** @var int */
     protected $pageAsCategory = 0;
@@ -87,7 +93,7 @@ class EmConfiguration
     protected $creditpoints = false;
 
     /** @var string */
-    protected $templateFile = 'EXT:' . TT_PRODUCTS_EXT . '/Resources/Private/Templates/example_locallang_xml.html';
+    protected $templateFile = '';
 
     /** @var string */
     protected $templateCheck = '/([^#]+(#{2}|#{5}|#{7,8})([^#])+?)/';
@@ -121,6 +127,11 @@ class EmConfiguration
 
     /** @var string */
     protected $slugBehaviour = 'unique';
+
+    public function getExtensionKey(): string
+    {
+        return $this->extensionKey;
+    }
 
     public function getPageAsCategory(): int
     {

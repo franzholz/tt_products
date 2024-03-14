@@ -2,7 +2,6 @@
 
 defined('TYPO3') || die('Access denied.');
 
-$configuration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\JambageCom\TtProducts\Domain\Model\Dto\EmConfiguration::class);
 
 // ******************************************************************
 // This is the language overlay for the articles table, tt_products_articles
@@ -11,6 +10,8 @@ $configuration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\JambageCo
 $extensionKey = 'tt_products';
 $languageSubpath = '/Resources/Private/Language/';
 $languageLglPath = 'LLL:EXT:core' . $languageSubpath . 'locallang_general.xlf:LGL.';
+
+$configuration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\JambageCom\TtProducts\Domain\Model\Dto\EmConfiguration::class, $extensionKey);
 
 $result = [
     'ctrl' => [
