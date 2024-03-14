@@ -8,6 +8,7 @@ defined('TYPO3') || die('Access denied.');
 
 $extensionKey = 'tt_products';
 $languageSubpath = '/Resources/Private/Language/';
+$languageLglPath = 'LLL:EXT:core' . $languageSubpath . 'locallang_general.xlf:LGL.';
 
 $result = [
     'ctrl' => [
@@ -18,7 +19,7 @@ $result = [
         'enablecolumns' => [
             'disabled' => 'hidden',
         ],
-        'prependAtCopy' => 'LLL:EXT:core' . $languageSubpath . 'locallang_general.xlf:LGL.prependAtCopy',
+        'prependAtCopy' => $languageLglPath . 'prependAtCopy',
         'crdate' => 'crdate',
         'iconfile' => 'EXT:' . $extensionKey . '/Resources/Public/Icons/tt_products_relations.gif',
         'hideTable' => true,
