@@ -5,9 +5,6 @@ defined('TYPO3') || die('Access denied.');
 $extensionKey = 'tt_products';
 $accountField = 'ac_number';
 
-if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['sepa']) {
-    $accountField = 'iban';
-}
 
 // ******************************************************************
 // These are the bank account data used for orders
