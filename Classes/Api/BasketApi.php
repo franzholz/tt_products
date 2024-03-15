@@ -37,10 +37,12 @@ namespace JambageCom\TtProducts\Api;
  * @package TYPO3
  * @subpackage tt_products
  */
-use JambageCom\Div2007\Utility\TableUtility;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class BasketApi
+use JambageCom\Div2007\Utility\TableUtility;
+
+class BasketApi implements SingletonInterface
 {
     public static function getQuantity($content, $basketConf)
     {
