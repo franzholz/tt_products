@@ -290,7 +290,6 @@ $result = [
             'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_cat.email_uid',
             'config' => [
                 'type' => 'group',
-                'internal_type' => 'db',
                 'allowed' => 'tt_products_emails',
                 'foreign_table' => 'tt_products_emails',
                 'foreign_table_where' => ' ORDER BY tt_products_emails.name',

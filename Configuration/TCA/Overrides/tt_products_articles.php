@@ -20,7 +20,6 @@ call_user_func(function ($extensionKey, $table): void {
                 'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_articles.uid_product',
                 'config' => [
                     'type' => 'group',
-                    'internal_type' => 'db',
                     'allowed' => 'tt_products',
                     'size' => 1,
                     'minitems' => 0,

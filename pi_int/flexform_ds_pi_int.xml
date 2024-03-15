@@ -178,7 +178,6 @@
 				<label>LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.product_selection</label>
 				<config>
 					<type>group</type>
-					<internal_type>db</internal_type>
 					<allowed>tt_products</allowed>
 					<size>10</size>
 					<maxitems>30</maxitems>

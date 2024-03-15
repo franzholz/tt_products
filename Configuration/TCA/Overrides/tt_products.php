@@ -132,7 +132,6 @@ call_user_func(function ($extensionKey, $table): void {
                 'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products.article_uid',
                 'config' => [
                     'type' => 'group',
-                    'internal_type' => 'db',
                     'allowed' => 'tt_products_articles',
                     'MM' => 'tt_products_products_mm_articles',
                     'foreign_table' => 'tt_products_articles',
@@ -215,7 +214,6 @@ call_user_func(function ($extensionKey, $table): void {
             'label' => $languageLglPath . 'address',
             'config' => [
                 'type' => 'group',
-                'internal_type' => 'db',
                 'allowed' => $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['addressTable'],
                 'size' => 1,
                 'minitems' => 0,
