@@ -2,8 +2,6 @@
 
 namespace JambageCom\TtProducts\Domain\Model\Dto;
 
-use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * This file is part of the "news" Extension for TYPO3 CMS.
@@ -12,46 +10,18 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * LICENSE.txt file that was distributed with this source code.
  */
 
+use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
+use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
+
+
 /**
  * Extension Manager configuration.
  */
-class EmConfiguration
+final class EmConfiguration implements SingletonInterface
 {
-    /**
-     * Fill the properties properly.
-     *
-     * @param array $configuration em configuration
-     */
-    public function __construct($extensionKey, array $configuration = [])
-    {
-        $this->extensionKey = $extensionKey;
-        $this->templateFile = 'EXT:' . $this->extensionKey . '/Resources/Private/Templates/example_locallang_xml.html';
-
-        if (empty($configuration)) {
-            try {
-                $extensionConfiguration = GeneralUtility::makeInstance(ExtensionConfiguration::class);
-                $configuration = $extensionConfiguration->get($extensionKey);
-            } catch (\Exception $exception) {
-                // do nothing
-            }
-        }
-
-        foreach ($configuration as $key => $value) {
-            if (is_array($value)) {
-                $position = strpos($key, '.');
-                $property = substr($key, 0, $position);
-                if (
-                    property_exists(self::class, $property) &&
-                    is_array($this->$property)
-                ) {
-                    $this->$property =
-                        array_merge($this->$property, $value);
-                }
-            } elseif (property_exists(self::class, $key)) {
-                $this->$key = $value;
-            }
-        }
-    }
+    // private ?ExtensionConfiguration $extensionConfiguration = null;
 
     /** @var string */
     protected $extensionKey = '';
@@ -127,6 +97,50 @@ class EmConfiguration
 
     /** @var string */
     protected $slugBehaviour = 'unique';
+
+    /**
+     * Fill the properties properly.
+     *
+     * @param array $configuration em configuration
+     */
+    public function __construct(
+        private readonly ExtensionConfiguration $extensionConfiguration,
+        string $extensionKey,
+        array $configuration = [],
+    )
+    {
+        $this->extensionKey = $extensionKey;
+        $this->templateFile = 'EXT:' . $this->extensionKey . '/Resources/Private/Templates/example_locallang_xml.html';
+
+        if (empty($configuration)) {
+            try {
+                $configuration = $this->extensionConfiguration->get($extensionKey);
+            } catch (\Exception $exception) {
+                // do nothing
+            }
+        }
+
+        foreach ($configuration as $key => $value) {
+            if (is_array($value)) {
+                $position = strpos($key, '.');
+                $property = substr($key, 0, $position);
+                if (
+                    property_exists(self::class, $property) &&
+                    is_array($this->$property)
+                ) {
+                    $this->$property =
+                    array_merge($this->$property, $value);
+                }
+            } elseif (property_exists(self::class, $key)) {
+                $this->$key = $value;
+            }
+        }
+    }
+
+    // public function injectExtensionConfiguration(ExtensionConfiguration $extensionConfiguration)
+    // {
+    //     $this->extensionConfiguration = $extensionConfiguration;
+    // }
 
     public function getExtensionKey(): string
     {
@@ -233,3 +247,4 @@ class EmConfiguration
         return $this->slugBehaviour;
     }
 }
+
