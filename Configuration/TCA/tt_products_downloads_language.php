@@ -172,7 +172,6 @@ $result = [
             'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_downloads_language.parent_uid',
             'config' => [
                 'type' => 'group',
-                'internal_type' => 'db',
                 'allowed' => 'tt_products_downloads',
                 'foreign_table' => 'tt_products_downloads',
                 'foreign_table_where' => 'AND tt_products_downloads.pid IN (###CURRENT_PID###) ORDER BY tt_products_downloads.uid',

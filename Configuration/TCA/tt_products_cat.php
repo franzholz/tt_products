@@ -230,37 +230,59 @@ $result = [
                 'default' => null,
             ],
         ],
-        'image' => [
+        'image_uid' => [
             'exclude' => 1,
-            'label' => $languageLglPath . 'image',
-            'config' => [
-                'type' => 'group',
-                'internal_type' => 'file',
-                'allowed' => $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'],
-                'max_size' => $GLOBALS['TYPO3_CONF_VARS']['BE']['maxFileSize'] ?? 0,
-                'uploadfolder' => $imageFolder,
-                'size' => '3',
-                'maxitems' => '10',
-                'minitems' => '0',
-                'eval' => 'null',
-                'default' => null,
-            ],
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_cat.image_uid',
+            'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
+                'image_uid',
+                [
+                    'appearance' => [
+                        'createNewRelationLinkTitle' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:images.addFileReference',
+                        'collapseAll' => true,
+                    ],
+                    'foreign_types' => [
+                        '0' => [
+                            'showitem' => '
+                            --palette--;LLL:EXT:core' . $languageSubpath .
+                            'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
+                            --palette--;;filePalette',
+                        ],
+                        \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => [
+                            'showitem' => '
+                            --palette--;LLL:EXT:core' . $languageSubpath . 'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
+                            --palette--;;filePalette',
+                        ],
+                    ],
+                ],
+                $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']
+            ),
         ],
-        'sliderimage' => [
+        'sliderimage_uid' => [
             'exclude' => 1,
-            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_cat.sliderimage',
-            'config' => [
-                'type' => 'group',
-                'internal_type' => 'file',
-                'allowed' => $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'],
-                'max_size' => $GLOBALS['TYPO3_CONF_VARS']['BE']['maxFileSize'] ?? 0,
-                'uploadfolder' => $imageFolder,
-                'size' => '3',
-                'maxitems' => '10',
-                'minitems' => '0',
-                'eval' => 'null',
-                'default' => null,
-            ],
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_cat.sliderimage_uid',
+            'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
+                'sliderimage_uid',
+                [
+                    'appearance' => [
+                        'createNewRelationLinkTitle' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:images.addFileReference',
+                        'collapseAll' => true,
+                    ],
+                    'foreign_types' => [
+                        '0' => [
+                            'showitem' => '
+                            --palette--;LLL:EXT:core' . $languageSubpath .
+                            'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
+                            --palette--;;filePalette',
+                        ],
+                        \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => [
+                            'showitem' => '
+                            --palette--;LLL:EXT:core' . $languageSubpath . 'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
+                            --palette--;;filePalette',
+                        ],
+                    ],
+                ],
+                $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']
+            ),
         ],
         'discount' => [
             'exclude' => 1,
@@ -290,7 +312,6 @@ $result = [
             'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_cat.email_uid',
             'config' => [
                 'type' => 'group',
-                'internal_type' => 'db',
                 'allowed' => 'tt_products_emails',
                 'foreign_table' => 'tt_products_emails',
                 'foreign_table_where' => ' ORDER BY tt_products_emails.name',

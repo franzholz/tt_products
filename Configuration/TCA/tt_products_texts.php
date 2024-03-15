@@ -152,7 +152,6 @@ $result = [
             'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_texts.parentid',
             'config' => [
                 'type' => 'group',
-                'internal_type' => 'db',
                 'allowed' => 'tt_products',
                 'prepend_tname' => false,
                 'foreign_table_where' => 'AND tt_products.pid IN (###CURRENT_PID###) ORDER BY tt_products.title',
