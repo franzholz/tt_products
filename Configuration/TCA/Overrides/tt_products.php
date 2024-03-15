@@ -2,11 +2,10 @@
 
 defined('TYPO3') || die('Access denied.');
 
-use TYPO3\CMS\Core\Information\Typo3Version;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 call_user_func(function ($extensionKey, $table): void {
-    $configuration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\JambageCom\TtProducts\Domain\Model\Dto\EmConfiguration::class);
+    $configuration = GeneralUtility::makeInstance(\JambageCom\TtProducts\Domain\Model\Dto\EmConfiguration::class);
     $whereTaxCategory = '';
     $bSelectTaxMode = false;
     $extensionKeyStaticTaxes = 'static_info_tables_taxes';
@@ -21,13 +20,13 @@ call_user_func(function ($extensionKey, $table): void {
         is_array($taxArray) &&
         isset($taxArray['fields'])
     ) {
-        $taxFields = implode(',', \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $taxArray['fields']));
+        $taxFields = implode(',', GeneralUtility::trimExplode(',', $taxArray['fields']));
     }
 
     if (
         (
-            \TYPO3\CMS\Core\Utility\GeneralUtility::inList($taxFields, 'tax_id') ||
-            \TYPO3\CMS\Core\Utility\GeneralUtility::inList($taxFields, 'taxcat_id')
+            GeneralUtility::inList($taxFields, 'tax_id') ||
+            GeneralUtility::inList($taxFields, 'taxcat_id')
         ) &&
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($extensionKeyStaticTaxes)
     ) {
@@ -49,7 +48,7 @@ call_user_func(function ($extensionKey, $table): void {
         $newFields = '';
         $firstField = '';
 
-        if (\TYPO3\CMS\Core\Utility\GeneralUtility::inList($taxFields, 'taxcat_id')) {
+        if (GeneralUtility::inList($taxFields, 'taxcat_id')) {
             $temporaryColumns['taxcat_id'] = [
                 'exclude' => '0',
                 'label' => 'LLL:EXT:' . $extensionKeyStaticTaxes . $languageSubpath . 'locallang_db.xlf:static_tax_categories',
@@ -78,7 +77,7 @@ call_user_func(function ($extensionKey, $table): void {
             $firstField = 'taxcat_id';
         }
 
-        if (\TYPO3\CMS\Core\Utility\GeneralUtility::inList($taxFields, 'tax_id')) {
+        if (GeneralUtility::inList($taxFields, 'tax_id')) {
             $temporaryColumns['tax_id'] = [
                 'exclude' => 0,
                 'label' => 'LLL:EXT:' . $extensionKeyStaticTaxes . $languageSubpath . 'locallang_db.xlf:static_taxes.tx_rate_id',
@@ -108,7 +107,7 @@ call_user_func(function ($extensionKey, $table): void {
             $temporaryColumns
         );
 
-        if (\TYPO3\CMS\Core\Utility\GeneralUtility::inList($taxFields, 'tax')) {
+        if (GeneralUtility::inList($taxFields, 'tax')) {
             // nothing
         } else {
             $GLOBALS['TCA'][$table]['types']['0'] = str_replace(', tax;', ', ' . $firstField . ';', $GLOBALS['TCA'][$table]['types']['0']);
@@ -154,53 +153,18 @@ call_user_func(function ($extensionKey, $table): void {
             break;
     }
 
-    $orderBySortingTablesArray = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['orderBySortingTables']);
+    $orderBySortingTablesArray = GeneralUtility::trimExplode(',', $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['orderBySortingTables']);
 
-    $typo3Version = GeneralUtility::makeInstance(Typo3Version::class);
-    $version = $typo3Version->getVersion();
+    $GLOBALS['TCA'][$table]['columns']['syscat'] = [
+        'config' => [
+            'type' => 'category',
+        ],
+    ];
 
-    if (version_compare($version, '11.5.0', '>=')) {
-        $GLOBALS['TCA'][$table]['columns']['syscat'] = [
-            'config' => [
-                'type' => 'category',
-            ],
-        ];
-
-        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes(
-            $table,
-            'categories'
-        );
-    } else {
-        $sysCategoryOrderBy = 'sys_category.title ASC';
-
-        if (
-            !empty($orderBySortingTablesArray) &&
-            in_array('sys_category', $orderBySortingTablesArray)
-        ) {
-            $sysCategoryOrderBy = 'sys_category.sorting ASC';
-        }
-
-        // Add an extra system categories selection field to the tt_products table
-        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::makeCategorizable(
-            $extensionKey,
-            $table,
-            'syscat',
-            [
-                // Set a custom label
-                'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products.syscat',
-                // This field can be an exclude-field
-                'exclude' => 1,
-                // Override generic configuration, e.g. sort by title rather than by sorting
-                'fieldConfiguration' => [
-                    'foreign_table_where' => ' AND sys_category.sys_language_uid IN (-1, 0) ORDER BY ' . $sysCategoryOrderBy,
-                ],
-                // string (keyword), see TCA reference for details
-                'l10n_mode' => 'exclude',
-                // list of keywords, see TCA reference for details
-                'l10n_display' => 'hideDiff',
-            ]
-        );
-    }
+    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes(
+        $table,
+        'categories'
+    );
 
     $palleteAddition = ',--palette--;LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_file_reference.shopAttributes;tt_productsPalette';
     // TODO.
@@ -232,7 +196,7 @@ call_user_func(function ($extensionKey, $table): void {
         );
     }
 
-    $orderBySortingTablesArray = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['orderBySortingTables']);
+    $orderBySortingTablesArray = GeneralUtility::trimExplode(',', $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['orderBySortingTables']);
     if (
         !empty($orderBySortingTablesArray) &&
         in_array($table, $orderBySortingTablesArray)

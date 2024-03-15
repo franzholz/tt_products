@@ -2,8 +2,10 @@
 
 defined('TYPO3') || die('Access denied.');
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 call_user_func(function ($extensionKey, $table): void {
-    $configuration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\JambageCom\TtProducts\Domain\Model\Dto\EmConfiguration::class);
+    $configuration =  GeneralUtility::makeInstance(\JambageCom\TtProducts\Domain\Model\Dto\EmConfiguration::class);
     $languageSubpath = '/Resources/Private/Language/';
     $languageLglPath = 'LLL:EXT:core' . $languageSubpath . 'locallang_general.xlf:LGL.';
     $fieldArray = ['tstamp', 'crdate', 'starttime', 'endtime'];
@@ -37,7 +39,7 @@ call_user_func(function ($extensionKey, $table): void {
             break;
     }
 
-    $orderBySortingTablesArray = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['orderBySortingTables']);
+    $orderBySortingTablesArray = GeneralUtility::trimExplode(',', $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['orderBySortingTables']);
     if (
         !empty($orderBySortingTablesArray) &&
         in_array($table, $orderBySortingTablesArray)
@@ -51,66 +53,6 @@ call_user_func(function ($extensionKey, $table): void {
                 ],
             ];
     }
-
-    $GLOBALS['TCA'][$table]['columns']['image_uid'] = [
-        'exclude' => 1,
-        'label' => $languageLglPath . 'image',
-        'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
-            'image_uid',
-            [
-                'appearance' => [
-                    'createNewRelationLinkTitle' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:images.addFileReference',
-                    'collapseAll' => true,
-                ],
-                'foreign_types' => [
-                    '0' => [
-                        'showitem' => '
-                            --palette--;LLL:EXT:core' . $languageSubpath . 'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                            --palette--;;filePalette',
-                    ],
-                    \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => [
-                        'showitem' => '
-                            --palette--;LLL:EXT:core' . $languageSubpath . 'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                            --palette--;;filePalette',
-                    ],
-                ],
-            ],
-            $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']
-        ),
-    ];
-
-    $GLOBALS['TCA'][$table]['columns']['smallimage_uid'] = [
-        'exclude' => 1,
-        'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products.smallimage',
-        'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
-            'smallimage_uid',
-            [
-                'appearance' => [
-                    'createNewRelationLinkTitle' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:images.addFileReference',
-                    'collapseAll' => true,
-                ],
-                'foreign_types' => [
-                    '0' => [
-                        'showitem' => '
-                            --palette--;LLL:EXT:core' . $languageSubpath . 'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                            --palette--;;filePalette',
-                    ],
-                    \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => [
-                        'showitem' => '
-                            --palette--;LLL:EXT:core' . $languageSubpath . 'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                            --palette--;;filePalette',
-                    ],
-                ],
-            ],
-            $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']
-        ),
-    ];
-
-    $GLOBALS['TCA'][$table]['types']['1']['showitem'] = str_replace(',image,', ',image_uid,', $GLOBALS['TCA'][$table]['types']['1']['showitem']);
-    $GLOBALS['TCA'][$table]['types']['1']['showitem'] = str_replace(',smallimage,', ',smallimage_uid,', $GLOBALS['TCA'][$table]['types']['1']['showitem']);
-
-    unset($GLOBALS['TCA'][$table]['columns']['image']);
-    unset($GLOBALS['TCA'][$table]['columns']['smallimage']);
 
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToInsertRecords($table);
 
