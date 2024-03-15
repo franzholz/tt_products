@@ -424,7 +424,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view
 
         $result = '';
 
-        $orderBy = $tableconf['orderBy'];
+        $orderBy = $tableconf['orderBy'] ?? '';
         if ($orderBy == '') {
             $orderBy = 'uid';
         }
@@ -436,7 +436,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view
             $valueArray[] = '';
 
             foreach ($feuserRowArray as $uid => $row) {
-                $valueArray[] = [$row['uid'] . ' - ' . $row['name'] . ' - ' . $row['city'], $uid];
+                $valueArray[] = ['value' => $uid, 'label' => $row['uid'] . ' - ' . $row['name'] . ' - ' . $row['city']];
             }
 
             $piVar = tx_ttproducts_model_control::getPiVar('orderaddress');
@@ -734,7 +734,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view
             }
 
             if ($feusers_uid) {
-                $res1 = $GLOBALS['TYPO3_DB']->exec_SELECTquery('name ', 'fe_users', 'uid=' . intval($feusers_uid));
+                $res1 = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid,name ', 'fe_users', 'uid=' . intval($feusers_uid));
                 $row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res1);
                 $GLOBALS['TYPO3_DB']->sql_free_result($res1);
                 static::setFeuserMarker($feuserMarker, $row, $markerArray);

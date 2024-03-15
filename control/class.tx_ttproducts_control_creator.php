@@ -230,9 +230,10 @@ class tx_ttproducts_control_creator implements SingletonInterface
         if (isset($conf['_LOCAL_LANG.'])) {
             $confLocalLang = $conf['_LOCAL_LANG.'];
         }
-        if (isset($conf['marks.'])) {
-            $confLocalLang = array_merge($confLocalLang, $conf['marks.']);
+        if (isset($conf['marks.']['_LOCAL_LANG.'])) {
+            $confLocalLang = array_merge_recursive($confLocalLang, $conf['marks.']['_LOCAL_LANG.']);
         }
+
         $languageObj->init(
             TT_PRODUCTS_EXT,
             $confLocalLang,

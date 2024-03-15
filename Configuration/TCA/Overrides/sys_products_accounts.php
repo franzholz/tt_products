@@ -3,8 +3,16 @@
 defined('TYPO3') || die('Access denied.');
 
 call_user_func(function ($extensionKey, $table): void {
-    if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['sepa']) {
+    $accountField = 'ac_number';
+
+    if (!empty($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['sepa'])) {
+
         unset($GLOBALS['TCA'][$table]['columns']['ac_number']);
+        $accountField = 'iban';
+        $GLOBALS['TCA'][$table]['ctrl']['label'] = $accountField;
+        $GLOBALS['TCA'][$table]['ctrl']['default_sortby'] = 'ORDER BY ' . $accountField;
+        $GLOBALS['TCA'][$table]['ctrl']['searchFields'] = 'owner_name,' . $accountField;
+
         if (!$GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['bic']) {
             unset($GLOBALS['TCA'][$table]['columns']['bic']);
         }

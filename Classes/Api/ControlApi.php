@@ -67,12 +67,12 @@ class ControlApi
 
         if (
             (
-                !$infoArray['billing'] ||
-                !$infoArray['billing'][$checkField] ||
-                $conf['editLockedLoginInfo'] ||
-                !empty($infoArray['billing']['error'])
+                empty($infoArray['billing']) ||
+                !empty($checkField) && empty($infoArray['billing'][$checkField]) ||
+                !empty($infoArray['billing']['error']) ||
+                !empty($conf['editLockedLoginInfo'])
             ) &&
-            $conf['lockLoginUserInfo']
+            !empty($conf['lockLoginUserInfo'])
         ) {
             $overwriteMode = true;
         }

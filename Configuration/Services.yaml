@@ -1,4 +1,17 @@
 services:
+  _defaults:
+    autowire: true
+    autoconfigure: true
+    public: false
+  JambageCom\TtProducts\:
+    resource: '../Classes/*'
+    exclude: '../Classes/Middleware/*'
+
+  JambageCom\TtProducts\Domain\Model\Dto\EmConfiguration:
+    arguments:
+      $extensionKey: 'tt_products'
+    public: true
+
   JambageCom\TtProducts\EventListener\PageContentPreviewRenderingListener:
     tags:
       - name: event.listener

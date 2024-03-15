@@ -101,7 +101,7 @@ class tx_ttproducts_basket implements SingletonInterface
             is_array($_REQUEST['recs']['personinfo'])
         ) {
             $bAgbSet = $this->recs['personinfo']['agb'] ?? false;
-            $this->recs['personinfo']['agb'] = $_REQUEST['recs']['personinfo']['agb'] ?? false;
+            $this->recs['personinfo']['agb'] = !empty($_REQUEST['recs']['personinfo']['agb']) ?? false;
             if ($bAgbSet != $this->recs['personinfo']['agb']) {
                 tx_ttproducts_control_session::writeSession('recs', $this->recs);   // store this change
             }

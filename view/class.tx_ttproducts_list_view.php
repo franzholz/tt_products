@@ -110,7 +110,7 @@ class tx_ttproducts_list_view implements SingletonInterface
     } // finishHTMLRow
 
     public function advanceCategory(
-        &$categoryAndItemsFrameWork,
+        $categoryAndItemsFrameWork,
         &$itemListOut,
         &$categoryOut,
         $itemListSubpart,
@@ -2116,9 +2116,9 @@ class tx_ttproducts_list_view implements SingletonInterface
                                 $displayCatHeader == 'always'
                             )
                         ) {
-                            $catItemsListOut = $itemListOut;
+                            $catItemsListOut = &$itemListOut;
                             if ($itemTable->getType() == 'article' && $productListOut && $t['productAndItemsFrameWork']) {
-                                $catItemsListOut = $productListOut;
+                                $catItemsListOut = &$productListOut;
                             }
 
                             if ($catItemsListOut && $conf['displayListCatHeader']) {

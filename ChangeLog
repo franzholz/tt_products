@@ -1,3 +1,6 @@
+2024-03-12 Franz Holzinger <franz@ttproducts.de>
+    * fix bug with enless product list: The category header HTML addition must clear the list HTML of the next product row.
+
 2024-02-14 Franz Holzinger <franz@ttproducts.de>
     * move template files into Resources/Private/Templates
 
@@ -29,7 +32,7 @@
     * bugfix: datasheet_uid in front end
 
 2023-03-09 Franz Holzinger <franz@ttproducts.de>
-    * compatibility Deprecation no.92947: replace TYPO3_MODE by TYPO3 
+    * compatibility Deprecation no.92947: replace TYPO3_MODE by TYPO3
     * bugfix: datasheet_uid
     * compatibility: remove code < TYPO3 10
 
@@ -118,7 +121,7 @@
 
 2021-11-16 Franz Holzinger <franz@ttproducts.de>
     * fix issue #100: Error case with wrong product uid in string form must show correctly HTML formatted output.
-    
+
 2021-10-26 Franz Holzinger <franz@ttproducts.de>
     * bugfix compatibility TYPO3 10.4: FAL must always be used for TYPO3 10, no matter what has been configured for tt_products.
 
@@ -237,8 +240,8 @@
     * compatibility TYPO3 10.4: The $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT] array components must not have a trailing dot.
 
 2021-01-29 Franz Holzinger <franz@ttproducts.de>
-    * compatibility PHP 7.4: Curly braces as method to get individual characters inside of a string have been removed, 
-    * compatibility TYPO3 10.4: add missing renderType to <type>select</type> in TCA flexform configuration. 
+    * compatibility PHP 7.4: Curly braces as method to get individual characters inside of a string have been removed,
+    * compatibility TYPO3 10.4: add missing renderType to <type>select</type> in TCA flexform configuration.
     * compatibility TYPO3 10.4 deprecation 85445: Replace TemplateService->getFileName by TYPO3\CMS\Frontend\Resource\FilePathSanitizer object method sanitize.
 
 2021-01-25 Franz Holzinger <franz@ttproducts.de>
@@ -250,7 +253,7 @@
     * enhancement issue #75: support more email addresses by regexp
 
 2020-12-08 Franz Holzinger <franz@ttproducts.de>
-    * bugfix: Wrong order of treatment of the language object and the marker substitution 
+    * bugfix: Wrong order of treatment of the language object and the marker substitution
 
 2020-12-01 Franz Holzinger <franz@ttproducts.de>
     * enhancement to feature foundby: Setup foundby.type = radio fo show a radio box inside of the marker ###DELIVERY_FOUNDBY_SELECTOR###.
@@ -259,8 +262,8 @@
     * use constant DIV2007_LANGUAGE_PATH for the TYPO3 language file path.
     * bugfix: \JambageCom\TtProducts\Domain\Model\Dto\EmConfiguration is sometimes not found in the TCA folder, but only inside of Overrides
     * compatibility 9: Replace ExtensionManagementUtility::siteRelPath by \TYPO3\CMS\Core\Utility\PathUtility::stripPathSitePrefix(\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath(TT_PRODUCTS_EXT)
-    * compatibility 9: replace PATH_site by \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/' 
-    
+    * compatibility 9: replace PATH_site by \TYPO3\CMS\Core\Core\Environment::getPublicPath() . '/'
+
 2020-11-19 Franz Holzinger <franz@ttproducts.de>
     * support for taxajax extension based on Middleware
     * bugfix issue #73: Trim the product title in the TCA and other fields.

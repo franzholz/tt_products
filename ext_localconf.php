@@ -74,7 +74,8 @@ call_user_func(function ($extensionKey): void {
     if (
         isset($extensionConfiguration) && is_array(
             $extensionConfiguration
-        )) {
+        )
+    ) {
         $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey] =
             array_merge($extensionConfiguration, $originalConfiguration);
     } elseif (!isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey])) {

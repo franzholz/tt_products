@@ -44,7 +44,7 @@ class StatusProvider extends StatusProviderBase
      *
      * @return array List of status
      */
-    public function getStatus()
+    public function getStatus(): array
     {
         $result = [
             'requiredExtensionsAreInstalled' => $this->checkIfRequiredExtensionsAreInstalled(),

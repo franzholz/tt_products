@@ -1,3 +1,5 @@
+|TYPO3| |Monthly Downloads|
+
 TYPO3 extension tt_products
 ===========================
 
@@ -46,3 +48,9 @@ Improvements
 
 Contribute under `Github
 tt_products <https://github.com/franzholz/tt_products>`__ .
+
+
+.. |TYPO3| image:: https://img.shields.io/badge/TYPO3-Extension-orange?logo=TYPO3
+   :target: https://extensions.typo3.org/extension/tt_products
+.. |Monthly Downloads| image:: https://poser.pugx.org/jambagecom/tt-products/d/monthly
+   :target: https://packagist.org/packages/jambagecom/tt-products

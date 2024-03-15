@@ -284,7 +284,7 @@ class tx_ttproducts_info_view implements SingletonInterface
                         'billing' :
                         'delivery'
                 );
-                $row = $countryObj->isoGet($this->infoArray[$type]['country_code'], $where);
+                $row = $countryObj->isoGet($this->infoArray[$type]['country_code'] ?? '' , $where);
                 if (!$row) {
                     $rc = 'country';
                 }
@@ -320,12 +320,12 @@ class tx_ttproducts_info_view implements SingletonInterface
 
         $resultArray = [];
         $resultArray['shop'] = [
-            'email' => $conf['orderEmail_from'],
-            'name' => $conf['orderEmail_fromName'],
+            'email' => $conf['orderEmail_from'] ?? '',
+            'name' => $conf['orderEmail_fromName'] ?? '',
         ];
         $resultArray['customer'] = [
             'email' => $customerEmail,
-            'name' => $this->infoArray['billing']['name'],
+            'name' => $this->infoArray['billing']['name'] ?? '',
         ];
 
         return $resultArray;
