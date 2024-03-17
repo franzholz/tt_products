@@ -3,29 +3,29 @@
   <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/Modfunc/locallang_modfunc1.xlf" date="2017-07-08T12:59:44Z" product-name="tt_products" target-language="da">
     <header/>
     <body>
-      <trans-unit id="age" resname="age">
+      <trans-unit id="age" resname="age" approved="yes">
         <source>Age of records in days</source>
-        <target state="translated">Alder på elementer i dage</target>
+        <target state="final">Alder på elementer i dage</target>
       </trans-unit>
-      <trans-unit id="title" resname="title">
+      <trans-unit id="title" resname="title" approved="yes">
         <source>Move Items</source>
-        <target state="translated">Flyt emner</target>
+        <target state="final">Flyt emner</target>
       </trans-unit>
-      <trans-unit id="only_admin" resname="only_admin">
+      <trans-unit id="only_admin" resname="only_admin" approved="yes">
         <source>These functions are only available for admins.</source>
-        <target state="translated">Disse funktioner er kun tilgængelige for administratorer.</target>
+        <target state="final">Disse funktioner er kun tilgængelige for administratorer.</target>
       </trans-unit>
-      <trans-unit id="pid_src" resname="pid_src">
+      <trans-unit id="pid_src" resname="pid_src" approved="yes">
         <source>The source id is %d.</source>
-        <target state="translated">Kilde id er %d.</target>
+        <target state="final">Kilde id er %d.</target>
       </trans-unit>
-      <trans-unit id="pid_dest" resname="pid_dest">
+      <trans-unit id="pid_dest" resname="pid_dest" approved="yes">
         <source>Enter the destination page id</source>
-        <target state="translated">Indtast destinationssidens id</target>
+        <target state="final">Indtast destinationssidens id</target>
       </trans-unit>
-      <trans-unit id="start" resname="start">
+      <trans-unit id="start" resname="start" approved="yes">
         <source>Start the move</source>
-        <target state="translated">Sæt i gang</target>
+        <target state="final">Sæt i gang</target>
       </trans-unit>
       <trans-unit id="nothing_moved" resname="nothing_moved">
         <source>No records have been moved.</source>
