@@ -1,4 +1,7 @@
 <?php
+
+namespace JambageCom\TtProducts\Api;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -27,7 +30,7 @@
 /**
  * Part of the tt_products (Shop System) extension.
  *
- * model for the activities
+ * API for the activities
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
  *
@@ -36,17 +39,21 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-class tx_ttproducts_model_activity
-{
-    public static $activityArray;
 
-    public static function setActivityArray($activityArray): void
+use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
+class ActivityApi implements SingletonInterface
+{
+    public $activityArray = [];
+
+    public function setActivityArray($activityArray): void
     {
-        self::$activityArray = $activityArray;
+        $this->activityArray = $activityArray;
     }
 
-    public static function getActivityArray()
+    public function getActivityArray()
     {
-        return self::$activityArray;
+        return $this->activityArray;
     }
 }

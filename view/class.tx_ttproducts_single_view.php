@@ -37,14 +37,16 @@
  * @subpackage tt_products
  */
 use Psr\EventDispatcher\EventDispatcherInterface;
-
-use JambageCom\Div2007\Utility\FrontendUtility;
-use JambageCom\TtProducts\Api\ControlApi;
-use JambageCom\TtProducts\Api\Localization;
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+
+use JambageCom\Div2007\Utility\FrontendUtility;
+
+use JambageCom\TtProducts\Api\BasketApi;
+use JambageCom\TtProducts\Api\ControlApi;
+use JambageCom\TtProducts\Api\Localization;
 
 class tx_ttproducts_single_view implements SingletonInterface
 {
@@ -105,6 +107,7 @@ class tx_ttproducts_single_view implements SingletonInterface
     ) {
         $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
+        $basketApi = GeneralUtility::makeInstance(BasketApi::class);
         $markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
@@ -120,8 +123,8 @@ class tx_ttproducts_single_view implements SingletonInterface
 
         $theCode = 'SINGLE';
 
-        $basketExt = tx_ttproducts_control_basket::getBasketExt();
-        $basketExtra = tx_ttproducts_control_basket::getBasketExtra();
+        $basketExt = $basketApi->getBasketExt();
+        $basketExtra = $basketApi->getBasketExtra();
         $basketRecs = tx_ttproducts_control_basket::getRecs();
         $prodRow = [];
 
@@ -762,7 +765,6 @@ class tx_ttproducts_single_view implements SingletonInterface
                     }
                 }
 
-                $basketExt = tx_ttproducts_control_basket::getBasketExt();
                 $basketRecs = tx_ttproducts_control_basket::getRecs();
 
                 $prodVariantRow = $row;

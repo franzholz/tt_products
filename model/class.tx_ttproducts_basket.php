@@ -39,13 +39,15 @@
  * @package TYPO3
  * @subpackage tt_products
  */
+
+use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
+
 use JambageCom\TtProducts\Api\BasketApi;
 use JambageCom\TtProducts\Api\ParameterApi;
 use JambageCom\TtProducts\Api\PriceApi;
 use JambageCom\TtProducts\Model\Field\FieldInterface;
-use TYPO3\CMS\Core\SingletonInterface;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\MathUtility;
 
 class tx_ttproducts_basket implements SingletonInterface
 {
@@ -113,7 +115,7 @@ class tx_ttproducts_basket implements SingletonInterface
         $funcTablename = tx_ttproducts_control_basket::getFuncTablename();
         $viewTableObj = $tablesObj->get($funcTablename);
 
-        $basketExt = tx_ttproducts_control_basket::getBasketExt();
+        $basketExt = $basketApi->getBasketExt();
         $basketExtRaw = tx_ttproducts_control_basket::getBasketExtRaw();
         $basketInputConf = $cnfObj->getBasketConf('view', 'input');
 
@@ -146,7 +148,7 @@ class tx_ttproducts_basket implements SingletonInterface
         if (!is_array($basketExt)) {
             $basketExt = [];
         }
-        tx_ttproducts_control_basket::setBasketExt($basketExt);
+        $basketApi->setBasketExt($basketExt);
 
         if (isset($this->basketExt['gift']) && is_array($this->basketExt['gift'])) {
             $this->giftnumber = count($this->basketExt['gift']) + 1;
@@ -358,7 +360,7 @@ class tx_ttproducts_basket implements SingletonInterface
             }
         }
 
-        tx_ttproducts_control_basket::setBasketExt($basketExt);
+        $basketApi->setBasketExt($basketExt);
 
         return true;
     } // init
@@ -656,7 +658,8 @@ class tx_ttproducts_basket implements SingletonInterface
      */
     public function removeGift($giftnumber, $uid, $variant): void
     {
-        $basketExt = tx_ttproducts_control_basket::getBasketExt();
+        $basketApi = GeneralUtility::makeInstance(BasketApi::class);
+        $basketExt = $basketApi->getBasketExt();
 
         if ($basketExt['gift'][$giftnumber]['item'][$uid][$variant] >= 0) {
             unset($basketExt['gift'][$giftnumber]['item'][$uid][$variant]);
@@ -751,10 +754,12 @@ class tx_ttproducts_basket implements SingletonInterface
         ) {
             // TODO: delete only records from relevant pages
             // Empties the shopping basket!
+            $basketApi = GeneralUtility::makeInstance(BasketApi::class);
+
             $basketRecord = $this->getClearBasketRecord();
             tx_ttproducts_control_basket::setRecs($basketRecord);
             tx_ttproducts_control_basket::store('recs', $basketRecord);
-            tx_ttproducts_control_basket::setBasketExt([]);
+            $basketApi->setBasketExt([]);
             tx_ttproducts_control_basket::store('basketExt', []);
             tx_ttproducts_control_basket::store('order', []);
             $this->setItemArray([]);
@@ -1669,10 +1674,11 @@ class tx_ttproducts_basket implements SingletonInterface
     {
         $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
         $useArticles = $cnfObj->getUseArticles();
+        $basketApi = GeneralUtility::makeInstance(BasketApi::class);
         $calculObj = GeneralUtility::makeInstance('tx_ttproducts_basket_calculate');
         $calculObj->calculate(
-            tx_ttproducts_control_basket::getBasketExt(),
-            tx_ttproducts_control_basket::getBasketExtra(),
+            $basketApi->getBasketExt(),
+            $basketApi->getBasketExtra(),
             tx_ttproducts_control_basket::getRecs(),
             tx_ttproducts_control_basket::getFuncTablename(),
             $useArticles,

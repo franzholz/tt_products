@@ -36,12 +36,16 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-use JambageCom\Div2007\Utility\CompatibilityUtility;
-use JambageCom\Div2007\Utility\MailUtility;
-use JambageCom\TtProducts\Api\Localization;
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+
+use JambageCom\Div2007\Utility\CompatibilityUtility;
+use JambageCom\Div2007\Utility\MailUtility;
+
+use JambageCom\TtProducts\Api\BasketApi;
+use JambageCom\TtProducts\Api\Localization;
+
 
 class tx_ttproducts_activity_finalize implements SingletonInterface
 {
@@ -109,6 +113,7 @@ class tx_ttproducts_activity_finalize implements SingletonInterface
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $languageObj = GeneralUtility::makeInstance(Localization::class);
         $orderObj = $tablesObj->get('sys_products_orders');
+        $basketApi = GeneralUtility::makeInstance(BasketApi::class);
 
         $basketView = GeneralUtility::makeInstance('tx_ttproducts_basket_view');
         $infoViewObj = GeneralUtility::makeInstance('tx_ttproducts_info_view');
@@ -118,7 +123,7 @@ class tx_ttproducts_activity_finalize implements SingletonInterface
 
         $activityConf = $cnfObj->getBasketConf('activity', 'finalize');
 
-        $basketExtra = tx_ttproducts_control_basket::getBasketExtra();
+        $basketExtra = $basketApi->getBasketExtra();
         $basketRecs = tx_ttproducts_control_basket::getRecs();
 
         $cnfObj->setConf('domain', '###LICENCE_DOMAIN###');
@@ -143,7 +148,7 @@ class tx_ttproducts_activity_finalize implements SingletonInterface
                 $notOverwritePriceIfSet = false,
                 ['0' => $orderArray],
                 [],
-                tx_ttproducts_control_basket::getBasketExtra()
+                $basketExtra
             );
 
         $markerArray = array_merge($mainMarkerArray, $markerObj->getGlobalMarkerArray());

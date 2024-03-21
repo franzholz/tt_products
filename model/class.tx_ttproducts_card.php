@@ -40,6 +40,8 @@
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
+use JambageCom\TtProducts\Api\BasketApi;
+
 class tx_ttproducts_card extends tx_ttproducts_table_base
 {
     public $ccArray;	// credit card data
@@ -54,7 +56,8 @@ class tx_ttproducts_card extends tx_ttproducts_table_base
 
         $basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
         $formerBasket = $basketObj->recs;
-        $basketExtra = tx_ttproducts_control_basket::getBasketExtra();
+        $basketApi = GeneralUtility::makeInstance(BasketApi::class);
+        $basketExtra = $basketApi->getBasketExtra();
 
         if (isset($basketExtra) && is_array($basketExtra) && isset($basketExtra['payment.'])) {
             $allowedUids = $basketExtra['payment.']['creditcards'] ?? '';

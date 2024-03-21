@@ -1,4 +1,7 @@
 <?php
+
+namespace JambageCom\TtProducts\Controller;
+
 /***************************************************************
 *  Copyright notice
 *
@@ -36,12 +39,7 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-use JambageCom\Div2007\Utility\CompatibilityUtility;
-use JambageCom\Div2007\Utility\FrontendUtility;
-use JambageCom\Div2007\Utility\HtmlUtility;
-use JambageCom\TtProducts\Api\ControlApi;
-use JambageCom\TtProducts\Api\Localization;
-use JambageCom\TtProducts\Api\PaymentShippingHandling;
+
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\SingletonInterface;
@@ -50,7 +48,18 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Frontend\Resource\FilePathSanitizer;
 
-class tx_ttproducts_control implements SingletonInterface
+use JambageCom\Div2007\Utility\CompatibilityUtility;
+use JambageCom\Div2007\Utility\FrontendUtility;
+use JambageCom\Div2007\Utility\HtmlUtility;
+
+use JambageCom\TtProducts\Api\ActivityApi;
+use JambageCom\TtProducts\Api\BasketApi;
+use JambageCom\TtProducts\Api\ControlApi;
+use JambageCom\TtProducts\Api\Localization;
+use JambageCom\TtProducts\Api\PaymentShippingHandling;
+
+
+class ActivityController implements SingletonInterface
 {
     public $pibase; // reference to object of pibase
     public $pibaseClass;
@@ -605,6 +614,7 @@ class tx_ttproducts_control implements SingletonInterface
         $cObj = ControlApi::getCObj();
         $basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
         $basketView = GeneralUtility::makeInstance('tx_ttproducts_basket_view');
+        $basketApi = GeneralUtility::makeInstance(BasketApi::class);
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
         $subpartmarkerObj = GeneralUtility::makeInstance('tx_ttproducts_subpartmarker');
@@ -864,7 +874,7 @@ class tx_ttproducts_control implements SingletonInterface
                 $paymentHTML != '' &&
                 $paymentScript  // Do not save a redundant payment HTML if there is no payment script at all
             ) {
-                $basketExt = tx_ttproducts_control_basket::getBasketExt();
+                $basketExt = $basketApi->getBasketExt();
 
                 $giftServiceArticleArray = [];
                 if (isset($basketExt) && is_array($basketExt)) {
@@ -1003,7 +1013,7 @@ class tx_ttproducts_control implements SingletonInterface
         $checkEditVariants = false;
         $giftRequired = false;
         $bBasketEmpty = $basketObj->isEmpty();
-        $orderArray = tx_ttproducts_control_basket::getStoredOrder();
+        $orderArray = \tx_ttproducts_control_basket::getStoredOrder();
         $productRowArray = []; // Todo: make this a parameter
 
         $markerArray['###ERROR_DETAILS###'] = '';
@@ -1158,7 +1168,7 @@ class tx_ttproducts_control implements SingletonInterface
                                 tx_ttproducts_creditpoints_div::addCreditPoints($GLOBALS['TSFE']->fe_user->user['username'], $creditpoints);
                                 $cpArray = tx_ttproducts_control_session::readSession('cp');
                                 $cpArray['gift']['amount'] += $creditpoints;
-                                tx_ttproducts_control_basket::store('cp', $cpArray);
+                                \tx_ttproducts_control_basket::store('cp', $cpArray);
                             }
                         }
                         break;
@@ -1765,7 +1775,10 @@ class tx_ttproducts_control implements SingletonInterface
             // only the code activities if there is no code BASKET or INFO set
             $this->activityArray = $codeActivityArray;
         }
-        tx_ttproducts_model_activity::setActivityArray($this->activityArray);
+
+        $activityApi = GeneralUtility::makeInstance(ActivityApi::class);
+        $activityApi->setActivityArray($this->activityArray);
+
         $fixCountry =
             (
                 !empty($this->activityArray['products_basket']) ||

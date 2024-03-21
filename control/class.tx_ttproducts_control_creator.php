@@ -38,17 +38,20 @@
  */
 
 use Psr\Http\Message\ServerRequestInterface;
-
-use JambageCom\Div2007\Api\OldStaticInfoTablesApi;
-use JambageCom\Div2007\Api\StaticInfoTablesApi;
-use JambageCom\TtProducts\Api\ControlApi;
-use JambageCom\TtProducts\Api\Localization;
 use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
+
+use JambageCom\Div2007\Api\OldStaticInfoTablesApi;
+use JambageCom\Div2007\Api\StaticInfoTablesApi;
+
+use JambageCom\TtProducts\Api\BasketApi;
+use JambageCom\TtProducts\Api\ControlApi;
+use JambageCom\TtProducts\Api\Localization;
+
 
 class tx_ttproducts_control_creator implements SingletonInterface
 {
@@ -68,6 +71,7 @@ class tx_ttproducts_control_creator implements SingletonInterface
             $staticInfoApi = GeneralUtility::makeInstance(OldStaticInfoTablesApi::class);
         }
 
+        $basketApi = GeneralUtility::makeInstance(BasketApi::class);
         $useStaticInfoTables = $staticInfoApi->init();
 
         if (!empty($conf['PIDstoreRoot'])) {
@@ -157,7 +161,7 @@ class tx_ttproducts_control_creator implements SingletonInterface
         if (!empty($conf['useStaticInfoCountry'])) {
             tx_ttproducts_control_basket::setCountry(
                 $infoArray,
-                tx_ttproducts_control_basket::getBasketExtra()
+                $basketApi->getBasketExtra()
             );
         }
 
