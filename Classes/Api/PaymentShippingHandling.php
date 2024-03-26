@@ -185,15 +185,6 @@ class PaymentShippingHandling
             } else {
                 throw new \RuntimeException('Error in tt_products ' . $handleLib . ': No Start class found!', 1710931647);
             }
-            $languageObj = GeneralUtility::makeInstance(Localization::class);
-            // Payment Transactor
-            \tx_transactor_api::init($languageObj, '', $conf);
-
-            \tx_transactor_api::getItemMarkerSubpartArrays(
-                $basketExtra['payment.']['handleLib.'] ?? '',
-                $subpartArray,
-                $wrappedSubpartArray
-            );
         } else {	// markers for the missing payment transactor extension
             $wrappedSubpartArray['###MESSAGE_PAYMENT_TRANSACTOR_NO###'] = '';
             $subpartArray['###MESSAGE_PAYMENT_TRANSACTOR_YES###'] = '';

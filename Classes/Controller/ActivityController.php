@@ -331,30 +331,33 @@ class ActivityController implements SingletonInterface
                                 true,
                                 false
                             );
-                        $parameters = [
-                            $handleLib,
-                            $basketExtra['payment.']['handleLib.'] ?? [],
-                            TT_PRODUCTS_EXT,
-                            $basketObj->getItemArray(),
-                            $calculatedArray,
-                            $basketObj->recs['delivery']['note'] ?? '',
-                            $this->conf['paymentActivity'] ?? '',
-                            $currentPaymentActivity,
-                            $infoViewObj->infoArray,
-                            $pidArray,
-                            $linkParams,
-                            $orderArray['tracking_code'] ?? '',
-                            $orderUid,
-                            $orderNumber,
-                            $this->conf['orderEmail_to'] ?? '',
-                            $cardRow,
-                            &$bFinalize,
-                            &$bFinalVerify,
-                            &$markerArray,
-                            &$templateFilename,
-                            &$localTemplateCode,
-                            &$errorMessage,
-                        ];
+                            $parameters = [
+                                &$finalize,
+                                &$finalVerify,
+                                &$gatewayStatus,
+                                &$markerArray,
+                                &$templateFilename,
+                                &$localTemplateCode,
+                                &$errorMessage,
+                                $handleLib,
+                                $basketExtra['payment.']['handleLib.'] ?? '',
+                                TT_PRODUCTS_EXT,
+                                $basketObj->getItemArray(),
+                                $calculatedArray,
+                                $basketObj->recs['delivery']['note'] ?? '',
+                                $this->conf['paymentActivity'] ?? '',
+                                $currentPaymentActivity,
+                                $infoViewObj->infoArray,
+                                $pidArray,
+                                $linkParams,
+                                $orderArray['tracking_code'] ?? '',
+                                $orderUid,
+                                $orderNumber,  // neu
+                                $this->conf['orderEmail_to'] ?? '', // neu
+                                $cardRow,
+                                $variantFields,
+                            ];
+
                         $content = call_user_func_array(
                             $callingClassName . '::includeHandleLib',
                             $parameters
@@ -684,7 +687,7 @@ class ActivityController implements SingletonInterface
                 !empty($this->activityArray['products_payment'])
             ) {
                 $subpart = 'BASKET_TEMPLATE_EMPTY';
-                $contentEmpty = tx_ttproducts_api::getErrorOut(
+                $contentEmpty = \tx_ttproducts_api::getErrorOut(
                     $theCode,
                     $templateCode,
                     $subpartmarkerObj->spMarker('###' . $subpart . $this->config['templateSuffix'] . '###'),
@@ -923,7 +926,7 @@ class ActivityController implements SingletonInterface
         ) {	// If not all required info-fields are filled in, this is shown instead:
             $infoArray['billing']['error'] = 1;
             $subpart = 'BASKET_REQUIRED_INFO_MISSING';
-            $requiredOut = tx_ttproducts_api::getErrorOut(
+            $requiredOut = \tx_ttproducts_api::getErrorOut(
                 $theCode,
                 $templateCode,
                 $subpartmarkerObj->spMarker('###' . $subpart . $this->config['templateSuffix'] . '###'),
@@ -1436,7 +1439,7 @@ class ActivityController implements SingletonInterface
                 $addQueryString = [];
                 $overwriteMarkerArray = [];
 
-                $piVars = tx_ttproducts_model_control::getPiVars();
+                $piVars = \tx_ttproducts_model_control::getPiVars();
                 if (is_array($piVars)) {
                     $backPID = $piVars['backPID'] ?? '';
                 }
@@ -1503,7 +1506,7 @@ class ActivityController implements SingletonInterface
 
                 $usedCreditpoints = 0;
                 if (isset($_REQUEST['recs'])) {
-                    $usedCreditpoints = tx_ttproducts_creditpoints_div::getUsedCreditpoints($_REQUEST['recs']);
+                    $usedCreditpoints = \tx_ttproducts_creditpoints_div::getUsedCreditpoints($_REQUEST['recs']);
                 }
 
                 $contentTmp = $activityFinalize->doProcessing(
@@ -1577,7 +1580,7 @@ class ActivityController implements SingletonInterface
                 $basketObj->clearBasket();
             } else {	// If not all required info-fields are filled in, this is shown instead:
                 $subpart = 'BASKET_REQUIRED_INFO_MISSING';
-                $requiredOut = tx_ttproducts_api::getErrorOut(
+                $requiredOut = \tx_ttproducts_api::getErrorOut(
                     $theCode,
                     $templateCode,
                     $subpartmarkerObj->spMarker('###' . $subpart . $this->config['templateSuffix'] . '###'),
