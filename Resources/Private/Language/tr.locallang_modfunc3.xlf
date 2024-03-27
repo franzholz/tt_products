@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff version="1.0">
+  <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/Modfunc/locallang_modfunc3.xlf" date="2017-07-08T13:15:50Z" product-name="tt_products" target-language="tr">
+    <header/>
+    <body>
+      <trans-unit id="title" xml:space="preserve">
+				<source>Import images into FAL for tt_products.</source>
+			<target state="needs-translation">Import images into FAL for tt_products.</target></trans-unit>
+      <trans-unit id="only_admin" xml:space="preserve">
+				<source>These functions are only available for admins.</source>
+			<target state="needs-translation">These functions are only available for admins.</target></trans-unit>
+      <trans-unit id="pid_src" xml:space="preserve">
+				<source>The source id is %d.</source>
+			<target state="needs-translation">The source id is %d.</target></trans-unit>
+      <trans-unit id="start" xml:space="preserve">
+				<source>Start the import of the images into FAL!</source>
+			<target state="needs-translation">Start the import of the images into FAL!</target></trans-unit>
+      <trans-unit id="finished" xml:space="preserve">
+				<source>The import of the images into FAL has been finished!</source>
+			<target state="needs-translation">The import of the images into FAL has been finished!</target></trans-unit>
+      <trans-unit id="warning" xml:space="preserve">
+				<source>You must make a backup copy of your images in the folder uploads/pics manually before you continue! All image files from this folder will be removed.</source>
+			<target state="needs-translation">You must make a backup copy of your images in the folder uploads/pics manually before you continue! All image files from this folder will be removed.</target></trans-unit>
+      <trans-unit id="imported_number" xml:space="preserve">
+                <source>%s records of tt_products with images have been converted into FAL.</source>
+            <target state="needs-translation">%s records of tt_products with images have been converted into FAL.</target></trans-unit>
+    </body>
+  </file>
+</xliff>
