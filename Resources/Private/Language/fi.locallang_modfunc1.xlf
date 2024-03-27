@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff version="1.0">
+  <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/Modfunc/locallang_modfunc1.xlf" date="2017-07-08T12:59:44Z" product-name="tt_products" target-language="fi">
+    <header/>
+    <body>
+      <trans-unit id="age" resname="age">
+        <source>Age of records in days</source>
+        <target state="needs-translation">Age of records in days</target>
+      </trans-unit>
+      <trans-unit id="title" resname="title">
+        <source>Move Items</source>
+        <target state="needs-translation">Move Items</target>
+      </trans-unit>
+      <trans-unit id="only_admin" resname="only_admin">
+        <source>These functions are only available for admins.</source>
+        <target state="needs-translation">These functions are only available for admins.</target>
+      </trans-unit>
+      <trans-unit id="pid_src" resname="pid_src">
+        <source>The source id is %d.</source>
+        <target state="needs-translation">The source id is %d.</target>
+      </trans-unit>
+      <trans-unit id="pid_dest" resname="pid_dest">
+        <source>Enter the destination page id</source>
+        <target state="needs-translation">Enter the destination page id</target>
+      </trans-unit>
+      <trans-unit id="start" resname="start">
+        <source>Start the move</source>
+        <target state="needs-translation">Start the move</target>
+      </trans-unit>
+      <trans-unit id="nothing_moved" resname="nothing_moved">
+        <source>No records have been moved.</source>
+        <target state="needs-translation">No records have been moved.</target>
+      </trans-unit>
+      <trans-unit id="moved_table" resname="moved_table">
+        <source>%d %s have been moved.</source>
+        <target state="needs-translation">%d %s have been moved.</target>
+      </trans-unit>
+      <trans-unit id="nothing" resname="nothing">
+        <source>Nothing has been done. Fill in all form fields correctly!</source>
+        <target state="needs-translation">Nothing has been done. Fill in all form fields correctly!</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
