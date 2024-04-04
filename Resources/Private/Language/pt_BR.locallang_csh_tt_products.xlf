@@ -71,6 +71,10 @@
         <source>ean</source>
         <target state="needs-translation">ean</target>
       </trans-unit>
+      <trans-unit id="doi.description" resname="doi.description">
+        <source>doi</source>
+        <target state="needs-translation">doi</target>
+      </trans-unit>
       <trans-unit id="shipping_point.description" resname="shipping_point.description">
         <source>shipping_point</source>
         <target state="needs-translation">shipping_point</target>
