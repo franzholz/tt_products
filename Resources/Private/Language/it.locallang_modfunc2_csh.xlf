@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xliff xmlns:t3="http://typo3.org/schemas/xliff" version="1.0">
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/Modfunc/locallang_modfunc2_csh.xlf" date="2017-07-08T17:08:00Z" product-name="import" target-language="it">
     <header/>
     <body>
@@ -11,9 +11,10 @@
         <source>Create languages wizard for tt_products_text table</source>
         <target state="needs-translation">Create languages wizard for tt_products_text table</target>
       </trans-unit>
-      <trans-unit id="tt_products.func2.description" xml:space="preserve" resname="tt_products.func2.description">
-                <source>Enables you to copy the extended text of tt_products into the alternative language table.</source>
-            <target state="needs-translation">Enables you to copy the extended text of tt_products into the alternative language table.</target></trans-unit>
+      <trans-unit id="tt_products.func2.description" resname="tt_products.func2.description">
+        <source>Enables you to copy the extended text of tt_products into the alternative language table.</source>
+        <target state="needs-translation">Enables you to copy the extended text of tt_products into the alternative language table.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
