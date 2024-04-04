@@ -759,6 +759,10 @@
         <source>Checkbox 1 Value</source>
         <target state="needs-translation">Checkbox 1 Value</target>
       </trans-unit>
+      <trans-unit id="p_direct_download" resname="p_direct_download">
+        <source>Direct Download here</source>
+        <target state="needs-translation">Direct Download here</target>
+      </trans-unit>
       <trans-unit id="list_buy_now" resname="list_buy_now" approved="yes">
         <source>Into the shopping cart.</source>
         <target state="final">BESTEL NU</target>
@@ -1310,6 +1314,10 @@
       <trans-unit id="tracking_status_message_subject" resname="tracking_status_message_subject" approved="yes">
         <source>Select subject:</source>
         <target state="final">Selecteer onderwerp:</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_message_0" resname="tracking_status_message_0">
+        <source>idle</source>
+        <target state="needs-translation">idle</target>
       </trans-unit>
       <trans-unit id="tracking_status_message_1" resname="tracking_status_message_1">
         <source>Customer order sent</source>
