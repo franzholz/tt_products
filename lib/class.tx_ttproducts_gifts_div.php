@@ -39,6 +39,8 @@
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+use JambageCom\TtProducts\Api\BasketApi;
+
 class tx_ttproducts_gifts_div
 {
     /**
@@ -69,7 +71,8 @@ class tx_ttproducts_gifts_div
      */
     public static function addGiftMarkers($markerArray, $giftnumber, $code = 'LISTGIFTS', $id = '1')
     {
-        $basketExt = tx_ttproducts_control_basket::getBasketExt();
+        $basketApi = GeneralUtility::makeInstance(BasketApi::class);
+        $basketExt = $basketApi->getBasketExt();
 
         $markerArray['###GIFTNO###'] = $giftnumber;
         $markerArray['###GIFT_PERSON_NAME###'] = $basketExt['gift'][$giftnumber]['personname'];
@@ -202,8 +205,9 @@ class tx_ttproducts_gifts_div
 
     public static function deleteGiftNumber($giftnumber): void
     {
+        $basketApi = GeneralUtility::makeInstance(BasketApi::class);
+        $basketExt = $basketApi->getBasketExt();
         $giftArray = [];
-        $basketExt = tx_ttproducts_control_basket::getBasketExt();
 
         if (
             is_array($basketExt) &&

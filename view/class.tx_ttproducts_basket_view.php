@@ -42,18 +42,24 @@
  */
 use Psr\EventDispatcher\EventDispatcherInterface;
 
-use JambageCom\Div2007\Utility\CompatibilityUtility;
-use JambageCom\Div2007\Utility\ErrorUtility;
-use JambageCom\Div2007\Utility\FrontendUtility;
-use JambageCom\Div2007\Utility\ObsoleteUtility;
-use JambageCom\TtProducts\Api\Localization;
-use JambageCom\TtProducts\Api\PaymentShippingHandling;
-use JambageCom\TtProducts\Model\Field\FieldInterface;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+
+use JambageCom\Div2007\Utility\CompatibilityUtility;
+use JambageCom\Div2007\Utility\ErrorUtility;
+use JambageCom\Div2007\Utility\FrontendUtility;
+use JambageCom\Div2007\Utility\ObsoleteUtility;
+
+use JambageCom\TtProducts\Api\ActivityApi;
+use JambageCom\TtProducts\Api\BasketApi;
+use JambageCom\TtProducts\Api\Localization;
+use JambageCom\TtProducts\Api\PaymentShippingHandling;
+use JambageCom\TtProducts\Model\Field\FieldInterface;
+
+
 
 class tx_ttproducts_basket_view implements SingletonInterface
 {
@@ -276,8 +282,9 @@ class tx_ttproducts_basket_view implements SingletonInterface
         $markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
         $subpartmarkerObj = GeneralUtility::makeInstance('tx_ttproducts_subpartmarker');
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
+        $basketApi = GeneralUtility::makeInstance(BasketApi::class);
         $creditpointsObj = GeneralUtility::makeInstance('tx_ttproducts_field_creditpoints');
-        $basketExt = tx_ttproducts_control_basket::getBasketExt();
+        $basketExt = $basketApi->getBasketExt();
         $languageObj = GeneralUtility::makeInstance(Localization::class);
         $itemObj = GeneralUtility::makeInstance('tx_ttproducts_basketitem');
         $basketItemView = GeneralUtility::makeInstance('tx_ttproducts_basketitem_view');
@@ -1111,7 +1118,8 @@ class tx_ttproducts_basket_view implements SingletonInterface
             // Initializing the markerArray for the rest of the template
             $markerArray = $mainMarkerArray;
             $markerArray = array_merge($markerArray, $basketMarkerArray);
-            $activityArray = tx_ttproducts_model_activity::getActivityArray();
+            $activityApi = GeneralUtility::makeInstance(ActivityApi::class);
+            $activityArray = $activityApi->getActivityArray();
 
             if (is_array($activityArray)) {
                 $activity = '';

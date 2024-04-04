@@ -54,6 +54,9 @@
 			<trans-unit id="ean.description" resname="ean.description">
 				<source>ean</source>
 			</trans-unit>
+			<trans-unit id="doi.description" resname="doi.description">
+				<source>doi</source>
+			</trans-unit>
 			<trans-unit id="shipping_point.description" resname="shipping_point.description">
 				<source>shipping_point</source>
 			</trans-unit>

@@ -42,13 +42,18 @@ namespace JambageCom\TtProducts\Api;
  * @package TYPO3
  * @subpackage tt_products
  */
-use JambageCom\Div2007\Utility\ExtensionUtility;
-use JambageCom\Div2007\Utility\FrontendUtility;
+
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Frontend\Resource\FilePathSanitizer;
+
+use JambageCom\Div2007\Utility\ExtensionUtility;
+use JambageCom\Div2007\Utility\FrontendUtility;
+
+use JambageCom\Transactor\Api\Start;
+
 
 class PaymentShippingHandling
 {
@@ -170,15 +175,16 @@ class PaymentShippingHandling
             strpos($handleLib, 'transactor') !== false &&
             ExtensionManagementUtility::isLoaded($handleLib)
         ) {
-            $languageObj = GeneralUtility::makeInstance(Localization::class);
             // Payment Transactor
-            \tx_transactor_api::init($languageObj, '', $conf);
-
-            \tx_transactor_api::getItemMarkerSubpartArrays(
-                $basketExtra['payment.']['handleLib.'] ?? '',
-                $subpartArray,
-                $wrappedSubpartArray
-            );
+            if (class_exists(Start::class)) {
+                Start::getItemMarkerSubpartArrays(
+                    $basketExtra['payment.']['handleLib.'] ?? '',
+                    $subpartArray,
+                    $wrappedSubpartArray
+                );
+            } else {
+                throw new \RuntimeException('Error in tt_products ' . $handleLib . ': No Start class found!', 1710931647);
+            }
         } else {	// markers for the missing payment transactor extension
             $wrappedSubpartArray['###MESSAGE_PAYMENT_TRANSACTOR_NO###'] = '';
             $subpartArray['###MESSAGE_PAYMENT_TRANSACTOR_YES###'] = '';

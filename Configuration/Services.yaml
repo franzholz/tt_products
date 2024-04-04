@@ -5,7 +5,7 @@ services:
     public: false
   JambageCom\TtProducts\:
     resource: '../Classes/*'
-    exclude: '../Classes/Middleware/*'
+    exclude: ['../Classes/{Middleware,UserFunc,Api}/*']
 
   JambageCom\TtProducts\Domain\Model\Dto\EmConfiguration:
     arguments:

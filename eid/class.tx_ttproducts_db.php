@@ -41,7 +41,10 @@ use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 use JambageCom\Div2007\Utility\HtmlUtility;
+
+use JambageCom\TtProducts\Api\BasketApi;
 use JambageCom\TtProducts\Api\Localization;
 use JambageCom\TtProducts\Api\ParameterApi;
 use JambageCom\TtProducts\Model\Field\FieldInterface;
@@ -128,8 +131,9 @@ class tx_ttproducts_db implements SingletonInterface
         $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
+        $basketApi = GeneralUtility::makeInstance(BasketApi::class);
 
-        $basketExtra = tx_ttproducts_control_basket::getBasketExtra();
+        $basketExtra = $basketApi->getBasketExtra();
         $basketRecs = tx_ttproducts_control_basket::getRecs();
         $funcTablename = tx_ttproducts_control_basket::getFuncTablename();
 

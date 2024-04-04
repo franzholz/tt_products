@@ -36,18 +36,22 @@
  * @package TYPO3
  * @subpackage tt_products
  */
+
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
+
 use JambageCom\Div2007\Api\Frontend;
 use JambageCom\Div2007\Api\OldStaticInfoTablesApi;
 use JambageCom\Div2007\Api\StaticInfoTablesApi;
 use JambageCom\Div2007\Security\TransmissionSecurity;
 use JambageCom\Div2007\Utility\CompatibilityUtility;
+
+use JambageCom\TtProducts\Api\BasketApi;
 use JambageCom\TtProducts\Api\ControlApi;
 use JambageCom\TtProducts\Api\CustomerApi;
 use JambageCom\TtProducts\Api\PaymentShippingHandling;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\MathUtility;
-use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 abstract class BasketRecsIndex
 {
@@ -106,18 +110,19 @@ class tx_ttproducts_control_basket
     ): void {
         if (!self::$bHasBeenInitialised) {
             self::setRecs($recs);
+            $basketApi = GeneralUtility::makeInstance(BasketApi::class);
 
             if (
                 isset($GLOBALS['TSFE']) &&
                 $GLOBALS['TSFE'] instanceof TypoScriptFrontendController
             ) {
-                self::setBasketExt(self::getStoredBasketExt());
+                $basketApi->setBasketExt(self::getStoredBasketExt());
                 $basketExtra = self::getBasketExtras($tablesObj, $recs, $conf);
-                self::setBasketExtra($basketExtra);
+                $basketApi->setBasketExtra($basketExtra);
             } else {
                 self::setRecs($recs);
-                self::setBasketExt([]);
-                self::setBasketExtra([]);
+                $basketApi->setBasketExt([]);
+                $basketApi->setBasketExtra([]);
             }
 
             self::$pidListObj = GeneralUtility::makeInstance('tx_ttproducts_pid_list');
@@ -140,7 +145,7 @@ class tx_ttproducts_control_basket
                 $conf,
                 $recs[BasketRecsIndex::Billing] ?? '',
                 $recs[BasketRecsIndex::Delivery] ?? '',
-                self::getBasketExtra()
+                $basketApi->getBasketExtra()
             );
 
             self::$bHasBeenInitialised = true;
@@ -531,26 +536,6 @@ class tx_ttproducts_control_basket
         tx_ttproducts_control_session::writeSession($type, $valueArray);
     }
 
-    public static function getBasketExt()
-    {
-        return self::$basketExt;
-    }
-
-    public static function setBasketExt($basketExt): void
-    {
-        self::$basketExt = $basketExt;
-    }
-
-    public static function getBasketExtra()
-    {
-        return self::$basketExtra;
-    }
-
-    public static function setBasketExtra($basketExtra): void
-    {
-        self::$basketExtra = $basketExtra;
-    }
-
     public static function getBasketExtRaw()
     {
         $basketVar = tx_ttproducts_model_control::getBasketVar();
@@ -575,8 +560,9 @@ class tx_ttproducts_control_basket
 
     public static function storeBasketExt($basketExt): void
     {
+        $basketApi = GeneralUtility::makeInstance(BasketApi::class);
         self::store('basketExt', $basketExt);
-        self::setBasketExt($basketExt);
+        $basketApi->setBasketExt($basketExt);
     }
 
     public static function generatedBasketExtFromRow($row, $count)
@@ -622,7 +608,8 @@ class tx_ttproducts_control_basket
         $ignoreVariant = false
     ) {
         $count = '';
-        $basketExt = static::getBasketExt();
+        $basketApi = GeneralUtility::makeInstance(BasketApi::class);
+        $basketExt = $basketApi->getBasketExt();
         $uid = $row['uid'];
 
         if (isset($basketExt[$uid])) {

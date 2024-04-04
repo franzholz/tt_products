@@ -39,6 +39,8 @@
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+use JambageCom\TtProducts\Api\BasketApi;
+
 class tx_ttproducts_account extends tx_ttproducts_table_base
 {
     public $pibase; // reference to object of pibase
@@ -66,8 +68,9 @@ class tx_ttproducts_account extends tx_ttproducts_table_base
             $this->requiredFieldArray = ['owner_name', 'ac_number', 'bic'];
         }
         $basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
+        $basketApi = GeneralUtility::makeInstance(BasketApi::class);
         $formerBasket = $basketObj->recs;
-        $basketExtra = tx_ttproducts_control_basket::getBasketExtra();
+        $basketExtra = $basketApi->getBasketExtra();
         $bIsAllowed = $basketExtra['payment.']['accounts'] ?? false;
 
         if (isset($basketExtra['payment.']['useAsterisk'])) {

@@ -39,15 +39,17 @@ namespace JambageCom\TtProducts\Api;
  */
 
 use Psr\EventDispatcher\EventDispatcherInterface;
+use TYPO3\CMS\Core\Utility\ArrayUtility;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 
 use JambageCom\Div2007\Utility\ErrorUtility;
 use JambageCom\Div2007\Utility\ExtensionUtility;
 use JambageCom\Div2007\Utility\FlexformUtility;
 use JambageCom\Div2007\Utility\FrontendUtility;
-use TYPO3\CMS\Core\Utility\ArrayUtility;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\MathUtility;
+
+use JambageCom\TtProducts\Api\BasketApi;
 
 abstract class RelatedProductsTypes
 {
@@ -332,6 +334,7 @@ class PluginApi
         $result = '';
         $pidListObj = GeneralUtility::makeInstance('tx_ttproducts_pid_list');
         $templateObj = GeneralUtility::makeInstance('tx_ttproducts_template');
+        $basketApi = GeneralUtility::makeInstance(BasketApi::class);
 
         if (!self::$bHasBeenInitialised) {
             $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
@@ -449,7 +452,7 @@ class PluginApi
                 $errorCode,
                 $funcArray['template'] . $config['templateSuffix'],
                 $pageAsCategory,
-                \tx_ttproducts_control_basket::getBasketExtra(),
+                $basketApi->getBasketExtra(),
                 \tx_ttproducts_control_basket::getRecs(),
                 $mergeRow,
                 1,

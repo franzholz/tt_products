@@ -36,11 +36,15 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-use JambageCom\Div2007\Utility\FrontendUtility;
-use JambageCom\TtProducts\Api\Localization;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\Resource\FilePathSanitizer;
+
+use JambageCom\Div2007\Utility\FrontendUtility;
+
+use JambageCom\TtProducts\Api\BasketApi;
+use JambageCom\TtProducts\Api\Localization;
+
 
 class tx_ttproducts_basketitem_view implements SingletonInterface
 {
@@ -210,6 +214,7 @@ class tx_ttproducts_basketitem_view implements SingletonInterface
     ): void {
         $productFuncTablename = 'tt_products';
         $basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
+        $basketApi = GeneralUtility::makeInstance(BasketApi::class);
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $languageObj = GeneralUtility::makeInstance(Localization::class);
         $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
@@ -222,7 +227,8 @@ class tx_ttproducts_basketitem_view implements SingletonInterface
         $fieldArray = $viewTable->variant->getFieldArray();
         $keyAdditional = $viewTable->variant->getAdditionalKey();
         $selectableArray = $viewTable->variant->getSelectableArray();
-        $basketExt = tx_ttproducts_control_basket::getBasketExt();
+        $basketExt = $basketApi->getBasketExt();
+
         $bUseXHTML = empty($GLOBALS['TSFE']->config['config']['xhtmlDoctype']);
         $imageObj = GeneralUtility::makeInstance('tx_ttproducts_field_image_view');
 

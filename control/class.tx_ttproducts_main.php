@@ -36,14 +36,7 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-use JambageCom\Div2007\Utility\ConfigUtility;
-use JambageCom\Div2007\Utility\ErrorUtility;
-use JambageCom\Div2007\Utility\FlexformUtility;
-use JambageCom\Div2007\Utility\FrontendUtility;
-use JambageCom\Div2007\Utility\ViewUtility;
-use JambageCom\TtProducts\Api\ControlApi;
-use JambageCom\TtProducts\Api\Localization;
-use JambageCom\TtProducts\Api\PluginApi;
+
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser;
@@ -53,6 +46,18 @@ use TYPO3\CMS\Core\Utility\HttpUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\Resource\FilePathSanitizer;
+
+use JambageCom\Div2007\Utility\ConfigUtility;
+use JambageCom\Div2007\Utility\ErrorUtility;
+use JambageCom\Div2007\Utility\FlexformUtility;
+use JambageCom\Div2007\Utility\FrontendUtility;
+use JambageCom\Div2007\Utility\ViewUtility;
+
+use JambageCom\TtProducts\Api\BasketApi;
+use JambageCom\TtProducts\Api\ControlApi;
+use JambageCom\TtProducts\Api\Localization;
+use JambageCom\TtProducts\Api\PluginApi;
+use JambageCom\TtProducts\Controller\ActivityController;
 
 class tx_ttproducts_main implements SingletonInterface
 {
@@ -368,6 +373,7 @@ class tx_ttproducts_main implements SingletonInterface
         $javaScriptObj = GeneralUtility::makeInstance('tx_ttproducts_javascript');
         $markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
         $globalMarkerArray = $markerObj->getGlobalMarkerArray();
+        $basketApi = GeneralUtility::makeInstance(BasketApi::class);
 
         if (!count($this->codeArray) && !$bRunAjax) {
             $this->codeArray = ['HELP'];
@@ -413,8 +419,9 @@ class tx_ttproducts_main implements SingletonInterface
         // *************************************
         // *** Listing items:
         // *************************************
-        $basketExt = tx_ttproducts_control_basket::getBasketExt();
-        $basketExtra = tx_ttproducts_control_basket::getBasketExtra();
+        $basketExt = $basketApi->getBasketExt();
+        $basketExtra = $basketApi->getBasketExtra();
+
         $basketRecs = tx_ttproducts_control_basket::getRecs();
         $basketObj->create(
             'BASKET',
@@ -449,7 +456,7 @@ class tx_ttproducts_main implements SingletonInterface
                 $conf
             );
 
-            $controlObj = GeneralUtility::makeInstance('tx_ttproducts_control');
+            $controlObj = GeneralUtility::makeInstance(ActivityController::class);
             $controlObj->init(
                 $pibaseClass,
                 tx_ttproducts_control_basket::getFuncTablename(),

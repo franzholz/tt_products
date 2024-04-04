@@ -2,6 +2,7 @@
 
 namespace JambageCom\TtProducts\Api;
 
+
 /***************************************************************
 *  Copyright notice
 *
@@ -42,8 +43,12 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 use JambageCom\Div2007\Utility\TableUtility;
 
+
 class BasketApi implements SingletonInterface
 {
+    protected $basketExt = [];   // "Basket Extension" - holds extended attributes
+    protected $basketExtra = []; // initBasket() uses this for additional information
+
     public static function getQuantity($content, $basketConf)
     {
         $count = '';
@@ -122,7 +127,7 @@ class BasketApi implements SingletonInterface
 
         $pid_list = $conf['pid_list'];
         \tx_ttproducts_control_basket::init($conf, $tablesObj, $pid_list, $conf['useArticles'], $recs);
-        $basketExt = \tx_ttproducts_control_basket::getBasketExt();
+        $basketExt = this->getBasketExt();
 
         if (isset($basketExt) && is_array($basketExt)) {
             $uidArr = [];
@@ -246,5 +251,25 @@ class BasketApi implements SingletonInterface
         $basketRec = ['tt_products' => $extraArray];
 
         return $basketRec;
+    }
+
+    public function setBasketExt($basketExt): void
+    {
+        $this->basketExt = $basketExt;
+    }
+
+    public function getBasketExt()
+    {
+        return $this->basketExt;
+    }
+
+    public function setBasketExtra($basketExtra): void
+    {
+        $this->basketExtra = $basketExtra;
+    }
+
+    public function getBasketExtra()
+    {
+        return $this->basketExtra;
     }
 }
