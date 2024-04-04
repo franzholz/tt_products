@@ -1,19 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xliff xmlns:t3="http://typo3.org/schemas/xliff" version="1.0">
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
   <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/Modfunc/locallang_modfunc1_csh.xlf" date="2017-07-08T17:08:00Z" product-name="import" target-language="no">
     <header/>
     <body>
-      <trans-unit id="tt_products.func1.moveItemsWizard">
+      <trans-unit id="tt_products.func1.moveItemsWizard" resname="tt_products.func1.moveItemsWizard">
         <source>Execute the Move Items Wizard</source>
         <target state="needs-translation">Execute the Move Items Wizard</target>
       </trans-unit>
-      <trans-unit id="tt_products.func1.alttitle">
+      <trans-unit id="tt_products.func1.alttitle" resname="tt_products.func1.alttitle">
         <source>Move Items wizard for tt_products tables</source>
         <target state="needs-translation">Move Items wizard for tt_products tables</target>
       </trans-unit>
-      <trans-unit id="tt_products.func1.description" xml:space="preserve">
-                <source>Enables you to move the records for all tables of tt_products.</source>
-            <target state="needs-translation">Enables you to move the records for all tables of tt_products.</target></trans-unit>
+      <trans-unit id="tt_products.func1.description" resname="tt_products.func1.description">
+        <source>Enables you to move the records for all tables of tt_products.</source>
+        <target state="needs-translation">Enables you to move the records for all tables of tt_products.</target>
+      </trans-unit>
     </body>
   </file>
 </xliff>
