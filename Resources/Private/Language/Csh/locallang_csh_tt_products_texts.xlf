@@ -3,22 +3,22 @@
 	<file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/Csh/locallang_csh_tt_products_texts.xlf" date="2021-11-23T20:35:02Z" product-name="tt_products">
 		<header/>
 		<body>
-			<trans-unit id=".description" xml:space="preserve">
+			<trans-unit id=".description" resname=".description">
 				<source>Shop texts.</source>
 			</trans-unit>
-			<trans-unit id=".details" xml:space="preserve">
+			<trans-unit id=".details" resname=".details">
 				<source>There are a lot of text descriptions possible for each product</source>
 			</trans-unit>
-			<trans-unit id="_.seeAlso" xml:space="preserve">
+			<trans-unit id="_.seeAlso" resname="_.seeAlso">
 				<source>tt_products</source>
 			</trans-unit>
-			<trans-unit id="title.description" xml:space="preserve">
+			<trans-unit id="title.description" resname="title.description">
 				<source>[FILL IN] tt_products_texts-&gt;title</source>
 			</trans-unit>
-			<trans-unit id="marker.description" xml:space="preserve">
+			<trans-unit id="marker.description" resname="marker.description">
 				<source>Marker part to be used in the template to form the ###PRODUCT_TEXT_...###</source>
 			</trans-unit>
-			<trans-unit id="note.description" xml:space="preserve">
+			<trans-unit id="note.description" resname="note.description">
 				<source>note</source>
 			</trans-unit>
 		</body>
