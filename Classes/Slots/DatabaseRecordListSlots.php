@@ -35,13 +35,12 @@ class DatabaseRecordListSlots
         $useCsv = false;
         if (
             $table == 'sys_products_orders' &&
-            isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT])
+            isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_products'])
         ) {
             $useCsv =
                 (
-                    isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['backend']) &&
-                    isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['backend']['csv']) &&
-                    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['backend']['csv'][$table] == 'iban'
+                    isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_products']['backend']['csv'][$table]) &&
+                    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_products']['backend']['csv'][$table] == 'iban'
                 );
         }
 
