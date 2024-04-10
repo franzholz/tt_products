@@ -24,7 +24,7 @@ final class EmConfiguration implements SingletonInterface
     // private ?ExtensionConfiguration $extensionConfiguration = null;
 
     /** @var string */
-    protected $extensionKey = '';
+    protected $extensionKey = 'tt_products';
 
     /** @var int */
     protected $pageAsCategory = 0;
@@ -34,9 +34,6 @@ final class EmConfiguration implements SingletonInterface
 
     /** @var bool */
     protected $checkCookies = false;
-
-    /** @var string */
-    protected $imageFolder = 'uploads/pics';
 
     /** @var string */
     protected $orderBySortingTables = '';
@@ -105,11 +102,9 @@ final class EmConfiguration implements SingletonInterface
      */
     public function __construct(
         private readonly ExtensionConfiguration $extensionConfiguration,
-        string $extensionKey,
         array $configuration = [],
     )
     {
-        $this->extensionKey = $extensionKey;
         $this->templateFile = 'EXT:' . $this->extensionKey . '/Resources/Private/Templates/example_locallang_xml.html';
 
         if (empty($configuration)) {
@@ -160,11 +155,6 @@ final class EmConfiguration implements SingletonInterface
     public function getCheckCookies(): bool
     {
         return $this->checkCookies;
-    }
-
-    public function getImageFolder(): string
-    {
-        return $this->imageFolder;
     }
 
     public function getOrderBySortingTables(): string

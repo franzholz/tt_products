@@ -813,7 +813,6 @@ class ActivityController implements SingletonInterface
                     $conf['PID' . $nextActivity] ?? '',
                     []
                 );
-
                 $mainMarkerArray['###FORM_URL_NEXT_ACTIVITY###'] = $nextUrl;
                 $paymentHTML = $basketView->getView(
                     $errorCode,

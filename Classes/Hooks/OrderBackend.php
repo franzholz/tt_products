@@ -136,10 +136,15 @@ class OrderBackend implements SingletonInterface
         $field = $data['fieldName'];
         $row = $data['databaseRow'];
         $parameterArray = $data['parameterArray'];
+        $orderData = null;
 
         // Field configuration from TCA:
         $config = $parameterArray['fieldConf']['config'];
         $orderData = unserialize($row['orderData']);
+        if (!empty($row['orderData'])) {
+            $orderData =  unserialize($row['orderData']);
+        }
+
         if (
             is_array($orderData) &&
             isset($orderData['html_output']) &&

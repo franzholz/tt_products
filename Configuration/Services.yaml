@@ -8,8 +8,6 @@ services:
     exclude: ['../Classes/{Middleware,UserFunc,Api}/*']
 
   JambageCom\TtProducts\Domain\Model\Dto\EmConfiguration:
-    arguments:
-      $extensionKey: 'tt_products'
     public: true
 
   JambageCom\TtProducts\EventListener\PageContentPreviewRenderingListener:

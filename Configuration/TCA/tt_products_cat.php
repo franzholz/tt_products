@@ -3,10 +3,6 @@
 defined('TYPO3') || die('Access denied.');
 
 $extensionKey = 'tt_products';
-$imageFolder = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['imageFolder'];
-if (!$imageFolder) {
-    $imageFolder = 'uploads/pics';
-}
 
 // ******************************************************************
 // This is the standard TypoScript products category table, tt_products_cat

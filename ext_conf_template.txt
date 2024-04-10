@@ -4,10 +4,8 @@ pageAsCategory = 0
 addressTable =
   # cat=basic/enable; type=boolean; label=Check Cookies: If set then the data inserted into the shopping basket or user data is only stored in a session if another extension allows to set the cookies.
 checkCookies = 0
-  # cat=basic/enable; type=string; label=Image upload folder: This is the place where the images lie.
-imageFolder = uploads/pics
   # cat=basic/enable; type=string; label=Order tables by sorting: Enter a comma separated list of tt_products table names where the items should be listed by sorting in the backend
-orderBySortingTables =
+orderBySortingTables = tt_products,tt_products_cat
   # cat=basic/enable; type=integer; label=article mode: If 0, then the parent product in the article is used to assign the articles to a product. If 1, then the article group select at the product is used to assign multiple articles to a product. If 2, then the TYPO3 IRRE feature at the product is used to assign multiple articles to a product.
 articleMode = 2
   # cat=basic/enable; type=string; label=variant separator: separator inside of the variant field of products and articles. No pipe '|' symbol is allowed here. Use \r\n if you want the linefeed as the separator.
