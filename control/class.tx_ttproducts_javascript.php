@@ -226,7 +226,7 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
                 break;
             case 'selectcat':
                 if (
-                    !ExtensionManagementUtility::isLoaded(TAXAJAX_EXT)
+                    !ExtensionManagementUtility::isLoaded('taxajax')
                 ) {
                     return false;
                 }
@@ -488,7 +488,7 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
 
             case 'fetchdata':
                 if (
-                    !ExtensionManagementUtility::isLoaded(TAXAJAX_EXT) ||
+                    !ExtensionManagementUtility::isLoaded('taxajax') ||
                     !is_array($params)
                 ) {
                     return false;
@@ -574,7 +574,7 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
                 ) {
                     $path =
                         PathUtility::stripPathSitePrefix(
-                            ExtensionManagementUtility::extPath(TAXAJAX_EXT)
+                            ExtensionManagementUtility::extPath('taxajax')
                         );
                     $code = $this->ajax->taxajax->getJavascript($path);
                     $this->bXajaxAdded = true;

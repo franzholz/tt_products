@@ -1,0 +1,18 @@
+mod.wizards {
+    newContentElement.wizardItems {
+        plugins {
+            elements {
+                tt_products {
+                    iconIdentifier = tt-products-wizard
+                    title = LLL:EXT:tt_products/Resources/Private/Language/locallang.xlf:plugins_title
+                    description = LLL:EXT:tt_products/Resources/Private/Language/locallang.xlf:plugins_description
+                    tt_content_defValues {
+                        CType = list
+                        list_type = 5
+                    }
+                }
+            }
+            show := addToList(tt_products)
+        }
+    }
+}

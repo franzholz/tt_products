@@ -40,12 +40,8 @@ call_user_func(function ($extensionKey): void {
         define('TT_PRODUCTS_DIV_DLOG', '0');	// for development error logging
     }
 
-    if (!defined('TAXAJAX_EXT')) {
-        define('TAXAJAX_EXT', 'taxajax');
-    }
-
     if (
-        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded(TAXAJAX_EXT)
+        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('taxajax')
     ) {
         $GLOBALS['TYPO3_CONF_VARS']['FE']['taxajax_include'][$extensionKey] = \JambageCom\TtProducts\Controller\TaxajaxController::class . '::processRequest';
     }

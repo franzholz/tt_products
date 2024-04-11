@@ -3,20 +3,15 @@
 defined('TYPO3') || die('Access denied.');
 
 $extensionKey = 'tt_products';
+$palleteAddition = '';
+$languageSubpath = '/Resources/Private/Language/';
+$languageLglPath = 'LLL:EXT:core' . $languageSubpath . 'locallang_general.xlf:LGL.';
+
 $whereCategory =
     (
         $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['where']['category']
         ?? ''
     );
-
-$imageFolder = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['imageFolder'];
-if (!$imageFolder) {
-    $imageFolder = 'uploads/pics';
-}
-
-$palleteAddition = '';
-$languageSubpath = '/Resources/Private/Language/';
-$languageLglPath = 'LLL:EXT:core' . $languageSubpath . 'locallang_general.xlf:LGL.';
 
 $result = [
     'ctrl' => [

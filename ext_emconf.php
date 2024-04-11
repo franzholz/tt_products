@@ -24,10 +24,10 @@ $EM_CONF[$_EXTKEY] = [
     'conflicts' => [
     ],
     'suggests' => [
-      'addons_em' => '0.1.0-0.0.0',
+      'addons_em' => '0.9.0-0.0.0',
       'func' => '',
       'static_info_tables' => '',
-      'static_info_tables_taxes' => '0.3.0-0.8.99',
+      'static_info_tables_taxes' => '0.7.0-0.8.99',
       'taxajax' => '',
     ],
   ],

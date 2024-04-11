@@ -50,7 +50,7 @@ class tx_ttproducts_ajax implements SingletonInterface
     public function init()
     {
         $result = false;
-        if (ExtensionManagementUtility::isLoaded(TAXAJAX_EXT)) {
+        if (ExtensionManagementUtility::isLoaded('taxajax')) {
             $this->taxajax = GeneralUtility::makeInstance('tx_taxajax');
 
             // Encoding of the response to FE charset

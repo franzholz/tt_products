@@ -422,8 +422,8 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
             $fieldsArray['amount'] = $amount;
 
             $fieldsArray['note'] = $deliveryInfo['note'] ?? null;
-            $fieldsArray['date_of_birth'] = $dateBirth ?? null;
-            $fieldsArray['radio1'] = $deliveryInfo['radio1'] ?? null;
+            $fieldsArray['date_of_birth'] = $dateBirth ?? 0;
+            $fieldsArray['radio1'] = $deliveryInfo['radio1'] ?? 0;
 
             if (
                 isset($giftServiceArticleArray) &&

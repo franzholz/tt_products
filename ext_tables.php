@@ -44,8 +44,6 @@ call_user_func(function ($extensionKey): void {
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addLLrefForTCAdescr($table, 'EXT:' . $extensionKey . $languageSubpath . 'Csh/locallang_csh_' . $table . '.xlf');
     }
 
-    $GLOBALS['TBE_MODULES_EXT']['xMOD_db_new_content_el']['addElClasses'][\JambageCom\TtProducts\Controller\Plugin\WizardIcon::class] = PATH_BE_TTPRODUCTS . 'Classes/Controller/Plugin/WizardIcon.php';
-
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::insertModuleFunction(
         'web_func',
         \JambageCom\TtProducts\Controller\Module\MoveItemsWizardModuleFunctionController::class,
