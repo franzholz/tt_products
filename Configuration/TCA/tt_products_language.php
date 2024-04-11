@@ -2,13 +2,16 @@
 
 defined('TYPO3') || die('Access denied.');
 
-$extensionKey = 'tt_products';
 
 // ******************************************************************
 // This is the language overlay for the products table, tt_products
 // ******************************************************************
+$extensionKey = 'tt_products';
 $languageSubpath = '/Resources/Private/Language/';
 $languageLglPath = 'LLL:EXT:core' . $languageSubpath . 'locallang_general.xlf:LGL.';
+
+// TODO.
+$palleteAddition = ',--palette--;LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_file_reference.shopAttributes;tt_productsPalette';
 
 $result = [
     'ctrl' => [

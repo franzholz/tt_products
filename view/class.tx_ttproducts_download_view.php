@@ -315,7 +315,7 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view
                     $markerArray['###' . $marker . '###'] = $content;
                 } elseif ($error) {
                     $subpartArray['###DOWNLOAD_SINGLE###'] .= $content;
-                } elseif ($t['item'] != '') {
+                } elseif (!empty($t['item'])) {
                     // 			<!-- ###DOWNLOAD_SINGLE### begin -->
                     // 				###DOWNLOAD_TITLE###
                     // 				###DOWNLOAD_NOTE###
