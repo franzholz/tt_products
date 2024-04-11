@@ -30,7 +30,7 @@ call_user_func(function ($extensionKey, $table): void {
 
     ExtensionManagementUtility::registerPageTSConfigFile(
         $extensionKey,
-        'Configuration/TSconfig/Page/folder_tables.txt',
+        'Configuration/TsConfig/Page/folder_tables.txt',
         'EXT:' . $extensionKey . ' :: Restrict pages to tt_products records'
     );
 
