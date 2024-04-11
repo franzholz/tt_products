@@ -2,6 +2,8 @@
 
 defined('TYPO3') || die('Access denied.');
 
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+
 call_user_func(function ($extensionKey, $table): void {
     // add folder icon
     $pageType = 'ttpproduct';
@@ -26,9 +28,16 @@ call_user_func(function ($extensionKey, $table): void {
         ];
     }
 
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::registerPageTSConfigFile(
-        $pageType,
+    ExtensionManagementUtility::registerPageTSConfigFile(
+        $extensionKey,
         'Configuration/TSconfig/Page/folder_tables.txt',
         'EXT:' . $extensionKey . ' :: Restrict pages to tt_products records'
     );
+
+    ExtensionManagementUtility::registerPageTSConfigFile(
+        $extensionKey,
+        'Configuration/TsConfig/Page/Mod/Wizards/NewContentElement.tsconfig',
+        'Shop System Content Element Wizard'
+    );
 }, 'tt_products', basename(__FILE__, '.php'));
+
