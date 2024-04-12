@@ -261,7 +261,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
         $imageArray,
         $fieldMarkerArray, // neu
         $dirname,
-        $mediaNum = 0,
+        $mediaNum,
         $imageRenderObj,
         $linkWrap,
         &$markerArray,

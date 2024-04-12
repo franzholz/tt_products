@@ -77,7 +77,7 @@ class tx_ttproducts_voucher extends tx_ttproducts_table_base
         return $result;
     } // init
 
-    public static function generate(&$voucherCount = 0, &$codeArray = [], $orderUid, $itemArray, $whereGift)
+    public static function generate(&$voucherCount, &$codeArray, $orderUid, $itemArray, $whereGift)
     {
         $result = false;
 

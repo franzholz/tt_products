@@ -75,7 +75,6 @@ class tx_ttproducts_pi_int_base extends AbstractPlugin implements SingletonInter
         $this->conf = $conf;
         $config = [];
         $mainObj = GeneralUtility::makeInstance('tx_ttproducts_main');	// fetch and store it as persistent object
-        $mainObj->bNoCachePossible = false;
         $errorCode = [];
         $bDoProcessing =
             $mainObj->init(

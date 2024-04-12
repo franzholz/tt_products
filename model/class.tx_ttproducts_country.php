@@ -55,24 +55,24 @@ class tx_ttproducts_country extends tx_ttproducts_table_base
         if ($result) {
             $tablename = $this->getTablename();
             $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-            $this->tableConf = $cnf->getTableConf('static_countries');
+            $tableConf = $cnf->getTableConf('static_countries');
             $this->getTableObj()->setDefaultFieldArray(['uid' => 'uid', 'pid' => 'pid']);
             $this->getTableObj()->setTCAFieldArray('static_countries');
 
             $requiredFields = 'uid,pid';
-            if (!empty($this->tableConf['requiredFields'])) {
-                $tmp = $this->tableConf['requiredFields'];
+            if (!empty($tableConf['requiredFields'])) {
+                $tmp = $tableConf['requiredFields'];
                 $requiredFields = ($tmp ?: $requiredFields);
             }
             $requiredListArray = GeneralUtility::trimExplode(',', $requiredFields);
             $this->getTableObj()->setRequiredFieldArray($requiredListArray);
 
-            if (!empty($this->tableConf['generatePath.']) &&
-                $this->tableConf['generatePath.']['type'] == 'tablefields' &&
-                !empty($this->tableConf['generatePath.']['field.'])
+            if (!empty($tableConf['generatePath.']) &&
+                $tableConf['generatePath.']['type'] == 'tablefields' &&
+                !empty($tableConf['generatePath.']['field.'])
             ) {
                 $addRequiredFields = [];
-                foreach ($this->tableConf['generatePath.']['field.'] as $field => $value) {
+                foreach ($tableConf['generatePath.']['field.'] as $field => $value) {
                     $addRequiredFields[] = $field;
                 }
                 $this->getTableObj()->addRequiredFieldArray($addRequiredFields);

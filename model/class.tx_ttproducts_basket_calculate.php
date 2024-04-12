@@ -357,6 +357,7 @@ class tx_ttproducts_basket_calculate implements SingletonInterface
                         }
                     }
 
+
                     // has the price been calculated before take it if it gets cheaper now
                     if (
                         isset($actItem[$calculationField]) // && ($actItem['calcprice'] < $actItem['priceTax'])
@@ -366,8 +367,8 @@ class tx_ttproducts_basket_calculate implements SingletonInterface
                             $basketRecs,
                             $conf['TAXmode'],
                             $actItem[$calculationField],
-                            true,
                             $row,
+                            true,
                             $conf['TAXincluded'],
                             $bEnableTaxZero
                         );
@@ -376,8 +377,8 @@ class tx_ttproducts_basket_calculate implements SingletonInterface
                             $basketRecs,
                             $conf['TAXmode'],
                             $actItem[$calculationField],
-                            false,
                             $row,
+                            false,
                             $conf['TAXincluded'],
                             $bEnableTaxZero
                         );
@@ -508,8 +509,8 @@ class tx_ttproducts_basket_calculate implements SingletonInterface
                                 $basketRecs,
                                 $conf['TAXmode'],
                                 $value,
-                                true,
                                 $shippingRow,
+                                true,
                                 $conf['TAXincluded'],
                                 true
                             );
@@ -520,8 +521,8 @@ class tx_ttproducts_basket_calculate implements SingletonInterface
                                 $basketRecs,
                                 $conf['TAXmode'],
                                 $value,
-                                true,
                                 $shippingRow,
+                                true,
                                 $conf['TAXincluded'],
                                 true
                             );
@@ -534,8 +535,8 @@ class tx_ttproducts_basket_calculate implements SingletonInterface
                                     $basketRecs,
                                     $conf['TAXmode'],
                                     $value * ($count - 1),
-                                    true,
                                     $shippingRow,
+                                    true,
                                     $conf['TAXincluded'],
                                     true
                                 );
@@ -549,8 +550,8 @@ class tx_ttproducts_basket_calculate implements SingletonInterface
                             $basketRecs,
                             $conf['TAXmode'],
                             $value,
-                            false,
                             $shippingRow,
+                            false,
                             $conf['TAXincluded'],
                             true
                         );
@@ -562,8 +563,8 @@ class tx_ttproducts_basket_calculate implements SingletonInterface
                             $basketRecs,
                             $conf['TAXmode'],
                             $value,
-                            false,
                             $shippingRow,
+                            false,
                             $conf['TAXincluded'],
                             true
                         );
@@ -576,8 +577,8 @@ class tx_ttproducts_basket_calculate implements SingletonInterface
                                 $basketRecs,
                                 $conf['TAXmode'],
                                 $value * ($count - 1),
-                                false,
                                 $shippingRow,
+                                false,
                                 $conf['TAXincluded'],
                                 true
                             );
@@ -619,8 +620,8 @@ class tx_ttproducts_basket_calculate implements SingletonInterface
                                 $basketRecs,
                                 $conf['TAXmode'],
                                 $value,
-                                true,
                                 $taxRow,
+                                true,
                                 $conf['TAXincluded'],
                                 false
                             );
@@ -630,8 +631,8 @@ class tx_ttproducts_basket_calculate implements SingletonInterface
                                 $basketRecs,
                                 $conf['TAXmode'],
                                 $value,
-                                false,
                                 $taxRow,
+                                false,
                                 $conf['TAXincluded'],
                                 false
                             );
@@ -660,8 +661,8 @@ class tx_ttproducts_basket_calculate implements SingletonInterface
                                 $basketRecs,
                                 $conf['TAXmode'],
                                 $value,
-                                true,
                                 $taxRow,
+                                true,
                                 false,
                                 true
                             );
@@ -690,8 +691,8 @@ class tx_ttproducts_basket_calculate implements SingletonInterface
                                         $basketRecs,
                                         $conf['TAXmode'],
                                         $value,
-                                        true,
                                         $taxRow,
+                                        true,
                                         false,
                                         true
                                     );
@@ -709,8 +710,8 @@ class tx_ttproducts_basket_calculate implements SingletonInterface
                         $basketRecs,
                         $conf['TAXmode'],
                         $this->calculatedArray['handling']['0']['priceNoTax'],
-                        true,
                         $shippingRow,
+                        true,
                         false,
                         true
                     );
@@ -720,8 +721,8 @@ class tx_ttproducts_basket_calculate implements SingletonInterface
                         $basketRecs,
                         $conf['TAXmode'],
                         $this->calculatedArray['shipping']['priceNoTax'],
-                        true,
                         $shippingRow,
+                        true,
                         false,
                         true
                     );
@@ -746,6 +747,7 @@ class tx_ttproducts_basket_calculate implements SingletonInterface
             $this->calculatedArray,
             $itemArray
         );
+
 
         // payment must be dealt with at the latest because the payment gateway must know about all other costs
         // Shipping must be at the end in order to use the calculated values from before

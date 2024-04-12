@@ -434,7 +434,7 @@ class tx_ttproducts_list_view implements SingletonInterface
         $additionalPages,
         $hiddenFields,
         &$error_code,
-        $templateArea = 'ITEM_LIST_TEMPLATE',
+        $templateArea, // 'ITEM_LIST_TEMPLATE',
         $pageAsCategory,
         $basketExtra,
         $basketRecs,

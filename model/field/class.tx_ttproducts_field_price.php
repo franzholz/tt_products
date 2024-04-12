@@ -217,8 +217,8 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base
         $basketRecs,
         $taxMode,
         $price,
+        array $row,
         $tax = true,
-        $row,
         $bTaxIncluded = false,
         $bEnableTaxZero = false
     ) {

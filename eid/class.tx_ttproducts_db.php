@@ -710,7 +710,7 @@ class tx_ttproducts_db implements SingletonInterface
         return $result;
     }
 
-    public function &commands($cmd, $param1 = '', $param2 = '', $param3 = '')
+    public function commands($cmd, $param1 = '', $param2 = '', $param3 = '')
     {
         $objResponse = new tx_taxajax_response($this->ajax->taxajax->getCharEncoding());
 
