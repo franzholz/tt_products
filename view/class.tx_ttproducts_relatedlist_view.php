@@ -45,7 +45,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 use JambageCom\Div2007\Utility\FrontendUtility;
 
+use JambageCom\TtProducts\Api\BasketApi;
 use JambageCom\TtProducts\Event\AddRelatedListEvent;
+
 
 class tx_ttproducts_relatedlist_view implements SingletonInterface
 {
@@ -280,6 +282,8 @@ class tx_ttproducts_relatedlist_view implements SingletonInterface
         if (!in_array($uid, $paramUidArray)) {
             $paramUidArray[] = $uid;
         }
+        $basketApi = GeneralUtility::makeInstance(BasketApi::class);
+        $basketExtra = $basketApi->getBasketExtra();
 
         $result = [];
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
@@ -365,7 +369,7 @@ class tx_ttproducts_relatedlist_view implements SingletonInterface
                             $error_code,
                             $funcArray['template'] . $config['templateSuffix'],
                             $pageAsCategory,
-                            tx_ttproducts_control_basket::getBasketExtra(),
+                            $basketExtra,
                             tx_ttproducts_control_basket::getRecs(),
                             $mergeRow,
                             1,

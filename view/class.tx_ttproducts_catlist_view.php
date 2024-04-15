@@ -39,6 +39,9 @@
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+use JambageCom\TtProducts\Api\BasketApi;
+
+
 class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base
 {
     public function getChildsContent(
@@ -59,6 +62,8 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base
         $subCategoryMarkerArray
     ) {
         $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
+        $basketApi = GeneralUtility::makeInstance(BasketApi::class);
+        $basketExtra = $basketApi->getBasketExtra();
 
         $subCategoryMarker = '';
         if (
@@ -111,7 +116,7 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base
                 $pageAsCategory,
                 $childRow,
                 $theCode,
-                tx_ttproducts_control_basket::getBasketExtra(),
+                $basketExtra,
                 tx_ttproducts_control_basket::getRecs()
             );
 

@@ -49,6 +49,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Frontend\Resource\FilePathSanitizer;
 
+use JambageCom\Div2007\Utility\CompatibilityUtility;
 use JambageCom\Div2007\Utility\ExtensionUtility;
 use JambageCom\Div2007\Utility\FrontendUtility;
 
@@ -548,7 +549,7 @@ class PaymentShippingHandling
         }
 
         $actTitle = $localBasketExtra['title'] ?? '';
-        $confArray = \tx_ttproducts_control_basket::cleanConfArr($confArray);
+        $confArray = static::cleanConfArr($confArray);
         $bWrapSelect = (count($confArray) > 1);
 
         if (is_array($confArray)) {
@@ -1838,4 +1839,272 @@ class PaymentShippingHandling
 
         return $result;
     }
+
+
+    /**
+     * Setting shipping, payment methods.
+     */
+    public static function getBasketExtras($tablesObj, $basketRec, &$conf)
+    {
+        $basketExtra = [];
+
+        // 		$conf = $cnfObj->getConf();
+        // handling and shipping
+        $pskeyArray = ['shipping' => false, 'handling' => true];	// keep this order, because shipping can unable some payment and handling configuration
+        $excludePayment = '';
+        $excludeHandling = '';
+
+        foreach ($pskeyArray as $pskey => $bIsMulti) {
+            if (!empty($conf[$pskey . '.'])) {
+                if ($bIsMulti) {
+                    ksort($conf[$pskey . '.']);
+
+                    foreach ($conf[$pskey . '.'] as $k => $confArray) {
+                        if (strpos($k, '.') == strlen($k) - 1) {
+                            $k1 = substr($k, 0, strlen($k) - 1);
+
+                            if (
+                                MathUtility::canBeInterpretedAsInteger($k1)
+                            ) {
+                                self::getHandlingShipping(
+                                    $basketRec,
+                                    $pskey,
+                                    $k1,
+                                    $confArray,
+                                    $excludePayment,
+                                    $excludeHandling,
+                                    $basketExtra
+                                );
+                            }
+                        }
+                    }
+                } else {
+                    $confArray = $conf[$pskey . '.'];
+
+                    self::getHandlingShipping(
+                        $basketRec,
+                        $pskey,
+                        '',
+                        $confArray,
+                        $excludePayment,
+                        $excludeHandling,
+                        $basketExtra
+                    );
+                }
+            }
+
+            // overwrite handling from shipping
+            if ($pskey == 'shipping' && !empty($conf['handling.'])) {
+                if ($excludeHandling) {
+                    $exclArr = GeneralUtility::intExplode(',', $excludeHandling);
+                    foreach ($exclArr as $theVal) {
+                        unset($conf['handling.'][$theVal]);
+                        unset($conf['handling.'][$theVal . '.']);
+                    }
+                }
+            }
+        }
+
+        // overwrite payment from shipping
+        if (isset($basketExtra['shipping.']) &&
+            !empty($basketExtra['shipping.']['replacePayment.'])
+        ) {
+            if (!$conf['payment.']) {
+                $conf['payment.'] = [];
+            }
+
+            foreach ($basketExtra['shipping.']['replacePayment.'] as $k1 => $replaceArray) {
+                foreach ($replaceArray as $k2 => $value2) {
+                    if (
+                        is_array($value2) &&
+                        isset($conf['payment.'][$k1][$k2]) &&
+                        is_array($conf['payment.'][$k1][$k2])
+                    ) {
+                        $conf['payment.'][$k1][$k2] = array_merge($conf['payment.'][$k1][$k2], $value2);
+                    } else {
+                        $conf['payment.'][$k1][$k2] = $value2;
+                    }
+                }
+            }
+        }
+
+        // payment
+        if (!empty($conf['payment.'])) {
+            if ($excludePayment) {
+                $exclArr = GeneralUtility::intExplode(',', $excludePayment);
+
+                foreach ($exclArr as $theVal) {
+                    unset($conf['payment.'][$theVal]);
+                    unset($conf['payment.'][$theVal . '.']);
+                }
+            }
+
+            $confArray = self::cleanConfArr($conf['payment.']);
+            foreach ($confArray as $confKey => $val) {
+                //                 if (
+                //                     ($val['show'] || !isset($val['show']))
+                //                 ) {
+                if (
+                    isset($val['type']) &&
+                    $val['type'] == 'fe_users'
+                ) {
+                    if (
+                        CompatibilityUtility::isLoggedIn() &&
+                        is_array($GLOBALS['TSFE']->fe_user->user)
+                    ) {
+                        $paymentField = $tablesObj->get('fe_users')->getFieldName('payment');
+                        $paymentMethod = $GLOBALS['TSFE']->fe_user->user[$paymentField];
+                        $conf['payment.'][$confKey . '.']['title'] = $paymentMethod;
+                    } else {
+                        unset($conf['payment.'][$confKey . '.']);
+                    }
+                }
+                if (
+                    !empty($val['visibleForGroupID']) &&
+                    (!$tablesObj->get('fe_users')->isUserInGroup($GLOBALS['TSFE']->fe_user->user, $val['visibleForGroupID']))) {
+                    unset($conf['payment.'][$confKey . '.']);
+                    }
+                    // 				}
+            }
+            ksort($conf['payment.']);
+            reset($conf['payment.']);
+            $k = 0;
+            if (isset($basketRec['tt_products']['payment'])) {
+                $k = intval($basketRec['tt_products']['payment']);
+            } elseif (count($confArray) == 1) {
+                $k = key($confArray);
+            }
+
+            if (
+                $k &&
+                isset($conf['payment.'][$k . '.']) &&
+                !static::checkExtraAvailable($conf['payment.'][$k . '.'])
+            ) {
+                $temp = static::cleanConfArr($conf['payment.'], 1);
+                $k = intval(key($temp));
+            }
+
+            if ($k) {
+                $basketExtra['payment'] = [$k];
+                if (isset($conf['payment.'][$k . '.'])) {
+                    $basketExtra['payment.'] = $conf['payment.'][$k . '.'];
+                }
+            }
+        }
+
+        return $basketExtra;
+    } // getBasketExtras
+
+    /**
+     * Setting shipping, payment methods.
+     */
+    public static function getHandlingShipping(
+        $basketRec,
+        $pskey,
+        $subkey,
+        $confArray,
+        &$excludePayment,
+        &$excludeHandling,
+        &$basketExtra
+    ): void {
+        ksort($confArray);
+        $valueArray = [];
+        $k = 0;
+        if (
+            $subkey != '' &&
+            isset($basketRec['tt_products'][$pskey][$subkey]) ||
+            $subkey == '' &&
+            isset($basketRec['tt_products'][$pskey])
+        ) {
+            if ($subkey != '') {
+                $valueArray = GeneralUtility::trimExplode('-', $basketRec['tt_products'][$pskey][$subkey]);
+            } else {
+                $valueArray = GeneralUtility::trimExplode('-', $basketRec['tt_products'][$pskey]);
+            }
+            $k = intval($valueArray[0]);
+        } else {
+            foreach ($confArray as $confKey => $confValue) {
+                if (strpos($confKey, '.') == strlen($confKey) - 1) {
+                    $currentKey = substr($confKey, 0, strlen($confKey) - 1);
+
+                    if (
+                        MathUtility::canBeInterpretedAsInteger($currentKey)
+                    ) {
+                        $k = $currentKey;
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (!self::checkExtraAvailable($confArray[$k . '.'] ?? [])) {
+            $temp = self::cleanConfArr($confArray, 1);
+            $valueArray[0] = $k = intval(key($temp));
+        }
+
+        if ($subkey != '') {
+            $basketExtra[$pskey . '.'][$subkey] = $valueArray;
+            $basketExtra[$pskey . '.'][$subkey . '.'] = $confArray[$k . '.'] ?? [];
+            if ($pskey == 'shipping') {
+                $newExcludePayment = trim($basketExtra[$pskey . '.'][$subkey . '.']['excludePayment'] ?? '');
+                $newExcludeHandling = trim($basketExtra[$pskey . '.'][$subkey . '.']['excludeHandling'] ?? '');
+            }
+        } else {
+            $basketExtra[$pskey] = $valueArray;
+            $basketExtra[$pskey . '.'] = $confArray[$k . '.'] ?? [];
+            if ($pskey == 'shipping') {
+                $newExcludePayment = trim($basketExtra[$pskey . '.']['excludePayment'] ?? '');
+                $newExcludeHandling = trim($basketExtra[$pskey . '.']['excludeHandling'] ?? '');
+            }
+        }
+
+        if ($newExcludePayment != '') {
+            $excludePayment = ($excludePayment != '' ? $excludePayment . ',' : '') . $newExcludePayment;
+        }
+        if ($newExcludeHandling != '') {
+            $excludeHandling = ($excludeHandling != '' ? $excludeHandling . ',' : '') . $newExcludeHandling;
+        }
+    }
+
+    /**
+     * Check if payment/shipping option is available.
+     */
+    public static function checkExtraAvailable($confArray)
+    {
+        $result = false;
+
+        if (
+            is_array($confArray) &&
+            (
+                !isset($confArray['show']) ||
+                $confArray['show']
+            )
+        ) {
+            $result = true;
+        }
+
+        return $result;
+    } // checkExtraAvailable
+
+    public static function cleanConfArr($confArray, $checkShow = 0)
+    {
+        $outArr = [];
+        if (is_array($confArray)) {
+            foreach ($confArray as $key => $val) {
+                if (
+                    intval($key) &&
+                    is_array($val) &&
+                    !MathUtility::canBeInterpretedAsInteger($key) &&
+                    (!$checkShow || !isset($val['show']) || $val['show'])
+                ) {
+                    $i = intval($key);
+                    $outArr[$i] = $val;
+                }
+            }
+        }
+        ksort($outArr);
+        reset($outArr);
+
+        return $outArr;
+    } // cleanConfArr
 }

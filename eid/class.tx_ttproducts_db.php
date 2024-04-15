@@ -289,7 +289,7 @@ class tx_ttproducts_db implements SingletonInterface
                             $priceTaxArray = $priceObj->getPriceTaxArray(
                                 $taxInfoArray,
                                 $this->conf['discountPriceMode'] ?? '',
-                                tx_ttproducts_control_basket::getBasketExtra(),
+                                $basketExtra,
                                 tx_ttproducts_control_basket::getRecs(),
                                 'price',
                                 tx_ttproducts_control_basket::getRoundFormat(),
@@ -506,6 +506,8 @@ class tx_ttproducts_db implements SingletonInterface
                             $tmp = '';
                             $fieldViewObj = $itemTableView->getObj($class);
                             $linkWrap = false;
+                            $basketApi = GeneralUtility::makeInstance(BasketApi::class);
+                            $basketExtra = $basketApi->getBasketExtra();
                             $modifiedValue =
                                 $fieldViewObj->getRowMarkerArray(
                                     $funcTablename,
@@ -517,7 +519,7 @@ class tx_ttproducts_db implements SingletonInterface
                                     $tmpArray,
                                     $theCode,
                                     '',
-                                    tx_ttproducts_control_basket::getBasketExtra(),
+                                    $basketExtra,
                                     tx_ttproducts_control_basket::getRecs(),
                                     $bSkip,
                                     true,
