@@ -55,7 +55,7 @@ class tx_ttproducts_search_view implements SingletonInterface
     /**
      * Displays the search for the first letter.
      */
-    public function &printFirstletter($pibaseObj, &$templateCode, $columns, &$error_code)
+    public function printFirstletter($pibaseObj, &$templateCode, $columns, &$error_code)
     {
         // local_table
 
@@ -107,7 +107,7 @@ class tx_ttproducts_search_view implements SingletonInterface
     /**
      * Displays the search for the last entries.
      */
-    public function &printLastEntries($pibaseObj, &$templateCode, $columns, &$error_code)
+    public function printLastEntries($pibaseObj, &$templateCode, $columns, &$error_code)
     {
         $searboxViewObj = GeneralUtility::makeInstance('tx_searchbox_view');
         $paramArray = [
@@ -122,7 +122,7 @@ class tx_ttproducts_search_view implements SingletonInterface
     /**
      * Displays the search for the last entries.
      */
-    public function &printTextField($pibaseObj, &$templateCode, $columns, $formid, $contentRow, &$error_code)
+    public function printTextField($pibaseObj, &$templateCode, $columns, $formid, $contentRow, &$error_code)
     {
         $searboxViewObj = GeneralUtility::makeInstance('tx_searchbox_view');
         $paramArray = [

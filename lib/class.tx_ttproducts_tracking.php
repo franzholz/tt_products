@@ -36,16 +36,21 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-use JambageCom\Div2007\Utility\TableUtility;
-use JambageCom\TtProducts\Api\BasketApi;
-use JambageCom\TtProducts\Api\Localization;
-use JambageCom\TtProducts\Api\PaymentApi;
+
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Core\Utility\StringUtility;
+
+use JambageCom\Div2007\Utility\TableUtility;
+
+use JambageCom\TtProducts\Api\BasketApi;
+use JambageCom\TtProducts\Api\Localization;
+use JambageCom\TtProducts\Api\PaymentApi;
+use JambageCom\TtProducts\Api\PaymentShippingHandling;
+
 
 class tx_ttproducts_tracking implements SingletonInterface
 {
@@ -216,7 +221,7 @@ class tx_ttproducts_tracking implements SingletonInterface
         ) {
             $basketRec = BasketApi::getBasketRec($orderRow);
             $basketExtra =
-                tx_ttproducts_control_basket::getBasketExtras(
+                PaymentShippingHandling::getBasketExtras(
                     $tablesObj,
                     $basketRec,
                     $this->conf
@@ -273,7 +278,7 @@ class tx_ttproducts_tracking implements SingletonInterface
                             ) {
                                 $basketRec = BasketApi::getBasketRec($orderRow);
                                 $basketExtra =
-                                    tx_ttproducts_control_basket::getBasketExtras(
+                                    PaymentShippingHandling::getBasketExtras(
                                         $tablesObj,
                                         $basketRec,
                                         $this->conf

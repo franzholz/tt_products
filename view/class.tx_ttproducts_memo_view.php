@@ -34,10 +34,15 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-use JambageCom\Div2007\Utility\FrontendUtility;
+
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+
+use JambageCom\Div2007\Utility\FrontendUtility;
+
+use JambageCom\TtProducts\Api\BasketApi;
+
 
 class tx_ttproducts_memo_view implements SingletonInterface
 {
@@ -87,6 +92,8 @@ class tx_ttproducts_memo_view implements SingletonInterface
         $content = '';
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $config = $cnf->getConfig();
+        $basketApi = GeneralUtility::makeInstance(BasketApi::class);
+        $basketExtra = $basketApi->getBasketExtra();
 
         if (
             tx_ttproducts_control_memo::bUseFeuser($conf) ||
@@ -124,7 +131,7 @@ class tx_ttproducts_memo_view implements SingletonInterface
                     $errorCode,
                     $templateArea,
                     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['pageAsCategory'],
-                    tx_ttproducts_control_basket::getBasketExtra(),
+                    $basketExtra,
                     tx_ttproducts_control_basket::getRecs(),
                     [],
                     0

@@ -62,11 +62,11 @@ class tx_ttproducts_category_view extends tx_ttproducts_category_base_view
         $markerKey,
         $category,
         $pid,
-        $imageNum = 0,
-        $imageRenderObj = 'image',
+        $imageNum,
+        $imageRenderObj,
         &$viewCatTagArray,
-        $forminfoArray = [],
-        $pageAsCategory = 0,
+        $forminfoArray,
+        $pageAsCategory,
         $theCode,
         $basketExtra,
         $basketRecs,
@@ -78,25 +78,6 @@ class tx_ttproducts_category_view extends tx_ttproducts_category_base_view
         $row = ($category ? $modelObj->get($category) : ['title' => '', 'pid' => $pid]);
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $funcTablename = $modelObj->getFuncTablename();
-
-        // 		$imageObj = GeneralUtility::makeInstance('tx_ttproducts_field_image_view');
-        //
-        // 			// Get image
-        // 		$imageObj->getRowMarkerArrayEnhanced(
-        // 			$funcTablename,
-        // 			$row,
-        // 			$this->marker,
-        // 			$markerArray,
-        // 			$row['pid'],
-        // 			$imageNum,
-        // 			$imageRenderObj,
-        // 			$viewCatTagArray,
-        // 			$theCode,
-        // 			$id,
-        // 			$prefix,
-        // 			$linkWrap
-        // 		);
-
         $pageCatTitle = '';
         if ($pageAsCategory == 1) {
             $pageObj = $tablesObj->get('pages');

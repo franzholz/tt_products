@@ -51,9 +51,9 @@ class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base
         &$templateCode,
         $theCode,
         &$error_code,
-        $templateArea = 'ITEM_CATLIST_TEMPLATE',
+        $templateArea, // 'ITEM_CATLIST_TEMPLATE'
         $pageAsCategory,
-        $templateSuffix = '',
+        $templateSuffix,
         $basketExtra,
         $basketRecs
     ) {

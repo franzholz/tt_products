@@ -36,10 +36,13 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-use JambageCom\TtProducts\Api\BasketApi;
+
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+
+use JambageCom\TtProducts\Api\BasketApi;
+use JambageCom\TtProducts\Api\PaymentShippingHandling;
 
 class tx_ttproducts_billdelivery implements SingletonInterface
 {
@@ -252,7 +255,7 @@ class tx_ttproducts_billdelivery implements SingletonInterface
 
         $basketRec = BasketApi::getBasketRec($orderRow);
         $basketExtra =
-            tx_ttproducts_control_basket::getBasketExtras(
+            PaymentShippingHandling::getBasketExtras(
                 $tablesObj,
                 $basketRec,
                 $conf

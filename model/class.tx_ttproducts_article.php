@@ -75,7 +75,7 @@ class tx_ttproducts_article extends tx_ttproducts_article_base
         return $result;
     } // init
 
-    public function &getWhereArray($prodUid, $where, $orderBy = '') // Todo: consider the $orderBy
+    public function getWhereArray($prodUid, $where, $orderBy = '') // Todo: consider the $orderBy
     {
         $rowArray = [];
         $enableWhere = $this->getTableObj()->enableFields();

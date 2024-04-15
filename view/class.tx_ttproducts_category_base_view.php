@@ -72,7 +72,7 @@ abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base
         return $result;
     }
 
-    public function &getSubpartArrays(
+    public function getSubpartArrays(
         &$urlmarkerObj,
         $row,
         &$subpartArray,
@@ -128,11 +128,11 @@ abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base
         $markerKey,
         $category,
         $pid,
-        $imageNum = 0,
-        $imageRenderObj = 'image',
+        $imageNum,
+        $imageRenderObj,
         &$viewCatTagArray,
-        $forminfoArray = [],
-        $pageAsCategory = 0,
+        $forminfoArray,
+        $pageAsCategory,
         $theCode,
         $basketExtra,
         $basketRecs,
@@ -147,11 +147,11 @@ abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base
         &$markerArray,
         $category,
         $pid,
-        $imageNum = 0,
-        $imageRenderObj = 'image',
+        $imageNum,
+        $imageRenderObj,
         &$viewCatTagArray,
-        $forminfoArray = [],
-        $pageAsCategory = 0,
+        $forminfoArray,
+        $pageAsCategory,
         $code,
         $basketExtra,
         $basketRecs,

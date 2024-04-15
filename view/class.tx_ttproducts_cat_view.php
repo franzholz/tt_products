@@ -37,10 +37,13 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-use JambageCom\Div2007\Utility\FrontendUtility;
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+
+use JambageCom\Div2007\Utility\FrontendUtility;
+
+use JambageCom\TtProducts\Api\BasketApi;
 
 class tx_ttproducts_cat_view implements SingletonInterface
 {
@@ -92,6 +95,8 @@ class tx_ttproducts_cat_view implements SingletonInterface
         $basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
         $variantFieldArray = [];
         $piVars = tx_ttproducts_model_control::getPiVars();
+        $basketApi = GeneralUtility::makeInstance(BasketApi::class);
+        $basketExtra = $basketApi->getBasketExtra();
 
         if ($this->config['displayCurrentRecord']) {
             $row = $this->cObj->data;
@@ -229,7 +234,7 @@ class tx_ttproducts_cat_view implements SingletonInterface
                 [],
                 $funcTablename == 'pages',
                 $theCode,
-                tx_ttproducts_control_basket::getBasketExtra(),
+                $basketApi,
                 tx_ttproducts_control_basket::getRecs(),
                 1,
                 ''
@@ -267,7 +272,7 @@ class tx_ttproducts_cat_view implements SingletonInterface
                 [],
                 $pageAsCategory,
                 $theCode,
-                tx_ttproducts_control_basket::getBasketExtra(),
+                $basketApi,
                 tx_ttproducts_control_basket::getRecs(),
                 '',
                 '',
