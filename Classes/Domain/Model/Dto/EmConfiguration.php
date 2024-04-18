@@ -109,7 +109,7 @@ final class EmConfiguration implements SingletonInterface
 
         if (empty($configuration)) {
             try {
-                $configuration = $this->extensionConfiguration->get($extensionKey);
+                $configuration = $this->extensionConfiguration->get($this->extensionKey);
             } catch (\Exception $exception) {
                 // do nothing
             }
