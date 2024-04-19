@@ -406,16 +406,21 @@ class tx_ttproducts_voucher extends tx_ttproducts_table_base
                 $voucherfieldArray = ['uid', 'tt_products_vouchercode'];
                 if (!empty($GLOBALS['TSFE']->fe_user->user['uid'])) {
                     $whereGeneral = $voucherTable . '.uid=' . intval($GLOBALS['TSFE']->fe_user->user['uid']);
+                } else {
+                    $whereGeneral = '(fe_users_uid=0)';
                 }
                 $whereGeneral .= ' AND ' . $voucherTable . '.tt_products_vouchercode=' . $TYPO3_DB->fullQuoteStr($voucherCode, $voucherTable);
             } else {
                 $voucherfieldArray = ['starttime', 'endtime', 'title', 'fe_users_uid', 'reusable', 'code', 'amount', 'amount_type', 'note'];
                 if (!empty($GLOBALS['TSFE']->fe_user->user['uid'])) {
                     $whereGeneral = '(fe_users_uid="' . intval($GLOBALS['TSFE']->fe_user->user['uid']) . '" OR fe_users_uid=0)';
+                } else {
+                    $whereGeneral = '(fe_users_uid=0)';
                 }
                 $whereGeneral .= ' AND code=' . $GLOBALS['TYPO3_DB']->fullQuoteStr($voucherCode, $voucherTable);
             }
             $enableFields = TableUtility::enableFields($voucherTable);
+
             $where = $whereGeneral . $enableFields;
             $fields = implode(',', $voucherfieldArray);
 
