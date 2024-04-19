@@ -369,6 +369,7 @@ class tx_ttproducts_voucher extends tx_ttproducts_table_base
     public function doProcessing($recs): void
     {
         $voucherCode = $recs['tt_products']['vouchercode'] ?? '';
+        $voucherTable = $this->getVoucherTableName();
         $this->setVoucherCode($voucherCode);
         $cObj = FrontendUtility::getContentObjectRenderer();
 
@@ -392,23 +393,29 @@ class tx_ttproducts_voucher extends tx_ttproducts_table_base
         if (
             $voucherCode &&
             !$this->isVoucherCodeUsed($voucherCode) &&
-            $GLOBALS['TSFE']->fe_user->user['uid']
+            (
+                $voucherTable != 'fe_users' ||
+                !empty($GLOBALS['TSFE']->fe_user->user['uid'])
+            )
+
         ) {
             $uid_voucher = '';
             $voucherfieldArray = [];
-            $whereGeneral = '';
-            $voucherTable = $this->getVoucherTableName();
+            $whereGeneral = '1=1';
             if ($voucherTable == 'fe_users') {
                 $voucherfieldArray = ['uid', 'tt_products_vouchercode'];
-                $whereGeneral = $voucherTable . '.uid=' . intval($GLOBALS['TSFE']->fe_user->user['uid']);
+                if (!empty($GLOBALS['TSFE']->fe_user->user['uid'])) {
+                    $whereGeneral = $voucherTable . '.uid=' . intval($GLOBALS['TSFE']->fe_user->user['uid']);
+                }
                 $whereGeneral .= ' AND ' . $voucherTable . '.tt_products_vouchercode=' . $TYPO3_DB->fullQuoteStr($voucherCode, $voucherTable);
             } else {
                 $voucherfieldArray = ['starttime', 'endtime', 'title', 'fe_users_uid', 'reusable', 'code', 'amount', 'amount_type', 'note'];
-                $whereGeneral = '(fe_users_uid="' . intval($GLOBALS['TSFE']->fe_user->user['uid']) . '" OR fe_users_uid=0) ';
-                $whereGeneral .= 'AND code=' . $GLOBALS['TYPO3_DB']->fullQuoteStr($voucherCode, $voucherTable);
+                if (!empty($GLOBALS['TSFE']->fe_user->user['uid'])) {
+                    $whereGeneral = '(fe_users_uid="' . intval($GLOBALS['TSFE']->fe_user->user['uid']) . '" OR fe_users_uid=0)';
+                }
+                $whereGeneral .= ' AND code=' . $GLOBALS['TYPO3_DB']->fullQuoteStr($voucherCode, $voucherTable);
             }
             $enableFields = TableUtility::enableFields($voucherTable);
-
             $where = $whereGeneral . $enableFields;
             $fields = implode(',', $voucherfieldArray);
 
