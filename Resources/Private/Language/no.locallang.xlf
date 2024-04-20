@@ -1,27 +1,43 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/PiInt/locallang.xlf" date="2021-12-01T10:54:31Z" product-name="tt_products" target-language="no">
+  <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/locallang.xlf" date="2021-11-23T20:33:04Z" product-name="tt_products" target-language="no">
     <header/>
     <body>
-      <trans-unit id="no_template" resname="no_template" approved="yes">
-        <source>The shop variable content template file has not been found. Check your template setup about</source>
-        <target state="final">Ingen mal ble funnet for butikken. Sjekk oppsettet.</target>
+      <trans-unit id="plugins_title" resname="plugins_title">
+        <source>Shop System</source>
+        <target state="needs-translation">Shop System</target>
       </trans-unit>
-      <trans-unit id="no_subtemplate" resname="no_subtemplate">
-        <source>The part | or the shop variable content template file | has not been found.</source>
-        <target state="needs-translation">The part | or the shop variable content template file | has not been found.</target>
+      <trans-unit id="plugins_description" resname="plugins_description" approved="yes">
+        <source>Add a shopping system plugin to the page. This makes it possible to sell products in multiple languages.</source>
+        <target state="final">Setter inn en butikks produktliste på siden. Dette er en del av den innebygde butikken (webshopen) og krever at siden inneholder produktelementer i databasen.</target>
       </trans-unit>
-      <trans-unit id="all" resname="all">
-        <source>ALL</source>
-        <target state="needs-translation">ALL</target>
+      <trans-unit id="m_default" resname="m_default">
+        <source>default</source>
+        <target state="needs-translation">default</target>
       </trans-unit>
-      <trans-unit id="latest_entries" resname="latest_entries">
-        <source>Go to the %d latest entries.</source>
-        <target state="needs-translation">Go to the %d latest entries.</target>
+      <trans-unit id="m_ext" resname="m_ext">
+        <source>extended</source>
+        <target state="needs-translation">extended</target>
       </trans-unit>
-      <trans-unit id="no_setup" resname="no_setup">
-        <source>No setup for the dynamic plugins of tt_products has been found. It is under the name 'tx_ttproducts_pi_int'. Consider to add 'Shop System Variable Content' on the template setup under 'include static from extensions'.</source>
-        <target state="needs-translation">No setup for the dynamic plugins of tt_products has been found. It is under the name 'tx_ttproducts_pi_int'. Consider to add 'Shop System Variable Content' on the template setup under 'include static from extensions'.</target>
+      <trans-unit id="m_variants" resname="m_variants">
+        <source>variants</source>
+        <target state="needs-translation">variants</target>
+      </trans-unit>
+      <trans-unit id="pageModule.plugin" resname="pageModule.plugin">
+        <source>Shop System: Products, Articles, Product Categories, Orders</source>
+        <target state="needs-translation">Shop System: Products, Articles, Product Categories, Orders</target>
+      </trans-unit>
+      <trans-unit id="moduleFunction.tx_ttproducts_modfunc1" resname="moduleFunction.tx_ttproducts_modfunc1">
+        <source>Move Items (tt_products)</source>
+        <target state="needs-translation">Move Items (tt_products)</target>
+      </trans-unit>
+      <trans-unit id="moduleFunction.tx_ttproducts_modfunc2" resname="moduleFunction.tx_ttproducts_modfunc2">
+        <source>Create Records in Alternative Languages (tt_products)</source>
+        <target state="needs-translation">Create Records in Alternative Languages (tt_products)</target>
+      </trans-unit>
+      <trans-unit id="moduleFunction.tx_ttproducts_modfunc3" resname="moduleFunction.tx_ttproducts_modfunc3">
+        <source>Import images into FAL (tt_products)</source>
+        <target state="needs-translation">Import images into FAL (tt_products)</target>
       </trans-unit>
     </body>
   </file>
