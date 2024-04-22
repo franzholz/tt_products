@@ -1,27 +1,43 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/PiInt/locallang.xlf" date="2021-12-01T10:54:31Z" product-name="tt_products" target-language="de">
+  <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/locallang.xlf" date="2021-11-23T20:33:04Z" product-name="tt_products" target-language="de">
     <header/>
     <body>
-      <trans-unit id="no_template" resname="no_template" approved="yes">
-        <source>The shop variable content template file has not been found. Check your template setup about</source>
-        <target state="final">Die Shop Template Datei für benutzerabhängige Inhalte wurde nicht gefunden. Überprüfen Sie im Template Setup:</target>
+      <trans-unit id="plugins_title" resname="plugins_title">
+        <source>Shop System</source>
+        <target state="needs-translation">Shop System</target>
       </trans-unit>
-      <trans-unit id="no_subtemplate" resname="no_subtemplate" approved="yes">
-        <source>The part | or the shop variable content template file | has not been found.</source>
-        <target state="final">Der Bereich | wurde in der Shop Template Datei für benutzerabhängige Inhalte | nicht gefunden.</target>
+      <trans-unit id="plugins_description" resname="plugins_description" approved="yes">
+        <source>Add a shopping system plugin to the page. This makes it possible to sell products in multiple languages.</source>
+        <target state="final">Fügt ein Shop System Plugin ein. Damit können Produktdatensätze in mehreren Sprachen angezeigt werden.</target>
       </trans-unit>
-      <trans-unit id="all" resname="all">
-        <source>ALL</source>
-        <target state="needs-translation">ALL</target>
+      <trans-unit id="m_default" resname="m_default" approved="yes">
+        <source>default</source>
+        <target state="final">Standard</target>
       </trans-unit>
-      <trans-unit id="latest_entries" resname="latest_entries" approved="yes">
-        <source>Go to the %d latest entries.</source>
-        <target state="final">Gehe zu den %d letzten Einträgen.</target>
+      <trans-unit id="m_ext" resname="m_ext" approved="yes">
+        <source>extended</source>
+        <target state="final">Erweitert</target>
       </trans-unit>
-      <trans-unit id="no_setup" resname="no_setup" approved="yes">
-        <source>No setup for the dynamic plugins of tt_products has been found. It is under the name 'tx_ttproducts_pi_int'. Consider to add 'Shop System Variable Content' on the template setup under 'include static from extensions'.</source>
-        <target state="final">Es ist kein Setup für die benutzerabhängigen dynamischen Inhalte von tt_products gefunden worden. Es muss unter dem Namen 'tx_ttproducts_pi_int' konfiguriert werden. Dazu fügen Sie den 'Shop System Variable Content' im Template Setup unter dem Punkt 'include static from extensions' ein.</target>
+      <trans-unit id="m_variants" resname="m_variants" approved="yes">
+        <source>variants</source>
+        <target state="final">Varianten</target>
+      </trans-unit>
+      <trans-unit id="pageModule.plugin" resname="pageModule.plugin" approved="yes">
+        <source>Shop System: Products, Articles, Product Categories, Orders</source>
+        <target state="final">Shop System: Produkte, Artikel, Produkt Kategorien, Bestellungen</target>
+      </trans-unit>
+      <trans-unit id="moduleFunction.tx_ttproducts_modfunc1" resname="moduleFunction.tx_ttproducts_modfunc1" approved="yes">
+        <source>Move Items (tt_products)</source>
+        <target state="final">Produkte verschieben (tt_products)</target>
+      </trans-unit>
+      <trans-unit id="moduleFunction.tx_ttproducts_modfunc2" resname="moduleFunction.tx_ttproducts_modfunc2" approved="yes">
+        <source>Create Records in Alternative Languages (tt_products)</source>
+        <target state="final">Erzeuge Datensätze in alternativen Sprachen (tt_products)</target>
+      </trans-unit>
+      <trans-unit id="moduleFunction.tx_ttproducts_modfunc3" resname="moduleFunction.tx_ttproducts_modfunc3" approved="yes">
+        <source>Import images into FAL (tt_products)</source>
+        <target state="final">Importiere Bilder in die FAL (tt_products)</target>
       </trans-unit>
     </body>
   </file>
