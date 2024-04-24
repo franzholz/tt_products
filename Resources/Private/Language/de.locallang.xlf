@@ -1,43 +1,291 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/locallang.xlf" date="2021-11-23T20:33:04Z" product-name="tt_products" target-language="de">
+  <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/Pi1/locallang.xlf" date="2021-12-01T10:17:30Z" product-name="tt_products" target-language="de">
     <header/>
     <body>
-      <trans-unit id="plugins_title" resname="plugins_title">
-        <source>Shop System</source>
-        <target state="needs-translation">Shop System</target>
+      <trans-unit id="plugin" resname="plugin">
+        <source>Shop Plugin</source>
+        <target state="needs-translation">Shop Plugin</target>
       </trans-unit>
-      <trans-unit id="plugins_description" resname="plugins_description" approved="yes">
-        <source>Add a shopping system plugin to the page. This makes it possible to sell products in multiple languages.</source>
-        <target state="final">Fügt ein Shop System Plugin ein. Damit können Produktdatensätze in mehreren Sprachen angezeigt werden.</target>
+      <trans-unit id="open_bill" resname="open_bill" approved="yes">
+        <source>Click here to open the bill</source>
+        <target state="final">zum Öffnen der Rechnung hier klicken</target>
       </trans-unit>
-      <trans-unit id="m_default" resname="m_default" approved="yes">
-        <source>default</source>
-        <target state="final">Standard</target>
+      <trans-unit id="open_delivery" resname="open_delivery" approved="yes">
+        <source>Click here to open the delivery sheet</source>
+        <target state="final">zum Öffnen des Lieferscheins hier klicken</target>
       </trans-unit>
-      <trans-unit id="m_ext" resname="m_ext" approved="yes">
-        <source>extended</source>
-        <target state="final">Erweitert</target>
+      <trans-unit id="invalid_email" resname="invalid_email" approved="yes">
+        <source>Invalid E-mail address |! Please re-enter.</source>
+        <target state="final">Ungültige E-mail Addresse |! Bitte neu eingeben.</target>
       </trans-unit>
-      <trans-unit id="m_variants" resname="m_variants" approved="yes">
-        <source>variants</source>
-        <target state="final">Varianten</target>
+      <trans-unit id="no_template" resname="no_template" approved="yes">
+        <source>The shop template file has not been found. Check your template setup about</source>
+        <target state="final">Die Shop-Template Datei wurde nicht gefunden. Überprüfen Sie im Template Setup: |</target>
       </trans-unit>
-      <trans-unit id="pageModule.plugin" resname="pageModule.plugin" approved="yes">
-        <source>Shop System: Products, Articles, Product Categories, Orders</source>
-        <target state="final">Shop System: Produkte, Artikel, Produkt Kategorien, Bestellungen</target>
+      <trans-unit id="empty_template" resname="empty_template" approved="yes">
+        <source>The shop template file | is empty.</source>
+        <target state="final">Die Shop-Template Datei | ist leer.</target>
       </trans-unit>
-      <trans-unit id="moduleFunction.tx_ttproducts_modfunc1" resname="moduleFunction.tx_ttproducts_modfunc1" approved="yes">
-        <source>Move Items (tt_products)</source>
-        <target state="final">Produkte verschieben (tt_products)</target>
+      <trans-unit id="no_subtemplate" resname="no_subtemplate" approved="yes">
+        <source>The subpart part marker | or the template file | has not been found.</source>
+        <target state="final">Der Bereich | wurde in der Template Datei | nicht gefunden.</target>
       </trans-unit>
-      <trans-unit id="moduleFunction.tx_ttproducts_modfunc2" resname="moduleFunction.tx_ttproducts_modfunc2" approved="yes">
-        <source>Create Records in Alternative Languages (tt_products)</source>
-        <target state="final">Erzeuge Datensätze in alternativen Sprachen (tt_products)</target>
+      <trans-unit id="template_invalid_marker_border" resname="template_invalid_marker_border" approved="yes">
+        <source>The following invalid marker borders have been found inside of the subpart | of your template file: |.</source>
+        <target state="final">In der Shop Template Datei sind innerhalb des Subparts | folgende ungültige Markerbegrenzungen gefunden worden: |.</target>
       </trans-unit>
-      <trans-unit id="moduleFunction.tx_ttproducts_modfunc3" resname="moduleFunction.tx_ttproducts_modfunc3" approved="yes">
-        <source>Import images into FAL (tt_products)</source>
-        <target state="final">Importiere Bilder in die FAL (tt_products)</target>
+      <trans-unit id="accept_AGB" resname="accept_AGB" approved="yes">
+        <source>You have to accept the general trading conditions to proceed.</source>
+        <target state="final">Sie haben unsere AGB nicht akzeptiert.</target>
+      </trans-unit>
+      <trans-unit id="additional_single" resname="additional_single" approved="yes">
+        <source>buy this product</source>
+        <target state="final">Produkt kaufen</target>
+      </trans-unit>
+      <trans-unit id="additional_gift_service" resname="additional_gift_service" approved="yes">
+        <source>wrap product by gift service</source>
+        <target state="final">Verpacke Produkt mit Geschenk Service</target>
+      </trans-unit>
+      <trans-unit id="wrong_parameter" resname="wrong_parameter" approved="yes">
+        <source>Wrong parameters. GET/POST var 'tt_products[|]' is missing or no item with uid = | found on allowed pages (|) .</source>
+        <target state="final">Falscher Parameter. GET/POST var 'tt_products[|]' wurde nicht angegeben oder kein Element mit uid = | auf den erlaubten Seiten (|) gefunden.</target>
+      </trans-unit>
+      <trans-unit id="wrong_product" resname="wrong_product" approved="yes">
+        <source>The product '|' you are looking for does not exist in the system.</source>
+        <target state="final">Das gesuchte Produkt '|' existiert nicht auf dieser Umgebung.</target>
+      </trans-unit>
+      <trans-unit id="wrong_article" resname="wrong_article" approved="yes">
+        <source>The article '|' you are looking for does not exist in the system.</source>
+        <target state="final">Der gesuchte Artikel '|' existiert nicht auf dieser Umgebung.</target>
+      </trans-unit>
+      <trans-unit id="wrong_dam" resname="wrong_dam" approved="yes">
+        <source>The dam record '|' you are looking for does not exist in the system.</source>
+        <target state="final">Das gesuchte DAM Element '|' existiert nicht auf dieser Umgebung.</target>
+      </trans-unit>
+      <trans-unit id="no_csv_creation" resname="no_csv_creation" approved="yes">
+        <source>Warning: Cannot create CSV file '|' for this order!</source>
+        <target state="final">Warnung: Für diese Bestellung kann keine CSV Datei '|' erzeugt werden!</target>
+      </trans-unit>
+      <trans-unit id="no_feusers" resname="no_feusers" approved="yes">
+        <source>No Front End Users have been found.</source>
+        <target state="final">Es sind keine Frontend Benutzer gefunden worden.</target>
+      </trans-unit>
+      <trans-unit id="wrong_code" resname="wrong_code" approved="yes">
+        <source>Wrong display mode or code '|'.</source>
+        <target state="final">Falscher Anzeigetyp oder CODE '|'.</target>
+      </trans-unit>
+      <trans-unit id="wrong_type" resname="wrong_type" approved="yes">
+        <source>Wrong display type '|'.</source>
+        <target state="final">Falscher Anzeigetyp '|'.</target>
+      </trans-unit>
+      <trans-unit id="instock_warning_header" resname="instock_warning_header" approved="yes">
+        <source>Warning: %s : Only %d pieces left.</source>
+        <target state="final">Warnung: %s : nur noch %d Stück</target>
+      </trans-unit>
+      <trans-unit id="instock_warning" resname="instock_warning" approved="yes">
+        <source>Warning: %s no. %s runs out of stock. Only %d pieces left.</source>
+        <target state="final">Warnung: %s Nr. %s ist bald nicht mehr auf Lager. Nur noch %d Stück verfügbar.</target>
+      </trans-unit>
+      <trans-unit id="product" resname="product" approved="yes">
+        <source>product</source>
+        <target state="final">Produkt</target>
+      </trans-unit>
+      <trans-unit id="article" resname="article" approved="yes">
+        <source>article</source>
+        <target state="final">Artikel</target>
+      </trans-unit>
+      <trans-unit id="missing" resname="missing" approved="yes">
+        <source>Please enter the | .</source>
+        <target state="final">Bitte geben Sie | ein.</target>
+      </trans-unit>
+      <trans-unit id="missing_address" resname="missing_address" approved="yes">
+        <source>street with housenumber</source>
+        <target state="final">die Straße mit Hausnummer</target>
+      </trans-unit>
+      <trans-unit id="missing_city" resname="missing_city" approved="yes">
+        <source>town</source>
+        <target state="final">die Stadt</target>
+      </trans-unit>
+      <trans-unit id="missing_telephone" resname="missing_telephone" approved="yes">
+        <source>telephone number</source>
+        <target state="final">die Telefonnummer</target>
+      </trans-unit>
+      <trans-unit id="missing_email" resname="missing_email" approved="yes">
+        <source>email address</source>
+        <target state="final">die Email-Adresse</target>
+      </trans-unit>
+      <trans-unit id="missing_zip" resname="missing_zip" approved="yes">
+        <source>zip code</source>
+        <target state="final">die Postleitzahl</target>
+      </trans-unit>
+      <trans-unit id="missing_tt_products_vat" resname="missing_tt_products_vat" approved="yes">
+        <source>VAT number</source>
+        <target state="final">die USt-Id</target>
+      </trans-unit>
+      <trans-unit id="check_missing_iban" resname="check_missing_iban" approved="yes">
+        <source>Check the IBAN!</source>
+        <target state="final">Prüfen Sie die IBAN!</target>
+      </trans-unit>
+      <trans-unit id="error_minquantity" resname="error_minquantity" approved="yes">
+        <source>Error in minimum quantity in the following products. | Buy more of them.</source>
+        <target state="final">Fehler in der Mindestbestellmenge in folgenden Produkten | Kaufen Sie mehr davon ein.</target>
+      </trans-unit>
+      <trans-unit id="error_maxquantity" resname="error_maxquantity" approved="yes">
+        <source>Error in maximum quantity in the following products. | Buy less of them.</source>
+        <target state="final">Fehler in der Maximalbestellmenge in folgenden Produkten | Kaufen Sie weniger davon ein.</target>
+      </trans-unit>
+      <trans-unit id="error_reference_id" resname="error_reference_id" approved="yes">
+        <source>ERROR: reference ID could not be generated.</source>
+        <target state="final">ERROR: Es konnte keine Referenz ID erzeugt werden.</target>
+      </trans-unit>
+      <trans-unit id="error_transaction_details" resname="error_transaction_details" approved="yes">
+        <source>ERROR: Setting details of transaction failed.</source>
+        <target state="final">ERROR: Das Setzen der Details der Transaktion hat fehlgeschlagen.</target>
+      </trans-unit>
+      <trans-unit id="error_order_number" resname="error_order_number">
+        <source>ERROR: Setting of the order number failed.</source>
+        <target state="needs-translation">ERROR: Setting of the order number failed.</target>
+      </trans-unit>
+      <trans-unit id="error_relay_url" resname="error_relay_url" approved="yes">
+        <source>ERROR: No relay URL given!</source>
+        <target state="final">ERROR: Es ist keine Weiterleitungs-URL angegeben worden!</target>
+      </trans-unit>
+      <trans-unit id="error_find_payment_method" resname="error_find_payment_method" approved="yes">
+        <source>ERROR: Could not find provider object for payment method '%s'.</source>
+        <target state="final">ERROR: Kein Provider Objekt für die Bezahlmethode '%s'.</target>
+      </trans-unit>
+      <trans-unit id="error_edit_variant_range" resname="error_edit_variant_range" approved="yes">
+        <source>ERROR: Wrong edit variant value &quot;|&quot; for product &quot;|&quot;</source>
+        <target state="final">ERROR: Falscher Eingabewert "|" für Produkt "|"</target>
+      </trans-unit>
+      <trans-unit id="error_range" resname="error_range" approved="yes">
+        <source>ERROR: The setup &quot;|&quot; must be in the range between &quot;|&quot; and &quot;|&quot;. &quot;|&quot; is out of range.</source>
+        <target state="final">ERROR: Das Setup "|" muss im Bereich zwischen "|" und "|" liegen. "|" ist außerhalb des erlaubten Bereichs.</target>
+      </trans-unit>
+      <trans-unit id="tax_included" resname="tax_included" approved="yes">
+        <source>VAT incl. price</source>
+        <target state="final">inkl. MwSt.</target>
+      </trans-unit>
+      <trans-unit id="tax_excluded" resname="tax_excluded" approved="yes">
+        <source>w/o VAT</source>
+        <target state="final">exkl. MwSt.</target>
+      </trans-unit>
+      <trans-unit id="tax_zero" resname="tax_zero" approved="yes">
+        <source>without taxes</source>
+        <target state="final">ohne MwSt.</target>
+      </trans-unit>
+      <trans-unit id="extension_missing" resname="extension_missing" approved="yes">
+        <source>The extension '|' has not been installed.</source>
+        <target state="final">Die Extension '|' wurde nicht installiert.</target>
+      </trans-unit>
+      <trans-unit id="extension_payment_missing" resname="extension_payment_missing" approved="yes">
+        <source>The extension for the payment method has not been configured.</source>
+        <target state="final">Es ist keine Extension für die paymentlib Bezahlmethode eingestellt.</target>
+      </trans-unit>
+      <trans-unit id="setup_missing" resname="setup_missing" approved="yes">
+        <source>Setup for | is missing.</source>
+        <target state="final">Setup für | fehlt.</target>
+      </trans-unit>
+      <trans-unit id="voucher_invalid" resname="voucher_invalid" approved="yes">
+        <source>The voucher code | is not accepted.</source>
+        <target state="final">Der Gutschein | wird nicht akzeptiert.</target>
+      </trans-unit>
+      <trans-unit id="voucher_invalid_amount" resname="voucher_invalid_amount" approved="yes">
+        <source>The total sum of the products in the basket is too small to be able to use the voucher code %s.</source>
+        <target state="final">Die Gesamtsumme der Artikel im Warenkorb ist zu klein, um den Gutscheincode %s verwenden zu können.</target>
+      </trans-unit>
+      <trans-unit id="voucher_payment_article" resname="voucher_payment_article" approved="yes">
+        <source>Discount</source>
+        <target state="final">Rabatt</target>
+      </trans-unit>
+      <trans-unit id="voucher_gained" resname="voucher_gained" approved="yes">
+        <source>You have gained the following voucher codes</source>
+        <target state="final">Sie haben folgende Gutschein Codes erworben</target>
+      </trans-unit>
+      <trans-unit id="internal_error" resname="internal_error" approved="yes">
+        <source>Internal error no. | in tt_products (|).</source>
+        <target state="final">Interner Fehler Nr. | in tt_products (|).</target>
+      </trans-unit>
+      <trans-unit id="article_markers_unsubstituted" resname="article_markers_unsubstituted" approved="yes">
+        <source>No substitution of article markers | . You must set useArticles (at the moment &quot;|&quot;) to another value to use articles.</source>
+        <target state="final">Keine Ersetzung der Artikel Marker | . Um das zu aktivieren, muss useArticles (derzeit "|") anders gesetzt werden. </target>
+      </trans-unit>
+      <trans-unit id="in_stock" resname="in_stock" approved="yes">
+        <source>in stock</source>
+        <target state="final">auf Lager</target>
+      </trans-unit>
+      <trans-unit id="not_in_stock" resname="not_in_stock" approved="yes">
+        <source>Not in stock</source>
+        <target state="final">ausverkauft</target>
+      </trans-unit>
+      <trans-unit id="list_browseresults_first" resname="list_browseresults_first" approved="yes">
+        <source>&lt;&lt; First</source>
+        <target state="final">&lt;&lt; Erste</target>
+      </trans-unit>
+      <trans-unit id="list_browseresults_prev" resname="list_browseresults_prev" approved="yes">
+        <source>&lt; Previous</source>
+        <target state="final">&lt; Vorige</target>
+      </trans-unit>
+      <trans-unit id="list_browseresults_page" resname="list_browseresults_page" approved="yes">
+        <source>Page</source>
+        <target state="final">Seite</target>
+      </trans-unit>
+      <trans-unit id="list_browseresults_next" resname="list_browseresults_next" approved="yes">
+        <source>Next &gt;</source>
+        <target state="final">Nächste &gt;</target>
+      </trans-unit>
+      <trans-unit id="list_browseresults_last" resname="list_browseresults_last" approved="yes">
+        <source>Last &gt;&gt;</source>
+        <target state="final">Letzte &gt;&gt;</target>
+      </trans-unit>
+      <trans-unit id="list_browseresults_to" resname="list_browseresults_to" approved="yes">
+        <source>to</source>
+        <target state="final">bis</target>
+      </trans-unit>
+      <trans-unit id="list_browseresults_displays" resname="list_browseresults_displays" approved="yes">
+        <source>Displaying results ###SPAN_BEGIN###%s to %s&lt;/span&gt; out of ###SPAN_BEGIN###%s&lt;/span&gt;</source>
+        <target state="final">Anzeige Ergebnisse ###SPAN_BEGIN###%s bis %s&lt;/span&gt; von ###SPAN_BEGIN###%s&lt;/span&gt;</target>
+      </trans-unit>
+      <trans-unit id="list_browseresults_displays_marker" resname="list_browseresults_displays_marker" approved="yes">
+        <source>Displaying results ###FROM### to ###TO### out of ###OUT_OF###</source>
+        <target state="final">Anzeige Ergebnisse ###FROM### bis ###TO### von ###OUT_OF###</target>
+      </trans-unit>
+      <trans-unit id="order_already_finalized" resname="order_already_finalized" approved="yes">
+        <source>The order has already been finalized!</source>
+        <target state="final">Die Bestellung ist bereits abgeschlossen worden!</target>
+      </trans-unit>
+      <trans-unit id="orders_view_orders" resname="orders_view_orders" approved="yes">
+        <source>Orders</source>
+        <target state="final">Bestellungen</target>
+      </trans-unit>
+      <trans-unit id="orders_view_products" resname="orders_view_products" approved="yes">
+        <source>Products</source>
+        <target state="final">Produkte</target>
+      </trans-unit>
+      <trans-unit id="undeclared" resname="undeclared" approved="yes">
+        <source>undeclared</source>
+        <target state="final">nicht angegeben</target>
+      </trans-unit>
+      <trans-unit id="unregistered" resname="unregistered" approved="yes">
+        <source>unregistered</source>
+        <target state="final">unregistriert</target>
+      </trans-unit>
+      <trans-unit id="first_order" resname="first_order" approved="yes">
+        <source>first order</source>
+        <target state="final">1. Bestellung</target>
+      </trans-unit>
+      <trans-unit id="download" resname="download" approved="yes">
+        <source>Download</source>
+        <target state="final">Herunterladen</target>
+      </trans-unit>
+      <trans-unit id="download_requires_felogin" resname="download_requires_felogin" approved="yes">
+        <source>You must be logged in the Front End in order to download.</source>
+        <target state="final">Sie müssen im Frontend eingeloggt sein, um eine Datei herunterladen zu können</target>
+      </trans-unit>
+      <trans-unit id="error_download" resname="error_download" approved="yes">
+        <source>Download Error</source>
+        <target state="final">Download Fehler</target>
       </trans-unit>
     </body>
   </file>
