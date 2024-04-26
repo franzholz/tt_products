@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/Csh/locallang_csh_tt_products.xlf" date="2021-11-23T20:33:46Z" product-name="tt_products" target-language="es-MX">
+  <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/Csh/locallang_csh_tt_products.xlf" date="2021-11-23T20:33:46Z" product-name="tt_products" target-language="es-AR">
     <header/>
     <body>
       <trans-unit id=".description" resname=".description">
