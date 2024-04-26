@@ -554,6 +554,8 @@ class PaymentShippingHandling
 
         if (is_array($confArray)) {
             foreach ($confArray as $key => $item) {
+                $itemTitle = $item['title'] ?? '';
+
                 if (
                     (!isset($item['show']) || $item['show']) &&
                     (
@@ -574,7 +576,7 @@ class PaymentShippingHandling
                     if (
                         isset($item['where.']) &&
                         $item['where.'] != '' &&
-                        (strpos($item['title'], '###') !== false)
+                        (strpos($itemTitle, '###') !== false)
                     ) {
                         $tableName = key($item['where.']);
                         $itemTableView = $tablesObj->get($tableName, true);
@@ -588,7 +590,7 @@ class PaymentShippingHandling
                                 $parentArray = [];
                                 $markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
                                 $fieldsArray = $markerObj->getMarkerFields(
-                                    $item['title'],
+                                    $itemTitle,
                                     $itemTable->getTableObj()->tableFieldArray,
                                     $itemTable->getTableObj()->requiredFieldArray,
                                     $markerFieldArray,
@@ -623,10 +625,10 @@ class PaymentShippingHandling
                         if ($type) {	// radio
                             foreach ($addItems as $k1 => $row) {
                                 $image = '';
+                                $title = $itemTitle;
                                 if (isset($item['image.'])) {
                                     $image = $item['image.'];
                                 }
-                                $title = $item['title'];
 
                                 if (is_array($row) && $tableName != '') {
                                     if (
@@ -688,15 +690,15 @@ class PaymentShippingHandling
                                         $markerArray,
                                         $fieldsArray
                                     );
-                                    $title = $templateService->substituteMarkerArrayCached($item['title'], $markerArray);
+                                    $title = $templateService->substituteMarkerArrayCached($itemTitle, $markerArray);
                                     $title = htmlentities($title, ENT_QUOTES, 'UTF-8');
                                     $value = $key . '-' . $row['uid'];
                                     if ($value == implode('-', $activeArray)) {
-                                        $actTitle = $item['title'];
+                                        $actTitle = $itemTitle;
                                     }
                                 } else {
                                     $value = $key;
-                                    $title = $item['title'];
+                                    $title = $itemTitle;
                                 }
 
                                 if ($bWrapSelect) {
