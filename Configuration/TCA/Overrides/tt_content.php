@@ -2,20 +2,22 @@
 
 defined('TYPO3') || die('Access denied.');
 
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+
 call_user_func(function ($extensionKey, $table): void {
     $languageSubpath = '/Resources/Private/Language/';
 
     $GLOBALS['TCA'][$table]['types']['list']['subtypes_excludelist']['5'] = 'layout';
     $GLOBALS['TCA'][$table]['types']['list']['subtypes_addlist']['5'] = 'pi_flexform';
 
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue('5', 'FILE:EXT:' . $extensionKey . '/pi1/flexform_ds_pi1.xml');
+    ExtensionManagementUtility::addPiFlexFormValue('5', 'FILE:EXT:' . $extensionKey . '/pi1/flexform_ds_pi1.xml');
 
-    if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('searchbox')) {
+    if (ExtensionManagementUtility::isLoaded('searchbox')) {
         $listType = $extensionKey . '_pi_search';
         $GLOBALS['TCA'][$table]['types']['list']['subtypes_excludelist'][$listType] = 'layout';
         $GLOBALS['TCA'][$table]['types']['list']['subtypes_addlist'][$listType] = 'pi_flexform';
-        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue($listType, 'FILE:EXT:' . $extensionKey . '/pi_search/flexform_ds_pi_search.xml');
-        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin(
+        ExtensionManagementUtility::addPiFlexFormValue($listType, 'FILE:EXT:' . $extensionKey . '/pi_search/flexform_ds_pi_search.xml');
+        ExtensionManagementUtility::addPlugin(
             [
                 'LLL:EXT:' . $extensionKey . $languageSubpath .
                 'PiSearch/locallang_db.xlf:tt_content.list_type_pi_search',
@@ -29,8 +31,8 @@ call_user_func(function ($extensionKey, $table): void {
     $listType = $extensionKey . '_pi_int';
     $GLOBALS['TCA'][$table]['types']['list']['subtypes_excludelist'][$listType] = 'layout';
     $GLOBALS['TCA'][$table]['types']['list']['subtypes_addlist'][$listType] = 'pi_flexform';
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPiFlexFormValue($listType, 'FILE:EXT:' . $extensionKey . '/pi_int/flexform_ds_pi_int.xml');
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin(
+    ExtensionManagementUtility::addPiFlexFormValue($listType, 'FILE:EXT:' . $extensionKey . '/pi_int/flexform_ds_pi_int.xml');
+    ExtensionManagementUtility::addPlugin(
         [
             'LLL:EXT:' . $extensionKey . $languageSubpath .
             'PiInt/locallang_db.xlf:tt_content.list_type_pi_int',
@@ -40,7 +42,7 @@ call_user_func(function ($extensionKey, $table): void {
         $extensionKey
     );
 
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addPlugin(
+    ExtensionManagementUtility::addPlugin(
         [
             'LLL:EXT:' . $extensionKey . $languageSubpath .
             'locallang_db.xlf:tt_content.list_type_pi1',
