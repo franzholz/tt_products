@@ -932,10 +932,24 @@ class tx_ttproducts_product extends tx_ttproducts_article_base
             $categoryFuncTablename = 'tt_products_cat';
             $categoryTable = $tablesObj->get($categoryFuncTablename, false);
             $discount = 0;
+            $sorting = 'uid';
+
+            $orderBySortingTablesArray =
+                GeneralUtility::trimExplode(
+                    ',',
+                    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF']['tt_products']['orderBySortingTables']
+                );
+
+            if (
+                !empty($orderBySortingTablesArray) &&
+                in_array($categoryFuncTablename, $orderBySortingTablesArray)
+            ) {
+                $sorting = 'sorting';
+            }
 
             switch ($conf['discountFieldMode']) {
                 case '1':
-                    $catArray = $categoryTable->getCategoryArray($row, 'sorting');
+                    $catArray = $categoryTable->getCategoryArray($row, $sorting);
                     $discount = $categoryTable->getMaxDiscount(
                         $row['discount'],
                         $row['discount_disable'],

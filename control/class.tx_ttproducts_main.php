@@ -843,7 +843,6 @@ class tx_ttproducts_main implements SingletonInterface
                     $catView = GeneralUtility::makeInstance('tx_ttproducts_cat_view');
                     $catView->init(
                         $pibaseObj->getContentObjectRenderer(),
-                        $this->pid,
                         $config['pid_list'],
                         $config['recursive']
                     );

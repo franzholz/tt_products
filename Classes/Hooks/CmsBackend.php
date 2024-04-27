@@ -41,5 +41,5 @@ use JambageCom\Div2007\Base\CmsHookBase;
  */
 class CmsBackend extends CmsHookBase
 {
-    public $extensionKey = TT_PRODUCTS_EXT;
+    public $extensionKey = 'tt_products';
 }

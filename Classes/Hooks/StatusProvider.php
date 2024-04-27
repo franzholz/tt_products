@@ -25,12 +25,12 @@ class StatusProvider extends StatusProviderBase
     /**
      * @var string Extension key
      */
-    protected $extensionKey = TT_PRODUCTS_EXT;
+    protected $extensionKey = 'tt_products';
 
     /**
      * @var string Extension name
      */
-    protected $extensionName = 'Shop System (' . TT_PRODUCTS_EXT . ')';
+    protected $extensionName = 'Shop System (' . $this->extensionKey . ')';
 
     public function getGlobalVariables()
     {
