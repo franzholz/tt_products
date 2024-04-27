@@ -47,23 +47,21 @@ use JambageCom\TtProducts\Api\BasketApi;
 
 class tx_ttproducts_cat_view implements SingletonInterface
 {
-    public $pibase; // reference to object of pibase
     public $conf;
     public $config;
 
     public $urlObj; // url functions
     public $pid; // PID where to go
     public $pidListObj;
-    public $cOjb;
+    public $cObj;
 
     public function init(
-        &$pibase,
+        $cObj,
         $pid,
         $pid_list,
         $recursive
     ): void {
-        $this->pibase = $pibase;
-        $this->cObj = $pibase->getContentObjectRenderer();
+        $this->cObj = $cObj;
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $this->conf = $cnf->getConf();
         $this->config = $cnf->getConfig();

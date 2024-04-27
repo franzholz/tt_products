@@ -63,10 +63,6 @@ class tx_ttproducts_orderaddress extends tx_ttproducts_table_base
             $this->tableconf = $cnf->getTableConf($funcTablename);
             $tablename = $this->getTablename();
 
-            // 			// image
-            // 		$this->image = GeneralUtility::makeInstance('tx_ttproducts_field_image_view');
-            // 		$this->image->init($this->pibase);
-
             $this->getTableObj()->setTCAFieldArray($tablename);
             $this->fieldArray['payment'] = ($this->tableconf['payment'] ?? '');
             $requiredFields = 'uid,pid,email' . ($this->fieldArray['payment'] ? ',' . $this->fieldArray['payment'] : '');

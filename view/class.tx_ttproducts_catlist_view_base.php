@@ -58,7 +58,6 @@ abstract class tx_ttproducts_catlist_view_base implements SingletonInterface
     public $htmlPartsMarkers = ['###ITEM_SINGLE_PRE_HTML###', '###ITEM_SINGLE_POST_HTML###'];
     public $tableConfArray = [];
     public $viewConfArray = [];
-    protected $pibase;
     private $tMarkers;	// all markers which are found in the template subpart for the whole view $t['listFrameWork']
 
 
@@ -70,7 +69,6 @@ abstract class tx_ttproducts_catlist_view_base implements SingletonInterface
         $pid
     ): void {
         $this->pibaseClass = $pibaseClass;
-        $this->pibase = GeneralUtility::makeInstance('' . $pibaseClass);
         $this->cObj = $cObj;
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $this->conf = $cnf->getConf();
