@@ -236,13 +236,24 @@ class tx_ttproducts_basket_view implements SingletonInterface
                 $tmpSubpart = $templateService->getSubpart($templateCode, '###MESSAGE_' . $markerKey . '###');
                 $subpartArray['###MESSAGE_' . $markerKey . '###'] = $templateService->substituteMarkerArray($tmpSubpart, $markerArray);
             }
+
+            if (!empty($subpartArray['###MESSAGE_' . $markerKey . '###'])) {
+                $wrappedSubpartArray['###MESSAGE_' . $markerKey . '###'] = '';
+            }
+
+            if (!empty($subpartArray['###MESSAGE_' . $markerKey . '_ERROR######'])) {
+                $wrappedSubpartArray['###MESSAGE_' . $markerKey . '_ERROR###'] = '';
+            }
         } // foreach
 
         if ($priceSuccessArray['minimum'] && $priceSuccessArray['maximum']) {
             $wrappedSubpartArray['###MESSAGE_PRICE_VALID###'] = '';
+            $subpartArray['###MESSAGE_PRICE_INVALID###'] = '';
         } else {
             $subpartArray['###MESSAGE_PRICE_VALID###'] = '';
+            $wrappedSubpartArray['###MESSAGE_PRICE_INVALID###'] = '';
         }
+
     }
 
     /**
