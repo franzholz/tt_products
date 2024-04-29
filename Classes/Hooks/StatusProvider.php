@@ -20,17 +20,20 @@ use JambageCom\Div2007\Utility\StatusUtility;
 /**
  * Hook into the backend module "Reports" checking the configuration required for agency.
  */
+
 class StatusProvider extends StatusProviderBase
 {
+    const EXTENSION_KEY =  'tt_products';
+
     /**
      * @var string Extension key
      */
-    protected $extensionKey = 'tt_products';
+    protected $extensionKey = EXTENSION_KEY;
 
     /**
      * @var string Extension name
      */
-    protected $extensionName = 'Shop System (' . $this->extensionKey . ')';
+    protected $extensionName = 'Shop System (' . EXTENSION_KEY . ')';
 
     public function getGlobalVariables()
     {
