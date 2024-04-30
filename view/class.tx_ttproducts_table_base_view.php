@@ -255,13 +255,13 @@ abstract class tx_ttproducts_table_base_view implements SingletonInterface
                             }
                             $fieldname = strtolower(implode('_', $fieldNameArray));
                             $binaryOperator = '';
-                            $v2 = $binaryArray[$tagPartArray[$tagPartKey]];
+                            $v2 = $binaryArray[$tagPartArray[$tagPartKey]] ?? '';
 
                             if ($v2 != '') {
                                 $binaryOperator = $v2;
                                 $tagPartKey++;
                             }
-                            $v3 = $functionArray[$tagPartArray[$tagPartKey]];
+                            $v3 = $functionArray[$tagPartArray[$tagPartKey]] ?? '';
 
                             if ($v3 != '') {
                                 $functionname = $v3;

@@ -28,12 +28,12 @@ class StatusProvider extends StatusProviderBase
     /**
      * @var string Extension key
      */
-    protected $extensionKey = EXTENSION_KEY;
+    protected $extensionKey = self::EXTENSION_KEY;
 
     /**
      * @var string Extension name
      */
-    protected $extensionName = 'Shop System (' . EXTENSION_KEY . ')';
+    protected $extensionName = 'Shop System (' . self::EXTENSION_KEY . ')';
 
     public function getGlobalVariables()
     {
