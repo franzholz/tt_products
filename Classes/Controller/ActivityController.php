@@ -61,7 +61,6 @@ use JambageCom\TtProducts\Api\PaymentShippingHandling;
 
 class ActivityController implements SingletonInterface
 {
-    public $pibase; // reference to object of pibase
     public $pibaseClass;
     public $cObj;
     public $conf;
@@ -91,8 +90,7 @@ class ActivityController implements SingletonInterface
     public function init($pibaseClass, $funcTablename, $useArticles): void
     {
         $this->pibaseClass = $pibaseClass;
-        $this->pibase = GeneralUtility::makeInstance('' . $pibaseClass);
-        $this->cObj = $this->pibase->getContentObjectRenderer();
+        $this->cObj = $pibaseObj->getContentObjectRenderer();
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $this->conf = $cnf->conf;
         $this->config = $cnf->config;
@@ -266,6 +264,7 @@ class ActivityController implements SingletonInterface
         $paymentScript = false;
         $handleLib = '';
         $localTemplateCode = '';
+        $pibaseObj = GeneralUtility::makeInstance('' . $this->pibaseClass);
 
         if ($orderUid) {
             $basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
@@ -288,7 +287,7 @@ class ActivityController implements SingletonInterface
                     $basketExtra['payment.']['handleScript.'] ?? '',
                     $this->conf['paymentActivity'] ?? '',
                     $bFinalize,
-                    $this->pibase,
+                    $pibaseObj,
                     $infoViewObj
                 );
             } elseif (
@@ -379,12 +378,12 @@ class ActivityController implements SingletonInterface
                         );
 
                     $markerArray = [];
-                    tx_transactor_api::init(
+                    \tx_transactor_api::init(
                         $languageObj,
                         $this->cObj,
                         $this->conf
                     );
-                    $content = tx_transactor_api::includeHandleLib(
+                    $content = \tx_transactor_api::includeHandleLib(
                         $handleLib,
                         $basketExtra['payment.']['handleLib.'] ?? [],
                         TT_PRODUCTS_EXT,
@@ -484,7 +483,6 @@ class ActivityController implements SingletonInterface
                     $addParams = ['products_payment' => 1];
                     $addParams = $this->urlObj->getLinkParams('', $addParams, true);
                     // 					$agencyBackUrl =
-                    // 						$this->pibase->pi_getPageLink($GLOBALS['TSFE']->id, '', $addParams);
                     $agencyBackUrl =
                         FrontendUtility::getTypoLink_URL(
                             $cObj,
@@ -1006,6 +1004,7 @@ class ActivityController implements SingletonInterface
         $basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
         $languageObj = GeneralUtility::makeInstance(Localization::class);
         $templateObj = GeneralUtility::makeInstance('tx_ttproducts_template');
+        $pibaseObj = GeneralUtility::makeInstance('' . $this->pibaseClass);
         $orderUid = false;
         $orderNumber = '';
 
@@ -1196,8 +1195,8 @@ class ActivityController implements SingletonInterface
 
                             if (strpos($handleLib, 'transactor') !== false) {
                                 // Payment Transactor
-                                tx_transactor_api::init($this->pibase, $this->cObj, $conf);
-                                $referenceId = tx_transactor_api::getReferenceUid(
+                                \tx_transactor_api::init($pibaseObj, $this->cObj, $conf);
+                                $referenceId = \tx_transactor_api::getReferenceUid(
                                     $handleLib,
                                     $basketObj->basketExtra['payment.']['handleLib.'],
                                     TT_PRODUCTS_EXT,
@@ -1249,7 +1248,7 @@ class ActivityController implements SingletonInterface
                                         );
                                     }
                                 } else {
-                                    $paymentErrorMsg = tx_transactor_api::checkRequired(
+                                    $paymentErrorMsg = \tx_transactor_api::checkRequired(
                                         $referenceId,
                                         $basketExtra['payment.']['handleLib'] ?? '',
                                         $basketExtra['payment.']['handleLib.'] ?? [],
@@ -1265,7 +1264,7 @@ class ActivityController implements SingletonInterface
                                 }
                             } elseif (strpos($handleLib, 'paymentlib') !== false) {
                                 $paymentlib = GeneralUtility::makeInstance('tx_ttproducts_paymentlib');
-                                $paymentlib->init($this->pibase, $basketView, $this->urlObj);
+                                $paymentlib->init($pibaseObj, $basketView, $this->urlObj);
                                 $referenceId = $paymentlib->getReferenceUid();
                                 $paymentErrorMsg = $paymentlib->checkRequired(
                                     $referenceId,

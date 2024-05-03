@@ -22,9 +22,10 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 final class EmConfiguration implements SingletonInterface
 {
     // private ?ExtensionConfiguration $extensionConfiguration = null;
+    const EXTENSION_KEY =  'tt_products';
 
     /** @var string */
-    protected $extensionKey = 'tt_products';
+    protected $extensionKey = self::EXTENSION_KEY;
 
     /** @var int */
     protected $pageAsCategory = 0;

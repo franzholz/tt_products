@@ -1,3 +1,6 @@
+2024-05-03 Franz Holzinger <franz@ttproducts.de>
+    * new feature: remove all blank lines in HTML output
+
 2024-03-12 Franz Holzinger <franz@ttproducts.de>
     * fix bug with enless product list: The category header HTML addition must clear the list HTML of the next product row.
 

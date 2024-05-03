@@ -842,8 +842,7 @@ class tx_ttproducts_main implements SingletonInterface
                 case 'SINGLEAD':
                     $catView = GeneralUtility::makeInstance('tx_ttproducts_cat_view');
                     $catView->init(
-                        $pibaseObj,
-                        $this->pid,
+                        $pibaseObj->getContentObjectRenderer(),
                         $config['pid_list'],
                         $config['recursive']
                     );
@@ -1087,6 +1086,8 @@ class tx_ttproducts_main implements SingletonInterface
             $control['pid'] = $GLOBALS['TSFE']->id;
             tx_ttproducts_control_basket::writeControl($control);
         }
+
+        $result = preg_replace('~(*ANY)\A\s*\R|\s*(?!\r\n)\s$~mu', '', $result);
 
         $this->destruct();
         return $result;

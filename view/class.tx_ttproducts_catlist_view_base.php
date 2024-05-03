@@ -52,13 +52,11 @@ abstract class tx_ttproducts_catlist_view_base implements SingletonInterface
     public $config;
     public $pidListObj; // pid where to go
     public $urlObj; // url functions
-    public $pid;
     protected $htmlTagMain = '';	// main HTML tag
     protected $htmlTagElement = ''; // HTML tag element
     public $htmlPartsMarkers = ['###ITEM_SINGLE_PRE_HTML###', '###ITEM_SINGLE_POST_HTML###'];
     public $tableConfArray = [];
     public $viewConfArray = [];
-    protected $pibase;
     private $tMarkers;	// all markers which are found in the template subpart for the whole view $t['listFrameWork']
 
 
@@ -67,15 +65,12 @@ abstract class tx_ttproducts_catlist_view_base implements SingletonInterface
         $pibaseClass,
         $pid_list,
         $recursive,
-        $pid
     ): void {
         $this->pibaseClass = $pibaseClass;
-        $this->pibase = GeneralUtility::makeInstance('' . $pibaseClass);
         $this->cObj = $cObj;
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $this->conf = $cnf->getConf();
         $this->config = $cnf->getConfig();
-        $this->pid = $pid;
 
         $this->urlObj = GeneralUtility::makeInstance('tx_ttproducts_url_view');
         $this->pidListObj = GeneralUtility::makeInstance('tx_ttproducts_pid_list');
