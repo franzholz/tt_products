@@ -1087,6 +1087,8 @@ class tx_ttproducts_main implements SingletonInterface
             tx_ttproducts_control_basket::writeControl($control);
         }
 
+        $result = preg_replace('~(*ANY)\A\s*\R|\s*(?!\r\n)\s$~mu', '', $result);
+
         $this->destruct();
         return $result;
     }
