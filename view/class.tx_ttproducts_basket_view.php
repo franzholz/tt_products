@@ -237,11 +237,11 @@ class tx_ttproducts_basket_view implements SingletonInterface
                 $subpartArray['###MESSAGE_' . $markerKey . '###'] = $templateService->substituteMarkerArray($tmpSubpart, $markerArray);
             }
 
-            if (!empty($subpartArray['###MESSAGE_' . $markerKey . '###'])) {
+            if (!isset($subpartArray['###MESSAGE_' . $markerKey . '###'])) {
                 $wrappedSubpartArray['###MESSAGE_' . $markerKey . '###'] = '';
             }
 
-            if (!empty($subpartArray['###MESSAGE_' . $markerKey . '_ERROR######'])) {
+            if (!isset($subpartArray['###MESSAGE_' . $markerKey . '_ERROR###'])) {
                 $wrappedSubpartArray['###MESSAGE_' . $markerKey . '_ERROR###'] = '';
             }
         } // foreach
