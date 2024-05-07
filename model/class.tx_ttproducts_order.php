@@ -603,7 +603,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
         }
 
         $fieldsArray = array_filter($fieldsArray, function($a) {
-            return trim($a) !== '';
+            return isset($a) && trim($a) !== '';
         });
 
         // Saving the order record
