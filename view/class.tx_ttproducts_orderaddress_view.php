@@ -94,6 +94,7 @@ class tx_ttproducts_orderaddress_view extends tx_ttproducts_table_base_view
                 }
             } elseif (strpos($tag, $markerNologin . '_') === 0) {
                 if (
+                    CompatibilityUtility::isLoggedIn() &&
                     isset($GLOBALS['TSFE']->fe_user->user) &&
                     is_array($GLOBALS['TSFE']->fe_user->user) &&
                     isset($GLOBALS['TSFE']->fe_user->user['uid'])

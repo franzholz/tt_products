@@ -1149,7 +1149,7 @@ class ActivityController implements SingletonInterface
                         }
                         break;
                     case 'products_redeem_gift': 	// this shall never be the only activity
-                        if (trim($GLOBALS['TSFE']->fe_user->user['username']) == '') {
+                        if (empty($GLOBALS['TSFE']->fe_user->user['username'])) {
                             $basket_tmpl = 'BASKET_TEMPLATE_NOT_LOGGED_IN';
                         } else {
                             $uniqueId = GeneralUtility::trimExplode('-', $basketObj->recs['tt_products']['giftcode'], true);
@@ -1166,7 +1166,7 @@ class ActivityController implements SingletonInterface
                                 // Delete the gift record
                                 $GLOBALS['TYPO3_DB']->exec_UPDATEquery('tt_products_gifts', 'uid=' . intval($uid), $fieldsArray);
                                 $creditpoints = $money / $pricefactor;
-                                tx_ttproducts_creditpoints_div::addCreditPoints($GLOBALS['TSFE']->fe_user->user['username'], $creditpoints);
+                                tx_ttproducts_creditpoints_div::addCreditPoints($GLOBALS['TSFE']->fe_user->user['username'] ?? '', $creditpoints);
                                 $cpArray = tx_ttproducts_control_session::readSession('cp');
                                 $cpArray['gift']['amount'] += $creditpoints;
                                 \tx_ttproducts_control_basket::store('cp', $cpArray);

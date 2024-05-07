@@ -75,7 +75,7 @@ class tx_ttproducts_control_single implements SingletonInterface
                     } else {
                         $insertFields = [
                             'tstamp' => $time,
-                            'uid_local' => $GLOBALS['TSFE']->fe_user->user['uid'],
+                            'uid_local' => intval($GLOBALS['TSFE']->fe_user->user['uid']),
                             'uid_foreign' => $uid,
                             'qty' => 1,
                         ];
