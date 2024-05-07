@@ -61,8 +61,6 @@ class tx_ttproducts_memo_view implements SingletonInterface
 
         $this->pid_list = $pid_list;
         $this->useArticles = $useArticles;
-        // 		$fe_user_uid = $GLOBALS['TSFE']->fe_user->user['uid'];
-
         $this->memoItems = [];
 
         if (

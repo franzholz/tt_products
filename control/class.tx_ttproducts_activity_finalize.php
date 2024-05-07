@@ -233,7 +233,7 @@ class tx_ttproducts_activity_finalize implements SingletonInterface
             !CompatibilityUtility::isLoggedIn() &&
             (
                 empty($GLOBALS['TSFE']->fe_user->user) ||
-                trim($GLOBALS['TSFE']->fe_user->user['username']) == ''
+                empty($GLOBALS['TSFE']->fe_user->user['username'])
             )
         ) {
             // Move the user creation in front so that when we create the order we have a fe_userid so that the order lists work.

@@ -118,7 +118,7 @@ class tx_ttproducts_control_command
                         $orderUid = intval($piVars[$orderVar]);
                     }
 
-                    $feusers_uid = $GLOBALS['TSFE']->fe_user->user['uid'];
+                    $feusers_uid = intval($GLOBALS['TSFE']->fe_user->user['uid'] ?? 0);
                     $orderObj = $tablesObj->get('sys_products_orders'); // order
                     $orderObj->getDownloadWhereClauses(
                         $feusers_uid,
