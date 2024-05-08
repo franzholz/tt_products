@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/Modfunc/locallang_modfunc2.xlf" date="2017-07-08T13:15:42Z" product-name="tt_products" target-language="ru-UA">
+  <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/Modfunc/locallang_modfunc2.xlf" date="2017-07-08T13:15:42Z" product-name="tt_products" target-language="ru-BY">
     <header/>
     <body>
       <trans-unit id="title" resname="title">
