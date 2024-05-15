@@ -1389,8 +1389,6 @@ class tx_ttproducts_list_view implements SingletonInterface
                 if (!$selectConf['orderBy']) {
                     $selectConf['orderBy'] = $conf['orderBy'];
                 }
-                $tmpArray = GeneralUtility::trimExplode(',', $selectConf['orderBy']);
-                $orderByArray[$funcTablename] = $tmpArray[0]; // $orderByProduct
 
                 if ($useCategories) {
                     $orderByCat = $tableConfArray[$categoryFuncTablename]['orderBy'];

@@ -180,7 +180,6 @@ $result = [
                 'generatorOptions' => [
                     'fields' => ['title', 'itemnumber'],
                     'fieldSeparator' => '_',
-                    'prefixParentPageSlug' => false,
                     'replacements' => [
                         '/' => '-',
                     ],

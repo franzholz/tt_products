@@ -106,7 +106,6 @@ $result = [
                 'generatorOptions' => [
                     'fields' => ['name', 'crdate'],
                     'fieldSeparator' => '_',
-                    'prefixParentPageSlug' => false,
                     'replacements' => [
                         '/' => '-',
                     ],

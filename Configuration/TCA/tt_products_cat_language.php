@@ -161,7 +161,6 @@ $result = [
                 'generatorOptions' => [
                     'fields' => ['title', 'cat_uid'],
                     'fieldSeparator' => '_',
-                    'prefixParentPageSlug' => false,
                     'replacements' => [
                         '/' => '-',
                     ],
