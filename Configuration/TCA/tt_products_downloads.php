@@ -137,7 +137,6 @@ $result = [
                 'generatorOptions' => [
                     'fields' => ['title', 'author'],
                     'fieldSeparator' => '_',
-                    'prefixParentPageSlug' => false,
                     'replacements' => [
                         '/' => '-',
                     ],

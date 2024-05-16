@@ -90,6 +90,7 @@ class ActivityController implements SingletonInterface
     public function init($pibaseClass, $funcTablename, $useArticles): void
     {
         $this->pibaseClass = $pibaseClass;
+        $pibaseObj = GeneralUtility::makeInstance('' . $this->pibaseClass);
         $this->cObj = $pibaseObj->getContentObjectRenderer();
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $this->conf = $cnf->conf;

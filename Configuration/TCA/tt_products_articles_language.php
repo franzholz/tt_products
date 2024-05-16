@@ -179,7 +179,6 @@ $result = [
                 'generatorOptions' => [
                     'fields' => ['title', 'article_uid'],
                     'fieldSeparator' => '_',
-                    'prefixParentPageSlug' => false,
                     'replacements' => [
                         '/' => '-',
                     ],
