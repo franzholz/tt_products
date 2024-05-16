@@ -74,8 +74,19 @@ class tx_ttproducts_form_div
 
             foreach ($valueArray as $key => $parts) {
                 if (is_array($parts)) {
-                    $selectKey = $parts['value'];
-                    $selectValue = $parts['label'];
+                    if (
+                        isset($parts['value']) &&
+                        isset($parts['label'])
+                    ) {
+                        $selectKey = $parts['value'];
+                        $selectValue = $parts['label'];
+                    } else if (
+                        isset($parts['0']) &&
+                        isset($parts['1'])
+                    ) {
+                        $selectKey = $parts['1'];
+                        $selectValue = $parts['0'];
+                    }
                 } else {
                     $selectKey = $key;
                     $selectValue = $parts;
@@ -125,12 +136,22 @@ class tx_ttproducts_form_div
 
                     switch ($type) {
                         case 'select':
-                            $inputTextArray = ['<option value="' . htmlspecialchars($valueText, $flags) . '"' . $selectedText . '>', '</option>'];
+                            $inputTextArray = [
+                                '<option value="' . htmlspecialchars($valueText, $flags) . '"' . $selectedText . '>',
+                                '</option>'
+                            ];
                             break;
                         case 'checkbox':
                         case 'radio':
                             $preParamArray['type'] = $type;
-                            $inputText = self::createTag('input', $name, $valueText, $preParamArray, $paramArray);
+                            $inputText =
+                                self::createTag(
+                                    'input',
+                                    $name,
+                                    $valueText,
+                                    $preParamArray,
+                                    $paramArray
+                                );
 
                             if ($layout == '') {
                                 $inputText .= ' ' . $nameText . '<br ' . ($useXHTML ? '/' : '') . '>';
@@ -151,6 +172,7 @@ class tx_ttproducts_form_div
                         if (is_array($imageFileArray) && isset($imageFileArray[$key])) {
                             $tmpText = str_replace('###IMAGE###', $imageFileArray[$key], $tmpText);
                         }
+
                         if (is_array($keyMarkerArray) && isset($keyMarkerArray[$key])) {
                             $tmpText = $templateService->substituteMarkerArray(
                                 $tmpText,
