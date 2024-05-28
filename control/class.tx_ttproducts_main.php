@@ -745,6 +745,7 @@ class tx_ttproducts_main implements SingletonInterface
                         $this->products_tracking(
                             $errorCode,
                             $templateCode,
+                            $config['templateSuffix'],
                             $theCode,
                             $conf
                         );
@@ -1130,6 +1131,7 @@ class tx_ttproducts_main implements SingletonInterface
     public function products_tracking(
         &$errorCode,
         $templateCode,
+        $templateSuffix,
         $theCode,
         $conf
     ) { // GeneralUtility::_GP('tracking')
@@ -1180,12 +1182,14 @@ class tx_ttproducts_main implements SingletonInterface
                             isset($orderRecord) &&
                             is_array($orderRecord)
                         ) {
+
                             $orderRecord['email_notify'] = intval($orderRecord['email_notify']);
                         }
                         $content =
                             $tracking->getTrackingInformation(
                                 $orderRow,
                                 $trackingTemplateCode,
+                                $templateSuffix,
                                 $trackingCode,
                                 $updateCode,
                                 $orderRecord,

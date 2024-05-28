@@ -48,7 +48,7 @@ class tx_ttproducts_email_div
     public static function sendNotifyEmail(
         $cObj,
         $conf,
-        $config,
+        $templateSuffix,
         $funcTablename,
         $orderNumber,
         $recipient,
@@ -59,8 +59,6 @@ class tx_ttproducts_email_div
         $orderData,
         $templateCode,
         $templateMarker,
-        $basketExtra,
-        $basketRecs,
         $sendername = '',
         $senderemail = ''
     ): void {
@@ -79,7 +77,7 @@ class tx_ttproducts_email_div
                 trim(
                     $templateService->getSubpart(
                         $templateCode,
-                        '###' . $templateMarker . $config['templateSuffix'] . '###'
+                        '###' . $templateMarker . $templateSuffix . '###'
                     )
                 );
             if (!$emailContent) {

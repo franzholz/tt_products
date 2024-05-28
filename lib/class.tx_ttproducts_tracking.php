@@ -186,6 +186,7 @@ class tx_ttproducts_tracking implements SingletonInterface
     public function getTrackingInformation(
         $orderRow,
         $templateCode,
+        $templateSuffix,
         $trackingCode,
         $updateCode,
         &$orderRecord,
@@ -349,7 +350,7 @@ class tx_ttproducts_tracking implements SingletonInterface
                         'time' => time(),
                         'info' => $statusCodeArray[$val],
                         'status' => $val,
-                        'comment' => ($count == 0 ? $orderRecord['status_comment'] . ($internalComment != '' ? $internalComment : '') . ($newData != '' ? '|' . $newData : '') : ''), // comment is inserted only to the first status
+                        'comment' => ($count == 0 ? ($orderRecord['status_comment'] ?? '') . ($internalComment != '' ? $internalComment : '') . ($newData != '' ? '|' . $newData : '') : ''), // comment is inserted only to the first status
                     ];
 
                     if ($bValidUpdateCode || ($val >= 50 && $val < 59)) {// Numbers 50-59 are usermessages.
@@ -361,7 +362,7 @@ class tx_ttproducts_tracking implements SingletonInterface
                         tx_ttproducts_email_div::sendNotifyEmail(
                             $this->cObj,
                             $this->conf,
-                            $this->config,
+                            $templateSuffix,
                             'fe_users',
                             $orderObj->getNumber($orderRow['uid']),
                             $recipient,
@@ -371,9 +372,7 @@ class tx_ttproducts_tracking implements SingletonInterface
                             $orderRow,
                             $orderData,
                             $templateCode,
-                            $templateMarker,
-                            $basketExtra,
-                            $basketRecs
+                            $templateMarker
                         );
                         $status_log[] = $status_log_element;
                         $update = 1;
@@ -389,7 +388,7 @@ class tx_ttproducts_tracking implements SingletonInterface
                                 $this->cObj,
                                 $this->conf,
                                 $recipient,
-                                $orderRecord['status_comment'],
+                                $orderRecord['status_comment'] ?? '',
                                 $giftRow,
                                 $templateCode,
                                 $templateMarker,
@@ -506,8 +505,8 @@ class tx_ttproducts_tracking implements SingletonInterface
                 $tmp,
                 $viewTagArray,
                 'TRACKING',
-                $basketExtra,
-                $basketRecs
+                $tmp,
+                $tmp
             );
 
             $subpartArray['###ORDER_ITEM###'] =
@@ -759,7 +758,7 @@ class tx_ttproducts_tracking implements SingletonInterface
         $markerArray['###TRACKING_DATA_NAME###'] = $pibaseObj->prefixId . '[data]';
         $markerArray['###TRACKING_DATA_VALUE###'] = ($bStatusValid ? '' : $newData);
         $markerArray['###TRACKING_STATUS_COMMENT_NAME###'] = 'orderRecord[status_comment]';
-        $markerArray['###TRACKING_STATUS_COMMENT_VALUE###'] = ($bStatusValid ? '' : $orderRecord['status_comment']);
+        $markerArray['###TRACKING_STATUS_COMMENT_VALUE###'] = ($bStatusValid ? '' : $orderRecord['status_comment'] ?? '');
 
         if (isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['tracking']) && is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['tracking'])) {
             foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['tracking'] as $classRef) {
