@@ -3,13 +3,13 @@
   <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/PiInt/locallang_db.xlf" date="2021-11-23T20:36:18Z" product-name="tt_products" target-language="de">
     <header/>
     <body>
-      <trans-unit id="tt_content.list_type_pi_int" resname="tt_content.list_type_pi_int" approved="yes">
+      <trans-unit id="tt_content.list_type_pi_int" resname="tt_content.list_type_pi_int">
         <source>Shop System Variable Content</source>
-        <target state="final">Shop System benutzerabhängige Inhalte</target>
+        <target state="needs-translation">Shop System Variable Content</target>
       </trans-unit>
-      <trans-unit id="tt_content.pi_int_flexform.display_mode" resname="tt_content.pi_int_flexform.display_mode" approved="yes">
+      <trans-unit id="tt_content.pi_int_flexform.display_mode" resname="tt_content.pi_int_flexform.display_mode">
         <source>Display mode</source>
-        <target state="final">Anzeigetyp</target>
+        <target state="needs-translation">Display mode</target>
       </trans-unit>
       <trans-unit id="tt_content.pi_int_flexform.display_mode.7" resname="tt_content.pi_int_flexform.display_mode.7">
         <source>Products: search</source>
@@ -19,49 +19,49 @@
         <source>Currency: selector</source>
         <target state="needs-translation">Currency: selector</target>
       </trans-unit>
-      <trans-unit id="tt_content.pi_int_flexform.display_mode.9" resname="tt_content.pi_int_flexform.display_mode.9" approved="yes">
+      <trans-unit id="tt_content.pi_int_flexform.display_mode.9" resname="tt_content.pi_int_flexform.display_mode.9">
         <source>Basket: content</source>
-        <target state="final">Warenkorb: Inhalt</target>
+        <target state="needs-translation">Basket: content</target>
       </trans-unit>
-      <trans-unit id="tt_content.pi_int_flexform.display_mode.10" resname="tt_content.pi_int_flexform.display_mode.10" approved="yes">
+      <trans-unit id="tt_content.pi_int_flexform.display_mode.10" resname="tt_content.pi_int_flexform.display_mode.10">
         <source>Basket: overview</source>
-        <target state="final">Warenkorb: Miniformat</target>
+        <target state="needs-translation">Basket: overview</target>
       </trans-unit>
-      <trans-unit id="tt_content.pi_int_flexform.display_mode.11" resname="tt_content.pi_int_flexform.display_mode.11" approved="yes">
+      <trans-unit id="tt_content.pi_int_flexform.display_mode.11" resname="tt_content.pi_int_flexform.display_mode.11">
         <source>Basket: input customer data</source>
-        <target state="final">Warenkorb: Eingabe Kundendaten</target>
+        <target state="needs-translation">Basket: input customer data</target>
       </trans-unit>
-      <trans-unit id="tt_content.pi_int_flexform.display_mode.12" resname="tt_content.pi_int_flexform.display_mode.12" approved="yes">
+      <trans-unit id="tt_content.pi_int_flexform.display_mode.12" resname="tt_content.pi_int_flexform.display_mode.12">
         <source>Basket: control and payment</source>
-        <target state="final">Warenkorb: Kontrolle und Bezahlung</target>
+        <target state="needs-translation">Basket: control and payment</target>
       </trans-unit>
-      <trans-unit id="tt_content.pi_int_flexform.display_mode.13" resname="tt_content.pi_int_flexform.display_mode.13" approved="yes">
+      <trans-unit id="tt_content.pi_int_flexform.display_mode.13" resname="tt_content.pi_int_flexform.display_mode.13">
         <source>Basket: finalize order</source>
-        <target state="final">Warenkorb: Bestellung abschließen</target>
+        <target state="needs-translation">Basket: finalize order</target>
       </trans-unit>
-      <trans-unit id="tt_content.pi_int_flexform.display_mode.14" resname="tt_content.pi_int_flexform.display_mode.14" approved="yes">
+      <trans-unit id="tt_content.pi_int_flexform.display_mode.14" resname="tt_content.pi_int_flexform.display_mode.14">
         <source>Orders: tracking</source>
-        <target state="final">Bestellung: Verwaltung</target>
+        <target state="needs-translation">Orders: tracking</target>
       </trans-unit>
-      <trans-unit id="tt_content.pi_int_flexform.display_mode.15" resname="tt_content.pi_int_flexform.display_mode.15" approved="yes">
+      <trans-unit id="tt_content.pi_int_flexform.display_mode.15" resname="tt_content.pi_int_flexform.display_mode.15">
         <source>Orders: billing</source>
-        <target state="final">Bestellung: Rechnung</target>
+        <target state="needs-translation">Orders: billing</target>
       </trans-unit>
-      <trans-unit id="tt_content.pi_int_flexform.display_mode.16" resname="tt_content.pi_int_flexform.display_mode.16" approved="yes">
+      <trans-unit id="tt_content.pi_int_flexform.display_mode.16" resname="tt_content.pi_int_flexform.display_mode.16">
         <source>Orders: delivery</source>
-        <target state="final">Bestellung: Lieferschein</target>
+        <target state="needs-translation">Orders: delivery</target>
       </trans-unit>
-      <trans-unit id="tt_content.pi_int_flexform.display_mode.17" resname="tt_content.pi_int_flexform.display_mode.17" approved="yes">
+      <trans-unit id="tt_content.pi_int_flexform.display_mode.17" resname="tt_content.pi_int_flexform.display_mode.17">
         <source>Orders: list</source>
-        <target state="final">Bestellung: Liste</target>
+        <target state="needs-translation">Orders: list</target>
       </trans-unit>
-      <trans-unit id="tt_content.pi_int_flexform.display_mode.18" resname="tt_content.pi_int_flexform.display_mode.18" approved="yes">
+      <trans-unit id="tt_content.pi_int_flexform.display_mode.18" resname="tt_content.pi_int_flexform.display_mode.18">
         <source>Products: memo</source>
-        <target state="final">Produkte: Memo</target>
+        <target state="needs-translation">Products: memo</target>
       </trans-unit>
-      <trans-unit id="tt_content.pi_int_flexform.display_mode.19" resname="tt_content.pi_int_flexform.display_mode.19" approved="yes">
+      <trans-unit id="tt_content.pi_int_flexform.display_mode.19" resname="tt_content.pi_int_flexform.display_mode.19">
         <source>General: help</source>
-        <target state="final">Allgemein: Hilfe</target>
+        <target state="needs-translation">General: help</target>
       </trans-unit>
     </body>
   </file>
