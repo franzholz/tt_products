@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/locallang.xlf" date="2021-11-23T20:33:04Z" product-name="tt_products" target-language="nl">
+    <header/>
+    <body>
+      <trans-unit id="plugins_title" resname="plugins_title" approved="yes">
+        <source>Shop System</source>
+        <target state="final">Winkel Systeem</target>
+      </trans-unit>
+      <trans-unit id="plugins_description" resname="plugins_description" approved="yes">
+        <source>Add a shopping system plugin to the page. This makes it possible to sell products in multiple languages.</source>
+        <target state="final">Voeg een produktenlijst toe op de pagina. Dit is een deel van de ingebouwde winkelmodule. De pagina dient produktelementen te bevatten in de database.</target>
+      </trans-unit>
+      <trans-unit id="m_default" resname="m_default" approved="yes">
+        <source>default</source>
+        <target state="final">Standaard</target>
+      </trans-unit>
+      <trans-unit id="m_ext" resname="m_ext" approved="yes">
+        <source>extended</source>
+        <target state="final">Uitgebreid</target>
+      </trans-unit>
+      <trans-unit id="m_variants" resname="m_variants" approved="yes">
+        <source>variants</source>
+        <target state="final">Varianten</target>
+      </trans-unit>
+      <trans-unit id="pageModule.plugin" resname="pageModule.plugin">
+        <source>Shop System: Products, Articles, Product Categories, Orders</source>
+        <target state="needs-translation">Shop System: Products, Articles, Product Categories, Orders</target>
+      </trans-unit>
+      <trans-unit id="moduleFunction.tx_ttproducts_modfunc1" resname="moduleFunction.tx_ttproducts_modfunc1">
+        <source>Move Items (tt_products)</source>
+        <target state="needs-translation">Move Items (tt_products)</target>
+      </trans-unit>
+      <trans-unit id="moduleFunction.tx_ttproducts_modfunc2" resname="moduleFunction.tx_ttproducts_modfunc2">
+        <source>Create Records in Alternative Languages (tt_products)</source>
+        <target state="needs-translation">Create Records in Alternative Languages (tt_products)</target>
+      </trans-unit>
+      <trans-unit id="moduleFunction.tx_ttproducts_modfunc3" resname="moduleFunction.tx_ttproducts_modfunc3">
+        <source>Import images into FAL (tt_products)</source>
+        <target state="needs-translation">Import images into FAL (tt_products)</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
