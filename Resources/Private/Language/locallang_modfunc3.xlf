@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<xliff version="1.0">
+	<file source-language="en" datatype="plaintext" original="messages" date="2017-07-08T13:15:50Z" product-name="tt_products">
+		<header/>
+		<body>
+			<trans-unit id="title" xml:space="preserve">
+				<source>Import images into FAL for tt_products.</source>
+			</trans-unit>
+			<trans-unit id="requires_typo3_62" xml:space="preserve">
+				<source>The FAL conversion can only be executed under TYPO3 6.2 and higher.</source>
+			</trans-unit>
+			<trans-unit id="only_admin" xml:space="preserve">
+				<source>These functions are only available for admins.</source>
+			</trans-unit>
+			<trans-unit id="pid_src" xml:space="preserve">
+				<source>The source id is %d.</source>
+			</trans-unit>
+			<trans-unit id="start" xml:space="preserve">
+				<source>Start the import of the images into FAL!</source>
+			</trans-unit>
+			<trans-unit id="finished" xml:space="preserve">
+				<source>The import of the images into FAL has been finished!</source>
+			</trans-unit>
+			<trans-unit id="warning" xml:space="preserve">
+				<source>Make a backup copy of your images in the folder uploads/pics. All images files from this folder will be removed.</source>
+			</trans-unit>
+		</body>
+	</file>
+</xliff>
