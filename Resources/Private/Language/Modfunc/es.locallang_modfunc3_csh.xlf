@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/Modfunc/locallang_modfunc3_csh.xlf" date="2017-07-08T17:08:00Z" product-name="import" target-language="es-ES">
+  <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/Modfunc/locallang_modfunc3_csh.xlf" date="2017-07-08T17:08:00Z" product-name="import" target-language="es-AR">
     <header/>
     <body>
       <trans-unit id="tt_products.func3.importFalWizard" resname="tt_products.func3.importFalWizard">
