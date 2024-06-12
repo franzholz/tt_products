@@ -409,7 +409,7 @@ class tx_ttproducts_product extends tx_ttproducts_article_base
                 }
 
                 if ($articleRow) {
-                    $priceRow['weight'] = (round($articleRow['weight'], 16) ? $articleRow['weight'] : $row['weight']);
+                    $priceRow['weight'] = (round(floatval($articleRow['weight']), 16) ? $articleRow['weight'] : $row['weight']);
                     $priceRow['inStock'] = $articleRow['inStock'];
                     $articleRowArray[] = $articleRow;
                 }
@@ -740,7 +740,7 @@ class tx_ttproducts_product extends tx_ttproducts_article_base
         $hasAdditional = false;
         if (isset($row['additional'])) {
             $additional = GeneralUtility::xml2array($row['additional']);
-            $hasAdditional = FlexformUtility::get($additional, $check);
+            $hasAdditional = (bool) FlexformUtility::get($additional, $check);
         }
 
         return $hasAdditional;

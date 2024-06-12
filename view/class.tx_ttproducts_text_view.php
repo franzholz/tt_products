@@ -86,7 +86,7 @@ class tx_ttproducts_text_view extends tx_ttproducts_table_base_view
 
         if (isset($tagArray) && is_array($tagArray)) {
             foreach ($tagArray as $tag) {
-                if (!$bFoundTagArray[$tag]) {
+                if (empty($bFoundTagArray[$tag])) {
                     $marker = $parentMarker . '_' . $this->getMarker() . '_' . $tag;
                     $markerArray['###' . $marker . '###'] = '';
                 }

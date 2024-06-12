@@ -87,7 +87,7 @@ class tx_ttproducts_pricecalc extends tx_ttproducts_pricecalc_base
                     // count all items which will apply to the discount price
                     $count2 = $actItem['count'];
 
-                    if (((float)$count2 > 0) && ($row['price'] == $pricefor1)) {
+                    if ((floatval($count2) > 0) && ($row['price'] == $pricefor1)) {
                         $countedItems[$k1][] = ['sort' => $sort];
                         $dumCount += $count2;
                     }
@@ -103,14 +103,14 @@ class tx_ttproducts_pricecalc extends tx_ttproducts_pricecalc_base
             $countTemp = $dumCount;
             krsort($priceCalcTemp['prod.']);
             foreach ($priceCalcTemp['prod.'] as $k2 => $price2) {
-                if ((float)$k2 > 0) {
-                    while ($countTemp >= (float)$k2) {
-                        $countTemp -= (float)$k2;
+                if (floatval($k2) > 0) {
+                    while ($countTemp >= floatval($k2)) {
+                        $countTemp -= floatval($k2);
                         $priceTotalTemp += doubleval($price2);
                     }
                 }
             }
-            $priceProduct = ((float)$dumCount > 0 ? ($priceTotalTemp / $dumCount) : 0);
+            $priceProduct = (floatval($dumCount) > 0 ? ($priceTotalTemp / $dumCount) : 0);
 
             foreach ($countedItems[$k1] as $k3 => $v3) {
                 foreach ($itemArray[$v3['sort']] as $k4 => $actItem) {

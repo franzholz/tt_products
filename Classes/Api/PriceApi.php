@@ -99,9 +99,9 @@ class PriceApi
             if (
                 (
                     !isset($targetRow[$field]) ||
-                    !round($targetRow[$field], 16)
+                    !round(floatval($targetRow[$field], 16))
                 ) &&
-                round($value, 16)
+                round(floatval($value, 16))
             ) {
                 $targetRow[$field] = $value;
             }

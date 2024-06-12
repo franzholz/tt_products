@@ -2935,12 +2935,12 @@ class tx_ttproducts_list_view implements SingletonInterface
                             if (
                                 isset($markerArray['###' . $itemTableView->getMarker() . '_NOTE###']) &&
                                 strlen($markerArray['###' . $itemTableView->getMarker() . '_NOTE###']) > $conf['max_note_length']) {
-                                $markerArray['###' . $itemTableView->getMarker() . '_NOTE###'] = substr(strip_tags($markerArray['###' . $itemTableView->getMarker() . '_NOTE###']), 0, $conf['max_note_length']) . '...';
+                                $markerArray['###' . $itemTableView->getMarker() . '_NOTE###'] = substr(strip_tags($markerArray['###' . $itemTableView->getMarker() . '_NOTE###']), 0, intval($conf['max_note_length'])) . '...';
                             }
                             if (
                                 isset($markerArray['###' . $itemTableView->getMarker() . '_NOTE2###']) &&
                                 strlen($markerArray['###' . $itemTableView->getMarker() . '_NOTE2###']) > $conf['max_note_length']) {
-                                $markerArray['###' . $itemTableView->getMarker() . '_NOTE2###'] = substr(strip_tags($markerArray['###' . $itemTableView->getMarker() . '_NOTE2###']), 0, $conf['max_note_length']) . '...';
+                                $markerArray['###' . $itemTableView->getMarker() . '_NOTE2###'] = substr(strip_tags($markerArray['###' . $itemTableView->getMarker() . '_NOTE2###']), 0, intval($conf['max_note_length'])) . '...';
                             }
                         }
 
@@ -3024,9 +3024,9 @@ class tx_ttproducts_list_view implements SingletonInterface
                         } else {
                             $nextArray['category'] = (($pageAsCategory < 2) ? $nextCat : $nextRow['pid']);
                             if ($itemTable->getType() == 'article') {
-                                $nextArray['product'] = $nextRow['uid_product'];
+                                $nextArray['product'] = $nextRow['uid_product'] ?? '';
                             } else {
-                                $nextArray['product'] = $nextRow['uid'];
+                                $nextArray['product'] = $nextRow['uid'] ?? '';
                             }
                         }
 

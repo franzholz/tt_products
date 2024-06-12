@@ -53,6 +53,7 @@ class tx_ttproducts_api
 {
     public static function roundPrice($value, $format)
     {
+        $value = (string) $value;
         $result = $oldValue = $value;
         $priceRoundFormatArray = [];
         $dotPos = strpos($value, '.');
@@ -61,11 +62,11 @@ class tx_ttproducts_api
         if (strpos($format, '.') !== false) {
             $priceRoundFormatArray = GeneralUtility::trimExplode('.', $format);
         } else {
-            $priceRoundFormatArray['0'] = $format;
+            $priceRoundFormatArray[0] = $format;
         }
 
-        if ($priceRoundFormatArray['0'] != '') {
-            $integerPart = intval($priceRoundFormatArray['0']);
+        if ($priceRoundFormatArray[0] != '') {
+            $integerPart = intval($priceRoundFormatArray[0]);
             $floatPart = $oldValue - intval($oldValue);
             $faktor = pow(10, strlen($integerPart));
             $result = (intval($oldValue / $faktor) * $faktor) + $integerPart + $floatPart;
@@ -77,8 +78,8 @@ class tx_ttproducts_api
             $oldValue = $result;
         }
 
-        if (isset($priceRoundFormatArray['1'])) {
-            $formatText = $priceRoundFormatArray['1'];
+        if (isset($priceRoundFormatArray[1])) {
+            $formatText = (string) $priceRoundFormatArray[1];
             $digits = 0;
             while (substr($formatText, $digits, 1) == 'X') {
                 $digits++;
@@ -87,7 +88,7 @@ class tx_ttproducts_api
             $faktor = pow(10, $digits);
 
             if ($floatValue == '') {
-                $result = round($oldValue, $digits);
+                $result = round(floatval($oldValue, $digits));
             } else {
                 $allowedChars = '';
                 $lowestValuePart = 0;
@@ -101,7 +102,7 @@ class tx_ttproducts_api
                     $allowedChars = substr($floatValue, 1, $length - 2);
 
                     if ($allowedChars != '') {
-                        $digitValue = intval(round($value * $faktor * 10)) % 10;
+                        $digitValue = intval(round(floatval($value) * floatval($faktor) * 10)) % 10;
                         $countAllowedChars = strlen($allowedChars);
                         $step = intval(10 / $countAllowedChars);
                         $allowedPos = 0;
@@ -312,8 +313,8 @@ class tx_ttproducts_api
         $num_rows = count($rowArray);
 
         if ($num_rows) {
-            if (isset($rowArray['0']) && is_array($rowArray['0']) && isset($rowArray['0']['uid'])) {
-                $result = intval($rowArray['0']['uid']);
+            if (isset($rowArray[0]) && is_array($rowArray[0]) && isset($rowArray[0]['uid'])) {
+                $result = intval($rowArray[0]['uid']);
             }
         } elseif ($bAllowCreation) {
             $password = substr(md5(random_int(0, mt_getrandmax())), 0, 12);
@@ -462,10 +463,10 @@ class tx_ttproducts_api
 
         if (
             is_array($rows) &&
-            isset($rows['0']) &&
-            !empty($rows['0']['bill_no'])
+            isset($rows[0]) &&
+            !empty($rows[0]['bill_no'])
         ) {
-            $billNo = $rows['0']['bill_no'];
+            $billNo = $rows[0]['bill_no'];
             $found = preg_match_all('/([\d]+)/', $billNo, $match);
 
             if (

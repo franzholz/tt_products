@@ -1420,7 +1420,7 @@ class tx_ttproducts_basket_view implements SingletonInterface
                 $voucherView->getMarkerArray($markerArray);
             }
 
-            $markerArray['###CREDITPOINTS_SAVED###'] = number_format($creditpoints, '0');
+            $markerArray['###CREDITPOINTS_SAVED###'] = number_format($creditpoints, 0);
             $pidagb = intval($conf['PIDagb']);
 
             $addQueryString = [];

@@ -142,7 +142,7 @@ class tx_ttproducts_field_price_view extends tx_ttproducts_field_base_view
         }
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $conf = $cnf->getConf();
-        $double = round($double, 10);
+        $double = round(floatval($double), 10);
 
         if (
             $conf['noZeroDecimalPoint'] &&
@@ -178,7 +178,7 @@ class tx_ttproducts_field_price_view extends tx_ttproducts_field_base_view
         $result = false;
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $conf = $cnf->conf;
-        $double = round($double, 10);
+        $double = round(floatval($double), 10);
 
         $percentDecPoint = $conf['percentDecPoint'];
         $percentThousandPoint = $conf['percentThousandPoint'];

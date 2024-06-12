@@ -130,7 +130,12 @@ abstract class tx_ttproducts_field_base_view implements tx_ttproducts_field_view
             $value = $row[$fieldname];
             $valueArray = GeneralUtility::trimExplode(',', $value);
 
-            if (isset($valueArray) && is_array($valueArray) && $valueArray['0'] != '') {
+            if (
+                isset($valueArray) &&
+                is_array($valueArray) &&
+                isset($valueArray[0]) &&
+                $valueArray[0] != ''
+            ) {
                 $content = '';
                 foreach ($valueArray as $key => $value) {
                     $repeatedMarkerArray = [];

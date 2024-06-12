@@ -115,7 +115,7 @@ class tx_ttproducts_form_div
 
                     if ($key == -1) {
                         $selectedText = ($useXHTML ? ' disabled="disabled"' : ' disabled');
-                    } elseif (strcmp($selectKey, $selectedKey) == 0) {
+                    } elseif (strcmp((string) $selectKey, $selectedKey) == 0) {
                         switch ($type) {
                             case 'select':
                                 $selectedText = ($useXHTML ? ' selected="selected"' : ' selected');
@@ -137,7 +137,7 @@ class tx_ttproducts_form_div
                     switch ($type) {
                         case 'select':
                             $inputTextArray = [
-                                '<option value="' . htmlspecialchars($valueText, $flags) . '"' . $selectedText . '>',
+                                '<option value="' . htmlspecialchars((string) $valueText, $flags) . '"' . $selectedText . '>',
                                 '</option>'
                             ];
                             break;

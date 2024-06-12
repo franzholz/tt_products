@@ -54,7 +54,7 @@ class tx_ttproducts_discountprice extends tx_ttproducts_pricecalc_base implement
                 $result = true;
             } else {
                 foreach ($gr_list as $k1 => $val) {
-                    if (((float)$val > 0) && ($getDiscount == 0) && !empty($GLOBALS['TSFE']->fe_user->groupData['title'])) {
+                    if ((floatval($val) > 0) && ($getDiscount == 0) && !empty($GLOBALS['TSFE']->fe_user->groupData['title'])) {
                         $result = (strcmp($GLOBALS['TSFE']->fe_user->groupData['title'], $conf['discountGroupName']) == 0);
                     }
                 }
@@ -450,8 +450,8 @@ class tx_ttproducts_discountprice extends tx_ttproducts_pricecalc_base implement
 
                         krsort($priceCalcTemp['prod.']);
                         foreach ($priceCalcTemp['prod.'] as $k2 => $price2) {
-                            if ($countTotal >= (float)$k2) { // search the price from the total count
-                                if ((float)$k2 > 1) {
+                            if ($countTotal >= floatval($k2)) { // search the price from the total count
+                                if (floatval($k2) > 1) {
                                     // store the discount price in all calculated items from before
                                     if (is_array($countedItems[$k1])) {
                                         foreach ($countedItems[$k1] as $k3 => $v3) {
