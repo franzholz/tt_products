@@ -235,9 +235,9 @@ class tx_ttproducts_relatedlist_view implements SingletonInterface
                 $result,
                 $theCode,
                 $funcTablename,
-                $uid,
+                (int) $uid,
                 $paramUidArray,
-                $useArticles
+                (int) $useArticles
             )
         );
 

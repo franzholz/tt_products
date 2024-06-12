@@ -903,7 +903,7 @@ class PaymentShippingHandling
 
             if (isset($confArray['noCostsAmount'])) {
                 // the total products price as from the payment/shipping is free
-                $noCostsAmount = (float)$confArray['noCostsAmount'];
+                $noCostsAmount = floatval($confArray['noCostsAmount']);
                 if ($priceTotalTax >= $noCostsAmount) {
                     $resetPrice = true;
                 }
@@ -919,7 +919,7 @@ class PaymentShippingHandling
             }
 
             if (isset($confArray['noCostsAmount.']) && isset($confArray['noCostsAmount.']['upTo'])) {
-                $noCostsAmount = (float)$confArray['noCostsAmount.']['upTo'];
+                $noCostsAmount = floatval($confArray['noCostsAmount.']['upTo']);
                 if ($priceTotalTax <= $noCostsAmount) {
                     $resetPrice = true;
                 }

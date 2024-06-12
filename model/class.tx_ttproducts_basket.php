@@ -714,7 +714,7 @@ class tx_ttproducts_basket implements SingletonInterface
                 $count = ($missingCreditpoints > 0 ? 0 : $quantity);
             }
         } elseif ($this->conf['quantityIsFloat']) {
-            $count = (float)$quantity;
+            $count = floatval($quantity);
             if ($count < 0) {
                 $count = 0;
             }
@@ -722,7 +722,7 @@ class tx_ttproducts_basket implements SingletonInterface
                 $count = $this->conf['basketMaxQuantity'];
             }
         } else {
-            $count = MathUtility::forceIntegerInRange($quantity, 0, $this->conf['basketMaxQuantity'], 0);
+            $count = MathUtility::forceIntegerInRange($quantity, 0, (int) $this->conf['basketMaxQuantity'], 0);
         }
 
         return $count;

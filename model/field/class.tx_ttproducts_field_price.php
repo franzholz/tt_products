@@ -163,7 +163,7 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base
         if ($bToFloat) {
             $text = (string)$text;
             // enable the German display of float
-            $result = (float)str_replace(',', '.', $text);
+            $result = floatval(str_replace(',', '.', $text));
         } else {
             $result = (int)$text;
         }
@@ -233,7 +233,7 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base
         );
 
         if ($taxMode == '2') {
-            $result = round($result, 2);
+            $result = round(floatval($result), 2);
         }
 
         return $result;
@@ -404,7 +404,7 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base
         &$skonto,
         &$skontoTaxPerc
     ): void {
-        $skonto = ((float)$relativePrice - (float)$priceNumTax);
+        $skonto = (floatval($relativePrice) - floatval($priceNumTax));
 
         if (floatval($relativePrice) != 0) {
             $skontoTaxPerc = (($skonto / $relativePrice) * 100);

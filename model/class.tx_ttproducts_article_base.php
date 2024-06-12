@@ -421,7 +421,7 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base
                     ) {
                         if ($bKeepNotEmpty) {
                             if (
-                                $type == 'number' && !round($targetRow[$field], 16) ||
+                                $type == 'number' && !round(floatval($targetRow[$field]), 16) ||
                                 $type != 'number' && empty($targetRow[$field])
                             ) {
                                 $targetRow[$field] = $value;
@@ -430,8 +430,8 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base
                             if (
                                 $type == 'number' &&
                                 (
-                                    !round($targetRow[$field], 16) ||
-                                    round($value, 16) ||
+                                    !round(floatval($targetRow[$field]), 16) ||
+                                    round(floatval($value), 16) ||
                                     ($field == 'inStock')
                                 ) ||
                                 $type != 'number' &&

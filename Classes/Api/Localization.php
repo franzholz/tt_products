@@ -2,8 +2,9 @@
 
 namespace JambageCom\TtProducts\Api;
 
-use JambageCom\Div2007\Base\TranslationBase;
 use TYPO3\CMS\Core\SingletonInterface;
+
+use JambageCom\Div2007\Base\TranslationBase;
 
 /***************************************************************
 *  Copyright notice
