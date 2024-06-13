@@ -449,11 +449,11 @@
       </trans-unit>
       <trans-unit id="basket_payment_bic" resname="basket_payment_bic">
         <source>BIC</source>
-        <target state="translated">BIC</target>
+        <target state="needs-translation">BIC</target>
       </trans-unit>
       <trans-unit id="basket_payment_iban" resname="basket_payment_iban">
         <source>IBAN</source>
-        <target state="translated">IBAN</target>
+        <target state="needs-translation">IBAN</target>
       </trans-unit>
       <trans-unit id="basket_payment_account_holder" resname="basket_payment_account_holder">
         <source>Account Holder</source>
@@ -509,7 +509,7 @@
       </trans-unit>
       <trans-unit id="included_vat" resname="included_vat">
         <source>Included VAT</source>
-        <target state="translated">TVA comprise</target>
+        <target state="needs-translation">Included VAT</target>
       </trans-unit>
       <trans-unit id="includes" resname="includes">
         <source>includes</source>
