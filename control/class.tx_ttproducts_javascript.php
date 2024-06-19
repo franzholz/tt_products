@@ -577,7 +577,7 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
                             ExtensionManagementUtility::extPath('taxajax')
                         );
                     $code = $this->ajax->taxajax->getJavascript($path);
-                    $this->bXajaxAdded = true;
+                    $this->bAjaxAdded = true;
                 }
                 $JSfieldname = 'tx_ttproducts-xajax';
                 $bDirectHTML = true;
