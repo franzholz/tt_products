@@ -12,6 +12,16 @@ call_user_func(function ($extensionKey, $table): void {
 
     ExtensionManagementUtility::addPiFlexFormValue('5', 'FILE:EXT:' . $extensionKey . '/pi1/flexform_ds_pi1.xml');
 
+    ExtensionManagementUtility::addPlugin(
+        [
+            'LLL:EXT:' . $extensionKey . $languageSubpath .
+            'locallang_db.xlf:tt_content.list_type_pi1',
+            '5',
+        ],
+        'list_type',
+        $extensionKey
+    );
+
     if (ExtensionManagementUtility::isLoaded('searchbox')) {
         $listType = $extensionKey . '_pi_search';
         $GLOBALS['TCA'][$table]['types']['list']['subtypes_excludelist'][$listType] = 'layout';
@@ -42,13 +52,4 @@ call_user_func(function ($extensionKey, $table): void {
         $extensionKey
     );
 
-    ExtensionManagementUtility::addPlugin(
-        [
-            'LLL:EXT:' . $extensionKey . $languageSubpath .
-            'locallang_db.xlf:tt_content.list_type_pi1',
-            '5',
-        ],
-        'list_type',
-        $extensionKey
-    );
 }, 'tt_products', basename(__FILE__, '.php'));
