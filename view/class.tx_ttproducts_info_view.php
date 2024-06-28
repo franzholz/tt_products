@@ -60,10 +60,14 @@ class tx_ttproducts_info_view implements SingletonInterface
     public $country;			// object of the type tx_table_db
     public $password;	// automatically generated random password for a new frontend user
     public $bHasBeenInitialised = false;
+    protected $modelObj;
 
-    public function init($bProductsPayment, $fixCountry, $basketExtra)
+    public function init(
+        tx_ttproducts_info $modelObj
+    )
     {
         $result = true;
+        $this->modelObj = $modelObj;
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 
         $this->conf = $cnf->getConf();
@@ -71,26 +75,14 @@ class tx_ttproducts_info_view implements SingletonInterface
 
         $this->infoArray = tx_ttproducts_control_basket::getInfoArray();
 
-        tx_ttproducts_control_basket::uncheckAgb(
-            $this->infoArray,
-            $bProductsPayment
-        );
-
         $this->bHasBeenInitialised = true;
 
         return $result;
     } // init
 
-    public function init2($infoArray): void
+    public function getModelObj()
     {
-        $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-
-        $this->conf = $cnf->conf;
-        $this->config = $cnf->config;
-
-        $this->infoArray = $infoArray;
-
-        $this->bHasBeenInitialised = true;
+        return $this->modelObj;
     }
 
     public function needsInit()
@@ -100,235 +92,82 @@ class tx_ttproducts_info_view implements SingletonInterface
 
     public function getInfoArray()
     {
-        return $this->infoArray;
+        return $this->getModelObj()->getInfoArray();
     }
 
-    public function getCustomerEmail()
-    {
-        $result = (
-            $this->conf['orderEmail_toDelivery'] && $this->infoArray['delivery']['email'] ||
-            !$this->infoArray['billing']['email'] ?
-                $this->infoArray['delivery']['email'] :
-                $this->infoArray['billing']['email']
-        ); // former: deliveryInfo
+    public function getSubpartMarkerArray(
+        array &$subpartArray,
+        array &$wrappedSubpartArray,
+        $viewTagArray
+    ): void {
+        //     debug ($viewTagArray, 'getSubpartMarkerArray $viewTagArray');
+        $modelObj = $this->getModelObj();
+        $areIdentical = $modelObj->billingEqualsShipping();
 
-        return $result;
-    }
+        //         debug ($areIdentical, 'getSubpartMarkerArray $areIdentical');
 
-    /**
-     * Fills in all empty fields in the delivery info array.
-     */
-    public function mapPersonIntoDelivery($basketExtra): void
-    {
-        // all of the delivery address will be overwritten when no address and no email address have been filled in
-        if (
-            (
-                (
-                    empty($this->infoArray['delivery']['address']) &&
-                    empty($this->infoArray['delivery']['email'])
-                ) ||
-                ControlApi::isOverwriteMode($this->infoArray)
-            ) &&
-            tx_ttproducts_control_basket::needsDeliveryAddresss($basketExtra)
-        ) {
-            $hasAddress = !empty($this->infoArray['delivery']['address']);
-            $fields = CustomerApi::getFields();
-            $fieldArray = GeneralUtility::trimExplode(',', $fields . ',feusers_uid');
+        $identicalMarkerKey = 'BILLING_EQUALS_SHIPPING';
+        $notIdenticalMarkerKey = 'BILLING_EQUALS_NOT_SHIPPING';
+        if ($areIdentical) {
+            $wrappedSubpartArray['###' . $identicalMarkerKey . '###'] = '';
+            $subpartArray['###' . $notIdenticalMarkerKey . '###'] = '';
+        } else {
+            $subpartArray['###' . $identicalMarkerKey . '###'] = '';
+            $wrappedSubpartArray['###' . $notIdenticalMarkerKey . '###'] = '';
+        }
 
-            foreach ($fieldArray as $k => $fName) {
+        $infoArray = $modelObj->getInfoArray();
+        //         debug ($infoArray, 'getSubpartMarkerArray $infoArray');
+        $fields = $modelObj->getFields();
+        $fieldArray = explode(',', $fields);
+        //         debug ($fieldArray, 'getSubpartMarkerArray $fieldArray');
+        $typeArray = ['billing', 'delivery'];
+        foreach ($typeArray as $type) {
+            foreach ($fieldArray as $field) {
+                //         debug ($field, '$field');
+                $hasMarkerKey = strtoupper($type) . '_' . strtoupper($field) . '_NOT_EMPTY';
+                //         debug ($hasMarkerKey, '$hasMarkerKey');
+                $hasNotMarkerKey = strtoupper($type) . '_' . strtoupper($field) . '_EMPTY';
+                //         debug ($hasNotMarkerKey, '$hasNotMarkerKey');
+                if (!isset($viewTagArray[$hasMarkerKey])) {
+                    $hasMarkerKey = '';
+                }
+                if (!isset($viewTagArray[$hasNotMarkerKey])) {
+                    $hasNotMarkerKey = '';
+                }
+                //             debug ($infoArray[$type][$field], '$infoArray['.$type.']['.$field.']');
                 if (
-                    isset($this->infoArray['billing'][$fName]) &&
-                    (
-                        !isset($this->infoArray['delivery'][$fName]) ||
-                        $this->infoArray['delivery'][$fName] == '' ||
-                        (
-                            $this->infoArray['delivery'][$fName] == '0' && !$hasAddress
-                        ) ||
-                        in_array($fName, ['country', 'country_code', 'zone'])
-                    )
+                    isset($infoArray[$type]) &&
+                    isset($infoArray[$type][$field]) &&
+                    !empty($infoArray[$type][$field])
                 ) {
-                    $this->infoArray['delivery'][$fName] = $this->infoArray['billing'][$fName];
-                }
-            }
-        }
-
-        if (
-            isset($this->infoArray['delivery']) &&
-            is_array($this->infoArray['delivery']) &&
-            !isset($this->infoArray['delivery']['name']) &&
-            !isset($this->infoArray['delivery']['last_name']) &&
-            !isset($this->infoArray['delivery']['company'])
-        ) {
-            unset($this->infoArray['delivery']['salutation']);
-            if (count($this->infoArray['delivery']) < 3) {
-                unset($this->infoArray['delivery']);
-            }
-        }
-
-        // Call info hooks
-        if (
-            isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['info']) &&
-            is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['info'])
-        ) {
-            foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['info'] as $classRef) {
-                $hookObj = GeneralUtility::makeInstance($classRef);
-                if (method_exists($hookObj, 'mapPersonIntoDelivery')) {
-                    $hookObj->mapPersonIntoDelivery($this);
-                }
-            }
-        }
-    } // mapPersonIntoDelivery
-
-    /**
-     * Gets regular Expressions for Field-Checks.
-     */
-    public function getFieldChecks($type)
-    {
-        $rc = '';
-        $fieldCheckArray = $this->conf['regExCheck.'];
-
-        $fieldChecks = [];
-        if (isset($fieldCheckArray) && is_array($fieldCheckArray)) {
-            // Array komplett durchlaufen
-            foreach ($fieldCheckArray as $key => $value) {
-                if (isset($value) && is_array($value)) {
-                    // spezifischer TS-Eintrag
-                    if ($key == $type . '.') {
-                        foreach ($value as $key2 => $value2) {
-                            $fieldChecks[$key2] = $value2;
-                        }
+                    if ($hasMarkerKey != '') {
+                        $wrappedSubpartArray['###' . $hasMarkerKey . '###'] = '';
+                    }
+                    if ($hasNotMarkerKey != '') {
+                        $subpartArray['###' . $hasNotMarkerKey . '###'] = '';
                     }
                 } else {
-                    // unspezifischer TS-Eintrag
-                    $fieldChecks[$key] = $value;
-                }
-            }
-        }
-
-        return $fieldChecks;
-    }
-
-    /**
-     * Checks if required fields are filled in.
-     */
-    public function checkRequired($type, $basketExtra)
-    {
-        $result = '';
-
-        if (
-            tx_ttproducts_control_basket::needsDeliveryAddresss($basketExtra) ||
-            $type == 'billing'
-        ) {
-            $requiredInfoFields = CustomerApi::getRequiredInfoFields($type);
-
-            if ($requiredInfoFields) {
-                $infoFields = GeneralUtility::trimExplode(',', $requiredInfoFields);
-
-                foreach ($infoFields as $fName) {
-                    if (
-                        !isset($this->infoArray[$type]) ||
-                        !isset($this->infoArray[$type][$fName]) ||
-                        trim($this->infoArray[$type][$fName]) == ''
-                    ) {
-                        $result = $fName;
-                        break;
+                    if ($hasNotMarkerKey != '') {
+                        $wrappedSubpartArray['###' . $hasNotMarkerKey . '###'] = '';
                     }
-                }
-            }
-
-            // RegEx-Check
-            $checkFieldsExpr = $this->getFieldChecks($type);
-            if ($checkFieldsExpr && is_array($checkFieldsExpr)) {
-                foreach ($checkFieldsExpr as $fName => $checkExpr) {
-                    if (
-                        isset($this->infoArray[$type][$fName]) &&
-                        trim($this->infoArray[$type][$fName]) != ''
-                    ) {
-                        if (
-                            preg_match('/' . $checkExpr . '/', $this->infoArray[$type][$fName]) == 0
-                        ) {
-                            $result = $fName;
-                            break;
-                        }
+                    if ($hasMarkerKey != '') {
+                        $subpartArray['###' . $hasMarkerKey . '###'] = '';
                     }
                 }
             }
         }
+        // debug ($subpartArray, 'getSubpartMarkerArray $subpartArray');
+        // debug ($wrappedSubpartArray, 'getSubpartMarkerArray $wrappedSubpartArray');
 
-        return $result;
-    } // checkRequired
-
-    /**
-     * Checks if the filled in fields are allowed.
-     */
-    public function checkAllowed($basketExtra)
-    {
-        $rc = '';
-        if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
-            $staticInfoApi = GeneralUtility::makeInstance(StaticInfoTablesApi::class);
-        } else {
-            $staticInfoApi = GeneralUtility::makeInstance(OldStaticInfoTablesApi::class);
-        }
-        $where = $this->getWhereAllowedCountries($basketExtra);
-
+        $checkbox1MarkerKey = 'CHECKBOX1_CHECKED';
         if (
-            $where &&
-            !empty($this->conf['useStaticInfoCountry']) &&
-            $staticInfoApi->isActive()
+            !empty($infoArray['delivery']['checkbox1'])
         ) {
-            $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
-            $countryObj = $tablesObj->get('static_countries');
-            if (is_object($countryObj)) {
-                $type = (
-                    !tx_ttproducts_control_basket::needsDeliveryAddresss($basketExtra) ?
-                        'billing' :
-                        'delivery'
-                );
-                $row = $countryObj->isoGet($this->infoArray[$type]['country_code'] ?? '' , $where);
-                if (!$row) {
-                    $rc = 'country';
-                }
-            }
-        }
-
-        return $rc;
-    } // checkAllowed
-
-    /**
-     * gets the WHERE clause for the allowed static_countries.
-     */
-    public function getWhereAllowedCountries($basketExtra)
-    {
-        if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
-            $staticInfoApi = GeneralUtility::makeInstance(StaticInfoTablesApi::class);
+            $wrappedSubpartArray['###' . $checkbox1MarkerKey . '###'] = '';
         } else {
-            $staticInfoApi = GeneralUtility::makeInstance(OldStaticInfoTablesApi::class);
+            $subpartArray['###' . $checkbox1MarkerKey . '###'] = '';
         }
-        $where = '';
-
-        if ($staticInfoApi->isActive()) {
-            $where = PaymentShippingHandling::getWhere($basketExtra, 'static_countries');
-        }
-
-        return $where;
-    } // getWhereAllowedCountries
-
-    public function getFromArray($customerEmail)
-    {
-        $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
-        $conf = $cnfObj->getConf();
-
-        $resultArray = [];
-        $resultArray['shop'] = [
-            'email' => $conf['orderEmail_from'] ?? '',
-            'name' => $conf['orderEmail_fromName'] ?? '',
-        ];
-        $resultArray['customer'] = [
-            'email' => $customerEmail,
-            'name' => $this->infoArray['billing']['name'] ?? '',
-        ];
-
-        return $resultArray;
     }
 
     /**
@@ -392,7 +231,7 @@ class tx_ttproducts_info_view implements SingletonInterface
             $countryObj = $countryViewObj->getModelObj();
 
             $bReady = false;
-            $whereCountries = $this->getWhereAllowedCountries($basketExtra);
+            $whereCountries = $this->getModelObj()->getWhereAllowedCountries($basketExtra);
             $countryCodeArray = [];
             $countryCodeArray['billing'] = ($this->infoArray['billing']['country_code'] ?? $context->getPropertyFromAspect('frontend.user', 'isLoggedIn') && ($context->getPropertyFromAspect('frontend.user', 'isLoggedIn') && !empty($GLOBALS['TSFE']->fe_user->user['static_info_country']) ? $GLOBALS['TSFE']->fe_user->user['static_info_country'] : false));
             $countryCodeArray['delivery'] = ($this->infoArray['delivery']['country_code'] ?? ($context->getPropertyFromAspect('frontend.user', 'isLoggedIn') && !empty($GLOBALS['TSFE']->fe_user->user['static_info_country']) ? $GLOBALS['TSFE']->fe_user->user['static_info_country'] : false));

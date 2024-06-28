@@ -200,6 +200,7 @@ class tx_ttproducts_tracking implements SingletonInterface
         $pibaseObj = GeneralUtility::makeInstance('tx_ttproducts_pi1_base');
         $languageObj = GeneralUtility::makeInstance(Localization::class);
         $basketView = GeneralUtility::makeInstance('tx_ttproducts_basket_view');
+        $infoObj = GeneralUtility::makeInstance('tx_ttproducts_info');
         $infoViewObj = GeneralUtility::makeInstance('tx_ttproducts_info_view');
         // 		$paymentshippingObj = GeneralUtility::makeInstance('tx_ttproducts_paymentshipping');
         $theTable = 'sys_products_orders';
@@ -696,7 +697,10 @@ class tx_ttproducts_tracking implements SingletonInterface
             $markerArray['###ORDER_HTML_OUTPUT###'] = $orderData['html_output'] ?? '';	// The save order-information in HTML-format
         } elseif (isset($orderRow) && is_array($orderRow) && $orderRow['uid']) {
             $itemArray = $orderObj->getItemArray($orderRow, $calculatedArray, $infoArray);
-            $infoViewObj->init2($infoArray);
+            $infoObj->init($infoArray);
+            $infoViewObj->init(
+                $infoObj
+            );
             $productRowArray = []; // Todo: make this a parameter
 
             if ($orderRow['ac_uid']) {
@@ -715,7 +719,7 @@ class tx_ttproducts_tracking implements SingletonInterface
                 $cardViewObj->setConf($this->conf);
                 $cardViewObj->getMarkerArray($cardRow, $globalMarkerArray, []);
             }
-            $customerEmail = $orderRow['email']; // $infoViewObj->getCustomerEmail();
+            $customerEmail = $orderRow['email'];
             $globalMarkerArray['###CUSTOMER_RECIPIENTS_EMAIL###'] = $customerEmail;
             $markerArray['###ORDER_HTML_OUTPUT###'] =
                 $basketView->getView(
@@ -729,6 +733,8 @@ class tx_ttproducts_tracking implements SingletonInterface
                     true,
                     'TRACKING_TEMPLATE',
                     $globalMarkerArray,
+                    [],
+                    [],
                     '',
                     $itemArray,
                     $notOverwritePriceIfSet = false,

@@ -1059,6 +1059,7 @@ class tx_ttproducts_single_view implements SingletonInterface
                 $markerArray = $urlObj->addURLMarkers(
                     $pid,
                     $markerArray,
+                    $theCode,
                     $addQueryString,
                     $excludeList,
                     $useBackPid,

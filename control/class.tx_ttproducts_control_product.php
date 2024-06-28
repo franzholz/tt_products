@@ -39,6 +39,10 @@
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+use JambageCom\TtProducts\Api\ParameterApi;
+use JambageCom\TtProducts\Api\VariantApi;
+use JambageCom\TtProducts\Api\EditVariantApi;
+
 class tx_ttproducts_control_product
 {
     public static function getPresetVariantArray(
@@ -142,4 +146,33 @@ class tx_ttproducts_control_product
             }
         }
     }
+
+    public static function getAllVariantFields()
+    {
+        $variantApi = GeneralUtility::makeInstance(VariantApi::class);
+        $editVariantApi = GeneralUtility::makeInstance(EditVariantApi::class);
+        $funcTablename = 'tt_products';
+        $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
+        $itemTable = $tablesObj->get($funcTablename, false);
+
+        $selectableVariantFieldArray = $variantApi->getSelectableFieldArray();
+        debug($selectableVariantFieldArray, '$selectableVariantFieldArray');
+        $editFieldArray = $editVariantApi->getFieldArray();
+        $fieldArray = [];
+
+        if (
+            isset($selectableVariantFieldArray) &&
+            is_array($selectableVariantFieldArray)
+        ) {
+            $fieldArray = $selectableVariantFieldArray;
+        }
+
+        if (isset($editFieldArray) && is_array($editFieldArray)) {
+            $fieldArray = array_merge($fieldArray, $editFieldArray);
+        }
+        debug($fieldArray, 'getAllVariantFields ENDE $fieldArray');
+
+        return $fieldArray;
+    }
+
 }

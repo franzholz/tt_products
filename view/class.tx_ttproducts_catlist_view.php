@@ -435,6 +435,7 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base
                     $this->urlObj->addURLMarkers(
                         $GLOBALS['TSFE']->id,
                         $markerArray,
+                        $theCode,
                         $addQueryString,
                         false
                     );

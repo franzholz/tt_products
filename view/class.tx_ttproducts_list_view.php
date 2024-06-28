@@ -1057,6 +1057,7 @@ class tx_ttproducts_list_view implements SingletonInterface
                     $urlObj->addURLMarkers(
                         $tmpPid,
                         [],
+                        $theCode,
                         $addQueryString,
                         $excludeList,
                         $useBackPid,
@@ -1155,6 +1156,7 @@ class tx_ttproducts_list_view implements SingletonInterface
                 $urlObj->addURLMarkers(
                     $this->pid,
                     $markerArray,
+                    $theCode,
                     $addQueryString,
                     $excludeList,
                     $useBackPid,
@@ -2874,6 +2876,7 @@ class tx_ttproducts_list_view implements SingletonInterface
                             $urlObj->addURLMarkers(
                                 $this->pid,
                                 $markerArray,
+                                $theCode,
                                 $addQueryString,
                                 '',
                                 $useBackPid,
@@ -3214,6 +3217,7 @@ class tx_ttproducts_list_view implements SingletonInterface
                 $urlObj->addURLMarkers(
                     $this->pid,
                     $markerArray,
+                    $theCode,
                     $addQueryString,
                     $excludeList,
                     $useBackPid,

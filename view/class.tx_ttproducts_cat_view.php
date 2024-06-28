@@ -288,6 +288,7 @@ class tx_ttproducts_cat_view implements SingletonInterface
                 $this->urlObj->addURLMarkers(
                     $pid,
                     $markerArray,
+                    $theCode,
                     $addQueryString
                 ); // Applied it here also...
 

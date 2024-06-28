@@ -284,9 +284,9 @@ class tx_ttproducts_control_search implements SingletonInterface, tx_ttproducts_
             }
 
             if ($contentTmp == 'error') {
-                $sanitizer = GeneralUtility::makeInstance(FilePathSanitizer::class);
                 $fileName = 'EXT:' . TT_PRODUCTS_EXT . '/Resources/Private/Templates/products_help.tmpl';
-                $pathFilename = $sanitizer->sanitize($fileName);
+                $pathFilename = GeneralUtility::getFileAbsFileName($fileName);
+
                 //                 $GLOBALS['TSFE']->tmpl->getFileName($fileName);
                 $helpTemplate = file_get_contents($pathFilename);
                 $content .=
@@ -322,8 +322,7 @@ class tx_ttproducts_control_search implements SingletonInterface, tx_ttproducts_
             $content = $pibaseObj->pi_wrapInBaseClass($content);
 
             if (is_object($this->css) && $this->css->conf['file']) {
-                $sanitizer = GeneralUtility::makeInstance(FilePathSanitizer::class);
-                $pathFilename = $sanitizer->sanitize($this->css->conf['file']);
+                $pathFilename = GeneralUtility::getFileAbsFileName($this->css->conf['file']);
                 $cssContent = file_get_contents($pathFilename);
                 $rc = '<style type="text/css">' . $cssContent . '</style>' . chr(13) . $content;
             } else {

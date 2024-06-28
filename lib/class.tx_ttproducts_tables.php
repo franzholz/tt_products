@@ -115,8 +115,14 @@ class tx_ttproducts_tables implements SingletonInterface
             $classNameArray['view'] = $this->getTableClass($funcTablename, true);
         }
 
-        if (!$classNameArray['model'] || $bView && !$classNameArray['view']) {
-            debug('Error in ' . TT_PRODUCTS_EXT . '. No class found after calling function tx_ttproducts_tables::get with parameters "' . $funcTablename . '", ' . $bView . ' . ', 'internal error'); // keep this
+        if (
+            !$classNameArray['model'] ||
+            $bView && !$classNameArray['view']
+        ) {
+            debug ($funcTablename, '$funcTablename');
+            debug('Error in ' . TT_PRODUCTS_EXT . '. No class found after calling function tx_ttproducts_tables::get with parameters "' .
+            $funcTablename . '", ' .
+             strval($bView) . ' . ', 'internal error'); // keep this
 
             return false;
         }

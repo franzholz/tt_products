@@ -107,6 +107,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view
         $markerArray = $urlObj->addURLMarkers(
             $pid,
             $globalMarkerArray,
+            $theCode,
             $addQueryString,
             $excludeList,
             false,
