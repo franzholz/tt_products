@@ -38,6 +38,7 @@ namespace JambageCom\TtProducts\Api;
  * @subpackage tt_products
  */
 
+use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 abstract class CustomerTypes
@@ -210,5 +211,20 @@ class CustomerApi
         }
 
         return $checkField;
+    }
+
+    public static function isSystemLoginUser($conf)
+    {
+        $result = false;
+        $context = GeneralUtility::makeInstance(Context::class);
+
+        if (
+            !empty($conf['systemLoginUser']) &&
+            $context->getPropertyFromAspect('frontend.user', 'isLoggedIn')
+        ) {
+            $result = true;
+        }
+
+        return $result;
     }
 }
