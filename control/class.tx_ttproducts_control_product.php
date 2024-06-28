@@ -154,9 +154,7 @@ class tx_ttproducts_control_product
         $funcTablename = 'tt_products';
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $itemTable = $tablesObj->get($funcTablename, false);
-
         $selectableVariantFieldArray = $variantApi->getSelectableFieldArray();
-        debug($selectableVariantFieldArray, '$selectableVariantFieldArray');
         $editFieldArray = $editVariantApi->getFieldArray();
         $fieldArray = [];
 
@@ -170,8 +168,6 @@ class tx_ttproducts_control_product
         if (isset($editFieldArray) && is_array($editFieldArray)) {
             $fieldArray = array_merge($fieldArray, $editFieldArray);
         }
-        debug($fieldArray, 'getAllVariantFields ENDE $fieldArray');
-
         return $fieldArray;
     }
 

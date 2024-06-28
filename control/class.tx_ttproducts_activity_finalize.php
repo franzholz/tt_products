@@ -176,8 +176,6 @@ class tx_ttproducts_activity_finalize implements SingletonInterface
 
         if (!$bAlwaysInStock) {
             $emailControlArray = $this->getEmailControlArray($templateCode, $conf, $defaultFromArray);
-
-            debug ($funcTablename, '$funcTablename');
             $itemObj = $tablesObj->get($funcTablename);
             $instockTableArray =
                 $itemObj->reduceInStockItems(

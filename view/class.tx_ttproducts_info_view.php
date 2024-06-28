@@ -36,19 +36,22 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-use JambageCom\Div2007\Api\OldStaticInfoTablesApi;
-use JambageCom\Div2007\Api\StaticInfoTablesApi;
-use JambageCom\Div2007\Utility\ExtensionUtility;
-use JambageCom\Div2007\Utility\StaticInfoTablesUtility;
-use JambageCom\TtProducts\Api\ControlApi;
-use JambageCom\TtProducts\Api\CustomerApi;
-use JambageCom\TtProducts\Api\Localization;
-use JambageCom\TtProducts\Api\PaymentShippingHandling;
+
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+
+use JambageCom\Div2007\Api\OldStaticInfoTablesApi;
+use JambageCom\Div2007\Api\StaticInfoTablesApi;
+use JambageCom\Div2007\Utility\ExtensionUtility;
+use JambageCom\Div2007\Utility\StaticInfoTablesUtility;
+
+use JambageCom\TtProducts\Api\ControlApi;
+use JambageCom\TtProducts\Api\CustomerApi;
+use JambageCom\TtProducts\Api\Localization;
+use JambageCom\TtProducts\Api\PaymentShippingHandling;
 
 class tx_ttproducts_info_view implements SingletonInterface
 {
@@ -100,12 +103,8 @@ class tx_ttproducts_info_view implements SingletonInterface
         array &$wrappedSubpartArray,
         $viewTagArray
     ): void {
-        //     debug ($viewTagArray, 'getSubpartMarkerArray $viewTagArray');
         $modelObj = $this->getModelObj();
         $areIdentical = $modelObj->billingEqualsShipping();
-
-        //         debug ($areIdentical, 'getSubpartMarkerArray $areIdentical');
-
         $identicalMarkerKey = 'BILLING_EQUALS_SHIPPING';
         $notIdenticalMarkerKey = 'BILLING_EQUALS_NOT_SHIPPING';
         if ($areIdentical) {
@@ -117,25 +116,20 @@ class tx_ttproducts_info_view implements SingletonInterface
         }
 
         $infoArray = $modelObj->getInfoArray();
-        //         debug ($infoArray, 'getSubpartMarkerArray $infoArray');
         $fields = $modelObj->getFields();
         $fieldArray = explode(',', $fields);
-        //         debug ($fieldArray, 'getSubpartMarkerArray $fieldArray');
         $typeArray = ['billing', 'delivery'];
         foreach ($typeArray as $type) {
             foreach ($fieldArray as $field) {
-                //         debug ($field, '$field');
                 $hasMarkerKey = strtoupper($type) . '_' . strtoupper($field) . '_NOT_EMPTY';
-                //         debug ($hasMarkerKey, '$hasMarkerKey');
                 $hasNotMarkerKey = strtoupper($type) . '_' . strtoupper($field) . '_EMPTY';
-                //         debug ($hasNotMarkerKey, '$hasNotMarkerKey');
                 if (!isset($viewTagArray[$hasMarkerKey])) {
                     $hasMarkerKey = '';
                 }
                 if (!isset($viewTagArray[$hasNotMarkerKey])) {
                     $hasNotMarkerKey = '';
                 }
-                //             debug ($infoArray[$type][$field], '$infoArray['.$type.']['.$field.']');
+
                 if (
                     isset($infoArray[$type]) &&
                     isset($infoArray[$type][$field]) &&
@@ -157,9 +151,6 @@ class tx_ttproducts_info_view implements SingletonInterface
                 }
             }
         }
-        // debug ($subpartArray, 'getSubpartMarkerArray $subpartArray');
-        // debug ($wrappedSubpartArray, 'getSubpartMarkerArray $wrappedSubpartArray');
-
         $checkbox1MarkerKey = 'CHECKBOX1_CHECKED';
         if (
             !empty($infoArray['delivery']['checkbox1'])

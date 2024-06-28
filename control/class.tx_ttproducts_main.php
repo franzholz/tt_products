@@ -349,7 +349,6 @@ class tx_ttproducts_main implements SingletonInterface
 
     public function run(&$cObj, $pibaseClass, &$errorCode, $content = '', $bRunAjax = false)
     {
-        debug ('B');
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $conf = $cnf->getConf();
         $config = $cnf->getConfig();
@@ -426,8 +425,6 @@ class tx_ttproducts_main implements SingletonInterface
         $basketExtra = $basketApi->getBasketExtra();
         $basketRecs = tx_ttproducts_control_basket::getRecs();
         $infoArray = \tx_ttproducts_control_basket::getInfoArray();
-        //         debug ($infoArray, '$infoArray');
-
         $infoObj->init($infoArray, $conf['pdfInfoFields']);
         $activityApi = GeneralUtility::makeInstance(ActivityApi::class);
         $activityApi->init($this->codeArray);
@@ -495,7 +492,6 @@ class tx_ttproducts_main implements SingletonInterface
                 $errorCode,
                 $errorMessage
             );
-            debug ($content, '$content nach doProcessing');
         }
 
         $bErrorFound = false;
@@ -592,7 +588,6 @@ class tx_ttproducts_main implements SingletonInterface
             if ($bHidePlugin) {
                 continue;
             }
-            debug ($theCode, '$theCode');
 
             switch ($theCode) {
                 case 'CONTROL': // this will come with tt_products 3.1
@@ -1102,8 +1097,6 @@ class tx_ttproducts_main implements SingletonInterface
         $result = preg_replace('~(*ANY)\A\s*\R|\s*(?!\r\n)\s$~mu', '', $result);
 
         $this->destruct();
-        debug ($result, '$result');
-        debug ('E');
 
         return $result;
     }

@@ -119,10 +119,10 @@ class tx_ttproducts_tables implements SingletonInterface
             !$classNameArray['model'] ||
             $bView && !$classNameArray['view']
         ) {
-            debug ($funcTablename, '$funcTablename');
             debug('Error in ' . TT_PRODUCTS_EXT . '. No class found after calling function tx_ttproducts_tables::get with parameters "' .
-            $funcTablename . '", ' .
-             strval($bView) . ' . ', 'internal error'); // keep this
+                $funcTablename . '", ' .
+                strval($bView) . ' . ', 'internal error'
+            ); // keep this
 
             return false;
         }

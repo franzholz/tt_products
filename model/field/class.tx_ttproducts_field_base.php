@@ -67,7 +67,7 @@ abstract class tx_ttproducts_field_base implements tx_ttproducts_field_int, Sing
         $basketRecs = [],
         $bEnableTaxZero = false
     ) {
-        $result = false;
+        $result = null;
 
         if (isset($row[$fieldname])) {
             $result = $row[$fieldname];

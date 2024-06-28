@@ -23,7 +23,7 @@ plugin.tt_products {
   errorLog = {$plugin.tt_products.file.errorLog}
   templateStyle = css-styled
   pid_list = {$plugin.tt_products.pid_list}
-  code.field = 
+  code.field =
   defaultCode = HELP
   defaultImageDir =
   wrapInBaseClass = 1
@@ -191,9 +191,11 @@ plugin.tt_products {
   lockLoginUserInfo = {$plugin.tt_products.lockLoginUserInfo}
   editLockedLoginInfo = {$plugin.tt_products.editLockedLoginInfo}
   loginUserInfoAddress = {$plugin.tt_products.loginUserInfoAddress}
+  systemLoginUser = {$plugin.tt_products.systemLoginUser}
   orderByItemNumberSg = {$plugin.tt_products.orderByItemNumberSg}
   orderNumberPrefix = {$plugin.tt_products.orderNumberPrefix}
   requiredInfoFields = name, address, email
+  pdfInfoFields = {$plugin.tt_products.pdfInfoFields}
   orderEmail_from = {$plugin.tt_products.orderEmail_from}
   orderEmail_fromName = {$plugin.tt_products.orderEmail_fromName}
   orderEmail_to = {$plugin.tt_products.orderEmail_to}
@@ -268,6 +270,7 @@ plugin.tt_products {
   notInStockMessage = {$plugin.tt_products.notInStockMessage}
   inStockPieces = {$plugin.tt_products.inStockPieces}
   warningInStockLimit = {$plugin.tt_products.warningInStockLimit}
+  enableReturnKey = {$plugin.tt_products.enableReturnKey}
   newItemDays = {$plugin.tt_products.newItemDays}
   substitutePagetitle = {$plugin.tt_products.substitutePagetitle}
 
