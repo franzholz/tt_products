@@ -707,8 +707,6 @@ class ActivityController implements SingletonInterface
             ) {
                 $infoViewObj = GeneralUtility::makeInstance('tx_ttproducts_info_view');
 
-                 aus basket_view verschoben Anfang:
-
                 if (is_array($activityArray)) {
                     $shortActivity = '';
                     $nextActivity = '';
@@ -789,7 +787,7 @@ class ActivityController implements SingletonInterface
             if (
                 $orderUid &&
                 $paymentHTML != '' &&
-                $paymentScript  : Do not save a redundant payment HTML if there is no payment script at all
+                $paymentScript // Do not save a redundant payment HTML if there is no payment script at all
             ) {
                 $basketExt = $basketApi->getBasketExt();
 
@@ -1125,7 +1123,6 @@ class ActivityController implements SingletonInterface
                         }
                         break;
                     case 'products_info':
-                         Anfang
                         $suffix = '';
                         if ($subActivity) {
                             $suffix = '_' . $subActivity;
@@ -1422,7 +1419,6 @@ class ActivityController implements SingletonInterface
             ) {
                 $content .= $gatewayDatacollection;
             } elseif ($value) {
-                 Anfang
                 $templateFilename = '';
 
                 $templateCode = $templateObj->get(
@@ -1551,7 +1547,6 @@ class ActivityController implements SingletonInterface
                     if (isset($_REQUEST['recs'])) {
                         $usedCreditpoints = \tx_ttproducts_creditpoints_div::getUsedCreditpoints($_REQUEST['recs']);
                     }
-                     Anfang
                     if (
                         $theCode != 'FINALIZE' &&
                         $activityArray['products_basket'] == false

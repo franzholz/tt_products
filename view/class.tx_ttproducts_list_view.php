@@ -1380,9 +1380,17 @@ class tx_ttproducts_list_view implements SingletonInterface
                         ksort($displayConf['header'], SORT_STRING);
                     }
                 }
+                $orderBySortingTablesArray =
+                    GeneralUtility::trimExplode(
+                        ',',
+                        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['orderBySortingTables']
+                    );
 
                 $categorySorting = 'uid';
-                if (isset($GLOBALS['TCA'][$categoryTable->getTableObj()->getName()]['columns']['sorting'])) {
+                if (
+                    !empty($orderBySortingTablesArray) &&
+                    in_array($funcTablename, $orderBySortingTablesArray)
+                ) {
                     $categorySorting = 'sorting';
                 }
 
@@ -1944,8 +1952,9 @@ class tx_ttproducts_list_view implements SingletonInterface
                     $categorySubpartArray = [];
                     $categoryWrappedSubpartArray = [];
                     $itemRowWrapArray = [];
-
-                    $itemRowWrapArray = GeneralUtility::trimExplode('|', $cssConf['itemRowWrap']);
+                    if (isset($cssConf['itemRowWrap'])) {
+                        $itemRowWrapArray = GeneralUtility::trimExplode('|', $cssConf['itemRowWrap']);
+                    }
 
                     foreach ($itemArray as $k2 => $row) {
                         $bHeaderFieldChanged = false;
@@ -2137,22 +2146,21 @@ class tx_ttproducts_list_view implements SingletonInterface
                                 $tmp = [];
                                 $categoryTableView->getMarkerArray(
                                     $categoryMarkerArray,
-                                    '',
+                                    $categoryTableView->getMarker(),
                                     $displayCat,
                                     $row['pid'],
+                                    $viewCatTagArray,
+                                    $theCode,
                                     $config['limitImage'],
                                     'listcatImage',
-                                    $viewCatTagArray,
                                     $tmp,
                                     $pageAsCategory,
-                                    $theCode,
                                     $basketExtra,
                                     $basketRecs,
                                     '',
                                     '',
                                     ''
                                 );
-
                                 $catTitle = $categoryTableView->getMarkerArrayCatTitle($categoryMarkerArray);
                                 $categoryTableView->getParentMarkerArray(
                                     $catParentArray,
@@ -2578,7 +2586,7 @@ class tx_ttproducts_list_view implements SingletonInterface
                                 $theCode,
                                 $basketExtra,
                                 $basketRecs,
-                                false, // $enableTaxZero neu
+                                false, // $enableTaxZero
                                 $notOverwritePriceIfSet
                             );
                             $markerArray = array_merge($markerArray, $currPriceMarkerArray);
@@ -2833,17 +2841,17 @@ class tx_ttproducts_list_view implements SingletonInterface
                             $linkCategoryMarkerArray = [];
                             $categoryTableView->getMarkerArray(
                                 $linkCategoryMarkerArray,
+                                $categoryTableView->getMarker(),
                                 $linkCat,
                                 $row['pid'],
+                                $viewCatTagArray,
+                                $theCode,
                                 $config['limitImage'],
                                 'listcatImage',
-                                $viewCatTagArray,
                                 [],
                                 $pageAsCategory,
-                                $theCode,
                                 $basketExtra,
                                 $basketRecs,
-                                '',
                                 ''
                             );
                             $productMarkerArray = array_merge($productMarkerArray, $linkCategoryMarkerArray);
@@ -2918,13 +2926,16 @@ class tx_ttproducts_list_view implements SingletonInterface
                             $tableRowOpen = 1;
                         }
 
-                        $itemSingleWrapArray = GeneralUtility::trimExplode('|', $cssConf['itemSingleWrap']);
-                        if ($itemSingleWrapArray[0]) {
+                        $itemSingleWrapArray = [];
+                        if (isset($cssConf['itemSingleWrap'])) {
+                            $itemSingleWrapArray = GeneralUtility::trimExplode('|', $cssConf['itemSingleWrap']);
+                        }
+                        if (isset($itemSingleWrapArray[0])) {
                             $temp .= str_replace('###UNEVEN###', $evenUneven, $itemSingleWrapArray[0]);
                         }
 
                         $markerArray['###ITEM_SINGLE_PRE_HTML###'] = $temp;
-                        $temp = $itemSingleWrapArray[1];
+                        $temp = $itemSingleWrapArray[1] ?? '';
 
                         if (!$displayColumns || $iColCount == $displayColumns) {
                             $temp .= $itemRowWrapArray[1] ?? '';
@@ -3091,18 +3102,18 @@ class tx_ttproducts_list_view implements SingletonInterface
                         $tmp = [];
                         $categoryTableView->getMarkerArray(
                             $categoryMarkerArray,
+                            '',
                             $displayCat,
                             $GLOBALS['TSFE']->id,
+                            $viewCatTagArray,
+                            $theCode,
                             $config['limitImage'],
                             'listcatImage',
-                            $viewCatTagArray,
                             $tmp,
                             $pageAsCategory,
-                            $theCode,
                             $basketExtra,
                             $basketRecs,
                             $iCount,
-                            '',
                             ''
                         );
 

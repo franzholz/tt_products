@@ -105,7 +105,7 @@ class tx_ttproducts_activity_finalize implements SingletonInterface
         $bFinalVerify,
         $basketExt,
         $usedCreditpoints,
-        &$errorCode, // neu
+        &$errorCode,
         &$errorMessage
     ) {
         $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);

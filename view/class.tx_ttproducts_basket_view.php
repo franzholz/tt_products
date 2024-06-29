@@ -987,7 +987,7 @@ class tx_ttproducts_basket_view implements SingletonInterface
 
                         $tablesObj->get('tx_dam_cat', true)->getMarkerArray(
                             $damCategoryMarkerArray,
-                            '',
+                            $tablesObj->get('tx_dam_cat', true)->getMarker(),
                             $damCat,
                             $damRow['pid'],
                             0,

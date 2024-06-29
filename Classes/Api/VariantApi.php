@@ -97,7 +97,6 @@ class VariantApi implements SingletonInterface
         return true;
     } // init
 
-    // neu FHO Anfang
     public function getParams(
         &$selectableArray,
         &$selectableFieldArray,
@@ -138,7 +137,6 @@ class VariantApi implements SingletonInterface
 
         return $result;
     }
-    // neu FHO Ende
 
     public function getVariantConf()
     {
@@ -204,7 +202,7 @@ class VariantApi implements SingletonInterface
      */
     public function modifyRowFromVariant(
         &$row,
-        $useArticles, // neu FHO
+        $useArticles,
         $variant = ''
     ): void {
         if (!$variant) {
@@ -306,7 +304,6 @@ class VariantApi implements SingletonInterface
      *
      * @see modifyRowFromVariant
      */
-    // neu Anfang
     public function getVariantFromProductRow(
         $row,
         $variantRow,
@@ -329,7 +326,6 @@ class VariantApi implements SingletonInterface
         ) {
             $fieldArray = $this->getFieldArray();
             $count = 0;
-            // neu Ende
 
             foreach ($fieldArray as $key => $field) {
                 if (!empty($this->selectableArray[$key])) {
@@ -376,7 +372,7 @@ class VariantApi implements SingletonInterface
      */
     public function getVariantFromRawRow(
         $row,
-        $useArticles, // neu FHO
+        $useArticles,
         $applySeparator = true
     ) {
         $result = false;
@@ -464,7 +460,6 @@ class VariantApi implements SingletonInterface
         return $result;
     }
 
-    // neu Anfang
     public function getVariantValuesRow($row = '')
     {
         $result = [];
@@ -668,7 +663,6 @@ class VariantApi implements SingletonInterface
         return $result;
     }
 
-    // neu Anfang. Leere Varianten für E-Books
     public function getEmptyVariant()
     {
         $emptyVariantArray = [];
@@ -708,7 +702,6 @@ class VariantApi implements SingletonInterface
         &$subpartArray,
         &$wrappedSubpartArray,
         $row,
-        // 		$conf, neu
         $bHasAdditional,
         $bGiftService
     ): void {

@@ -124,20 +124,20 @@ abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base
      * @access private
      */
     abstract public function getMarkerArray(
-        &$markerArray,
+        array &$markerArray,
         $markerKey,
         $category,
         $pid,
-        $imageNum,
-        $imageRenderObj,
-        &$viewCatTagArray,
-        $forminfoArray,
-        $pageAsCategory,
+        array $viewCatTagArray,
         $theCode,
-        $basketExtra,
-        $basketRecs,
-        $id,
-        $prefix,
+        $imageNum = 0,
+        $imageRenderObj = 'image',
+        $forminfoArray = [],
+        $pageAsCategory = 0,
+        $basketExtra = [],
+        $basketRecs = [],
+        $id = '',
+        $prefix = '',
         $linkWrap = ''
     );
 
@@ -183,19 +183,19 @@ abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base
                     $tmp = [];
                     $this->getMarkerArray(
                         $markerArray,
-                        '',
+                        $this->getMarker(),
                         $parentCategory,
                         $parentPid,
-                        $config['limitImage'],
-                        'listcatImage',
                         $viewCatTagArray,
-                        $tmp,
-                        $pageAsCategory,
                         'SINGLE',
                         $basketExtra,
                         $basketRecs,
                         1,
                         'PARENT' . $parent . '_',
+                        $config['limitImage'],
+                        'listcatImage',
+                        $tmp,
+                        $pageAsCategory,
                         $prefix
                     );
                 }

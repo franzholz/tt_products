@@ -78,7 +78,6 @@ class TransactorListener
             $GLOBALS['LANG'] = GeneralUtility::makeInstance(LanguageService::class);
             $GLOBALS['LANG']->init('en');
         }
-        // neu Ende
 
         $transactionRow = $params['row'];
         $testMode = $params['testmode'];

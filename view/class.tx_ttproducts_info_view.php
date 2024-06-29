@@ -285,7 +285,7 @@ class tx_ttproducts_info_view implements SingletonInterface
                                 'recs[personinfo][zone]',
                                 '',
                                 $zoneCodeArray['billing'],
-                                $countryCode, // neu
+                                $countryCode,
                                 0,
                                 '',
                                 '',

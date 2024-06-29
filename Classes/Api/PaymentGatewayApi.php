@@ -151,7 +151,7 @@ class PaymentGatewayApi implements SingletonInterface
 
     // Has any payment gateway parameter been detected upon which some action must be taken?
     public function readActionParameters(
-    ) { // neu readActionParameters
+    ) {
         $result = false;
 
         if (

@@ -61,7 +61,7 @@ class EditVariantApi implements SingletonInterface
             }
         }
 
-        $result = array_unique($result); // neu
+        $result = array_unique($result);
 
         return $result;
     }
@@ -92,7 +92,6 @@ class EditVariantApi implements SingletonInterface
      *
      * @see modifyRowFromVariant
      */
-    // neu Anfang
     public function getVariantRowFromProductRow($row)
     {
         $variantRow = false;
@@ -111,7 +110,6 @@ class EditVariantApi implements SingletonInterface
 
         return $variantRow;
     }
-    // neu Ende
 
     public function evalValues($dataValue, $config)
     {
@@ -354,7 +352,6 @@ class EditVariantApi implements SingletonInterface
 
             if ($bEditable) {
                 $basketExtRaw = $parameterApi->getBasketExtRaw();
-                // neu Anfang
                 if (
                     !(isset($config['empty']) || !$config['empty']) &&
                     isset($basketExtRaw) &&
@@ -364,7 +361,6 @@ class EditVariantApi implements SingletonInterface
                         $value = $basketExtRaw[$uid][$field];
                     }
                 }
-                // neu Ende
 
                 $ajaxFunction = \tx_ttproducts_control_basket::getAjaxVariantFunction(
                     $row,
@@ -438,7 +434,6 @@ class EditVariantApi implements SingletonInterface
         $editConf = $this->getValidConfig($row);
 
         if (isset($editConf) && is_array($editConf)) {
-            // neu Anfang
             $editVariables = $this->getVariables($editConf, $row);
 
             if (!empty($editVariables)) {

@@ -295,7 +295,7 @@ class tx_ttproducts_info implements SingletonInterface
                             $infoArray['delivery'][$fName] == '0' && !$hasAddress
                         ) ||
                         in_array($fName, ['country', 'country_code', 'zone'])
-                    ) // FHO neu: jetzt auch country_code
+                    )
                 ) {
                     $infoArray['delivery'][$fName] = $infoArray['billing'][$fName];
                 }
@@ -311,7 +311,7 @@ class tx_ttproducts_info implements SingletonInterface
             unset($infoArray['delivery']['salutation']);
             if (
                 count($infoArray['delivery']) < 3 &&
-                !isset($infoArray['delivery']['email']) // KORR Neu FHO
+                !isset($infoArray['delivery']['email'])
             ) {
                 unset($infoArray['delivery']);
             }

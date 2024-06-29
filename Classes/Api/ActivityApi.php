@@ -131,7 +131,7 @@ class ActivityApi implements SingletonInterface
                         $codeActivityArray['products_basket'] = true;
                         $isBasketCode = true;
                         break;
-                    case 'INFO': // neu
+                    case 'INFO':
                         if (
                             !(
                                 !empty($activityArray['products_verify']) ||
@@ -157,7 +157,7 @@ class ActivityApi implements SingletonInterface
                         }
 
                         if (!empty($activityArray['products_verify'])) {
-                            $isBasketCode = true; // neu, damit verify gesetzt bleibt, wenn vorhanden
+                            $isBasketCode = true;
                         }
                         break;
                     case 'FINALIZE':

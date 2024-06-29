@@ -261,7 +261,7 @@ class tx_ttproducts_cat_view implements SingletonInterface
 
             $tableViewObj->getMarkerArray(
                 $markerArray,
-                '',
+                $tableViewObj->getMarker(),
                 $uid,
                 $row['pid'],
                 10,
@@ -270,7 +270,7 @@ class tx_ttproducts_cat_view implements SingletonInterface
                 [],
                 $pageAsCategory,
                 $theCode,
-                $basketApi,
+                $basketApi->getBasketExtra(),
                 tx_ttproducts_control_basket::getRecs(),
                 '',
                 '',

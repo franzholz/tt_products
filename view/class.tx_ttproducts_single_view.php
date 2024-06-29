@@ -289,9 +289,9 @@ class tx_ttproducts_single_view implements SingletonInterface
             } else {
                 $catTablename = 'pages';
             }
-            $viewCatViewTable = $tablesObj->get($catTablename, true);
-            $viewCatTable = $viewCatViewTable->getModelObj();
-            $categoryPivar = $viewCatViewTable->getPivar();
+            $categoryTableView = $tablesObj->get($catTablename, true);
+            $viewCatTable = $categoryTableView->getModelObj();
+            $categoryPivar = $categoryTableView->getPivar();
 
             // Add the template suffix
             $subPartMarker = $subPartMarker . $templateSuffix;
@@ -476,7 +476,7 @@ class tx_ttproducts_single_view implements SingletonInterface
                 $viewCatTable->getTableObj()->tableFieldArray,
                 $viewCatTable->getTableObj()->requiredFieldArray,
                 $tmp,
-                $viewCatViewTable->getMarker(),
+                $categoryTableView->getMarker(),
                 $viewCatTagArray,
                 $catParentArray
             );
@@ -520,9 +520,9 @@ class tx_ttproducts_single_view implements SingletonInterface
                         $subpartArray['###ITEM_CATEGORY###'] = '';
                         foreach ($catArray as $category) {
                             $categoryMarkerArray = [];
-                            $viewCatViewTable->getMarkerArray( // Todo: do not repeat this step for the first category
+                            $categoryTableView->getMarkerArray( // Todo: do not repeat this step for the first category
                                 $categoryMarkerArray,
-                                '',
+                                $categoryTableView->getMarker(),
                                 $category,
                                 $row['pid'],
                                 $this->config['limitImage'],
@@ -551,17 +551,17 @@ class tx_ttproducts_single_view implements SingletonInterface
                 }
 
                 $categoryMarkerArray = [];
-                $viewCatViewTable->getMarkerArray(
+                $categoryTableView->getMarkerArray(
                     $categoryMarkerArray,
-                    '',
+                    $categoryTableView->getMarker(),
                     $cat,
                     $row['pid'],
+                    $viewCatTagArray,
+                    'SINGLE',
                     $this->config['limitImage'],
                     'listcatImage',
-                    $viewCatTagArray,
                     [],
                     $pageAsCategory,
-                    'SINGLE',
                     $basketExtra,
                     $basketRecs,
                     '',
@@ -572,7 +572,7 @@ class tx_ttproducts_single_view implements SingletonInterface
                 $categoryJoin = '';
                 $whereCat = '';
                 if ($cat) {
-                    $currentCat = $piVars[$viewCatViewTable->getPivar()] ?? '';
+                    $currentCat = $piVars[$categoryTableView->getPivar()] ?? '';
                     $currentCatArray = [];
 
                     if ($currentCat != '') {
@@ -661,7 +661,7 @@ class tx_ttproducts_single_view implements SingletonInterface
                             $useBackPid,
                             0,
                             '',
-                            $viewCatViewTable->getPivar()
+                            $categoryTableView->getPivar()
                         );
                     $linkUrl = FrontendUtility::getTypoLink_URL(
                         $cObj,
@@ -682,7 +682,7 @@ class tx_ttproducts_single_view implements SingletonInterface
                             $this->conf['PIDlistDisplay.'] ?? '',
                             $catRow
                         );
-                    $viewCatViewTable->getSubpartArrays(
+                    $categoryTableView->getSubpartArrays(
                         $urlObj,
                         $catRow,
                         $subpartArray,
@@ -693,9 +693,9 @@ class tx_ttproducts_single_view implements SingletonInterface
                     );
                 }
 
-                $catTitle = $viewCatViewTable->getMarkerArrayCatTitle($categoryMarkerArray);
+                $catTitle = $categoryTableView->getMarkerArrayCatTitle($categoryMarkerArray);
                 $viewParentCatTagArray = [];
-                $viewCatViewTable->getParentMarkerArray(
+                $categoryTableView->getParentMarkerArray(
                     $parentArray,
                     $row,
                     $catParentArray,
@@ -1209,7 +1209,7 @@ class tx_ttproducts_single_view implements SingletonInterface
                     if ($useBackPid) {
                         $addQueryString['backPID'] = $backPID;
                     } elseif ($cat) {
-                        $addQueryString[$viewCatViewTable->getPivar()] = $cat;
+                        $addQueryString[$categoryTableView->getPivar()] = $cat;
                     }
                     $prevUrl = FrontendUtility::getTypoLink_URL(
                         $cObj,
@@ -1221,7 +1221,7 @@ class tx_ttproducts_single_view implements SingletonInterface
                             $useBackPid,
                             0,
                             $itemTableViewArray[$this->type]->getPivar(),
-                            $viewCatViewTable->getPivar()
+                            $categoryTableView->getPivar()
                         ),
                         '',
                         []
@@ -1255,7 +1255,7 @@ class tx_ttproducts_single_view implements SingletonInterface
                     if ($useBackPid) {
                         $addQueryString['backPID'] = $backPID;
                     } elseif ($cat) {
-                        $addQueryString[$viewCatViewTable->getPivar()] = $cat;
+                        $addQueryString[$categoryTableView->getPivar()] = $cat;
                     }
                     $nextUrl = FrontendUtility::getTypoLink_URL(
                         $cObj,
@@ -1267,7 +1267,7 @@ class tx_ttproducts_single_view implements SingletonInterface
                             $useBackPid,
                             0,
                             $itemTableViewArray[$this->type]->getPivar(),
-                            $viewCatViewTable->getPivar()
+                            $categoryTableView->getPivar()
                         ),
                         '',
                         []

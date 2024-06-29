@@ -197,19 +197,18 @@ class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base
                         $categoryTableView->getMarker(),
                         $actCategory,
                         $row['pid'],
-                        $config['limitImage'],
-                        'listcatImage',
                         $viewCatTagArray,
+                        $theCode,
+                        $cnf->config['limitImage'] ?? '',
+                        'listcatImage',
                         [],
                         $pageAsCategory,
-                        $theCode,
                         $basketExtra,
                         $basketRecs,
                         '',
                         '',
                         ''
                     );
-
                     $urlParameters = [$prefixId => $addQueryString];
 
                     $linkConf = [];
