@@ -73,7 +73,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
      */
     protected function replaceMarkerArray(
         $markerArray,
-        $fieldMarkerArray, // neu
+        $fieldMarkerArray,
         $row,
         $meta,
         &$imageConf
@@ -259,7 +259,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
         $theCode,
         $imageRow,
         $imageArray,
-        $fieldMarkerArray, // neu
+        $fieldMarkerArray,
         $dirname,
         $mediaNum,
         $imageRenderObj,
@@ -501,7 +501,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
         $mediaNum,
         $markerKey,
         &$markerArray,
-        $fieldMarkerArray, // neu
+        $fieldMarkerArray,
         $tagArray,
         $theCode,
         $id,
@@ -511,7 +511,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
         $prefix = '',
         $suffix = '',
         $imageRenderObj = 'image',
-        $linkWrap = false  // neu
+        $linkWrap = false
     ): void {
         $imageRow = $row;
         $bImages = false;
@@ -705,7 +705,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
                 $theCode,
                 $imageRow,
                 $imgs,
-                $fieldMarkerArray, // neu
+                $fieldMarkerArray,
                 $dirname,
                 $mediaNum,
                 $imageRenderObj,
@@ -723,7 +723,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
 
         foreach ($theImgCode as $k1 => $val) {
             $bIsSpecial = true;
-            if (strpos($k1, ':') === false) {
+            if (!is_string($k1) || !str_contains($k1, ':')) {
                 $bIsSpecial = false;
             } else {
                 $c--; // the former index mus be used again
@@ -829,7 +829,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
         $suffix = '',
         $mediaNum = 0,
         $imageRenderObj = 'image',
-        $linkWrap = false, // neu
+        $linkWrap = false,
         $bEnableTaxZero = false
     ): void {
         if ($bHtml) {

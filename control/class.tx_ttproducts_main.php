@@ -53,6 +53,7 @@ use JambageCom\Div2007\Utility\FlexformUtility;
 use JambageCom\Div2007\Utility\FrontendUtility;
 use JambageCom\Div2007\Utility\ViewUtility;
 
+use JambageCom\TtProducts\Api\ActivityApi;
 use JambageCom\TtProducts\Api\BasketApi;
 use JambageCom\TtProducts\Api\ControlApi;
 use JambageCom\TtProducts\Api\Localization;
@@ -373,6 +374,7 @@ class tx_ttproducts_main implements SingletonInterface
         $javaScriptObj = GeneralUtility::makeInstance('tx_ttproducts_javascript');
         $markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
         $globalMarkerArray = $markerObj->getGlobalMarkerArray();
+        $infoObj = GeneralUtility::makeInstance('tx_ttproducts_info');
         $basketApi = GeneralUtility::makeInstance(BasketApi::class);
 
         if (!count($this->codeArray) && !$bRunAjax) {
@@ -421,8 +423,13 @@ class tx_ttproducts_main implements SingletonInterface
         // *************************************
         $basketExt = $basketApi->getBasketExt();
         $basketExtra = $basketApi->getBasketExtra();
-
         $basketRecs = tx_ttproducts_control_basket::getRecs();
+        $infoArray = \tx_ttproducts_control_basket::getInfoArray();
+        $infoObj->init($infoArray, $conf['pdfInfoFields']);
+        $activityApi = GeneralUtility::makeInstance(ActivityApi::class);
+        $activityApi->init($this->codeArray);
+        $activityApi->fixCountry($infoObj, $basketExtra, $conf);
+
         $basketObj->create(
             'BASKET',
             $basketExt,
@@ -458,9 +465,7 @@ class tx_ttproducts_main implements SingletonInterface
 
             $controlObj = GeneralUtility::makeInstance(ActivityController::class);
             $controlObj->init(
-                $pibaseClass,
-                tx_ttproducts_control_basket::getFuncTablename(),
-                $conf['useArticles'],
+                $conf['useArticles'] ?? 3,
                 $errorCode
             );
 
@@ -478,8 +483,8 @@ class tx_ttproducts_main implements SingletonInterface
                 $addressArray = $addressObj->fetchAddressArray($itemArray);
             }
             $content .= $controlObj->doProcessing(
+                $basketObj,
                 $this->codeArray,
-                $basketObj->getCalculatedSums(),
                 $basketExtra,
                 $basketRecs,
                 $basketExt,
@@ -998,9 +1003,9 @@ class tx_ttproducts_main implements SingletonInterface
             if ($contentTmp == 'error') {
                 $fileName = 'EXT:' . TT_PRODUCTS_EXT . '/Resources/Private/Templates/products_help.tmpl';
                 $sanitizer = GeneralUtility::makeInstance(FilePathSanitizer::class);
-                $fileName = $sanitizer->sanitize($fileName);
+                $pathFilename = GeneralUtility::getFileAbsFileName($fileName);
 
-                $helpTemplate = file_get_contents($fileName);
+                $helpTemplate = file_get_contents($pathFilename);
                 $content .=
                     ViewUtility::displayHelpPage(
                         $languageObj,
@@ -1092,6 +1097,7 @@ class tx_ttproducts_main implements SingletonInterface
         $result = preg_replace('~(*ANY)\A\s*\R|\s*(?!\r\n)\s$~mu', '', $result);
 
         $this->destruct();
+
         return $result;
     }
 

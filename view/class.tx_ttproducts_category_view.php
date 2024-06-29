@@ -58,20 +58,20 @@ class tx_ttproducts_category_view extends tx_ttproducts_category_base_view
      * @access private
      */
     public function getMarkerArray(
-        &$markerArray,
+        array &$markerArray,
         $markerKey,
         $category,
         $pid,
-        $imageNum,
-        $imageRenderObj,
-        &$viewCatTagArray,
-        $forminfoArray,
-        $pageAsCategory,
+        array $viewCatTagArray,
         $theCode,
-        $basketExtra,
-        $basketRecs,
-        $id,
-        $prefix,
+        $imageNum = 0,
+        $imageRenderObj = 'image',
+        $forminfoArray = [],
+        $pageAsCategory = 0,
+        $basketExtra = [],
+        $basketRecs = [], // neu
+        $id = '',
+        $prefix = '',
         $linkWrap = ''
     ): void {
         $modelObj = $this->getModelObj();

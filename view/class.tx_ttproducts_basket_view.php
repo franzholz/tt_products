@@ -271,6 +271,8 @@ class tx_ttproducts_basket_view implements SingletonInterface
         $bHtml = true,
         $subpartMarker = 'BASKET_TEMPLATE',
         $mainMarkerArray = [],
+        array $mainSubpartArray = [],
+        array $mainWrappedSubpartArray = [],
         $templateFilename = '',
         $itemArray = [],
         $notOverwritePriceIfSet = false,
@@ -422,6 +424,17 @@ class tx_ttproducts_basket_view implements SingletonInterface
         if (isset($mainMarkerArray) && is_array($mainMarkerArray)) {
             $markerArray = array_merge($markerArray, $mainMarkerArray);
         }
+
+        if (is_object($infoViewObj)) {
+            $infoViewObj->getSubpartMarkerArray(
+                $mainSubpartArray,
+                $mainWrappedSubpartArray,
+                $viewTagArray
+            );
+        }
+        $mainSubpartArray = array_replace_recursive($mainSubpartArray, $feuserSubpartArray);
+        $mainWrappedSubpartArray = array_replace_recursive($mainWrappedSubpartArray, $feuserWrappedSubpartArray);
+
         // add Global Marker Array
         $globalMarkerArray = $markerObj->getGlobalMarkerArray();
         $markerArray = array_merge($markerArray, $globalMarkerArray);
@@ -974,7 +987,7 @@ class tx_ttproducts_basket_view implements SingletonInterface
 
                         $tablesObj->get('tx_dam_cat', true)->getMarkerArray(
                             $damCategoryMarkerArray,
-                            '',
+                            $tablesObj->get('tx_dam_cat', true)->getMarker(),
                             $damCat,
                             $damRow['pid'],
                             0,
@@ -1131,6 +1144,11 @@ class tx_ttproducts_basket_view implements SingletonInterface
             $markerArray = array_merge($markerArray, $basketMarkerArray);
             $activityApi = GeneralUtility::makeInstance(ActivityApi::class);
             $activityArray = $activityApi->getActivityArray();
+            $infoArray = tx_ttproducts_control_basket::getInfoArray();
+            tx_ttproducts_control_basket::uncheckAgb(
+                $infoArray,
+                $activityArray['products_payment'] ?? 0
+            );
 
             if (is_array($activityArray)) {
                 $activity = '';
@@ -1228,6 +1246,7 @@ class tx_ttproducts_basket_view implements SingletonInterface
             $markerArray = $this->urlObj->addURLMarkers(
                 0,
                 $markerArray,
+                $theCode,
                 [],
                 '',
                 $useBackPid,

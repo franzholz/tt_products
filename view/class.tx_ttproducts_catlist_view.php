@@ -435,6 +435,7 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base
                     $this->urlObj->addURLMarkers(
                         $GLOBALS['TSFE']->id,
                         $markerArray,
+                        $theCode,
                         $addQueryString,
                         false
                     );
@@ -582,23 +583,22 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base
             ) .
             $linkOutArray[1];
 
-        $categoryTableView->getMarkerArray(
-            $markerArray,
-            '',
-            $actCategory,
-            $row['pid'],
-            $config['limitImage'],
-            'listcatImage',
-            $viewCatTagArray,
-            [],
-            $pageAsCategory,
-            $theCode,
-            $basketExtra,
-            $basketRecs,
-            $iCount,
-            ''
-        );
-
+            $categoryTableView->getMarkerArray(
+                $markerArray,
+                $categoryTableView->getMarker(),
+                $actCategory,
+                $row['pid'],
+                $viewCatTagArray,
+                $theCode,
+                $this->config['limitImage'] ?? '',
+                'listcatImage',
+                [],
+                $pageAsCategory,
+                $basketExtra,
+                $basketRecs,
+                $iCount,
+                ''
+            );
         $markerArray['###LIST_LINK###'] = $linkOut;
         $markerArray['###LIST_LINK_CSS###'] = $css;
         $markerArray['###LIST_LINK_URL###'] = htmlspecialchars($linkUrl);

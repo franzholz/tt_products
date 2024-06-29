@@ -303,7 +303,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
         $shipping,
         $amount,
         $orderConfirmationHTML,
-        $infoViewOb,
+        tx_ttproducts_info $infoObj,
         TranslationBase $languageObj,
         $status,
         $basketExtra,
@@ -314,8 +314,9 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
         $voucherCount,
         $bOnlyStatusChange
     ): void {
-        $billingInfo = $infoViewOb->infoArray['billing'];
-        $deliveryInfo = $infoViewOb->infoArray['delivery'];
+        $infoArray = $infoObj->getInfoArray();
+        $billingInfo = $infoArray['billing'];
+        $deliveryInfo = $infoArray['delivery'];
         $feusers_uid = 0;
         if (is_array($billingInfo) && isset($billingInfo['feusers_uid'])) {
             $feusers_uid = $billingInfo['feusers_uid'];
@@ -839,6 +840,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
         $status,
         $basketExtra,
         $calculatedArray,
+        tx_ttproducts_info $infoObj,
         $giftcode,
         $giftServiceArticleArray,
         $vouchercode,
@@ -870,9 +872,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
         }
 
         $languageObj = GeneralUtility::makeInstance(Localization::class);
-        $infoViewOb = GeneralUtility::makeInstance('tx_ttproducts_info_view');
         if (
-            $infoViewOb->needsInit() ||
             $languageObj->getExtensionKey() != TT_PRODUCTS_EXT
         ) {
             debug('internal error in tt_products (putData)'); // keep this
@@ -902,7 +902,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
             ($basketExtra['shipping'][0] ?? '') . ': ' . ($basketExtra['shipping.']['title'] ?? ''),
             $calculatedArray['priceTax']['total']['ALL'],
             $orderHTML,
-            $infoViewOb,
+            $infoObj,
             $languageObj,
             $status,
             $basketExtra,

@@ -60,42 +60,24 @@ class tx_ttproducts_page_view extends tx_ttproducts_category_base_view
      * @access private
      */
     public function getMarkerArray(
-        &$markerArray,
+        array &$markerArray,
         $markerKey,
         $category,
         $pid,
-        $imageNum,
-        $imageRenderObj,
-        &$viewCatTagArray,
-        $forminfoArray,
-        $pageAsCategory,
+        array $viewCatTagArray,
         $theCode,
-        $basketExtra,
-        $basketRecs,
-        $id,
-        $prefix,
+        $imageNum = 0,
+        $imageRenderObj = 'image',
+        $forminfoArray = [],
+        $pageAsCategory = 0,
+        $basketExtra = [],
+        $basketRecs = [], // neu
+        $id = '',
+        $prefix = '',
         $linkWrap = ''
     ): void {
         $funcTablename = $this->modelObj->getFuncTablename();
         $row = $this->modelObj->get($pid);
-        // 		$imageObj = GeneralUtility::makeInstance('tx_ttproducts_field_image_view');
-        //
-        // 			// Get image
-        // 		$imageObj->getRowMarkerArrayEnhanced(
-        // 			$funcTablename,
-        // 			$row,
-        // 			$this->marker,
-        // 			$markerArray,
-        // 			$pid,
-        // 			$imageNum,
-        // 			$imageRenderObj,
-        // 			$viewCatTagArray,
-        // 			$theCode,
-        // 			$id,
-        // 			$prefix,
-        // 			'',
-        // 			$linkWrap
-        // 		);
 
         $pageCatTitle = htmlentities($row['title'], ENT_QUOTES, 'UTF-8');
         $this->setMarkerArrayCatTitle($markerArray, $pageCatTitle, $prefix);

@@ -267,10 +267,14 @@ plugin.tt_products {
   editLockedLoginInfo = 0
     # cat=plugin.products//; type=boolean; label=lock login user address: If lockLoginUserInfo is set, this switch makes that the address field is filled in from address, country, zip and city of the fe_user
   loginUserInfoAddress = 0
+    # cat=plugin.products//; type=boolean; label=system login user: If systemLoginUser is set, this switch makes that the fe_user is a system user who can order for multiple persons. He will enter their addresses for the billing and shipping. And he can enter only their customer number cnum if he does not want to enter their whole address data.
+  systemLoginUser = 0
     # cat=plugin.products//; type=boolean; label=oder by item number: If the single item display should be sorted by ItemNumber instead of uid; used for ###LINK_NEXT_SINGLE### and ###LINK_PREV_SINGLE###
   orderByItemNumberSg = 0
     # cat=plugin.products//; type=string; label=Prefix to the order numbers: Dont use spaces or special chars. Max 30 chars.
   orderNumberPrefix = %
+    # cat=plugin.products//; type=string; label=PDF info fields: Comma separated list of field names of the fe_users table which are required in the generated PDF. Enter the fields here because the internal infoArray must at least provide an empty value for them.
+  pdfInfoFields = company, name, address, zip, city, country
     # cat=plugin.products//; type=string; label=Prefix to the order bill numbers: Dont use spaces or special chars. Max 30 chars.
   orderBillNumberPrefix = BILL_
     # cat=plugin.products//; type=string; label=from email addresss: From email address for the confirmation email to customer
@@ -366,6 +370,8 @@ plugin.tt_products {
   inStockPieces = pieces
     # cat=plugin.products//; type=eint+; label=In stock warning limit: When this number of items in stock is reached a warning email will be sent.
   warningInStockLimit =
+    # cat=plugin.products//; type=boolean; label=Enable RETURN key: If set then the RETURN key will be activated in HTML entry forms. jQuery is required if disabled.
+  enableReturnKey = 1
 
     # cat=plugin.products//; type=int+; label=New Item Days: How many days list new items in LISTNEWITEMS
   newItemDays = 7

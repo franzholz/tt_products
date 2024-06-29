@@ -36,9 +36,7 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-use JambageCom\Div2007\Utility\CompatibilityUtility;
-use JambageCom\Div2007\Utility\MailUtility;
-use JambageCom\Div2007\Utility\ObsoleteUtility;
+
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Crypto\PasswordHashing\InvalidPasswordHashException;
 use TYPO3\CMS\Core\Crypto\PasswordHashing\PasswordHashFactory;
@@ -48,6 +46,12 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+
+use JambageCom\Div2007\Utility\CompatibilityUtility;
+use JambageCom\Div2007\Utility\MailUtility;
+use JambageCom\Div2007\Utility\ObsoleteUtility;
+
+use JambageCom\TtProducts\Api\CustomerApi;
 
 class tx_ttproducts_api
 {
@@ -88,7 +92,7 @@ class tx_ttproducts_api
             $faktor = pow(10, $digits);
 
             if ($floatValue == '') {
-                $result = round(floatval($oldValue, $digits));
+                $result = round(floatval($oldValue), $digits);
             } else {
                 $allowedChars = '';
                 $lowestValuePart = 0;
@@ -294,7 +298,7 @@ class tx_ttproducts_api
     ) {
         $result = false;
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
-        $infoArray = $infoObj->infoArray;
+        $infoArray = $infoObj->getInfoArray();
         $apostrophe = $conf['orderEmail_apostrophe'];
 
         $pid = ($conf['PIDuserFolder'] ?: ($conf['PIDbasket'] ?: $GLOBALS['TSFE']->id));
@@ -374,6 +378,8 @@ class tx_ttproducts_api
                         $calculatedArray,
                         false,
                         'EMAIL_NEWUSER_TEMPLATE',
+                        [],
+                        [],
                         [],
                         '',
                         [],
@@ -513,14 +519,20 @@ class tx_ttproducts_api
     ) {
         $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $result = true;
+
+        $mainSubpartArray = [];
+        $mainWrappedSubpartArray = [];
+
         $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config'); // init ok
         // $markerObj  init ok
         $basketView = GeneralUtility::makeInstance('tx_ttproducts_basket_view');
         $infoViewObj = GeneralUtility::makeInstance('tx_ttproducts_info_view');
+        $infoObj = $infoViewObj->getModelObj();
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables'); // init ok
         $billdeliveryObj = GeneralUtility::makeInstance('tx_ttproducts_billdelivery');
         $fileArray = []; // bill or delivery
         $voucherCount = 0;
+        $infoArray = $infoObj->getInfoArray();
 
         $activityFinalize = GeneralUtility::makeInstance('tx_ttproducts_activity_finalize');
 
@@ -556,8 +568,13 @@ class tx_ttproducts_api
         $orderObj->updateRecord($orderUid, ['hidden' => 0]); // mark this order immediately as unhidden in order to let no instant message from the gateway execute the following PHP code twice
 
         $instockTableArray = '';
-        $customerEmail = $infoViewObj->getCustomerEmail();
-        $defaultFromArray = $infoViewObj->getFromArray($customerEmail);
+        $customerEmail =
+            $infoObj->getCustomerEmail();
+        $useLoginEmail =
+            CustomerApi::isSystemLoginUser(
+                $conf
+            );
+        $defaultFromArray = $infoObj->getFromArray($customerEmail, $useLoginEmail);
 
         $emailControlArray =
             $activityFinalize->getEmailControlArray(
@@ -581,6 +598,8 @@ class tx_ttproducts_api
                     true,
                     $emailControlArray['customer']['none']['htmltemplate'],
                     $markerArray,
+                    $mainSubpartArray,
+                    $mainWrappedSubpartArray,
                     '',
                     $itemArray,
                     $notOverwritePriceIfSet = true,
@@ -656,6 +675,7 @@ class tx_ttproducts_api
             1,
             $basketExtra,
             $calculatedArray,
+            $infoObj,
             '',
             [], // TODO: $giftServiceArticleArray,
             '', // TODO: $vouchercode
@@ -727,6 +747,8 @@ class tx_ttproducts_api
                         true,
                         'BASKET_ORDERXML_TEMPLATE',
                         $mainMarkerArray,
+                        $mainSubpartArray,
+                        $mainWrappedSubpartArray,
                         '',
                         $itemArray,
                         $notOverwritePriceIfSet = true,
@@ -1115,6 +1137,8 @@ class tx_ttproducts_api
                                     false,
                                     $suffixControlArray['template'],
                                     $mainMarkerArray,
+                                    $mainSubpartArray,
+                                    $mainWrappedSubpartArray,
                                     '',
                                     $basketItemArray,
                                     $notOverwritePriceIfSet = true,
@@ -1138,6 +1162,8 @@ class tx_ttproducts_api
                                         true,
                                         $suffixControlArray['htmltemplate'],
                                         $mainMarkerArray,
+                                        $mainSubpartArray,
+                                        $mainWrappedSubpartArray,
                                         '',
                                         $basketItemArray,
                                         $notOverwritePriceIfSet = true,
@@ -1260,6 +1286,8 @@ class tx_ttproducts_api
                                     $conf['orderEmail_htmlmail'],
                                     $emailControlArray[$emailKey]['none']['template'],
                                     $mainMarkerArray,
+                                    $mainSubpartArray,
+                                    $mainWrappedSubpartArray,
                                     '',
                                     $reducedItemArray,
                                     $notOverwritePriceIfSet = true,
@@ -1291,6 +1319,8 @@ class tx_ttproducts_api
                                         true,
                                         $emailControlArray[$emailKey]['none']['htmltemplate'],
                                         $mainMarkerArray,
+                                        $mainSubpartArray,
+                                        $mainWrappedSubpartArray,
                                         '',
                                         $reducedItemArray,
                                         $notOverwritePriceIfSet = true,

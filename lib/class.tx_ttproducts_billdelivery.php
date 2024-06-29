@@ -184,6 +184,8 @@ class tx_ttproducts_billdelivery implements SingletonInterface
                     true,
                     $subpart,
                     $mainMarkerArray,
+                    [],
+                    [],
                     '',
                     $itemArray,
                     $notOverwritePriceIfSet = false,
@@ -240,6 +242,7 @@ class tx_ttproducts_billdelivery implements SingletonInterface
 
         $globalMarkerArray = $markerObj->getGlobalMarkerArray();
         $orderObj = $tablesObj->get('sys_products_orders');
+        $infoObj = GeneralUtility::makeInstance('tx_ttproducts_info');
         $infoViewObj = GeneralUtility::makeInstance('tx_ttproducts_info_view');
         // 		$paymentshippingObj = GeneralUtility::makeInstance('tx_ttproducts_paymentshipping');
 
@@ -251,7 +254,10 @@ class tx_ttproducts_billdelivery implements SingletonInterface
                 $calculatedArray,
                 $infoArray
             );
-        $infoViewObj->init2($infoArray);
+        $infoObj->init($infoArray);
+        $infoViewObj->init(
+            $infoObj
+        );
 
         $basketRec = BasketApi::getBasketRec($orderRow);
         $basketExtra =
@@ -284,6 +290,8 @@ class tx_ttproducts_billdelivery implements SingletonInterface
             true,
             $subpartMarker,
             $globalMarkerArray,
+            [],
+            [],
             '',
             $itemArray,
             $notOverwritePriceIfSet = false,

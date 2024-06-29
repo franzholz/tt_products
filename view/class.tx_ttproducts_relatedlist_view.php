@@ -112,7 +112,7 @@ class tx_ttproducts_relatedlist_view implements SingletonInterface
         array $paramUidArray,
         $useArticles
     ) {
-        $result = false;
+        $result = [];
         $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
         $conf = $cnfObj->getConf();
 
@@ -251,7 +251,7 @@ class tx_ttproducts_relatedlist_view implements SingletonInterface
         }
 
         if (is_array($result)) {
-            foreach ($result as $subtype => $funcArray) { // neu
+            foreach ($result as $subtype => $funcArray) {
                 $tablename = $cnfObj->getTableName($funcArray['funcTablename']);
                 if ($tablename == '' || !isset($GLOBALS['TCA'][$tablename]['columns'])) {
                     unset($result[$subtype]); // if the current TYPO3 version does not support the needed foreign table

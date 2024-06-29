@@ -126,12 +126,14 @@ class tx_ttproducts_orderaddress extends tx_ttproducts_table_base
 
         if (isset($this->conf['conf.'][$funcTablename . '.']['ALL.']['fe_users.']['date_of_birth.']['period.']['y'])) {
             $year = $this->conf['conf.'][$funcTablename . '.']['ALL.']['fe_users.']['date_of_birth.']['period.']['y'];
-            $infoViewObj = GeneralUtility::makeInstance('tx_ttproducts_info_view');
+            $infoObj = GeneralUtility::makeInstance('tx_ttproducts_info');
+            $infoArray = $infoObj->getInfoArray();
+            $timeTemp = '';
 
-            if ($infoViewObj->infoArray['billing']['date_of_birth']) {
-                $timeTemp = $infoViewObj->infoArray['billing']['date_of_birth'];
+            if ($infoArray['billing']['date_of_birth']) {
+                $timeTemp = $infoArray['billing']['date_of_birth'];
                 $bAge = true;
-            } elseif ($GLOBALS['TSFE']->fe_user->user) {
+            } elseif (!empty($GLOBALS['TSFE']->fe_user->user['username'])) {
                 $timeTemp = date('d-m-Y', $GLOBALS['TSFE']->fe_user->user['date_of_birth']);
                 $bAge = true;
             } else {

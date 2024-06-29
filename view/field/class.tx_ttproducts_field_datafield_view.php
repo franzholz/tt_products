@@ -414,8 +414,7 @@ class tx_ttproducts_field_datafield_view extends tx_ttproducts_field_base_view
                     $imageObj->getImageCode(
                         $imageConf,
                         $theCode
-                    ); // neu
-
+                    );
                 $markerArray['###' . $marker2 . '###'] = $iconImgCode;
             }
         } else {

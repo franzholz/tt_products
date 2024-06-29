@@ -81,7 +81,12 @@ class tx_ttproducts_field_text_view extends tx_ttproducts_field_base_view
                 $dummy
             );
 
-        if ($bHtml && $charset != '' && in_array($fieldname, $htmlentitiesArray)) {
+        if (
+            is_string($value) &&
+            $bHtml &&
+            $charset != '' &&
+            in_array($fieldname, $htmlentitiesArray)
+        ) {
             $bConvertNewlines = $this->conf['nl2brNote'];
             if (
                 $bConvertNewlines &&

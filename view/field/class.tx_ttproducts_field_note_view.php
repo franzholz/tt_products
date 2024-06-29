@@ -73,6 +73,7 @@ class tx_ttproducts_field_note_view extends tx_ttproducts_field_base_view
         );
 
         if (
+            is_string($value) &&
             $bHtml &&
             ($theCode != 'EMAIL' || $this->conf['orderEmail_htmlmail'])
         ) {

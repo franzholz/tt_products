@@ -131,13 +131,14 @@ class tx_ttproducts_url_view implements SingletonInterface
     public function addURLMarkers(
         $pidNext,
         $markerArray,
+        $theCode,
         $addQueryString = [],
         $excludeList = '',
         $useBackPid = true,
         $backPid = 0,
         $bExcludeSingleVar = true
     ) {
-        $cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
+        $local_cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
         $charset = 'UTF-8';
         $urlMarkerArray = [];
         $conf = [];
@@ -173,7 +174,7 @@ class tx_ttproducts_url_view implements SingletonInterface
 
         foreach ($urlConfig as $markerKey => $keyConfig) {
             $url = FrontendUtility::getTypoLink_URL(
-                $cObj,
+                $local_cObj,
                 $keyConfig['pid'],
                 $this->getLinkParams(
                     $keyConfig['excludeList'],
@@ -214,7 +215,7 @@ class tx_ttproducts_url_view implements SingletonInterface
         foreach ($commandArray as $command) {
             $linkPid = (!empty($this->conf['PID' . $command]) ? $this->conf['PID' . $command] : $basketPid);
             $url = FrontendUtility::getTypoLink_URL(
-                $cObj,
+                $local_cObj,
                 $linkPid,
                 $this->getLinkParams(
                     $singleExcludeList,
@@ -257,7 +258,9 @@ class tx_ttproducts_url_view implements SingletonInterface
                 $hookObj = GeneralUtility::makeInstance($classRef);
                 if (method_exists($hookObj, 'addURLMarkers')) {
                     $hookObj->addURLMarkers(
-                        $cObj,
+                        $this,
+                        $local_cObj,
+                        $theCode,
                         $pidNext,
                         $urlMarkerArray,
                         $addQueryString,

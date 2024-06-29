@@ -180,7 +180,7 @@ class tx_ttproducts_gifts_div
             is_array($basketExt['gift'])
         ) {
             // RegEx-Check
-            $checkFieldsExpr = $infoViewObj->getFieldChecks('gift');
+            $checkFieldsExpr = $infoObj->getFieldChecks('gift');
 
             if ($checkFieldsExpr && is_array($checkFieldsExpr)) {
                 foreach ($checkFieldsExpr as $fName => $checkExpr) {

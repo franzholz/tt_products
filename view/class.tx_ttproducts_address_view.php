@@ -59,20 +59,20 @@ class tx_ttproducts_address_view extends tx_ttproducts_category_base_view
      * @access private
      */
     public function getMarkerArray(
-        &$markerArray,
+        array &$markerArray,
         $markerKey,
         $category,
         $pid,
+        array $viewCatTagArray,
+        $theCode,
         $imageNum = 0,
         $imageRenderObj = 'image',
-        &$viewCatTagArray,
         $forminfoArray = [],
         $pageAsCategory = 0,
-        $theCode,
-        $basketExtra,
-        $basketRecs,
-        $id,
-        $prefix,
+        $basketExtra = [],
+        $basketRecs = [], // neu
+        $id = '',
+        $prefix = '',
         $linkWrap = ''
     ): void {
         $titleField = $this->getModelObj()->fieldArray['title'];

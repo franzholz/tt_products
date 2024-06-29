@@ -99,7 +99,7 @@ class tx_ttproducts_field_creditpoints_view extends tx_ttproducts_field_base_vie
                     $basketRecs,
                     $dummy
                 );
-            $modifiedRow[$addedField] = number_format($value, 0);
+            $modifiedRow[$addedField] = number_format(floatval($value), 0);
         }
 
         return $modifiedRow;

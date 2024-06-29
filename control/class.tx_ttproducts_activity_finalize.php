@@ -44,6 +44,7 @@ use JambageCom\Div2007\Utility\CompatibilityUtility;
 use JambageCom\Div2007\Utility\MailUtility;
 
 use JambageCom\TtProducts\Api\BasketApi;
+use JambageCom\TtProducts\Api\CustomerApi;
 use JambageCom\TtProducts\Api\Localization;
 
 
@@ -93,7 +94,8 @@ class tx_ttproducts_activity_finalize implements SingletonInterface
     public function doProcessing(
         $templateCode,
         $mainMarkerArray,
-        $funcTablename,
+        array $subpartArray,
+        array $wrappedSubpartArray,
         $orderUid,
         &$orderArray,
         $productRowArray,
@@ -108,6 +110,8 @@ class tx_ttproducts_activity_finalize implements SingletonInterface
     ) {
         $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
+        $cnfObj->setConf('domain', '###LICENCE_DOMAIN###');
+        $conf = $cnfObj->getConf();
         $basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
         $markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
@@ -116,18 +120,27 @@ class tx_ttproducts_activity_finalize implements SingletonInterface
         $basketApi = GeneralUtility::makeInstance(BasketApi::class);
 
         $basketView = GeneralUtility::makeInstance('tx_ttproducts_basket_view');
+        $infoObj = GeneralUtility::makeInstance('tx_ttproducts_info');
         $infoViewObj = GeneralUtility::makeInstance('tx_ttproducts_info_view');
+        $funcTablename = tx_ttproducts_control_basket::getFuncTablename();
 
-        $customerEmail = $infoViewObj->getCustomerEmail();
-        $defaultFromArray = $infoViewObj->getFromArray($customerEmail);
+        $customerEmail =
+            $infoObj->getCustomerEmail();
+        $useLoginEmail =
+            CustomerApi::isSystemLoginUser(
+                $conf
+            );
+        $defaultFromArray =
+            $infoObj->getFromArray(
+                $customerEmail,
+                $useLoginEmail
+            );
 
         $activityConf = $cnfObj->getBasketConf('activity', 'finalize');
 
         $basketExtra = $basketApi->getBasketExtra();
         $basketRecs = tx_ttproducts_control_basket::getRecs();
 
-        $cnfObj->setConf('domain', '###LICENCE_DOMAIN###');
-        $conf = $cnfObj->getConf();
 
         $empty = '';
 
@@ -143,6 +156,8 @@ class tx_ttproducts_activity_finalize implements SingletonInterface
                 true,
                 'BASKET_ORDERCONFIRMATION_TEMPLATE',
                 $mainMarkerArray,
+                $subpartArray,
+                $wrappedSubpartArray,
                 '',
                 $basketObj->getItemArray(),
                 $notOverwritePriceIfSet = false,
@@ -152,7 +167,7 @@ class tx_ttproducts_activity_finalize implements SingletonInterface
             );
 
         $markerArray = array_merge($mainMarkerArray, $markerObj->getGlobalMarkerArray());
-        $markerArray['###CUSTOMER_RECIPIENTS_EMAIL###'] = $infoViewObj->getCustomerEmail();
+        $markerArray['###CUSTOMER_RECIPIENTS_EMAIL###'] = $infoObj->getCustomerEmail();
         $orderConfirmationHTML = $templateService->substituteMarkerArray(
             $orderConfirmationHTML,
             $markerArray
@@ -161,7 +176,6 @@ class tx_ttproducts_activity_finalize implements SingletonInterface
 
         if (!$bAlwaysInStock) {
             $emailControlArray = $this->getEmailControlArray($templateCode, $conf, $defaultFromArray);
-
             $itemObj = $tablesObj->get($funcTablename);
             $instockTableArray =
                 $itemObj->reduceInStockItems(

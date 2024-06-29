@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace JambageCom\TtProducts\Api;
 
 /***************************************************************
@@ -38,7 +40,6 @@ namespace JambageCom\TtProducts\Api;
  * @subpackage tt_products
  */
 use TYPO3\CMS\Core\SingletonInterface;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 // replacement for the former class tx_ttproducts_model_control
@@ -134,12 +135,10 @@ class ParameterApi implements SingletonInterface
         return $result;
     }
 
-    // neu Anfang variant
     public static function determineRegExpDelimiter($delimiter)
     {
         $regexpDelimiter = $delimiter;
         if ($delimiter == ';') {
-            // 			$regexpDelimiter = '[.semicolon.]';
             // Leads to MYSQL ERROR:
             // Got error 'POSIX collating elements are not supported at offset 46' from regexp
 
@@ -158,7 +157,6 @@ class ParameterApi implements SingletonInterface
 
         return $regexpDelimiter;
     }
-    // neu Ende variant
 
     public function getBasketIntoIdPrefix()
     {
@@ -325,7 +323,11 @@ class ParameterApi implements SingletonInterface
                                     $valueArray = $funcViewConfArray[$type . '.'][$k . '.']['valueArray.'];
                                     $bFitValueArray = [];
                                     foreach ($valueArray as $valueConf) {
-                                        if (isset($valueConf['field']) && $valueConf['value'] == $v && !$bFitValueArray[$v]) {
+                                        if (
+                                            isset($valueConf['field']) &&
+                                            $valueConf['value'] == $v &&
+                                            !$bFitValueArray[$v]
+                                        ) {
                                             $fitArray[] = [
                                                 'delimiter' => $valueConf['delimiter'],
                                                 'field' => $valueConf['field'],
@@ -354,7 +356,9 @@ class ParameterApi implements SingletonInterface
                                     foreach ($fitArray as $fitRow) {
                                         $field = $fitRow['field'];
                                         if ($field != '' && isset($fitRow['key'])) {
-                                            if (isset($tableConfArray[$ftname]['filter.']['where.']['field.'][$field])) {
+                                            if (
+                                                isset($tableConfArray[$ftname]['filter.']['where.']['field.'][$field])
+                                            ) {
                                                 $preFilter = '(' . $tableConfArray[$ftname]['filter.']['where.']['field.'][$field] . ') AND (';
                                             } else {
                                                 $preFilter = '';
@@ -445,7 +449,7 @@ class ParameterApi implements SingletonInterface
 
     public function getSearchInfo(
         $cObj,
-        $searchVars,
+        array $searchVars,
         $funcTablename,
         $tablename,
         &$searchboxWhere,
@@ -475,7 +479,7 @@ class ParameterApi implements SingletonInterface
             $contentObj = $tablesObj->get('tt_content', false);
             $contentRow = $contentObj->get($searchVars['uid']);
 
-            if (isset($contentRow['pi_flexform']) && $contentRow['pi_flexform'] != '') {
+            if (!empty($contentRow['pi_flexform'])) {
                 $contentRow['pi_flexform'] = GeneralUtility::xml2array($contentRow['pi_flexform']);
                 $searchObj = GeneralUtility::makeInstance('tx_ttproducts_control_search');	// fetch and store it as persistent object
                 $controlConfig = $searchObj->getControlConfig($cObj, $cnf->conf, $contentRow);
@@ -502,6 +506,7 @@ class ParameterApi implements SingletonInterface
             }
         }
 
+        $tmpArray = [];
         $tmpArray[0] = (is_array($searchVars['local']) ? key($searchVars['local']) : $searchVars['local']);
         if (is_array($searchVars['local'])) {
             $tmpArray[0] = key($searchVars['local']);
