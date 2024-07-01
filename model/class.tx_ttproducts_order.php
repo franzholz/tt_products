@@ -331,7 +331,6 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
         }
 
         $fieldsArray = [];
-
         $tablename = $this->getTablename();
         $fieldsArray['hidden'] = 1;
         $excludeFieldArray = [];
@@ -421,7 +420,6 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
             $fieldsArray['payment'] = $payment;
             $fieldsArray['shipping'] = $shipping;
             $fieldsArray['amount'] = $amount;
-
             $fieldsArray['note'] = $deliveryInfo['note'] ?? null;
             $fieldsArray['date_of_birth'] = $dateBirth ?? 0;
             $fieldsArray['radio1'] = $deliveryInfo['radio1'] ?? 0;
@@ -604,7 +602,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
         }
 
         $fieldsArray = array_filter($fieldsArray, function($a) {
-            return isset($a) && trim($a) !== '';
+            return isset($a) && (!is_string($a) || trim($a) !== '');
         });
 
         // Saving the order record
