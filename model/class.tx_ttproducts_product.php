@@ -544,7 +544,10 @@ class tx_ttproducts_product extends tx_ttproducts_article_base
                             $orderObj = $tablesObj->get('sys_products_orders');
                             $currentOrderUid = 0;
                             foreach ($multiOrderArray as $orderRow) {
-                                if ($orderRow['product_uid'] == $uid) {
+                                if (
+                                    isset($orderRow['product_uid']) &&
+                                    $orderRow['product_uid'] == $uid
+                                ) {
                                     $falUid = $orderObj->getFal(
                                         $orderedDownloadUid,
                                         0,
