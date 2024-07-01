@@ -187,8 +187,8 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
             }
             $orderArray['tracking_code'] =
                 $this->getNumber($orderUid) . '-' .
-                strtolower(substr(md5(uniqid(time())), 0, 6));
-            tx_ttproducts_control_basket::store('order', $orderArray);
+                strtolower(substr(md5(\Random\Engine\Secure::generate()), 0, 6));
+                tx_ttproducts_control_basket::store('order', $orderArray);
             $this->currentArray = $orderArray;
         }
 
