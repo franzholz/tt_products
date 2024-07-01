@@ -360,7 +360,11 @@ class tx_ttproducts_basketitem_view implements SingletonInterface
             ) {
                 $filterQuantity = 0;
                 foreach ($filterRowArray as $filterRow) {
-                    if ($filterRow['product_uid'] == $uid && isset($filterRow['quantity'])) {
+                    if (
+                        isset($filterRow['product_uid']) &&
+                        $filterRow['product_uid'] == $uid &&
+                        isset($filterRow['quantity'])
+                    ) {
                         $filterQuantity += $filterRow['quantity'];
                     }
                 }
