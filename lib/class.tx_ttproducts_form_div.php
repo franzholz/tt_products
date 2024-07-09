@@ -115,7 +115,7 @@ class tx_ttproducts_form_div
 
                     if ($key == -1) {
                         $selectedText = ($useXHTML ? ' disabled="disabled"' : ' disabled');
-                    } elseif (strcmp((string) $selectKey, $selectedKey) == 0) {
+                    } elseif (strcmp((string) $selectKey, (string) $selectedKey) == 0) {
                         switch ($type) {
                             case 'select':
                                 $selectedText = ($useXHTML ? ' selected="selected"' : ' selected');
@@ -282,7 +282,7 @@ class tx_ttproducts_form_div
         }
 
         $flags = ENT_QUOTES;
-        $result = '<' . $tag . $spaceArray['pre'] . $attributeTextArray['pre'] . ' name="' . $name . '" value="' . htmlspecialchars($value, $flags) . '"' . $spaceArray['post'] . $attributeTextArray['post'] . ' ' . ($useXHTML ? '/' : '') . '>';
+        $result = '<' . $tag . $spaceArray['pre'] . $attributeTextArray['pre'] . ' name="' . $name . '" value="' . htmlspecialchars((string) $value, $flags) . '"' . $spaceArray['post'] . $attributeTextArray['post'] . ' ' . ($useXHTML ? '/' : '') . '>';
 
         return $result;
     }

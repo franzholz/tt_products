@@ -48,7 +48,7 @@ abstract class tx_ttproducts_table_base implements SingletonInterface
     public $conf;
     public $config;
     public $tableObj;	// object of the type tx_table_db
-    public $defaultFieldArray = ['uid' => 'uid', 'pid' => 'pid', 'sorting' => 'sorting']; // fields which must always be read in
+    public $defaultFieldArray = ['uid' => 'uid', 'pid' => 'pid']; // fields which must always be read in
     public $relatedFromTableArray = [];
     public $fieldArray = []; // field replacements
     protected $insertRowArray;	// array of stored insert records
