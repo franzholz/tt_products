@@ -185,9 +185,10 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
             if (!empty($GLOBALS['TYPO3_CONF_VARS']['SYS']['serverTimeZone'])) {
                 $orderArray['crdate'] += ($GLOBALS['TYPO3_CONF_VARS']['SYS']['serverTimeZone'] * 3600);
             }
+            $secure = new \Random\Engine\Secure;
             $orderArray['tracking_code'] =
                 $this->getNumber($orderUid) . '-' .
-                strtolower(substr(md5(\Random\Engine\Secure::generate()), 0, 6));
+                strtolower(substr(md5($secure->generate()), 0, 6));
                 tx_ttproducts_control_basket::store('order', $orderArray);
             $this->currentArray = $orderArray;
         }
