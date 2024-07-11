@@ -233,12 +233,17 @@ class PaymentGatewayApi implements SingletonInterface
                 method_exists($callingClassName, 'renderDataEntry') &&
                 class_exists(Address::class)
             ) {
+                $paymentConf = [];
+                if (isset($conf['_LOCAL_LANG.'])) {
+                    $paymentConf['_LOCAL_LANG.'] = $conf['_LOCAL_LANG.'];
+                }
+
                 $paymentBasket =
                      PaymentApi::convertToTransactorBasket($itemArray, $variantFields);
                 $parameters = [
                     $languageObj,
                     '',
-                    $conf,
+                    $paymentConf,
                     false,
                 ];
                 call_user_func_array(
@@ -257,7 +262,7 @@ class PaymentGatewayApi implements SingletonInterface
                     $paymentBasket,
                     $orderUid,
                     $orderNumber, // text string of the order number
-                    $conf['currency'],
+                    $conf['currency'] ?? '',
                     $extraData,
                 ];
                 $content = call_user_func_array(

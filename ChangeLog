@@ -1,3 +1,6 @@
+2024-07-11 Franz Holzinger <franz@ttproducts.de>
+    * compatibility TYPO3 12: No method $GLOBALS['TSFE']->getConfigArray is there any more.
+
 2024-05-28 Franz Holzinger <franz@ttproducts.de>
     * error with new language server: add all language files from crowdin
 
