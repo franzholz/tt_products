@@ -148,8 +148,6 @@ class tx_ttproducts_db implements SingletonInterface
             $priceObj
         );
 
-        $discount = $GLOBALS['TSFE']->fe_user->user['tt_products_discount'];
-
         // We put our incomming data to the regular piVars
         $itemTable = $tablesObj->get('tt_products', false);
         $externalRowArray = [];
