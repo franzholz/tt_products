@@ -1815,7 +1815,7 @@ class PaymentShippingHandling
         return $result;
     }
 
-    public static function getHandleLib($request, $basketExtra)
+    public static function getHandleLib($requestMode, $basketExtra)
     {
         $result = false;
         $payConf = $basketExtra['payment.'] ?? [];
@@ -1833,7 +1833,7 @@ class PaymentShippingHandling
             isset($payConf['handleLib.']) &&
             is_array($payConf['handleLib.']) &&
             isset($payConf['handleLib.']['gatewaymode']) &&
-            $payConf['handleLib.']['gatewaymode'] == $request &&
+            $payConf['handleLib.']['gatewaymode'] == $requestMode &&
             ExtensionManagementUtility::isLoaded($handleLib)
         ) {
             $result = $handleLib;
