@@ -547,9 +547,7 @@ class tx_ttproducts_db implements SingletonInterface
 
                     $tagId = $jsTableNamesId . '-' . $view . '-' . $uid . '-' . $field;
                     switch ($field) {
-                        case 'image':
                         case 'image_uid':
-                        case 'smallimage':
                         case 'smallimage_uid':
                             $imageRow = $row;
                             $imageTablename = $tablename;

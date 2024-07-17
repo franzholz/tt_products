@@ -236,7 +236,7 @@ class tx_ttproducts_product extends tx_ttproducts_article_base
                 }
             }
             $articleCount = count($bFitArticleRowArray);
-            $articleRow = $bFitArticleRowArray[0];
+            $articleRow = $bFitArticleRowArray[0] ?? [];
 
             if ($articleCount > 1) {
                 // many articles fit here. So lets generated a merged article.
