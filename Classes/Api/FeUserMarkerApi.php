@@ -40,7 +40,6 @@ class FeUserMarkerApi implements SingletonInterface
         array &$subpartArray,
         array &$wrappedSubpartArray
     ): void {
-        //     debug ($viewTagArray, 'getWrappedSubpartArray $viewTagArray');
         $api =
             GeneralUtility::makeInstance(Frontend::class);
         $context = GeneralUtility::makeInstance(Context::class);
