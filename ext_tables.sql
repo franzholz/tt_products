@@ -23,7 +23,7 @@ CREATE TABLE tt_products (
 	fe_group varchar(255) DEFAULT '0' NOT NULL,
 	title tinytext,
 	subtitle mediumtext,
-	slug varchar(2048) DEFAULT '' NOT NULL,
+	slug varchar(2048),
 	keyword mediumtext,
 	prod_uid int(11) DEFAULT '0' NOT NULL,
 	accessory_uid int(11) DEFAULT '0' NOT NULL,
@@ -98,7 +98,8 @@ CREATE TABLE tt_products (
 	KEY parent (pid),
 	KEY comp1 (sorting),
 	KEY comp2 (pid,deleted,hidden,starttime,endtime,fe_group),
-	KEY t3ver_oid (t3ver_oid,t3ver_wsid)
+	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
+	KEY slug (slug(127))
 );
 
 
@@ -146,7 +147,8 @@ CREATE TABLE tt_products_language (
 	PRIMARY KEY (uid),
 	KEY parent (pid),
 	KEY comp1 (sorting),
-	KEY t3ver_oid (t3ver_oid,t3ver_wsid)
+	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
+	KEY slug (slug(127))
 );
 
 
@@ -256,7 +258,7 @@ CREATE TABLE tt_products_cat (
 	fe_group varchar(255) DEFAULT '0' NOT NULL,
 	title tinytext,
 	subtitle mediumtext,
-	slug varchar(2048) DEFAULT '' NOT NULL,
+	slug varchar(2048),
 	catid varchar(40) DEFAULT '' NOT NULL,
 	keyword mediumtext,
 	note text,
@@ -274,7 +276,8 @@ CREATE TABLE tt_products_cat (
 	PRIMARY KEY (uid),
 	KEY parent (pid),
 	KEY comp1 (sorting),
-	KEY t3ver_oid (t3ver_oid,t3ver_wsid)
+	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
+	KEY slug (slug(127))
 );
 
 
@@ -304,7 +307,7 @@ CREATE TABLE tt_products_cat_language (
 	fe_group varchar(255) DEFAULT '0' NOT NULL,
 	title tinytext,
 	subtitle mediumtext,
-	slug varchar(2048) DEFAULT '' NOT NULL,
+	slug varchar(2048),
 	keyword mediumtext,
 	note text,
 	note2 text,
@@ -313,7 +316,8 @@ CREATE TABLE tt_products_cat_language (
 	PRIMARY KEY (uid),
 	KEY parent (pid),
 	KEY comp1 (sorting),
-	KEY t3ver_oid (t3ver_oid,t3ver_wsid)
+	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
+	KEY slug (slug(127))
 );
 
 
@@ -365,7 +369,7 @@ CREATE TABLE tt_products_articles (
 	fe_group varchar(255) DEFAULT '0' NOT NULL,
 	title varchar(80) DEFAULT '' NOT NULL,
 	subtitle varchar(80) DEFAULT '' NOT NULL,
-	slug varchar(2048) DEFAULT '' NOT NULL,
+	slug varchar(2048),
 	keyword mediumtext,
 	itemnumber varchar(120) DEFAULT '' NOT NULL,
 	price decimal(19,2) DEFAULT '0.00' NOT NULL,
@@ -402,7 +406,8 @@ CREATE TABLE tt_products_articles (
 	PRIMARY KEY (uid),
 	KEY parent (pid),
 	KEY comp1 (sorting),
-	KEY t3ver_oid (t3ver_oid,t3ver_wsid)
+	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
+	KEY slug (slug(127))
 );
 
 
@@ -432,7 +437,7 @@ CREATE TABLE tt_products_articles_language (
 	fe_group varchar(255) DEFAULT '0' NOT NULL,
 	title varchar(80) DEFAULT '' NOT NULL,
 	subtitle varchar(80) DEFAULT '' NOT NULL,
-	slug varchar(2048) DEFAULT '' NOT NULL,
+	slug varchar(2048),
 	keyword mediumtext,
 	article_uid int(11) DEFAULT '0' NOT NULL,
 	note text,
@@ -441,7 +446,8 @@ CREATE TABLE tt_products_articles_language (
 	PRIMARY KEY (uid),
 	KEY parent (pid),
 	KEY comp1 (sorting),
-	KEY t3ver_oid (t3ver_oid,t3ver_wsid)
+	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
+	KEY slug (slug(127))
 );
 
 
@@ -759,7 +765,7 @@ CREATE TABLE tt_products_downloads (
 	endtime int(11) DEFAULT '0' NOT NULL,
 	fe_group varchar(255) DEFAULT '0' NOT NULL,
 	title tinytext,
-	slug varchar(2048) DEFAULT '' NOT NULL,
+	slug varchar(2048),
 	marker varchar(255) DEFAULT '' NOT NULL,
 	note text,
 	path varchar(255) DEFAULT '' NOT NULL,
@@ -772,7 +778,8 @@ CREATE TABLE tt_products_downloads (
 	PRIMARY KEY (uid),
 	KEY parent (pid),
 	KEY comp1 (sorting),
-	KEY t3ver_oid (t3ver_oid,t3ver_wsid)
+	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
+	KEY slug (slug(127))
 );
 
 
@@ -815,13 +822,14 @@ CREATE TABLE tt_products_downloads_language (
 	fe_group varchar(255) DEFAULT '0' NOT NULL,
 	parent_uid int(11) DEFAULT '0' NOT NULL,
 	title tinytext,
-	slug varchar(2048) DEFAULT '' NOT NULL,
+	slug varchar(2048),
 	note text,
 
 	PRIMARY KEY (uid),
 	KEY parent (pid),
 	KEY comp1 (sorting),
-	KEY t3ver_oid (t3ver_oid,t3ver_wsid)
+	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
+	KEY slug (slug(127))
 );
 
 
@@ -877,7 +885,7 @@ CREATE TABLE sys_products_orders (
 	name varchar(80) DEFAULT '' NOT NULL,
 	first_name varchar(50) DEFAULT '' NOT NULL,
 	last_name varchar(50) DEFAULT '' NOT NULL,
-	slug varchar(2048) DEFAULT '' NOT NULL,
+	slug varchar(2048),
 	salutation int(11) DEFAULT '0' NOT NULL,
 	company varchar(80) DEFAULT '' NOT NULL,
 	vat_id varchar(20) DEFAULT '' NOT NULL,
@@ -933,7 +941,8 @@ CREATE TABLE sys_products_orders (
 	KEY parent (pid),
 	KEY tracking (tracking_code),
 	KEY status (status),
-	KEY comp1 (pid,deleted)
+	KEY comp1 (pid,deleted),
+	KEY slug (slug(127))
 );
 
 
