@@ -1023,7 +1023,7 @@ class tx_ttproducts_list_view implements SingletonInterface
 
                 // Substitute a few markers
                 $out = $t['search'];
-                $tmpPid = ($conf['PIDsearch'] ?: $GLOBALS['TSFE']->id);
+                $tmpPid = ($conf['PIDsearch'] ?? $GLOBALS['TSFE']->id);
                 $addQueryString = [];
                 $this->getSearchParams($addQueryString);
 
