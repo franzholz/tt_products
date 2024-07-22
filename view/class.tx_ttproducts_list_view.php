@@ -1030,8 +1030,7 @@ class tx_ttproducts_list_view implements SingletonInterface
                 $excludeList = 'sword';
 
                 if (
-                    isset($viewParamConf) &&
-                    is_array($viewParamConf) &&
+                    isset($viewParamConf['item']) &&
                     GeneralUtility::inList($viewParamConf['item'], $categoryPivar)
                 ) {
                     // nothing

@@ -479,7 +479,7 @@ class tx_ttproducts_basket_view implements SingletonInterface
                 if ($wrongPounds) {
                     $errorCode[0] = 'template_invalid_marker_border';
                     $errorCode[1] = '###' . $subpartMarker . '###';
-                    $errorCode[2] = htmlspecialchars(implode('|', $matches['0']));
+                    $errorCode[2] = htmlspecialchars(implode('|', $matches[0]));
 
                     return '';
                 }
@@ -806,7 +806,7 @@ class tx_ttproducts_basket_view implements SingletonInterface
                             } else {
                                 $articleRow = $itemTable->getArticleRow($row, $theCode);
                                 if ($articleRow) {
-                                    $articleRows['0'] = $articleRow;
+                                    $articleRows[0] = $articleRow;
                                 }
                             }
                         }
@@ -1236,8 +1236,8 @@ class tx_ttproducts_basket_view implements SingletonInterface
             $orderViewObj = $tablesObj->get('sys_products_orders', true);
             $orderViewObj->getBasketRecsMarkerArray($markerArray, $multiOrderArray[0] ?? '');
             $trackingCode = '';
-            if (isset($multiOrderArray['0']['tracking_code'])) {
-                $trackingCode = $multiOrderArray['0']['tracking_code'];
+            if (isset($multiOrderArray[0]['tracking_code'])) {
+                $trackingCode = $multiOrderArray[0]['tracking_code'];
             }
             $billdeliveryObj->getMarkerArray($markerArray, $trackingCode, 'bill');
             $billdeliveryObj->getMarkerArray($markerArray, $trackingCode, 'delivery');
