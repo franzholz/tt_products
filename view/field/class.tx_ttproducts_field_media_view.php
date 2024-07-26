@@ -36,12 +36,15 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-use JambageCom\Div2007\Utility\FrontendUtility;
-use JambageCom\Div2007\Utility\TableUtility;
-use JambageCom\TtProducts\Api\ControlApi;
+
+use TYPO3\CMS\Core\Resource\StorageRepository;
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+
+use JambageCom\Div2007\Utility\FrontendUtility;
+use JambageCom\Div2007\Utility\TableUtility;
+use JambageCom\TtProducts\Api\ControlApi;
 
 class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
 {
@@ -274,6 +277,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
         $theTablename = $theTableObj->getTablename();
         $cObj->start($imageRow, $theTablename);
         $tableConf = [];
+        $storageRepository = GeneralUtility::makeInstance(StorageRepository::class);
 
         $imgCodeArray = [];
         $markerArray['###' . $markerKey . '_PATH###'] = $dirname;
@@ -351,8 +355,9 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
                 if (!empty($val)) {
                     $filename = '';
                     if (is_array($val)) {
-                        if (isset($val['name'])) {
-                            $filename = 'fileadmin' . $val['identifier'];
+                        if (isset($val['identifier'])) {
+                            $storage = $storageRepository->getStorageObject($val['storage'], $val);
+                            $filename = $storage->getConfiguration()['basePath'] . $val['identifier'];
                         }
                     } else {
                         $filename = $dirname . $val;

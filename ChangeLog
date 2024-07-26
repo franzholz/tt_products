@@ -1,3 +1,6 @@
+2024-07-26 Franz Holzinger <franz@ttproducts.de>
+    * fix #283: Use the storage from the file object
+
 2024-07-11 Franz Holzinger <franz@ttproducts.de>
     * compatibility TYPO3 12: No method $GLOBALS['TSFE']->getConfigArray is there any more.
 
