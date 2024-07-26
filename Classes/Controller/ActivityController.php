@@ -845,7 +845,7 @@ class ActivityController implements SingletonInterface
                 $theCode,
                 $templateCode,
                 $subpartmarkerObj->spMarker(
-                    '###' . $subpart . $this->config['templateSuffix'] . '###'
+                    '###' . $subpart . $config['templateSuffix'] . '###'
                 ),
                 $subpartmarkerObj->spMarker('###' . $subpart . '###'),
                 $errorCode
@@ -934,6 +934,8 @@ class ActivityController implements SingletonInterface
         $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $cObj = FrontendUtility::getContentObjectRenderer();
         $gateway = GeneralUtility::makeInstance(PaymentGatewayApi::class);
+        $conf = $cnf->getConf();
+        $config = $cnf->getConfig();
 
         if (
             count($codes) < 2 &&
@@ -962,7 +964,6 @@ class ActivityController implements SingletonInterface
         $productRowArray = []; // Todo: make this a parameter
 
         $markerArray['###ERROR_DETAILS###'] = '';
-        $conf = $cnf->getConf();
 
         $pidTypeArray = ['PIDthanks', 'PIDfinalize', 'PIDpayment', 'PIDbasket', 'PIDinfo'];
         $pidArray = [];
@@ -1645,7 +1646,7 @@ class ActivityController implements SingletonInterface
                     $requiredOut = \tx_ttproducts_api::getErrorOut(
                         $theCode,
                         $templateCode,
-                        $subpartmarkerObj->spMarker('###' . $subpart . $this->config['templateSuffix'] . '###'),
+                        $subpartmarkerObj->spMarker('###' . $subpart . $config['templateSuffix'] . '###'),
                         $subpartmarkerObj->spMarker('###' . $subpart . '###'),
                         $errorCode
                     );
@@ -1684,7 +1685,7 @@ class ActivityController implements SingletonInterface
                     $theCode,
                     $templateCode,
                     $subpartmarkerObj->spMarker(
-                        '###' . $subpart . $this->config['templateSuffix'] . '###'
+                        '###' . $subpart . $config['templateSuffix'] . '###'
                     ),
                     $subpartmarkerObj->spMarker('###' . $subpart . '###'),
                     $errorCode
