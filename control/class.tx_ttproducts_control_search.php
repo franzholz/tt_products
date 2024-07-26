@@ -95,7 +95,7 @@ class tx_ttproducts_control_search implements SingletonInterface, tx_ttproducts_
         $config = array_merge($config, $newConfig);
         $this->codeArray = GeneralUtility::trimExplode(',', $config['code'], 1);
         $config['LLkey'] = $pibaseObj->LLkey;
-        $config['templateSuffix'] = strtoupper($this->conf['templateSuffix']);
+        $config['templateSuffix'] = strtoupper($conf['templateSuffix']);
         $templateSuffix = FlexformUtility::get($flexformArray, 'template_suffix');
         $templateSuffix = strtoupper($templateSuffix);
         $config['templateSuffix'] = ($templateSuffix ?: $config['templateSuffix']);
