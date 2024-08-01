@@ -4,7 +4,7 @@ defined('TYPO3') || die('Access denied.');
 
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
-call_user_func(function ($extensionKey, $table): void {
+(function ($extensionKey, $table): void {
     $languageSubpath = '/Resources/Private/Language/';
 
     $GLOBALS['TCA'][$table]['types']['list']['subtypes_excludelist']['5'] = 'layout';
@@ -52,4 +52,4 @@ call_user_func(function ($extensionKey, $table): void {
         $extensionKey
     );
 
-}, 'tt_products', basename(__FILE__, '.php'));
+})('tt_products', basename(__FILE__, '.php'));

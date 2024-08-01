@@ -32,31 +32,54 @@ $result = [
         'origUid' => 't3_origuid',
         'iconfile' => 'EXT:' . $extensionKey . '/Resources/Public/Icons/tt_products_cat.gif',
         'searchFields' => 'uid,title,subtitle,catid,keyword,note,note2',
+        'transOrigPointerField' => 'l10n_parent',
+        'transOrigDiffSourceField' => 'l10n_diffsource',
+        'languageField' => 'sys_language_uid',
+        'translationSource' => 'l10n_source',
     ],
     'columns' => [
+        'sys_language_uid' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.language',
+            'config' => [
+                'type' => 'language',
+            ],
+        ],
+        'l10n_parent' => [
+            'displayCond' => 'FIELD:sys_language_uid:>:0',
+            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.l18n_parent',
+            'config' => [
+                'type' => 'select',
+                'renderType' => 'selectSingle',
+                'items' => [
+                    [
+                        'label' => '',
+                        'value' => 0,
+                    ],
+                ],
+                'foreign_table' => 'tt_products_cat',
+                'foreign_table_where' =>
+                    'AND {#tt_products_cat}.{#pid}=###CURRENT_PID###'
+                    . ' AND {#tt_products_cat}.{#sys_language_uid} IN (-1,0)',
+                'default' => 0,
+            ],
+        ],
+        'l10n_source' => [
+            'config' => [
+                'type' => 'passthrough',
+            ],
+        ],
+        'l10n_diffsource' => [
+            'config' => [
+                'type' => 'passthrough',
+                'default' => '',
+            ],
+        ],
         'hidden' => [
             'exclude' => 1,
             'label' => $languageLglPath . 'hidden',
             'config' => [
                 'type' => 'check',
-                'default' => 0,
-            ],
-        ],
-        'tstamp' => [
-            'exclude' => 1,
-            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tstamp',
-            'config' => [
-                'type' => 'datetime',
-                'size' => '8',
-                'default' => 0,
-            ],
-        ],
-        'crdate' => [
-            'exclude' => 1,
-            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:crdate',
-            'config' => [
-                'type' => 'datetime',
-                'size' => '8',
                 'default' => 0,
             ],
         ],
@@ -228,18 +251,8 @@ $result = [
                     'createNewRelationLinkTitle' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:images.addFileReference',
                     'collapseAll' => true,
                 ],
-                'foreign_types' => [
-                    '0' => [
-                        'showitem' => '
-                            --palette--;LLL:EXT:core' . $languageSubpath .
-                        'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                            --palette--;;filePalette',
-                    ],
-                    \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => [
-                        'showitem' => '
-                            --palette--;LLL:EXT:core' . $languageSubpath . 'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                            --palette--;;filePalette',
-                    ],
+                'behaviour' => [
+                    'allowLanguageSynchronization' => true,
                 ],
             ],
         ],
@@ -254,18 +267,8 @@ $result = [
                     'createNewRelationLinkTitle' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:images.addFileReference',
                     'collapseAll' => true,
                 ],
-                'foreign_types' => [
-                    '0' => [
-                        'showitem' => '
-                            --palette--;LLL:EXT:core' . $languageSubpath .
-                        'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                            --palette--;;filePalette',
-                    ],
-                    \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => [
-                        'showitem' => '
-                            --palette--;LLL:EXT:core' . $languageSubpath . 'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                            --palette--;;filePalette',
-                    ],
+                'behaviour' => [
+                    'allowLanguageSynchronization' => true,
                 ],
             ],
         ],
@@ -318,24 +321,30 @@ $result = [
     ],
     'types' => [
         '0' => [
-                'columnsOverrides' => [
-                    'note' => [
-                        'config' => [
-                            'enableRichtext' => '1',
-                        ],
-                    ],
-                    'note2' => [
-                        'config' => [
-                            'enableRichtext' => '1',
-                        ],
+            'columnsOverrides' => [
+                'note' => [
+                    'config' => [
+                        'enableRichtext' => '1',
                     ],
                 ],
-                'showitem' => 'title, subtitle, slug, parent_category, catid, keyword, note, note2, email_uid, image, sliderimage, discount,discount_disable,highlight,tstamp,crdate,hidden,
+                'note2' => [
+                    'config' => [
+                        'enableRichtext' => '1',
+                    ],
+                ],
+            ],
+            'showitem' => 'title, subtitle, slug, parent_category, catid, keyword, note, note2, email_uid, image, sliderimage, discount,discount_disable,highlight,tstamp,crdate,hidden,
                 --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.tabs.access,
                 --palette--;;access',
-            ],
+            '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language,--palette--;;language,'
+        ],
     ],
     'palettes' => [
+        'language' => [
+            'showitem' => '
+                sys_language_uid,l10n_parent,
+            ',
+        ],
         'access' => [
             'label' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.palettes.access',
             'showitem' => 'starttime;LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.starttime_formlabel, endtime;LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.endtime_formlabel, --linebreak--, fe_group;LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.fe_group_formlabel, --linebreak--',

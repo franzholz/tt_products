@@ -45,7 +45,7 @@ use TYPO3\CMS\Frontend\Resource\FilePathSanitizer;
 
 class PaymentGatewayApi implements SingletonInterface
 {
-    public const TRANSACTOR_EXTENSION = 'transactor';
+    final public const TRANSACTOR_EXTENSION = 'transactor';
     protected $handleScript = '';
     protected $handleLib = '';
     protected $handleLibConf = [];
@@ -77,7 +77,7 @@ class PaymentGatewayApi implements SingletonInterface
         }
 
         if (
-            strpos($handleLib, (string)static::TRANSACTOR_EXTENSION) !== false &&
+            str_contains((string) $handleLib, (string)static::TRANSACTOR_EXTENSION) &&
             ExtensionManagementUtility::isLoaded($handleLib)
         ) {
             $useNewTransactor = false;

@@ -32,26 +32,6 @@ $result = [
                 'default' => 0,
             ],
         ],
-        'tstamp' => [
-            'exclude' => 1,
-            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tstamp',
-            'config' => [
-                'type' => 'datetime',
-                'size' => '8',
-                'default' => 0,
-                'readOnly' => 1,
-            ],
-        ],
-        'crdate' => [
-            'exclude' => 1,
-            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_orders.crdate',
-            'config' => [
-                'type' => 'datetime',
-                'size' => '8',
-                'default' => 0,
-                'readOnly' => 1,
-            ],
-        ],
         'sys_language_uid' => [
             'exclude' => 1,
             'label' => $languageLglPath . 'language',
@@ -686,20 +666,18 @@ $result = [
     ],
     'types' => [
         '1' => [
-                'columnsOverrides' => [
-                    'note' => [
-                        'config' => [
-                            'enableRichtext' => '1',
-                        ],
+            'columnsOverrides' => [
+                'note' => [
+                    'config' => [
+                        'enableRichtext' => '1',
                     ],
                 ],
-                'showitem' => 'hidden,--palette--;;1, name, sys_language_uid,first_name,last_name,slug,company,vat_id,salutation,address,house_no,zip,city,country,telephone,email,payment,shipping,amount,tax_mode,pay_mode,email_notify,tracking_code,status,fax,business_partner,organisation_form,agb,feusers_uid,creditpoints,creditpoints_spended,creditpoints_saved,creditpoints_gifts,desired_date,desired_time,client_ip,note,giftservice,foundby,giftcode,cc_uid,ac_uid,date_of_birth,date_of_payment,date_of_delivery,bill_no,radio1,ordered_products,fal_uid,gained_uid,' .
-                '--div--;LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_orders.orderHtmlDiv,orderHtml,',
             ],
+            'showitem' => 'hidden, name, sys_language_uid,first_name,last_name,slug,company,vat_id,salutation,address,house_no,zip,city,country,telephone,email,payment,shipping,amount,tax_mode,pay_mode,email_notify,tracking_code,status,fax,business_partner,organisation_form,agb,feusers_uid,creditpoints,creditpoints_spended,creditpoints_saved,creditpoints_gifts,desired_date,desired_time,client_ip,note,giftservice,foundby,giftcode,cc_uid,ac_uid,date_of_birth,date_of_payment,date_of_delivery,bill_no,radio1,ordered_products,fal_uid,gained_uid,' .
+                '--div--;LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_orders.orderHtmlDiv,orderHtml,',
+        ],
     ],
-    'palettes' => [
-        '1' => ['showitem' => 'tstamp, crdate'],
-    ],
+    'palettes' => [],
 ];
 
 if (!$GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['sepa']) {

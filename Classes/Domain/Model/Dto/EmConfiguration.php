@@ -18,7 +18,7 @@ use TYPO3\CMS\Core\SingletonInterface;
 final class EmConfiguration implements SingletonInterface
 {
     // private ?ExtensionConfiguration $extensionConfiguration = null;
-    const EXTENSION_KEY =  'tt_products';
+    public const EXTENSION_KEY =  'tt_products';
 
     /** @var string */
     protected $extensionKey = self::EXTENSION_KEY;
@@ -74,7 +74,6 @@ final class EmConfiguration implements SingletonInterface
     /** @var array */
     protected $exclude = [
         'tt_products' => '',
-        'tt_products_language' => 'datasheet,www,image,image_uid,itemnumber,smallimage,smallimage_uid',
         'tt_products_cat' => '',
         'tt_products_cat_language' => '',
         'tt_products_articles' => '',
@@ -106,15 +105,15 @@ final class EmConfiguration implements SingletonInterface
         if (empty($configuration)) {
             try {
                 $configuration = $this->extensionConfiguration->get($this->extensionKey);
-            } catch (\Exception $exception) {
+            } catch (\Exception) {
                 // do nothing
             }
         }
 
         foreach ($configuration as $key => $value) {
             if (is_array($value)) {
-                $position = (int)strpos($key, '.');
-                $property = substr($key, 0, $position);
+                $position = (int)strpos((string) $key, '.');
+                $property = substr((string) $key, 0, $position);
                 if (
                     property_exists(self::class, $property) &&
                     is_array($this->$property)

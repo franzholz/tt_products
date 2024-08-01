@@ -16,8 +16,7 @@ class OrderedProductsElement extends AbstractFormElement
         $result = $this->initializeResultArray();
         $result['html'] =
             $orderView->tceSingleOrder(
-                $this->data,
-                null
+                $this->data
             );
 
         return $result;

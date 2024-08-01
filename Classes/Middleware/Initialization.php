@@ -14,7 +14,8 @@ namespace JambageCom\TtProducts\Middleware;
  *
  * The TYPO3 project - inspiring people to share!
  */
-
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Imaging\IconRegistry;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
@@ -36,7 +37,7 @@ class Initialization implements MiddlewareInterface
             'apps-pagetree-folder-contains-' . $pageType => 'apps-pagetree-folder-contains-tt_products.svg',
         ];
         /** @var \TYPO3\CMS\Core\Imaging\IconRegistry $iconRegistry */
-        $iconRegistry = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(\TYPO3\CMS\Core\Imaging\IconRegistry::class);
+        $iconRegistry = GeneralUtility::makeInstance(IconRegistry::class);
         foreach ($icons as $identifier => $filename) {
             $iconRegistry->registerIcon(
                 $identifier,

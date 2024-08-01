@@ -117,7 +117,7 @@ class ActivityController implements SingletonInterface
             $orderUid = $orderArray['uid'];
         }
 
-        if (!$orderUid && count($basketObj->itemArray)) {
+        if (!$orderUid && (is_countable($basketObj->itemArray) ? count($basketObj->itemArray) : 0)) {
             $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
             $orderObj = $tablesObj->get('sys_products_orders');
             $orderUid = $orderObj->getUid();
@@ -155,6 +155,7 @@ class ActivityController implements SingletonInterface
         &$errorCode,
         &$errorMessage
     ) {
+        $templateFilename = null;
         $content = '';
         $localTemplateCode = '';
         $paymentScript = false;
@@ -180,8 +181,7 @@ class ActivityController implements SingletonInterface
                     $errorMessage,
                     $handleScript,
                     $basketExtra,
-                    $conf['paymentActivity'],
-                    $conf['TAXpercentage']
+                    $conf['paymentActivity']
                 );
             } elseif (
                 $gateway->getUseNewTransactor()
@@ -333,6 +333,8 @@ class ActivityController implements SingletonInterface
         //         $giftRequired,
         $paymentErrorMsg
     ) {
+        $markerArray = [];
+        $addQueryString = [];
         $label = '';
         $languageKey = '';
         $context = GeneralUtility::makeInstance(Context::class);
@@ -455,7 +457,7 @@ class ActivityController implements SingletonInterface
             $label = $paymentErrorMsg;
         } else {
             $message = $languageObj->getLabel('internal_error');
-            $messageArr = explode('|', $message);
+            $messageArr = explode('|', (string) $message);
             $label = $messageArr[0] . 'TTP_2' . $messageArr[1] . 'products_payment' . $messageArr[2];
         }
 
@@ -499,6 +501,10 @@ class ActivityController implements SingletonInterface
         &$finalize,
         &$finalVerify
     ) {
+        $bNeedsMinCheck = null;
+        $shopCountryArray = [];
+        $taxInfoArray = null;
+        $nextActivity = [];
         $empty = '';
         $hiddenFields = '';
         $basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
@@ -766,7 +772,7 @@ class ActivityController implements SingletonInterface
                         $errorRow = $errorArray['rec'];
                         $errorRowArray[] = $errorRow;
                         $message = $languageObj->getLabel('error_edit_variant_range');
-                        $messageArr = explode('|', $message);
+                        $messageArr = explode('|', (string) $message);
 
                         if (isset($errorArray['error']) && is_array($errorArray['error'])) {
                             foreach ($errorArray['error'] as $field => $fieldErrorMessage) {
@@ -794,7 +800,7 @@ class ActivityController implements SingletonInterface
                         if (is_array($tmpSubArr)) {
                             foreach ($tmpSubArr as $tmpKey => $tmpSubSubArr) {
                                 if (
-                                    substr($tmpKey, -1) == '.' &&
+                                    str_ends_with($tmpKey, '.') &&
                                     isset($tmpSubSubArr['additional']) &&
                                     is_array($tmpSubSubArr['additional'])
                                 ) {
@@ -871,7 +877,7 @@ class ActivityController implements SingletonInterface
             $finalize = false;
         }
 
-        if (strpos($templateCode, '###ERROR_DETAILS###') !== false) {
+        if (str_contains((string) $templateCode, '###ERROR_DETAILS###')) {
             $tempContent =
             $templateService->getSubpart(
                 $templateCode,
@@ -879,7 +885,7 @@ class ActivityController implements SingletonInterface
                     '###' . $basket_tmpl . $config['templateSuffix'] . '###'
                 )
             );
-            if (strpos($tempContent, '###ERROR_DETAILS###') !== false) {
+            if (str_contains((string) $tempContent, '###ERROR_DETAILS###')) {
                 $errorMessage = ''; // the error message is part of the HTML template
             }
         }
@@ -899,6 +905,9 @@ class ActivityController implements SingletonInterface
         array $codes,
         array $addressArray
     ) {
+        $theCode = null;
+        $templateCode = null;
+        $templateFilename = null;
         $activityArray = $activityApi->getFinalActivityArray();
         $activityVarsArray = $activityApi->getActivityVarsArray();
         $codeActivityArray = $activityApi->getCodeActivityArray();
@@ -1049,8 +1058,7 @@ class ActivityController implements SingletonInterface
                                 $isNewUser = $infoObj->isNewUser('billing');
                                 if (
                                     PaymentShippingHandling::useAccount(
-                                        $basketExtra,
-                                        $isNewUser
+                                        $basketExtra
                                     )
                                 ) {
                                     $accountRequired = $accountObj->checkRequired();
@@ -1105,9 +1113,9 @@ class ActivityController implements SingletonInterface
                         break;
                     case 'products_basket':
                         if (
-                            count($activityArray) == 1 ||
+                            (is_countable($activityArray) ? count($activityArray) : 0) == 1 ||
 
-                            count($activityArray) == 2 &&
+                            (is_countable($activityArray) ? count($activityArray) : 0) == 2 &&
                             !empty($activityArray['products_overview'])
                         ) {
                             $basket_tmpl = 'BASKET_TEMPLATE';
@@ -1198,7 +1206,7 @@ class ActivityController implements SingletonInterface
 
                             if (
                                 is_string($handleLib) &&
-                                strpos($handleLib, 'transactor') !== false
+                                str_contains($handleLib, 'transactor')
                             ) {
                                 // Payment Transactor
                                 $useNewTransactor = false;
@@ -1504,7 +1512,7 @@ class ActivityController implements SingletonInterface
 
                     if (
                         !$basketEmpty &&
-                        trim($conf['paymentActivity']) == 'finalize'
+                        trim((string) $conf['paymentActivity']) == 'finalize'
                     ) {
                         $mainMarkerArray['###MESSAGE_PAYMENT_SCRIPT###'] =
                         $this->processPayment(
@@ -1734,7 +1742,7 @@ class ActivityController implements SingletonInterface
             $activityArray['products_payment'] ?? 0
         );
 
-        if (count($activityApi->getFinalActivityArray())) {
+        if (is_countable($activityApi->getFinalActivityArray()) ? count($activityApi->getFinalActivityArray()) : 0) {
             $content = $this->processActivities(
                 $errorCode,
                 $errorMessage,

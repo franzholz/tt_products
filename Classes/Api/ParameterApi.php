@@ -536,7 +536,7 @@ class ParameterApi implements SingletonInterface
                 $foundKey = 0;
 
                 if ($position == 'local' && isset($keyFieldArray[$searchFieldArray['local']]) && ExtensionManagementUtility::isLoaded('searchbox')) {	// Todo
-                    require_once PATH_BE_searchbox . 'model/class.tx_searchbox_model.php';
+                    require_once \PATH_BE_SEARCHBOX . 'model/class.tx_searchbox_model.php';
                     $modelObj = GeneralUtility::makeInstance('tx_searchbox_model');
 
                     $fullKeyFieldArray = $modelObj->getKeyFieldArray($tablename, '', '-', $searchFieldArray['local'], '1', $tmpCount);
@@ -560,8 +560,8 @@ class ParameterApi implements SingletonInterface
                     }
 
                     if ($searchKey == $positionSearchVars[$position] || (is_array($searchParamArray[$position]) && key($searchParamArray[$position]) == $k || !is_array($searchParamArray[$position]) && $searchParamArray[$position] == $k)) {
-                        if (substr($searchValue, 0, 1) == '\'' && substr($searchValue, -1) == '\'') {
-                            $searchValue = substr($searchValue, 1, strlen($searchValue) - 2);
+                        if (str_starts_with((string) $searchValue, '\'') && str_ends_with((string) $searchValue, '\'')) {
+                            $searchValue = substr((string) $searchValue, 1, strlen((string) $searchValue) - 2);
                         }
                         if (isset($fullKeyFieldArray) && is_array($fullKeyFieldArray)) {
                             $tmpArray = GeneralUtility::trimExplode('|', $searchKey);

@@ -2,6 +2,7 @@
 
 defined('TYPO3') || die('Access denied.');
 
+use TYPO3\CMS\Core\Resource\File;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
 $extensionKey = 'tt_products';
@@ -34,37 +35,61 @@ return [
             'endtime' => 'endtime',
             'fe_group' => 'fe_group',
         ],
-        'thumbnail' => 'image_uid', // supported until TYPO3 10: breaking #92118
         'useColumnsForDefaultValues' => 'category',
         'mainpalette' => 1,
         'iconfile' => 'EXT:' . $extensionKey . '/Resources/Public/Icons/tt_products.gif',
         'searchFields' => 'uid,title,subtitle,itemnumber,ean,note,note2,www',
+        'typeicon_classes' => [
+            'default' => 'tt-products-product'
+        ],
+        'transOrigPointerField' => 'l10n_parent',
+        'transOrigDiffSourceField' => 'l10n_diffsource',
+        'languageField' => 'sys_language_uid',
+        'translationSource' => 'l10n_source',
     ],
     'columns' => [
+        'sys_language_uid' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.language',
+            'config' => [
+                'type' => 'language',
+            ],
+        ],
+        'l10n_parent' => [
+            'displayCond' => 'FIELD:sys_language_uid:>:0',
+            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.l18n_parent',
+            'config' => [
+                'type' => 'select',
+                'renderType' => 'selectSingle',
+                'items' => [
+                    [
+                        'label' => '',
+                        'value' => 0,
+                    ],
+                ],
+                'foreign_table' => 'tt_products',
+                'foreign_table_where' =>
+                    'AND {#tt_products}.{#pid}=###CURRENT_PID###'
+                    . ' AND {#tt_products}.{#sys_language_uid} IN (-1,0)',
+                'default' => 0,
+            ],
+        ],
+        'l10n_source' => [
+            'config' => [
+                'type' => 'passthrough',
+            ],
+        ],
+        'l10n_diffsource' => [
+            'config' => [
+                'type' => 'passthrough',
+                'default' => '',
+            ],
+        ],
         'hidden' => [
             'exclude' => 1,
             'label' => $languageLglPath . 'hidden',
             'config' => [
                 'type' => 'check',
-                'default' => 0,
-            ],
-        ],
-        'tstamp' => [
-            'exclude' => 1,
-            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tstamp',
-            'config' => [
-                'type' => 'datetime',
-                'size' => '8',
-                'default' => 0,
-                'format' => 'date',
-            ],
-        ],
-        'crdate' => [
-            'exclude' => 1,
-            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:crdate',
-            'config' => [
-                'type' => 'datetime',
-                'size' => '8',
                 'default' => 0,
             ],
         ],
@@ -329,13 +354,13 @@ return [
             'config' => [
                 'type' => 'inline',
                 'appearance' => [
-                        'collapseAll' => true,
-                        'newRecordLinkAddTitle' => true,
-                        'useCombination' => true,
-                    ],
-                'MM' => 'tt_products_mm_graduated_price',
+                    'collapseAll' => true,
+                    'newRecordLinkAddTitle' => true,
+                    'useCombination' => true,
+                ],
                 'foreign_table' => 'tt_products_graduated_price',
-                'foreign_sortby' => 'sorting',
+                'foreign_field' => 'parentuid',
+                'foreign_table_field' => 'parenttable',
                 'maxitems' => 12,
                 'default' => 0,
             ],
@@ -346,16 +371,12 @@ return [
             'config' => [
                 'type' => 'inline',
                 'appearance' => [
-                        'collapseAll' => true,
-                        'newRecordLinkAddTitle' => true,
-                        'useCombination' => true,
-                    ],
-                'foreign_table' => 'tt_products_products_mm_articles',
-                'foreign_field' => 'uid_local',
-                'foreign_sortby' => 'sorting',
-                'foreign_label' => 'uid_foreign',
-                'foreign_selector' => 'uid_foreign',
-                'foreign_unique' => 'uid_foreign',
+                    'collapseAll' => true,
+                    'newRecordLinkAddTitle' => true,
+                    'useCombination' => true,
+                ],
+                'foreign_table' => 'tt_products_articles',
+                'foreign_field' => 'uid_product',
                 'maxitems' => 1000,
                 'default' => 0,
             ],
@@ -387,6 +408,7 @@ return [
                 'type' => 'group',
                 'allowed' => 'pages',
                 'MM' => 'tt_products_products_note_pages_mm',
+                'MM_hasUidField' => true,
                 'size' => '2',
                 'autoSizeMax' => '12',
                 'minitems' => '0',
@@ -456,6 +478,7 @@ return [
                 'type' => 'group',
                 'allowed' => 'tt_products_downloads',
                 'MM' => 'tt_products_products_mm_downloads',
+                'MM_hasUidField' => true,
                 'foreign_table' => 'tt_products_downloads',
                 'foreign_table_where' => ' ORDER BY tt_products_downloads.title',
                 'size' => 10,
@@ -551,22 +574,13 @@ return [
             'config' => [
                 ### !!! Watch out for fieldName different from columnName
                 'type' => 'file',
-                'allowed' => $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'],
+                'allowed' => 'common-image-types',
                 'appearance' => [
                     'createNewRelationLinkTitle' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:images.addFileReference',
                     'collapseAll' => true,
                 ],
-                'foreign_types' => [
-                    '0' => [
-                        'showitem' => '
-                                --palette--;LLL:EXT:core' . $languageSubpath . 'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                                --palette--;;filePalette' . $palleteAddition,
-                    ],
-                    \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => [
-                        'showitem' => '
-                                --palette--;LLL:EXT:core' . $languageSubpath . 'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                                --palette--;;filePalette' . $palleteAddition,
-                    ],
+                'behaviour' => [
+                    'allowLanguageSynchronization' => true,
                 ],
             ],
         ],
@@ -576,22 +590,13 @@ return [
             'config' => [
                 ### !!! Watch out for fieldName different from columnName
                 'type' => 'file',
-                'allowed' => $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext'],
+                'allowed' => 'common-image-types',
                 'appearance' => [
                     'createNewRelationLinkTitle' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:images.addFileReference',
                     'collapseAll' => true,
                 ],
-                'foreign_types' => [
-                    '0' => [
-                        'showitem' => '
-                                --palette--;LLL:EXT:core' . $languageSubpath . 'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                                --palette--;;filePalette' . $palleteAddition,
-                    ],
-                    \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => [
-                        'showitem' => '
-                                --palette--;LLL:EXT:core' . $languageSubpath . 'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                                --palette--;;filePalette' . $palleteAddition,
-                    ],
+                'behaviour' => [
+                    'allowLanguageSynchronization' => true,
                 ],
             ],
         ],
@@ -601,22 +606,13 @@ return [
             'config' => [
                 ### !!! Watch out for fieldName different from columnName
                 'type' => 'file',
-                'allowed' => $GLOBALS['TYPO3_CONF_VARS']['SYS']['mediafile_ext'],
+                'allowed' => 'common-image-types',
                 'appearance' => [
                     'createNewRelationLinkTitle' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:images.addFileReference',
                     'collapseAll' => true,
                 ],
-                'foreign_types' => [
-                    '0' => [
-                        'showitem' => '
-                                --palette--;LLL:EXT:core' . $languageSubpath . 'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                                --palette--;;filePalette' . $palleteAddition,
-                    ],
-                    \TYPO3\CMS\Core\Resource\File::FILETYPE_APPLICATION => [
-                        'showitem' => '
-                                --palette--;LLL:EXT:core' . $languageSubpath . 'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                                --palette--;;filePalette' . $palleteAddition,
-                    ],
+                'behaviour' => [
+                    'allowLanguageSynchronization' => true,
                 ],
             ],
         ],
@@ -692,6 +688,7 @@ return [
                 'type' => 'group',
                 'allowed' => 'tt_products',
                 'MM' => 'tt_products_accessory_products_products_mm',
+                'MM_hasUidField' => true,
                 'foreign_table' => 'tt_products',
                 'foreign_table_where' => ' ORDER BY tt_products.uid',
                 'size' => 10,
@@ -707,6 +704,7 @@ return [
                 'type' => 'group',
                 'allowed' => 'tt_products',
                 'MM' => 'tt_products_related_products_products_mm',
+                'MM_hasUidField' => true,
                 'foreign_table' => 'tt_products',
                 'foreign_table_where' => ' ORDER BY tt_products.uid',
                 'size' => 10,
@@ -997,30 +995,31 @@ return [
     ],
     'types' => [
         '0' => [
-                'columnsOverrides' => [
-                    'note' => [
-                        'config' => [
-                            'enableRichtext' => '1',
-                        ],
-                    ],
-                    'note2' => [
-                        'config' => [
-                            'enableRichtext' => '1',
-                        ],
+            'columnsOverrides' => [
+                'note' => [
+                    'config' => [
+                        'enableRichtext' => '1',
                     ],
                 ],
+                'note2' => [
+                    'config' => [
+                        'enableRichtext' => '1',
+                    ],
+                ],
+            ],
 
-                'showitem' => 'title,--palette--;;7, itemnumber,--palette--;;2, slug, price,--palette--;;3, tax,--palette--;;4, deposit,--palette--;;5,offer,--palette--;;6,weight,--palette--;;8,tstamp, crdate, hidden,
+            'showitem' => 'title,--palette--;;7, itemnumber,--palette--;;2, slug, price,--palette--;;3, tax,--palette--;;4, deposit,--palette--;;5,offer,--palette--;;6,weight,--palette--;;8, hidden,
                 --palette--;;1,
                 --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.tabs.access,
                     --palette--;;access,' .
-                    '--div--;LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.descriptions,note, note2,note_uid,text_uid,image_uid,smallimage_uid,datasheet_uid,' .
-                    '--div--;LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.categorydiv, category, syscat,' .
-                    '--div--;LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.variants,color,color2,--palette--;;9,size,size2,--palette--;;10,description,gradings,material,quality,--palette--;;,additional,--palette--;;11,' .
-                    '--div--;LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.graduated,graduated_price_enable,graduated_price_round,graduated_price_uid,' .
-                    '--div--;LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.relations,article_uid,related_uid,accessory_uid,download_info,download_uid,' .
-                    '--div--;LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.shippingdiv,shipping_point,shipping,shipping2,handling,delivery,',
-            ],
+                '--div--;LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.descriptions,note, note2,note_uid,text_uid,image_uid,smallimage_uid,datasheet_uid,' .
+                '--div--;LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.categorydiv, category, syscat,' .
+                '--div--;LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.variants,color,color2,--palette--;;9,size,size2,--palette--;;10,description,gradings,material,quality,--palette--;;,additional,--palette--;;11,' .
+                '--div--;LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.graduated,graduated_price_enable,graduated_price_round,graduated_price_uid,' .
+                '--div--;LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.relations,article_uid,related_uid,accessory_uid,download_info,download_uid,' .
+                '--div--;LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.shippingdiv,shipping_point,shipping,shipping2,handling,delivery,' .
+            '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language,--palette--;;language,'
+        ],
     ],
     'palettes' => [
         '1' => ['showitem' => 'sellstarttime,sellendtime'],
@@ -1034,6 +1033,11 @@ return [
         '9' => ['showitem' => 'color3'],
         '10' => ['showitem' => 'size3'],
         '11' => ['showitem' => 'usebydate'],
+        'language' => [
+            'showitem' => '
+                sys_language_uid,l10n_parent,
+            ',
+        ],
         'access' => [
             'label' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.palettes.access',
             'showitem' => 'starttime;LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.starttime_formlabel, endtime;LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.endtime_formlabel, --linebreak--, fe_group;LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.fe_group_formlabel, --linebreak--',

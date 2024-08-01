@@ -82,7 +82,7 @@ class CreateLanguagesUtility
                         $insertArray['text_uid'] = $row['uid'];
 
                         if ($table == 'tt_products_texts') {
-                            $insertArray['parenttable'] = 'tt_products_language';
+                            //$insertArray['parenttable'] = 'tt_products_language';
 
                             // determine parentid
                             $foreignRowArray =

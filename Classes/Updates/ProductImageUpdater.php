@@ -29,11 +29,10 @@ use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
 
 class ProductImageUpdater implements UpgradeWizardInterface, ConfirmableInterface, ChattyInterface
 {
-    public const TABLES = 'tt_products,tt_products_language,tt_products_cat,tt_products_articles';
+    final public const TABLES = 'tt_products,tt_products_cat,tt_products_articles';
 
     protected $tableFields = [
         'tt_products' => ['image', 'smallimage'],
-        'tt_products_language' => ['image', 'smallimage'],
         'tt_products_cat' => ['image', 'sliderimage'],
         'tt_products_articles' => ['image', 'smallimage'],
     ];
@@ -96,6 +95,7 @@ class ProductImageUpdater implements UpgradeWizardInterface, ConfirmableInterfac
      */
     public function getConfirmation(): Confirmation
     {
+        $elementCount = null;
         $upgradeApi = GeneralUtility::makeInstance(UpgradeApi::class);
         $title = '';
         $tables = explode(',', self::TABLES);

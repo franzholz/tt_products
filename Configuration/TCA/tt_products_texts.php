@@ -27,24 +27,47 @@ $result = [
         'origUid' => 't3_origuid',
         'iconfile' => 'EXT:' . $extensionKey . '/Resources/Public/Icons/tt_products_texts.gif',
         'searchFields' => 'title,marker,note',
+        'transOrigPointerField' => 'l10n_parent',
+        'transOrigDiffSourceField' => 'l10n_diffsource',
+        'languageField' => 'sys_language_uid',
+        'translationSource' => 'l10n_source',
     ],
     'columns' => [
-        'tstamp' => [
-            'exclude' => 1,
-            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tstamp',
+        'sys_language_uid' => [
+            'exclude' => true,
+            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.language',
             'config' => [
-                'type' => 'datetime',
-                'size' => '8',
+                'type' => 'language',
+            ],
+        ],
+        'l10n_parent' => [
+            'displayCond' => 'FIELD:sys_language_uid:>:0',
+            'label' => 'LLL:EXT:core/Resources/Private/Language/locallang_general.xlf:LGL.l18n_parent',
+            'config' => [
+                'type' => 'select',
+                'renderType' => 'selectSingle',
+                'items' => [
+                    [
+                        'label' => '',
+                        'value' => 0,
+                    ],
+                ],
+                'foreign_table' => 'tt_products_texts',
+                'foreign_table_where' =>
+                    'AND {#tt_products_texts}.{#pid}=###CURRENT_PID###'
+                    . ' AND {#tt_products_texts}.{#sys_language_uid} IN (-1,0)',
                 'default' => 0,
             ],
         ],
-        'crdate' => [
-            'exclude' => 1,
-            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:crdate',
+        'l10n_source' => [
             'config' => [
-                'type' => 'datetime',
-                'size' => '8',
-                'default' => 0,
+                'type' => 'passthrough',
+            ],
+        ],
+        'l10n_diffsource' => [
+            'config' => [
+                'type' => 'passthrough',
+                'default' => '',
             ],
         ],
         'hidden' => [
@@ -169,22 +192,28 @@ $result = [
     ],
     'types' => [
         '0' => [
-                'columnsOverrides' => [
-                    'note' => [
-                        'config' => [
-                            'enableRichtext' => '1',
-                        ],
+            'columnsOverrides' => [
+                'note' => [
+                    'config' => [
+                        'enableRichtext' => '1',
                     ],
                 ],
-                'showitem' => 'tstamp, crdate, title, marker, note, parentid, parenttable, hidden,
+            ],
+            'showitem' => 'title, marker, note, parentid, parenttable, hidden,
                 --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.tabs.access,
                     --palette--;;access',
-            ],
+            '--div--;LLL:EXT:core/Resources/Private/Language/Form/locallang_tabs.xlf:language,--palette--;;language,'
+        ],
     ],
     'palettes' => [
         'access' => [
             'label' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.palettes.access',
             'showitem' => 'starttime;LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.starttime_formlabel, endtime;LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.endtime_formlabel, --linebreak--, fe_group;LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.fe_group_formlabel, --linebreak--',
+        ],
+        'language' => [
+            'showitem' => '
+                sys_language_uid,l10n_parent,
+            ',
         ],
     ],
 ];

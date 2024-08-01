@@ -58,7 +58,7 @@ class UpgradeApi implements LoggerAwareInterface
     {
         $count = 0;
 
-        if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['articleMode'] > 0) {
+        if (($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['articleMode'] ?? 0) > 0) {
             $articleTable = 'tt_products_articles';
 
             /** @var QueryBuilder $queryBuilder */
@@ -499,7 +499,7 @@ class UpgradeApi implements LoggerAwareInterface
         ) {
             return false;
         }
-        $fileadminDirectory = rtrim($GLOBALS['TYPO3_CONF_VARS']['BE']['fileadminDir'], '/') . '/';
+        $fileadminDirectory = rtrim((string) $GLOBALS['TYPO3_CONF_VARS']['BE']['fileadminDir'], '/') . '/';
         $i = 0;
         if ($sourcePath == '') {
             $sourcePath = 'uploads/tx_ttproducts/' . $oldField;
@@ -516,7 +516,7 @@ class UpgradeApi implements LoggerAwareInterface
         }
         $storageUid = (int)$defaultStorage->getUid();
         $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
-        $fieldItems = explode(',', $row[$oldField]);
+        $fieldItems = explode(',', (string) $row[$oldField]);
         $pathSite = Environment::getPublicPath() . '/';
 
         foreach ($fieldItems as $item) {
@@ -642,7 +642,7 @@ class UpgradeApi implements LoggerAwareInterface
                 ];
                 $queryBuilder = $connectionPool->getQueryBuilderForTable('sys_file_reference');
                 $queryBuilder->insert('sys_file_reference')->values($fields)->executeStatement();
-                $databaseQueries[] = str_replace(LF, ' ', $queryBuilder->getSQL());
+                $databaseQueries[] = str_replace(LF, ' ', (string) $queryBuilder->getSQL());
                 ++$i;
             }
         } // Ende foreach
@@ -658,7 +658,7 @@ class UpgradeApi implements LoggerAwareInterface
                     $queryBuilder->createNamedParameter($row['uid'], \PDO::PARAM_INT)
                 )
             )->set($newField, $i)->executeStatement();
-            $databaseQueries[] = str_replace(LF, ' ', $queryBuilder->getSQL());
+            $databaseQueries[] = str_replace(LF, ' ', (string) $queryBuilder->getSQL());
         }
     }
 }

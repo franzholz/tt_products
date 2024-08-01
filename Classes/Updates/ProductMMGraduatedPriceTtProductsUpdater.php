@@ -29,7 +29,7 @@ use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
 
 class ProductMMGraduatedPriceTtProductsUpdater implements UpgradeWizardInterface, ConfirmableInterface, ChattyInterface
 {
-    public const TABLE = 'tt_products_mm_graduated_price';
+    final public const TABLE = 'tt_products_mm_graduated_price';
 
     /**
      * @var OutputInterface

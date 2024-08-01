@@ -54,6 +54,7 @@ class TransactorListener
         $pObj,
         $params
     ) {
+        $templateCode = null;
         // Process the ID, type and other parameters
         // After this point we have an array, $page in TSFE, which is the page-record of the current page, $id
         $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);

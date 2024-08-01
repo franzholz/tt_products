@@ -2,25 +2,6 @@
 # Table structure for table 'tt_products'
 #
 CREATE TABLE tt_products (
-	uid int(11) NOT NULL auto_increment,
-	pid int(11) DEFAULT '0' NOT NULL,
-	tstamp int(11) DEFAULT '0' NOT NULL,
-	crdate int(11) DEFAULT '0' NOT NULL,
-	cruser_id int(11) DEFAULT '0' NOT NULL,
-	t3ver_oid int(11) DEFAULT '0' NOT NULL,
-	t3ver_wsid int(11) DEFAULT '0' NOT NULL,
-	t3ver_state tinyint(4) DEFAULT '0' NOT NULL,
-	t3ver_stage int(11) DEFAULT '0' NOT NULL,
-	t3ver_count int(11) DEFAULT '0' NOT NULL,
-	t3ver_tstamp int(11) DEFAULT '0' NOT NULL,
-	t3ver_move_id int(11) DEFAULT '0' NOT NULL,
-	t3_origuid int(11) DEFAULT '0' NOT NULL,
-	sorting int(11) DEFAULT '0' NOT NULL,
-	deleted tinyint(3) DEFAULT '0' NOT NULL,
-	hidden tinyint(4) DEFAULT '0' NOT NULL,
-	starttime int(11) DEFAULT '0' NOT NULL,
-	endtime int(11) DEFAULT '0' NOT NULL,
-	fe_group varchar(255) DEFAULT '0' NOT NULL,
 	title tinytext,
 	subtitle mediumtext,
 	slug varchar(2048),
@@ -28,7 +9,6 @@ CREATE TABLE tt_products (
 	prod_uid int(11) DEFAULT '0' NOT NULL,
 	accessory_uid int(11) DEFAULT '0' NOT NULL,
 	related_uid int(11) DEFAULT '0' NOT NULL,
-	dam_uid int(11) DEFAULT '0' NOT NULL,
 	itemnumber varchar(120) DEFAULT '' NOT NULL,
 	ean varchar(48) DEFAULT '' NOT NULL,
 	shipping_point varchar(24) DEFAULT '' NOT NULL,
@@ -92,170 +72,13 @@ CREATE TABLE tt_products (
 	handling decimal(19,2) DEFAULT '0.00' NOT NULL,
 	delivery int(11) DEFAULT '0' NOT NULL,
 	sellstarttime int(11) unsigned DEFAULT '0' NOT NULL,
-	sellendtime int(11) unsigned DEFAULT '0' NOT NULL,
-
-	PRIMARY KEY (uid),
-	KEY parent (pid),
-	KEY comp1 (sorting),
-	KEY comp2 (pid,deleted,hidden,starttime,endtime,fe_group),
-	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
-	KEY slug (slug(127))
+	sellendtime int(11) unsigned DEFAULT '0' NOT NULL
 );
-
-
-#
-# Table structure for table 'tt_products_language'
-#
-CREATE TABLE tt_products_language (
-	uid int(11) NOT NULL auto_increment,
-	pid int(11) DEFAULT '0' NOT NULL,
-	tstamp int(11) DEFAULT '0' NOT NULL,
-	crdate int(11) DEFAULT '0' NOT NULL,
-	cruser_id int(11) DEFAULT '0' NOT NULL,
-	t3ver_oid int(11) DEFAULT '0' NOT NULL,
-	t3ver_wsid int(11) DEFAULT '0' NOT NULL,
-	t3ver_state tinyint(4) DEFAULT '0' NOT NULL,
-	t3ver_stage int(11) DEFAULT '0' NOT NULL,
-	t3ver_count int(11) DEFAULT '0' NOT NULL,
-	t3ver_tstamp int(11) DEFAULT '0' NOT NULL,
-	t3ver_move_id int(11) DEFAULT '0' NOT NULL,
-	t3_origuid int(11) DEFAULT '0' NOT NULL,
-	sorting int(11) DEFAULT '0' NOT NULL,
-	sys_language_uid int(11) DEFAULT '0' NOT NULL,
-	deleted tinyint(4) DEFAULT '0' NOT NULL,
-	hidden tinyint(4) DEFAULT '0' NOT NULL,
-	starttime int(11) DEFAULT '0' NOT NULL,
-	endtime int(11) DEFAULT '0' NOT NULL,
-	fe_group varchar(255) DEFAULT '0' NOT NULL,
-	title tinytext,
-	subtitle mediumtext,
-	slug varchar(2048),
-	keyword mediumtext,
-	itemnumber varchar(120) DEFAULT '' NOT NULL,
-	prod_uid int(11) DEFAULT '0' NOT NULL,
-	text_uid int(11) DEFAULT '0' NOT NULL,
-	note text,
-	note2 text,
-	unit varchar(20) DEFAULT '' NOT NULL,
-	image text,
-	image_uid int(11) DEFAULT '0' NOT NULL,
-	smallimage text,
-	smallimage_uid int(11) DEFAULT '0' NOT NULL,
-	datasheet text,
-	www varchar(160) DEFAULT '' NOT NULL,
-
-	PRIMARY KEY (uid),
-	KEY parent (pid),
-	KEY comp1 (sorting),
-	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
-	KEY slug (slug(127))
-);
-
-
-#
-# Table structure for table 'tt_products_related_products_products_mm'
-#
-#
-CREATE TABLE tt_products_related_products_products_mm (
-	uid int(11) NOT NULL auto_increment,
-	pid int(11) DEFAULT '0' NOT NULL,
-	tstamp int(11) DEFAULT '0' NOT NULL,
-	crdate int(11) DEFAULT '0' NOT NULL,
-	deleted tinyint(4) DEFAULT '0' NOT NULL,
-	hidden tinyint(4) DEFAULT '0' NOT NULL,
-	uid_local int(11) DEFAULT '0' NOT NULL,
-	uid_foreign int(11) DEFAULT '0' NOT NULL,
-	sorting int(11) DEFAULT '0' NOT NULL,
-	sorting_foreign int(11) DEFAULT '0' NOT NULL,
-
-	PRIMARY KEY (uid),
-	KEY uid_local (uid_local),
-	KEY uid_foreign (uid_foreign),
-	KEY select01 (uid_local,uid_foreign),
-);
-
-
-#
-# Table structure for table 'tt_products_accessory_products_products_mm'
-#
-#
-CREATE TABLE tt_products_accessory_products_products_mm (
-	uid int(11) NOT NULL auto_increment,
-	pid int(11) DEFAULT '0' NOT NULL,
-	tstamp int(11) DEFAULT '0' NOT NULL,
-	crdate int(11) DEFAULT '0' NOT NULL,
-	deleted tinyint(4) DEFAULT '0' NOT NULL,
-	hidden tinyint(4) DEFAULT '0' NOT NULL,
-	uid_local int(11) DEFAULT '0' NOT NULL,
-	uid_foreign int(11) DEFAULT '0' NOT NULL,
-	sorting int(11) DEFAULT '0' NOT NULL,
-	sorting_foreign int(11) DEFAULT '0' NOT NULL,
-
-	PRIMARY KEY (uid),
-	KEY uid_local (uid_local),
-	KEY uid_foreign (uid_foreign),
-	KEY select01 (uid_local,uid_foreign),
-);
-
-
-#
-# Table structure for table 'tt_products_products_dam_mm'
-#
-#
-CREATE TABLE tt_products_products_dam_mm (
-	uid_local int(11) DEFAULT '0' NOT NULL,
-	uid_foreign int(11) DEFAULT '0' NOT NULL,
-	sorting int(11) DEFAULT '0' NOT NULL,
-
-	KEY uid_local (uid_local),
-	KEY uid_foreign (uid_foreign),
-);
-
-
-#
-# Table structure for table 'tt_products_products_note_pages_mm'
-#
-#
-CREATE TABLE tt_products_products_note_pages_mm (
-	uid int(11) NOT NULL auto_increment,
-	pid int(11) DEFAULT '0' NOT NULL,
-	tstamp int(11) DEFAULT '0' NOT NULL,
-	crdate int(11) DEFAULT '0' NOT NULL,
-	deleted tinyint(4) DEFAULT '0' NOT NULL,
-	hidden tinyint(4) DEFAULT '0' NOT NULL,
-	uid_local int(11) DEFAULT '0' NOT NULL,
-	uid_foreign int(11) DEFAULT '0' NOT NULL,
-	sorting int(11) DEFAULT '0' NOT NULL,
-
-	PRIMARY KEY (uid),
-	KEY uid_local (uid_local),
-	KEY uid_foreign (uid_foreign),
-);
-
 
 #
 # Table structure for table 'tt_products_cat'
 #
 CREATE TABLE tt_products_cat (
-	uid int(11) NOT NULL auto_increment,
-	pid int(11) DEFAULT '0' NOT NULL,
-	tstamp int(11) DEFAULT '0' NOT NULL,
-	crdate int(11) DEFAULT '0' NOT NULL,
-	cruser_id int(11) DEFAULT '0' NOT NULL,
-	t3ver_oid int(11) DEFAULT '0' NOT NULL,
-	t3ver_wsid int(11) DEFAULT '0' NOT NULL,
-	t3ver_state tinyint(4) DEFAULT '0' NOT NULL,
-	t3ver_stage int(11) DEFAULT '0' NOT NULL,
-	t3ver_count int(11) DEFAULT '0' NOT NULL,
-	t3ver_tstamp int(11) DEFAULT '0' NOT NULL,
-	t3ver_move_id int(11) DEFAULT '0' NOT NULL,
-	t3_origuid int(11) DEFAULT '0' NOT NULL,
-	sorting int(11) DEFAULT '0' NOT NULL,
-	deleted tinyint(3) unsigned DEFAULT '0' NOT NULL,
-	hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
-	starttime int(11) unsigned DEFAULT '0' NOT NULL,
-	endtime int(11) unsigned DEFAULT '0' NOT NULL,
-	fe_group varchar(255) DEFAULT '0' NOT NULL,
 	title tinytext,
 	subtitle mediumtext,
 	slug varchar(2048),
@@ -271,102 +94,13 @@ CREATE TABLE tt_products_cat (
 	discount decimal(19,2) DEFAULT '0.00' NOT NULL,
 	discount_disable tinyint(3) unsigned DEFAULT '0' NOT NULL,
 	highlight int(11) DEFAULT '0' NOT NULL,
-	parent_category int(11) DEFAULT '0' NOT NULL,
-
-	PRIMARY KEY (uid),
-	KEY parent (pid),
-	KEY comp1 (sorting),
-	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
-	KEY slug (slug(127))
+	parent_category int(11) DEFAULT '0' NOT NULL
 );
-
-
-#
-# Table structure for table 'tt_products_cat_language'
-#
-CREATE TABLE tt_products_cat_language (
-	uid int(11) NOT NULL auto_increment,
-	pid int(11) DEFAULT '0' NOT NULL,
-	tstamp int(11) DEFAULT '0' NOT NULL,
-	crdate int(11) DEFAULT '0' NOT NULL,
-	cruser_id int(11) DEFAULT '0' NOT NULL,
-	t3ver_oid int(11) DEFAULT '0' NOT NULL,
-	t3ver_wsid int(11) DEFAULT '0' NOT NULL,
-	t3ver_state tinyint(4) DEFAULT '0' NOT NULL,
-	t3ver_stage int(11) DEFAULT '0' NOT NULL,
-	t3ver_count int(11) DEFAULT '0' NOT NULL,
-	t3ver_tstamp int(11) DEFAULT '0' NOT NULL,
-	t3ver_move_id int(11) DEFAULT '0' NOT NULL,
-	t3_origuid int(11) DEFAULT '0' NOT NULL,
-	sorting int(11) DEFAULT '0' NOT NULL,
-	sys_language_uid int(11) DEFAULT '0' NOT NULL,
-	deleted tinyint(4) DEFAULT '0' NOT NULL,
-	hidden tinyint(4) DEFAULT '0' NOT NULL,
-	starttime int(11) DEFAULT '0' NOT NULL,
-	endtime int(11) DEFAULT '0' NOT NULL,
-	fe_group varchar(255) DEFAULT '0' NOT NULL,
-	title tinytext,
-	subtitle mediumtext,
-	slug varchar(2048),
-	keyword mediumtext,
-	note text,
-	note2 text,
-	cat_uid int(11) DEFAULT '0' NOT NULL,
-
-	PRIMARY KEY (uid),
-	KEY parent (pid),
-	KEY comp1 (sorting),
-	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
-	KEY slug (slug(127))
-);
-
-
-#
-# Table structure for table 'tt_products_products_mm_articles'
-#
-CREATE TABLE tt_products_products_mm_articles (
-	uid int(11) NOT NULL auto_increment,
-	pid int(11) DEFAULT '0' NOT NULL,
-	tstamp int(11) DEFAULT '0' NOT NULL,
-	crdate int(11) DEFAULT '0' NOT NULL,
-	deleted tinyint(4) DEFAULT '0' NOT NULL,
-	hidden tinyint(4) DEFAULT '0' NOT NULL,
-	uid_local int(11) DEFAULT '0' NOT NULL,
-	uid_foreign int(11) DEFAULT '0' NOT NULL,
-	tablenames varchar(30) DEFAULT '' NOT NULL,
-	sorting int(11) DEFAULT '0' NOT NULL,
-	sorting_foreign int(11) DEFAULT '0' NOT NULL,
-
-	PRIMARY KEY (uid),
-	KEY uid_local (uid_local),
-	KEY uid_foreign (uid_foreign),
-	KEY parent (pid)
-);
-
 
 #
 # Table structure for table 'tt_products_articles'
 #
 CREATE TABLE tt_products_articles (
-	uid int(11) DEFAULT '0' NOT NULL auto_increment,
-	pid int(11) DEFAULT '0' NOT NULL,
-	tstamp int(11) DEFAULT '0' NOT NULL,
-	crdate int(11) DEFAULT '0' NOT NULL,
-	cruser_id int(11) DEFAULT '0' NOT NULL,
-	t3ver_oid int(11) DEFAULT '0' NOT NULL,
-	t3ver_wsid int(11) DEFAULT '0' NOT NULL,
-	t3ver_state tinyint(4) DEFAULT '0' NOT NULL,
-	t3ver_stage int(11) DEFAULT '0' NOT NULL,
-	t3ver_count int(11) DEFAULT '0' NOT NULL,
-	t3ver_tstamp int(11) DEFAULT '0' NOT NULL,
-	t3ver_move_id int(11) DEFAULT '0' NOT NULL,
-	t3_origuid int(11) DEFAULT '0' NOT NULL,
-	sorting int(11) DEFAULT '0' NOT NULL,
-	deleted tinyint(4) DEFAULT '0' NOT NULL,
-	hidden tinyint(4) DEFAULT '0' NOT NULL,
-	starttime int(11) DEFAULT '0' NOT NULL,
-	endtime int(11) DEFAULT '0' NOT NULL,
-	fe_group varchar(255) DEFAULT '0' NOT NULL,
 	title varchar(80) DEFAULT '' NOT NULL,
 	subtitle varchar(80) DEFAULT '' NOT NULL,
 	slug varchar(2048),
@@ -401,88 +135,20 @@ CREATE TABLE tt_products_articles (
 	quality mediumtext,
 	config_type varchar(36) DEFAULT '' NOT NULL,
 	config mediumtext,
-	uid_product int(11) DEFAULT '0' NOT NULL,
-
-	PRIMARY KEY (uid),
-	KEY parent (pid),
-	KEY comp1 (sorting),
-	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
-	KEY slug (slug(127))
+	uid_product int(11) DEFAULT '0' NOT NULL
 );
-
-
-#
-# Table structure for table 'tt_products_articles_language'
-#
-CREATE TABLE tt_products_articles_language (
-	uid int(11) NOT NULL auto_increment,
-	pid int(11) DEFAULT '0' NOT NULL,
-	tstamp int(11) DEFAULT '0' NOT NULL,
-	crdate int(11) DEFAULT '0' NOT NULL,
-	cruser_id int(11) DEFAULT '0' NOT NULL,
-	t3ver_oid int(11) DEFAULT '0' NOT NULL,
-	t3ver_wsid int(11) DEFAULT '0' NOT NULL,
-	t3ver_state tinyint(4) DEFAULT '0' NOT NULL,
-	t3ver_stage int(11) DEFAULT '0' NOT NULL,
-	t3ver_count int(11) DEFAULT '0' NOT NULL,
-	t3ver_tstamp int(11) DEFAULT '0' NOT NULL,
-	t3ver_move_id int(11) DEFAULT '0' NOT NULL,
-	t3_origuid int(11) DEFAULT '0' NOT NULL,
-	sorting int(11) DEFAULT '0' NOT NULL,
-	sys_language_uid int(11) DEFAULT '0' NOT NULL,
-	deleted tinyint(4) DEFAULT '0' NOT NULL,
-	hidden tinyint(4) DEFAULT '0' NOT NULL,
-	starttime int(11) DEFAULT '0' NOT NULL,
-	endtime int(11) DEFAULT '0' NOT NULL,
-	fe_group varchar(255) DEFAULT '0' NOT NULL,
-	title varchar(80) DEFAULT '' NOT NULL,
-	subtitle varchar(80) DEFAULT '' NOT NULL,
-	slug varchar(2048),
-	keyword mediumtext,
-	article_uid int(11) DEFAULT '0' NOT NULL,
-	note text,
-	note2 text,
-
-	PRIMARY KEY (uid),
-	KEY parent (pid),
-	KEY comp1 (sorting),
-	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
-	KEY slug (slug(127))
-);
-
 
 #
 # Table structure for table 'tt_products_gifts'
 #
 CREATE TABLE tt_products_gifts (
-	uid int(11) DEFAULT '0' NOT NULL auto_increment,
-	pid int(11) DEFAULT '0' NOT NULL,
-	tstamp int(11) DEFAULT '0' NOT NULL,
-	crdate int(11) DEFAULT '0' NOT NULL,
-	cruser_id int(11) DEFAULT '0' NOT NULL,
-	t3ver_oid int(11) DEFAULT '0' NOT NULL,
-	t3ver_wsid int(11) DEFAULT '0' NOT NULL,
-	t3ver_state tinyint(4) DEFAULT '0' NOT NULL,
-	t3ver_stage int(11) DEFAULT '0' NOT NULL,
-	t3ver_count int(11) DEFAULT '0' NOT NULL,
-	t3ver_tstamp int(11) DEFAULT '0' NOT NULL,
-	t3ver_move_id int(11) DEFAULT '0' NOT NULL,
-	t3_origuid int(11) DEFAULT '0' NOT NULL,
-	deleted tinyint(4) DEFAULT '0' NOT NULL,
-	sorting int(11) DEFAULT '0' NOT NULL,
-
-	ordernumber int(11) DEFAULT '0' NOT NULL,
+    ordernumber int(11) DEFAULT '0' NOT NULL,
 	personname varchar(80) DEFAULT '' NOT NULL,
 	personemail varchar(80) DEFAULT '' NOT NULL,
 	deliveryname varchar(80) DEFAULT '' NOT NULL,
 	deliveryemail varchar(80) DEFAULT '' NOT NULL,
 	note text,
-	amount decimal(19,2) DEFAULT '0.00' NOT NULL,
-
-	PRIMARY KEY (uid),
-	KEY parent (pid),
-	KEY comp1 (sorting),
-	KEY t3ver_oid (t3ver_oid,t3ver_wsid)
+	amount decimal(19,2) DEFAULT '0.00' NOT NULL
 );
 
 
@@ -503,7 +169,7 @@ CREATE TABLE tt_products_gifts_articles_mm (
 
 	PRIMARY KEY (uid),
 	KEY uid_local (uid_local),
-	KEY uid_foreign (uid_foreign),
+	KEY uid_foreign (uid_foreign)
 );
 
 
@@ -511,33 +177,9 @@ CREATE TABLE tt_products_gifts_articles_mm (
 # Table structure for table 'tt_products_emails'
 #
 CREATE TABLE tt_products_emails (
-	uid int(11) DEFAULT '0' NOT NULL auto_increment,
-	pid int(11) DEFAULT '0' NOT NULL,
-	tstamp int(11) DEFAULT '0' NOT NULL,
-	crdate int(11) DEFAULT '0' NOT NULL,
-	cruser_id int(11) DEFAULT '0' NOT NULL,
-	t3ver_oid int(11) DEFAULT '0' NOT NULL,
-	t3ver_wsid int(11) DEFAULT '0' NOT NULL,
-	t3ver_state tinyint(4) DEFAULT '0' NOT NULL,
-	t3ver_stage int(11) DEFAULT '0' NOT NULL,
-	t3ver_count int(11) DEFAULT '0' NOT NULL,
-	t3ver_tstamp int(11) DEFAULT '0' NOT NULL,
-	t3ver_move_id int(11) DEFAULT '0' NOT NULL,
-	t3_origuid int(11) DEFAULT '0' NOT NULL,
-	sorting int(11) DEFAULT '0' NOT NULL,
-	deleted tinyint(4) DEFAULT '0' NOT NULL,
-	hidden tinyint(4) DEFAULT '0' NOT NULL,
-	starttime int(11) DEFAULT '0' NOT NULL,
-	endtime int(11) DEFAULT '0' NOT NULL,
-	fe_group varchar(255) DEFAULT '0' NOT NULL,
 	name varchar(80) DEFAULT '' NOT NULL,
 	email varchar(80) DEFAULT '' NOT NULL,
-	suffix varchar(24) DEFAULT '' NOT NULL,
-
-	PRIMARY KEY (uid),
-	KEY parent (pid),
-	KEY comp1 (sorting),
-	KEY t3ver_oid (t3ver_oid,t3ver_wsid)
+	suffix varchar(24) DEFAULT '' NOT NULL
 );
 
 
@@ -545,225 +187,29 @@ CREATE TABLE tt_products_emails (
 # Table structure for table 'tt_products_texts'
 #
 CREATE TABLE tt_products_texts (
-	uid int(11) unsigned NOT NULL auto_increment,
-	pid int(11) unsigned DEFAULT '0' NOT NULL,
-	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
-	crdate int(11) unsigned DEFAULT '0' NOT NULL,
-	cruser_id int(11) DEFAULT '0' NOT NULL,
-	t3ver_oid int(11) DEFAULT '0' NOT NULL,
-	t3ver_wsid int(11) DEFAULT '0' NOT NULL,
-	t3ver_state tinyint(4) DEFAULT '0' NOT NULL,
-	t3ver_stage int(11) DEFAULT '0' NOT NULL,
-	t3ver_count int(11) DEFAULT '0' NOT NULL,
-	t3ver_tstamp int(11) DEFAULT '0' NOT NULL,
-	t3ver_move_id int(11) DEFAULT '0' NOT NULL,
-	t3_origuid int(11) DEFAULT '0' NOT NULL,
-	sorting int(11) DEFAULT '0' NOT NULL,
-	deleted tinyint(3) unsigned DEFAULT '0' NOT NULL,
-	hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
-	starttime int(11) DEFAULT '0' NOT NULL,
-	endtime int(11) DEFAULT '0' NOT NULL,
-	fe_group varchar(255) DEFAULT '0' NOT NULL,
 	title tinytext,
 	marker varchar(255) DEFAULT '' NOT NULL,
 	note text,
 	parentid int(11) DEFAULT '0' NOT NULL,
-	parenttable varchar(30) DEFAULT '' NOT NULL,
-
-	PRIMARY KEY (uid),
-	KEY parent (pid),
-	KEY comp1 (sorting),
-	KEY t3ver_oid (t3ver_oid,t3ver_wsid)
+	parenttable varchar(30) DEFAULT '' NOT NULL
 );
-
-
-#
-# Table structure for table 'tt_products_texts_language'
-#
-CREATE TABLE tt_products_texts_language (
-	uid int(11) NOT NULL auto_increment,
-	pid int(11) DEFAULT '0' NOT NULL,
-	tstamp int(11) DEFAULT '0' NOT NULL,
-	crdate int(11) DEFAULT '0' NOT NULL,
-	cruser_id int(11) DEFAULT '0' NOT NULL,
-	t3ver_oid int(11) DEFAULT '0' NOT NULL,
-	t3ver_wsid int(11) DEFAULT '0' NOT NULL,
-	t3ver_state tinyint(4) DEFAULT '0' NOT NULL,
-	t3ver_stage int(11) DEFAULT '0' NOT NULL,
-	t3ver_count int(11) DEFAULT '0' NOT NULL,
-	t3ver_tstamp int(11) DEFAULT '0' NOT NULL,
-	t3ver_move_id int(11) DEFAULT '0' NOT NULL,
-	t3_origuid int(11) DEFAULT '0' NOT NULL,
-	sorting int(11) DEFAULT '0' NOT NULL,
-	sys_language_uid int(11) DEFAULT '0' NOT NULL,
-	deleted tinyint(4) DEFAULT '0' NOT NULL,
-	hidden tinyint(4) DEFAULT '0' NOT NULL,
-	starttime int(11) DEFAULT '0' NOT NULL,
-	endtime int(11) DEFAULT '0' NOT NULL,
-	fe_group varchar(255) DEFAULT '0' NOT NULL,
-	text_uid int(11) DEFAULT '0' NOT NULL,
-	title tinytext,
-	note text,
-	parentid int(11) DEFAULT '0' NOT NULL,
-	parenttable varchar(30) DEFAULT '' NOT NULL,
-
-	PRIMARY KEY (uid),
-	KEY parent (pid),
-	KEY comp1 (sorting),
-	KEY t3ver_oid (t3ver_oid,t3ver_wsid)
-);
-
-
-#
-# Table structure for table 'tt_products_products_mm_graduated_price'
-#
-CREATE TABLE tt_products_mm_graduated_price (
-	uid int(11) NOT NULL auto_increment,
-	pid int(11) DEFAULT '0' NOT NULL,
-	tstamp int(11) DEFAULT '0' NOT NULL,
-	crdate int(11) DEFAULT '0' NOT NULL,
-	deleted tinyint(4) DEFAULT '0' NOT NULL,
-	hidden tinyint(4) DEFAULT '0' NOT NULL,
-	title tinytext,
-	uid_local int(11) DEFAULT '0' NOT NULL,
-	uid_foreign int(11) DEFAULT '0' NOT NULL,
-	tablenames varchar(30) DEFAULT '' NOT NULL,
-	sorting int(11) DEFAULT '0' NOT NULL,
-	sorting_foreign int(11) DEFAULT '0' NOT NULL,
-
-	PRIMARY KEY (uid),
-	KEY uid_local (uid_local),
-	KEY uid_foreign (uid_foreign),
-	KEY select01 (uid_local,uid_foreign),
-	KEY parent (pid)
-);
-
-
-#
-# Table structure for table 'tt_products_attribute_mm_graduated_price'
-#
-CREATE TABLE tt_products_attribute_mm_graduated_price (
-	uid int(11) unsigned NOT NULL auto_increment,
-	pid int(11) unsigned DEFAULT '0' NOT NULL,
-	tstamp int(11) DEFAULT '0' NOT NULL,
-	crdate int(11) DEFAULT '0' NOT NULL,
-	deleted tinyint(3) DEFAULT '0' NOT NULL,
-	hidden tinyint(4) DEFAULT '0' NOT NULL,
-	starttime int(11) DEFAULT '0' NOT NULL,
-	endtime int(11) DEFAULT '0' NOT NULL,
-	title tinytext,
-	uid_local int(11) DEFAULT '0' NOT NULL,
-	uid_foreign int(11) DEFAULT '0' NOT NULL,
-	tablenames varchar(30) DEFAULT '' NOT NULL,
-	sorting int(11) DEFAULT '0' NOT NULL,
-	sorting_foreign int(11) DEFAULT '0' NOT NULL,
-
-	PRIMARY KEY (uid),
-	KEY uid_local (uid_local),
-	KEY uid_foreign (uid_foreign),
-	KEY select01 (uid_local,uid_foreign),
-	KEY parent (pid)
-);
-
 
 #
 # Table structure for table 'tt_products_graduated_price'
 #
 CREATE TABLE tt_products_graduated_price (
-	uid int(11) NOT NULL auto_increment,
-	pid int(11) DEFAULT '0' NOT NULL,
-	tstamp int(11) DEFAULT '0' NOT NULL,
-	crdate int(11) DEFAULT '0' NOT NULL,
-	cruser_id int(11) DEFAULT '0' NOT NULL,
-	sorting int(11) DEFAULT '0' NOT NULL,
-	deleted tinyint(3) DEFAULT '0' NOT NULL,
-	hidden tinyint(4) DEFAULT '0' NOT NULL,
-	starttime int(11) DEFAULT '0' NOT NULL,
-	endtime int(11) DEFAULT '0' NOT NULL,
-	fe_group varchar(255) DEFAULT '0' NOT NULL,
 	title tinytext,
 	formula text,
 	startamount decimal(19,2) DEFAULT '0.00' NOT NULL,
 	note text,
-
-	PRIMARY KEY (uid),
-	KEY parent (pid),
-	KEY comp1 (sorting)
+    parenttable varchar(255) DEFAULT '' NOT NULL,
+    parentuid int(11) default '0' NOT NULL
 );
-
-
-#
-# Table structure for table 'tt_products_products_mm_tax_categories'
-#
-CREATE TABLE tt_products_products_mm_tax_categories (
-	uid int(11) unsigned NOT NULL auto_increment,
-	pid int(11) unsigned DEFAULT '0' NOT NULL,
-	deleted tinyint(3) DEFAULT '0' NOT NULL,
-	hidden tinyint(4) DEFAULT '0' NOT NULL,
-	starttime int(11) DEFAULT '0' NOT NULL,
-	endtime int(11) DEFAULT '0' NOT NULL,
-	uid_local int(11) DEFAULT '0' NOT NULL,
-	uid_foreign int(11) DEFAULT '0' NOT NULL,
-	sorting int(11) DEFAULT '0' NOT NULL,
-	foreignsort int(10) DEFAULT '0' NOT NULL,
-
-	PRIMARY KEY (uid),
-	KEY uid_local (uid_local),
-	KEY uid_foreign (uid_foreign),
-	KEY sorting (sorting),
-	KEY foreignsort (foreignsort),
-	KEY parent (pid)
-);
-
-
-
-#
-# Table structure for table 'tt_products_products_mm_downloads'
-#
-CREATE TABLE tt_products_products_mm_downloads (
-	uid int(11) NOT NULL auto_increment,
-	pid int(11) DEFAULT '0' NOT NULL,
-	tstamp int(11) DEFAULT '0' NOT NULL,
-	crdate int(11) DEFAULT '0' NOT NULL,
-	deleted tinyint(4) DEFAULT '0' NOT NULL,
-	hidden tinyint(4) DEFAULT '0' NOT NULL,
-	uid_local int(11) DEFAULT '0' NOT NULL,
-	uid_foreign int(11) DEFAULT '0' NOT NULL,
-	sorting int(11) DEFAULT '0' NOT NULL,
-	sorting_foreign int(11) DEFAULT '0' NOT NULL,
-
-	PRIMARY KEY (uid),
-	KEY uid_local (uid_local),
-	KEY uid_foreign (uid_foreign),
-	KEY select01 (uid_local,uid_foreign),
-	KEY parent (pid)
-);
-
-
 
 #
 # Table structure for table 'tt_products_downloads'
 #
 CREATE TABLE tt_products_downloads (
-	uid int(11) unsigned NOT NULL auto_increment,
-	pid int(11) unsigned DEFAULT '0' NOT NULL,
-	tstamp int(11) unsigned DEFAULT '0' NOT NULL,
-	crdate int(11) unsigned DEFAULT '0' NOT NULL,
-	cruser_id int(11) DEFAULT '0' NOT NULL,
-	t3ver_oid int(11) DEFAULT '0' NOT NULL,
-	t3ver_wsid int(11) DEFAULT '0' NOT NULL,
-	t3ver_state tinyint(4) DEFAULT '0' NOT NULL,
-	t3ver_stage int(11) DEFAULT '0' NOT NULL,
-	t3ver_count int(11) DEFAULT '0' NOT NULL,
-	t3ver_tstamp int(11) DEFAULT '0' NOT NULL,
-	t3ver_move_id int(11) DEFAULT '0' NOT NULL,
-	t3_origuid int(11) DEFAULT '0' NOT NULL,
-	sorting int(11) DEFAULT '0' NOT NULL,
-	deleted tinyint(3) unsigned DEFAULT '0' NOT NULL,
-	hidden tinyint(4) unsigned DEFAULT '0' NOT NULL,
-	starttime int(11) DEFAULT '0' NOT NULL,
-	endtime int(11) DEFAULT '0' NOT NULL,
-	fe_group varchar(255) DEFAULT '0' NOT NULL,
 	title tinytext,
 	slug varchar(2048),
 	marker varchar(255) DEFAULT '' NOT NULL,
@@ -773,13 +219,7 @@ CREATE TABLE tt_products_downloads (
 	edition int(11) DEFAULT '0' NOT NULL,
 	author varchar(255) DEFAULT '' NOT NULL,
 	price_enable tinyint(3) unsigned DEFAULT '0' NOT NULL,
-	price decimal(19,2) DEFAULT '0.00' NOT NULL,
-
-	PRIMARY KEY (uid),
-	KEY parent (pid),
-	KEY comp1 (sorting),
-	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
-	KEY slug (slug(127))
+	price decimal(19,2) DEFAULT '0.00' NOT NULL
 );
 
 
@@ -794,60 +234,14 @@ CREATE TABLE sys_file_reference (
 	tx_ttproducts_price decimal(19,2) DEFAULT '0.00' NOT NULL,
 );
 
-
-
-#
-# Table structure for table 'tt_products_downloads_language'
-#
-CREATE TABLE tt_products_downloads_language (
-	uid int(11) NOT NULL auto_increment,
-	pid int(11) DEFAULT '0' NOT NULL,
-	tstamp int(11) DEFAULT '0' NOT NULL,
-	crdate int(11) DEFAULT '0' NOT NULL,
-	cruser_id int(11) DEFAULT '0' NOT NULL,
-	t3ver_oid int(11) DEFAULT '0' NOT NULL,
-	t3ver_wsid int(11) DEFAULT '0' NOT NULL,
-	t3ver_state tinyint(4) DEFAULT '0' NOT NULL,
-	t3ver_stage int(11) DEFAULT '0' NOT NULL,
-	t3ver_count int(11) DEFAULT '0' NOT NULL,
-	t3ver_tstamp int(11) DEFAULT '0' NOT NULL,
-	t3ver_move_id int(11) DEFAULT '0' NOT NULL,
-	t3_origuid int(11) DEFAULT '0' NOT NULL,
-	sorting int(11) DEFAULT '0' NOT NULL,
-	sys_language_uid int(11) DEFAULT '0' NOT NULL,
-	deleted tinyint(4) DEFAULT '0' NOT NULL,
-	hidden tinyint(4) DEFAULT '0' NOT NULL,
-	starttime int(11) DEFAULT '0' NOT NULL,
-	endtime int(11) DEFAULT '0' NOT NULL,
-	fe_group varchar(255) DEFAULT '0' NOT NULL,
-	parent_uid int(11) DEFAULT '0' NOT NULL,
-	title tinytext,
-	slug varchar(2048),
-	note text,
-
-	PRIMARY KEY (uid),
-	KEY parent (pid),
-	KEY comp1 (sorting),
-	KEY t3ver_oid (t3ver_oid,t3ver_wsid),
-	KEY slug (slug(127))
-);
-
-
 #
 # Table structure for table 'sys_products_accounts'
 #
 CREATE TABLE sys_products_accounts (
-	uid int(11) DEFAULT '0' NOT NULL auto_increment,
-	pid int(11) DEFAULT '0' NOT NULL,
-	tstamp int(11) DEFAULT '0' NOT NULL,
-	crdate int(11) DEFAULT '0' NOT NULL,
 	owner_name varchar(255) DEFAULT '' NOT NULL,
 	iban varchar(24) DEFAULT '' NOT NULL,
 	ac_number varchar(255) DEFAULT '' NOT NULL,
-	bic varchar(11) DEFAULT '' NOT NULL,
-
-	PRIMARY KEY (uid),
-	KEY parent (pid)
+	bic varchar(11) DEFAULT '' NOT NULL
 );
 
 
@@ -855,18 +249,10 @@ CREATE TABLE sys_products_accounts (
 # Table structure for table 'sys_products_cards'
 #
 CREATE TABLE sys_products_cards (
-	uid int(11) DEFAULT '0' NOT NULL auto_increment,
-	pid int(11) DEFAULT '0' NOT NULL,
-	tstamp int(11) DEFAULT '0' NOT NULL,
-	crdate int(11) DEFAULT '0' NOT NULL,
-	endtime int(11) DEFAULT '0' NOT NULL,
 	owner_name varchar(255) DEFAULT '' NOT NULL,
 	cc_number varchar(255) DEFAULT '' NOT NULL,
 	cc_type varchar(20) DEFAULT '' NOT NULL,
-	cvv2 int(11) unsigned DEFAULT '0' NOT NULL,
-
-	PRIMARY KEY (uid),
-	KEY parent (pid)
+	cvv2 int(11) unsigned DEFAULT '0' NOT NULL
 );
 
 
@@ -874,17 +260,11 @@ CREATE TABLE sys_products_cards (
 # Table structure for table 'sys_products_orders'
 #
 CREATE TABLE sys_products_orders (
-	uid int(11) NOT NULL auto_increment,
-	pid int(11) DEFAULT '0' NOT NULL,
-	tstamp int(11) DEFAULT '0' NOT NULL,
-	crdate int(11) DEFAULT '0' NOT NULL,
-	sys_language_uid int(11) DEFAULT '0' NOT NULL,
-	deleted tinyint(4) DEFAULT '0' NOT NULL,
-	hidden tinyint(4) DEFAULT '0' NOT NULL,
 	feusers_uid int(11) DEFAULT '0' NOT NULL,
 	name varchar(80) DEFAULT '' NOT NULL,
 	first_name varchar(50) DEFAULT '' NOT NULL,
 	last_name varchar(50) DEFAULT '' NOT NULL,
+    # todo check if needed slug for order, Guess, NO
 	slug varchar(2048),
 	salutation int(11) DEFAULT '0' NOT NULL,
 	company varchar(80) DEFAULT '' NOT NULL,
@@ -934,15 +314,7 @@ CREATE TABLE sys_products_orders (
 	product_uid int(11) DEFAULT '0' NOT NULL,
 	fal_uid int(11) DEFAULT '0' NOT NULL,
 	gained_uid int(11) DEFAULT '0' NOT NULL,
-	gained_voucher int(11) DEFAULT '0' NOT NULL,
-
-
-	PRIMARY KEY (uid),
-	KEY parent (pid),
-	KEY tracking (tracking_code),
-	KEY status (status),
-	KEY comp1 (pid,deleted),
-	KEY slug (slug(127))
+	gained_voucher int(11) DEFAULT '0' NOT NULL
 );
 
 
@@ -1049,19 +421,9 @@ CREATE TABLE fe_users (
 #
 #
 CREATE TABLE sys_products_fe_users_mm_visited_products (
-	uid int(11) NOT NULL auto_increment,
-	pid int(11) DEFAULT '0' NOT NULL,
-	tstamp int(11) DEFAULT '0' NOT NULL,
-	crdate int(11) DEFAULT '0' NOT NULL,
-	deleted tinyint(4) DEFAULT '0' NOT NULL,
-	hidden tinyint(4) DEFAULT '0' NOT NULL,
 	uid_local int(11) DEFAULT '0' NOT NULL,
 	uid_foreign int(11) DEFAULT '0' NOT NULL,
-	qty int(11) unsigned DEFAULT '0' NOT NULL,
-
-	PRIMARY KEY (uid),
-	KEY uid_local (uid_local),
-	KEY uid_foreign (uid_foreign),
+	qty int(11) unsigned DEFAULT '0' NOT NULL
 );
 
 
@@ -1070,13 +432,5 @@ CREATE TABLE sys_products_fe_users_mm_visited_products (
 #
 #
 CREATE TABLE sys_products_visited_products (
-	uid int(11) NOT NULL auto_increment,
-	pid int(11) DEFAULT '0' NOT NULL,
-	tstamp int(11) DEFAULT '0' NOT NULL,
-	qty int(11) DEFAULT '0' NOT NULL,
-
-	PRIMARY KEY (uid),
-	KEY parent (pid)
+	qty int(11) DEFAULT '0' NOT NULL
 );
-
-

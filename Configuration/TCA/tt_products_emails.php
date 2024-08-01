@@ -6,7 +6,7 @@ $extensionKey = 'tt_products';
 $languageSubpath = '/Resources/Private/Language/';
 $languageLglPath = 'LLL:EXT:core' . $languageSubpath . 'locallang_general.xlf:LGL.';
 
-$result = [
+return [
     'ctrl' => [
         'title' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_emails',
         'label' => 'name',
@@ -28,24 +28,6 @@ $result = [
         'searchFields' => 'name,email',
     ],
     'columns' => [
-        'tstamp' => [
-            'exclude' => 1,
-            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tstamp',
-            'config' => [
-                'type' => 'datetime',
-                'size' => '8',
-                'default' => 0,
-            ],
-        ],
-        'crdate' => [
-            'exclude' => 1,
-            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:crdate',
-            'config' => [
-                'type' => 'datetime',
-                'size' => '8',
-                'default' => 0,
-            ],
-        ],
         'hidden' => [
             'exclude' => 1,
             'label' => $languageLglPath . 'hidden',
@@ -151,5 +133,3 @@ $result = [
         ],
     ],
 ];
-
-return $result;

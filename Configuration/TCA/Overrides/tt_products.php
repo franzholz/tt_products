@@ -2,10 +2,12 @@
 
 defined('TYPO3') || die('Access denied.');
 
+use JambageCom\TtProducts\Domain\Model\Dto\EmConfiguration;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 call_user_func(function ($extensionKey, $table): void {
-    $configuration = GeneralUtility::makeInstance(\JambageCom\TtProducts\Domain\Model\Dto\EmConfiguration::class);
+    $configuration = GeneralUtility::makeInstance(EmConfiguration::class);
     $whereTaxCategory = '';
     $bSelectTaxMode = false;
     $extensionKeyStaticTaxes = 'static_info_tables_taxes';
@@ -28,15 +30,14 @@ call_user_func(function ($extensionKey, $table): void {
             GeneralUtility::inList($taxFields, 'tax_id') ||
             GeneralUtility::inList($taxFields, 'taxcat_id')
         ) &&
-        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded($extensionKeyStaticTaxes)
+        ExtensionManagementUtility::isLoaded($extensionKeyStaticTaxes)
     ) {
-        $eInfo = \JambageCom\Div2007\Utility\ExtensionUtility::getExtensionInfo($extensionKeyStaticTaxes);
+        /** @var \TYPO3\CMS\Core\Package\PackageManager $packageManager */
+        $packageManager = GeneralUtility::makeInstance(\TYPO3\CMS\Core\Package\PackageManager::class);
 
-        if (is_array($eInfo)) {
-            $sittVersion = $eInfo['version'];
-            if (version_compare($sittVersion, '0.3.0', '>=')) {
-                $bSelectTaxMode = true;
-            }
+        $sittVersion = $packageManager->getPackage($extensionKeyStaticTaxes)->getPackageMetaData()->getVersion();
+        if (version_compare($sittVersion, '0.3.0', '>=')) {
+            $bSelectTaxMode = true;
         }
     }
 
@@ -61,6 +62,7 @@ call_user_func(function ($extensionKey, $table): void {
                     'foreign_table' => 'static_tax_categories',
                     'foreign_table_where' => $whereTaxCategory . ' ORDER BY static_tax_categories.uid',
                     'MM' => 'tt_products_products_mm_tax_categories',
+                    'MM_hasUidField' => true,
                     'treeConfig' => [
                         'parentField' => 'parentid',
                         'appearance' => [
@@ -102,7 +104,7 @@ call_user_func(function ($extensionKey, $table): void {
             }
         }
 
-        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns(
+        ExtensionManagementUtility::addTCAcolumns(
             $table,
             $temporaryColumns
         );
@@ -116,7 +118,7 @@ call_user_func(function ($extensionKey, $table): void {
         }
         $newFields = implode(',', $addFields);
 
-        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes(
+        ExtensionManagementUtility::addToAllTCAtypes(
             $table,
             $newFields,
             '',
@@ -161,7 +163,7 @@ call_user_func(function ($extensionKey, $table): void {
         ],
     ];
 
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes(
+    ExtensionManagementUtility::addToAllTCAtypes(
         $table,
         'categories'
     );
@@ -188,7 +190,7 @@ call_user_func(function ($extensionKey, $table): void {
 
         $newFields = 'address';
 
-        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes(
+        ExtensionManagementUtility::addToAllTCAtypes(
             $table,
             $newFields,
             '',
@@ -228,5 +230,5 @@ call_user_func(function ($extensionKey, $table): void {
         );
     }
 
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToInsertRecords($table);
+    ExtensionManagementUtility::addToInsertRecords($table);
 }, 'tt_products', basename(__FILE__, '.php'));

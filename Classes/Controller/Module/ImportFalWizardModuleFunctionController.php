@@ -101,6 +101,7 @@ class ImportFalWizardModuleFunctionController
      */
     public function main()
     {
+        $number = null;
         $assigns = [];
         // Rendering of the output via fluid
         $view = GeneralUtility::makeInstance(StandaloneView::class);

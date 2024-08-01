@@ -4,3 +4,5 @@
 /.php-cs-fixer.cache
 /composer.lock
 /Documentation-GENERATED-temp
+/.Build
+/config

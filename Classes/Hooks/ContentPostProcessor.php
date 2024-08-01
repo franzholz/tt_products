@@ -40,6 +40,7 @@ class ContentPostProcessor
 {
     public function setPageTitle(&$params, TypoScriptFrontendController &$pObj): void
     {
+        $rootlineArray = null;
         $conf = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.'][TT_PRODUCTS_EXT . '.'];
         $piVars = \tx_ttproducts_model_control::getPiVars();
         $funcTablename = 'tt_products';
@@ -88,8 +89,8 @@ class ContentPostProcessor
             if (isset($pageTitle)) {
                 $pObj->content = preg_replace(
                     '#<title>.*<\/title>#',
-                    '<title>' . htmlspecialchars($pageTitle) . '</title>',
-                    $pObj->content
+                    '<title>' . htmlspecialchars((string) $pageTitle) . '</title>',
+                    (string) $pObj->content
                 );
             }
         }

@@ -45,8 +45,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class ImportFalUtility
 {
-    public const ORIGINAL_DIRECTORY = 'uploads/pics/';
-    public const TARGET_DIRECTORY = 'user_upload/';
+    final public const ORIGINAL_DIRECTORY = 'uploads/pics/';
+    final public const TARGET_DIRECTORY = 'user_upload/';
 
     public static function importAll(
         &$infoArray,
@@ -74,7 +74,6 @@ class ImportFalUtility
         $pid = intval($currId);
         $tableMediaArray = [
             'tt_products' => ['image', 'smallimage'],
-            'tt_products_language' => ['image'],
             'tt_products_cat' => ['image'],
             'tt_products_articles' => ['image'],
         ];
@@ -96,7 +95,7 @@ class ImportFalUtility
                         //                  if ($k != 3) continue; // Test
 
                         if (!empty($row[$imageFieldname])) {
-                            $imageArray = explode(',', $row[$imageFieldname]);
+                            $imageArray = explode(',', (string) $row[$imageFieldname]);
                             $sysfileRowArray = [];
                             if (intval($row[$imageFalFieldname]) != 0) {
                                 $where_clause = 'uid_foreign=' . intval($row['uid']) . ' AND tablenames="' . $tablename . '" AND fieldname="' . $imageFalFieldname . '"';
