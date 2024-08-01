@@ -122,7 +122,7 @@ class MatchCondition
 
     public function hasBulkilyItem($params)
     {
-        $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
+        $conf = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.'][TT_PRODUCTS_EXT . '.'];
 
         $rcArray = BasketApi::getRecords($conf);
 
@@ -143,7 +143,7 @@ class MatchCondition
         $params
     ) {
         $result = false;
-        $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
+        $conf = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.'][TT_PRODUCTS_EXT . '.'];
 
         $rcArray = BasketApi::getRecords($conf);
         $weight = BasketApi::getWeight($rcArray);

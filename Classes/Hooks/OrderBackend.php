@@ -91,7 +91,7 @@ class OrderBackend implements SingletonInterface
         )->get();
         $template->runThroughTemplates($rootline, 0);
         $template->generateConfig();
-        $setup = $template->setup;
+        $setup = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray();
         $conf = [];
         if (isset($setup['plugin.']['tt_products.'])) {
             $conf = $setup['plugin.']['tt_products.'];

@@ -43,7 +43,7 @@ class ContentPostProcessor
 {
     public function setPageTitle(&$params, TypoScriptFrontendController &$pObj): void
     {
-        $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
+        $conf = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.'][TT_PRODUCTS_EXT . '.'];
         $piVars = \tx_ttproducts_model_control::getPiVars();
         $funcTablename = 'tt_products';
         $piVar = \tx_ttproducts_model_control::getPiVar($funcTablename);

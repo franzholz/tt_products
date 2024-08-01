@@ -61,7 +61,7 @@ class TaxajaxController
             $GLOBALS['TSFE']->getConfigArray($request);
         }
 
-        $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'] ?? null;
+        $conf = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.'][TT_PRODUCTS_EXT . '.'] ?? null;
         if (!isset($conf)) {
             throw new \RuntimeException('Error in tt_products: No plugin setup found!', 1720723255);
         }

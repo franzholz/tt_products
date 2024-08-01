@@ -61,7 +61,7 @@ class BasketApi implements SingletonInterface
             isset($basketConf['ref']) &&
             isset($basketConf['row'])
         ) {
-            $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
+            $conf = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.'][TT_PRODUCTS_EXT . '.'];
             $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
             $cnfObj->init(
                 $conf,

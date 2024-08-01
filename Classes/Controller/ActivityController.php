@@ -362,7 +362,7 @@ class ActivityController implements SingletonInterface
                     $languageKey = 'missing_' . $check;
                 }
                 $label = $GLOBALS['TSFE']->sL('LLL:EXT:agency/pi/locallang.xml:' . $languageKey);
-                $editPID = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_agency.']['editPID'];
+                $editPID = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.']['tx_agency.']['editPID'];
 
                 if ($context->getPropertyFromAspect('frontend.user', 'isLoggedIn') && $editPID) {
                     $addParams = ['products_payment' => 1];
@@ -397,7 +397,7 @@ class ActivityController implements SingletonInterface
                     $languageKey = 'missing_' . $check;
                 }
                 $label = $GLOBALS['TSFE']->sL('LLL:EXT:sr_feuser_register' . $languageSubpath . 'locallang.xlf:' . $languageKey);
-                $editPID = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_srfeuserregister_pi1.']['editPID'];
+                $editPID = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.']['tx_srfeuserregister_pi1.']['editPID'];
 
                 if ($context->getPropertyFromAspect('frontend.user', 'isLoggedIn') && $editPID) {
                     $cObj = ControlApi::getCObj();
@@ -444,7 +444,7 @@ class ActivityController implements SingletonInterface
         } elseif (
             $pidagb &&
             empty($_REQUEST['recs']['personinfo']['agb']) &&
-            empty(GeneralUtility::_GET('products_payment')) &&
+            empty($GLOBALS['TYPO3_REQUEST']->getQueryParams()['products_payment']) &&
             empty($infoArray['billing']['agb'])
         ) {
             // so AGB has not been accepted
@@ -660,7 +660,7 @@ class ActivityController implements SingletonInterface
             (
                 empty($pidagb) ||
                 !empty($_REQUEST['recs']['personinfo']['agb']) ||
-                ($isPayment && GeneralUtility::_GET('products_payment')) ||
+                ($isPayment && $GLOBALS['TYPO3_REQUEST']->getQueryParams()['products_payment']) ||
                 !empty($infoArray['billing']['agb'])
             )
         ) {

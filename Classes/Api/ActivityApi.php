@@ -67,10 +67,10 @@ class ActivityApi implements SingletonInterface
         }
         $activityArray = [];
         $subActivity = $this->subActivity;
-        $update = GeneralUtility::_POST('products_update') || GeneralUtility::_POST('products_update_x');
-        $info = GeneralUtility::_POST('products_info') || GeneralUtility::_POST('products_info_x');
-        $payment = GeneralUtility::_POST('products_payment') || GeneralUtility::_POST('products_payment_x');
-        $gpVars = GeneralUtility::_GP(TT_PRODUCTS_EXT);
+        $update = $GLOBALS['TYPO3_REQUEST']->getParsedBody()['products_update'] || $GLOBALS['TYPO3_REQUEST']->getParsedBody()['products_update_x'];
+        $info = $GLOBALS['TYPO3_REQUEST']->getParsedBody()['products_info'] || $GLOBALS['TYPO3_REQUEST']->getParsedBody()['products_info_x'];
+        $payment = $GLOBALS['TYPO3_REQUEST']->getParsedBody()['products_payment'] || $GLOBALS['TYPO3_REQUEST']->getParsedBody()['products_payment_x'];
+        $gpVars = $GLOBALS['TYPO3_REQUEST']->getParsedBody()[TT_PRODUCTS_EXT] ?? $GLOBALS['TYPO3_REQUEST']->getQueryParams()[TT_PRODUCTS_EXT] ?? null;
 
         if (
             !$update &&
@@ -97,28 +97,28 @@ class ActivityApi implements SingletonInterface
             }
         }
 
-        if (GeneralUtility::_GP('products_clear_basket') || GeneralUtility::_GP('products_clear_basket_x')) {
+        if (($GLOBALS['TYPO3_REQUEST']->getParsedBody()['products_clear_basket'] ?? $GLOBALS['TYPO3_REQUEST']->getQueryParams()['products_clear_basket'] ?? null) || ($GLOBALS['TYPO3_REQUEST']->getParsedBody()['products_clear_basket_x'] ?? $GLOBALS['TYPO3_REQUEST']->getQueryParams()['products_clear_basket_x'] ?? null)) {
             $activityArray['products_clear_basket'] = true;
         }
-        if (GeneralUtility::_GP('products_overview') || GeneralUtility::_GP('products_overview_x')) {
+        if (($GLOBALS['TYPO3_REQUEST']->getParsedBody()['products_overview'] ?? $GLOBALS['TYPO3_REQUEST']->getQueryParams()['products_overview'] ?? null) || ($GLOBALS['TYPO3_REQUEST']->getParsedBody()['products_overview_x'] ?? $GLOBALS['TYPO3_REQUEST']->getQueryParams()['products_overview_x'] ?? null)) {
             $activityArray['products_overview'] = true;
         }
 
         if (!$update) {
-            if (GeneralUtility::_GP('products_payment') || GeneralUtility::_GP('products_payment_x')) {
+            if (($GLOBALS['TYPO3_REQUEST']->getParsedBody()['products_payment'] ?? $GLOBALS['TYPO3_REQUEST']->getQueryParams()['products_payment'] ?? null) || ($GLOBALS['TYPO3_REQUEST']->getParsedBody()['products_payment_x'] ?? $GLOBALS['TYPO3_REQUEST']->getQueryParams()['products_payment_x'] ?? null)) {
                 $activityArray['products_payment'] = true;
-            } elseif (GeneralUtility::_GP('products_info') || GeneralUtility::_GP('products_info_x')) {
+            } elseif (($GLOBALS['TYPO3_REQUEST']->getParsedBody()['products_info'] ?? $GLOBALS['TYPO3_REQUEST']->getQueryParams()['products_info'] ?? null) || ($GLOBALS['TYPO3_REQUEST']->getParsedBody()['products_info_x'] ?? $GLOBALS['TYPO3_REQUEST']->getQueryParams()['products_info_x'] ?? null)) {
                 $activityArray['products_info'] = true;
             }
         }
 
-        if (GeneralUtility::_GP('products_customized_payment') || GeneralUtility::_GP('products_customized_payment_x')) {
+        if (($GLOBALS['TYPO3_REQUEST']->getParsedBody()['products_customized_payment'] ?? $GLOBALS['TYPO3_REQUEST']->getQueryParams()['products_customized_payment'] ?? null) || ($GLOBALS['TYPO3_REQUEST']->getParsedBody()['products_customized_payment_x'] ?? $GLOBALS['TYPO3_REQUEST']->getQueryParams()['products_customized_payment_x'] ?? null)) {
             $activityArray['products_customized_payment'] = true;
         }
-        if (GeneralUtility::_GP('products_verify') || GeneralUtility::_GP('products_verify_x')) {
+        if (($GLOBALS['TYPO3_REQUEST']->getParsedBody()['products_verify'] ?? $GLOBALS['TYPO3_REQUEST']->getQueryParams()['products_verify'] ?? null) || ($GLOBALS['TYPO3_REQUEST']->getParsedBody()['products_verify_x'] ?? $GLOBALS['TYPO3_REQUEST']->getQueryParams()['products_verify_x'] ?? null)) {
             $activityArray['products_verify'] = true;
         }
-        if (GeneralUtility::_GP('products_finalize') || GeneralUtility::_GP('products_finalize_x')) {
+        if (($GLOBALS['TYPO3_REQUEST']->getParsedBody()['products_finalize'] ?? $GLOBALS['TYPO3_REQUEST']->getQueryParams()['products_finalize'] ?? null) || ($GLOBALS['TYPO3_REQUEST']->getParsedBody()['products_finalize_x'] ?? $GLOBALS['TYPO3_REQUEST']->getQueryParams()['products_finalize_x'] ?? null)) {
             $activityArray['products_finalize'] = true;
         }
 

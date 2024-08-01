@@ -280,7 +280,7 @@ class ParameterApi implements SingletonInterface
     public function getBasketExtRaw()
     {
         $basketVar = $this->getBasketVar();
-        $result = GeneralUtility::_GP($basketVar);
+        $result = $GLOBALS['TYPO3_REQUEST']->getParsedBody()[$basketVar] ?? $GLOBALS['TYPO3_REQUEST']->getQueryParams()[$basketVar] ?? null;
 
         return $result;
     }

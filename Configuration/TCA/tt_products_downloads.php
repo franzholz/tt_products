@@ -25,7 +25,6 @@ $result = [
         ],
         'prependAtCopy' => $languageLglPath . 'prependAtCopy',
         'crdate' => 'crdate',
-        'cruser_id' => 'cruser_id',
         'versioningWS' => true,
         'origUid' => 't3_origuid',
         'iconfile' => 'EXT:' . $extensionKey . '/Resources/Public/Icons/tt_products_downloads.gif',
@@ -36,10 +35,8 @@ $result = [
             'exclude' => 1,
             'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tstamp',
             'config' => [
-                'type' => 'input',
+                'type' => 'datetime',
                 'size' => '8',
-                'eval' => 'datetime,int',
-                'renderType' => 'inputDateTime',
                 'default' => 0,
             ],
         ],
@@ -47,10 +44,8 @@ $result = [
             'exclude' => 1,
             'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:crdate',
             'config' => [
-                'type' => 'input',
+                'type' => 'datetime',
                 'size' => '8',
-                'eval' => 'datetime,int',
-                'renderType' => 'inputDateTime',
                 'default' => 0,
             ],
         ],
@@ -66,26 +61,24 @@ $result = [
             'exclude' => 1,
             'label' => $languageLglPath . 'starttime',
             'config' => [
-                'type' => 'input',
+                'type' => 'datetime',
                 'size' => '8',
-                'eval' => 'date',
-                'renderType' => 'inputDateTime',
                 'default' => 0,
+                'format' => 'date',
             ],
         ],
         'endtime' => [
             'exclude' => 1,
             'label' => $languageLglPath . 'endtime',
             'config' => [
-                'type' => 'input',
+                'type' => 'datetime',
                 'size' => '8',
-                'eval' => 'date',
-                'renderType' => 'inputDateTime',
                 'default' => 0,
                 'range' => [
                     'upper' => mktime(0, 0, 0, 12, 31, $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['endtimeYear']),
                     'lower' => mktime(0, 0, 0, date('n') - 1, date('d'), date('Y')),
                 ],
+                'format' => 'date',
             ],
         ],
         'fe_group' => [
@@ -99,16 +92,16 @@ $result = [
                 'maxitems' => 20,
                 'items' => [
                     [
-                        $languageLglPath . 'hide_at_login',
-                        -1,
+                        'label' => $languageLglPath . 'hide_at_login',
+                        'value' => -1,
                     ],
                     [
-                        $languageLglPath . 'any_login',
-                        -2,
+                        'label' => $languageLglPath . 'any_login',
+                        'value' => -2,
                     ],
                     [
-                        $languageLglPath . 'usergroups',
-                        '--div--',
+                        'label' => $languageLglPath . 'usergroups',
+                        'value' => '--div--',
                     ],
                 ],
                 'exclusiveKeys' => '-1,-2',
@@ -162,8 +155,8 @@ $result = [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'items' => [
-                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_downloads.edition.complete', '0'],
-                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_downloads.edition.partial', '1'],
+                    ['label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_downloads.edition.complete', 'value' => '0'],
+                    ['label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_downloads.edition.partial', 'value' => '1'],
                 ],
                 'size' => '2',
                 'minitems' => 0,
@@ -213,17 +206,21 @@ $result = [
             'exclude' => 1,
             'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_downloads.price',
             'config' => [
-                'type' => 'input',
+                'type' => 'number',
                 'size' => '20',
-                'eval' => 'trim,double2',
+                'eval' => 'trim',
                 'max' => '20',
                 'default' => 0,
+                'format' => 'decimal',
             ],
         ],
         'file_uid' => [
             'exclude' => 1,
             'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_downloads.file_uid',
-            'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig('file_uid'),
+            'config' => [
+                ### !!! Watch out for fieldName different from columnName
+                'type' => 'file',
+            ],
         ],
     ],
     'types' => [

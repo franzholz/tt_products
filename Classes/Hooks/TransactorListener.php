@@ -83,7 +83,7 @@ class TransactorListener
         $testMode = $params['testmode'];
         $referenceId = $transactionRow['reference'];
 
-        $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tt_products.'];
+        $conf = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.']['tt_products.'];
         $config = [];
         $config['LLkey'] = '';
         $errorCode = '';

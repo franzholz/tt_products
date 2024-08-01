@@ -284,7 +284,7 @@ class PluginApi
             return false;
         }
 
-        $backPID = ($backPID ?: GeneralUtility::_GP('backPID'));
+        $backPID = ($backPID ?: $GLOBALS['TYPO3_REQUEST']->getParsedBody()['backPID'] ?? $GLOBALS['TYPO3_REQUEST']->getQueryParams()['backPID'] ?? null);
 
         $config['backPID'] = $backPID;
 
@@ -337,7 +337,7 @@ class PluginApi
         $basketApi = GeneralUtility::makeInstance(BasketApi::class);
 
         if (!self::$bHasBeenInitialised) {
-            $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
+            $conf = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.'][TT_PRODUCTS_EXT . '.'];
             ArrayUtility::mergeRecursiveWithOverrule($conf, $pluginConf);
             $config = [];
             $cObj = FrontendUtility::getContentObjectRenderer([]);
