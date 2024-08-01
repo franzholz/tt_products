@@ -63,5 +63,15 @@
     "typo3/cms": {
       "extension-key": "tt_products"
     }
+  },
+  "config": {
+    "allow-plugins": {
+      "typo3/cms-composer-installers": true,
+      "typo3/class-alias-loader": true
+    }
+  },
+  "require-dev": {
+    "phpstan/phpstan": "^1.11",
+    "saschaegerer/phpstan-typo3": "^1.10"
   }
 }

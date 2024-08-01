@@ -1,0 +1,12 @@
+includes:
+  - ../vendor/saschaegerer/phpstan-typo3/extension.neon
+
+parameters:
+  level: 8
+  paths:
+    - ../Classes/
+    - ../Tests/
+
+  ignoreErrors: []
+
+  reportUnmatchedIgnoredErrors: true
