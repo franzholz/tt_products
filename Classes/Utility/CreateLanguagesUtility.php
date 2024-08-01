@@ -33,9 +33,6 @@ namespace JambageCom\TtProducts\Utility;
  * functions for the import of images into FAL
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 class CreateLanguagesUtility
 {
@@ -78,9 +75,9 @@ class CreateLanguagesUtility
                                 isset($GLOBALS['TCA'][$languageTable]['columns'][$field])
                             ) {
                                 $insertArray[$field] = $value;
-                            } else {
-                                // nothing
                             }
+                            // nothing
+
                         }
                         $insertArray['text_uid'] = $row['uid'];
 

@@ -35,21 +35,18 @@ namespace JambageCom\TtProducts\Hooks;
  * @author	Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
+
+use JambageCom\Div2007\Utility\FrontendUtility;
+use JambageCom\Div2007\Utility\MarkerUtility;
+use JambageCom\TtProducts\Api\BasketApi;
+
+use JambageCom\TtProducts\Api\ParameterApi;
+use JambageCom\TtProducts\Api\PaymentShippingHandling;
 
 use TYPO3\CMS\Core\Core\Bootstrap;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-
-use JambageCom\Div2007\Utility\FrontendUtility;
-use JambageCom\Div2007\Utility\MarkerUtility;
-
-use JambageCom\TtProducts\Api\BasketApi;
-use JambageCom\TtProducts\Api\ParameterApi;
-use JambageCom\TtProducts\Api\PaymentShippingHandling;
 
 class TransactorListener
 {

@@ -29,7 +29,9 @@
     "jambagecom/div2007": "^1.17 || ^2.0",
     "jambagecom/table": "^0.13",
     "jambagecom/tsparser": "^0.12",
-    "friendsoftypo3/typo3db-legacy": "^1"
+    "friendsoftypo3/typo3db-legacy": "^1",
+    "typo3/cms-backend": "^12.4",
+    "typo3/cms-install": "^12.4"
   },
   "suggest": {
     "friendsoftypo3/func": "^9.0",
@@ -72,6 +74,7 @@
   },
   "require-dev": {
     "phpstan/phpstan": "^1.11",
-    "saschaegerer/phpstan-typo3": "^1.10"
+    "saschaegerer/phpstan-typo3": "^1.10",
+    "friendsofphp/php-cs-fixer": "^3.61"
   }
 }

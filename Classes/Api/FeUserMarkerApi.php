@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace JambageCom\TtProducts\Api;
 
@@ -22,13 +22,10 @@ namespace JambageCom\TtProducts\Api;
  * FE user marker functions
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
-use TYPO3\CMS\Core\SingletonInterface;
 use JambageCom\Div2007\Api\Frontend;
 use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
@@ -67,7 +64,8 @@ class FeUserMarkerApi implements SingletonInterface
                                     ',',
                                     GeneralUtility::makeInstance(
                                         Context::class
-                                    )->getPropertyFromAspect('frontend.user', 'groupIds')),
+                                    )->getPropertyFromAspect('frontend.user', 'groupIds')
+                                ),
                                 $comparatorNumber
                             )
                         ) {

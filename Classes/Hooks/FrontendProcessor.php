@@ -33,9 +33,6 @@ namespace JambageCom\TtProducts\Hooks;
  * hook for front end processing like after a login
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 class FrontendProcessor
 {

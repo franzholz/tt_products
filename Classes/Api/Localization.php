@@ -2,9 +2,9 @@
 
 namespace JambageCom\TtProducts\Api;
 
-use TYPO3\CMS\Core\SingletonInterface;
-
 use JambageCom\Div2007\Base\TranslationBase;
+
+use TYPO3\CMS\Core\SingletonInterface;
 
 /***************************************************************
 *  Copyright notice
@@ -37,9 +37,6 @@ use JambageCom\Div2007\Base\TranslationBase;
  * @author	Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 class Localization extends TranslationBase implements SingletonInterface
 {

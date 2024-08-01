@@ -2,7 +2,6 @@
 
 namespace JambageCom\TtProducts\Domain\Model\Dto;
 
-
 /**
  * This file is part of the "news" Extension for TYPO3 CMS.
  *
@@ -12,9 +11,6 @@ namespace JambageCom\TtProducts\Domain\Model\Dto;
 
 use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\SingletonInterface;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-
-
 
 /**
  * Extension Manager configuration.
@@ -104,8 +100,7 @@ final class EmConfiguration implements SingletonInterface
     public function __construct(
         private readonly ExtensionConfiguration $extensionConfiguration,
         array $configuration = [],
-    )
-    {
+    ) {
         $this->templateFile = 'EXT:' . $this->extensionKey . '/Resources/Private/Templates/example_locallang_xml.html';
 
         if (empty($configuration)) {
@@ -118,7 +113,7 @@ final class EmConfiguration implements SingletonInterface
 
         foreach ($configuration as $key => $value) {
             if (is_array($value)) {
-                $position = (int) strpos($key, '.');
+                $position = (int)strpos($key, '.');
                 $property = substr($key, 0, $position);
                 if (
                     property_exists(self::class, $property) &&
@@ -238,4 +233,3 @@ final class EmConfiguration implements SingletonInterface
         return $this->slugBehaviour;
     }
 }
-

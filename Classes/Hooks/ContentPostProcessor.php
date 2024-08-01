@@ -35,9 +35,6 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
  * hook for the page title in the product single view
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 class ContentPostProcessor
 {

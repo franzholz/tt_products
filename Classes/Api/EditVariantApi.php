@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace JambageCom\TtProducts\Api;
 
@@ -23,14 +23,11 @@ namespace JambageCom\TtProducts\Api;
  * former class tx_ttproducts_edit_variant
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
-use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
-use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 class EditVariantApi implements SingletonInterface
 {
@@ -88,7 +85,6 @@ class EditVariantApi implements SingletonInterface
      *
      * @return  string	  variants separated by variantSeparator
      *
-     * @access private
      *
      * @see modifyRowFromVariant
      */

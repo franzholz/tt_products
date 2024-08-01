@@ -33,9 +33,6 @@ namespace JambageCom\TtProducts\Api;
  * control functions
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 class ControlApi
 {

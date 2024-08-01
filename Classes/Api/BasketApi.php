@@ -2,7 +2,6 @@
 
 namespace JambageCom\TtProducts\Api;
 
-
 /***************************************************************
 *  Copyright notice
 *
@@ -34,15 +33,11 @@ namespace JambageCom\TtProducts\Api;
  * functions for the basket
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
-use TYPO3\CMS\Core\SingletonInterface;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-
 use JambageCom\Div2007\Utility\TableUtility;
+use TYPO3\CMS\Core\SingletonInterface;
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class BasketApi implements SingletonInterface
 {

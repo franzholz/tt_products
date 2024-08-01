@@ -33,9 +33,6 @@ namespace JambageCom\TtProducts\Utility;
  * functions for the import of images into FAL
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 use JambageCom\Div2007\Utility\TableUtility;
 use TYPO3\CMS\Core\Core\Environment;
@@ -171,9 +168,9 @@ class ImportFalUtility
 
                                             if ($tce->errorLog) {
                                                 $content .= 'TCE->errorLog:' . DebugUtility::viewArray($tce->errorLog);
-                                            } else {
-                                                // nothing
                                             }
+                                            // nothing
+
                                         }
                                     }
                                     $imageCount++;

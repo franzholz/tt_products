@@ -27,7 +27,8 @@ final class AddRelatedListEvent
         private readonly int $uid,
         private readonly array $paramUidArray,
         private readonly int $useArticles,
-    ) {}
+    ) {
+    }
 
     public function getResult(): array
     {
@@ -64,4 +65,3 @@ final class AddRelatedListEvent
         return $this->useArticles;
     }
 }
-

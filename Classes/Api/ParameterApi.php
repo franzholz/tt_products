@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace JambageCom\TtProducts\Api;
 
@@ -35,9 +35,6 @@ namespace JambageCom\TtProducts\Api;
  * functions for the view
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -625,7 +622,7 @@ class ParameterApi implements SingletonInterface
                                             $searchboxWhereArray[] = $searchAlias . $aliasPostfix . '.' . $field . ' REGEXP ' . $GLOBALS['TYPO3_DB']->fullQuoteStr('.*[' . $delimiter . ']*' . $positionSearchValue . '[' . $delimiter . ']*.*', $searchTablename);
                                         }
                                         $searchboxWhere = implode(' OR ', $searchboxWhereArray);
-                                    // TODO
+                                        // TODO
                                     } else {
                                         $searchboxWhere =
                                             $this->getWhereByFields(

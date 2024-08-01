@@ -19,7 +19,6 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Server\MiddlewareInterface;
 use Psr\Http\Server\RequestHandlerInterface;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 /**
  * Initialization for the backend
@@ -42,7 +41,7 @@ class Initialization implements MiddlewareInterface
             $iconRegistry->registerIcon(
                 $identifier,
                 $iconRegistry->detectIconProvider($filename),
-                    ['source' => 'EXT:' . $extensionKey . '/Resources/Public/Icons/Apps/' . $filename]
+                ['source' => 'EXT:' . $extensionKey . '/Resources/Public/Icons/Apps/' . $filename]
             );
         }
 
