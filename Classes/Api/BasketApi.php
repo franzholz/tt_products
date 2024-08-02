@@ -122,7 +122,7 @@ class BasketApi implements SingletonInterface
 
         $pid_list = $conf['pid_list'];
         \tx_ttproducts_control_basket::init($conf, $tablesObj, $pid_list, $conf['useArticles'], $recs);
-        $basketExt = \THIS->getBasketExt();
+        $basketExt = self::getBasketExt();
 
         if (isset($basketExt) && is_array($basketExt)) {
             $uidArr = [];
