@@ -30,19 +30,15 @@
  * memo functions
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 
-use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
-use TYPO3\CMS\Core\SingletonInterface;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-
 use JambageCom\Div2007\Utility\FrontendUtility;
-
 use JambageCom\TtProducts\Api\BasketApi;
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 
+use TYPO3\CMS\Core\SingletonInterface;
+
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_memo_view implements SingletonInterface
 {

@@ -20,9 +20,6 @@ namespace JambageCom\TtProducts\Api;
  * functions for the payment
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 use Doctrine\DBAL\ParameterType;
 use Psr\Log\LoggerAwareInterface;
@@ -61,27 +58,20 @@ class UpgradeApi implements LoggerAwareInterface
     {
         $count = 0;
 
-        if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['articleMode'] > 0) {
+        if (($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['articleMode'] ?? 0) > 0) {
             $articleTable = 'tt_products_articles';
 
             /** @var QueryBuilder $queryBuilder */
             $queryBuilder = GeneralUtility::makeInstance(ConnectionPool::class)->getQueryBuilderForTable($articleTable);
             $queryBuilder->getRestrictions()->removeAll();
             $count = $queryBuilder->count('uid')
-                ->from($articleTable)
-                ->where(
-                    $queryBuilder->expr()->andX(
-                        $queryBuilder->expr()->gt(
-                            'uid_product',
-                            $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
-                        ),
-                        $queryBuilder->expr()->eq(
-                            'deleted',
-                            $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
-                        )
-                    )
-                )
-                ->execute()->fetchOne()
+                ->from($articleTable)->where($queryBuilder->expr()->and($queryBuilder->expr()->gt(
+                    'uid_product',
+                    $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
+                ), $queryBuilder->expr()->eq(
+                    'deleted',
+                    $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
+                )))->executeQuery()->fetchOne()
             ;
         }
 
@@ -102,10 +92,7 @@ class UpgradeApi implements LoggerAwareInterface
                     $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
                 )
             )
-            ->setMaxResults(1)
-            ->orderBy('crdate', 'DESC')
-            ->execute()
-            ->fetchAll()
+            ->setMaxResults(1)->orderBy('crdate', 'DESC')->executeQuery()->fetchAllAssociative()
         ;
 
         if (!empty($affectedRows)) {
@@ -117,24 +104,16 @@ class UpgradeApi implements LoggerAwareInterface
                 $row[$uidLocalOldField] != $row['uid_local']
             ) {
                 $count = $queryBuilder->count('uid')
-                    ->from($mmTable)
-                    ->where(
-                        $queryBuilder->expr()->andX(
-                            $queryBuilder->expr()->gt(
-                                $uidLocalOldField,
-                                $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
-                            ),
-                            $queryBuilder->expr()->eq(
-                                'uid_local',
-                                $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
-                            ),
-                            $queryBuilder->expr()->eq(
-                                'deleted',
-                                $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
-                            )
-                        )
-                    )
-                    ->execute()->fetchOne()
+                    ->from($mmTable)->where($queryBuilder->expr()->and($queryBuilder->expr()->gt(
+                        $uidLocalOldField,
+                        $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
+                    ), $queryBuilder->expr()->eq(
+                        'uid_local',
+                        $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
+                    ), $queryBuilder->expr()->eq(
+                        'deleted',
+                        $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
+                    )))->executeQuery()->fetchOne()
                 ;
             }
         }
@@ -151,7 +130,7 @@ class UpgradeApi implements LoggerAwareInterface
         $queryBuilder->getRestrictions()->removeAll();
 
         $expressionBuilder = $queryBuilder->expr();
-        $conditions = $expressionBuilder->andX();
+        $conditions = $expressionBuilder->and();
         $this->getEmptyValues(
             $oldEmpty,
             $newEmpty,
@@ -160,13 +139,9 @@ class UpgradeApi implements LoggerAwareInterface
             $queryBuilder
         );
 
-        $conditions->add(
-            $expressionBuilder->gt($oldField, $oldEmpty)
-        );
+        $conditions = $conditions->with($expressionBuilder->gt($oldField, $oldEmpty));
 
-        $conditions->add(
-            $expressionBuilder->eq($newField, $newEmpty)
-        );
+        $conditions = $conditions->with($expressionBuilder->eq($newField, $newEmpty));
 
         $count = $queryBuilder = $queryBuilder->count('uid')
             ->from($table)
@@ -176,9 +151,7 @@ class UpgradeApi implements LoggerAwareInterface
                     $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
                 )
             )
-            ->andWhere($conditions)
-            ->setMaxResults(1)
-            ->execute()
+            ->andWhere($conditions)->setMaxResults(1)->executeQuery()
             ->fetchOne()
         ;
 
@@ -208,20 +181,13 @@ class UpgradeApi implements LoggerAwareInterface
             ->select(
                 ...$fields
             )
-            ->from($articleTable)
-            ->where(
-                $queryBuilder->expr()->andX(
-                    $queryBuilder->expr()->gt(
-                        $articleTable . '.uid_product',
-                        $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
-                    ),
-                    $queryBuilder->expr()->eq(
-                        $articleTable . '.deleted',
-                        $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
-                    )
-                )
-            )
-            ->execute()
+            ->from($articleTable)->where($queryBuilder->expr()->and($queryBuilder->expr()->gt(
+                $articleTable . '.uid_product',
+                $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
+            ), $queryBuilder->expr()->eq(
+                $articleTable . '.deleted',
+                $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
+            )))->executeQuery()
         ;
 
         // Migrate entries
@@ -235,24 +201,16 @@ class UpgradeApi implements LoggerAwareInterface
             $queryBuilder = $connection->createQueryBuilder();
             $queryBuilder->getRestrictions()->removeAll();
             $mmCount = $queryBuilder->count('uid')
-                ->from($mmTable)
-                ->where(
-                    $queryBuilder->expr()->andX(
-                        $queryBuilder->expr()->eq(
-                            'uid_foreign',
-                            $queryBuilder->createNamedParameter(intval($record['uid']), \PDO::PARAM_INT)
-                        ),
-                        $queryBuilder->expr()->eq(
-                            'uid_local',
-                            $queryBuilder->createNamedParameter($prodUid, \PDO::PARAM_INT)
-                        ),
-                        $queryBuilder->expr()->eq(
-                            'deleted',
-                            $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
-                        )
-                    )
-                )
-                ->execute()->fetchOne()
+                ->from($mmTable)->where($queryBuilder->expr()->and($queryBuilder->expr()->eq(
+                    'uid_foreign',
+                    $queryBuilder->createNamedParameter(intval($record['uid']), \PDO::PARAM_INT)
+                ), $queryBuilder->expr()->eq(
+                    'uid_local',
+                    $queryBuilder->createNamedParameter($prodUid, \PDO::PARAM_INT)
+                ), $queryBuilder->expr()->eq(
+                    'deleted',
+                    $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
+                )))->executeQuery()->fetchOne()
             ;
 
             if ($mmCount == 0) {
@@ -285,16 +243,13 @@ class UpgradeApi implements LoggerAwareInterface
                 $queryBuilder
                     ->update($productTable)
                     ->where(
-                        $queryBuilder->expr()->andX(
-                            $queryBuilder->expr()->eq(
-                                'uid',
-                                $queryBuilder->createNamedParameter($prodUid, \PDO::PARAM_INT)
-                            ),
-                            $queryBuilder->expr()->eq(
-                                'deleted',
-                                $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
-                            )
-                        )
+                        $queryBuilder->expr()->and($queryBuilder->expr()->eq(
+                            'uid',
+                            $queryBuilder->createNamedParameter($prodUid, \PDO::PARAM_INT)
+                        ), $queryBuilder->expr()->eq(
+                            'deleted',
+                            $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
+                        ))
                     )
                     ->set(
                         'article_uid',
@@ -334,28 +289,22 @@ class UpgradeApi implements LoggerAwareInterface
                 $mmTable
             )
             ->where(
-                $queryBuilder->expr()->andX(
-                    $queryBuilder->expr()->gt(
-                        'product_uid',
-                        $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
-                    ),
-                    $queryBuilder->expr()->gt(
-                        'graduated_price_uid',
-                        $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
-                    ),
-                    $queryBuilder->expr()->eq(
-                        'uid_local',
-                        $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
-                    ),
-                    $queryBuilder->expr()->eq(
-                        'uid_foreign',
-                        $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
-                    ),
-                    $queryBuilder->expr()->eq(
-                        'deleted',
-                        $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
-                    )
-                )
+                $queryBuilder->expr()->and($queryBuilder->expr()->gt(
+                    'product_uid',
+                    $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
+                ), $queryBuilder->expr()->gt(
+                    'graduated_price_uid',
+                    $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
+                ), $queryBuilder->expr()->eq(
+                    'uid_local',
+                    $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
+                ), $queryBuilder->expr()->eq(
+                    'uid_foreign',
+                    $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
+                ), $queryBuilder->expr()->eq(
+                    'deleted',
+                    $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
+                ))
             )
             ->set('uid_local', $queryBuilder->quoteIdentifier('product_uid'), false)
             ->set('uid_foreign', $queryBuilder->quoteIdentifier('graduated_price_uid'), false)
@@ -390,28 +339,22 @@ class UpgradeApi implements LoggerAwareInterface
                 $mmTable
             )
             ->where(
-                $queryBuilder->expr()->andX(
-                    $queryBuilder->expr()->gt(
-                        'sys_products_orders_uid',
-                        $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
-                    ),
-                    $queryBuilder->expr()->gt(
-                        'tt_products_uid',
-                        $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
-                    ),
-                    $queryBuilder->expr()->eq(
-                        'uid_local',
-                        $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
-                    ),
-                    $queryBuilder->expr()->eq(
-                        'uid_foreign',
-                        $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
-                    ),
-                    $queryBuilder->expr()->eq(
-                        'deleted',
-                        $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
-                    )
-                )
+                $queryBuilder->expr()->and($queryBuilder->expr()->gt(
+                    'sys_products_orders_uid',
+                    $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
+                ), $queryBuilder->expr()->gt(
+                    'tt_products_uid',
+                    $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
+                ), $queryBuilder->expr()->eq(
+                    'uid_local',
+                    $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
+                ), $queryBuilder->expr()->eq(
+                    'uid_foreign',
+                    $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
+                ), $queryBuilder->expr()->eq(
+                    'deleted',
+                    $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
+                ))
             )
             ->set('uid_local', $queryBuilder->quoteIdentifier('sys_products_orders_uid'), false)
             ->set('uid_foreign', $queryBuilder->quoteIdentifier('tt_products_uid'), false)
@@ -447,20 +390,16 @@ class UpgradeApi implements LoggerAwareInterface
                 $table
             )
             ->where(
-                $queryBuilder->expr()->andX(
-                    $queryBuilder->expr()->gt(
-                        $oldField,
-                        $queryBuilder->createNamedParameter($oldEmpty, $oldFieldtype)
-                    ),
-                    $queryBuilder->expr()->eq(
-                        $newField,
-                        $queryBuilder->createNamedParameter($newEmpty, $newFieldtype)
-                    ),
-                    $queryBuilder->expr()->eq(
-                        'deleted',
-                        $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
-                    )
-                )
+                $queryBuilder->expr()->and($queryBuilder->expr()->gt(
+                    $oldField,
+                    $queryBuilder->createNamedParameter($oldEmpty, $oldFieldtype)
+                ), $queryBuilder->expr()->eq(
+                    $newField,
+                    $queryBuilder->createNamedParameter($newEmpty, $newFieldtype)
+                ), $queryBuilder->expr()->eq(
+                    'deleted',
+                    $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
+                ))
             )
             ->set($newField, $queryBuilder->quoteIdentifier($oldField), false)
         ;
@@ -508,20 +447,16 @@ class UpgradeApi implements LoggerAwareInterface
             ->select('*')
             ->from($table)
             ->where(
-                $queryBuilder->expr()->andX(
-                    $queryBuilder->expr()->gt(
-                        $oldField,
-                        $oldEmpty
-                    ),
-                    $queryBuilder->expr()->eq(
-                        $newField,
-                        $newEmpty
-                    ),
-                    $queryBuilder->expr()->eq(
-                        'deleted',
-                        $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
-                    )
-                )
+                $queryBuilder->expr()->and($queryBuilder->expr()->gt(
+                    $oldField,
+                    $oldEmpty
+                ), $queryBuilder->expr()->eq(
+                    $newField,
+                    $newEmpty
+                ), $queryBuilder->expr()->eq(
+                    'deleted',
+                    $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
+                ))
             )
         ;
 
@@ -564,7 +499,7 @@ class UpgradeApi implements LoggerAwareInterface
         ) {
             return false;
         }
-        $fileadminDirectory = rtrim($GLOBALS['TYPO3_CONF_VARS']['BE']['fileadminDir'], '/') . '/';
+        $fileadminDirectory = rtrim((string)$GLOBALS['TYPO3_CONF_VARS']['BE']['fileadminDir'], '/') . '/';
         $i = 0;
         if ($sourcePath == '') {
             $sourcePath = 'uploads/tx_ttproducts/' . $oldField;
@@ -581,7 +516,7 @@ class UpgradeApi implements LoggerAwareInterface
         }
         $storageUid = (int)$defaultStorage->getUid();
         $connectionPool = GeneralUtility::makeInstance(ConnectionPool::class);
-        $fieldItems = explode(',', $row[$oldField]);
+        $fieldItems = explode(',', (string)$row[$oldField]);
         $pathSite = Environment::getPublicPath() . '/';
 
         foreach ($fieldItems as $item) {
@@ -603,16 +538,13 @@ class UpgradeApi implements LoggerAwareInterface
                 $fileSha1 = sha1_file($targetDirectoryFile);
                 $queryBuilder = $connectionPool->getQueryBuilderForTable('sys_file');
                 $queryBuilder->getRestrictions()->removeAll();
-                $existingFileRecord = $queryBuilder->select('uid')->from('sys_file')->where(
-                    $queryBuilder->expr()->eq(
-                        'sha1',
-                        $queryBuilder->createNamedParameter($fileSha1, \PDO::PARAM_STR)
-                    ),
-                    $queryBuilder->expr()->eq(
-                        'storage',
-                        $queryBuilder->createNamedParameter($storageUid, \PDO::PARAM_INT)
-                    )
-                )->execute()->fetch();
+                $existingFileRecord = $queryBuilder->select('uid')->from('sys_file')->where($queryBuilder->expr()->eq(
+                    'sha1',
+                    $queryBuilder->createNamedParameter($fileSha1, \PDO::PARAM_STR)
+                ), $queryBuilder->expr()->eq(
+                    'storage',
+                    $queryBuilder->createNamedParameter($storageUid, \PDO::PARAM_INT)
+                ))->executeQuery()->fetchAssociative();
                 // the file exists, the file does not have to be moved again
                 if (is_array($existingFileRecord) && $existingFileRecord['uid']) {
                     $fileUid = $existingFileRecord['uid'];
@@ -620,10 +552,9 @@ class UpgradeApi implements LoggerAwareInterface
                     // just move the file (no duplicate)
                     rename($sourcePathFile, $targetDirectoryFile);
                 }
-            } else {
-                // nothing
-                // Maybe the original files have already been moved.
             }
+            // nothing
+            // Maybe the original files have already been moved.
 
             if ($fileUid == null) {
                 // get the File object if it has not been fetched before
@@ -667,40 +598,28 @@ class UpgradeApi implements LoggerAwareInterface
 
                     // Check if entries are already referenced
                     $count = $queryBuilder->count('uid')
-                        ->from('sys_file_reference')
-                        ->where(
-                            $queryBuilder->expr()->andX(
-                                $queryBuilder->expr()->eq(
-                                    'fieldname',
-                                    $queryBuilder->createNamedParameter($newField)
-                                ),
-                                $queryBuilder->expr()->eq(
-                                    'deleted',
-                                    $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
-                                ),
-                                $queryBuilder->expr()->eq(
-                                    'table_local',
-                                    $queryBuilder->createNamedParameter('sys_file')
-                                ),
-                                $queryBuilder->expr()->eq(
-                                    'pid',
-                                    $queryBuilder->createNamedParameter($row['pid'], \PDO::PARAM_INT)
-                                ),
-                                $queryBuilder->expr()->eq(
-                                    'uid_foreign',
-                                    $queryBuilder->createNamedParameter($row['uid'], \PDO::PARAM_INT)
-                                ),
-                                $queryBuilder->expr()->eq(
-                                    'uid_local',
-                                    $queryBuilder->createNamedParameter($fileUid, \PDO::PARAM_INT)
-                                ),
-                                $queryBuilder->expr()->eq(
-                                    'tablenames',
-                                    $queryBuilder->createNamedParameter($table)
-                                )
-                            )
-                        )
-                        ->execute()->fetchOne()
+                        ->from('sys_file_reference')->where($queryBuilder->expr()->and($queryBuilder->expr()->eq(
+                            'fieldname',
+                            $queryBuilder->createNamedParameter($newField)
+                        ), $queryBuilder->expr()->eq(
+                            'deleted',
+                            $queryBuilder->createNamedParameter(0, \PDO::PARAM_INT)
+                        ), $queryBuilder->expr()->eq(
+                            'table_local',
+                            $queryBuilder->createNamedParameter('sys_file')
+                        ), $queryBuilder->expr()->eq(
+                            'pid',
+                            $queryBuilder->createNamedParameter($row['pid'], \PDO::PARAM_INT)
+                        ), $queryBuilder->expr()->eq(
+                            'uid_foreign',
+                            $queryBuilder->createNamedParameter($row['uid'], \PDO::PARAM_INT)
+                        ), $queryBuilder->expr()->eq(
+                            'uid_local',
+                            $queryBuilder->createNamedParameter($fileUid, \PDO::PARAM_INT)
+                        ), $queryBuilder->expr()->eq(
+                            'tablenames',
+                            $queryBuilder->createNamedParameter($table)
+                        )))->executeQuery()->fetchOne()
                     ;
 
                     // if the file record has already been assigned to this table
@@ -722,8 +641,8 @@ class UpgradeApi implements LoggerAwareInterface
                     'sorting_foreign' => $i,
                 ];
                 $queryBuilder = $connectionPool->getQueryBuilderForTable('sys_file_reference');
-                $queryBuilder->insert('sys_file_reference')->values($fields)->execute();
-                $databaseQueries[] = str_replace(LF, ' ', $queryBuilder->getSQL());
+                $queryBuilder->insert('sys_file_reference')->values($fields)->executeStatement();
+                $databaseQueries[] = str_replace(LF, ' ', (string)$queryBuilder->getSQL());
                 ++$i;
             }
         } // Ende foreach
@@ -738,8 +657,8 @@ class UpgradeApi implements LoggerAwareInterface
                     'uid',
                     $queryBuilder->createNamedParameter($row['uid'], \PDO::PARAM_INT)
                 )
-            )->set($newField, $i)->execute();
-            $databaseQueries[] = str_replace(LF, ' ', $queryBuilder->getSQL());
+            )->set($newField, $i)->executeStatement();
+            $databaseQueries[] = str_replace(LF, ' ', (string)$queryBuilder->getSQL());
         }
     }
 }

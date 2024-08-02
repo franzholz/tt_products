@@ -36,16 +36,11 @@ use TYPO3\CMS\Core\SingletonInterface;
  * @author	Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 class tx_ttproducts_control_single implements SingletonInterface
 {
     /**
      * Triggers events when the single view has been called.
-     *
-     * @access private
      */
     public function triggerEvents($conf): void
     {

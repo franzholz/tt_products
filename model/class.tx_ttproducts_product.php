@@ -32,9 +32,6 @@
  * @author  Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 use JambageCom\Div2007\Utility\ExtensionUtility;
 use JambageCom\Div2007\Utility\FlexformUtility;
@@ -53,15 +50,15 @@ class tx_ttproducts_product extends tx_ttproducts_article_base
     public $articleArray = [];
     protected $tableAlias = 'product';
     protected $allowedTypeArray =
-            [
-                'accessories',
-                'articles',
-                'all_downloads',
-                'complete_downloads',
-                'partial_downloads',
-                'products',
-                'productsbysystemcategory',
-            ];
+        [
+            'accessories',
+            'articles',
+            'all_downloads',
+            'complete_downloads',
+            'partial_downloads',
+            'products',
+            'productsbysystemcategory',
+        ];
 
     /**
      * Getting all tt_products_cat categories into internal array.
@@ -743,7 +740,7 @@ class tx_ttproducts_product extends tx_ttproducts_article_base
         $hasAdditional = false;
         if (isset($row['additional'])) {
             $additional = GeneralUtility::xml2array($row['additional']);
-            $hasAdditional = (bool) FlexformUtility::get($additional, $check);
+            $hasAdditional = (bool)FlexformUtility::get($additional, $check);
         }
 
         return $hasAdditional;

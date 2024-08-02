@@ -32,9 +32,6 @@
  * @author	Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 use JambageCom\Div2007\Utility\PhpUtility;
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
@@ -120,10 +117,10 @@ class tx_ttproducts_pricetablescalc extends tx_ttproducts_pricecalc_base
                     is_array($syntaxCheck)
                 ) {
                     throw new RuntimeException('Error in tt_products: The syntax check for "' . htmlspecialchars($formula) . '" went wrong.', 50004);
-                } else {
-                    eval($phpCode);
-                    // 					eval("\$result = " . $formula . ";" );
                 }
+                eval($phpCode);
+                // 					eval("\$result = " . $formula . ";" );
+
             } catch (RuntimeException $e) {
                 debug($e, 'calculateValue $e'); // keep this
             } catch (Exception $e) {

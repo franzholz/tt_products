@@ -1,0 +1,15 @@
+paths:
+  - packages
+
+filePatterns:
+  - "*.tsconfig"
+  - "*.typoscript"
+  - ext_conf_template.txt
+  - ext_typoscript_*.txt
+
+sniffs:
+  - class: Indentation
+    parameters:
+      indentPerLevel: 2
+  - class: RepeatingRValue
+    disabled: true

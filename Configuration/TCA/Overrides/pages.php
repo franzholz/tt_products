@@ -42,4 +42,3 @@ call_user_func(function ($extensionKey, $table): void {
         'Shop System Content Element Wizard'
     );
 }, 'tt_products', basename(__FILE__, '.php'));
-

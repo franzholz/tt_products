@@ -32,9 +32,6 @@
  * @author	Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -184,8 +181,6 @@ class tx_ttproducts_graduated_price_view extends tx_ttproducts_table_base_view
      * @param	array		information about the parent HTML form
      *
      * @return	array
-     *
-     * @access private
      */
     public function getPriceMarkerArray(
         $row,

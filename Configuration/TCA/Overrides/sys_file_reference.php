@@ -48,11 +48,12 @@ call_user_func(function ($extensionKey, $table): void {
             'exclude' => 1,
             'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_file_reference.tx_ttproducts_price',
             'config' => [
-                'type' => 'input',
+                'type' => 'number',
                 'size' => '20',
-                'eval' => 'trim,double2',
+                'eval' => 'trim',
                 'max' => '20',
                 'default' => 0,
+                'format' => 'decimal',
             ],
         ],
     ];

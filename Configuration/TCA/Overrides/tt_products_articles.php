@@ -8,7 +8,7 @@ call_user_func(function ($extensionKey, $table): void {
     $configuration =  GeneralUtility::makeInstance(\JambageCom\TtProducts\Domain\Model\Dto\EmConfiguration::class);
     $languageSubpath = '/Resources/Private/Language/';
     $languageLglPath = 'LLL:EXT:core' . $languageSubpath . 'locallang_general.xlf:LGL.';
-    $fieldArray = ['tstamp', 'crdate', 'starttime', 'endtime'];
+    $fieldArray = [ 'starttime', 'endtime'];
 
     foreach ($fieldArray as $field) {
         unset($GLOBALS['TCA'][$table]['columns'][$field]['config']['renderType']);

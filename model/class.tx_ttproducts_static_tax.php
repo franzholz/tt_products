@@ -32,9 +32,6 @@
  * @author	Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 use JambageCom\Div2007\Api\OldStaticInfoTablesApi;
 use JambageCom\Div2007\Api\StaticInfoTablesApi;
@@ -596,7 +593,7 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base
                             $priceOne =
                                 TaxApi::applyConsumerTaxes(
                                     $taxInfoArray,
-                                    doubleval(1)
+                                    floatval(1)
                                 );
                             if ($priceOne !== false) {
                                 $tax = ($priceOne - 1) * 100;

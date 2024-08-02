@@ -32,9 +32,6 @@
  * @author  Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -80,7 +77,7 @@ class tx_ttproducts_form_div
                     ) {
                         $selectKey = $parts['value'];
                         $selectValue = $parts['label'];
-                    } else if (
+                    } elseif (
                         isset($parts['0']) &&
                         isset($parts['1'])
                     ) {
@@ -115,7 +112,7 @@ class tx_ttproducts_form_div
 
                     if ($key == -1) {
                         $selectedText = ($useXHTML ? ' disabled="disabled"' : ' disabled');
-                    } elseif (strcmp((string) $selectKey, (string) $selectedKey) == 0) {
+                    } elseif (strcmp((string)$selectKey, (string)$selectedKey) == 0) {
                         switch ($type) {
                             case 'select':
                                 $selectedText = ($useXHTML ? ' selected="selected"' : ' selected');
@@ -137,7 +134,7 @@ class tx_ttproducts_form_div
                     switch ($type) {
                         case 'select':
                             $inputTextArray = [
-                                '<option value="' . htmlspecialchars((string) $valueText, $flags) . '"' . $selectedText . '>',
+                                '<option value="' . htmlspecialchars((string)$valueText, $flags) . '"' . $selectedText . '>',
                                 '</option>'
                             ];
                             break;
@@ -282,7 +279,7 @@ class tx_ttproducts_form_div
         }
 
         $flags = ENT_QUOTES;
-        $result = '<' . $tag . $spaceArray['pre'] . $attributeTextArray['pre'] . ' name="' . $name . '" value="' . htmlspecialchars((string) $value, $flags) . '"' . $spaceArray['post'] . $attributeTextArray['post'] . ' ' . ($useXHTML ? '/' : '') . '>';
+        $result = '<' . $tag . $spaceArray['pre'] . $attributeTextArray['pre'] . ' name="' . $name . '" value="' . htmlspecialchars((string)$value, $flags) . '"' . $spaceArray['post'] . $attributeTextArray['post'] . ' ' . ($useXHTML ? '/' : '') . '>';
 
         return $result;
     }

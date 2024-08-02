@@ -32,9 +32,6 @@
  * @author  Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 use JambageCom\Div2007\Utility\ConfigUtility;
 use JambageCom\Div2007\Utility\FlexformUtility;
@@ -47,7 +44,6 @@ use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\TypoScript\Parser\TypoScriptParser;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Frontend\Resource\FilePathSanitizer;
 
 class tx_ttproducts_control_search implements SingletonInterface, tx_ttproducts_field_int
 {
@@ -301,15 +297,15 @@ class tx_ttproducts_control_search implements SingletonInterface, tx_ttproducts_
 
                 unset($errorMessage);
                 break; // while
-            } else {
-                $content .=
-                    FrontendUtility::wrapContentCode(
-                        $contentTmp,
-                        $theCode,
-                        $pibaseObj->prefixId,
-                        $this->cObj->data['uid']
-                    );
             }
+            $content .=
+                FrontendUtility::wrapContentCode(
+                    $contentTmp,
+                    $theCode,
+                    $pibaseObj->prefixId,
+                    $this->cObj->data['uid']
+                );
+
         }
 
         if ($errorMessage) {

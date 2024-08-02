@@ -32,9 +32,6 @@
  * @author  Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 use JambageCom\Div2007\Utility\FrontendUtility;
 use JambageCom\Div2007\Utility\TableUtility;
@@ -430,7 +427,7 @@ class tx_ttproducts_voucher extends tx_ttproducts_table_base
                 if ($voucherTable == 'fe_users') {
                     $uid_voucher = $row['uid'];
                     if (isset($this->conf['voucher.'])) {
-                        $row['amount'] = doubleval($this->conf['voucher.']['amount']);
+                        $row['amount'] = floatval($this->conf['voucher.']['amount']);
                         $row['amount_type'] = intval($this->conf['voucher.']['amount_type']);
                     }
                     $row['starttime'] = 0;
@@ -450,7 +447,7 @@ class tx_ttproducts_voucher extends tx_ttproducts_table_base
                     $uid_voucher == $GLOBALS['TSFE']->fe_user->user['uid']
                 )
             ) {
-                $amount = doubleval($this->getAmount());
+                $amount = floatval($this->getAmount());
                 $amountType = intval($this->getAmountType());
 
                 if ($amountType == $row['amount_type']) {

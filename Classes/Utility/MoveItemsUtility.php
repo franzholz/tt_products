@@ -33,9 +33,6 @@ namespace JambageCom\TtProducts\Utility;
  * functions for the import of images into FAL
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 class MoveItemsUtility
 {

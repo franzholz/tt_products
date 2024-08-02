@@ -32,9 +32,6 @@
  * @author  Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 use JambageCom\Div2007\Utility\TableUtility;
 use TYPO3\CMS\Core\SingletonInterface;
@@ -119,9 +116,11 @@ class tx_ttproducts_tables implements SingletonInterface
             !$classNameArray['model'] ||
             $bView && !$classNameArray['view']
         ) {
-            debug('Error in ' . TT_PRODUCTS_EXT . '. No class found after calling function tx_ttproducts_tables::get with parameters "' .
+            debug(
+                'Error in ' . TT_PRODUCTS_EXT . '. No class found after calling function tx_ttproducts_tables::get with parameters "' .
                 $funcTablename . '", ' .
-                strval($bView) . ' . ', 'internal error'
+                strval($bView) . ' . ',
+                'internal error'
             ); // keep this
 
             return false;
@@ -223,8 +222,6 @@ class tx_ttproducts_tables implements SingletonInterface
      * mmtable       ... name of the mm table
      * foreign_field ... name of the field in the mm table which joins with
      * the foreign table
-     *
-     * @access	public
      */
     public function getForeignTableInfo($funcTablename, $fieldname)
     {

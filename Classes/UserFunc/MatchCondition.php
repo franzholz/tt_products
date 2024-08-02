@@ -35,9 +35,6 @@ namespace JambageCom\TtProducts\UserFunc;
  * @author	Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 use JambageCom\Div2007\Utility\CompatibilityUtility;
 use JambageCom\TtProducts\Api\BasketApi;
@@ -69,14 +66,14 @@ class MatchCondition
             $field = $params['1'];
             $operator = '=';
             $value = '';
-            if (strpos($params['2'], $operator) !== false) {
-                $value = ltrim($params['2'], ' =');
-            } elseif (strpos($params['2'], 'IN') !== false) {
+            if (str_contains((string)$params['2'], $operator)) {
+                $value = ltrim((string)$params['2'], ' =');
+            } elseif (str_contains((string)$params['2'], 'IN')) {
                 $operator = 'IN';
-                if (strpos($params['2'], 'NOT IN') !== false) {
+                if (str_contains((string)$params['2'], 'NOT IN')) {
                     $operator = 'NOT IN';
                 }
-                $value = trim($params['3']);
+                $value = trim((string)$params['3']);
             }
 
             if ($operator == '=') {
@@ -122,7 +119,7 @@ class MatchCondition
 
     public function hasBulkilyItem($params)
     {
-        $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
+        $conf = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.'][TT_PRODUCTS_EXT . '.'];
 
         $rcArray = BasketApi::getRecords($conf);
 
@@ -143,7 +140,7 @@ class MatchCondition
         $params
     ) {
         $result = false;
-        $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
+        $conf = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.'][TT_PRODUCTS_EXT . '.'];
 
         $rcArray = BasketApi::getRecords($conf);
         $weight = BasketApi::getWeight($rcArray);

@@ -32,9 +32,6 @@
  * @author	Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -145,10 +142,10 @@ class tx_ttproducts_sql
                                 if ($split == 'IN') {
                                     $isValidRow = true;
                                     break;
-                                } else {
-                                    $isValidRow = false;
-                                    break;
                                 }
+                                $isValidRow = false;
+                                break;
+
                             }
                         }
                     }

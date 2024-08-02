@@ -32,9 +32,6 @@
  * @author  Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 use JambageCom\Div2007\Utility\ExtensionUtility;
 use JambageCom\Div2007\Utility\TableUtility;
@@ -623,7 +620,7 @@ class tx_ttproducts_category extends tx_ttproducts_category_base
         $maxDiscount = 0;
 
         if (!$bDiscountDisable) {
-            $maxDiscount = doubleval($discount);
+            $maxDiscount = floatval($discount);
             $rootCat = $this->getRootCat();
             $rootArray = GeneralUtility::trimExplode(',', $rootCat);
 

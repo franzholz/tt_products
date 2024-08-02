@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace JambageCom\TtProducts\Api;
 
@@ -35,15 +35,7 @@ namespace JambageCom\TtProducts\Api;
  * functions for the basket
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
-use JambageCom\Div2007\Utility\CompatibilityUtility;
-use JambageCom\Div2007\Utility\FileAbstractionUtility;
-use JambageCom\Div2007\Utility\SystemCategoryUtility;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-
 class DatabaseTableApi
 {
     /**
@@ -57,7 +49,7 @@ class DatabaseTableApi
         $result = '';
 
         if ($orderUid) {
-            $orderNumberPrefix = substr($orderNumberPrefix, 0, 30);
+            $orderNumberPrefix = substr((string)$orderNumberPrefix, 0, 30);
             if (
                 strlen($orderNumberPrefix) > 1 &&
                 ($position = strpos($orderNumberPrefix, '%')) !== false

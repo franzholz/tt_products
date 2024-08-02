@@ -35,9 +35,6 @@ use JambageCom\Div2007\Base\TranslationBase;
  * functions for the payment
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 class PaymentApi
 {
@@ -106,7 +103,7 @@ class PaymentApi
                     $usedLang
                 );
 
-                $text = str_replace(' ', '_', $text);
+                $text = str_replace(' ', '_', (string)$text);
                 if ($text == $modeText) {
                     $result = $i;
                     break;

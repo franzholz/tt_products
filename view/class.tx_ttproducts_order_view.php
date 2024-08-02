@@ -32,9 +32,6 @@
  * @author	Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 use JambageCom\Div2007\Utility\FrontendUtility;
 use JambageCom\Div2007\Utility\TableUtility;
@@ -392,9 +389,8 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view
             $subPartMarker = 'TRACKING_ENTER_NUMBER';
         } elseif (!$feusers_uid) {
             $subPartMarker = 'MEMO_NOT_LOGGED_IN';
-        } else {
-            // nothing
         }
+        // nothing
 
         $frameWork = $templateService->getSubpart(
             $templateCode,

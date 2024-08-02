@@ -32,9 +32,6 @@
  * @author	Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 use JambageCom\TtProducts\Api\Localization;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -49,8 +46,6 @@ class tx_ttproducts_control_view
      * @param	array		marker array
      *
      * @return	array
-     *
-     * @access private
      */
     public function getMarkerArray(&$markerArray, &$allMarkers, $tableConfArray): void
     {

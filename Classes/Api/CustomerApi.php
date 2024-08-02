@@ -33,26 +33,17 @@ namespace JambageCom\TtProducts\Api;
  * functions for the customer
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-
-abstract class CustomerTypes
-{
-    public const Billing = 1;
-    public const Delivery = 2;
-}
 
 class CustomerApi
 {
     private static $billingInfo;
     private static $shippingInfo;
     private static $fields =
-    'name,cnum,first_name,last_name,username,email,telephone,title,salutation,address,house_no,telephone,fax,email,company,city,zip,state,country,country_code,tt_products_vat,date_of_birth,tt_products_business_partner,tt_products_organisation_form';
+        'name,cnum,first_name,last_name,username,email,telephone,title,salutation,address,house_no,telephone,fax,email,company,city,zip,state,country,country_code,tt_products_vat,date_of_birth,tt_products_business_partner,tt_products_organisation_form';
     private static $requiredInfoFields = '';
     protected static $possibleCheckFieldArray = ['name', 'last_name', 'email', 'telephone'];
     protected static $creditpointfields = 'tt_products_creditpoints,tt_products_vouchercode';
@@ -63,6 +54,7 @@ class CustomerApi
         $deliveryRow,
         $basketExtra
     ): void {
+        $basketRecs = null;
         if (
             isset($basketRecs) &&
             is_array($basketRecs) &&

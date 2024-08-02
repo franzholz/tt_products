@@ -5,7 +5,6 @@ defined('TYPO3') || die('Access denied.');
 $extensionKey = 'tt_products';
 $accountField = 'ac_number';
 
-
 // ******************************************************************
 // These are the bank account data used for orders
 // ******************************************************************
@@ -32,8 +31,9 @@ $result = [
                 'type' => 'input',
                 'size' => '24',
                 'max' => '24',
-                'eval' => 'required,trim',
+                'eval' => 'trim',
                 'default' => null,
+                'required' => true,
             ],
         ],
         'ac_number' => [
@@ -43,8 +43,9 @@ $result = [
                 'type' => 'input',
                 'size' => '40',
                 'max' => '80',
-                'eval' => 'required,trim',
+                'eval' => 'trim',
                 'default' => null,
+                'required' => true,
             ],
         ],
         'owner_name' => [
@@ -64,8 +65,9 @@ $result = [
                 'type' => 'input',
                 'size' => '11',
                 'max' => '11',
-                'eval' => 'required,trim',
+                'eval' => 'trim',
                 'default' => null,
+                'required' => true,
             ],
         ],
     ],

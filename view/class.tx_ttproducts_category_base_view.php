@@ -32,9 +32,6 @@
  * @author  Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 
 use JambageCom\Div2007\Utility\FrontendUtility;
@@ -120,8 +117,6 @@ abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base
      *
      * @return	array		Returns a markerArray ready for substitution with information
      * 			 			for the tt_producst record, $row
-     *
-     * @access private
      */
     abstract public function getMarkerArray(
         array &$markerArray,

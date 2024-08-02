@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace JambageCom\TtProducts\Controller;
 
@@ -37,36 +37,35 @@ namespace JambageCom\TtProducts\Controller;
  * @author  Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 
+use JambageCom\Div2007\Utility\FrontendUtility;
+use JambageCom\Div2007\Utility\HtmlUtility;
+use JambageCom\Div2007\Utility\MarkerUtility;
+use JambageCom\Transactor\Api\Address;
+
+use function JambageCom\Transactor\Api\getTransactorConf;
+
+use JambageCom\Transactor\Api\Start;
+
+use JambageCom\TtProducts\Api\ActivityApi;
+use JambageCom\TtProducts\Api\BasketApi;
+use JambageCom\TtProducts\Api\ControlApi;
+
+use JambageCom\TtProducts\Api\CustomerApi;
+use JambageCom\TtProducts\Api\DatabaseTableApi;
+use JambageCom\TtProducts\Api\FeUserMarkerApi;
+
+use JambageCom\TtProducts\Api\Localization;
+use JambageCom\TtProducts\Api\ParameterApi;
+use JambageCom\TtProducts\Api\PaymentGatewayApi;
+use JambageCom\TtProducts\Api\PaymentShippingHandling;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
-
-use JambageCom\Div2007\Utility\FrontendUtility;
-use JambageCom\Div2007\Utility\HtmlUtility;
-use JambageCom\Div2007\Utility\MarkerUtility;
-
-use JambageCom\Transactor\Api\Address;
-use JambageCom\Transactor\Api\Start;
-use function JambageCom\Transactor\Api\getTransactorConf;
-
-use JambageCom\TtProducts\Api\DatabaseTableApi;
-use JambageCom\TtProducts\Api\ControlApi;
-use JambageCom\TtProducts\Api\Localization;
-use JambageCom\TtProducts\Api\BasketApi;
-use JambageCom\TtProducts\Api\FeUserMarkerApi;
-use JambageCom\TtProducts\Api\ParameterApi;
-use JambageCom\TtProducts\Api\CustomerApi;
-use JambageCom\TtProducts\Api\ActivityApi;
-use JambageCom\TtProducts\Api\PaymentGatewayApi;
-use JambageCom\TtProducts\Api\PaymentShippingHandling;
 
 class ActivityController implements SingletonInterface
 {
@@ -120,7 +119,7 @@ class ActivityController implements SingletonInterface
             $orderUid = $orderArray['uid'];
         }
 
-        if (!$orderUid && count($basketObj->itemArray)) {
+        if (!$orderUid && (is_countable($basketObj->itemArray) ? count($basketObj->itemArray) : 0)) {
             $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
             $orderObj = $tablesObj->get('sys_products_orders');
             $orderUid = $orderObj->getUid();
@@ -158,6 +157,7 @@ class ActivityController implements SingletonInterface
         &$errorCode,
         &$errorMessage
     ) {
+        $templateFilename = null;
         $content = '';
         $localTemplateCode = '';
         $paymentScript = false;
@@ -183,8 +183,7 @@ class ActivityController implements SingletonInterface
                     $errorMessage,
                     $handleScript,
                     $basketExtra,
-                    $conf['paymentActivity'],
-                    $conf['TAXpercentage']
+                    $conf['paymentActivity']
                 );
             } elseif (
                 $gateway->getUseNewTransactor()
@@ -336,6 +335,8 @@ class ActivityController implements SingletonInterface
         //         $giftRequired,
         $paymentErrorMsg
     ) {
+        $markerArray = [];
+        $addQueryString = [];
         $label = '';
         $languageKey = '';
         $context = GeneralUtility::makeInstance(Context::class);
@@ -362,7 +363,7 @@ class ActivityController implements SingletonInterface
                     $languageKey = 'missing_' . $check;
                 }
                 $label = $GLOBALS['TSFE']->sL('LLL:EXT:agency/pi/locallang.xml:' . $languageKey);
-                $editPID = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_agency.']['editPID'];
+                $editPID = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.']['tx_agency.']['editPID'];
 
                 if ($context->getPropertyFromAspect('frontend.user', 'isLoggedIn') && $editPID) {
                     $addParams = ['products_payment' => 1];
@@ -397,7 +398,7 @@ class ActivityController implements SingletonInterface
                     $languageKey = 'missing_' . $check;
                 }
                 $label = $GLOBALS['TSFE']->sL('LLL:EXT:sr_feuser_register' . $languageSubpath . 'locallang.xlf:' . $languageKey);
-                $editPID = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_srfeuserregister_pi1.']['editPID'];
+                $editPID = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.']['tx_srfeuserregister_pi1.']['editPID'];
 
                 if ($context->getPropertyFromAspect('frontend.user', 'isLoggedIn') && $editPID) {
                     $cObj = ControlApi::getCObj();
@@ -444,7 +445,7 @@ class ActivityController implements SingletonInterface
         } elseif (
             $pidagb &&
             empty($_REQUEST['recs']['personinfo']['agb']) &&
-            empty(GeneralUtility::_GET('products_payment')) &&
+            empty($GLOBALS['TYPO3_REQUEST']->getQueryParams()['products_payment']) &&
             empty($infoArray['billing']['agb'])
         ) {
             // so AGB has not been accepted
@@ -458,7 +459,7 @@ class ActivityController implements SingletonInterface
             $label = $paymentErrorMsg;
         } else {
             $message = $languageObj->getLabel('internal_error');
-            $messageArr = explode('|', $message);
+            $messageArr = explode('|', (string)$message);
             $label = $messageArr[0] . 'TTP_2' . $messageArr[1] . 'products_payment' . $messageArr[2];
         }
 
@@ -502,6 +503,10 @@ class ActivityController implements SingletonInterface
         &$finalize,
         &$finalVerify
     ) {
+        $bNeedsMinCheck = null;
+        $shopCountryArray = [];
+        $taxInfoArray = null;
+        $nextActivity = [];
         $empty = '';
         $hiddenFields = '';
         $basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
@@ -550,7 +555,7 @@ class ActivityController implements SingletonInterface
                 if (
                     isset($value) &&
                     isset($basketConf['collect']) &&
-                    $value < doubleval($basketConf['value'])
+                    $value < floatval($basketConf['value'])
                 ) {
                     $basket_tmpl = 'BASKET_TEMPLATE_MINPRICE_ERROR';
                     $finalize = false;
@@ -585,8 +590,8 @@ class ActivityController implements SingletonInterface
                     $theCode,
                     $templateCode,
                     $subpartmarkerObj->spMarker('###' . $subpart . $config['templateSuffix'] . '###'),
-                                                                $subpartmarkerObj->spMarker('###' . $subpart . '###'),
-                                                                $errorCode
+                    $subpartmarkerObj->spMarker('###' . $subpart . '###'),
+                    $errorCode
                 );
             } elseif (!empty($activityArray['products_finalize'])) {
                 // Todo: Neuabsenden einer bereits abgesendeten Bestellung. Der Warenkorb ist schon gelöscht.
@@ -660,7 +665,7 @@ class ActivityController implements SingletonInterface
             (
                 empty($pidagb) ||
                 !empty($_REQUEST['recs']['personinfo']['agb']) ||
-                ($isPayment && GeneralUtility::_GET('products_payment')) ||
+                ($isPayment && $GLOBALS['TYPO3_REQUEST']->getQueryParams()['products_payment']) ||
                 !empty($infoArray['billing']['agb'])
             )
         ) {
@@ -769,7 +774,7 @@ class ActivityController implements SingletonInterface
                         $errorRow = $errorArray['rec'];
                         $errorRowArray[] = $errorRow;
                         $message = $languageObj->getLabel('error_edit_variant_range');
-                        $messageArr = explode('|', $message);
+                        $messageArr = explode('|', (string)$message);
 
                         if (isset($errorArray['error']) && is_array($errorArray['error'])) {
                             foreach ($errorArray['error'] as $field => $fieldErrorMessage) {
@@ -797,7 +802,7 @@ class ActivityController implements SingletonInterface
                         if (is_array($tmpSubArr)) {
                             foreach ($tmpSubArr as $tmpKey => $tmpSubSubArr) {
                                 if (
-                                    substr($tmpKey, -1) == '.' &&
+                                    str_ends_with($tmpKey, '.') &&
                                     isset($tmpSubSubArr['additional']) &&
                                     is_array($tmpSubSubArr['additional'])
                                 ) {
@@ -817,19 +822,19 @@ class ActivityController implements SingletonInterface
                     $orderUid,
                     $orderArray,
                     $basketObj->getItemArray(),
-                        $paymentHTML,
-                        0,
-                        $basketExtra,
-                        $basketObj->getCalculatedArray(),
-                        $infoObj,
-                        $cardObj->getUid(),
-                        $accountObj->getUid(),
-                        $infoObj,
-                        $giftServiceArticleArray,
-                        $basketObj->recs['tt_products']['vouchercode'] ?? '',
-                        0,
-                        0,
-                        false
+                    $paymentHTML,
+                    0,
+                    $basketExtra,
+                    $basketObj->getCalculatedArray(),
+                    $infoObj,
+                    $cardObj->getUid(),
+                    $accountObj->getUid(),
+                    $infoObj,
+                    $giftServiceArticleArray,
+                    $basketObj->recs['tt_products']['vouchercode'] ?? '',
+                    0,
+                    0,
+                    false
                 );
             }
         } elseif (
@@ -874,7 +879,7 @@ class ActivityController implements SingletonInterface
             $finalize = false;
         }
 
-        if (strpos($templateCode, '###ERROR_DETAILS###') !== false) {
+        if (str_contains((string)$templateCode, '###ERROR_DETAILS###')) {
             $tempContent =
             $templateService->getSubpart(
                 $templateCode,
@@ -882,7 +887,7 @@ class ActivityController implements SingletonInterface
                     '###' . $basket_tmpl . $config['templateSuffix'] . '###'
                 )
             );
-            if (strpos($tempContent, '###ERROR_DETAILS###') !== false) {
+            if (str_contains((string)$tempContent, '###ERROR_DETAILS###')) {
                 $errorMessage = ''; // the error message is part of the HTML template
             }
         }
@@ -902,6 +907,9 @@ class ActivityController implements SingletonInterface
         array $codes,
         array $addressArray
     ) {
+        $theCode = null;
+        $templateCode = null;
+        $templateFilename = null;
         $activityArray = $activityApi->getFinalActivityArray();
         $activityVarsArray = $activityApi->getActivityVarsArray();
         $codeActivityArray = $activityApi->getCodeActivityArray();
@@ -1052,8 +1060,7 @@ class ActivityController implements SingletonInterface
                                 $isNewUser = $infoObj->isNewUser('billing');
                                 if (
                                     PaymentShippingHandling::useAccount(
-                                        $basketExtra,
-                                        $isNewUser
+                                        $basketExtra
                                     )
                                 ) {
                                     $accountRequired = $accountObj->checkRequired();
@@ -1108,9 +1115,9 @@ class ActivityController implements SingletonInterface
                         break;
                     case 'products_basket':
                         if (
-                            count($activityArray) == 1 ||
+                            (is_countable($activityArray) ? count($activityArray) : 0) == 1 ||
 
-                            count($activityArray) == 2 &&
+                            (is_countable($activityArray) ? count($activityArray) : 0) == 2 &&
                             !empty($activityArray['products_overview'])
                         ) {
                             $basket_tmpl = 'BASKET_TEMPLATE';
@@ -1185,233 +1192,233 @@ class ActivityController implements SingletonInterface
                             $infoObj->setInfoArray($infoArray);
                         }
                         break;
-                        case 'products_payment':
-                            $isPayment = true;
-                            $this->getOrderData($orderUid, $orderNumber, $orderArray);
+                    case 'products_payment':
+                        $isPayment = true;
+                        $this->getOrderData($orderUid, $orderNumber, $orderArray);
+
+                        if (
+                            $conf['paymentActivity'] == 'payment' ||
+                            $conf['paymentActivity'] == 'verify'
+                        ) {
+                            $handleLib =
+                            PaymentShippingHandling::getHandleLib(
+                                'request',
+                                $basketExtra
+                            );
 
                             if (
-                                $conf['paymentActivity'] == 'payment' ||
-                                $conf['paymentActivity'] == 'verify'
+                                is_string($handleLib) &&
+                                str_contains($handleLib, 'transactor')
                             ) {
-                                $handleLib =
-                                PaymentShippingHandling::getHandleLib(
-                                    'request',
-                                    $basketExtra
-                                );
+                                // Payment Transactor
+                                $useNewTransactor = false;
+                                $transactorCompatibility = getTransactorConf($handleLib, 'compatibility');
 
                                 if (
-                                    is_string($handleLib) &&
-                                    strpos($handleLib, 'transactor') !== false
+                                    $transactorCompatibility == '0'
                                 ) {
-                                    // Payment Transactor
-                                    $useNewTransactor = false;
-                                    $transactorCompatibility = getTransactorConf($handleLib, 'compatibility');
+                                    $useNewTransactor = true;
+                                }
+
+                                $addQueryString = [];
+                                $excludeList = '';
+                                $linkParams =
+                                $this->urlObj->getLinkParams(
+                                    $excludeList,
+                                    $addQueryString,
+                                    true
+                                );
+
+                                if ($useNewTransactor) {
+                                    $callingClassName = '\\JambageCom\\Transactor\\Api\\Start';
 
                                     if (
-                                        $transactorCompatibility == '0'
+                                        class_exists($callingClassName) &&
+                                        method_exists($callingClassName, 'checkRequired')
                                     ) {
-                                        $useNewTransactor = true;
-                                    }
-
-                                    $addQueryString = [];
-                                    $excludeList = '';
-                                    $linkParams =
-                                    $this->urlObj->getLinkParams(
-                                        $excludeList,
-                                        $addQueryString,
-                                        true
-                                    );
-
-                                    if ($useNewTransactor) {
-                                        $callingClassName = '\\JambageCom\\Transactor\\Api\\Start';
-
-                                        if (
-                                            class_exists($callingClassName) &&
-                                            method_exists($callingClassName, 'checkRequired')
-                                        ) {
-                                            $parameters = [
-                                                $languageObj,
-                                                $cObj,
-                                                $conf,
-                                            ];
-                                            call_user_func_array(
-                                                $callingClassName . '::init',
-                                                $parameters
-                                            );
-                                            $parameters = [
-                                                $handleLib,
-                                                $basketExtra['payment.']['handleLib.'] ?? '',
-                                                TT_PRODUCTS_EXT,
-                                                $orderUid,
-                                            ];
-                                            $referenceId = call_user_func_array(
-                                                $callingClassName . '::getReferenceUid',
-                                                $parameters
-                                            );
-
-                                            $parameters = [
-                                                $referenceId,
-                                                $basketExtra['payment.']['handleLib'] ?? '',
-                                                $basketExtra['payment.']['handleLib.'] ?? [],
-                                                TT_PRODUCTS_EXT,
-                                                $calculatedArray,
-                                                $conf['paymentActivity'] ?? '',
-                                                $pidArray,
-                                                $linkParams,
-                                                $orderArray['tracking_code'] ?? '',
-                                                $orderUid,
-                                                $orderNumber,
-                                                $conf['orderEmail_to'] ?? '',
-                                                $cardRow,
-                                            ];
-
-                                            $paymentErrorMsg = call_user_func_array(
-                                                $callingClassName . '::checkRequired',
-                                                $parameters
-                                            );
-                                        }
-                                    } else {
-                                        tx_transactor_api::init(
+                                        $parameters = [
                                             $languageObj,
                                             $cObj,
-                                            $conf
+                                            $conf,
+                                        ];
+                                        call_user_func_array(
+                                            $callingClassName . '::init',
+                                            $parameters
                                         );
-                                        $referenceId = tx_transactor_api::getReferenceUid(
+                                        $parameters = [
                                             $handleLib,
-                                            $basketExtra['payment.']['handleLib.'],
+                                            $basketExtra['payment.']['handleLib.'] ?? '',
                                             TT_PRODUCTS_EXT,
-                                            $orderUid
+                                            $orderUid,
+                                        ];
+                                        $referenceId = call_user_func_array(
+                                            $callingClassName . '::getReferenceUid',
+                                            $parameters
                                         );
-                                        $paymentErrorMsg = tx_transactor_api::checkRequired(
+
+                                        $parameters = [
                                             $referenceId,
                                             $basketExtra['payment.']['handleLib'] ?? '',
                                             $basketExtra['payment.']['handleLib.'] ?? [],
                                             TT_PRODUCTS_EXT,
                                             $calculatedArray,
-                                            $conf['paymentActivity'],
+                                            $conf['paymentActivity'] ?? '',
                                             $pidArray,
                                             $linkParams,
-                                            $orderArray['tracking_code'],
+                                            $orderArray['tracking_code'] ?? '',
                                             $orderUid,
-                                            $cardRow
+                                            $orderNumber,
+                                            $conf['orderEmail_to'] ?? '',
+                                            $cardRow,
+                                        ];
+
+                                        $paymentErrorMsg = call_user_func_array(
+                                            $callingClassName . '::checkRequired',
+                                            $parameters
                                         );
                                     }
+                                } else {
+                                    tx_transactor_api::init(
+                                        $languageObj,
+                                        $cObj,
+                                        $conf
+                                    );
+                                    $referenceId = tx_transactor_api::getReferenceUid(
+                                        $handleLib,
+                                        $basketExtra['payment.']['handleLib.'],
+                                        TT_PRODUCTS_EXT,
+                                        $orderUid
+                                    );
+                                    $paymentErrorMsg = tx_transactor_api::checkRequired(
+                                        $referenceId,
+                                        $basketExtra['payment.']['handleLib'] ?? '',
+                                        $basketExtra['payment.']['handleLib.'] ?? [],
+                                        TT_PRODUCTS_EXT,
+                                        $calculatedArray,
+                                        $conf['paymentActivity'],
+                                        $pidArray,
+                                        $linkParams,
+                                        $orderArray['tracking_code'],
+                                        $orderUid,
+                                        $cardRow
+                                    );
                                 }
                             }
+                        }
 
-                            if (
+                        if (
+                            !empty($codeActivityArray[$activity]) ||
+                            empty($activityArray['products_basket'])
+                        ) {
+                            $theCode = 'PAYMENT';
+                        }
+                        $basket_tmpl = 'BASKET_PAYMENT_TEMPLATE';
+                        break;
+                        // a special step after payment and before finalization needed for some payment methods
+                    case 'products_customized_payment': // deprecated
+                    case 'products_verify':
+                        $isPayment = true;
+
+                        if (
+                            !$basketEmpty &&
+                            (
+                                $conf['paymentActivity'] == 'verify' ||
+                                $conf['paymentActivity'] == 'customized' // deprecated
+                            )
+                        ) {
+                            $this->getOrderData($orderUid, $orderNumber, $orderArray);
+                            $mainMarkerArray['###MESSAGE_PAYMENT_SCRIPT###'] =
+                            $this->processPayment(
+                                $orderUid,
+                                $orderNumber,
+                                $cardRow,
+                                $pidArray,
+                                $currentPaymentActivity,
+                                $calculatedArray,
+                                $basketExtra,
+                                $basketRecs,
+                                $orderArray,
+                                $productRowArray,
+                                $infoArray,
+                                $mainMarkerArray,
+                                $finalize,
+                                $finalVerify,
+                                $paymentScript,
+                                $errorCode,
+                                $errorMessage
+                            );
+
+                            $paymentErrorMsg = $errorMessage;
+
+                            if ($errorMessage != '') {
+                                $mainMarkerArray['###MESSAGE_PAYMENT_SCRIPT###'] = $errorMessage;
+                            }
+                            if (!$finalize) {
+                                $basket_tmpl = 'BASKET_PAYMENT_TEMPLATE';
+                            }
+                        } else {
+                            $mainMarkerArray['###MESSAGE_PAYMENT_SCRIPT###'] = '';
+                        }
+                        break;
+                    case 'products_finalize':
+                        $isPayment = true;
+
+                        $handleLib = PaymentShippingHandling::getHandleLib('request', $basketExtra);
+                        if ($handleLib == '') {
+                            $handleLib = PaymentShippingHandling::getHandleLib('form', $basketExtra);
+                        }
+                        $this->getOrderData($orderUid, $orderNumber, $orderArray);
+
+                        if (
+                            !$basketEmpty &&
+                            $handleLib != ''
+                        ) {
+                            $rc = $this->processPayment(
+                                $orderUid,
+                                $orderNumber,
+                                $cardRow,
+                                $pidArray,
+                                $currentPaymentActivity,
+                                $calculatedArray,
+                                $basketExtra,
+                                $basketRecs,
+                                $orderArray,
+                                $productRowArray,
+                                $infoArray,
+                                $mainMarkerArray,
+                                $finalize,
+                                $finalVerify,
+                                $paymentScript,
+                                $errorCode,
+                                $errorMessage
+                            );
+                            $paymentErrorMsg = $errorMessage;
+
+                            if ($finalize == false) {
+                                $label = $paymentErrorMsg;
+                                $markerArray['###ERROR_DETAILS###'] = $label;
+                                $basket_tmpl = 'BASKET_TEMPLATE'; // step back to the basket page
+                            } else {
+                                $content = ''; // do not show the content of payment again
+                            }
+                        } else {
+                            $finalize = true;
+                        }
+
+                        if (
+                            (
                                 !empty($codeActivityArray[$activity]) ||
                                 empty($activityArray['products_basket'])
-                            ) {
-                                $theCode = 'PAYMENT';
-                            }
-                            $basket_tmpl = 'BASKET_PAYMENT_TEMPLATE';
-                            break;
-                            // a special step after payment and before finalization needed for some payment methods
-                            case 'products_customized_payment': // deprecated
-                            case 'products_verify':
-                                $isPayment = true;
-
-                                if (
-                                    !$basketEmpty &&
-                                    (
-                                        $conf['paymentActivity'] == 'verify' ||
-                                        $conf['paymentActivity'] == 'customized' // deprecated
-                                    )
-                                ) {
-                                    $this->getOrderData($orderUid, $orderNumber, $orderArray);
-                                    $mainMarkerArray['###MESSAGE_PAYMENT_SCRIPT###'] =
-                                    $this->processPayment(
-                                        $orderUid,
-                                        $orderNumber,
-                                        $cardRow,
-                                        $pidArray,
-                                        $currentPaymentActivity,
-                                        $calculatedArray,
-                                        $basketExtra,
-                                        $basketRecs,
-                                        $orderArray,
-                                        $productRowArray,
-                                        $infoArray,
-                                        $mainMarkerArray,
-                                        $finalize,
-                                        $finalVerify,
-                                        $paymentScript,
-                                        $errorCode,
-                                        $errorMessage
-                                    );
-
-                                    $paymentErrorMsg = $errorMessage;
-
-                                    if ($errorMessage != '') {
-                                        $mainMarkerArray['###MESSAGE_PAYMENT_SCRIPT###'] = $errorMessage;
-                                    }
-                                    if (!$finalize) {
-                                        $basket_tmpl = 'BASKET_PAYMENT_TEMPLATE';
-                                    }
-                                } else {
-                                    $mainMarkerArray['###MESSAGE_PAYMENT_SCRIPT###'] = '';
-                                }
-                                break;
-                            case 'products_finalize':
-                                $isPayment = true;
-
-                                $handleLib = PaymentShippingHandling::getHandleLib('request', $basketExtra);
-                                if ($handleLib == '') {
-                                    $handleLib = PaymentShippingHandling::getHandleLib('form', $basketExtra);
-                                }
-                                $this->getOrderData($orderUid, $orderNumber, $orderArray);
-
-                                if (
-                                    !$basketEmpty &&
-                                    $handleLib != ''
-                                ) {
-                                    $rc = $this->processPayment(
-                                        $orderUid,
-                                        $orderNumber,
-                                        $cardRow,
-                                        $pidArray,
-                                        $currentPaymentActivity,
-                                        $calculatedArray,
-                                        $basketExtra,
-                                        $basketRecs,
-                                        $orderArray,
-                                        $productRowArray,
-                                        $infoArray,
-                                        $mainMarkerArray,
-                                        $finalize,
-                                        $finalVerify,
-                                        $paymentScript,
-                                        $errorCode,
-                                        $errorMessage
-                                    );
-                                    $paymentErrorMsg = $errorMessage;
-
-                                    if ($finalize == false) {
-                                        $label = $paymentErrorMsg;
-                                        $markerArray['###ERROR_DETAILS###'] = $label;
-                                        $basket_tmpl = 'BASKET_TEMPLATE'; // step back to the basket page
-                                    } else {
-                                        $content = ''; // do not show the content of payment again
-                                    }
-                                } else {
-                                    $finalize = true;
-                                }
-
-                                if (
-                                    (
-                                        !empty($codeActivityArray[$activity]) ||
-                                        empty($activityArray['products_basket'])
-                                    ) &&
-                                    $finalize
-                                ) {
-                                    $theCode = 'FINALIZE';
-                                }
-                                break;
-                                default:
-                                    // nothing yet
-                                    $activity = 'unknown';
-                                    break;
+                            ) &&
+                            $finalize
+                        ) {
+                            $theCode = 'FINALIZE';
+                        }
+                        break;
+                    default:
+                        // nothing yet
+                        $activity = 'unknown';
+                        break;
                 } // switch
             }	// if ($value)
 
@@ -1507,7 +1514,7 @@ class ActivityController implements SingletonInterface
 
                     if (
                         !$basketEmpty &&
-                        trim($conf['paymentActivity']) == 'finalize'
+                        trim((string)$conf['paymentActivity']) == 'finalize'
                     ) {
                         $mainMarkerArray['###MESSAGE_PAYMENT_SCRIPT###'] =
                         $this->processPayment(
@@ -1737,7 +1744,7 @@ class ActivityController implements SingletonInterface
             $activityArray['products_payment'] ?? 0
         );
 
-        if (count($activityApi->getFinalActivityArray())) {
+        if (is_countable($activityApi->getFinalActivityArray()) ? count($activityApi->getFinalActivityArray()) : 0) {
             $content = $this->processActivities(
                 $errorCode,
                 $errorMessage,

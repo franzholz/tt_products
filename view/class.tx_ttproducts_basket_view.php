@@ -36,10 +36,18 @@
  * @author	Els Verberne <verberne@bendoo.nl>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
+use JambageCom\Div2007\Utility\CompatibilityUtility;
+
+use JambageCom\Div2007\Utility\ErrorUtility;
+use JambageCom\Div2007\Utility\FrontendUtility;
+use JambageCom\Div2007\Utility\ObsoleteUtility;
+use JambageCom\TtProducts\Api\ActivityApi;
+use JambageCom\TtProducts\Api\BasketApi;
+
+use JambageCom\TtProducts\Api\Localization;
+use JambageCom\TtProducts\Api\PaymentShippingHandling;
+use JambageCom\TtProducts\Model\Field\FieldInterface;
 use Psr\EventDispatcher\EventDispatcherInterface;
 
 use TYPO3\CMS\Core\Context\Context;
@@ -47,19 +55,6 @@ use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-
-use JambageCom\Div2007\Utility\CompatibilityUtility;
-use JambageCom\Div2007\Utility\ErrorUtility;
-use JambageCom\Div2007\Utility\FrontendUtility;
-use JambageCom\Div2007\Utility\ObsoleteUtility;
-
-use JambageCom\TtProducts\Api\ActivityApi;
-use JambageCom\TtProducts\Api\BasketApi;
-use JambageCom\TtProducts\Api\Localization;
-use JambageCom\TtProducts\Api\PaymentShippingHandling;
-use JambageCom\TtProducts\Model\Field\FieldInterface;
-
-
 
 class tx_ttproducts_basket_view implements SingletonInterface
 {
@@ -220,8 +215,8 @@ class tx_ttproducts_basket_view implements SingletonInterface
                     isset($value) &&
                     isset($basketConfArray[$boundaryType]['collect']) &&
                     (
-                        ($boundaryType == 'minimum' && $value < doubleval($basketConfArray[$boundaryType]['value'])) ||
-                        ($boundaryType == 'maximum' && $value > doubleval($basketConfArray[$boundaryType]['value']))
+                        ($boundaryType == 'minimum' && $value < floatval($basketConfArray[$boundaryType]['value'])) ||
+                        ($boundaryType == 'maximum' && $value > floatval($basketConfArray[$boundaryType]['value']))
                     )
                 ) {
                     $subpartArray['###MESSAGE_' . $markerKey . '###'] = '';
@@ -815,7 +810,7 @@ class tx_ttproducts_basket_view implements SingletonInterface
                             is_array($articleRows) &&
                             !empty($articleRows)
                         ) {
-                            $bKeepNotEmpty = (bool) ($conf['keepProductData'] ?? 1); // Auskommentieren nicht möglich wenn mehrere Artikel dem Produkt zugewiesen werden
+                            $bKeepNotEmpty = (bool)($conf['keepProductData'] ?? 1); // Auskommentieren nicht möglich wenn mehrere Artikel dem Produkt zugewiesen werden
 
                             if ($this->useArticles == 3) {
                                 $itemTable->fillVariantsFromArticles(
@@ -1254,7 +1249,7 @@ class tx_ttproducts_basket_view implements SingletonInterface
             ); // Applied it here also...
 
             $taxFromShipping = PaymentShippingHandling::getReplaceTaxPercentage($basketExtra);
-            $taxInclExcl = (isset($taxFromShipping) && is_double($taxFromShipping) && $taxFromShipping == 0 ? 'tax_zero' : 'tax_included');
+            $taxInclExcl = (isset($taxFromShipping) && is_float($taxFromShipping) && $taxFromShipping == 0 ? 'tax_zero' : 'tax_included');
             $markerArray['###TAX_INCL_EXCL###'] = ($taxInclExcl ? $languageObj->getLabel($taxInclExcl) : '');
 
             $pricefactor = tx_ttproducts_creditpoints_div::getPriceFactor($conf);

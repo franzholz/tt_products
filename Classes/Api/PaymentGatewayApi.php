@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace JambageCom\TtProducts\Api;
 
@@ -35,21 +35,17 @@ namespace JambageCom\TtProducts\Api;
  * functions for a connection to the payment gateways
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
-use TYPO3\CMS\Core\SingletonInterface;
+use JambageCom\Transactor\Api\Address;
 use JambageCom\Transactor\Api\PaymentApi;
 use JambageCom\Transactor\Api\Start;
-use JambageCom\Transactor\Api\Address;
-use JambageCom\Transactor\Api\PaymentAp;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Frontend\Resource\FilePathSanitizer;
 
 class PaymentGatewayApi implements SingletonInterface
 {
-    public const TRANSACTOR_EXTENSION = 'transactor';
+    final public const TRANSACTOR_EXTENSION = 'transactor';
     protected $handleScript = '';
     protected $handleLib = '';
     protected $handleLibConf = [];
@@ -81,7 +77,7 @@ class PaymentGatewayApi implements SingletonInterface
         }
 
         if (
-            strpos($handleLib, (string) static::TRANSACTOR_EXTENSION) !== false &&
+            str_contains((string)$handleLib, (string)static::TRANSACTOR_EXTENSION) &&
             ExtensionManagementUtility::isLoaded($handleLib)
         ) {
             $useNewTransactor = false;
@@ -276,4 +272,3 @@ class PaymentGatewayApi implements SingletonInterface
         return $result;
     }
 }
-

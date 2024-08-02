@@ -2,7 +2,6 @@
 
 use JambageCom\TtProducts\Middleware\Initialization;
 
-
 return [
     'backend' => [
         'jambagecom/tt-products/initialization' => [

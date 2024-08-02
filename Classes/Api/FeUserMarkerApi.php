@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace JambageCom\TtProducts\Api;
 
@@ -22,13 +22,10 @@ namespace JambageCom\TtProducts\Api;
  * FE user marker functions
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
-use TYPO3\CMS\Core\SingletonInterface;
 use JambageCom\Div2007\Api\Frontend;
 use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
@@ -49,8 +46,8 @@ class FeUserMarkerApi implements SingletonInterface
         $markerLogin = 'LOGIN';
         $markerNologin = 'NOLOGIN';
         foreach ($viewTagArray as $tag => $value) {
-            if (strpos($tag, $marker . '_') === 0) {
-                $tagPart1 = substr($tag, strlen($marker . '_'));
+            if (str_starts_with((string)$tag, $marker . '_')) {
+                $tagPart1 = substr((string)$tag, strlen($marker . '_'));
                 $offset = strpos($tagPart1, '_TEMPLATE');
                 if ($offset > 0) {
                     $groupNumber = substr($tagPart1, 0, $offset);
@@ -67,7 +64,8 @@ class FeUserMarkerApi implements SingletonInterface
                                     ',',
                                     GeneralUtility::makeInstance(
                                         Context::class
-                                    )->getPropertyFromAspect('frontend.user', 'groupIds')),
+                                    )->getPropertyFromAspect('frontend.user', 'groupIds')
+                                ),
                                 $comparatorNumber
                             )
                         ) {
@@ -77,7 +75,7 @@ class FeUserMarkerApi implements SingletonInterface
                         }
                     }
                 }
-            } elseif (strpos($tag, $markerLogin . '_') === 0) {
+            } elseif (str_starts_with((string)$tag, $markerLogin . '_')) {
                 if (
                     $context->getPropertyFromAspect('frontend.user', 'isLoggedIn')
                 ) {
@@ -85,7 +83,7 @@ class FeUserMarkerApi implements SingletonInterface
                 } else {
                     $subpartArray['###LOGIN_TEMPLATE###'] = '';
                 }
-            } elseif (strpos($tag, $markerNologin . '_') === 0) {
+            } elseif (str_starts_with((string)$tag, $markerNologin . '_')) {
                 if (
                     $context->getPropertyFromAspect('frontend.user', 'isLoggedIn')
                 ) {

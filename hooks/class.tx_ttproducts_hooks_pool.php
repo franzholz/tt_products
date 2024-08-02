@@ -32,14 +32,11 @@
  * @author	Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-class tx_ttproducts_hooks_pool extends tx_pool_hooks_base
+class tx_ttproducts_hooks_pool
 {
     public $extKey = TT_PRODUCTS_EXT;
     public $prefixId = 'tx_ttproducts_hooks_pool';	// Same as class name
@@ -73,7 +70,5 @@ class tx_ttproducts_hooks_pool extends tx_pool_hooks_base
             );
             $dbListConf = $searchBoxObj->getDblistConf($this->prefixId);
         }
-
-        parent::getViewData($content, $header, $docHeaderButtons, $markerArray, $pOb);
     }
 }

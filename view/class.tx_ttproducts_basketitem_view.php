@@ -32,19 +32,15 @@
  * @author	Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
-use TYPO3\CMS\Core\SingletonInterface;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Frontend\Resource\FilePathSanitizer;
-
 use JambageCom\Div2007\Utility\FrontendUtility;
-
 use JambageCom\TtProducts\Api\BasketApi;
 use JambageCom\TtProducts\Api\Localization;
 
+use TYPO3\CMS\Core\SingletonInterface;
+
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\Resource\FilePathSanitizer;
 
 class tx_ttproducts_basketitem_view implements SingletonInterface
 {
@@ -191,8 +187,6 @@ class tx_ttproducts_basketitem_view implements SingletonInterface
      * @param	array		information about the parent HTML form
      *
      * @return	array
-     *
-     * @access private
      */
     public function getItemMarkerArray(
         $funcTablename,

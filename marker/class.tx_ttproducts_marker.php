@@ -32,9 +32,6 @@
  * @author	Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 use JambageCom\Div2007\Utility\FrontendUtility;
 use JambageCom\TtProducts\Api\Localization;
@@ -327,8 +324,6 @@ class tx_ttproducts_marker implements SingletonInterface
     /**
      * finds all the markers for a product
      * This helps to reduce the data transfer from the database.
-     *
-     * @access private
      */
     public function getMarkerFields(
         $templateCode,
@@ -398,9 +393,9 @@ class tx_ttproducts_marker implements SingletonInterface
                             foreach ($fieldPartArray as $k => $v) {
                                 if (in_array($v, $this->specialArray)) {
                                     break;
-                                } else {
-                                    $newFieldPartArray[] = $v;
                                 }
+                                $newFieldPartArray[] = $v;
+
                             }
                             $field = implode('_', $newFieldPartArray);
                         }

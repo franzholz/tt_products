@@ -32,9 +32,6 @@
  * @author	Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 use JambageCom\Div2007\Utility\FrontendUtility;
 use JambageCom\TtProducts\Api\Localization;
@@ -253,7 +250,7 @@ class tx_ttproducts_field_price_view extends tx_ttproducts_field_base_view
         $taxInclExcl =
             (
                 isset($taxFromShipping) &&
-                is_double($taxFromShipping) &&
+                is_float($taxFromShipping) &&
                 $taxFromShipping == 0 ?
                     'tax_zero' :
                     'tax_included'
@@ -304,7 +301,7 @@ class tx_ttproducts_field_price_view extends tx_ttproducts_field_base_view
 
         $pricefactor = 0;
         if (isset($conf['creditpoints.']['priceprod'])) {
-            $pricefactor = doubleval($conf['creditpoints.']['priceprod']);
+            $pricefactor = floatval($conf['creditpoints.']['priceprod']);
         }
 
         if ($field == 'price') {
@@ -353,7 +350,7 @@ class tx_ttproducts_field_price_view extends tx_ttproducts_field_base_view
         $marker = strtoupper($fieldname);
         $taxFromShipping = PaymentShippingHandling::getReplaceTaxPercentage($basketExtra);
         $taxInclExcl = (
-            isset($taxFromShipping) && is_double($taxFromShipping) && ($taxFromShipping == 0) ?
+            isset($taxFromShipping) && is_float($taxFromShipping) && ($taxFromShipping == 0) ?
                 'tax_zero' :
                 'tax_included'
         );

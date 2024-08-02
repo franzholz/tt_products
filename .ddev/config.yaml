@@ -1,17 +1,18 @@
 name: tt-products
 type: typo3
-docroot: .build/public
-php_version: "7.4"
+docroot: .Build/public
+php_version: "8.1"
 webserver_type: nginx-fpm
 router_http_port: "8084"
 router_https_port: "8444"
 xdebug_enabled: false
 additional_hostnames: []
 additional_fqdns: []
-mariadb_version: "10.3"
-mysql_version: ""
+database:
+  type: mariadb
+  version: "10.3"
 use_dns_when_possible: true
-composer_version: ""
+composer_version: "2"
 web_environment:
 - TYPO3_CONTEXT=Development
 - TYPO3_INSTALL_DB_DRIVER=mysqli

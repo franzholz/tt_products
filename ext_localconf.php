@@ -1,5 +1,10 @@
 <?php
 
+use JambageCom\TtProducts\Controller\TaxajaxController;
+use TYPO3\CMS\Core\Configuration\Exception\ExtensionConfigurationExtensionNotConfiguredException;
+use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 defined('TYPO3') || die('Access denied.');
 
 call_user_func(function ($extensionKey): void {
@@ -43,15 +48,18 @@ call_user_func(function ($extensionKey): void {
     if (
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded('taxajax')
     ) {
-        $GLOBALS['TYPO3_CONF_VARS']['FE']['taxajax_include'][$extensionKey] = \JambageCom\TtProducts\Controller\TaxajaxController::class . '::processRequest';
+        $GLOBALS['TYPO3_CONF_VARS']['FE']['taxajax_include'][$extensionKey] = TaxajaxController::class . '::processRequest';
     }
 
-    $extensionConfiguration = [];
     $originalConfiguration = [];
 
-    $extensionConfiguration = \TYPO3\CMS\Core\Utility\GeneralUtility::makeInstance(
-        \TYPO3\CMS\Core\Configuration\ExtensionConfiguration::class
-    )->get($extensionKey);
+    try {
+        $extensionConfiguration = GeneralUtility::makeInstance(
+            ExtensionConfiguration::class
+        )->get($extensionKey);
+    } catch (ExtensionConfigurationExtensionNotConfiguredException $_) {
+        $extensionConfiguration = [];
+    }
 
     if (
         isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]) &&
@@ -87,7 +95,7 @@ call_user_func(function ($extensionKey): void {
             $excludeArray = [];
             foreach ($extensionConfiguration['exclude'] as $tablename => $excludefields) {
                 if ($excludefields != '' && is_string($excludefields)) {
-                    $excludeArray[$tablename] = \TYPO3\CMS\Core\Utility\GeneralUtility::trimExplode(',', $excludefields);
+                    $excludeArray[$tablename] = GeneralUtility::trimExplode(',', $excludefields);
                 }
             }
 
@@ -98,7 +106,6 @@ call_user_func(function ($extensionKey): void {
     }
 
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addUserTSConfig('options.saveDocNew.tt_products=1');
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addUserTSConfig('options.saveDocNew.tt_products_language=1');
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addUserTSConfig('options.saveDocNew.tt_products_cat=1');
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addUserTSConfig('options.saveDocNew.tt_products_cat_language=1');
     \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addUserTSConfig('options.saveDocNew.tt_products_articles=1');
@@ -187,13 +194,13 @@ call_user_func(function ($extensionKey): void {
         \TYPO3\CMS\Core\Log\Writer\SyslogWriter::class => [],
     ];
 
-    $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1613165400] = [
+    $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1_613_165_400] = [
         'nodeName' => 'orderedProductsElement',
         'priority' => 40,
         'class' => \JambageCom\TtProducts\Form\Element\OrderedProductsElement::class,
     ];
 
-    $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1613221454] = [
+    $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1_613_221_454] = [
         'nodeName' => 'orderHtmlElement',
         'priority' => 40,
         'class' => \JambageCom\TtProducts\Form\Element\OrderHtmlElement::class,

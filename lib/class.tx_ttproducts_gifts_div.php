@@ -32,14 +32,11 @@
  * @author  Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-
 use JambageCom\TtProducts\Api\BasketApi;
+
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_gifts_div
 {
@@ -254,7 +251,7 @@ class tx_ttproducts_gifts_div
             isset($giftConf) &&
             is_array($giftConf) &&
             isset($giftConf['TAXpercentage']) &&
-            doubleval($giftConf['TAXpercentage']) == '0'
+            floatval($giftConf['TAXpercentage']) == '0'
         ) {
             $result = true;
         }

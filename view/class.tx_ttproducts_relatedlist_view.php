@@ -32,22 +32,18 @@
  * @author	Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
-
-use Psr\EventDispatcher\EventDispatcherInterface;
-
-use TYPO3\CMS\Core\SingletonInterface;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 use JambageCom\Div2007\Utility\FrontendUtility;
 
 use JambageCom\TtProducts\Api\BasketApi;
 use JambageCom\TtProducts\Event\AddRelatedListEvent;
+use Psr\EventDispatcher\EventDispatcherInterface;
 
+use TYPO3\CMS\Core\SingletonInterface;
+
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_relatedlist_view implements SingletonInterface
 {
@@ -58,8 +54,7 @@ class tx_ttproducts_relatedlist_view implements SingletonInterface
      */
     public function __construct(
         private readonly EventDispatcherInterface $eventDispatcher,
-    )
-    {
+    ) {
     }
 
     public function init($pid_list, $recursive): void
@@ -235,9 +230,9 @@ class tx_ttproducts_relatedlist_view implements SingletonInterface
                 $result,
                 $theCode,
                 $funcTablename,
-                (int) $uid,
+                (int)$uid,
                 $paramUidArray,
-                (int) $useArticles
+                (int)$useArticles
             )
         );
 

@@ -33,9 +33,6 @@
  * @author	Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 use JambageCom\TtProducts\Api\Localization;
 use TYPO3\CMS\Core\SingletonInterface;

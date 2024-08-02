@@ -33,28 +33,19 @@ namespace JambageCom\TtProducts\Api;
  * functions for the view
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
-
-use Psr\EventDispatcher\EventDispatcherInterface;
-use TYPO3\CMS\Core\Utility\ArrayUtility;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\MathUtility;
-
 use JambageCom\Div2007\Utility\ErrorUtility;
 use JambageCom\Div2007\Utility\ExtensionUtility;
 use JambageCom\Div2007\Utility\FlexformUtility;
 use JambageCom\Div2007\Utility\FrontendUtility;
+use Psr\EventDispatcher\EventDispatcherInterface;
+use TYPO3\CMS\Core\Utility\ArrayUtility;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 
-use JambageCom\TtProducts\Api\BasketApi;
-
-abstract class RelatedProductsTypes
-{
-    public const SystemCategory = 1;
-}
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\HttpUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
+use TYPO3\CMS\Frontend\Page\CacheHashCalculator;
 
 class PluginApi
 {
@@ -108,6 +99,8 @@ class PluginApi
         &$errorCode,
         $bRunAjax = false
     ) {
+        $piVars = [];
+        $pibaseObj = null;
         $errorCode = [];
 
         self::initUrl(
@@ -186,7 +179,7 @@ class PluginApi
     {
         $result = false;
         if (
-            substr($code, 0, 11) == 'LISTRELATED'
+            str_starts_with((string)$code, 'LISTRELATED')
         ) {
             $result = true;
         }
@@ -250,7 +243,7 @@ class PluginApi
         $config['templateSuffix'] = strtoupper($conf['templateSuffix'] ?? '');
 
         $templateSuffix = FlexformUtility::get(self::getFlexform(), 'template_suffix');
-        $templateSuffix = strtoupper($templateSuffix);
+        $templateSuffix = strtoupper((string)$templateSuffix);
         $config['templateSuffix'] = ($templateSuffix ?: $config['templateSuffix']);
         $config['templateSuffix'] = ($config['templateSuffix'] ? '_' . $config['templateSuffix'] : '');
         $config['limit'] = $conf['limit'] ?: 50;
@@ -284,7 +277,7 @@ class PluginApi
             return false;
         }
 
-        $backPID = ($backPID ?: GeneralUtility::_GP('backPID'));
+        $backPID = ($backPID ?: $GLOBALS['TYPO3_REQUEST']->getParsedBody()['backPID'] ?? $GLOBALS['TYPO3_REQUEST']->getQueryParams()['backPID'] ?? null);
 
         $config['backPID'] = $backPID;
 
@@ -331,13 +324,24 @@ class PluginApi
         $type,
         $bRunAjax = false
     ) {
+        $config = [];
+        $theCode = null;
+        $conf = [];
+        $paramUidArray = [];
+        $templateFile = null;
+        $pageAsCategory = null;
+        $callFunctableArray = null;
+        $parentDataArray = null;
+        $parentProductRow = null;
+        $productRowArray = null;
+        $bEditableVariants = null;
         $result = '';
         $pidListObj = GeneralUtility::makeInstance('tx_ttproducts_pid_list');
         $templateObj = GeneralUtility::makeInstance('tx_ttproducts_template');
         $basketApi = GeneralUtility::makeInstance(BasketApi::class);
 
         if (!self::$bHasBeenInitialised) {
-            $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
+            $conf = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.'][TT_PRODUCTS_EXT . '.'];
             ArrayUtility::mergeRecursiveWithOverrule($conf, $pluginConf);
             $config = [];
             $cObj = FrontendUtility::getContentObjectRenderer([]);
@@ -387,7 +391,14 @@ class PluginApi
                 $conf['useArticles'] ?? 3
             );
         $funcArray = $addListArray[$subtype] ?? [];
-        $pid = $GLOBALS['TSFE']->id;
+        $relevantParametersForCachingFromPageArguments = [];
+        $pageArguments = $GLOBALS['REQUEST']->getAttribute('routing');
+        $queryParams = $pageArguments->getDynamicArguments();
+        if (!empty($queryParams) && ($pageArguments->getArguments()['cHash'] ?? false)) {
+            $queryParams['id'] = $pageArguments->getPageId();
+            $relevantParametersForCachingFromPageArguments = GeneralUtility::makeInstance(CacheHashCalculator::class)->getRelevantParameters(HttpUtility::buildQueryString($queryParams));
+        }
+        $pid = $relevantParametersForCachingFromPageArguments;
         $paramUidArray['product'] = $uid;
 
         $relatedItemObj = $itemObj;

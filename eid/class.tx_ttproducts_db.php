@@ -33,21 +33,18 @@
  * @author  Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
+use JambageCom\Div2007\Utility\HtmlUtility;
+use JambageCom\TtProducts\Api\BasketApi;
+use JambageCom\TtProducts\Api\Localization;
+use JambageCom\TtProducts\Api\ParameterApi;
+
+use JambageCom\TtProducts\Model\Field\FieldInterface;
+
 use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-
-use JambageCom\Div2007\Utility\HtmlUtility;
-
-use JambageCom\TtProducts\Api\BasketApi;
-use JambageCom\TtProducts\Api\Localization;
-use JambageCom\TtProducts\Api\ParameterApi;
-use JambageCom\TtProducts\Model\Field\FieldInterface;
 
 class tx_ttproducts_db implements SingletonInterface
 {

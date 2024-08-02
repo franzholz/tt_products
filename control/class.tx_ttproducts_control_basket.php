@@ -32,27 +32,23 @@
  * @author	Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
-
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\MathUtility;
-use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 use JambageCom\Div2007\Api\Frontend;
 use JambageCom\Div2007\Api\OldStaticInfoTablesApi;
 use JambageCom\Div2007\Api\StaticInfoTablesApi;
 use JambageCom\Div2007\Security\TransmissionSecurity;
-use JambageCom\Div2007\Utility\CompatibilityUtility;
 
+use JambageCom\Div2007\Utility\CompatibilityUtility;
 use JambageCom\TtProducts\Api\BasketApi;
 use JambageCom\TtProducts\Api\ControlApi;
 use JambageCom\TtProducts\Api\CustomerApi;
 use JambageCom\TtProducts\Api\PaymentShippingHandling;
 
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
+use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
 
 abstract class BasketRecsIndex
 {
@@ -152,7 +148,6 @@ class tx_ttproducts_control_basket
             self::$bHasBeenInitialised = true;
         }
     }
-
 
     public static function getCmdArray()
     {

@@ -32,9 +32,6 @@
  * @author  Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 
 use TYPO3\CMS\Core\Resource\StorageRepository;
@@ -61,9 +58,8 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
                 $imageCode,
                 $domain
             );
-        } else {
-            //             $imageCode = str_replace('"fileadmin', '"/fileadmin', $imageCode);
         }
+        //             $imageCode = str_replace('"fileadmin', '"/fileadmin', $imageCode);
 
         return $imageCode;
     }
@@ -71,8 +67,6 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
     /**
      * replaces a text string with its markers
      * used for JavaScript functions.
-     *
-     * @access private
      */
     protected function replaceMarkerArray(
         $markerArray,
@@ -192,8 +186,6 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
      *
      * @return	array		Returns a markerArray ready for substitution with information
      * 				for the tt_products record, $row
-     *
-     * @access private
      */
     protected function getExtItemMarkerArray(
         &$markerArray,

@@ -33,9 +33,6 @@ namespace JambageCom\TtProducts\Api;
  * functions for the payment
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 class PriceApi
 {
@@ -67,15 +64,15 @@ class PriceApi
         }
 
         $priceNumber = '';
-        if (strpos($field, 'price') === 0) {
-            $priceNumber = str_replace('price', '', $field);
+        if (str_starts_with((string)$field, 'price')) {
+            $priceNumber = str_replace('price', '', (string)$field);
             if (!isset($targetRow['surcharge' . $priceNumber])) {
                 $targetRow['surcharge' . $priceNumber] = 0;
             }
         }
 
         if ($bIsAddedPrice) {
-            if (strpos($field, 'price') === 0) {
+            if (str_starts_with((string)$field, 'price')) {
                 if (!isset($targetRow['surcharge' . $priceNumber])) {
                     $targetRow['surcharge' . $priceNumber] = 0;
                 }

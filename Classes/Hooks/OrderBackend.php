@@ -35,9 +35,6 @@ namespace JambageCom\TtProducts\Hooks;
  * @author	Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\TypoScript\TemplateService;
@@ -91,7 +88,7 @@ class OrderBackend implements SingletonInterface
         )->get();
         $template->runThroughTemplates($rootline, 0);
         $template->generateConfig();
-        $setup = $template->setup;
+        $setup = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray();
         $conf = [];
         if (isset($setup['plugin.']['tt_products.'])) {
             $conf = $setup['plugin.']['tt_products.'];
@@ -168,10 +165,10 @@ class OrderBackend implements SingletonInterface
     {
         $result = 0;
         if (isset($_GET['returnUrl'])) {
-            $parseUrl = parse_url($_GET['returnUrl']);
+            $parseUrl = parse_url((string)$_GET['returnUrl']);
             $query = $parseUrl['query'];
 
-            $resultParser = parse_str(parse_url($_GET['returnUrl'])['query'], $params);
+            $resultParser = parse_str(parse_url((string)$_GET['returnUrl'])['query'], $params);
             $result = (int)$params['id'];
         }
 

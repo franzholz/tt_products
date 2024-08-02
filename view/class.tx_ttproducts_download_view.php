@@ -32,9 +32,6 @@
  * @author  Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 use JambageCom\Div2007\Utility\FrontendUtility;
 use JambageCom\TtProducts\Api\Localization;
@@ -63,8 +60,6 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view
      *
      * @param	array		reference to an item array with all the data of the item
      * @param	array		Returns a markerArray ready for substitution with information
-     *
-     * @access private
      */
     public function getDownloadMarkerSubpartArrays(
         $templateCode,
@@ -364,9 +359,8 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view
                     $subpartArray['###DOWNLOAD_SINGLE###'] .= $out;
                 }
             }
-        } else {
-            // mothing
         }
+        // mothing
 
         $this->setMarkersEmpty(
             $tagArray,

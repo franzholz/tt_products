@@ -2,7 +2,6 @@
 
 namespace JambageCom\TtProducts\Api;
 
-
 /***************************************************************
 *  Copyright notice
 *
@@ -34,15 +33,11 @@ namespace JambageCom\TtProducts\Api;
  * functions for the basket
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
-use TYPO3\CMS\Core\SingletonInterface;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-
 use JambageCom\Div2007\Utility\TableUtility;
+use TYPO3\CMS\Core\SingletonInterface;
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class BasketApi implements SingletonInterface
 {
@@ -61,7 +56,7 @@ class BasketApi implements SingletonInterface
             isset($basketConf['ref']) &&
             isset($basketConf['row'])
         ) {
-            $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
+            $conf = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.'][TT_PRODUCTS_EXT . '.'];
             $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
             $cnfObj->init(
                 $conf,

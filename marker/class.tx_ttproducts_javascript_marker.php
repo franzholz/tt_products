@@ -32,9 +32,6 @@
  * @author	Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\SingletonInterface;
@@ -55,8 +52,6 @@ class tx_ttproducts_javascript_marker implements SingletonInterface
      * @param	array		information about the parent HTML form
      *
      * @return	array
-     *
-     * @access private
      */
     public function getMarkerArray(&$markerArray, $itemMarkerArray, $cObj): void
     {

@@ -32,9 +32,6 @@
  * @author  Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -165,7 +162,6 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, SingletonInter
      * @param	array		the row
      * @param	string	  variants separated by variantSeparator
      *
-     * @access private
      *
      * @see getVariantFromRow
      */
@@ -229,7 +225,6 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, SingletonInter
      *
      * @return  string	  variants separated by variantSeparator
      *
-     * @access private
      *
      * @see modifyRowFromVariant
      */
@@ -262,7 +257,6 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, SingletonInter
      *
      * @return  string	  variants separated by internal variantSeparator
      *
-     * @access private
      *
      * @see modifyRowFromVariant
      */
@@ -328,7 +322,6 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, SingletonInter
      *
      * @return  string	  variants separated by variantSeparator
      *
-     * @access private
      *
      * @see modifyRowFromVariant
      */
@@ -569,35 +562,35 @@ class tx_ttproducts_variant implements tx_ttproducts_variant_int, SingletonInter
                         if ($variantIndex === false) {
                             $bMatches = false;
                             break;
-                        } else {
-                            $valueArray = [];
-                            if (is_array($value)) {
-                                // nothing
-                                $valueArray = $value;
-                            } elseif (strlen($value)) {
-                                $valueArray =
-                                    preg_split(
-                                        '/[\h]*' . $variantSeparator . '[\h]*/',
-                                        $value,
-                                        -1,
-                                        PREG_SPLIT_NO_EMPTY
-                                    );
-                            }
-
-                            $variantValue = '';
-                            if (
-                                isset($variantRowArray[$field]) &&
-                                is_array($variantRowArray[$field]) &&
-                                isset($variantRowArray[$field][$variantIndex])
-                            ) {
-                                $variantValue = $variantRowArray[$field][$variantIndex];
-                            }
-
-                            if (!in_array($variantValue, $valueArray)) {
-                                $bMatches = false;
-                                break;
-                            }
                         }
+                        $valueArray = [];
+                        if (is_array($value)) {
+                            // nothing
+                            $valueArray = $value;
+                        } elseif (strlen($value)) {
+                            $valueArray =
+                                preg_split(
+                                    '/[\h]*' . $variantSeparator . '[\h]*/',
+                                    $value,
+                                    -1,
+                                    PREG_SPLIT_NO_EMPTY
+                                );
+                        }
+
+                        $variantValue = '';
+                        if (
+                            isset($variantRowArray[$field]) &&
+                            is_array($variantRowArray[$field]) &&
+                            isset($variantRowArray[$field][$variantIndex])
+                        ) {
+                            $variantValue = $variantRowArray[$field][$variantIndex];
+                        }
+
+                        if (!in_array($variantValue, $valueArray)) {
+                            $bMatches = false;
+                            break;
+                        }
+
                     } elseif (!$bCombined) {
                         $bMatches = false;
                         break;

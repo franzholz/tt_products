@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace JambageCom\TtProducts\Api;
 
@@ -35,9 +35,6 @@ namespace JambageCom\TtProducts\Api;
  * functions for the view
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -280,7 +277,7 @@ class ParameterApi implements SingletonInterface
     public function getBasketExtRaw()
     {
         $basketVar = $this->getBasketVar();
-        $result = GeneralUtility::_GP($basketVar);
+        $result = $GLOBALS['TYPO3_REQUEST']->getParsedBody()[$basketVar] ?? $GLOBALS['TYPO3_REQUEST']->getQueryParams()[$basketVar] ?? null;
 
         return $result;
     }
@@ -539,7 +536,7 @@ class ParameterApi implements SingletonInterface
                 $foundKey = 0;
 
                 if ($position == 'local' && isset($keyFieldArray[$searchFieldArray['local']]) && ExtensionManagementUtility::isLoaded('searchbox')) {	// Todo
-                    require_once PATH_BE_searchbox . 'model/class.tx_searchbox_model.php';
+                    require_once \PATH_BE_SEARCHBOX . 'model/class.tx_searchbox_model.php';
                     $modelObj = GeneralUtility::makeInstance('tx_searchbox_model');
 
                     $fullKeyFieldArray = $modelObj->getKeyFieldArray($tablename, '', '-', $searchFieldArray['local'], '1', $tmpCount);
@@ -563,8 +560,8 @@ class ParameterApi implements SingletonInterface
                     }
 
                     if ($searchKey == $positionSearchVars[$position] || (is_array($searchParamArray[$position]) && key($searchParamArray[$position]) == $k || !is_array($searchParamArray[$position]) && $searchParamArray[$position] == $k)) {
-                        if (substr($searchValue, 0, 1) == '\'' && substr($searchValue, -1) == '\'') {
-                            $searchValue = substr($searchValue, 1, strlen($searchValue) - 2);
+                        if (str_starts_with((string)$searchValue, '\'') && str_ends_with((string)$searchValue, '\'')) {
+                            $searchValue = substr((string)$searchValue, 1, strlen((string)$searchValue) - 2);
                         }
                         if (isset($fullKeyFieldArray) && is_array($fullKeyFieldArray)) {
                             $tmpArray = GeneralUtility::trimExplode('|', $searchKey);
@@ -625,7 +622,7 @@ class ParameterApi implements SingletonInterface
                                             $searchboxWhereArray[] = $searchAlias . $aliasPostfix . '.' . $field . ' REGEXP ' . $GLOBALS['TYPO3_DB']->fullQuoteStr('.*[' . $delimiter . ']*' . $positionSearchValue . '[' . $delimiter . ']*.*', $searchTablename);
                                         }
                                         $searchboxWhere = implode(' OR ', $searchboxWhereArray);
-                                    // TODO
+                                        // TODO
                                     } else {
                                         $searchboxWhere =
                                             $this->getWhereByFields(

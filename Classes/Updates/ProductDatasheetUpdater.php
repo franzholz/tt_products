@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 namespace JambageCom\TtProducts\Updates;
 
@@ -29,7 +29,7 @@ use TYPO3\CMS\Install\Updates\UpgradeWizardInterface;
 
 class ProductDatasheetUpdater implements UpgradeWizardInterface, ConfirmableInterface, ChattyInterface
 {
-    public const TABLE = 'tt_products';
+    final public const TABLE = 'tt_products';
 
     /**
      * @var OutputInterface

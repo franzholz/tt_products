@@ -35,21 +35,18 @@ namespace JambageCom\TtProducts\Hooks;
  * @author	Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
+
+use JambageCom\Div2007\Utility\FrontendUtility;
+use JambageCom\Div2007\Utility\MarkerUtility;
+use JambageCom\TtProducts\Api\BasketApi;
+
+use JambageCom\TtProducts\Api\ParameterApi;
+use JambageCom\TtProducts\Api\PaymentShippingHandling;
 
 use TYPO3\CMS\Core\Core\Bootstrap;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-
-use JambageCom\Div2007\Utility\FrontendUtility;
-use JambageCom\Div2007\Utility\MarkerUtility;
-
-use JambageCom\TtProducts\Api\BasketApi;
-use JambageCom\TtProducts\Api\ParameterApi;
-use JambageCom\TtProducts\Api\PaymentShippingHandling;
 
 class TransactorListener
 {
@@ -57,6 +54,7 @@ class TransactorListener
         $pObj,
         $params
     ) {
+        $templateCode = null;
         // Process the ID, type and other parameters
         // After this point we have an array, $page in TSFE, which is the page-record of the current page, $id
         $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
@@ -83,7 +81,7 @@ class TransactorListener
         $testMode = $params['testmode'];
         $referenceId = $transactionRow['reference'];
 
-        $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tt_products.'];
+        $conf = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.']['tt_products.'];
         $config = [];
         $config['LLkey'] = '';
         $errorCode = '';

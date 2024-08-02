@@ -32,26 +32,22 @@
  * @author  Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
-
-use TYPO3\CMS\Core\Context\Context;
-use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
-use TYPO3\CMS\Core\SingletonInterface;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 use JambageCom\Div2007\Api\OldStaticInfoTablesApi;
 use JambageCom\Div2007\Api\StaticInfoTablesApi;
 use JambageCom\Div2007\Utility\ExtensionUtility;
 use JambageCom\Div2007\Utility\StaticInfoTablesUtility;
-
-use JambageCom\TtProducts\Api\ControlApi;
 use JambageCom\TtProducts\Api\CustomerApi;
+
 use JambageCom\TtProducts\Api\Localization;
 use JambageCom\TtProducts\Api\PaymentShippingHandling;
+use TYPO3\CMS\Core\Context\Context;
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
+
+use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_info_view implements SingletonInterface
 {
@@ -67,8 +63,7 @@ class tx_ttproducts_info_view implements SingletonInterface
 
     public function init(
         tx_ttproducts_info $modelObj
-    )
-    {
+    ) {
         $result = true;
         $this->modelObj = $modelObj;
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
@@ -172,8 +167,6 @@ class tx_ttproducts_info_view implements SingletonInterface
      * @param	array		information about the parent HTML form
      *
      * @return	array
-     *
-     * @access private
      */
     public function getRowMarkerArray(
         $basketExtra,

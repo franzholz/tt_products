@@ -32,9 +32,6 @@
  * @author	Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 use JambageCom\Div2007\Base\BrowserBase;
 use JambageCom\TtProducts\Api\Localization;
@@ -58,7 +55,6 @@ abstract class tx_ttproducts_catlist_view_base implements SingletonInterface
     public $tableConfArray = [];
     public $viewConfArray = [];
     private $tMarkers;	// all markers which are found in the template subpart for the whole view $t['listFrameWork']
-
 
     public function init(
         $cObj,
