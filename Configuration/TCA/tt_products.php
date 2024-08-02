@@ -2,9 +2,6 @@
 
 defined('TYPO3') || die('Access denied.');
 
-use TYPO3\CMS\Core\Resource\File;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-
 $extensionKey = 'tt_products';
 $table = 'tt_products';
 $palleteAddition = '';
@@ -572,7 +569,7 @@ return [
             'exclude' => 1,
             'label' => $languageLglPath . 'image',
             'config' => [
-                ### !!! Watch out for fieldName different from columnName
+                //## !!! Watch out for fieldName different from columnName
                 'type' => 'file',
                 'allowed' => 'common-image-types',
                 'appearance' => [
@@ -588,7 +585,7 @@ return [
             'exclude' => 1,
             'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.smallimage',
             'config' => [
-                ### !!! Watch out for fieldName different from columnName
+                //## !!! Watch out for fieldName different from columnName
                 'type' => 'file',
                 'allowed' => 'common-image-types',
                 'appearance' => [
@@ -604,7 +601,7 @@ return [
             'exclude' => 1,
             'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.datasheet',
             'config' => [
-                ### !!! Watch out for fieldName different from columnName
+                //## !!! Watch out for fieldName different from columnName
                 'type' => 'file',
                 'allowed' => 'common-image-types',
                 'appearance' => [

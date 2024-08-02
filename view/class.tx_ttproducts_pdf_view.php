@@ -33,9 +33,6 @@
  * @author	Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 use PhpOffice\PhpWord\Autoloader;
 use PhpOffice\PhpWord\IOFactory;
@@ -53,8 +50,6 @@ class tx_ttproducts_pdf_view
      *
      * @return	string / boolean	returns the absolute filename of the PDF bill or false
      * 		 			for the tt_producst record, $row
-     *
-     * @access private
      */
     public function generate(
         $cObj,

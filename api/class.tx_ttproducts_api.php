@@ -32,32 +32,29 @@
  * @author  Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 
+use JambageCom\Div2007\Utility\CompatibilityUtility;
+use JambageCom\Div2007\Utility\MailUtility;
+use JambageCom\Div2007\Utility\ObsoleteUtility;
+use JambageCom\TtProducts\Api\CustomerApi;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Crypto\PasswordHashing\InvalidPasswordHashException;
 use TYPO3\CMS\Core\Crypto\PasswordHashing\PasswordHashFactory;
 use TYPO3\CMS\Core\Html\HtmlParser;
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
+
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
+
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
-
-use JambageCom\Div2007\Utility\CompatibilityUtility;
-use JambageCom\Div2007\Utility\MailUtility;
-use JambageCom\Div2007\Utility\ObsoleteUtility;
-
-use JambageCom\TtProducts\Api\CustomerApi;
 
 class tx_ttproducts_api
 {
     public static function roundPrice($value, $format)
     {
-        $value = (string) $value;
+        $value = (string)$value;
         $result = $oldValue = $value;
         $priceRoundFormatArray = [];
         $dotPos = strpos($value, '.');
@@ -83,7 +80,7 @@ class tx_ttproducts_api
         }
 
         if (isset($priceRoundFormatArray[1])) {
-            $formatText = (string) $priceRoundFormatArray[1];
+            $formatText = (string)$priceRoundFormatArray[1];
             $digits = 0;
             while (substr($formatText, $digits, 1) == 'X') {
                 $digits++;
@@ -137,41 +134,40 @@ class tx_ttproducts_api
                             ) { // '0' means '10'
                                 $bKeepChar = true;
                                 break;
-                            } else {
-                                $comparatorLow1 = $digitValue - $currentValue;
-                                if ($comparatorLow1 < 0) {
-                                    $comparatorLow1 += 10;
-                                }
+                            }
+                            $comparatorLow1 = $digitValue - $currentValue;
+                            if ($comparatorLow1 < 0) {
+                                $comparatorLow1 += 10;
+                            }
 
-                                $comparatorLow2 = $digitValue - $lowValue;
+                            $comparatorLow2 = $digitValue - $lowValue;
 
-                                if ($comparatorLow2 < 0) {
-                                    $comparatorLow2 += 10;
-                                }
+                            if ($comparatorLow2 < 0) {
+                                $comparatorLow2 += 10;
+                            }
 
-                                if (
-                                    $comparatorLow1 < $comparatorLow2
-                                ) {
-                                    $lowChar = $currentChar;
-                                    $lowValue = $currentValue;
-                                }
+                            if (
+                                $comparatorLow1 < $comparatorLow2
+                            ) {
+                                $lowChar = $currentChar;
+                                $lowValue = $currentValue;
+                            }
 
-                                $comparatorHigh1 = $currentValue - $digitValue;
+                            $comparatorHigh1 = $currentValue - $digitValue;
 
-                                if ($comparatorHigh1 < 0) {
-                                    $comparatorHigh1 += 10;
-                                }
+                            if ($comparatorHigh1 < 0) {
+                                $comparatorHigh1 += 10;
+                            }
 
-                                $comparatorHigh2 = $highValue - $digitValue;
+                            $comparatorHigh2 = $highValue - $digitValue;
 
-                                if ($comparatorHigh2 < 0) {
-                                    $comparatorHigh2 += 10;
-                                }
+                            if ($comparatorHigh2 < 0) {
+                                $comparatorHigh2 += 10;
+                            }
 
-                                if ($comparatorHigh1 < $comparatorHigh2) {
-                                    $highChar = $currentChar;
-                                    $highValue = $currentValue;
-                                }
+                            if ($comparatorHigh1 < $comparatorHigh2) {
+                                $highChar = $currentChar;
+                                $highValue = $currentValue;
                             }
 
                             if (
@@ -321,7 +317,7 @@ class tx_ttproducts_api
                 $result = intval($rowArray[0]['uid']);
             }
         } elseif ($bAllowCreation) {
-            $password = substr((string) md5((string) random_int(0, mt_getrandmax())), 0, 12);
+            $password = substr((string)md5((string)random_int(0, mt_getrandmax())), 0, 12);
             $infoObj->password = $password;
             try {
                 $hashInstance = GeneralUtility::makeInstance(PasswordHashFactory::class)->getDefaultHashInstance('FE');
@@ -982,9 +978,8 @@ class tx_ttproducts_api
                     }
                     $customerHTMLmailContent = implode('', $htmlMailParts);
                 }
-            } else {	// ... else just plain text...
-                // nothing to initialize
-            }
+            }  	// ... else just plain text...
+            // nothing to initialize
 
             $agbAttachment = ($conf['AGBattachment'] ? GeneralUtility::getFileAbsFileName($conf['AGBattachment']) : '');
 

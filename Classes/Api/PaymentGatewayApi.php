@@ -77,7 +77,7 @@ class PaymentGatewayApi implements SingletonInterface
         }
 
         if (
-            str_contains((string) $handleLib, (string)static::TRANSACTOR_EXTENSION) &&
+            str_contains((string)$handleLib, (string)static::TRANSACTOR_EXTENSION) &&
             ExtensionManagementUtility::isLoaded($handleLib)
         ) {
             $useNewTransactor = false;

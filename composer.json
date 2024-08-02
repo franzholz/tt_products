@@ -24,14 +24,16 @@
     "GPL-2.0-or-later"
   ],
   "require": {
-    "typo3/cms-core": "^11.5 || ^12.4",
-    "typo3/cms-filelist": "^11.5 || ^12.4",
+    "php": "^8.1 || ^8.2 || ^8.3",
+    "friendsoftypo3/typo3db-legacy": "^1",
     "jambagecom/div2007": "^1.17 || ^2.0",
     "jambagecom/tsparser": "^0.12",
-    "friendsoftypo3/typo3db-legacy": "^1",
+    "setasign/fpdf": "^1.8",
     "typo3/cms-backend": "^12.4",
-    "typo3/cms-install": "^12.4",
-    "typo3/cms-frontend": "^12.4"
+    "typo3/cms-core": "^12.4",
+    "typo3/cms-filelist": "^12.4",
+    "typo3/cms-frontend": "^12.4",
+    "typo3/cms-install": "^12.4"
   },
   "suggest": {
     "friendsoftypo3/func": "^9.0",
@@ -58,6 +60,11 @@
       "view"
     ]
   },
+  "autoload-dev": {
+    "psr-4": {
+      "Jambagecom\\TtProducts\\Tests\\": "Tests/"
+    }
+  },
   "replace": {
     "typo3-ter/tt-products": "self.version"
   },
@@ -79,8 +86,11 @@
   },
   "require-dev": {
     "friendsofphp/php-cs-fixer": "^3.61",
+    "helmich/typo3-typoscript-lint": "^3.2",
     "phpstan/phpstan": "^1.11",
+    "phpunit/phpunit": "^10.5",
     "saschaegerer/phpstan-typo3": "^1.10",
-    "typo3/cms-lowlevel": "^12.4"
+    "typo3/cms-lowlevel": "^12.4",
+    "typo3/testing-framework": "^8.0"
   }
 }

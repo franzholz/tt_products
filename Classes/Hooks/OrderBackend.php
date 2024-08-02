@@ -165,10 +165,10 @@ class OrderBackend implements SingletonInterface
     {
         $result = 0;
         if (isset($_GET['returnUrl'])) {
-            $parseUrl = parse_url((string) $_GET['returnUrl']);
+            $parseUrl = parse_url((string)$_GET['returnUrl']);
             $query = $parseUrl['query'];
 
-            $resultParser = parse_str(parse_url((string) $_GET['returnUrl'])['query'], $params);
+            $resultParser = parse_str(parse_url((string)$_GET['returnUrl'])['query'], $params);
             $result = (int)$params['id'];
         }
 

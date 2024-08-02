@@ -32,26 +32,22 @@
  * @author  Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
-
-use Psr\Http\Message\ServerRequestInterface;
-use TYPO3\CMS\Core\Http\ApplicationType;
-use TYPO3\CMS\Core\Core\Environment;
-use TYPO3\CMS\Core\SingletonInterface;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\MathUtility;
 
 use JambageCom\Div2007\Api\OldStaticInfoTablesApi;
 use JambageCom\Div2007\Api\StaticInfoTablesApi;
-
 use JambageCom\TtProducts\Api\BasketApi;
 use JambageCom\TtProducts\Api\ControlApi;
 use JambageCom\TtProducts\Api\Localization;
+use Psr\Http\Message\ServerRequestInterface;
+use TYPO3\CMS\Core\Core\Environment;
 
+use TYPO3\CMS\Core\Http\ApplicationType;
+use TYPO3\CMS\Core\SingletonInterface;
+
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 
 class tx_ttproducts_control_creator implements SingletonInterface
 {

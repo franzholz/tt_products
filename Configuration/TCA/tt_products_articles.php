@@ -505,7 +505,7 @@ return [
             'exclude' => 1,
             'label' => $languageLglPath . 'image',
             'config' => [
-                ### !!! Watch out for fieldName different from columnName
+                //## !!! Watch out for fieldName different from columnName
                 'type' => 'file',
                 'allowed' => 'common-image-types',
                 'appearance' => [
@@ -521,7 +521,7 @@ return [
             'exclude' => 1,
             'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products.smallimage',
             'config' => [
-                ### !!! Watch out for fieldName different from columnName
+                //## !!! Watch out for fieldName different from columnName
                 'type' => 'file',
                 'allowed' => 'common-image-types',
                 'appearance' => [

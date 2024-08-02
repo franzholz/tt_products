@@ -32,9 +32,6 @@
  * @author	Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 
 use JambageCom\TtProducts\Api\PaymentShippingHandling;
@@ -195,7 +192,7 @@ class tx_ttproducts_field_tax extends tx_ttproducts_field_base
 
         if (
             isset($taxFromShipping) &&
-            is_double($taxFromShipping)
+            is_float($taxFromShipping)
         ) {
             $fieldValue = $taxFromShipping;
         } else {

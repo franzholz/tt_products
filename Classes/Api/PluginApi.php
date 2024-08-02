@@ -34,18 +34,18 @@ namespace JambageCom\TtProducts\Api;
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
  */
-use TYPO3\CMS\Frontend\Page\CacheHashCalculator;
-use TYPO3\CMS\Core\Utility\HttpUtility;
 use JambageCom\Div2007\Utility\ErrorUtility;
 use JambageCom\Div2007\Utility\ExtensionUtility;
 use JambageCom\Div2007\Utility\FlexformUtility;
 use JambageCom\Div2007\Utility\FrontendUtility;
 use Psr\EventDispatcher\EventDispatcherInterface;
-
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\HttpUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
+use TYPO3\CMS\Frontend\Page\CacheHashCalculator;
 
 class PluginApi
 {
@@ -179,7 +179,7 @@ class PluginApi
     {
         $result = false;
         if (
-            str_starts_with((string) $code, 'LISTRELATED')
+            str_starts_with((string)$code, 'LISTRELATED')
         ) {
             $result = true;
         }
@@ -243,7 +243,7 @@ class PluginApi
         $config['templateSuffix'] = strtoupper($conf['templateSuffix'] ?? '');
 
         $templateSuffix = FlexformUtility::get(self::getFlexform(), 'template_suffix');
-        $templateSuffix = strtoupper((string) $templateSuffix);
+        $templateSuffix = strtoupper((string)$templateSuffix);
         $config['templateSuffix'] = ($templateSuffix ?: $config['templateSuffix']);
         $config['templateSuffix'] = ($config['templateSuffix'] ? '_' . $config['templateSuffix'] : '');
         $config['limit'] = $conf['limit'] ?: 50;

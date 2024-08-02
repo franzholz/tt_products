@@ -35,9 +35,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
  * @author	Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 class tx_ttproducts_table_label
 {

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 (static function (): void {
     $selectItemArray = new \TYPO3\CMS\Core\Schema\Struct\SelectItem(

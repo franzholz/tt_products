@@ -43,7 +43,9 @@ use JambageCom\Div2007\Utility\FrontendUtility;
 use JambageCom\Div2007\Utility\HtmlUtility;
 use JambageCom\Div2007\Utility\MarkerUtility;
 use JambageCom\Transactor\Api\Address;
+
 use function JambageCom\Transactor\Api\getTransactorConf;
+
 use JambageCom\Transactor\Api\Start;
 
 use JambageCom\TtProducts\Api\ActivityApi;
@@ -457,7 +459,7 @@ class ActivityController implements SingletonInterface
             $label = $paymentErrorMsg;
         } else {
             $message = $languageObj->getLabel('internal_error');
-            $messageArr = explode('|', (string) $message);
+            $messageArr = explode('|', (string)$message);
             $label = $messageArr[0] . 'TTP_2' . $messageArr[1] . 'products_payment' . $messageArr[2];
         }
 
@@ -772,7 +774,7 @@ class ActivityController implements SingletonInterface
                         $errorRow = $errorArray['rec'];
                         $errorRowArray[] = $errorRow;
                         $message = $languageObj->getLabel('error_edit_variant_range');
-                        $messageArr = explode('|', (string) $message);
+                        $messageArr = explode('|', (string)$message);
 
                         if (isset($errorArray['error']) && is_array($errorArray['error'])) {
                             foreach ($errorArray['error'] as $field => $fieldErrorMessage) {
@@ -877,7 +879,7 @@ class ActivityController implements SingletonInterface
             $finalize = false;
         }
 
-        if (str_contains((string) $templateCode, '###ERROR_DETAILS###')) {
+        if (str_contains((string)$templateCode, '###ERROR_DETAILS###')) {
             $tempContent =
             $templateService->getSubpart(
                 $templateCode,
@@ -885,7 +887,7 @@ class ActivityController implements SingletonInterface
                     '###' . $basket_tmpl . $config['templateSuffix'] . '###'
                 )
             );
-            if (str_contains((string) $tempContent, '###ERROR_DETAILS###')) {
+            if (str_contains((string)$tempContent, '###ERROR_DETAILS###')) {
                 $errorMessage = ''; // the error message is part of the HTML template
             }
         }
@@ -1512,7 +1514,7 @@ class ActivityController implements SingletonInterface
 
                     if (
                         !$basketEmpty &&
-                        trim((string) $conf['paymentActivity']) == 'finalize'
+                        trim((string)$conf['paymentActivity']) == 'finalize'
                     ) {
                         $mainMarkerArray['###MESSAGE_PAYMENT_SCRIPT###'] =
                         $this->processPayment(

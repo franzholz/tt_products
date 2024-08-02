@@ -6,3 +6,5 @@
 /Documentation-GENERATED-temp
 /.Build
 /config
+/.cache
+/rector

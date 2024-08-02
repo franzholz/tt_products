@@ -46,8 +46,8 @@ class FeUserMarkerApi implements SingletonInterface
         $markerLogin = 'LOGIN';
         $markerNologin = 'NOLOGIN';
         foreach ($viewTagArray as $tag => $value) {
-            if (str_starts_with((string) $tag, $marker . '_')) {
-                $tagPart1 = substr((string) $tag, strlen($marker . '_'));
+            if (str_starts_with((string)$tag, $marker . '_')) {
+                $tagPart1 = substr((string)$tag, strlen($marker . '_'));
                 $offset = strpos($tagPart1, '_TEMPLATE');
                 if ($offset > 0) {
                     $groupNumber = substr($tagPart1, 0, $offset);
@@ -75,7 +75,7 @@ class FeUserMarkerApi implements SingletonInterface
                         }
                     }
                 }
-            } elseif (str_starts_with((string) $tag, $markerLogin . '_')) {
+            } elseif (str_starts_with((string)$tag, $markerLogin . '_')) {
                 if (
                     $context->getPropertyFromAspect('frontend.user', 'isLoggedIn')
                 ) {
@@ -83,7 +83,7 @@ class FeUserMarkerApi implements SingletonInterface
                 } else {
                     $subpartArray['###LOGIN_TEMPLATE###'] = '';
                 }
-            } elseif (str_starts_with((string) $tag, $markerNologin . '_')) {
+            } elseif (str_starts_with((string)$tag, $markerNologin . '_')) {
                 if (
                     $context->getPropertyFromAspect('frontend.user', 'isLoggedIn')
                 ) {

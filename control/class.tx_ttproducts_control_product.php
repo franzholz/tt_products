@@ -32,16 +32,12 @@
  * @author	Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
+use JambageCom\TtProducts\Api\EditVariantApi;
+use JambageCom\TtProducts\Api\VariantApi;
+
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-
-use JambageCom\TtProducts\Api\ParameterApi;
-use JambageCom\TtProducts\Api\VariantApi;
-use JambageCom\TtProducts\Api\EditVariantApi;
 
 class tx_ttproducts_control_product
 {

@@ -32,9 +32,6 @@
  * @author  Els Verberne <verberne@bendoo.nl>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 use JambageCom\Div2007\Utility\CompatibilityUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -67,7 +64,7 @@ class tx_ttproducts_creditpoints_div
             if (isset($conf['creditpoints.']['pricefactor'])) {
                 $pricefactor = $conf['creditpoints.']['pricefactor'];
             }
-            $pricefactor = doubleval($pricefactor);
+            $pricefactor = floatval($pricefactor);
         }
 
         return $pricefactor;
@@ -97,7 +94,7 @@ class tx_ttproducts_creditpoints_div
             $creditpoints = $userCreditpoints;
         }
 
-        $creditpoints = doubleval($creditpoints);
+        $creditpoints = floatval($creditpoints);
 
         return $creditpoints;
     }
@@ -122,7 +119,7 @@ class tx_ttproducts_creditpoints_div
                         }
                     }
                     $dumCount = 0;
-                    $creditpoints = doubleval($priceCalcTemp['prod.']['1']);
+                    $creditpoints = floatval($priceCalcTemp['prod.']['1']);
 
                     if ($type != 'price') {
                         break;

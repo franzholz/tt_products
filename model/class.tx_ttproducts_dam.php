@@ -32,9 +32,6 @@
  * @author  Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -118,7 +115,6 @@ class tx_ttproducts_dam extends tx_ttproducts_article_base
      * @param	array		the row
      * @param	string	  variants separated by variantSeparator
      *
-     * @access private
      *
      * @see getVariantFromRow
      */

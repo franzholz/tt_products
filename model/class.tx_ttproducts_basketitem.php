@@ -32,9 +32,6 @@
  * @author	Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -49,8 +46,6 @@ class tx_ttproducts_basketitem implements SingletonInterface
      * @param	string		overwrite amount or 'basket'
      *
      * @return	array
-     *
-     * @access private
      */
     public function getQuantity(
         &$item,
@@ -74,8 +69,6 @@ class tx_ttproducts_basketitem implements SingletonInterface
      * @param	string		overwrite amount or 'basket'
      *
      * @return	array
-     *
-     * @access private
      */
     public function getMinMaxQuantity(
         $item,

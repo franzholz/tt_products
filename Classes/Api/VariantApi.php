@@ -182,7 +182,7 @@ class VariantApi implements SingletonInterface
 
     public function getSelectConfKey($field)
     {
-        $rc = 'select' . ucfirst((string) $field);
+        $rc = 'select' . ucfirst((string)$field);
 
         return $rc;
     }
@@ -216,7 +216,7 @@ class VariantApi implements SingletonInterface
             $variantArray =
                 explode(
                     static::INTERNAL_VARIANT_SEPARATOR,
-                    (string) $variant
+                    (string)$variant
                 );
             $fieldArray = $this->getFieldArray();
             $count = 0;
@@ -228,12 +228,12 @@ class VariantApi implements SingletonInterface
                     ) {
                         $variantValueArray = [];
 
-                        if (isset($row[$field]) && strlen((string) $row[$field])) {
+                        if (isset($row[$field]) && strlen((string)$row[$field])) {
                             $theVariant = $row[$field];
                             $variantValueArray =
                                 preg_split(
                                     '/[\h]*' . $variantSeparator . '[\h]*/',
-                                    (string) $theVariant,
+                                    (string)$theVariant,
                                     -1,
                                     PREG_SPLIT_NO_EMPTY
                                 );
@@ -325,11 +325,11 @@ class VariantApi implements SingletonInterface
                 if (!empty($this->selectableArray[$key])) {
                     $variantValue = $variantRow[$field] ?? '';
 
-                    if ($variantValue != '' && isset($row[$field]) && strlen((string) $row[$field])) {
+                    if ($variantValue != '' && isset($row[$field]) && strlen((string)$row[$field])) {
                         $prodVariantArray =
                             preg_split(
                                 '/[\h]*' . $variantSeparator . '[\h]*/',
-                                (string) $row[$field],
+                                (string)$row[$field],
                                 -1,
                                 PREG_SPLIT_NO_EMPTY
                             );
@@ -438,7 +438,7 @@ class VariantApi implements SingletonInterface
                 $tmpArray =
                     preg_split(
                         '/[\h]*' . $variantSeparator . '[\h]*/',
-                        (string) $variants,
+                        (string)$variants,
                         -1,
                         PREG_SPLIT_NO_EMPTY
                     );
@@ -494,25 +494,25 @@ class VariantApi implements SingletonInterface
         foreach ($selectableFieldArray as $field) {
             if (
                 isset($productRow[$field]) &&
-                strlen((string) $productRow[$field])
+                strlen((string)$productRow[$field])
             ) {
                 $valueArray = [];
 
                 $productValueArray =
                     preg_split(
                         '/[\h]*' . $variantSeparator . '[\h]*/',
-                        (string) $productRow[$field],
+                        (string)$productRow[$field],
                         -1,
                         PREG_SPLIT_NO_EMPTY
                     );
 
                 foreach ($articleRowArray as $articleRow) {
                     $articleValueArray = [];
-                    if (isset($articleRow[$field]) && strlen((string) $articleRow[$field])) {
+                    if (isset($articleRow[$field]) && strlen((string)$articleRow[$field])) {
                         $articleValueArray =
                             preg_split(
                                 '/[\h]*' . $variantSeparator . '[\h]*/',
-                                (string) $articleRow[$field],
+                                (string)$articleRow[$field],
                                 -1,
                                 PREG_SPLIT_NO_EMPTY
                             );
@@ -559,12 +559,12 @@ class VariantApi implements SingletonInterface
         foreach ($variantRowArray as $field => $valueArray) {
             if (
                 isset($row[$field]) &&
-                strlen((string) $row[$field])
+                strlen((string)$row[$field])
             ) {
                 $variantRowArray[$field] =
                     preg_split(
                         '/[\h]*' . $variantSeparator . '[\h]*/',
-                        (string) $row[$field],
+                        (string)$row[$field],
                         -1,
                         PREG_SPLIT_NO_EMPTY
                     );
@@ -574,7 +574,7 @@ class VariantApi implements SingletonInterface
         $variantArray =
             preg_split(
                 '/[\h]*' . static::INTERNAL_VARIANT_SEPARATOR . '[\h]*/',
-                (string) $variant,
+                (string)$variant,
                 -1
             );
 
@@ -617,11 +617,11 @@ class VariantApi implements SingletonInterface
                         if (is_array($value)) {
                             // nothing
                             $valueArray = $value;
-                        } elseif (strlen((string) $value)) {
+                        } elseif (strlen((string)$value)) {
                             $valueArray =
                                 preg_split(
                                     '/[\h]*' . $variantSeparator . '[\h]*/',
-                                    (string) $value,
+                                    (string)$value,
                                     -1,
                                     PREG_SPLIT_NO_EMPTY
                                 );
@@ -709,7 +709,7 @@ class VariantApi implements SingletonInterface
                 if ($field != 'additional') {	// no additional here
                     if (
                         !isset($row[$field]) ||
-                        trim((string) $row[$field]) == '' ||
+                        trim((string)$row[$field]) == '' ||
                         !$selectableArray[$key]
                     ) {
                         $remSubpartArray[] = 'display_variant' . $key;
@@ -785,7 +785,7 @@ class VariantApi implements SingletonInterface
 
             if ($createdFile) {
                 $internalXml = GeneralUtility::array2xml($internalArray);
-                fwrite($internalFile, (string) $internalXml);
+                fwrite($internalFile, (string)$internalXml);
             } elseif (!empty($xmlString)) {
                 $internalFromXml = GeneralUtility::xml2array($xmlString);
                 $changes = array_diff_assoc($internalArray, $internalFromXml);

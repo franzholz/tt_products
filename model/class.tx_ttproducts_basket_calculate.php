@@ -32,9 +32,6 @@
  * @author	Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 use JambageCom\TtProducts\Api\CustomerApi;
 use JambageCom\TtProducts\Api\PaymentApi;
@@ -356,7 +353,6 @@ class tx_ttproducts_basket_calculate implements SingletonInterface
                                 $actItem[$calculationAdditionField];
                         }
                     }
-
 
                     // has the price been calculated before take it if it gets cheaper now
                     if (
@@ -747,7 +743,6 @@ class tx_ttproducts_basket_calculate implements SingletonInterface
             $this->calculatedArray,
             $itemArray
         );
-
 
         // payment must be dealt with at the latest because the payment gateway must know about all other costs
         // Shipping must be at the end in order to use the calculated values from before

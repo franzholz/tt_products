@@ -64,15 +64,15 @@ class PriceApi
         }
 
         $priceNumber = '';
-        if (str_starts_with((string) $field, 'price')) {
-            $priceNumber = str_replace('price', '', (string) $field);
+        if (str_starts_with((string)$field, 'price')) {
+            $priceNumber = str_replace('price', '', (string)$field);
             if (!isset($targetRow['surcharge' . $priceNumber])) {
                 $targetRow['surcharge' . $priceNumber] = 0;
             }
         }
 
         if ($bIsAddedPrice) {
-            if (str_starts_with((string) $field, 'price')) {
+            if (str_starts_with((string)$field, 'price')) {
                 if (!isset($targetRow['surcharge' . $priceNumber])) {
                     $targetRow['surcharge' . $priceNumber] = 0;
                 }

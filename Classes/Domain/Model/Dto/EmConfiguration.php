@@ -112,8 +112,8 @@ final class EmConfiguration implements SingletonInterface
 
         foreach ($configuration as $key => $value) {
             if (is_array($value)) {
-                $position = (int)strpos((string) $key, '.');
-                $property = substr((string) $key, 0, $position);
+                $position = (int)strpos((string)$key, '.');
+                $property = substr((string)$key, 0, $position);
                 if (
                     property_exists(self::class, $property) &&
                     is_array($this->$property)

@@ -32,9 +32,6 @@
  * @author	Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 use JambageCom\Div2007\Utility\ExtensionUtility;
 use JambageCom\TtProducts\Api\Localization;
@@ -256,9 +253,9 @@ class tx_ttproducts_control_command
                         }
                     }
                     exit;
-                } else {
-                    // nothing
                 }
+                // nothing
+
                 break;
         }
     }

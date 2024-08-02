@@ -32,9 +32,6 @@
  * @author	Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 class tx_ttproducts_country_view extends tx_ttproducts_table_base_view
 {
@@ -46,8 +43,6 @@ class tx_ttproducts_country_view extends tx_ttproducts_table_base_view
      * @param	array		marker array
      *
      * @return	array
-     *
-     * @access private
      */
     public function getRowMarkers(&$markerArray, $prefix, $row): void
     {

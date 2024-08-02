@@ -32,9 +32,6 @@
  * @author	Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 use JambageCom\Div2007\Utility\CompatibilityUtility;
 use JambageCom\TtProducts\Model\Field\FieldInterface;
@@ -278,7 +275,7 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base
         if (
             $bEnableTaxZero &&
             isset($row['tax']) &&
-            doubleval($row['tax']) == '0.0'
+            floatval($row['tax']) == '0.0'
         ) {
             $taxpercentage = 0.0;
             $bIsZeroTax = true;
@@ -305,7 +302,7 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base
 
         if (
             isset($calculatedTaxpercentage) &&
-            is_double($calculatedTaxpercentage) &&
+            is_float($calculatedTaxpercentage) &&
             $calculatedTaxpercentage != $taxpercentage
         ) {
             $newtaxFactor = 1 + $calculatedTaxpercentage / 100;
@@ -504,7 +501,7 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base
                 if (
                     $bEnableTaxZero &&
                     isset($row['tax']) &&
-                    doubleval($row['tax']) == '0.0'
+                    floatval($row['tax']) == '0.0'
                 ) {
                     $bIsZeroTax = true;
                     $taxpercentage = 0.0;
@@ -620,7 +617,6 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base
                     $this->getPrice(
                         $basketExtra,
                         $basketRecs,
-
                         isset($row['unit_factor']) && ($row['unit_factor'] > 0) ?
                             ($priceArray['notax'] / $row['unit_factor']) :
                             0,
@@ -645,7 +641,6 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base
                     $this->getPrice(
                         $basketExtra,
                         $basketRecs,
-
                         $row['weight'] > 0 ?
                             ($priceArray['notax'] / $internalRow['weight']) :
                             0,
@@ -728,7 +723,6 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base
                     $this->getPrice(
                         $basketExtra,
                         $basketRecs,
-
                         $row['weight'] > 0 ?
                             ($priceArray['discountbyproductpricenotax'] / $internalRow['weight']) :
                             0,

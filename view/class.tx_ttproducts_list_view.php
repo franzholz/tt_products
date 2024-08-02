@@ -33,34 +33,30 @@
  * @author	Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 
-use Psr\EventDispatcher\EventDispatcherInterface;
-
-use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
-use TYPO3\CMS\Core\SingletonInterface;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\MathUtility;
-use TYPO3\CMS\Core\Utility\StringUtility;
-use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
-
 use JambageCom\Div2007\Base\BrowserBase;
+
 use JambageCom\Div2007\Utility\BrowserUtility;
 use JambageCom\Div2007\Utility\CompatibilityUtility;
 use JambageCom\Div2007\Utility\FlexformUtility;
 use JambageCom\Div2007\Utility\FrontendUtility;
 use JambageCom\Div2007\Utility\TableUtility;
-
 use JambageCom\TtProducts\Api\BasketApi;
 use JambageCom\TtProducts\Api\Localization;
+
 use JambageCom\TtProducts\Api\ParameterApi;
 use JambageCom\TtProducts\Api\PluginApi;
 use JambageCom\TtProducts\Model\Field\FieldInterface;
+use Psr\EventDispatcher\EventDispatcherInterface;
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
+use TYPO3\CMS\Core\SingletonInterface;
 
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
+use TYPO3\CMS\Core\Utility\StringUtility;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 class tx_ttproducts_list_view implements SingletonInterface
 {
@@ -396,8 +392,8 @@ class tx_ttproducts_list_view implements SingletonInterface
                     for ($i = 0; $i < ($productsCount / $limit); $i++) {
                         if (($begin_at >= $i * $limit) && ($begin_at < $i * $limit + $limit)) {
                             $markerArray['###BROWSE_LINKS###'] .= ' <em>' . (string)($i + 1) . '</em> ';
-                        //	you may use this if you want to link to the current page also
-                        //
+                            //	you may use this if you want to link to the current page also
+                            //
                         } else {
                             $addQueryString[$pointerParam] = (string)$i;
                             $tempUrl =
@@ -3148,9 +3144,9 @@ class tx_ttproducts_list_view implements SingletonInterface
                                 }
                             }
                         }
-                    } else {
-                        // keine Produkte gefunden
                     }
+                    // keine Produkte gefunden
+
                 }
 
                 if ($itemListOut || $categoryOut || $productListOut) {
@@ -3271,9 +3267,9 @@ class tx_ttproducts_list_view implements SingletonInterface
                         $subpartmarkerObj->spMarker('###' . $templateArea . '###'),
                         $error_code
                     );
-            } else {
-                // nothing is shown
             }
+            // nothing is shown
+
         } elseif ($out) {
             $content .= $out;
         } elseif ($whereCat != '' || $allowedItems != '0' || !$bListStartEmpty) {
@@ -3298,9 +3294,9 @@ class tx_ttproducts_list_view implements SingletonInterface
                     $subpartmarkerObj->spMarker('###ITEM_LIST_EMPTY###'),
                     $error_code
                 );
-        } else {
-            // nothing is shown
-        } // if (count ($itemArray))
+        }
+        // nothing is shown
+        // if (count ($itemArray))
 
         if ($bCheckUnusedArticleMarkers) {
             $markerFieldArray = [];

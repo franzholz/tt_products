@@ -32,9 +32,6 @@
  * @author	Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -601,7 +598,7 @@ class tx_ttproducts_model_control
                                             $searchboxWhereArray[] = $searchAlias . $aliasPostfix . '.' . $field . ' REGEXP ' . $GLOBALS['TYPO3_DB']->fullQuoteStr('.*[' . $delimiter . ']*' . $positionSearchValue . '[' . $delimiter . ']*.*', $searchTablename);
                                         }
                                         $searchboxWhere = implode(' OR ', $searchboxWhereArray);
-                                    // TODO
+                                        // TODO
                                     } else {
                                         $searchboxWhere =
                                             self::getWhereByFields(

@@ -1,6 +1,6 @@
 <?php
 
-declare(strict_types=1);
+declare(strict_types = 1);
 
 /***************************************************************
 *  Copyright notice
@@ -35,20 +35,17 @@ declare(strict_types=1);
  * @author  Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
-
-use TYPO3\CMS\Core\Context\Context;
-use TYPO3\CMS\Core\SingletonInterface;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 use JambageCom\Div2007\Api\OldStaticInfoTablesApi;
 use JambageCom\Div2007\Api\StaticInfoTablesApi;
+use JambageCom\TtProducts\Api\CustomerApi;
 
 use JambageCom\TtProducts\Api\PaymentShippingHandling;
-use JambageCom\TtProducts\Api\CustomerApi;
+use TYPO3\CMS\Core\Context\Context;
+
+use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_info implements SingletonInterface
 {
@@ -430,7 +427,8 @@ class tx_ttproducts_info implements SingletonInterface
                 ) {
                     $result = false;
                     break;
-                } elseif (
+                }
+                if (
                     $context->getPropertyFromAspect('frontend.user', 'isLoggedIn') &&
                     isset($GLOBALS['TSFE']->fe_user) &&
                     isset($GLOBALS['TSFE']->fe_user->user) &&

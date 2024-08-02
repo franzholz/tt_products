@@ -32,9 +32,6 @@
  * @author  Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 /*
     editVariant {
@@ -117,7 +114,6 @@ class tx_ttproducts_edit_variant implements SingletonInterface
      *
      * @return  string	  variants separated by variantSeparator
      *
-     * @access private
      *
      * @see modifyRowFromVariant
      */

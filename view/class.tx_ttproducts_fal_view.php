@@ -32,9 +32,6 @@
  * @author  Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 use JambageCom\Div2007\Utility\FrontendUtility;
 use TYPO3\CMS\Core\Core\Environment;
@@ -49,36 +46,32 @@ class tx_ttproducts_fal_view extends tx_ttproducts_article_base_view
     public $marker = 'FAL';
     public $piVar = 'fal';
 
-    public function getItemSubpartArrays(
-        &$templateCode,
-        $funcTablename,
-        $row,
-        &$subpartArray,
-        &$wrappedSubpartArray,
-        $tagArray,
-        $theCode = '',
-        $basketExtra = [],
-        $basketRecs = [],
-        $id = ''
-    ): void {
-        parent::getItemSubpartArrays(
-            $templateCode,
-            $funcTablename,
-            $row,
-            $subpartArray,
-            $wrappedSubpartArray,
-            $tagArray,
-            $theCode,
-            $basketExtra,
-            $basketRecs,
-            $id
-        );
-    }
-
     /**
      * Template marker substitution
      * Fills in the markerArray with data for a product.
      *
+     * @param $row
+     * @param $markerKey
+     * @param &$markerArray
+     * @param $catTitle
+     * @param int $imageNum
+     * @param string $imageRenderObj
+     * @param array $tagArray
+     * @param array $forminfoArray
+     * @param string $theCode
+     * @param array $basketExtra
+     * @param array $basketRecs
+     * @param string $id
+     * @param string $prefix
+     * @param string $suffix
+     * @param string $linkWrap
+     * @param true $bHtml
+     * @param string $charset
+     * @param string $hiddenFields
+     * @param array $multiOrderArray
+     * @param array $productRowArray
+     * @param false $bEnableTaxZero
+     * @param true $notOverwritePriceIfSet
      * @param   array       reference to an item array with all the data of the item
      * @param   string      title of the category
      * @param   int     number of images to be shown
@@ -86,17 +79,15 @@ class tx_ttproducts_fal_view extends tx_ttproducts_article_base_view
      * @param   array       information about the parent HTML form
      *
      * @return  array
-     *
-     * @access private
      */
     public function getModelMarkerArray(
         $row,
-        $markerParam,
+        $markerKey,
         &$markerArray,
         $catTitle,
         $imageNum = 0,
         $imageRenderObj = 'image',
-        $tagArray,
+        $tagArray = [],
         $forminfoArray = [],
         $theCode = '',
         $basketExtra = [],
@@ -110,11 +101,12 @@ class tx_ttproducts_fal_view extends tx_ttproducts_article_base_view
         $hiddenFields = '',
         $multiOrderArray = [],
         $productRowArray = [],
-        $bEnableTaxZero = false
+        $bEnableTaxZero = false,
+        $notOverwritePriceIfSet = true
     ): void {
         parent::getModelMarkerArray(
             $row,
-            $markerParam,
+            $markerKey,
             $markerArray,
             $catTitle,
             $imageNum,
@@ -133,7 +125,8 @@ class tx_ttproducts_fal_view extends tx_ttproducts_article_base_view
             $hiddenFields,
             $multiOrderArray,
             $productRowArray,
-            $bEnableTaxZero
+            $bEnableTaxZero,
+            $notOverwritePriceIfSet
         );
 
         $downloadMarker = $this->getMarker();

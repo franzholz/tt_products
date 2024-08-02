@@ -95,7 +95,7 @@ class ImportFalUtility
                         //                  if ($k != 3) continue; // Test
 
                         if (!empty($row[$imageFieldname])) {
-                            $imageArray = explode(',', (string) $row[$imageFieldname]);
+                            $imageArray = explode(',', (string)$row[$imageFieldname]);
                             $sysfileRowArray = [];
                             if (intval($row[$imageFalFieldname]) != 0) {
                                 $where_clause = 'uid_foreign=' . intval($row['uid']) . ' AND tablenames="' . $tablename . '" AND fieldname="' . $imageFalFieldname . '"';

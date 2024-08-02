@@ -39,9 +39,6 @@ use TYPO3\CMS\Core\Core\Environment;
  * @author	Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 class tx_ttproducts_pdf_view_sample07
 {
@@ -52,8 +49,6 @@ class tx_ttproducts_pdf_view_sample07
      *
      * @return	string / boolean	returns the absolute filename of the PDF bill or false
      * 		 			for the tt_producst record, $row
-     *
-     * @access private
      */
     public function generate(
         $cObj,

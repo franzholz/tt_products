@@ -32,9 +32,6 @@
  * @author  Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 use JambageCom\TtProducts\Api\Localization;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -50,8 +47,6 @@ class tx_ttproducts_voucher_view extends tx_ttproducts_table_base_view
     /**
      * Template marker substitution
      * Fills in the markerArray with data for the voucher.
-     *
-     * @access private
      */
     public function getSubpartMarkerArray(
         &$subpartArray,
@@ -86,8 +81,6 @@ class tx_ttproducts_voucher_view extends tx_ttproducts_table_base_view
     /**
      * Template marker substitution
      * Fills in the markerArray with data for the voucher.
-     *
-     * @access private
      */
     public function getMarkerArray(
         &$markerArray

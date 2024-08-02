@@ -560,8 +560,8 @@ class ParameterApi implements SingletonInterface
                     }
 
                     if ($searchKey == $positionSearchVars[$position] || (is_array($searchParamArray[$position]) && key($searchParamArray[$position]) == $k || !is_array($searchParamArray[$position]) && $searchParamArray[$position] == $k)) {
-                        if (str_starts_with((string) $searchValue, '\'') && str_ends_with((string) $searchValue, '\'')) {
-                            $searchValue = substr((string) $searchValue, 1, strlen((string) $searchValue) - 2);
+                        if (str_starts_with((string)$searchValue, '\'') && str_ends_with((string)$searchValue, '\'')) {
+                            $searchValue = substr((string)$searchValue, 1, strlen((string)$searchValue) - 2);
                         }
                         if (isset($fullKeyFieldArray) && is_array($fullKeyFieldArray)) {
                             $tmpArray = GeneralUtility::trimExplode('|', $searchKey);

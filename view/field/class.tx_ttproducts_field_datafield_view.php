@@ -32,9 +32,6 @@
  * @author  Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 
 use JambageCom\Div2007\Utility\FrontendUtility;
@@ -326,8 +323,6 @@ class tx_ttproducts_field_datafield_view extends tx_ttproducts_field_base_view
      * @param	string		name of the marker prefix
      * @param	array		reference to an item array with all the data of the item
      * 				for the tt_producst record, $row
-     *
-     * @access private
      */
     public function getRowMarkerArray(
         $funcTablename,

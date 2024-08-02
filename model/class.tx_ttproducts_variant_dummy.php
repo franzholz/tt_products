@@ -35,9 +35,6 @@ use TYPO3\CMS\Core\SingletonInterface;
  * @author  Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 class tx_ttproducts_variant_dummy implements tx_ttproducts_variant_int, SingletonInterface
 {
@@ -81,7 +78,6 @@ class tx_ttproducts_variant_dummy implements tx_ttproducts_variant_int, Singleto
      * @param	array		the row
      * @param	string	  variants separated by variantSeparator
      *
-     * @access private
      *
      * @see getVariantFromRow
      */
@@ -96,7 +92,6 @@ class tx_ttproducts_variant_dummy implements tx_ttproducts_variant_int, Singleto
      *
      * @return  string	  variants separated by variantSeparator
      *
-     * @access private
      *
      * @see modifyRowFromVariant
      */
@@ -115,7 +110,6 @@ class tx_ttproducts_variant_dummy implements tx_ttproducts_variant_int, Singleto
      *
      * @return  string	  variants separated by variantSeparator
      *
-     * @access private
      *
      * @see modifyRowFromVariant
      */

@@ -241,7 +241,7 @@ $result = [
             'exclude' => 1,
             'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_downloads.file_uid',
             'config' => [
-                ### !!! Watch out for fieldName different from columnName
+                //## !!! Watch out for fieldName different from columnName
                 'type' => 'file',
             ],
         ],

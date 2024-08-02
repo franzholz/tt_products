@@ -66,14 +66,14 @@ class MatchCondition
             $field = $params['1'];
             $operator = '=';
             $value = '';
-            if (str_contains((string) $params['2'], $operator)) {
-                $value = ltrim((string) $params['2'], ' =');
-            } elseif (str_contains((string) $params['2'], 'IN')) {
+            if (str_contains((string)$params['2'], $operator)) {
+                $value = ltrim((string)$params['2'], ' =');
+            } elseif (str_contains((string)$params['2'], 'IN')) {
                 $operator = 'IN';
-                if (str_contains((string) $params['2'], 'NOT IN')) {
+                if (str_contains((string)$params['2'], 'NOT IN')) {
                     $operator = 'NOT IN';
                 }
-                $value = trim((string) $params['3']);
+                $value = trim((string)$params['3']);
             }
 
             if ($operator == '=') {

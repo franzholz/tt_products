@@ -103,7 +103,7 @@ class PaymentApi
                     $usedLang
                 );
 
-                $text = str_replace(' ', '_', (string) $text);
+                $text = str_replace(' ', '_', (string)$text);
                 if ($text == $modeText) {
                     $result = $i;
                     break;

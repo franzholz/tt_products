@@ -32,15 +32,11 @@
  * @author	Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
-use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-
 use JambageCom\TtProducts\Api\BasketApi;
+use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 
+use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base
 {
@@ -583,22 +579,22 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base
             ) .
             $linkOutArray[1];
 
-            $categoryTableView->getMarkerArray(
-                $markerArray,
-                $categoryTableView->getMarker(),
-                $actCategory,
-                $row['pid'],
-                $viewCatTagArray,
-                $theCode,
-                $this->config['limitImage'] ?? '',
-                'listcatImage',
-                [],
-                $pageAsCategory,
-                $basketExtra,
-                $basketRecs,
-                $iCount,
-                ''
-            );
+        $categoryTableView->getMarkerArray(
+            $markerArray,
+            $categoryTableView->getMarker(),
+            $actCategory,
+            $row['pid'],
+            $viewCatTagArray,
+            $theCode,
+            $this->config['limitImage'] ?? '',
+            'listcatImage',
+            [],
+            $pageAsCategory,
+            $basketExtra,
+            $basketRecs,
+            $iCount,
+            ''
+        );
         $markerArray['###LIST_LINK###'] = $linkOut;
         $markerArray['###LIST_LINK_CSS###'] = $css;
         $markerArray['###LIST_LINK_URL###'] = htmlspecialchars($linkUrl);

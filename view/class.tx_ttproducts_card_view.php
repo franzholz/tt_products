@@ -32,9 +32,6 @@
  * @author	Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 use JambageCom\Div2007\Utility\FrontendUtility;
 use JambageCom\TtProducts\Api\Localization;
@@ -55,8 +52,6 @@ class tx_ttproducts_card_view extends tx_ttproducts_table_base_view
      * @param	array		information about the parent HTML form
      *
      * @return	array
-     *
-     * @access private
      */
     public function getMarkerArray($row, &$markerArray, array $allowedArray, $tablename = 'sys_products_cards'): void
     {

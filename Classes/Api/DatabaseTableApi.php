@@ -49,7 +49,7 @@ class DatabaseTableApi
         $result = '';
 
         if ($orderUid) {
-            $orderNumberPrefix = substr((string) $orderNumberPrefix, 0, 30);
+            $orderNumberPrefix = substr((string)$orderNumberPrefix, 0, 30);
             if (
                 strlen($orderNumberPrefix) > 1 &&
                 ($position = strpos($orderNumberPrefix, '%')) !== false

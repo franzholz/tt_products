@@ -32,9 +32,6 @@
  * @author	Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\SingletonInterface;
@@ -494,7 +491,7 @@ class tx_ttproducts_discountprice extends tx_ttproducts_pricecalc_base implement
                     }
                     break;
             }
-        } else {	// nothing
-        }
+        }  	// nothing
+
     } // getCalculatedData
 }

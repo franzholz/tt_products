@@ -5,7 +5,6 @@ defined('TYPO3') || die('Access denied.');
 $extensionKey = 'tt_products';
 $accountField = 'ac_number';
 
-
 // ******************************************************************
 // These are the bank account data used for orders
 // ******************************************************************

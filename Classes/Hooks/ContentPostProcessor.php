@@ -89,8 +89,8 @@ class ContentPostProcessor
             if (isset($pageTitle)) {
                 $pObj->content = preg_replace(
                     '#<title>.*<\/title>#',
-                    '<title>' . htmlspecialchars((string) $pageTitle) . '</title>',
-                    (string) $pObj->content
+                    '<title>' . htmlspecialchars((string)$pageTitle) . '</title>',
+                    (string)$pObj->content
                 );
             }
         }

@@ -35,19 +35,16 @@
  * @author	Klaus Zierer <zierer@pz-systeme.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
-
-use TYPO3\CMS\Core\SingletonInterface;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\MathUtility;
 
 use JambageCom\TtProducts\Api\BasketApi;
 use JambageCom\TtProducts\Api\ParameterApi;
 use JambageCom\TtProducts\Api\PriceApi;
+
 use JambageCom\TtProducts\Model\Field\FieldInterface;
+use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
 
 class tx_ttproducts_basket implements SingletonInterface
 {
@@ -341,9 +338,9 @@ class tx_ttproducts_basket implements SingletonInterface
                             }
                         } elseif (is_array($tmpCount)) {
                             $basketExtNew[$tmpUid][$tmpExtVar] = $tmpCount;
-                        } else {
-                            // nothing
                         }
+                        // nothing
+
                     }
                 } else {
                     $basketExtNew[$tmpUid] = $tmpSubArr;
@@ -722,7 +719,7 @@ class tx_ttproducts_basket implements SingletonInterface
                 $count = $this->conf['basketMaxQuantity'];
             }
         } else {
-            $count = MathUtility::forceIntegerInRange($quantity, 0, (int) $this->conf['basketMaxQuantity'], 0);
+            $count = MathUtility::forceIntegerInRange($quantity, 0, (int)$this->conf['basketMaxQuantity'], 0);
         }
 
         return $count;

@@ -33,10 +33,6 @@
  * @author	Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
- *
  */
 use JambageCom\TtProducts\Api\ParameterApi;
 use JambageCom\TtProducts\Api\PluginApi;

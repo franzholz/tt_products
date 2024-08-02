@@ -32,9 +32,6 @@
  * @author  Franz Holzinger <franz@ttproducts.de>
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
- *
- * @package TYPO3
- * @subpackage tt_products
  */
 use JambageCom\Div2007\Utility\FrontendUtility;
 use JambageCom\Div2007\Utility\ObsoleteUtility;
@@ -184,12 +181,10 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view
      * @param	array		information about the parent HTML form
      *
      * @return	array
-     *
-     * @access private
      */
     public function getModelMarkerArray(
         $row,
-        $markerParam,
+        $markerKey,
         &$markerArray,
         $catTitle,
         $imageNum = 0,
@@ -220,7 +215,7 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view
         $cObj = FrontendUtility::getContentObjectRenderer();
         parent::getModelMarkerArray(
             $row,
-            $markerParam,
+            $markerKey,
             $markerArray,
             $catTitle,
             $imageNum,
