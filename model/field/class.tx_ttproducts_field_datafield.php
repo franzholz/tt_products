@@ -61,12 +61,16 @@ class tx_ttproducts_field_datafield extends tx_ttproducts_field_base
                 $fileReferenceUid = $fileRecord['uid'];
                 $fileObj = null;
                 $fileInfo = null;
-                FileAbstractionUtility::getFileInfo(
+                $hasFileInfo = FileAbstractionUtility::getFileInfo(
                     $fileObj,
                     $fileInfo,
                     $fileReferenceUid
                 );
-                $result[] = 'fileadmin/' . $fileInfo['identifier'];
+                if ($hasFileInfo) {
+                    $result[] =
+                        $fileObj->getStorage()->getConfiguration()['basePath'] .
+                            $fileInfo['identifier'];
+                }
             }
         }
 

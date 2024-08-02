@@ -134,13 +134,10 @@ class tx_ttproducts_field_media extends tx_ttproducts_field_base
                 !$skip &&
                 !empty($sysfileRowArray)
             ) {
-                $storageRepository = GeneralUtility::makeInstance(StorageRepository::class);
-                $storage = $storageRepository->getDefaultStorage() ?? $storageRepository->findByUid(1);
-
                 foreach ($sysfileRowArray as $fileUid => $sysfileRow) {
                     $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
                     $fileObj = $resourceFactory->getFileReferenceObject($sysfileRow['uid']);
-                    $fileInfo = $storage->getFileInfo($fileObj);
+                    $fileInfo = $fileObj->getStorage()->getFileInfo($fileObj);
 
                     if ($fal) {
                         $fileArray[$sysfileRow['uid']] = array_merge($fileInfo, $sysfileRow);
