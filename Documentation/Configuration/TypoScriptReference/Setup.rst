@@ -52,6 +52,8 @@ View Properties
 	domain_                     :ref:`t3tsref:data-type-string`            no
 	altMainMarkers_             array of :ref:`t3tsref:data-type-string`   no
 	pid_list_                   :ref:`t3tsref:data-type-string`            yes
+	stdSearchFieldExt           list of fields                          `  no
+	limit_                      :ref:`t3tsref:data-type-positive-integer`  no                     50
 
 
 
@@ -334,21 +336,25 @@ to the custom supplied design :typoscript:`###BASKET_DESIGN2###` (found in the s
 
 
 
-	.. _ts-plugin-tt-products-pidList:
+	.. _ts-plugin-tt-products-stdSearchFieldExt:
 
-pid_list
-""""""""
+stdSearchFieldExt
+"""""""""""""""""
 
-:typoscript:`plugin.tt_products.pid_list =` :ref:`t3tsref:data-type-string`
+:typoscript:`plugin.tt_products.stdSearchFieldExt =`title,subtitle,note
 
-The pids from where to fetch products, categories and so on. Default is the current page. Accepts multiple pids commaseparated!
+Search fields
+Default internal :typoscript:`list is title,subtitle,note`. You can specify your default fields here.
 
 
-	.. _ts-plugin-tt-products-pidList:
+	.. _ts-plugin-tt-products-limit:
 
-pid_list
-""""""""
+limit
+"""""
 
-:typoscript:`plugin.tt_products.pid_list =` :ref:`t3tsref:data-type-string`
+:typoscript:`plugin.tt_products.limit =`  :ref:`t3tsref:data-type-positive-integer`
 
-The pids from where to fetch products, categories and so on. Default is the current page. Accepts multiple pids commaseparated!
+Max items displayed. The maximum number of items displayed on one page.
+
+
+
