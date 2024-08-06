@@ -22,6 +22,9 @@ $result = [
         'mainpalette' => 1,
         'iconfile' => 'EXT:' . $extensionKey . '/Resources/Public/Icons/sys_products_orders.gif',
         'searchFields' => 'uid,name,first_name,last_name,vat_id,address,zip,city,telephone,email,giftcode,bill_no,tracking_code',
+        'security' => [
+            'ignorePageTypeRestriction' => true,
+        ]
     ],
     'columns' => [
         'hidden' => [

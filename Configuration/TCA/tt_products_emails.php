@@ -27,6 +27,9 @@ $result = [
         'mainpalette' => 1,
         'iconfile' => 'EXT:' . $extensionKey . '/Resources/Public/Icons/tt_products_emails.gif',
         'searchFields' => 'name,email',
+        'security' => [
+            'ignorePageTypeRestriction' => true,
+        ]
     ],
     'columns' => [
         'tstamp' => [

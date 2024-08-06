@@ -28,6 +28,9 @@ $result = [
         'origUid' => 't3_origuid',
         'iconfile' => 'EXT:' . $extensionKey . '/Resources/Public/Icons/tt_products_texts.gif',
         'searchFields' => 'title,marker,note',
+        'security' => [
+            'ignorePageTypeRestriction' => true,
+        ]
     ],
     'columns' => [
         'tstamp' => [

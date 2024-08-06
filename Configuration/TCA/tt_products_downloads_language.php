@@ -31,6 +31,9 @@ $result = [
         'iconfile' => 'EXT:' . $extensionKey . '/Resources/Public/Icons/tt_products_downloads_language.gif',
         'languageField' => 'sys_language_uid',
         'searchFields' => 'title,note',
+        'security' => [
+            'ignorePageTypeRestriction' => true,
+        ]
     ],
     'columns' => [
         'tstamp' => [

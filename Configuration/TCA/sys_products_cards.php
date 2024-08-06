@@ -19,6 +19,9 @@ $result = [
         'crdate' => 'crdate',
         'iconfile' => 'EXT:' . $extensionKey . '/Resources/Public/Icons/sys_products_cards.gif',
         'searchFields' => 'owner_name,cc_number',
+        'security' => [
+            'ignorePageTypeRestriction' => true,
+        ]
     ],
     'columns' => [
         'endtime' => [
