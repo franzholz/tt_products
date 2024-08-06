@@ -41,6 +41,9 @@ $result = [
         'mainpalette' => 1,
         'iconfile' => 'EXT:' . $extensionKey . '/Resources/Public/Icons/tt_products.gif',
         'searchFields' => 'uid,title,subtitle,itemnumber,ean,note,note2,www',
+        'security' => [
+            'ignorePageTypeRestriction' => true,
+        ]
     ],
     'columns' => [
         'hidden' => [

@@ -33,6 +33,9 @@ $result = [
         'languageField' => 'sys_language_uid',
         'mainpalette' => 1,
         'searchFields' => 'title,subtitle,catid,keyword,note,note2',
+        'security' => [
+            'ignorePageTypeRestriction' => true,
+        ]
     ],
     'columns' => [
         'sys_language_uid' => [

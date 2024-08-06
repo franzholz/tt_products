@@ -23,6 +23,9 @@ $result = [
         'crdate' => 'crdate',
         'iconfile' => 'EXT:' . $extensionKey . '/Resources/Public/Icons/sys_products_accounts.gif',
         'searchFields' => 'owner_name,' . $accountField,
+        'security' => [
+            'ignorePageTypeRestriction' => true,
+        ]
     ],
     'columns' => [
         'iban' => [
