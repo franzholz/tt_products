@@ -6,6 +6,9 @@ defined('TYPO3') || die('Access denied.');
 // ******************************************************************
 // This is the language overlay for the products table, tt_products
 // ******************************************************************
+
+use TYPO3\CMS\Core\Resource\File;
+
 $extensionKey = 'tt_products';
 $table = 'tt_products_language';
 $languageSubpath = '/Resources/Private/Language/';

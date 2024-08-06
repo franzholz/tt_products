@@ -2,6 +2,8 @@
 
 defined('TYPO3') || die('Access denied.');
 
+use TYPO3\CMS\Core\Resource\File;
+
 $extensionKey = 'tt_products';
 
 // ******************************************************************

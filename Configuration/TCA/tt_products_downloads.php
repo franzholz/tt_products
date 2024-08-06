@@ -6,6 +6,8 @@ defined('TYPO3') || die('Access denied.');
 // This is the standard TypoScript products downloads table, tt_products_downloads
 // ******************************************************************
 
+use TYPO3\CMS\Core\Resource\File;
+
 $extensionKey = 'tt_products';
 $languageSubpath = '/Resources/Private/Language/';
 $languageLglPath = 'LLL:EXT:core' . $languageSubpath . 'locallang_general.xlf:LGL.';
