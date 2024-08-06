@@ -2,11 +2,13 @@
 
 defined('TYPO3') || die('Access denied.');
 
-$extensionKey = 'tt_products';
-
 // ******************************************************************
 // This is the standard TypoScript products article table, tt_products_articles
 // ******************************************************************
+
+use TYPO3\CMS\Core\Resource\File;
+
+$extensionKey = 'tt_products';
 
 $languageSubpath = '/Resources/Private/Language/';
 $languageLglPath = 'LLL:EXT:core' . $languageSubpath . 'locallang_general.xlf:LGL.';
@@ -510,60 +512,57 @@ $result = [
         'image_uid' => [
             'exclude' => 1,
             'label' => $languageLglPath . 'image',
-            'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
-                'image_uid',
-                [
-                    'appearance' => [
-                        'createNewRelationLinkTitle' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:images.addFileReference',
-                        'collapseAll' => true,
+            'config' => [
+                'type' => 'file',
+                'appearance' => [
+                    'createNewRelationLinkTitle' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:images.addFileReference',
+                    'collapseAll' => true,
+                ],
+                'foreign_types' => [
+                    '0' => [
+                        'showitem' => '
+                        --palette--;LLL:EXT:core' . $languageSubpath .
+                        'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
+                        --palette--;;filePalette',
                     ],
-                    'foreign_types' => [
-                        '0' => [
-                            'showitem' => '
-                            --palette--;LLL:EXT:core' . $languageSubpath .
-                            'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                            --palette--;;filePalette',
-                        ],
-                        \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => [
-                            'showitem' => '
-                            --palette--;LLL:EXT:core' . $languageSubpath .
-                            'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                            --palette--;;filePalette',
-                        ],
+                    File::FILETYPE_IMAGE => [
+                        'showitem' => '
+                        --palette--;LLL:EXT:core' . $languageSubpath .
+                        'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
+                        --palette--;;filePalette',
                     ],
                 ],
-                $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']
-            ),
+                'allowed' => 'common-image-types',
+            ],
         ],
         'smallimage_uid' => [
             'exclude' => 1,
             'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products.smallimage',
-            'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig(
-                'smallimage_uid',
-                [
-                    'appearance' => [
-                        'createNewRelationLinkTitle' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:images.addFileReference',
-                        'collapseAll' => true,
+            'config' => [
+                'type' => 'file',
+                'appearance' => [
+                    'createNewRelationLinkTitle' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:images.addFileReference',
+                    'collapseAll' => true,
+                ],
+                'foreign_types' => [
+                    '0' => [
+                        'showitem' => '
+                        --palette--;LLL:EXT:core' . $languageSubpath .
+                        'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
+                        --palette--;;filePalette',
                     ],
-                    'foreign_types' => [
-                        '0' => [
-                            'showitem' => '
-                            --palette--;LLL:EXT:core' . $languageSubpath .
-                            'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                            --palette--;;filePalette',
-                        ],
-                        \TYPO3\CMS\Core\Resource\File::FILETYPE_IMAGE => [
-                            'showitem' => '
-                            --palette--;LLL:EXT:core' . $languageSubpath .
-                            'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
-                            --palette--;;filePalette',
-                        ],
+                    File::FILETYPE_IMAGE => [
+                        'showitem' => '
+                        --palette--;LLL:EXT:core' . $languageSubpath .
+                        'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
+                        --palette--;;filePalette',
                     ],
                 ],
-                $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']
-            ),
+                'allowed' => 'common-image-types',
+            ],
         ],
     ],
+
     'types' => [
         '1' => [
                 'columnsOverrides' => [
@@ -578,7 +577,7 @@ $result = [
                         ],
                     ],
                 ],
-                'showitem' => 'tstamp, crdate, title,--palette--;;3, itemnumber, slug, inStock, basketminquantity,basketmaxquantity, price, --palette--;;2, weight, note,note2,image,smallimage, hidden,
+                'showitem' => 'tstamp, crdate, title,--palette--;;3, itemnumber, slug, inStock, basketminquantity,basketmaxquantity, price, --palette--;;2, weight, note,note2,image_uid,smallimage_uid, hidden,
                     --div--;LLL:EXT:frontend/Resources/Private/Language/locallang_tca.xlf:pages.tabs.access,
                 --palette--;;access, ' .
                 '--div--;LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products.variants,color,color2,--palette--;;9,size,size2,--palette--;;10,description,gradings,material,quality,' .
