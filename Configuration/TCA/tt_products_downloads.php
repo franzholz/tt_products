@@ -6,9 +6,12 @@ defined('TYPO3') || die('Access denied.');
 // This is the standard TypoScript products downloads table, tt_products_downloads
 // ******************************************************************
 
+use TYPO3\CMS\Core\Resource\File;
+
 $extensionKey = 'tt_products';
 $languageSubpath = '/Resources/Private/Language/';
 $languageLglPath = 'LLL:EXT:core' . $languageSubpath . 'locallang_general.xlf:LGL.';
+$palleteAddition = ',--palette--;LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_file_reference.shopAttributes;tt_productsPalette';
 
 $result = [
     'ctrl' => [
@@ -223,7 +226,66 @@ $result = [
         'file_uid' => [
             'exclude' => 1,
             'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_downloads.file_uid',
-            'config' => \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::getFileFieldTCAConfig('file_uid'),
+            'config' => [
+                'type' => 'file',
+                'appearance' => [
+                    'createNewRelationLinkTitle' => 'LLL:EXT:frontend/Resources/Private/Language/locallang_ttc.xlf:images.addFileReference',
+                    'collapseAll' => true,
+                ],
+                'foreign_types' => [
+                    '0' => [
+                        'showitem' => '
+                        --palette--;LLL:EXT:core' . $languageSubpath . 'locallang_tca.xlf:sys_file_reference.basicoverlayPalette;basicoverlayPalette,
+                        --palette--;;filePalette' . $palleteAddition,
+                    ],
+                    '1' => [
+                        'showitem' => '
+                        --palette--;LLL:EXT:core' . $languageSubpath . 'locallang_tca.xlf:sys_file_reference.basicoverlayPalette;basicoverlayPalette,
+                        --palette--;;filePalette' . $palleteAddition,
+                    ],
+                    '2' => [
+                        'showitem' => '
+                        --palette--;LLL:EXT:core' . $languageSubpath . 'locallang_tca.xlf:sys_file_reference.basicoverlayPalette;basicoverlayPalette,
+                        --palette--;;filePalette' . $palleteAddition,
+                    ],
+                    '3' => [
+                        'showitem' => '
+                        --palette--;LLL:EXT:core' . $languageSubpath . 'locallang_tca.xlf:sys_file_reference.basicoverlayPalette;basicoverlayPalette,
+                        --palette--;;filePalette' . $palleteAddition,
+                    ],
+                    '4' => [
+                        'showitem' => '
+                        --palette--;LLL:EXT:core' . $languageSubpath . 'locallang_tca.xlf:sys_file_reference.basicoverlayPalette;basicoverlayPalette,
+                        --palette--;;filePalette' . $palleteAddition,
+                    ],
+                    '5' => [
+                        'showitem' => '
+                        --palette--;LLL:EXT:core' . $languageSubpath . 'locallang_tca.xlf:sys_file_reference.basicoverlayPalette;basicoverlayPalette,
+                        --palette--;;filePalette' . $palleteAddition,
+                    ],
+                    File::FILETYPE_TEXT => [
+                        'showitem' => '
+                        --palette--;LLL:EXT:core' . $languageSubpath . 'locallang_tca.xlf:sys_file_reference.basicoverlayPalette;basicoverlayPalette,
+                        --palette--;;filePalette' . $palleteAddition,
+                    ],
+                    File::FILETYPE_IMAGE => [
+                        'showitem' => '
+                        --palette--;LLL:EXT:core' . $languageSubpath . 'locallang_tca.xlf:sys_file_reference.imageoverlayPalette;imageoverlayPalette,
+                        --palette--;;filePalette' . $palleteAddition,
+                    ],
+                    File::FILETYPE_AUDIO => [
+                        'showitem' => '
+                        --palette--;LLL:EXT:core' . $languageSubpath . 'locallang_tca.xlf:sys_file_reference.audioOverlayPalette;audioOverlayPalette,
+                        --palette--;;filePalette' . $palleteAddition,
+                    ],
+                    File::FILETYPE_VIDEO => [
+                        'showitem' => '
+                        --palette--;LLL:EXT:core' . $languageSubpath . 'locallang_tca.xlf:sys_file_reference.videoOverlayPalette;videoOverlayPalette,
+                        --palette--;;filePalette' . $palleteAddition,
+                    ],
+                ],
+                'allowed' => 'common-image-types',
+            ],
         ],
     ],
     'types' => [
