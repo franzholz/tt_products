@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/PiInt/locallang_db.xlf" date="2021-11-23T20:36:18Z" product-name="tt_products" target-language="ru">
+  <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/PiInt/locallang_db.xlf" date="2021-11-23T20:36:18Z" product-name="tt_products" target-language="ru-UA">
     <header/>
     <body>
       <trans-unit id="tt_content.list_type_pi_int" resname="tt_content.list_type_pi_int">
