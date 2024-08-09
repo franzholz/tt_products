@@ -49,7 +49,6 @@ class tx_ttproducts_pi_search_base extends AbstractPlugin implements SingletonIn
 {
     public $prefixId = TT_PRODUCTS_EXT;
     public $extKey = TT_PRODUCTS_EXT;	// The extension key.
-    public $pi_checkCHash = true;		// activate cHash
     public $bRunAjax = false;		// overrride this
 
     public function setContentObjectRenderer(ContentObjectRenderer $cObj): void
