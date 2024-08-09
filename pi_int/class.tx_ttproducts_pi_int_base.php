@@ -48,7 +48,6 @@ use TYPO3\CMS\Frontend\Plugin\AbstractPlugin;
 class tx_ttproducts_pi_int_base extends AbstractPlugin implements SingletonInterface
 {
     public $prefixId = TT_PRODUCTS_EXT;
-    public $scriptRelPath = 'pi_int_base/class.tx_ttproducts_pi_int_base.php';	// Path to this script relative to the extension dir.
     public $extKey = TT_PRODUCTS_EXT;	// The extension key.
     public $bRunAjax = false;		// overrride this
 

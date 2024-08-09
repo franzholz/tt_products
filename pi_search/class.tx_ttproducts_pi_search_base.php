@@ -48,7 +48,6 @@ use TYPO3\CMS\Frontend\Plugin\AbstractPlugin;
 class tx_ttproducts_pi_search_base extends AbstractPlugin implements SingletonInterface
 {
     public $prefixId = TT_PRODUCTS_EXT;
-    public $scriptRelPath = 'pi_search_base/class.tx_ttproducts_pi_search_base.php';	// Path to this script relative to the extension dir.
     public $extKey = TT_PRODUCTS_EXT;	// The extension key.
     public $pi_checkCHash = true;		// activate cHash
     public $bRunAjax = false;		// overrride this
