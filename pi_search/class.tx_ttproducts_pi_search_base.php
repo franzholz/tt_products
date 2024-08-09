@@ -38,12 +38,13 @@
  * @subpackage tt_products
  *
  */
-use JambageCom\TtProducts\Api\ParameterApi;
-use JambageCom\TtProducts\Api\PluginApi;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
-use TYPO3\CMS\Frontend\Plugin\AbstractPlugin;
+
+use JambageCom\Div2007\Compatibility\AbstractPlugin;
+use JambageCom\TtProducts\Api\ParameterApi;
+use JambageCom\TtProducts\Api\PluginApi;
 
 class tx_ttproducts_pi_search_base extends AbstractPlugin implements SingletonInterface
 {
