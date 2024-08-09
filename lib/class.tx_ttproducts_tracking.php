@@ -48,6 +48,7 @@ use JambageCom\Div2007\Utility\TableUtility;
 
 use JambageCom\TtProducts\Api\BasketApi;
 use JambageCom\TtProducts\Api\Localization;
+use JambageCom\TtProducts\Api\ParameterApi;
 use JambageCom\TtProducts\Api\PaymentApi;
 use JambageCom\TtProducts\Api\PaymentShippingHandling;
 
@@ -197,13 +198,13 @@ class tx_ttproducts_tracking implements SingletonInterface
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $orderObj = $tablesObj->get('sys_products_orders');
         $markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
-        $pibaseObj = GeneralUtility::makeInstance('tx_ttproducts_pi1_base');
         $languageObj = GeneralUtility::makeInstance(Localization::class);
         $basketView = GeneralUtility::makeInstance('tx_ttproducts_basket_view');
         $infoObj = GeneralUtility::makeInstance('tx_ttproducts_info');
         $infoViewObj = GeneralUtility::makeInstance('tx_ttproducts_info_view');
         // 		$paymentshippingObj = GeneralUtility::makeInstance('tx_ttproducts_paymentshipping');
         $theTable = 'sys_products_orders';
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
         $piVars = tx_ttproducts_model_control::getPiVars();
 
         $orderData = $orderObj->getOrderData($orderRow);
@@ -576,7 +577,7 @@ class tx_ttproducts_tracking implements SingletonInterface
 
             while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
                 $tmpStatuslog = unserialize($row['status_log']);
-                $classPrefix = str_replace('_', '-', $pibaseObj->prefixId);
+                $classPrefix = str_replace('_', '-', $parameterApi->getPrefixId();
                 $this->searchOrderStatus($tmpStatuslog, $tmpPaid, $tmpClosed);
                 $class = ($tmpPaid ? $classPrefix . '-paid' : '');
                 $class = ($class ? $class . ' ' : '') . ($tmpClosed ? $classPrefix . '-closed' : '');
@@ -761,7 +762,7 @@ class tx_ttproducts_tracking implements SingletonInterface
         $markerArray['###ORDER_DATE###'] = $this->cObj->stdWrap($orderRow['crdate'] ?? '', $this->conf['orderDate_stdWrap.'] ?? '');
         $markerArray['###TRACKING_NUMBER###'] = $trackingCode;
         $markerArray['###UPDATE_CODE###'] = $updateCode;
-        $markerArray['###TRACKING_DATA_NAME###'] = $pibaseObj->prefixId . '[data]';
+        $markerArray['###TRACKING_DATA_NAME###'] = $parameterApi->getPrefixId() . '[data]';
         $markerArray['###TRACKING_DATA_VALUE###'] = ($bStatusValid ? '' : $newData);
         $markerArray['###TRACKING_STATUS_COMMENT_NAME###'] = 'orderRecord[status_comment]';
         $markerArray['###TRACKING_STATUS_COMMENT_VALUE###'] = ($bStatusValid ? '' : $orderRecord['status_comment'] ?? '');
