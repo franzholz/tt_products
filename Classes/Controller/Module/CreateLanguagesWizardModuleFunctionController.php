@@ -113,7 +113,7 @@ class CreateLanguagesWizardModuleFunctionController
         $languageFile = 'EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_db.xlf';
         $this->getLanguageService()->includeLLFile($languageFile);
 
-        $execute = GeneralUtility::_GP('execute');
+        $execute = $GLOBALS['TYPO3_REQUEST']->getParsedBody()['execute'] ?? $GLOBALS['TYPO3_REQUEST']->getQueryParams()['execute'] ?? null;
 
         if ($execute) {
             $createLanguages = GeneralUtility::makeInstance(CreateLanguagesUtility::class);
@@ -209,7 +209,7 @@ class CreateLanguagesWizardModuleFunctionController
             $this->extObj = GeneralUtility::makeInstance($this->extClassConf['name']);
             $this->extObj->init($this->pObj, $this->extClassConf);
             // Re-write:
-            $this->pObj->MOD_SETTINGS = BackendUtility::getModuleData($this->pObj->MOD_MENU, GeneralUtility::_GP('SET'), $this->pObj->MCONF['name']);
+            $this->pObj->MOD_SETTINGS = BackendUtility::getModuleData($this->pObj->MOD_MENU, $GLOBALS['TYPO3_REQUEST']->getParsedBody()['SET'] ?? $GLOBALS['TYPO3_REQUEST']->getQueryParams()['SET'] ?? null, $this->pObj->MCONF['name']);
         }
     }
 
