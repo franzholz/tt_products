@@ -14,10 +14,11 @@ namespace JambageCom\TtProducts\Controller\Module;
  *
  * The TYPO3 project - inspiring people to share!
  */
-use JambageCom\TtProducts\Utility\ImportFalUtility;
 use TYPO3\CMS\Backend\Utility\BackendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Fluid\View\StandaloneView;
+
+use JambageCom\TtProducts\Utility\ImportFalUtility;
 
 /**
  * Creates the "Import tables" wizard.
@@ -101,6 +102,7 @@ class ImportFalWizardModuleFunctionController
      */
     public function main()
     {
+        $number = null;
         $assigns = [];
         // Rendering of the output via fluid
         $view = GeneralUtility::makeInstance(StandaloneView::class);
