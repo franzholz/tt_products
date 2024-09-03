@@ -2,6 +2,8 @@
 
 defined('TYPO3') || die('Access denied.');
 
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
+
 call_user_func(function ($extensionKey): void {
     if (!defined('TT_PRODUCTS_EXT')) {
         define('TT_PRODUCTS_EXT', 'tt_products');
@@ -31,6 +33,9 @@ call_user_func(function ($extensionKey): void {
     // The autoloader does not work in ext_localconf.php and in the folder Configuratin/TCA
     require_once PATH_BE_TTPRODUCTS . 'control/class.tx_ttproducts_control_address.php';
     require_once PATH_BE_TTPRODUCTS . 'Classes/Domain/Model/Dto/EmConfiguration.php';
+
+    $typo3VersionArray = VersionNumberUtility::convertVersionStringToArray(VersionNumberUtility::getCurrentTypo3Version());
+    $typo3VersionMain = $typo3VersionArray['version_main'];
 
     if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded(POOL_EXT)) {
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/pool/mod_main/index.php']['addClass'][] = 'EXT:' . $extensionKey . '/hooks/class.tx_ttproducts_hooks_pool.php:&tx_ttproducts_hooks_pool';
@@ -166,8 +171,11 @@ call_user_func(function ($extensionKey): void {
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['addressTable'] = $addressTable;
 
     // Register Status Report Hook
-    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['reports']['tx_reports']['status']['providers']['Shop System'][] = \JambageCom\TtProducts\Hooks\StatusProvider::class;
-
+    if ($typo3VersionMain >= 12) {
+        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['reports']['tx_reports']['status']['providers']['Shop System'][] = \JambageCom\TtProducts\Hooks\StatusProvider::class;
+    } else {
+        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['reports']['tx_reports']['status']['providers']['Shop System'][] = \JambageCom\TtProducts\Hooks\StatusProvider::class;
+    }
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['productMMArticleTtProducts']
         = \JambageCom\TtProducts\Updates\ProductMMArticleTtProductsUpdater::class;
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['productMMGraduatedPriceTtProducts']

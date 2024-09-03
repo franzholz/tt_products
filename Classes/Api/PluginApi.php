@@ -337,7 +337,7 @@ class PluginApi
         $basketApi = GeneralUtility::makeInstance(BasketApi::class);
 
         if (!self::$bHasBeenInitialised) {
-            $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
+            $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'] ?? [];
             ArrayUtility::mergeRecursiveWithOverrule($conf, $pluginConf);
             $config = [];
             $cObj = FrontendUtility::getContentObjectRenderer([]);

@@ -178,7 +178,7 @@ class tx_ttproducts_main implements SingletonInterface
                 true
             );
 
-        $this->codeArray = GeneralUtility::trimExplode(',', $config['code'], 1);
+        $this->codeArray = GeneralUtility::trimExplode(',', $config['code'], true);
 
         $required_pivars =
             FlexformUtility::get(

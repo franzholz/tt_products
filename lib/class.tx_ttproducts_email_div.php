@@ -70,7 +70,7 @@ class tx_ttproducts_email_div
 
         // Notification email
         $recipients = $recipient;
-        $recipients = GeneralUtility::trimExplode(',', $recipients, 1);
+        $recipients = GeneralUtility::trimExplode(',', $recipients, true);
 
         if (count($recipients)) {	// If any recipients, then compile and send the mail.
             $emailContent =
@@ -164,7 +164,7 @@ class tx_ttproducts_email_div
         $sendername = ($giftRow['personname'] ?: $conf['orderEmail_fromName']);
         $senderemail = ($giftRow['personemail'] ?: $conf['orderEmail_from']);
         $recipients = $recipient;
-        $recipients = GeneralUtility::trimExplode(',', $recipients, 1);
+        $recipients = GeneralUtility::trimExplode(',', $recipients, true);
 
         if (count($recipients)) {	// If any recipients, then compile and send the mail.
             $emailContent = trim($templateService->getSubpart($templateCode, '###' . $templateMarker . '###'));

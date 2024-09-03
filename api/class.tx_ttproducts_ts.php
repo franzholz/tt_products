@@ -184,7 +184,7 @@ class tx_ttproducts_ts implements SingletonInterface
     public function processMemo(): void
     {
         $funcTablename = 'tt_products';
-        $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
+        $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'] ?? [];
         $piVars = GeneralUtility::_GPmerged('tt_products');
 
         tx_ttproducts_control_memo::process($funcTablename, $piVars, $conf);

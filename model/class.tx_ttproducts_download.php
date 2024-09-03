@@ -186,7 +186,7 @@ class tx_ttproducts_download extends tx_ttproducts_article_base
                     }
 
                     $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
-                    $fileObj = $resourceFactory->getFileReferenceObject($sysfileRow['uid']);
+                    $fileObj = $resourceFactory->getFileReferenceObject((int) $sysfileRow['uid']);
                     $fileInfo = $storage->getFileInfo($fileObj);
                     $fileArray[$sysfileRow['uid']] = Environment::getPublicPath() . '/fileadmin' . $fileInfo['identifier'];
                 }

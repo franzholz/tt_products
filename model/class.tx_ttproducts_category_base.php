@@ -267,7 +267,7 @@ abstract class tx_ttproducts_category_base extends tx_ttproducts_table_base
     public function getRootArray($rootCat, $categoryArray, $autoRoot = true)
     {
         $rootArray = [];
-        $rootCatArray = GeneralUtility::trimExplode(',', $rootCat);
+        $rootCatArray = GeneralUtility::trimExplode(',', (string) $rootCat);
         foreach ($categoryArray as $uid => $row) {
             if (
                 MathUtility::canBeInterpretedAsInteger($uid) &&
@@ -295,7 +295,7 @@ abstract class tx_ttproducts_category_base extends tx_ttproducts_table_base
     public function getRootpathArray(&$relationArray, $rootCat, $currentCat)
     {
         $rootpathArray = [];
-        $rootCatArray = GeneralUtility::trimExplode(',', $rootCat);
+        $rootCatArray = GeneralUtility::trimExplode(',', (string) $rootCat);
         $uid = $currentCat;
         if (!empty($uid)) {
             $count = 0;

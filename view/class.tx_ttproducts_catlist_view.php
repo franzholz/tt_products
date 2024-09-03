@@ -226,7 +226,7 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base
     // returns the category list view
     public function printView(
         $funcTablename,
-        &$templateCode,
+        $templateCode,
         $theCode,
         &$error_code,
         $templateArea = 'ITEM_CATLIST_TEMPLATE',

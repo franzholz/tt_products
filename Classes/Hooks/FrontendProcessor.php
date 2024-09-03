@@ -41,7 +41,7 @@ class FrontendProcessor
 {
     public function loginConfirmed($params, $pObj): void
     {
-        $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
+        $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'] ?? [];
 
         \tx_ttproducts_control_memo::copySession2Feuser($params, $pObj, $conf);
         $this->resetAdresses($params, $pObj);

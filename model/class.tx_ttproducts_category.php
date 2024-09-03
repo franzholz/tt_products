@@ -241,7 +241,7 @@ class tx_ttproducts_category extends tx_ttproducts_category_base
     ) {
         $bUseReference = false;
         $relatedArray = [];
-        $uidArray = $rootArray = GeneralUtility::trimExplode(',', $rootUids);
+        $uidArray = $rootArray = GeneralUtility::trimExplode(',', (string) $rootUids);
         $tableObj = $this->getTableObj();
         $rootLine = $this->getRootline($uidArray, $currentCat, $pid);
 
@@ -492,9 +492,9 @@ class tx_ttproducts_category extends tx_ttproducts_category_base
         $allowedCats = ''
     ) {
         $relationArray = [];
-        $rootArray = GeneralUtility::trimExplode(',', $rootUids);
-        $catArray = GeneralUtility::trimExplode(',', $allowedCats);
-        $excludeArray = GeneralUtility::trimExplode(',', $excludeCats);
+        $rootArray = GeneralUtility::trimExplode(',', (string) $rootUids);
+        $catArray = GeneralUtility::trimExplode(',', (string) $allowedCats);
+        $excludeArray = GeneralUtility::trimExplode(',', (string) $excludeCats);
         foreach ($excludeArray as $cat) {
             $excludeKey = array_search($cat, $catArray);
             if ($excludeKey !== false) {

@@ -114,7 +114,7 @@ class EditVariantApi implements SingletonInterface
     public function evalValues($dataValue, $config)
     {
         $result = true;
-        $listOfCommands = GeneralUtility::trimExplode(',', $config, 1);
+        $listOfCommands = GeneralUtility::trimExplode(',', $config, true);
 
         foreach ($listOfCommands as $cmd) {
             $cmdParts = preg_split('/\[|\]/', $cmd); // Point is to enable parameters after each command enclosed in brackets [..]. These will be in position 1 in the array.

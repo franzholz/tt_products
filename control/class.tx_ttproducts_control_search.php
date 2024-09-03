@@ -93,7 +93,7 @@ class tx_ttproducts_control_search implements SingletonInterface, tx_ttproducts_
         $this->cObj->data['pi_flexform'] = GeneralUtility::xml2array($this->cObj->data['pi_flexform'] ?? '');
         $newConfig = $this->getControlConfig($this->cObj, $conf, $this->cObj->data);
         $config = array_merge($config, $newConfig);
-        $this->codeArray = GeneralUtility::trimExplode(',', $config['code'], 1);
+        $this->codeArray = GeneralUtility::trimExplode(',', $config['code'], true);
         $config['LLkey'] = $pibaseObj->LLkey;
         $config['templateSuffix'] = strtoupper($conf['templateSuffix']);
         $templateSuffix = FlexformUtility::get($flexformArray, 'template_suffix');

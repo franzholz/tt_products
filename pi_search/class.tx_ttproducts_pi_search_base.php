@@ -72,7 +72,7 @@ class tx_ttproducts_pi_search_base extends AbstractPlugin implements SingletonIn
         $parameterApi->setPrefixId($this->prefixId);
         PluginApi::init($conf);
 
-        $confMain = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
+        $confMain = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'] ?? [];
         $this->conf = array_merge($confMain, $conf);
         $config = [];
         $mainObj = GeneralUtility::makeInstance('tx_ttproducts_control_search');	// fetch and store it as persistent object

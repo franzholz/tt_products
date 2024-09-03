@@ -4,8 +4,8 @@ services:
     autoconfigure: true
     public: false
   JambageCom\TtProducts\:
-    resource: '../Classes/*'
-    exclude: ['../Classes/{Middleware,UserFunc,Api}/*']
+    resource: '../Classes/'
+    exclude: ['../Classes/{Middleware,UserFunc,Api,Hooks}/']
 
   JambageCom\TtProducts\Domain\Model\Dto\EmConfiguration:
     public: true
