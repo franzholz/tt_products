@@ -89,11 +89,14 @@ class tx_ttproducts_basket implements SingletonInterface
         $basketApi = GeneralUtility::makeInstance(BasketApi::class);
         $piVars = $parameterApi->getPiVars();
         $gpVars = GeneralUtility::_GP('tt_products');
-        $payment =
-            GeneralUtility::_POST('products_payment') ||
-            GeneralUtility::_POST('products_payment_x') ||
-            isset($gpVars['activity']) &&
+        $payment = false;
+
+        if (isset($gpVars)) {
+            $payment =
+            ($gpVars['products_payment'] ?? false) ||
+            ($gpVars['products_payment_x'] ?? false) ||
             !empty($gpVars['activity']['payment']);
+        }
 
         if (    // use AGB checkbox if coming from INFO
             $payment &&

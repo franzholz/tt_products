@@ -38,19 +38,18 @@
  * @subpackage tt_products
  *
  */
-use JambageCom\TtProducts\Api\ParameterApi;
-use JambageCom\TtProducts\Api\PluginApi;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
-use TYPO3\CMS\Frontend\Plugin\AbstractPlugin;
+
+use JambageCom\Div2007\Compatibility\AbstractPlugin;
+use JambageCom\TtProducts\Api\ParameterApi;
+use JambageCom\TtProducts\Api\PluginApi;
 
 class tx_ttproducts_pi_search_base extends AbstractPlugin implements SingletonInterface
 {
     public $prefixId = TT_PRODUCTS_EXT;
-    public $scriptRelPath = 'pi_search_base/class.tx_ttproducts_pi_search_base.php';	// Path to this script relative to the extension dir.
     public $extKey = TT_PRODUCTS_EXT;	// The extension key.
-    public $pi_checkCHash = true;		// activate cHash
     public $bRunAjax = false;		// overrride this
 
     public function setContentObjectRenderer(ContentObjectRenderer $cObj): void
@@ -73,7 +72,7 @@ class tx_ttproducts_pi_search_base extends AbstractPlugin implements SingletonIn
         $parameterApi->setPrefixId($this->prefixId);
         PluginApi::init($conf);
 
-        $confMain = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
+        $confMain = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'] ?? [];
         $this->conf = array_merge($confMain, $conf);
         $config = [];
         $mainObj = GeneralUtility::makeInstance('tx_ttproducts_control_search');	// fetch and store it as persistent object

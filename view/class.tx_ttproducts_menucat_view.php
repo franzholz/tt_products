@@ -60,6 +60,7 @@ class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base
         $content = '';
         $t = [];
         $ctrlArray = [];
+        $htmlParts = [];
         $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
         $pibaseObj = GeneralUtility::makeInstance('' . $this->pibaseClass);
@@ -214,8 +215,7 @@ class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base
                     $linkConf = [];
                     $linkConf['parameter'] = $pid;
                     $linkConf['additionalParams'] = GeneralUtility::implodeArrayForUrl('', $urlParameters);
-                    $linkConf['ATagParams'] = $pibaseObj->getContentObjectRenderer()->getATagParams($linkConf);
-
+                    $linkConf['ATagParams'] = $GLOBALS['TSFE']->config['config']['ATagParams'] ?? '';
                     $theLinkWrap = $pibaseObj->getContentObjectRenderer()->typolink('|', $linkConf);
                     $tagArray = $markerObj->getAllMarkers($theLinkWrap);
                     $linkMarkerArray = [];

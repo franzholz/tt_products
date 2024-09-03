@@ -59,7 +59,7 @@ class tx_ttproducts_pi_int implements SingletonInterface
     {
         $pibaseObj = GeneralUtility::makeInstance('tx_ttproducts_pi_int_base');
         $pibaseObj->setContentObjectRenderer($this->cObj);
-        $confMain = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'];
+        $confMain = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'] ?? [];
         ArrayUtility::mergeRecursiveWithOverrule($confMain, $conf);
         $conf = $confMain;
         $languageSubpath = '/Resources/Private/Language/';

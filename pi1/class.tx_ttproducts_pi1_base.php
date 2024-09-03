@@ -38,17 +38,18 @@
  * @subpackage tt_products
  *
  */
-use JambageCom\TtProducts\Api\ParameterApi;
-use JambageCom\TtProducts\Api\PluginApi;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
-use TYPO3\CMS\Frontend\Plugin\AbstractPlugin;
+
+use JambageCom\Div2007\Compatibility\AbstractPlugin;
+use JambageCom\TtProducts\Api\ParameterApi;
+use JambageCom\TtProducts\Api\PluginApi;
+
 
 class tx_ttproducts_pi1_base extends AbstractPlugin implements SingletonInterface
 {
     public $prefixId = TT_PRODUCTS_EXT;
-    public $scriptRelPath = 'pi1/class.tx_ttproducts_pi1_base.php';	// Path to this script relative to the extension dir.
     public $extKey = TT_PRODUCTS_EXT;	// The extension key.
     public $bRunAjax = false;			// overrride this
 

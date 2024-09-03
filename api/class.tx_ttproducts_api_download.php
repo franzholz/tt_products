@@ -48,7 +48,7 @@ class tx_ttproducts_api_download
         $storageRepository = GeneralUtility::makeInstance(StorageRepository::class);
         $storage = $storageRepository->getDefaultStorage() ?? $storageRepository->findByUid(1);
         $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
-        $fileObj = $resourceFactory->getFileReferenceObject($fileReferenceUid);
+        $fileObj = $resourceFactory->getFileReferenceObject((int) $fileReferenceUid);
 
         $fileInfo = $storage->getFileInfo($fileObj);
         $mimeType = $fileInfo['mimetype'];

@@ -176,7 +176,7 @@ class tx_ttproducts_fal_view extends tx_ttproducts_article_base_view
             $storage = $storageRepository->getDefaultStorage() ?? $storageRepository->findByUid(1);
             $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
 
-            $fileObj = $resourceFactory->getFileReferenceObject($row['uid']);
+            $fileObj = $resourceFactory->getFileReferenceObject((int) $row['uid']);
             $fileInfo = $storage->getFileInfo($fileObj);
 
             $path = Environment::getPublicPath() . '/';

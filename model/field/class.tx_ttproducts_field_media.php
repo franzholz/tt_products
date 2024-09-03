@@ -139,7 +139,7 @@ class tx_ttproducts_field_media extends tx_ttproducts_field_base
             ) {
                 foreach ($sysfileRowArray as $fileUid => $sysfileRow) {
                     $resourceFactory = GeneralUtility::makeInstance(ResourceFactory::class);
-                    $fileObj = $resourceFactory->getFileReferenceObject($sysfileRow['uid']);
+                    $fileObj = $resourceFactory->getFileReferenceObject((int) $sysfileRow['uid']);
                     $fileInfo = $fileObj->getStorage()->getFileInfo($fileObj);
 
                     if ($fal) {

@@ -81,7 +81,7 @@ class tx_ttproducts_pi1 implements SingletonInterface
      */
     public function getUserFunc($content, $conf)
     {
-        $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tt_products.'];
+        $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tt_products.'] ?? [];
 
         if (
             isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['getUserFunc']) &&
