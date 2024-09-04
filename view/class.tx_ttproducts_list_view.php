@@ -1379,20 +1379,6 @@ class tx_ttproducts_list_view implements SingletonInterface
                         ksort($displayConf['header'], SORT_STRING);
                     }
                 }
-                $orderBySortingTablesArray =
-                    GeneralUtility::trimExplode(
-                        ',',
-                        $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['orderBySortingTables']
-                    );
-
-                $categorySorting = 'uid';
-                if (
-                    !empty($orderBySortingTablesArray) &&
-                    in_array($funcTablename, $orderBySortingTablesArray)
-                ) {
-                    $categorySorting = 'sorting';
-                }
-
                 $selectConf['orderBy'] = $tableConfArray[$funcTablename]['orderBy'];
                 // performing query for display:
                 if (!$selectConf['orderBy']) {
@@ -1414,7 +1400,6 @@ class tx_ttproducts_list_view implements SingletonInterface
                     $selectConf['orderBy'] = str_replace('itemnumber', $itemTable->fieldArray['itemnumber'], $selectConf['orderBy']);
                 }
                 $selectConf['orderBy'] = $itemTable->getTableObj()->transformOrderby($selectConf['orderBy']);
-
                 $productMarkerFieldArray = [
                     'BULKILY_WARNING' => 'bulkily',
                     'PRODUCT_SPECIAL_PREP' => 'special_preparation',
@@ -1789,6 +1774,20 @@ class tx_ttproducts_list_view implements SingletonInterface
                     );
                 $iCount = 0;
                 $uidArray = [];
+                $orderBySortingTablesArray =
+                GeneralUtility::trimExplode(
+                    ',',
+                    $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['orderBySortingTables']
+                );
+
+                $categorySorting = 'uid';
+                if (
+                    !empty($orderBySortingTablesArray) &&
+                    in_array($funcTablename, $orderBySortingTablesArray)
+                ) {
+                    $categorySorting = 'sorting';
+                }
+
                 while ($iCount < $limit && ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res))) {
                     $iCount++;
 
