@@ -151,7 +151,11 @@ class tx_ttproducts_pid_list
 
             $pid_list_arr = explode(',', $pid_list);
             foreach ($pid_list_arr as $val) {
-                $pidSub = $cObj->getTreeList($val, $recursive);
+                if (method_exists($cObj, 'getTreeList')) {
+                    $pidSub = $cObj->getTreeList($val, $recursive);
+                } else {
+                    $pidSub = FrontendUtility::getTreeList($val, $recursive);
+                }
 
                 if ($pidSub != '') {
                     $pidSubArray[] = $pidSub;
