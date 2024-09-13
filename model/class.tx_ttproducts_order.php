@@ -192,7 +192,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
             $orderArray['tracking_code'] =
                 $this->getNumber($orderUid) . '-' .
                 strtolower($secure->generateRandomHexString(6)));
-                tx_ttproducts_control_basket::store('order', $orderArray);
+            tx_ttproducts_control_basket::store('order', $orderArray);
             $this->currentArray = $orderArray;
         }
 
