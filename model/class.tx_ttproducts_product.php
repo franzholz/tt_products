@@ -209,6 +209,7 @@ class tx_ttproducts_product extends tx_ttproducts_article_base
             foreach ($articleRows as $k => $row) {
                 $bFits = true;
                 foreach ($fieldArray as $field => $valueArray) {
+                    $valueArray = array_map('trim', $valueArray);
                     $rowFieldArray = [];
                     if (isset($row[$field]) && strlen($row[$field])) {
                         $rowFieldArray =
@@ -219,6 +220,7 @@ class tx_ttproducts_product extends tx_ttproducts_article_base
                                 PREG_SPLIT_NO_EMPTY
                             );
                     }
+                    $rowFieldArray = array_map('trim', $rowFieldArray);
 
                     $intersectArray = array_intersect($valueArray, $rowFieldArray);
                     if (
