@@ -479,7 +479,7 @@ class tx_ttproducts_db implements SingletonInterface
                     ) ||
                     $field == 'additional'
                 ) {
-                    continue;
+                    continue 2;
                 }
                 $fieldId = $field;
                 $bSkip = false;
@@ -541,7 +541,7 @@ class tx_ttproducts_db implements SingletonInterface
                         if (
                             in_array($field, ['image', 'smallimage'])
                         ) {
-                            continue;
+                            continue 2;
                         }
                     }
 

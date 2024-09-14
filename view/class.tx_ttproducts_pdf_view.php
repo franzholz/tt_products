@@ -131,7 +131,7 @@ class tx_ttproducts_pdf_view
                             ) {
                                 $extArray = $row['ext'];
                             } else {
-                                continue;
+                                continue 2;
                             }
                             $outputRow = $row;
 

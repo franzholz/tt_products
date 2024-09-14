@@ -610,14 +610,14 @@ class tx_ttproducts_basket_view implements SingletonInterface
                 foreach ($actItemArray as $k1 => $actItem) {
                     $row = $actItem['rec'];
                     if (!$row) {	// avoid bug with missing row
-                        continue;
+                        continue 2;
                     }
 
                     $extArray = $row['ext'];
                     $pid = intval($row['pid']);
                     if (!tx_ttproducts_control_basket::getPidListObj()->getPageArray($pid)) {
                         // product belongs to another basket
-                        continue;
+                        continue 2;
                     }
                     $quantity = $itemObj->getQuantity($actItem);
                     $itemObj->getMinMaxQuantity($actItem, $minQuantity, $maxQuantity);

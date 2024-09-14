@@ -678,7 +678,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
 
                     if (!tx_ttproducts_control_basket::getPidListObj()->getPageArray($pid)) {
                         // product belongs to another basket
-                        continue;
+                        continue 2;
                     }
 
                     $variantArray = [];

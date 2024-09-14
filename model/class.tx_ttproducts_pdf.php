@@ -154,7 +154,7 @@ class tx_ttproducts_pdf implements SingletonInterface
 
                 if ($k2 == 0 && trim($v2) == '' && $rowCount == 4 && $oldRowCount == 1 && $columnNo == 2) {
                     // skip first column which has been filled in from former row
-                    continue;
+                    continue 2;
                 }
                 $l2 = intval($this->GetStringWidth($v2));
                 unset($value);
@@ -200,11 +200,11 @@ class tx_ttproducts_pdf implements SingletonInterface
                     $columnNo++;
 
                     if ($columnNo <= 4) {
-                        continue;
+                        continue 2;
                     }
                     $this->Ln();
                 } else {
-                    continue;
+                    continue 2;
                 }
 
                 if (isset($additonalRow) && is_array($additonalRow)) {

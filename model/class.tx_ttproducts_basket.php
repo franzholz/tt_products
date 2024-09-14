@@ -1455,7 +1455,7 @@ class tx_ttproducts_basket implements SingletonInterface
                         if ($conf['whereGiftService']) {
                             $bAddGiftService = true;
                         }
-                        continue;
+                        continue 2;
                     }
 
                     $currRow =

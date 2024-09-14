@@ -595,7 +595,7 @@ class tx_ttproducts_main implements SingletonInterface
 
             switch ($theCode) {
                 case 'CONTROL': // this will come with tt_products 3.1
-                    continue 2;
+                    continue;
                     break;
                 case 'SEARCH':
                     if (!$bRunAjax && $this->convertToUserInt($cObj)) {
