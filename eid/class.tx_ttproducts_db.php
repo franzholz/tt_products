@@ -627,6 +627,7 @@ class tx_ttproducts_db implements SingletonInterface
                                 $v = $imgCodeArray;
                             } else {
                                 $v = '';
+                                continue 2; // do not delete the current image
                             }
                             break;
 

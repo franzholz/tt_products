@@ -320,7 +320,7 @@ class tx_ttproducts_discountprice extends tx_ttproducts_pricecalc_base implement
                                         ) {
                                             $rangeArray = GeneralUtility::trimExplode(',', $rangeConf['range']);
                                             if (count($rangeArray) != count($fieldArray)) {
-                                                continue 2;
+                                                continue 3;
                                             }
 
                                             $k3number = substr($k3, 0, -1);
