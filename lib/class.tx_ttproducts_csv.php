@@ -151,7 +151,7 @@ class tx_ttproducts_csv implements SingletonInterface
                     $pid = intval($row['pid']);
                     if (!tx_ttproducts_control_basket::getPidListObj()->getPageArray($pid)) {
                         // product belongs to another basket
-                        continue;
+                        continue 2;
                     }
                     // 					$variants = explode(';', $itemTable->variant->getVariantFromRow($row));
                     $csvdata = '"' . intval($row['uid']) . '";"' .

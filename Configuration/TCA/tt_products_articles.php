@@ -252,6 +252,7 @@ $result = [
                         ',
                 ],
                 'eval' => 'null',
+                'default' => '',
             ],
         ],
         'graduated_price_enable' => [

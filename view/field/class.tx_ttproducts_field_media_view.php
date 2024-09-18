@@ -357,7 +357,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
                     if (is_array($val)) {
                         if (isset($val['identifier'])) {
                             $storage = $storageRepository->getStorageObject($val['storage'], $val);
-                            $filename = $storage->getConfiguration()['basePath'] . $val['identifier'];
+                            $filename = $storage->getConfiguration()['basePath'] . ltrim($val['identifier'], '/');
                         }
                     } else {
                         $filename = $dirname . $val;
@@ -759,7 +759,10 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
                 $countArray[$k1] = $c;
             }
 
-            if (is_array($mediaRowArray[$k1])) {
+            if (
+                isset($mediaRowArray[$k1]) &&
+                is_array($mediaRowArray[$k1])
+            ) {
                 foreach ($mediaRowArray[$k1] as $field => $val2) {
                     $key1 = $key . '_' . strtoupper($field);
                     if (isset($tagArray[$key1])) {
@@ -805,7 +808,10 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
                     $markerArray['###' . $tagkey . '###'] = $imgValue;
                 }
 
-                if (is_array($mediaRowArray[$imageName])) {
+                if (
+                    isset($mediaRowArray[$imageName]) &&
+                    is_array($mediaRowArray[$imageName])
+                ) {
                     foreach ($mediaRowArray[$imageName] as $field => $val2) {
                         $key1 = $tagkey . '_' . strtoupper($field);
                         $markerArray['###' . $key1 . '###'] = $val2;

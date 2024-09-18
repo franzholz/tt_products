@@ -36,6 +36,12 @@
  * @package TYPO3
  * @subpackage tt_products
  */
+
+use TYPO3\CMS\Core\Crypto\Random;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+
 use JambageCom\Div2007\Api\Frontend;
 use JambageCom\Div2007\Base\TranslationBase;
 use JambageCom\Div2007\Utility\CompatibilityUtility;
@@ -45,9 +51,6 @@ use JambageCom\TtProducts\Api\BasketApi;
 use JambageCom\TtProducts\Api\Localization;
 use JambageCom\TtProducts\Api\PaymentApi;
 use JambageCom\TtProducts\Api\PaymentShippingHandling;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\MathUtility;
-use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 class tx_ttproducts_order extends tx_ttproducts_table_base
 {
@@ -185,11 +188,11 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
             if (!empty($GLOBALS['TYPO3_CONF_VARS']['SYS']['serverTimeZone'])) {
                 $orderArray['crdate'] += ($GLOBALS['TYPO3_CONF_VARS']['SYS']['serverTimeZone'] * 3600);
             }
-            $secure = new \Random\Engine\Secure;
+            $secure = GeneralUtility::makeInstance(Random::class);
             $orderArray['tracking_code'] =
                 $this->getNumber($orderUid) . '-' .
-                strtolower(substr(md5($secure->generate()), 0, 6));
-                tx_ttproducts_control_basket::store('order', $orderArray);
+                strtolower($secure->generateRandomHexString(6));
+            tx_ttproducts_control_basket::store('order', $orderArray);
             $this->currentArray = $orderArray;
         }
 
@@ -675,7 +678,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
 
                     if (!tx_ttproducts_control_basket::getPidListObj()->getPageArray($pid)) {
                         // product belongs to another basket
-                        continue;
+                        continue 2;
                     }
 
                     $variantArray = [];

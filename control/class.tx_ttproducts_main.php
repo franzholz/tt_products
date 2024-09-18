@@ -57,8 +57,10 @@ use JambageCom\TtProducts\Api\ActivityApi;
 use JambageCom\TtProducts\Api\BasketApi;
 use JambageCom\TtProducts\Api\ControlApi;
 use JambageCom\TtProducts\Api\Localization;
+use JambageCom\TtProducts\Api\ParameterApi;
 use JambageCom\TtProducts\Api\PluginApi;
 use JambageCom\TtProducts\Controller\ActivityController;
+use JambageCom\TtProducts\Domain\Model\Dto\EmConfiguration;
 
 class tx_ttproducts_main implements SingletonInterface
 {
@@ -367,7 +369,6 @@ class tx_ttproducts_main implements SingletonInterface
         $errorMessage = '';
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $languageObj = GeneralUtility::makeInstance(Localization::class);
-        $pibaseObj = GeneralUtility::makeInstance('' . $pibaseClass);
         $templateObj = GeneralUtility::makeInstance('tx_ttproducts_template');
         $showAmount = $cnf->getBasketConf('view', 'showAmount');
         $basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
@@ -376,6 +377,10 @@ class tx_ttproducts_main implements SingletonInterface
         $globalMarkerArray = $markerObj->getGlobalMarkerArray();
         $infoObj = GeneralUtility::makeInstance('tx_ttproducts_info');
         $basketApi = GeneralUtility::makeInstance(BasketApi::class);
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
+        $prefixId = $parameterApi->getPrefixId();
+        $emConfig = GeneralUtility::makeInstance(EmConfiguration::class);
+        $extensionKey = $emConfig->getExtensionKey();
 
         if (!count($this->codeArray) && !$bRunAjax) {
             $this->codeArray = ['HELP'];
@@ -848,7 +853,7 @@ class tx_ttproducts_main implements SingletonInterface
                 case 'SINGLEAD':
                     $catView = GeneralUtility::makeInstance('tx_ttproducts_cat_view');
                     $catView->init(
-                        $pibaseObj->getContentObjectRenderer(),
+                        $cObj,
                         $this->pid,
                         $config['pid_list'],
                         $config['recursive']
@@ -1002,7 +1007,6 @@ class tx_ttproducts_main implements SingletonInterface
 
             if ($contentTmp == 'error') {
                 $fileName = 'EXT:' . TT_PRODUCTS_EXT . '/Resources/Private/Templates/products_help.tmpl';
-                $sanitizer = GeneralUtility::makeInstance(FilePathSanitizer::class);
                 $pathFilename = GeneralUtility::getFileAbsFileName($fileName);
 
                 $helpTemplate = file_get_contents($pathFilename);
@@ -1025,7 +1029,7 @@ class tx_ttproducts_main implements SingletonInterface
                     FrontendUtility::wrapContentCode(
                         $contentTmp,
                         $theCode,
-                        $pibaseObj->prefixId,
+                        $prefixId,
                         $cObj->data['uid'] ?? ''
                     );
             } elseif (!$bErrorFound) {
@@ -1042,7 +1046,7 @@ class tx_ttproducts_main implements SingletonInterface
 
                 if ($incFile != '' && !$javaScriptObj->getIncluded($incFile)) {
                     $text = '<script type="text/javascript" src="' . $incFile . '" ></script>';
-                    $GLOBALS['TSFE']->additionalHeaderData[$pibaseObj->prefixId] = $text;
+                    $GLOBALS['TSFE']->additionalHeaderData[$prefixId] = $text;
                     $javaScriptObj->setIncluded($incFile);
                 }
             }
@@ -1055,7 +1059,7 @@ class tx_ttproducts_main implements SingletonInterface
         if ($bRunAjax || !intval($conf['wrapInBaseClass'])) {
             $result = $content;
         } else {
-            $content = FrontendUtility::wrapInBaseClass($content, $pibaseObj->prefixId, $pibaseObj->extKey);
+            $content = FrontendUtility::wrapInBaseClass($content, $prefixId, $extensionKey);
             $cssObj = GeneralUtility::makeInstance('tx_ttproducts_css');
             $result = '';
 
@@ -1142,7 +1146,6 @@ class tx_ttproducts_main implements SingletonInterface
         $theCode,
         $conf
     ) { // GeneralUtility::_GP('tracking')
-        $pibaseObj = GeneralUtility::makeInstance('tx_ttproducts_pi1_base');
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $urlObj = GeneralUtility::makeInstance('tx_ttproducts_url_view');
         $updateCode = '';

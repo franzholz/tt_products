@@ -124,7 +124,7 @@ $result = [
                 'size' => '40',
                 'eval' => 'trim',
                 'max' => '80',
-                'default' => null,
+                'default' => '',
             ],
         ],
         'email' => [
@@ -134,7 +134,7 @@ $result = [
                 'size' => '40',
                 'eval' => 'trim',
                 'max' => '80',
-                'default' => null,
+                'default' => '',
             ],
         ],
         'suffix' => [
@@ -144,7 +144,7 @@ $result = [
                 'size' => '24',
                 'eval' => 'trim',
                 'max' => '24',
-                'default' => null,
+                'default' => '',
             ],
         ],
     ],

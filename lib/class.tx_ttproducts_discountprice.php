@@ -143,7 +143,7 @@ class tx_ttproducts_discountprice extends tx_ttproducts_pricecalc_base implement
                                 $additive = $v2;
                                 break;
                         }
-                        continue;
+                        continue 2;
                     }
                 }
                 if (isset($priceCalcTemp['prod.']) && is_array($priceCalcTemp['prod.'])) {
@@ -183,7 +183,7 @@ class tx_ttproducts_discountprice extends tx_ttproducts_pricecalc_base implement
 
                     if (is_array($priceCalcTemp['sql.'])) {
                         if (!($bIsValid = tx_ttproducts_sql::isValid($row, $priceCalcTemp['sql.']['where']))) {
-                            continue;
+                            continue 2;
                         }
                     }
 
@@ -320,7 +320,7 @@ class tx_ttproducts_discountprice extends tx_ttproducts_pricecalc_base implement
                                         ) {
                                             $rangeArray = GeneralUtility::trimExplode(',', $rangeConf['range']);
                                             if (count($rangeArray) != count($fieldArray)) {
-                                                continue;
+                                                continue 3;
                                             }
 
                                             $k3number = substr($k3, 0, -1);
@@ -456,7 +456,7 @@ class tx_ttproducts_discountprice extends tx_ttproducts_pricecalc_base implement
                                     if (is_array($countedItems[$k1])) {
                                         foreach ($countedItems[$k1] as $k3 => $v3) {
                                             if ($v3['active'] == false) {
-                                                continue;
+                                                continue 2;
                                             }
 
                                             foreach ($itemArray[$v3['sort']] as $k1 => $actItem) {

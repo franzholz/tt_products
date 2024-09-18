@@ -288,7 +288,7 @@ class EditVariantApi implements SingletonInterface
                 ) {
                     foreach ($config['setVariables.'] as $variable => $value) {
                         if (strpos($variable, '.') !== false) {
-                            continue;
+                            continue 2;
                         }
                         $isActive = true;
                         if (
