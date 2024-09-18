@@ -57,6 +57,7 @@ use JambageCom\TtProducts\Api\ActivityApi;
 use JambageCom\TtProducts\Api\BasketApi;
 use JambageCom\TtProducts\Api\ControlApi;
 use JambageCom\TtProducts\Api\Localization;
+use JambageCom\TtProducts\Api\ParameterApi;
 use JambageCom\TtProducts\Api\PluginApi;
 use JambageCom\TtProducts\Controller\ActivityController;
 use JambageCom\TtProducts\Domain\Model\Dto\EmConfiguration;
@@ -595,7 +596,7 @@ class tx_ttproducts_main implements SingletonInterface
 
             switch ($theCode) {
                 case 'CONTROL': // this will come with tt_products 3.1
-                    continue;
+                    continue 2;
                     break;
                 case 'SEARCH':
                     if (!$bRunAjax && $this->convertToUserInt($cObj)) {
