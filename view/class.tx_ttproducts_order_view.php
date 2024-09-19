@@ -340,6 +340,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view
             );
 
             $notOverwritePriceIfSet = false;
+            $feUserRecord = [];
             $content = $listView->printView(
                 $templateCode,
                 $theCode,
@@ -350,6 +351,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view
                 $error_code,
                 $subpartMarker,
                 $pageAsCategory,
+                $feUserRecord,
                 [],
                 [],
                 [],

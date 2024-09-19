@@ -71,13 +71,6 @@ class tx_ttproducts_info_view implements SingletonInterface
     {
         $result = true;
         $this->modelObj = $modelObj;
-        $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-
-        $this->conf = $cnf->getConf();
-        $this->config = $cnf->getConfig();
-
-        $this->infoArray = tx_ttproducts_control_basket::getInfoArray();
-
         $this->bHasBeenInitialised = true;
 
         return $result;
@@ -178,9 +171,11 @@ class tx_ttproducts_info_view implements SingletonInterface
     public function getRowMarkerArray(
         $basketExtra,
         &$markerArray,
+        $feUserRecord,
         $bHtml,
         $bSelectSalutation
     ): void {
+        $infoArray = $this->getInfoArray();
         $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $conf = $cnf->getConf();
@@ -217,41 +212,28 @@ class tx_ttproducts_info_view implements SingletonInterface
             }
         }
 
-        if (!empty($this->conf['useStaticInfoCountry']) && $staticInfoApi->isActive()) {
+        if (!empty($conf['useStaticInfoCountry']) && $staticInfoApi->isActive()) {
             $countryViewObj = $tablesObj->get('static_countries', true);
             $countryObj = $countryViewObj->getModelObj();
 
             $bReady = false;
             $whereCountries = $this->getModelObj()->getWhereAllowedCountries($basketExtra);
             $countryCodeArray = [];
-            $countryCodeArray['billing'] = ($this->infoArray['billing']['country_code'] ?? $context->getPropertyFromAspect('frontend.user', 'isLoggedIn') && ($context->getPropertyFromAspect('frontend.user', 'isLoggedIn') && !empty($GLOBALS['TSFE']->fe_user->user['static_info_country']) ? $GLOBALS['TSFE']->fe_user->user['static_info_country'] : false));
-            $countryCodeArray['delivery'] = ($this->infoArray['delivery']['country_code'] ?? ($context->getPropertyFromAspect('frontend.user', 'isLoggedIn') && !empty($GLOBALS['TSFE']->fe_user->user['static_info_country']) ? $GLOBALS['TSFE']->fe_user->user['static_info_country'] : false));
+            $countryCodeArray['billing'] = ($infoArray['billing']['country_code'] ?? ($context->getPropertyFromAspect('frontend.user', 'isLoggedIn') && !empty($feUserRecord['static_info_country']) ? $feUserRecord['static_info_country'] : false));
+
+            $countryCodeArray['delivery'] = ($infoArray['delivery']['country_code'] ?? ($context->getPropertyFromAspect('frontend.user', 'isLoggedIn') && !empty($feUserRecord['static_info_country']) ? $feUserRecord['static_info_country'] : false));
 
             $zoneCodeArray = [];
-            $zoneCodeArray['billing'] = (
-                !empty($this->infoArray['billing']['zone']) ?
-                    $this->infoArray['billing']['zone'] : (
-                        $context->getPropertyFromAspect('frontend.user', 'isLoggedIn') && !empty($GLOBALS['TSFE']->fe_user->user['zone']) ?
-                            $GLOBALS['TSFE']->fe_user->user['zone'] :
-                            false
-                    )
-            );
-            $zoneCodeArray['delivery'] = (
-                !empty($this->infoArray['delivery']['zone']) ?
-                    $this->infoArray['delivery']['zone'] : (
-                        $context->getPropertyFromAspect('frontend.user', 'isLoggedIn') && !empty($GLOBALS['TSFE']->fe_user->user['zone']) ?
-                            $GLOBALS['TSFE']->fe_user->user['zone'] :
-                            false
-                    )
-            );
+            $zoneCodeArray['billing'] = (!empty($infoArray['billing']['zone']) ? $infoArray['billing']['zone'] : ($context->getPropertyFromAspect('frontend.user', 'isLoggedIn') && !empty($feUserRecord['zone']) ? $feUserRecord['zone'] : false));
+            $zoneCodeArray['delivery'] = (!empty($infoArray['delivery']['zone']) ? $infoArray['delivery']['zone'] : ($context->getPropertyFromAspect('frontend.user', 'isLoggedIn') && !empty($feUserRecord['zone']) ? $feUserRecord['zone'] : false));
 
             if (
                 $countryCodeArray['billing'] === false &&
-                !empty($this->infoArray['billing']['country']) &&
-                !empty($this->infoArray['delivery']['country'])
+                !empty($infoArray['billing']['country']) &&
+                !empty($infoArray['delivery']['country'])
             ) {
                 // nothing to do
-                $bReady = true;
+                $isReady = true;
             } elseif (
                 ExtensionManagementUtility::isLoaded('static_info_tables')
             ) {
@@ -266,7 +248,7 @@ class tx_ttproducts_info_view implements SingletonInterface
                             '',
                             $countryCodeArray['billing'],
                             '',
-                            $this->conf['onChangeCountryAttribute'],
+                            $conf['onChangeCountryAttribute'],
                             'field_personinfo_country_code',
                             '',
                             $whereCountries,
@@ -312,7 +294,7 @@ class tx_ttproducts_info_view implements SingletonInterface
                             '',
                             $countryCodeArray['delivery'],
                             '',
-                            $this->conf['onChangeCountryAttribute'],
+                            $conf['onChangeCountryAttribute'],
                             'field_delivery_country_code',
                             '',
                             $whereCountries,
@@ -477,8 +459,8 @@ class tx_ttproducts_info_view implements SingletonInterface
                 $orderBy = $tableconf['orderBy'];
                 $uidStoreArray = [];
 
-                if (isset($this->conf['UIDstore'])) {
-                    $tmpArray = GeneralUtility::trimExplode(',', $this->conf['UIDstore']);
+                if (isset($conf['UIDstore'])) {
+                    $tmpArray = GeneralUtility::trimExplode(',', $conf['UIDstore']);
                     foreach ($tmpArray as $value) {
                         if ($value) {
                             $uidStoreArray[] = $value;
@@ -487,7 +469,7 @@ class tx_ttproducts_info_view implements SingletonInterface
                 }
 
                 $where_clause = '';
-                if ($tablename == 'fe_users' && !empty($this->conf['UIDstoreGroup'])) {
+                if ($tablename == 'fe_users' && !empty($conf['UIDstoreGroup'])) {
                     $orChecks = [];
                     $memberGroups = GeneralUtility::trimExplode(',', $this->conf['UIDstoreGroup']);
                     foreach ($memberGroups as $value) {

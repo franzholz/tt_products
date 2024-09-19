@@ -367,12 +367,14 @@ class tx_ttproducts_api
             // send new user mail
             if (!empty($infoArray['billing']['email'])) {
                 $empty = '';
+                $feUserRecord = [];
                 $emailContent = trim(
                     $basketView->getView(
                         $errorCode,
                         $templateCode,
                         'EMAIL',
                         $infoObj,
+                        $feUserRecord,
                         false,
                         false,
                         $calculatedArray,
@@ -574,7 +576,7 @@ class tx_ttproducts_api
             CustomerApi::isSystemLoginUser(
                 $conf
             );
-        $defaultFromArray = $infoObj->getFromArray($customerEmail, $useLoginEmail);
+        $defaultFromArray = $infoObj->getFromArray($customerEmail, $useLoginEmail, $feUserRecord);
 
         $emailControlArray =
             $activityFinalize->getEmailControlArray(
@@ -592,6 +594,7 @@ class tx_ttproducts_api
                     $templateCode,
                     'EMAIL',
                     $infoViewObj,
+                    $feUserRecord,
                     false,
                     false,
                     $calculatedArray,
@@ -645,6 +648,7 @@ class tx_ttproducts_api
                         $orderArray,
                         $basketExtra,
                         $basketRecs,
+                        $feUserRecord,
                         $type,
                         $conf[$type . '.']
                     );
@@ -674,6 +678,7 @@ class tx_ttproducts_api
             $customerEmailHTML,
             1,
             $basketExtra,
+            $feUserRecord,
             $calculatedArray,
             $infoObj,
             '',
@@ -741,6 +746,7 @@ class tx_ttproducts_api
                         $templateCode,
                         'EMAIL',
                         $infoViewObj,
+                        $feUserRecord,
                         false,
                         true,
                         $calculatedArray,
@@ -794,6 +800,7 @@ class tx_ttproducts_api
         if (
             isset($conf['orderEmail.']) && is_array($conf['orderEmail.'])
         ) {
+            $context = GeneralUtility::makeInstance(Context::class);
             foreach ($conf['orderEmail.'] as $k => $emailConfig) {
                 $suffix = strtolower($emailConfig['suffix']);
                 if (!isset($suffix)) {
@@ -802,9 +809,10 @@ class tx_ttproducts_api
 
                 if (
                     !empty($emailConfig['to']) ||
-                    !empty($emailConfig['to.']) ||
+                    !empty($emailConfig['to.']) != '' ||
                     $suffix == 'shop' ||
-                    $suffix == 'customer'
+                    $suffix == 'customer' ||
+                    $suffix == 'login'
                 ) {
                     if (!empty($emailConfig['shipping_point'])) {
                         $shippingPoint = strtolower($emailConfig['shipping_point']);
@@ -815,15 +823,14 @@ class tx_ttproducts_api
                     if (!empty($emailConfig['to.'])) {
                         $toConfig = $emailConfig['to.'];
                         if (
-                            CompatibilityUtility::isLoggedIn() &&
-                            !empty($GLOBALS['TSFE']->fe_user->user) &&
-                            !empty($GLOBALS['TSFE']->fe_user->user['username']) &&
+                            $context->getPropertyFromAspect('frontend.user', 'isLoggedIn') &&
+                            !empty($feUserRecord['username']) &&
                             $toConfig['table'] == 'fe_users' &&
                             !empty($toConfig['field']) &&
                             !empty($toConfig['foreign_table']) &&
                             !empty($toConfig['foreign_field']) &&
                             !empty($toConfig['foreign_email_field']) &&
-                            !empty($GLOBALS['TSFE']->fe_user->user[$toConfig['field']])
+                            $feUserRecord[$toConfig['field']] != ''
                         ) {
                             $where_clause =
                                 $toConfig['foreign_table'] . '.' .
@@ -1131,6 +1138,7 @@ class tx_ttproducts_api
                                     $templateCode,
                                     'EMAIL',
                                     $infoViewObj,
+                                    $feUserRecord,
                                     false,
                                     true,
                                     $reducedCalculatedArray,
@@ -1156,6 +1164,7 @@ class tx_ttproducts_api
                                         $templateCode,
                                         'EMAIL',
                                         $infoViewObj,
+                                        $feUserRecord,
                                         false,
                                         false,
                                         $reducedCalculatedArray,
@@ -1280,6 +1289,7 @@ class tx_ttproducts_api
                                     $templateCode,
                                     'EMAIL',
                                     $infoViewObj,
+                                    $feUserRecord,
                                     false,
                                     true,
                                     $reducedCalculatedArray,
@@ -1313,6 +1323,7 @@ class tx_ttproducts_api
                                         $templateCode,
                                         'EMAIL',
                                         $infoViewObj,
+                                        $feUserRecord,
                                         false,
                                         true,
                                         $reducedCalculatedArray,

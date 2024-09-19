@@ -46,7 +46,9 @@ use JambageCom\Div2007\Utility\FrontendUtility;
 
 use JambageCom\TtProducts\Api\BasketApi;
 use JambageCom\TtProducts\Api\ControlApi;
+use JambageCom\TtProducts\Api\FeUserMarkerApi;
 use JambageCom\TtProducts\Api\Localization;
+use JambageCom\TtProducts\View\RelatedList;
 
 class tx_ttproducts_single_view implements SingletonInterface
 {
@@ -102,6 +104,7 @@ class tx_ttproducts_single_view implements SingletonInterface
     public function printView(
         $templateCode,
         &$errorCode,
+        $feUserRecord,
         $pageAsCategory,
         $templateSuffix = ''
     ) {
@@ -357,13 +360,18 @@ class tx_ttproducts_single_view implements SingletonInterface
 
                 return '';
             }
-            $viewTagArray = $markerObj->getAllMarkers($itemFrameWork);
-            $tablesObj->get('fe_users', true)->getWrappedSubpartArray(
+            $viewTagArray = MarkerUtility::getTags($itemFrameWork);
+            $orderAddressObj = $tablesObj->get('fe_users', false);
+            $feUserMarkerApi = GeneralUtility::makeInstance(FeUserMarkerApi::class);
+            $feUserMarkerApi->getWrappedSubpartArray(
+                $orderAddressObj,
                 $viewTagArray,
-                $useBackPid,
+                $feUserRecord,
                 $subpartArray,
                 $wrappedSubpartArray
             );
+
+            $feUserMarkerApi->getGlobalMarkerArray($markerArray, $feUserRecord); // neu FHO
 
             $itemFrameWork = $templateService->substituteMarkerArrayCached(
                 $itemFrameWork,
@@ -1295,7 +1303,7 @@ class tx_ttproducts_single_view implements SingletonInterface
                 }
 
                 $eventDispatcher = GeneralUtility::makeInstance(EventDispatcherInterface::class);
-                $relatedListView = GeneralUtility::makeInstance('tx_ttproducts_relatedlist_view', $eventDispatcher);
+                $relatedListView = GeneralUtility::makeInstance(RelatedList::class, $eventDispatcher);
                 $relatedListView->init(
                     $this->pidListObj->getPidlist(),
                     $this->pidListObj->getRecursive()

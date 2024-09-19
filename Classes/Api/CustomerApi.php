@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace JambageCom\TtProducts\Api;
 
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2016 Franz Holzinger <franz@ttproducts.de>
+*  (c) 2017 Franz Holzinger <franz@ttproducts.de>
 *  All rights reserved
 *
 *  This script is part of the Typo3 project. The Typo3 project is
@@ -51,18 +53,23 @@ class CustomerApi
 {
     private static $billingInfo;
     private static $shippingInfo;
-    private static $fields =
+    private static string $fields =
     'name,cnum,first_name,last_name,username,email,telephone,title,salutation,address,house_no,telephone,fax,email,company,city,zip,state,country,country_code,tt_products_vat,date_of_birth,tt_products_business_partner,tt_products_organisation_form';
-    private static $requiredInfoFields = '';
+    private static array $requiredInfoFields = [];
     protected static $possibleCheckFieldArray = ['name', 'last_name', 'email', 'telephone'];
     protected static $creditpointfields = 'tt_products_creditpoints,tt_products_vouchercode';
+    protected static $feUserRecord = null;
 
     public static function init(
         $conf,
+        $feUserRecord, // neu FHO
         $billingRow,
         $deliveryRow,
         $basketExtra
     ): void {
+
+        self::setFeUserRecord($feUserRecord);
+
         if (
             isset($basketRecs) &&
             is_array($basketRecs) &&
@@ -89,6 +96,7 @@ class CustomerApi
         self::setFields($fields);
         $requiredInfoFieldArray = $conf['requiredInfoFields.'] ?? [];
         $typeArray = ['billing', 'delivery'];
+        $requiredInfoFields = [];
 
         foreach ($typeArray as $type) {
             if (
@@ -113,6 +121,16 @@ class CustomerApi
         }
 
         self::setRequiredInfoFields($requiredInfoFields);
+    }
+
+    public static function setFeUserRecord($feUserRecord)
+    {
+        self::$feUserRecord = $feUserRecord;
+    }
+
+    public static function getFeUserRecord()
+    {
+        return self::$feUserRecord;
     }
 
     public static function setBillingInfo(array $value): void

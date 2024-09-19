@@ -44,6 +44,7 @@ use JambageCom\Div2007\Utility\FrontendUtility;
 
 use JambageCom\TtProducts\Api\BasketApi;
 use JambageCom\TtProducts\Api\Localization;
+use JambageCom\TtProducts\Api\ParameterApi;
 
 
 class tx_ttproducts_basketitem_view implements SingletonInterface
@@ -219,6 +220,7 @@ class tx_ttproducts_basketitem_view implements SingletonInterface
         $languageObj = GeneralUtility::makeInstance(Localization::class);
         $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
         $itemObj = GeneralUtility::makeInstance('tx_ttproducts_basketitem');
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
 
         $conf = $cnfObj->getConf();
         $basketVar = tx_ttproducts_model_control::getBasketVar();
@@ -510,7 +512,10 @@ class tx_ttproducts_basketitem_view implements SingletonInterface
                             $text = tx_ttproducts_form_div::createSelect(
                                 $languageObj,
                                 $prodTranslatedRow,
-                                tx_ttproducts_control_basket::getTagName($row['uid'], $field),
+                                $parameterApi->getTagName(
+                                    $row['uid'],
+                                    $field
+                                ),
                                 $selectedKey,
                                 false,
                                 false,

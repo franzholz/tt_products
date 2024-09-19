@@ -1,29 +1,32 @@
 <?php
+
+declare(strict_types=1);
+
 /***************************************************************
-*  Copyright notice
-*
-*  (c) 2012 Franz Holzinger (franz@ttproducts.de)
-*  All rights reserved
-*
-*  This script is part of the TYPO3 project. The TYPO3 project is
-*  free software; you can redistribute it and/or modify
-*  it under the terms of the GNU General Public License as published by
-*  the Free Software Foundation; either version 2 of the License or
-*  (at your option) any later version.
-*
-*  The GNU General Public License can be found at
-*  http://www.gnu.org/copyleft/gpl.html.
-*  A copy is found in the textfile GPL.txt and important notices to the license
-*  from the author is found in LICENSE.txt distributed with these scripts.
-*
-*
-*  This script is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  GNU General Public License for more details.
-*
-*  This copyright notice MUST APPEAR in all copies of the script!
-***************************************************************/
+ *  Copyright notice
+ *
+ *  (c) 2012 Franz Holzinger (franz@ttproducts.de)
+ *  All rights reserved
+ *
+ *  This script is part of the TYPO3 project. The TYPO3 project is
+ *  free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License or
+ *  (at your option) any later version.
+ *
+ *  The GNU General Public License can be found at
+ *  http://www.gnu.org/copyleft/gpl.html.
+ *  A copy is found in the textfile GPL.txt and important notices to the license
+ *  from the author is found in LICENSE.txt distributed with these scripts.
+ *
+ *
+ *  This script is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  This copyright notice MUST APPEAR in all copies of the script!
+ ***************************************************************/
 /**
  * Part of the tt_products (Shop System) extension.
  *
@@ -36,13 +39,13 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-use JambageCom\Div2007\Utility\CompatibilityUtility;
+
+use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_orderaddress extends tx_ttproducts_table_base
 {
     public $dataArray; // array of read in frontend users
-    public $table;		 // object of the type tx_table_db
     public $fields = [];
     public $tableconf;
     public $piVar = 'fe';
@@ -119,10 +122,11 @@ class tx_ttproducts_orderaddress extends tx_ttproducts_table_base
         return false;
     } // isUserInGroup
 
-    public function setCondition($row, $funcTablename): void
+    public function setCondition($row, $funcTablename, $feUserRecord): void
     {
         $bCondition = false;
-        $this->bConditionRecord = false;
+        $this->bConditionRecord = false; // neu
+        $context = GeneralUtility::makeInstance(Context::class);
 
         if (isset($this->conf['conf.'][$funcTablename . '.']['ALL.']['fe_users.']['date_of_birth.']['period.']['y'])) {
             $year = $this->conf['conf.'][$funcTablename . '.']['ALL.']['fe_users.']['date_of_birth.']['period.']['y'];
@@ -133,8 +137,10 @@ class tx_ttproducts_orderaddress extends tx_ttproducts_table_base
             if ($infoArray['billing']['date_of_birth']) {
                 $timeTemp = $infoArray['billing']['date_of_birth'];
                 $bAge = true;
-            } elseif (!empty($GLOBALS['TSFE']->fe_user->user['username'])) {
-                $timeTemp = date('d-m-Y', $GLOBALS['TSFE']->fe_user->user['date_of_birth']);
+            } elseif (
+                !empty($feUserRecord['username'])
+            ) {
+                $timeTemp = date('d-m-Y', $feUserRecord['date_of_birth']);
                 $bAge = true;
             } else {
                 $bAge = false;
@@ -156,7 +162,6 @@ class tx_ttproducts_orderaddress extends tx_ttproducts_table_base
         }
 
         $whereConf = $this->conf['conf.'][$funcTablename . '.']['ALL.']['fe_users.']['where'] ?? '';
-
         if (!empty($whereConf)) {
             $whereArray = GeneralUtility::trimExplode('IN', $whereConf);
             $pos1 = strpos($whereArray[1], '(');
@@ -185,21 +190,6 @@ class tx_ttproducts_orderaddress extends tx_ttproducts_table_base
     public function getConditionRecord(): bool
     {
         return $this->bConditionRecord;
-    }
-
-    public function getCreditpoints()
-    {
-        $rc = false;
-        if (
-            CompatibilityUtility::isLoggedIn() &&
-            isset($GLOBALS['TSFE']->fe_user->user) &&
-            is_array(
-                $GLOBALS['TSFE']->fe_user->user
-            )) {
-            $rc = $GLOBALS['TSFE']->fe_user->user['tt_products_creditpoints'];
-        }
-
-        return $rc;
     }
 
     public function getPid()

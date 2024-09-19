@@ -119,7 +119,7 @@ class tx_ttproducts_basket implements SingletonInterface
         $viewTableObj = $tablesObj->get($funcTablename);
 
         $basketExt = $basketApi->getBasketExt();
-        $basketExtRaw = tx_ttproducts_control_basket::getBasketExtRaw();
+        $basketExtRaw = $parameterApi->getBasketExtRaw();
         $basketInputConf = $cnfObj->getBasketConf('view', 'input');
 
         if (isset($basketInputConf) && is_array($basketInputConf)) {
@@ -890,6 +890,7 @@ class tx_ttproducts_basket implements SingletonInterface
         $externalRowArray = [], // Download
         $bEnableTaxZero = false
     ) {
+        $basketApi = GeneralUtility::makeInstance(BasketApi::class);
         $calculationField = FieldInterface::PRICE_CALCULATED;
         $pricetablesCalculator = GeneralUtility::makeInstance('tx_ttproducts_pricetablescalc');
 
@@ -980,8 +981,9 @@ class tx_ttproducts_basket implements SingletonInterface
         }
 
         $count =
-            tx_ttproducts_control_basket::getBasketCount(
+            $basketApi->getBasketCount(
                 $row,
+                $basketExt,
                 $variant,
                 $this->conf['quantityIsFloat']
             );
@@ -1026,13 +1028,13 @@ class tx_ttproducts_basket implements SingletonInterface
             }
 
             $parentProductCount =
-                tx_ttproducts_control_basket::getBasketCount(
+                $basketApi->getBasketCount(
                     $row,
+                    $basketExt,
                     $variant,
                     $this->conf['quantityIsFloat'],
                     true
                 );
-
             foreach ($articleRowArray as $articleRow) {
                 if (
                     is_object($graduatedPriceObj) &&
@@ -1341,15 +1343,19 @@ class tx_ttproducts_basket implements SingletonInterface
 
             if ($mergeAttributeFields) {
                 $pricetablesCalculator = GeneralUtility::makeInstance('tx_ttproducts_pricetablescalc');
+
                 $count =
-                    tx_ttproducts_control_basket::getBasketCount(
+                    $basketApi->getBasketCount(
                         $currRow,
+                        $basketExt,
                         $bextVarLine,
                         $this->conf['quantityIsFloat']
                     );
+
                 $parentProductCount =
-                    tx_ttproducts_control_basket::getBasketCount(
+                    $basketApi->getBasketCount(
                         $currRow,
+                        $basketExt,
                         $bextVarLine,
                         $this->conf['quantityIsFloat'],
                         true
@@ -1691,11 +1697,12 @@ class tx_ttproducts_basket implements SingletonInterface
         );
     }
 
-    public function calculateSums(): void
+    public function calculateSums($feUserRecord): void
     {
         $getShopCountryCode = '';
+        $recs = tx_ttproducts_control_basket::getRecs();
         $pricefactor = tx_ttproducts_creditpoints_div::getPriceFactor($this->conf);
-        $creditpoints = tx_ttproducts_creditpoints_div::getUsedCreditpoints($this->recs);
+        $creditpoints = tx_ttproducts_creditpoints_div::getUsedCreditpoints($feUserRecord, $recs);
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $staticTaxObj = $tablesObj->get('static_taxes', false);
         if (

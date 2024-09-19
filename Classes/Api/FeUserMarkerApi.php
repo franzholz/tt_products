@@ -37,6 +37,7 @@ class FeUserMarkerApi implements SingletonInterface
     public function getWrappedSubpartArray(
         $modelObj,
         $viewTagArray,
+        $feUserRecord,
         array &$subpartArray,
         array &$wrappedSubpartArray
     ): void {
@@ -116,7 +117,7 @@ class FeUserMarkerApi implements SingletonInterface
 
         if (isset($viewTagArray['FEUSER_HAS_DISCOUNT'])) {
             $discountApi = GeneralUtility::makeInstance(DiscountApi::class);
-            $discountArray = $discountApi->getFeuserDiscounts();
+            $discountArray = $discountApi->getFeuserDiscounts($feUserRecord);
             $hasDiscount = is_array($discountArray) && (count($discountArray) > 0);
 
             if (
@@ -132,10 +133,11 @@ class FeUserMarkerApi implements SingletonInterface
     }
 
     public function getGlobalMarkerArray(
-        &$markerArray
+        &$markerArray,
+        $feUserRecord
     ): void {
         $discountApi = GeneralUtility::makeInstance(DiscountApi::class);
-        $discountValue = $discountApi->getMaximumFeuserDiscount();
+        $discountValue = $discountApi->getMaximumFeuserDiscount($feUserRecord);
         $markerArray['###FEUSER_TOTAL_DISCOUNT###'] = $discountValue;
         $markerArray['###FE_USER_TT_PRODUCTS_DISCOUNT###'] = $discountValue; // deprecated -> 2025
     }

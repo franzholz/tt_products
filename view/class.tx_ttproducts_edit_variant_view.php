@@ -41,6 +41,8 @@ use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
+use JambageCom\TtProducts\Api\ParameterApi;
+
 class tx_ttproducts_edit_variant_view implements tx_ttproducts_edit_variant_view_int, SingletonInterface
 {
     protected $modelObj;
@@ -63,6 +65,7 @@ class tx_ttproducts_edit_variant_view implements tx_ttproducts_edit_variant_view
         $config,
         &$markerArray
     ): void {
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
         if (isset($config) && is_array($config)) {
             $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
             $itemTableView = $tablesObj->get($funcTablename, true);
@@ -86,7 +89,7 @@ class tx_ttproducts_edit_variant_view implements tx_ttproducts_edit_variant_view
             }
 
             if ($bEditable) {
-                $basketExtRaw = tx_ttproducts_control_basket::getBasketExtRaw();
+                $basketExtRaw = $parameterApi->getBasketExtRaw();
                 if (isset($basketExtRaw) && is_array($basketExtRaw)) {
                     if (isset($basketExtRaw[$uid]) && is_array($basketExtRaw[$uid])) {
                         $value = $basketExtRaw[$uid][$field];

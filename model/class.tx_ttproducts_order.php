@@ -36,7 +36,7 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Crypto\Random;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
@@ -300,6 +300,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
         $orderArray,
         $itemArray,
         $calculatedArray,
+        $feUserRecord,
         $cardUid,
         $accountUid,
         $email_notify,
@@ -322,6 +323,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
         $billingInfo = $infoArray['billing'];
         $deliveryInfo = $infoArray['delivery'];
         $feusers_uid = 0;
+        $context = GeneralUtility::makeInstance(Context::class);
         if (is_array($billingInfo) && isset($billingInfo['feusers_uid'])) {
             $feusers_uid = $billingInfo['feusers_uid'];
         }
@@ -465,13 +467,11 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
             }
 
             if ($status == 1 && !empty($this->conf['creditpoints.']) && $usedCreditpoints) {
-                // Added Els: update fe_user with amount of creditpoints (= exisitng amount - used_creditpoints - spended_creditpoints + saved_creditpoints
                 $fieldsArrayFeUsers['tt_products_creditpoints'] =
-                    floatval(
-                        $GLOBALS['TSFE']->fe_user->user['tt_products_creditpoints'] -
-                        $usedCreditpoints
-                        // + GeneralUtility::_GP('creditpoints_saved')
-                    );
+                floatval(
+                    tx_ttproducts_creditpoints_div::getCreditPointsFeuser($feUserRecord) -
+                    $usedCreditpoints
+                );
                 if ($fieldsArrayFeUsers['tt_products_creditpoints'] < 0) {
                     $fieldsArrayFeUsers['tt_products_creditpoints'] = 0;
                 }
@@ -516,13 +516,13 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
             }
 
             if (
-                CompatibilityUtility::isLoggedIn() &&
-                $GLOBALS['TSFE']->fe_user->user['uid'] &&
+                $context->getPropertyFromAspect('frontend.user', 'isLoggedIn') &&
+                $feUserRecord['uid'] &&
                 count($fieldsArrayFeUsers)
             ) {
                 $GLOBALS['TYPO3_DB']->exec_UPDATEquery(
                     'fe_users',
-                    'uid=' . intval($GLOBALS['TSFE']->fe_user->user['uid']),
+                    'uid=' . intval($feUserRecord['uid']),
                     $fieldsArrayFeUsers
                 );
             }
@@ -841,6 +841,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
         $orderHTML,
         $status,
         $basketExtra,
+        $feUserRecord,
         $calculatedArray,
         tx_ttproducts_info $infoObj,
         $giftcode,
@@ -858,7 +859,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
             $status == 1 &&
             $voucherObj->isEnabled()
         ) {
-            $voucherObj->delete();
+            $voucherObj->delete($feUserRecord);
         }
 
         // get credit card info

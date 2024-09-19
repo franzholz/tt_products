@@ -36,10 +36,12 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-use JambageCom\Div2007\Utility\CompatibilityUtility;
-use JambageCom\TtProducts\Model\Field\FieldInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
+
+use JambageCom\TtProducts\Api\CustomerApi;
+use JambageCom\TtProducts\Api\DiscountApi;
+use JambageCom\TtProducts\Model\Field\FieldInterface;
 
 class tx_ttproducts_field_price extends tx_ttproducts_field_base
 {
@@ -416,37 +418,56 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base
     public static function calculateEndPrice(
         $price,
         $row,
-        $discountField
+        $discountField,
+        $taxIncluded,
+        $bTax, //    if the taxed price should be returned
+        $taxpercentage,
+        $feUserRecord,
     ) {
+        $originalPrice = $price;
+        $priceModified = false;
         $calculationField = FieldInterface::PRICE_CALCULATED;
         $maxDiscount = 0;
         $discount = 0;
 
-        if ($discountField != '' && isset($row[$discountField])) {
-            $maxDiscount = $row[$discountField];
-        }
+        $discountApi = GeneralUtility::makeInstance(DiscountApi::class);
+        $discountArray = $discountApi->getFeuserDiscounts($feUserRecord);
 
-        if (
-            CompatibilityUtility::isLoggedIn() &&
-            isset($GLOBALS['TSFE']->fe_user) &&
-            isset($GLOBALS['TSFE']->fe_user->user)
-        ) {
-            $discount = $GLOBALS['TSFE']->fe_user->user['tt_products_discount'];
+        foreach ($discountArray as $discount) {
+            if ($discount > $maxDiscount) {
+                $maxDiscount = $discount;
+            }
         }
-
-        if ($discount > $maxDiscount) {
-            $maxDiscount = $discount;
-        }
-        $price = self::getDiscountPrice($price, $maxDiscount);
 
         if (
             isset($row[$calculationField]) &&
-            floatval($row[$calculationField]) > 0
+            MathUtility::canBeInterpretedAsFloat($row[$calculationField]) &&
+            (
+                (
+                    $row[$calculationField] == 0 &&
+                    $originalPrice > 0
+                ) ||
+                (
+                    $row[$calculationField] > 0 &&
+                    $originalPrice >= 0
+                )
+            )
         ) {
-            $price = $row[$calculationField];
+            if ($originalPrice == 0) {
+                $calculationDiscount = 100;
+            } else {
+                $calculationDiscount = (1 - $row[$calculationField] / $originalPrice) * 100;
+            }
+            if ($maxDiscount < $calculationDiscount) {
+                $price = $row[$calculationField];
+                $priceModified = true;
+                $maxDiscount = 0;
+            }
         }
 
-        $result = $price;
+        $price = static::getDiscountPrice($priceModified, $price, $maxDiscount);
+        $taxFactor = 1 + $taxpercentage / 100;
+        $result = static::getPriceTax($price, $bTax, $taxIncluded, $taxFactor);
 
         return $result;
     }
@@ -465,8 +486,11 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base
         $bEnableTaxZero = false,
         $notOverwritePriceIfSet = true
     ) {
+        $feUserRecord = CustomerApi::getFeUserRecord();
+
         $internalRow = $row;
         $priceArray = [];
+        $taxIncluded = $this->getTaxIncluded();
         $bIsZeroTax = false;
 
         if (
@@ -488,6 +512,7 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base
                 }
             }
         } else {
+            $taxpercentage = 0.0;
             $price0tax =
                 $this->getResellerPrice(
                     $basketExtra,
@@ -535,11 +560,27 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base
                 }
 
                 $priceArray['taxperc'] = $taxpercentage;
+                $internalPrice = 0;
+                $internalTaxIncluded = true;
+                if (
+                    !isset($internalRow['oldpricetax']) ||
+                    $internalRow['oldpricetax'] == 0
+                ) { // keep a previously set old price
+                    $internalPrice = $internalRow['price'];
+                    $internalTaxIncluded = $taxIncluded;
+                } else {
+                    $internalPrice = $internalRow['oldpricetax'];
+                }
+
                 $internalRow['price'] =
-                    self::calculateEndPrice(
+                    $this->calculateEndPrice(
                         $row['price'],
                         $row,
-                        $discountField
+                        $discountField,
+                        $taxIncluded,
+                        $internalTaxIncluded,
+                        $taxpercentage,
+                        $feUserRecord
                     );
 
                 $priceArray['tax'] =
@@ -748,11 +789,16 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base
                         $bEnableTaxZero
                     );
             } elseif (strpos($fieldname, 'price') === 0) {
+                $internalTaxIncluded = $taxIncluded;
                 $internalRow['price'] =
-                    self::calculateEndPrice(
+                    $this->calculateEndPrice(
                         $row['price'],
                         $row,
-                        $discountField
+                        $discountField,
+                        $taxIncluded,
+                        $internalTaxIncluded,
+                        $taxpercentage,
+                        $feUserRecord
                     );
 
                 if ($roundFormat != '') {

@@ -5,30 +5,30 @@ declare(strict_types=1);
 namespace JambageCom\TtProducts\Api;
 
 /***************************************************************
-*  Copyright notice
-*
-*  (c) 2020 Franz Holzinger <franz@ttproducts.de>
-*  All rights reserved
-*
-*  This script is part of the Typo3 project. The Typo3 project is
-*  free software; you can redistribute it and/or modify
-*  it under the terms of the GNU General Public License as published by
-*  the Free Software Foundation; either version 2 of the License, or
-*  (at your option) any later version.
-*
-*  The GNU General Public License can be found at
-*  http://www.gnu.org/copyleft/gpl.html.
-*  A copy is found in the textfile GPL.txt and important notices to the license
-*  from the author is found in LICENSE.txt distributed with these scripts.
-*
-*
-*  This script is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  GNU General Public License for more details.
-*
-*  This copyright notice MUST APPEAR in all copies of the script!
-***************************************************************/
+ *  Copyright notice
+ *
+ *  (c) 2020 Franz Holzinger <franz@ttproducts.de>
+ *  All rights reserved
+ *
+ *  This script is part of the Typo3 project. The Typo3 project is
+ *  free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  The GNU General Public License can be found at
+ *  http://www.gnu.org/copyleft/gpl.html.
+ *  A copy is found in the textfile GPL.txt and important notices to the license
+ *  from the author is found in LICENSE.txt distributed with these scripts.
+ *
+ *
+ *  This script is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  This copyright notice MUST APPEAR in all copies of the script!
+ ***************************************************************/
 /**
  * Part of the tt_products (Shop System) extension.
  *
@@ -39,8 +39,11 @@ namespace JambageCom\TtProducts\Api;
  * @package TYPO3
  * @subpackage tt_products
  */
+use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 
 // replacement for the former class tx_ttproducts_model_control
 //
@@ -79,6 +82,19 @@ class ParameterApi implements SingletonInterface
     protected $prefixId = 'tt_products';
     protected $basketIntoIdPrefix = 'basket-into-id';
     protected $basketInputErrorIdPrefix = 'basket-input-error-id';
+    protected $request = null;
+
+    public function setRequest(
+        ServerRequestInterface $request,
+    ): void
+    {
+        $this->request = $request;
+    }
+
+    public function getRequest()
+    {
+        return $this->request;
+    }
 
     public function setPiVars($value): void
     {
@@ -91,6 +107,21 @@ class ParameterApi implements SingletonInterface
         $result = $this->piVars;
 
         return $result;
+    }
+
+    public function getParameter($param)
+    {
+        $request = $this->getRequest();
+        $value = $request->getParsedBody()[$param] ?? $request->getQueryParams()[$param] ?? null;
+        return $value;
+    }
+
+    public function getParameterMerged($param)
+    {
+        $request = $this->getRequest();
+        $getMergedWithPost = $request->getQueryParams()[$param] ?? [];
+        ArrayUtility::mergeRecursiveWithOverrule($getMergedWithPost, $request->getParsedBody()[$param] ?? []);
+        return $getMergedWithPost;
     }
 
     // formerly getParamsTableArray and getParamsTable
@@ -135,10 +166,12 @@ class ParameterApi implements SingletonInterface
         return $result;
     }
 
+    // neu Anfang variant
     public static function determineRegExpDelimiter($delimiter)
     {
         $regexpDelimiter = $delimiter;
         if ($delimiter == ';') {
+            // 			$regexpDelimiter = '[.semicolon.]';
             // Leads to MYSQL ERROR:
             // Got error 'POSIX collating elements are not supported at offset 46' from regexp
 
@@ -157,6 +190,7 @@ class ParameterApi implements SingletonInterface
 
         return $regexpDelimiter;
     }
+    // neu Ende variant
 
     public function getBasketIntoIdPrefix()
     {
@@ -225,6 +259,8 @@ class ParameterApi implements SingletonInterface
         return $result;
     }
 
+    // neu Ende
+
     public function getPointerPiVar($theCode)
     {
         $pointerParamsTableArray = $this->getPointerParamsCodeArray();
@@ -273,14 +309,13 @@ class ParameterApi implements SingletonInterface
         if (isset($piVars[$controlVar]) && is_array($piVars[$controlVar])) {
             $resultArray = $piVars[$controlVar];
         }
-
         return $resultArray;
     }
 
     public function getBasketExtRaw()
     {
         $basketVar = $this->getBasketVar();
-        $result = GeneralUtility::_GP($basketVar);
+        $result = $this->getParameter($basketVar);
 
         return $result;
     }
@@ -310,6 +345,7 @@ class ParameterApi implements SingletonInterface
 
         if (isset($viewConfArray) && is_array($viewConfArray)) {
             $controlArray = $this->getControlArray();
+
             $typeArray = ['sortSelect', 'filterSelect', 'filterInput'];
             $typeSelectArray = ['sortSelect', 'filterSelect'];
 
@@ -431,15 +467,17 @@ class ParameterApi implements SingletonInterface
         $fieldArray = GeneralUtility::trimExplode(',', $fields);
         if (isset($fieldArray) && is_array($fieldArray)) {
             $rcArray = [];
+            // neu Anfang variant
             $regexpDelimiter = static::determineRegExpDelimiter($delimiter);
+            // neu Ende variant
 
             foreach ($fieldArray as $field) {
                 $rcArray[] =
-                    $alias . $aliasPostfix . '.' . $field . ' REGEXP ' .
-                        $GLOBALS['TYPO3_DB']->fullQuoteStr(
-                            '^([[:print:]]*[' . $regexpDelimiter . '])*(' . $sword . ')([[:print:]]*[[:blank:]]*)*([' . $regexpDelimiter . '][[:print:]]*)*$',
-                            $tablename
-                        );
+                $alias . $aliasPostfix . '.' . $field . ' REGEXP ' .
+                $GLOBALS['TYPO3_DB']->fullQuoteStr(
+                    '^([[:print:]]*[' . $regexpDelimiter . '])*(' . $sword . ')([[:print:]]*[[:blank:]]*)*([' . $regexpDelimiter . '][[:print:]]*)*$',
+                                                   $tablename
+                );
             }
             $rc = implode(' OR ', $rcArray);
         }
@@ -495,14 +533,14 @@ class ParameterApi implements SingletonInterface
 
                 $delimiter = '';
                 $searchboxWhere =
-                    $this->getWhereByFields(
-                        $searchTablename,
-                        $searchAlias,
-                        $aliasPostfix,
-                        $controlConfig['fields'],
-                        $searchVars['sword'],
-                        $delimiter
-                    );
+                $this->getWhereByFields(
+                    $searchTablename,
+                    $searchAlias,
+                    $aliasPostfix,
+                    $controlConfig['fields'],
+                    $searchVars['sword'],
+                    $delimiter
+                );
             }
         }
 
@@ -625,17 +663,17 @@ class ParameterApi implements SingletonInterface
                                             $searchboxWhereArray[] = $searchAlias . $aliasPostfix . '.' . $field . ' REGEXP ' . $GLOBALS['TYPO3_DB']->fullQuoteStr('.*[' . $delimiter . ']*' . $positionSearchValue . '[' . $delimiter . ']*.*', $searchTablename);
                                         }
                                         $searchboxWhere = implode(' OR ', $searchboxWhereArray);
-                                    // TODO
+                                        // TODO
                                     } else {
                                         $searchboxWhere =
-                                            $this->getWhereByFields(
-                                                $searchTablename,
-                                                $searchAlias,
-                                                $aliasPostfix,
-                                                $field,
-                                                $positionSearchValue,
-                                                $delimiter
-                                            );
+                                        $this->getWhereByFields(
+                                            $searchTablename,
+                                            $searchAlias,
+                                            $aliasPostfix,
+                                            $field,
+                                            $positionSearchValue,
+                                            $delimiter
+                                        );
                                     }
                                 } else {
                                     if ($searchVars['query'] == 'IN') {

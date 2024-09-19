@@ -1846,7 +1846,7 @@ class PaymentShippingHandling
     /**
      * Setting shipping, payment methods.
      */
-    public static function getBasketExtras($tablesObj, $basketRec, &$conf)
+    public static function getBasketExtras(&$conf, $tablesObj, $basketRec, $feUserRecord)
     {
         $basketExtra = [];
 

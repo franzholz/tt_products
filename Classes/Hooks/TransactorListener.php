@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace JambageCom\TtProducts\Hooks;
 
 /***************************************************************
@@ -39,17 +41,19 @@ namespace JambageCom\TtProducts\Hooks;
  * @package TYPO3
  * @subpackage tt_products
  */
-
 use TYPO3\CMS\Core\Core\Bootstrap;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
 use JambageCom\Div2007\Utility\FrontendUtility;
 use JambageCom\Div2007\Utility\MarkerUtility;
 
 use JambageCom\TtProducts\Api\BasketApi;
+use JambageCom\TtProducts\Api\CustomerApi;
 use JambageCom\TtProducts\Api\ParameterApi;
 use JambageCom\TtProducts\Api\PaymentShippingHandling;
+use JambageCom\TtProducts\Controller\Base\Creator;
 
 class TransactorListener
 {
@@ -57,8 +61,6 @@ class TransactorListener
         $pObj,
         $params
     ) {
-        // Process the ID, type and other parameters
-        // After this point we have an array, $page in TSFE, which is the page-record of the current page, $id
         $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
         $basketApi = GeneralUtility::makeInstance(BasketApi::class);
 
@@ -70,6 +72,8 @@ class TransactorListener
             return false;
         }
 
+        // neu Anfang
+        // 		FrontendUtility::init();
         $callingClassName3 = Bootstrap::class;
         $bootStrap = call_user_func([$callingClassName3, 'getInstance']);
         $bootStrap->loadExtensionTables(true);
@@ -82,12 +86,19 @@ class TransactorListener
         $transactionRow = $params['row'];
         $testMode = $params['testmode'];
         $referenceId = $transactionRow['reference'];
+        $typo3VersionArray =
+            VersionNumberUtility::convertVersionStringToArray(VersionNumberUtility::getCurrentTypo3Version());
+        $typo3VersionMain = $typo3VersionArray['version_main'];
+        $conf = [];
+        if ($typo3VersionMain < 12) {
+            $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'] ?? null;
+        } else {
+            $conf = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.'][TT_PRODUCTS_EXT . '.'] ?? null;
+        }
 
-        $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tt_products.'] ?? [];
         $config = [];
         $config['LLkey'] = '';
         $errorCode = '';
-
         $cObj = FrontendUtility::getContentObjectRenderer(
             [],
             'tt_products'
@@ -106,10 +117,8 @@ class TransactorListener
         $where_clause = $orderTablename . '.uid=' . intval($orderUid);
         $where_clause .= ' AND ' . $orderTablename . '.deleted=0 AND ' . $orderTablename . '.hidden=1';
         $orderRow = $GLOBALS['TYPO3_DB']->exec_SELECTgetSingleRow('*', $orderTablename, $where_clause);
-
         $basketRec = $basketApi->getBasketRec($orderRow);
-
-        $controlCreatorObj = GeneralUtility::makeInstance('tx_ttproducts_control_creator');
+        $controlCreatorObj = GeneralUtility::makeInstance(Creator::class);
         $result =
             $controlCreatorObj->init(
                 $conf,
@@ -121,7 +130,6 @@ class TransactorListener
                 [],
                 $basketRec
             );
-
         if (!$result) {
             return false;
         }
@@ -157,13 +165,12 @@ class TransactorListener
                 $infoViewObj->init(
                     $infoObj
                 );
-
                 $addressObj = $tablesObj->get('address', false);
-
                 $addressArray = $addressObj->fetchAddressArray($itemArray);
+
                 $mainMarkerArray = [];
                 $mainMarkerArray['###MESSAGE_PAYMENT_SCRIPT###'] = '';
-
+                // neu Anfang FHO: Die Marker der Transactor PayPal auswerten:
                 if (
                     isset($params['parameters']) &&
                     is_array($params['parameters']) &&
@@ -181,13 +188,14 @@ class TransactorListener
                     }
                 }
 
+                $feUserRecord = CustomerApi::getFeUserRecord();
                 $basketExtra =
                     PaymentShippingHandling::getBasketExtras(
+                        $conf,
                         $tablesObj,
                         $basketRec,
-                        $conf
+                        $feUserRecord,
                     );
-
                 $templateObj = GeneralUtility::makeInstance('tx_ttproducts_template');
                 $templateFile = '';
                 $errorCode = '';
@@ -205,11 +213,11 @@ class TransactorListener
                     $errorMessage = '';
                     $basketView = GeneralUtility::makeInstance('tx_ttproducts_basket_view');
                     $basketView->init(
+                        [],
                         $conf['useArtcles'],
-                        $errorCode,
-                        []
+                        $errorCode
                     );
-
+                    $feUserRecord = $parameterApi->getRequest()->getAttribute('frontend.user')->user;
                     if ($errorCode == '') {
                         \tx_ttproducts_api::finalizeOrder(
                             $this,
@@ -218,6 +226,7 @@ class TransactorListener
                             $funcTablename = 'tt_products',
                             $orderUid,
                             $orderRow,
+                            $feUserRecord,
                             $itemArray,
                             $calculatedArray,
                             $addressArray,

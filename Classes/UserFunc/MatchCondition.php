@@ -1,11 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace JambageCom\TtProducts\UserFunc;
 
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2018 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2021 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -39,11 +41,12 @@ namespace JambageCom\TtProducts\UserFunc;
  * @package TYPO3
  * @subpackage tt_products
  */
-use JambageCom\Div2007\Utility\CompatibilityUtility;
-use JambageCom\TtProducts\Api\BasketApi;
 use Psr\Http\Message\ServerRequestInterface;
+use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
+use JambageCom\TtProducts\Api\BasketApi;
 
 class MatchCondition
 {
@@ -61,35 +64,16 @@ class MatchCondition
             \tx_ttproducts_control_basket::storeNewRecs();
             $recs = \tx_ttproducts_control_basket::getStoredRecs();
             \tx_ttproducts_control_basket::setRecs($recs);
-
             $infoArray = \tx_ttproducts_control_basket::getStoredInfoArray();
 
             \tx_ttproducts_control_basket::fixCountries($infoArray);
-            $type = $params['0'];
-            $field = $params['1'];
+            $type = $params[0];
+            $field = $params[1];
             $operator = '=';
-            $value = '';
-            if (strpos($params['2'], $operator) !== false) {
-                $value = ltrim($params['2'], ' =');
-            } elseif (strpos($params['2'], 'IN') !== false) {
-                $operator = 'IN';
-                if (strpos($params['2'], 'NOT IN') !== false) {
-                    $operator = 'NOT IN';
-                }
-                $value = trim($params['3']);
-            }
 
-            if ($operator == '=') {
-                $result = ($infoArray[$type][$field] == $value);
-            } elseif ($operator == 'IN') {
-                $valueArray = GeneralUtility::trimExplode(',', $value);
-                $result = in_array($infoArray[$type][$field], $valueArray);
-            } elseif ($operator == 'NOT IN') {
-                $valueArray = GeneralUtility::trimExplode(',', $value);
-                $result = !in_array($infoArray[$type][$field], $valueArray);
+            if (isset($infoArray[$type][$field])) {
+                $result = $infoArray[$type][$field];
             }
-
-            //             \tx_ttproducts_control_basket::destruct();
 
             if (
                 !$result &&
@@ -97,23 +81,19 @@ class MatchCondition
                     !is_array($infoArray) ||
                     !is_array($infoArray[$type]) ||
                     !isset($infoArray[$type][$field])
-                ) &&
-                CompatibilityUtility::isLoggedIn()
+                )
             ) {
-                if ($field == 'country_code') {
+                $context = GeneralUtility::makeInstance(Context::class);
+                $isLoggedIn = $context->getPropertyFromAspect('frontend.user', 'isLoggedIn', false);
+
+                if (
+                    $isLoggedIn &&
+                    $field == 'country_code'
+                ) {
                     $field = 'static_info_country';
                 }
-                $value = str_replace('\'', '', $value);
-
-                if ($operator == '=') {
-                    $result = ($GLOBALS['TSFE']->fe_user->user[$field] == $value);
-                } elseif ($operator == 'IN') {
-                    $valueArray = GeneralUtility::trimExplode(',', $value);
-                    $result = in_array($GLOBALS['TSFE']->fe_user->user[$field], $valueArray);
-                } elseif ($operator == 'NOT IN') {
-                    $valueArray = GeneralUtility::trimExplode(',', $value);
-                    $result = !in_array($GLOBALS['TSFE']->fe_user->user[$field], $valueArray);
-                }
+                $feUserRecord = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.user')->user;
+                $result = $feUserRecord[$field];
             }
         }
 
@@ -122,9 +102,18 @@ class MatchCondition
 
     public function hasBulkilyItem($params)
     {
-        $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'] ?? [];
+        $basketApi = GeneralUtility::makeInstance(BasketApi::class);
+        $typo3VersionArray =
+        VersionNumberUtility::convertVersionStringToArray(VersionNumberUtility::getCurrentTypo3Version());
+        $typo3VersionMain = $typo3VersionArray['version_main'];
+        $conf = [];
+        if ($typo3VersionMain < 12) {
+            $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'] ?? null;
+        } else {
+            $conf = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.'][TT_PRODUCTS_EXT . '.'] ?? null;
+        }
 
-        $rcArray = BasketApi::getRecords($conf);
+        $rcArray = $basketApi->getRecords();
 
         $bBukily = false;
         foreach ($rcArray as $uid => $row) {
@@ -134,8 +123,6 @@ class MatchCondition
             }
         }
 
-        \tx_ttproducts_control_basket::destruct();
-
         return $bBukily;
     }
 
@@ -143,14 +130,13 @@ class MatchCondition
         $params
     ) {
         $result = false;
-        $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'] ?? [];
-
-        $rcArray = BasketApi::getRecords($conf);
-        $weight = BasketApi::getWeight($rcArray);
+        $basketApi = GeneralUtility::makeInstance(BasketApi::class);
+        $rcArray = $basketApi->getRecords();
+        $weight = $basketApi->getWeight($rcArray);
 
         if (
-            $weight >= floatval($params['0']) &&
-            $weight <= floatval($params['1'])
+            $weight >= floatval($params[0]) &&
+            $weight <= floatval($params[1])
         ) {
             $result = true;
         }

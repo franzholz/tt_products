@@ -1,29 +1,32 @@
 <?php
+
+declare(strict_types=1);
+
 /***************************************************************
-*  Copyright notice
-*
-*  (c) 2016 Franz Holzinger (franz@ttproducts.de)
-*  All rights reserved
-*
-*  This script is part of the TYPO3 project. The TYPO3 project is
-*  free software; you can redistribute it and/or modify
-*  it under the terms of the GNU General Public License as published by
-*  the Free Software Foundation; either version 2 of the License or
-*  (at your option) any later version.
-*
-*  The GNU General Public License can be found at
-*  http://www.gnu.org/copyleft/gpl.html.
-*  A copy is found in the textfile GPL.txt and important notices to the license
-*  from the author is found in LICENSE.txt distributed with these scripts.
-*
-*
-*  This script is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  GNU General Public License for more details.
-*
-*  This copyright notice MUST APPEAR in all copies of the script!
-***************************************************************/
+ *  Copyright notice
+ *
+ *  (c) 2016 Franz Holzinger (franz@ttproducts.de)
+ *  All rights reserved
+ *
+ *  This script is part of the TYPO3 project. The TYPO3 project is
+ *  free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License or
+ *  (at your option) any later version.
+ *
+ *  The GNU General Public License can be found at
+ *  http://www.gnu.org/copyleft/gpl.html.
+ *  A copy is found in the textfile GPL.txt and important notices to the license
+ *  from the author is found in LICENSE.txt distributed with these scripts.
+ *
+ *
+ *  This script is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  This copyright notice MUST APPEAR in all copies of the script!
+ ***************************************************************/
 /**
  * Part of the tt_products (Shop System) extension.
  *
@@ -36,22 +39,14 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-use JambageCom\Div2007\Utility\CompatibilityUtility;
+
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class tx_ttproducts_creditpoints_div
 {
-    public static function getCreditPointsFeuser()
+    public static function getCreditPointsFeuser($feUserRecord)
     {
-        $result = 0;
-
-        if (
-            CompatibilityUtility::isLoggedIn() &&
-            isset($GLOBALS['TSFE']->fe_user) &&
-            is_array($GLOBALS['TSFE']->fe_user->user)
-        ) {
-            $result = $GLOBALS['TSFE']->fe_user->user['tt_products_creditpoints'];
-        }
+        $result = $feUserRecord['tt_products_creditpoints'] ?? 0;
 
         return $result;
     }
@@ -73,7 +68,7 @@ class tx_ttproducts_creditpoints_div
         return $pricefactor;
     }
 
-    public static function getUsedCreditpoints($recs)
+    public static function getUsedCreditpoints($feUserRecord, $recs)
     {
         $creditpoints = 0;
         $creditpointsObj = GeneralUtility::makeInstance('tx_ttproducts_field_creditpoints');
@@ -91,7 +86,7 @@ class tx_ttproducts_creditpoints_div
             $creditpoints = $recs['tt_products']['creditpoints'];
         }
 
-        $userCreditpoints = tx_ttproducts_creditpoints_div::getCreditPointsFeuser();
+        $userCreditpoints = self::getCreditPointsFeuser($feUserRecord);
 
         if ($creditpoints > $userCreditpoints) {
             $creditpoints = $userCreditpoints;
@@ -149,20 +144,20 @@ class tx_ttproducts_creditpoints_div
     public static function addCreditPoints($username, $creditpoints): void
     {
         if ($username) {
-            $uid_voucher = '';
+            $uidFeuser = '';
             // get the "old" creditpoints for the user
-            $res1 = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid, tt_products_creditpoints', 'fe_users', 'username=' . $GLOBALS['TYPO3_DB']->fullQuoteStr($username, 'tt_products_creditpoints'));
+            $res1 = $GLOBALS['TYPO3_DB']->exec_SELECTquery('uid, tt_products_creditpoints', 'fe_users', 'username=' . $GLOBALS['TYPO3_DB']->fullQuoteStr($username, 'fe_users'));
             if ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res1)) {
                 $ttproductscreditpoints = $row['tt_products_creditpoints'];
-                $uid_voucher = $row['uid'];
+                $uidFeuser = $row['uid'];
             }
-            if ($uid_voucher) {
+            if ($uidFeuser) {
                 $fieldsArrayFeUserCredit = [];
                 $fieldsArrayFeUserCredit['tt_products_creditpoints'] = $ttproductscreditpoints + $creditpoints;
 
                 $GLOBALS['TYPO3_DB']->exec_UPDATEquery(
                     'fe_users',
-                    'uid=' . intval($uid_voucher),
+                    'uid=' . intval($uidFeuser),
                     $fieldsArrayFeUserCredit
                 );
             }

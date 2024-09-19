@@ -1,29 +1,32 @@
 <?php
+
+declare(strict_types=1);
+
 /***************************************************************
-*  Copyright notice
-*
-*  (c) 2012 Franz Holzinger (franz@ttproducts.de)
-*  All rights reserved
-*
-*  This script is part of the TYPO3 project. The TYPO3 project is
-*  free software; you can redistribute it and/or modify
-*  it under the terms of the GNU General Public License as published by
-*  the Free Software Foundation; either version 2 of the License, or
-*  (at your option) any later version.
-*
-*  The GNU General Public License can be found at
-*  http://www.gnu.org/copyleft/gpl.html.
-*  A copy is found in the textfile GPL.txt and important notices to the license
-*  from the author is found in LICENSE.txt distributed with these scripts.
-*
-*
-*  This script is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  GNU General Public License for more details.
-*
-*  This copyright notice MUST APPEAR in all copies of the script!
-***************************************************************/
+ *  Copyright notice
+ *
+ *  (c) 2020 Franz Holzinger (franz@ttproducts.de)
+ *  All rights reserved
+ *
+ *  This script is part of the TYPO3 project. The TYPO3 project is
+ *  free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License, or
+ *  (at your option) any later version.
+ *
+ *  The GNU General Public License can be found at
+ *  http://www.gnu.org/copyleft/gpl.html.
+ *  A copy is found in the textfile GPL.txt and important notices to the license
+ *  from the author is found in LICENSE.txt distributed with these scripts.
+ *
+ *
+ *  This script is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  This copyright notice MUST APPEAR in all copies of the script!
+ ***************************************************************/
 /**
  * Part of the tt_products (Shop System) extension.
  *
@@ -37,15 +40,17 @@
  * @subpackage tt_products
  */
 
-use JambageCom\Div2007\Utility\FrontendUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
+
+use JambageCom\Div2007\Utility\FrontendUtility;
+use JambageCom\TtProducts\SessionHandler\SessionHandler;
 
 class tx_ttproducts_control_memo
 {
     protected static $memoTableFieldArray = [
         'tt_products' => 'memoItems',
-        'tx_dam' => 'memodam',
+        'sys_file' => 'memofile',
     ];
     protected static $memoItemArray = [];
     protected static $controlVars = [
@@ -100,10 +105,10 @@ class tx_ttproducts_control_memo
         return $result;
     }
 
-    public static function process($funcTablename, $piVars, $conf): void
+    public static function process($feUserRecord, $funcTablename, $piVars, $conf): void
     {
         $bMemoChanged = false;
-        self::loadMemo($funcTablename, $conf);
+        self::loadMemo($feUserRecord, $funcTablename, $conf);
 
         $memoItems = self::getMemoItems($funcTablename);
         if (!is_array($memoItems)) {
@@ -126,16 +131,21 @@ class tx_ttproducts_control_memo
             }
 
             foreach ($piVars['memo'] as $k => $v) {
-                if (MathUtility::canBeInterpretedAsInteger($k) && $k != '' && $v) {
+                if (
+                    MathUtility::canBeInterpretedAsInteger($k) && $k != '' && $v) {
                     $memoArray['addmemo'][] = intval($k);
-                } elseif ($k == 'uids') {
-                    $uidArray = explode(',', $v);
-                    foreach ($uidArray as $uid) {
-                        if (MathUtility::canBeInterpretedAsInteger($uid) && $uid != '' && in_array($uid, $memoItems)) {
-                            $memoArray['delmemo'][] = $uid;
+                    } elseif ($k == 'uids') {
+                        $uidArray = explode(',', $v);
+                        foreach ($uidArray as $uid) {
+                            if (
+                                MathUtility::canBeInterpretedAsInteger($uid) &&
+                                $uid != '' &&
+                                in_array($uid, $memoItems)
+                            ) {
+                                $memoArray['delmemo'][] = $uid;
+                            }
                         }
                     }
-                }
             }
         }
 
@@ -226,42 +236,32 @@ class tx_ttproducts_control_memo
 
     public static function readSessionMemoItems($funcTablename)
     {
-        $result = '';
-        $session = tx_ttproducts_control_session::readSessionData();
         $tableArray = self::getMemoTableFieldArray();
         $field = $tableArray[$funcTablename];
 
-        if (
-            $field != '' &&
-            is_array($session) &&
-            isset($session[$field])
-        ) {
-            $result = $session[$field];
-        }
+        $result = SessionHandler::readSession($field);
 
         return $result;
     }
 
-    public static function readFeUserMemoItems($funcTablename)
+    public static function readFeUserMemoItems($feUserRecord, $funcTablename)
     {
         $result = '';
         $feuserField = self::getMemoField($funcTablename, true);
 
-        if ($GLOBALS['TSFE']->fe_user->user[$feuserField]) {
-            $result = explode(',', $GLOBALS['TSFE']->fe_user->user[$feuserField]);
+        if (!empty($feUserRecord[$feuserField])) {
+            $result = explode(',', $feUserRecord[$feuserField]);
         }
 
         return $result;
     }
 
-    public static function loadMemo($funcTablename, $conf): void
+    public static function loadMemo($feUserRecord, $funcTablename, $conf): void
     {
         $memoItems = '';
-        // 		$bFeuser = self::bUseFeuser($conf);
-        // 		$theField = self::getMemoField($funcTablename, $bFeuser);
 
         if (self::bUseFeuser($conf)) {
-            $memoItems = self::readFeUserMemoItems($funcTablename);
+            $memoItems = self::readFeUserMemoItems($feUserRecord, $funcTablename);
         } else {
             $memoItems = self::readSessionMemoItems($funcTablename);
         }
@@ -280,18 +280,18 @@ class tx_ttproducts_control_memo
             $fe_user_uid = FrontendUtility::getFrontEndUser('uid');
             $GLOBALS['TYPO3_DB']->exec_UPDATEquery('fe_users', 'uid=' . $fe_user_uid, $fieldsArray);
         } else {
-            tx_ttproducts_control_session::writeSessionData($fieldsArray);
+            SessionHandler::storeSession('feuser', $fieldsArray);
         }
     }
 
-    public static function copySession2Feuser($params, $pObj, $conf): void
+    public static function copySession2Feuser($params, $pObj, $conf, $feUserRecord): void
     {
         $tableArray = self::getMemoTableFieldArray();
         foreach ($tableArray as $funcTablename => $type) {
             $memoItems = self::readSessionMemoItems($funcTablename);
 
             if (!empty($memoItems) && is_array($memoItems)) {
-                $feuserMemoItems = self::readFeUserMemoItems($funcTablename);
+                $feuserMemoItems = self::readFeUserMemoItems($feUserRecord, $funcTablename);
                 if (isset($feuserMemoItems) && is_array($feuserMemoItems)) {
                     $memoItems = array_merge($feuserMemoItems, $memoItems);
                 }

@@ -38,6 +38,8 @@
  * @subpackage tt_products
  *
  */
+use Psr\Http\Message\ServerRequestInterface;
+
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
@@ -82,6 +84,7 @@ class tx_ttproducts_pi1_base extends AbstractPlugin implements SingletonInterfac
             $mainObj->init(
                 $conf,
                 $config,
+                $this->getRequest(),
                 $this->cObj,
                 get_class($this),
                 $errorCode
@@ -105,5 +108,10 @@ class tx_ttproducts_pi1_base extends AbstractPlugin implements SingletonInterfac
     public function set($bRunAjax): void
     {
         $this->bRunAjax = $bRunAjax;
+    }
+
+    private function getRequest(): ServerRequestInterface
+    {
+        return $GLOBALS['TYPO3_REQUEST'];
     }
 }

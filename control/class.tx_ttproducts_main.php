@@ -36,6 +36,7 @@
  * @package TYPO3
  * @subpackage tt_products
  */
+use Psr\Http\Message\ServerRequestInterface;
 
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\SingletonInterface;
@@ -56,6 +57,7 @@ use JambageCom\Div2007\Utility\ViewUtility;
 use JambageCom\TtProducts\Api\ActivityApi;
 use JambageCom\TtProducts\Api\BasketApi;
 use JambageCom\TtProducts\Api\ControlApi;
+use JambageCom\TtProducts\Api\CustomerApi;
 use JambageCom\TtProducts\Api\Localization;
 use JambageCom\TtProducts\Api\ParameterApi;
 use JambageCom\TtProducts\Api\PluginApi;
@@ -126,12 +128,15 @@ class tx_ttproducts_main implements SingletonInterface
     public function init(
         &$conf,
         &$config,
-        &$cObj,
+        ServerRequestInterface $request,
+        $cObj,
         $pibaseClass,
         &$errorCode,
         $bRunAjax = false
     ) {
         $result = true;
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
+        $parameterApi->setRequest($request);
         $this->setSingleFromList(false);
         $this->tt_product_single = [];
         $piVars = tx_ttproducts_model_control::getPiVars();
@@ -448,6 +453,8 @@ class tx_ttproducts_main implements SingletonInterface
         $itemArray = $basketObj->getItemArray();
         $basketObj->calculate($itemArray); // get the calculated arrays
         $basketObj->setItemArray($itemArray);
+        $feUserRecord = CustomerApi::getFeUserRecord();
+        $basketObj->calculateSums($feUserRecord);
 
         $voucher = $tablesObj->get('voucher');
         if (is_object($voucher) && $voucher->isEnabled()) {
@@ -455,14 +462,16 @@ class tx_ttproducts_main implements SingletonInterface
             $voucher->doProcessing($recs);
         }
 
-        $basketObj->calculateSums();
-        $basketObj->addVoucherSums();
+        if (!empty($voucher)) {
+            $basketObj->addVoucherSums($voucher);
+        }
         $templateFile = '';
         $templateCode = '';
 
         if (!$errorMessage && !count($errorCode)) {
             $funcTablename = 'tt_products';
             tx_ttproducts_control_memo::process(
+                $feUserRecord,
                 $funcTablename,
                 $piVars,
                 $conf
@@ -795,6 +804,7 @@ class tx_ttproducts_main implements SingletonInterface
                     tx_ttproducts_control_command::doProcessing(
                         $theCode,
                         $conf,
+                        $feUserRecord,
                         $bIsAllowed,
                         $bValidUpdateCode,
                         $trackingCode,
@@ -868,6 +878,7 @@ class tx_ttproducts_main implements SingletonInterface
                             $funcTablename,
                             $uid,
                             $theCode,
+                            $feUserRecord,
                             $errorCode,
                             $config['templateSuffix']
                         );
@@ -1304,6 +1315,7 @@ class tx_ttproducts_main implements SingletonInterface
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $conf = $cnf->getConf();
         $config = $cnf->getConfig();
+        $feUserRecord = CustomerApi::getFeUserRecord();
         $basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
         $bSingleFromList = false;
         $piVars = tx_ttproducts_model_control::getPiVars();
@@ -1365,6 +1377,7 @@ class tx_ttproducts_main implements SingletonInterface
             $content = $this->singleView->printView(
                 $templateCode,
                 $errorCode,
+                $feUserRecord,
                 $this->pageAsCategory,
                 $config['templateSuffix']
             );
@@ -1414,6 +1427,7 @@ class tx_ttproducts_main implements SingletonInterface
                 $errorCode,
                 $templateArea,
                 $this->pageAsCategory,
+                $feUserRecord,
                 $basketExtra,
                 $basketRecs,
                 []

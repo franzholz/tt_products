@@ -36,10 +36,15 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-use JambageCom\Div2007\Utility\FlexformUtility;
-use JambageCom\Div2007\Utility\TableUtility;
-use TYPO3\CMS\Core\SingletonInterface;
+
+use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
+
+use JambageCom\Div2007\Utility\FlexformUtility;
+
+use JambageCom\TtProducts\Api\CustomerApi;
+use JambageCom\TtProducts\Api\ParameterApi;
 
 class tx_ttproducts_ts implements SingletonInterface
 {
@@ -188,5 +193,25 @@ class tx_ttproducts_ts implements SingletonInterface
         $piVars = GeneralUtility::_GPmerged('tt_products');
 
         tx_ttproducts_control_memo::process($funcTablename, $piVars, $conf);
+    }
+
+
+    public function processMemo(): void
+    {
+        $funcTablename = 'tt_products';
+        $typo3VersionArray =
+        VersionNumberUtility::convertVersionStringToArray(VersionNumberUtility::getCurrentTypo3Version());
+        $typo3VersionMain = $typo3VersionArray['version_main'];
+        $conf = [];
+        if ($typo3VersionMain < 12) {
+            $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'] ?? null;
+        } else {
+            $conf = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.'][TT_PRODUCTS_EXT . '.'] ?? null;
+        }
+
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
+        $piVars = $parameterApi->getParameterMerged('tt_products');
+        $feUserRecord = CustomerApi::getFeUserRecord();
+        tx_ttproducts_control_memo::process($feUserRecord, $funcTablename, $piVars, $conf);
     }
 }

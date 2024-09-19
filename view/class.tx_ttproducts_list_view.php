@@ -40,29 +40,34 @@
 
 use Psr\EventDispatcher\EventDispatcherInterface;
 
+use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
-use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Core\Utility\StringUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
+
 use JambageCom\Div2007\Base\BrowserBase;
-use JambageCom\Div2007\Utility\BrowserUtility;
-use JambageCom\Div2007\Utility\CompatibilityUtility;
 use JambageCom\Div2007\Utility\FlexformUtility;
-use JambageCom\Div2007\Utility\FrontendUtility;
+use JambageCom\Div2007\Utility\MarkerUtility;
 use JambageCom\Div2007\Utility\TableUtility;
+use JambageCom\Div2007\Utility\BrowserUtility;
+use JambageCom\Div2007\Utility\FrontendUtility;
 
 use JambageCom\TtProducts\Api\BasketApi;
+use JambageCom\TtProducts\Api\ControlApi;
+use JambageCom\TtProducts\Api\FeUserMarkerApi;
 use JambageCom\TtProducts\Api\Localization;
 use JambageCom\TtProducts\Api\ParameterApi;
 use JambageCom\TtProducts\Api\PluginApi;
+use JambageCom\TtProducts\Api\VariantApi;
 use JambageCom\TtProducts\Model\Field\FieldInterface;
+use JambageCom\TtProducts\View\RelatedList;
 
 
-class tx_ttproducts_list_view implements SingletonInterface
+class tx_ttproducts_list_view
 {
     public $pid; // pid where to go
     public $uidArray;
@@ -436,8 +441,9 @@ class tx_ttproducts_list_view implements SingletonInterface
         &$error_code,
         $templateArea, // 'ITEM_LIST_TEMPLATE',
         $pageAsCategory,
-        $basketExtra,
-        $basketRecs,
+        $feUserRecord = [],
+        $basketExtra = [],
+        $basketRecs = [],
         $mergeRow = [],
         $calllevel = 0,
         $callFunctableArray = [],
@@ -494,7 +500,7 @@ class tx_ttproducts_list_view implements SingletonInterface
         }
 
         $eventDispatcher = GeneralUtility::makeInstance(EventDispatcherInterface::class);
-        $relatedListView = GeneralUtility::makeInstance('tx_ttproducts_relatedlist_view', $eventDispatcher);
+        $relatedListView = GeneralUtility::makeInstance(RelatedList::class, $eventDispatcher);
         $relatedListView->init($this->pidListObj->getPidlist(), 0);
 
         $piVars = tx_ttproducts_model_control::getPiVars();
@@ -1202,12 +1208,17 @@ class tx_ttproducts_list_view implements SingletonInterface
             );
             $subpartArray = [];
             $viewTagArray = $markerObj->getAllMarkers($t['listFrameWork']);
-            $tablesObj->get('fe_users', true)->getWrappedSubpartArray(
+            $orderAddressObj = $tablesObj->get('fe_users', false);
+            $feUserMarkerApi = GeneralUtility::makeInstance(FeUserMarkerApi::class);
+            $feUserMarkerApi->getWrappedSubpartArray(
+                $orderAddressObj,
                 $viewTagArray,
-                $useBackPid,
+                $feUserRecord,
                 $subpartArray,
                 $wrappedSubpartArray
             );
+
+            $feUserMarkerApi->getGlobalMarkerArray($markerArray, $feUserRecord);
 
             if (is_array($viewConfArray) && count($viewConfArray)) {
                 $controlViewObj = GeneralUtility::makeInstance('tx_ttproducts_control_view');
@@ -1585,8 +1596,8 @@ class tx_ttproducts_list_view implements SingletonInterface
                 }
 
                 if (in_array($theCode, $viewedCodeArray) && $limit > 0) {
-                    if (CompatibilityUtility::isLoggedIn()) {
-                        $feUserId = intval($GLOBALS['TSFE']->fe_user->user['uid']);
+                    if ($context->getPropertyFromAspect('frontend.user', 'isLoggedIn')) {
+                        $feUserId = intval($feUserRecord['uid']);
                     }
                     $whereMM = '';
                     $productAlias = $itemTable->getAlias();
@@ -1596,7 +1607,7 @@ class tx_ttproducts_list_view implements SingletonInterface
                         case 'LISTAFFORDABLE':
                             if ($feUserId) {
                                 $whereProducts = ' AND ' . $productAlias . '.creditpoints<=' .
-                                    $GLOBALS['TYPO3_DB']->fullQuoteStr($GLOBALS['TSFE']->fe_user->user['tt_products_creditpoints'], $tablename);
+                                $GLOBALS['TYPO3_DB']->fullQuoteStr($feUserRecord['tt_products_creditpoints'], $tablename);
                             }
                             break;
                         case 'LISTVIEWEDITEMS':
@@ -3233,7 +3244,8 @@ class tx_ttproducts_list_view implements SingletonInterface
                     $backPid
                 ); // clickIntoBasket
 
-            $markerArray['###AMOUNT_CREDITPOINTS###'] = number_format($GLOBALS['TSFE']->fe_user->user['tt_products_creditpoints'] ?? 0, 0);
+            $markerArray['###AMOUNT_CREDITPOINTS###'] = number_format($feUserRecord['tt_products_creditpoints'] ?? 0, 0);
+
             $markerArray['###ITEMS_SELECT_COUNT###'] = $productsCount;
             $javaScriptMarker->getMarkerArray($jsMarkerArray, $markerArray, $cObj);
             $markerArray = array_merge($jsMarkerArray, $markerArray);

@@ -92,6 +92,7 @@ class tx_ttproducts_memo_view implements SingletonInterface
         $config = $cnf->getConfig();
         $basketApi = GeneralUtility::makeInstance(BasketApi::class);
         $basketExtra = $basketApi->getBasketExtra();
+        $feUserRecord = CustomerApi::getFeUserRecord();
 
         if (
             tx_ttproducts_control_memo::bUseFeuser($conf) ||
@@ -128,6 +129,7 @@ class tx_ttproducts_memo_view implements SingletonInterface
                     '',
                     $errorCode,
                     $templateArea,
+                    $feUserRecord,
                     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['pageAsCategory'],
                     $basketExtra,
                     tx_ttproducts_control_basket::getRecs(),

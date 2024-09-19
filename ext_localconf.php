@@ -9,6 +9,10 @@ call_user_func(function ($extensionKey): void {
         define('TT_PRODUCTS_EXT', 'tt_products');
     }
 
+    if (!defined('TT_PRODUCTS_SESSION')) {
+        define('TT_PRODUCTS_SESSION', 'TX_TTPRODUCTS');
+    }
+
     if (!defined('PATH_BE_TTPRODUCTS')) {
         define('PATH_BE_TTPRODUCTS', \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::extPath($extensionKey));
     }
