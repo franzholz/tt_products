@@ -469,6 +469,10 @@ class tx_ttproducts_list_view
         $languageObj = GeneralUtility::makeInstance(Localization::class);
         $backPid = 0;
         $templateObj = GeneralUtility::makeInstance('tx_ttproducts_template');
+        $variantApi = null;
+        if ($funcTablename == 'tt_products') {
+            $variantApi = GeneralUtility::makeInstance(VariantApi::class);
+        }
 
         $whereCat = '';
         $whereProduct = '';
@@ -2560,6 +2564,7 @@ class tx_ttproducts_list_view
                                     $allVariants,
                                     $useArticles,
                                     $itemTable->getFuncTablename(),
+                                    $basketExt,
                                     false
                                 );
                             } else {
@@ -2666,10 +2671,11 @@ class tx_ttproducts_list_view
                             $row,
                             $itemTableViewArray[$itemTable->getType()]->getMarker(),
                             $markerArray,
+                            is_object($variantApi) ? $variantApi->getFieldArray() : [], // neu
                             $catTitle,
+                            $viewTagArray,
                             $config['limitImage'],
                             $image,
-                            $viewTagArray,
                             [],
                             $theCode,
                             $basketExtra,
@@ -2681,9 +2687,13 @@ class tx_ttproducts_list_view
                             true,
                             'UTF-8',
                             $hiddenFields,
+                            $parentProductRow,
+                            $parentFuncTablename,
+                            $parentRows,
                             $multiOrderArray,
                             $productRowArray,
-                            $theCode == 'LISTGIFTS'
+                            false,
+                            $notOverwritePriceIfSet
                         );
 
                         if (
@@ -2747,14 +2757,16 @@ class tx_ttproducts_list_view
                             ) {
                                 // use the fields of the article instead of the product
                                 //
+
                                 $itemTableView->getModelMarkerArray(
                                     $prodVariantRow, // must have the getMergedRowFromItemArray function called before. Otherwise the product will not show the first variant selection at the first start time
                                     $itemTableViewArray['article']->getMarker(),
                                     $markerArray,
+                                    $variantApi->getFieldArray(), // neu
                                     $catTitle,
+                                    $articleViewTagArray,
                                     $config['limitImage'],
                                     $image,
-                                    $articleViewTagArray,
                                     [],
                                     $theCode,
                                     $basketExtra,
@@ -2766,10 +2778,15 @@ class tx_ttproducts_list_view
                                     true,
                                     'UTF-8',
                                     $hiddenFields,
+                                    $parentProductRow, // neu für Download
+                                    $parentFuncTablename, // neu für Download Object Liste
+                                    $parentRows,     // neu für Download Object Liste
                                     $multiOrderArray,
                                     $productRowArray,
-                                    $theCode == 'LISTGIFTS'
+                                    false,
+                                    $notOverwritePriceIfSet // neu
                                 );
+
                                 $articleViewObj->getItemSubpartArrays(
                                     $t['item'],
                                     'tt_products_articles',

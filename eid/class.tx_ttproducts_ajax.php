@@ -61,6 +61,11 @@ class tx_ttproducts_ajax implements SingletonInterface
         return $result;
     }
 
+    public function getTaxajax()
+    {
+        return $this->taxajax;
+    }
+
     public function setConf($conf): void
     {
         $this->conf = $conf;

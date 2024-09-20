@@ -36,7 +36,7 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-
+use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Crypto\PasswordHashing\InvalidPasswordHashException;
 use TYPO3\CMS\Core\Crypto\PasswordHashing\PasswordHashFactory;
@@ -509,6 +509,7 @@ class tx_ttproducts_api
         $funcTablename,
         $orderUid,
         &$orderArray,
+        $feUserRecord,
         $itemArray,
         $calculatedArray,
         $addressArray,

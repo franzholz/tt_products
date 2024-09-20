@@ -827,4 +827,99 @@ abstract class tx_ttproducts_table_base_view implements SingletonInterface
             }
         }
     }
+
+    /**
+     * Template marker substitution
+     * Fills in the markerArray with data for a product.
+     *
+     * @param	array		reference to an item array with all the data of the item
+     * @param	string		title of the category
+     * @param	int		number of images to be shown
+     * @param	array		information about the parent HTML form
+     *
+     * @return	array		Returns a markerArray ready for substitution with information
+     * 			 		for the tt_producst record, $row
+     *
+     * @access private
+     */
+    public function getModelMarkerArray(
+        $row,
+        $markerKey,
+        array &$markerArray,
+        $variantFieldArray, // neu
+        $catTitle,
+        array $tagArray,
+        $imageNum = 0,
+        $imageRenderObj = 'image',
+        array $forminfoArray = [],
+        $theCode = '',
+        array $basketExtra = [],
+        array $basketRecs = [],
+        $id = '',
+        $prefix = '',
+        $suffix = '',
+        $linkWrap = '',
+        $bHtml = true,
+        $charset = '',
+        $hiddenFields = '',
+        array $parentProductRow = [], // neu für Download
+        $parentFuncTablename = '', // neu für Download Object Liste
+        array $parentRows = [],     // neu für Download Object Liste
+        array $multiOrderArray = [],
+        array $productRowArray = [],
+        $enableTaxZero = false,
+        $notOverwritePriceIfSet = true // neu
+    ) {
+        $modelObj = $this->getModelObj();
+        $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
+        $conf = $cnfObj->getConf();
+
+        if ($markerKey) {
+            $marker = $markerKey;
+        } else {
+            $marker = $this->getMarker();
+        }
+
+        if (!$marker) {
+            return [];
+        }
+        $variantMarkerArray = [];
+
+        $this->getRowMarkerArray(
+            $modelObj->getFuncTablename(),
+            $row,
+            $marker,
+            $markerArray,
+            $variantFieldArray,
+            $variantMarkerArray,
+            $tagArray,
+            $theCode,
+            $basketExtra,
+            $basketRecs,
+            $bHtml,
+            $charset,
+            $imageNum,
+            $imageRenderObj,
+            $id,
+            $prefix,
+            $suffix,
+            $linkWrap,
+            $enableTaxZero
+        );
+        $markerArray = array_merge($markerArray, $variantMarkerArray);
+
+        $this->getPriceMarkerArray(
+            $basketExtra,
+            $basketRecs,
+            $markerArray,
+            $row,
+            $markerKey,
+            $id,
+            $theCode,
+            $enableTaxZero,
+            $notOverwritePriceIfSet // neu
+        );
+
+        $markerArray['###CUR_SYM###'] = ' ' . ($bHtml ? htmlentities($conf['currencySymbol'], ENT_QUOTES) : $conf['currencySymbol']);
+    }
 }

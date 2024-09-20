@@ -124,6 +124,7 @@ class tx_ttproducts_db implements SingletonInterface
                 $errorCode,
                 $recs
             );
+
         if (!$result) {
             return false;
         }

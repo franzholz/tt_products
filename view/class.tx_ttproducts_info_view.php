@@ -57,9 +57,6 @@ class tx_ttproducts_info_view implements SingletonInterface
 {
     public $conf;
     public $config;
-    public $infoArray; // elements: 'billing' and 'delivery' addresses
-    // contains former basket $personInfo and $deliveryInfo
-
     public $country;			// object of the type tx_table_db
     public $password;	// automatically generated random password for a new frontend user
     public $bHasBeenInitialised = false;
@@ -200,14 +197,14 @@ class tx_ttproducts_info_view implements SingletonInterface
                 $fieldMarker = strtoupper($fName);
                 if ($bHtml) {
                     $markerArray['###PERSON_' . $fieldMarker . '###'] =
-                    htmlspecialchars($this->infoArray['billing'][$fName] ?? '');
+                    htmlspecialchars($infoArray['billing'][$fName] ?? '');
                     $markerArray['###DELIVERY_' . $fieldMarker . '###'] =
-                    htmlspecialchars($this->infoArray['delivery'][$fName] ?? '');
+                    htmlspecialchars($infoArray['delivery'][$fName] ?? '');
                 } else {
                     $markerArray['###PERSON_' . $fieldMarker . '###'] =
-                    $this->infoArray['billing'][$fName] ?? '';
+                    $infoArray['billing'][$fName] ?? '';
                     $markerArray['###DELIVERY_' . $fieldMarker . '###'] =
-                    $this->infoArray['delivery'][$fName] ?? '';
+                    $infoArray['delivery'][$fName] ?? '';
                 }
             }
         }
@@ -404,7 +401,7 @@ class tx_ttproducts_info_view implements SingletonInterface
 
         $orderAddressViewObj->getAddressMarkerArray(
             'fe_users',
-            $this->infoArray['billing'],
+            $infoArray['billing'],
             $markerArray,
             $bSelectSalutation,
             'personinfo'
@@ -412,26 +409,26 @@ class tx_ttproducts_info_view implements SingletonInterface
 
         $orderAddressViewObj->getAddressMarkerArray(
             'fe_users',
-            $this->infoArray['delivery'],
+            $infoArray['delivery'],
             $markerArray,
             $bSelectSalutation,
             'delivery'
         );
 
-        $text = $this->infoArray['delivery']['note'] ?? '';
+        $text = $infoArray['delivery']['note'] ?? '';
         $markerArray['###DELIVERY_NOTE###'] = $text;
         $markerArray['###DELIVERY_NOTE_DISPLAY###'] = nl2br($text);
-        $markerArray['###DELIVERY_GIFT_SERVICE###'] = $this->infoArray['delivery']['giftservice'] ?? '';
-        $markerArray['###DELIVERY_GIFT_SERVICE_DISPLAY###'] = nl2br($this->infoArray['delivery']['giftservice'] ?? '');
-        if (isset($this->infoArray['delivery']['radio1'])) {
-            $markerArray['###DELIVERY_RADIO1_1###'] = ($this->infoArray['delivery']['radio1'] == '1' ? 'checked ' : '');
-            $markerArray['###DELIVERY_RADIO1_2###'] = ($this->infoArray['delivery']['radio1'] == '2' ? 'checked ' : '');
-            $markerArray['###DELIVERY_RADIO1_DISPLAY###'] = $this->infoArray['delivery']['radio1'];
+        $markerArray['###DELIVERY_GIFT_SERVICE###'] = $infoArray['delivery']['giftservice'] ?? '';
+        $markerArray['###DELIVERY_GIFT_SERVICE_DISPLAY###'] = nl2br($infoArray['delivery']['giftservice'] ?? '');
+        if (isset($infoArray['delivery']['radio1'])) {
+            $markerArray['###DELIVERY_RADIO1_1###'] = ($infoArray['delivery']['radio1'] == '1' ? 'checked ' : '');
+            $markerArray['###DELIVERY_RADIO1_2###'] = ($infoArray['delivery']['radio1'] == '2' ? 'checked ' : '');
+            $markerArray['###DELIVERY_RADIO1_DISPLAY###'] = $infoArray['delivery']['radio1'];
         }
 
         // Desired delivery date.
-        $markerArray['###DELIVERY_DESIRED_DATE###'] = $this->infoArray['delivery']['desired_date'] ?? '';
-        $markerArray['###DELIVERY_DESIRED_TIME###'] = $this->infoArray['delivery']['desired_time'] ?? '';
+        $markerArray['###DELIVERY_DESIRED_DATE###'] = $infoArray['delivery']['desired_date'] ?? '';
+        $markerArray['###DELIVERY_DESIRED_TIME###'] = $infoArray['delivery']['desired_time'] ?? '';
         $markerArray['###DELIVERY_STORE_SELECT###'] = '';
 
         $shippingType = PaymentShippingHandling::get(
@@ -500,7 +497,7 @@ class tx_ttproducts_info_view implements SingletonInterface
                             ''
                         );
 
-                    $actUidStore = $this->infoArray['delivery']['store'];
+                    $actUidStore = $infoArray['delivery']['store'];
                     $tableFieldArray = [
                         'tx_party_addresses' => ['post_code', 'locality', 'remarks'],
                         'tt_address' => ['zip', 'city', 'name', 'address'],
@@ -559,10 +556,10 @@ class tx_ttproducts_info_view implements SingletonInterface
         $markerArray['###FE_USER_TT_PRODUCTS_DISCOUNT###'] = $GLOBALS['TSFE']->fe_user->user['tt_products_discount'] ?? '';
         $markerArray['###FE_USER_USERNAME###'] = $GLOBALS['TSFE']->fe_user->user['username'] ?? '';
         $markerArray['###FE_USER_UID###'] = $GLOBALS['TSFE']->fe_user->user['uid'] ?? '';
-        $bAgb = (isset($this->infoArray['billing']['agb']) && $this->infoArray['billing']['agb'] && (!isset($piVars['agb']) || $piVars['agb'] > 0));
+        $bAgb = (isset($infoArray['billing']['agb']) && $infoArray['billing']['agb'] && (!isset($piVars['agb']) || $piVars['agb'] > 0));
         $markerArray['###FE_USER_CNUM###'] = $GLOBALS['TSFE']->fe_user->user['cnum'] ?? '';
         $markerArray['###PERSON_AGB###'] = 'value="1" ' . ($bAgb ? 'checked="checked"' : '');
-        $markerArray['###USERNAME###'] = $this->infoArray['billing']['email'] ?? '';
+        $markerArray['###USERNAME###'] = $infoArray['billing']['email'] ?? '';
         $markerArray['###PASSWORD###'] = $this->password;
         $valueArray = $GLOBALS['TCA']['sys_products_orders']['columns']['foundby']['config']['items'];
 
@@ -585,14 +582,14 @@ class tx_ttproducts_info_view implements SingletonInterface
             $languageObj,
             $valueArray,
             'recs[delivery][foundby]',
-            $this->infoArray['delivery']['foundby'] ?? '',
+            $infoArray['delivery']['foundby'] ?? '',
             true,
             true,
             [],
             $foundbyType
         );
 
-        $foundbyKey = $this->infoArray['delivery']['foundby'] ?? '';
+        $foundbyKey = $infoArray['delivery']['foundby'] ?? '';
         if (isset($valueArray[$foundbyKey])) {
             $tmp = $languageObj->splitLabel($valueArray[$foundbyKey][0]);
             $text = $languageObj->getLabel($tmp);
@@ -601,6 +598,6 @@ class tx_ttproducts_info_view implements SingletonInterface
         $markerArray['###DELIVERY_FOUNDBY###'] = $text;
         $markerArray['###DELIVERY_FOUNDBY_KEY###'] = $foundbyKey;
         $markerArray['###DELIVERY_FOUNDBY_SELECTOR###'] = $foundbyText;
-        $markerArray['###DELIVERY_FOUNDBY_OTHERS###'] = $this->infoArray['delivery']['foundby_others'] ?? '';
+        $markerArray['###DELIVERY_FOUNDBY_OTHERS###'] = $infoArray['delivery']['foundby_others'] ?? '';
     } // getMarkerArray
 }

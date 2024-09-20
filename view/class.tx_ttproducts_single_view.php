@@ -844,6 +844,7 @@ class tx_ttproducts_single_view implements SingletonInterface
                             $allVariants,
                             $useArticles,
                             $itemTableArray[$this->type]->getFuncTablename(),
+                            $basketExt,
                             false
                         );
 

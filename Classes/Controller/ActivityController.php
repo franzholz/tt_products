@@ -872,7 +872,6 @@ class ActivityController implements SingletonInterface
                 $accountRequired,
                 $paymentErrorMsg
             );
-
             $markerArray['###ERROR_DETAILS###'] = $label;
             $markerArray['###FORM_NAME###'] = 'ErrorForm';
             $finalize = false;

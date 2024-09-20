@@ -356,9 +356,9 @@ class tx_ttproducts_basket implements SingletonInterface
 
             if ($bStoreBasket) {
                 if (is_array($basketExt) && count($basketExt)) {
-                    tx_ttproducts_control_basket::storeBasketExt($basketExt);
+                    $basketApi->storeBasketExt($basketExt);
                 } else {
-                    tx_ttproducts_control_basket::storeBasketExt([]);
+                    $basketApi->storeBasketExt([]);
                 }
             }
         }
@@ -674,7 +674,7 @@ class tx_ttproducts_basket implements SingletonInterface
             }
         }
 
-        tx_ttproducts_control_basket::storeBasketExt($basketExt);
+        $basketApi->storeBasketExt($basketExt);
     }
 
     public function getMaxCount($quantity, $uid = 0)
@@ -1186,11 +1186,13 @@ class tx_ttproducts_basket implements SingletonInterface
         $bextVarLine,
         $useArticles,
         $funcTablename,
+        $basketExt = [],
         $mergeAttributeFields = true
     ) {
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $viewTableObj = $tablesObj->get($funcTablename);
         $variantSeparator = $viewTableObj->getVariant()->getSplitSeparator();
+        $basketApi = GeneralUtility::makeInstance(BasketApi::class);
 
         $uid = $row['uid'];
         $calculationField = FieldInterface::PRICE_CALCULATED;
@@ -1469,7 +1471,8 @@ class tx_ttproducts_basket implements SingletonInterface
                             $row,
                             $bextVarLine,
                             $useArticles,
-                            $funcTablename
+                            $funcTablename,
+                            $basketExt,
                         );
                     $productsArray[$prodCount] = $currRow;
                     $prodCount++;

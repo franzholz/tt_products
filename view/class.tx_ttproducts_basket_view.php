@@ -288,7 +288,6 @@ class tx_ttproducts_basket_view implements SingletonInterface
         $basketRecs = []
     ) {
         /*
-
             Very central function in the library.
             By default it extracts the subpart, ###BASKET_TEMPLATE###, from the $templateCode (if given, else the default $this->templateCode)
             and substitutes a lot of fields and subparts.
@@ -612,29 +611,24 @@ class tx_ttproducts_basket_view implements SingletonInterface
             $sum_price_total_totunits_no_tax = 0;
             $sum_pricecreditpoints_total_totunits = 0;
             $creditpointsGifts = '';
-            // neu FHO Anfang
+
             $basketItemViewApi->init(
                 $markerFieldArray,
                 $t['item'],
                 $this->useArticles
             );
 
-            // debug ($itemArray, 'getView vor generateItemView $itemArray');
             // loop over all items in the basket indexed by sorting text
             foreach ($itemArray as $sort => $actItemArray) {
-                // debug ($actItemArray, 'tx_ttproducts_basket_view::getView $actItemArray');
                 foreach ($actItemArray as $k1 => $actItem) {
-                    // debug ($actItem, 'tx_ttproducts_basket_view::getView $actItem');
                     $count++;
                     $quantity = $basketItemApi->getQuantity($actItem);
                     $row = $actItem['rec'];
-                    // debug ($row, 'tx_ttproducts_basket_view::getView $row');
                     $basketItemApi->addMinMaxQuantities(
                         $quantityArray,
                         $row,
                         $quantity
                     );
-                    //                     debug ($quantityArray, '$quantityArray');
 
                     $itemOut = $basketItemViewApi->generateItemView(
                         $hiddenFields,
@@ -654,8 +648,6 @@ class tx_ttproducts_basket_view implements SingletonInterface
                         $inputEntabled = true,
                         $bHtml
                     );
-
-                    //                     debug ($itemOut, '$itemOut');
 
                     if (empty($itemOut)) {
                         $count--;
@@ -682,507 +674,10 @@ class tx_ttproducts_basket_view implements SingletonInterface
                         $itemsOut
                     );
 
-                    // debug ($tempContent, '$tempContent Pos 3');
-
                     $out .= $tempContent;
                     $itemsOut = '';	// Clear the item-code var
                 }
             } // end of foreach ($itemArray
-
-            // loop over all items in the basket indexed by sorting text
-           /*  foreach ($itemArray as $sort => $actItemArray) {
-                foreach ($actItemArray as $k1 => $actItem) {
-                    $row = $actItem['rec'];
-                    if (!$row) {	// avoid bug with missing row
-                        continue 2;
-                    }
-
-                    $extArray = $row['ext'];
-                    $pid = intval($row['pid']);
-                    if (!tx_ttproducts_control_basket::getPidListObj()->getPageArray($pid)) {
-                        // product belongs to another basket
-                        continue 2;
-                    }
-                    $quantity = $itemObj->getQuantity($actItem);
-                    $itemObj->getMinMaxQuantity($actItem, $minQuantity, $maxQuantity);
-
-                    if ($minQuantity != '0.00' && $quantity < $minQuantity) {
-                        $quantityArray['minimum'][] =
-                            [
-                                'rec' => $row,
-                                'limitQuantity' => $minQuantity,
-                                'quantity' => $quantity,
-                            ];
-                    }
-                    if ($maxQuantity != '0.00' && $quantity > $maxQuantity) {
-                        $quantityArray['maximum'][] =
-                            [
-                                'rec' => $row,
-                                'limitQuantity' => $maxQuantity,
-                                'quantity' => $quantity,
-                            ];
-                    }
-                    $count++;
-                    $actItem['rec'] = $row;	// fix bug with PHP 5.2.1
-                    $bIsNoMinPrice = $itemTable->hasAdditional($row, 'noMinPrice');
-                    if (!$bIsNoMinPrice) {
-                        $checkPriceArray['minimum'] = true;
-                    }
-
-                    $bIsNoMaxPrice = $itemTable->hasAdditional($row, 'noMaxPrice');
-
-                    if (!$bIsNoMaxPrice) {
-                        $checkPriceArray['maximum'] = true;
-                    }
-
-                    $pidcategory = ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['pageAsCategory'] == 1 ? $pid : '');
-                    $currentPnew = $pidcategory . '_' . $actItem['rec']['category'];
-
-                    // Print Category Title
-                    if ($currentPnew != $currentP) {
-                        if ($itemsOut) {
-                            $out .=
-                                $templateService->substituteSubpart(
-                                    $t['itemFrameWork'],
-                                    '###ITEM_SINGLE###',
-                                    $itemsOut
-                                );
-                        }
-                        $itemsOut = '';		// Clear the item-code var
-                        $currentP = $currentPnew;
-
-                        if (!empty($conf['displayBasketCatHeader'])) {
-                            $markerArray = [];
-                            $pageCatTitle = '';
-                            if (
-                                $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['pageAsCategory'] == 1
-                            ) {
-                                $page = $tablesObj->get('pages');
-                                $pageTmp = $page->get($pid);
-                                $pageCatTitle = $pageTmp['title'] . '/';
-                            }
-                            $catTmp = '';
-                            if ($actItem['rec']['category']) {
-                                $catTmp = $tablesObj->get('tt_products_cat')->get($actItem['rec']['category']);
-                                $catTmp = $catTmp['title'] ?? '';
-                            }
-                            $catTitle = $pageCatTitle . $catTmp;
-                            $cObj->setCurrentVal($catTitle);
-                            $markerArray['###CATEGORY_TITLE###'] =
-                                $cObj->cObjGetSingle(
-                                    $conf['categoryHeader'],
-                                    $conf['categoryHeader.'],
-                                    'categoryHeader'
-                                );
-
-                            $categoryQuantity = $basketObj->getCategoryQuantity();
-
-                            // compatible with bill/delivery
-                            $currentCategory = $row['category'];
-                            $markerArray['###CATEGORY_QTY###'] = $categoryQuantity[$currentCategory];
-
-                            $categoryPriceTax = $calculatedArray['categoryPriceTax']['goodstotal']['ALL'][$currentCategory] ?? 0;
-                            $markerArray['###PRICE_GOODS_TAX###'] = $priceViewObj->priceFormat($categoryPriceTax);
-                            $categoryPriceNoTax = $calculatedArray['categoryPriceNoTax']['goodstotal']['ALL'][$currentCategory];
-                            $markerArray['###PRICE_GOODS_NO_TAX###'] = $priceViewObj->priceFormat($categoryPriceNoTax);
-                            $markerArray['###PRICE_GOODS_ONLY_TAX###'] = $priceViewObj->priceFormat($categoryPriceTax - $categoryPriceNoTax);
-
-                            $out .= $templateService->substituteMarkerArray($t['categoryFrameWork'], $markerArray);
-                        }
-                    }
-                    // Fill marker arrays
-                    $wrappedSubpartArray = [];
-                    $subpartArray = [];
-                    $markerArray = [];
-
-                    $bInputDisabled = ($row['inStock'] <= 0);
-
-                    $basketItemView->getItemMarkerArray(
-                        $funcTablename,
-                        false,
-                        $actItem,
-                        $markerArray,
-                        $viewTagArray,
-                        $hiddenFields,
-                        $theCode,
-                        $bInputDisabled,
-                        $count,
-                        false,
-                        'UTF-8'
-                    );
-
-                    $basketItemView->getItemMarkerSubpartArrays(
-                        $t['item'],
-                        $itemTable->getFuncTablename(),
-                        $row,
-                        'SINGLE',
-                        $viewTagArray,
-                        false,
-                        $productRowArray,
-                        $markerArray,
-                        $subpartArray,
-                        $wrappedSubpartArray
-                    );
-
-                    $catRow = $row['category'] ? $tablesObj->get('tt_products_cat')->get($row['category']) : [];
-                    // $catTitle= $actItem['rec']['category'] ? $this->tt_products_cat->get($actItem['rec']['category']) : '';
-                    $catTitle = $catRow['title'] ?? '';
-                    $tmp = [];
-
-                    // use the product if no article row has been found
-                    $prodVariantRow = $row;
-
-                    if (isset($actItem[$calculationField])) {
-                        $prodVariantRow[$calculationField] = $actItem[$calculationField];
-                    }
-
-                    $prodMarkerRow = $prodVariantRow;
-                    $itemTable->tableObj->substituteMarkerArray($prodMarkerRow);
-                    $bIsGift = tx_ttproducts_gifts_div::isGift($row, $conf['whereGift']);
-                    $itemTableView->getModelMarkerArray(
-                        $prodMarkerRow,
-                        '',
-                        $markerArray,
-                        $catTitle,
-                        0,
-                        'basketImage',
-                        $viewTagArray,
-                        $tmp,
-                        $theCode,
-                        $basketExtra,
-                        $basketRecs,
-                        $count,
-                        '',
-                        '',
-                        '',
-                        $bHtml,
-                        'UTF-8',
-                        '',
-                        $multiOrderArray,
-                        $productRowArray,
-                        true,
-                        $notOverwritePriceIfSet
-                    );
-
-                    if (
-                        $this->useArticles == 1 ||
-                        $this->useArticles == 3 ||
-                        $bCopyProduct2Article
-                    ) {
-                        $articleRows = [];
-
-                        if (!$bCopyProduct2Article) {
-                            // get the article uid with these colors, sizes and gradings
-                            if (
-                                is_array($extArray) &&
-                                isset($extArray['mergeArticles']) &&
-                                is_array($extArray['mergeArticles'])
-                            ) {
-                                $prodVariantRow = $extArray['mergeArticles'];
-                            } elseif (
-                                isset($extArray[$articleTable->getFuncTablename()]) &&
-                                is_array($extArray[$articleTable->getFuncTablename()])
-                            ) {
-                                $articleExtArray = $extArray[$articleTable->getFuncTablename()];
-                                foreach ($articleExtArray as $k => $articleData) {
-                                    $articleRows[$k] = $articleTable->get($articleData['uid']);
-                                }
-                            } else {
-                                $articleRow = $itemTable->getArticleRow($row, $theCode);
-                                if ($articleRow) {
-                                    $articleRows[0] = $articleRow;
-                                }
-                            }
-                        }
-
-                        if (
-                            is_array($articleRows) &&
-                            !empty($articleRows)
-                        ) {
-                            $bKeepNotEmpty = (bool) ($conf['keepProductData'] ?? 1); // Auskommentieren nicht möglich wenn mehrere Artikel dem Produkt zugewiesen werden
-
-                            if ($this->useArticles == 3) {
-                                $itemTable->fillVariantsFromArticles(
-                                    $prodVariantRow
-                                );
-                                $itemTable->getVariant()->modifyRowFromVariant($prodVariantRow);
-                            }
-                            foreach ($articleRows as $articleRow) {
-                                $itemTable->mergeAttributeFields(
-                                    $prodVariantRow,
-                                    $articleRow,
-                                    $bKeepNotEmpty,
-                                    true,
-                                    true,
-                                    $calculationField,
-                                    false
-                                );
-                            }
-                        } else {
-                            $variant = $itemTable->getVariant()->getVariantFromRow($row);
-                            $itemTable->getVariant()->modifyRowFromVariant(
-                                $prodVariantRow,
-                                $variant
-                            );
-                        }
-                        // use the fields of the article instead of the product
-                        //
-
-                        if (
-                            isset($extArray) &&
-                            isset($extArray['records']) &&
-                            is_array($extArray['records'])
-                        ) {
-                            $newTitleArray = [];
-                            $externalRowArray = $extArray['records'];
-                            foreach ($externalRowArray as $tablename => $externalRow) {
-                                $newTitleArray[] = $externalRow['title'];
-                            }
-                            $prodVariantRow['title'] = implode(' | ', $newTitleArray);
-                        }
-                        $prodMarkerRow = $prodVariantRow;
-                        $itemTable->tableObj->substituteMarkerArray($prodMarkerRow);
-
-                        $articleViewObj->getModelMarkerArray(
-                            $prodMarkerRow,
-                            '',
-                            $markerArray,
-                            $catTitle,
-                            0,
-                            'basketImage',
-                            $articleViewTagArray,
-                            $tmp,
-                            $theCode,
-                            $basketExtra,
-                            $basketRecs,
-                            $count,
-                            '',
-                            '',
-                            '',
-                            $bHtml,
-                            'UTF-8',
-                            '',
-                            $multiOrderArray,
-                            $productRowArray,
-                            false, // FHO wieder zurück korrigiert, sonst wird bei Artikel Tax=0 nicht die TAXpercentage genommen.
-                            $notOverwritePriceIfSet
-                        );
-
-                        $articleViewObj->getItemMarkerSubpartArrays(
-                            $t['item'],
-                            $articleViewObj->getModelObj()->getFuncTablename(),
-                            $prodVariantRow,
-                            $markerArray,
-                            $subpartArray,
-                            $wrappedSubpartArray,
-                            $articleViewTagArray,
-                            $theCode,
-                            $basketExtra
-                        );
-                    }
-
-                    $itemTableView->getItemMarkerSubpartArrays(
-                        $t['item'],
-                        $itemTableView->getModelObj()->getFuncTablename(),
-                        $prodVariantRow,
-                        $markerArray,
-                        $subpartArray,
-                        $wrappedSubpartArray,
-                        $viewTagArray,
-                        [],
-                        [],
-                        $theCode,
-                        $basketExtra,
-                        $basketRecs,
-                        $count,
-                        $checkPriceZero
-                    );
-
-                    $cObj->setCurrentVal($catTitle);
-                    $markerArray['###CATEGORY_TITLE###'] =
-                        $cObj->cObjGetSingle(
-                            $conf['categoryHeader'],
-                            $conf['categoryHeader.'],
-                            'categoryHeader'
-                        );
-
-                    $markerArray['###PRICE_TOTAL_TAX###'] = $priceViewObj->priceFormat($actItem['totalTax'] + $actItem['deposittax'] * $quantity);
-
-                    $markerArray['###PRICE_TOTAL_NO_TAX###'] = $priceViewObj->priceFormat($actItem['totalNoTax'] + $actItem['depositnotax'] * $quantity);
-                    $markerArray['###PRICE_TOTAL_ONLY_TAX###'] = $priceViewObj->priceFormat($actItem['totalTax'] - $actItem['totalNoTax'] + ($actItem['deposittax'] - $actItem['depositnotax']) * $quantity);
-
-                    $markerArray['###PRICE_TOTAL_0_TAX###'] = $priceViewObj->priceFormat($actItem['total0Tax']);
-                    $markerArray['###PRICE_TOTAL_0_NO_TAX###'] = $priceViewObj->priceFormat($actItem['total0NoTax']);
-                    $markerArray['###PRICE_TOTAL_0_ONLY_TAX###'] = $priceViewObj->priceFormat($actItem['total0Tax'] - $actItem['total0NoTax']);
-
-                    $pricecredits_total_totunits_no_tax = 0;
-                    $pricecredits_total_totunits_tax = 0;
-                    if ($row['category'] == ($conf['creditsCategory'] ?? -1)) {
-                        // creditpoint system start
-                        $pricecredits_total_totunits_no_tax = $actItem['totalNoTax'] * ($row['unit_factor'] ?? 0);
-                        $pricecredits_total_totunits_tax = $actItem['totalTax'] * ($row['unit_factor'] ?? 0);
-                    }
-                    $markerArray['###PRICE_TOTAL_TOTUNITS_NO_TAX###'] = $priceViewObj->priceFormat($pricecredits_total_totunits_no_tax);
-                    $markerArray['###PRICE_TOTAL_TOTUNITS_TAX###'] = $priceViewObj->priceFormat($pricecredits_total_totunits_tax);
-                    $sum_pricecredits_total_totunits_no_tax += $pricecredits_total_totunits_no_tax;
-                    $sum_price_total_totunits_no_tax += $pricecredits_total_totunits_no_tax;
-                    $sum_pricecreditpoints_total_totunits += $pricecredits_total_totunits_no_tax;
-
-                    // creditpoint system end
-                    $page = $tablesObj->get('pages');
-                    $pid = $page->getPID(
-                        $conf['PIDitemDisplay'],
-                        $conf['PIDitemDisplay.'] ?? '',
-                        $row,
-                        $GLOBALS['TSFE']->rootLine[1] ?? ''
-                    );
-                    $addQueryString = [];
-                    $addQueryString[$itemTable->type] = intval($row['uid']);
-
-                    if (
-                        is_array($extArray) && is_array($extArray[tx_ttproducts_control_basket::getFuncTablename()])
-                    ) {
-                        $addQueryString['variants'] = htmlspecialchars($extArray[tx_ttproducts_control_basket::getFuncTablename()][0]['vars']);
-                    }
-                    $isImageProduct = $itemTable->hasAdditional($row, 'isImage');
-                    $damMarkerArray = [];
-                    $damCategoryMarkerArray = [];
-
-                    if (
-                        (
-                            $isImageProduct ||
-                            $funcTablename == 'tt_products'
-                        ) &&
-                        is_array($extArray) &&
-                        isset($extArray['tx_dam'])
-                    ) {
-                        reset($extArray['tx_dam']);
-                        $damext = current($extArray['tx_dam']);
-                        $damUid = $damext['uid'];
-                        $damRow = $tablesObj->get('tx_dam')->get($damUid);
-                        $damItem = [];
-                        $damItem['rec'] = $damRow;
-                        $damCategoryArray =
-                            $tablesObj->get('tx_dam_cat')->getCategoryArray($damRow);
-                        if (!empty($damCategoryArray)) {
-                            reset($damCategoryArray);
-                            $damCat = current($damCategoryArray);
-                        }
-
-                        $tablesObj->get('tx_dam_cat', true)->getMarkerArray(
-                            $damCategoryMarkerArray,
-                            $tablesObj->get('tx_dam_cat', true)->getMarker(),
-                            $damCat,
-                            $damRow['pid'],
-                            0,
-                            'basketImage',
-                            $viewDamCatTagArray,
-                            [],
-                            $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['pageAsCategory'],
-                            'SINGLE',
-                            1,
-                            '',
-                            ''
-                        );
-
-                        $tablesObj->get('tx_dam', true)->getModelMarkerArray(
-                            $damRow,
-                            '',
-                            $damMarkerArray,
-                            $damCatRow['title'],
-                            0,
-                            'basketImage',
-                            $damViewTagArray,
-                            $tmp,
-                            $theCode,
-                            $basketExtra,
-                            $basketRecs,
-                            $count,
-                            '',
-                            '',
-                            '',
-                            $bHtml,
-                            'UTF-8',
-                            '',
-                            $multiOrderArray,
-                            $productRowArray,
-                            false,
-                            $notOverwritePriceIfSet
-                        );
-                    }
-                    $markerArray = array_merge($markerArray, $damMarkerArray, $damCategoryMarkerArray);
-
-                    $tempUrl =
-                        FrontendUtility::getTypoLink_URL(
-                            $cObj,
-                            $pid,
-                            $this->urlObj->getLinkParams(
-                                '',
-                                $addQueryString,
-                                true,
-                                $useBackPid,
-                                0,
-                                ''
-                            ),
-                            '',
-                            []
-                        );
-
-                    $css_current = '';
-                    $wrappedSubpartArray['###LINK_ITEM###'] =
-                        [
-                            '<a class="singlelink" href="' . htmlspecialchars($tempUrl) . '"' . $css_current . '>',
-                            '</a>',
-                        ];
-
-                    if (is_object($itemTableView->getVariant())) {
-                        $itemTableView->getVariant()->removeEmptyMarkerSubpartArray(
-                            $markerArray,
-                            $subpartArray,
-                            $wrappedSubpartArray,
-                            $prodVariantRow,
-                            $conf,
-                            $itemTable->hasAdditional($row, 'isSingle'),
-                            !$itemTable->hasAdditional($row, 'noGiftService')
-                        );
-                    }
-
-                    $orderAddressViewObj->getModelObj()->setCondition($row, $funcTablename);
-                    $orderAddressViewObj->getWrappedSubpartArray(
-                        $viewTagArray,
-                        $useBackPid,
-                        $subpartArray,
-                        $wrappedSubpartArray
-                    );
-
-                    // workaround for TYPO3 bug #44270
-                    $tempContent = $templateService->substituteMarkerArrayCached(
-                        $t['item'],
-                        [],
-                        $subpartArray,
-                        $wrappedSubpartArray
-                    );
-
-                    $tempContent = $templateService->substituteMarkerArray(
-                        $tempContent,
-                        $markerArray
-                    );
-
-                    $itemsOut .= $tempContent;
-                }
-
-                if ($itemsOut) {
-                    $tempContent =
-                        $templateService->substituteSubpart(
-                            $t['itemFrameWork'],
-                            '###ITEM_SINGLE###',
-                            $itemsOut
-                        );
-
-                    $out .= $tempContent;
-                    $itemsOut = '';	// Clear the item-code var
-                }
-            }*/ // end of foreach ($itemArray
 
             if (isset($damCatMarker)) {
                 $damCatViewObj->setMarker($damCatMarker); // restore original value
@@ -1341,7 +836,7 @@ class tx_ttproducts_basket_view implements SingletonInterface
             $taxInclExcl = (isset($taxFromShipping) && is_double($taxFromShipping) && $taxFromShipping == 0 ? 'tax_zero' : 'tax_included');
             $markerArray['###TAX_INCL_EXCL###'] = ($taxInclExcl ? $languageObj->getLabel($taxInclExcl) : '');
 
-            if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['creditpoints']) {
+            if (!empty($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['creditpoints'])) {
                 $creditpointsViewApi = GeneralUtility::makeInstance( CreditpointsViewApi::class, $conf);
                 $amountCreditpoints =
                 tx_ttproducts_creditpoints_div::getCreditPointsFeuser($feUserRecord);
@@ -1413,7 +908,6 @@ class tx_ttproducts_basket_view implements SingletonInterface
                 $voucherView->getMarkerArray($markerArray);
             }
 
-            $markerArray['###CREDITPOINTS_SAVED###'] = number_format($creditpoints, 0);
             $pidagb = intval($conf['PIDagb']);
 
             $addQueryString = [];
@@ -1493,6 +987,7 @@ class tx_ttproducts_basket_view implements SingletonInterface
                 $infoViewObj->getRowMarkerArray(
                     $basketExtra,
                     $markerArray,
+                    $feUserRecord,
                     $bHtml,
                     $bSelectSalutation
                 );

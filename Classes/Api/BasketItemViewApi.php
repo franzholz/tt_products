@@ -443,7 +443,6 @@ class BasketItemViewApi implements SingletonInterface
                 false, // neu: FHO wieder zurück korrigiert, sonst wird bei Artikel Tax=0 nicht die TAXpercentage genommen.
                 $notOverwritePriceIfSet
             );
-
             $articleViewObj->getItemMarkerSubpartArrays(
                 $itemFrameWork,
                 $articleViewObj->getModelObj()->getFuncTablename(),

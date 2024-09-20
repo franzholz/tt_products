@@ -231,7 +231,7 @@ class tx_ttproducts_gifts_div
             if ($count == 1) {
                 unset($basketExt['gift']);
             }
-            tx_ttproducts_control_basket::storeBasketExt($basketExt);
+            $basketApi->storeBasketExt($basketExt);
         }
     }
 

@@ -898,6 +898,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
             $orderArray,
             $itemArray,
             $calculatedArray,
+            $feUserRecord,
             $cardUid,
             $accountUid,
             $this->conf['email_notify_default'] ?? '',	// Email notification is set here. Default email address is delivery email contact
