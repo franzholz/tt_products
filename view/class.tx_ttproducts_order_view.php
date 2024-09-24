@@ -36,11 +36,14 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-use JambageCom\Div2007\Utility\FrontendUtility;
-use JambageCom\Div2007\Utility\TableUtility;
-use JambageCom\TtProducts\Api\Localization;
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+
+use JambageCom\Div2007\Utility\FrontendUtility;
+use JambageCom\Div2007\Utility\TableUtility;
+
+use JambageCom\TtProducts\Api\Localization;
+use JambageCom\TtProducts\Api\ParameterApi;
 
 class tx_ttproducts_order_view extends tx_ttproducts_table_base_view
 {
@@ -76,6 +79,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view
         if (!$bValidUpdateCode) {
             $feusers_uid = FrontendUtility::getFrontEndUser('uid');
         }
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
 
         $funcTablename = $orderObj->getFuncTablename();
 
@@ -96,8 +100,8 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view
         $feuserMarker = $feusersViewObj->getMarker();
         $productFunctablename = 'tt_products';
         $itemTable = $tablesObj->get($productFunctablename); // order
-        $piVars = tx_ttproducts_model_control::getPiVars();
-        $prefix = tx_ttproducts_model_control::getPrefixId();
+        $piVars = $parameterApi->getPiVars();
+        $prefix = $parameterApi->getPrefixId();
 
         $pid = $GLOBALS['TSFE']->id;
         $urlObj = GeneralUtility::makeInstance('tx_ttproducts_url_view');
@@ -340,6 +344,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view
             );
 
             $notOverwritePriceIfSet = false;
+            $feUserRecord = [];
             $content = $listView->printView(
                 $templateCode,
                 $theCode,
@@ -350,6 +355,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view
                 $error_code,
                 $subpartMarker,
                 $pageAsCategory,
+                $feUserRecord,
                 [],
                 [],
                 [],
@@ -422,6 +428,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $feusersObj = $tablesObj->get('fe_users', false);
         $languageObj = GeneralUtility::makeInstance(Localization::class);
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
 
         $result = '';
 
@@ -440,7 +447,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view
                 $valueArray[] = ['value' => $uid, 'label' => $row['uid'] . ' - ' . $row['name'] . ' - ' . $row['city']];
             }
 
-            $piVar = tx_ttproducts_model_control::getPiVar('orderaddress');
+            $piVar = $parameterApi->getPiVar('orderaddress');
 
             $selectedKey = $piVars[$piVar] ?? 0;
             $type = 'select';
@@ -488,6 +495,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view
         $orderObj = $this->getModelObj(); // order
         $languageObj = GeneralUtility::makeInstance(Localization::class);
         $markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
         $feusers_uid = 0;
         $itemTable = null;
         $funcTablename = '';
@@ -604,7 +612,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view
                     $valueArray[] = [$row['title'], $row['uid']];
                 }
 
-                $piVar = tx_ttproducts_model_control::getPiVar('fegroup');
+                $piVar = $parameterApi->getPiVar('fegroup');
                 $selectedKey = $piVars[$piVar] ?? 0;
                 $type = 'select';
                 $tagName = $prefix . '[' . $piVar . ']';
@@ -630,7 +638,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view
             $valueArray['0'] = $languageObj->getLabel('orders_view_orders');
             $valueArray['1'] = $languageObj->getLabel('orders_view_products');
 
-            $piVar = tx_ttproducts_model_control::getOrderViewVar();
+            $piVar = $parameterApi->getOrderViewVar();
             $selectedKey = $piVars[$piVar] ?? 0;
             $type = 'select';
             $text = tx_ttproducts_form_div::createSelect(
@@ -703,7 +711,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view
             }
         }
 
-        $orderPiVar = tx_ttproducts_model_control::getPiVar('sys_products_orders');
+        $orderPiVar = $parameterApi->getPiVar('sys_products_orders');
         $fieldPiVarArray = ['crdate' => ['ge', 'le']];
 
         foreach ($fieldPiVarArray as $fieldPiVar => $piVarTypeArray) {
@@ -766,7 +774,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view
                     $from = $funcTablename . ' ' . $orderAlias . ' LEFT JOIN fe_users ON ' . $orderAlias . '.feusers_uid = fe_users.uid';
                     $where = 'fe_users.usergroup = ' . $fegroups_uid;
                 }
-                $whereArray = $piVars[tx_ttproducts_model_control::getPiVar($funcTablename)] ?? '';
+                $whereArray = $piVars[$parameterApi->getPiVar($funcTablename)] ?? '';
 
                 if (is_array($whereArray)) {
                     foreach ($whereArray as $field => $value) {

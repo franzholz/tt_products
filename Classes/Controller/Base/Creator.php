@@ -1,8 +1,11 @@
 <?php
+
+declare(strict_types=1);
+
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2012 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2018 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -36,28 +39,42 @@
  * @package TYPO3
  * @subpackage tt_products
  */
+namespace JambageCom\TtProducts\Controller\Base;
 
 use Psr\Http\Message\ServerRequestInterface;
-use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Core\Http\ApplicationType;
+use TYPO3\CMS\Core\Resource\FileRepository;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
 use JambageCom\Div2007\Api\OldStaticInfoTablesApi;
 use JambageCom\Div2007\Api\StaticInfoTablesApi;
 
 use JambageCom\TtProducts\Api\BasketApi;
+use JambageCom\TtProducts\Api\BasketItemViewApi;
 use JambageCom\TtProducts\Api\ControlApi;
 use JambageCom\TtProducts\Api\Localization;
+use JambageCom\TtProducts\Api\ParameterApi;
+use JambageCom\TtProducts\Api\VariantApi;
 
 
-class tx_ttproducts_control_creator implements SingletonInterface
+class Creator implements SingletonInterface
 {
+    public function __construct(
+        private readonly FileRepository $fileRepository,
+    ) {}
+
+    public function getFileRepository() {
+        return $this->fileRepository;
+    }
+
     public function init(
-        &$conf,
-        &$config,
+        array &$conf,
+        array &$config,
         $pObj,
         $cObj,
         $ajax,
@@ -65,20 +82,27 @@ class tx_ttproducts_control_creator implements SingletonInterface
         array $recs = [],
         array $basketRec = []
     ): bool {
+        $basketApi = GeneralUtility::makeInstance(BasketApi::class);
+        $variantApi = GeneralUtility::makeInstance(VariantApi::class);
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
+        $request = $parameterApi->getRequest();
+
         if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
             $staticInfoApi = GeneralUtility::makeInstance(StaticInfoTablesApi::class);
         } else {
             $staticInfoApi = GeneralUtility::makeInstance(OldStaticInfoTablesApi::class);
         }
 
-        $basketApi = GeneralUtility::makeInstance(BasketApi::class);
         $useStaticInfoTables = $staticInfoApi->init();
 
         if (!empty($conf['PIDstoreRoot'])) {
             $config['storeRootPid'] = $conf['PIDstoreRoot'];
         } elseif (
-            ($GLOBALS['TYPO3_REQUEST'] ?? null) instanceof ServerRequestInterface &&
-            ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isFrontend()
+            $request instanceof ServerRequestInterface
+            &&
+            ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isFrontend() &&
+            isset($GLOBALS['TSFE']->tmpl->rootLine) &&
+            is_array($GLOBALS['TSFE']->tmpl->rootLine)
         ) {
             foreach ($GLOBALS['TSFE']->tmpl->rootLine as $k => $row) {
                 if ($row['doktype'] == 1) {
@@ -101,14 +125,13 @@ class tx_ttproducts_control_creator implements SingletonInterface
         ) {
             $conf['errorLog'] = '';
         } elseif ($conf['errorLog']) {
-            $conf['errorLog'] = GeneralUtility::resolveBackPath(Environment::getLegacyConfigPath() . '/../' . $conf['errorLog']);
+            $conf['errorLog'] = GeneralUtility::resolveBackPath(Environment::getLegacyConfigPath() . '../' . $conf['errorLog']);
         }
 
-        $tmp = $cObj->stdWrap($conf['pid_list'] ?? '', $conf['pid_list.'] ?? '');
-        $pid_list = (!empty($cObj->data['pages']) ? $cObj->data['pages'] : (!empty($conf['pid_list.']) ? trim($tmp) : ''));
+        $wrap = $cObj->stdWrap($conf['pid_list'] ?? '', $conf['pid_list.'] ?? '');
+        $pid_list = (!empty($cObj->data['pages']) ? $cObj->data['pages'] : (!empty($conf['pid_list.']) ? trim($wrap) : ''));
         $pid_list = ($pid_list ?: $conf['pid_list'] ?? '');
         $config['pid_list'] = ($pid_list ?? $config['storeRootPid'] ?? 0);
-
         $recursive = (!empty($cObj->data['recursive']) ? $cObj->data['recursive'] : $conf['recursive'] ?? 99);
         $config['recursive'] = MathUtility::forceIntegerInRange($recursive, 0, 100);
 
@@ -117,14 +140,13 @@ class tx_ttproducts_control_creator implements SingletonInterface
         } else {
             $pLangObj = $this;
         }
-        $languageObj = static::getLanguageObj($pLangObj, $cObj, $conf);
-        $config['LLkey'] = $languageObj->getLocalLangKey();
-
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
+        $languageObj = static::getLanguageObj($pLangObj, $cObj, $conf);
         $markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
+        $piVars = $parameterApi->getPiVars();
         $result = $markerObj->init(
             $conf,
-            tx_ttproducts_model_control::getPiVars()
+            $piVars['backPID'] ?? $parameterApi->getParameter('backPID')
         );
 
         if ($result == false) {
@@ -132,11 +154,15 @@ class tx_ttproducts_control_creator implements SingletonInterface
 
             return false;
         }
-        tx_ttproducts_control_basket::init(
+
+        $feUserRecord = $request->getAttribute('frontend.user')->user;
+
+        \tx_ttproducts_control_basket::init(
             $conf,
             $tablesObj,
             $config['pid_list'],
             $conf['useArticles'] ?? 3,
+            $feUserRecord,
             $recs,
             $basketRec
         );
@@ -144,39 +170,66 @@ class tx_ttproducts_control_creator implements SingletonInterface
         // corrections in the Setup:
         if (
             ExtensionManagementUtility::isLoaded('voucher') &&
-            isset($conf['gift.']['type']) &&
+            isset($conf['gift.']) &&
             $conf['gift.']['type'] == 'voucher'
         ) {
             $conf['table.']['voucher'] = 'tx_voucher_codes';
         }
+
+        $config['LLkey'] = $languageObj->getLocalLangKey(); // $pibaseObj->LLkey;
 
         $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
         $cnfObj->init(
             $conf,
             $config
         );
+        $tableDesc = $cnfObj->getTableDesc('tt_products');
+        $variantConf = ($tableDesc['variant.'] ?? []);
+
+        $selectableArray = '';
+        $selectableFieldArray = [];
+        $firstVariantArray = '';
+        $variantApi->getParams(
+            $selectableArray,
+            $selectableFieldArray,
+            $firstVariantArray,
+            $conf,
+            $variantConf
+        );
+
+        $variantApi->storeVariantConf($variantConf);
+        $variantApi->storeSelectable($selectableArray);
+        $variantApi->setSelectableFieldArray($selectableFieldArray);
+        $variantApi->storeFirstVariant($firstVariantArray);
+
+        $variantApi->init(
+            $variantConf,
+            $conf['useArticles'] ?? 3,
+            $selectableArray,
+            $firstVariantArray
+        );
 
         ControlApi::init($conf, $cObj);
-        $infoArray = tx_ttproducts_control_basket::getStoredInfoArray();
+        $infoArray = \tx_ttproducts_control_basket::getStoredInfoArray();
         if (!empty($conf['useStaticInfoCountry'])) {
-            tx_ttproducts_control_basket::setCountry(
+            \tx_ttproducts_control_basket::setCountry(
                 $infoArray,
                 $basketApi->getBasketExtra()
             );
         }
 
-        tx_ttproducts_control_basket::addLoginData(
+        \tx_ttproducts_control_basket::addLoginData(
             $infoArray,
             $conf['loginUserInfoAddress'] ?? 0,
-            $conf['useStaticInfoCountry'] ?? 0
+            $conf['useStaticInfoCountry'] ?? 0,
+            $feUserRecord
         );
 
-        tx_ttproducts_control_basket::setInfoArray($infoArray);
+        \tx_ttproducts_control_basket::setInfoArray($infoArray);
 
         // price
         $priceObj = GeneralUtility::makeInstance('tx_ttproducts_field_price');
         $priceObj->init(
-            $cObj,
             $conf
         );
         $priceViewObj = GeneralUtility::makeInstance('tx_ttproducts_field_price_view');
@@ -186,7 +239,7 @@ class tx_ttproducts_control_creator implements SingletonInterface
 
         // image
         $imageObj = GeneralUtility::makeInstance('tx_ttproducts_field_image');
-        $imageObj->init($cObj);
+        $imageObj->init($this->fileRepository);
 
         // image view
         $imageViewObj = GeneralUtility::makeInstance('tx_ttproducts_field_image_view');
@@ -205,6 +258,8 @@ class tx_ttproducts_control_creator implements SingletonInterface
         if (isset($config['templateSuffix'])) {
             $templateObj->setTemplateSuffix($config['templateSuffix']);
         }
+
+        $basketItemViewApi = GeneralUtility::makeInstance(BasketItemViewApi::class, $conf);
 
         // Call all init hooks
         if (
@@ -262,6 +317,6 @@ class tx_ttproducts_control_creator implements SingletonInterface
 
     public function destruct(): void
     {
-        tx_ttproducts_control_basket::destruct();
+        \tx_ttproducts_control_basket::destruct();
     }
 }

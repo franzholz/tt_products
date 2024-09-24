@@ -199,13 +199,12 @@ class tx_ttproducts_tracking implements SingletonInterface
         $orderObj = $tablesObj->get('sys_products_orders');
         $markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
         $languageObj = GeneralUtility::makeInstance(Localization::class);
-        $basketView = GeneralUtility::makeInstance('tx_ttproducts_basket_view');
+        $basketViewObj = GeneralUtility::makeInstance('tx_ttproducts_basket_view');
         $infoObj = GeneralUtility::makeInstance('tx_ttproducts_info');
         $infoViewObj = GeneralUtility::makeInstance('tx_ttproducts_info_view');
-        // 		$paymentshippingObj = GeneralUtility::makeInstance('tx_ttproducts_paymentshipping');
         $theTable = 'sys_products_orders';
         $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
-        $piVars = tx_ttproducts_model_control::getPiVars();
+        $piVars = $parameterApi->getPiVars();
 
         $orderData = $orderObj->getOrderData($orderRow);
         $statusCodeArray = [];
@@ -222,12 +221,14 @@ class tx_ttproducts_tracking implements SingletonInterface
             is_array($orderRow) &&
             $orderRow['uid']
         ) {
+            $feUserRecord = CustomerApi::getFeUserRecord();
             $basketRec = BasketApi::getBasketRec($orderRow);
             $basketExtra =
                 PaymentShippingHandling::getBasketExtras(
+                    $conf,
                     $tablesObj,
                     $basketRec,
-                    $this->conf
+                    $feUserRecord
                 );
 
             $statusCodeArray = $this->getStatusCodeArray();
@@ -282,9 +283,10 @@ class tx_ttproducts_tracking implements SingletonInterface
                                 $basketRec = BasketApi::getBasketRec($orderRow);
                                 $basketExtra =
                                     PaymentShippingHandling::getBasketExtras(
+                                        $this->conf,
                                         $tablesObj,
                                         $basketRec,
-                                        $this->conf
+                                        $feUserRecord
                                     );
 
                                 $whereGift = $this->conf['whereGift'];
@@ -723,11 +725,12 @@ class tx_ttproducts_tracking implements SingletonInterface
             $customerEmail = $orderRow['email'];
             $globalMarkerArray['###CUSTOMER_RECIPIENTS_EMAIL###'] = $customerEmail;
             $markerArray['###ORDER_HTML_OUTPUT###'] =
-                $basketView->getView(
+                $basketViewObj->getView(
                     $errorCode,
                     $templateCode,
                     'TRACKING',
                     $infoViewObj,
+                    $feUserRecord,
                     false,
                     false,
                     $calculatedArray,

@@ -1,8 +1,11 @@
 <?php
+
+declare(strict_types=1);
+
 /***************************************************************
 *  Copyright notice
 *
-*  (c) 2016 Franz Holzinger (franz@ttproducts.de)
+*  (c) 2018 Franz Holzinger (franz@ttproducts.de)
 *  All rights reserved
 *
 *  This script is part of the TYPO3 project. The TYPO3 project is
@@ -38,16 +41,23 @@
  * @subpackage tt_products
  */
 use Psr\Http\Message\ServerRequestInterface;
+
 use TYPO3\CMS\Core\Http\ApplicationType;
+use TYPO3\CMS\Core\Resource\FileRepository;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 use JambageCom\Div2007\Utility\HtmlUtility;
 
-use JambageCom\TtProducts\Api\BasketApi;
 use JambageCom\TtProducts\Api\Localization;
-use JambageCom\TtProducts\Api\ParameterApi;
+use JambageCom\TtProducts\Api\BasketApi;
+use JambageCom\TtProducts\Api\VariantApi;
+use JambageCom\TtProducts\Api\EditVariantApi;
 use JambageCom\TtProducts\Model\Field\FieldInterface;
+use JambageCom\TtProducts\Api\ParameterApi;
+use JambageCom\TtProducts\Api\ControlApi;
+use JambageCom\TtProducts\Controller\Base\Creator;
 
 class tx_ttproducts_db implements SingletonInterface
 {
@@ -57,20 +67,28 @@ class tx_ttproducts_db implements SingletonInterface
     protected $ajax;
     protected $LLkey;
     protected $cObj;
+    private FileRepository $fileRepository;
     public $LOCAL_LANG = [];		// Local Language content
     public $LOCAL_LANG_charset = [];	// Local Language content charset for individual labels (overriding)
     public $LOCAL_LANG_loaded = 0;		// Flag that tells if the locallang file has been fetch (or tried to be fetched) already.
 
-    public function init(&$conf, &$config, $ajax, $pObj, $cObj, &$errorCode): bool
-    {
+    public function init(
+        array &$conf,
+        array &$config,
+        $ajaxObj,
+        $pObj,
+        $cObj,
+        &$errorCode
+    ): bool {
         $this->conf = $conf;
 
-        if (isset($ajax) && is_object($ajax)) {
-            $this->ajax = $ajax;
+        if (isset($ajaxObj) && is_object($ajaxObj)) {
+            $this->ajax = $ajaxObj;
+            $taxajax = $this->ajax->getTaxajax();
 
-            $ajax->taxajax->registerFunction([TT_PRODUCTS_EXT . '_fetchRow', $this, 'fetchRow']);
-            $ajax->taxajax->registerFunction([TT_PRODUCTS_EXT . '_commands', $this, 'commands']);
-            $ajax->taxajax->registerFunction([TT_PRODUCTS_EXT . '_showArticle', $this, 'showArticle']);
+            $taxajax->registerFunction([TT_PRODUCTS_EXT . '_fetchRow', $this, 'fetchRow']);
+            $taxajax->registerFunction([TT_PRODUCTS_EXT . '_commands', $this, 'commands']);
+            $taxajax->registerFunction([TT_PRODUCTS_EXT . '_showArticle', $this, 'showArticle']);
         }
 
         if (
@@ -78,35 +96,41 @@ class tx_ttproducts_db implements SingletonInterface
         ) {
             $this->cObj = $cObj;
         } else {
-            $this->cObj = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');	// Local cObj.
-            $this->cObj->start([]);
+            $this->cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class); // Local cObj.
         }
-        $controlCreatorObj = GeneralUtility::makeInstance('tx_ttproducts_control_creator');
 
+        $controlCreatorObj = GeneralUtility::makeInstance(Creator::class);
+
+        // TODO: $recs befüllen.
         if (
-            ($GLOBALS['TYPO3_REQUEST'] ?? null) instanceof ServerRequestInterface &&
+            ($GLOBALS['TYPO3_REQUEST'] ?? null) instanceof ServerRequestInterface
+            &&
             ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isFrontend()
         ) {
             \tx_ttproducts_control_basket::storeNewRecs($conf['transmissionSecurity']);
             $recs = tx_ttproducts_control_basket::getStoredRecs();
         }
-
         if (empty($recs)) {
             $recs = [];
         }
+
         $result =
             $controlCreatorObj->init(
                 $conf,
                 $config,
                 $pObj,
                 $this->cObj,
-                $ajax,
+                $ajaxObj,
                 $errorCode,
                 $recs
             );
+
         if (!$result) {
             return false;
         }
+
+        $this->fileRepository = $controlCreatorObj->getFileRepository();
+
         $modelCreatorObj = GeneralUtility::makeInstance('tx_ttproducts_model_creator');
         $modelCreatorObj->init($conf, $config, $this->cObj);
 
@@ -129,6 +153,8 @@ class tx_ttproducts_db implements SingletonInterface
         $variantArray = [];
         $theCode = 'ALL';
         $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
+        $languageObj = GeneralUtility::makeInstance(Localization::class);
+        $roundFormat = tx_ttproducts_control_basket::getRoundFormat();
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
         $basketApi = GeneralUtility::makeInstance(BasketApi::class);
@@ -136,6 +162,7 @@ class tx_ttproducts_db implements SingletonInterface
         $basketExtra = $basketApi->getBasketExtra();
         $basketRecs = tx_ttproducts_control_basket::getRecs();
         $funcTablename = tx_ttproducts_control_basket::getFuncTablename();
+        $useFal = true;
 
         // price
         $priceObj = GeneralUtility::makeInstance('tx_ttproducts_field_price');
@@ -151,12 +178,14 @@ class tx_ttproducts_db implements SingletonInterface
         // We put our incomming data to the regular piVars
         $itemTable = $tablesObj->get('tt_products', false);
         $externalRowArray = [];
-        $variantSeparator = $itemTable->variant->getSplitSeparator();
+        $variantApi = GeneralUtility::makeInstance(VariantApi::class);
+        $editVariantApi = GeneralUtility::makeInstance(EditVariantApi::class);
+        $variantSeparator = $variantApi->getSplitSeparator();
 
         if (is_array($data)) {
             $validEditVariant = true;
-            $useArticles = $itemTable->variant->getUseArticles();
-            $variantFieldArray = $itemTable->variant->getSelectableFieldArray();
+            $useArticles = $cnfObj->getUseArticles();
+            $variantFieldArray = $variantApi->getSelectableFieldArray();
 
             foreach ($data as $k => $dataRow) {
                 if ($k == 'view') {
@@ -179,7 +208,7 @@ class tx_ttproducts_db implements SingletonInterface
                             foreach ($dataRow as $field => $v) {
                                 $field = str_replace('-', '_', $field);
 
-                                if (isset($row[$field])) {
+                                if (isset($row[$field]) && strlen($row[$field])) {
                                     if ($field != 'uid') {
                                         $variantArray[] = $field;
                                         $variantValues =
@@ -192,13 +221,14 @@ class tx_ttproducts_db implements SingletonInterface
                                         $theValue = $variantValues[$v];
                                         $rowArray[$table][$field] = $theValue;
                                     }
-                                } elseif (strpos($field, 'edit_') === 0) {
+                                } elseif (str_starts_with($field, 'edit_')) {
                                     $rowArray[$table][$field] = $v;
                                 }
                             }
                             $modifiedRow = $rowArray[$table];
-                            $editConfig = $itemTable->editVariant->getValidConfig($modifiedRow);
-                            $editVariantFieldArray = $itemTable->editVariant->getFieldArray();
+                            $editConfig = $editVariantApi->getValidConfig($modifiedRow);
+                            $editVariantFieldArray = $editVariantApi->getFieldArray();
+
                             if (
                                 isset($editVariantFieldArray) && is_array($editVariantFieldArray)
                             ) {
@@ -213,14 +243,15 @@ class tx_ttproducts_db implements SingletonInterface
                                         $row[$field] = $storeRowArray[$table][$uid][$field] = $rowArray[$table][$field];
                                     }
                                 }
-                                if (count($storeRowArray)) {
+
+                                if (is_array($storeRowArray) && count($storeRowArray)) {
                                     $this->ajax->setStoredRecs($storeRowArray);
                                 }
                             }
 
                             if ($editConfig && is_array($editConfig)) {
                                 $validEditVariant =
-                                    $itemTable->editVariant->checkValid(
+                                    $editVariantApi->checkValid(
                                         $editConfig,
                                         $modifiedRow
                                     );
@@ -240,7 +271,6 @@ class tx_ttproducts_db implements SingletonInterface
                                     $storeRowArray[$table][$uid][$field] = $rowArray[$table][$field];
                                 }
                             }
-
                             tx_ttproducts_control_basket::setStoredVariantRecs($storeRowArray);
 
                             $allVariants =
@@ -249,29 +279,50 @@ class tx_ttproducts_db implements SingletonInterface
                                     $row,
                                     $modifiedRow
                                 );
-
                             $currRow =
                                 $basketObj->getItemRow(
                                     $row,
                                     $allVariants,
                                     $useArticles,
                                     $funcTablename,
+                                    [],
                                     true
                                 );
-
-                            $basketExt1 = tx_ttproducts_control_basket::generatedBasketExtFromRow($currRow, '1');
+                            $basketExt1 = tx_ttproducts_control_basket::generatedBasketExtFromRow(
+                                $currRow,
+                                '1'
+                            );
+                            $taxInfoArray = [];
+                            $tax = 0.0;
 
                             $itemArray =
-                                $basketObj->getItemArrayFromRow(
-                                    $currRow,
-                                    $basketExt1,
-                                    $basketExtra,
-                                    $basketRecs,
-                                    $funcTablename,
-                                    $externalRowArray
-                                );
+                            $basketObj->getItemArrayFromRow(
+                                $tax,
+                                $taxInfoArray,
+                                $currRow,
+                                $basketExt1,
+                                $basketExtra,
+                                $basketRecs,
+                                $funcTablename,
+                                'useExt',
+                                $externalRowArray
+                            );
+
                             $basketObj->setMaxTax($modifiedRow['tax']);
-                            $basketObj->calculate($itemArray); // get the calculated arrays
+                            $recalculateItems = true;
+                            $calculatedArray = [];
+                            $basketObj->calculate(
+                                $itemArray,
+                                $calculatedArray,
+                                $basketExt1,
+                                $basketExtra,
+                                $basketRecs,
+                                $funcTablename,
+                                $useArticles,
+                                $tax,
+                                $roundFormat,
+                                $recalculateItems
+                            ); // get the calculated arrays
 
                             $modifiedRow =
                                 $basketObj->getMergedRowFromItemArray(
@@ -281,30 +332,6 @@ class tx_ttproducts_db implements SingletonInterface
 
                             $totalDiscountField = FieldInterface::DISCOUNT;
                             $itemTable->getTotalDiscount($modifiedRow);
-                            $priceTaxArray = [];
-                            $taxInfoArray = [];
-
-                            $priceTaxArray = $priceObj->getPriceTaxArray(
-                                $taxInfoArray,
-                                $this->conf['discountPriceMode'] ?? '',
-                                $basketExtra,
-                                tx_ttproducts_control_basket::getRecs(),
-                                'price',
-                                tx_ttproducts_control_basket::getRoundFormat(),
-                                tx_ttproducts_control_basket::getRoundFormat('discount'),
-                                $modifiedRow,
-                                $totalDiscountField,
-                                false,
-                                false
-                            );
-
-                            $field = 'price';
-                            foreach ($priceTaxArray as $priceKey => $priceValue) {
-                                $displayTax =
-                                    $priceViewObj->convertKey($priceKey, $field);
-                                $displaySuffixId = str_replace('_', '', strtolower($displayTax));
-                                $modifiedRow[$displaySuffixId] = $priceValue;
-                            }
 
                             if ($useArticles == 1) {
                                 $rowArticle =
@@ -320,6 +347,37 @@ class tx_ttproducts_db implements SingletonInterface
                                     );
                             }
 
+                            if (
+                                !$useFal &&
+                                isset($rowArticle) &&
+                                is_array($rowArticle)
+                            ) {
+                                if (
+                                    isset($rowArticle['image']) &&
+                                    !$rowArticle['image'] &&
+                                    isset($rowArray[$table]['image'])
+                                ) {
+                                    $rowArticle['image'] = $rowArray[$table]['image'];
+                                    $modifiedRow['image'] = $rowArticle['image'];
+                                }
+
+                                $articleConf =
+                                    $cnfObj->getTableConf('tt_products_articles', $theCode);
+
+                                if (
+                                    isset($articleConf['fieldIndex.']) && is_array($articleConf['fieldIndex.']) &&
+                                    isset($articleConf['fieldIndex.']['image.']) && is_array($articleConf['fieldIndex.']['image.'])
+                                ) {
+                                    $prodImageArray =
+                                        GeneralUtility::trimExplode(',', $rowArray[$table]['image']);
+                                    $artImageArray = GeneralUtility::trimExplode(',', $rowArticle['image']);
+                                    $tmpDestArray = $prodImageArray;
+                                    foreach ($articleConf['fieldIndex.']['image.'] as $kImage => $vImage) {
+                                        $tmpDestArray[$vImage - 1] = $artImageArray[$kImage - 1];
+                                    }
+                                    $modifiedRow['image'] = implode(',', $tmpDestArray);
+                                }
+                            }
                             $itemTable->getTableObj()->substituteMarkerArray(
                                 $modifiedRow
                             );
@@ -346,7 +404,8 @@ class tx_ttproducts_db implements SingletonInterface
 
     protected function generateErrorResponse($uid, $editErrorArray)
     {
-        $bUseXHTML = HtmlUtility::useXHTML();
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
+        $useXHTML = HtmlUtility::useXHTML();
 
         // Instantiate the tx_xajax_response object
         $objResponse = new tx_taxajax_response($this->ajax->taxajax->getCharEncoding(), true);
@@ -354,14 +413,11 @@ class tx_ttproducts_db implements SingletonInterface
         $editVariant = key($editErrorArray);
         $errorText = current($editErrorArray);
         $fieldname = str_replace('edit_', '', $editVariant);
-
-        $errorId = tx_ttproducts_model_control::getBasketInputErrorIdPrefix() . '-' . $uid;
+        $errorId = $parameterApi->getBasketInputErrorIdPrefix() . '-' . $uid;
         $objResponse->addAssign($errorId, 'innerHTML', $errorText);
-        $basketIntoId = tx_ttproducts_model_control::getBasketIntoIdPrefix() . '-' . $uid;
-
-        $disabledText = ($bUseXHTML ? 'disabled' : '');
+        $basketIntoId = $parameterApi->getBasketIntoIdPrefix() . '-' . $uid;
+        $disabledText = ($useXHTML ? 'disabled' : '');
         $objResponse->addPrepend($basketIntoId, 'disabled', $disabledText);
-
         $result = $objResponse->getXML();
 
         // return the XML response generated by the tx_taxajax_response object
@@ -377,28 +433,29 @@ class tx_ttproducts_db implements SingletonInterface
         $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
         $config = $cnfObj->getConfig();
         $conf = $cnfObj->getConf();
-        $bUseXHTML = HtmlUtility::useXHTML();
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
 
+        $useXHTML = HtmlUtility::useXHTML();
+        $useFal = true;
+        $basketApi = GeneralUtility::makeInstance(BasketApi::class);
         $theCode = strtoupper($view);
+        $languageObj = GeneralUtility::makeInstance(Localization::class);
         $imageObj = GeneralUtility::makeInstance('tx_ttproducts_field_image');
         $imageViewObj = GeneralUtility::makeInstance('tx_ttproducts_field_image_view');
-        $languageObj = GeneralUtility::makeInstance(Localization::class);
 
-        $imageObj->init($this->cObj);
+        $imageObj->init($this->fileRepository);
         $imageViewObj->init($imageObj);
 
         $priceObj = GeneralUtility::makeInstance('tx_ttproducts_field_price');
         // price
         $priceViewObj = GeneralUtility::makeInstance('tx_ttproducts_field_price_view');
-
         $priceFieldArray = $priceViewObj->getConvertedPriceFieldArray('price');
 
         $tableObjArray = [];
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 
         // Instantiate the tx_xajax_response object
-        $objResponse = new tx_taxajax_response($this->ajax->taxajax->getCharEncoding(), true);
-
+        $objResponse = new tx_taxajax_response($this->ajax->getTaxajax()->getCharEncoding(), true);
         $articleTcaColumns = $GLOBALS['TCA']['tt_products_articles']['columns'];
 
         foreach ($rowArray as $funcTablename => $row) { // tt-products-list-1-size
@@ -425,8 +482,8 @@ class tx_ttproducts_db implements SingletonInterface
                 $categoryFuncTablename = 'tt_products_cat';
                 $categoryTableView = $tablesObj->get($categoryFuncTablename, true);
                 $categoryTable = $categoryTableView->getModelObj();
-                $piVars = tx_ttproducts_model_control::getPiVars();
-                $categoryPivar = tx_ttproducts_model_control::getPiVar($categoryFuncTablename);
+                $piVars = $parameterApi->getPiVars();
+                $categoryPivar = $parameterApi->getPiVar($categoryFuncTablename);
 
                 $currentCat =
                     $categoryTable->getParamDefault(
@@ -452,9 +509,9 @@ class tx_ttproducts_db implements SingletonInterface
 
             $jsTableNamesId = str_replace('_', '-', $funcTablename) . $suffix;
             $uid = $row['uid'];
-            $errorId = tx_ttproducts_model_control::getBasketInputErrorIdPrefix() . '-' . $uid;
+            $errorId = $parameterApi->getBasketInputErrorIdPrefix() . '-' . $uid;
             $objResponse->addAssign($errorId, 'innerHTML', '');
-            $basketIntoId = tx_ttproducts_model_control::getBasketIntoIdPrefix() . '-' . $uid;
+            $basketIntoId = $parameterApi->getBasketIntoIdPrefix() . '-' . $uid;
             $objResponse->addClear($basketIntoId, 'disabled');
 
             $markerKey = $itemTableView->getMarkerKey('');
@@ -504,8 +561,6 @@ class tx_ttproducts_db implements SingletonInterface
                             $tmp = '';
                             $fieldViewObj = $itemTableView->getObj($class);
                             $linkWrap = false;
-                            $basketApi = GeneralUtility::makeInstance(BasketApi::class);
-                            $basketExtra = $basketApi->getBasketExtra();
                             $modifiedValue =
                                 $fieldViewObj->getRowMarkerArray(
                                     $funcTablename,
@@ -517,7 +572,7 @@ class tx_ttproducts_db implements SingletonInterface
                                     $tmpArray,
                                     $theCode,
                                     '',
-                                    $basketExtra,
+                                    $basketApi->getBasketExtra(),
                                     tx_ttproducts_control_basket::getRecs(),
                                     $bSkip,
                                     true,
@@ -536,10 +591,14 @@ class tx_ttproducts_db implements SingletonInterface
 
                 if (!in_array($field, $variantArray)) {
                     if (($position = strpos($field, '_uid')) !== false) {
+                        if (!$useFal) {
+                            continue 2;
+                        }
                         $fieldId = substr($field, 0, $position);
                     } else {
                         if (
-                            in_array($field, ['image', 'smallimage'])
+                            in_array($field, ['image', 'smallimage']) &&
+                            $useFal
                         ) {
                             continue 2;
                         }
@@ -562,6 +621,7 @@ class tx_ttproducts_db implements SingletonInterface
                                 $imageRow['uid'] = $rowArticle['uid'];
                                 $imageRow['pid'] = $rowArticle['pid'];
                             }
+
                             $imageRenderObj = 'image';
                             if ($theCode == 'LIST' || $theCode == 'SEARCH') {
                                 $imageRenderObj = 'listImage';
@@ -576,17 +636,15 @@ class tx_ttproducts_db implements SingletonInterface
                                 }
                             } elseif (
                                 $theCode == 'SINGLE' &&
-                                strpos($field, 'smallimage') !== false
+                                str_contains($field, 'smallimage')
                             ) {
                                 $imageRenderObj = 'smallImage';
                             }
-
                             $imageArray =
                                 $imageObj->getFileArray(
                                     $imageTablename,
                                     $imageRow,
-                                    $field,
-                                    false
+                                    $field
                                 );
 
                             if (
@@ -607,8 +665,6 @@ class tx_ttproducts_db implements SingletonInterface
                                     $theCode
                                 );
                                 $specialConf = [];
-                                $tmpArray = [];
-
                                 $imgCodeArray = $imageViewObj->getCodeMarkerArray(
                                     'tt_products_articles',
                                     'ARTICLE_IMAGE',
@@ -617,13 +673,14 @@ class tx_ttproducts_db implements SingletonInterface
                                     $imageArray,
                                     $fieldMarkerArray,
                                     $dirname,
-                                    $mediaNum,
                                     $imageRenderObj,
                                     $linkWrap,
                                     $markerArray,
                                     $theImgDAM,
-                                    $specialConf
+                                    $specialConf,
+                                    $mediaNum
                                 );
+
                                 $v = $imgCodeArray;
                             } else {
                                 $v = '';
@@ -632,8 +689,7 @@ class tx_ttproducts_db implements SingletonInterface
                             break;
 
                         case 'inStock':
-                            $basketIntoPrefix = tx_ttproducts_model_control::getBasketIntoIdPrefix();
-
+                            $basketIntoPrefix = $parameterApi->getBasketIntoIdPrefix();
                             if ($v > 0) {
                                 $objResponse->addClear(
                                     $basketIntoPrefix . '-' . $uid,
@@ -671,18 +727,23 @@ class tx_ttproducts_db implements SingletonInterface
             $markerArray = [];
             $theMarkerArray = [];
             $newRow = $itemTableView->modifyFieldObject(
+                $theMarkerArray,
                 $row,
                 $modifiedRow,
                 $tableconf,
                 $markerPrefix,
                 $suffix,
                 $fieldMarkerArray,
-                $markerArray,
-                $theMarkerArray
+                $markerArray
             );
 
             foreach ($newRow as $field => $v) {
-                $tagId = $jsTableNamesId . '-' . $view . '-' . $uid . '-' . $field;
+                $tagId = ControlApi::getTagId(
+                    $jsTableNamesId,
+                    $view,
+                    $uid,
+                    $field
+                );
 
                 if (is_array($v)) {
                     reset($v);
@@ -708,12 +769,12 @@ class tx_ttproducts_db implements SingletonInterface
 
     public function commands($cmd, $param1 = '', $param2 = '', $param3 = '')
     {
-        $objResponse = new tx_taxajax_response($this->ajax->taxajax->getCharEncoding());
+        $objResponse = new tx_taxajax_response($this->ajax->getTaxAjax()->getCharEncoding());
 
         switch ($cmd) {
             default:
                 $hookVar = 'ajaxCommands';
-                if ($hookVar && isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$hookVar]) && is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$hookVar])) {
+                if ($hookVar && is_array($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$hookVar])) {
                     foreach ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT][$hookVar] as $classRef) {
                         $hookObj = GeneralUtility::makeInstance($classRef);
                         if (method_exists($hookObj, 'init')) {
@@ -767,7 +828,7 @@ class tx_ttproducts_db implements SingletonInterface
         $result = '';
         $pibaseObj = GeneralUtility::makeInstance('tx_ttproducts_pi1_base');
         $mainObj = GeneralUtility::makeInstance('tx_ttproducts_main');
-
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
         $pibaseObj->setContentObjectRenderer($this->cObj);
 
         if (
@@ -777,25 +838,24 @@ class tx_ttproducts_db implements SingletonInterface
             is_array($data[$pibaseObj->prefixId])
         ) {
             foreach ($data[$pibaseObj->prefixId] as $k => $v) {
-                tx_ttproducts_model_control::setAndVar($k, $v);
+                $parameterApi->setAndVar($k, $v);
             }
         }
 
-        $this->ajax->conf = $data['conf'];
-        $objResponse = new tx_taxajax_response($this->ajax->taxajax->getCharEncoding());
+        $this->ajax->setConf($data['conf']);
+        $objResponse = new tx_taxajax_response($this->ajax->getTaxAjax()->getCharEncoding());
 
         $content = '';
         $bDoProcessing =
             $mainObj->init(
-                $content,
                 $cnfObj->getConf(),
                 $cnfObj->getConfig(),
+                $this->getRequest(),
                 $this->cObj,
                 'tx_ttproducts_pi1_base',
                 $errorCode,
                 true
             );
-
         if (
             isset($contentRow) &&
             is_array($contentRow) &&
@@ -823,7 +883,6 @@ class tx_ttproducts_db implements SingletonInterface
         $objResponse->addAssign($tagId, 'innerHTML', $content);
         $result = $objResponse->getXML();
 
-        // return the XML response generated by the tx_taxajax_response object
         return $result;
     }
 
@@ -835,9 +894,10 @@ class tx_ttproducts_db implements SingletonInterface
         $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
         $pibaseObj = GeneralUtility::makeInstance('tx_ttproducts_pi1_base');
         $mainObj = GeneralUtility::makeInstance('tx_ttproducts_main');
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
 
-        $piVars = tx_ttproducts_model_control::getPiVars();
-        $prefixId = tx_ttproducts_model_control::getPrefixId();
+        $piVars = $parameterApi->getPiVars();
+        $prefixId = $parameterApi->getPrefixId();
 
         if (isset($piVars) && is_array($piVars)) {
             if (
@@ -859,8 +919,8 @@ class tx_ttproducts_db implements SingletonInterface
         // We put our incomming data to the regular piVars
         $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
         $parameterApi->setPiVars($piVars);
-        // We put our incomming data to the regular piVars
-        tx_ttproducts_model_control::setPiVars($piVars);
+        // 		$pibaseObj->piVars = $piVars;
+
         $pibaseObj->setContentObjectRenderer($this->cObj);
 
         // Instantiate the tx_xajax_response object
@@ -868,9 +928,9 @@ class tx_ttproducts_db implements SingletonInterface
 
         $bDoProcessing =
             $mainObj->init(
-                $content,
                 $cnfObj->getConf(),
                 $cnfObj->getConfig(),
+                $this->getRequest(),
                 $this->cObj,
                 'tx_ttproducts_pi1_base',
                 $errorCode,
@@ -914,7 +974,7 @@ class tx_ttproducts_db implements SingletonInterface
 
     public function destruct(): void
     {
-        $controlCreatorObj = GeneralUtility::makeInstance('tx_ttproducts_control_creator');
+        $controlCreatorObj = GeneralUtility::makeInstance(Creator::class);
         $controlCreatorObj->destruct();
 
         $modelCreatorObj = GeneralUtility::makeInstance('tx_ttproducts_model_creator');
@@ -922,5 +982,10 @@ class tx_ttproducts_db implements SingletonInterface
 
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $tablesObj->destruct();
+    }
+
+    private function getRequest(): ServerRequestInterface
+    {
+        return $GLOBALS['TYPO3_REQUEST'];
     }
 }

@@ -44,6 +44,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use JambageCom\Div2007\Utility\FrontendUtility;
 
 use JambageCom\TtProducts\Api\BasketApi;
+use JambageCom\TtProducts\Api\ParameterApi;
+use JambageCom\TtProducts\Api\FeUserMarkerApi;
 
 class tx_ttproducts_cat_view implements SingletonInterface
 {
@@ -80,6 +82,7 @@ class tx_ttproducts_cat_view implements SingletonInterface
         $funcTablename,
         $uid,
         $theCode,
+        $feUserRecord,
         &$error_code,
         $templateSuffix = ''
     ) {
@@ -92,7 +95,8 @@ class tx_ttproducts_cat_view implements SingletonInterface
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
         $variantFieldArray = [];
-        $piVars = tx_ttproducts_model_control::getPiVars();
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
+        $piVars = $parameterApi->getPiVars();
         $basketApi = GeneralUtility::makeInstance(BasketApi::class);
         $basketExtra = $basketApi->getBasketExtra();
 
@@ -143,13 +147,16 @@ class tx_ttproducts_cat_view implements SingletonInterface
                 return '';
             }
 
-            $viewTagArray = $markerObj->getAllMarkers($itemFrameWork);
-            $tablesObj->get('fe_users', true)->getWrappedSubpartArray(
+            $orderAddressObj = $tablesObj->get('fe_users', false);
+            $feUserMarkerApi = GeneralUtility::makeInstance(FeUserMarkerApi::class);
+            $feUserMarkerApi->getWrappedSubpartArray(
+                $orderAddressObj,
                 $viewTagArray,
-                $useBackPid,
+                $feUserRecord,
                 $subpartArray,
                 $wrappedSubpartArray
             );
+            $feUserMarkerApi->getGlobalMarkerArray($markerArray, $feUserRecord);
 
             $itemFrameWork = $templateService->substituteMarkerArrayCached($itemFrameWork, $markerArray, $subpartArray, $wrappedSubpartArray);
             $markerFieldArray = [];

@@ -42,6 +42,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use JambageCom\Div2007\Utility\FrontendUtility;
 
 use JambageCom\TtProducts\Api\BasketApi;
+use JambageCom\TtProducts\Api\ParameterApi;
 
 
 class tx_ttproducts_memo_view implements SingletonInterface
@@ -92,6 +93,7 @@ class tx_ttproducts_memo_view implements SingletonInterface
         $config = $cnf->getConfig();
         $basketApi = GeneralUtility::makeInstance(BasketApi::class);
         $basketExtra = $basketApi->getBasketExtra();
+        $feUserRecord = CustomerApi::getFeUserRecord();
 
         if (
             tx_ttproducts_control_memo::bUseFeuser($conf) ||
@@ -128,6 +130,7 @@ class tx_ttproducts_memo_view implements SingletonInterface
                     '',
                     $errorCode,
                     $templateArea,
+                    $feUserRecord,
                     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['pageAsCategory'],
                     $basketExtra,
                     tx_ttproducts_control_basket::getRecs(),
@@ -177,9 +180,10 @@ class tx_ttproducts_memo_view implements SingletonInterface
         $tagArray,
         &$bUseCheckBox
     ): void {
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
         $fieldKey = 'FIELD_' . $markerKey . '_NAME';
         if (isset($tagArray[$fieldKey])) {
-            $markerArray['###' . $fieldKey . '###'] = tx_ttproducts_model_control::getPrefixId() . '[memo][' . $row['uid'] . ']';
+            $markerArray['###' . $fieldKey . '###'] = $parameterApi->getPrefixId() . '[memo][' . $row['uid'] . ']';
         }
         $fieldKey = 'FIELD_' . $markerKey . '_CHECK';
 
@@ -203,7 +207,8 @@ class tx_ttproducts_memo_view implements SingletonInterface
         $bUseCheckBox
     ): void {
         if ($bUseCheckBox) {
-            $markerArray['###HIDDENFIELDS###'] .= '<input type="hidden" name="' . tx_ttproducts_model_control::getPrefixId() . '[memo][uids]" value="' . implode(',', $uidArray) . '" />';
+            $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
+            $markerArray['###HIDDENFIELDS###'] .= '<input type="hidden" name="' . $parameterApi->getPrefixId() . '[memo][uids]" value="' . implode(',', $uidArray) . '" />';
         }
     }
 }

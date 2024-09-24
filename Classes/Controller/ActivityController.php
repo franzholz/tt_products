@@ -164,7 +164,7 @@ class ActivityController implements SingletonInterface
 
         if ($orderUid) {
             $basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
-            $basketView = GeneralUtility::makeInstance('tx_ttproducts_basket_view');
+            $basketViewObj = GeneralUtility::makeInstance('tx_ttproducts_basket_view');
             $infoViewObj = GeneralUtility::makeInstance('tx_ttproducts_info_view');
             $cObj = ControlApi::getCObj();
             $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
@@ -295,7 +295,7 @@ class ActivityController implements SingletonInterface
                 !$finalize &&
                 $localTemplateCode != ''
             ) {
-                $content = $basketView->getView(
+                $content = $basketViewObj->getView(
                     $errorCode,
                     $localTemplateCode,
                     'PAYMENT',
@@ -506,7 +506,7 @@ class ActivityController implements SingletonInterface
         $hiddenFields = '';
         $basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
         $basketApi = GeneralUtility::makeInstance(BasketApi::class);
-        $basketView = GeneralUtility::makeInstance('tx_ttproducts_basket_view');
+        $basketViewObj = GeneralUtility::makeInstance('tx_ttproducts_basket_view');
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
         $subpartmarkerObj = GeneralUtility::makeInstance('tx_ttproducts_subpartmarker');
@@ -518,6 +518,7 @@ class ActivityController implements SingletonInterface
         $conf = $cnf->getConf();
         $config = $cnf->getConfig();
         $paymentScript = false;
+        $feUserRecord = CustomerApi::getFeUserRecord();
 
         if ($checkBasket && !$basketEmpty) {
             $basketConf = $cnf->getBasketConf('minPrice'); // check the basket limits
@@ -606,6 +607,7 @@ class ActivityController implements SingletonInterface
                 $feUserMarkerApi->getWrappedSubpartArray(
                     $orderAddressObj,
                     $viewTagArray,
+                    $feUserRecord,
                     $feuserSubpartArray,
                     $feuserWrappedSubpartArray
                 );
@@ -645,7 +647,7 @@ class ActivityController implements SingletonInterface
             }
 
             $basketMarkerArray =
-            $basketView->getMarkerArray(
+            $basketViewObj->getMarkerArray(
                 $basketExtra,
                 $calculatedArray,
                 $taxArray
@@ -729,11 +731,12 @@ class ActivityController implements SingletonInterface
                     []
                 );
                 $mainMarkerArray['###FORM_URL_NEXT_ACTIVITY###'] = $nextUrl;
-                $paymentHTML = $basketView->getView(
+                $paymentHTML = $basketViewObj->getView(
                     $errorCode,
                     $templateCode,
                     $theCode,
                     $infoViewObj,
+                    $feUserRecord,
                     $activityArray['products_info'] ?? false,
                     false,
                     $calculatedArray,
@@ -820,6 +823,7 @@ class ActivityController implements SingletonInterface
                         $paymentHTML,
                         0,
                         $basketExtra,
+                        $feUserRecord,
                         $basketObj->getCalculatedArray(),
                         $infoObj,
                         $cardObj->getUid(),
@@ -868,7 +872,6 @@ class ActivityController implements SingletonInterface
                 $accountRequired,
                 $paymentErrorMsg
             );
-
             $markerArray['###ERROR_DETAILS###'] = $label;
             $markerArray['###FORM_NAME###'] = 'ErrorForm';
             $finalize = false;
@@ -923,7 +926,7 @@ class ActivityController implements SingletonInterface
 
         $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-        $basketView = GeneralUtility::makeInstance('tx_ttproducts_basket_view');
+        $basketViewObj = GeneralUtility::makeInstance('tx_ttproducts_basket_view');
         $infoViewObj = GeneralUtility::makeInstance('tx_ttproducts_info_view');
         $infoObj = GeneralUtility::makeInstance('tx_ttproducts_info');
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
@@ -936,6 +939,7 @@ class ActivityController implements SingletonInterface
         $gateway = GeneralUtility::makeInstance(PaymentGatewayApi::class);
         $conf = $cnf->getConf();
         $config = $cnf->getConfig();
+        $feUserRecord = CustomerApi::getFeUserRecord();
 
         if (
             count($codes) < 2 &&
@@ -1546,7 +1550,7 @@ class ActivityController implements SingletonInterface
 
                     $usedCreditpoints = 0;
                     if (isset($_REQUEST['recs'])) {
-                        $usedCreditpoints = \tx_ttproducts_creditpoints_div::getUsedCreditpoints($_REQUEST['recs']);
+                        $usedCreditpoints = \tx_ttproducts_creditpoints_div::getUsedCreditpoints($feUserRecord, $_REQUEST['recs']);
                     }
                     if (
                         $theCode != 'FINALIZE' &&
@@ -1570,6 +1574,7 @@ class ActivityController implements SingletonInterface
                         // 					$this->funcTablename, neu
                         $orderUid,
                         $orderArray,
+                        $feUserRecord,
                         $productRowArray,
                         $alwaysInStock,
                         $conf['useArticles'] ?? 3,
@@ -1586,11 +1591,12 @@ class ActivityController implements SingletonInterface
                         ($conf['PIDthanks'] == $GLOBALS['TSFE']->id)
                     ) {
                         $tmpl = 'BASKET_ORDERTHANKS_TEMPLATE';
-                        $contentTmpThanks = $basketView->getView(
+                        $contentTmpThanks = $basketViewObj->getView(
                             $errorCode,
                             $templateCode,
                             $theCode,
                             $infoViewObj,
+                            $feUserRecord,
                             false,
                             false,
                             $calculatedArray,
@@ -1616,11 +1622,12 @@ class ActivityController implements SingletonInterface
                         $content = '';
                     }
                     $content .= $contentTmp;
-                    $contentNoSave = $basketView->getView(
+                    $contentNoSave = $basketViewObj->getView(
                         $errorCode,
                         $templateCode,
                         $theCode,
                         $infoViewObj,
+                        $feUserRecord,
                         false,
                         false,
                         $calculatedArray,
@@ -1705,7 +1712,7 @@ class ActivityController implements SingletonInterface
 
     /**
      * Do all the things to be done for this activity
-     * former functions products_basket and basketView::printView
+     * former functions products_basket and basketViewObj::printView
      * Takes care of basket, address info, confirmation and gate to payment
      * Also the 'products_...' script parameters are used here.
      *
@@ -1723,14 +1730,16 @@ class ActivityController implements SingletonInterface
     ) {
         $content = '';
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
-        $basketView = GeneralUtility::makeInstance('tx_ttproducts_basket_view');
-        $basketView->init(
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
+        $infoObj = GeneralUtility::makeInstance('tx_ttproducts_info');
+        $basketViewObj = GeneralUtility::makeInstance('tx_ttproducts_basket_view');
+        $basketViewObj->init(
             $this->useArticles,
             $this->urlArray
         );
         $activityApi = GeneralUtility::makeInstance(ActivityApi::class);
         $conf = $cnf->getConf();
-        $infoArray = \tx_ttproducts_control_basket::getInfoArray();
+        $infoArray = $infoObj->getInfoArray();
         $activityArray = $activityApi->getActivityArray();
         \tx_ttproducts_control_basket::uncheckAgb(
             $infoArray,
@@ -1749,7 +1758,7 @@ class ActivityController implements SingletonInterface
                 $basketExt,
                 $codes,
                 $addressArray
-            );
+                );
         }
 
         if (

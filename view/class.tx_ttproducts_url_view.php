@@ -36,10 +36,13 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-use JambageCom\Div2007\Utility\FrontendUtility;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
+
+use JambageCom\Div2007\Utility\FrontendUtility;
+
+use JambageCom\TtProducts\Api\ParameterApi;
 
 class tx_ttproducts_url_view implements SingletonInterface
 {
@@ -288,8 +291,9 @@ class tx_ttproducts_url_view implements SingletonInterface
      */
     public function addQueryStringParam(&$queryString, $param, $bUsePrefix = false): void
     {
-        $piVars = tx_ttproducts_model_control::getPiVars();
-        $prefixId = tx_ttproducts_model_control::getPrefixId();
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
+        $piVars = $parameterApi->getPiVars();
+        $prefixId = $parameterApi->getPrefixId();
 
         $temp = $piVars[$param] ?? '';
         $temp = ($temp ?: (GeneralUtility::_GP($param) && ($param != 'pid') ? GeneralUtility::_GP($param) : 0));
@@ -315,7 +319,8 @@ class tx_ttproducts_url_view implements SingletonInterface
         $piVarSingle = 'product',
         $piVarCat = 'cat'
     ) {
-        $prefixId = tx_ttproducts_model_control::getPrefixId();
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
+        $prefixId = $parameterApi->getPrefixId();
 
         $queryString = [];
         if ($useBackPid) {
@@ -349,9 +354,9 @@ class tx_ttproducts_url_view implements SingletonInterface
             $this->addQueryStringParam($queryString, $piVarCat, $bUsePrefix);
         }
 
-        $listPointerParam = tx_ttproducts_model_control::getPointerPiVar('LIST');
+        $listPointerParam = $parameterApi->getPointerPiVar('LIST');
         $this->addQueryStringParam($queryString, $listPointerParam, $bUsePrefix);
-        $catlistPointerParam = tx_ttproducts_model_control::getPointerPiVar('CATLIST');
+        $catlistPointerParam = $parameterApi->getPointerPiVar('CATLIST');
 
         $this->addQueryStringParam($queryString, 'mode', false);
         $this->addQueryStringParam($queryString, $listPointerParam, $bUsePrefix);

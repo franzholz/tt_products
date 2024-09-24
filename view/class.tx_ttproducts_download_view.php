@@ -36,13 +36,16 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-use JambageCom\Div2007\Utility\FrontendUtility;
-use JambageCom\TtProducts\Api\Localization;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
+
+use JambageCom\Div2007\Utility\FrontendUtility;
+
+use JambageCom\TtProducts\Api\Localization;
+use JambageCom\TtProducts\Api\ParameterApi;
 
 class tx_ttproducts_download_view extends tx_ttproducts_article_base_view
 {
@@ -84,6 +87,7 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view
         $cObj = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
         $cObj->start([]);
         $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $funcTablename = 'tt_products';
         $itemTableView = $tablesObj->get($funcTablename, true);
@@ -105,7 +109,7 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view
 
         $languageObj = GeneralUtility::makeInstance(Localization::class);
         $postVar = tx_ttproducts_control_command::getCommandVar();
-        $downloadVar = tx_ttproducts_model_control::getPiVar($this->getModelObj()->getFuncTablename());
+        $downloadVar = $parameterApi->getPiVar($this->getModelObj()->getFuncTablename());
         $bAddonsEM = ExtensionManagementUtility::isLoaded('addons_em');
         tx_ttproducts_control_access::getVariables(
             $conf,
@@ -151,11 +155,11 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view
                 $markerSelect = $marker . '_SELECT';
 
                 if (is_array($selectValueArray) && count($selectValueArray) && isset($selectValueArray['edit_domain'])) {
-                    $piVars = tx_ttproducts_model_control::getPiVars();
+                    $piVars = $parameterApi->getPiVars();
                     $domainVar = 'domain';
                     $piVar = $domainVar;
 
-                    $tagName = tx_ttproducts_model_control::getPrefixId() . '[' . $piVar . '][' . $productUid . '][' . $row['uid'] . ']';
+                    $tagName = $parameterApi->getPrefixId() . '[' . $piVar . '][' . $productUid . '][' . $row['uid'] . ']';
 
                     if (
                         isset($piVars[$piVar]) &&
@@ -214,7 +218,7 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view
                         $paramArray['tracking'] = $trackingCode;
                     }
 
-                    $prefixId = tx_ttproducts_model_control::getPrefixId();
+                    $prefixId = $parameterApi->getPrefixId();
                     $paramArray[$prefixId . '[' . $downloadVar . ']'] = $row['uid'];
 
                     if ($selectedDomain != '') {
@@ -268,7 +272,7 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view
                         }
                     }
 
-                    $orderPivar = tx_ttproducts_model_control::getPiVar('sys_products_orders');
+                    $orderPivar = $parameterApi->getPiVar('sys_products_orders');
 
                     if ($orderUid) {
                         $paramArray[$prefixId . '[' . $orderPivar . ']'] = $orderUid;

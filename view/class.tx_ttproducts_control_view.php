@@ -36,8 +36,10 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-use JambageCom\TtProducts\Api\Localization;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+
+use JambageCom\TtProducts\Api\Localization;
+use JambageCom\TtProducts\Api\ParameterApi;
 
 class tx_ttproducts_control_view
 {
@@ -56,8 +58,9 @@ class tx_ttproducts_control_view
     {
         if (isset($tableConfArray) && is_array($tableConfArray)) {
             $languageObj = GeneralUtility::makeInstance(Localization::class);
+            $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
             $allValueArray = [];
-            $controlArray = tx_ttproducts_model_control::getControlArray();
+            $controlArray = $parameterApi->getControlArray();
             $separator = ';';
 
             foreach ($tableConfArray as $funcTablename => $tableConf) {
@@ -88,7 +91,7 @@ class tx_ttproducts_control_view
                         $out = tx_ttproducts_form_div::createSelect(
                             $languageObj,
                             $valueArray,
-                            tx_ttproducts_model_control::getPrefixId() . '[' . tx_ttproducts_model_control::getControlVar() . '][' . $keyArray[0] . '][' . $keyArray[1] . ']',
+                            $parameterApi->getPrefixId() . '[' . $parameterApi->getControlVar() . '][' . $keyArray[0] . '][' . $keyArray[1] . ']',
                             $controlArray[$keyArray[0]][$keyArray[1]],
                             true,
                             true,
@@ -100,7 +103,7 @@ class tx_ttproducts_control_view
                     } elseif ($type == 'filterInput') {
                         $out = tx_ttproducts_form_div::createTag(
                             'input',
-                            tx_ttproducts_model_control::getPrefixId() . '[' . tx_ttproducts_model_control::getControlVar() . '][' . $keyArray[0] . '][' . $keyArray[1] . ']',
+                            $parameterApi->getPrefixId() . '[' . $parameterApi->getControlVar() . '][' . $keyArray[0] . '][' . $keyArray[1] . ']',
                             $controlArray[$keyArray[0]][$keyArray[1]],
                             $attributeArray
                         );

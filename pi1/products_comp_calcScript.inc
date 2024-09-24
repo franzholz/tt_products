@@ -19,7 +19,7 @@ TypoScript properties:
 
 $basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
 
-$baseAmount = $basketObj->calculatedArray['priceTax']['goodstotal'] + $basketObj->calculatedArray['priceTax']['shipping'];		// The fee is calculated from the total of the goods AND shipping
+$baseAmount = $basketObj->calculatedArray['priceTax']['goodstotal']['ALL'] + $basketObj->calculatedArray['priceTax']['shipping'];		// The fee is calculated from the total of the goods AND shipping
 $feePercent = doubleval($confScript['feePercent'] ? $confScript['feePercent'] : 5.75);		// Fee percent is by default 5.75 %
 	# Calculate conpensating percentage by:   100/(1-pFee/100)-100 = pComp, where pFee is the percentage, eg. Mastercard is taking (5,75%) and pComp will thus be 6.1 %
 $compPercent = 100/(1-$feePercent/100)-100;		// The compensation percentage.

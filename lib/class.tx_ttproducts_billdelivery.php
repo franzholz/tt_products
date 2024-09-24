@@ -43,6 +43,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 use JambageCom\TtProducts\Api\BasketApi;
 use JambageCom\TtProducts\Api\PaymentShippingHandling;
+use JambageCom\TtProducts\View\Bill;
 
 class tx_ttproducts_billdelivery implements SingletonInterface
 {
@@ -99,10 +100,11 @@ class tx_ttproducts_billdelivery implements SingletonInterface
         $orderArray,
         $basketExtra,
         $basketRecs,
+        $feUserRecord,
         $type,
         $generationConf
     ) {
-        $basketView = GeneralUtility::makeInstance('tx_ttproducts_basket_view');
+        $basketViewObj = GeneralUtility::makeInstance('tx_ttproducts_basket_view');
         $infoViewObj = GeneralUtility::makeInstance('tx_ttproducts_info_view');
         $productRowArray = []; // Todo: make this a parameter
 
@@ -147,17 +149,17 @@ class tx_ttproducts_billdelivery implements SingletonInterface
                         str_replace('_', '-', strtolower($orderArray['bill_no'])) . '-' . $orderArray['tracking_code'],
                         'pdf'
                     );
-                $className = 'tx_ttproducts_pdf_view';
+                $className = Bill::class;
                 if (
                     ExtensionManagementUtility::isLoaded('fpdf') // use FPDF
                 ) {
                     $className = 'tx_ttproducts_fpdf_view';
                 }
 
-                $pdfViewObj = GeneralUtility::makeInstance($className);
-                $result = $pdfViewObj->generate(
+                $billViewObj = GeneralUtility::makeInstance($className);
+                $result = $billViewObj->generate(
                     $cObj,
-                    $basketView,
+                    $basketViewObj,
                     $infoViewObj,
                     $templateCode,
                     $mainMarkerArray,
@@ -167,17 +169,19 @@ class tx_ttproducts_billdelivery implements SingletonInterface
                     $productRowArray,
                     $basketExtra,
                     $basketRecs,
+                    $feUserRecord,
                     $typeCode,
                     $generationConf,
                     $absFileName
                 );
             } elseif ($generationType == 'html') {
                 $subpart = $typeCode . '_TEMPLATE';
-                $content = $basketView->getView(
+                $content = $basketViewObj->getView(
                     $errorCode,
                     $templateCode,
                     $typeCode,
                     $infoViewObj,
+                    $feUserRecord,
                     false,
                     true,
                     $calculatedArray,
@@ -237,14 +241,14 @@ class tx_ttproducts_billdelivery implements SingletonInterface
         $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
         $conf = $cnfObj->getConf();
 
-        $basketView = GeneralUtility::makeInstance('tx_ttproducts_basket_view');
+        $basketViewObj = GeneralUtility::makeInstance('tx_ttproducts_basket_view');
         $productRowArray = []; // Todo: make this a parameter
 
         $globalMarkerArray = $markerObj->getGlobalMarkerArray();
         $orderObj = $tablesObj->get('sys_products_orders');
         $infoObj = GeneralUtility::makeInstance('tx_ttproducts_info');
         $infoViewObj = GeneralUtility::makeInstance('tx_ttproducts_info_view');
-        // 		$paymentshippingObj = GeneralUtility::makeInstance('tx_ttproducts_paymentshipping');
+        $feUserRecord = CustomerApi::getFeUserRecord();
 
         // initialize order data.
         $orderData = $orderObj->getOrderData($orderRow);
@@ -262,9 +266,10 @@ class tx_ttproducts_billdelivery implements SingletonInterface
         $basketRec = BasketApi::getBasketRec($orderRow);
         $basketExtra =
             PaymentShippingHandling::getBasketExtras(
+                $conf,
                 $tablesObj,
                 $basketRec,
-                $conf
+                $feUserRecord
             );
 
         if ($type == 'bill') {
@@ -279,11 +284,12 @@ class tx_ttproducts_billdelivery implements SingletonInterface
         $orderArray['uid'] = $orderRow['uid'];
         $orderArray['crdate'] = $orderRow['crdate'];
 
-        $content = $basketView->getView(
+        $content = $basketViewObj->getView(
             $errorCode,
             $templateCode,
             $theCode,
             $infoViewObj,
+            $feUserRecord,
             false,
             false,
             $calculatedArray,

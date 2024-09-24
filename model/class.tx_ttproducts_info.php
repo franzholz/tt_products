@@ -3,30 +3,30 @@
 declare(strict_types=1);
 
 /***************************************************************
-*  Copyright notice
-*
-*  (c) 2020 Franz Holzinger (franz@ttproducts.de)
-*  All rights reserved
-*
-*  This script is part of the TYPO3 project. The TYPO3 project is
-*  free software; you can redistribute it and/or modify
-*  it under the terms of the GNU General Public License as published by
-*  the Free Software Foundation; either version 2 of the License or
-*  (at your option) any later version.
-*
-*  The GNU General Public License can be found at
-*  http://www.gnu.org/copyleft/gpl.html.
-*  A copy is found in the textfile GPL.txt and important notices to the license
-*  from the author is found in LICENSE.txt distributed with these scripts.
-*
-*
-*  This script is distributed in the hope that it will be useful,
-*  but WITHOUT ANY WARRANTY; without even the implied warranty of
-*  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-*  GNU General Public License for more details.
-*
-*  This copyright notice MUST APPEAR in all copies of the script!
-***************************************************************/
+ *  Copyright notice
+ *
+ *  (c) 2020 Franz Holzinger (franz@ttproducts.de)
+ *  All rights reserved
+ *
+ *  This script is part of the TYPO3 project. The TYPO3 project is
+ *  free software; you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation; either version 2 of the License or
+ *  (at your option) any later version.
+ *
+ *  The GNU General Public License can be found at
+ *  http://www.gnu.org/copyleft/gpl.html.
+ *  A copy is found in the textfile GPL.txt and important notices to the license
+ *  from the author is found in LICENSE.txt distributed with these scripts.
+ *
+ *
+ *  This script is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *
+ *  This copyright notice MUST APPEAR in all copies of the script!
+ ***************************************************************/
 /**
  * Part of the tt_products (Shop System) extension.
  *
@@ -59,6 +59,7 @@ class tx_ttproducts_info implements SingletonInterface
     public function init(array $infoArray, $pdfInfoFields = ''): bool
     {
         $this->setInfoArray($infoArray);
+
         $this->setPdfInfoFields($pdfInfoFields);
         return true;
     }
@@ -98,7 +99,6 @@ class tx_ttproducts_info implements SingletonInterface
     ) {
         $result = '';
         $infoArray = $this->getInfoArray();
-
         if (
             $type == 'billing' ||
             tx_ttproducts_control_basket::needsDeliveryAddresss($basketExtra)
@@ -170,8 +170,8 @@ class tx_ttproducts_info implements SingletonInterface
             if (is_object($countryObj)) {
                 $type = (
                     !tx_ttproducts_control_basket::needsDeliveryAddresss($basketExtra) ?
-                        'billing' :
-                        'delivery'
+                    'billing' :
+                    'delivery'
                 );
                 $row = $countryObj->isoGet($infoArray[$type]['country_code'] ?? '', $where);
                 if (!$row) {
@@ -275,7 +275,7 @@ class tx_ttproducts_info implements SingletonInterface
             (
                 empty($infoArray['delivery']['address']) &&
                 empty($infoArray['delivery']['email'])
-                    ||
+                ||
                 $overwrite
             ) &&
             $needsDeliveryAddress
@@ -295,7 +295,7 @@ class tx_ttproducts_info implements SingletonInterface
                             $infoArray['delivery'][$fName] == '0' && !$hasAddress
                         ) ||
                         in_array($fName, ['country', 'country_code', 'zone'])
-                    )
+                    ) // FHO neu: jetzt auch country_code
                 ) {
                     $infoArray['delivery'][$fName] = $infoArray['billing'][$fName];
                 }
@@ -311,7 +311,7 @@ class tx_ttproducts_info implements SingletonInterface
             unset($infoArray['delivery']['salutation']);
             if (
                 count($infoArray['delivery']) < 3 &&
-                !isset($infoArray['delivery']['email'])
+                !isset($infoArray['delivery']['email']) // KORR Neu FHO
             ) {
                 unset($infoArray['delivery']);
             }
@@ -345,14 +345,14 @@ class tx_ttproducts_info implements SingletonInterface
                 $conf['orderEmail_toDelivery'] && $infoArray['delivery']['email'] ||
                 !$infoArray['billing']['email']
             ) ?
-                $infoArray['delivery']['email'] :
-                $infoArray['billing']['email']
+            $infoArray['delivery']['email'] :
+            $infoArray['billing']['email']
         ); // former: deliveryInfo
 
         return $result;
     }
 
-    public function getFromArray($customerEmail, $useLoginEmail)
+    public function getFromArray($customerEmail, $useLoginEmail, $feUserRecord)
     {
         $infoArray = $this->getInfoArray();
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
@@ -380,26 +380,25 @@ class tx_ttproducts_info implements SingletonInterface
             ];
         }
 
+
         if (
             $useLoginEmail != '' &&
             $context->getPropertyFromAspect('frontend.user', 'isLoggedIn') &&
-            isset($GLOBALS['TSFE']->fe_user) &&
-            isset($GLOBALS['TSFE']->fe_user->user) &&
-            !empty($GLOBALS['TSFE']->fe_user->user['username'])
+            !empty($feUserRecord['username'])
         ) {
-            $name = $GLOBALS['TSFE']->fe_user->user['name'];
+            $name = $feUserRecord['name'];
             if (
-                isset($GLOBALS['TSFE']->fe_user->user['first_name']) &&
-                isset($GLOBALS['TSFE']->fe_user->user['last_name'])
+                isset($feUserRecord['first_name']) &&
+                isset($feUserRecord['last_name'])
             ) {
-                $name = $GLOBALS['TSFE']->fe_user->user['first_name'] . ' ';
-                if (!empty($GLOBALS['TSFE']->fe_user->user['middle_name'])) {
-                    $name .= $GLOBALS['TSFE']->fe_user->user['middle_name'] . ' ';
+                $name = $feUserRecord['first_name'] . ' ';
+                if (!empty($feUserRecord['middle_name'])) {
+                    $name .= $feUserRecord['middle_name'] . ' ';
                 }
-                $name .= $GLOBALS['TSFE']->fe_user->user['last_name'];
+                $name .= $feUserRecord['last_name'];
             }
             $resultArray['login'] = [
-                'email' => $GLOBALS['TSFE']->fe_user->user['email'],
+                'email' => $feUserRecord['email'],
                 'name' => $name,
             ];
         }
@@ -432,11 +431,10 @@ class tx_ttproducts_info implements SingletonInterface
                     break;
                 } elseif (
                     $context->getPropertyFromAspect('frontend.user', 'isLoggedIn') &&
-                    isset($GLOBALS['TSFE']->fe_user) &&
-                    isset($GLOBALS['TSFE']->fe_user->user) &&
-                    is_array($GLOBALS['TSFE']->fe_user->user) &&
-                    $GLOBALS['TSFE']->fe_user->user['username'] != '' &&
-                    $infoArray[$type][$fName] != $GLOBALS['TSFE']->fe_user->user[$fName]
+                    isset($feUserRecord) &&
+                    is_array($feUserRecord) &&
+                    $feUserRecord['username'] != '' &&
+                    $infoArray[$type][$fName] != $feUserRecord[$fName]
                 ) {
                     break;
                 }

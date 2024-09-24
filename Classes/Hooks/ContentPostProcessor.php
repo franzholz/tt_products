@@ -39,14 +39,18 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
  * @package TYPO3
  * @subpackage tt_products
  */
+
+use JambageCom\TtProducts\Api\ParameterApi;
+
 class ContentPostProcessor
 {
     public function setPageTitle(&$params, TypoScriptFrontendController &$pObj): void
     {
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
         $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'] ?? [];
-        $piVars = \tx_ttproducts_model_control::getPiVars();
+        $piVars = $parameterApi->getPiVars();
         $funcTablename = 'tt_products';
-        $piVar = \tx_ttproducts_model_control::getPiVar($funcTablename);
+        $piVar = $parameterApi->getPiVar($funcTablename);
 
         $productUid = 0;
         $row = [];

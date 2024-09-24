@@ -36,6 +36,7 @@
  * @package TYPO3
  * @subpackage tt_products
  */
+use Psr\Http\Message\ServerRequestInterface;
 
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\SingletonInterface;
@@ -56,6 +57,7 @@ use JambageCom\Div2007\Utility\ViewUtility;
 use JambageCom\TtProducts\Api\ActivityApi;
 use JambageCom\TtProducts\Api\BasketApi;
 use JambageCom\TtProducts\Api\ControlApi;
+use JambageCom\TtProducts\Api\CustomerApi;
 use JambageCom\TtProducts\Api\Localization;
 use JambageCom\TtProducts\Api\ParameterApi;
 use JambageCom\TtProducts\Api\PluginApi;
@@ -126,15 +128,18 @@ class tx_ttproducts_main implements SingletonInterface
     public function init(
         &$conf,
         &$config,
-        &$cObj,
+        ServerRequestInterface $request,
+        $cObj,
         $pibaseClass,
         &$errorCode,
         $bRunAjax = false
     ) {
         $result = true;
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
+        $parameterApi->setRequest($request);
         $this->setSingleFromList(false);
         $this->tt_product_single = [];
-        $piVars = tx_ttproducts_model_control::getPiVars();
+        $piVars = $parameterApi->getPiVars();
 
         if (
             ExtensionManagementUtility::isLoaded('party')
@@ -294,9 +299,8 @@ class tx_ttproducts_main implements SingletonInterface
         // *************************************
 
         if ($config['displayCurrentRecord']) {
-            // $config['code']='SINGLE';
             $row = $cObj->data;
-            $this->tt_product_single['product'] = $row['uid'];
+            $this->tt_product_single['product'] = $row['uid'] ?? 0;
         } else {
             $error_detail = '';
             $paramArray = ['product', 'article', 'dam', 'fal'];
@@ -354,7 +358,8 @@ class tx_ttproducts_main implements SingletonInterface
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $conf = $cnf->getConf();
         $config = $cnf->getConfig();
-        $piVars = tx_ttproducts_model_control::getPiVars();
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
+        $piVars = $parameterApi->getPiVars();
         $urlObj = GeneralUtility::makeInstance('tx_ttproducts_url_view');
         $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
 
@@ -429,7 +434,7 @@ class tx_ttproducts_main implements SingletonInterface
         $basketExt = $basketApi->getBasketExt();
         $basketExtra = $basketApi->getBasketExtra();
         $basketRecs = tx_ttproducts_control_basket::getRecs();
-        $infoArray = \tx_ttproducts_control_basket::getInfoArray();
+        $infoArray = tx_ttproducts_control_basket::getInfoArray();
         $infoObj->init($infoArray, $conf['pdfInfoFields']);
         $activityApi = GeneralUtility::makeInstance(ActivityApi::class);
         $activityApi->init($this->codeArray);
@@ -446,8 +451,19 @@ class tx_ttproducts_main implements SingletonInterface
         );
 
         $itemArray = $basketObj->getItemArray();
-        $basketObj->calculate($itemArray); // get the calculated arrays
+        $tax = '';
+        $basketObj->calculate(
+            $itemArray,
+            $basketExt,
+            $basketExtra,
+            $basketRecs,
+            $tax,
+            true,
+            false
+        ); // get the calculated arrays
         $basketObj->setItemArray($itemArray);
+        $feUserRecord = CustomerApi::getFeUserRecord();
+        $basketObj->calculateSums($feUserRecord);
 
         $voucher = $tablesObj->get('voucher');
         if (is_object($voucher) && $voucher->isEnabled()) {
@@ -455,14 +471,16 @@ class tx_ttproducts_main implements SingletonInterface
             $voucher->doProcessing($recs);
         }
 
-        $basketObj->calculateSums();
-        $basketObj->addVoucherSums();
+        if (!empty($voucher)) {
+            $basketObj->addVoucherSums($voucher);
+        }
         $templateFile = '';
         $templateCode = '';
 
         if (!$errorMessage && !count($errorCode)) {
             $funcTablename = 'tt_products';
             tx_ttproducts_control_memo::process(
+                $feUserRecord,
                 $funcTablename,
                 $piVars,
                 $conf
@@ -547,7 +565,7 @@ class tx_ttproducts_main implements SingletonInterface
                         $hideZero
                     ) {
                         $hideIdArray = GeneralUtility::trimExplode(',', $hideIds);
-                        $piVar = tx_ttproducts_model_control::getPiVar($funcTablename);
+                        $piVar = $parameterApi->getPiVar($funcTablename);
 
                         if (isset($piVars[$piVar])) {
                             $currentArray = GeneralUtility::trimExplode(',', $piVars[$piVar]);
@@ -795,6 +813,7 @@ class tx_ttproducts_main implements SingletonInterface
                     tx_ttproducts_control_command::doProcessing(
                         $theCode,
                         $conf,
+                        $feUserRecord,
                         $bIsAllowed,
                         $bValidUpdateCode,
                         $trackingCode,
@@ -860,7 +879,7 @@ class tx_ttproducts_main implements SingletonInterface
                     );
                     $tableInfoArray = ['SINGLECAT' => 'tt_products_cat', 'SINGLEDAMCAT' => 'tx_dam_cat', 'SINGLEAD' => 'address'];
                     $funcTablename = $tableInfoArray[$theCode];
-                    $uid = $piVars[tx_ttproducts_model_control::getPivar($funcTablename)];
+                    $uid = $piVars[$parameterApi->getPivar($funcTablename)];
 
                     if ($uid) {
                         $contentTmp = $catView->printView(
@@ -868,6 +887,7 @@ class tx_ttproducts_main implements SingletonInterface
                             $funcTablename,
                             $uid,
                             $theCode,
+                            $feUserRecord,
                             $errorCode,
                             $config['templateSuffix']
                         );
@@ -1304,9 +1324,11 @@ class tx_ttproducts_main implements SingletonInterface
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $conf = $cnf->getConf();
         $config = $cnf->getConfig();
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
+        $feUserRecord = CustomerApi::getFeUserRecord();
         $basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
         $bSingleFromList = false;
-        $piVars = tx_ttproducts_model_control::getPiVars();
+        $piVars = $parameterApi->getPiVars();
 
         if (
             (
@@ -1365,6 +1387,7 @@ class tx_ttproducts_main implements SingletonInterface
             $content = $this->singleView->printView(
                 $templateCode,
                 $errorCode,
+                $feUserRecord,
                 $this->pageAsCategory,
                 $config['templateSuffix']
             );
@@ -1401,7 +1424,6 @@ class tx_ttproducts_main implements SingletonInterface
                 $funcTablename = 'tt_products';
             }
             $allowedItems = FlexformUtility::get(PluginApi::getFlexform(), 'productSelection');
-
             $bAllPages = false;
             $templateArea = $templateArea . $config['templateSuffix'];
             $content = $listView->printView(
@@ -1414,6 +1436,7 @@ class tx_ttproducts_main implements SingletonInterface
                 $errorCode,
                 $templateArea,
                 $this->pageAsCategory,
+                $feUserRecord,
                 $basketExtra,
                 $basketRecs,
                 []

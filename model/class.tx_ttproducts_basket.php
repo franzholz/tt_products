@@ -119,7 +119,7 @@ class tx_ttproducts_basket implements SingletonInterface
         $viewTableObj = $tablesObj->get($funcTablename);
 
         $basketExt = $basketApi->getBasketExt();
-        $basketExtRaw = tx_ttproducts_control_basket::getBasketExtRaw();
+        $basketExtRaw = $parameterApi->getBasketExtRaw();
         $basketInputConf = $cnfObj->getBasketConf('view', 'input');
 
         if (isset($basketInputConf) && is_array($basketInputConf)) {
@@ -356,9 +356,9 @@ class tx_ttproducts_basket implements SingletonInterface
 
             if ($bStoreBasket) {
                 if (is_array($basketExt) && count($basketExt)) {
-                    tx_ttproducts_control_basket::storeBasketExt($basketExt);
+                    $basketApi->storeBasketExt($basketExt);
                 } else {
-                    tx_ttproducts_control_basket::storeBasketExt([]);
+                    $basketApi->storeBasketExt([]);
                 }
             }
         }
@@ -674,7 +674,7 @@ class tx_ttproducts_basket implements SingletonInterface
             }
         }
 
-        tx_ttproducts_control_basket::storeBasketExt($basketExt);
+        $basketApi->storeBasketExt($basketExt);
     }
 
     public function getMaxCount($quantity, $uid = 0)
@@ -881,15 +881,18 @@ class tx_ttproducts_basket implements SingletonInterface
     }
 
     public function getItem(// ToDo: Den Preis aus dem Download und der PDF Datei berücksichtigen
+        $mergePrices,
         $basketExt,
         $basketExtra,
         $basketRecs,
-        $row, // must come from table tt_products
+        array $row, // This comes from the table tt_products, however the price can be have been modified by article rows already
         $fetchMode,
+        &$taxInfoArray = [],
         $funcTablename = '',
-        $externalRowArray = [], // Download
-        $bEnableTaxZero = false
+        $externalRowArray = [], // für Download
+        $enableTaxZero = false
     ) {
+        $basketApi = GeneralUtility::makeInstance(BasketApi::class);
         $calculationField = FieldInterface::PRICE_CALCULATED;
         $pricetablesCalculator = GeneralUtility::makeInstance('tx_ttproducts_pricetablescalc');
 
@@ -951,7 +954,7 @@ class tx_ttproducts_basket implements SingletonInterface
             !empty($externalRowArray)
         ) {
             $newPrice = $priceRow['price'];
-            $priceIsModified = BasketApi::getRecordvariantAndPriceFromRows(
+            $priceIsModified = $basketApi->getRecordvariantAndPriceFromRows(
                 $recordVariant,
                 $newPrice,
                 $externalUidArray,
@@ -980,8 +983,9 @@ class tx_ttproducts_basket implements SingletonInterface
         }
 
         $count =
-            tx_ttproducts_control_basket::getBasketCount(
+            $basketApi->getBasketCount(
                 $row,
+                $basketExt,
                 $variant,
                 $this->conf['quantityIsFloat']
             );
@@ -1026,13 +1030,13 @@ class tx_ttproducts_basket implements SingletonInterface
             }
 
             $parentProductCount =
-                tx_ttproducts_control_basket::getBasketCount(
+                $basketApi->getBasketCount(
                     $row,
+                    $basketExt,
                     $variant,
                     $this->conf['quantityIsFloat'],
                     true
                 );
-
             foreach ($articleRowArray as $articleRow) {
                 if (
                     is_object($graduatedPriceObj) &&
@@ -1107,8 +1111,9 @@ class tx_ttproducts_basket implements SingletonInterface
             $discountRoundFormat,
             $priceRow,
             $totalDiscountField,
-            $bEnableTaxZero
+            $enableTaxZero
         );
+
         $price2TaxArray = $priceObj->getPriceTaxArray(
             $taxInfoArray,
             $this->conf['discountPriceMode'] ?? '',
@@ -1119,7 +1124,7 @@ class tx_ttproducts_basket implements SingletonInterface
             $discountRoundFormat,
             $priceRow,
             $totalDiscountField,
-            $bEnableTaxZero
+            $enableTaxZero
         );
         $priceTaxArray =
             array_merge($priceTaxArray, $price2TaxArray);
@@ -1184,11 +1189,14 @@ class tx_ttproducts_basket implements SingletonInterface
         $bextVarLine,
         $useArticles,
         $funcTablename,
+        $basketExt = [],
         $mergeAttributeFields = true
     ) {
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $viewTableObj = $tablesObj->get($funcTablename);
         $variantSeparator = $viewTableObj->getVariant()->getSplitSeparator();
+        $basketApi = GeneralUtility::makeInstance(BasketApi::class);
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
 
         $uid = $row['uid'];
         $calculationField = FieldInterface::PRICE_CALCULATED;
@@ -1257,7 +1265,7 @@ class tx_ttproducts_basket implements SingletonInterface
                 foreach ($variantArray as $variant) {
                     $parts = explode('=', $variant);
                     if (isset($parts) && is_array($parts) && count($parts) == 2) {
-                        $funcTablename = tx_ttproducts_model_control::getParamsTable($parts['0']);
+                        $funcTablename = $parameterApi->getParamsTable($parts['0']);
                         if ($funcTablename !== false) {
                             $localTableObj = $tablesObj->get($funcTablename);
                             $recordRow = $localTableObj->get(intval($parts['1']));
@@ -1341,15 +1349,19 @@ class tx_ttproducts_basket implements SingletonInterface
 
             if ($mergeAttributeFields) {
                 $pricetablesCalculator = GeneralUtility::makeInstance('tx_ttproducts_pricetablescalc');
+
                 $count =
-                    tx_ttproducts_control_basket::getBasketCount(
+                    $basketApi->getBasketCount(
                         $currRow,
+                        $basketExt,
                         $bextVarLine,
                         $this->conf['quantityIsFloat']
                     );
+
                 $parentProductCount =
-                    tx_ttproducts_control_basket::getBasketCount(
+                    $basketApi->getBasketCount(
                         $currRow,
+                        $basketExt,
                         $bextVarLine,
                         $this->conf['quantityIsFloat'],
                         true
@@ -1411,6 +1423,7 @@ class tx_ttproducts_basket implements SingletonInterface
         $itemTableConf = $cnfObj->getTableConf($funcTablename, $theCode);
         $viewTableObj = $tablesObj->get($funcTablename, false);
         $orderBy = $viewTableObj->getTableObj()->transformOrderby($itemTableConf['orderBy']);
+        $mergePrices = true;
         $calculObj = GeneralUtility::makeInstance('tx_ttproducts_basket_calculate');
         $calculatedArray = [
             'count' => 0,
@@ -1463,7 +1476,8 @@ class tx_ttproducts_basket implements SingletonInterface
                             $row,
                             $bextVarLine,
                             $useArticles,
-                            $funcTablename
+                            $funcTablename,
+                            $basketExt,
                         );
                     $productsArray[$prodCount] = $currRow;
                     $prodCount++;
@@ -1488,7 +1502,7 @@ class tx_ttproducts_basket implements SingletonInterface
         $uidArray = [];
         $categoryQuantity = [];
         $categoryArray = [];
-        $bEnableTaxZero = true; // Die Produkte im Warenkorb werden sofort umgerechnet, damit sie die korrigierten Steuern und Preise enthalten. Hier ist die Steuer 0 erlaubt und darf später nicht mehr durch TAXpercentage überschrieben werden.
+        $enableTaxZero = true; // Die Produkte im Warenkorb werden sofort umgerechnet, damit sie die korrigierten Steuern und Preise enthalten. Hier ist die Steuer 0 erlaubt und darf später nicht mehr durch TAXpercentage überschrieben werden.
 
         foreach ($productsArray as $k1 => $row) {
             $uid = $row['uid'];
@@ -1543,6 +1557,7 @@ class tx_ttproducts_basket implements SingletonInterface
 
             $newItem =
                 $this->getItem(
+                    $mergePrices,
                     $basketExt,
                     $basketExtra,
                     $basketRecs,
@@ -1550,7 +1565,7 @@ class tx_ttproducts_basket implements SingletonInterface
                     'useExt',
                     $funcTablename,
                     $externalRowArray, // new Download
-                    $bEnableTaxZero
+                    $enableTaxZero
                 );
 
             $count = $newItem['count'];
@@ -1592,38 +1607,42 @@ class tx_ttproducts_basket implements SingletonInterface
         return $this->maxTax;
     }
 
-    // get a virtual basket
     public function getItemArrayFromRow(
-        $row,
+        &$tax, // neu
+        &$taxInfoArray, // neu
+        array $row,
         $basketExt,
         $basketExtra,
         $basketRecs,
         $funcTablename,
-        $externalRowArray = [], // Download
-        $bEnableTaxZero = false
+        $fetchMode = 'useExt',
+        $externalRowArray = [],
+        $enableTaxZero = false
     ) {
         $prodFuncTablename = 'tt_products';
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $viewTableObj = $tablesObj->get($prodFuncTablename);
-
         $result = false;
 
         if (isset($row) && is_array($row)) {
             $itemArray = [];
 
             $newItem =
-                $this->getItem(
-                    $basketExt,
-                    $basketExtra,
-                    $basketRecs,
-                    $row,
-                    'useExt',
-                    $funcTablename,
-                    $externalRowArray, // Download
-                    $bEnableTaxZero
-                );
+            $this->getItem(
+                true, // $mergePrices
+                $basketExt,
+                $basketExtra,
+                $basketRecs,
+                $row,
+                $fetchMode,
+                $taxInfoArray,
+                $funcTablename,
+                $externalRowArray,
+                $enableTaxZero
+            );
 
             if (!empty($newItem)) {
+                $tax = $newItem['tax'];
                 $count = $newItem['count'];
                 $weight = $newItem['weight'];
                 $itemArray[$row[$viewTableObj->fieldArray['itemnumber']]][] = $newItem;
@@ -1673,29 +1692,44 @@ class tx_ttproducts_basket implements SingletonInterface
         return $row;
     }
 
-    public function calculate(&$itemArray): void
-    {
+    public function calculate(
+        &$itemArray,
+        $basketExt,
+        $basketExtra,
+        $basketRecs,
+        $tax, // neu
+        $storeCalculation = true, // neu
+        $recalculateItems = false
+    ): void {
         $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
         $useArticles = $cnfObj->getUseArticles();
-        $basketApi = GeneralUtility::makeInstance(BasketApi::class);
         $calculObj = GeneralUtility::makeInstance('tx_ttproducts_basket_calculate');
+        // Die Berechnungen müssen ein 2. Mal gemacht werden, weil es diverse Staffelpreis Rechennmodelle gibt.
+        $calculatedArray = [];
         $calculObj->calculate(
-            $basketApi->getBasketExt(),
-            $basketApi->getBasketExtra(),
-            tx_ttproducts_control_basket::getRecs(),
+            $itemArray,
+            $calculatedArray,
+            $basketExt,
+            $basketExtra,
+            $basketRecs,
             tx_ttproducts_control_basket::getFuncTablename(),
             $useArticles,
-            $this->getMaxTax(),
+            doubleval($tax) > $this->getMaxTax() ? doubleval($tax) : $this->getMaxTax(),
             tx_ttproducts_control_basket::getRoundFormat(),
-            $itemArray
+            $recalculateItems
         );
+
+        if ($storeCalculation) {
+            $calculObj->setCalculatedArray($calculatedArray);
+        }
     }
 
-    public function calculateSums(): void
+    public function calculateSums($feUserRecord): void
     {
         $getShopCountryCode = '';
+        $recs = tx_ttproducts_control_basket::getRecs();
         $pricefactor = tx_ttproducts_creditpoints_div::getPriceFactor($this->conf);
-        $creditpoints = tx_ttproducts_creditpoints_div::getUsedCreditpoints($this->recs);
+        $creditpoints = tx_ttproducts_creditpoints_div::getUsedCreditpoints($feUserRecord, $recs);
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $staticTaxObj = $tablesObj->get('static_taxes', false);
         if (
@@ -1706,7 +1740,9 @@ class tx_ttproducts_basket implements SingletonInterface
         }
 
         $calculObj = GeneralUtility::makeInstance('tx_ttproducts_basket_calculate');
+        $calculatedArray = $calculObj->getCalculatedArray();
         $calculObj->calculateSums(
+            $calculatedArray,
             tx_ttproducts_control_basket::getRoundFormat(),
             $pricefactor,
             $creditpoints,

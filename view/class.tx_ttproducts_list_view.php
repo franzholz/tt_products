@@ -40,29 +40,34 @@
 
 use Psr\EventDispatcher\EventDispatcherInterface;
 
+use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
-use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Core\Utility\StringUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
+
 use JambageCom\Div2007\Base\BrowserBase;
-use JambageCom\Div2007\Utility\BrowserUtility;
-use JambageCom\Div2007\Utility\CompatibilityUtility;
 use JambageCom\Div2007\Utility\FlexformUtility;
-use JambageCom\Div2007\Utility\FrontendUtility;
+use JambageCom\Div2007\Utility\MarkerUtility;
 use JambageCom\Div2007\Utility\TableUtility;
+use JambageCom\Div2007\Utility\BrowserUtility;
+use JambageCom\Div2007\Utility\FrontendUtility;
 
 use JambageCom\TtProducts\Api\BasketApi;
+use JambageCom\TtProducts\Api\ControlApi;
+use JambageCom\TtProducts\Api\FeUserMarkerApi;
 use JambageCom\TtProducts\Api\Localization;
 use JambageCom\TtProducts\Api\ParameterApi;
 use JambageCom\TtProducts\Api\PluginApi;
+use JambageCom\TtProducts\Api\VariantApi;
 use JambageCom\TtProducts\Model\Field\FieldInterface;
+use JambageCom\TtProducts\View\RelatedList;
 
 
-class tx_ttproducts_list_view implements SingletonInterface
+class tx_ttproducts_list_view
 {
     public $pid; // pid where to go
     public $uidArray;
@@ -164,6 +169,7 @@ class tx_ttproducts_list_view implements SingletonInterface
      */
     public function getSearchParams(&$queryString): void
     {
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
         $sword = GeneralUtility::_GP('sword');
 
         if (!isset($sword)) {
@@ -175,7 +181,7 @@ class tx_ttproducts_list_view implements SingletonInterface
         }
 
         if (!isset($sword)) {
-            $piVars = tx_ttproducts_model_control::getPiVars();
+            $piVars = $parameterApi->getPiVars();
             $sword = $piVars['sword'] ?? null;
         }
 
@@ -436,8 +442,9 @@ class tx_ttproducts_list_view implements SingletonInterface
         &$error_code,
         $templateArea, // 'ITEM_LIST_TEMPLATE',
         $pageAsCategory,
-        $basketExtra,
-        $basketRecs,
+        $feUserRecord = [],
+        $basketExtra = [],
+        $basketRecs = [],
         $mergeRow = [],
         $calllevel = 0,
         $callFunctableArray = [],
@@ -463,6 +470,11 @@ class tx_ttproducts_list_view implements SingletonInterface
         $languageObj = GeneralUtility::makeInstance(Localization::class);
         $backPid = 0;
         $templateObj = GeneralUtility::makeInstance('tx_ttproducts_template');
+        $variantApi = null;
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
+        if ($funcTablename == 'tt_products') {
+            $variantApi = GeneralUtility::makeInstance(VariantApi::class);
+        }
 
         $whereCat = '';
         $whereProduct = '';
@@ -470,7 +482,7 @@ class tx_ttproducts_list_view implements SingletonInterface
 
         $viewedCodeArray = ['LISTAFFORDABLE', 'LISTVIEWEDITEMS', 'LISTVIEWEDMOST', 'LISTVIEWEDMOSTOTHERS'];
         $bUseCache = true;
-        $prefixId = tx_ttproducts_model_control::getPrefixId();
+        $prefixId = $parameterApi->getPrefixId();
         $basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
         $markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
@@ -494,10 +506,10 @@ class tx_ttproducts_list_view implements SingletonInterface
         }
 
         $eventDispatcher = GeneralUtility::makeInstance(EventDispatcherInterface::class);
-        $relatedListView = GeneralUtility::makeInstance('tx_ttproducts_relatedlist_view', $eventDispatcher);
+        $relatedListView = GeneralUtility::makeInstance(RelatedList::class, $eventDispatcher);
         $relatedListView->init($this->pidListObj->getPidlist(), 0);
 
-        $piVars = tx_ttproducts_model_control::getPiVars();
+        $piVars = $parameterApi->getPiVars();
         $showArticles = false;
 
         $globalMarkerArray = $markerObj->getGlobalMarkerArray();
@@ -616,7 +628,7 @@ class tx_ttproducts_list_view implements SingletonInterface
         $tableConfArray = [];
         $viewConfArray = [];
         $functableArray = [$funcTablename, $categoryFuncTablename];
-        tx_ttproducts_model_control::getTableConfArrays(
+        $parameterApi->getTableConfArrays(
             $cObj,
             $functableArray,
             $theCode,
@@ -633,7 +645,7 @@ class tx_ttproducts_list_view implements SingletonInterface
         $useArticles = $cnfObj->getUseArticles();
 
         $excludeList = '';
-        $pointerParam = tx_ttproducts_model_control::getPointerPiVar('LIST');
+        $pointerParam = $parameterApi->getPointerPiVar('LIST');
 
         if (
             $itemTable->getType() == 'product' &&
@@ -678,7 +690,7 @@ class tx_ttproducts_list_view implements SingletonInterface
         }
 
         $cssConf = $cnfObj->getCSSConf($itemTable->getFuncTablename(), $theCode);
-        $categoryPivar = tx_ttproducts_model_control::getPiVar($categoryFuncTablename);
+        $categoryPivar = $parameterApi->getPiVar($categoryFuncTablename);
 
         if ($useCategories) {
             $categoryTableView = $tablesObj->get($categoryFuncTablename, true);
@@ -686,11 +698,11 @@ class tx_ttproducts_list_view implements SingletonInterface
             $tableConfArray[$categoryFuncTablename] = $categoryTable->getTableConf($theCode);
             $catTableConf = $categoryTable->getTableConf($theCode);
             $categoryTable->initCodeConf($theCode, $catTableConf);
-            $categoryAnd = tx_ttproducts_model_control::getAndVar($categoryPivar);
+            $categoryAnd = $parameterApi->getAndVar($categoryPivar);
         }
         $whereArray = '';
-        if (!empty($piVars[tx_ttproducts_model_control::getPiVar($funcTablename)])) {
-            $whereArray = $piVars[tx_ttproducts_model_control::getPiVar($funcTablename)];
+        if (!empty($piVars[$parameterApi->getPiVar($funcTablename)])) {
+            $whereArray = $piVars[$parameterApi->getPiVar($funcTablename)];
         }
 
         if (is_array($whereArray)) {
@@ -776,8 +788,8 @@ class tx_ttproducts_list_view implements SingletonInterface
         }
         $searchboxWhere = '';
         $searchVars = [];
-        if (isset($piVars[tx_ttproducts_model_control::getSearchboxVar()])) {
-            $searchVars = $piVars[tx_ttproducts_model_control::getSearchboxVar()];
+        if (isset($piVars[$parameterApi->getSearchboxVar()])) {
+            $searchVars = $piVars[$parameterApi->getSearchboxVar()];
         }
         $bUseSearchboxArray = [];
         $latest = '';
@@ -789,7 +801,7 @@ class tx_ttproducts_list_view implements SingletonInterface
                 isset($searchVars['uid'])
             )
         ) {
-            tx_ttproducts_model_control::getSearchInfo(
+            $parameterApi->getSearchInfo(
                 $cObj,
                 $searchVars,
                 $funcTablename,
@@ -1201,13 +1213,18 @@ class tx_ttproducts_list_view implements SingletonInterface
                 $useBackPid
             );
             $subpartArray = [];
-            $viewTagArray = $markerObj->getAllMarkers($t['listFrameWork']);
-            $tablesObj->get('fe_users', true)->getWrappedSubpartArray(
+            $viewTagArray = MarkerUtility::getTags($t['listFrameWork']);
+            $orderAddressObj = $tablesObj->get('fe_users', false);
+            $feUserMarkerApi = GeneralUtility::makeInstance(FeUserMarkerApi::class);
+            $feUserMarkerApi->getWrappedSubpartArray(
+                $orderAddressObj,
                 $viewTagArray,
-                $useBackPid,
+                $feUserRecord,
                 $subpartArray,
                 $wrappedSubpartArray
             );
+
+            $feUserMarkerApi->getGlobalMarkerArray($markerArray, $feUserRecord);
 
             if (is_array($viewConfArray) && count($viewConfArray)) {
                 $controlViewObj = GeneralUtility::makeInstance('tx_ttproducts_control_view');
@@ -1585,8 +1602,8 @@ class tx_ttproducts_list_view implements SingletonInterface
                 }
 
                 if (in_array($theCode, $viewedCodeArray) && $limit > 0) {
-                    if (CompatibilityUtility::isLoggedIn()) {
-                        $feUserId = intval($GLOBALS['TSFE']->fe_user->user['uid']);
+                    if ($context->getPropertyFromAspect('frontend.user', 'isLoggedIn')) {
+                        $feUserId = intval($feUserRecord['uid']);
                     }
                     $whereMM = '';
                     $productAlias = $itemTable->getAlias();
@@ -1596,7 +1613,7 @@ class tx_ttproducts_list_view implements SingletonInterface
                         case 'LISTAFFORDABLE':
                             if ($feUserId) {
                                 $whereProducts = ' AND ' . $productAlias . '.creditpoints<=' .
-                                    $GLOBALS['TYPO3_DB']->fullQuoteStr($GLOBALS['TSFE']->fe_user->user['tt_products_creditpoints'], $tablename);
+                                $GLOBALS['TYPO3_DB']->fullQuoteStr($feUserRecord['tt_products_creditpoints'], $tablename);
                             }
                             break;
                         case 'LISTVIEWEDITEMS':
@@ -2223,22 +2240,27 @@ class tx_ttproducts_list_view implements SingletonInterface
                                 // fetch new product if articles are listed
                                 $prodRow = $tablesObj->get('tt_products')->get($row['uid_product']);
 
+                                $taxInfoArray = [];
                                 $item = $basketObj->getItem(
-                                    $basketExt,
+                                    $mergePrices = true,
+                                    $basketApi->getBasketExt(),
                                     $basketExtra,
                                     $basketRecs,
                                     $prodRow,
-                                    'firstVariant'
+                                    'firstVariant',
+                                    $taxInfoArray
                                 );
+                                $tax = $item['tax'];
 
                                 $itemTableViewArray['product']->getModelMarkerArray(
                                     $prodRow,
                                     $itemTableViewArray['product']->getMarker(),
                                     $productMarkerArray,
+                                    is_object($variantApi) ? $variantApi->getFieldArray() : [],
                                     $catTitle,
+                                    $viewProductsTagArray,
                                     $config['limitImage'],
                                     'listImage',
-                                    $viewProductsTagArray,
                                     [],
                                     $theCode,
                                     $basketExtra,
@@ -2290,6 +2312,7 @@ class tx_ttproducts_list_view implements SingletonInterface
                                 false,
                                 true
                             );
+
                             $currentArray['product'] = $row['uid_product'] ?? 0;
                         } else {
                             $currentArray['product'] = $row['uid'];
@@ -2456,16 +2479,20 @@ class tx_ttproducts_list_view implements SingletonInterface
                         }
 
                         $markerArray = [];
+                        $taxInfoArray = [];
                         $item = $basketObj->getItem(
-                            $basketExt,
+                            $mergePrices = true,
+                            $basketApi->getBasketExt(),
                             $basketExtra,
                             $basketRecs,
-                            $prodRow,
+                            $prodRow, // $row   neu
                             'firstVariant',
+                            $taxInfoArray, // neu
                             $itemTable->getFuncTablename(),
-                            $externalRowArray,
-                            $theCode == 'LISTGIFTS'
+                            $externalRowArray, // neu
+                            false
                         );
+                        $tax = $item['tax'];
 
                         if (!empty($item)) {
                             $prodRow = $item['rec'];
@@ -2549,6 +2576,7 @@ class tx_ttproducts_list_view implements SingletonInterface
                                     $allVariants,
                                     $useArticles,
                                     $itemTable->getFuncTablename(),
+                                    $basketExt,
                                     false
                                 );
                             } else {
@@ -2557,19 +2585,31 @@ class tx_ttproducts_list_view implements SingletonInterface
 
                             $basketExt1 = tx_ttproducts_control_basket::generatedBasketExtFromRow($currRow, '1');
 
-                            $basketItemArray = $basketObj->getItemArrayFromRow(
+                            $taxInfoArray = [];
+                            $tax = 0.0;
+                            $virtualItemArray = $basketObj->getItemArrayFromRow(
+                                $tax,
+                                $taxInfoArray,
                                 $currRow,
                                 $basketExt1,
                                 $basketExtra,
                                 $basketRecs,
                                 $funcTablename,
+                                'useExt',
                                 $externalRowArray,
-                                $theCode == 'LISTGIFTS'
+                                false
                             );
 
-                            if (!empty($basketItemArray)) {
-                                $basketObj->calculate($basketItemArray); // get the calculated arrays
-                                $prodVariantRow = $basketObj->getMergedRowFromItemArray($basketItemArray, $basketExtra);
+                            if (!empty($virtualItemArray)) {
+                                $basketObj->calculate(
+                                    $virtualItemArray,
+                                    $basketExt,
+                                    $basketExtra,
+                                    $basketRecs,
+                                    $tax,
+                                    false
+                                ); // get the calculated arrays
+                                $prodVariantRow = $basketObj->getMergedRowFromItemArray($virtualItemArray, $basketExtra);
                             }
                             $currPriceMarkerArray = [];
                             $articleTablename = (is_object($itemTableArray['article']) ? $itemTableArray['article']->getTablename() : '');
@@ -2655,10 +2695,11 @@ class tx_ttproducts_list_view implements SingletonInterface
                             $row,
                             $itemTableViewArray[$itemTable->getType()]->getMarker(),
                             $markerArray,
+                            is_object($variantApi) ? $variantApi->getFieldArray() : [],
                             $catTitle,
+                            $viewTagArray,
                             $config['limitImage'],
                             $image,
-                            $viewTagArray,
                             [],
                             $theCode,
                             $basketExtra,
@@ -2670,9 +2711,13 @@ class tx_ttproducts_list_view implements SingletonInterface
                             true,
                             'UTF-8',
                             $hiddenFields,
+                            $parentProductRow,
+                            $parentFuncTablename,
+                            $parentRows,
                             $multiOrderArray,
                             $productRowArray,
-                            $theCode == 'LISTGIFTS'
+                            false,
+                            $notOverwritePriceIfSet
                         );
 
                         if (
@@ -2736,14 +2781,16 @@ class tx_ttproducts_list_view implements SingletonInterface
                             ) {
                                 // use the fields of the article instead of the product
                                 //
+
                                 $itemTableView->getModelMarkerArray(
                                     $prodVariantRow, // must have the getMergedRowFromItemArray function called before. Otherwise the product will not show the first variant selection at the first start time
                                     $itemTableViewArray['article']->getMarker(),
                                     $markerArray,
+                                    is_object($variantApi) ? $variantApi->getFieldArray() : [],
                                     $catTitle,
+                                    $articleViewTagArray,
                                     $config['limitImage'],
                                     $image,
-                                    $articleViewTagArray,
                                     [],
                                     $theCode,
                                     $basketExtra,
@@ -2755,10 +2802,15 @@ class tx_ttproducts_list_view implements SingletonInterface
                                     true,
                                     'UTF-8',
                                     $hiddenFields,
+                                    $parentProductRow, // neu für Download
+                                    $parentFuncTablename, // neu für Download Object Liste
+                                    $parentRows,     // neu für Download Object Liste
                                     $multiOrderArray,
                                     $productRowArray,
-                                    $theCode == 'LISTGIFTS'
+                                    false,
+                                    $notOverwritePriceIfSet // neu
                                 );
+
                                 $articleViewObj->getItemSubpartArrays(
                                     $t['item'],
                                     'tt_products_articles',
@@ -3233,7 +3285,8 @@ class tx_ttproducts_list_view implements SingletonInterface
                     $backPid
                 ); // clickIntoBasket
 
-            $markerArray['###AMOUNT_CREDITPOINTS###'] = number_format($GLOBALS['TSFE']->fe_user->user['tt_products_creditpoints'] ?? 0, 0);
+            $markerArray['###AMOUNT_CREDITPOINTS###'] = number_format($feUserRecord['tt_products_creditpoints'] ?? 0, 0);
+
             $markerArray['###ITEMS_SELECT_COUNT###'] = $productsCount;
             $javaScriptMarker->getMarkerArray($jsMarkerArray, $markerArray, $cObj);
             $markerArray = array_merge($jsMarkerArray, $markerArray);

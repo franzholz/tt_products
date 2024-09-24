@@ -189,16 +189,17 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view
      */
     public function getModelMarkerArray(
         $row,
-        $markerParam,
-        &$markerArray,
+        $markerKey,
+        array &$markerArray,
+        $variantFieldArray,
         $catTitle,
+        array $tagArray,
         $imageNum = 0,
         $imageRenderObj = 'image',
-        $tagArray = [],
-        $forminfoArray = [],
+        array $forminfoArray = [],
         $theCode = '',
-        $basketExtra = [],
-        $basketRecs = [],
+        array $basketExtra = [],
+        array $basketRecs = [],
         $id = '',
         $prefix = '',
         $suffix = '',
@@ -206,9 +207,12 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view
         $bHtml = true,
         $charset = '',
         $hiddenFields = '',
-        $multiOrderArray = [],
-        $productRowArray = [],
-        $bEnableTaxZero = false,
+        array $parentProductRow = [],
+        $parentFuncTablename = '',
+        array $parentRows = [],
+        array $multiOrderArray = [],
+        array $productRowArray = [],
+        $enableTaxZero = false,
         $notOverwritePriceIfSet = true
     ): void {
         // Returns a markerArray ready for substitution with information for the tt_producst record, $row
@@ -220,12 +224,13 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view
         $cObj = FrontendUtility::getContentObjectRenderer();
         parent::getModelMarkerArray(
             $row,
-            $markerParam,
+            $markerKey,
             $markerArray,
+            $variantFieldArray, // neu
             $catTitle,
+            $tagArray,
             $imageNum,
             $imageRenderObj,
-            $tagArray,
             $forminfoArray,
             $theCode,
             $basketExtra,
@@ -237,10 +242,13 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view
             $bHtml,
             $charset,
             $hiddenFields,
+            $parentProductRow, // neu für Download
+            $parentFuncTablename, // neu für Download Object Liste
+            $parentRows,     // neu für Download Object Liste
             $multiOrderArray,
             $productRowArray,
-            $bEnableTaxZero,
-            $notOverwritePriceIfSet
+            $enableTaxZero,
+            $notOverwritePriceIfSet // neu
         );
 
         // Subst. fields
@@ -294,7 +302,7 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view
                     $prefix,
                     $suffix,
                     $linkWrap,
-                    $bEnableTaxZero
+                    $enableTaxZero
                 );
                 if (is_array($adressMarkerArray)) {
                     $markerArray = array_merge($markerArray, $adressMarkerArray);

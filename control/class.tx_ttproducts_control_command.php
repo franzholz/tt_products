@@ -36,10 +36,13 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-use JambageCom\Div2007\Utility\ExtensionUtility;
-use JambageCom\TtProducts\Api\Localization;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+
+use JambageCom\Div2007\Utility\ExtensionUtility;
+
+use JambageCom\TtProducts\Api\Localization;
+use JambageCom\TtProducts\Api\ParameterApi;
 
 class tx_ttproducts_control_command
 {
@@ -52,9 +55,10 @@ class tx_ttproducts_control_command
 
     public static function getVariantVars($piVars)
     {
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
         $result = [];
 
-        $paramsTableArray = tx_ttproducts_model_control::getParamsTableArray();
+        $paramsTableArray = $parameterApi->getParamsTableArray();
         if (isset($piVars) && is_array($piVars)) {
             foreach ($piVars as $piVar => $v) {
                 if (!isset($paramsTableArray[$piVar])) {
@@ -69,6 +73,7 @@ class tx_ttproducts_control_command
     public static function doProcessing(
         $theCode,
         $conf,
+        $feUserRecord,
         $bIsAllowedBE,
         $bValidUpdateCode,
         $trackingCode,
@@ -79,6 +84,7 @@ class tx_ttproducts_control_command
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $bHasBeenOrdered = false;
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
 
         $pidListObj = GeneralUtility::makeInstance('tx_ttproducts_pid_list');
         $pidListObj->applyRecursive($recursive, $pid_list, true);
@@ -97,13 +103,13 @@ class tx_ttproducts_control_command
                     $falUid = intval($cmdData['fal'] ?? 0);
                     $downloadTable = $tablesObj->get('tt_products_downloads', false);
                     $downloadVar =
-                        tx_ttproducts_model_control::getPiVar(
+                        $parameterApi->getPiVar(
                             $downloadTable->getFuncTablename()
                         );
-                    $piVars = tx_ttproducts_model_control::getPiVars();
+                    $piVars = $parameterApi->getPiVars();
                     $variantVars = self::getVariantVars($piVars);
                     $orderVar =
-                        tx_ttproducts_model_control::getPiVar(
+                        $parameterApi->getPiVar(
                             'sys_products_orders'
                         );
                     $orderUid = 0;
@@ -118,7 +124,7 @@ class tx_ttproducts_control_command
                         $orderUid = intval($piVars[$orderVar]);
                     }
 
-                    $feusers_uid = intval($GLOBALS['TSFE']->fe_user->user['uid'] ?? 0);
+                    $feusers_uid = $feUserRecord['uid'] ?? 0;
                     $orderObj = $tablesObj->get('sys_products_orders'); // order
                     $orderObj->getDownloadWhereClauses(
                         $feusers_uid,

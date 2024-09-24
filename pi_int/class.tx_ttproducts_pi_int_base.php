@@ -38,6 +38,7 @@
  * @subpackage tt_products
  *
  */
+use Psr\Http\Message\ServerRequestInterface;
 
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
@@ -72,7 +73,7 @@ class tx_ttproducts_pi_int_base extends AbstractPlugin implements SingletonInter
         $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
         $parameterApi->setPrefixId($this->prefixId);
         PluginApi::init($conf);
-        tx_ttproducts_model_control::setPrefixId($this->prefixId);
+        $parameterApi->setPrefixId($this->prefixId);
 
         $this->conf = $conf;
         $config = [];
@@ -82,6 +83,7 @@ class tx_ttproducts_pi_int_base extends AbstractPlugin implements SingletonInter
             $mainObj->init(
                 $conf,
                 $config,
+                $this->getRequest(),
                 $this->cObj,
                 get_class($this),
                 $errorCode
@@ -103,5 +105,10 @@ class tx_ttproducts_pi_int_base extends AbstractPlugin implements SingletonInter
     public function set($bRunAjax): void
     {
         $this->bRunAjax = $bRunAjax;
+    }
+
+    private function getRequest(): ServerRequestInterface
+    {
+        return $GLOBALS['TYPO3_REQUEST'];
     }
 }

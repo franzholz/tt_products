@@ -32,6 +32,8 @@ use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+use JambageCom\TtProducts\Api\ParameterApi;
+
 class EditVariantApi implements SingletonInterface
 {
     public function getFieldArray()
@@ -362,7 +364,7 @@ class EditVariantApi implements SingletonInterface
                     }
                 }
 
-                $ajaxFunction = \tx_ttproducts_control_basket::getAjaxVariantFunction(
+                $ajaxFunction = $parameterApi->getAjaxVariantFunction(
                     $row,
                     $funcTablename,
                     $theCode
