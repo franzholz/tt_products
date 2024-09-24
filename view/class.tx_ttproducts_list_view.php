@@ -169,6 +169,7 @@ class tx_ttproducts_list_view
      */
     public function getSearchParams(&$queryString): void
     {
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
         $sword = GeneralUtility::_GP('sword');
 
         if (!isset($sword)) {
@@ -180,7 +181,7 @@ class tx_ttproducts_list_view
         }
 
         if (!isset($sword)) {
-            $piVars = tx_ttproducts_model_control::getPiVars();
+            $piVars = $parameterApi->getPiVars();
             $sword = $piVars['sword'] ?? null;
         }
 
@@ -470,6 +471,7 @@ class tx_ttproducts_list_view
         $backPid = 0;
         $templateObj = GeneralUtility::makeInstance('tx_ttproducts_template');
         $variantApi = null;
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
         if ($funcTablename == 'tt_products') {
             $variantApi = GeneralUtility::makeInstance(VariantApi::class);
         }
@@ -480,7 +482,7 @@ class tx_ttproducts_list_view
 
         $viewedCodeArray = ['LISTAFFORDABLE', 'LISTVIEWEDITEMS', 'LISTVIEWEDMOST', 'LISTVIEWEDMOSTOTHERS'];
         $bUseCache = true;
-        $prefixId = tx_ttproducts_model_control::getPrefixId();
+        $prefixId = $parameterApi->getPrefixId();
         $basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
         $markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
@@ -507,7 +509,7 @@ class tx_ttproducts_list_view
         $relatedListView = GeneralUtility::makeInstance(RelatedList::class, $eventDispatcher);
         $relatedListView->init($this->pidListObj->getPidlist(), 0);
 
-        $piVars = tx_ttproducts_model_control::getPiVars();
+        $piVars = $parameterApi->getPiVars();
         $showArticles = false;
 
         $globalMarkerArray = $markerObj->getGlobalMarkerArray();
@@ -626,7 +628,7 @@ class tx_ttproducts_list_view
         $tableConfArray = [];
         $viewConfArray = [];
         $functableArray = [$funcTablename, $categoryFuncTablename];
-        tx_ttproducts_model_control::getTableConfArrays(
+        $parameterApi->getTableConfArrays(
             $cObj,
             $functableArray,
             $theCode,
@@ -643,7 +645,7 @@ class tx_ttproducts_list_view
         $useArticles = $cnfObj->getUseArticles();
 
         $excludeList = '';
-        $pointerParam = tx_ttproducts_model_control::getPointerPiVar('LIST');
+        $pointerParam = $parameterApi->getPointerPiVar('LIST');
 
         if (
             $itemTable->getType() == 'product' &&
@@ -688,7 +690,7 @@ class tx_ttproducts_list_view
         }
 
         $cssConf = $cnfObj->getCSSConf($itemTable->getFuncTablename(), $theCode);
-        $categoryPivar = tx_ttproducts_model_control::getPiVar($categoryFuncTablename);
+        $categoryPivar = $parameterApi->getPiVar($categoryFuncTablename);
 
         if ($useCategories) {
             $categoryTableView = $tablesObj->get($categoryFuncTablename, true);
@@ -696,11 +698,11 @@ class tx_ttproducts_list_view
             $tableConfArray[$categoryFuncTablename] = $categoryTable->getTableConf($theCode);
             $catTableConf = $categoryTable->getTableConf($theCode);
             $categoryTable->initCodeConf($theCode, $catTableConf);
-            $categoryAnd = tx_ttproducts_model_control::getAndVar($categoryPivar);
+            $categoryAnd = $parameterApi->getAndVar($categoryPivar);
         }
         $whereArray = '';
-        if (!empty($piVars[tx_ttproducts_model_control::getPiVar($funcTablename)])) {
-            $whereArray = $piVars[tx_ttproducts_model_control::getPiVar($funcTablename)];
+        if (!empty($piVars[$parameterApi->getPiVar($funcTablename)])) {
+            $whereArray = $piVars[$parameterApi->getPiVar($funcTablename)];
         }
 
         if (is_array($whereArray)) {
@@ -786,8 +788,8 @@ class tx_ttproducts_list_view
         }
         $searchboxWhere = '';
         $searchVars = [];
-        if (isset($piVars[tx_ttproducts_model_control::getSearchboxVar()])) {
-            $searchVars = $piVars[tx_ttproducts_model_control::getSearchboxVar()];
+        if (isset($piVars[$parameterApi->getSearchboxVar()])) {
+            $searchVars = $piVars[$parameterApi->getSearchboxVar()];
         }
         $bUseSearchboxArray = [];
         $latest = '';
@@ -799,7 +801,7 @@ class tx_ttproducts_list_view
                 isset($searchVars['uid'])
             )
         ) {
-            tx_ttproducts_model_control::getSearchInfo(
+            $parameterApi->getSearchInfo(
                 $cObj,
                 $searchVars,
                 $funcTablename,
@@ -1211,7 +1213,7 @@ class tx_ttproducts_list_view
                 $useBackPid
             );
             $subpartArray = [];
-            $viewTagArray = $markerObj->getAllMarkers($t['listFrameWork']);
+            $viewTagArray = MarkerUtility::getTags($t['listFrameWork']);
             $orderAddressObj = $tablesObj->get('fe_users', false);
             $feUserMarkerApi = GeneralUtility::makeInstance(FeUserMarkerApi::class);
             $feUserMarkerApi->getWrappedSubpartArray(
@@ -2238,22 +2240,27 @@ class tx_ttproducts_list_view
                                 // fetch new product if articles are listed
                                 $prodRow = $tablesObj->get('tt_products')->get($row['uid_product']);
 
+                                $taxInfoArray = [];
                                 $item = $basketObj->getItem(
-                                    $basketExt,
+                                    $mergePrices = true,
+                                    $basketApi->getBasketExt(),
                                     $basketExtra,
                                     $basketRecs,
                                     $prodRow,
-                                    'firstVariant'
+                                    'firstVariant',
+                                    $taxInfoArray
                                 );
+                                $tax = $item['tax'];
 
                                 $itemTableViewArray['product']->getModelMarkerArray(
                                     $prodRow,
                                     $itemTableViewArray['product']->getMarker(),
                                     $productMarkerArray,
+                                    is_object($variantApi) ? $variantApi->getFieldArray() : [],
                                     $catTitle,
+                                    $viewProductsTagArray,
                                     $config['limitImage'],
                                     'listImage',
-                                    $viewProductsTagArray,
                                     [],
                                     $theCode,
                                     $basketExtra,
@@ -2305,6 +2312,7 @@ class tx_ttproducts_list_view
                                 false,
                                 true
                             );
+
                             $currentArray['product'] = $row['uid_product'] ?? 0;
                         } else {
                             $currentArray['product'] = $row['uid'];
@@ -2471,16 +2479,20 @@ class tx_ttproducts_list_view
                         }
 
                         $markerArray = [];
+                        $taxInfoArray = [];
                         $item = $basketObj->getItem(
-                            $basketExt,
+                            $mergePrices = true,
+                            $basketApi->getBasketExt(),
                             $basketExtra,
                             $basketRecs,
-                            $prodRow,
+                            $prodRow, // $row   neu
                             'firstVariant',
+                            $taxInfoArray, // neu
                             $itemTable->getFuncTablename(),
-                            $externalRowArray,
-                            $theCode == 'LISTGIFTS'
+                            $externalRowArray, // neu
+                            false
                         );
+                        $tax = $item['tax'];
 
                         if (!empty($item)) {
                             $prodRow = $item['rec'];
@@ -2573,19 +2585,31 @@ class tx_ttproducts_list_view
 
                             $basketExt1 = tx_ttproducts_control_basket::generatedBasketExtFromRow($currRow, '1');
 
-                            $basketItemArray = $basketObj->getItemArrayFromRow(
+                            $taxInfoArray = [];
+                            $tax = 0.0;
+                            $virtualItemArray = $basketObj->getItemArrayFromRow(
+                                $tax,
+                                $taxInfoArray,
                                 $currRow,
                                 $basketExt1,
                                 $basketExtra,
                                 $basketRecs,
                                 $funcTablename,
+                                'useExt',
                                 $externalRowArray,
-                                $theCode == 'LISTGIFTS'
+                                false
                             );
 
-                            if (!empty($basketItemArray)) {
-                                $basketObj->calculate($basketItemArray); // get the calculated arrays
-                                $prodVariantRow = $basketObj->getMergedRowFromItemArray($basketItemArray, $basketExtra);
+                            if (!empty($virtualItemArray)) {
+                                $basketObj->calculate(
+                                    $virtualItemArray,
+                                    $basketExt,
+                                    $basketExtra,
+                                    $basketRecs,
+                                    $tax,
+                                    false
+                                ); // get the calculated arrays
+                                $prodVariantRow = $basketObj->getMergedRowFromItemArray($virtualItemArray, $basketExtra);
                             }
                             $currPriceMarkerArray = [];
                             $articleTablename = (is_object($itemTableArray['article']) ? $itemTableArray['article']->getTablename() : '');
@@ -2671,7 +2695,7 @@ class tx_ttproducts_list_view
                             $row,
                             $itemTableViewArray[$itemTable->getType()]->getMarker(),
                             $markerArray,
-                            is_object($variantApi) ? $variantApi->getFieldArray() : [], // neu
+                            is_object($variantApi) ? $variantApi->getFieldArray() : [],
                             $catTitle,
                             $viewTagArray,
                             $config['limitImage'],
@@ -2762,7 +2786,7 @@ class tx_ttproducts_list_view
                                     $prodVariantRow, // must have the getMergedRowFromItemArray function called before. Otherwise the product will not show the first variant selection at the first start time
                                     $itemTableViewArray['article']->getMarker(),
                                     $markerArray,
-                                    $variantApi->getFieldArray(), // neu
+                                    is_object($variantApi) ? $variantApi->getFieldArray() : [],
                                     $catTitle,
                                     $articleViewTagArray,
                                     $config['limitImage'],

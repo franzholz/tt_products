@@ -60,6 +60,7 @@ use JambageCom\TtProducts\Api\BasketItemViewApi;
 use JambageCom\TtProducts\Api\CreditpointsViewApi;
 use JambageCom\TtProducts\Api\FeUserMarkerApi;
 use JambageCom\TtProducts\Api\Localization;
+use JambageCom\TtProducts\Api\ParameterApi;
 use JambageCom\TtProducts\Api\PaymentShippingHandling;
 use JambageCom\TtProducts\Model\Field\FieldInterface;
 use JambageCom\TtProducts\View\RelatedList;
@@ -293,6 +294,7 @@ class tx_ttproducts_basket_view implements SingletonInterface
             and substitutes a lot of fields and subparts.
             Any pre-preparred fields can be set in $mainMarkerArray, which is substituted in the subpart before the item-and-categories part is substituted.
         */
+
         $out = '';
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
@@ -311,7 +313,8 @@ class tx_ttproducts_basket_view implements SingletonInterface
         $taxObj = GeneralUtility::makeInstance('tx_ttproducts_field_tax');
         $basketItemViewApi = GeneralUtility::makeInstance(BasketItemViewApi::class, $cnf->getConf());
         $basketItemApi = GeneralUtility::makeInstance(BasketItemApi::class);
-        $piVars = tx_ttproducts_model_control::getPiVars();
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
+        $piVars = $parameterApi->getPiVars();
         $articleViewTagArray = [];
         $checkPriceZero = true;
         $this->urlObj = GeneralUtility::makeInstance('tx_ttproducts_url_view'); // a copy of it
@@ -662,7 +665,6 @@ class tx_ttproducts_basket_view implements SingletonInterface
                             $calculatedArray,
                             $basketObj->getCategoryQuantity()
                         );
-
                         $itemsOut .= $itemOut;
                     }
                 }
@@ -917,7 +919,7 @@ class tx_ttproducts_basket_view implements SingletonInterface
                 $addQueryString['type'] = $GLOBALS['TSFE']->type;
             }
 
-            $pointerExcludeArray = array_keys(tx_ttproducts_model_control::getPointerParamsCodeArray());
+            $pointerExcludeArray = array_keys($parameterApi->getPointerParamsCodeArray());
             $singleExcludeList = $this->urlObj->getSingleExcludeList(implode(',', $pointerExcludeArray));
             $tempUrl =
                 FrontendUtility::getTypoLink_URL(

@@ -242,6 +242,7 @@ class PluginApi
         $backPID
         // 		$piVars
     ): bool {
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
         $eInfo = ExtensionUtility::getExtensionInfo(TT_PRODUCTS_EXT);
         if (!is_array($eInfo)) {
             throw new \RuntimeException('Error in tt_products: Wrong file ext_emconf.php! ' . $eInfo);
@@ -487,7 +488,7 @@ class PluginApi
                 $feUserRecord,
                 $funcArray['template'] . $config['templateSuffix'],
                 $basketApi->getBasketExtra(),
-                \tx_ttproducts_control_basket::getRecs(),
+                $parameterApi->getRecs(),
                 $mergeRow,
                 1,
                 $callFunctableArray,

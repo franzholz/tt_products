@@ -42,6 +42,7 @@ namespace JambageCom\TtProducts\Api;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+
 class ActivityApi implements SingletonInterface
 {
     protected $subActivity = '0';
@@ -217,7 +218,8 @@ class ActivityApi implements SingletonInterface
         ) {
             $overwrite =
             ControlApi::isOverwriteMode($infoArray);
-            $needsDeliveryAddress = \tx_ttproducts_control_basket::needsDeliveryAddresss($basketExtra);
+            $needsDeliveryAddress =
+                \tx_ttproducts_control_basket::needsDeliveryAddresss($basketExtra);
             $infoObj->mapPersonIntoDelivery(
                 $basketExtra,
                 $overwrite,

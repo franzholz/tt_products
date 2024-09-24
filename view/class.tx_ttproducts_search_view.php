@@ -59,9 +59,6 @@ class tx_ttproducts_search_view implements SingletonInterface
     {
         // local_table
 
-        /*		$ctrlArray = GeneralUtility::makeInstance('tx_ttproducts_model_control');
-                $ctrlArray = tx_ttproducts_model_control::$tableParamsArray;*/
-
         $searboxViewObj = GeneralUtility::makeInstance('tx_searchbox_view');
 
         $paramArray = [

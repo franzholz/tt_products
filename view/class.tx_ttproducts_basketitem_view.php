@@ -57,8 +57,9 @@ class tx_ttproducts_basketitem_view implements SingletonInterface
         $parentRow,
         $callFunctableArray // deprecated parameter
     ) {
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
-        $basketVar = tx_ttproducts_model_control::getBasketVar();
+        $basketVar = $parameterApi->getBasketVar();
         $externalQuantity = '';
 
         if (
@@ -71,14 +72,14 @@ class tx_ttproducts_basketitem_view implements SingletonInterface
                 is_array($parentRow) &&
                 isset($parentRow['uid'])
             ) {
-                $piVar = tx_ttproducts_model_control::getPiVar($parentFuncTablename);
+                $piVar = $parameterApi->getPiVar($parentFuncTablename);
                 if ($piVar !== false) {
                     $externalQuantity = $piVar . '=' . intval($parentRow['uid']) .
                         tx_ttproducts_variant_int::EXTERNAL_QUANTITY_SEPARATOR;
                 }
             }
 
-            $piVar = tx_ttproducts_model_control::getPiVar($funcTablename);
+            $piVar = $parameterApi->getPiVar($funcTablename);
 
             if ($piVar !== false) {
                 $externalQuantity = '[' . $externalQuantity . $piVar . '=' . intval($externalRow['uid']) . ']';
@@ -108,6 +109,7 @@ class tx_ttproducts_basketitem_view implements SingletonInterface
         &$wrappedSubpartArray
     ): void {
         $productFuncTablename = 'tt_products';
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
 
         if (isset($productRowArray) && is_array($productRowArray)) {
             foreach ($productRowArray as $productRow) {
@@ -144,7 +146,7 @@ class tx_ttproducts_basketitem_view implements SingletonInterface
 
             if (isset($tagArray['LINK_BASKET_' . $upperCmd])) {
                 $addQueryString[$cmd] = $uid;
-                $basketVar = tx_ttproducts_model_control::getBasketParamVar();
+                $basketVar = $parameterApi->getBasketParamVar();
                 if (isset($row['ext'])) {
                     $extArray = $row['ext'];
                 }
@@ -223,7 +225,7 @@ class tx_ttproducts_basketitem_view implements SingletonInterface
         $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
 
         $conf = $cnfObj->getConf();
-        $basketVar = tx_ttproducts_model_control::getBasketVar();
+        $basketVar = $parameterApi->getBasketVar();
         $viewTableView = $tablesObj->get($productFuncTablename, true);
         $viewTable = $viewTableView->getModelObj();
         $fieldArray = $viewTable->variant->getFieldArray();
@@ -382,8 +384,8 @@ class tx_ttproducts_basketitem_view implements SingletonInterface
 
         $markerArray['###BASKET_ID###'] = $id;
         $markerArray['###BASKET_INPUT###'] = '';
-        $markerArray['###BASKET_INTO_ID###'] = tx_ttproducts_model_control::getBasketIntoIdPrefix() . '-' . $row['uid'];
-        $markerArray['###BASKET_INPUT_ERROR_ID###'] = tx_ttproducts_model_control::getBasketInputErrorIdPrefix() . '-' . $row['uid'];
+        $markerArray['###BASKET_INTO_ID###'] = $parameterApi->getBasketIntoIdPrefix() . '-' . $row['uid'];
+        $markerArray['###BASKET_INPUT_ERROR_ID###'] = $parameterApi->getBasketInputErrorIdPrefix() . '-' . $row['uid'];
 
         $markerArray['###DISABLED###'] = ($bInputDisabled ? ($bUseXHTML ? 'disabled="disabled"' : 'disabled') : '');
 
@@ -568,7 +570,7 @@ class tx_ttproducts_basketitem_view implements SingletonInterface
             }
 
             $isImageProduct = $viewTable->hasAdditional($row, 'isImage');
-            $damParam = tx_ttproducts_model_control::getPiVarValue('tx_dam');
+            $damParam = $parameterApi->getPiVarValue('tx_dam');
 
             if (
                 $funcTablename == 'tt_products' &&
@@ -582,7 +584,7 @@ class tx_ttproducts_basketitem_view implements SingletonInterface
                 $isImageProduct &&
                 isset($damParam)
             ) {
-                $damUid = tx_ttproducts_model_control::getPiVarValue('tx_dam');
+                $damUid = $parameterApi->getPiVarValue('tx_dam');
             }
 
             if (isset($damUid)) {

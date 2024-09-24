@@ -72,7 +72,6 @@ class DiscountApi
             $discountArray[] = doubleval($feUserRecord[static::$feuserDiscountField]);
         }
 
-        //     debug ($discountArray, 'getFeuserDiscounts ENDE $discountArray');
         return $discountArray;
     }
 

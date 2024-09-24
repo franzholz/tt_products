@@ -296,17 +296,18 @@ class tx_ttproducts_db implements SingletonInterface
                             $tax = 0.0;
 
                             $itemArray =
-                                $basketObj->getItemArrayFromRow(
-                                    $tax,
-                                    $taxInfoArray,
-                                    $currRow,
-                                    $basketExt1,
-                                    $basketExtra,
-                                    $basketRecs,
-                                    $funcTablename,
-                                    'useExt',
-                                    $externalRowArray
-                                );
+                            $basketObj->getItemArrayFromRow(
+                                $tax,
+                                $taxInfoArray,
+                                $currRow,
+                                $basketExt1,
+                                $basketExtra,
+                                $basketRecs,
+                                $funcTablename,
+                                'useExt',
+                                $externalRowArray
+                            );
+
                             $basketObj->setMaxTax($modifiedRow['tax']);
                             $recalculateItems = true;
                             $calculatedArray = [];

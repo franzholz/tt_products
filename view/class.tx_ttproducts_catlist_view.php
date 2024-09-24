@@ -40,6 +40,7 @@ use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 use JambageCom\TtProducts\Api\BasketApi;
+use JambageCom\TtProducts\Api\ParameterApi;
 
 
 class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base
@@ -62,6 +63,7 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base
         $subCategoryMarkerArray
     ) {
         $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
         $basketApi = GeneralUtility::makeInstance(BasketApi::class);
         $basketExtra = $basketApi->getBasketExtra();
 
@@ -82,7 +84,7 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base
         $childEnd = $childEndMax = count($childArray) - 1;
 
         if ($ctrlArray['bUseBrowser'] && !empty($ctrlArray['limit'])) {
-            $piVars = tx_ttproducts_model_control::getPiVars();
+            $piVars = $parameterApi->getPiVars();
             $childStart = ($piVars['pointer'] ?? 0) * $ctrlArray['limit'];
             $childEnd = $childStart + $ctrlArray['limit'] - 1;
 
@@ -532,9 +534,10 @@ class tx_ttproducts_catlist_view extends tx_ttproducts_catlist_view_base
         $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
         $conf = $cnfObj->getConf();
         $config = $cnfObj->getConfig();
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
         $css = 'class="w' . $iCount . '"';
         $css = ($actCategory == $currentCat ? 'class="act"' : $css);
-        $prefixId = tx_ttproducts_model_control::getPrefixId();
+        $prefixId = $parameterApi->getPrefixId();
 
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $pageObj = $tablesObj->get('pages');

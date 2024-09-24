@@ -69,7 +69,6 @@ class tx_ttproducts_pi_search_base extends AbstractPlugin implements SingletonIn
      */
     public function main($content, $conf)
     {
-        tx_ttproducts_model_control::setPrefixId($this->prefixId);
         $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
         $parameterApi->setPrefixId($this->prefixId);
         PluginApi::init($conf);

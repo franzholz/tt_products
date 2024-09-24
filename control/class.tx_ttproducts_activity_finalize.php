@@ -44,11 +44,13 @@ use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-use JambageCom\TtProducts\Api\Localization;
+use JambageCom\Div2007\Utility\MailUtility;
+
 use JambageCom\TtProducts\Api\BasketApi;
 use JambageCom\TtProducts\Api\CustomerApi;
-use JambageCom\Div2007\Utility\MailUtility;
 use JambageCom\TtProducts\Api\DatabaseTableApi;
+use JambageCom\TtProducts\Api\Localization;
+use JambageCom\TtProducts\Api\ParameterApi;
 
 class tx_ttproducts_activity_finalize implements SingletonInterface
 {
@@ -141,6 +143,7 @@ class tx_ttproducts_activity_finalize implements SingletonInterface
         $basketViewObj = GeneralUtility::makeInstance('tx_ttproducts_basket_view');
         $infoObj = GeneralUtility::makeInstance('tx_ttproducts_info');
         $infoViewObj = GeneralUtility::makeInstance('tx_ttproducts_info_view');
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
         $funcTablename = tx_ttproducts_control_basket::getFuncTablename();
         $conf = $cnfObj->getConf();
         $customerEmail =
@@ -192,7 +195,6 @@ class tx_ttproducts_activity_finalize implements SingletonInterface
             $markerArray
         );
         $result = $orderConfirmationHTML;
-        // 		debug ($result, '$result');
 
         if (!$bAlwaysInStock) {
             $emailControlArray =
@@ -365,7 +367,6 @@ class tx_ttproducts_activity_finalize implements SingletonInterface
 
         $orderObj = $tablesObj->get('sys_products_orders');
         $orderObj->clearUid();
-        // debug ($result, 'doProcessing ENDE $result');
 
         return $result;
     } // doProcessing

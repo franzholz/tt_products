@@ -204,7 +204,7 @@ class tx_ttproducts_tracking implements SingletonInterface
         $infoViewObj = GeneralUtility::makeInstance('tx_ttproducts_info_view');
         $theTable = 'sys_products_orders';
         $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
-        $piVars = tx_ttproducts_model_control::getPiVars();
+        $piVars = $parameterApi->getPiVars();
 
         $orderData = $orderObj->getOrderData($orderRow);
         $statusCodeArray = [];

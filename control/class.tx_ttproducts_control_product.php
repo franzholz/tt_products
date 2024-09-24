@@ -50,10 +50,11 @@ class tx_ttproducts_control_product
         $row,
         $useArticles
     ) {
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
         $uid = $row['uid'];
         $funcTablename = $itemTable->getFuncTablename();
 
-        $basketVar = tx_ttproducts_model_control::getBasketVar();
+        $basketVar = $parameterApi->getBasketVar();
         $presetVariantArray = [];
         $basketArray = GeneralUtility::_GP($basketVar);
 
@@ -91,7 +92,8 @@ class tx_ttproducts_control_product
 
     public static function getActiveArticleNo()
     {
-        $result = tx_ttproducts_model_control::getPiVarValue('tt_products_articles');
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
+        $result = $parameterApi->getPiVarValue('tt_products_articles');
 
         return $result;
     }

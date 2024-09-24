@@ -191,7 +191,6 @@ abstract class tx_ttproducts_article_base_view extends tx_ttproducts_table_base_
         } else {
             $row = $originalRow;
         }
-
         $this->getPriceMarkerArray(
             $basketExtra,
             $basketRecs,
@@ -219,7 +218,6 @@ abstract class tx_ttproducts_article_base_view extends tx_ttproducts_table_base_
         $modelObj = $this->getModelObj();
         $priceViewObj = GeneralUtility::makeInstance('tx_ttproducts_field_price_view');
         $funcTablename = $modelObj->getFuncTablename();
-
         $mainId = $this->getId($row, $id, $theCode);
 
         foreach ($GLOBALS['TCA'][$funcTablename]['columns'] as $field => $fieldTCA) {

@@ -43,18 +43,21 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 use JambageCom\Div2007\Utility\FrontendUtility;
+use JambageCom\Div2007\Utility\MarkerUtility;
 
 use JambageCom\TtProducts\Api\BasketApi;
 use JambageCom\TtProducts\Api\ControlApi;
 use JambageCom\TtProducts\Api\FeUserMarkerApi;
 use JambageCom\TtProducts\Api\Localization;
+use JambageCom\TtProducts\Api\ParameterApi;
+use JambageCom\TtProducts\Api\VariantApi;
 use JambageCom\TtProducts\View\RelatedList;
 
 class tx_ttproducts_single_view implements SingletonInterface
 {
     public $conf;
     public $config;
-    public $uid; 	// product id
+    public $uid = 0; 	// product id
     public $type = 'product'; 	// 'product', 'article' or 'dam'
     public $variants; 	// different attributes
     public $pid; // PID where to go
@@ -119,8 +122,14 @@ class tx_ttproducts_single_view implements SingletonInterface
         $languageObj = GeneralUtility::makeInstance(Localization::class);
         $urlObj = GeneralUtility::makeInstance('tx_ttproducts_url_view');
         $cObj = ControlApi::getCObj();
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
+        $variantApi = null;
 
-        $piVars = tx_ttproducts_model_control::getPiVars();
+        if ($this->type == 'product' || $this->type == 'article') {
+            $variantApi = GeneralUtility::makeInstance(VariantApi::class);
+        }
+
+        $piVars = $parameterApi->getPiVars();
         $conf = $cnf->getConf();
         $externalRowArray = [];
 
@@ -334,7 +343,7 @@ class tx_ttproducts_single_view implements SingletonInterface
                 if (isset($viewParamConf['item']) && GeneralUtility::inList($viewParamConf['item'], $categoryPivar)) {
                     // nothing
                 } else {
-                    $prefixId = tx_ttproducts_model_control::getPrefixId();
+                    $prefixId = $parameterApi->getPrefixId();
                     $excludeList .= ($excludeList != '' ? ',' : '') . $prefixId . '[' . $categoryPivar . ']';
                 }
             }
@@ -774,16 +783,17 @@ class tx_ttproducts_single_view implements SingletonInterface
                 }
 
                 $basketRecs = tx_ttproducts_control_basket::getRecs();
-
                 $prodVariantRow = $row;
+
                 $itemTableViewArray[$this->type]->getModelMarkerArray(
                     $row,
                     $itemTableViewArray[$this->type]->getMarker(),
                     $markerArray,
+                    is_object($variantApi) ? $variantApi->getFieldArray() : [],
                     $catTitle,
+                    $viewTagArray,
                     $this->config['limitImageSingle'],
                     'image',
-                    $viewTagArray,
                     $forminfoArray,
                     'SINGLE',
                     $basketExtra,
@@ -795,10 +805,13 @@ class tx_ttproducts_single_view implements SingletonInterface
                     true,
                     'UTF-8',
                     '', // $hiddenFields
+                    [],
                     '',
                     [],
                     [],
-                    $bIsGift
+                    [],
+                    $bIsGift, // $enableTaxZero
+                    true  // $notOverwritePriceIfSet
                 );
 
                 if ($this->type == 'product') {
@@ -858,21 +871,34 @@ class tx_ttproducts_single_view implements SingletonInterface
                                 '1'
                             );
                     }
-                    $itemArray =
+                    $taxInfoArray = [];
+                    $tax = 0.0;
+                    $virtualItemArray =
                         $basketObj->getItemArrayFromRow(
+                            $tax, // neu
+                            $taxInfoArray, // neu
                             $currRow,
                             $basketExt1,
                             $basketExtra,
                             $basketRecs,
                             $funcTablename,
+                            'useExt',
                             $externalRowArray,
                             $bIsGift
                         );
 
-                    $basketObj->calculate($itemArray); // get the calculated arrays
+                    $basketObj->calculate(
+                        $virtualItemArray,
+                        $basketExt,
+                        $basketExtra,
+                        $basketRecs,
+                        $tax, // neu
+                        false // neu
+                    ); // get the calculated arrays
+
                     $prodVariantRow =
                         $basketObj->getMergedRowFromItemArray(
-                            $itemArray,
+                            $virtualItemArray,
                             $basketExtra
                         );
 
@@ -889,10 +915,11 @@ class tx_ttproducts_single_view implements SingletonInterface
                         $prodVariantRow,
                         $itemTableViewArray['article']->getMarker(),
                         $markerArray,
+                        is_object($variantApi) ? $variantApi->getFieldArray() : [],
                         $catTitle,
+                        $articleViewTagArray,
                         $this->config['limitImageSingle'],
                         'image',
-                        $articleViewTagArray,
                         [],
                         'SINGLE',
                         $basketExtra,
@@ -904,10 +931,13 @@ class tx_ttproducts_single_view implements SingletonInterface
                         true,
                         'UTF-8',
                         '', // $hiddenFields
+                        [],
                         '',
                         [],
                         [],
-                        $bIsGift
+                        [],
+                        $bIsGift, // $enableTaxZero
+                        true  // $notOverwritePriceIfSet
                     );
                 } elseif ($this->type == 'article') {
                     $articleRow = $row;
@@ -916,10 +946,11 @@ class tx_ttproducts_single_view implements SingletonInterface
                         $prodRow,
                         $itemTableViewArray['product']->getMarker(),
                         $markerArray,
+                        is_object($variantApi) ? $variantApi->getFieldArray() : [],
                         $catTitle,
+                        $viewTagArray,
                         $this->config['limitImageSingle'],
                         'listImage',
-                        $viewTagArray,
                         [],
                         'SINGLE',
                         $basketExtra,
@@ -931,10 +962,13 @@ class tx_ttproducts_single_view implements SingletonInterface
                         true,
                         'UTF-8',
                         '', // $hiddenFields
+                        [],
                         '',
                         [],
                         [],
-                        $bIsGift
+                        [],
+                        $bIsGift, // $enableTaxZero
+                        true  // $notOverwritePriceIfSet
                     );
                 }
 
@@ -964,11 +998,13 @@ class tx_ttproducts_single_view implements SingletonInterface
                     $prodVariantValuesRow = array_merge($prodVariantRow, $variantValuesRow);
                     $item =
                         $basketObj->getItem(
+                            $mergePrices = true,
                             $basketExt,
                             $basketExtra,
                             $basketRecs,
-                            $prodVariantValuesRow, // $prodVariantRow,  // $prodRow  wiederhergestellt wie früher
+                            $prodVariantValuesRow, // / $prodVariantRow,  // $prodRow  wiederhergestellt wie früher
                             'firstVariant',
+                            $taxInfoArray,
                             $funcTablename,
                             $externalRowArray,
                             $bIsGift

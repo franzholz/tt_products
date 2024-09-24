@@ -36,13 +36,17 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-use JambageCom\Div2007\Utility\FrontendUtility;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Resource\StorageRepository;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
+
+use JambageCom\Div2007\Utility\FrontendUtility;
+
+use JambageCom\TtProducts\Api\ParameterApi;
+
 
 class tx_ttproducts_fal_view extends tx_ttproducts_article_base_view
 {
@@ -112,6 +116,7 @@ class tx_ttproducts_fal_view extends tx_ttproducts_article_base_view
         $productRowArray = [],
         $bEnableTaxZero = false
     ): void {
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
         parent::getModelMarkerArray(
             $row,
             $markerParam,
@@ -143,9 +148,9 @@ class tx_ttproducts_fal_view extends tx_ttproducts_article_base_view
             $cObj->start([]);
             $paramArray = [];
             $postVar = tx_ttproducts_control_command::getCommandVar();
-            $orderPivar = tx_ttproducts_model_control::getPiVar('sys_products_orders');
-            $prefixId = tx_ttproducts_model_control::getPrefixId();
-            $downloadVar = tx_ttproducts_model_control::getPiVar('tt_products_downloads');
+            $orderPivar = $parameterApi->getPiVar('sys_products_orders');
+            $prefixId = $parameterApi->getPrefixId();
+            $downloadVar = $parameterApi->getPiVar('tt_products_downloads');
 
             $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
             $orderObj = $tablesObj->get('sys_products_orders');

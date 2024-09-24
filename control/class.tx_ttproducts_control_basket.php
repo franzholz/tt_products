@@ -67,10 +67,10 @@ abstract class BasketRecsIndex
 class tx_ttproducts_control_basket
 {
     protected static $recs = [];
-    protected static $infoArray = [];
     private static ?object $pidListObj = null;
     private static bool $bHasBeenInitialised = false;
     private static $funcTablename;		// tt_products or tt_products_articles
+    protected static $infoArray = [];
 
 
     public static function init(
@@ -337,7 +337,6 @@ class tx_ttproducts_control_basket
     public static function setInfoArray($infoArray): void
     {
         static::$infoArray = $infoArray;
-        debug ($infoArray, 'setInfoArray $infoArray');
         if (
             isset($infoArray['billing']) &&
             is_array($infoArray['billing'])
@@ -355,7 +354,6 @@ class tx_ttproducts_control_basket
 
     public static function getInfoArray()
     {
-        debug (static::$infoArray, 'getInfoArray static::$infoArray');
         return static::$infoArray;
     }
 
@@ -538,14 +536,12 @@ class tx_ttproducts_control_basket
                             }
 
                             $row = $countryObj->isoGet($infoArray[$type][$iso3Field]);
-                            //                     debug($row, 'addLoginData $row');
                             if (isset($row['cn_short_de'])) {
                                 $infoArray[$type]['country'] = $row['cn_short_de'];
                             }
                         }
                     }
                 }
-                // debug ($infoArray[$type]['country'], 'nachher $infoArray['.$type.'][\'country\']');
             } // foreach
             // neu Ende
 
@@ -564,7 +560,6 @@ class tx_ttproducts_control_basket
             }
             unset($infoArray['billing']['error']);
         } // if isLoggedIn
-        debug ($infoArray, 'addLoginData ENDE $infoArray');
     }
 
     public static function getAjaxVariantFunction($row, $funcTablename, $theCode)

@@ -302,7 +302,7 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view
                     $prefix,
                     $suffix,
                     $linkWrap,
-                    $bEnableTaxZero
+                    $enableTaxZero
                 );
                 if (is_array($adressMarkerArray)) {
                     $markerArray = array_merge($markerArray, $adressMarkerArray);

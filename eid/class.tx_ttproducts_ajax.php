@@ -36,11 +36,12 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-use JambageCom\Div2007\Utility\FrontendUtility;
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+
+use JambageCom\Div2007\Utility\FrontendUtility;
 
 class tx_ttproducts_ajax implements SingletonInterface
 {

@@ -47,6 +47,7 @@ use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 use JambageCom\Div2007\Utility\FrontendUtility;
 
+
 class BasketItemViewApi implements SingletonInterface
 {
     public $useArticles = 0;
@@ -228,7 +229,6 @@ class BasketItemViewApi implements SingletonInterface
             $checkPriceArray['minimum'] = true;
         }
 
-        // debug ($row, 'basket view $row');
         $bIsNoMaxPrice = $itemTable->hasAdditional($row, 'noMaxPrice');
 
         if (!$bIsNoMaxPrice) {

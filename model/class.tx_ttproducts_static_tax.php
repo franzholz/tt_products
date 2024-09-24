@@ -350,7 +350,6 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base
                 !empty($rowArray)
             ) {
                 foreach ($rowArray as $categoryRow) {
-                    // 		debug ($categoryRow, '$categoryRow');
                     $result[] = $categoryRow['uid_foreign'];
                 }
             }
@@ -410,11 +409,8 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base
             $categoryArray = $this->getCategoryArray($uidArray);
         }
 
-        // 		debug ($countryArray, 'getTaxInfo $countryArray hier');
-
         $countryCode = '';
         $zoneCode = '';
-        // debug ($tax, '$tax vor fetchCountryTaxes');
 
         $taxInfoArray =
         TaxApi::fetchCountryTaxes(
@@ -526,7 +522,6 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base
 
             $extArray = $row['ext'] ?? [];
 
-            // 			debug ($extArray, 'getStaticTax $extArray');
             if (
                 isset($extArray['records']) &&
                 is_array($extArray['records']) &&

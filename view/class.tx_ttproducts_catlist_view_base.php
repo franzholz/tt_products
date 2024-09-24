@@ -36,13 +36,15 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-use JambageCom\Div2007\Base\BrowserBase;
-use JambageCom\TtProducts\Api\Localization;
-use JambageCom\TtProducts\Api\ParameterApi;
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
+
+use JambageCom\Div2007\Base\BrowserBase;
+
+use JambageCom\TtProducts\Api\Localization;
+use JambageCom\TtProducts\Api\ParameterApi;
 
 abstract class tx_ttproducts_catlist_view_base implements SingletonInterface
 {
@@ -267,7 +269,7 @@ abstract class tx_ttproducts_catlist_view_base implements SingletonInterface
             $pibaseObj = GeneralUtility::makeInstance('' . $this->pibaseClass);
             $languageObj = GeneralUtility::makeInstance(Localization::class);
             $tableConfArray = $this->getTableConfArray();
-            $piVars = tx_ttproducts_model_control::getPiVars();
+            $piVars = $parameterApi->getPiVars();
             $browserConf = [];
             if (
                 isset($tableConfArray['view.']) && $tableConfArray['view.']['browser'] == 'div2007' && isset($tableConfArray['view.']['browser.'])
@@ -343,13 +345,14 @@ abstract class tx_ttproducts_catlist_view_base implements SingletonInterface
     ) {
         $pibaseObj = GeneralUtility::makeInstance('' . $this->pibaseClass);
         $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
         $rc = true;
         $mode = '';
         $allowedCats = '';
 
         $this->getFrameWork($t, $templateCode, $templateArea . $templateSuffix);
         $checkExpression = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['templateCheck'];
-        $piVars = tx_ttproducts_model_control::getPiVars();
+        $piVars = $parameterApi->getPiVars();
 
         if (!empty($checkExpression)) {
             $wrongPounds = preg_match_all($checkExpression, $t['listFrameWork'], $matches);
@@ -370,8 +373,8 @@ abstract class tx_ttproducts_catlist_view_base implements SingletonInterface
         $functableArray = [$funcTablename];
         $tableConfArray = [];
         $viewConfArray = [];
-        $searchVars = $piVars[tx_ttproducts_model_control::getSearchboxVar()] ?? '';
-        tx_ttproducts_model_control::getTableConfArrays(
+        $searchVars = $piVars[$parameterApi->getSearchboxVar()] ?? '';
+        $parameterApi->getTableConfArrays(
             $pibaseObj->getContentObjectRenderer(),
             $functableArray,
             $theCode,
@@ -395,7 +398,7 @@ abstract class tx_ttproducts_catlist_view_base implements SingletonInterface
         $sqlTableIndex = 0;
         $latest = '';
         if (!empty($searchVars)) {
-            tx_ttproducts_model_control::getSearchInfo(
+            $parameterApi->getSearchInfo(
                 $this->cObj,
                 $searchVars,
                 $funcTablename,
@@ -443,7 +446,7 @@ abstract class tx_ttproducts_catlist_view_base implements SingletonInterface
             $tmp = $templateService->substituteMarkerArrayCached($t['categoryFrameWork'], [], $subpartArray);
             $htmlParts = GeneralUtility::trimExplode('###CATEGORY_TMP###', $tmp);
             $rootCat = $categoryTable->getRootCat() ?? '';
-            $currentCat = $categoryTable->getParamDefault($theCode, $piVars[tx_ttproducts_model_control::getPiVar($funcTablename)] ?? '');
+            $currentCat = $categoryTable->getParamDefault($theCode, $piVars[$parameterApi->getPiVar($funcTablename)] ?? '');
 
             $startCat = $currentCat;
             if (strpos($theCode, 'SELECT') !== false) {
@@ -472,7 +475,7 @@ abstract class tx_ttproducts_catlist_view_base implements SingletonInterface
                     foreach ($tableConf['filter.']['where.']['field.'] as $field => $value) {
                         if (trim($value) != '') {
                             $where_clause =
-                                tx_ttproducts_model_control::getWhereByFields(
+                                $parameterApi->getWhereByFields(
                                     $tablename,
                                     $alias,
                                     '',

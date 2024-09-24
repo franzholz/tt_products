@@ -1730,6 +1730,8 @@ class ActivityController implements SingletonInterface
     ) {
         $content = '';
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
+        $infoObj = GeneralUtility::makeInstance('tx_ttproducts_info');
         $basketViewObj = GeneralUtility::makeInstance('tx_ttproducts_basket_view');
         $basketViewObj->init(
             $this->useArticles,
@@ -1737,7 +1739,7 @@ class ActivityController implements SingletonInterface
         );
         $activityApi = GeneralUtility::makeInstance(ActivityApi::class);
         $conf = $cnf->getConf();
-        $infoArray = \tx_ttproducts_control_basket::getInfoArray();
+        $infoArray = $infoObj->getInfoArray();
         $activityArray = $activityApi->getActivityArray();
         \tx_ttproducts_control_basket::uncheckAgb(
             $infoArray,
@@ -1756,7 +1758,7 @@ class ActivityController implements SingletonInterface
                 $basketExt,
                 $codes,
                 $addressArray
-            );
+                );
         }
 
         if (

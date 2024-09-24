@@ -36,14 +36,18 @@
  * @package TYPO3
  * @subpackage tt_products
  */
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\MathUtility;
+
 use JambageCom\Div2007\Utility\ExtensionUtility;
 use JambageCom\Div2007\Utility\FlexformUtility;
 use JambageCom\Div2007\Utility\SystemCategoryUtility;
 use JambageCom\Div2007\Utility\TableUtility;
+
+use JambageCom\TtProducts\Api\ParameterApi;
 use JambageCom\TtProducts\Model\Field\FieldInterface;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\MathUtility;
+
 
 class tx_ttproducts_product extends tx_ttproducts_article_base
 {
@@ -271,11 +275,12 @@ class tx_ttproducts_product extends tx_ttproducts_article_base
         $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
         $fieldArray = $this->variant->getSelectableFieldArray();
         $useArticles = $cnfObj->getUseArticles();
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
 
         $articleNo = false;
         $articleRow = [];
         $variantSeparator = $this->getVariant()->getSeparator();
-        $regexpDelimiter = tx_ttproducts_model_control::determineRegExpDelimiter($variantSeparator);
+        $regexpDelimiter = $parameterApi->determineRegExpDelimiter($variantSeparator);
 
         if ($bUsePreset) {
             $presetVariantArray =

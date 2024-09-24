@@ -45,6 +45,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 use JambageCom\Div2007\Compatibility\AbstractPlugin;
+
 use JambageCom\TtProducts\Api\ParameterApi;
 use JambageCom\TtProducts\Api\PluginApi;
 
@@ -73,7 +74,7 @@ class tx_ttproducts_pi1_base extends AbstractPlugin implements SingletonInterfac
         $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
         $parameterApi->setPrefixId($this->prefixId);
         PluginApi::init($conf);
-        tx_ttproducts_model_control::setPrefixId($this->prefixId);
+        $parameterApi->setPrefixId($this->prefixId);
 
         $this->conf = $conf;
         $config = [];

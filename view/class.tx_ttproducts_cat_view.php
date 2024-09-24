@@ -95,7 +95,8 @@ class tx_ttproducts_cat_view implements SingletonInterface
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
         $variantFieldArray = [];
-        $piVars = tx_ttproducts_model_control::getPiVars();
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
+        $piVars = $parameterApi->getPiVars();
         $basketApi = GeneralUtility::makeInstance(BasketApi::class);
         $basketExtra = $basketApi->getBasketExtra();
 

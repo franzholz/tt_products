@@ -243,11 +243,13 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base
 
     /** reduces price by discount for FE user **/
     public static function getDiscountPrice(
+        &$priceModified,
         $price,
         $discount = ''
     ) {
         if (floatval($discount) != 0) {
             $price = $price * (1 - $discount / 100);
+            $priceModified = true;
         }
 
         return $price;
@@ -464,8 +466,7 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base
                 $maxDiscount = 0;
             }
         }
-
-        $price = static::getDiscountPrice($priceModified, $price, $maxDiscount);
+        $price = static::getDiscountPrice($priceModified,$price, $maxDiscount);
         $taxFactor = 1 + $taxpercentage / 100;
         $result = static::getPriceTax($price, $bTax, $taxIncluded, $taxFactor);
 
@@ -732,13 +733,17 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base
                     $row[FieldInterface::DISCOUNT] != 0 &&
                     $row[FieldInterface::DISCOUNT_DISABLE] == 0
                 ) {
+                    $priceModified = false;
                     $priceArray['discountbyproductpricetax'] =
                         self::getDiscountPrice(
+                            $priceModified,
                             $priceArray['discountbyproductpricetax'],
                             $row[FieldInterface::DISCOUNT]
                         );
+                    $priceModified = false;
                     $priceArray['discountbyproductpricenotax'] =
                         self::getDiscountPrice(
+                            $priceModified,
                             $priceArray['discountbyproductpricenotax'],
                             $row[FieldInterface::DISCOUNT]
                         );

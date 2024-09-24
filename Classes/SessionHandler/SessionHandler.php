@@ -38,11 +38,9 @@ class SessionHandler extends Typo3SessionHandler implements SingletonInterface
 
     public static function readSession($internalKey = '')
     {
-    debug ($internalKey, 'readSession $internalKey');
         $result = [];
         $session = GeneralUtility::makeInstance(static::class);
         $result = $session->getSessionData($internalKey);
-    debug ($result, 'readSession $result');
 
         return $result;
     }

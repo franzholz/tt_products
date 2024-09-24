@@ -73,7 +73,7 @@ class tx_ttproducts_pi_int_base extends AbstractPlugin implements SingletonInter
         $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
         $parameterApi->setPrefixId($this->prefixId);
         PluginApi::init($conf);
-        tx_ttproducts_model_control::setPrefixId($this->prefixId);
+        $parameterApi->setPrefixId($this->prefixId);
 
         $this->conf = $conf;
         $config = [];

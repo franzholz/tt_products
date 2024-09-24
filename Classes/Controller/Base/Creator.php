@@ -82,10 +82,6 @@ class Creator implements SingletonInterface
         array $recs = [],
         array $basketRec = []
     ): bool {
-        // 	debug ($conf, '$conf Creator::init');
-        debug($recs, '$recs Creator::init');
-        debug($basketRec, '$basketRec Creator::init');
-
         $basketApi = GeneralUtility::makeInstance(BasketApi::class);
         $variantApi = GeneralUtility::makeInstance(VariantApi::class);
         $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
@@ -101,7 +97,6 @@ class Creator implements SingletonInterface
 
         if (!empty($conf['PIDstoreRoot'])) {
             $config['storeRootPid'] = $conf['PIDstoreRoot'];
-            debug($config['storeRootPid'], '$config[\'storeRootPid\'] Pos 2');
         } elseif (
             $request instanceof ServerRequestInterface
             &&
@@ -110,10 +105,8 @@ class Creator implements SingletonInterface
             is_array($GLOBALS['TSFE']->tmpl->rootLine)
         ) {
             foreach ($GLOBALS['TSFE']->tmpl->rootLine as $k => $row) {
-                // 			debug ($row, '$row aus Rootline');
                 if ($row['doktype'] == 1) {
                     $config['storeRootPid'] = $row['uid'];
-                    debug($config['storeRootPid'], '$config[\'storeRootPid\'] Pos 3');
                     break;
                 }
             }
@@ -137,13 +130,8 @@ class Creator implements SingletonInterface
 
         $wrap = $cObj->stdWrap($conf['pid_list'] ?? '', $conf['pid_list.'] ?? '');
         $pid_list = (!empty($cObj->data['pages']) ? $cObj->data['pages'] : (!empty($conf['pid_list.']) ? trim($wrap) : ''));
-        debug($pid_list, '$pid_list Pos 1');
         $pid_list = ($pid_list ?: $conf['pid_list'] ?? '');
-        debug($pid_list, '$pid_list Pos 2');
-        //         debug ($config['storeRootPid'], '$config[\'storeRootPid\']');
         $config['pid_list'] = ($pid_list ?? $config['storeRootPid'] ?? 0);
-        debug($config['pid_list'], 'init $config[\'pid_list\']');
-
         $recursive = (!empty($cObj->data['recursive']) ? $cObj->data['recursive'] : $conf['recursive'] ?? 99);
         $config['recursive'] = MathUtility::forceIntegerInRange($recursive, 0, 100);
 
@@ -163,7 +151,6 @@ class Creator implements SingletonInterface
 
         if ($result == false) {
             $errorCode = $markerObj->getErrorCode();
-            debug($errorCode, '$errorCode');
 
             return false;
         }
@@ -209,7 +196,7 @@ class Creator implements SingletonInterface
             $conf,
             $variantConf
         );
-        //         debug ($variantConf, '$variantConf');
+
         $variantApi->storeVariantConf($variantConf);
         $variantApi->storeSelectable($selectableArray);
         $variantApi->setSelectableFieldArray($selectableFieldArray);
@@ -224,7 +211,6 @@ class Creator implements SingletonInterface
 
         ControlApi::init($conf, $cObj);
         $infoArray = \tx_ttproducts_control_basket::getStoredInfoArray();
-        debug ($infoArray, '$infoArray tx_ttproducts_control_basket::getStoredInfoArray');
         if (!empty($conf['useStaticInfoCountry'])) {
             \tx_ttproducts_control_basket::setCountry(
                 $infoArray,

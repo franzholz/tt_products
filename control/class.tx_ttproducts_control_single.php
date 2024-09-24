@@ -40,6 +40,9 @@ use TYPO3\CMS\Core\SingletonInterface;
  * @package TYPO3
  * @subpackage tt_products
  */
+
+use JambageCom\TtProducts\Api\ParameterApi;
+
 class tx_ttproducts_control_single implements SingletonInterface
 {
     /**
@@ -53,9 +56,10 @@ class tx_ttproducts_control_single implements SingletonInterface
             !empty($conf['active']) &&
             isset($conf['trigger.'])
         ) {
+            $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
             $triggerConf = $conf['trigger.'];
-            $piVars = tx_ttproducts_model_control::getPiVars();
-            $piVar = tx_ttproducts_model_control::getPiVar('tt_products');
+            $piVars = $parameterApi->getPiVars();
+            $piVar = $parameterApi->getPiVar('tt_products');
             $uid = $piVars[$piVar] ?? '';
 
             if (CompatibilityUtility::isLoggedIn()) {

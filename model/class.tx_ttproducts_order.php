@@ -633,6 +633,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
         $orderTablename = 'sys_products_orders';
         $falFieldname = 'fal_uid';
         $variantSeparator = '---';
+        $basketApi = GeneralUtility::makeInstance(BasketApi::class);
 
         if ($this->conf['useArticles'] != 2) {
             $productTable = $tablesObj->get('tt_products', false);
@@ -707,7 +708,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
                     ) {
                         $newTitleArray = [];
                         $externalRowArray = $extArray['records'];
-                        BasketApi::getRecordvariantAndPriceFromRows(
+                        $basketApi->getRecordvariantAndPriceFromRows(
                             $falVariants,
                             $dummyPrice,
                             $externalUidArray,

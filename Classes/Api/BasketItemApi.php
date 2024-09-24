@@ -59,8 +59,6 @@ class BasketItemApi implements SingletonInterface
         &$item,
         $overwriteAmount = ''
     ) {
-        //     debug ($item, 'getQuantity $item');
-        //     debug ($overwriteAmount, 'getQuantity $overwriteAmount');
         $result = $item['count'];
         if (
             $overwriteAmount != 'basket' &&
@@ -69,7 +67,6 @@ class BasketItemApi implements SingletonInterface
             $result = intval($overwriteAmount);
         }
 
-        //     debug ($result, 'getQuantity $result');
         return $result;
     }
 
@@ -88,8 +85,6 @@ class BasketItemApi implements SingletonInterface
         &$maxQuantity,
         $row
     ): void {
-        // debug ($row, 'getMinMaxQuantity $row');
-
         $minQuantity = $row['basketminquantity'];
         $maxQuantity = $row['basketmaxquantity'];
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
@@ -108,8 +103,6 @@ class BasketItemApi implements SingletonInterface
         $quantity
     ): void {
         static::getMinMaxQuantity($minQuantity, $maxQuantity, $row);
-        //         debug ($minQuantity, 'addMinMaxQuantities $minQuantity');
-        //         debug ($maxQuantity, 'addMinMaxQuantities $maxQuantity');
 
         if ($minQuantity != '0.00' && $quantity < $minQuantity) {
             $quantityArray['minimum'][] =

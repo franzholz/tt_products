@@ -49,6 +49,8 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use JambageCom\Div2007\Utility\FrontendUtility;
 
 use JambageCom\TtProducts\Api\BasketApi;
+use JambageCom\TtProducts\Api\CustomerApi;
+use JambageCom\TtProducts\Api\ParameterApi;
 use JambageCom\TtProducts\Event\AddRelatedListEvent;
 
 
@@ -282,6 +284,8 @@ class RelatedList implements SingletonInterface
     ) {
         $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
         $config = $cnfObj->getConfig();
+        $feUserRecord = CustomerApi::getFeUserRecord();
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
         if (!in_array($uid, $paramUidArray)) {
             $paramUidArray[] = $uid;
         }
@@ -372,8 +376,9 @@ class RelatedList implements SingletonInterface
                             $error_code,
                             $funcArray['template'] . $config['templateSuffix'],
                             $pageAsCategory,
+                            $feUserRecord,
                             $basketExtra,
-                            tx_ttproducts_control_basket::getRecs(),
+                            \tx_ttproducts_control_basket::getRecs(),
                             $mergeRow,
                             1,
                             $callFunctableArray,

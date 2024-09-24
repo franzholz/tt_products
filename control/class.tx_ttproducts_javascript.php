@@ -34,12 +34,15 @@
  * @package TYPO3
  * @subpackage tt_products
  */
-use JambageCom\Div2007\Utility\FrontendUtility;
 use TYPO3\CMS\Core\Page\AssetCollector;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\PathUtility;
+
+use JambageCom\Div2007\Utility\FrontendUtility;
+
+use JambageCom\TtProducts\Api\ParameterApi;
 
 class tx_ttproducts_javascript implements SingletonInterface
 {
@@ -165,7 +168,8 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
         $bDirectHTML = false;
         $code = '';
         $bError = false;
-        $prefixId = tx_ttproducts_model_control::getPrefixId();
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
+        $prefixId = $parameterApi->getPrefixId();
 
         if (
             !$this->bCopyrightShown &&
@@ -412,7 +416,7 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
 		data["' . $prefixId . '"]["' . $catid . '"] = category;
 		';
 
-                $contentPiVar = tx_ttproducts_model_control::getPiVar('tt_content');
+                $contentPiVar = $parameterApi->getPiVar('tt_content');
 
                 if ($currentRecord != '') {
                     $code .= '

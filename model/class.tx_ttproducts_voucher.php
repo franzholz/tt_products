@@ -155,7 +155,6 @@ class tx_ttproducts_voucher extends tx_ttproducts_table_base
     public function isEnabled()
     {
         $result = false;
-        debug ($this->conf['voucher.'] ?? '', 'isEnabled $this->conf[\'voucher.\']');
 
         if (
             isset($this->conf['voucher.']) &&
@@ -328,8 +327,6 @@ class tx_ttproducts_voucher extends tx_ttproducts_table_base
             }
         }
 
-        // debug($result, 'isVoucherCodeUsed $result');
-
         return $result;
     }
 
@@ -350,8 +347,6 @@ class tx_ttproducts_voucher extends tx_ttproducts_table_base
     public function getLastVoucherCodeUsed()
     {
         $result = '';
-
-        // debug($this->usedVoucherCodeArray, 'getLastVoucherCodeUsed $this->usedVoucherCodeArray');
 
         if (count($this->usedVoucherCodeArray)) {
             $lastArray = array_pop($this->usedVoucherCodeArray);
@@ -376,10 +371,6 @@ class tx_ttproducts_voucher extends tx_ttproducts_table_base
         $result = true;
         $combinable = $this->getCombinable();
 
-        // debug($calculatedArray['priceTax']['goodstotal']['ALL'], '$calculatedArray[\'priceTax\'][\'goodstotal\'][\'ALL\']');
-
-        // debug($calculatedArray['noDiscountPriceTax']['goodstotal']['ALL'], '$calculatedArray[\'noDiscountPriceTax\'][\'goodstotal\'][\'ALL\']');
-
         if (
             !$combinable &&
             (
@@ -388,7 +379,6 @@ class tx_ttproducts_voucher extends tx_ttproducts_table_base
         ) {
             $result = false;
         }
-        // debug($result, 'voucherCodeDiscountCombinable $result');
 
         return $result;
     }
@@ -398,27 +388,18 @@ class tx_ttproducts_voucher extends tx_ttproducts_table_base
         $calculatedArray
     ) {
         $result = false;
-        // debug($amount, 'voucherCodeExceedsLimit $amount');
-        // debug($calculatedArray, 'voucherCodeExceedsLimit $calculatedArray');
-        // debug($calculatedArray['priceTax']['goodstotal']['ALL'], '$calculatedArray[\'priceTax\'][\'goodstotal\'][\'ALL\']');
-        //
-        // debug($calculatedArray['noDiscountPriceTax']['goodstotal']['ALL'], '$calculatedArray[\'noDiscountPriceTax\'][\'goodstotal\'][\'ALL\']');
-        //
+
         if (
             doubleval($amount) > $calculatedArray['priceTax']['goodstotal']['ALL']
         ) {
             $result = true;
         }
-        // debug($result, 'voucherCodeExceedsLimit $result');
 
         return $result;
     }
-    // neu Ende
 
-    // neu Anfang
     public function combinationAllowed($row)
     {
-        // debug($row, 'combinationAllowed $row');
         $result = false;
         $lastVoucherCode = $this->getLastVoucherCodeUsed();
 
@@ -436,7 +417,6 @@ class tx_ttproducts_voucher extends tx_ttproducts_table_base
 
         return $result;
     }
-    // neu Ende
 
     public function setVoucherCodeUsed($row): void
     {
@@ -450,7 +430,6 @@ class tx_ttproducts_voucher extends tx_ttproducts_table_base
 
     public function setVoucherCode($code): void
     {
-        debug($code, 'setVoucherCode $code');
         $this->voucherCode = $code;
     }
 
@@ -460,14 +439,12 @@ class tx_ttproducts_voucher extends tx_ttproducts_table_base
         if ($this->conf['table.']['voucher']) {
             $result = $this->conf['table.']['voucher'];
         }
-        debug ($result, 'getVoucherTableName $result');
 
         return $result;
     }
 
     public function setValid($valid = true): void
     {
-        debug($valid, 'setValid $valid');
         $this->valid = $valid;
     }
 
@@ -532,7 +509,6 @@ class tx_ttproducts_voucher extends tx_ttproducts_table_base
         $voucherTable = $this->getVoucherTableName();
         $this->setVoucherCode($voucherCode);
         $this->setCalculatedArray($calculatedArray);
-        // debug($voucherCode, 'doProcessing $voucherCode');
         $this->setValid(false);
         $pageRepository = GeneralUtility::makeInstance(PageRepository::class);
 
@@ -560,7 +536,6 @@ class tx_ttproducts_voucher extends tx_ttproducts_table_base
                     $this->setAmount($row['amount']);
                     $this->setAmountType($row['amount_type']);
                     $rebateAmount = $this->getRebateAmount();
-                    debug($rebateAmount, '$rebateAmount');
                     $this->setPossibleAmount($rebateAmount);
                     $this->setAmount(0);
                 }
@@ -615,7 +590,6 @@ class tx_ttproducts_voucher extends tx_ttproducts_table_base
                 }
             }
             $GLOBALS['TYPO3_DB']->sql_free_result($res);
-            // debug($row, '$row');
 
             if (
                 $row &&
@@ -628,7 +602,6 @@ class tx_ttproducts_voucher extends tx_ttproducts_table_base
                 $amount = doubleval($this->getAmount());
                 $amountType = intval($this->getAmountType());
                 $combinable = $this->getCombinable();
-                // debug($amount, '$amount');
 
                 if ($amountType == $row['amount_type']) {
                     $amount += $row['amount'];
@@ -656,7 +629,6 @@ class tx_ttproducts_voucher extends tx_ttproducts_table_base
                 } else {
                     $this->setAmount($amount);
                     $rebateAmount = $this->getRebateAmount();
-                    debug($rebateAmount, '$rebateAmount');
                     $this->setPossibleAmount($rebateAmount);
                     $this->setAmount(0);
                 }

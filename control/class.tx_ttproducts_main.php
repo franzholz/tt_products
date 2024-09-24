@@ -139,7 +139,7 @@ class tx_ttproducts_main implements SingletonInterface
         $parameterApi->setRequest($request);
         $this->setSingleFromList(false);
         $this->tt_product_single = [];
-        $piVars = tx_ttproducts_model_control::getPiVars();
+        $piVars = $parameterApi->getPiVars();
 
         if (
             ExtensionManagementUtility::isLoaded('party')
@@ -299,9 +299,8 @@ class tx_ttproducts_main implements SingletonInterface
         // *************************************
 
         if ($config['displayCurrentRecord']) {
-            // $config['code']='SINGLE';
             $row = $cObj->data;
-            $this->tt_product_single['product'] = $row['uid'];
+            $this->tt_product_single['product'] = $row['uid'] ?? 0;
         } else {
             $error_detail = '';
             $paramArray = ['product', 'article', 'dam', 'fal'];
@@ -359,7 +358,8 @@ class tx_ttproducts_main implements SingletonInterface
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $conf = $cnf->getConf();
         $config = $cnf->getConfig();
-        $piVars = tx_ttproducts_model_control::getPiVars();
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
+        $piVars = $parameterApi->getPiVars();
         $urlObj = GeneralUtility::makeInstance('tx_ttproducts_url_view');
         $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
 
@@ -434,7 +434,7 @@ class tx_ttproducts_main implements SingletonInterface
         $basketExt = $basketApi->getBasketExt();
         $basketExtra = $basketApi->getBasketExtra();
         $basketRecs = tx_ttproducts_control_basket::getRecs();
-        $infoArray = \tx_ttproducts_control_basket::getInfoArray();
+        $infoArray = tx_ttproducts_control_basket::getInfoArray();
         $infoObj->init($infoArray, $conf['pdfInfoFields']);
         $activityApi = GeneralUtility::makeInstance(ActivityApi::class);
         $activityApi->init($this->codeArray);
@@ -451,7 +451,16 @@ class tx_ttproducts_main implements SingletonInterface
         );
 
         $itemArray = $basketObj->getItemArray();
-        $basketObj->calculate($itemArray); // get the calculated arrays
+        $tax = '';
+        $basketObj->calculate(
+            $itemArray,
+            $basketExt,
+            $basketExtra,
+            $basketRecs,
+            $tax,
+            true,
+            false
+        ); // get the calculated arrays
         $basketObj->setItemArray($itemArray);
         $feUserRecord = CustomerApi::getFeUserRecord();
         $basketObj->calculateSums($feUserRecord);
@@ -556,7 +565,7 @@ class tx_ttproducts_main implements SingletonInterface
                         $hideZero
                     ) {
                         $hideIdArray = GeneralUtility::trimExplode(',', $hideIds);
-                        $piVar = tx_ttproducts_model_control::getPiVar($funcTablename);
+                        $piVar = $parameterApi->getPiVar($funcTablename);
 
                         if (isset($piVars[$piVar])) {
                             $currentArray = GeneralUtility::trimExplode(',', $piVars[$piVar]);
@@ -870,7 +879,7 @@ class tx_ttproducts_main implements SingletonInterface
                     );
                     $tableInfoArray = ['SINGLECAT' => 'tt_products_cat', 'SINGLEDAMCAT' => 'tx_dam_cat', 'SINGLEAD' => 'address'];
                     $funcTablename = $tableInfoArray[$theCode];
-                    $uid = $piVars[tx_ttproducts_model_control::getPivar($funcTablename)];
+                    $uid = $piVars[$parameterApi->getPivar($funcTablename)];
 
                     if ($uid) {
                         $contentTmp = $catView->printView(
@@ -1315,10 +1324,11 @@ class tx_ttproducts_main implements SingletonInterface
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $conf = $cnf->getConf();
         $config = $cnf->getConfig();
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
         $feUserRecord = CustomerApi::getFeUserRecord();
         $basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
         $bSingleFromList = false;
-        $piVars = tx_ttproducts_model_control::getPiVars();
+        $piVars = $parameterApi->getPiVars();
 
         if (
             (
@@ -1414,7 +1424,6 @@ class tx_ttproducts_main implements SingletonInterface
                 $funcTablename = 'tt_products';
             }
             $allowedItems = FlexformUtility::get(PluginApi::getFlexform(), 'productSelection');
-
             $bAllPages = false;
             $templateArea = $templateArea . $config['templateSuffix'];
             $content = $listView->printView(

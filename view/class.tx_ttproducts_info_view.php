@@ -51,6 +51,7 @@ use JambageCom\Div2007\Utility\StaticInfoTablesUtility;
 use JambageCom\TtProducts\Api\ControlApi;
 use JambageCom\TtProducts\Api\CustomerApi;
 use JambageCom\TtProducts\Api\Localization;
+use JambageCom\TtProducts\Api\ParameterApi;
 use JambageCom\TtProducts\Api\PaymentShippingHandling;
 
 class tx_ttproducts_info_view implements SingletonInterface
@@ -179,13 +180,14 @@ class tx_ttproducts_info_view implements SingletonInterface
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $languageObj = GeneralUtility::makeInstance(Localization::class);
         $context = GeneralUtility::makeInstance(Context::class);
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
 
         $fields = CustomerApi::getFields();
         $infoFields = GeneralUtility::trimExplode(',', $fields); // Fields...
         $orderAddressViewObj = $tablesObj->get('fe_users', true);
         $orderAddressObj = $orderAddressViewObj->getModelObj();
         $selectInfoFields = $orderAddressObj->getSelectInfoFields();
-        $piVars = tx_ttproducts_model_control::getPiVars();
+        $piVars = $parameterApi->getPiVars();
         if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
             $staticInfoApi = GeneralUtility::makeInstance(StaticInfoTablesApi::class);
         } else {
