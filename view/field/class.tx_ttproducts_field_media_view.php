@@ -289,7 +289,10 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
             if (is_array($tableConf) && isset($tableConf['imageMarker.'])) {
                 $imageMarkerArray = $tableConf['imageMarker.'];
             }
-            $imageConfStart = $this->conf[$imageRenderObj . '.'];
+            $imageConfStart = $this->conf[$imageRenderObj . '.'] ?? null;
+            if (!isset($imageConfStart)) {
+                return false;
+            }
             $contentObject = $this->conf[$imageRenderObj] ?? '';
             if ($contentObject == '') {
                 $contentObject = 'IMAGE';

@@ -79,7 +79,7 @@ class CreditpointsViewApi implements SingletonInterface
             foreach ($actItemArray as $k1 => $actItem) {
                 $row = $actItem['rec'];
                 if (!$row) {	// avoid bug with missing row
-                    continue 2;
+                    continue 1;
                 }
                 $pricecredits_total_totunits_no_tax = 0;
                 $pricecredits_total_totunits_tax = 0;

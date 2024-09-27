@@ -334,7 +334,7 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view
                                 }
                             }
                             if (strpos($index, $markerKey) === false) {
-                                continue 3;
+                                continue 1;
                             }
                             $fieldPos = strrpos($index, '_');
                             $fieldName = substr($index, $fieldPos + 1);

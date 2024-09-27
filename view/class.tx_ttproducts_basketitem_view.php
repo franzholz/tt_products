@@ -449,7 +449,7 @@ class tx_ttproducts_basketitem_view implements SingletonInterface
                                                         $imageImport['sql.']['where']
                                                     );
                                                 if (!$bIsValid) {
-                                                    continue 2;
+                                                    continue 1;
                                                 }
                                             }
                                             $imageFile = $imageImport['prod.'][$k2];

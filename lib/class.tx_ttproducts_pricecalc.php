@@ -75,13 +75,13 @@ class tx_ttproducts_pricecalc extends tx_ttproducts_pricecalc_base
 
                     if (is_array($priceCalcTemp['sql.'])) {
                         if (!($bIsValid = $sql->isValid($row, $priceCalcTemp['sql.']['where']))) {
-                            continue 2;
+                            continue 1;
                         }
                     }
 
                     // has a price reduction already been calculated before ?
                     if ($priceReduction[$row['uid']] == 1) {
-                        continue 2;
+                        continue 1;
                     }
 
                     // count all items which will apply to the discount price
