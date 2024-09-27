@@ -230,7 +230,7 @@ class PaymentShippingHandling
                     if (
                         !MathUtility::canBeInterpretedAsInteger($k2int)
                     ) {
-                        continue 2;
+                        continue 1;
                     }
 
                     if ($pskey == 'handling') {
@@ -240,7 +240,7 @@ class PaymentShippingHandling
                                 if (
                                     !MathUtility::canBeInterpretedAsInteger($k3int)
                                 ) {
-                                    continue 2;
+                                    continue 1;
                                 }
                                 $bActive = isset($basketExtra[$pskey . '.'][$k3int]['0']) && ($k3int == $basketExtra[$pskey . '.'][$k3int]['0']);
                                 self::helperSubpartArray(

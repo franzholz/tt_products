@@ -536,7 +536,7 @@ class tx_ttproducts_db implements SingletonInterface
                     ) ||
                     $field == 'additional'
                 ) {
-                    continue 2;
+                    continue 1;
                 }
                 $fieldId = $field;
                 $bSkip = false;
@@ -592,7 +592,7 @@ class tx_ttproducts_db implements SingletonInterface
                 if (!in_array($field, $variantArray)) {
                     if (($position = strpos($field, '_uid')) !== false) {
                         if (!$useFal) {
-                            continue 2;
+                            continue 1;
                         }
                         $fieldId = substr($field, 0, $position);
                     } else {
@@ -600,7 +600,7 @@ class tx_ttproducts_db implements SingletonInterface
                             in_array($field, ['image', 'smallimage']) &&
                             $useFal
                         ) {
-                            continue 2;
+                            continue 1;
                         }
                     }
 
@@ -681,7 +681,11 @@ class tx_ttproducts_db implements SingletonInterface
                                     $mediaNum
                                 );
 
-                                $v = $imgCodeArray;
+                                if (is_array($imgCodeArray)) {
+                                    $v = $imgCodeArray;
+                                } else {
+                                    continue 2;
+                                }
                             } else {
                                 $v = '';
                                 continue 2; // do not delete the current image
@@ -736,7 +740,6 @@ class tx_ttproducts_db implements SingletonInterface
                 $fieldMarkerArray,
                 $markerArray
             );
-
             foreach ($newRow as $field => $v) {
                 $tagId = ControlApi::getTagId(
                     $jsTableNamesId,

@@ -157,6 +157,7 @@ class tx_ttproducts_product extends tx_ttproducts_article_base
 
             foreach ($selectableFieldArray as $field) {
                 if (
+                    isset($row[$field]) &&
                     $row[$field] == '' &&
                     !empty($variantRow[$field])
                 ) {
@@ -215,7 +216,10 @@ class tx_ttproducts_product extends tx_ttproducts_article_base
                 foreach ($fieldArray as $field => $valueArray) {
                     $valueArray = array_map('trim', $valueArray);
                     $rowFieldArray = [];
-                    if (isset($row[$field]) && strlen($row[$field])) {
+                    if (
+                        isset($row[$field]) &&
+                        strlen($row[$field])
+                    ) {
                         $rowFieldArray =
                             preg_split(
                                 '/[\h]*' . $variantSeparator . '[\h]*/',
