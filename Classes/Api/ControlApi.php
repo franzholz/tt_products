@@ -79,4 +79,15 @@ class ControlApi
 
         return $overwriteMode;
     }
+
+    public static function getTagId(
+        $jsTableNamesId,
+        $theCode,
+        $uid,
+        $field
+    ) {
+        $result = $jsTableNamesId . '-' . strtolower($theCode) . '-' . $uid . '-' . $field;
+
+        return $result;
+    }
 }
