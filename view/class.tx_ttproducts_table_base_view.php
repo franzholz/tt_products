@@ -485,14 +485,14 @@ abstract class tx_ttproducts_table_base_view implements SingletonInterface
 
     // This can also add additional fields to the row.
     public function modifyFieldObject(
+        &$theMarkerArray,
         array $origRow,
         array $row,
         array $tableconf,
         $markerPrefix,
         $suffix,
         array $fieldMarkerArray,
-        array $markerArray,
-        &$theMarkerArray
+        array $markerArray
     ) {
         $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $local_cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
@@ -533,7 +533,8 @@ abstract class tx_ttproducts_table_base_view implements SingletonInterface
                 $hookObj = GeneralUtility::makeInstance($classRef);
                 if (method_exists($hookObj, 'modifyFieldObject')) {
                     $hookObj->modifyFieldObject(
-                        $thts,
+                        $theMarkerArray,
+                        $this,
                         $origRow,
                         $row,
                         $tableconf,
@@ -541,7 +542,6 @@ abstract class tx_ttproducts_table_base_view implements SingletonInterface
                         $suffix,
                         $fieldMarkerArray,
                         $markerArray,
-                        $theMarkerArray,
                         $newRow
                     );
                 }
@@ -720,14 +720,14 @@ abstract class tx_ttproducts_table_base_view implements SingletonInterface
                 }
                 if (!$bSkip) {
                     $this->modifyFieldObject(
+                        $theMarkerArray,
                         $row,
                         $modifiedRow,
                         $tableconf,
                         $markerPrefix,
                         $suffix,
                         $fieldMarkerArray,
-                        $markerArray,
-                        $theMarkerArray
+                        $markerArray
                     );
                 }
             }
