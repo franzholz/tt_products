@@ -468,7 +468,7 @@ class tx_ttproducts_main implements SingletonInterface
         $voucher = $tablesObj->get('voucher');
         if (is_object($voucher) && $voucher->isEnabled()) {
             $recs = tx_ttproducts_control_basket::getRecs();
-            $voucher->doProcessing($recs);
+            $voucher->doProcessing($recs, $basketObj->getCalculatedArray(), $feUserRecord);
         }
 
         if (!empty($voucher)) {
