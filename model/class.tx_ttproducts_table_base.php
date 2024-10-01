@@ -110,7 +110,7 @@ abstract class tx_ttproducts_table_base implements SingletonInterface
             debug($tablename, 'Table not found in $GLOBALS[\'TCA\']: ' . $tablename . ' in file class.tx_ttproducts_table_base.php'); // keep this
             $errorText = 'ERROR in the setup of "tt_products.table.' . $funcTablename . '": wrong table name "' . $tablename . '".';
             $lastUnderscore = strrpos($tablename, '_');
-            $extName = substr($tablename, 0, $lastUnderscore);
+            $extName = ($lastUnderscore ? substr($tablename, 0, $lastUnderscore) : $tablename);
             if (strpos($extName, 'tx') === 0) {
                 $errorText .= '<br/> Consider to install the extension "' . $extName . '" or change this setup.';
             }
