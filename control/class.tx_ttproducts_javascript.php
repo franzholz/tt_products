@@ -248,7 +248,7 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
                         $code .= '
 		';
                         foreach ($ajaxConf as $k => $actConf) {
-                            $pVar = GeneralUtility::_GP($k);
+                            $pVar = $parameterApi->getParameter($k);
                             if (isset($pVar) && is_array($actConf[$pVar . '.'])) {
                                 foreach ($actConf[$pVar . '.'] as $k2 => $v2) {
                                     $code .= 'conf[' . $k2 . '] = ' . $v2 . '; ';

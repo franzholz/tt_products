@@ -91,7 +91,7 @@ class tx_ttproducts_control_command
         $pidListObj->setPageArray();
 
         $postVar = self::getCommandVar();
-        $cmdData = GeneralUtility::_GP($postVar);
+        $cmdData = $parameterApi->getParameter($postVar) ?? [];
 
         switch ($theCode) {
             case 'DOWNLOAD':

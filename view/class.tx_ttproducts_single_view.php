@@ -430,7 +430,7 @@ class tx_ttproducts_single_view implements SingletonInterface
             }
 
             $backPID = $piVars['backPID'] ?? '';
-            $backPID = ($backPID ?: GeneralUtility::_GP('backPID'));
+            $backPID = ($backPID ?: $parameterApi->getParameter('backPID'));
             $basketPID = $this->conf['PIDbasket'];
             $bNeedSingleParams = false;
 

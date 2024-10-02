@@ -56,7 +56,7 @@ class tx_ttproducts_control_product
 
         $basketVar = $parameterApi->getBasketVar();
         $presetVariantArray = [];
-        $basketArray = GeneralUtility::_GP($basketVar);
+        $basketArray = $parameterApi->getParameter($basketVar);
 
         if (
             isset($basketArray) && is_array($basketArray) &&

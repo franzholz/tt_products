@@ -88,7 +88,7 @@ class tx_ttproducts_basket implements SingletonInterface
         $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
         $basketApi = GeneralUtility::makeInstance(BasketApi::class);
         $piVars = $parameterApi->getPiVars();
-        $gpVars = GeneralUtility::_GP('tt_products');
+        $gpVars = $parameterApi->getParameter('tt_products');
         $payment = false;
 
         if (isset($gpVars)) {
@@ -130,7 +130,7 @@ class tx_ttproducts_basket implements SingletonInterface
                     $inputConf['where'] &&
                     !empty($inputConf['name'])
                 ) {
-                    $radioUid = GeneralUtility::_GP($inputConf['name']);
+                    $radioUid = $gpVars[$inputConf['name']] ?? 0;
                     if ($radioUid) {
                         $rowArray = $viewTableObj->get('', 0, false, $inputConf['where']);
 
@@ -156,11 +156,11 @@ class tx_ttproducts_basket implements SingletonInterface
         if (isset($this->basketExt['gift']) && is_array($this->basketExt['gift'])) {
             $this->giftnumber = count($this->basketExt['gift']) + 1;
         }
-        $newGiftData = GeneralUtility::_GP('ttp_gift');
+        $newGiftData = $gpVars['ttp_gift'] ?? 0;
         $extVars = $piVars['variants'] ?? '';
-        $extVars = ($extVars ?: GeneralUtility::_GP('ttp_extvars'));
+        $extVars = ($extVars ?: $gpVars['ttp_extvars'] ?? 0);
         $uid = $piVars['product'] ?? '';
-        $uid = ($uid ?: GeneralUtility::_GP('tt_products'));
+        $uid = ($uid ?: $gpVars['tt_products'] ?? 0);
         $sameGiftData = true;
         $identGiftnumber = 0;
 
@@ -188,7 +188,7 @@ class tx_ttproducts_basket implements SingletonInterface
         }
 
         if ($newGiftData) {
-            $giftnumber = GeneralUtility::_GP('giftnumber');
+            $giftnumber = $gpVars['giftnumber'] ?? 0;
             if ($updateMode) {
                 $basketExt['gift'][$giftnumber] = $newGiftData;
                 $giftcount = intval($basketExt['gift'][$giftnumber]['item'][$uid][$extVars]);

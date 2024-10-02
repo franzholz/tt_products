@@ -61,7 +61,7 @@ class tx_ttproducts_marker implements SingletonInterface
      *
      * @param	array		array urls which should be overridden with marker key as index
      */
-    public function init($conf, $piVars)
+    public function init($conf, $backPID)
     {
         $this->markerArray = ['CATEGORY', 'PRODUCT', 'ARTICLE'];
         $markerFile = $conf['markerFile'] ?? '';
@@ -104,7 +104,7 @@ class tx_ttproducts_marker implements SingletonInterface
         }
         $locallang = $languageObj->getLocallang();
         $LLkey = $languageObj->getLocalLangKey();
-        $this->setGlobalMarkerArray($conf, $piVars, $locallang, $LLkey);
+        $this->setGlobalMarkerArray($conf, $backPID, $locallang, $LLkey);
         $errorCode = $this->getErrorCode();
 
         return !is_array($errorCode) || (count($errorCode) == 0) ? true : false;
@@ -148,7 +148,7 @@ class tx_ttproducts_marker implements SingletonInterface
     /**
      * getting the global markers.
      */
-    public function setGlobalMarkerArray($conf, $piVars, $locallang, $LLkey): void
+    public function setGlobalMarkerArray($conf, $backPID, $locallang, $LLkey): void
     {
         $cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
         $markerArray = [];
@@ -184,20 +184,11 @@ class tx_ttproducts_marker implements SingletonInterface
             $markerArray['###PID_' . strtoupper($function) . '###'] = intval($conf['PID' . $function] ?? 0);
         }
         $markerArray['###SHOPADMIN_EMAIL###'] = $conf['orderEmail_from'] ?? 'undefined';
-        $lang = GeneralUtility::_GET('L');
-
-        if ($lang != '') {
-            $markerArray['###LANGPARAM###'] = '&amp;L=' . $lang;
-        } else {
-            $markerArray['###LANGPARAM###'] = '';
-        }
-        $markerArray['###LANG###'] = $lang;
+        $markerArray['###LANG###'] = '';
         $markerArray['###LANGUAGE###'] = $GLOBALS['TSFE']->config['config']['language'] ?? '';
         $markerArray['###LOCALE_ALL###'] = $GLOBALS['TSFE']->config['config']['locale_all'] ?? '';
 
-        $backPID = $piVars['backPID'] ?? '';
-        $backPID = ($backPID ?: GeneralUtility::_GP('backPID'));
-        $backPID = ($backPID ?: (!empty($conf['PIDlistDisplay']) ? $conf['PIDlistDisplay'] : $GLOBALS['TSFE']->id ?? 0));
+        $backPID = ($backPID ?: $conf['PIDlistDisplay'] ?? ($GLOBALS['TSFE']->id ?? 0));
         $markerArray['###BACK_PID###'] = $backPID;
 
         // Call all addGlobalMarkers hooks at the end of this method

@@ -38,6 +38,7 @@
  */
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use WapplerSystems\WsFlexslider\Controller\FlexsliderController;
+use JambageCom\TtProducts\Api\ParameterApi;
 
 class tx_ttproducts_ws_flexslider
 {
@@ -48,7 +49,8 @@ class tx_ttproducts_ws_flexslider
     ) {
         $uid = 0;
 
-        $params = GeneralUtility::_GP('tt_products');
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
+        $params = $parameterApi->getParameter('tt_products');
         if (isset($params) && is_array($params)) {
             $uid = $params['cat'];
         }

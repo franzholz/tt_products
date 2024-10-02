@@ -199,7 +199,7 @@ class tx_ttproducts_main implements SingletonInterface
         if (count($requiredArray)) {
             foreach ($requiredArray as $k => $pivar) {
                 if ($pivar && $pivar != 'empty') {
-                    $gpVar = GeneralUtility::_GP($pivar);
+                    $gpVar = $parameterApi->getParameter($pivar);
                     if (
                         !isset($piVars[$pivar]) &&
                         !isset($gpVar)
@@ -399,7 +399,7 @@ class tx_ttproducts_main implements SingletonInterface
             }
         }
         $updateMode = 0;
-        if (GeneralUtility::_GP('mode_update')) {
+        if ($parameterApi->getParameter('mode_update')) {
             $updateMode = 1;
         }
 
@@ -468,7 +468,7 @@ class tx_ttproducts_main implements SingletonInterface
         $voucher = $tablesObj->get('voucher');
         if (is_object($voucher) && $voucher->isEnabled()) {
             $recs = tx_ttproducts_control_basket::getRecs();
-            $voucher->doProcessing($recs);
+            $voucher->doProcessing($recs, $basketObj->getCalculatedArray(), $feUserRecord);
         }
 
         if (!empty($voucher)) {
@@ -1165,7 +1165,7 @@ class tx_ttproducts_main implements SingletonInterface
         $templateSuffix,
         $theCode,
         $conf
-    ) { // GeneralUtility::_GP('tracking')
+    ) {
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $urlObj = GeneralUtility::makeInstance('tx_ttproducts_url_view');
         $updateCode = '';
@@ -1206,7 +1206,7 @@ class tx_ttproducts_main implements SingletonInterface
                         $tracking->init(
                             $cObj
                         );
-                        $orderRecord = GeneralUtility::_GP('orderRecord');
+                        $orderRecord = $parameterApi->getParameter('orderRecord');
                         if (
                             !empty($_REQUEST['userNotification']) &&
                             isset($orderRecord) &&
@@ -1349,7 +1349,7 @@ class tx_ttproducts_main implements SingletonInterface
             $bSingleFromList
         ) {
             $extVars = $piVars['variants'] ?? '';
-            $extVars = ($extVars ?: GeneralUtility::_GP('ttp_extvars'));
+            $extVars = ($extVars ?? $parameterApi->getParameter('ttp_extvars'));
             $showAmount = $cnf->getBasketConf('view', 'showAmount');
 
             if (!count($this->tt_product_single)) {

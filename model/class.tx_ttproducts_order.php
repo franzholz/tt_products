@@ -853,14 +853,14 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
         $bOnlyStatusChange
     ) {
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
-        $voucherObj = $tablesObj->get('voucher');
+        $voucher = $tablesObj->get('voucher');
 
         if (
-            is_object($voucherObj) &&
+            is_object($voucher) &&
             $status == 1 &&
-            $voucherObj->isEnabled()
+            $voucher->isEnabled()
         ) {
-            $voucherObj->delete($feUserRecord);
+            $voucher->delete($feUserRecord);
         }
 
         // get credit card info

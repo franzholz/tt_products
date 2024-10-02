@@ -340,6 +340,7 @@ class ActivityController implements SingletonInterface
         $languageKey = '';
         $context = GeneralUtility::makeInstance(Context::class);
         $languageSubpath = '/Resources/Private/Language/';
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
 
         if ($checkRequired || $checkAllowed) {
             $check = ($checkRequired ?: $checkAllowed);
@@ -444,7 +445,7 @@ class ActivityController implements SingletonInterface
         } elseif (
             $pidagb &&
             empty($_REQUEST['recs']['personinfo']['agb']) &&
-            empty(GeneralUtility::_GET('products_payment')) &&
+            empty($parameterApi->getGetParameter('products_payment')) &&
             empty($infoArray['billing']['agb'])
         ) {
             // so AGB has not been accepted
@@ -519,6 +520,7 @@ class ActivityController implements SingletonInterface
         $config = $cnf->getConfig();
         $paymentScript = false;
         $feUserRecord = CustomerApi::getFeUserRecord();
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
 
         if ($checkBasket && !$basketEmpty) {
             $basketConf = $cnf->getBasketConf('minPrice'); // check the basket limits
@@ -662,7 +664,7 @@ class ActivityController implements SingletonInterface
             (
                 empty($pidagb) ||
                 !empty($_REQUEST['recs']['personinfo']['agb']) ||
-                ($isPayment && GeneralUtility::_GET('products_payment')) ||
+                ($isPayment && $parameterApi->getGetParameter('products_payment')) ||
                 !empty($infoArray['billing']['agb'])
             )
         ) {
