@@ -170,10 +170,10 @@ class tx_ttproducts_list_view
     public function getSearchParams(&$queryString): void
     {
         $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
-        $sword = GeneralUtility::_GP('sword');
+        $sword = $parameterApi->getParameter('sword');
 
         if (!isset($sword)) {
-            $sword = GeneralUtility::_GP('swords');
+            $sword = $parameterApi->getParameter('swords');
         }
 
         if ($sword) {
@@ -572,15 +572,15 @@ class tx_ttproducts_list_view
         $htmlSwords = '';
 
         if ($calllevel == 0) {
-            $sword = GeneralUtility::_GP('sword');
-            $sword ??= GeneralUtility::_GP('swords');
+            $sword = $parameterApi->getParameter('sword');
+            $sword ??= $parameterApi->getParameter('swords');
 
             if (!isset($sword)) {
-                $postVars = GeneralUtility::_POST($prefixId);
+                $postVars = $parameterApi->getPostParameter($prefixId);
                 $sword = $postVars['sword'] ?? null;
 
                 if (!isset($sword)) {
-                    $getVars = GeneralUtility::_GET($prefixId);
+                    $getVars = $parameterApi->getGetParameter($prefixId);
                     $sword = $getVars['sword'] ?? null;
                 }
             }
@@ -759,7 +759,7 @@ class tx_ttproducts_list_view
         if (!empty($piVars['newitemdays'])) {
             $newitemdays = $piVars['newitemdays'];
         }
-        $newitemdays = ($newitemdays ?: GeneralUtility::_GP('newitemdays'));
+        $newitemdays = ($newitemdays ?: $parameterApi->getParameter('newitemdays'));
 
         if (
             ($newitemdays || $theCode == 'LISTNEWITEMS') &&

@@ -372,7 +372,7 @@ class tx_ttproducts_tracking implements SingletonInterface
                             $recipient,
                             $status_log_element,
                             $statusCodeArray,
-                            GeneralUtility::_GP('tracking'),
+                            $parameterApi->getParameter('tracking'),
                             $orderRow,
                             $orderData,
                             $templateCode,

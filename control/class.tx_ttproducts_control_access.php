@@ -40,6 +40,8 @@ use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+use JambageCom\TtProducts\Api\ParameterApi;
+
 class tx_ttproducts_control_access implements SingletonInterface
 {
     public static function getVariables(
@@ -53,7 +55,8 @@ class tx_ttproducts_control_access implements SingletonInterface
             throw new Exception('ERROR in tt_products: The setup "update_code" must not be empty');
         }
 
-        $updateCode = GeneralUtility::_GP('update_code') ?? '';
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
+        $updateCode = $parameterApi->getParameter('update_code') ?? '';
         $bRequireBEAdmin = ($conf['shopAdmin'] == 'BE');
         $bIsAllowed = self::isAllowed($bRequireBEAdmin);
 
@@ -68,7 +71,7 @@ class tx_ttproducts_control_access implements SingletonInterface
             $updateCode = ''; // the update code must not be used if it is wrong
         }
 
-        $trackingCode = GeneralUtility::_GP('tracking') ?? '';
+        $trackingCode = $parameterApi->getParameter('tracking');
     }
 
     public static function isAllowed($bRequireBEAdmin)
@@ -90,7 +93,8 @@ class tx_ttproducts_control_access implements SingletonInterface
         $result = false;
 
         if (self::isAllowed($bRequireBEAdmin)) {
-            $updateCode = GeneralUtility::_GP('update_code') ?? '';
+            $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
+            $updateCode = $parameterApi->getParameter('update_code');
 
             if ($updateCode == $password) {
                 $result = true;	// Means that the administrator of the website is authenticated.

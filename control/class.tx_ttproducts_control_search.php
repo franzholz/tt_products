@@ -107,7 +107,7 @@ class tx_ttproducts_control_search implements SingletonInterface, tx_ttproducts_
         $markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
         $markerObj->init(
             $conf,
-            $piVars
+            $piVars['backPID'] ?? $parameterApi->getParameter('backPID')
         );
 
         $searchViewObj = GeneralUtility::makeInstance('tx_ttproducts_search_view');

@@ -42,6 +42,7 @@ namespace JambageCom\TtProducts\Api;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+use JambageCom\TtProducts\Api\ParameterApi;
 
 class ActivityApi implements SingletonInterface
 {
@@ -66,12 +67,17 @@ class ActivityApi implements SingletonInterface
         if (empty($codes)) {
             return;
         }
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
+        // $request = $parameterApi->getRequest();
+
         $activityArray = [];
         $subActivity = $this->subActivity;
-        $update = GeneralUtility::_POST('products_update') || GeneralUtility::_POST('products_update_x');
-        $info = GeneralUtility::_POST('products_info') || GeneralUtility::_POST('products_info_x');
-        $payment = GeneralUtility::_POST('products_payment') || GeneralUtility::_POST('products_payment_x');
-        $gpVars = GeneralUtility::_GP(TT_PRODUCTS_EXT);
+        $update = $parameterApi->getParameter('products_update') || $parameterApi->getParameter('products_update_x');
+        $info = $parameterApi->getParameter('products_info') || $parameterApi->getParameter('products_info_x');
+        $payment = $parameterApi->getParameter('products_payment') || $parameterApi->getParameter('products_payment_x');
+
+        $gpVars = $parameterApi->getParameter(TT_PRODUCTS_EXT);
+        debug($gpVars, '$gpVars');
 
         if (
             !$update &&
@@ -98,30 +104,34 @@ class ActivityApi implements SingletonInterface
             }
         }
 
-        if (GeneralUtility::_GP('products_clear_basket') || GeneralUtility::_GP('products_clear_basket_x')) {
+        if ($parameterApi->getParameter('products_clear_basket') || $parameterApi->getParameter('products_clear_basket_x')) {
             $activityArray['products_clear_basket'] = true;
         }
-        if (GeneralUtility::_GP('products_overview') || GeneralUtility::_GP('products_overview_x')) {
+
+        if ($parameterApi->getParameter('products_overview') || $parameterApi->getParameter('products_overview_x')) {
             $activityArray['products_overview'] = true;
         }
 
         if (!$update) {
-            if (GeneralUtility::_GP('products_payment') || GeneralUtility::_GP('products_payment_x')) {
+            if ($parameterApi->getParameter('products_payment') || $parameterApi->getParameter('products_payment_x')) {
                 $activityArray['products_payment'] = true;
-            } elseif (GeneralUtility::_GP('products_info') || GeneralUtility::_GP('products_info_x')) {
+            } elseif ($parameterApi->getParameter('products_info') || $parameterApi->getParameter('products_info_x')) {
                 $activityArray['products_info'] = true;
             }
         }
 
-        if (GeneralUtility::_GP('products_customized_payment') || GeneralUtility::_GP('products_customized_payment_x')) {
+        if ($parameterApi->getParameter('products_customized_payment') || $parameterApi->getParameter('products_customized_payment_x')) {
             $activityArray['products_customized_payment'] = true;
         }
-        if (GeneralUtility::_GP('products_verify') || GeneralUtility::_GP('products_verify_x')) {
+
+        if ($parameterApi->getParameter('products_verify') || $parameterApi->getParameter('products_verify_x')) {
             $activityArray['products_verify'] = true;
         }
-        if (GeneralUtility::_GP('products_finalize') || GeneralUtility::_GP('products_finalize_x')) {
+
+        if ($parameterApi->getParameter('products_finalize') || $parameterApi->getParameter('products_finalize_x')) {
             $activityArray['products_finalize'] = true;
         }
+
 
         $codeActivityArray = [];
         $isBasketCode = false;
@@ -132,7 +142,7 @@ class ActivityApi implements SingletonInterface
                         $codeActivityArray['products_basket'] = true;
                         $isBasketCode = true;
                         break;
-                    case 'INFO':
+                    case 'INFO': // neu
                         if (
                             !(
                                 !empty($activityArray['products_verify']) ||
@@ -158,7 +168,7 @@ class ActivityApi implements SingletonInterface
                         }
 
                         if (!empty($activityArray['products_verify'])) {
-                            $isBasketCode = true;
+                            $isBasketCode = true; // neu, damit verify gesetzt bleibt, wenn vorhanden
                         }
                         break;
                     case 'FINALIZE':
@@ -218,8 +228,7 @@ class ActivityApi implements SingletonInterface
         ) {
             $overwrite =
             ControlApi::isOverwriteMode($infoArray);
-            $needsDeliveryAddress =
-                \tx_ttproducts_control_basket::needsDeliveryAddresss($basketExtra);
+            $needsDeliveryAddress = \tx_ttproducts_control_basket::needsDeliveryAddresss($basketExtra);
             $infoObj->mapPersonIntoDelivery(
                 $basketExtra,
                 $overwrite,
@@ -276,6 +285,7 @@ class ActivityApi implements SingletonInterface
                 $codeActivities['products_basket'] = false;
             }
         }
+
         $sortedCodeActivities = [];
         foreach ($codeActivityArray as $activity) { // You must keep the order of activities.
             if (isset($codeActivities[$activity])) {

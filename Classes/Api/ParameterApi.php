@@ -116,6 +116,20 @@ class ParameterApi implements SingletonInterface
         return $value;
     }
 
+    public function getPostParameter($param)
+    {
+        $request = $this->getRequest();
+        $value = $request->getParsedBody()[$param] ?? null;
+        return $value;
+    }
+
+    public function getGetParameter($param)
+    {
+        $request = $this->getRequest();
+        $value = $request->getQueryParams()[$param] ?? null;
+        return $value;
+    }
+
     public function getParameterMerged($param)
     {
         $request = $this->getRequest();

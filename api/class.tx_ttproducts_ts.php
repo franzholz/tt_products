@@ -190,7 +190,8 @@ class tx_ttproducts_ts implements SingletonInterface
     {
         $funcTablename = 'tt_products';
         $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'] ?? [];
-        $piVars = GeneralUtility::_GPmerged('tt_products');
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
+        $piVars = $parameterApi->getParameterMerged('tt_products');
 
         tx_ttproducts_control_memo::process($funcTablename, $piVars, $conf);
     }

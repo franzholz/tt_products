@@ -790,7 +790,7 @@ class tx_ttproducts_basket_view implements SingletonInterface
             );
 
             // for receipt from DIBS script
-            $markerArray['###TRANSACT_CODE###'] = GeneralUtility::_GP('transact');
+            $markerArray['###TRANSACT_CODE###'] = $parameterApi->getParameter('transact');
             $markerArray['###CUR_SYM###'] = ' ' . ($bHtml ? htmlentities($conf['currencySymbol'], ENT_QUOTES) : $conf['currencySymbol']);
             $discountValue = tx_ttproducts_basket_calculate::getRealDiscount($calculatedArray, true);
 

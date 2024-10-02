@@ -296,7 +296,7 @@ class tx_ttproducts_url_view implements SingletonInterface
         $prefixId = $parameterApi->getPrefixId();
 
         $temp = $piVars[$param] ?? '';
-        $temp = ($temp ?: (GeneralUtility::_GP($param) && ($param != 'pid') ? GeneralUtility::_GP($param) : 0));
+        $temp = ($temp ?: ($parameterApi->getParameter($param) && ($param != 'pid') ? $parameterApi->getParameter($param) : 0));
 
         if ($temp) {
             if ($bUsePrefix) {
