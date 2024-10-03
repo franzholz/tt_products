@@ -36,8 +36,7 @@ use JambageCom\Div2007\Base\CmsHookBase;
  *
  * @author	Franz Holzinger <franz@ttproducts.de>
  *
- * @package TYPO3
- * @subpackage tt_products
+ *
  */
 class CmsBackend extends CmsHookBase
 {

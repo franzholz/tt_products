@@ -36,8 +36,6 @@ declare(strict_types=1);
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
  *
- * @package TYPO3
- * @subpackage tt_products
  */
 namespace JambageCom\TtProducts\Controller\Base;
 

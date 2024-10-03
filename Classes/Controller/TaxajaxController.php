@@ -37,8 +37,6 @@ namespace JambageCom\TtProducts\Controller;
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
  *
- * @package TYPO3
- * @subpackage tt_products
  */
 
 use Psr\Http\Message\ResponseInterface;

@@ -23,8 +23,6 @@ namespace JambageCom\TtProducts\Api;
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
  *
- * @package TYPO3
- * @subpackage tt_products
  */
 use TYPO3\CMS\Core\SingletonInterface;
 use JambageCom\Div2007\Api\Frontend;

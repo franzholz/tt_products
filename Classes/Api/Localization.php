@@ -38,8 +38,6 @@ use JambageCom\Div2007\Base\TranslationBase;
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
  *
- * @package TYPO3
- * @subpackage tt_products
  */
 class Localization extends TranslationBase implements SingletonInterface
 {

@@ -34,8 +34,7 @@ namespace JambageCom\TtProducts\Utility;
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
  *
- * @package TYPO3
- * @subpackage tt_products
+ *
  */
 class CreateLanguagesUtility
 {

@@ -34,8 +34,7 @@ namespace JambageCom\TtProducts\Utility;
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
  *
- * @package TYPO3
- * @subpackage tt_products
+ *
  */
 use JambageCom\Div2007\Utility\TableUtility;
 use TYPO3\CMS\Core\Core\Environment;

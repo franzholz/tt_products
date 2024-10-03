@@ -36,8 +36,6 @@ use TYPO3\CMS\Core\SingletonInterface;
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
  *
- * @package TYPO3
- * @subpackage tt_products
  */
 class tx_ttproducts_variant_dummy_view implements tx_ttproducts_variant_view_int, SingletonInterface
 {
