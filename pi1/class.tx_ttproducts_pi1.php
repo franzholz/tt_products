@@ -43,6 +43,7 @@
  */
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 class tx_ttproducts_pi1 implements SingletonInterface
@@ -81,7 +82,15 @@ class tx_ttproducts_pi1 implements SingletonInterface
      */
     public function getUserFunc($content, $conf)
     {
-        $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tt_products.'] ?? [];
+        $typo3VersionArray =
+        VersionNumberUtility::convertVersionStringToArray(VersionNumberUtility::getCurrentTypo3Version());
+        $typo3VersionMain = $typo3VersionArray['version_main'];
+        $conf = [];
+        if ($typo3VersionMain < 12) {
+            $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'] ?? null;
+        } else {
+            $conf = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.'][TT_PRODUCTS_EXT . '.'] ?? null;
+        }
 
         if (
             isset($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['getUserFunc']) &&

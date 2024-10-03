@@ -40,14 +40,24 @@ use TYPO3\CMS\Frontend\Controller\TypoScriptFrontendController;
  * @subpackage tt_products
  */
 
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
+
 use JambageCom\TtProducts\Api\ParameterApi;
 
 class ContentPostProcessor
 {
     public function setPageTitle(&$params, TypoScriptFrontendController &$pObj): void
     {
+        $typo3VersionArray =
+        VersionNumberUtility::convertVersionStringToArray(VersionNumberUtility::getCurrentTypo3Version());
+        $typo3VersionMain = $typo3VersionArray['version_main'];
+        $conf = [];
+        if ($typo3VersionMain < 12) {
+            $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'] ?? null;
+        } else {
+            $conf = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.'][TT_PRODUCTS_EXT . '.'] ?? null;
+        }
         $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
-        $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'] ?? [];
         $piVars = $parameterApi->getPiVars();
         $funcTablename = 'tt_products';
         $piVar = $parameterApi->getPiVar($funcTablename);
