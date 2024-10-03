@@ -36,8 +36,7 @@ use TYPO3\CMS\Core\Utility\ArrayUtility;
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
  *
- * @package TYPO3
- * @subpackage tt_products
+ *
  */
 class tx_ttproducts_control_session
 {

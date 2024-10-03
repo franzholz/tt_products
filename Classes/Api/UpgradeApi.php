@@ -21,8 +21,6 @@ namespace JambageCom\TtProducts\Api;
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
  *
- * @package TYPO3
- * @subpackage tt_products
  */
 use Doctrine\DBAL\ParameterType;
 use Psr\Log\LoggerAwareInterface;

@@ -36,8 +36,7 @@ declare(strict_types=1);
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
  *
- * @package TYPO3
- * @subpackage tt_products
+ *
  */
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;

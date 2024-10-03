@@ -33,9 +33,6 @@
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
  *
- * @package TYPO3
- * @subpackage tt_products
- *
  * @see TSref
  */
 use TYPO3\CMS\Core\SingletonInterface;

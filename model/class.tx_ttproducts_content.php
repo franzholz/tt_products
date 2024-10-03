@@ -33,8 +33,7 @@
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
  *
- * @package TYPO3
- * @subpackage tt_products
+ *
  */
 use JambageCom\Div2007\Api\Frontend;
 use TYPO3\CMS\Core\Utility\GeneralUtility;

@@ -33,8 +33,6 @@
  *
  * @maintainer	Franz Holzinger <franz@ttproducts.de>
  *
- * @package TYPO3
- * @subpackage tt_products
  */
 class tx_ttproducts_field_creditpoints_view extends tx_ttproducts_field_base_view
 {
