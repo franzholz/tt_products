@@ -48,6 +48,7 @@ use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
 use JambageCom\Div2007\Utility\FrontendUtility;
 use JambageCom\Div2007\Utility\HtmlUtility;
@@ -341,6 +342,9 @@ class ActivityController implements SingletonInterface
         $context = GeneralUtility::makeInstance(Context::class);
         $languageSubpath = '/Resources/Private/Language/';
         $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
+        $typo3VersionArray =
+        VersionNumberUtility::convertVersionStringToArray(VersionNumberUtility::getCurrentTypo3Version());
+        $typo3VersionMain = $typo3VersionArray['version_main'];
 
         if ($checkRequired || $checkAllowed) {
             $check = ($checkRequired ?: $checkAllowed);
@@ -363,7 +367,12 @@ class ActivityController implements SingletonInterface
                     $languageKey = 'missing_' . $check;
                 }
                 $label = $GLOBALS['TSFE']->sL('LLL:EXT:agency/pi/locallang.xml:' . $languageKey);
-                $editPID = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_agency.']['editPID'] ?? 0;
+                $editPID = 0;
+                if ($typo3VersionMain < 12) {
+                    $editPID = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_agency.']['editPID'] ?? 0;
+                } else {
+                    $editPID = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.'][TT_PRODUCTS_EXT . '.']['editPID'] ?? 0;;
+                }
 
                 if ($context->getPropertyFromAspect('frontend.user', 'isLoggedIn') && $editPID) {
                     $addParams = ['products_payment' => 1];
@@ -397,8 +406,13 @@ class ActivityController implements SingletonInterface
                 if (!$languageKey) {
                     $languageKey = 'missing_' . $check;
                 }
-                $label = $GLOBALS['TSFE']->sL('LLL:EXT:sr_feuser_register' . $languageSubpath . 'locallang.xlf:' . $languageKey);
-                $editPID = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_srfeuserregister_pi1.']['editPID'] ?? 0;
+                $label = $GLOBALS['TSFE']->sL('LLL:EXT:sr_feuser_register' . $languageSubpath
+                $editPID = 0;
+                if ($typo3VersionMain < 12) {
+                    $editPID = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_srfeuserregister_pi1.']['editPID'] ?? 0;
+                } else {
+                    $editPID = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.']['tx_srfeuserregister_pi1.']['editPID'] ?? 0;;
+                }
 
                 if ($context->getPropertyFromAspect('frontend.user', 'isLoggedIn') && $editPID) {
                     $cObj = ControlApi::getCObj();
