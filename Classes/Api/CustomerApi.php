@@ -41,12 +41,6 @@ namespace JambageCom\TtProducts\Api;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-abstract class CustomerTypes
-{
-    public const Billing = 1;
-    public const Delivery = 2;
-}
-
 class CustomerApi
 {
     private static $billingInfo;

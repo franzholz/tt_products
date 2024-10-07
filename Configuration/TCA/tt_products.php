@@ -36,7 +36,6 @@ $result = [
             'endtime' => 'endtime',
             'fe_group' => 'fe_group',
         ],
-        'thumbnail' => 'image_uid', // supported until TYPO3 10: breaking #92118
         'useColumnsForDefaultValues' => 'category',
         'mainpalette' => 1,
         'iconfile' => 'EXT:' . $extensionKey . '/Resources/Public/Icons/tt_products.gif',

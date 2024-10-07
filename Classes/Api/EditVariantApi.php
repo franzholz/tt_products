@@ -325,6 +325,7 @@ class EditVariantApi implements SingletonInterface
         $config,
         &$markerArray
     ): void {
+        $flags = null;
         $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
 
         if (isset($config) && is_array($config)) {
@@ -368,7 +369,7 @@ class EditVariantApi implements SingletonInterface
                     $theCode
                 );
                 $pat_attributes = '(\S+)=(("|\')(.| )*("|\')|(.* ))';
-                preg_match_all("@$pat_attributes@isU", $mainAttributes, $matches);
+                preg_match_all("@$pat_attributes@isU", (string)$mainAttributes, $matches);
                 $mainAttributesArray = [];
                 $matchArray = [];
                 if (is_array($matches)) {
@@ -380,7 +381,7 @@ class EditVariantApi implements SingletonInterface
                     $lastAttribute = '';
 
                     foreach ($matchArray as $splitItem) {
-                        $splitItemArray = explode('=', $splitItem);
+                        $splitItemArray = explode('=', (string)$splitItem);
                         $parameterKey = strtolower($splitItemArray['0']);
                         $parameterValue = '';
                         if (isset($splitItemArray['1'])) {
@@ -411,7 +412,7 @@ class EditVariantApi implements SingletonInterface
             } else {
                 $html = '';
                 if (isset($row[$field])) {
-                    $html = htmlspecialchars($row[$field], $flags);
+                    $html = htmlspecialchars((string) $row[$field], $flags);
                 }
             }
 
@@ -484,7 +485,7 @@ class EditVariantApi implements SingletonInterface
         }
 
         foreach ($tagArray as $tag => $number) {
-            if (strpos($tag, 'edit_variant') === 0) {
+            if (str_starts_with($tag, 'edit_variant')) {
                 if (
                     !isset($subpartArray['###' . $tag . '###']) &&
                     !isset($wrappedSubpartArray['###' . $tag . '###'])

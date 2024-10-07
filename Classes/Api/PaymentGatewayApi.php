@@ -47,7 +47,7 @@ use TYPO3\CMS\Frontend\Resource\FilePathSanitizer;
 
 class PaymentGatewayApi implements SingletonInterface
 {
-    public const TRANSACTOR_EXTENSION = 'transactor';
+    final public const TRANSACTOR_EXTENSION = 'transactor';
     protected $handleScript = '';
     protected $handleLib = '';
     protected $handleLibConf = [];

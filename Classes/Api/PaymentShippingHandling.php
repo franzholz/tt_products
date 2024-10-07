@@ -548,7 +548,7 @@ class PaymentShippingHandling
 
         $actTitle = $localBasketExtra['title'] ?? '';
         $confArray = static::cleanConfArr($confArray);
-        $bWrapSelect = (count($confArray) > 1);
+        $bWrapSelect = ((is_countable($confArray) ? count($confArray) : 0) > 1);
 
         if (is_array($confArray)) {
             foreach ($confArray as $key => $item) {
