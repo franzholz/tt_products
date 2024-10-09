@@ -250,7 +250,7 @@ class PluginApi
 
         // get template suffix string
 
-        $config['templateSuffix'] = strtoupper($conf['templateSuffix'] ?? '');
+        $config['templateSuffix'] = strtoupper((string) ($conf['templateSuffix'] ?? ''));
 
         $templateSuffix = FlexformUtility::get(self::getFlexform(), 'template_suffix');
         $templateSuffix = strtoupper($templateSuffix);
