@@ -249,8 +249,8 @@ class PaymentGatewayApi implements SingletonInterface
                     $parameters
                 );
                 $extraData = [
-                    'return_url' => $returnUrl,
-                    'cancel_url' => $cancelUrl,
+                    'return_url' => rtrim($returnUrl, '/'),
+                    'cancel_url' => rtrim($cancelUrl, '/'),
                 ];
                 $parameters = [
                     &$errorMessage,
