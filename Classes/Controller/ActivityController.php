@@ -404,7 +404,7 @@ class ActivityController implements SingletonInterface
                 if (!$languageKey) {
                     $languageKey = 'missing_' . $check;
                 }
-                $label = $GLOBALS['TSFE']->sL('LLL:EXT:sr_feuser_register' . $languageSubpath
+                $label = $GLOBALS['TSFE']->sL('LLL:EXT:sr_feuser_register' . $languageSubpath . 'locallang.xlf:' . $languageKey);
                 $editPID = 0;
                 if ($typo3VersionMain < 12) {
                     $editPID = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_srfeuserregister_pi1.']['editPID'] ?? 0;
