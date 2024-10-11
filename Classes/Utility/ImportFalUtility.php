@@ -75,10 +75,10 @@ class ImportFalUtility
         $content = '';
         $pid = intval($currId);
         $tableMediaArray = [
-            'tt_products' => ['image', 'smallimage'],
-            'tt_products_language' => ['image'],
-            'tt_products_cat' => ['image'],
-            'tt_products_articles' => ['image'],
+            'tt_products' => ['image', 'smallimage', 'datasheet'],
+            'tt_products_language' => ['image', 'smallimage', 'datasheet'],
+            'tt_products_cat' => ['image', 'sliderimage'],
+            'tt_products_articles' => ['image', 'smallimage'],
         ];
 
         foreach ($tableMediaArray as $tablename => $imageFieldnameArray) {
@@ -98,7 +98,7 @@ class ImportFalUtility
                         //                  if ($k != 3) continue; // Test
 
                         if (!empty($row[$imageFieldname])) {
-                            $imageArray = explode(',', $row[$imageFieldname]);
+                            $imageArray = explode(',', (string) $row[$imageFieldname]);
                             $sysfileRowArray = [];
                             if (intval($row[$imageFalFieldname]) != 0) {
                                 $where_clause = 'uid_foreign=' . intval($row['uid']) . ' AND tablenames="' . $tablename . '" AND fieldname="' . $imageFalFieldname . '"';
