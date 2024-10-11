@@ -67,10 +67,10 @@ call_user_func(function ($extensionKey, $table): void {
             'exclude' => 1,
             'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_discount',
             'config' => [
-                'type' => 'number',
+                'type' => 'input',
                 'size' => '4',
                 'max' => '8',
-                'eval' => 'trim',
+                'eval' => 'trim,double2',
                 'range' => [
                     'upper' => '100',
                     'lower' => '0',
