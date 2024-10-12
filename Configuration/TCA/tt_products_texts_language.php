@@ -109,16 +109,16 @@ $result = [
                 'maxitems' => 20,
                 'items' => [
                     [
-                        $languageLglPath . 'hide_at_login',
-                        -1,
+                        'label' => $languageLglPath . 'hide_at_login',
+                        'value' => -1,
                     ],
                     [
-                        $languageLglPath . 'any_login',
-                        -2,
+                        'label' => $languageLglPath . 'any_login',
+                        'value' => -2,
                     ],
                     [
-                        $languageLglPath . 'usergroups',
-                        '--div--',
+                        'label' => $languageLglPath . 'usergroups',
+                        'value' => '--div--',
                     ],
                 ],
                 'exclusiveKeys' => '-1,-2',

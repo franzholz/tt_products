@@ -75,6 +75,68 @@ call_user_func(function ($extensionKey, $table): void {
                 $GLOBALS['TYPO3_CONF_VARS']['GFX']['imagefile_ext']
             )
         ];
+
+        $temporaryColumns['fe_group'] = [
+            'exclude' => true,
+            'l10n_mode' => 'exclude',
+            'label' => $languageLglPath . 'fe_group',
+            'config' => [
+                'type' => 'select',
+               'renderType' => 'selectMultipleSideBySide',
+               'size' => 7,
+               'maxitems' => 20,
+               'items' => [
+                    [
+                        $languageLglPath . 'hide_at_login',
+                        -1,
+                    ],
+                    [
+                        $languageLglPath . 'any_login',
+                        -2,
+                    ],
+                    [
+                        $languageLglPath . 'usergroups',
+                        '--div--',
+                    ],
+               ],
+               'exclusiveKeys' => '-1,-2',
+               'foreign_table' => 'fe_groups',
+               'foreign_table_where' => 'ORDER BY fe_groups.title',
+               'default' => 0,
+            ],
+        ];
+
+        $temporaryColumns['graduated_config_type'] = [
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_articles.graduated_config_type',
+            'config' => [
+                'type' => 'select',
+               'renderType' => 'selectSingle',
+               'items' => [
+                   ['', ''],
+               ],
+               'default' => null,
+               'authMode' => $GLOBALS['TYPO3_CONF_VARS']['BE']['explicitADmode'],
+               'default' => null,
+            ],
+        ];
+
+        $temporaryColumns['config_type'] = [
+            'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products_articles.config_type',
+            'config' => [
+                'type' => 'select',
+               'renderType' => 'selectSingle',
+               'items' => [
+                   ['', ''],
+               ],
+               'default' => null,
+               'authMode' => $GLOBALS['TYPO3_CONF_VARS']['BE']['explicitADmode'],
+            ],
+        ];
+
+        \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns(
+            $table,
+            $temporaryColumns
+        );
     }
 
     switch ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['articleMode']) {

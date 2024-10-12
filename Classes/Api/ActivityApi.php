@@ -75,7 +75,6 @@ class ActivityApi implements SingletonInterface
         $payment = $parameterApi->getParameter('products_payment') || $parameterApi->getParameter('products_payment_x');
 
         $gpVars = $parameterApi->getParameter(TT_PRODUCTS_EXT);
-        debug($gpVars, '$gpVars');
 
         if (
             !$update &&

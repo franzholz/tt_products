@@ -145,10 +145,18 @@ $result = [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'items' => [
-                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_orders.salutation.I.0', '0'],
-                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_orders.salutation.I.1', '1'],
-                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_orders.salutation.I.2', '2'],
-                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_orders.salutation.I.3', '3'],
+                    [
+                        'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_orders.salutation.I.0',
+                        'value' => '0'],
+                    [
+                        'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_orders.salutation.I.1',
+                        'value' => '1'],
+                    [
+                        'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_orders.salutation.I.2',
+                        'value' => '2'],
+                    [
+                        'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_orders.salutation.I.3',
+                        'value' => '3'],
                 ],
                 'size' => 1,
                 'maxitems' => 1,
@@ -247,8 +255,12 @@ $result = [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'items' => [
-                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_business_partner.I.0', '0'],
-                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_business_partner.I.1', '1'],
+                    [
+                        'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_business_partner.I.0',
+                        'value' => '0'],
+                    [
+                        'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_business_partner.I.1',
+                        'value' => '1'],
                 ],
                 'size' => 1,
                 'maxitems' => 1,
@@ -262,33 +274,87 @@ $result = [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'items' => [
-                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_organisation_form.A1', 'A1'],
-                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_organisation_form.A2', 'A2'],
-                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_organisation_form.A3', 'A3'],
-                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_organisation_form.BH', 'BH'],
-                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_organisation_form.E1', 'E1'],
-                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_organisation_form.E2', 'E2'],
-                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_organisation_form.E3', 'E3'],
-                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_organisation_form.E4', 'E4'],
-                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_organisation_form.G1', 'G1'],
-                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_organisation_form.G2', 'G2'],
-                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_organisation_form.G3', 'G3'],
-                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_organisation_form.G4', 'G4'],
-                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_organisation_form.G5', 'G5'],
-                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_organisation_form.G6', 'G6'],
-                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_organisation_form.G7', 'G7'],
-                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_organisation_form.K2', 'K2'],
-                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_organisation_form.K3', 'K3'],
-                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_organisation_form.KG', 'KG'],
-                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_organisation_form.KO', 'KO'],
-                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_organisation_form.O1', 'O1'],
-                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_organisation_form.P', 'P'],
-                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_organisation_form.S1', 'S1'],
-                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_organisation_form.S2', 'S2'],
-                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_organisation_form.S3', 'S3'],
-                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_organisation_form.U', 'U'],
-                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_organisation_form.V1', 'V1'],
-                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_organisation_form.Z1', 'Z1'],
+                    [
+                        'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_organisation_form.A1',
+                        'value' => 'A1'],
+                    [
+                        'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_organisation_form.A2',
+                        'value' => 'A2'],
+                    [
+                        'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_organisation_form.A3',
+                        'value' => 'A3'],
+                    [
+                        'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_organisation_form.BH',
+                        'value' => 'BH'],
+                    [
+                        'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_organisation_form.E1',
+                        'value' => 'E1'],
+                    [
+                        'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_organisation_form.E2',
+                        'value' => 'E2'],
+                    [
+                        'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_organisation_form.E3',
+                        'value' => 'E3'],
+                    [
+                        'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_organisation_form.E4',
+                        'value' => 'E4'],
+                    [
+                        'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_organisation_form.G1',
+                        'value' => 'G1'],
+                    [
+                        'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_organisation_form.G2',#
+                        'value' => 'G2'],
+                    [
+                        'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_organisation_form.G3',
+                        'value' => 'G3'],
+                    [
+                        'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_organisation_form.G4',
+                        'value' => 'G4'],
+                    [
+                        'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_organisation_form.G5',
+                        'value' => 'G5'],
+                    [
+                        'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_organisation_form.G6',
+                        'value' => 'G6'],
+                    [
+                        'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_organisation_form.G7',
+                        'value' => 'G7'],
+                    [
+                        'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_organisation_form.K2',
+                        'value' => 'K2'],
+                    [
+                        'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_organisation_form.K3',
+                        'value' => 'K3'],
+                    [
+                        'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_organisation_form.KG',
+                        'value' => 'KG'],
+                    [
+                        'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_organisation_form.KO',
+                        'value' => 'KO'],
+                    [
+                        'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_organisation_form.O1',
+                        'value' => 'O1'],
+                    [
+                        'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_organisation_form.P',
+                        'value' => 'P'],
+                    [
+                        'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_organisation_form.S1',
+                        'value' => 'S1'],
+                    [
+                        'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_organisation_form.S2',
+                        'value' => 'S2'],
+                    [
+                        'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_organisation_form.S3',
+                        'value' => 'S3'],
+                    [
+                        'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_organisation_form.U',
+                        'value' => 'U'],
+                    [
+                        'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_organisation_form.V1',
+                        'value' => 'V1'],
+                    [
+                        'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:fe_users.tt_products_organisation_form.Z1',
+                        'value' => 'Z1'],
                 ],
                 'size' => 1,
                 'maxitems' => 1,
@@ -576,13 +642,34 @@ $result = [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'items' => [
-                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_orders.foundby.I.0', '0'],
-                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_orders.foundby.I.1', '1'],
-                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_orders.foundby.I.2', '2'],
-                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_orders.foundby.I.3', '3'],
-                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_orders.foundby.I.4', '4'],
-                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_orders.foundby.I.5', '5'],
-                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_orders.foundby.I.6', '6'],
+                    [
+                        'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_orders.foundby.I.0',
+                        'value' => '0'
+                    ],
+                    [
+                        'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_orders.foundby.I.1',
+                        'value' => '1'
+                    ],
+                    [
+                        'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_orders.foundby.I.2',
+                        'value' => '2'
+                    ],
+                    [
+                        'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_orders.foundby.I.3',
+                        'value' => '3'
+                    ],
+                    [
+                        'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_orders.foundby.I.4',
+                        'value' => '4'
+                    ],
+                    [
+                        'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_orders.foundby.I.5',
+                        'value' => '5'
+                    ],
+                    [
+                        'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_orders.foundby.I.6',
+                        'value' => '6'
+                    ],
                 ],
                 'size' => 1,
                 'maxitems' => 1,

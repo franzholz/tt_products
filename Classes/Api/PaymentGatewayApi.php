@@ -47,7 +47,7 @@ use TYPO3\CMS\Frontend\Resource\FilePathSanitizer;
 
 class PaymentGatewayApi implements SingletonInterface
 {
-    public const TRANSACTOR_EXTENSION = 'transactor';
+    final public const TRANSACTOR_EXTENSION = 'transactor';
     protected $handleScript = '';
     protected $handleLib = '';
     protected $handleLibConf = [];
@@ -249,8 +249,8 @@ class PaymentGatewayApi implements SingletonInterface
                     $parameters
                 );
                 $extraData = [
-                    'return_url' => $returnUrl,
-                    'cancel_url' => $cancelUrl,
+                    'return_url' => rtrim($returnUrl, '/'),
+                    'cancel_url' => rtrim($cancelUrl, '/'),
                 ];
                 $parameters = [
                     &$errorMessage,

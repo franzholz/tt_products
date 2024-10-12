@@ -48,7 +48,7 @@ class FeUserMarkerApi implements SingletonInterface
         $markerLogin = 'LOGIN';
         $markerNologin = 'NOLOGIN';
         foreach ($viewTagArray as $tag => $value) {
-            if (strpos($tag, $marker . '_') === 0) {
+            if (str_starts_with((string)$tag, $marker . '_')) {
                 $tagPart1 = substr($tag, strlen($marker . '_'));
                 $offset = strpos($tagPart1, '_TEMPLATE');
                 if ($offset > 0) {

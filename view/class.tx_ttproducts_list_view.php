@@ -2924,7 +2924,6 @@ class tx_ttproducts_list_view
                                 );
                         }
 
-                        // $markerArray['###FORM_URL###']=$this->formUrl; // Applied later as well.
                         $addQueryString = [];
                         $addQueryString = $this->uidArray;
                         $this->getSearchParams($addQueryString);

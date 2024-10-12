@@ -548,7 +548,7 @@ class PaymentShippingHandling
 
         $actTitle = $localBasketExtra['title'] ?? '';
         $confArray = static::cleanConfArr($confArray);
-        $bWrapSelect = (count($confArray) > 1);
+        $bWrapSelect = ((is_countable($confArray) ? count($confArray) : 0) > 1);
 
         if (is_array($confArray)) {
             foreach ($confArray as $key => $item) {
@@ -2046,8 +2046,8 @@ class PaymentShippingHandling
             $basketExtra[$pskey . '.'][$subkey] = $valueArray;
             $basketExtra[$pskey . '.'][$subkey . '.'] = $confArray[$k . '.'] ?? [];
             if ($pskey == 'shipping') {
-                $newExcludePayment = trim($basketExtra[$pskey . '.'][$subkey . '.']['excludePayment'] ?? '');
-                $newExcludeHandling = trim($basketExtra[$pskey . '.'][$subkey . '.']['excludeHandling'] ?? '');
+                $newExcludePayment = trim((string) ($basketExtra[$pskey . '.'][$subkey . '.']['excludePayment'] ?? ''));
+                $newExcludeHandling = trim((string) ($basketExtra[$pskey . '.'][$subkey . '.']['excludeHandling'] ?? ''));
             }
         } else {
             $basketExtra[$pskey] = $valueArray;

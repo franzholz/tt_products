@@ -36,7 +36,6 @@ $result = [
             'endtime' => 'endtime',
             'fe_group' => 'fe_group',
         ],
-        'thumbnail' => 'image_uid', // supported until TYPO3 10: breaking #92118
         'useColumnsForDefaultValues' => 'category',
         'mainpalette' => 1,
         'iconfile' => 'EXT:' . $extensionKey . '/Resources/Public/Icons/tt_products.gif',
@@ -115,16 +114,16 @@ $result = [
                 'maxitems' => 20,
                 'items' => [
                     [
-                        $languageLglPath . 'hide_at_login',
-                        -1,
+                        'label' => $languageLglPath . 'hide_at_login',
+                        'value' => -1,
                     ],
                     [
-                        $languageLglPath . 'any_login',
-                        -2,
+                        'label' => $languageLglPath . 'any_login',
+                        'value' => -2,
                     ],
                     [
-                        $languageLglPath . 'usergroups',
-                        '--div--',
+                        'label' => $languageLglPath . 'usergroups',
+                        'value' => '--div--',
                     ],
                 ],
                 'exclusiveKeys' => '-1,-2',
@@ -353,8 +352,8 @@ $result = [
                 'type' => 'inline',
                 'appearance' => [
                         'collapseAll' => true,
-                        'newRecordLinkAddTitle' => true,
-                        'useCombination' => true,
+                        // 'newRecordLinkAddTitle' => true,
+                        // 'useCombination' => true,
                     ],
                 'foreign_table' => 'tt_products_products_mm_articles',
                 'foreign_field' => 'uid_local',
@@ -418,7 +417,10 @@ $result = [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'items' => [
-                    ['', ''],
+                    [
+                        'label' => '',
+                        'value' => ''
+                    ],
                 ],
                 'default' => '',
                 'authMode' => $GLOBALS['TYPO3_CONF_VARS']['BE']['explicitADmode'] ?? 'explicitAllow',
@@ -510,7 +512,10 @@ $result = [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'items' => [
-                    ['', 0],
+                    [
+                        'label' => '',
+                        'value' => '0'
+                    ]
                 ],
                 'foreign_table' => 'tt_products_cat',
                 'foreign_table_where' => $whereCategory,
@@ -836,7 +841,10 @@ $result = [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'items' => [
-                    ['', ''],
+                    [
+                        'label' => '',
+                        'value' => ''
+                    ]
                 ],
                 'default' => '',
                 'authMode' => $GLOBALS['TYPO3_CONF_VARS']['BE']['explicitADmode'] ?? 'explicitAllow',
@@ -961,10 +969,18 @@ $result = [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'items' => [
-                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.delivery.availableNot', '-1'],
-                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.delivery.availableDemand', '0'],
-                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.delivery.availableImmediate', '1'],
-                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.delivery.availableShort', '2'],
+                    [
+                        'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.delivery.availableNot',
+                        'value' => '-1'],
+                    [
+                        'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.delivery.availableDemand',
+                        'value' => '0'],
+                    [
+                        'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.delivery.availableImmediate',
+                        'value' => '1'],
+                    [
+                        'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.delivery.availableShort',
+                        'value' => '2'],
                 ],
                 'size' => '6',
                 'minitems' => 0,

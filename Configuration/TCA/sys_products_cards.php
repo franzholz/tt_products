@@ -67,10 +67,21 @@ $result = [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'items' => [
-                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_cards.cc_type.I.0', '0'],
-                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_cards.cc_type.I.1', '1'],
-                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_cards.cc_type.I.2', '2'],
-                    ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_cards.cc_type.I.3', '3'],
+                    [
+                        'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_cards.cc_type.I.0',
+                        'value' => '0'
+                    ],
+                    [
+                        'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_cards.cc_type.I.1',
+                        'value' => '1'
+                    ],
+                    [
+                        'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_cards.cc_type.I.2',
+                        'value' => '2'
+                    ],
+                    [
+                        'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_cards.cc_type.I.3',
+                        'value' => '3'],
                 ],
                 'size' => 1,
                 'maxitems' => 1,
