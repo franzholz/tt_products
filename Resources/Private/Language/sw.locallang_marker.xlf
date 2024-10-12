@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
-  <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/locallang_marker.xlf" date="2021-11-23T20:35:28Z" product-name="tt_products" target-language="sw-TZ">
+  <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/locallang_marker.xlf" date="2021-11-23T20:35:28Z" product-name="tt_products" target-language="sw">
     <header/>
     <body>
       <trans-unit id="memo_file_goto" resname="memo_file_goto">
@@ -734,6 +734,10 @@
       <trans-unit id="p_delivery_status" resname="p_delivery_status">
         <source>Delivery status</source>
         <target state="needs-translation">Delivery status</target>
+      </trans-unit>
+      <trans-unit id="p_delivery_no" resname="p_delivery_no">
+        <source>No delivery.</source>
+        <target state="needs-translation">No delivery.</target>
       </trans-unit>
       <trans-unit id="p_delivery_available_demand" resname="p_delivery_available_demand">
         <source>No delivery at the moment.</source>
