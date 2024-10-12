@@ -735,6 +735,10 @@
         <source>Delivery status</source>
         <target state="final">Lieferstatus</target>
       </trans-unit>
+      <trans-unit id="p_delivery_no" resname="p_delivery_no">
+        <source>No delivery.</source>
+        <target state="needs-translation">No delivery.</target>
+      </trans-unit>
       <trans-unit id="p_delivery_available_demand" resname="p_delivery_available_demand" approved="yes">
         <source>No delivery at the moment.</source>
         <target state="final">Momentan leider nicht lieferbar.</target>
