@@ -171,7 +171,10 @@ $result = [
                 'type' => 'select',
                 'renderType' => 'selectSingle',
                 'items' => [
-                    ['tt_products', 'tt_products'],
+                    [
+                        'label' => 'tt_products',
+                        'value' => 'tt_products'
+                    ],
                 ],
                 'default' => 'tt_products',
             ],

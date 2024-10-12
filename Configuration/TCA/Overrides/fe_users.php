@@ -2,7 +2,14 @@
 
 defined('TYPO3') || die('Access denied.');
 
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
+
 call_user_func(function ($extensionKey, $table): void {
+    $typo3VersionArray =
+    VersionNumberUtility::convertVersionStringToArray(VersionNumberUtility::getCurrentTypo3Version());
+    $typo3VersionMain = $typo3VersionArray['version_main'];
+
     $languageSubpath = '/Resources/Private/Language/';
 
     $temporaryColumns = [
@@ -261,6 +268,43 @@ call_user_func(function ($extensionKey, $table): void {
         ],
     ];
 
+    if ($typo3VersionMain < 12) {
+        $temporaryColumns['tt_products_business_partner']['config']['items'] = [
+            ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_business_partner.I.0', '0'],
+            ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_business_partner.I.1', '1'],
+        ];
+
+        $temporaryColumns['tt_products_organisation_form']['config']['items'] = [
+            ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.A1', 'A1'],
+            ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.A2', 'A2'],
+            ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.A3', 'A3'],
+            ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.BH', 'BH'],
+            ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.E1', 'E1'],
+            ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.E2', 'E2'],
+            ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.E3', 'E3'],
+            ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.E4', 'E4'],
+            ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.G1', 'G1'],
+            ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.G2', 'G2'],
+            ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.G3', 'G3'],
+            ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.G4', 'G4'],
+            ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.G5', 'G5'],
+            ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.G6', 'G6'],
+            ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.G7', 'G7'],
+            ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.K2', 'K2'],
+            ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.K3', 'K3'],
+            ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.KG', 'KG'],
+            ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.KO', 'KO'],
+            ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.O1', 'O1'],
+            ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.P',  'P'],
+            ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.S1', 'S1'],
+            ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.S2', 'S2'],
+            ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.S3', 'S3'],
+            ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.U',  'U'],
+            ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.V1', 'V1'],
+            ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:' . $table . '.tt_products_organisation_form.Z1', 'Z1'],
+        ];
+    }
+
     $columns = array_keys($temporaryColumns);
 
     foreach ($columns as $column) {
@@ -271,8 +315,8 @@ call_user_func(function ($extensionKey, $table): void {
 
     $columns = array_keys($temporaryColumns);
 
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns($table, $temporaryColumns);
-    \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addToAllTCAtypes(
+    ExtensionManagementUtility::addTCAcolumns($table, $temporaryColumns);
+    ExtensionManagementUtility::addToAllTCAtypes(
         $table,
         implode(',', $columns)
     );
@@ -280,4 +324,8 @@ call_user_func(function ($extensionKey, $table): void {
     $searchFields = explode(',', $GLOBALS['TCA'][$table]['ctrl']['searchFields'] . ',tt_products_vouchercode,comments,tt_products_organisation_form');
     $searchFields = array_unique($searchFields);
     $GLOBALS['TCA'][$table]['ctrl']['searchFields'] = implode(',', $searchFields);
+
 }, 'tt_products', basename(__FILE__, '.php'));
+
+
+

@@ -157,6 +157,7 @@ call_user_func(function ($extensionKey, $table): void {
                     'foreign_table' => 'static_tax_categories',
                     'foreign_table_where' => $whereTaxCategory . ' ORDER BY static_tax_categories.uid',
                     'MM' => 'tt_products_products_mm_tax_categories',
+                    'MM_hasUidField' => true,
                     'treeConfig' => [
                         'parentField' => 'parentid',
                         'appearance' => [
@@ -181,21 +182,143 @@ call_user_func(function ($extensionKey, $table): void {
                     'type' => 'select',
                     'renderType' => 'selectSingle',
                     'items' => [
-                        ['LLL:EXT:' . $extensionKeyStaticTaxes . $languageSubpath . 'locallang_db.xlf:static_taxes.tx_rate_id.I.0', '0'],
-                        ['LLL:EXT:' . $extensionKeyStaticTaxes . $languageSubpath . 'locallang_db.xlf:static_taxes.tx_rate_id.I.1', '1'],
-                        ['LLL:EXT:' . $extensionKeyStaticTaxes . $languageSubpath . 'locallang_db.xlf:static_taxes.tx_rate_id.I.2', '2'],
-                        ['LLL:EXT:' . $extensionKeyStaticTaxes . $languageSubpath . 'locallang_db.xlf:static_taxes.tx_rate_id.I.3', '3'],
-                        ['LLL:EXT:' . $extensionKeyStaticTaxes . $languageSubpath . 'locallang_db.xlf:static_taxes.tx_rate_id.I.4', '4'],
-                        ['LLL:EXT:' . $extensionKeyStaticTaxes . $languageSubpath . 'locallang_db.xlf:static_taxes.tx_rate_id.I.5', '5'],
+                        [
+                            'label' => 'LLL:EXT:' . $extensionKeyStaticTaxes . $languageSubpath . 'locallang_db.xlf:static_taxes.tx_rate_id.I.0',
+                            'value' => '0'
+                        ],
+                        [
+                            'label' => 'LLL:EXT:' . $extensionKeyStaticTaxes . $languageSubpath . 'locallang_db.xlf:static_taxes.tx_rate_id.I.1',
+                            'value' => '1'
+                        ],
+                        [
+                            'label' => 'LLL:EXT:' . $extensionKeyStaticTaxes . $languageSubpath . 'locallang_db.xlf:static_taxes.tx_rate_id.I.2',
+                            'value' => '2'
+                        ],
+                        [
+                            'label' => 'LLL:EXT:' . $extensionKeyStaticTaxes . $languageSubpath . 'locallang_db.xlf:static_taxes.tx_rate_id.I.3',
+                            'value' => '3'
+                        ],
+                        [
+                            'label' => 'LLL:EXT:' . $extensionKeyStaticTaxes . $languageSubpath . 'locallang_db.xlf:static_taxes.tx_rate_id.I.4',
+                            'value' => '4'
+                        ],
+                        [
+                            'label' => 'LLL:EXT:' . $extensionKeyStaticTaxes . $languageSubpath . 'locallang_db.xlf:static_taxes.tx_rate_id.I.5',
+                            'value' => '5'
+                        ],
                     ],
                     'default' => 0,
                 ],
             ];
 
+            if (version_compare($version, '12.0.0', '<')) {
+                $temporaryColumns['tax_id']['config']['items'] = [
+                    ['LLL:EXT:' . $extensionKeyStaticTaxes . $languageSubpath . 'locallang_db.xlf:static_taxes.tx_rate_id.I.0', '0'],
+                    ['LLL:EXT:' . $extensionKeyStaticTaxes . $languageSubpath . 'locallang_db.xlf:static_taxes.tx_rate_id.I.1', '1'],
+                    ['LLL:EXT:' . $extensionKeyStaticTaxes . $languageSubpath . 'locallang_db.xlf:static_taxes.tx_rate_id.I.2', '2'],
+                    ['LLL:EXT:' . $extensionKeyStaticTaxes . $languageSubpath . 'locallang_db.xlf:static_taxes.tx_rate_id.I.3', '3'],
+                    ['LLL:EXT:' . $extensionKeyStaticTaxes . $languageSubpath . 'locallang_db.xlf:static_taxes.tx_rate_id.I.4', '4'],
+                    ['LLL:EXT:' . $extensionKeyStaticTaxes . $languageSubpath . 'locallang_db.xlf:static_taxes.tx_rate_id.I.5', '5'],
+                ];
+            }
+
             $addFields[] = 'tax_id';
             if ($firstField == '') {
                 $firstField = 'taxcat_id';
             }
+        }
+
+        if (version_compare($version, '12.0.0', '<')) {
+            $temporaryColumns['fe_group'] = [
+                'exclude' => true,
+                'l10n_mode' => 'exclude',
+                'label' => $languageLglPath . 'fe_group',
+                'config' => [
+                    'type' => 'select',
+                    'renderType' => 'selectMultipleSideBySide',
+                    'size' => 7,
+                    'maxitems' => 20,
+                    'items' => [
+                        [
+                            $languageLglPath . 'hide_at_login',
+                            -1,
+                        ],
+                        [
+                            $languageLglPath . 'any_login',
+                            -2,
+                        ],
+                        [
+                            $languageLglPath . 'usergroups',
+                            '--div--',
+                        ],
+                    ],
+                    'exclusiveKeys' => '-1,-2',
+                    'foreign_table' => 'fe_groups',
+                    'foreign_table_where' => 'ORDER BY fe_groups.title',
+                    'default' => 0,
+                ],
+            ];
+
+            $temporaryColumns['download_type'] = [
+                'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products.download_type',
+               'config' => [
+                   'type' => 'select',
+               'renderType' => 'selectSingle',
+               'items' => [
+                   ['', ''],
+               ],
+               'default' => null,
+               'authMode' => $GLOBALS['TYPO3_CONF_VARS']['BE']['explicitADmode'],
+               ],
+            ];
+
+            $temporaryColumns['category'] = [
+                'exclude' => 1,
+               'label' => $languageLglPath . 'category',
+               'config' => [
+                   'type' => 'select',
+                    'renderType' => 'selectSingle',
+                    'items' => [
+                        ['', 0],
+                    ],
+                    'foreign_table' => 'tt_products_cat',
+                    'foreign_table_where' => $whereCategory,
+                    'default' => 0,
+               ],
+            ];
+
+            $temporaryColumns['additional_type'] = [
+                'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products.additional_type',
+               'config' => [
+                   'type' => 'select',
+                    'renderType' => 'selectSingle',
+                    'items' => [
+                        ['', ''],
+                    ],
+                    'default' => null,
+                    'authMode' => $GLOBALS['TYPO3_CONF_VARS']['BE']['explicitADmode'],
+               ],
+            ];
+
+            $temporaryColumns['delivery'] = [
+                'exclude' => 1,
+                'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products.delivery',
+                'config' => [
+                    'type' => 'select',
+                    'renderType' => 'selectSingle',
+                    'items' => [
+                        ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products.delivery.availableNot', '-1'],
+                        ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products.delivery.availableDemand', '0'],
+                        ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products.delivery.availableImmediate', '1'],
+                        ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:tt_products.delivery.availableShort', '2'],
+                    ],
+                    'size' => '6',
+                    'minitems' => 0,
+                    'maxitems' => 1,
+                    'default' => 0,
+                ],
+            ];
+
         }
 
         \TYPO3\CMS\Core\Utility\ExtensionManagementUtility::addTCAcolumns(
