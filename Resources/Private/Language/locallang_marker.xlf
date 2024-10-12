@@ -552,6 +552,9 @@
 			<trans-unit id="p_delivery_status" resname="p_delivery_status">
 				<source>Delivery status</source>
 			</trans-unit>
+			<trans-unit id="p_delivery_no" resname="p_delivery_no">
+				<source>No delivery.</source>
+			</trans-unit>
 			<trans-unit id="p_delivery_available_demand" resname="p_delivery_available_demand">
 				<source>No delivery at the moment.</source>
 			</trans-unit>
