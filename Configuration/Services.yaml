@@ -3,9 +3,10 @@ services:
     autowire: true
     autoconfigure: true
     public: false
+
   JambageCom\TtProducts\:
     resource: '../Classes/'
-    exclude: ['../Classes/{Middleware,UserFunc,Api,Hooks}/']
+    exclude: ['../Classes/{Backend,Middleware,UserFunc,Api,Hooks}/', '../Classes/Form/Element/Old*.php']
 
   JambageCom\TtProducts\Domain\Model\Dto\EmConfiguration:
     public: true
