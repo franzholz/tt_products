@@ -58,7 +58,7 @@ if ($GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['articleMode'] >= '1')
         ],
         'types' => [
             '0' => [
-                'showitem' => '',
+                'showitem' => 'uid_local, uid_foreign',
             ],
         ],
     ];
