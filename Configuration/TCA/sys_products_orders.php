@@ -554,8 +554,8 @@ $result = [
             'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_orders.creditpoints_gifts',
             'config' => [
                 'type' => 'input',
-                'size' => '10',
-                'max' => '10',
+                'size' => 10,
+                'max' => 10,
                 'default' => 0,
             ],
         ],
@@ -681,8 +681,8 @@ $result = [
             'label' => 'LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_orders.order_code',
             'config' => [
                 'type' => 'input',
-                'size' => '30',
-                'max' => '80',
+                'size' => 30,
+                'max' => 80,
                 'default' => null,
             ],
         ],
