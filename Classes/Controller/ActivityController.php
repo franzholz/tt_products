@@ -242,50 +242,6 @@ class ActivityController implements SingletonInterface
                 } else {
                     throw new \RuntimeException('Error in tt_products: The new transactor API has been called but the necessary transactor class or its method do not exist.', 50009);
                 }
-            } elseif (
-                $gateway->getUseOldTransactor()
-            ) {
-                $paymentScript = true;
-                // Payment Transactor or any alternative extension besides paymentlib
-                // Get references to the concerning baskets
-                $languageObj = GeneralUtility::makeInstance(Localization::class);
-                $addQueryString = [];
-                $excludeList = '';
-                $linkParams =
-                $this->urlObj->getLinkParams(
-                    $excludeList,
-                    $addQueryString,
-                    true,
-                    false
-                );
-
-                \tx_transactor_api::init(
-                    $languageObj,
-                    $cObj,
-                    $conf
-                );
-                $content = \tx_transactor_api::includeHandleLib(
-                    $handleLib,
-                    $basketExtra['payment.']['handleLib.'] ?? [],
-                    TT_PRODUCTS_EXT,
-                    $basketObj->getItemArray(),
-                    $calculatedArray,
-                    $basketObj->recs['delivery']['note'] ?? '',
-                    $conf['paymentActivity'] ?? '',
-                    $currentPaymentActivity,
-                    $infoArray,
-                    $pidArray,
-                    $linkParams,
-                    $orderArray['tracking_code'],
-                    $orderUid,
-                    $cardRow,
-                    $finalize,
-                    $finalVerify,
-                    $markerArray,
-                    $templateFilename,
-                    $localTemplateCode,
-                    $errorMessage
-                );
             }
 
             if (
