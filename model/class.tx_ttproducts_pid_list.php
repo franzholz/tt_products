@@ -148,7 +148,7 @@ class tx_ttproducts_pid_list
             $this->recursive = $recursive;
             $pidSubArray = [];
 
-            $pid_list_arr = explode(',', $pid_list);
+            $pid_list_arr = explode(',', (string) $pid_list);
             foreach ($pid_list_arr as $val) {
                 if (method_exists($cObj, 'getTreeList')) {
                     $pidSub = $cObj->getTreeList($val, $recursive);
@@ -162,7 +162,7 @@ class tx_ttproducts_pid_list
             }
 
             $pid_list .= ',' . implode(',', $pidSubArray);
-            $pid_list_arr = explode(',', $pid_list);
+            $pid_list_arr = explode(',', (string) $pid_list);
             $flippedArray = array_flip($pid_list_arr);
             $pid_list_arr = array_keys($flippedArray);
             sort($pid_list_arr, SORT_NUMERIC);

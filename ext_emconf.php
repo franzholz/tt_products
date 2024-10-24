@@ -18,7 +18,7 @@ $EM_CONF[$_EXTKEY] = [
       'filelist' => '11.5.0-12.4.99',
       'table' => '0.13.0-0.0.0',
       'tsparser' => '0.12.0-0.0.0',
-      'typo3db_legacy' => '1.0.0-1.2.99',
+      'typo3db_legacy' => '1.0.0-1.3.99',
       'typo3' => '11.5.0-12.4.99',
     ],
     'conflicts' => [
