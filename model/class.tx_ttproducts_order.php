@@ -968,10 +968,10 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
             if ($downloadUid) {
                 $source .= $downloadUid . tx_ttproducts_variant_int::EXTERNAL_QUANTITY_SEPARATOR;
             }
-            $position = strpos($orderRow['fal_variants'], $source);
+            $position = strpos((string) $orderRow['fal_variants'], $source);
 
             if ($position === 0) {
-                $positionFal = strpos($orderRow['fal_variants'], tx_ttproducts_variant_int::EXTERNAL_QUANTITY_SEPARATOR . 'fal=');
+                $positionFal = strpos((string) $orderRow['fal_variants'], tx_ttproducts_variant_int::EXTERNAL_QUANTITY_SEPARATOR . 'fal=');
                 $orderedDownloadUid = substr($orderRow['fal_variants'], strlen($source), $positionFal - strlen($source));
                 $falUid = substr($orderRow['fal_variants'], $positionFal + strlen(tx_ttproducts_variant_int::EXTERNAL_QUANTITY_SEPARATOR . 'fal='));
                 $result = $falUid;

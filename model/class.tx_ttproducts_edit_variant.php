@@ -76,7 +76,7 @@ class tx_ttproducts_edit_variant implements SingletonInterface
             $count = 0;
 
             foreach ($editVariantConfig as $k => $config) {
-                if ($k != 'default.' && (strpos($k, '.') == strlen($k) - 1)) {
+                if ($k != 'default.' && (strpos((string) $k, '.') == strlen($k) - 1)) {
                     $count++;
                     if (isset($config['suffix'])) {
                         $suffix = $config['suffix'];
@@ -269,7 +269,7 @@ class tx_ttproducts_edit_variant implements SingletonInterface
             foreach ($editVariantConfig as $k => $config) {
                 if ($k == 'default.') {
                     // nothing
-                } elseif (strpos($k, '.') == strlen($k) - 1) {
+                } elseif (strpos((string) $k, '.') == strlen($k) - 1) {
                     $count++;
                     $bIsValid = true;
                     if (isset($config['sql.']) && isset($config['sql.'])) {

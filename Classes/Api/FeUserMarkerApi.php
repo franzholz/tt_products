@@ -76,7 +76,7 @@ class FeUserMarkerApi implements SingletonInterface
                         }
                     }
                 }
-            } elseif (strpos($tag, $markerLogin . '_') === 0) {
+            } elseif (strpos((string) $tag, $markerLogin . '_') === 0) {
                 if (
                     $context->getPropertyFromAspect('frontend.user', 'isLoggedIn')
                 ) {
@@ -84,7 +84,7 @@ class FeUserMarkerApi implements SingletonInterface
                 } else {
                     $subpartArray['###LOGIN_TEMPLATE###'] = '';
                 }
-            } elseif (strpos($tag, $markerNologin . '_') === 0) {
+            } elseif (strpos((string) $tag, $markerNologin . '_') === 0) {
                 if (
                     $context->getPropertyFromAspect('frontend.user', 'isLoggedIn')
                 ) {

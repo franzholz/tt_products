@@ -271,8 +271,8 @@ class PaymentShippingHandling
             $bCheckNE = in_array($pskey, $psArray);
 
             foreach ($tagArray as $k3 => $v3) {
-                if (strpos($k3, $markerPrefix) === 0 && !isset($subpartArray['###' . $k3 . '###'])) {
-                    if ($bCheckNE && strpos($k3, '_NE_') !== false) {
+                if (strpos((string) $k3, $markerPrefix) === 0 && !isset($subpartArray['###' . $k3 . '###'])) {
+                    if ($bCheckNE && strpos((string) $k3, '_NE_') !== false) {
                         $wrappedSubpartArray['###' . $k3 . '###'] = '';
                         $tmpSubpartArray[$pskey] = $templateService->getSubpart($framework, '###' . $k3 . '###');
                         $psMessageArray[$pskey] .=
@@ -393,7 +393,7 @@ class PaymentShippingHandling
             // 			}
 
             foreach ($basketExtra['handling.'] as $k => $confArray) {
-                if (strpos($k, '.') == strlen($k) - 1) {
+                if (strpos((string) $k, '.') == strlen($k) - 1) {
                     $k1 = substr($k, 0, strlen($k) - 1);
                     if (
                         MathUtility::canBeInterpretedAsInteger($k1)
@@ -1549,7 +1549,7 @@ class PaymentShippingHandling
             }
 
             foreach ($basketExtra[$pskey . '.'] as $k => $handlingRow) {
-                if (strpos($k, '.') == strlen($k) - 1) {
+                if (strpos((string) $k, '.') == strlen($k) - 1) {
                     $k1 = substr($k, 0, strlen($k) - 1);
                     if (
                         MathUtility::canBeInterpretedAsInteger($k1)
@@ -1860,7 +1860,7 @@ class PaymentShippingHandling
                     ksort($conf[$pskey . '.']);
 
                     foreach ($conf[$pskey . '.'] as $k => $confArray) {
-                        if (strpos($k, '.') == strlen($k) - 1) {
+                        if (strpos((string) $k, '.') == strlen($k) - 1) {
                             $k1 = substr($k, 0, strlen($k) - 1);
 
                             if (

@@ -86,7 +86,7 @@ class ActivityApi implements SingletonInterface
         ) {
             if (is_array($gpVars['activity'])) {
                 $changedActivity = key($gpVars['activity']);
-                if ($position = strpos($changedActivity, '_')) {
+                if ($position = strpos((string) $changedActivity, '_')) {
                     $subActivity = substr($changedActivity, $position + 1);
                     $changedActivity = substr($changedActivity, 0, $position);
                 }
