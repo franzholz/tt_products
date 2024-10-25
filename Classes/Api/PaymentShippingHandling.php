@@ -689,7 +689,7 @@ class PaymentShippingHandling
                                         $fieldsArray
                                     );
                                     $title = $templateService->substituteMarkerArrayCached($itemTitle, $markerArray);
-                                    $title = htmlentities($title, ENT_QUOTES, 'UTF-8');
+                                    $title = htmlentities((string) $title, ENT_QUOTES, 'UTF-8');
                                     $value = $key . '-' . $row['uid'];
                                     if ($value == implode('-', $activeArray)) {
                                         $actTitle = $itemTitle;
@@ -1971,7 +1971,10 @@ class PaymentShippingHandling
             $k = 0;
             if (isset($basketRec['tt_products']['payment'])) {
                 $k = intval($basketRec['tt_products']['payment']);
-            } elseif (count($confArray) == 1) {
+            } elseif (
+                is_countable($confArray) &&
+                count($confArray) == 1
+            ) {
                 $k = key($confArray);
             }
 

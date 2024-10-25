@@ -94,7 +94,7 @@ class tx_ttproducts_field_text_view extends tx_ttproducts_field_base_view
             ) {
                 $value = nl2br($value);
             } else {
-                $value = htmlentities($value, ENT_QUOTES, $charset);
+                $value = htmlentities((string) $value, ENT_QUOTES, $charset);
             }
         }
 
