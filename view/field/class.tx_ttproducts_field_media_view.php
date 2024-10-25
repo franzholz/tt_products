@@ -674,7 +674,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
 
         if (is_array($tempImageConf)) {
             foreach ($tagArray as $key => $value) {
-                $keyArray = GeneralUtility::trimExplode(':', $key);
+                $keyArray = GeneralUtility::trimExplode(':', (string) $key);
                 $specialConfType = '';
                 if (isset($keyArray[1])) {
                     $specialConfType = strtolower($keyArray[1]);
@@ -737,7 +737,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
             $key = $markerKey . intval($c);
 
             if ($bIsSpecial) {
-                $keyArray = GeneralUtility::trimExplode(':', $k1);
+                $keyArray = GeneralUtility::trimExplode(':', (string) $k1);
                 $count = $countArray[$keyArray[0]];
                 $key = $markerKey . intval($count);
 

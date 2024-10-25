@@ -453,7 +453,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
                 $fieldsArray['vat_id'] = $billingInfo['tt_products_vat'];
 
                 $taxPercentage = PaymentShippingHandling::getReplaceTaxPercentage($basketExtra);
-                if (doubleval($taxPercentage) == 0) {
+                if (floatval(($taxPercentage) == 0) {
                     $fieldsArray['tax_mode'] = 1;
                 }
             }

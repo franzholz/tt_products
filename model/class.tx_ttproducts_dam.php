@@ -180,7 +180,7 @@ class tx_ttproducts_dam extends tx_ttproducts_article_base
                 }
             }
         } elseif ($cat || $cat == '0') {
-            $cat = implode(',', GeneralUtility::intExplode(',', $cat));
+            $cat = implode(',', GeneralUtility::intExplode(',', (string) $cat));
             $where = 'category IN (' . $cat . ')';
             if ($bLeadingOperator) {
                 $where = ' AND ( ' . $where . ')';

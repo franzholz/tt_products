@@ -389,7 +389,7 @@ class tx_ttproducts_voucher extends tx_ttproducts_table_base
         $result = false;
 
         if (
-            doubleval($amount) > $calculatedArray['priceTax']['goodstotal']['ALL']
+            floatval(($amount) > $calculatedArray['priceTax']['goodstotal']['ALL']
         ) {
             $result = true;
         }
@@ -578,7 +578,7 @@ class tx_ttproducts_voucher extends tx_ttproducts_table_base
                 if ($voucherTable == 'fe_users') {
                     $uid_voucher = $row['uid'];
                     if (isset($this->conf['voucher.'])) {
-                        $row['amount'] = doubleval($this->conf['voucher.']['amount']);
+                        $row['amount'] = floatval(($this->conf['voucher.']['amount']);
                         $row['amount_type'] = intval($this->conf['voucher.']['amount_type']);
                     }
                     $row['starttime'] = 0;
@@ -598,7 +598,7 @@ class tx_ttproducts_voucher extends tx_ttproducts_table_base
                     $uid_voucher == $feUserRecord['uid']
                 )
             ) {
-                $amount = doubleval($this->getAmount());
+                $amount = floatval(($this->getAmount());
                 $amountType = intval($this->getAmountType());
                 $combinable = $this->getCombinable();
 

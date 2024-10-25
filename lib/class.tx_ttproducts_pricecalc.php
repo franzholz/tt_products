@@ -64,7 +64,7 @@ class tx_ttproducts_pricecalc extends tx_ttproducts_pricecalc_base
                 continue;
             }
             $countedItems = [];
-            $pricefor1 = doubleval($priceCalcTemp['prod.']['1']);
+            $pricefor1 = floatval(($priceCalcTemp['prod.']['1']);
             $dumCount = 0;
 
             // loop over all items in the basket indexed by sort string
@@ -105,7 +105,7 @@ class tx_ttproducts_pricecalc extends tx_ttproducts_pricecalc_base
                 if (floatval($k2) > 0) {
                     while ($countTemp >= floatval($k2)) {
                         $countTemp -= floatval($k2);
-                        $priceTotalTemp += doubleval($price2);
+                        $priceTotalTemp += floatval(($price2);
                     }
                 }
             }

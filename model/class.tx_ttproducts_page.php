@@ -170,7 +170,7 @@ class tx_ttproducts_page extends tx_ttproducts_category_base
     {
         $pid ??= $this->conf['defaultPageID'] ?? '';
         if ($pid) {
-            $pid = implode(',', GeneralUtility::intExplode(',', $pid));
+            $pid = implode(',', GeneralUtility::intExplode(',', (string) $pid));
         }
 
         return $pid;

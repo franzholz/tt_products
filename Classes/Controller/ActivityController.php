@@ -160,6 +160,7 @@ class ActivityController implements SingletonInterface
         $content = '';
         $localTemplateCode = '';
         $paymentScript = false;
+        $templateFilename = null;
 
         if ($orderUid) {
             $basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
@@ -182,7 +183,7 @@ class ActivityController implements SingletonInterface
                     $errorMessage,
                     $handleScript,
                     $basketExtra,
-                    $conf['paymentActivity'],
+                    $conf['paymentActivity'] ?? '',
                     $conf['TAXpercentage']
                 );
             } elseif (
@@ -471,6 +472,10 @@ class ActivityController implements SingletonInterface
         &$finalize,
         &$finalVerify
     ) {
+        $bNeedsMinCheck = null;
+        $shopCountryArray = [];
+        $taxInfoArray = null;
+        $nextActivity = [];
         $empty = '';
         $hiddenFields = '';
         $basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
@@ -521,7 +526,7 @@ class ActivityController implements SingletonInterface
                 if (
                     isset($value) &&
                     isset($basketConf['collect']) &&
-                    $value < doubleval($basketConf['value'])
+                    $value < floatval(($basketConf['value'])
                 ) {
                     $basket_tmpl = 'BASKET_TEMPLATE_MINPRICE_ERROR';
                     $finalize = false;
@@ -875,6 +880,9 @@ class ActivityController implements SingletonInterface
         array $codes,
         array $addressArray
     ) {
+        $theCode = null;
+        $templateCode = null;
+        $templateFilename = null;
         $activityArray = $activityApi->getFinalActivityArray();
         $activityVarsArray = $activityApi->getActivityVarsArray();
         $codeActivityArray = $activityApi->getCodeActivityArray();
@@ -1226,7 +1234,7 @@ class ActivityController implements SingletonInterface
                                             $parameters = [
                                                 $referenceId,
                                                 $basketExtra['payment.']['handleLib'] ?? '',
-                                                $basketExtra['payment.']['handleLib.'] ?? [],
+                                                $basketExtra['payment.']['handleLib.'] ?? '',
                                                 TT_PRODUCTS_EXT,
                                                 $calculatedArray,
                                                 $conf['paymentActivity'] ?? '',
@@ -1252,17 +1260,17 @@ class ActivityController implements SingletonInterface
                                         );
                                         $referenceId = tx_transactor_api::getReferenceUid(
                                             $handleLib,
-                                            $basketExtra['payment.']['handleLib.'],
+                                            $basketExtra['payment.']['handleLib.'] ?? '',
                                             TT_PRODUCTS_EXT,
                                             $orderUid
                                         );
                                         $paymentErrorMsg = tx_transactor_api::checkRequired(
                                             $referenceId,
                                             $basketExtra['payment.']['handleLib'] ?? '',
-                                            $basketExtra['payment.']['handleLib.'] ?? [],
+                                            $basketExtra['payment.']['handleLib.'] ?? '',
                                             TT_PRODUCTS_EXT,
                                             $calculatedArray,
-                                            $conf['paymentActivity'],
+                                            $conf['paymentActivity'] ?? '',
                                             $pidArray,
                                             $linkParams,
                                             $orderArray['tracking_code'],
