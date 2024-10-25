@@ -87,7 +87,7 @@ class tx_ttproducts_variant_view implements tx_ttproducts_variant_view_int, Sing
                 if ($field != 'additional') {	// no additional here
                     if (
                         !isset($row[$field]) ||
-                        trim($row[$field]) == '' ||
+                        trim((string) $row[$field]) == '' ||
                         !$conf['select' . ucfirst($field)]
                     ) {
                         $remSubpartArray[] = 'display_variant' . $key;

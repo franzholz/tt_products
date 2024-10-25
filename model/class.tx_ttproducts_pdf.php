@@ -151,7 +151,7 @@ class tx_ttproducts_pdf implements SingletonInterface
                     $columnNo = 1;
                 }
 
-                if ($k2 == 0 && trim($v2) == '' && $rowCount == 4 && $oldRowCount == 1 && $columnNo == 2) {
+                if ($k2 == 0 && trim((string) $v2) == '' && $rowCount == 4 && $oldRowCount == 1 && $columnNo == 2) {
                     // skip first column which has been filled in from former row
                     continue 1;
                 }

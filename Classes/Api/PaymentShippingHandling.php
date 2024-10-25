@@ -973,6 +973,7 @@ class PaymentShippingHandling
         &$priceTax,
         &$priceNoTax
     ): void {
+        $calcSetup = null;
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $conf = $cnf->getConf();
 

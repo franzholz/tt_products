@@ -325,7 +325,7 @@ class tx_ttproducts_product extends tx_ttproducts_article_base
         $articleObj = $tablesObj->get('tt_products_articles');
 
         foreach ($fieldArray as $k => $field) {
-            $value = trim($currentRow[$field]);
+            $value = trim((string) $currentRow[$field]);
 
             $regexpValue =
                 $GLOBALS['TYPO3_DB']->quoteStr(

@@ -713,7 +713,7 @@ class VariantApi implements SingletonInterface
                 if ($field != 'additional') {	// no additional here
                     if (
                         !isset($row[$field]) ||
-                        trim($row[$field]) == '' ||
+                        trim((string) $row[$field]) == '' ||
                         !$selectableArray[$key]
                     ) {
                         $remSubpartArray[] = 'display_variant' . $key;
