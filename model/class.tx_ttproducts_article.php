@@ -59,7 +59,7 @@ class tx_ttproducts_article extends tx_ttproducts_article_base
             $tableConfig = [];
             $tableConfig['orderBy'] = $cnf->conf['orderBy'] ?? '';
 
-            if (!$tableConfig['orderBy']) {
+            if (empty($tableConfig['orderBy'])) {
                 $tableConfig['orderBy'] = $this->getOrderBy();
             }
 

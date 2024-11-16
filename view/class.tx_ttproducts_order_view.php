@@ -735,7 +735,7 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view
         }
 
         if ($bUnlock || $feusers_uid) {
-            $orderBy = $tableconf['orderBy'];
+            $orderBy = $tableconf['orderBy'] ?? '';
             if ($orderBy == '') {
                 $orderBy = 'crdate';
             }

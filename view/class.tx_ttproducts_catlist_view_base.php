@@ -408,7 +408,7 @@ abstract class tx_ttproducts_catlist_view_base implements SingletonInterface
                 $latest
             );
         }
-        $orderBy = $GLOBALS['TYPO3_DB']->stripOrderBy($tableConf['orderBy']);
+        $orderBy = $GLOBALS['TYPO3_DB']->stripOrderBy($tableConf['orderBy'] ?? '');
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
 
         if (empty($error_code) && $t['listFrameWork'] && is_object($categoryTable)) {

@@ -175,7 +175,7 @@ class tx_ttproducts_category extends tx_ttproducts_category_base
         ) {
             $tableObj = $this->getTableObj();
             $rc = $rowArray = $this->get($uid . ' ', $pid, false);
-            $orderBy = $this->tableconf['orderBy'];
+            $orderBy = $this->tableconf['orderBy'] ?? '';
             $uidArray = GeneralUtility::trimExplode(',', $uid);
 
             foreach ($uidArray as $actUid) {

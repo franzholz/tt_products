@@ -1394,10 +1394,10 @@ class tx_ttproducts_list_view
                         ksort($displayConf['header'], SORT_STRING);
                     }
                 }
-                $selectConf['orderBy'] = $tableConfArray[$funcTablename]['orderBy'];
+                $selectConf['orderBy'] = $tableConfArray[$funcTablename]['orderBy'] ?? '';
                 // performing query for display:
-                if (!$selectConf['orderBy']) {
-                    $selectConf['orderBy'] = $conf['orderBy'];
+                if (empty($selectConf['orderBy'])) {
+                    $selectConf['orderBy'] = $conf['orderBy'] ?? '';
                 }
 
                 if ($useCategories) {
@@ -1542,7 +1542,7 @@ class tx_ttproducts_list_view
                 if ($orderByCat && ($pageAsCategory < 2 || $itemTable->getType() == 'dam')) {
                     $catOrderBy = $categoryTable->getTableObj()->transformOrderby($orderByCat);
                     $orderByCatFieldArray = GeneralUtility::trimExplode(',', $catOrderBy);
-                    $selectConf['orderBy'] = $catOrderBy . ($selectConf['orderBy'] ? ($catOrderBy != '' ? ',' : '') . $selectConf['orderBy'] : '');
+                    $selectConf['orderBy'] = $catOrderBy . (!empty($selectConf['orderBy']) ? ($catOrderBy != '' ? ',' : '') . $selectConf['orderBy'] : '');
                     $catAlias = $categoryTable->getTableObj()->getAlias();
 
                     if ($itemTable->getType() == 'dam') {
@@ -1749,7 +1749,7 @@ class tx_ttproducts_list_view
                     $selectConf['begin'] = $begin_at;
                 }
 
-                if ($selectConf['orderBy']) {
+                if (!empty($selectConf['orderBy'])) {
                     $selectConf['orderBy'] =
                         $GLOBALS['TYPO3_DB']->stripOrderBy($selectConf['orderBy']);
                 }
