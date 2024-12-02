@@ -177,7 +177,7 @@ class PaymentShippingHandling
             // Payment Transactor
             if (class_exists(Start::class)) {
                 Start::getItemMarkerSubpartArrays(
-                    $basketExtra['payment.']['handleLib.'] ?? '',
+                    $basketExtra['payment.']['handleLib.'] ?? [],
                     $subpartArray,
                     $wrappedSubpartArray
                 );

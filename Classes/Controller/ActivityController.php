@@ -219,7 +219,7 @@ class ActivityController implements SingletonInterface
                         &$localTemplateCode,
                         &$errorMessage,
                         $handleLib,
-                        $basketExtra['payment.']['handleLib.'] ?? '',
+                        $basketExtra['payment.']['handleLib.'] ?? [],
                         TT_PRODUCTS_EXT,
                         $basketObj->getItemArray(),
                         $calculatedArray,
@@ -1222,7 +1222,7 @@ class ActivityController implements SingletonInterface
                                             );
                                             $parameters = [
                                                 $handleLib,
-                                                $basketExtra['payment.']['handleLib.'] ?? '',
+                                                $basketExtra['payment.']['handleLib.'] ?? [],
                                                 TT_PRODUCTS_EXT,
                                                 $orderUid,
                                             ];
@@ -1234,7 +1234,7 @@ class ActivityController implements SingletonInterface
                                             $parameters = [
                                                 $referenceId,
                                                 $basketExtra['payment.']['handleLib'] ?? '',
-                                                $basketExtra['payment.']['handleLib.'] ?? '',
+                                                $basketExtra['payment.']['handleLib.'] ?? [],
                                                 TT_PRODUCTS_EXT,
                                                 $calculatedArray,
                                                 $conf['paymentActivity'] ?? '',
@@ -1260,14 +1260,14 @@ class ActivityController implements SingletonInterface
                                         );
                                         $referenceId = tx_transactor_api::getReferenceUid(
                                             $handleLib,
-                                            $basketExtra['payment.']['handleLib.'] ?? '',
+                                            $basketExtra['payment.']['handleLib.'] ?? [],
                                             TT_PRODUCTS_EXT,
                                             $orderUid
                                         );
                                         $paymentErrorMsg = tx_transactor_api::checkRequired(
                                             $referenceId,
                                             $basketExtra['payment.']['handleLib'] ?? '',
-                                            $basketExtra['payment.']['handleLib.'] ?? '',
+                                            $basketExtra['payment.']['handleLib.'] ?? [],
                                             TT_PRODUCTS_EXT,
                                             $calculatedArray,
                                             $conf['paymentActivity'] ?? '',
