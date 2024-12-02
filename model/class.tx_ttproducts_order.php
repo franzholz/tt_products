@@ -886,13 +886,11 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
 
         $usedCreditpoints = 0;
         if (
-            isset($_REQUEST['recs']) &&
-            is_array($_REQUEST['recs']) &&
-            isset($_REQUEST['recs']['tt_products']) &&
-            is_array($_REQUEST['recs']['tt_products'])
+            isset($_REQUEST['recs']['tt_products']['creditpoints'])
         ) {
             $usedCreditpoints = floatval($_REQUEST['recs']['tt_products']['creditpoints']);
         }
+
         $result = $this->putRecord(
             $orderUid,
             $orderArray,

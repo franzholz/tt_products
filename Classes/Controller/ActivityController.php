@@ -187,6 +187,7 @@ class ActivityController implements SingletonInterface
                     $conf['TAXpercentage']
                 );
             } elseif (
+                $handleLib == 'transactor' &&
                 $gateway->getUseNewTransactor()
             ) {
                 $paymentScript = true;
