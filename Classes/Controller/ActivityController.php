@@ -160,6 +160,7 @@ class ActivityController implements SingletonInterface
         $content = '';
         $localTemplateCode = '';
         $paymentScript = false;
+        $templateFilename = null;
 
         if ($orderUid) {
             $basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
@@ -182,10 +183,11 @@ class ActivityController implements SingletonInterface
                     $errorMessage,
                     $handleScript,
                     $basketExtra,
-                    $conf['paymentActivity'],
+                    $conf['paymentActivity'] ?? '',
                     $conf['TAXpercentage']
                 );
             } elseif (
+                $handleLib == 'transactor' &&
                 $gateway->getUseNewTransactor()
             ) {
                 $paymentScript = true;
@@ -218,7 +220,7 @@ class ActivityController implements SingletonInterface
                         &$localTemplateCode,
                         &$errorMessage,
                         $handleLib,
-                        $basketExtra['payment.']['handleLib.'] ?? '',
+                        $basketExtra['payment.']['handleLib.'] ?? [],
                         TT_PRODUCTS_EXT,
                         $basketObj->getItemArray(),
                         $calculatedArray,
@@ -242,50 +244,6 @@ class ActivityController implements SingletonInterface
                 } else {
                     throw new \RuntimeException('Error in tt_products: The new transactor API has been called but the necessary transactor class or its method do not exist.', 50009);
                 }
-            } elseif (
-                $gateway->getUseOldTransactor()
-            ) {
-                $paymentScript = true;
-                // Payment Transactor or any alternative extension besides paymentlib
-                // Get references to the concerning baskets
-                $languageObj = GeneralUtility::makeInstance(Localization::class);
-                $addQueryString = [];
-                $excludeList = '';
-                $linkParams =
-                $this->urlObj->getLinkParams(
-                    $excludeList,
-                    $addQueryString,
-                    true,
-                    false
-                );
-
-                \tx_transactor_api::init(
-                    $languageObj,
-                    $cObj,
-                    $conf
-                );
-                $content = \tx_transactor_api::includeHandleLib(
-                    $handleLib,
-                    $basketExtra['payment.']['handleLib.'] ?? [],
-                    TT_PRODUCTS_EXT,
-                    $basketObj->getItemArray(),
-                    $calculatedArray,
-                    $basketObj->recs['delivery']['note'] ?? '',
-                    $conf['paymentActivity'] ?? '',
-                    $currentPaymentActivity,
-                    $infoArray,
-                    $pidArray,
-                    $linkParams,
-                    $orderArray['tracking_code'],
-                    $orderUid,
-                    $cardRow,
-                    $finalize,
-                    $finalVerify,
-                    $markerArray,
-                    $templateFilename,
-                    $localTemplateCode,
-                    $errorMessage
-                );
             }
 
             if (
@@ -515,6 +473,10 @@ class ActivityController implements SingletonInterface
         &$finalize,
         &$finalVerify
     ) {
+        $bNeedsMinCheck = null;
+        $shopCountryArray = [];
+        $taxInfoArray = null;
+        $nextActivity = [];
         $empty = '';
         $hiddenFields = '';
         $basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
@@ -565,7 +527,7 @@ class ActivityController implements SingletonInterface
                 if (
                     isset($value) &&
                     isset($basketConf['collect']) &&
-                    $value < doubleval($basketConf['value'])
+                    $value < floatval($basketConf['value'])
                 ) {
                     $basket_tmpl = 'BASKET_TEMPLATE_MINPRICE_ERROR';
                     $finalize = false;
@@ -919,6 +881,9 @@ class ActivityController implements SingletonInterface
         array $codes,
         array $addressArray
     ) {
+        $theCode = null;
+        $templateCode = null;
+        $templateFilename = null;
         $activityArray = $activityApi->getFinalActivityArray();
         $activityVarsArray = $activityApi->getActivityVarsArray();
         $codeActivityArray = $activityApi->getCodeActivityArray();
@@ -1258,7 +1223,7 @@ class ActivityController implements SingletonInterface
                                             );
                                             $parameters = [
                                                 $handleLib,
-                                                $basketExtra['payment.']['handleLib.'] ?? '',
+                                                $basketExtra['payment.']['handleLib.'] ?? [],
                                                 TT_PRODUCTS_EXT,
                                                 $orderUid,
                                             ];
@@ -1296,7 +1261,7 @@ class ActivityController implements SingletonInterface
                                         );
                                         $referenceId = tx_transactor_api::getReferenceUid(
                                             $handleLib,
-                                            $basketExtra['payment.']['handleLib.'],
+                                            $basketExtra['payment.']['handleLib.'] ?? [],
                                             TT_PRODUCTS_EXT,
                                             $orderUid
                                         );
@@ -1306,7 +1271,7 @@ class ActivityController implements SingletonInterface
                                             $basketExtra['payment.']['handleLib.'] ?? [],
                                             TT_PRODUCTS_EXT,
                                             $calculatedArray,
-                                            $conf['paymentActivity'],
+                                            $conf['paymentActivity'] ?? '',
                                             $pidArray,
                                             $linkParams,
                                             $orderArray['tracking_code'],

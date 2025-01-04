@@ -589,7 +589,6 @@ class ParameterApi implements SingletonInterface
                 $foundKey = 0;
 
                 if ($position == 'local' && isset($keyFieldArray[$searchFieldArray['local']]) && ExtensionManagementUtility::isLoaded('searchbox')) {	// Todo
-                    require_once \PATH_BE_SEARCHBOX . 'model/class.tx_searchbox_model.php';
                     $modelObj = GeneralUtility::makeInstance('tx_searchbox_model');
 
                     $fullKeyFieldArray = $modelObj->getKeyFieldArray($tablename, '', '-', $searchFieldArray['local'], '1', $tmpCount);

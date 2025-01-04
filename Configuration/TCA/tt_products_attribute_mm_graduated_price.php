@@ -67,7 +67,7 @@ $result = [
         ],
     ],
     'types' => [
-        '0' => ['showitem' => 'hidden,--palette--;;1, uid_local, uid_foreign'],
+        '0' => ['showitem' => 'hidden, uid_local, uid_foreign'],
     ],
 ];
 

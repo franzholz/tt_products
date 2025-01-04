@@ -88,7 +88,7 @@ class tx_ttproducts_tracking implements SingletonInterface
                         $statusMessage = 'tracking_status_message_';
                         $len = strlen($statusMessage);
                         foreach ($langArray as $k => $v) {
-                            if (($pos = strpos($k, $statusMessage)) === 0) {
+                            if (($pos = strpos((string) $k, $statusMessage)) === 0) {
                                 $rest = substr($k, $len);
                                 if (
                                     MathUtility::canBeInterpretedAsInteger($rest)

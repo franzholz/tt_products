@@ -24,8 +24,8 @@
     "GPL-2.0-or-later"
   ],
   "require": {
-    "typo3/cms-core": "^11.5 || ^12.4",
-    "typo3/cms-filelist": "^11.5 || ^12.4",
+    "typo3/cms-core": "^12.4",
+    "typo3/cms-filelist": "^12.4",
     "jambagecom/div2007": "^2.0.5 || ^2.2",
     "jambagecom/table": "^0.13",
     "jambagecom/tsparser": "^0.12",
@@ -36,7 +36,7 @@
     "jambagecom/addons-em": "^0.9",
     "jambagecom/taxajax": "^1.0",
     "jambagecom/static-info-tables-taxes": "^0.7",
-    "sjbr/static-info-tables": "^11.5 || ^12"
+    "sjbr/static-info-tables": "^12"
   },
   "autoload": {
     "psr-4": {

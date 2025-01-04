@@ -713,7 +713,7 @@ class VariantApi implements SingletonInterface
                 if ($field != 'additional') {	// no additional here
                     if (
                         !isset($row[$field]) ||
-                        trim($row[$field]) == '' ||
+                        trim((string) $row[$field]) == '' ||
                         !$selectableArray[$key]
                     ) {
                         $remSubpartArray[] = 'display_variant' . $key;
@@ -772,6 +772,7 @@ class VariantApi implements SingletonInterface
             $filename = $this->getInternalFilename($type);
             $createdFile = false;
             $xmlString = '';
+            $internalFile = null;
             if (!file_exists($filename)) {
                 $internalFile = fopen($filename, 'wb');
                 if (is_readable($filename)) {
@@ -824,6 +825,7 @@ class VariantApi implements SingletonInterface
         $openMode = 'r+b';
         $filename = $this->getInternalFilename($type);
         $xmlString = '';
+        $internalFile = null;
         if (is_readable($filename)) {
             $internalFile = fopen($filename, 'r+b');
             $xmlString = fread($internalFile, filesize($filename));

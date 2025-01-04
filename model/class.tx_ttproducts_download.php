@@ -68,13 +68,13 @@ class tx_ttproducts_download extends tx_ttproducts_article_base
                     isset($orderRow['fal_variants']) &&
                     $orderRow['fal_variants'] != ''
                 ) {
-                    $position = strpos($orderRow['fal_variants'], 'dl=' . $downloadUid . tx_ttproducts_variant_int::EXTERNAL_QUANTITY_SEPARATOR);
+                    $position = strpos((string) $orderRow['fal_variants'], 'dl=' . $downloadUid . tx_ttproducts_variant_int::EXTERNAL_QUANTITY_SEPARATOR);
 
                     if ($position !== 0) {
                         continue;
                     }
 
-                    $position = strpos($orderRow['fal_variants'], tx_ttproducts_variant_int::EXTERNAL_QUANTITY_SEPARATOR . 'fal=');
+                    $position = strpos((string) $orderRow['fal_variants'], tx_ttproducts_variant_int::EXTERNAL_QUANTITY_SEPARATOR . 'fal=');
                     $orderFalUid = substr($orderRow['fal_variants'], $position + strlen(tx_ttproducts_variant_int::EXTERNAL_QUANTITY_SEPARATOR . 'fal='));
 
                     if (

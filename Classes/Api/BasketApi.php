@@ -322,7 +322,7 @@ class BasketApi implements SingletonInterface
         $extraArray = [];
         if (!empty($row)) {
             foreach ($typeArray as $type) {
-                $tmpArray = GeneralUtility::trimExplode(':', $row[$type]);
+                $tmpArray = GeneralUtility::trimExplode(':', (string) $row[$type]);
                 $extraArray[$type] = $tmpArray['0'];
             }
         }

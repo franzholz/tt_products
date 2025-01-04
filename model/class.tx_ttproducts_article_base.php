@@ -276,7 +276,7 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base
                 foreach ($tableConf['charRegExp.']['replace.'] as $k => $lineReplaceConf) {
                     if (
                         $k != 'type' &&
-                        strpos($k, '.') == strlen($k) - 1
+                        strpos((string) $k, '.') == strlen($k) - 1
                     ) {
                         $k1 = substr($k, 0, strlen($k) - 1);
                         if (MathUtility::canBeInterpretedAsInteger($k1)) {

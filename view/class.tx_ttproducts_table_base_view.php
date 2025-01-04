@@ -775,7 +775,7 @@ abstract class tx_ttproducts_table_base_view implements SingletonInterface
             $linkWrap,
             $bEnableTaxZero
         );
-        $markerArray['###CUR_SYM###'] = ' ' . ($bHtml ? htmlentities($conf['currencySymbol'], ENT_QUOTES) : $conf['currencySymbol']);
+        $markerArray['###CUR_SYM###'] = ' ' . ($bHtml ? htmlentities((string) $conf['currencySymbol'], ENT_QUOTES) : $conf['currencySymbol']);
         $markerArray = array_merge($markerArray, $rowMarkerArray);
     }
 
@@ -918,6 +918,6 @@ abstract class tx_ttproducts_table_base_view implements SingletonInterface
             $notOverwritePriceIfSet // neu
         );
 
-        $markerArray['###CUR_SYM###'] = ' ' . ($bHtml ? htmlentities($conf['currencySymbol'], ENT_QUOTES) : $conf['currencySymbol']);
+        $markerArray['###CUR_SYM###'] = ' ' . ($bHtml ? htmlentities((string) $conf['currencySymbol'], ENT_QUOTES) : $conf['currencySymbol']);
     }
 }

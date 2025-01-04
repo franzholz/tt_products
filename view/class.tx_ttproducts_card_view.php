@@ -93,7 +93,7 @@ class tx_ttproducts_card_view extends tx_ttproducts_table_base_view
         }
         $ccOwnerName = $row['owner_name'] ?? '';
 
-        $markerArray['###PERSON_CARDS_OWNER_NAME###'] = htmlentities($ccOwnerName, ENT_QUOTES, 'UTF-8');
+        $markerArray['###PERSON_CARDS_OWNER_NAME###'] = htmlentities((string) $ccOwnerName, ENT_QUOTES, 'UTF-8');
         $markerArray['###PERSON_CARDS_CC_TYPE###'] = $ccTypeText;
         $markerArray['###PERSON_CARDS_CC_TYPE_SELECTED###'] = $row['cc_type'] ?? '';
         if (isset($row['cc_type'])) {

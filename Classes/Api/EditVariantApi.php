@@ -48,7 +48,7 @@ class EditVariantApi implements SingletonInterface
             $count = 0;
 
             foreach ($editVariantConfig as $k => $config) {
-                if ($k != 'default.' && (strpos($k, '.') == strlen($k) - 1)) {
+                if ($k != 'default.' && (strpos((string) $k, '.') == strlen($k) - 1)) {
                     $count++;
                     if (isset($config['suffix'])) {
                         $suffix = $config['suffix'];
@@ -102,7 +102,7 @@ class EditVariantApi implements SingletonInterface
             count($row)
         ) {
             foreach ($row as $field => $value) {
-                if (strpos($field, 'edit_') === 0) {
+                if (strpos((string) $field, 'edit_') === 0) {
                     $variantRow[$field] = $value;
                 }
             }
@@ -241,7 +241,7 @@ class EditVariantApi implements SingletonInterface
             foreach ($editVariantConfig as $k => $config) {
                 if ($k == 'default.') {
                     // nothing
-                } elseif (strpos($k, '.') == strlen($k) - 1) {
+                } elseif (strpos((string) $k, '.') == strlen($k) - 1) {
                     $count++;
                     $bIsValid = true;
                     if (isset($config['sql.']) && isset($config['sql.'])) {
@@ -281,13 +281,13 @@ class EditVariantApi implements SingletonInterface
         foreach ($editVariantConfig as $k => $config) {
             if ($k == 'default.') {
                 // nothing
-            } elseif (strpos($k, '.') == strlen($k) - 1) {
+            } elseif (strpos((string) $k, '.') == strlen($k) - 1) {
                 if (
                     isset($config['setVariables.']) &&
                     isset($config['suffix'])
                 ) {
                     foreach ($config['setVariables.'] as $variable => $value) {
-                        if (strpos($variable, '.') !== false) {
+                        if (strpos((string) $variable, '.') !== false) {
                             continue 1;
                         }
                         $isActive = true;

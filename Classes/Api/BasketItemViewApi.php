@@ -214,7 +214,7 @@ class BasketItemViewApi implements SingletonInterface
         if ($this->useArticles == 0) {
             if (
                 strpos(
-                    $itemFrameWork,
+                    (string) $itemFrameWork,
                     (string) $articleViewObj->getMarker()
                 ) !== false
             ) {

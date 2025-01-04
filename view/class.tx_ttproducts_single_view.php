@@ -499,7 +499,7 @@ class tx_ttproducts_single_view implements SingletonInterface
             $mergeTagArray = array_merge($viewTagArray, $viewCatTagArray);
             $cat = $row['category'];
             $itemTableConf['category'] = $cnf->getTableConf($viewCatTable->getFuncTablename(), 'SINGLE');
-            $catArray = $viewCatTable->getCategoryArray($row, $itemTableConf['category']['orderBy']);
+            $catArray = $viewCatTable->getCategoryArray($row, $itemTableConf['category']['orderBy'] ?? '');
 
             if (is_array($catArray) && count($catArray)) {
                 reset($catArray);

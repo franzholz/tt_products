@@ -79,20 +79,10 @@ class PaymentGatewayApi implements SingletonInterface
         }
 
         if (
-            strpos($handleLib, (string) static::TRANSACTOR_EXTENSION) !== false &&
+            strpos((string) $handleLib, (string) static::TRANSACTOR_EXTENSION) !== false &&
             ExtensionManagementUtility::isLoaded($handleLib)
         ) {
-            $useNewTransactor = false;
-            $useOldTransactor = true;
-            $transactorCompatibility = PaymentApi::getTransactorConf($handleLib, 'compatibility');
-            if (
-                $transactorCompatibility == '0'
-            ) {
-                $useNewTransactor = true;
-                $useOldTransactor = false;
-            }
-            $this->setUseNewTransactor($useNewTransactor);
-            $this->setUseOldTransactor($useOldTransactor);
+            $this->setUseNewTransactor(true);
         }
         $this->needsInit = false;
     }
@@ -135,16 +125,6 @@ class PaymentGatewayApi implements SingletonInterface
     public function getUseNewTransactor()
     {
         return $this->useNewTransactor;
-    }
-
-    public function setUseOldTransactor($useOldTransactor): void
-    {
-        $this->useOldTransactor = $useOldTransactor;
-    }
-
-    public function getUseOldTransactor()
-    {
-        return $this->useOldTransactor;
     }
 
     // Has any payment gateway parameter been detected upon which some action must be taken?

@@ -453,7 +453,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
                 $fieldsArray['vat_id'] = $billingInfo['tt_products_vat'];
 
                 $taxPercentage = PaymentShippingHandling::getReplaceTaxPercentage($basketExtra);
-                if (doubleval($taxPercentage) == 0) {
+                if (floatval(($taxPercentage) == 0) {
                     $fieldsArray['tax_mode'] = 1;
                 }
             }
@@ -886,13 +886,11 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
 
         $usedCreditpoints = 0;
         if (
-            isset($_REQUEST['recs']) &&
-            is_array($_REQUEST['recs']) &&
-            isset($_REQUEST['recs']['tt_products']) &&
-            is_array($_REQUEST['recs']['tt_products'])
+            isset($_REQUEST['recs']['tt_products']['creditpoints'])
         ) {
             $usedCreditpoints = floatval($_REQUEST['recs']['tt_products']['creditpoints']);
         }
+
         $result = $this->putRecord(
             $orderUid,
             $orderArray,
@@ -968,10 +966,10 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
             if ($downloadUid) {
                 $source .= $downloadUid . tx_ttproducts_variant_int::EXTERNAL_QUANTITY_SEPARATOR;
             }
-            $position = strpos($orderRow['fal_variants'], $source);
+            $position = strpos((string) $orderRow['fal_variants'], $source);
 
             if ($position === 0) {
-                $positionFal = strpos($orderRow['fal_variants'], tx_ttproducts_variant_int::EXTERNAL_QUANTITY_SEPARATOR . 'fal=');
+                $positionFal = strpos((string) $orderRow['fal_variants'], tx_ttproducts_variant_int::EXTERNAL_QUANTITY_SEPARATOR . 'fal=');
                 $orderedDownloadUid = substr($orderRow['fal_variants'], strlen($source), $positionFal - strlen($source));
                 $falUid = substr($orderRow['fal_variants'], $positionFal + strlen(tx_ttproducts_variant_int::EXTERNAL_QUANTITY_SEPARATOR . 'fal='));
                 $result = $falUid;

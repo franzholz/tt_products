@@ -77,11 +77,11 @@ class tx_ttproducts_page_view extends tx_ttproducts_category_base_view
         $funcTablename = $this->modelObj->getFuncTablename();
         $row = $this->modelObj->get($pid);
 
-        $pageCatTitle = htmlentities($row['title'], ENT_QUOTES, 'UTF-8');
+        $pageCatTitle = htmlentities((string) $row['title'], ENT_QUOTES, 'UTF-8');
         $this->setMarkerArrayCatTitle($markerArray, $pageCatTitle, $prefix);
         $markerArray['###' . $prefix . $this->marker . '_SUBTITLE###'] =
             htmlentities(
-                $row['subtitle'],
+                (string) $row['subtitle'],
                 ENT_QUOTES,
                 'UTF-8'
             );

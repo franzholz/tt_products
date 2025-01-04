@@ -499,7 +499,10 @@ class tx_ttproducts_control_basket
 
             $fieldArray = GeneralUtility::trimExplode(',', $fields);
             foreach ($fieldArray as $k => $field) {
-                if (empty($infoArray['billing'][$field])) {
+                if (
+                    empty($infoArray['billing'][$field]) &&
+                    isset($feUserRecord[$field])
+                ) {
                     $infoArray['billing'][$field] = $feUserRecord[$field];
                 }
             }
@@ -544,9 +547,9 @@ class tx_ttproducts_control_basket
             } // foreach
             // neu Ende
 
-            $infoArray['billing']['agb'] ??= $feUserRecord['agb'];
+            $infoArray['billing']['agb'] ??= $feUserRecord['agb'] ?? '';
 
-            $dateBirth = $infoArray['billing']['date_of_birth'];
+            $dateBirth = $infoArray['billing']['date_of_birth'] ?? '';
             $tmpPos = strpos($dateBirth, '-');
 
             if (
@@ -554,8 +557,10 @@ class tx_ttproducts_control_basket
                 $tmpPos === false ||
                 $tmpPos == 0
             ) {
-                $infoArray['billing']['date_of_birth'] =
-                date('d-m-Y', $feUserRecord['date_of_birth']);
+                if (isset($feUserRecord['date_of_birth'])) {
+                    $infoArray['billing']['date_of_birth'] =
+                    date('d-m-Y', $feUserRecord['date_of_birth'] ?? 0);
+                }
             }
             unset($infoArray['billing']['error']);
         } // if isLoggedIn

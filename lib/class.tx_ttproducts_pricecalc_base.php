@@ -45,7 +45,7 @@ class tx_ttproducts_pricecalc_base implements SingletonInterface
         $rc = 0;
         $priceCalcTemp = $conf[$offset];
         if (is_array($priceCalcTemp)) {
-            $rc = doubleval($priceCalcTemp['prod.'][$num]);
+            $rc = floatval(($priceCalcTemp['prod.'][$num]);
         }
 
         return $rc;

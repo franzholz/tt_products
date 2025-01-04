@@ -1421,7 +1421,7 @@ class tx_ttproducts_basket implements SingletonInterface
         $conf = $cnfObj->conf;
         $itemTableConf = $cnfObj->getTableConf($funcTablename, $theCode);
         $viewTableObj = $tablesObj->get($funcTablename, false);
-        $orderBy = $viewTableObj->getTableObj()->transformOrderby($itemTableConf['orderBy']);
+        $orderBy = $viewTableObj->getTableObj()->transformOrderby($itemTableConf['orderBy'] ?? '');
         $mergePrices = true;
         $calculObj = GeneralUtility::makeInstance('tx_ttproducts_basket_calculate');
         $calculatedArray = [
@@ -1713,7 +1713,7 @@ class tx_ttproducts_basket implements SingletonInterface
             $basketRecs,
             tx_ttproducts_control_basket::getFuncTablename(),
             $useArticles,
-            doubleval($tax) > $this->getMaxTax() ? doubleval($tax) : $this->getMaxTax(),
+            floatval(($tax) > $this->getMaxTax() ? floatval(($tax) : $this->getMaxTax(),
             tx_ttproducts_control_basket::getRoundFormat(),
             $recalculateItems
         );

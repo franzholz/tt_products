@@ -9,9 +9,9 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 use JambageCom\TtProducts\Hooks\OrderBackend;
 
-class OrderHtmlElement extends AbstractFormElement
+class OldOrderHtmlElement extends AbstractFormElement
 {
-    public function render(): array
+    public function render()
     {
         $orderView = GeneralUtility::makeInstance(OrderBackend::class);
         $result = $this->initializeResultArray();

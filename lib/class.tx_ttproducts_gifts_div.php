@@ -253,7 +253,7 @@ class tx_ttproducts_gifts_div
             isset($giftConf) &&
             is_array($giftConf) &&
             isset($giftConf['TAXpercentage']) &&
-            doubleval($giftConf['TAXpercentage']) == '0'
+            floatval(($giftConf['TAXpercentage']) == '0'
         ) {
             $result = true;
         }

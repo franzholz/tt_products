@@ -175,7 +175,7 @@ class tx_ttproducts_category extends tx_ttproducts_category_base
         ) {
             $tableObj = $this->getTableObj();
             $rc = $rowArray = $this->get($uid . ' ', $pid, false);
-            $orderBy = $this->tableconf['orderBy'];
+            $orderBy = $this->tableconf['orderBy'] ?? '';
             $uidArray = GeneralUtility::trimExplode(',', $uid);
 
             foreach ($uidArray as $actUid) {
@@ -622,7 +622,7 @@ class tx_ttproducts_category extends tx_ttproducts_category_base
         $maxDiscount = 0;
 
         if (!$bDiscountDisable) {
-            $maxDiscount = doubleval($discount);
+            $maxDiscount = floatval(($discount);
             $rootCat = $this->getRootCat();
             $rootArray = GeneralUtility::trimExplode(',', $rootCat);
 

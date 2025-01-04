@@ -453,7 +453,7 @@ class tx_ttproducts_info_view implements SingletonInterface
                 ) {
                     $layout = $formConf['selectStore.']['layout'];
                 }
-                $orderBy = $tableconf['orderBy'];
+                $orderBy = $tableconf['orderBy'] ?? '';
                 $uidStoreArray = [];
 
                 if (isset($conf['UIDstore'])) {

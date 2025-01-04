@@ -104,7 +104,7 @@ class tx_ttproducts_field_delivery_view extends tx_ttproducts_field_base_view
 
                     if (isset($valueConf['text.'])) {
                         $tmpImgCode = $cObj->cObjGetSingle(
-                            $valueConf['text'],
+                            $valueConf['text'] ?? '',
                             $valueConf['text.'],
                             TT_PRODUCTS_EXT
                         );

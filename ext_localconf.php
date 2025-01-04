@@ -38,9 +38,6 @@ call_user_func(function ($extensionKey): void {
     require_once PATH_BE_TTPRODUCTS . 'control/class.tx_ttproducts_control_address.php';
     require_once PATH_BE_TTPRODUCTS . 'Classes/Domain/Model/Dto/EmConfiguration.php';
 
-    $typo3VersionArray = VersionNumberUtility::convertVersionStringToArray(VersionNumberUtility::getCurrentTypo3Version());
-    $typo3VersionMain = $typo3VersionArray['version_main'];
-
     if (\TYPO3\CMS\Core\Utility\ExtensionManagementUtility::isLoaded(POOL_EXT)) {
         $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/pool/mod_main/index.php']['addClass'][] = 'EXT:' . $extensionKey . '/hooks/class.tx_ttproducts_hooks_pool.php:&tx_ttproducts_hooks_pool';
     }
@@ -54,6 +51,9 @@ call_user_func(function ($extensionKey): void {
     ) {
         $GLOBALS['TYPO3_CONF_VARS']['FE']['taxajax_include'][$extensionKey] = \JambageCom\TtProducts\Controller\TaxajaxController::class . '::processRequest';
     }
+
+    $typo3VersionArray = VersionNumberUtility::convertVersionStringToArray(VersionNumberUtility::getCurrentTypo3Version());
+    $typo3VersionMain = $typo3VersionArray['version_main'];
 
     $extensionConfiguration = [];
     $originalConfiguration = [];
@@ -199,17 +199,29 @@ call_user_func(function ($extensionKey): void {
         \TYPO3\CMS\Core\Log\Writer\SyslogWriter::class => [],
     ];
 
-    $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1613165400] = [
-        'nodeName' => 'orderedProductsElement',
-        'priority' => 40,
-        'class' => \JambageCom\TtProducts\Form\Element\OrderedProductsElement::class,
-    ];
-
-    $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1613221454] = [
-        'nodeName' => 'orderHtmlElement',
-        'priority' => 40,
-        'class' => \JambageCom\TtProducts\Form\Element\OrderHtmlElement::class,
-    ];
+    if ($typo3VersionMain >= 13) {
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1613165400] = [
+            'nodeName' => 'orderedProductsElement',
+            'priority' => 40,
+            'class' => \JambageCom\TtProducts\Form\Element\OrderedProductsElement::class,
+        ];
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1613221454] = [
+            'nodeName' => 'orderHtmlElement',
+            'priority' => 40,
+            'class' => \JambageCom\TtProducts\Form\Element\OrderHtmlElement::class,
+        ];
+    } else {
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1613165400] = [
+            'nodeName' => 'orderedProductsElement',
+            'priority' => 40,
+            'class' => \JambageCom\TtProducts\Form\Element\OldOrderedProductsElement::class,
+        ];
+        $GLOBALS['TYPO3_CONF_VARS']['SYS']['formEngine']['nodeRegistry'][1613221454] = [
+            'nodeName' => 'orderHtmlElement',
+            'priority' => 40,
+            'class' => \JambageCom\TtProducts\Form\Element\OldOrderHtmlElement::class,
+        ];
+    }
     $excludedParameters = [
         'tt_products[sword]',
         'sword',

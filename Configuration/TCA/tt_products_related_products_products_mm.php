@@ -60,7 +60,7 @@ $result = [
     ],
     'types' => [
         '0' => [
-            'showitem' => '',
+            'showitem' => 'uid_local, uid_foreign',
         ],
     ],
 ];

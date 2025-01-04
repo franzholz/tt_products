@@ -57,7 +57,7 @@ class tx_ttproducts_control_address
     {
         $emClass = ExtensionManagementUtility::class;
         $extKey = '';
-        $addressTable = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['addressTable'];
+        $addressTable = $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][TT_PRODUCTS_EXT]['addressTable'] ?? '';
 
         if (!$addressTable) {
             $addressExtKeyTable = self::getAddressExtKeyTable();

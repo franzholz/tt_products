@@ -238,7 +238,7 @@ class tx_ttproducts_menucat_view extends tx_ttproducts_catlist_view_base
                     $linkOut =
                         $linkOutArray[0] .
                             htmlentities(
-                                $row[$categoryTable->getLabelFieldname()],
+                                (string) $row[$categoryTable->getLabelFieldname()],
                                 ENT_QUOTES,
                                 'UTF-8'
                             ) . $linkOutArray[1];

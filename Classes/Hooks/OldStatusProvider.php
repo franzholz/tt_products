@@ -23,7 +23,7 @@ use JambageCom\Div2007\Utility\StatusUtility;
 
 class OldStatusProvider extends OldStatusProviderBase
 {
-    const EXTENSION_KEY =  'tt_products';
+    public const EXTENSION_KEY =  'tt_products';
 
     /**
      * @var string Extension key

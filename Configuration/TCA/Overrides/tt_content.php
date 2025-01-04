@@ -10,7 +10,7 @@ call_user_func(function ($extensionKey, $table): void {
     $GLOBALS['TCA'][$table]['types']['list']['subtypes_excludelist']['5'] = 'layout';
     $GLOBALS['TCA'][$table]['types']['list']['subtypes_addlist']['5'] = 'pi_flexform';
 
-    ExtensionManagementUtility::addPiFlexFormValue('5', 'FILE:EXT:' . $extensionKey . '/pi1/flexform_ds_pi1.xml');
+    ExtensionManagementUtility::addPiFlexFormValue('5', 'FILE:EXT:' . $extensionKey . '/Configuration/FlexForms/flexform_ds_pi1.xml');
 
     ExtensionManagementUtility::addPlugin(
         [
@@ -26,7 +26,7 @@ call_user_func(function ($extensionKey, $table): void {
         $listType = $extensionKey . '_pi_search';
         $GLOBALS['TCA'][$table]['types']['list']['subtypes_excludelist'][$listType] = 'layout';
         $GLOBALS['TCA'][$table]['types']['list']['subtypes_addlist'][$listType] = 'pi_flexform';
-        ExtensionManagementUtility::addPiFlexFormValue($listType, 'FILE:EXT:' . $extensionKey . '/pi_search/flexform_ds_pi_search.xml');
+        ExtensionManagementUtility::addPiFlexFormValue($listType, 'FILE:EXT:' . $extensionKey . '/Configuration/FlexForms/flexform_ds_pi_search.xml');
         ExtensionManagementUtility::addPlugin(
             [
                 'LLL:EXT:' . $extensionKey . $languageSubpath .
@@ -41,7 +41,7 @@ call_user_func(function ($extensionKey, $table): void {
     $listType = $extensionKey . '_pi_int';
     $GLOBALS['TCA'][$table]['types']['list']['subtypes_excludelist'][$listType] = 'layout';
     $GLOBALS['TCA'][$table]['types']['list']['subtypes_addlist'][$listType] = 'pi_flexform';
-    ExtensionManagementUtility::addPiFlexFormValue($listType, 'FILE:EXT:' . $extensionKey . '/pi_int/flexform_ds_pi_int.xml');
+    ExtensionManagementUtility::addPiFlexFormValue($listType, 'FILE:EXT:' . $extensionKey . '/Configuration/FlexForms/flexform_ds_pi_int.xml');
     ExtensionManagementUtility::addPlugin(
         [
             'LLL:EXT:' . $extensionKey . $languageSubpath .
