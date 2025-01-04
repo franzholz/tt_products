@@ -527,7 +527,7 @@ class ActivityController implements SingletonInterface
                 if (
                     isset($value) &&
                     isset($basketConf['collect']) &&
-                    $value < floatval(($basketConf['value'])
+                    $value < floatval($basketConf['value'])
                 ) {
                     $basket_tmpl = 'BASKET_TEMPLATE_MINPRICE_ERROR';
                     $finalize = false;
