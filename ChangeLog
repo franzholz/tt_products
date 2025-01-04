@@ -1,3 +1,6 @@
+2025-01-04  Franz Holzinger  <franz@ttproducts.de>
+    * Deprecation no. 97126: TCEforms removed in FlexForm
+
 2024-08-06 Franz Holzinger <franz@ttproducts.de>
     deprecation no. 98487: ExtensionManagementUtility::allowTableOnStandardPages
     deprecation no. 97312: Deprecate Context Sensitive Help-related methods
