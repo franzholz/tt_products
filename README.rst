@@ -6,7 +6,7 @@ TYPO3 extension tt_products
 What is does
 ------------
 
-This is a shop system extension for TYPO3 based on PHP 7 and PHP 8.
+This is a shop system extension for TYPO3 based on PHP 8.
 
 Configuration
 -------------
@@ -15,6 +15,9 @@ See the file manual.odt under the folder doc of the extension.
 
 -  `Wiki <https://github.com/franzholz/tt_products/wiki>`__
 -  `Ebook <http://www.fosdoc.de/downloads/OSP_typo3webshop.pdf>`__
+
+Only TYPO3 12 is supported at the moment.
+You can buy an upgrade for TYPO3 13 at the website `Shop System <https://www.ttproducts.de/>`__.
 
 Upgrade
 -------
