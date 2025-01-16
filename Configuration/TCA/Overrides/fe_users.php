@@ -3,13 +3,8 @@
 defined('TYPO3') || die('Access denied.');
 
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
 call_user_func(function ($extensionKey, $table): void {
-    $typo3VersionArray =
-    VersionNumberUtility::convertVersionStringToArray(VersionNumberUtility::getCurrentTypo3Version());
-    $typo3VersionMain = $typo3VersionArray['version_main'];
-
     $languageSubpath = '/Resources/Private/Language/';
 
     $temporaryColumns = [

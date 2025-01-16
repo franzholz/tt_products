@@ -41,7 +41,6 @@ use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
 use JambageCom\TtProducts\SessionHandler\SessionHandler;
 
@@ -105,9 +104,6 @@ class BasketApi implements SingletonInterface
             isset($basketConf['ref']) &&
             isset($basketConf['row'])
         ) {
-            $typo3VersionArray =
-            VersionNumberUtility::convertVersionStringToArray(VersionNumberUtility::getCurrentTypo3Version());
-            $typo3VersionMain = $typo3VersionArray['version_main'];
             $conf = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.'][TT_PRODUCTS_EXT . '.'] ?? [];
             $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
             $cnfObj->init(

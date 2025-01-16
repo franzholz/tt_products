@@ -46,7 +46,6 @@ use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
 use JambageCom\Div2007\Utility\FrontendUtility;
 use JambageCom\Div2007\Utility\HtmlUtility;
@@ -298,9 +297,6 @@ class ActivityController implements SingletonInterface
         $context = GeneralUtility::makeInstance(Context::class);
         $languageSubpath = '/Resources/Private/Language/';
         $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
-        $typo3VersionArray =
-        VersionNumberUtility::convertVersionStringToArray(VersionNumberUtility::getCurrentTypo3Version());
-        $typo3VersionMain = $typo3VersionArray['version_main'];
 
         if ($checkRequired || $checkAllowed) {
             $check = ($checkRequired ?: $checkAllowed);

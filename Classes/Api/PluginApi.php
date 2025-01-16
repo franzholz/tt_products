@@ -44,7 +44,6 @@ use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
 use JambageCom\Div2007\Utility\ExtensionUtility;
 use JambageCom\Div2007\Utility\FlexformUtility;
@@ -340,9 +339,6 @@ class PluginApi
         $feUserRecord = CustomerApi::getFeUserRecord();
 
         if (!self::$bHasBeenInitialised) {
-            $typo3VersionArray =
-                VersionNumberUtility::convertVersionStringToArray(VersionNumberUtility::getCurrentTypo3Version());
-            $typo3VersionMain = $typo3VersionArray['version_main'];
             $conf = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.'][TT_PRODUCTS_EXT . '.'] ?? [];
 
             ArrayUtility::mergeRecursiveWithOverrule($conf, $pluginConf);
