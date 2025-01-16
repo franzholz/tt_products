@@ -60,12 +60,7 @@ class tx_ttproducts_pi_int implements SingletonInterface
         $typo3VersionArray =
         VersionNumberUtility::convertVersionStringToArray(VersionNumberUtility::getCurrentTypo3Version());
         $typo3VersionMain = $typo3VersionArray['version_main'];
-        $confMain = [];
-        if ($typo3VersionMain < 12) {
-            $confMain = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'] ?? [];
-        } else {
-            $confMain = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.'][TT_PRODUCTS_EXT . '.'] ?? [];
-        }
+        $confMain = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.'][TT_PRODUCTS_EXT . '.'] ?? [];
 
         ArrayUtility::mergeRecursiveWithOverrule($confMain, $conf);
         $conf = $confMain;

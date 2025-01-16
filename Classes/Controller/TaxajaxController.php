@@ -63,12 +63,7 @@ class TaxajaxController
         $typo3VersionArray =
         VersionNumberUtility::convertVersionStringToArray(VersionNumberUtility::getCurrentTypo3Version());
         $typo3VersionMain = $typo3VersionArray['version_main'];
-        $conf = [];
-        if ($typo3VersionMain < 12) {
-            $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'] ?? null;
-        } else {
-            $conf = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.'][TT_PRODUCTS_EXT . '.'] ?? null;
-        }
+        $conf = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.'][TT_PRODUCTS_EXT . '.'] ?? null;
 
         if (!isset($conf)) {
             throw new \RuntimeException('Error in tt_products: No plugin setup found!', 1720723255);
