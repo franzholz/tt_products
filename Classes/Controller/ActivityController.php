@@ -60,9 +60,9 @@ use JambageCom\TtProducts\Api\ControlApi;
 use JambageCom\TtProducts\Api\Localization;
 use JambageCom\TtProducts\Api\BasketApi;
 use JambageCom\TtProducts\Api\FeUserMarkerApi;
-use JambageCom\TtProducts\Api\ParameterApi;
 use JambageCom\TtProducts\Api\CustomerApi;
 use JambageCom\TtProducts\Api\ActivityApi;
+use JambageCom\TtProducts\Api\ParameterApi;
 use JambageCom\TtProducts\Api\PaymentGatewayApi;
 use JambageCom\TtProducts\Api\PaymentShippingHandling;
 
@@ -166,6 +166,8 @@ class ActivityController implements SingletonInterface
             $basketViewObj = GeneralUtility::makeInstance('tx_ttproducts_basket_view');
             $infoViewObj = GeneralUtility::makeInstance('tx_ttproducts_info_view');
             $cObj = ControlApi::getCObj();
+            $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
+            $request = $parameterApi->getRequest();
             $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
             $conf = $cnf->getConf();
             $gateway = GeneralUtility::makeInstance(PaymentGatewayApi::class);
@@ -198,7 +200,7 @@ class ActivityController implements SingletonInterface
                     method_exists($callingClassName, 'includeHandleLib')
                 ) {
                     $languageObj = GeneralUtility::makeInstance(Localization::class);
-                    call_user_func($callingClassName . '::init', $languageObj, $cObj, $this->conf);
+                    call_user_func($callingClassName . '::init', $languageObj, $request, $this->conf);
                     $gatewayStatus = '';
                     $addQueryString = [];
                     $excludeList = '';
