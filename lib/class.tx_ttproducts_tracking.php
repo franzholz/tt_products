@@ -233,7 +233,6 @@ class tx_ttproducts_tracking implements SingletonInterface
             $statusCodeArray = $this->getStatusCodeArray();
             $pageTitle = $orderRow['uid'] . ' (' . $orderRow['bill_no'] . '): ' . $orderRow['name'] . '-' . $orderRow['zip'] . '-' . $orderRow['city'] . '-' . $orderRow['country'];
             $GLOBALS['TSFE']->page['title'] = $pageTitle;
-            $GLOBALS['TSFE']->indexedDocTitle = $pageTitle;
 
             // Initialize update of status...
             $fieldsArray = [];
