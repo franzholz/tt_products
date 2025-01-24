@@ -196,7 +196,7 @@ class tx_ttproducts_edit_variant_view implements tx_ttproducts_edit_variant_view
         }
 
         foreach ($tagArray as $tag => $number) {
-            if (strpos($tag, 'edit_variant') === 0) {
+            if (strpos((string) $tag, 'edit_variant') === 0) {
                 if (!isset($subpartArray['###' . $tag . '###'])) {
                     $subpartArray['###' . $tag . '###'] = '';
                 }

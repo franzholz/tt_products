@@ -246,7 +246,7 @@ class tx_ttproducts_download extends tx_ttproducts_article_base
         if (is_array($tagMarkerArray) && $tagMarkerArray) {
             $newTagMarkerArray = [];
             foreach ($tagMarkerArray as $tagMarker) {
-                if (strpos($tagMarker, '_') === false) {
+                if (strpos((string) $tagMarker, '_') === false) {
                     $newTagMarkerArray[] = $tagMarker;
                 }
             }

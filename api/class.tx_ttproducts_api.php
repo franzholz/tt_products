@@ -59,7 +59,7 @@ class tx_ttproducts_api
         $value = (string) $value;
         $result = $oldValue = $value;
         $priceRoundFormatArray = [];
-        $dotPos = strpos($value, '.');
+        $dotPos = strpos((string) $value, '.');
         $floatLen = strlen($value) - $dotPos - 1;
 
         if (strpos($format, '.') !== false) {

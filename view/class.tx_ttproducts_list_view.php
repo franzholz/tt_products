@@ -2584,7 +2584,7 @@ class tx_ttproducts_list_view
                             $basketExt1 = tx_ttproducts_control_basket::generatedBasketExtFromRow($currRow, '1');
 
                             $taxInfoArray = [];
-                            $tax = 0.0;
+                            $tax = floatval(0);
                             $virtualItemArray = $basketObj->getItemArrayFromRow(
                                 $tax,
                                 $taxInfoArray,

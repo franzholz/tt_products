@@ -223,7 +223,7 @@ class TransactorListener
                             $basketExtra,
                             $basketRec,
                             '',
-                            0.0,
+                            floatval(0),
                             false,
                             $errorMessage
                         );

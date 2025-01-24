@@ -870,7 +870,7 @@ class tx_ttproducts_single_view implements SingletonInterface
                             );
                     }
                     $taxInfoArray = [];
-                    $tax = 0.0;
+                    $tax = floatval(0);
                     $virtualItemArray =
                         $basketObj->getItemArrayFromRow(
                             $tax, // neu

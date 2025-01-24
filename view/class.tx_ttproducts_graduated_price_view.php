@@ -218,7 +218,7 @@ class tx_ttproducts_graduated_price_view extends tx_ttproducts_table_base_view
         foreach ($tagArray as $value => $k1) {
             $keyMarker = '###' . $value . '###';
             if (
-                strpos($value, $marker . '_') &&
+                strpos((string) $value, $marker . '_') &&
                 !$markerArray[$keyMarker] &&
                 $value != 'GRADPRICE_FORMULA_ITEMS'
             ) {

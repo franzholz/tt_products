@@ -292,7 +292,7 @@ class tx_ttproducts_db implements SingletonInterface
                                 '1'
                             );
                             $taxInfoArray = [];
-                            $tax = 0.0;
+                            $tax = floatval(0);
 
                             $itemArray =
                             $basketObj->getItemArrayFromRow(

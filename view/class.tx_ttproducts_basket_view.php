@@ -1148,11 +1148,11 @@ class tx_ttproducts_basket_view implements SingletonInterface
                     foreach ($viewTaxTagArray as $theTag => $v1) {
                         if (!isset($markerArray['###' . $theTag . '###'])) {
                             foreach ($priceCalcMarkerArray as $markerKey => $value) {
-                                if (strpos($theTag, $markerKey) !== false) {
+                                if (strpos((string) $theTag, $markerKey) !== false) {
                                     $markerArray['###' . $theTag . '###'] = '';
                                 }
                             }
-                            if (strpos($theTag, 'STATICTAX_') === 0) {
+                            if (strpos((string) $theTag, 'STATICTAX_') === 0) {
                                 $markerArray['###' . $theTag . '###'] = '';
                             }
                         }

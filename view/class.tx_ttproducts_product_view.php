@@ -324,14 +324,14 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view
                         $markerKey = $pageMarkerKey . '_' . $countArray[$cType] . '_' . strtoupper($cType);
 
                         foreach ($tagArray as $index => $v) {
-                            $pageFoundPos = strpos($index, $pageMarkerKey);
+                            $pageFoundPos = strpos((string) $index, $pageMarkerKey);
                             if ($pageFoundPos == 0 && $pageFoundPos !== false) {
                                 $fieldName = str_replace($pageMarkerKey . '_', '', $index);
                                 if (isset($pageRow[$fieldName])) {
                                     $markerArray['###' . $index . '###'] = $pageRow[$fieldName];
                                 }
                             }
-                            if (strpos($index, $markerKey) === false) {
+                            if (strpos((string) $index, $markerKey) === false) {
                                 continue 1;
                             }
                             $fieldPos = strrpos($index, '_');
@@ -360,7 +360,7 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view
             }
 
             foreach ($tagArray as $key => $val) {
-                if (strpos($key, 'PRODUCT_NOTE_UID') !== false) {
+                if (strpos((string) $key, 'PRODUCT_NOTE_UID') !== false) {
                     if (!isset($markerArray['###' . $key . '###'])) {
                         $markerArray['###' . $key . '###'] = '';
                     }

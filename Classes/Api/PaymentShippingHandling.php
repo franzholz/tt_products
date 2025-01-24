@@ -384,7 +384,7 @@ class PaymentShippingHandling
             $basketExtra
         );
 
-        $markerArray['###SHIPPING_WEIGHT###'] = floatval(($calculatedArray['weight']);
+        $markerArray['###SHIPPING_WEIGHT###'] = floatval($calculatedArray['weight']);
         $markerArray['###DELIVERYCOSTS###'] = $priceViewObj->priceFormat(self::getDeliveryCosts($calculatedArray));
 
         if (isset($basketExtra['handling.'])) {
@@ -2029,7 +2029,7 @@ class PaymentShippingHandling
             $k = intval($valueArray[0]);
         } else {
             foreach ($confArray as $confKey => $confValue) {
-                if (strpos($confKey, '.') == strlen($confKey) - 1) {
+                if (strpos((string) $confKey, '.') == strlen($confKey) - 1) {
                     $currentKey = substr($confKey, 0, strlen($confKey) - 1);
 
                     if (

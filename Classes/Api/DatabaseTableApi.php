@@ -58,7 +58,7 @@ class DatabaseTableApi
             $orderNumberPrefix = substr($orderNumberPrefix, 0, 30);
             if (
                 strlen($orderNumberPrefix) > 1 &&
-                ($position = strpos($orderNumberPrefix, '%')) !== false
+                ($position = strpos((string) $orderNumberPrefix, '%')) !== false
             ) {
                 $orderDate = date(substr($orderNumberPrefix, $position + 1));
                 $orderNumberPrefix = substr($orderNumberPrefix, 0, $position) . $orderDate;

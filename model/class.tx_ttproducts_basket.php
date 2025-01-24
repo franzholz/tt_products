@@ -78,7 +78,7 @@ class tx_ttproducts_basket implements SingletonInterface
         $updateMode,
         $bStoreBasket
     ): bool {
-        $this->setMaxTax(0.0);
+        $this->setMaxTax(floatval(0));
 
         $formerBasket = tx_ttproducts_control_basket::getRecs();
         $pibaseObj = GeneralUtility::makeInstance('' . $pibaseClass);
@@ -124,7 +124,7 @@ class tx_ttproducts_basket implements SingletonInterface
         if (isset($basketInputConf) && is_array($basketInputConf)) {
             foreach ($basketInputConf as $lineNo => $inputConf) {
                 if (
-                    strpos($lineNo, '.') !== false &&
+                    strpos((string) $lineNo, '.') !== false &&
                     $inputConf['type'] == 'radio' &&
                     $inputConf['where'] &&
                     !empty($inputConf['name'])
@@ -483,7 +483,7 @@ class tx_ttproducts_basket implements SingletonInterface
         $result = false;
         if (!empty($basketConf)) {
             foreach ($basketConf as $lineNo => $inputConf) {
-                if (strpos($lineNo, '.') !== false) {
+                if (strpos((string) $lineNo, '.') !== false) {
                     $bIsValid = tx_ttproducts_sql::isValid($row, $inputConf['where']);
                     if ($bIsValid && $inputConf['type'] == 'radio') {
                         $result = $inputConf;

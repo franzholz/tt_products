@@ -220,7 +220,7 @@ class tx_ttproducts_field_tax extends tx_ttproducts_field_base
             $taxResult = $staticTaxObj->getTaxInfo(
                 $taxInfoArray,
                 $shopCountryArray,
-                0.0,
+                floatval(0),
                 $uidArray,
                 $basketRecs
             );
