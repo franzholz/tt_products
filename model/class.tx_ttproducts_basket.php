@@ -1713,7 +1713,7 @@ class tx_ttproducts_basket implements SingletonInterface
             $basketRecs,
             tx_ttproducts_control_basket::getFuncTablename(),
             $useArticles,
-            floatval(($tax) > $this->getMaxTax() ? floatval(($tax) : $this->getMaxTax(),
+            floatval($tax) > $this->getMaxTax() ? floatval($tax) : $this->getMaxTax(),
             tx_ttproducts_control_basket::getRoundFormat(),
             $recalculateItems
         );

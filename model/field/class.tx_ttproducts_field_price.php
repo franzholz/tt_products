@@ -281,7 +281,7 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base
         if (
             $bEnableTaxZero &&
             isset($row['tax']) &&
-            floatval(($row['tax']) == '0.0'
+            floatval($row['tax']) == '0.0'
         ) {
             $taxpercentage = floatval(0);
             $bIsZeroTax = true;
@@ -529,7 +529,7 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base
                 if (
                     $bEnableTaxZero &&
                     isset($row['tax']) &&
-                    floatval(($row['tax']) == '0.0'
+                    floatval($row['tax']) == '0.0'
                 ) {
                     $bIsZeroTax = true;
                     $taxpercentage = floatval(0);

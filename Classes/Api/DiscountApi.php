@@ -54,9 +54,9 @@ class DiscountApi
         if (!empty($feGroupRows)) {
             foreach ($feGroupRows as $feGroupRow) {
                 if (
-                    floatval(($feGroupRow[static::$fegroupDiscountField])
+                    floatval($feGroupRow[static::$fegroupDiscountField])
                 ) {
-                    $discountArray[] = floatval(($feGroupRow[static::$fegroupDiscountField]);
+                    $discountArray[] = floatval($feGroupRow[static::$fegroupDiscountField]);
                 }
             }
         }
@@ -65,9 +65,9 @@ class DiscountApi
             isset($feUserRecord) &&
             !empty($feUserRecord['username']) &&
 
-            floatval(($feUserRecord[static::$feuserDiscountField])
+            floatval($feUserRecord[static::$feuserDiscountField])
         ) {
-            $discountArray[] = floatval(($feUserRecord[static::$feuserDiscountField]);
+            $discountArray[] = floatval($feUserRecord[static::$feuserDiscountField]);
         }
 
         return $discountArray;

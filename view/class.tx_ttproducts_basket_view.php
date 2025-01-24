@@ -224,8 +224,8 @@ class tx_ttproducts_basket_view implements SingletonInterface
                     isset($value) &&
                     isset($basketConfArray[$boundaryType]['collect']) &&
                     (
-                        ($boundaryType == 'minimum' && $value < floatval(($basketConfArray[$boundaryType]['value'])) ||
-                        ($boundaryType == 'maximum' && $value > floatval(($basketConfArray[$boundaryType]['value']))
+                        ($boundaryType == 'minimum' && $value < floatval($basketConfArray[$boundaryType]['value'])) ||
+                        ($boundaryType == 'maximum' && $value > floatval($basketConfArray[$boundaryType]['value']))
                     )
                 ) {
                     $subpartArray['###MESSAGE_' . $markerKey . '###'] = '';
