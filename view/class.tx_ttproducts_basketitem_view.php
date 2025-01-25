@@ -44,6 +44,7 @@ use JambageCom\Div2007\Utility\FrontendUtility;
 use JambageCom\TtProducts\Api\BasketApi;
 use JambageCom\TtProducts\Api\Localization;
 use JambageCom\TtProducts\Api\ParameterApi;
+use JambageCom\TtProducts\Api\VariantApi;
 
 
 class tx_ttproducts_basketitem_view implements SingletonInterface
@@ -74,7 +75,7 @@ class tx_ttproducts_basketitem_view implements SingletonInterface
                 $piVar = $parameterApi->getPiVar($parentFuncTablename);
                 if ($piVar !== false) {
                     $externalQuantity = $piVar . '=' . intval($parentRow['uid']) .
-                        tx_ttproducts_variant_int::EXTERNAL_QUANTITY_SEPARATOR;
+                        VariantApi::EXTERNAL_QUANTITY_SEPARATOR;
                 }
             }
 

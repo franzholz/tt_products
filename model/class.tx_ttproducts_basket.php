@@ -46,6 +46,7 @@ use TYPO3\CMS\Core\Utility\MathUtility;
 use JambageCom\TtProducts\Api\BasketApi;
 use JambageCom\TtProducts\Api\ParameterApi;
 use JambageCom\TtProducts\Api\PriceApi;
+use JambageCom\TtProducts\Api\VariantApi;
 use JambageCom\TtProducts\Model\Field\FieldInterface;
 
 class tx_ttproducts_basket implements SingletonInterface
@@ -1236,7 +1237,7 @@ class tx_ttproducts_basket implements SingletonInterface
                 $editVariant = str_replace('editVariant:', '', $bextVar);
                 $variantArray =
                     preg_split(
-                        '/[\h]*' . tx_ttproducts_variant_int::INTERNAL_VARIANT_SEPARATOR . '[\h]*/',
+                        '/[\h]*' . VariantApi::INTERNAL_VARIANT_SEPARATOR . '[\h]*/',
                         $editVariant,
                         -1,
                         PREG_SPLIT_NO_EMPTY
@@ -1259,7 +1260,7 @@ class tx_ttproducts_basket implements SingletonInterface
 
             if (($pos = strpos($bextVar, 'records:')) === 0) {
                 $recordVariant = substr($bextVar, $pos + strlen('records:'));
-                $variantArray = explode(tx_ttproducts_variant_int::EXTERNAL_QUANTITY_SEPARATOR, $recordVariant);
+                $variantArray = explode(VariantApi::EXTERNAL_QUANTITY_SEPARATOR, $recordVariant);
                 $recordVariantRow = [];
                 foreach ($variantArray as $variant) {
                     $parts = explode('=', $variant);

@@ -50,6 +50,8 @@ use JambageCom\TtProducts\Api\BasketApi;
 use JambageCom\TtProducts\Api\Localization;
 use JambageCom\TtProducts\Api\PaymentApi;
 use JambageCom\TtProducts\Api\PaymentShippingHandling;
+use JambageCom\TtProducts\Api\VariantApi;
+
 
 class tx_ttproducts_order extends tx_ttproducts_table_base
 {
@@ -964,14 +966,14 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
         ) {
             $source = 'dl=';
             if ($downloadUid) {
-                $source .= $downloadUid . tx_ttproducts_variant_int::EXTERNAL_QUANTITY_SEPARATOR;
+                $source .= $downloadUid . VariantApi::EXTERNAL_QUANTITY_SEPARATOR;
             }
             $position = strpos((string) $orderRow['fal_variants'], $source);
 
             if ($position === 0) {
-                $positionFal = strpos((string) $orderRow['fal_variants'], tx_ttproducts_variant_int::EXTERNAL_QUANTITY_SEPARATOR . 'fal=');
+                $positionFal = strpos((string) $orderRow['fal_variants'], VariantApi::EXTERNAL_QUANTITY_SEPARATOR . 'fal=');
                 $orderedDownloadUid = substr($orderRow['fal_variants'], strlen($source), $positionFal - strlen($source));
-                $falUid = substr($orderRow['fal_variants'], $positionFal + strlen(tx_ttproducts_variant_int::EXTERNAL_QUANTITY_SEPARATOR . 'fal='));
+                $falUid = substr($orderRow['fal_variants'], $positionFal + strlen(VariantApi::EXTERNAL_QUANTITY_SEPARATOR . 'fal='));
                 $result = $falUid;
             }
         }
@@ -1201,8 +1203,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
                     $productRow,
                     $row['edit_variants'],
                     $variantSeparator,
-                    'edit' . tx_ttproducts_variant::$externalTableSeparator
-                );
+                    'edit' . VariantApi::EXTERNAL_QUANTITY_SEPARATOR
             }
 
             if (!empty($row['variants'])) {

@@ -195,7 +195,7 @@ class BasketApi implements SingletonInterface
                     }
 
                     if ($externalUid) {
-                        $variant .= \tx_ttproducts_variant_int::EXTERNAL_RECORD_SEPARATOR
+                        $variant .= VariantApi::EXTERNAL_RECORD_SEPARATOR
                         /* '|records: */ . 'dl=' . $externalUid;
                     }
                     $externalUidArray[$tablename] = $externalUid;
@@ -213,7 +213,7 @@ class BasketApi implements SingletonInterface
                         isset($externalUidArray['tt_products_downloads']) &&
                         $externalUidArray['tt_products_downloads'] > 0
                     ) {
-                        $variant .= \tx_ttproducts_variant_int::EXTERNAL_QUANTITY_SEPARATOR . 'fal=' . $externalRow['uid'];
+                        $variant .= VariantApi::EXTERNAL_QUANTITY_SEPARATOR . 'fal=' . $externalRow['uid'];
                     }
                     $externalUidArray[$tablename] = $externalRow['uid'];
                     break;

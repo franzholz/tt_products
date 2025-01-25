@@ -50,6 +50,8 @@ note: the price calculation shall not been implemented because it does not make 
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+use JambageCom\TtProducts\Api\VariantApi;
+
 class tx_ttproducts_edit_variant implements SingletonInterface
 {
     protected $itemTable;
@@ -104,7 +106,7 @@ class tx_ttproducts_edit_variant implements SingletonInterface
                 $variantArray[] = $field . '=>' . $value;
             }
         }
-        $result = implode(tx_ttproducts_variant_int::INTERNAL_VARIANT_SEPARATOR, $variantArray);
+        $result = implode(VariantApi::INTERNAL_VARIANT_SEPARATOR, $variantArray);
 
         return $result;
     }

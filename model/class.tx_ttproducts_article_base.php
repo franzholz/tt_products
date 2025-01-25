@@ -35,9 +35,11 @@
  *
  *
  */
-use JambageCom\TtProducts\Api\PriceApi;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
+
+use JambageCom\TtProducts\Api\PriceApi;
+use JambageCom\TtProducts\Api\VariantApi;
 
 abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base
 {
@@ -68,7 +70,7 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base
             $conf = $cnf->getConf();
 
             if ($type == 'product') {
-                $this->variant = GeneralUtility::makeInstance('tx_ttproducts_variant');
+                $this->variant = GeneralUtility::makeInstance(VariantApi::class);
                 $this->variant->init($this, $tablename, $useArticles);
                 $this->editVariant = GeneralUtility::makeInstance('tx_ttproducts_edit_variant');
                 $this->editVariant->init($this);
