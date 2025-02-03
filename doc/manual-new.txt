@@ -221,7 +221,7 @@ Edit Variant:
 
 
 
-Für widht und height hat es zuletzt damit funktioniert:
+Für width und height hat es zuletzt damit funktioniert:
 
 plugin.tt_products {
 

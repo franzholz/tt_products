@@ -56,16 +56,6 @@ abstract class tx_ttproducts_article_base_view extends tx_ttproducts_table_base_
         $result = parent::init($modelObj);
 
         if ($result) {
-            if (!isset($this->variant)) {
-                $this->variant = GeneralUtility::makeInstance('tx_ttproducts_variant_dummy_view');
-            }
-            if (!isset($this->editVariant)) {
-                $this->editVariant = GeneralUtility::makeInstance('tx_ttproducts_edit_variant_dummy_view');
-            }
-
-            $this->variant->init($modelObj->variant);
-            $this->editVariant->init($modelObj->editVariant);
-
             $type = $modelObj->getType();
             if (
                 $type == 'product' ||
@@ -90,16 +80,6 @@ abstract class tx_ttproducts_article_base_view extends tx_ttproducts_table_base_
     public function getGraduatedPriceObject()
     {
         return $this->graduatedPriceObject;
-    }
-
-    public function getEditVariant()
-    {
-        return $this->editVariant;
-    }
-
-    public function getVariant()
-    {
-        return $this->variant;
     }
 
     public function getItemMarkerSubpartArrays(

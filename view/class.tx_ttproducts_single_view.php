@@ -45,6 +45,7 @@ use JambageCom\Div2007\Utility\MarkerUtility;
 
 use JambageCom\TtProducts\Api\BasketApi;
 use JambageCom\TtProducts\Api\ControlApi;
+use JambageCom\TtProducts\Api\EditVariantApi;
 use JambageCom\TtProducts\Api\FeUserMarkerApi;
 use JambageCom\TtProducts\Api\Localization;
 use JambageCom\TtProducts\Api\ParameterApi;
@@ -121,12 +122,14 @@ class tx_ttproducts_single_view implements SingletonInterface
         $urlObj = GeneralUtility::makeInstance('tx_ttproducts_url_view');
         $cObj = ControlApi::getCObj();
         $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
+        $editVariantApi = null;
         $variantApi = null;
 
         if ($this->type == 'product' || $this->type == 'article') {
             $variantApi = GeneralUtility::makeInstance(VariantApi::class);
+            $editVariantApi = GeneralUtility::makeInstance(EditVariantApi::class);
         }
-
+        $useArticles = $this->useArticles;
         $piVars = $parameterApi->getPiVars();
         $conf = $cnf->getConf();
         $externalRowArray = [];
@@ -206,9 +209,10 @@ class tx_ttproducts_single_view implements SingletonInterface
             // TODO: $itemImageFields[$this->type] = $cnf->getImageFields($itemTableConf[$this->type]);
 
             if ($this->type == 'product' || $this->type == 'dam') {
-                if ($this->variants) {
-                    $itemTableArray[$this->type]->getVariant()->modifyRowFromVariant(
+                if ($this->variants && is_object($variantApi)) {
+                    $variantApi->modifyRowFromVariant(
                         $rowArray[$this->type],
+                        $useArticles,
                         $this->variants
                     );
                 }
@@ -253,7 +257,6 @@ class tx_ttproducts_single_view implements SingletonInterface
             // $this->uid = intval ($row['uid']); // store the uid for later usage here
 
             $itemTableArray['product']->getTableObj()->transformRow($row, TT_PRODUCTS_EXT);
-            $useArticles = $itemTableArray['product']->getVariant()->getUseArticles();
 
             if ($useArticles == 3) {
                 $itemTableArray['product']->fillVariantsFromArticles($row);
@@ -972,12 +975,12 @@ class tx_ttproducts_single_view implements SingletonInterface
 
                 if ($this->type == 'product' || $this->type == 'article') {
                     $basketItemView = GeneralUtility::makeInstance('tx_ttproducts_basketitem_view');
-                    $editConfig = $itemTableArray[$this->type]->editVariant->getValidConfig($prodVariantRow);
+                    $editConfig = $editVariantApi->getValidConfig($prodVariantRow);
                     $validEditVariant = true;
 
                     if (is_array($editConfig)) {
                         $validEditVariant =
-                            $itemTableArray[$this->type]->editVariant->checkValid(
+                            $editVariantApi->checkValid(
                                 $editConfig,
                                 $prodVariantRow
                             );
@@ -989,7 +992,7 @@ class tx_ttproducts_single_view implements SingletonInterface
                             is_array($validEditVariant)
                         );
                     $variantValuesRow =
-                        $itemTableArray['product']->getVariant()->getVariantValuesRow(
+                        $variantApi->getVariantValuesRow(
                             $prodRow,
                             []
                         );
@@ -1326,7 +1329,7 @@ class tx_ttproducts_single_view implements SingletonInterface
                 $GLOBALS['TYPO3_DB']->sql_free_result($resnext);
 
                 if ($this->type == 'product') {
-                    $itemTableViewArray[$this->type]->getVariant()->removeEmptyMarkerSubpartArray(
+                    $variantApi->removeEmptyMarkerSubpartArray(
                         $markerArray,
                         $subpartArray,
                         $wrappedSubpartArray,

@@ -45,6 +45,7 @@ use JambageCom\Div2007\Utility\SystemCategoryUtility;
 use JambageCom\Div2007\Utility\TableUtility;
 
 use JambageCom\TtProducts\Api\ParameterApi;
+use JambageCom\TtProducts\Api\VariantApi;
 use JambageCom\TtProducts\Model\Field\FieldInterface;
 
 
@@ -144,15 +145,15 @@ class tx_ttproducts_product extends tx_ttproducts_article_base
         $articleObj = $tablesObj->get('tt_products_articles');
 
         if (is_array($articleRowArray) && count($articleRowArray)) {
-            // $articleObj->sortArticleRowsByUidArray($row['uid'],$articleRowArray);
+            $variantApi = GeneralUtility::makeInstance(VariantApi::class);
             $variantRow =
-                $this->variant->getVariantValuesByArticle(
+                $variantApi->getVariantValuesByArticle(
                     $articleRowArray,
                     $row,
                     true
                 );
             $selectableFieldArray =
-                $this->variant->getSelectableFieldArray();
+                $variantApi->getSelectableFieldArray();
 
             foreach ($selectableFieldArray as $field) {
                 if (
@@ -171,11 +172,12 @@ class tx_ttproducts_product extends tx_ttproducts_article_base
         $theCode,
         $variant
     ) {
+        $variantApi = GeneralUtility::makeInstance(VariantApi::class);
         $articleRowArray = $this->getArticleRows(intval($row['uid']));
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $articleObj = $tablesObj->get('tt_products_articles');
 
-        $result = $this->variant->filterArticleRowsByVariant($row, $variant, $articleRowArray, true);
+        $result = $variantApi->filterArticleRowsByVariant($row, $variant, $articleRowArray, true);
 
         return $result;
     }
@@ -185,15 +187,15 @@ class tx_ttproducts_product extends tx_ttproducts_article_base
         $articleRows
     ) {
         $fieldArray = [];
+        $variantApi = GeneralUtility::makeInstance(VariantApi::class);
+        $variantSeparator = $variantApi->getSplitSeparator();
+        $variantConf = $variantApi->getVariantConf();
 
-        $variant = $this->getVariant();
-        $variantSeparator = $variant->getSplitSeparator();
-
-        foreach ($variant->conf as $k => $field) {
+        foreach ($variantConf as $k => $field) {
             if (
                 isset($productRow[$field]) &&
                 strlen($productRow[$field]) &&
-                $field != $variant->additionalField
+                $field != $variantApi->getAdditionalField()
             ) {
                 // 			[\h]+
                 $fieldArray[$field] =
@@ -276,13 +278,14 @@ class tx_ttproducts_product extends tx_ttproducts_article_base
         $bUsePreset = true
     ) {
         $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
-        $fieldArray = $this->variant->getSelectableFieldArray();
         $useArticles = $cnfObj->getUseArticles();
         $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
+        $variantApi = GeneralUtility::makeInstance(VariantApi::class);
+        $fieldArray = $variantApi->getSelectableFieldArray();
 
         $articleNo = false;
         $articleRow = [];
-        $variantSeparator = $this->getVariant()->getSeparator();
+        $variantSeparator = $variantApi->getSeparator();
         $regexpDelimiter = $parameterApi->determineRegExpDelimiter($variantSeparator);
 
         if ($bUsePreset) {
@@ -302,9 +305,9 @@ class tx_ttproducts_product extends tx_ttproducts_article_base
 
         if ($articleNo === false) {
             if (empty($presetVariantArray)) {
-                $currentRow = $this->getVariant()->getVariantRow($row);
+                $currentRow = $variantApi->getVariantRow($row);
             } else {
-                $currentRow = $this->getVariant()->getVariantRow($row, $presetVariantArray);
+                $currentRow = $variantApi->getVariantRow($row, $presetVariantArray);
             }
         } else {
             $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
@@ -312,7 +315,7 @@ class tx_ttproducts_product extends tx_ttproducts_article_base
 
             $articleRow = $articleObj->get($articleNo);
             $variantRow =
-                $this->getVariant()->getVariantValuesByArticle(
+                $variantApi->getVariantValuesByArticle(
                     [$articleRow],
                     $row,
                     true

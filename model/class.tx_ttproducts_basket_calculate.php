@@ -35,12 +35,15 @@
  *
  *
  */
+
+use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Utility\GeneralUtility;
+
 use JambageCom\TtProducts\Api\CustomerApi;
 use JambageCom\TtProducts\Api\PaymentApi;
 use JambageCom\TtProducts\Api\PaymentShippingHandling;
 use JambageCom\TtProducts\Model\Field\FieldInterface;
-use TYPO3\CMS\Core\SingletonInterface;
-use TYPO3\CMS\Core\Utility\GeneralUtility;
+use JambageCom\TtProducts\Api\VariantApi;
 
 class tx_ttproducts_basket_calculate implements SingletonInterface
 {
@@ -201,6 +204,7 @@ class tx_ttproducts_basket_calculate implements SingletonInterface
         $bEnableTaxZero = false;
         $calculationField = FieldInterface::PRICE_CALCULATED;
         $calculationAdditionField = FieldInterface::PRICE_CALCULATED_ADDITION;
+        $variantApi = GeneralUtility::makeInstance(VariantApi::class);
 
         $iso3Seller = PaymentApi::getStoreIso3('DEU');
         $iso3Buyer = CustomerApi::getBillingIso3('DEU');
@@ -612,7 +616,7 @@ class tx_ttproducts_basket_calculate implements SingletonInterface
                 foreach ($actItemArray as $k1 => $actItem) {	// TODO: remove this because it has been moved to the shipping configuration
                     $row = $actItem['rec'];
                     if (!empty($row['bulkily'])) {
-                        $value = floatval($this->conf['bulkilyAddition']) * $basketExt[$row['uid']][$viewTableObj->getVariant()->getVariantFromRow($row)];
+                        $value = floatval($this->conf['bulkilyAddition']) * $basketExt[$row['uid']][$variantApi->getVariantFromRow($row)];
                         $tax = ($bulkilyFeeTax != 0 ? $bulkilyFeeTax : $shippingTax);
                         $taxRow['tax'] = floatval($tax);
                         $calculatedArray['shipping']['priceTax'] +=

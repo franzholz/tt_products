@@ -38,9 +38,9 @@
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+use JambageCom\TtProducts\Api\EditVariantApi;
 use JambageCom\TtProducts\Api\ParameterApi;
 use JambageCom\TtProducts\Api\VariantApi;
-use JambageCom\TtProducts\Api\EditVariantApi;
 
 class tx_ttproducts_control_product
 {
@@ -50,6 +50,8 @@ class tx_ttproducts_control_product
         $useArticles
     ) {
         $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
+        $variantApi = GeneralUtility::makeInstance(VariantApi::class);
+
         $uid = $row['uid'];
         $funcTablename = $itemTable->getFuncTablename();
 
@@ -76,7 +78,7 @@ class tx_ttproducts_control_product
         ) {
             $variantRow = $storedRecs[$funcTablename][$uid];
             $variant =
-                $itemTable->variant->getVariantFromProductRow(
+                $variantApi->getVariantFromProductRow(
                     $row,
                     $variantRow,
                     $useArticles,
@@ -104,10 +106,12 @@ class tx_ttproducts_control_product
         $funcTablename
     ): void {
         if (ExtensionManagementUtility::isLoaded('taxajax')) {
+            $variantApi = GeneralUtility::makeInstance(VariantApi::class);
+            $editVariantApi = GeneralUtility::makeInstance(EditVariantApi::class);
             $itemTable = $tablesObj->get($funcTablename, false);
 
-            $selectableVariantFieldArray = $itemTable->variant->getSelectableFieldArray();
-            $editFieldArray = $itemTable->editVariant->getFieldArray();
+            $selectableVariantFieldArray = $variantApi->getSelectableFieldArray();
+            $editFieldArray = $editVariantApi->getFieldArray();
             $fieldArray = [];
 
             if (

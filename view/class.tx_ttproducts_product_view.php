@@ -50,17 +50,6 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view
     public $articleArray = [];
     public $datafield;
 
-    public function init(
-        $modelObj
-    ): bool {
-        $this->variant = GeneralUtility::makeInstance('tx_ttproducts_variant_view');
-        $this->editVariant = GeneralUtility::makeInstance('tx_ttproducts_edit_variant_view');
-
-        $result = parent::init($modelObj);
-
-        return $result;
-    }
-
     public function getItemMarkerSubpartArrays(
         $templateCode,
         $funcTablename,

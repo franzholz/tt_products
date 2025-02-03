@@ -94,7 +94,6 @@ class tx_ttproducts_article extends tx_ttproducts_article_base
             $finalOrderBy = '';
         }
         $res = $this->getTableObj()->exec_SELECTquery('*', $finalWhere, '', $finalOrderBy, '', $fromJoin);
-        // 		$variantFieldArray = $this->variant->getFieldArray();
 
         while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
             $uid = intval($row['uid']);

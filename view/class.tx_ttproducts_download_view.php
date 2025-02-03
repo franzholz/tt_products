@@ -44,6 +44,7 @@ use JambageCom\Div2007\Utility\FrontendUtility;
 
 use JambageCom\TtProducts\Api\Localization;
 use JambageCom\TtProducts\Api\ParameterApi;
+use JambageCom\TtProducts\Api\VariantApi;
 
 class tx_ttproducts_download_view extends tx_ttproducts_article_base_view
 {
@@ -88,10 +89,11 @@ class tx_ttproducts_download_view extends tx_ttproducts_article_base_view
         $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $funcTablename = 'tt_products';
+        $variantApi = GeneralUtility::makeInstance(VariantApi::class);
         $itemTableView = $tablesObj->get($funcTablename, true);
         $itemTable = $itemTableView->getModelObj();
         $orderObj = $tablesObj->get('sys_products_orders');
-        $variantSeparator = $itemTable->getVariant()->getSplitSeparator();
+        $variantSeparator = $variantApi->getSplitSeparator();
         $t = [];
 
         if (isset($tagArray['DOWNLOAD_SINGLE'])) {
