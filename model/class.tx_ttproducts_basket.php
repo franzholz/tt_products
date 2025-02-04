@@ -396,8 +396,6 @@ class tx_ttproducts_basket implements SingletonInterface
 
     public function getAllVariants($funcTablename, $row, $variantRow)
     {
-        //     debug ($funcTablename, 'getAllVariants $funcTablename');
-        //     debug ($row, 'getAllVariants $row');
         $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
         $useArticles = $cnfObj->getUseArticles();
         $variantApi = GeneralUtility::makeInstance(VariantApi::class);
@@ -406,14 +404,9 @@ class tx_ttproducts_basket implements SingletonInterface
         $itemTable = $tablesObj->get($funcTablename);
 
         $variant = $variantApi->getVariantFromProductRow($row, $variantRow, $useArticles);
-        //     debug ($variant, 'getAllVariants $variant');
-
         $editVariant = $editVariantApi->getVariantFromRawRow($row);
-        // debug ($editVariant, 'getAllVariants $editVariant');
-
         $allVariants = $variant . ($editVariant != '' ? '|editVariant:' . $editVariant : '');
 
-        // debug ($allVariants, 'getAllVariants $allVariants');
         return $allVariants;
     }
 

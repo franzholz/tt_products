@@ -1334,7 +1334,7 @@ class tx_ttproducts_single_view implements SingletonInterface
                         $subpartArray,
                         $wrappedSubpartArray,
                         $row,
-                        $this->conf,
+                        // $this->conf,
                         $itemTableArray[$this->type]->hasAdditional($row, 'isSingle'),
                         !$itemTableArray[$this->type]->hasAdditional($row, 'noGiftService')
                     );

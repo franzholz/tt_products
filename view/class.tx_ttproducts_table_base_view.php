@@ -300,7 +300,6 @@ abstract class tx_ttproducts_table_base_view implements SingletonInterface
 
                                 if (isset($row[$field]) && $comparator != '') {
                                     $evalString = "return $row[$field]$comparator$fieldCondition[1];";
-
                                     $bCondition = eval($evalString);
                                 }
                             }
