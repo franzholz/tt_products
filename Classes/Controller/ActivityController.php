@@ -46,7 +46,6 @@ use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
 use JambageCom\Div2007\Utility\FrontendUtility;
 use JambageCom\Div2007\Utility\HtmlUtility;
@@ -61,9 +60,9 @@ use JambageCom\TtProducts\Api\ControlApi;
 use JambageCom\TtProducts\Api\Localization;
 use JambageCom\TtProducts\Api\BasketApi;
 use JambageCom\TtProducts\Api\FeUserMarkerApi;
-use JambageCom\TtProducts\Api\ParameterApi;
 use JambageCom\TtProducts\Api\CustomerApi;
 use JambageCom\TtProducts\Api\ActivityApi;
+use JambageCom\TtProducts\Api\ParameterApi;
 use JambageCom\TtProducts\Api\PaymentGatewayApi;
 use JambageCom\TtProducts\Api\PaymentShippingHandling;
 
@@ -167,6 +166,8 @@ class ActivityController implements SingletonInterface
             $basketViewObj = GeneralUtility::makeInstance('tx_ttproducts_basket_view');
             $infoViewObj = GeneralUtility::makeInstance('tx_ttproducts_info_view');
             $cObj = ControlApi::getCObj();
+            $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
+            $request = $parameterApi->getRequest();
             $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
             $conf = $cnf->getConf();
             $gateway = GeneralUtility::makeInstance(PaymentGatewayApi::class);
@@ -199,7 +200,7 @@ class ActivityController implements SingletonInterface
                     method_exists($callingClassName, 'includeHandleLib')
                 ) {
                     $languageObj = GeneralUtility::makeInstance(Localization::class);
-                    call_user_func($callingClassName . '::init', $languageObj, $cObj, $this->conf);
+                    call_user_func($callingClassName . '::init', $languageObj, $request, $this->conf);
                     $gatewayStatus = '';
                     $addQueryString = [];
                     $excludeList = '';
@@ -298,9 +299,6 @@ class ActivityController implements SingletonInterface
         $context = GeneralUtility::makeInstance(Context::class);
         $languageSubpath = '/Resources/Private/Language/';
         $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
-        $typo3VersionArray =
-        VersionNumberUtility::convertVersionStringToArray(VersionNumberUtility::getCurrentTypo3Version());
-        $typo3VersionMain = $typo3VersionArray['version_main'];
 
         if ($checkRequired || $checkAllowed) {
             $check = ($checkRequired ?: $checkAllowed);
@@ -323,12 +321,7 @@ class ActivityController implements SingletonInterface
                     $languageKey = 'missing_' . $check;
                 }
                 $label = $GLOBALS['TSFE']->sL('LLL:EXT:agency/pi/locallang.xml:' . $languageKey);
-                $editPID = 0;
-                if ($typo3VersionMain < 12) {
-                    $editPID = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_agency.']['editPID'] ?? 0;
-                } else {
-                    $editPID = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.'][TT_PRODUCTS_EXT . '.']['editPID'] ?? 0;;
-                }
+                $editPID = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.'][TT_PRODUCTS_EXT . '.']['editPID'] ?? 0;;
 
                 if ($context->getPropertyFromAspect('frontend.user', 'isLoggedIn') && $editPID) {
                     $addParams = ['products_payment' => 1];
@@ -363,12 +356,7 @@ class ActivityController implements SingletonInterface
                     $languageKey = 'missing_' . $check;
                 }
                 $label = $GLOBALS['TSFE']->sL('LLL:EXT:sr_feuser_register' . $languageSubpath . 'locallang.xlf:' . $languageKey);
-                $editPID = 0;
-                if ($typo3VersionMain < 12) {
-                    $editPID = $GLOBALS['TSFE']->tmpl->setup['plugin.']['tx_srfeuserregister_pi1.']['editPID'] ?? 0;
-                } else {
-                    $editPID = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.']['tx_srfeuserregister_pi1.']['editPID'] ?? 0;;
-                }
+                $editPID = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.']['tx_srfeuserregister_pi1.']['editPID'] ?? 0;;
 
                 if ($context->getPropertyFromAspect('frontend.user', 'isLoggedIn') && $editPID) {
                     $cObj = ControlApi::getCObj();

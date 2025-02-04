@@ -42,8 +42,10 @@ use TYPO3\CMS\Frontend\Resource\FilePathSanitizer;
 use JambageCom\Div2007\Utility\FrontendUtility;
 
 use JambageCom\TtProducts\Api\BasketApi;
+use JambageCom\TtProducts\Api\EditVariantApi;
 use JambageCom\TtProducts\Api\Localization;
 use JambageCom\TtProducts\Api\ParameterApi;
+use JambageCom\TtProducts\Api\VariantApi;
 
 
 class tx_ttproducts_basketitem_view implements SingletonInterface
@@ -74,7 +76,7 @@ class tx_ttproducts_basketitem_view implements SingletonInterface
                 $piVar = $parameterApi->getPiVar($parentFuncTablename);
                 if ($piVar !== false) {
                     $externalQuantity = $piVar . '=' . intval($parentRow['uid']) .
-                        tx_ttproducts_variant_int::EXTERNAL_QUANTITY_SEPARATOR;
+                        VariantApi::EXTERNAL_QUANTITY_SEPARATOR;
                 }
             }
 
@@ -109,6 +111,7 @@ class tx_ttproducts_basketitem_view implements SingletonInterface
     ): void {
         $productFuncTablename = 'tt_products';
         $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
+        $editVariantApi = GeneralUtility::makeInstance(EditVariantApi::class);
 
         if (isset($productRowArray) && is_array($productRowArray)) {
             foreach ($productRowArray as $productRow) {
@@ -123,7 +126,7 @@ class tx_ttproducts_basketitem_view implements SingletonInterface
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $viewTableView = $tablesObj->get($productFuncTablename, true);
         $urlObj = GeneralUtility::makeInstance('tx_ttproducts_url_view');
-        $viewTableView->editVariant->getSubpartMarkerArray(
+        $editVariantApi->getSubpartMarkerArray(
             $templateCode,
             $productFuncTablename,
             $row,
@@ -222,20 +225,21 @@ class tx_ttproducts_basketitem_view implements SingletonInterface
         $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
         $itemObj = GeneralUtility::makeInstance('tx_ttproducts_basketitem');
         $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
+        $variantApi = GeneralUtility::makeInstance(VariantApi::class);
 
         $conf = $cnfObj->getConf();
         $basketVar = $parameterApi->getBasketVar();
         $viewTableView = $tablesObj->get($productFuncTablename, true);
         $viewTable = $viewTableView->getModelObj();
-        $fieldArray = $viewTable->variant->getFieldArray();
-        $keyAdditional = $viewTable->variant->getAdditionalKey();
-        $selectableArray = $viewTable->variant->getSelectableArray();
+        $fieldArray = $variantApi->getFieldArray();
+        $keyAdditional = $variantApi->getAdditionalKey();
+        $selectableArray = $variantApi->getSelectableArray();
         $basketExt = $basketApi->getBasketExt();
 
         $bUseXHTML = empty($GLOBALS['TSFE']->config['config']['xhtmlDoctype']);
         $imageObj = GeneralUtility::makeInstance('tx_ttproducts_field_image_view');
+        $variantSeparator = $variantApi->getSplitSeparator();
 
-        $variantSeparator = $viewTable->getVariant()->getSplitSeparator();
         $row = $item['rec'];
         $uid = $row['uid'];
         $presetVariantArray =
@@ -296,7 +300,7 @@ class tx_ttproducts_basketitem_view implements SingletonInterface
                 isset($extArray['tt_products']) &&
                 is_array($extArray['tt_products'])
             ) {
-                $variant = $viewTable->variant->getVariantFromRow($row);
+                $variant = $variantApi->getVariantFromRow($row);
             } elseif (isset($extArray['tx_dam'])) {
                 $variant = $extArray['tx_dam'][0]['vars'];
             }
@@ -420,7 +424,7 @@ class tx_ttproducts_basketitem_view implements SingletonInterface
                     $imageFileArray = [];
 
                     if ($bSelect && $variantValue && $prodTmpRow[0]) {
-                        $selectConfKey = $viewTable->variant->getSelectConfKey($field);
+                        $selectConfKey = $variantApi->getSelectConfKey($field);
 
                         if (
                             is_array($formConf) &&
@@ -532,7 +536,7 @@ class tx_ttproducts_basketitem_view implements SingletonInterface
                         }
                     } else {
                         $prodTmpRow = $row;
-                        $viewTable->variant->modifyRowFromVariant($prodTmpRow, $variant);
+                        $variantApi->modifyRowFromVariant($prodTmpRow, $variant);
                         $text = $prodTmpRow[$field] ?? ''; // $prodTmpRow[0];
                     }
 
@@ -587,7 +591,7 @@ class tx_ttproducts_basketitem_view implements SingletonInterface
             }
 
             if (isset($damUid)) {
-                $tableVariant = $viewTable->variant->getTableUid('tx_dam', $damUid);
+                $tableVariant = $variantApi->getTableUid('tx_dam', $damUid);
                 $variant .= $tableVariant;
                 $markerArray['###DAM_UID###'] = $damUid;
             }

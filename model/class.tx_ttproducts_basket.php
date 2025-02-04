@@ -44,8 +44,10 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 
 use JambageCom\TtProducts\Api\BasketApi;
+use JambageCom\TtProducts\Api\EditVariantApi;
 use JambageCom\TtProducts\Api\ParameterApi;
 use JambageCom\TtProducts\Api\PriceApi;
+use JambageCom\TtProducts\Api\VariantApi;
 use JambageCom\TtProducts\Model\Field\FieldInterface;
 
 class tx_ttproducts_basket implements SingletonInterface
@@ -78,7 +80,7 @@ class tx_ttproducts_basket implements SingletonInterface
         $updateMode,
         $bStoreBasket
     ): bool {
-        $this->setMaxTax(0.0);
+        $this->setMaxTax(floatval(0));
 
         $formerBasket = tx_ttproducts_control_basket::getRecs();
         $pibaseObj = GeneralUtility::makeInstance('' . $pibaseClass);
@@ -124,7 +126,7 @@ class tx_ttproducts_basket implements SingletonInterface
         if (isset($basketInputConf) && is_array($basketInputConf)) {
             foreach ($basketInputConf as $lineNo => $inputConf) {
                 if (
-                    strpos($lineNo, '.') !== false &&
+                    strpos((string) $lineNo, '.') !== false &&
                     $inputConf['type'] == 'radio' &&
                     $inputConf['where'] &&
                     !empty($inputConf['name'])
@@ -395,13 +397,14 @@ class tx_ttproducts_basket implements SingletonInterface
     public function getAllVariants($funcTablename, $row, $variantRow)
     {
         $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
+        $useArticles = $cnfObj->getUseArticles();
+        $variantApi = GeneralUtility::makeInstance(VariantApi::class);
+        $editVariantApi = GeneralUtility::makeInstance(EditVariantApi::class);
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $itemTable = $tablesObj->get($funcTablename);
 
-        // 		$variant = $itemTable->variant->getVariantFromRawRow($row);
-        $variant = $itemTable->variant->getVariantFromProductRow($row, $variantRow, $cnfObj->getUseArticles());
-
-        $editVariant = $itemTable->editVariant->getVariantFromRawRow($row);
+        $variant = $variantApi->getVariantFromProductRow($row, $variantRow, $useArticles);
+        $editVariant = $editVariantApi->getVariantFromRawRow($row);
         $allVariants = $variant . ($editVariant != '' ? '|editVariant:' . $editVariant : '');
 
         return $allVariants;
@@ -412,17 +415,18 @@ class tx_ttproducts_basket implements SingletonInterface
         $funcTablename = tx_ttproducts_control_basket::getFuncTablename();
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $itemTable = $tablesObj->get($funcTablename);
+        $editVariantApi = GeneralUtility::makeInstance(EditVariantApi::class);
         $result = [];
         $itemArray = $this->getItemArray();
 
         foreach ($itemArray as $sort => $actItemArray) {
             foreach ($actItemArray as $k1 => $actItem) {
                 $row = $actItem['rec'];
-                $editConfig = $itemTable->editVariant->getValidConfig($row);
+                $editConfig = $editVariantApi->getValidConfig($row);
                 $validEditVariant = true;
 
                 if (is_array($editConfig)) {
-                    $validEditVariant = $itemTable->editVariant->checkValid($editConfig, $row);
+                    $validEditVariant = $editVariantApi->checkValid($editConfig, $row);
                 }
 
                 if ($validEditVariant !== true) {
@@ -483,7 +487,7 @@ class tx_ttproducts_basket implements SingletonInterface
         $result = false;
         if (!empty($basketConf)) {
             foreach ($basketConf as $lineNo => $inputConf) {
-                if (strpos($lineNo, '.') !== false) {
+                if (strpos((string) $lineNo, '.') !== false) {
                     $bIsValid = tx_ttproducts_sql::isValid($row, $inputConf['where']);
                     if ($bIsValid && $inputConf['type'] == 'radio') {
                         $result = $inputConf;
@@ -527,6 +531,10 @@ class tx_ttproducts_basket implements SingletonInterface
         $sameGiftData
     ): void {
         $priceObj = GeneralUtility::makeInstance('tx_ttproducts_field_price');
+        $variantApi = GeneralUtility::makeInstance(VariantApi::class);
+        $editVariantApi = GeneralUtility::makeInstance(EditVariantApi::class);
+        $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
+        $useArticles = $cnfObj->getUseArticles();
 
         // quantities for single values are stored in an array. This is necessary because a HTML checkbox does not send any values if it has been unchecked
         if (
@@ -604,15 +612,15 @@ class tx_ttproducts_basket implements SingletonInterface
                 return;
             }
 
-            $variant = $viewTableObj->variant->getVariantFromRawRow($item);
-            $editVariant = $viewTableObj->editVariant->getVariantFromRawRow($item);
+            $variant = $variantApi->getVariantFromRawRow($item, $useArticles);
+            $editVariant = $editVariantApi->getVariantFromRawRow($item);
             $allVariants =
                 $variant .
                     ($editVariant != '' ? '|editVariant:' . $editVariant : '') .
                     ($externalVariant != '' ? '|records:' . $externalVariant : '');
 
             if ($damUid) {
-                $tableVariant = $viewTableObj->variant->getTableUid('tx_dam', $damUid);
+                $tableVariant = $variantApi->getTableUid('tx_dam', $damUid);
                 $allVariants .= $tableVariant;
             }
             $oldcount = $basketExt[$uid][$allVariants] ?? 0;
@@ -891,6 +899,7 @@ class tx_ttproducts_basket implements SingletonInterface
         $externalRowArray = [], // für Download
         $enableTaxZero = false
     ) {
+        $variantApi = GeneralUtility::makeInstance(VariantApi::class);
         $basketApi = GeneralUtility::makeInstance(BasketApi::class);
         $calculationField = FieldInterface::PRICE_CALCULATED;
         $pricetablesCalculator = GeneralUtility::makeInstance('tx_ttproducts_pricetablescalc');
@@ -903,6 +912,7 @@ class tx_ttproducts_basket implements SingletonInterface
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
         $pricetablescalc = GeneralUtility::makeInstance('tx_ttproducts_pricetablescalc');
+        $useArticles = $cnfObj->getUseArticles();
 
         $priceRow = $row;
         $recordPrice = 0;
@@ -919,7 +929,7 @@ class tx_ttproducts_basket implements SingletonInterface
         $variant = '';
 
         if ($fetchMode == 'useExt') {
-            $variant = $viewTableObj->getVariant()->getVariantFromRow($row);
+            $variant = $variantApi->getVariantFromRow($row);
             $priceRow =
                 $viewTableObj->getRowFromExt(
                     $prodFuncTablename,
@@ -928,11 +938,11 @@ class tx_ttproducts_basket implements SingletonInterface
                     false
                 );
         } elseif ($fetchMode == 'rawRow') {
-            $variant = $viewTableObj->getVariant()->getVariantFromRawRow($row);
+            $variant = $variantApi->getVariantFromRawRow($row, $useArticles);
         } elseif ($fetchMode == 'firstVariant') {
-            $variantRow = $viewTableObj->getVariant()->getVariantRow($row, []);
+            $variantRow = $variantApi->getVariantRow($row, []);
             $variant =
-                $viewTableObj->getVariant()->getVariantFromProductRow(
+                $variantApi->getVariantFromProductRow(
                     $row,
                     $variantRow,
                     $cnfObj->getUseArticles()
@@ -970,7 +980,7 @@ class tx_ttproducts_basket implements SingletonInterface
             $firstDam = current($extArray['tx_dam']);
             $extUid = $firstDam['uid'];
             $tableVariant =
-                $viewTableObj->variant->getTableUid(
+                $variantApi->getTableUid(
                     'tx_dam',
                     $extUid
                 );
@@ -1193,7 +1203,8 @@ class tx_ttproducts_basket implements SingletonInterface
     ) {
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $viewTableObj = $tablesObj->get($funcTablename);
-        $variantSeparator = $viewTableObj->getVariant()->getSplitSeparator();
+        $variantApi = GeneralUtility::makeInstance(VariantApi::class);
+        $variantSeparator = $variantApi->getSplitSeparator();
         $basketApi = GeneralUtility::makeInstance(BasketApi::class);
         $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
 
@@ -1205,7 +1216,7 @@ class tx_ttproducts_basket implements SingletonInterface
         $currRow = $row;
 
         if ($useArticles != 3) {
-            $viewTableObj->variant->modifyRowFromVariant(
+            $variantApi->modifyRowFromVariant(
                 $currRow,
                 $bextVars
             );
@@ -1236,7 +1247,7 @@ class tx_ttproducts_basket implements SingletonInterface
                 $editVariant = str_replace('editVariant:', '', $bextVar);
                 $variantArray =
                     preg_split(
-                        '/[\h]*' . tx_ttproducts_variant_int::INTERNAL_VARIANT_SEPARATOR . '[\h]*/',
+                        '/[\h]*' . VariantApi::INTERNAL_VARIANT_SEPARATOR . '[\h]*/',
                         $editVariant,
                         -1,
                         PREG_SPLIT_NO_EMPTY
@@ -1259,7 +1270,7 @@ class tx_ttproducts_basket implements SingletonInterface
 
             if (($pos = strpos($bextVar, 'records:')) === 0) {
                 $recordVariant = substr($bextVar, $pos + strlen('records:'));
-                $variantArray = explode(tx_ttproducts_variant_int::EXTERNAL_QUANTITY_SEPARATOR, $recordVariant);
+                $variantArray = explode(VariantApi::EXTERNAL_QUANTITY_SEPARATOR, $recordVariant);
                 $recordVariantRow = [];
                 foreach ($variantArray as $variant) {
                     $parts = explode('=', $variant);
@@ -1332,7 +1343,7 @@ class tx_ttproducts_basket implements SingletonInterface
         }
 
         if ($useArticles == 3) {
-            $viewTableObj->variant->modifyRowFromVariant(
+            $variantApi->modifyRowFromVariant(
                 $currRow,
                 $bextVars
             );
@@ -1713,7 +1724,7 @@ class tx_ttproducts_basket implements SingletonInterface
             $basketRecs,
             tx_ttproducts_control_basket::getFuncTablename(),
             $useArticles,
-            floatval(($tax) > $this->getMaxTax() ? floatval(($tax) : $this->getMaxTax(),
+            floatval($tax) > $this->getMaxTax() ? floatval($tax) : $this->getMaxTax(),
             tx_ttproducts_control_basket::getRoundFormat(),
             $recalculateItems
         );

@@ -39,6 +39,7 @@
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 use JambageCom\TtProducts\Api\BasketApi;
+use JambageCom\TtProducts\Api\VariantApi;
 
 class tx_ttproducts_gifts_div
 {
@@ -101,6 +102,7 @@ class tx_ttproducts_gifts_div
         $rc = '';
 
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
+        $variantApi = GeneralUtility::makeInstance(VariantApi::class);
         $productObj = $tablesObj->get('tt_products');
         foreach ($giftBasket as $giftnumber => $rec) {
             $amount = 0;
@@ -108,7 +110,7 @@ class tx_ttproducts_gifts_div
                 $row = $productObj->get($productid);
                 $articleRows = $productObj->getArticleRows($productid);
                 foreach ($product as $variant => $count) {
-                    $productObj->variant->modifyRowFromVariant($row, $variant);
+                    $variantApi->modifyRowFromVariant($row, $variant);
                     $articleRow = $productObj->getArticleRow($row, $theCode);
                     if (count($articleRow)) {
                         $amount += intval($articleRow['price']) * $count;
@@ -139,12 +141,12 @@ class tx_ttproducts_gifts_div
             $newId = $GLOBALS['TYPO3_DB']->sql_insert_id();
             $insertFields = [];
             $insertFields['uid_local'] = $newId;
-            $variantFields = $productObj->variant->getFieldArray();
+            $variantFields = $variantApi->getFieldArray();
 
             foreach ($rec['item'] as $productid => $product) {
                 foreach ($product as $variant => $count) {
                     $row = [];
-                    $productObj->variant->modifyRowFromVariant($row, $variant);
+                    $variantApi->modifyRowFromVariant($row, $variant);
 
                     $query = 'uid_product=\'' . intval($productid) . '\'';
                     foreach ($variantFields as $k => $field) {
@@ -253,7 +255,7 @@ class tx_ttproducts_gifts_div
             isset($giftConf) &&
             is_array($giftConf) &&
             isset($giftConf['TAXpercentage']) &&
-            floatval(($giftConf['TAXpercentage']) == '0'
+            floatval($giftConf['TAXpercentage']) == '0'
         ) {
             $result = true;
         }

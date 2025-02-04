@@ -271,7 +271,7 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base
         $taxInfoArray = '';
         $result = 0;
         $taxObj = GeneralUtility::makeInstance('tx_ttproducts_field_tax');
-        $taxpercentage = 0.0;
+        $taxpercentage = floatval(0);
         $taxFactor = 1;
         $bIsZeroTax = false;
 
@@ -281,9 +281,9 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base
         if (
             $bEnableTaxZero &&
             isset($row['tax']) &&
-            floatval(($row['tax']) == '0.0'
+            floatval($row['tax']) == '0.0'
         ) {
-            $taxpercentage = 0.0;
+            $taxpercentage = floatval(0);
             $bIsZeroTax = true;
         } else {
             $taxpercentage =
@@ -512,7 +512,7 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base
                 }
             }
         } else {
-            $taxpercentage = 0.0;
+            $taxpercentage = floatval(0);
             $price0tax =
                 $this->getResellerPrice(
                     $basketExtra,
@@ -529,10 +529,10 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base
                 if (
                     $bEnableTaxZero &&
                     isset($row['tax']) &&
-                    floatval(($row['tax']) == '0.0'
+                    floatval($row['tax']) == '0.0'
                 ) {
                     $bIsZeroTax = true;
-                    $taxpercentage = 0.0;
+                    $taxpercentage = floatval(0);
                 } else {
                     $taxpercentage =
                         $taxObj->getTax(

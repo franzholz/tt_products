@@ -384,7 +384,7 @@ class PaymentShippingHandling
             $basketExtra
         );
 
-        $markerArray['###SHIPPING_WEIGHT###'] = floatval(($calculatedArray['weight']);
+        $markerArray['###SHIPPING_WEIGHT###'] = floatval($calculatedArray['weight']);
         $markerArray['###DELIVERYCOSTS###'] = $priceViewObj->priceFormat(self::getDeliveryCosts($calculatedArray));
 
         if (isset($basketExtra['handling.'])) {
@@ -558,7 +558,7 @@ class PaymentShippingHandling
                     (!isset($item['show']) || $item['show']) &&
                     (
                         !isset($item['showLimit']) ||
-                        floatval(($item['showLimit']) >= floatval(($calculatedArray['count']) ||
+                        floatval($item['showLimit']) >= floatval($calculatedArray['count']) ||
                         intval($item['showLimit']) == 0
                     )
                 ) {
@@ -1158,7 +1158,7 @@ class PaymentShippingHandling
                 $tmp
             );
         } elseif (isset($basketConf['price'])) {
-            $priceAdd = floatval(($basketConf['price']);
+            $priceAdd = floatval($basketConf['price']);
 
             if ($priceAdd) {
                 $priceTaxAdd =
@@ -1172,10 +1172,10 @@ class PaymentShippingHandling
                         true
                     );
             } else {
-                $priceTaxAdd = floatval(($basketConf['priceTax']);
+                $priceTaxAdd = floatval($basketConf['priceTax']);
             }
             $priceTax += $priceTaxAdd;
-            $priceNoTaxAdd = floatval(($basketConf['priceNoTax']  ?? 0);
+            $priceNoTaxAdd = floatval($basketConf['priceNoTax']  ?? 0);
 
             if (!$priceNoTaxAdd) {
                 $priceNoTaxAdd =
@@ -1288,9 +1288,9 @@ class PaymentShippingHandling
     ): void {
         $basketConf = self::getBasketConf($basketExtra, $pskey, $subkey);
 
-        $perc = floatval(($basketConf['percentOfGoodstotal'] ?? 0);
+        $perc = floatval($basketConf['percentOfGoodstotal'] ?? 0);
         if ($perc) {
-            $priceShipping = floatval((($calculatedArray['priceTax']['goodstotal']['ALL'] / 100) * $perc);
+            $priceShipping = floatval(($calculatedArray['priceTax']['goodstotal']['ALL'] / 100) * $perc);
             $dum = self::$priceObj->getPrice(
                 $basketExtra,
                 $basketRecs,
@@ -1354,7 +1354,7 @@ class PaymentShippingHandling
         $row = $shippingRow;
         $taxIncluded = self::$priceObj->getTaxIncluded();
 
-        $weigthFactor = floatval(($basketExtra['shipping.']['priceFactWeight'] ?? 0);
+        $weigthFactor = floatval($basketExtra['shipping.']['priceFactWeight'] ?? 0);
         if ($weigthFactor > 0) {
             $priceShipping = $calculatedArray['weight'] * $weigthFactor;
             $priceShippingTax +=
@@ -1379,7 +1379,7 @@ class PaymentShippingHandling
                 );
         }
 
-        $countFactor = floatval(($basketExtra['shipping.']['priceFactCount'] ?? 0);
+        $countFactor = floatval($basketExtra['shipping.']['priceFactCount'] ?? 0);
         if ($countFactor > 0) {
             $priceShipping = $countTotal * $countFactor;
             $priceShippingTax +=
@@ -1463,9 +1463,9 @@ class PaymentShippingHandling
         $taxpercentage = '';
         $row = $paymentRow;
         $payment = 0;
-        $perc = floatval(($basketExtra['payment.']['percentOfTotalShipping'] ?? 0);
+        $perc = floatval($basketExtra['payment.']['percentOfTotalShipping'] ?? 0);
         if ($perc) {
-            $payment = ($calculatedArray['priceTax']['goodstotal']['ALL'] + $calculatedArray['shipping']['priceTax']) * floatval(($perc);
+            $payment = ($calculatedArray['priceTax']['goodstotal']['ALL'] + $calculatedArray['shipping']['priceTax']) * floatval($perc);
         }
 
         if ($payment) {
@@ -1654,7 +1654,7 @@ class PaymentShippingHandling
             !empty($basketExtra[$pskey . '.']) &&
             isset($basketExtra[$pskey . '.']['TAXpercentage'])
         ) {
-            $result = floatval(($basketExtra[$pskey . '.']['TAXpercentage']);
+            $result = floatval($basketExtra[$pskey . '.']['TAXpercentage']);
         } elseif (
             $subkey != '' &&
             !empty($basketExtra[$pskey . '.']) &&
@@ -1662,19 +1662,19 @@ class PaymentShippingHandling
             is_array($basketExtra[$pskey . '.'][$subkey . '.']) &&
             isset($basketExtra[$pskey . '.'][$subkey . '.']['TAXpercentage'])
         ) {
-            $result = floatval(($basketExtra[$pskey . '.'][$subkey . '.']['TAXpercentage']);
+            $result = floatval($basketExtra[$pskey . '.'][$subkey . '.']['TAXpercentage']);
         } else {
             if (
                 $subkey == '' &&
                 isset($conf[$pskey . '.']['TAXpercentage'])
             ) {
-                $result = floatval(($conf[$pskey . '.']['TAXpercentage']);
+                $result = floatval($conf[$pskey . '.']['TAXpercentage']);
             } elseif (
                 isset($conf[$pskey . '.']) &&
                 isset($conf[$pskey . '.'][$subkey . '.']) &&
                 isset($conf[$pskey . '.'][$subkey . '.']['TAXpercentage'])
             ) {
-                $result = floatval(($conf[$pskey . '.'][$subkey . '.']['TAXpercentage']);
+                $result = floatval($conf[$pskey . '.'][$subkey . '.']['TAXpercentage']);
             }
         }
 
@@ -1695,7 +1695,7 @@ class PaymentShippingHandling
             !empty($basketExtra[$pskey . '.']) &&
             isset($basketExtra[$pskey . '.']['replaceTAXpercentage'])
         ) {
-            $result = floatval(($basketExtra[$pskey . '.']['replaceTAXpercentage']);
+            $result = floatval($basketExtra[$pskey . '.']['replaceTAXpercentage']);
         }
 
         if (
@@ -1704,9 +1704,9 @@ class PaymentShippingHandling
             isset($basketExtra[$pskey . '.']['replaceTAXpercentage.']) &&
             is_array($basketExtra[$pskey . '.']['replaceTAXpercentage.'])
         ) {
-            $itemTax = floatval(($itemTax);
+            $itemTax = floatval($itemTax);
             if (isset($basketExtra[$pskey . '.']['replaceTAXpercentage.'][$itemTax])) {
-                $result = floatval(($basketExtra[$pskey . '.']['replaceTAXpercentage.'][$itemTax]);
+                $result = floatval($basketExtra[$pskey . '.']['replaceTAXpercentage.'][$itemTax]);
             }
         }
 
@@ -2029,7 +2029,7 @@ class PaymentShippingHandling
             $k = intval($valueArray[0]);
         } else {
             foreach ($confArray as $confKey => $confValue) {
-                if (strpos($confKey, '.') == strlen($confKey) - 1) {
+                if (strpos((string) $confKey, '.') == strlen($confKey) - 1) {
                     $currentKey = substr($confKey, 0, strlen($confKey) - 1);
 
                     if (

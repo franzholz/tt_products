@@ -43,7 +43,6 @@ namespace JambageCom\TtProducts\Hooks;
 use TYPO3\CMS\Core\Core\Bootstrap;
 use TYPO3\CMS\Core\Localization\LanguageService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
 use JambageCom\Div2007\Utility\FrontendUtility;
 use JambageCom\Div2007\Utility\MarkerUtility;
@@ -85,15 +84,7 @@ class TransactorListener
         $transactionRow = $params['row'];
         $testMode = $params['testmode'];
         $referenceId = $transactionRow['reference'];
-        $typo3VersionArray =
-            VersionNumberUtility::convertVersionStringToArray(VersionNumberUtility::getCurrentTypo3Version());
-        $typo3VersionMain = $typo3VersionArray['version_main'];
-        $conf = [];
-        if ($typo3VersionMain < 12) {
-            $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'] ?? null;
-        } else {
-            $conf = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.'][TT_PRODUCTS_EXT . '.'] ?? null;
-        }
+        $conf = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.'][TT_PRODUCTS_EXT . '.'] ?? null;
 
         $config = [];
         $config['LLkey'] = '';
@@ -232,7 +223,7 @@ class TransactorListener
                             $basketExtra,
                             $basketRec,
                             '',
-                            0.0,
+                            floatval(0),
                             false,
                             $errorMessage
                         );

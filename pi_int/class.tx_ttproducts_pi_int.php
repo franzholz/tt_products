@@ -38,7 +38,6 @@
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\ArrayUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 class tx_ttproducts_pi_int implements SingletonInterface
@@ -57,15 +56,7 @@ class tx_ttproducts_pi_int implements SingletonInterface
     {
         $pibaseObj = GeneralUtility::makeInstance('tx_ttproducts_pi_int_base');
         $pibaseObj->setContentObjectRenderer($this->cObj);
-        $typo3VersionArray =
-        VersionNumberUtility::convertVersionStringToArray(VersionNumberUtility::getCurrentTypo3Version());
-        $typo3VersionMain = $typo3VersionArray['version_main'];
-        $confMain = [];
-        if ($typo3VersionMain < 12) {
-            $confMain = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'] ?? [];
-        } else {
-            $confMain = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.'][TT_PRODUCTS_EXT . '.'] ?? [];
-        }
+        $confMain = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.'][TT_PRODUCTS_EXT . '.'] ?? [];
 
         ArrayUtility::mergeRecursiveWithOverrule($confMain, $conf);
         $conf = $confMain;

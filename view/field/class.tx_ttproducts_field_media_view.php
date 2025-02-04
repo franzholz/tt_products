@@ -649,7 +649,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
                 }
 
                 while ($entry = $directory->read()) {
-                    if (strpos($entry, $nameArray['generateImage'] . $separator) !== false) {
+                    if (strpos((string) $entry, $nameArray['generateImage'] . $separator) !== false) {
                         $imgs[] = $entry;
                     }
                 }
@@ -853,9 +853,9 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
 
             if (isset($tagArray) && is_array($tagArray)) {
                 foreach ($tagArray as $value => $k1) {
-                    if (strpos($value, (string)$markerKey) !== false) {
+                    if (strpos((string) $value, (string)$markerKey) !== false) {
                         $keyMarker = '###' . $value . '###';
-                        $foundPos = strpos($value, $markerKey . '_ID');
+                        $foundPos = strpos((string) $value, $markerKey . '_ID');
 
                         if ($foundPos !== false) {
                             $c = substr($value, strlen($markerKey . '_ID'));

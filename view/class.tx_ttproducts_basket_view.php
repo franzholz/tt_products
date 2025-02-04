@@ -224,8 +224,8 @@ class tx_ttproducts_basket_view implements SingletonInterface
                     isset($value) &&
                     isset($basketConfArray[$boundaryType]['collect']) &&
                     (
-                        ($boundaryType == 'minimum' && $value < floatval(($basketConfArray[$boundaryType]['value'])) ||
-                        ($boundaryType == 'maximum' && $value > floatval(($basketConfArray[$boundaryType]['value']))
+                        ($boundaryType == 'minimum' && $value < floatval($basketConfArray[$boundaryType]['value'])) ||
+                        ($boundaryType == 'maximum' && $value > floatval($basketConfArray[$boundaryType]['value']))
                     )
                 ) {
                     $subpartArray['###MESSAGE_' . $markerKey . '###'] = '';
@@ -1148,11 +1148,11 @@ class tx_ttproducts_basket_view implements SingletonInterface
                     foreach ($viewTaxTagArray as $theTag => $v1) {
                         if (!isset($markerArray['###' . $theTag . '###'])) {
                             foreach ($priceCalcMarkerArray as $markerKey => $value) {
-                                if (strpos($theTag, $markerKey) !== false) {
+                                if (strpos((string) $theTag, $markerKey) !== false) {
                                     $markerArray['###' . $theTag . '###'] = '';
                                 }
                             }
-                            if (strpos($theTag, 'STATICTAX_') === 0) {
+                            if (strpos((string) $theTag, 'STATICTAX_') === 0) {
                                 $markerArray['###' . $theTag . '###'] = '';
                             }
                         }

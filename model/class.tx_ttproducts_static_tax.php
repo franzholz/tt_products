@@ -109,7 +109,7 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base
             $taxTitleArray = [];
 
             foreach ($conf['TAXpercentage.'] as $key => $confArray) {
-                $position = strpos($key, '.');
+                $position = strpos((string) $key, '.');
                 $index = substr($key, 0, $position);
                 $whereArray[$index] = $confArray['where.']['static_countries'];
                 $taxRateArray[$index] = $confArray['tax.']['tx_rate'];
@@ -581,7 +581,7 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base
                         $countryCode,
                         $zoneCode,
                         $staticInfoApi,
-                        0.0, // neu
+                        floatval(0), // neu
                         $categoryArray,
                         $taxId,
                         $countryArray['shop']['country_code'],
@@ -610,7 +610,7 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base
                             $taxInfoArray,
                             $taxId
                         );
-                        $tax = 0.0;
+                        $tax = floatval(0);
                     }
 
                     if (
@@ -627,7 +627,7 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base
                             $priceOne =
                             TaxApi::applyConsumerTaxes(
                                 $taxInfoArray,
-                                floatval((1)
+                                floatval(1)
                             );
                             if ($priceOne !== false) {
                                 $tax = ($priceOne - 1) * 100;

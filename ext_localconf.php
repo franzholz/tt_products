@@ -175,11 +175,8 @@ call_user_func(function ($extensionKey): void {
     $GLOBALS['TYPO3_CONF_VARS']['EXTCONF'][$extensionKey]['addressTable'] = $addressTable;
 
     // Register Status Report Hook
-    if ($typo3VersionMain >= 12) {
-        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['reports']['tx_reports']['status']['providers']['Shop System'][] = \JambageCom\TtProducts\Hooks\StatusProvider::class;
-    } else {
-        $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['reports']['tx_reports']['status']['providers']['Shop System'][] = \JambageCom\TtProducts\Hooks\StatusProvider::class;
-    }
+    $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['reports']['tx_reports']['status']['providers']['Shop System'][] = \JambageCom\TtProducts\Hooks\StatusProvider::class;
+
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['productMMArticleTtProducts']
         = \JambageCom\TtProducts\Updates\ProductMMArticleTtProductsUpdater::class;
     $GLOBALS['TYPO3_CONF_VARS']['SC_OPTIONS']['ext/install']['update']['productMMGraduatedPriceTtProducts']

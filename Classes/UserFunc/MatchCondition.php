@@ -44,7 +44,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
+
 use JambageCom\TtProducts\Api\BasketApi;
 
 class MatchCondition
@@ -102,15 +102,7 @@ class MatchCondition
     public function hasBulkilyItem($params)
     {
         $basketApi = GeneralUtility::makeInstance(BasketApi::class);
-        $typo3VersionArray =
-        VersionNumberUtility::convertVersionStringToArray(VersionNumberUtility::getCurrentTypo3Version());
-        $typo3VersionMain = $typo3VersionArray['version_main'];
-        $conf = [];
-        if ($typo3VersionMain < 12) {
-            $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'] ?? null;
-        } else {
-            $conf = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.'][TT_PRODUCTS_EXT . '.'] ?? null;
-        }
+        $conf = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.'][TT_PRODUCTS_EXT . '.'] ?? null;
 
         $rcArray = $basketApi->getRecords();
 

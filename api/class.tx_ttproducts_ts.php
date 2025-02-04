@@ -38,7 +38,6 @@
 
 use TYPO3\CMS\Core\Domain\Repository\PageRepository;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
 use JambageCom\Div2007\Utility\FlexformUtility;
 
@@ -188,15 +187,7 @@ class tx_ttproducts_ts implements SingletonInterface
     public function processMemo(): void
     {
         $funcTablename = 'tt_products';
-        $typo3VersionArray =
-        VersionNumberUtility::convertVersionStringToArray(VersionNumberUtility::getCurrentTypo3Version());
-        $typo3VersionMain = $typo3VersionArray['version_main'];
-        $conf = [];
-        if ($typo3VersionMain < 12) {
-            $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'] ?? null;
-        } else {
-            $conf = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.'][TT_PRODUCTS_EXT . '.'] ?? null;
-        }
+        $conf = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.'][TT_PRODUCTS_EXT . '.'] ?? null;
         $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
         $piVars = $parameterApi->getParameterMerged('tt_products');
 
@@ -207,15 +198,7 @@ class tx_ttproducts_ts implements SingletonInterface
     public function processMemo(): void
     {
         $funcTablename = 'tt_products';
-        $typo3VersionArray =
-        VersionNumberUtility::convertVersionStringToArray(VersionNumberUtility::getCurrentTypo3Version());
-        $typo3VersionMain = $typo3VersionArray['version_main'];
-        $conf = [];
-        if ($typo3VersionMain < 12) {
-            $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'] ?? null;
-        } else {
-            $conf = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.'][TT_PRODUCTS_EXT . '.'] ?? null;
-        }
+        $conf = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.'][TT_PRODUCTS_EXT . '.'] ?? null;
 
         $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
         $piVars = $parameterApi->getParameterMerged('tt_products');

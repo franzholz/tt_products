@@ -40,7 +40,6 @@ use Psr\Http\Message\ServerRequestInterface;
 
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 use JambageCom\Div2007\Compatibility\AbstractPlugin;
@@ -72,15 +71,7 @@ class tx_ttproducts_pi_search_base extends AbstractPlugin implements SingletonIn
         $parameterApi->setPrefixId($this->prefixId);
         PluginApi::init($conf);
 
-        $typo3VersionArray =
-        VersionNumberUtility::convertVersionStringToArray(VersionNumberUtility::getCurrentTypo3Version());
-        $typo3VersionMain = $typo3VersionArray['version_main'];
-        $confMain = [];
-        if ($typo3VersionMain < 12) {
-            $confMain = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'] ?? [];
-        } else {
-            $confMain = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.'][TT_PRODUCTS_EXT . '.'] ?? [];
-        }
+        $confMain = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.'][TT_PRODUCTS_EXT . '.'] ?? [];
 
         $this->conf = array_merge($confMain, $conf);
         $config = [];

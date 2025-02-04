@@ -35,12 +35,16 @@
  *
  *
  */
-use JambageCom\Div2007\Utility\TableUtility;
+
 use TYPO3\CMS\Core\Core\Environment;
 use TYPO3\CMS\Core\Resource\ResourceFactory;
 use TYPO3\CMS\Core\Resource\StorageRepository;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+
+use JambageCom\Div2007\Utility\TableUtility;
+
+use JambageCom\TtProducts\Api\VariantApi;
 
 class tx_ttproducts_download extends tx_ttproducts_article_base
 {
@@ -68,14 +72,14 @@ class tx_ttproducts_download extends tx_ttproducts_article_base
                     isset($orderRow['fal_variants']) &&
                     $orderRow['fal_variants'] != ''
                 ) {
-                    $position = strpos((string) $orderRow['fal_variants'], 'dl=' . $downloadUid . tx_ttproducts_variant_int::EXTERNAL_QUANTITY_SEPARATOR);
+                    $position = strpos((string) $orderRow['fal_variants'], 'dl=' . $downloadUid . VariantApi::EXTERNAL_QUANTITY_SEPARATOR);
 
                     if ($position !== 0) {
                         continue;
                     }
 
-                    $position = strpos((string) $orderRow['fal_variants'], tx_ttproducts_variant_int::EXTERNAL_QUANTITY_SEPARATOR . 'fal=');
-                    $orderFalUid = substr($orderRow['fal_variants'], $position + strlen(tx_ttproducts_variant_int::EXTERNAL_QUANTITY_SEPARATOR . 'fal='));
+                    $position = strpos((string) $orderRow['fal_variants'], VariantApi::EXTERNAL_QUANTITY_SEPARATOR . 'fal=');
+                    $orderFalUid = substr($orderRow['fal_variants'], $position + strlen(VariantApi::EXTERNAL_QUANTITY_SEPARATOR . 'fal='));
 
                     if (
                         $orderFalUid = $falUid
@@ -246,7 +250,7 @@ class tx_ttproducts_download extends tx_ttproducts_article_base
         if (is_array($tagMarkerArray) && $tagMarkerArray) {
             $newTagMarkerArray = [];
             foreach ($tagMarkerArray as $tagMarker) {
-                if (strpos($tagMarker, '_') === false) {
+                if (strpos((string) $tagMarker, '_') === false) {
                     $newTagMarkerArray[] = $tagMarker;
                 }
             }

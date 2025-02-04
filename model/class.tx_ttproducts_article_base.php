@@ -35,9 +35,11 @@
  *
  *
  */
-use JambageCom\TtProducts\Api\PriceApi;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
+
+use JambageCom\TtProducts\Api\PriceApi;
+use JambageCom\TtProducts\Api\VariantApi;
 
 abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base
 {
@@ -48,8 +50,6 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base
     public $marker;	// marker prefix in the template file. must be overridden
     public $type; 	// the type of table 'article' or 'product'
     // this gets in lower case also used for the URL parameter
-    public $variant;       // object for the product variant attributes, must initialized in the init function
-    public $editVariant; 	// object for the product editable variant attributes, must initialized in the init function
     public $mm_table = ''; // only set if a mm table is used
     protected $graduatedPriceObject = false;
 
@@ -66,16 +66,6 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base
             $useArticles = $this->conf['useArticles'] ?? 0;
             $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
             $conf = $cnf->getConf();
-
-            if ($type == 'product') {
-                $this->variant = GeneralUtility::makeInstance('tx_ttproducts_variant');
-                $this->variant->init($this, $tablename, $useArticles);
-                $this->editVariant = GeneralUtility::makeInstance('tx_ttproducts_edit_variant');
-                $this->editVariant->init($this);
-            } else {
-                $this->variant = GeneralUtility::makeInstance('tx_ttproducts_variant_dummy');
-                $this->editVariant = GeneralUtility::makeInstance('tx_ttproducts_edit_variant_dummy');
-            }
             $tableDesc = $this->getTableDesc();
 
             $this->fieldArray['address'] = (!empty($tableDesc['address']) ? $tableDesc['address'] : 'address');
@@ -152,16 +142,6 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base
     public function getType()
     {
         return $this->type;
-    }
-
-    public function getEditVariant()
-    {
-        return $this->editVariant;
-    }
-
-    public function getVariant()
-    {
-        return $this->variant;
     }
 
     public function getFlexQuery($type, $val = 1)
@@ -305,8 +285,9 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base
     public function clearSelectableVariantFields(
         &$targetRow
     ): void {
-        $fieldArray = $this->getVariant()->getFieldArray();
-        $selectableArray = $this->getVariant()->getSelectableArray();
+        $variantApi = GeneralUtility::makeInstance(VariantApi::class);
+        $fieldArray = $variantApi->getFieldArray();
+        $selectableArray = $variantApi->getSelectableArray();
         $count = 0;
 
         foreach ($fieldArray as $key => $field) {
@@ -321,7 +302,8 @@ abstract class tx_ttproducts_article_base extends tx_ttproducts_table_base
         $sourceRow,
         $bKeepNotEmpty = true
     ): void {
-        $variantFieldArray = $this->getVariant()->getFieldArray();
+        $variantApi = GeneralUtility::makeInstance(VariantApi::class);
+        $variantFieldArray = $variantApi->getFieldArray();
 
         if (isset($variantFieldArray) && is_array($variantFieldArray)) {
             foreach ($variantFieldArray as $field) {

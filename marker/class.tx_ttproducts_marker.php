@@ -342,7 +342,7 @@ class tx_ttproducts_marker implements SingletonInterface
         if (is_array($tagArray)) {
             $retTagArray = $tagArray;
             foreach ($tagArray as $tag => $v1) {
-                $prefixFound = strpos($tag, $prefix);
+                $prefixFound = strpos((string) $tag, $prefix);
 
                 if ($prefixFound !== false) {
                     $fieldTmp = substr($tag, $prefixFound + $prefixLen);
@@ -419,10 +419,10 @@ class tx_ttproducts_marker implements SingletonInterface
                         $retArray[] = $field;
                         $bFieldaddedArray[$field] = true;
                     }
-                    $parentFound = strpos($tag, 'PARENT');
+                    $parentFound = strpos((string) $tag, 'PARENT');
 
                     if ($parentFound !== false) {
-                        $parentEnd = strpos($tag, '_');
+                        $parentEnd = strpos((string) $tag, '_');
                         $parentLen = strlen('PARENT');
                         $temp = substr($tag, $parentLen, ($parentEnd - $parentFound) - $parentLen);
                         $parentArray[] = $temp;
@@ -432,7 +432,7 @@ class tx_ttproducts_marker implements SingletonInterface
 
                     foreach ($this->markerArray as $k => $marker) {
                         if ($marker != $prefixParam) {
-                            $bMarkerFound = strpos($tag, (string)$marker);
+                            $bMarkerFound = strpos((string) $tag, (string)$marker);
                             if ($bMarkerFound == 0 && $bMarkerFound !== false) {
                                 unset($retTagArray[$tag]);
                             }

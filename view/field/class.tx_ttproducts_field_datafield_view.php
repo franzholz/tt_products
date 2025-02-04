@@ -183,7 +183,7 @@ class tx_ttproducts_field_datafield_view extends tx_ttproducts_field_base_view
             foreach ($tagArray as $value => $k1) {
                 $keyMarker = '###' . $value . '###';
                 if (
-                    strpos($value, $markerKey . '_LINK_' . $upperField) !== false &&
+                    strpos((string) $value, $markerKey . '_LINK_' . $upperField) !== false &&
                     empty($wrappedSubpartArray[$keyMarker])
                 ) {
                     $wrappedSubpartArray[$keyMarker] = ['<!--', '-->'];

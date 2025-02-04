@@ -622,7 +622,7 @@ class tx_ttproducts_category extends tx_ttproducts_category_base
         $maxDiscount = 0;
 
         if (!$bDiscountDisable) {
-            $maxDiscount = floatval(($discount);
+            $maxDiscount = floatval($discount);
             $rootCat = $this->getRootCat();
             $rootArray = GeneralUtility::trimExplode(',', $rootCat);
 

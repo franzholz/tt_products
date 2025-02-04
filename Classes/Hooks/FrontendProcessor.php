@@ -30,7 +30,6 @@ namespace JambageCom\TtProducts\Hooks;
 *  This copyright notice MUST APPEAR in all copies of the script!
 ***************************************************************/
 
-use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
 /**
  * Part of the tt_products (Shop System) extension.
@@ -45,15 +44,7 @@ class FrontendProcessor
 {
     public function loginConfirmed($params, $pObj): void
     {
-        $typo3VersionArray =
-        VersionNumberUtility::convertVersionStringToArray(VersionNumberUtility::getCurrentTypo3Version());
-        $typo3VersionMain = $typo3VersionArray['version_main'];
-        $conf = [];
-        if ($typo3VersionMain < 12) {
-            $conf = $GLOBALS['TSFE']->tmpl->setup['plugin.'][TT_PRODUCTS_EXT . '.'] ?? null;
-        } else {
-            $conf = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.'][TT_PRODUCTS_EXT . '.'] ?? null;
-        }
+        $conf = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.typoscript')->getSetupArray()['plugin.'][TT_PRODUCTS_EXT . '.'] ?? null;
 
         $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
         $feUserRecord = $GLOBALS['TYPO3_REQUEST']->getAttribute('frontend.user')->user;

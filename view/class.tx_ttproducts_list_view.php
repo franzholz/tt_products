@@ -639,7 +639,12 @@ class tx_ttproducts_list_view
         $tableAliasArray[$tablename] = $itemTable->getAlias();
         $itemTableArray[$itemTable->getType()] = $itemTable;
         $itemTableViewArray[$itemTable->getType()] = $itemTableView;
-        $selectableVariantFieldArray = $itemTable->getVariant()->getSelectableFieldArray();
+        $selectableVariantFieldArray = null;
+
+        if (is_object($variantApi)) {
+            $selectableVariantFieldArray = $variantApi->getSelectableFieldArray();
+        }
+
         $useArticles = $cnfObj->getUseArticles();
 
         $excludeList = '';
@@ -1242,7 +1247,6 @@ class tx_ttproducts_list_view
                 $subpartArray,
                 $wrappedSubpartArray
             );
-
             $t['categoryAndItemsFrameWork'] = $templateService->getSubpart($t['listFrameWork'], '###ITEM_CATEGORY_AND_ITEMS###');
             $t['categoryFrameWork'] = $templateService->getSubpart(
                 $t['categoryAndItemsFrameWork'],
@@ -1819,10 +1823,12 @@ class tx_ttproducts_list_view
                         $itemTable->fillVariantsFromArticles($row);
                     }
 
-                    $itemTable->getTableObj()->substituteMarkerArray(
-                        $row,
-                        $selectableVariantFieldArray
-                    );
+                    if (is_array($selectableVariantFieldArray)) {
+                        $itemTable->getTableObj()->substituteMarkerArray(
+                            $row,
+                            $selectableVariantFieldArray
+                        );
+                    }
                     $itemTable->getTableObj()->transformRow(
                         $row,
                         TT_PRODUCTS_EXT
@@ -2584,7 +2590,7 @@ class tx_ttproducts_list_view
                             $basketExt1 = tx_ttproducts_control_basket::generatedBasketExtFromRow($currRow, '1');
 
                             $taxInfoArray = [];
-                            $tax = 0.0;
+                            $tax = floatval(0);
                             $virtualItemArray = $basketObj->getItemArrayFromRow(
                                 $tax,
                                 $taxInfoArray,
@@ -3005,13 +3011,13 @@ class tx_ttproducts_list_view
                             }
                         }
 
-                        if (is_object($itemTableView->variant)) {
-                            $itemTableView->variant->removeEmptyMarkerSubpartArray(
+                        if (is_object($variantApi)) {
+                            $variantApi->removeEmptyMarkerSubpartArray(
                                 $markerArray,
                                 $subpartArray,
                                 $wrappedSubpartArray,
                                 $row,
-                                $conf,
+                                // $conf,
                                 $itemTable->hasAdditional($row, 'isSingle'),
                                 !$itemTable->hasAdditional($row, 'noGiftService')
                             );

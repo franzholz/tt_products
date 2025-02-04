@@ -47,9 +47,12 @@ use JambageCom\Div2007\Utility\CompatibilityUtility;
 use JambageCom\Div2007\Utility\SystemUtility;
 use JambageCom\Div2007\Utility\TableUtility;
 use JambageCom\TtProducts\Api\BasketApi;
+use JambageCom\TtProducts\Api\EditVariantApi;
 use JambageCom\TtProducts\Api\Localization;
 use JambageCom\TtProducts\Api\PaymentApi;
 use JambageCom\TtProducts\Api\PaymentShippingHandling;
+use JambageCom\TtProducts\Api\VariantApi;
+
 
 class tx_ttproducts_order extends tx_ttproducts_table_base
 {
@@ -453,7 +456,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
                 $fieldsArray['vat_id'] = $billingInfo['tt_products_vat'];
 
                 $taxPercentage = PaymentShippingHandling::getReplaceTaxPercentage($basketExtra);
-                if (floatval(($taxPercentage) == 0) {
+                if (floatval($taxPercentage) == 0) {
                     $fieldsArray['tax_mode'] = 1;
                 }
             }
@@ -635,11 +638,13 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
         $basketApi = GeneralUtility::makeInstance(BasketApi::class);
 
         if ($this->conf['useArticles'] != 2) {
+            $variantApi = GeneralUtility::makeInstance(VariantApi::class);
+            $editVariantApi = GeneralUtility::makeInstance(EditVariantApi::class);
             $productTable = $tablesObj->get('tt_products', false);
             $productTablename = $productTable->getTablename();
-            $editFieldArray = $productTable->editVariant->getFieldArray();
-            $selectableVariantFieldArray = $productTable->variant->getSelectableFieldArray();
-            $variantSeparator = $productTable->getVariant()->getImplodeSeparator();
+            $editFieldArray = $editVariantApi->getFieldArray();
+            $selectableVariantFieldArray = $variantApi->getSelectableFieldArray();
+            $variantSeparator = $variantApi->getImplodeSeparator();
         } else {
             $productTablename = '';
         }
@@ -964,14 +969,14 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
         ) {
             $source = 'dl=';
             if ($downloadUid) {
-                $source .= $downloadUid . tx_ttproducts_variant_int::EXTERNAL_QUANTITY_SEPARATOR;
+                $source .= $downloadUid . VariantApi::EXTERNAL_QUANTITY_SEPARATOR;
             }
             $position = strpos((string) $orderRow['fal_variants'], $source);
 
             if ($position === 0) {
-                $positionFal = strpos((string) $orderRow['fal_variants'], tx_ttproducts_variant_int::EXTERNAL_QUANTITY_SEPARATOR . 'fal=');
+                $positionFal = strpos((string) $orderRow['fal_variants'], VariantApi::EXTERNAL_QUANTITY_SEPARATOR . 'fal=');
                 $orderedDownloadUid = substr($orderRow['fal_variants'], strlen($source), $positionFal - strlen($source));
-                $falUid = substr($orderRow['fal_variants'], $positionFal + strlen(tx_ttproducts_variant_int::EXTERNAL_QUANTITY_SEPARATOR . 'fal='));
+                $falUid = substr($orderRow['fal_variants'], $positionFal + strlen(VariantApi::EXTERNAL_QUANTITY_SEPARATOR . 'fal='));
                 $result = $falUid;
             }
         }
@@ -1020,13 +1025,14 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
         &$productRowArray,
         &$multiOrderArray
     ) {
+        $variantApi = GeneralUtility::makeInstance(VariantApi::class);
         $productRowArray = [];
         $multiOrderArray = [];
 
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $productObj = $tablesObj->get('tt_products', false);
         $falObj = $tablesObj->get('sys_file_reference', false);
-        $variantSeparator = $productObj->variant->getSplitSeparator();
+        $variantSeparator = $variantApi->getSplitSeparator();
         $local_cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
 
         $tablename = $this->getTablename();
@@ -1094,7 +1100,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
                     $productRow,
                     $row['edit_variants'],
                     $variantSeparator,
-                    'edit_'
+                    'edit' . VariantApi::EXTERNAL_QUANTITY_SEPARATOR
                 );
             }
 
@@ -1141,11 +1147,12 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
         $multiOrderArray = [];
         $productRowArray = [];
 
+        $variantApi = GeneralUtility::makeInstance(VariantApi::class);
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $productObj = $tablesObj->get('tt_products', false);
         $local_cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
         $tablename = $this->getTablename();
-        $variantSeparator = $productObj->variant->getSplitSeparator();
+        $variantSeparator = $variantApi->getSplitSeparator();
 
         $alias = $this->getTableObj()->getAlias();
         $productAlias = $productObj->getTableObj()->getAlias();
@@ -1201,7 +1208,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
                     $productRow,
                     $row['edit_variants'],
                     $variantSeparator,
-                    'edit' . tx_ttproducts_variant::$externalTableSeparator
+                    'edit' . VariantApi::EXTERNAL_QUANTITY_SEPARATOR
                 );
             }
 

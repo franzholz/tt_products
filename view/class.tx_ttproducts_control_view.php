@@ -65,7 +65,7 @@ class tx_ttproducts_control_view
                 if (isset($tableConf['view.']) && is_array($tableConf['view.'])) {
                     foreach ($tableConf['view.'] as $type => $typeConf) {
                         if (is_array($typeConf)) {
-                            $type = substr($type, 0, strpos($type, '.'));
+                            $type = substr($type, 0, strpos((string) $type, '.'));
                             foreach ($typeConf as $numberx => $numberConf) {
                                 $number = substr($numberx, 0, strpos($numberx, '.'));
                                 $markerkey = strtoupper($type) . $number;

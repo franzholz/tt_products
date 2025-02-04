@@ -640,7 +640,6 @@ class tx_ttproducts_main implements SingletonInterface
                             return '';
                         }
                     }
-
                     $contentTmp =
                         $this->products_display(
                             $cObj,

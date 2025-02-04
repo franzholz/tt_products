@@ -302,7 +302,7 @@ class tx_ttproducts_field_price_view extends tx_ttproducts_field_base_view
 
         $pricefactor = 0;
         if (isset($conf['creditpoints.']['priceprod'])) {
-            $pricefactor = floatval(($conf['creditpoints.']['priceprod']);
+            $pricefactor = floatval($conf['creditpoints.']['priceprod']);
         }
 
         if ($field == 'price') {

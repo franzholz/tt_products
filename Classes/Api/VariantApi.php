@@ -599,7 +599,7 @@ class VariantApi implements SingletonInterface
 
             foreach ($this->selectableArray as $k => $v) {
                 if ($v) {
-                    $variantIndex = $variantArray[$vCount]; // $k-1
+                    $variantIndex = $variantArray[$vCount] ?? false; // $k-1
                     $field = $selectableFieldArray[$k];
 
                     if (
