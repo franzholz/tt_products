@@ -550,7 +550,7 @@ class tx_ttproducts_control_basket
             $infoArray['billing']['agb'] ??= $feUserRecord['agb'] ?? '';
 
             $dateBirth = $infoArray['billing']['date_of_birth'] ?? '';
-            $tmpPos = strpos($dateBirth, '-');
+            $tmpPos = strpos((string) $dateBirth, '-');
 
             if (
                 !$dateBirth ||

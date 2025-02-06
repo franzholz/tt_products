@@ -85,7 +85,7 @@ class tx_ttproducts_sql
         $result = false;
         $delimiter = '.';
 
-        if (strpos($date, '-') !== false) {
+        if (strpos((string) $date, '-') !== false) {
             $delimiter = '-';
         }
         $dateArray = GeneralUtility::trimExplode($delimiter, $date);
