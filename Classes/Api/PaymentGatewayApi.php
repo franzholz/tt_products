@@ -51,8 +51,6 @@ class PaymentGatewayApi implements SingletonInterface
     protected $handleScript = '';
     protected $handleLib = '';
     protected $handleLibConf = [];
-    protected $useNewTransactor = false;
-    protected $useOldTransactor = false;
     private bool $needsInit = true;
 
     public function init(array $basketExtra): void
@@ -78,12 +76,6 @@ class PaymentGatewayApi implements SingletonInterface
             }
         }
 
-        if (
-            strpos((string) $handleLib, (string) static::TRANSACTOR_EXTENSION) !== false &&
-            ExtensionManagementUtility::isLoaded($handleLib)
-        ) {
-            $this->setUseNewTransactor(true);
-        }
         $this->needsInit = false;
     }
 
@@ -117,41 +109,27 @@ class PaymentGatewayApi implements SingletonInterface
         return $this->handleLibConf;
     }
 
-    public function setUseNewTransactor($useNewTransactor): void
-    {
-        $this->useNewTransactor = $useNewTransactor;
-    }
-
-    public function getUseNewTransactor()
-    {
-        return $this->useNewTransactor;
-    }
-
     // Has any payment gateway parameter been detected upon which some action must be taken?
     public function readActionParameters(
     ) {
         $result = false;
 
-        if (
-            $this->getUseNewTransactor()
-        ) {
-            $callingClassName = Start::class;
+        $callingClassName = Start::class;
 
-            if (
-                class_exists($callingClassName) &&
-                method_exists($callingClassName, 'readActionParameters')
-            ) {
-                $errorMessage = '';
-                $parameters = [
-                    &$errorMessage,
-                    ControlApi::getCObj(),
-                    $this->getHandleLibConf(),
-                ];
-                $result = call_user_func_array(
-                    $callingClassName . '::readActionParameters',
-                    $parameters
-                );
-            }
+        if (
+            class_exists($callingClassName) &&
+            method_exists($callingClassName, 'readActionParameters')
+        ) {
+            $errorMessage = '';
+            $parameters = [
+                &$errorMessage,
+                ControlApi::getCObj(),
+                $this->getHandleLibConf(),
+            ];
+            $result = call_user_func_array(
+                $callingClassName . '::readActionParameters',
+                $parameters
+            );
         }
 
         return $result;
@@ -162,7 +140,6 @@ class PaymentGatewayApi implements SingletonInterface
         $itemArray
     ): void {
         if (
-            $this->getUseNewTransactor() &&
             !empty($itemArray) &&
             !empty(array_filter($itemArray))
         ) {
@@ -201,7 +178,6 @@ class PaymentGatewayApi implements SingletonInterface
 
         // TODO:
         if (
-            $this->getUseNewTransactor() &&
             !empty(array_filter($itemArray))
         ) {
             $callingClassName = Start::class;
