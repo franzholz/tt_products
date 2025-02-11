@@ -46,7 +46,9 @@ use JambageCom\Div2007\Base\TranslationBase;
 use JambageCom\Div2007\Utility\CompatibilityUtility;
 use JambageCom\Div2007\Utility\SystemUtility;
 use JambageCom\Div2007\Utility\TableUtility;
+
 use JambageCom\TtProducts\Api\BasketApi;
+use JambageCom\TtProducts\Api\CustomerApi;
 use JambageCom\TtProducts\Api\EditVariantApi;
 use JambageCom\TtProducts\Api\Localization;
 use JambageCom\TtProducts\Api\PaymentApi;
