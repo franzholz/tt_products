@@ -185,9 +185,7 @@ class ActivityController implements SingletonInterface
                     $conf['paymentActivity'],
                     $conf['TAXpercentage']
                 );
-            } elseif (
-                $gateway->getUseNewTransactor()
-            ) {
+            } else {
                 $paymentScript = true;
                 $callingClassName = Start::class;
 
@@ -242,50 +240,6 @@ class ActivityController implements SingletonInterface
                 } else {
                     throw new \RuntimeException('Error in tt_products: The new transactor API has been called but the necessary transactor class or its method do not exist.', 50009);
                 }
-            } elseif (
-                $gateway->getUseOldTransactor()
-            ) {
-                $paymentScript = true;
-                // Payment Transactor or any alternative extension besides paymentlib
-                // Get references to the concerning baskets
-                $languageObj = GeneralUtility::makeInstance(Localization::class);
-                $addQueryString = [];
-                $excludeList = '';
-                $linkParams =
-                $this->urlObj->getLinkParams(
-                    $excludeList,
-                    $addQueryString,
-                    true,
-                    false
-                );
-
-                \tx_transactor_api::init(
-                    $languageObj,
-                    $cObj,
-                    $conf
-                );
-                $content = \tx_transactor_api::includeHandleLib(
-                    $handleLib,
-                    $basketExtra['payment.']['handleLib.'] ?? [],
-                    TT_PRODUCTS_EXT,
-                    $basketObj->getItemArray(),
-                    $calculatedArray,
-                    $basketObj->recs['delivery']['note'] ?? '',
-                    $conf['paymentActivity'] ?? '',
-                    $currentPaymentActivity,
-                    $infoArray,
-                    $pidArray,
-                    $linkParams,
-                    $orderArray['tracking_code'],
-                    $orderUid,
-                    $cardRow,
-                    $finalize,
-                    $finalVerify,
-                    $markerArray,
-                    $templateFilename,
-                    $localTemplateCode,
-                    $errorMessage
-                );
             }
 
             if (
@@ -1217,103 +1171,61 @@ class ActivityController implements SingletonInterface
                                     $basketExtra
                                 );
 
+                                $addQueryString = [];
+                                $excludeList = '';
+                                $linkParams =
+                                $this->urlObj->getLinkParams(
+                                    $excludeList,
+                                    $addQueryString,
+                                    true
+                                );
+
+                                $callingClassName = '\\JambageCom\\Transactor\\Api\\Start';
+
                                 if (
-                                    is_string($handleLib) &&
-                                    strpos($handleLib, 'transactor') !== false
+                                    class_exists($callingClassName) &&
+                                    method_exists($callingClassName, 'checkRequired')
                                 ) {
-                                    // Payment Transactor
-                                    $useNewTransactor = false;
-                                    $transactorCompatibility = getTransactorConf($handleLib, 'compatibility');
-
-                                    if (
-                                        $transactorCompatibility == '0'
-                                    ) {
-                                        $useNewTransactor = true;
-                                    }
-
-                                    $addQueryString = [];
-                                    $excludeList = '';
-                                    $linkParams =
-                                    $this->urlObj->getLinkParams(
-                                        $excludeList,
-                                        $addQueryString,
-                                        true
+                                    $parameters = [
+                                        $languageObj,
+                                        $cObj,
+                                        $conf,
+                                    ];
+                                    call_user_func_array(
+                                        $callingClassName . '::init',
+                                        $parameters
+                                    );
+                                    $parameters = [
+                                        $handleLib,
+                                        $basketExtra['payment.']['handleLib.'] ?? '',
+                                        TT_PRODUCTS_EXT,
+                                        $orderUid,
+                                    ];
+                                    $referenceId = call_user_func_array(
+                                        $callingClassName . '::getReferenceUid',
+                                        $parameters
                                     );
 
-                                    if ($useNewTransactor) {
-                                        $callingClassName = '\\JambageCom\\Transactor\\Api\\Start';
+                                    $parameters = [
+                                        $referenceId,
+                                        $basketExtra['payment.']['handleLib'] ?? '',
+                                        $basketExtra['payment.']['handleLib.'] ?? [],
+                                        TT_PRODUCTS_EXT,
+                                        $calculatedArray,
+                                        $conf['paymentActivity'] ?? '',
+                                        $pidArray,
+                                        $linkParams,
+                                        $orderArray['tracking_code'] ?? '',
+                                        $orderUid,
+                                        $orderNumber,
+                                        $conf['orderEmail_to'] ?? '',
+                                        $cardRow,
+                                    ];
 
-                                        if (
-                                            class_exists($callingClassName) &&
-                                            method_exists($callingClassName, 'checkRequired')
-                                        ) {
-                                            $parameters = [
-                                                $languageObj,
-                                                $cObj,
-                                                $conf,
-                                            ];
-                                            call_user_func_array(
-                                                $callingClassName . '::init',
-                                                $parameters
-                                            );
-                                            $parameters = [
-                                                $handleLib,
-                                                $basketExtra['payment.']['handleLib.'] ?? '',
-                                                TT_PRODUCTS_EXT,
-                                                $orderUid,
-                                            ];
-                                            $referenceId = call_user_func_array(
-                                                $callingClassName . '::getReferenceUid',
-                                                $parameters
-                                            );
-
-                                            $parameters = [
-                                                $referenceId,
-                                                $basketExtra['payment.']['handleLib'] ?? '',
-                                                $basketExtra['payment.']['handleLib.'] ?? [],
-                                                TT_PRODUCTS_EXT,
-                                                $calculatedArray,
-                                                $conf['paymentActivity'] ?? '',
-                                                $pidArray,
-                                                $linkParams,
-                                                $orderArray['tracking_code'] ?? '',
-                                                $orderUid,
-                                                $orderNumber,
-                                                $conf['orderEmail_to'] ?? '',
-                                                $cardRow,
-                                            ];
-
-                                            $paymentErrorMsg = call_user_func_array(
-                                                $callingClassName . '::checkRequired',
-                                                $parameters
-                                            );
-                                        }
-                                    } else {
-                                        tx_transactor_api::init(
-                                            $languageObj,
-                                            $cObj,
-                                            $conf
-                                        );
-                                        $referenceId = tx_transactor_api::getReferenceUid(
-                                            $handleLib,
-                                            $basketExtra['payment.']['handleLib.'],
-                                            TT_PRODUCTS_EXT,
-                                            $orderUid
-                                        );
-                                        $paymentErrorMsg = tx_transactor_api::checkRequired(
-                                            $referenceId,
-                                            $basketExtra['payment.']['handleLib'] ?? '',
-                                            $basketExtra['payment.']['handleLib.'] ?? [],
-                                            TT_PRODUCTS_EXT,
-                                            $calculatedArray,
-                                            $conf['paymentActivity'],
-                                            $pidArray,
-                                            $linkParams,
-                                            $orderArray['tracking_code'],
-                                            $orderUid,
-                                            $cardRow
-                                        );
-                                    }
+                                    $paymentErrorMsg = call_user_func_array(
+                                        $callingClassName . '::checkRequired',
+                                        $parameters
+                                    );
                                 }
                             }
 
