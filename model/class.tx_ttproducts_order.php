@@ -46,7 +46,9 @@ use JambageCom\Div2007\Base\TranslationBase;
 use JambageCom\Div2007\Utility\CompatibilityUtility;
 use JambageCom\Div2007\Utility\SystemUtility;
 use JambageCom\Div2007\Utility\TableUtility;
+
 use JambageCom\TtProducts\Api\BasketApi;
+use JambageCom\TtProducts\Api\CustomerApi;
 use JambageCom\TtProducts\Api\Localization;
 use JambageCom\TtProducts\Api\PaymentApi;
 use JambageCom\TtProducts\Api\PaymentShippingHandling;
@@ -501,6 +503,8 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
             }
 
             if ($status == 1 && !empty($deliveryInfo['feusers_uid'])) {
+                $feUserRecord = CustomerApi::getFeUserRecord();
+
                 // Added Els: update user from vouchercode with 5 credits
                 tx_ttproducts_creditpoints_div::addCreditPoints(
                     $vouchercode,
