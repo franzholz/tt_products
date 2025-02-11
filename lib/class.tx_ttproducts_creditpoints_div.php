@@ -55,9 +55,6 @@ class tx_ttproducts_creditpoints_div
         $pricefactor = 0;
 
         if (isset($conf['creditpoints.'])) {
-            if (isset($conf['creditpoints.']['priceprod'])) {
-                $pricefactor = $conf['creditpoints.']['priceprod'];
-            }
             if (isset($conf['creditpoints.']['pricefactor'])) {
                 $pricefactor = $conf['creditpoints.']['pricefactor'];
             }
