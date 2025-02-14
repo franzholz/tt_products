@@ -575,11 +575,7 @@ if (!Array.prototype.indexOf) { // published by developer.mozilla.org
                     is_object($this->ajax) &&
                     is_object($this->ajax->taxajax)
                 ) {
-                    $path =
-                        PathUtility::stripPathSitePrefix(
-                            ExtensionManagementUtility::extPath('taxajax')
-                        );
-                    $code = $this->ajax->taxajax->getJavascript($path);
+                    $code = $this->ajax->taxajax->getJavascript();
                     $this->bAjaxAdded = true;
                 }
                 $JSfieldname = 'tx_ttproducts-xajax';

@@ -28,7 +28,7 @@ $EM_CONF[$_EXTKEY] = [
       'func' => '',
       'static_info_tables' => '',
       'static_info_tables_taxes' => '0.7.0-0.8.99',
-      'taxajax' => '',
+      'taxajax' => '1.4.0-0.0.0',
     ],
   ],
 ];
