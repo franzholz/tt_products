@@ -34,7 +34,7 @@
   "suggest": {
     "friendsoftypo3/func": "^9.0",
     "jambagecom/addons-em": "^0.9",
-    "jambagecom/taxajax": "^1.0",
+    "jambagecom/taxajax": "<1.4",
     "jambagecom/static-info-tables-taxes": "^0.7",
     "sjbr/static-info-tables": "^11.5 || ^12"
   },
