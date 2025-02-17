@@ -135,7 +135,7 @@ class tx_ttproducts_creditpoints_div
     } // getCreditPoints
 
     /**
-     * adds the number of creditpoints for the frontend user.
+     * adds the number of creditpoints to the frontend user.
      */
     public static function addCreditPoints($username, $creditpoints): void
     {
