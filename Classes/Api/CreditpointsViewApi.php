@@ -32,7 +32,9 @@ namespace JambageCom\TtProducts\Api;
 /**
  * Part of the tt_products (Shop System) extension.
  *
- * functions for the basket item view
+ * functions for the basket item view of credit points
+ *
+ * deprecated for some markers which do not belong to auto credit points
  *
  * @author  Franz Holzinger <franz@ttproducts.de>
  *
