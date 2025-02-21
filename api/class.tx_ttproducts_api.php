@@ -291,7 +291,7 @@ class tx_ttproducts_api
         $templateCode,
         $conf,
         $infoObj,
-        $basketView,
+        $basketViewObj,
         $calculatedArray,
         $fromArray
     ) {
@@ -368,7 +368,7 @@ class tx_ttproducts_api
                 $empty = '';
                 $feUserRecord = [];
                 $emailContent = trim(
-                    $basketView->getView(
+                    $basketViewObj->getView(
                         $errorCode,
                         $templateCode,
                         'EMAIL',
@@ -527,7 +527,7 @@ class tx_ttproducts_api
 
         $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config'); // init ok
         // $markerObj  init ok
-        $basketView = GeneralUtility::makeInstance('tx_ttproducts_basket_view');
+        $basketViewObj = GeneralUtility::makeInstance('tx_ttproducts_basket_view');
         $infoViewObj = GeneralUtility::makeInstance('tx_ttproducts_info_view');
         $infoObj = $infoViewObj->getModelObj();
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables'); // init ok
@@ -589,7 +589,7 @@ class tx_ttproducts_api
             $markerArray['###CUSTOMER_RECIPIENTS_EMAIL###'] = implode(',', $emailControlArray['customer']['none']['recipient']);
 
             $customerEmailHTML =
-                $basketView->getView(
+                $basketViewObj->getView(
                     $errorCode,
                     $templateCode,
                     'EMAIL',
@@ -741,7 +741,7 @@ class tx_ttproducts_api
         if ($conf['generateXML']) {
             $orderXML =
                 trim(
-                    $basketView->getView(
+                    $basketViewObj->getView(
                         $errorCode,
                         $templateCode,
                         'EMAIL',
@@ -1133,7 +1133,7 @@ class tx_ttproducts_api
 
                         if (isset($basketItemArray) && is_array($basketItemArray)) {
                             $basketText =
-                                $basketView->getView(
+                                $basketViewObj->getView(
                                     $errorCode,
                                     $templateCode,
                                     'EMAIL',
@@ -1159,7 +1159,7 @@ class tx_ttproducts_api
 
                             if ($conf['orderEmail_htmlmail']) {
                                 $basketHtml =
-                                    $basketView->getView(
+                                    $basketViewObj->getView(
                                         $errorCode,
                                         $templateCode,
                                         'EMAIL',
@@ -1284,7 +1284,7 @@ class tx_ttproducts_api
 
                         $reducedBasketPlaintext =
                             trim(
-                                $basketView->getView(
+                                $basketViewObj->getView(
                                     $errorCode,
                                     $templateCode,
                                     'EMAIL',
@@ -1318,7 +1318,7 @@ class tx_ttproducts_api
                         if ($conf['orderEmail_htmlmail']) {
                             $reducedBasketHtml =
                                 trim(
-                                    $basketView->getView(
+                                    $basketViewObj->getView(
                                         $errorCode,
                                         $templateCode,
                                         'EMAIL',
@@ -1430,7 +1430,7 @@ class tx_ttproducts_api
                         $pObj,
                         $infoViewObj,
                         $templateCode,
-                        $basketView,
+                        $basketViewObj,
                         $funcTablename,
                         $orderUid,
                         $orderConfirmationHTML,
