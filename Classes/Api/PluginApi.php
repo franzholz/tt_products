@@ -199,6 +199,7 @@ class PluginApi
             // FHO neu Hier Teile aus init von main hinein verschoben
             $urlObj = GeneralUtility::makeInstance('tx_ttproducts_url_view');
             $urlObj->init($conf);
+            $urlObj->setUrlArray([]);
         }
     }
 

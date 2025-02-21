@@ -95,7 +95,7 @@ class ActivityController implements SingletonInterface
         $this->config = $cnf->config;
         $this->useArticles = $useArticles;
 
-        $this->urlObj = GeneralUtility::makeInstance('tx_ttproducts_url_view'); // a copy of it
+        $this->urlObj = GeneralUtility::makeInstance('tx_ttproducts_url_view');
         // This handleURL is called instead of the THANKS-url in order to let handleScript process the information if payment by credit card or so.
         $this->urlArray = [];
         if (!empty($basketExtra['payment.']['handleURL'])) {
@@ -783,20 +783,20 @@ class ActivityController implements SingletonInterface
                     $orderUid,
                     $orderArray,
                     $basketObj->getItemArray(),
-                        $paymentHTML,
-                        0,
-                        $basketExtra,
-                        $feUserRecord,
-                        $basketObj->getCalculatedArray(),
-                        $infoObj,
-                        $cardObj->getUid(),
-                        $accountObj->getUid(),
-                        $infoObj,
-                        $giftServiceArticleArray,
-                        $basketObj->recs['tt_products']['vouchercode'] ?? '',
-                        0,
-                        0,
-                        false
+                    $paymentHTML,
+                    0,
+                    $basketExtra,
+                    $feUserRecord,
+                    $basketObj->getCalculatedArray(),
+                    $infoObj,
+                    $cardObj->getUid(),
+                    $accountObj->getUid(),
+                    $infoObj,
+                    $giftServiceArticleArray,
+                    $basketObj->recs['tt_products']['vouchercode'] ?? '',
+                    0,
+                    0,
+                    false
                 );
             }
         } elseif (
