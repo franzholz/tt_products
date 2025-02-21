@@ -88,7 +88,7 @@ class tx_ttproducts_basket_view implements SingletonInterface
         $this->errorCode = $errorCode;
         $this->useArticles = $useArticles;
 
-        $this->urlObj = GeneralUtility::makeInstance('tx_ttproducts_url_view'); // a copy of it
+        $this->urlObj = clone GeneralUtility::makeInstance('tx_ttproducts_url_view'); // a copy of it
         $this->urlObj->setUrlArray($urlArray);
     } // init
 
@@ -634,6 +634,7 @@ class tx_ttproducts_basket_view implements SingletonInterface
                     $itemOut = $basketItemViewApi->generateItemView(
                         $hiddenFields,
                         $checkPriceArray,
+                        $this->urlObj,
                         $actItem,
                         $quantity,
                         $t['item'],

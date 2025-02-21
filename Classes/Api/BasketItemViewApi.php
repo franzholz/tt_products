@@ -165,7 +165,7 @@ class BasketItemViewApi implements SingletonInterface
     public function generateItemView(
         &$hiddenFields,
         &$checkPriceArray, // neu
-        //         $conf, neu
+        $urlObj, //         $conf, neu
         array $item,
         $quantity,
         $itemFrameWork,
@@ -192,7 +192,6 @@ class BasketItemViewApi implements SingletonInterface
         $itemTable = $itemTableView->getModelObj();
         $basketItemView = GeneralUtility::makeInstance('tx_ttproducts_basketitem_view');
         $checkPriceZero = true;
-        $urlObj = GeneralUtility::makeInstance('tx_ttproducts_url_view'); // a copy of it
         $orderAddressObj = $tablesObj->get('fe_users', false);
         $articleViewObj = $tablesObj->get('tt_products_articles', true);
         $row = $item['rec'];
@@ -259,6 +258,7 @@ class BasketItemViewApi implements SingletonInterface
             $funcTablename,
             $row,
             'SINGLE',
+            $urlObj,
             $this->getViewTagArray(),
             false,
             $productRowArray,

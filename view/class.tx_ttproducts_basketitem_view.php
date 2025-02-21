@@ -102,6 +102,7 @@ class tx_ttproducts_basketitem_view implements SingletonInterface
         $funcTablename,
         $row,
         $theCode,
+        $urlObj,
         $tagArray,
         $bEditable,
         $productRowArray,
@@ -125,7 +126,6 @@ class tx_ttproducts_basketitem_view implements SingletonInterface
         $cObj = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $viewTableView = $tablesObj->get($productFuncTablename, true);
-        $urlObj = GeneralUtility::makeInstance('tx_ttproducts_url_view');
         $editVariantApi->getSubpartMarkerArray(
             $templateCode,
             $productFuncTablename,
