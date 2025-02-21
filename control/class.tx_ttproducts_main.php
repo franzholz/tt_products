@@ -327,14 +327,8 @@ class tx_ttproducts_main implements SingletonInterface
             }
         }
 
-        // if t3jquery is loaded and the custom library had been created
-        if (
-            defined('T3JQUERY') &&
-            T3JQUERY === true
-        ) {
-            tx_t3jquery::addJqJS();
-        } elseif (!empty($conf['pathToJquery'])) {
-            // if none of the previous is true, you need to include your own library
+        if (!empty($conf['pathToJquery'])) {
+            // include your own library
             $GLOBALS['TSFE']->additionalHeaderData[TT_PRODUCTS_EXT . '-jquery'] = '<script src="' . GeneralUtility::getFileAbsFileName($conf['pathToJquery']) . '" type="text/javascript" ></script>';
         }
 
