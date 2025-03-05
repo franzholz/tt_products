@@ -184,7 +184,8 @@ class tx_ttproducts_product extends tx_ttproducts_article_base
 
     public function getMatchingArticleRows(
         $productRow,
-        $articleRows
+        $articleRows,
+        $mergePrices = true
     ) {
         $fieldArray = [];
         $variantApi = GeneralUtility::makeInstance(VariantApi::class);
@@ -194,17 +195,16 @@ class tx_ttproducts_product extends tx_ttproducts_article_base
         foreach ($variantConf as $k => $field) {
             if (
                 isset($productRow[$field]) &&
-                strlen($productRow[$field]) &&
+                strlen((string) $productRow[$field]) &&
                 $field != $variantApi->getAdditionalField()
             ) {
-                // 			[\h]+
                 $fieldArray[$field] =
-                    preg_split(
-                        '/[\h]*' . $variantSeparator . '[\h]*/',
-                        $productRow[$field],
-                        -1,
-                        PREG_SPLIT_NO_EMPTY
-                    );
+                preg_split(
+                    '/[\h]*' . $variantSeparator . '[\h]*/',
+                    (string) $productRow[$field],
+                           -1,
+                           PREG_SPLIT_NO_EMPTY
+                );
             }
         }
 
@@ -219,22 +219,21 @@ class tx_ttproducts_product extends tx_ttproducts_article_base
                     $rowFieldArray = [];
                     if (
                         isset($row[$field]) &&
-                        strlen($row[$field])
+                        strlen((string) $row[$field])
                     ) {
                         $rowFieldArray =
-                            preg_split(
-                                '/[\h]*' . $variantSeparator . '[\h]*/',
-                                $row[$field],
-                                -1,
-                                PREG_SPLIT_NO_EMPTY
-                            );
+                        preg_split(
+                            '/[\h]*' . $variantSeparator . '[\h]*/',
+                            (string) $row[$field],
+                                   -1,
+                                   PREG_SPLIT_NO_EMPTY
+                        );
                     }
                     $rowFieldArray = array_map('trim', $rowFieldArray);
-
                     $intersectArray = array_intersect($valueArray, $rowFieldArray);
                     if (
                         isset($row[$field]) &&
-                        strlen($row[$field]) &&
+                        strlen((string) $row[$field]) && // neu FHO: Auch 0 ist ein gültiger Wert für Varianten.
                         !count($intersectArray) &&
                         $field != 'additional'
                     ) {
@@ -250,7 +249,7 @@ class tx_ttproducts_product extends tx_ttproducts_article_base
             $articleRow = $bFitArticleRowArray[0] ?? [];
 
             if ($articleCount > 1) {
-                // many articles fit here. So lets generated a merged article.
+                // many articles fit here. So lets generate a merged article.
                 for ($i = 1; $i < $articleCount; $i++) {
                     $this->mergeAttributeFields(
                         $articleRow,
@@ -259,7 +258,8 @@ class tx_ttproducts_product extends tx_ttproducts_article_base
                         true,
                         true,
                         '',
-                        true
+                        true,
+                        $mergePrices
                     );
                 }
 
@@ -268,7 +268,6 @@ class tx_ttproducts_product extends tx_ttproducts_article_base
                 }
             }
         }
-
         return $articleRow;
     }
 
