@@ -55,9 +55,6 @@ class tx_ttproducts_creditpoints_div
         $pricefactor = 0;
 
         if (isset($conf['creditpoints.'])) {
-            if (isset($conf['creditpoints.']['priceprod'])) {
-                $pricefactor = $conf['creditpoints.']['priceprod'];
-            }
             if (isset($conf['creditpoints.']['pricefactor'])) {
                 $pricefactor = $conf['creditpoints.']['pricefactor'];
             }
@@ -138,7 +135,7 @@ class tx_ttproducts_creditpoints_div
     } // getCreditPoints
 
     /**
-     * adds the number of creditpoints for the frontend user.
+     * adds the number of creditpoints to the frontend user.
      */
     public static function addCreditPoints($username, $creditpoints): void
     {

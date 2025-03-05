@@ -1035,6 +1035,7 @@ class tx_ttproducts_single_view implements SingletonInterface
                         $itemTableArray[$this->type]->getFuncTablename(),
                         $row,
                         'SINGLE',
+                        $urlObj,
                         $viewTagArray,
                         true,
                         [],

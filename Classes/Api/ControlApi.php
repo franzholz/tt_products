@@ -35,6 +35,9 @@ namespace JambageCom\TtProducts\Api;
  * @author  Franz Holzinger <franz@ttproducts.de>
  *
  */
+
+use JambageCom\TtProducts\Api\CustomerApi;
+
 class ControlApi
 {
     protected static $conf = [];

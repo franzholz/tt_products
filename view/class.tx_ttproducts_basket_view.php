@@ -88,7 +88,7 @@ class tx_ttproducts_basket_view implements SingletonInterface
         $this->errorCode = $errorCode;
         $this->useArticles = $useArticles;
 
-        $this->urlObj = GeneralUtility::makeInstance('tx_ttproducts_url_view'); // a copy of it
+        $this->urlObj = GeneralUtility::makeInstance('tx_ttproducts_url_view');
         $this->urlObj->setUrlArray($urlArray);
     } // init
 
@@ -315,7 +315,7 @@ class tx_ttproducts_basket_view implements SingletonInterface
         $piVars = $parameterApi->getPiVars();
         $articleViewTagArray = [];
         $checkPriceZero = true;
-        $this->urlObj = GeneralUtility::makeInstance('tx_ttproducts_url_view'); // a copy of it
+        $this->urlObj = GeneralUtility::makeInstance('tx_ttproducts_url_view');
 
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $billdeliveryObj = GeneralUtility::makeInstance('tx_ttproducts_billdelivery');
@@ -634,6 +634,7 @@ class tx_ttproducts_basket_view implements SingletonInterface
                     $itemOut = $basketItemViewApi->generateItemView(
                         $hiddenFields,
                         $checkPriceArray,
+                        $this->urlObj,
                         $actItem,
                         $quantity,
                         $t['item'],

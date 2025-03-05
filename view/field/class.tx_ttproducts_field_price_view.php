@@ -300,10 +300,7 @@ class tx_ttproducts_field_price_view extends tx_ttproducts_field_base_view
             $priceMarkerArray['###TAX###'] = strval($row['tax']);
         }
 
-        $pricefactor = 0;
-        if (isset($conf['creditpoints.']['priceprod'])) {
-            $pricefactor = floatval($conf['creditpoints.']['priceprod']);
-        }
+        $pricefactor = tx_ttproducts_creditpoints_div::getPriceFactor($conf);
 
         if ($field == 'price') {
             // price if discounted by credipoints

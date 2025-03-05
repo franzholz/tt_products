@@ -198,6 +198,7 @@ class tx_ttproducts_db implements SingletonInterface
                         $row = $itemTable->get($uid);
 
                         if ($row) {
+                            $rowArticle = null;
                             if ($useArticles == 3) {
                                 $itemTable->fillVariantsFromArticles($row);
                                 $articleRows = $itemTable->getArticleRows(intval($row['uid']));
@@ -287,25 +288,55 @@ class tx_ttproducts_db implements SingletonInterface
                                     [],
                                     true
                                 );
+
+                            if ($useArticles == 1) {
+                                $rowArticle =
+                                    $itemTable->getArticleRow(
+                                        $currRow, // $rowArray[$table],
+                                        $theCode
+                                    );
+                            } elseif ($useArticles == 3) {
+                                $rowArticle =
+                                    $itemTable->getMatchingArticleRows(
+                                        $currRow,
+                                        $articleRows
+                                    );
+                            }
+
+                            if (isset($rowArticle) && is_array($rowArticle)) {
+
+                                $itemTable->mergeAttributeFields(
+                                $currRow,
+                                $rowArticle,
+                                false,
+                                true,
+                                true,
+                                '',
+                                false,
+                                true // $mergePrices
+                                );
+                            }
+
                             $basketExt1 = tx_ttproducts_control_basket::generatedBasketExtFromRow(
                                 $currRow,
                                 '1'
                             );
+
                             $taxInfoArray = [];
                             $tax = floatval(0);
 
                             $itemArray =
-                            $basketObj->getItemArrayFromRow(
-                                $tax,
-                                $taxInfoArray,
-                                $currRow,
-                                $basketExt1,
-                                $basketExtra,
-                                $basketRecs,
-                                $funcTablename,
-                                'useExt',
-                                $externalRowArray
-                            );
+                                $basketObj->getItemArrayFromRow(
+                                    $tax,
+                                    $taxInfoArray,
+                                    $currRow,
+                                    $basketExt1,
+                                    $basketExtra,
+                                    $basketRecs,
+                                    $funcTablename,
+                                    'useExt',
+                                    $externalRowArray
+                                );
 
                             $basketObj->setMaxTax($modifiedRow['tax']);
                             $recalculateItems = true;
@@ -331,20 +362,6 @@ class tx_ttproducts_db implements SingletonInterface
 
                             $totalDiscountField = FieldInterface::DISCOUNT;
                             $itemTable->getTotalDiscount($modifiedRow);
-
-                            if ($useArticles == 1) {
-                                $rowArticle =
-                                    $itemTable->getArticleRow(
-                                        $modifiedRow, // $rowArray[$table],
-                                        $theCode
-                                    );
-                            } elseif ($useArticles == 3) {
-                                $rowArticle =
-                                    $itemTable->getMatchingArticleRows(
-                                        $modifiedRow,
-                                        $articleRows
-                                    );
-                            }
 
                             if (
                                 !$useFal &&
@@ -729,6 +746,7 @@ class tx_ttproducts_db implements SingletonInterface
 
             $markerArray = [];
             $theMarkerArray = [];
+
             $newRow = $itemTableView->modifyFieldObject(
                 $theMarkerArray,
                 $row,
@@ -739,6 +757,7 @@ class tx_ttproducts_db implements SingletonInterface
                 $fieldMarkerArray,
                 $markerArray
             );
+
             foreach ($newRow as $field => $v) {
                 $tagId = ControlApi::getTagId(
                     $jsTableNamesId,

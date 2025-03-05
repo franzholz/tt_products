@@ -1,3 +1,6 @@
+2025-02-10  Franz Holzinger  <franz@ttproducts.de>
+    * Only the new transactor extension is supported
+
 2025-01-04  Franz Holzinger  <franz@ttproducts.de>
     * Deprecation no. 97126: TCEforms removed in FlexForm
 

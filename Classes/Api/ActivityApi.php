@@ -40,7 +40,9 @@ namespace JambageCom\TtProducts\Api;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
+use JambageCom\TtProducts\Api\CustomerApi;
 use JambageCom\TtProducts\Api\ParameterApi;
+
 
 class ActivityApi implements SingletonInterface
 {

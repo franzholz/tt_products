@@ -1195,29 +1195,31 @@ class tx_ttproducts_basket implements SingletonInterface
 
     public function getItemRow(
         array $row,
-        $bextVarLine,
+        $extVarLine,
         $useArticles,
         $funcTablename,
         $basketExt = [],
-        $mergeAttributeFields = true
+        $mergeAttributeFields = true,
+        $mergePrices = true
     ) {
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $viewTableObj = $tablesObj->get($funcTablename);
+        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
+        $basketApi = GeneralUtility::makeInstance(BasketApi::class);
         $variantApi = GeneralUtility::makeInstance(VariantApi::class);
         $variantSeparator = $variantApi->getSplitSeparator();
-        $basketApi = GeneralUtility::makeInstance(BasketApi::class);
-        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
 
         $uid = $row['uid'];
         $calculationField = FieldInterface::PRICE_CALCULATED;
 
-        $bextVarArray = GeneralUtility::trimExplode('|', $bextVarLine);
-        $bextVars = $bextVarArray[0];
+        $bextVarArray = GeneralUtility::trimExplode('|', $extVarLine);
+        $bextVars = $bextVarArray[0]; // neu vorher: [0]
         $currRow = $row;
 
         if ($useArticles != 3) {
             $variantApi->modifyRowFromVariant(
                 $currRow,
+                $useArticles,
                 $bextVars
             );
         }
@@ -1225,15 +1227,15 @@ class tx_ttproducts_basket implements SingletonInterface
         $extTable = $funcTablename;
         $extUid = $uid;
         $extArray =
-            [
-                'uid' => $extUid,
-                'vars' => $bextVars,
-            ];
+        [
+            'uid' => $extUid,
+            'vars' => $bextVars,
+        ];
         $currRow['ext'][$extTable][] = $extArray;
 
         foreach ($bextVarArray as $k => $bextVar) {
             if (
-                strpos($bextVar, 'tx_dam') === 0 &&
+                str_starts_with($bextVar, 'tx_dam') &&
                 isset($bextVarArray[$k + 1])
             ) {
                 $extTable = 'tx_dam';
@@ -1243,42 +1245,42 @@ class tx_ttproducts_basket implements SingletonInterface
                 $currRow['ext'][$extTable][] = ['uid' => $extUid];
             }
 
-            if (strpos($bextVar, 'editVariant:') === 0) {
+            if (str_starts_with($bextVar, 'editVariant:')) {
                 $editVariant = str_replace('editVariant:', '', $bextVar);
                 $variantArray =
-                    preg_split(
-                        '/[\h]*' . VariantApi::INTERNAL_VARIANT_SEPARATOR . '[\h]*/',
-                        $editVariant,
+                preg_split(
+                    '/[\h]*' . VariantApi::INTERNAL_VARIANT_SEPARATOR . '[\h]*/',
+                    (string) $editVariant,
                         -1,
                         PREG_SPLIT_NO_EMPTY
-                    );
+                );
 
                 $editVariantRow = [];
                 foreach ($variantArray as $variant) {
-                    $parts = explode('=>', $variant);
+                    $parts = explode('=>', (string) $variant);
                     if (
                         isset($parts) &&
                         is_array($parts) &&
                         count($parts) == 2
                     ) {
-                        $editVariantRow[$parts['0']] = $parts['1'];
+                        $editVariantRow[$parts[0]] = $parts[1];
                     }
                 }
                 $currRow = array_merge($currRow, $editVariantRow);
                 $currRow['ext']['editVariant'] = $bextVar;
             }
 
-            if (($pos = strpos($bextVar, 'records:')) === 0) {
+            if (($pos = strpos((string) $bextVar, 'records:')) === 0) {
                 $recordVariant = substr($bextVar, $pos + strlen('records:'));
                 $variantArray = explode(VariantApi::EXTERNAL_QUANTITY_SEPARATOR, $recordVariant);
                 $recordVariantRow = [];
                 foreach ($variantArray as $variant) {
-                    $parts = explode('=', $variant);
+                    $parts = explode('=', (string) $variant);
                     if (isset($parts) && is_array($parts) && count($parts) == 2) {
-                        $funcTablename = $parameterApi->getParamsTable($parts['0']);
+                        $funcTablename = $parameterApi->getParameterTable($parts[0]);
                         if ($funcTablename !== false) {
                             $localTableObj = $tablesObj->get($funcTablename);
-                            $recordRow = $localTableObj->get(intval($parts['1']));
+                            $recordRow = $localTableObj->get(intval($parts[1]));
                             if (!empty($recordRow)) {
                                 $recordVariantRow[$funcTablename] = $recordRow;
                             }
@@ -1288,8 +1290,7 @@ class tx_ttproducts_basket implements SingletonInterface
                 $currRow['ext']['records'] = $recordVariantRow;
             }
         }
-        // $currRow['extVars'] = $bextVars;
-        $currRow['ext']['extVarLine'] = $bextVarLine;
+        $currRow['ext']['extVarLine'] = $extVarLine;
 
         if (
             in_array($useArticles, [1, 3]) &&
@@ -1300,22 +1301,22 @@ class tx_ttproducts_basket implements SingletonInterface
 
             if ($useArticles == 1) {
                 $articleRow =
-                    $viewTableObj->getArticleRow(
-                        $currRow,
-                        'BASKET',
-                        false
-                    );
+                $viewTableObj->getArticleRow(
+                    $currRow,
+                    'BASKET',
+                    false
+                );
 
                 if ($articleRow) {
                     $articleRowArray[] = $articleRow;
                 }
             } elseif ($useArticles == 3) {
                 $articleRowArray =
-                    $viewTableObj->getArticleRowsFromVariant(
-                        $currRow,
-                        'BASKET',
-                        $bextVars
-                    );
+                $viewTableObj->getArticleRowsFromVariant(
+                    $currRow,
+                    'BASKET',
+                    $bextVars
+                );
             }
 
             if (
@@ -1338,13 +1339,18 @@ class tx_ttproducts_basket implements SingletonInterface
                 false,
                 true,
                 '',
-                false
+                false,
+                $mergePrices
             );
+            if ($mergePrices) {
+                $mergePrices = false;  // Preise nicht ein 2. Mal aufaddieren
+            }
         }
 
         if ($useArticles == 3) {
             $variantApi->modifyRowFromVariant(
                 $currRow,
+                $useArticles,
                 $bextVars
             );
         }
@@ -1359,23 +1365,23 @@ class tx_ttproducts_basket implements SingletonInterface
 
             if ($mergeAttributeFields) {
                 $pricetablesCalculator = GeneralUtility::makeInstance('tx_ttproducts_pricetablescalc');
-
                 $count =
-                    $basketApi->getBasketCount(
-                        $currRow,
-                        $basketExt,
-                        $bextVarLine,
-                        $this->conf['quantityIsFloat']
-                    );
+                $basketApi->getBasketCount(
+                    $currRow,
+                    $basketExt,
+                    $extVarLine,
+                    $this->conf['quantityIsFloat']
+                );
 
                 $parentProductCount =
-                    $basketApi->getBasketCount(
-                        $currRow,
-                        $basketExt,
-                        $bextVarLine,
-                        $this->conf['quantityIsFloat'],
-                        true
-                    );
+                $basketApi->getBasketCount(
+                    $currRow,
+                    $basketExt,
+                    $extVarLine,
+                    $this->conf['quantityIsFloat'],
+                    true
+                );
+
                 $articleObj = $tablesObj->get('tt_products_articles', false);
                 $graduatedPriceObj = $articleObj->getGraduatedPriceObject();
 
@@ -1391,17 +1397,18 @@ class tx_ttproducts_basket implements SingletonInterface
                         }
 
                         $calculatedPrice =
-                            $pricetablesCalculator->getDiscountPrice(
-                                $graduatedPriceObj,
-                                $articleRow,
-                                $articleRow['price'],
-                                $calculationCount
-                            );
+                        $pricetablesCalculator->getDiscountPrice(
+                            $graduatedPriceObj,
+                            $articleRow,
+                            $articleRow['price'],
+                            $calculationCount
+                        );
 
                         if ($calculatedPrice !== false) {
                             $articleRow[$calculationField] = $calculatedPrice;
                         }
                     }
+
                     $viewTableObj->mergeAttributeFields(
                         $currRow['ext']['mergeArticles'],
                         $articleRow,
@@ -1409,7 +1416,8 @@ class tx_ttproducts_basket implements SingletonInterface
                         true,
                         true,
                         $calculationField,
-                        false
+                        false,
+                        $mergePrices
                     );
                 }
             }

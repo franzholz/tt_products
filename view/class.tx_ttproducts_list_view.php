@@ -2850,6 +2850,7 @@ class tx_ttproducts_list_view
                                 $funcTablename,
                                 $row,
                                 $theCode,
+                                $urlObj,
                                 $viewTagArray,
                                 $bEditableVariants,
                                 $productRowArray,
