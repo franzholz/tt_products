@@ -6,7 +6,10 @@ services:
 
   JambageCom\TtProducts\:
     resource: '../Classes/'
-    exclude: ['../Classes/{Backend,Middleware,UserFunc,Api,Hooks}/', '../Classes/Form/Element/Old*.php']
+    exclude: ['../Classes/{Api,Backend,Hooks,Middleware,SessionHandler,UserFunc}/', '../Classes/Form/Element/Old*.php']
+
+  JambageCom\TtProducts\Api\Localization:
+    public: true
 
   JambageCom\TtProducts\Domain\Model\Dto\EmConfiguration:
     public: true

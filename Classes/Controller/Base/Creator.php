@@ -139,7 +139,7 @@ class Creator implements SingletonInterface
             $pLangObj = $this;
         }
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
-        $languageObj = static::getLanguageObj($pLangObj, $cObj, $conf);
+        $languageObj = static::getLanguageObj($pLangObj, $request, $cObj, $conf);
         $markerObj = GeneralUtility::makeInstance('tx_ttproducts_marker');
         $piVars = $parameterApi->getPiVars();
         $result = $markerObj->init(
@@ -278,7 +278,12 @@ class Creator implements SingletonInterface
         return true;
     }
 
-    public static function getLanguageObj($pLangObj, $cObj, $conf)
+    public static function getLanguageObj(
+        $pLangObj,
+        ServerRequestInterface $request = null,
+        $cObj,
+        $conf
+    )
     {
         $languageObj = GeneralUtility::makeInstance(Localization::class);
         $languageSubpath = '/Resources/Private/Language/';
@@ -294,7 +299,7 @@ class Creator implements SingletonInterface
         $languageObj->init(
             TT_PRODUCTS_EXT,
             $confLocalLang,
-            $languageSubpath
+            $request
         );
 
         $languageObj->loadLocalLang(

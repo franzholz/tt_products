@@ -6,7 +6,7 @@ $EM_CONF[$_EXTKEY] = [
   'title' => 'Shop System',
   'description' => 'Advanced versions at ttproducts.de. Documented in the E-Book "Der TYPO3-Webshop" - Shop with listing in multiple languages, with order tracking, product variants, support for transactor extension, bill, creditpoint and voucher system.',
   'state' => 'stable',
-  'version' => '2.16.2',
+  'version' => '2.16.3',
   'manual' => true,
   'author' => 'Franz Holzinger',
   'author_company' => 'jambage.com',
@@ -14,12 +14,12 @@ $EM_CONF[$_EXTKEY] = [
   'category' => 'plugin',
   'constraints' => [
     'depends' => [
-      'div2007' => '2.0.5-2.2.99',
-      'filelist' => '12.4.0-12.4.99',
-      'table' => '0.13.0-0.0.0',
-      'tsparser' => '0.13.0-0.0.0',
-      'typo3db_legacy' => '1.0.0-1.3.99',
-      'typo3' => '12.4.0-12.4.99',
+        'div2007' => '2.3.0-2.3.99',
+        'filelist' => '12.4.0-12.4.99',
+        'table' => '0.13.0-0.0.0',
+        'tsparser' => '0.13.0-0.0.0',
+        'typo3db_legacy' => '1.0.0-1.3.99',
+        'typo3' => '12.4.0-12.4.99',
     ],
     'conflicts' => [
     ],

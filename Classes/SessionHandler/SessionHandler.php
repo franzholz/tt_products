@@ -16,9 +16,10 @@ namespace JambageCom\TtProducts\SessionHandler;
  *
  * The TYPO3 project - inspiring people to share!
  */
-use JambageCom\Div2007\SessionHandler\Typo3SessionHandler;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+
+use JambageCom\Div2007\SessionHandler\Typo3SessionHandler;
 
 class SessionHandler extends Typo3SessionHandler implements SingletonInterface
 {
@@ -33,7 +34,7 @@ class SessionHandler extends Typo3SessionHandler implements SingletonInterface
         $data = $session->getSessionData();
         $data[$internalKey] = $value;
         $session->setSessionData($data);
-        $data = $session->getSessionData();
+        return true;
     }
 
     public static function readSession($internalKey = '')
