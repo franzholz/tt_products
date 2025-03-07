@@ -10,7 +10,7 @@ use TYPO3\CMS\Extbase\Utility\FrontendSimulatorUtility;
 
 use JambageCom\TtProducts\Hooks\OrderBackend;
 
-class OrderedProductsElement extends AbstractFormElement
+class OldOrderedProductsElement extends AbstractFormElement
 {
     public function render()
     {

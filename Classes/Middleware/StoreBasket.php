@@ -39,10 +39,11 @@ class StoreBasket implements MiddlewareInterface
         $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
         $parameterApi->setRequest($request);
         $basketExtRaw = $parameterApi->getBasketExtRaw();
+        $frontendUser = $request->getAttribute('frontend.user');
+        // Keep this line: Initialization for the session handler!
+        $sessionHandler = GeneralUtility::makeInstance(SessionHandler::class, $frontendUser);
 
         if (is_array($basketExtRaw) && !empty($basketExtRaw)) {
-            $sessionHandler = GeneralUtility::makeInstance(SessionHandler::class);
-            $sessionHandler->allowCookie(); // TODO
             $variantApi = GeneralUtility::makeInstance(VariantApi::class);
             $basketApi = GeneralUtility::makeInstance(BasketApi::class);
             $basketExt = $basketApi->readBasketExt();

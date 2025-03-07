@@ -65,7 +65,7 @@ class tx_ttproducts_marker implements SingletonInterface
         $this->markerArray = ['CATEGORY', 'PRODUCT', 'ARTICLE'];
         $markerFile = $conf['markerFile'] ?? '';
         $languageObj = GeneralUtility::makeInstance(Localization::class);
-        $language = $languageObj->getLanguage();
+        $language = $languageObj->getTypo3LanguageKey();
         $languageSubpath = '/Resources/Private/Language/';
         $defaultMarkerFile = 'EXT:' . TT_PRODUCTS_EXT . $languageSubpath . 'locallang_marker.xlf';
         $languageObj->loadLocalLang($defaultMarkerFile);
