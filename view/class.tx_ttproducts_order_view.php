@@ -1041,8 +1041,8 @@ class tx_ttproducts_order_view extends tx_ttproducts_table_base_view
 
         $this->getModelObj()->getOrderedProducts(
             $from,
-            $where,
             $uids,
+            $where,
             $orderBy,
             $whereProducts,
             false,
