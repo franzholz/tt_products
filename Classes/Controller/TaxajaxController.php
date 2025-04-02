@@ -57,8 +57,8 @@ class TaxajaxController
         // ******************************************************
         $typoScriptConfig = [];
         $tsfe = $request->getAttribute('frontend.typoscript');
-        if (method_exists($tsfe, 'getConfigArray')) {
-            $typoScriptConfig = $tsfe->getConfigArray();
+        if (method_exists($tsfe, 'getSetupArray')) {
+            $typoScriptConfig = $tsfe->getSetupArray();
         } else {
             $typoScriptConfig = $GLOBALS['TSFE']->tmpl->setup;
         }

@@ -78,6 +78,7 @@ abstract class tx_ttproducts_table_base implements SingletonInterface
             'smallimage' => 'tx_ttproducts_field_image',
             'smallimage_uid' => 'tx_ttproducts_field_image',
             'itemnumber' => 'tx_ttproducts_field_text',
+            'inStock' => 'tx_ttproducts_field_instock',
             'note' => 'tx_ttproducts_field_note',
             'note2' => 'tx_ttproducts_field_note',
             'price' => 'tx_ttproducts_field_price',
@@ -313,6 +314,8 @@ abstract class tx_ttproducts_table_base implements SingletonInterface
                 while ($dbRow = $GLOBALS['TYPO3_DB']->sql_fetch_row($res)) {
                     $row = [];
                     foreach ($dbRow as $index => $value) {
+                        $field = '';
+
                         if ($res instanceof mysqli_result) {
                             $fieldObject = mysqli_fetch_field_direct($res, $index);
                             $field = $fieldObject->name;
@@ -320,7 +323,13 @@ abstract class tx_ttproducts_table_base implements SingletonInterface
                             $field = mysql_field_name($res, $index);
                         }
 
-                        if (!isset($row[$field]) || !empty($value)) {
+                        if (
+                            !empty($field) &&
+                            (
+                                !isset($row[$field]) ||
+                                !empty($value)
+                            )
+                        ) {
                             $row[$field] = $value;
                         }
                     }
