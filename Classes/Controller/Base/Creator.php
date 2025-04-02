@@ -110,6 +110,11 @@ class Creator implements SingletonInterface
             }
         }
 
+        if (!isset($request)) {
+            $request = $GLOBALS['TYPO3_REQUEST'];
+            $parameterApi->setRequest($request);
+        }
+
         if (
             !isset($conf['pid_list']) ||
             $conf['pid_list'] == '{$plugin.tt_products.pid_list}'
