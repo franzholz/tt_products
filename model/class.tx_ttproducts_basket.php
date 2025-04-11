@@ -1070,18 +1070,20 @@ class tx_ttproducts_basket implements SingletonInterface
                     }
                 }
 
-                $bIsAddedPrice = $cnfObj->hasConfig($articleRow, 'isAddedPrice');
+                if ($mergePrices) {
+                    $bIsAddedPrice = $cnfObj->hasConfig($articleRow, 'isAddedPrice');
 
-                PriceApi::mergeRows(
-                    $priceRow,
-                    $articleRow,
-                    'price',
-                    $bIsAddedPrice,
-                    $previouslyAddedPrice,
-                    $calculationField,
-                    false,
-                    true
-                );
+                    PriceApi::mergeRows(
+                        $priceRow,
+                        $articleRow,
+                        'price',
+                        $bIsAddedPrice,
+                        $previouslyAddedPrice,
+                        $calculationField,
+                        false,
+                        true
+                    );
+                }
             }
 
             $articleDiscountPrice = $priceRow['price'];
@@ -1635,7 +1637,8 @@ class tx_ttproducts_basket implements SingletonInterface
         $funcTablename,
         $fetchMode = 'useExt',
         $externalRowArray = [],
-        $enableTaxZero = false
+        $enableTaxZero = false,
+        $mergePrices = true // neu
     ) {
         $prodFuncTablename = 'tt_products';
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
@@ -1647,7 +1650,7 @@ class tx_ttproducts_basket implements SingletonInterface
 
             $newItem =
             $this->getItem(
-                true, // $mergePrices
+                $mergePrices
                 $basketExt,
                 $basketExtra,
                 $basketRecs,

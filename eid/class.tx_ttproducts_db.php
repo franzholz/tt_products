@@ -335,7 +335,9 @@ class tx_ttproducts_db implements SingletonInterface
                                     $basketRecs,
                                     $funcTablename,
                                     'useExt',
-                                    $externalRowArray
+                                    $externalRowArray,
+                                    false,
+                                    false
                                 );
 
                             $basketObj->setMaxTax($modifiedRow['tax']);
