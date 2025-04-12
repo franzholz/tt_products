@@ -337,7 +337,7 @@ class tx_ttproducts_db implements SingletonInterface
                                     'useExt',
                                     $externalRowArray,
                                     false,
-                                    false
+                                    !isset($currRow['ext']['mergeArticles'][FieldInterface::PRICE_TAX])
                                 );
 
                             $basketObj->setMaxTax($modifiedRow['tax']);
