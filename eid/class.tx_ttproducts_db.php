@@ -303,19 +303,19 @@ class tx_ttproducts_db implements SingletonInterface
                                     );
                             }
 
-                            if (isset($rowArticle) && is_array($rowArticle)) {
-
-                                $itemTable->mergeAttributeFields(
-                                $currRow,
-                                $rowArticle,
-                                false,
-                                true,
-                                true,
-                                '',
-                                false,
-                                true // $mergePrices
-                                );
-                            }
+                            // if (isset($rowArticle) && is_array($rowArticle)) {
+                            //
+                            //     $itemTable->mergeAttributeFields(
+                            //     $currRow,
+                            //     $rowArticle,
+                            //     false,
+                            //     true,
+                            //     true,
+                            //     '',
+                            //     false,
+                            //     true // $mergePrices
+                            //     );
+                            // }
 
                             $basketExt1 = tx_ttproducts_control_basket::generatedBasketExtFromRow(
                                 $currRow,
