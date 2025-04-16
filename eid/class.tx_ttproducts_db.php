@@ -383,8 +383,10 @@ class tx_ttproducts_db implements SingletonInterface
                                     $cnfObj->getTableConf('tt_products_articles', $theCode);
 
                                 if (
-                                    isset($articleConf['fieldIndex.']) && is_array($articleConf['fieldIndex.']) &&
-                                    isset($articleConf['fieldIndex.']['image.']) && is_array($articleConf['fieldIndex.']['image.'])
+                                    isset($articleConf['fieldIndex.']) &&
+                                    is_array($articleConf['fieldIndex.']) &&
+                                    isset($articleConf['fieldIndex.']['image.']) &&
+                                    is_array($articleConf['fieldIndex.']['image.'])
                                 ) {
                                     $prodImageArray =
                                         GeneralUtility::trimExplode(',', $rowArray[$table]['image']);

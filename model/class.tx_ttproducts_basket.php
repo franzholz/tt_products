@@ -1650,7 +1650,7 @@ class tx_ttproducts_basket implements SingletonInterface
 
             $newItem =
             $this->getItem(
-                $mergePrices
+                $mergePrices,
                 $basketExt,
                 $basketExtra,
                 $basketRecs,
