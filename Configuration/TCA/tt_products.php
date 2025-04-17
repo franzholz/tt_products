@@ -351,10 +351,10 @@ $result = [
             'config' => [
                 'type' => 'inline',
                 'appearance' => [
-                        'collapseAll' => true,
-                        // 'newRecordLinkAddTitle' => true,
-                        // 'useCombination' => true,
-                    ],
+                    'collapseAll' => true,
+                    'newRecordLinkAddTitle' => true,
+                    'useCombination' => true,
+                ],
                 'foreign_table' => 'tt_products_products_mm_articles',
                 'foreign_field' => 'uid_local',
                 'foreign_sortby' => 'sorting',
