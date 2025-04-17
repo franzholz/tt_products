@@ -123,7 +123,6 @@ class PaymentGatewayApi implements SingletonInterface
             $errorMessage = '';
             $parameters = [
                 &$errorMessage,
-                ControlApi::getCObj(),
                 $this->getHandleLibConf(),
             ];
             $result = call_user_func_array(

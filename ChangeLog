@@ -1,3 +1,9 @@
+2025-04-11  Franz Holzinger  <franz@ttproducts.de>
+    * Fix duplicate price addition after Ajax call
+
+2025-04-10  Franz Holzinger  <franz@ttproducts.de>
+    * Breaking no. 97320: Register Report and Status via Service Configuration
+
 2025-02-10  Franz Holzinger  <franz@ttproducts.de>
     * Only the new transactor extension is supported
 

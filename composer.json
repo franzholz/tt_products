@@ -26,7 +26,7 @@
   "require": {
     "typo3/cms-core": "^12.4",
     "typo3/cms-filelist": "^12.4",
-    "jambagecom/div2007": "^2.3",
+    "jambagecom/div2007": "^2.3.3",
     "jambagecom/table": "^0.13",
     "jambagecom/tsparser": "^0.13",
     "friendsoftypo3/typo3db-legacy": "^1"

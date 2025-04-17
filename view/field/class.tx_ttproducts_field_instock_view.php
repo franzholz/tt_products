@@ -58,7 +58,9 @@ class tx_ttproducts_field_instock_view extends tx_ttproducts_field_base_view
         $linkWrap = false,
         $bEnableTaxZero = false
     ) {
+        $value = null;
         if ($row[$fieldname]) {
+            $value = $row[$fieldname];
             $markerArray['###' . $markerKey . '_INSTOCK_UNIT###'] = $this->conf['inStockPieces'];
         } else {
             $value = $this->conf['notInStockMessage'];

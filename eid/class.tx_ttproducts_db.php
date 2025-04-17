@@ -303,19 +303,19 @@ class tx_ttproducts_db implements SingletonInterface
                                     );
                             }
 
-                            if (isset($rowArticle) && is_array($rowArticle)) {
-
-                                $itemTable->mergeAttributeFields(
-                                $currRow,
-                                $rowArticle,
-                                false,
-                                true,
-                                true,
-                                '',
-                                false,
-                                true // $mergePrices
-                                );
-                            }
+                            // if (isset($rowArticle) && is_array($rowArticle)) {
+                            //
+                            //     $itemTable->mergeAttributeFields(
+                            //     $currRow,
+                            //     $rowArticle,
+                            //     false,
+                            //     true,
+                            //     true,
+                            //     '',
+                            //     false,
+                            //     true // $mergePrices
+                            //     );
+                            // }
 
                             $basketExt1 = tx_ttproducts_control_basket::generatedBasketExtFromRow(
                                 $currRow,
@@ -335,7 +335,9 @@ class tx_ttproducts_db implements SingletonInterface
                                     $basketRecs,
                                     $funcTablename,
                                     'useExt',
-                                    $externalRowArray
+                                    $externalRowArray,
+                                    false,
+                                    !isset($currRow['ext']['mergeArticles'][FieldInterface::PRICE_TAX])
                                 );
 
                             $basketObj->setMaxTax($modifiedRow['tax']);
@@ -381,8 +383,10 @@ class tx_ttproducts_db implements SingletonInterface
                                     $cnfObj->getTableConf('tt_products_articles', $theCode);
 
                                 if (
-                                    isset($articleConf['fieldIndex.']) && is_array($articleConf['fieldIndex.']) &&
-                                    isset($articleConf['fieldIndex.']['image.']) && is_array($articleConf['fieldIndex.']['image.'])
+                                    isset($articleConf['fieldIndex.']) &&
+                                    is_array($articleConf['fieldIndex.']) &&
+                                    isset($articleConf['fieldIndex.']['image.']) &&
+                                    is_array($articleConf['fieldIndex.']['image.'])
                                 ) {
                                     $prodImageArray =
                                         GeneralUtility::trimExplode(',', $rowArray[$table]['image']);

@@ -20,9 +20,15 @@ namespace JambageCom\TtProducts\Model\Field;
  */
 interface FieldInterface
 {
-    public const DISCOUNT = 'discount';
-    public const DISCOUNT_DISABLE = 'discount_disable';
-    public const PRICE_CALCULATED = 'calc';
-    public const PRICE_CALCULATED_ADDITION = 'calc_add';
-    public const EXTERNAL_FIELD_PREFIX = 'tx_ttproducts_';
+    final public const DISCOUNT = 'discount';
+    final public const DISCOUNT_DISABLE = 'discount_disable';
+    final public const PRICE_CALCULATED = 'calc';
+    final public const PRICE_CALCULATED_ADDITION = 'calc_add';
+    final public const TCA_PRICE = 'price';
+    final public const PRICE_TAX = 'pricetax';
+    final public const PRICE_NOTAX = 'pricenotax';
+    final public const PRICE_ADDED = 'addedPrice';
+    final public const PRICE_DEPOSIT = 'deposit';
+    final public const PRICE_SURCHARGE = 'surcharge';
+    final public const EXTERNAL_FIELD_PREFIX = 'tx_ttproducts_';
 }
