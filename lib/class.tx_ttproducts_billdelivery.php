@@ -150,7 +150,7 @@ class tx_ttproducts_billdelivery implements SingletonInterface
                     );
                 $className = Bill::class;
                 if (
-                    ExtensionManagementUtility::isLoaded('fpdf') // use FPDF
+                    ExtensionManagementUtility::isLoaded('fluid_fpdf') // use FPDF
                 ) {
                     $className = 'tx_ttproducts_fpdf_view';
                 }
