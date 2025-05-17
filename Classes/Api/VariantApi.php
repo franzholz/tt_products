@@ -701,16 +701,19 @@ class VariantApi implements SingletonInterface
         &$wrappedSubpartArray,
         $row,
         $bHasAdditional,
-        $bGiftService
+        $bGiftService,
+        array $tagArray
     ): void {
         $areaArray = [];
         $remMarkerArray = [];
         $variantConf = $this->getVariantConf();
         $selectableArray = $this->getSelectableArray();
+        $variantNumbers = [];
 
         if (is_array($variantConf)) {
             foreach ($variantConf as $key => $field) {
                 if ($field != 'additional') {	// no additional here
+                    $variantNumbers[$key] = 1;
                     if (
                         !isset($row[$field]) ||
                         trim((string) $row[$field]) == '' ||
@@ -720,6 +723,15 @@ class VariantApi implements SingletonInterface
                     } else {
                         $remMarkerArray[] = 'display_variant' . $key;
                     }
+                }
+            }
+        }
+        $position = strlen('display_variant');
+        foreach ($tagArray as $tag => $key) {
+            if (strpos($tag, 'display_variant') === 0) {
+                $tagRest = intval(substr($tag, $position));
+                if (!isset($variantNumbers[$tagRest])) {
+                    $remSubpartArray[] = 'display_variant' . $tagRest;
                 }
             }
         }
