@@ -392,6 +392,7 @@ plugin.tt_products {
   ajaxDebug = 0
 }
 
+@import 'EXT:tt_products/Configuration/TypoScript/PluginSetup/Share/constants.typoscript'
 
-<INCLUDE_TYPOSCRIPT: source="FILE:EXT:tt_products/Configuration/TypoScript/PluginSetup/Share/constants.typoscript">
+
 
