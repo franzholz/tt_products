@@ -40,7 +40,9 @@ declare(strict_types=1);
 namespace JambageCom\TtProducts\Controller\Base;
 
 use Psr\Http\Message\ServerRequestInterface;
+
 use TYPO3\CMS\Core\Core\Environment;
+use TYPO3\CMS\Frontend\Authentication\FrontendUserAuthentication;
 use TYPO3\CMS\Core\Http\ApplicationType;
 use TYPO3\CMS\Core\Resource\FileRepository;
 use TYPO3\CMS\Core\SingletonInterface;
@@ -158,7 +160,11 @@ class Creator implements SingletonInterface
             return false;
         }
 
-        $feUserRecord = $request->getAttribute('frontend.user')->user;
+        $feUserRecord = [];
+        $frontendUser = $this->getFrontendUser($request);
+        if (is_object($frontendUser)) {
+            $feUserRecord = $frontendUser->user;
+        }
 
         \tx_ttproducts_control_basket::init(
             $conf,
@@ -326,5 +332,13 @@ class Creator implements SingletonInterface
     public function destruct(): void
     {
         \tx_ttproducts_control_basket::destruct();
+    }
+
+    /**
+     * @internal Exposing the full FE user object may change
+     */
+    public function getFrontendUser(ServerRequestInterface $request): ?FrontendUserAuthentication
+    {
+        return $request->getAttribute('frontend.user');
     }
 }

@@ -334,7 +334,7 @@ class tx_ttproducts_basket_view implements SingletonInterface
 
         $useBackPid =
             (
-                isset($viewParamConf) && $viewParamConf['use'] == 'backPID' ?
+                isset($viewParamConf['use']) && $viewParamConf['use'] == 'backPID' ?
                     true :
                     false
             );

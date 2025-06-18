@@ -529,7 +529,7 @@ class tx_ttproducts_list_view
             }
         }
 
-        $useBackPid = (isset($viewParamConf) && $viewParamConf['use'] == 'backPID' ? true : false);
+        $useBackPid = (isset($viewParamConf['use']) && $viewParamConf['use'] == 'backPID' ? true : false);
         if (PluginApi::isRelatedCode($theCode)) {
             $backPid = $config['backPID']; // stay with the current backPid
         }
@@ -1247,6 +1247,7 @@ class tx_ttproducts_list_view
                 $subpartArray,
                 $wrappedSubpartArray
             );
+
             $t['categoryAndItemsFrameWork'] = $templateService->getSubpart($t['listFrameWork'], '###ITEM_CATEGORY_AND_ITEMS###');
             $t['categoryFrameWork'] = $templateService->getSubpart(
                 $t['categoryAndItemsFrameWork'],
@@ -3020,7 +3021,8 @@ class tx_ttproducts_list_view
                                 $row,
                                 // $conf,
                                 $itemTable->hasAdditional($row, 'isSingle'),
-                                !$itemTable->hasAdditional($row, 'noGiftService')
+                                !$itemTable->hasAdditional($row, 'noGiftService'),
+                                $viewTagArray
                             );
                         }
                         $tempContent = '';

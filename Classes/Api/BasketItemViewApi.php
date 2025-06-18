@@ -610,7 +610,8 @@ class BasketItemViewApi implements SingletonInterface
                 $prodVariantRow,
                 //                 $conf,
                 $itemTable->hasAdditional($row, 'isSingle'),
-                !$itemTable->hasAdditional($row, 'noGiftService')
+                !$itemTable->hasAdditional($row, 'noGiftService'),
+                $this->getViewTagArray()
             );
         }
 

@@ -469,7 +469,7 @@ class tx_ttproducts_tracking implements SingletonInterface
         $markerArray['###STATUS_OPTIONS###'] = '';
         $subpartArray['###STATUS_ITEM###'] = $statusItemOut_c;
 
-        $bBEAdmin = ($this->conf['shopAdmin'] == 'BE');
+        $bBEAdmin = (isset($this->conf['shopAdmin']) && $this->conf['shopAdmin'] == 'BE');
         tx_ttproducts_admin_control_view::getSubpartArrays(
             tx_ttproducts_control_access::isAllowed($bBEAdmin),
             $bValidUpdateCode,

@@ -420,7 +420,6 @@ class tx_ttproducts_basketitem_view implements SingletonInterface
                     $text = '';
                     $variantValue = $row[$field] ?? '';
                     $prodTmpRow = preg_split('/[\h]*' . $variantSeparator . '[\h]*/', $variantValue, -1, PREG_SPLIT_NO_EMPTY);
-
                     $imageFileArray = [];
 
                     if ($bSelect && $variantValue && $prodTmpRow[0]) {
@@ -534,6 +533,7 @@ class tx_ttproducts_basketitem_view implements SingletonInterface
                         } else {
                             $text = $variantValue;
                         }
+
                     } else {
                         $prodTmpRow = $row;
                         $variantApi->modifyRowFromVariant($prodTmpRow, $variant);

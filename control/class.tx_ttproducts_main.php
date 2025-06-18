@@ -245,7 +245,7 @@ class tx_ttproducts_main implements SingletonInterface
                 $this->ajax,
                 $urlObj,
                 $cObj,
-                $conf['ajaxDebug']
+                $conf['ajaxDebug'] ?? ''
             );
 
             if (!$result) {
@@ -498,6 +498,7 @@ class tx_ttproducts_main implements SingletonInterface
             if (is_object($addressObj)) {
                 $addressArray = $addressObj->fetchAddressArray($itemArray);
             }
+
             $content .= $controlObj->doProcessing(
                 $basketObj,
                 $this->codeArray,

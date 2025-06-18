@@ -121,7 +121,7 @@ class PluginApi
                 $ajaxObj,
                 $urlObj,
                 $cObj,
-                $conf['ajaxDebug']
+                $conf['ajaxDebug'] ?? ''
             );
             if (!$result) {
                 return false;
