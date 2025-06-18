@@ -157,7 +157,7 @@ class tx_ttproducts_single_view implements SingletonInterface
             }
         }
 
-        $useBackPid = (isset($viewParamConf) && $viewParamConf['use'] == 'backPID' ? true : false);
+        $useBackPid = (isset($viewParamConf['use']) && $viewParamConf['use'] == 'backPID' ? true : false);
 
         $itemTableArray = [];
         $itemTableArray['product'] = $tablesObj->get('tt_products');
@@ -1136,8 +1136,6 @@ class tx_ttproducts_single_view implements SingletonInterface
                     $bDefaultOrder = false;
                 } else {
                     if (
-                        isset($itemTableConf[$this->type]) &&
-                        is_array($itemTableConf[$this->type]) &&
                         isset($itemTableConf[$this->type]['orderBy'])
                     ) {
                         $orderByFieldArray =

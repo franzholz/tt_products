@@ -143,6 +143,7 @@ class tx_ttproducts_config implements SingletonInterface
         if (isset($this->conf[$type . '.'])) {
             if ($tablename != '' && isset($this->conf[$type . '.'][$tablename . '.'])) {
                 if (
+                    isset($this->conf[$type . '.'][$tablename . '.']['ALL.']) &&
                     is_array($this->conf[$type . '.'][$tablename . '.']['ALL.'])
                 ) {
                     $specialConf = $this->conf[$type . '.'][$tablename . '.']['ALL.'];

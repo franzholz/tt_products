@@ -529,7 +529,7 @@ class tx_ttproducts_list_view
             }
         }
 
-        $useBackPid = (isset($viewParamConf) && $viewParamConf['use'] == 'backPID' ? true : false);
+        $useBackPid = (isset($viewParamConf['use']) && $viewParamConf['use'] == 'backPID' ? true : false);
         if (PluginApi::isRelatedCode($theCode)) {
             $backPid = $config['backPID']; // stay with the current backPid
         }

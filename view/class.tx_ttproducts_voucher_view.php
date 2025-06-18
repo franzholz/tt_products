@@ -60,20 +60,20 @@ class tx_ttproducts_voucher_view extends tx_ttproducts_table_base_view
         $languageObj = GeneralUtility::makeInstance(Localization::class);
         $subpartArray['###SUB_VOUCHERCODE###'] = '';
         $code = $modelObj->getVoucherCode();
-        $wrappedSubpartArray['###SUB_VOUCHERCODE_START###'] = [];
+        $wrappedSubpartArray['###SUB_VOUCHERCODE_START###'] = '';
 
         if (
             $modelObj->getValid() &&
             $code != ''
         ) {
             $subpartArray['###SUB_VOUCHERCODE_DISCOUNTWRONG###'] = '';
-            $wrappedSubpartArray['###SUB_VOUCHERCODE_DISCOUNT###'] = [];
+            $wrappedSubpartArray['###SUB_VOUCHERCODE_DISCOUNT###'] = '';
         } else {
             if (!empty($code)) {
                 $tmp = $languageObj->getLabel('voucher_invalid');
                 $tmpArray = explode('|', $tmp);
                 $subpartArray['###SUB_VOUCHERCODE_DISCOUNT###'] = $tmpArray[0] . htmlspecialchars($modelObj->getVoucherCode()) . $tmpArray[1];
-                $wrappedSubpartArray['###SUB_VOUCHERCODE_DISCOUNTWRONG###'] = [];
+                $wrappedSubpartArray['###SUB_VOUCHERCODE_DISCOUNTWRONG###'] = '';
             } else {
                 $subpartArray['###SUB_VOUCHERCODE_DISCOUNT###'] = '';
                 $subpartArray['###SUB_VOUCHERCODE_DISCOUNTWRONG###'] = '';

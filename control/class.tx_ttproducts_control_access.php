@@ -56,7 +56,7 @@ class tx_ttproducts_control_access implements SingletonInterface
 
         $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
         $updateCode = $parameterApi->getParameter('update_code') ?? '';
-        $bRequireBEAdmin = ($conf['shopAdmin'] == 'BE');
+        $bRequireBEAdmin = (isset($conf['shopAdmin']) && $conf['shopAdmin'] == 'BE');
         $bIsAllowed = self::isAllowed($bRequireBEAdmin);
 
         $bValidUpdateCode =
