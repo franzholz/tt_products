@@ -37,13 +37,17 @@ namespace JambageCom\TtProducts\Api;
  * @author  Franz Holzinger <franz@ttproducts.de>
  *
  */
+
+use Psr\Http\Message\ServerRequestInterface;
+
 use TYPO3\CMS\Core\SingletonInterface;
+use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
+use TYPO3\CMS\Frontend\Resource\FilePathSanitizer;
+
 use JambageCom\Transactor\Api\PaymentApi;
 use JambageCom\Transactor\Api\Start;
 use JambageCom\Transactor\Api\Address;
 use JambageCom\Transactor\Api\PaymentAp;
-use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
-use TYPO3\CMS\Frontend\Resource\FilePathSanitizer;
 
 class PaymentGatewayApi implements SingletonInterface
 {
@@ -53,7 +57,12 @@ class PaymentGatewayApi implements SingletonInterface
     protected $handleLibConf = [];
     private bool $needsInit = true;
 
-    public function init(array $basketExtra): void
+    public function init(
+        ServerRequestInterface $request,
+        $languageObj,
+        $conf,
+        array $basketExtra
+    ): void
     {
         if (!$this->needsInit) {
             return;
@@ -73,6 +82,23 @@ class PaymentGatewayApi implements SingletonInterface
                 $handleLib = $basketExtra['payment.']['handleLib'];
                 $this->setHandleLib($handleLib);
                 $this->setHandleLibConf($basketExtra['payment.']['handleLib.']);
+
+                $paymentConf = []; // The payment gateway does not need more of the configuration
+                if (isset($conf['_LOCAL_LANG.'])) {
+                    $paymentConf['_LOCAL_LANG.'] = $conf['_LOCAL_LANG.'];
+                }
+
+                $callingClassName = Start::class;
+                $parameters = [
+                    $languageObj,
+                    $request,
+                    $paymentConf,
+                    false,
+                ];
+                call_user_func_array(
+                    $callingClassName . '::init',
+                    $parameters
+                );
             }
         }
 
