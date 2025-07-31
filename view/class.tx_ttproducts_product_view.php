@@ -300,7 +300,7 @@ class tx_ttproducts_product_view extends tx_ttproducts_article_base_view
                 $pageObj = $tablesObj->get('pages');
 
                 $notePageArray = $pageObj->getNotes($row['uid']);
-                $contentConf = $cnfObj->getTableConf('tt_content', $code);
+                $contentConf = $cnfObj->getTableConf('tt_content', $theCode);
 
                 foreach ($notePageArray as $k => $pid) {
                     $pageRow = $pageObj->get($pid);

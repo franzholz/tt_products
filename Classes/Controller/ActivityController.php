@@ -165,13 +165,21 @@ class ActivityController implements SingletonInterface
             $basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
             $basketViewObj = GeneralUtility::makeInstance('tx_ttproducts_basket_view');
             $infoViewObj = GeneralUtility::makeInstance('tx_ttproducts_info_view');
-            $cObj = ControlApi::getCObj();
+            // $cObj = ControlApi::getCObj();
             $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
             $request = $parameterApi->getRequest();
             $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
             $conf = $cnf->getConf();
+            $languageObj = GeneralUtility::makeInstance(Localization::class);
+            $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
             $gateway = GeneralUtility::makeInstance(PaymentGatewayApi::class);
-            $gateway->init($basketExtra);
+            $request = $parameterApi->getRequest();
+            $gateway->init(
+                $request,
+                $languageObj,
+                $conf,
+                $basketExtra
+            );
             $handleScript = $gateway->getHandleScript();
             $handleLib = $gateway->getHandleLib();
             $variantFields = \tx_ttproducts_control_product::getAllVariantFields();
@@ -891,6 +899,7 @@ class ActivityController implements SingletonInterface
         $accountObj = null;
 
         $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
+        $request = $parameterApi->getRequest();
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $basketViewObj = GeneralUtility::makeInstance('tx_ttproducts_basket_view');
         $infoViewObj = GeneralUtility::makeInstance('tx_ttproducts_info_view');
@@ -901,21 +910,36 @@ class ActivityController implements SingletonInterface
         $languageObj = GeneralUtility::makeInstance(Localization::class);
         $templateObj = GeneralUtility::makeInstance('tx_ttproducts_template');
         $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
-        $cObj = FrontendUtility::getContentObjectRenderer();
+        // $cObj = FrontendUtility::getContentObjectRenderer();
         $gateway = GeneralUtility::makeInstance(PaymentGatewayApi::class);
         $conf = $cnf->getConf();
         $config = $cnf->getConfig();
         $feUserRecord = CustomerApi::getFeUserRecord();
+        $gatewayResult = false;
+        $infoViewObj->init(
+            $infoObj
+        );
 
         if (
             count($codes) < 2 &&
             $codes[0] != 'OVERVIEW'
         ) { // no initialization here if it is only the OVERVIEW. Then this must not be initialized yet.
-            $gateway->init($basketExtra);
-            $gateway->readActionParameters();
-            $gateway->addMainWindowJavascript(
-                $itemArray
+            $gateway->init(
+                $request,
+                $languageObj,
+                $conf,
+                $basketExtra
             );
+
+            if (
+                isset($basketExtra['payment.']['handleLib']) &&
+                isset($basketExtra['payment.']['handleLib.']) &&
+                $basketExtra['payment.']['handleLib'] == 'transactor'
+            ) {
+                $gatewayResult = $gateway->readActionParameters();
+            }
+
+            $gateway->readActionParameters();
         }
         $infoViewObj->init(
             $infoObj
