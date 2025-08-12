@@ -910,7 +910,7 @@ class ActivityController implements SingletonInterface
         $languageObj = GeneralUtility::makeInstance(Localization::class);
         $templateObj = GeneralUtility::makeInstance('tx_ttproducts_template');
         $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
-        // $cObj = FrontendUtility::getContentObjectRenderer();
+        $cObj = ControlApi::getCObj();
         $gateway = GeneralUtility::makeInstance(PaymentGatewayApi::class);
         $conf = $cnf->getConf();
         $config = $cnf->getConfig();
