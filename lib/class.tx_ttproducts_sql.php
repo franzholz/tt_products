@@ -91,6 +91,7 @@ class tx_ttproducts_sql
         $dateArray = GeneralUtility::trimExplode($delimiter, $date);
 
         if (
+            count($dateArray) == 3 &&
             MathUtility::canBeInterpretedAsInteger($dateArray[0]) &&
             MathUtility::canBeInterpretedAsInteger($dateArray[1]) &&
             MathUtility::canBeInterpretedAsInteger($dateArray[2])
