@@ -51,7 +51,7 @@ class tx_ttproducts_field_media extends tx_ttproducts_field_base
         ) {
             $dirname = $imageRow['file_path'];
         } else {
-            $dirname = ($this->conf['defaultImageDir'] ?: 'uploads/pics/');
+            $dirname = ($this->conf['defaultImageDir'] ?? 'uploads/pics/');
         }
 
         return $dirname;

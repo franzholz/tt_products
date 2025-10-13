@@ -80,7 +80,7 @@ class tx_ttproducts_category extends tx_ttproducts_category_base
                     $prodOb = $tablesObj->get($prodFuncTablename, false);
                     $prodTableDesc = $cnf->getTableDesc($prodFuncTablename);
                     $prodtablename = $prodOb->getTablename();
-                    $categoryField = ($prodTableDesc['category'] ?: 'category');
+                    $categoryField = ($prodTableDesc['category'] ?? 'category');
                     $rcArray = TableUtility::getForeignTableInfo($prodtablename, $categoryField);
                     $this->setMMTablename($rcArray['mmtable']);
                 }
