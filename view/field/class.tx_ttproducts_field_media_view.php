@@ -235,7 +235,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
 
         if ($imageNameUsed) {
             $imageNameArray = GeneralUtility::trimExplode('_', $imageName);
-            $partsArray = GeneralUtility::trimExplode(',', $imageMarkerArray['parts']);
+            $partsArray = GeneralUtility::trimExplode(',', (string) $imageMarkerArray['parts']);
             foreach ($partsArray as $k2 => $part) {
                 if (isset($imageNameArray[$part - 1])) {
                     $keyArray[] = strtoupper($imageNameArray[$part - 1]);

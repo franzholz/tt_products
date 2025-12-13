@@ -764,7 +764,7 @@ class tx_ttproducts_list_view
         if (!empty($piVars['newitemdays'])) {
             $newitemdays = $piVars['newitemdays'];
         }
-        $newitemdays = ($newitemdays ?: $parameterApi->getParameter('newitemdays'));
+        $newitemdays = ($newitemdays ?? $parameterApi->getParameter('newitemdays'));
 
         if (
             ($newitemdays || $theCode == 'LISTNEWITEMS') &&
@@ -990,7 +990,7 @@ class tx_ttproducts_list_view
                 break;
             case 'LISTGIFTS':
                 $formName = 'GiftForm';
-                $where .= ' AND ' . ($conf['whereGift'] ?: '1=0');
+                $where .= ' AND ' . ($conf['whereGift'] ?? '1=0');
                 $templateArea = 'ITEM_LIST_GIFTS_TEMPLATE' . $templateObj->getTemplateSuffix();
                 break;
             case 'LISTHIGHLIGHTS':
