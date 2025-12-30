@@ -414,8 +414,9 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
                 } else {
                     $filename = $val;
                 }
-
-                $markerArray['###FILE###'] = $filename;
+                if (!isset($markerArray['###FILE###'])) {
+                    $markerArray['###FILE###'] = $filename;
+                }
                 $this->replaceMarkerArray(
                     $markerArray,
                     $fieldMarkerArray,
