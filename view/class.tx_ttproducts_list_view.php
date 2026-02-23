@@ -264,6 +264,7 @@ class tx_ttproducts_list_view
         $bShowFirstLast = true;
         $dontLinkActivePage = 0;
         $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
+        $request = $parameterApi->getRequest();
 
         if (
             isset($browserConf) &&
@@ -282,6 +283,7 @@ class tx_ttproducts_list_view
         $imageActiveArray = [];
         $piVars = $parameterApi->getPiVars();
         $browseObj = GeneralUtility::makeInstance(BrowserBase::class);
+        $browseObj->setRequest($request);
         $browseObj->init(
             $conf,
             $piVars,
@@ -544,7 +546,7 @@ class tx_ttproducts_list_view
                 $conf['useArticles']
             );
         }
-        $pidMemo = ($conf['PIDmemo'] ?: $GLOBALS['TSFE']->id);
+        $pidMemo = ($conf['PIDmemo'] ?? $GLOBALS['TSFE']->id);
 
         $sqlTableArray = [];
         $tableAliasArray = [];
@@ -762,7 +764,7 @@ class tx_ttproducts_list_view
         if (!empty($piVars['newitemdays'])) {
             $newitemdays = $piVars['newitemdays'];
         }
-        $newitemdays = ($newitemdays ?: $parameterApi->getParameter('newitemdays'));
+        $newitemdays = ($newitemdays ?? $parameterApi->getParameter('newitemdays'));
 
         if (
             ($newitemdays || $theCode == 'LISTNEWITEMS') &&
@@ -988,7 +990,7 @@ class tx_ttproducts_list_view
                 break;
             case 'LISTGIFTS':
                 $formName = 'GiftForm';
-                $where .= ' AND ' . ($conf['whereGift'] ?: '1=0');
+                $where .= ' AND ' . ($conf['whereGift'] ?? '1=0');
                 $templateArea = 'ITEM_LIST_GIFTS_TEMPLATE' . $templateObj->getTemplateSuffix();
                 break;
             case 'LISTHIGHLIGHTS':
@@ -1469,7 +1471,7 @@ class tx_ttproducts_list_view
                 } elseif ($itemTable->getType() == 'article' || $itemTable->getType() == 'dam') {
                     $viewProductsTagArray = [];
                     $productsParentArray = [];
-                    $tmpFramework = ($t['productAndItemsFrameWork'] ?: $t['categoryAndItemsFrameWork']);
+                    $tmpFramework = ($t['productAndItemsFrameWork'] ?? $t['categoryAndItemsFrameWork']);
                     $productsFieldsArray = $markerObj->getMarkerFields(
                         $tmpFramework,
                         $tablesObj->get('tt_products')->getTableObj()->tableFieldArray,

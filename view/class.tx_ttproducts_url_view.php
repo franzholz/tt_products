@@ -148,7 +148,7 @@ class tx_ttproducts_url_view implements SingletonInterface
         // disable caching as soon as someone enters products into the basket, enters user data etc.
         // $addQueryString['no_cache'] = 1;
         // Add's URL-markers to the $markerArray and returns it
-        $basketPid = ($this->conf['PIDbasket'] ?: $GLOBALS['TSFE']->id);
+        $basketPid = ($this->conf['PIDbasket'] ?? $GLOBALS['TSFE']->id);
         $formUrlPid = ($pidNext ?: $GLOBALS['TSFE']->id);
         $singleExcludeList = $this->getSingleExcludeList($excludeList);
 

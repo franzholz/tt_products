@@ -104,13 +104,14 @@ class tx_ttproducts_field_foreign_table_view extends tx_ttproducts_field_base_vi
             $foreignTableObj = $foreignTableViewObj->getModelObj();
             if ($GLOBALS['TCA'][$tablename]['columns'][$fieldname]['config']['type'] == 'group') {
                 $foreignRow = $foreignTableObj->get($row[$fieldname]);
+                $tmp = [];
                 $foreignTableViewObj->getRowMarkerArray(
                     $foreigntablename,
                     $foreignRow,
                     '',
                     $rowMarkerArray,
-                    $tmp = [],
-                    $tmp = [],
+                    $tmp,
+                    $tmp,
                     $tagArray,
                     $theCode,
                     $basketExtra,

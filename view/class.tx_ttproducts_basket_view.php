@@ -743,7 +743,7 @@ class tx_ttproducts_basket_view implements SingletonInterface
                 }
             }
             $markerArray['###HIDDENFIELDS###'] = $hiddenFields;
-            $pid = ($conf['PIDbasket'] ?: $GLOBALS['TSFE']->id);
+            $pid = ($conf['PIDbasket'] ?? $GLOBALS['TSFE']->id);
 
             $confCache = [];
             $excludeList = '';

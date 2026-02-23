@@ -73,6 +73,7 @@ abstract class tx_ttproducts_table_base_view implements SingletonInterface
 
     public function getFieldObj($field)
     {
+        $result = null;
         $classname = $this->getFieldClass($field);
         if (
             $classname
@@ -344,7 +345,7 @@ abstract class tx_ttproducts_table_base_view implements SingletonInterface
                             $valueArray[] = $i;
                         }
                     } else {
-                        $valueArray = GeneralUtility::trimExplode(',', $value);
+                        $valueArray = GeneralUtility::trimExplode(',', (string) $value);
                     }
 
                     if (

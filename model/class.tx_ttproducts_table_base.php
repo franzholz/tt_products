@@ -159,7 +159,7 @@ abstract class tx_ttproducts_table_base implements SingletonInterface
 
         $labelfieldname = $this->getLabelFieldname();
 
-        $this->fieldArray[$labelfieldname] = (!empty($this->tableDesc['name']) && is_array($GLOBALS['TCA'][$this->tableDesc['name']]['ctrl']) ? $this->tableDesc['name'] : ($GLOBALS['TCA'][$tablename]['ctrl']['label'] ?: 'name'));
+        $this->fieldArray[$labelfieldname] = (!empty($this->tableDesc['name']) && is_array($GLOBALS['TCA'][$this->tableDesc['name']]['ctrl']) ? $this->tableDesc['name'] : ($GLOBALS['TCA'][$tablename]['ctrl']['label'] ?? 'name'));
 
         $this->defaultFieldArray[$this->fieldArray[$labelfieldname]] = $this->fieldArray[$labelfieldname];
 

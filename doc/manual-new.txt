@@ -6,7 +6,7 @@ plugin.tt_products {
   form.INFO.selectStore.layout = ###CITY###: ###NAME###
 
   form.INFO.selectStore.data {
-     class=haendlerSelect
+     class = haendlerSelect
   }
 }
 
@@ -54,6 +54,7 @@ shipping {
     10.calculationScript >
     10.show = 1
     10.price.type=weight
+    ## FHO: auf 500 Gramm erhöht
     10.price.0 = 3.00
     10.price.0.type = sql
     10.price.0.where = amount > 0
@@ -170,6 +171,13 @@ plugin.tt_products {
   }
 }
 
+Variant:
+
+selectColor:
+ 0 inaktiv
+ 1 select
+ 2 radio
+ 3 checkbox
 
 
 Edit Variant:
@@ -221,7 +229,7 @@ Edit Variant:
 
 
 
-Für width und height hat es zuletzt damit funktioniert:
+Für widht und height hat es zuletzt damit funktioniert:
 
 plugin.tt_products {
 
@@ -251,6 +259,63 @@ plugin.tt_products {
 
 
 
+Über die Edit-Varianten können Variablen mit einem Wert 1 oder 0 gesetzt werden.
+Und die neuen Subpart Marker für die Edit-Varianten sehen so aus:
+
+<!-- ###edit_variant_variable_widthheight_eq_1### begin -->
+<b>###P_WIDTH_HEIGHT###</b><br />
+<!-- ###edit_variant_variable_widthheight_eq_1### end -->
+
+Vorerst ist nur eine Prüfung, ob auf 1 gesetzt, möglich. Mehr wird im Moment nicht unterstützt.
+
+Ergänzung:
+
+plugin.tt_products {
+
+  editVariant {
+    20 {
+      setVariables {
+         widthheight = 1
+      }
+    }
+  }
+}
+
+
+neue Optionen eingeführt:
+empty
+
+plugin.tt_products {
+        marks {
+           p_einstellungeniphone = Der Zugriff soll für folgende Mailserver/E-Mail-Adresse eingerichtet werden:
+           p_exchangeemailserver = Exchange-Mailserver:
+           p_iphoneemailadresse = E-Mail-Adresse:
+
+        }
+        editVariant {
+        310 {
+        sql.where = uid = 12
+        suffix = exchangeemailserver
+        params = type="email"  size=40 title="Hier die Adresse für den Exchange-Mailserver eintragen"  onSubmit="this.reset();"
+        evalValues {
+                            #    1 = required
+                }
+        error = <div class="fehlerbox"><div style="font-size:16px;"> Hint:</div> You must enter a valid <span style="color:red;">Width</span>.</div></div>
+            empty = 1
+        }
+        320 {
+        sql.where = uid = 12
+        suffix = iphoneemailadresse
+                params = type="email"  size=40 title="Bitte hier die E-Mail-Adresse eintragen" pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,3}$" onSubmit="this.reset();"
+                evalValues {
+                            #    1 = required
+                        }
+                error = <div class="fehlerbox"><div style="font-size:16px;"> Hint:</div> You must enter a valid <span style="color:red;">Width</span>.</div></div>
+        empty = 1
+        }
+      }
+}
+
 
 
 Colorbox Javascript zum Reset der Colorbox aktivieren
@@ -276,6 +341,355 @@ plugin.tt_products {
   table.voucher = tx_voucher_codes
   voucher.active = 1
 }
+
+
+Der Voucher Betrag ist auf die Anzahl goodstotal im Warenkorb begrenzt.
+
+
+Korrektur:
+
+Form Configuration
+dataArray ist falsch, was BasketItemView betrifft.
+selectColor
+
+Stattdessen ein attribute Array verwenden!
+wie bei view.sortSelect
+    attribute {
+       onchange=submit();
+    }
+
+
+     layout auch für Checkboxen und Radiobuttons
+
+    layout hat ###INPUT### als Subpart Marker, nicht mehr als einfachen Marker
+
+    layout (
+    <!-- ###INPUT###  begin -->
+    ###BOX###
+    <label for="email-gruppenadresse">
+        <span>
+            <span></span>
+        </span>
+    </label>
+    ###LABEL###
+    <!-- ###INPUT###  end -->
+    )
+
+
+
+systemLoginUser ... Der eingeloggte Benutzer ist ein System Besteller, der für mehrere andere Personen bestellen kann. Wenn er ihre CNUM eingibt, dann muss er sonst keine Daten mehr eintragen. Die Rechnung und Lieferadressen weichen von seiner Adresse ab.
+
+
+accounts = 2 ... Prüfung der Kontonummer nur für neu angelegten Benutzer
+
+
+Realurl:
+Unterhalb von
+
+'postVarSets' => array (
+    '_DEFAULT' => array (
+
+
+// backPID
+'back' => array(
+        array(
+                'GETvar' => 'tt_products[backPID]',
+                'lookUpTable' => array(
+                        'table' => 'pages',
+                        'id_field' => 'uid',
+                        'alias_field' => 'title',
+                        'addWhereClause' => ' AND NOT deleted',
+                        'useUniqueCache' => 1,
+                        'useUniqueCache_conf' => array(
+                                'strtolower' => 1,
+                                'spaceCharacter' => '-',
+                        ),
+                ),
+        ),
+),
+
+// product categories
+'category' => array(
+        array(
+                'GETvar' => 'tt_products[cat]',
+                'lookUpTable' => array(
+                        'table' => 'tt_products_cat',
+                        'id_field' => 'uid',
+                        'alias_field' => 'title',
+                        'addWhereClause' => ' AND NOT deleted',
+                        'useUniqueCache' => 1,
+                        'useUniqueCache_conf' => array(
+                                'strtolower' => 1,
+                                'spaceCharacter' => '-',
+                        ),
+                ),
+        ),
+),
+// products
+'product' => array(
+        array(
+                'GETvar' => 'tt_products[product]',
+                'lookUpTable' => array(
+                        'table' => 'tt_products',
+                        'id_field' => 'uid',
+                        'alias_field' => 'title',
+                        'addWhereClause' => ' AND NOT deleted',
+                        'useUniqueCache' => 1,
+                        'useUniqueCache_conf' => array(
+                                'strtolower' => 1,
+                                'spaceCharacter' => '-',
+                        ),
+                ),
+        ),
+),
+
+'pointer' => array (
+    '0' => array (
+        'GETvar' => 'tt_products[pp]',
+    ),
+),
+
+
+
+Einzelansicht Produkt Titel:
+
+plugin.tt_products {
+    conf.page.SINGLE {
+        headerData {
+            10 = TEXT
+            10 {
+                field = title
+                wrap = <title>|&nbsp;>&nbsp;{$sitebaseurltext}</title>
+            }
+        }
+    }
+}
+
+
+Unteraktivitäten:
+
+Hier wird die Unteraktivität info_1 aktiviert:
+
+    <span class="tooltiptext">Als COMRAMO-Kunde bitte hier die 6-stellige Debitoren-Nummer eintragen. Bei einer Bestellung f&uuml;r einen neuen Kunden bleibt dies Feld leer.</span>
+</div>
+    <input type="text" name="recs[personinfo][cnum]" size="50" id="billing_cnum" value="" pattern="[0-9]{6}"  maxlength="6"/>
+    <input type="hidden" name="tt_products[activity][info_1]" id="info1" value="###PERSON_CNUM###"  pattern="KT[0-9]{6}"  maxlength="6" />
+
+    ....
+        <input type="submit" id="button4" name="products_payment" class="auftragsliste_knopf" value="AGBs akzeptieren und weiter &raquo;" style="margin-bottom:0.5em;"
+        onclick="if (document.getElementById('billing_cnum').value == '') {document.getElementById('info1').value=1; this.value = ''; this.form.action='###FORM_URL_INFO###';}" >
+
+
+  basket.activity {
+    info {
+        check = basket
+        sub {
+            1 {
+                check = address,agb,basket
+            }
+        }
+    }
+  }
+
+Konstante:
+
+priceTAXnotVarying   Der Brutto Preis eines Produktes bleibt immer gleich, auch wenn es in ein anderes Land mit einem anderen Steuersatz versendet wird. Dann ändert sich der Netto-Preis entsprechend dem neuen Steuersatz.
+
+
+Subpart Marker:
+
+
+
+<!-- ###ACCOUNT_ACTIVE### begin -->
+Wenn BIC und IBAN bzw. Kontodaten eingegeben worden sind.
+
+
+###BILLING_EQUALS_SHIPPING### .. Wenn die Rechnungs- der Lieferanschrift entspricht.
+
+            <!-- ###BILLING_EQUALS_SHIPPING### begin -->
+                ###P_BILLING_IS_SHIPPING###
+            <!-- ###BILLING_EQUALS_SHIPPING### end -->
+
+            <!-- ###BILLING_EQUALS_NOT_SHIPPING### begin -->
+            <!-- ###BILLING_EQUALS_NOT_SHIPPING### end -->
+
+
+noCostsVoucher:
+
+ 10.price.noCostsVoucher = X
+
+Komma getrennte Liste von Voucher Codes, mit denen die Versandkosten auf 0 gesetzt werden.
+
+
+korrigiert Delivery Setup;
+
+  conf.tt_products.ALL {
+    delivery    {
+
+    ....
+
+
+priceNoReseller:
+
+nur im Setup erlaubt
+
+
+neu:
+
+pid_list = -1  : alle Seiten werden erfasst. Keine Prüfung auf Seiten-Ids mehr.
+
+basketPageFormat = %s (###COUNT###) : hängt die Anzahl des Warenkorbs an die Warenkorbseite in runden Klammern an
+
+
+Die übergeordnete Seite des Produkt-Sysfolders:
+PIDitemDisplay {
+ 10.type = page.pid
+}
+
+
+kein Gutschein-System über GIFTS mehr.
+Nur noch Rabatte über die Voucher Extension
+
+
+neu:
+discountprice
+unique gibt an, das immer gleich sein muss, damit ein Count gerechnet wird.
+Später soll hier eine bessere Unterscheidung mit Feldbezeichner uid möglich sein.
+
+plugin.tt_products.discountprice {
+  10 {
+    type = count
+    field = pricetax
+    unique = 1
+    sql.where = uid > 0
+    prod.type = percent
+    prod.12 = 4
+    prod.25 = 7
+    prod.50 = 12
+  }
+}
+
+
+
+
+[userFunc = JambageCom\TtProducts\UserFunc\MatchCondition->checkShipping(billing, country_code) = DEU]
+
+
+[userFunc = JambageCom\TtProducts\UserFunc\MatchCondition->checkWeight(0, 1000)]
+
+
+Javascript File für Tabulator in Extension div2007:
+FrontendUtility: 'jsfunc.tab.js'
+
+Überschreiben in tt_products mit:
+
+plugin.tt_products.js.ALL.tab.file = ...
+plugin.tt_products.js.ALL.tab.css = ...
+
+
+
+
+    MINI_BASKET = CONTENT
+    MINI_BASKET {
+        table = tt_content
+        select.pidInList = 35
+    }
+
+35 ... pid with mini basket plugin
+
+
+Miniwarenkorb Ersatz als Warenkorb Title Ergänzung von () runder Klammer mit der Anzahl im Warenkorb über den Hook MenuContentObject .
+Funktion processFilter
+
+
+
+CSV:
+
+CSVbilling ... billing fields
+CSVdelivery ... delivery fields
+CSVpayment ... payment fields
+CSVshipping ... shipping fields
+CSVorder ... order fields
+CSVpriceGross ... internal basket calculation field for price gross
+CSVheaderPrefixActive ... prefixes to add to the headerData
+
+only setup:
+ CSVsequence ... This gives you the possibility to position the fields of all blocks without limitations
+
+  CSVsequence {
+    10 = pricetax.total
+    20 = billing.name
+    30 = order.order_no
+    40 = order.bill_no
+    50 = billing.cnum
+    60 = order.uid
+    70 = order.crdate
+    80 = billing.tt_products_vat
+    90 = billing.country
+  }
+
+
+
+discountFieldMode = 1 oder 2
+
+
+
+
+
+
+
+
+foundby.type = radio  … selection of texts where the shop has been found by a user.
+
+###DELIVERY_FOUNDBY_SELECTOR### marker for foundby
+
+
+
+
+
+If a tt_products field like note2 is not found, then a Setup addToList must be added at requiredFields!
+
+
+
+myTS:  Consider the Plugin's myTS Typoscript.
+
+
+Salutation:
+
+$extensionKey = 'tt_products';
+$languageSubpath = '/Resources/Private/Language/';
+
+$GLOBALS['TCA']['sys_products_orders']['columns']['salutation']['config']['items'] =
+  [
+      ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_orders.salutation.I.0', '0'],
+      ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_orders.salutation.I.1', '1'],
+      ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_orders.salutation.I.2', '2'],
+      ['LLL:EXT:' . $extensionKey . $languageSubpath . 'locallang_db.xlf:sys_products_orders.salutation.I.3', '3'],
+  ];
+
+
+plugin.tt_products {
+  _LOCAL_LANG.de {
+    sys_products_orders.salutation.I.0 = Herr
+    sys_products_orders.salutation.I.1 = Frau
+    sys_products_orders.salutation.I.2 = Divers
+    sys_products_orders.salutation.I.3 = Firma
+  }
+}
+
+
+gelöschtes Feature:
+
+fieldIndex
+
+Index für Felder mit mehrfachen Inhalten. Das wird vorerst nur
+verwendet, um anzugeben, welche Artikelbilder welche Bilder
+des Produktes überschreiben sollen. Links steht der Index des
+Bildes (Beginn mit 1) und rechts die Zielnummer des Bildes. Der
+Marker für das 1. Bild wäre dann
+###<TABELLENKÜRZEL>_IMAGE2###.
+
+Das kann nicht mehr verwendet werden, weil es seit der Umstellung auf FAL-Bilder ohnehin schon nicht mehr funktioniert hat.
 
 
 
