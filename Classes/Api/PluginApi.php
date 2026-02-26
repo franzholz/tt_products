@@ -257,11 +257,11 @@ class PluginApi
         $config['templateSuffix'] = ($templateSuffix ?: $config['templateSuffix']);
         $config['templateSuffix'] = ($config['templateSuffix'] ? '_' . $config['templateSuffix'] : '');
 
-        $config['limit'] = $conf['limit'] ?: 50;
+        $config['limit'] = $conf['limit'] ?? 50;
         $config['limitImage'] = MathUtility::forceIntegerInRange($conf['limitImage'], 0, 50, 1);
-        $config['limitImage'] = $config['limitImage'] ?: 1;
+        $config['limitImage'] = $config['limitImage'] ?? 1;
         $config['limitImageSingle'] = MathUtility::forceIntegerInRange($conf['limitImageSingle'], 0, 50, 1);
-        $config['limitImageSingle'] = $config['limitImageSingle'] ?: 1;
+        $config['limitImageSingle'] = $config['limitImageSingle'] ?? 1;
 
         if (!empty($conf['priceNoReseller'])) {
             $config['priceNoReseller'] = MathUtility::forceIntegerInRange($conf['priceNoReseller'], 2, 10);

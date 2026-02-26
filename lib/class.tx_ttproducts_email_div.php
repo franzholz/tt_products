@@ -160,8 +160,8 @@ class tx_ttproducts_email_div
         $bHtmlMail = false
     ): void {
         $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
-        $sendername = ($giftRow['personname'] ?: $conf['orderEmail_fromName']);
-        $senderemail = ($giftRow['personemail'] ?: $conf['orderEmail_from']);
+        $sendername = ($giftRow['personname'] ?? $conf['orderEmail_fromName']);
+        $senderemail = ($giftRow['personemail'] ?? $conf['orderEmail_from']);
         $recipients = $recipient;
         $recipients = GeneralUtility::trimExplode(',', $recipients, true);
 

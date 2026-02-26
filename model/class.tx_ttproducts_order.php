@@ -553,7 +553,7 @@ class tx_ttproducts_order extends tx_ttproducts_table_base
             }
             $fieldsArray['deleted'] = 0;
             $fieldsArray['tracking_code'] = $orderArray['tracking_code'];
-            $fieldsArray['agb'] = intval($billingInfo['agb']);
+            $fieldsArray['agb'] = intval($billingInfo['agb'] ?? 0);
         }
 
         if ($status == 1) {

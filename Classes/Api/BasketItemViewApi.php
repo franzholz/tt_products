@@ -150,11 +150,12 @@ class BasketItemViewApi implements SingletonInterface
 
             $viewDamCatTagArray = [];
             $catParentArray = [];
+            $tmp = [];
             $catfieldsArray = $markerObj->getMarkerFields(
                 $itemFrameWork,
                 $damCatObj->getTableObj()->tableFieldArray,
                 $damCatObj->getTableObj()->requiredFieldArray,
-                $tmp = [],
+                $tmp,
                 $damCatViewObj->getMarker(),
                 $viewDamCatTagArray,
                 $catParentArray

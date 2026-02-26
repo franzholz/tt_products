@@ -223,7 +223,7 @@ class tx_ttproducts_download extends tx_ttproducts_article_base
         $bAllowed = true;
 
         if ($parenttable == 'tt_products') {
-            $uidArray = GeneralUtility::trimExplode(',', $uids);
+            $uidArray = GeneralUtility::trimExplode(',', (string) $uids);
             $mmTable = 'tt_products_products_mm_downloads';
 
             foreach ($uidArray as $uid) {

@@ -1,0 +1,9 @@
+Noch zu verbessern:
+
+Wenn eine BillNo (Rechnungsnummer) generiert wird, dann muss diese auch sofort reserviert werden.
+Es könnten ja gleichzeitig mehrere Bestellungen erzeugt werden. Dann hätten sie alle dieselbe Rechnungsnummer.
+
+Länderbezeichnungen: https://iso3166.thephpleague.com
+
+
+

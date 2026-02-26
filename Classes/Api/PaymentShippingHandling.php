@@ -45,7 +45,6 @@ use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
-use TYPO3\CMS\Frontend\Resource\FilePathSanitizer;
 
 use JambageCom\Div2007\Utility\CompatibilityUtility;
 use JambageCom\Div2007\Utility\ExtensionUtility;
@@ -1322,15 +1321,12 @@ class PaymentShippingHandling
         }
 
         $calculationScript = $basketConf['calculationScript'] ?? '';
-        if ($calculationScript != '') {
-            $calcScript = '';
-            $sanitizer = GeneralUtility::makeInstance(FilePathSanitizer::class);
-            $calcScript = $sanitizer->sanitize($calculationScript);
 
-            if ($calcScript) {
-                $confScript = $basketConf['calculationScript.'];
-                include $calcScript;
-            }
+        if (!empty($calculationScript)) {
+
+            $pathScript = GeneralUtility::getFileAbsFileName($calculationScript);
+            $confScript = $basketConf['calculationScript.'] ?? [];
+            include $pathScript;
         }
     }
 

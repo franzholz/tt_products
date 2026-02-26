@@ -153,7 +153,7 @@ class tx_ttproducts_db implements SingletonInterface
         $theCode = 'ALL';
         $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
         $languageObj = GeneralUtility::makeInstance(Localization::class);
-        $roundFormat = tx_ttproducts_control_basket::getRoundFormat();
+
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $basketObj = GeneralUtility::makeInstance('tx_ttproducts_basket');
         $basketApi = GeneralUtility::makeInstance(BasketApi::class);
@@ -303,20 +303,6 @@ class tx_ttproducts_db implements SingletonInterface
                                     );
                             }
 
-                            // if (isset($rowArticle) && is_array($rowArticle)) {
-                            //
-                            //     $itemTable->mergeAttributeFields(
-                            //     $currRow,
-                            //     $rowArticle,
-                            //     false,
-                            //     true,
-                            //     true,
-                            //     '',
-                            //     false,
-                            //     true // $mergePrices
-                            //     );
-                            // }
-
                             $basketExt1 = tx_ttproducts_control_basket::generatedBasketExtFromRow(
                                 $currRow,
                                 '1'
@@ -339,20 +325,15 @@ class tx_ttproducts_db implements SingletonInterface
                                     false,
                                     !isset($currRow['ext']['mergeArticles'][FieldInterface::PRICE_TAX])
                                 );
-
                             $basketObj->setMaxTax($modifiedRow['tax']);
                             $recalculateItems = true;
-                            $calculatedArray = [];
                             $basketObj->calculate(
                                 $itemArray,
-                                $calculatedArray,
                                 $basketExt1,
                                 $basketExtra,
                                 $basketRecs,
-                                $funcTablename,
-                                $useArticles,
                                 $tax,
-                                $roundFormat,
+                                false,
                                 $recalculateItems
                             ); // get the calculated arrays
 

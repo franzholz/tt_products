@@ -80,7 +80,7 @@ class tx_ttproducts_csv implements SingletonInterface
                     $csvlinedelivery .= ';';
                 }
                 $csvlinehead .= '"' . $fName . '"';
-                $csvlineperson .= '"' . str_replace(chr(13) . chr(10), '|', $address->infoArray['billing'][$fName]) . '"';
+                $csvlineperson .= '"' . str_replace(chr(13) . chr(10), '|', (string) $address->infoArray['billing'][$fName]) . '"';
                 $csvlinedelivery .= '"' . $address->infoArray['delivery'][$fName] . '"';
             }
 

@@ -300,7 +300,7 @@ class tx_ttproducts_api
         $infoArray = $infoObj->getInfoArray();
         $apostrophe = $conf['orderEmail_apostrophe'];
 
-        $pid = ($conf['PIDuserFolder'] ?: ($conf['PIDbasket'] ?: $GLOBALS['TSFE']->id));
+        $pid = ($conf['PIDuserFolder'] ?? ($conf['PIDbasket'] ?? $GLOBALS['TSFE']->id));
         $pid = intval($pid);
         $username = strtolower(trim($infoArray['billing']['email']));
         $rowArray =
