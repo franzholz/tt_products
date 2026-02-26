@@ -2616,7 +2616,11 @@ class tx_ttproducts_list_view
                                     $tax,
                                     false
                                 ); // get the calculated arrays
-                                $prodVariantRow = $basketObj->getMergedRowFromItemArray($virtualItemArray, $basketExtra);
+                                $prodVariantRow =
+                                    $basketObj->getMergedRowFromItemArray(
+                                        $virtualItemArray,
+                                        $basketExtra
+                                    );
                             }
                             $currPriceMarkerArray = [];
                             $articleTablename = (is_object($itemTableArray['article']) ? $itemTableArray['article']->getTablename() : '');
@@ -3045,7 +3049,7 @@ class tx_ttproducts_list_view
                             $iColCount == $displayColumns ||
                             $displayCatHeader == 'always'
                         ) {
-                            if ($t['itemFrameWork']) {
+                            if (!empty($t['itemFrameWork'])) {
                                 // complete the last table row
                                 if (!$displayColumns || $iColCount == $displayColumns) {
                                     $itemsOut .= $this->finishHTMLRow($cssConf, $iColCount, $tableRowOpen, $displayColumns);
@@ -3061,7 +3065,13 @@ class tx_ttproducts_list_view
                                     }
                                 }
                                 $subpartArray['###ITEM_SINGLE###'] = $itemsOut;
-                                $itemListOut .= $templateService->substituteMarkerArrayCached($t['itemFrameWork'], $markerArray, $subpartArray, $wrappedSubpartArray);
+                                $itemListOut .=
+                                    $templateService->substituteMarkerArrayCached(
+                                        $t['itemFrameWork'],
+                                        $markerArray,
+                                        $subpartArray,
+                                        $wrappedSubpartArray
+                                    );
                                 $itemsOut = '';
                             }
                             $iColCount = 0; // restart in the first column
@@ -3225,6 +3235,7 @@ class tx_ttproducts_list_view
                             );
                         $catItemsListOut = $productListOut;
                     }
+
                     if ($conf['displayListCatHeader']) {
                         $out .=
                             $this->advanceCategory(

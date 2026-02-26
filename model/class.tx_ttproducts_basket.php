@@ -1696,9 +1696,9 @@ class tx_ttproducts_basket implements SingletonInterface
                         is_array($extArray['mergeArticles'])
                     ) {
                         $mergeRow = $extArray['mergeArticles'];
-                        $row = $mergeRow;
+                        $row = array_merge($row, $mergeRow);
                         unset($extArray['mergeArticles']);
-                        $row['ext'] = $extArray;
+                        $row['ext'] = $extArray ?? [];
                     }
                 }
 
