@@ -295,14 +295,14 @@ class RelatedList implements SingletonInterface
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
         $itemViewObj = $tablesObj->get($funcTablename, true);
         $addListArray =
-        $this->getAddListArray(
-            $theCode,
-            $funcTablename,
-            $itemViewObj->getMarker(),
-            $uid,
-            $paramUidArray,
-            $useArticles
-        );
+            $this->getAddListArray(
+                $theCode,
+                $funcTablename,
+                $itemViewObj->getMarker(),
+                $uid,
+                $paramUidArray,
+                $useArticles
+            );
 
         if (is_array($addListArray)) {
             $listView = '';
@@ -313,7 +313,10 @@ class RelatedList implements SingletonInterface
                     continue;
                 }
 
-                if (isset($viewTagArray[$funcArray['marker']]) && $funcArray['require']) {
+                if (
+                    isset($viewTagArray[$funcArray['marker']]) &&
+                    $funcArray['require']
+                ) {
                     $relatedItemObj = $itemObj;
                     $parentFuncTablename = '';
                     if ($funcTablename != $funcArray['funcTablename']) {
@@ -328,14 +331,14 @@ class RelatedList implements SingletonInterface
                     $mergeRow = [];
                     $parentRows = [];
                     $relatedIds =
-                    $itemObj->getRelated(
-                        $parentFuncTablename,
-                        $parentRows,
-                        $multiOrderArray,
-                        $uid,
-                        $subtype,
-                        $orderBy
-                    );
+                        $itemObj->getRelated(
+                            $parentFuncTablename,
+                            $parentRows,
+                            $multiOrderArray,
+                            $uid,
+                            $subtype,
+                            $orderBy
+                        );
 
                     if (count($relatedIds)) {
                         // List all products:
@@ -364,6 +367,7 @@ class RelatedList implements SingletonInterface
 
                         $productRowArray = [];
                         $bEditableVariants = true;
+                        $templateArea = $funcArray['template'] . $config['templateSuffix'];
 
                         $tmpContent = $listView->printView(
                             $templateCode,
@@ -373,7 +377,7 @@ class RelatedList implements SingletonInterface
                             $listPids,
                             '',
                             $error_code,
-                            $funcArray['template'] . $config['templateSuffix'],
+                            $templateArea,
                             $pageAsCategory,
                             $feUserRecord,
                             $basketExtra,

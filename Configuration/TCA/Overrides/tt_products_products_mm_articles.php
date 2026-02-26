@@ -34,9 +34,5 @@ call_user_func(function ($extensionKey, $table): void {
         ];
     }
 
-    debug ('B');
-    debug ($GLOBALS['TCA'][$table], '$GLOBALS[\'TCA\']['.$table.'] HIER +++');
-    debug ('E');
-
     ExtensionManagementUtility::addToInsertRecords($table);
 }, 'tt_products', basename(__FILE__, '.php'));
