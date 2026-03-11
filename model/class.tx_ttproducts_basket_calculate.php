@@ -452,6 +452,7 @@ class tx_ttproducts_basket_calculate implements SingletonInterface
                                 false,
                                 $bEnableTaxZero
                             );
+
                         if (!isset($calculatedArray['priceNoTax']['goodssametaxtotal']['ALL'][$taxstr])) {
                             $calculatedArray['priceNoTax']['goodssametaxtotal']['ALL'][$taxstr] = 0;
                         }
