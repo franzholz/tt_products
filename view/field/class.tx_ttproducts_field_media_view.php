@@ -203,7 +203,10 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
 
         foreach ($row as $field => $val) {
             $key = '###IMAGE_' . strtoupper($field) . '###';
-            if (!isset($markerArray[$key])) {
+            if (
+                !isset($markerArray[$key]) &&
+                is_scalar($val)
+            ) {
                 $markerArray[$key] = $val;
             }
         }
