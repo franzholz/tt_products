@@ -1325,7 +1325,7 @@ class tx_ttproducts_list_view
                     $selectConf['uidInList'] = implode(',', $allowedItemArray);
                 }
 
-                $wherestock = (($conf['showNotinStock'] || !is_array($GLOBALS['TCA'][$tablename]['columns']['inStock'])) ? '' : ' AND (inStock > 0) ');
+                $wherestock = (($conf['showNotinStock'] || !is_array($GLOBALS['TCA'][$tablename]['columns']['inStock'])) ? '' : ' AND (' . $itemTable->getAlias() . '.inStock > 0) ');
                 $whereNew = $wherestock . $where;
                 $whereNew = $itemTable->getTableObj()->transformWhere($whereNew);
 
