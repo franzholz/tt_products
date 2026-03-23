@@ -1588,6 +1588,7 @@ class tx_ttproducts_list_view
                     $collateConf[$funcTablename] = $tableConfArray[$funcTablename]['collate.'];
                 }
 
+                $fieldsArray = array_unique($fieldsArray);
                 $selectFields = implode(',', $fieldsArray);
                 $selectConf['selectFields'] = 'DISTINCT ' . $itemTable->getTableObj()->transformSelect($selectFields, '', $collateConf);
 
