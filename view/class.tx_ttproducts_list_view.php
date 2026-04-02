@@ -1303,7 +1303,7 @@ class tx_ttproducts_list_view
                 $showArticles = true;
             }
 
-            if ($t['categoryAndItemsFrameWork'] != '') {
+            if (!empty($t['categoryAndItemsFrameWork'])) {
                 $bItemPostHtml = (strpos($t['item'], 'ITEM_SINGLE_POST_HTML') !== false);
                 // Get products count
                 $selectConf = [];
@@ -1520,7 +1520,7 @@ class tx_ttproducts_list_view
                 if ($useCategories) {
                     $tmp = [];
                     $catfieldsArray = $markerObj->getMarkerFields(
-                        $t['categoryAndItemsFrameWork'], // categoryAndItemsFrameWork  categoryFrameWork
+                        $t['categoryAndItemsFrameWork'] ?? '', // categoryAndItemsFrameWork  categoryFrameWork
                         $categoryTable->getTableObj()->tableFieldArray,
                         $categoryTable->getTableObj()->requiredFieldArray,
                         $tmp,
@@ -2157,7 +2157,7 @@ class tx_ttproducts_list_view
                             }
 
                             if ($catItemsListOut && $conf['displayListCatHeader']) {
-                                $out .= $this->advanceCategory($t['categoryAndItemsFrameWork'], $catItemsListOut, $categoryOut, $itemListSubpart, $oldFormCount, $formCount);
+                                $out .= $this->advanceCategory($t['categoryAndItemsFrameWork'] ?? '', $catItemsListOut, $categoryOut, $itemListSubpart, $oldFormCount, $formCount);
                             }
                             $currentArray['category'] = (($pageAsCategory < 2 || $itemTable->getType() == 'dam') ? $displayCat : $row['pid']);
                             $bCategoryHasChanged = true;
@@ -2207,7 +2207,7 @@ class tx_ttproducts_list_view
                                     if ($displayCat) {
                                         $catRow = $categoryTable->get($displayCat);
                                         $categoryTableView->getItemSubpartArrays(
-                                            $t['categoryAndItemsFrameWork'],
+                                            $t['categoryAndItemsFrameWork'] ?? '',
                                             $funcTablename,
                                             $catRow,
                                             $categorySubpartArray,
@@ -3240,7 +3240,7 @@ class tx_ttproducts_list_view
                     if ($conf['displayListCatHeader']) {
                         $out .=
                             $this->advanceCategory(
-                                $t['categoryAndItemsFrameWork'],
+                                $t['categoryAndItemsFrameWork'] ?? '',
                                 $catItemsListOut,
                                 $categoryOut,
                                 $itemListSubpart,
@@ -3256,7 +3256,7 @@ class tx_ttproducts_list_view
 
         $contentEmpty = '';
 
-        if ($t['categoryAndItemsFrameWork'] == '') {
+        if (empty($t['categoryAndItemsFrameWork'])) {
             // nothing is shown
         } elseif (count($itemArray)) {
             // next / prev:
