@@ -25,7 +25,6 @@ $result = [
         ],
         'prependAtCopy' => $languageLglPath . 'prependAtCopy',
         'crdate' => 'crdate',
-        'cruser_id' => 'cruser_id',
         'versioningWS' => true,
         'origUid' => 't3_origuid',
         'iconfile' => 'EXT:' . $extensionKey . '/Resources/Public/Icons/tt_products_downloads_language.gif',

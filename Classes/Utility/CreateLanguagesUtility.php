@@ -49,7 +49,7 @@ class CreateLanguagesUtility
         if ($currId) {
             $tableArray = ['tt_products_texts' => 'tt_products_texts_language'];
             // Initializes the module. Done in this function because we may need to re-initialize if data is submitted!
-            $standardFields = ['pid', 'cruser_id', 'hidden', 'starttime', 'endtime', 'fe_group'];
+            $standardFields = ['pid', 'hidden', 'starttime', 'endtime', 'fe_group'];
 
             $infoArray['rows'] = [];
             $time = time();

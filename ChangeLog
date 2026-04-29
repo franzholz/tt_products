@@ -1,3 +1,7 @@
+
+2026-02-26  Franz Holzinger  <franz@ttproducts.de>
+	* cruser_id is removed in TYPO3 12
+
 2026-02-26  Franz Holzinger  <franz@ttproducts.de>
     * Fix bug with price in dynamic Ajax call. The internally calculated prices must be preserved.
 
