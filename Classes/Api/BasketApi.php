@@ -702,6 +702,7 @@ class BasketApi implements SingletonInterface
         // I did not find another possibility to delete elements completely from a multidimensional array
         // than to recreate the array
         $basketExtNew = [];
+
         foreach ($basketExt as $tmpUid => $tmpSubArr) {
             if (is_array($tmpSubArr) && count($tmpSubArr)) {
                 foreach ($tmpSubArr as $tmpExtVar => $tmpCount) {

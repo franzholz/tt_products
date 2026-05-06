@@ -35,6 +35,7 @@
  *
  */
 
+use TYPO3\CMS\Core\Resource\FileReference;
 use TYPO3\CMS\Core\Resource\StorageRepository;
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
@@ -202,7 +203,10 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
 
         foreach ($row as $field => $val) {
             $key = '###IMAGE_' . strtoupper($field) . '###';
-            if (!isset($markerArray[$key])) {
+            if (
+                !isset($markerArray[$key]) &&
+                is_scalar($val)
+            ) {
                 $markerArray[$key] = $val;
             }
         }
@@ -315,6 +319,8 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
 
                 if (!$this->conf['separateImage']) {
                     $key = 0;  // show all images together as one image
+                } elseif ($val instanceof FileReference) {
+                    $key = $val->getName();
                 } elseif (is_array($val)) {
                     $key = $val['name'];
                 } else {
@@ -332,7 +338,9 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
                         );
 
                     $filename = '';
-                    if (is_array($val)) {
+                    if ($val instanceof FileReference) {
+                        $filename = $val->getName();
+                    } else if (is_array($val)) {
                         if (isset($val['name'])) {
                             $filename = $val['name'];
                         }
@@ -382,6 +390,8 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
 
                 if (!$this->conf['separateImage']) {
                     $key = 0;  // show all images together as one image
+                } elseif ($val instanceof FileReference) {
+                    $key = $filename = $val->getName();
                 } elseif (is_array($val)) {
                     $key = $val['name'];
                 } else {
@@ -397,7 +407,10 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
                             $count + 1
                         );
                 }
-                if (is_array($val)) {
+
+                if ($val instanceof FileReference) {
+                    $meta = $val->toArray();
+                } else if (is_array($val)) {
                     $meta = $val;
                 }
 
@@ -409,7 +422,9 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
                 $bGifBuilder = isset($imageConf['file']) && ($imageConf['file'] == 'GIFBUILDER');
                 $imageConf['file'] = $imageConfFile;
                 $filename = '';
-                if (is_array($val)) {
+                if ($val instanceof FileReference) {
+                    $filename = $val->getName();
+                } else if (is_array($val)) {
                     $filename = $imageConfFile;
                 } else {
                     $filename = $val;
@@ -427,6 +442,10 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
 
                 if ($bGifBuilder) {
                     $imageConf['file'] = 'GIFBUILDER';
+                }
+                if ($val instanceof FileReference) {
+                    $properties = $val->getProperties();
+                    $cObj->start($properties, 'sys_file_reference');
                 }
 
                 $imageCode = $cObj->getContentObject($contentObject)->render($imageConf);

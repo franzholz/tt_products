@@ -79,32 +79,36 @@ abstract class tx_ttproducts_category_base_view extends tx_ttproducts_table_base
         $pid,
         $linkMarker
     ): void {
-        $cObj = FrontendUtility::getContentObjectRenderer();
-        $addQueryString = [];
-        $addQueryString[$this->piVar] = $row['uid'];
-        $wrappedSubpartArray['###' . $linkMarker . '###'] =
-            [
-                '<a href="' .
-                    htmlspecialchars(
-                        FrontendUtility::getTypoLink_URL(
-                            $cObj,
-                            $pid,
-                            $urlmarkerObj->getLinkParams(
+        if (!empty($row['uid'])) {
+            $cObj = FrontendUtility::getContentObjectRenderer();
+            $addQueryString = [];
+            $addQueryString[$this->piVar] = $row['uid'];
+            $wrappedSubpartArray['###' . $linkMarker . '###'] =
+                [
+                    '<a href="' .
+                        htmlspecialchars(
+                            FrontendUtility::getTypoLink_URL(
+                                $cObj,
+                                $pid,
+                                $urlmarkerObj->getLinkParams(
+                                    '',
+                                    $addQueryString,
+                                    true,
+                                    false,
+                                    0,
+                                    'product',
+                                    $this->piVar
+                                ),
                                 '',
-                                $addQueryString,
-                                true,
-                                false,
-                                0,
-                                'product',
-                                $this->piVar
-                            ),
-                            '',
-                            []
+                                []
+                            )
                         )
-                    )
-            . '">',
-                '</a>',
-            ];
+                . '">',
+                    '</a>',
+                ];
+        } else {
+            $subpartArray['###' . $linkMarker . '###'] = '';
+        }
     }
 
     /**

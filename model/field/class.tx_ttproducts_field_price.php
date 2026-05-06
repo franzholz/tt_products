@@ -133,6 +133,19 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base
         parent::init();
 
         $this->priceConf = $priceConf;
+
+        if (
+            !empty($this->priceConf['priceNoReseller']) &&
+            MathUtility::canBeInterpretedAsInteger($this->priceConf['priceNoReseller'])
+        ) {
+            $this->priceConf['priceNoReseller'] =
+                MathUtility::forceIntegerInRange(
+                    $this->priceConf['priceNoReseller'],
+                    2,
+                    100
+                );
+        }
+
         if (!isset($this->priceConf['TAXincluded'])) {
             $this->priceConf['TAXincluded'] = '1';	// default '1' for TAXincluded
         }
@@ -148,6 +161,33 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base
     public function needsInit()
     {
         return !$this->bHasBeenInitialised;
+    }
+
+    public function getPriceNoReseller() {
+        $result = '';
+
+        if (
+            isset($this->priceConf['priceNoReseller'])
+        ) {
+            // get reseller group number
+            $result = intval($this->priceConf['priceNoReseller']);
+        }
+
+        return $result;
+    }
+
+    public function getPriceNoArray() {
+        $result = [
+            0 => '',
+        ];
+
+        $priceNoReseller = $this->getPriceNoReseller();
+
+        if (!empty($priceNoReseller)) {
+            $result[1] = $priceNoReseller;
+        }
+
+        return $result;
     }
 
     /**
@@ -343,12 +383,10 @@ class tx_ttproducts_field_price extends tx_ttproducts_field_base
         $result = 0;
 
         if (
-            empty($priceNo) &&
-            isset($this->priceConf['priceNoReseller']) &&
-            MathUtility::canBeInterpretedAsInteger($this->priceConf['priceNoReseller'])
+            empty($priceNo)
         ) {
             // get reseller group number
-            $priceNo = intval($this->priceConf['priceNoReseller']);
+            $priceNo = $this->getPriceNoReseller();
         }
 
         if ($priceNo > 0) {
