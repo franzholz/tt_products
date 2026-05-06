@@ -326,6 +326,7 @@ class tx_ttproducts_basket implements SingletonInterface
             // I did not find another possibility to delete elements completely from a multidimensional array
             // than to recreate the array
             $basketExtNew = [];
+
             foreach ($basketExt as $tmpUid => $tmpSubArr) {
                 if (is_array($tmpSubArr) && count($tmpSubArr)) {
                     foreach ($tmpSubArr as $tmpExtVar => $tmpCount) {
@@ -1587,7 +1588,6 @@ class tx_ttproducts_basket implements SingletonInterface
                     $externalRowArray, // new Download
                     $enableTaxZero
                 );
-
             $count = $newItem['count'];
 
             if ($count > 0) {

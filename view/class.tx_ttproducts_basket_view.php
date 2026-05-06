@@ -257,7 +257,6 @@ class tx_ttproducts_basket_view implements SingletonInterface
             $subpartArray['###MESSAGE_PRICE_VALID###'] = '';
             $wrappedSubpartArray['###MESSAGE_PRICE_INVALID###'] = '';
         }
-
     }
 
     /**
