@@ -52,7 +52,7 @@ class tx_ttproducts_fal_view extends tx_ttproducts_article_base_view
     public $piVar = 'fal';
 
     public function getItemSubpartArrays(
-        &$templateCode,
+        $templateCode,
         $funcTablename,
         $row,
         &$subpartArray,

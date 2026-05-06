@@ -40,7 +40,7 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 class tx_ttproducts_field_foreign_table_view extends tx_ttproducts_field_base_view
 {
     public function getItemSubpartArrays(
-        &$templateCode,
+        $templateCode,
         $markerKey,
         $funcTablename,
         &$row,

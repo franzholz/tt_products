@@ -189,7 +189,7 @@ abstract class tx_ttproducts_table_base_view implements SingletonInterface
     }
 
     public function getItemSubpartArrays(
-        &$templateCode,
+        $templateCode,
         $funcTablename,
         $row,
         &$subpartArray,

@@ -112,7 +112,7 @@ abstract class tx_ttproducts_article_base_view extends tx_ttproducts_table_base_
     }
 
     public function getItemSubpartArrays(
-        &$templateCode,
+        $templateCode,
         $funcTablename,
         $row,
         &$subpartArray,

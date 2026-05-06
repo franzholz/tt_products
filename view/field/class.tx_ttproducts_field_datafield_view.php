@@ -111,7 +111,7 @@ class tx_ttproducts_field_datafield_view extends tx_ttproducts_field_base_view
     }
 
     public function getItemSubpartArrays(
-        &$templateCode,
+        $templateCode,
         $markerKey,
         $funcTablename,
         &$row,
