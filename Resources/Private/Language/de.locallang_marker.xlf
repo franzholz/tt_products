@@ -1203,9 +1203,9 @@
         <source>Please use that number for the further communication with us.</source>
         <target state="final">Bitte benutzen Sie diese Nummer als Referenz,  mit uns Kontakt aufnehmen.</target>
       </trans-unit>
-      <trans-unit id="order_status_tracking" resname="order_status_tracking" approved="yes">
-        <source>You can check your order status with this number: click here to show the  current status.</source>
-        <target state="final">Sie können Ihre Bestellung jederzeit überprüfen und den Stand der Bearbeitung verfolgen,  die Auftragstatusnummer auf folgender Seite eingeben</target>
+      <trans-unit id="order_status_tracking" resname="order_status_tracking">
+        <source>You can check your order status with this number: click here to show the current status.</source>
+        <target state="needs-translation">You can check your order status with this number: click here to show the current status.</target>
       </trans-unit>
       <trans-unit id="order_party_change_button" resname="order_party_change_button" approved="yes">
         <source>Select party</source>
@@ -1562,6 +1562,38 @@
       <trans-unit id="text_message_payment_30" resname="text_message_payment_30" approved="yes">
         <source>Payment method #30</source>
         <target state="final">Bezahl Methode</target>
+      </trans-unit>
+      <trans-unit id="withdrawal_start" resname="withdrawal_start">
+        <source>Withdrawal of order</source>
+        <target state="needs-translation">Withdrawal of order</target>
+      </trans-unit>
+      <trans-unit id="you_can_withdraw_order" resname="you_can_withdraw_order">
+        <source>Here you can withdraw your order.</source>
+        <target state="needs-translation">Here you can withdraw your order.</target>
+      </trans-unit>
+      <trans-unit id="enter_tracking_name" resname="enter_tracking_name">
+        <source>Name:</source>
+        <target state="needs-translation">Name:</target>
+      </trans-unit>
+      <trans-unit id="enter_tracking_email" resname="enter_tracking_email">
+        <source>E-mail:</source>
+        <target state="needs-translation">E-mail:</target>
+      </trans-unit>
+      <trans-unit id="enter_tracking_code" resname="enter_tracking_code">
+        <source>Enter the tracking code:</source>
+        <target state="needs-translation">Enter the tracking code:</target>
+      </trans-unit>
+      <trans-unit id="enter_tracking_comment" resname="enter_tracking_comment">
+        <source>Comment about articles to be cancelled:</source>
+        <target state="needs-translation">Comment about articles to be cancelled:</target>
+      </trans-unit>
+      <trans-unit id="withdrawal_confirmation" resname="withdrawal_confirmation">
+        <source>Confirmation of withdrawal:</source>
+        <target state="needs-translation">Confirmation of withdrawal:</target>
+      </trans-unit>
+      <trans-unit id="withdrawal_processing" resname="withdrawal_processing">
+        <source>The withdrawal is being processed for order number %d.</source>
+        <target state="needs-translation">The withdrawal is being processed for order number %d.</target>
       </trans-unit>
     </body>
   </file>
