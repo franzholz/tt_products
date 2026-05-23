@@ -1188,6 +1188,9 @@
 			<trans-unit id="enter_tracking_code" resname="enter_tracking_code">
 				<source>Enter the tracking code:</source>
 			</trans-unit>
+			<trans-unit id="enter_tracking_comment" resname="enter_tracking_comment">
+				<source>Comment about articles to be cancelled:</source>
+			</trans-unit>
 			<trans-unit id="withdrawal_confirmation" resname="withdrawal_confirmation">
 				<source>Confirmation of withdrawal:</source>
 			</trans-unit>
