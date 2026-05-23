@@ -904,7 +904,7 @@
 				<source>Please use that number for the further communication with us.</source>
 			</trans-unit>
 			<trans-unit id="order_status_tracking" resname="order_status_tracking">
-				<source>You can check your order status with this number: click here to show the  current status.</source>
+				<source>You can check your order status with this number: click here to show the current status.</source>
 			</trans-unit>
 			<trans-unit id="order_party_change_button" resname="order_party_change_button">
 				<source>Select party</source>
@@ -1172,6 +1172,21 @@
 			</trans-unit>
 			<trans-unit id="text_message_payment_30" resname="text_message_payment_30">
 				<source>Payment method #30</source>
+			</trans-unit>
+			<trans-unit id="withdrawal_start" resname="withdrawal_start">
+				<source>Withdrawal of order</source>
+			</trans-unit>
+			<trans-unit id="you_can_withdraw_order" resname="you_can_withdraw_order">
+				<source>Here you can withdraw your order.</source>
+			</trans-unit>
+			<trans-unit id="enter_tracking_code" resname="enter_tracking_code">
+				<source>Enter the tracking code:</source>
+			</trans-unit>
+			<trans-unit id="withdrawal_confirmation" resname="withdrawal_confirmation">
+				<source>Confirmation of withdrawal:</source>
+			</trans-unit>
+			<trans-unit id="withdrawal_processing" resname="withdrawal_processing">
+				<source>The withdrawal is being processed.</source>
 			</trans-unit>
 		</body>
 	</file>
