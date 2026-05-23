@@ -110,7 +110,7 @@ class tx_ttproducts_email_div
                     $orderData['billing'],
                     $markerArray,
                     false,
-                    'person'
+                    'personinfo'
                 );
                 $feusersObj->getAddressMarkerArray(
                     $funcTablename,
