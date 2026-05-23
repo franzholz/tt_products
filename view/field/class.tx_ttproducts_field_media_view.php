@@ -786,8 +786,14 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
             ) {
                 foreach ($mediaRowArray[$k1] as $field => $val2) {
                     $key1 = $key . '_' . strtoupper($field);
-                    if (isset($tagArray[$key1])) {
-                        $markerArray['###' . $key1 . '###'] = $val2;
+
+                    if (
+                        $val2 === null ||
+                        is_scalar($val2) ||
+                        is_object($val2) &&
+                        method_exists($val2, '__toString')
+                    ) {
+                        $markerArray['###' . $key1 . '###'] = (string) $val2;
                     }
                 }
             }
