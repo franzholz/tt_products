@@ -315,9 +315,9 @@
         <source>credit points</source>
         <target state="needs-translation">credit points</target>
       </trans-unit>
-      <trans-unit id="tt_products.damcat" resname="tt_products.damcat">
-        <source>DAM category for product:</source>
-        <target state="needs-translation">DAM category for product:</target>
+      <trans-unit id="tt_products.falcat" resname="tt_products.falcat">
+        <source>FAL category for product:</source>
+        <target state="needs-translation">FAL category for product:</target>
       </trans-unit>
       <trans-unit id="tt_products.syscat" resname="tt_products.syscat">
         <source>System category for product:</source>
@@ -1606,6 +1606,10 @@
         <source>Unused</source>
         <target state="needs-translation">Unused</target>
       </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.withdrawal" resname="tt_content.pi_flexform.display_mode.withdrawal">
+        <source>Orders: withdrawal</source>
+        <target state="needs-translation">Orders: withdrawal</target>
+      </trans-unit>
       <trans-unit id="tt_content.pi_flexform.product_selection" resname="tt_content.pi_flexform.product_selection">
         <source>Product selection</source>
         <target state="needs-translation">Product selection</target>
@@ -1653,17 +1657,17 @@
         <source>Template suffix</source>
         <target state="needs-translation">Template suffix</target>
       </trans-unit>
-      <trans-unit id="tt_content.pi_flexform.dam_where" resname="tt_content.pi_flexform.dam_where">
-        <source>DAM: WHERE</source>
-        <target state="needs-translation">DAM: WHERE</target>
+      <trans-unit id="tt_content.pi_flexform.fal_where" resname="tt_content.pi_flexform.fal_where">
+        <source>FAL: WHERE</source>
+        <target state="needs-translation">FAL: WHERE</target>
       </trans-unit>
-      <trans-unit id="tt_content.pi_flexform.dam_group_by" resname="tt_content.pi_flexform.dam_group_by">
-        <source>DAM: GROUP BY</source>
-        <target state="needs-translation">DAM: GROUP BY</target>
+      <trans-unit id="tt_content.pi_flexform.fal_group_by" resname="tt_content.pi_flexform.fal_group_by">
+        <source>FAL: GROUP BY</source>
+        <target state="needs-translation">FAL: GROUP BY</target>
       </trans-unit>
-      <trans-unit id="tt_content.pi_flexform.dam_join_tables" resname="tt_content.pi_flexform.dam_join_tables">
-        <source>DAM: JOIN TABLES</source>
-        <target state="needs-translation">DAM: JOIN TABLES</target>
+      <trans-unit id="tt_content.pi_flexform.fal_join_tables" resname="tt_content.pi_flexform.fal_join_tables">
+        <source>FAL: JOIN TABLES</source>
+        <target state="needs-translation">FAL: JOIN TABLES</target>
       </trans-unit>
       <trans-unit id="tt_content.pi_flexform.product_where" resname="tt_content.pi_flexform.product_where">
         <source>Product: WHERE</source>
