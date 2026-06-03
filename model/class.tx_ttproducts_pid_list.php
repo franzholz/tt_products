@@ -153,7 +153,7 @@ class tx_ttproducts_pid_list
                 if (method_exists($cObj, 'getTreeList')) {
                     $pidSub = $cObj->getTreeList($val, $recursive);
                 } else {
-                    $pidSub = FrontendUtility::getTreeList($val, $recursive);
+                    $pidSub = FrontendUtility::getTreeList((int) $val, $recursive);
                 }
 
                 if ($pidSub != '') {

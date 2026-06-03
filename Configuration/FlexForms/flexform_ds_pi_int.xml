@@ -128,38 +128,42 @@
 						<numindex index="1">ORDERS</numindex>
 					</numindex>
 					<numindex index="25">
+						<numindex index="0">LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.display_mode.withdrawal</numindex>
+						<numindex index="1">WITHDRAWAL</numindex>
+					</numindex>
+					<numindex index="26">
 						<numindex index="0">LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.display_mode.46</numindex>
 						<numindex index="1">DOWNLOAD</numindex>
 					</numindex>
-					<numindex index="26">
+					<numindex index="27">
 						<numindex index="0">LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.display_mode.19</numindex>
 						<numindex index="1">HELP</numindex>
 					</numindex>
-					<numindex index="27">
+					<numindex index="28">
 						<numindex index="0">LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.display_mode.34</numindex>
 						<numindex index="1">MEMODAM</numindex>
 					</numindex>
-					<numindex index="28">
+					<numindex index="29">
 						<numindex index="0">LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.display_mode.35</numindex>
 						<numindex index="1">MEMODAMOVERVIEW</numindex>
 					</numindex>
-					<numindex index="29">
+					<numindex index="30">
 						<numindex index="0">LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.display_mode.37</numindex>
 						<numindex index="1">USER1</numindex>
 					</numindex>
-					<numindex index="30">
+					<numindex index="31">
 						<numindex index="0">LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.display_mode.38</numindex>
 						<numindex index="1">USER2</numindex>
 					</numindex>
-					<numindex index="31">
+					<numindex index="32">
 						<numindex index="0">LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.display_mode.39</numindex>
 						<numindex index="1">USER3</numindex>
 					</numindex>
-					<numindex index="32">
+					<numindex index="33">
 						<numindex index="0">LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.display_mode.40</numindex>
 						<numindex index="1">USER4</numindex>
 					</numindex>
-					<numindex index="33">
+					<numindex index="34">
 						<numindex index="0">LLL:EXT:tt_products/Resources/Private/Language/locallang_db.xlf:tt_content.pi_flexform.display_mode.41</numindex>
 						<numindex index="1">USER5</numindex>
 					</numindex>

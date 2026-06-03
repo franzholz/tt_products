@@ -35,9 +35,12 @@
  *
  *
  */
-use JambageCom\Div2007\Utility\MailUtility;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Core\Service\MarkerBasedTemplateService;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
+
+use JambageCom\Div2007\Utility\MailUtility;
+
 
 class tx_ttproducts_email_div
 {
@@ -45,7 +48,6 @@ class tx_ttproducts_email_div
      * Send notification email for tracking.
      */
     public static function sendNotifyEmail(
-        $cObj,
         $conf,
         $templateSuffix,
         $funcTablename,
@@ -61,6 +63,7 @@ class tx_ttproducts_email_div
         $sendername = '',
         $senderemail = ''
     ): void {
+        $local_cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
         $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 
@@ -95,7 +98,7 @@ class tx_ttproducts_email_div
                 $tagArray = $markerObj->getAllMarkers($emailContent);
 
                 $markerArray = $globalMarkerArray;
-                $markerArray['###ORDER_STATUS_TIME###'] = $cObj->stdWrap($v['time'], $conf['statusDate_stdWrap.']);
+                $markerArray['###ORDER_STATUS_TIME###'] = $local_cObj->stdWrap($v['time'], $conf['statusDate_stdWrap.']);
                 $markerArray['###ORDER_STATUS###'] = $v['status'];
                 $info = $statusCodeArray[$v['status']];
                 $markerArray['###ORDER_STATUS_INFO###'] = ($info ?: $v['info']);
@@ -150,7 +153,6 @@ class tx_ttproducts_email_div
      * Send notification email for gift certificates.
      */
     public static function sendGiftEmail(
-        $cObj,
         $conf,
         $recipient,
         $comment,
@@ -159,6 +161,8 @@ class tx_ttproducts_email_div
         $templateMarker,
         $bHtmlMail = false
     ): void {
+        $local_cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
+
         $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $sendername = ($giftRow['personname'] ?? $conf['orderEmail_fromName']);
         $senderemail = ($giftRow['personemail'] ?? $conf['orderEmail_from']);

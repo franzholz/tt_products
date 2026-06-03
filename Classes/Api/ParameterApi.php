@@ -81,6 +81,7 @@ class ParameterApi implements SingletonInterface
     protected $basketIntoIdPrefix = 'basket-into-id';
     protected $basketInputErrorIdPrefix = 'basket-input-error-id';
     protected $request = null;
+    protected $id = 0;
 
     public function setRequest(
         ServerRequestInterface $request,
@@ -93,6 +94,19 @@ class ParameterApi implements SingletonInterface
     {
         return $this->request;
     }
+
+    public function setId(
+        int $id,
+    ): void
+    {
+        $this->id = $id;
+    }
+
+    public function getId()
+    {
+        return $this->id;
+    }
+
 
     public function setPiVars($value): void
     {

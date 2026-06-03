@@ -237,8 +237,8 @@
 			<trans-unit id="tt_products.creditpoints" resname="tt_products.creditpoints">
 				<source>credit points</source>
 			</trans-unit>
-			<trans-unit id="tt_products.damcat" resname="tt_products.damcat">
-				<source>DAM category for product:</source>
+			<trans-unit id="tt_products.falcat" resname="tt_products.falcat">
+				<source>FAL category for product:</source>
 			</trans-unit>
 			<trans-unit id="tt_products.syscat" resname="tt_products.syscat">
 				<source>System category for product:</source>
@@ -1206,6 +1206,9 @@
 			<trans-unit id="tt_content.pi_flexform.display_mode.unused" resname="tt_content.pi_flexform.display_mode.unused">
 				<source>Unused</source>
 			</trans-unit>
+			<trans-unit id="tt_content.pi_flexform.display_mode.withdrawal" resname="tt_content.pi_flexform.display_mode.withdrawal">
+				<source>Orders: withdrawal</source>
+			</trans-unit>
 			<trans-unit id="tt_content.pi_flexform.product_selection" resname="tt_content.pi_flexform.product_selection">
 				<source>Product selection</source>
 			</trans-unit>
@@ -1242,14 +1245,14 @@
 			<trans-unit id="tt_content.pi_flexform.template_suffix" resname="tt_content.pi_flexform.template_suffix">
 				<source>Template suffix</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_flexform.dam_where" resname="tt_content.pi_flexform.dam_where">
-				<source>DAM: WHERE</source>
+			<trans-unit id="tt_content.pi_flexform.fal_where" resname="tt_content.pi_flexform.fal_where">
+				<source>FAL: WHERE</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_flexform.dam_group_by" resname="tt_content.pi_flexform.dam_group_by">
-				<source>DAM: GROUP BY</source>
+			<trans-unit id="tt_content.pi_flexform.fal_group_by" resname="tt_content.pi_flexform.fal_group_by">
+				<source>FAL: GROUP BY</source>
 			</trans-unit>
-			<trans-unit id="tt_content.pi_flexform.dam_join_tables" resname="tt_content.pi_flexform.dam_join_tables">
-				<source>DAM: JOIN TABLES</source>
+			<trans-unit id="tt_content.pi_flexform.fal_join_tables" resname="tt_content.pi_flexform.fal_join_tables">
+				<source>FAL: JOIN TABLES</source>
 			</trans-unit>
 			<trans-unit id="tt_content.pi_flexform.product_where" resname="tt_content.pi_flexform.product_where">
 				<source>Product: WHERE</source>

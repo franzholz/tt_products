@@ -42,6 +42,7 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Core\Utility\StringUtility;
+use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 
 use JambageCom\Div2007\Utility\TableUtility;
 
@@ -54,16 +55,14 @@ use JambageCom\TtProducts\Api\PaymentShippingHandling;
 
 class tx_ttproducts_tracking implements SingletonInterface
 {
-    public $cObj;
     public $conf;		  // original configuration
     private $statusCodeArray;
 
     /**
      * $basket is the TYPO3 default shopping basket array from ses-data.
      */
-    public function init($cObj): void
+    public function init(): void
     {
-        $this->cObj = $cObj;
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $this->conf = $cnf->conf;
 
@@ -192,6 +191,7 @@ class tx_ttproducts_tracking implements SingletonInterface
         &$orderRecord,
         $bValidUpdateCode
     ) {
+        $local_cObj = GeneralUtility::makeInstance(ContentObjectRenderer::class);
         $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
         $bUseXHTML = !empty($GLOBALS['TSFE']->config['config']['xhtmlDoctype']);
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
@@ -362,7 +362,7 @@ class tx_ttproducts_tracking implements SingletonInterface
                         }
                         $templateMarker = 'TRACKING_EMAILNOTIFY_TEMPLATE';
                         tx_ttproducts_email_div::sendNotifyEmail(
-                            $this->cObj,
+                            $local_cObj,
                             $this->conf,
                             $templateSuffix,
                             'fe_users',
@@ -387,7 +387,6 @@ class tx_ttproducts_tracking implements SingletonInterface
                         while ($giftRow = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($giftRes)) {
                             $recipient = $giftRow['deliveryemail'] . ',' . $giftRow['personemail'];
                             tx_ttproducts_email_div::sendGiftEmail(
-                                $this->cObj,
                                 $this->conf,
                                 $recipient,
                                 $orderRecord['status_comment'] ?? '',
@@ -452,7 +451,7 @@ class tx_ttproducts_tracking implements SingletonInterface
         if (is_array($status_log)) {
             foreach ($status_log as $k => $v) {
                 $markerArray = [];
-                $markerArray['###ORDER_STATUS_TIME###'] = $this->cObj->stdWrap($v['time'], $this->conf['statusDate_stdWrap.']);
+                $markerArray['###ORDER_STATUS_TIME###'] = $local_cObj->stdWrap($v['time'], $this->conf['statusDate_stdWrap.']);
                 $markerArray['###ORDER_STATUS###'] = $v['status'];
 
                 $info = $statusCodeArray[$v['status']];
@@ -577,7 +576,7 @@ class tx_ttproducts_tracking implements SingletonInterface
 
             while ($row = $GLOBALS['TYPO3_DB']->sql_fetch_assoc($res)) {
                 $tmpStatuslog = unserialize($row['status_log']);
-                $classPrefix = str_replace('_', '-', $parameterApi->getPrefixId();
+                $classPrefix = str_replace('_', '-', $parameterApi->getPrefixId());
                 $this->searchOrderStatus($tmpStatuslog, $tmpPaid, $tmpClosed);
                 $class = ($tmpPaid ? $classPrefix . '-paid' : '');
                 $class = ($class ? $class . ' ' : '') . ($tmpClosed ? $classPrefix . '-closed' : '');
@@ -685,7 +684,7 @@ class tx_ttproducts_tracking implements SingletonInterface
                 );
 
                 if (isset($this->conf['tracking.']) && isset($this->conf['tracking.']['recordBox.'])) {
-                    $out = $this->cObj->stdWrap($out, $this->conf['tracking.']['recordBox.']);
+                    $out = $local_cObj->stdWrap($out, $this->conf['tracking.']['recordBox.']);
                 }
                 $markerArray['###OTHER_ORDERS_OPTIONS###'] .= $out;
             }
@@ -716,7 +715,7 @@ class tx_ttproducts_tracking implements SingletonInterface
                 $cardViewObj = $tablesObj->get('sys_products_cards', true, false);
                 $cardObj = $tablesObj->get('sys_products_cards', false, false);
                 $cardRow = $cardObj->getRow($orderRow['cc_uid']);
-                $cardViewObj->setCObj($this->cObj);
+                $cardViewObj->setCObj($local_cObj);
                 $cardViewObj->setConf($this->conf);
                 $cardViewObj->getMarkerArray($cardRow, $globalMarkerArray, []);
             }
@@ -760,7 +759,7 @@ class tx_ttproducts_tracking implements SingletonInterface
 
         $markerArray['###FIELD_EMAIL###'] = $orderRow['email'] ?? '';
         $markerArray['###ORDER_UID###'] = $markerArray['###ORDER_ORDER_NO###'] = $orderObj->getNumber($orderRow['uid'] ?? 0);
-        $markerArray['###ORDER_DATE###'] = $this->cObj->stdWrap($orderRow['crdate'] ?? '', $this->conf['orderDate_stdWrap.'] ?? '');
+        $markerArray['###ORDER_DATE###'] = $local_cObj->stdWrap($orderRow['crdate'] ?? '', $this->conf['orderDate_stdWrap.'] ?? '');
         $markerArray['###TRACKING_NUMBER###'] = $trackingCode;
         $markerArray['###UPDATE_CODE###'] = $updateCode;
         $markerArray['###TRACKING_DATA_NAME###'] = $parameterApi->getPrefixId() . '[data]';
