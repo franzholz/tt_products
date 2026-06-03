@@ -44,6 +44,7 @@ use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\HttpUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
+use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 use TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer;
 use TYPO3\CMS\Frontend\Resource\FilePathSanitizer;
 
@@ -61,6 +62,7 @@ use JambageCom\TtProducts\Api\Localization;
 use JambageCom\TtProducts\Api\ParameterApi;
 use JambageCom\TtProducts\Api\PluginApi;
 use JambageCom\TtProducts\Controller\ActivityController;
+use JambageCom\TtProducts\Controller\WithdrawalController;
 use JambageCom\TtProducts\Domain\Model\Dto\EmConfiguration;
 
 class tx_ttproducts_main implements SingletonInterface
@@ -136,6 +138,17 @@ class tx_ttproducts_main implements SingletonInterface
         $result = true;
         $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
         $parameterApi->setRequest($request);
+        $id = 0;
+        $typo3VersionArray = VersionNumberUtility::convertVersionStringToArray(VersionNumberUtility::getCurrentTypo3Version());
+        $typo3VersionMain = $typo3VersionArray['version_main'];
+
+        if ($typo3VersionMain >= 13) {
+            $id = $request->getAttribute('frontend.page.information')->getId();
+        } else {
+            $id = $GLOBALS['TSFE']->id;
+        }
+        $parameterApi->setId($id);
+
         $this->setSingleFromList(false);
         $this->tt_product_single = [];
         $piVars = $parameterApi->getPiVars();
@@ -353,6 +366,7 @@ class tx_ttproducts_main implements SingletonInterface
         $config = $cnf->getConfig();
         $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
         $piVars = $parameterApi->getPiVars();
+        $request = $parameterApi->getRequest();
         $urlObj = GeneralUtility::makeInstance('tx_ttproducts_url_view');
         $templateService = GeneralUtility::makeInstance(MarkerBasedTemplateService::class);
 
@@ -375,7 +389,6 @@ class tx_ttproducts_main implements SingletonInterface
         $globalMarkerArray = $markerObj->getGlobalMarkerArray();
         $infoObj = GeneralUtility::makeInstance('tx_ttproducts_info');
         $basketApi = GeneralUtility::makeInstance(BasketApi::class);
-        $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
         $prefixId = $parameterApi->getPrefixId();
         $emConfig = GeneralUtility::makeInstance(EmConfiguration::class);
         $extensionKey = $emConfig->getExtensionKey();
@@ -859,6 +872,24 @@ class tx_ttproducts_main implements SingletonInterface
                         $trackingCode,
                         $errorCode
                     );
+                    break;
+                case 'WITHDRAWAL':
+                    $controller = GeneralUtility::makeInstance(WithdrawalController::class);
+                    $content =
+                        $controller->main(
+                            $errorCode,
+                            $parameterApi->getId(),
+                            $parameterApi->getParameter('tracking') ?? '',
+                            $parameterApi->getParameter('tracking_name') ?? '',
+                            $parameterApi->getParameter('tracking_email') ?? '',
+                            $parameterApi->getParameter('tracking_comment') ?? '',
+                            !empty($parameterApi->getParameter('products_withdrawal')) ?? false,
+                            !empty($parameterApi->getParameter('products_withdrawal_confirmation')) ?? false,
+                            $config['templateSuffix'],
+                            $content,
+                            $conf,
+                            $request,
+                        );
                     break;
                 case 'SINGLECAT':
                 case 'SINGLEDAMCAT':
