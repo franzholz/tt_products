@@ -1592,8 +1592,8 @@
         <target state="needs-translation">Confirmation of withdrawal:</target>
       </trans-unit>
       <trans-unit id="withdrawal_processing" resname="withdrawal_processing">
-        <source>The withdrawal is being processed for order number %d.</source>
-        <target state="needs-translation">The withdrawal is being processed for order number %d.</target>
+        <source>The withdrawal for order no. %d is being processed.</source>
+        <target state="needs-translation">The withdrawal for order no. %d is being processed.</target>
       </trans-unit>
     </body>
   </file>
