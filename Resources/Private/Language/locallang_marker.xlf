@@ -567,6 +567,12 @@
 			<trans-unit id="p_order_date" resname="p_order_date">
 				<source>Order date</source>
 			</trans-unit>
+			<trans-unit id="p_order_state" resname="p_order_state">
+				<source>Order state</source>
+			</trans-unit>
+			<trans-unit id="p_order_our_property" resname="p_order_our_property">
+				<source>The goods remain our property until full payment has been received.</source>
+			</trans-unit>
 			<trans-unit id="p_checkbox1" resname="p_checkbox1">
 				<source>Checkbox 1 Text</source>
 			</trans-unit>
@@ -905,6 +911,9 @@
 			</trans-unit>
 			<trans-unit id="order_status_tracking" resname="order_status_tracking">
 				<source>You can check your order status with this number: click here to show the current status.</source>
+			</trans-unit>
+			<trans-unit id="order_status_tracking_2" resname="order_status_tracking_2">
+				<source>You can check your order status all the time with this state code:</source>
 			</trans-unit>
 			<trans-unit id="order_party_change_button" resname="order_party_change_button">
 				<source>Select party</source>
