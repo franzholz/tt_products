@@ -755,6 +755,14 @@
         <source>Order date</source>
         <target state="needs-translation">Order date</target>
       </trans-unit>
+      <trans-unit id="p_order_state" resname="p_order_state">
+        <source>Order state</source>
+        <target state="needs-translation">Order state</target>
+      </trans-unit>
+      <trans-unit id="p_order_our_property" resname="p_order_our_property">
+        <source>The goods remain our property until full payment has been received.</source>
+        <target state="needs-translation">The goods remain our property until full payment has been received.</target>
+      </trans-unit>
       <trans-unit id="p_checkbox1" resname="p_checkbox1">
         <source>Checkbox 1 Text</source>
         <target state="needs-translation">Checkbox 1 Text</target>
@@ -1206,6 +1214,10 @@
       <trans-unit id="order_status_tracking" resname="order_status_tracking">
         <source>You can check your order status with this number: click here to show the current status.</source>
         <target state="needs-translation">You can check your order status with this number: click here to show the current status.</target>
+      </trans-unit>
+      <trans-unit id="order_status_tracking_2" resname="order_status_tracking_2">
+        <source>You can check your order status all the time with this state code:</source>
+        <target state="needs-translation">You can check your order status all the time with this state code:</target>
       </trans-unit>
       <trans-unit id="order_party_change_button" resname="order_party_change_button">
         <source>Select party</source>
