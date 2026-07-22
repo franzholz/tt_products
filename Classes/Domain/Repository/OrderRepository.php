@@ -63,7 +63,6 @@ class OrderRepository
             )
             ->setMaxResults(1);
 
-        debug($queryBuilder->getSQL(), 'getFindByTrackingCode SQL Doctrine +++');
         $stmt = $queryBuilder->executeQuery();
 
         return $stmt->fetchAllAssociative();

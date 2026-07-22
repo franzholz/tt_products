@@ -43,7 +43,6 @@ use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-use JambageCom\Div2007\Api\OldStaticInfoTablesApi;
 use JambageCom\Div2007\Api\StaticInfoTablesApi;
 
 use JambageCom\TtProducts\Api\PaymentShippingHandling;
@@ -152,11 +151,7 @@ class tx_ttproducts_info implements SingletonInterface
         $cnf = GeneralUtility::makeInstance('tx_ttproducts_config');
         $conf = $cnf->getConf();
         $infoArray = $this->getInfoArray();
-        if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
-            $staticInfoApi = GeneralUtility::makeInstance(StaticInfoTablesApi::class);
-        } else {
-            $staticInfoApi = GeneralUtility::makeInstance(OldStaticInfoTablesApi::class);
-        }
+        $staticInfoApi = GeneralUtility::makeInstance(StaticInfoTablesApi::class);
         $where = $this->getWhereAllowedCountries($basketExtra);
 
         if (
@@ -187,11 +182,7 @@ class tx_ttproducts_info implements SingletonInterface
      */
     public function getWhereAllowedCountries($basketExtra)
     {
-        if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
-            $staticInfoApi = GeneralUtility::makeInstance(StaticInfoTablesApi::class);
-        } else {
-            $staticInfoApi = GeneralUtility::makeInstance(OldStaticInfoTablesApi::class);
-        }
+        $staticInfoApi = GeneralUtility::makeInstance(StaticInfoTablesApi::class);
         $where = '';
 
         if ($staticInfoApi->isActive()) {

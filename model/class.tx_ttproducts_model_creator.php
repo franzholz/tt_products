@@ -35,7 +35,6 @@
  *
  *
  */
-use JambageCom\Div2007\Api\OldStaticInfoTablesApi;
 use JambageCom\Div2007\Api\StaticInfoTablesApi;
 use JambageCom\Div2007\Utility\ExtensionUtility;
 use JambageCom\Div2007\Utility\TableUtility;
@@ -50,12 +49,7 @@ class tx_ttproducts_model_creator implements SingletonInterface
     public function init($conf, $config, $cObj): bool
     {
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
-        if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
-            $staticInfoApi = GeneralUtility::makeInstance(StaticInfoTablesApi::class);
-        } else {
-            $staticInfoApi = GeneralUtility::makeInstance(OldStaticInfoTablesApi::class);
-        }
-
+        $staticInfoApi = GeneralUtility::makeInstance(StaticInfoTablesApi::class);
         $useStaticInfoTables = $staticInfoApi->isActive();
         $bUseStaticTaxes = false;
 

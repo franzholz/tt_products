@@ -50,6 +50,7 @@ use JambageCom\Div2007\Utility\FlexformUtility;
 use JambageCom\Div2007\Utility\ErrorUtility;
 
 use JambageCom\TtProducts\Api\CustomerApi;
+use JambageCom\TtProducts\Api\Localization;
 use JambageCom\TtProducts\Api\ParameterApi;
 use JambageCom\TtProducts\View\RelatedList;
 

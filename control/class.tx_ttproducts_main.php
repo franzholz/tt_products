@@ -286,6 +286,7 @@ class tx_ttproducts_main implements SingletonInterface
                 $db->init(
                     $conf,
                     $config,
+                    $request,
                     $this->ajax,
                     $pibaseObj,
                     $cObj,

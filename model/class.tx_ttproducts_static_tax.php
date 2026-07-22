@@ -47,7 +47,6 @@ use TYPO3\CMS\Core\Utility\MathUtility;
 
 use JambageCom\StaticInfoTablesTaxes\Api\TaxApi;
 use JambageCom\Div2007\Api\StaticInfoTablesApi;
-use JambageCom\Div2007\Api\OldStaticInfoTablesApi;
 use JambageCom\Div2007\Utility\ExtensionUtility;
 
 use JambageCom\TtProducts\Api\CustomerApi;
@@ -364,12 +363,7 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base
         array $uidArray,
         array $basketRecs
     ): bool {
-        if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
-            $staticInfoApi = GeneralUtility::makeInstance(StaticInfoTablesApi::class);
-        } else {
-            $staticInfoApi = GeneralUtility::makeInstance(OldStaticInfoTablesApi::class);
-        }
-
+        $staticInfoApi = GeneralUtility::makeInstance(StaticInfoTablesApi::class);
         $countryArray = $this->countryArray;
 
         if (
@@ -543,12 +537,7 @@ class tx_ttproducts_static_tax extends tx_ttproducts_table_base
             ) {
                 $uid = $row['uid'];
                 $taxInfoArray = [];
-                if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
-                    $staticInfoApi = GeneralUtility::makeInstance(StaticInfoTablesApi::class);
-                } else {
-                    $staticInfoApi = GeneralUtility::makeInstance(OldStaticInfoTablesApi::class);
-                }
-
+                $staticInfoApi = GeneralUtility::makeInstance(StaticInfoTablesApi::class);
                 $countryArray = $this->countryArray;
 
                 if (isset($personInfo) && is_array($personInfo)) {

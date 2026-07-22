@@ -1020,9 +1020,19 @@ class tx_ttproducts_basket_view implements SingletonInterface
                     $calculatedArray['deposittax']['goodstotal']['ALL'],
                 'PRICE_VOUCHERTOTAL_NO_TAX' => $calculatedArray['priceNoTax']['vouchertotal']['ALL'] +
                     $calculatedArray['depositnotax']['goodstotal']['ALL'],
+                'PRICE_VOUCHERTOTAL_ONLY_TAX' =>
+                    $calculatedArray['priceTax']['vouchertotal']['ALL'] +
+                    $calculatedArray['deposittax']['goodstotal']['ALL'] -
+                    $calculatedArray['priceNoTax']['vouchertotal']['ALL'] -
+                    $calculatedArray['depositnotax']['goodstotal']['ALL'],
                 'PRICE_VOUCHERGOODSTOTAL_TAX' => $calculatedArray['priceTax']['vouchergoodstotal']['ALL'] +
                     $calculatedArray['deposittax']['goodstotal']['ALL'],
                 'PRICE_VOUCHERGOODSTOTAL_NO_TAX' => $calculatedArray['priceNoTax']['vouchergoodstotal']['ALL'] +
+                    $calculatedArray['depositnotax']['goodstotal']['ALL'],
+                'PRICE_VOUCHERGOODSTOTAL_ONLY_TAX' =>
+                    $calculatedArray['priceTax']['vouchergoodstotal']['ALL'] +
+                    $calculatedArray['deposittax']['goodstotal']['ALL'] -
+                    $calculatedArray['priceNoTax']['vouchergoodstotal']['ALL'] -
                     $calculatedArray['depositnotax']['goodstotal']['ALL'],
                 'PRICE_TOTAL_TAX_WITHOUT_PAYMENT' => $calculatedArray['priceTax']['total']['ALL'] +
                     $calculatedArray['deposittax']['goodstotal']['ALL'] -

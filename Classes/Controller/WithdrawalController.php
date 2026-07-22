@@ -228,7 +228,7 @@ class WithdrawalController implements SingletonInterface
                 $markerArray,
                 $theCode,
                 $addQueryString,
-                false
+                ''
             );
 
         $markerArray['###TRACKING_NUMBER###'] = htmlspecialchars($trackingCode);
