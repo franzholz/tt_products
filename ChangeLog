@@ -1,3 +1,6 @@
+2026-07-22 Franz Holzinger  <franz@ttproducts.de>
+    * fix bug in xAjax call: use the $request parameter from xajax
+
 2026-06-03 Franz Holzinger  <franz@ttproducts.de>
     * new feature: Withdrawal button
 

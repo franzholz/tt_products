@@ -74,6 +74,7 @@ class tx_ttproducts_db implements SingletonInterface
     public function init(
         array &$conf,
         array &$config,
+        ?ServerRequestInterface $request,
         $ajaxObj,
         $pObj,
         $cObj,
@@ -102,9 +103,9 @@ class tx_ttproducts_db implements SingletonInterface
 
         // TODO: $recs befüllen.
         if (
-            ($GLOBALS['TYPO3_REQUEST'] ?? null) instanceof ServerRequestInterface
+            ($request ?? null) instanceof ServerRequestInterface
             &&
-            ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isFrontend()
+            ApplicationType::fromRequest($request)->isFrontend()
         ) {
             \tx_ttproducts_control_basket::storeNewRecs($conf['transmissionSecurity']);
             $recs = tx_ttproducts_control_basket::getStoredRecs();
@@ -117,6 +118,7 @@ class tx_ttproducts_db implements SingletonInterface
             $controlCreatorObj->init(
                 $conf,
                 $config,
+                $request,
                 $pObj,
                 $this->cObj,
                 $ajaxObj,

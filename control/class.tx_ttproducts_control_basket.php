@@ -358,11 +358,7 @@ class tx_ttproducts_control_basket
 
     public static function setCountry(&$infoArray, $basketExtra): void
     {
-        if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
-            $staticInfoApi = GeneralUtility::makeInstance(StaticInfoTablesApi::class);
-        } else {
-            $staticInfoApi = GeneralUtility::makeInstance(OldStaticInfoTablesApi::class);
-        }
+        $staticInfoApi = GeneralUtility::makeInstance(StaticInfoTablesApi::class);
 
         if (
             $staticInfoApi->isActive() &&
@@ -518,11 +514,7 @@ class tx_ttproducts_control_basket
                     ) &&
                     $useStaticInfoCountry
                 ) {
-                    if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
-                        $staticInfoApi = GeneralUtility::makeInstance(StaticInfoTablesApi::class);
-                    } else {
-                        $staticInfoApi = GeneralUtility::makeInstance(OldStaticInfoTablesApi::class);
-                    }
+                    $staticInfoApi = GeneralUtility::makeInstance(StaticInfoTablesApi::class);
 
                     if (
                         $staticInfoApi->isActive()

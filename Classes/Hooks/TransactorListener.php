@@ -113,6 +113,7 @@ class TransactorListener
             $controlCreatorObj->init(
                 $conf,
                 $config,
+                $GLOBALS['REQUEST'],
                 '',
                 $cObj,
                 '',

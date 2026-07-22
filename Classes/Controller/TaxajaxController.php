@@ -84,7 +84,7 @@ class TaxajaxController
         $cObj = GeneralUtility::makeInstance('TYPO3\CMS\Frontend\ContentObject\ContentObjectRenderer');	// Local cObj.
         $cObj->start([]);
 
-        $SOBE->init($conf, $config, $ajax, $tmp, $cObj, $errorCode);
+        $SOBE->init($conf, $config, $request,$ajax, $tmp, $cObj, $errorCode);
 
         if (!empty($_POST['xajax'])) {
             $ajax->taxajax->processRequests();

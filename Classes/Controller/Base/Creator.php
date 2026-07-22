@@ -51,7 +51,6 @@ use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
-use JambageCom\Div2007\Api\OldStaticInfoTablesApi;
 use JambageCom\Div2007\Api\StaticInfoTablesApi;
 
 use JambageCom\TtProducts\Api\BasketApi;
@@ -75,6 +74,7 @@ class Creator implements SingletonInterface
     public function init(
         array &$conf,
         array &$config,
+        ?ServerRequestInterface $request,
         $pObj,
         $cObj,
         $ajax,
@@ -85,14 +85,7 @@ class Creator implements SingletonInterface
         $basketApi = GeneralUtility::makeInstance(BasketApi::class);
         $variantApi = GeneralUtility::makeInstance(VariantApi::class);
         $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
-        $request = $parameterApi->getRequest();
-
-        if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
-            $staticInfoApi = GeneralUtility::makeInstance(StaticInfoTablesApi::class);
-        } else {
-            $staticInfoApi = GeneralUtility::makeInstance(OldStaticInfoTablesApi::class);
-        }
-
+        $staticInfoApi = GeneralUtility::makeInstance(StaticInfoTablesApi::class);
         $useStaticInfoTables = $staticInfoApi->init();
 
         if (!empty($conf['PIDstoreRoot'])) {
@@ -112,8 +105,7 @@ class Creator implements SingletonInterface
             }
         }
 
-        if (!isset($request)) {
-            $request = $GLOBALS['TYPO3_REQUEST'];
+        if (isset($request)) {
             $parameterApi->setRequest($request);
         }
 
@@ -186,7 +178,6 @@ class Creator implements SingletonInterface
         }
 
         $config['LLkey'] = $languageObj->getLocalLangKey(); // $pibaseObj->LLkey;
-
         $cnfObj = GeneralUtility::makeInstance('tx_ttproducts_config');
         $cnfObj->init(
             $conf,
@@ -194,7 +185,6 @@ class Creator implements SingletonInterface
         );
         $tableDesc = $cnfObj->getTableDesc('tt_products');
         $variantConf = ($tableDesc['variant.'] ?? []);
-
         $selectableArray = '';
         $selectableFieldArray = [];
         $firstVariantArray = '';

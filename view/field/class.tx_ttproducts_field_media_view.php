@@ -723,7 +723,6 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
             $dirname = $this->getModelObj()->getDirname($imageRow);
         }
 
-        // +++		$linkWrap = false;
         $theImgCode =
             $this->getCodeMarkerArray(
                 $funcTablename,

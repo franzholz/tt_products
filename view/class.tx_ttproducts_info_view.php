@@ -41,7 +41,6 @@ use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
-use JambageCom\Div2007\Api\OldStaticInfoTablesApi;
 use JambageCom\Div2007\Api\StaticInfoTablesApi;
 use JambageCom\Div2007\Utility\ExtensionUtility;
 use JambageCom\Div2007\Utility\StaticInfoTablesUtility;
@@ -186,11 +185,7 @@ class tx_ttproducts_info_view implements SingletonInterface
         $orderAddressObj = $orderAddressViewObj->getModelObj();
         $selectInfoFields = $orderAddressObj->getSelectInfoFields();
         $piVars = $parameterApi->getPiVars();
-        if (version_compare(PHP_VERSION, '8.0.0') >= 0) {
-            $staticInfoApi = GeneralUtility::makeInstance(StaticInfoTablesApi::class);
-        } else {
-            $staticInfoApi = GeneralUtility::makeInstance(OldStaticInfoTablesApi::class);
-        }
+        $staticInfoApi = GeneralUtility::makeInstance(StaticInfoTablesApi::class);
 
         foreach ($infoFields as $k => $fName) {
             if (!in_array($fName, $selectInfoFields)) {
