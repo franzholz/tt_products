@@ -46,34 +46,11 @@ use TYPO3\CMS\Core\Utility\RootlineUtility;
 
 class OrderBackend implements SingletonInterface
 {
-    public function displayCategoryTree($parameterArray, $fobj)
-    {
-        $result = false;
-
-        if (ExtensionManagementUtility::isLoaded('mbi_products_categories')) {
-            $treeObj = false;
-
-            if (class_exists('JambageCom\\MbiProductsCategories\\View\\TreeSelector')) {
-                $treeObj = GeneralUtility::makeInstance('JambageCom\\MbiProductsCategories\\View\\TreeSelector');
-            } elseif (class_exists('tx_mbiproductscategories_treeview')) {
-                $treeObj = GeneralUtility::makeInstance('tx_mbiproductscategories_treeview');
-            }
-
-            if (is_object($treeObj)) {
-                $result =
-                    $treeObj->displayCategoryTree(
-                        $parameterArray,
-                        $fobj
-                    );
-            }
-        }
-
-        return $result;
-    }
 
     // Called from the backend page and list module for a single order record to open the TCE
     public function tceSingleOrder($data)
     {
+        $request = $data['request'];
         $table = $data['tableName'];
         $field = $data['fieldName'];
         $row = $data['databaseRow'];
@@ -109,6 +86,7 @@ class OrderBackend implements SingletonInterface
             $db->init(
                 $conf,
                 $tmp1,
+                $request,
                 $ajax,
                 $tmp2,
                 $cObj,
@@ -122,7 +100,7 @@ class OrderBackend implements SingletonInterface
         return $result;
     }
 
-    public function displayOrderHtml($parameterArray, $fobj)
+    public function displayOrderHtml($parameterArray)
     {
         $result = 'ERROR';
         $table = '';

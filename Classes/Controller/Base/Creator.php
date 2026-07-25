@@ -88,16 +88,18 @@ class Creator implements SingletonInterface
         $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
         $staticInfoApi = GeneralUtility::makeInstance(StaticInfoTablesApi::class);
         $useStaticInfoTables = $staticInfoApi->init();
-        $pageUid = (int) $GLOBALS['TSFE']->id;
-        $rootlineUtility = GeneralUtility::makeInstance(RootlineUtility::class, $pageUid);
-        $rootline = $rootlineUtility->get();
+        if (ApplicationType::fromRequest($request)->isFrontend()) {
+            $pageUid = (int) $GLOBALS['TSFE']->id;
+            $rootlineUtility = GeneralUtility::makeInstance(RootlineUtility::class, $pageUid);
+            $rootline = $rootlineUtility->get();
+        }
 
         if (!empty($conf['PIDstoreRoot'])) {
             $config['storeRootPid'] = $conf['PIDstoreRoot'];
         } elseif (
             $request instanceof ServerRequestInterface
             &&
-            ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isFrontend() &&
+            ApplicationType::fromRequest($request)->isFrontend() &&
             isset($rootline) &&
             is_array($rootline)
         ) {
