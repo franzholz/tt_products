@@ -163,7 +163,6 @@ class tx_ttproducts_db implements SingletonInterface
         $basketExtra = $basketApi->getBasketExtra();
         $basketRecs = tx_ttproducts_control_basket::getRecs();
         $funcTablename = tx_ttproducts_control_basket::getFuncTablename();
-        $useFal = true;
 
         // price
         $priceObj = GeneralUtility::makeInstance('tx_ttproducts_field_price');
@@ -347,40 +346,6 @@ class tx_ttproducts_db implements SingletonInterface
 
                             $totalDiscountField = FieldInterface::DISCOUNT;
                             $itemTable->getTotalDiscount($modifiedRow);
-
-                            if (
-                                !$useFal &&
-                                isset($rowArticle) &&
-                                is_array($rowArticle)
-                            ) {
-                                if (
-                                    isset($rowArticle['image']) &&
-                                    !$rowArticle['image'] &&
-                                    isset($rowArray[$table]['image'])
-                                ) {
-                                    $rowArticle['image'] = $rowArray[$table]['image'];
-                                    $modifiedRow['image'] = $rowArticle['image'];
-                                }
-
-                                $articleConf =
-                                    $cnfObj->getTableConf('tt_products_articles', $theCode);
-
-                                if (
-                                    isset($articleConf['fieldIndex.']) &&
-                                    is_array($articleConf['fieldIndex.']) &&
-                                    isset($articleConf['fieldIndex.']['image.']) &&
-                                    is_array($articleConf['fieldIndex.']['image.'])
-                                ) {
-                                    $prodImageArray =
-                                        GeneralUtility::trimExplode(',', $rowArray[$table]['image']);
-                                    $artImageArray = GeneralUtility::trimExplode(',', $rowArticle['image']);
-                                    $tmpDestArray = $prodImageArray;
-                                    foreach ($articleConf['fieldIndex.']['image.'] as $kImage => $vImage) {
-                                        $tmpDestArray[$vImage - 1] = $artImageArray[$kImage - 1];
-                                    }
-                                    $modifiedRow['image'] = implode(',', $tmpDestArray);
-                                }
-                            }
                             $itemTable->getTableObj()->substituteMarkerArray(
                                 $modifiedRow
                             );
@@ -439,21 +404,17 @@ class tx_ttproducts_db implements SingletonInterface
         $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
 
         $useXHTML = HtmlUtility::useXHTML();
-        $useFal = true;
         $basketApi = GeneralUtility::makeInstance(BasketApi::class);
         $theCode = strtoupper($view);
         $languageObj = GeneralUtility::makeInstance(Localization::class);
         $imageObj = GeneralUtility::makeInstance('tx_ttproducts_field_image');
         $imageViewObj = GeneralUtility::makeInstance('tx_ttproducts_field_image_view');
-
         $imageObj->init($this->fileRepository);
         $imageViewObj->init($imageObj);
-
         $priceObj = GeneralUtility::makeInstance('tx_ttproducts_field_price');
         // price
         $priceViewObj = GeneralUtility::makeInstance('tx_ttproducts_field_price_view');
         $priceFieldArray = $priceViewObj->getConvertedPriceFieldArray('price');
-
         $tableObjArray = [];
         $tablesObj = GeneralUtility::makeInstance('tx_ttproducts_tables');
 
@@ -481,7 +442,6 @@ class tx_ttproducts_db implements SingletonInterface
             if ($useCategories) {
                 $pidListObj = GeneralUtility::makeInstance('tx_ttproducts_pid_list');
                 $pidListObj->applyRecursive($config['recursive'], $config['pid_list'], true);
-
                 $categoryFuncTablename = 'tt_products_cat';
                 $categoryTableView = $tablesObj->get($categoryFuncTablename, true);
                 $categoryTable = $categoryTableView->getModelObj();
@@ -516,7 +476,6 @@ class tx_ttproducts_db implements SingletonInterface
             $objResponse->addAssign($errorId, 'innerHTML', '');
             $basketIntoId = $parameterApi->getBasketIntoIdPrefix() . '-' . $uid;
             $objResponse->addClear($basketIntoId, 'disabled');
-
             $markerKey = $itemTableView->getMarkerKey('');
             $markerPrefix = $markerKey . '_';
             $suffix = '';
@@ -594,17 +553,7 @@ class tx_ttproducts_db implements SingletonInterface
 
                 if (!in_array($field, $variantArray)) {
                     if (($position = strpos($field, '_uid')) !== false) {
-                        if (!$useFal) {
-                            continue 1;
-                        }
                         $fieldId = substr($field, 0, $position);
-                    } else {
-                        if (
-                            in_array($field, ['image', 'smallimage']) &&
-                            $useFal
-                        ) {
-                            continue 1;
-                        }
                     }
 
                     $tagId = $jsTableNamesId . '-' . $view . '-' . $uid . '-' . $field;
@@ -623,6 +572,7 @@ class tx_ttproducts_db implements SingletonInterface
                                 $imageRow[$field] = $rowArticle[$field];
                                 $imageRow['uid'] = $rowArticle['uid'];
                                 $imageRow['pid'] = $rowArticle['pid'];
+                                $imageRow[$field] = $rowArticle[$field];
                             }
 
                             $imageRenderObj = 'image';
@@ -667,7 +617,9 @@ class tx_ttproducts_db implements SingletonInterface
                                     'image',
                                     $theCode
                                 );
+
                                 $specialConf = [];
+                                $mediaNum = 10;
                                 $imgCodeArray = $imageViewObj->getCodeMarkerArray(
                                     'tt_products_articles',
                                     'ARTICLE_IMAGE',
@@ -676,6 +628,7 @@ class tx_ttproducts_db implements SingletonInterface
                                     $imageArray,
                                     $fieldMarkerArray,
                                     $dirname,
+                                    $mediaNum,
                                     $imageRenderObj,
                                     $linkWrap,
                                     $markerArray,
@@ -683,7 +636,7 @@ class tx_ttproducts_db implements SingletonInterface
                                     $specialConf,
                                     $mediaNum
                                 );
-
+//
                                 if (is_array($imgCodeArray)) {
                                     $v = $imgCodeArray;
                                 } else {
