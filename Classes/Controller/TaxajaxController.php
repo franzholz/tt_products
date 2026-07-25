@@ -56,11 +56,10 @@ class TaxajaxController
         // Start with tt_products
         // ******************************************************
         $typoScriptConfig = [];
-        $tsfe = $request->getAttribute('frontend.typoscript');
-        if (method_exists($tsfe, 'getSetupArray')) {
-            $typoScriptConfig = $tsfe->getSetupArray();
-        } else {
-            $typoScriptConfig = $GLOBALS['TSFE']->tmpl->setup;
+
+        $frontendTypoScript = $request->getAttribute('frontend.typoscript');
+        if ($frontendTypoScript !== null && $frontendTypoScript->hasSetup()) {
+            $typoScriptConfig = $frontendTypoScript->getSetupArray();
         }
 
         $conf = $typoScriptConfig['plugin.'][TT_PRODUCTS_EXT . '.'] ?? null;

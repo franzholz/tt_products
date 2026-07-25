@@ -49,6 +49,7 @@ use TYPO3\CMS\Core\SingletonInterface;
 use TYPO3\CMS\Core\Utility\ExtensionManagementUtility;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 use TYPO3\CMS\Core\Utility\MathUtility;
+use TYPO3\CMS\Core\Utility\RootlineUtility;
 use TYPO3\CMS\Core\Utility\VersionNumberUtility;
 
 use JambageCom\Div2007\Api\StaticInfoTablesApi;
@@ -87,6 +88,9 @@ class Creator implements SingletonInterface
         $parameterApi = GeneralUtility::makeInstance(ParameterApi::class);
         $staticInfoApi = GeneralUtility::makeInstance(StaticInfoTablesApi::class);
         $useStaticInfoTables = $staticInfoApi->init();
+        $pageUid = (int) $GLOBALS['TSFE']->id;
+        $rootlineUtility = GeneralUtility::makeInstance(RootlineUtility::class, $pageUid);
+        $rootline = $rootlineUtility->get();
 
         if (!empty($conf['PIDstoreRoot'])) {
             $config['storeRootPid'] = $conf['PIDstoreRoot'];
@@ -94,10 +98,10 @@ class Creator implements SingletonInterface
             $request instanceof ServerRequestInterface
             &&
             ApplicationType::fromRequest($GLOBALS['TYPO3_REQUEST'])->isFrontend() &&
-            isset($GLOBALS['TSFE']->tmpl->rootLine) &&
-            is_array($GLOBALS['TSFE']->tmpl->rootLine)
+            isset($rootline) &&
+            is_array($rootline)
         ) {
-            foreach ($GLOBALS['TSFE']->tmpl->rootLine as $k => $row) {
+            foreach ($rootline as $k => $row) {
                 if ($row['doktype'] == 1) {
                     $config['storeRootPid'] = $row['uid'];
                     break;
