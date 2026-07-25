@@ -62,7 +62,7 @@
   "extra": {
     "typo3/cms": {
       "extension-key": "tt_products",
-      "version": "2.16.11",
+      "version": "2.16.12",
       "Package": {
           "providesPackages": {}
       }
