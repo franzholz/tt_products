@@ -285,8 +285,6 @@ class tx_ttproducts_control_search implements SingletonInterface, tx_ttproducts_
             if ($contentTmp == 'error') {
                 $fileName = 'EXT:' . TT_PRODUCTS_EXT . '/Resources/Private/Templates/products_help.tmpl';
                 $pathFilename = GeneralUtility::getFileAbsFileName($fileName);
-
-                //                 $GLOBALS['TSFE']->tmpl->getFileName($fileName);
                 $helpTemplate = file_get_contents($pathFilename);
                 $content .=
                     ViewUtility::displayHelpPage(

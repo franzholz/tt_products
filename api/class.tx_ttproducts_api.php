@@ -980,13 +980,23 @@ class tx_ttproducts_api
                     $htmlMailParts = $htmlParser->splitTags('img', $customerHTMLmailContent);
 
                     foreach ($htmlMailParts as $kkk => $vvv) {
+                        // Odd keys represent the actual 'img' tags
                         if ($kkk % 2) {
-                            [$attrib] = $htmlParser->get_tag_attributes($vvv);
-                            if (GeneralUtility::isFirstPartOfStr($attrib['src'], $conf['orderEmail_htmlmail.']['removeImagesWithPrefix'])) {
+                            // TYPO3 13/14 Fix: Method was renamed to camelCase getTagAttributes()
+                            $attributesArray = $htmlParser->getTagAttributes($vvv);
+
+                            // Safely extract the attributes of the first tag found
+                            $attrib = reset($attributesArray) ?: [];
+                            $srcAttribute = $attrib['src'] ?? '';
+                            $prefix = $conf['orderEmail_htmlmail.']['removeImagesWithPrefix'] ?? '';
+
+                            // PHP 8+ Modernization: Replaced GeneralUtility with native str_starts_with
+                            if ($prefix !== '' && str_starts_with($srcAttribute, $prefix)) {
                                 $htmlMailParts[$kkk] = '';
                             }
                         }
                     }
+
                     $customerHTMLmailContent = implode('', $htmlMailParts);
                 }
             } else {	// ... else just plain text...

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
-	<file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/locallang_db.xlf" date="2023-02-03T17:21:08Z" product-name="tt_products" target-language="en">
+	<file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/locallang_db.xlf" date="2023-02-03T17:21:08Z" product-name="tt_products">
 		<header/>
 		<body>
 			<trans-unit id="tstamp" resname="tstamp">

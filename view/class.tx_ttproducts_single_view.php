@@ -133,14 +133,11 @@ class tx_ttproducts_single_view implements SingletonInterface
         $piVars = $parameterApi->getPiVars();
         $conf = $cnf->getConf();
         $externalRowArray = [];
-
         $theCode = 'SINGLE';
-
         $basketExt = $basketApi->getBasketExt();
         $basketExtra = $basketApi->getBasketExtra();
         $basketRecs = tx_ttproducts_control_basket::getRecs();
         $prodRow = [];
-
         $useBackPid = true;
         $viewControlConf = $cnf->getViewControlConf('SINGLE');
 

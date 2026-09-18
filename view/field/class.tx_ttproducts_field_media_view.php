@@ -447,7 +447,6 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
                     $properties = $val->getProperties();
                     $cObj->start($properties, 'sys_file_reference');
                 }
-
                 $imageCode = $cObj->getContentObject($contentObject)->render($imageConf);
 
                 if (
@@ -489,6 +488,7 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
                         if ($theImageConf['file'] != 'GIFBUILDER') {
                             $theImageConf['file'] = $imageConfFile;
                         }
+
                         $tmpImgCode = $cObj->getContentObject($contentObject)->render($theImageConf);
                         $key1 = $key . ':' . $specialConfType;
                         $imgCodeArray[$key1] .= $tmpImgCode;
@@ -739,7 +739,6 @@ class tx_ttproducts_field_media_view extends tx_ttproducts_field_base_view
                 $mediaRowArray,
                 $specialConf
             );
-
         $actImgCode = current($theImgCode);
         $markerArray['###' . $markerKey . '###'] = $actImgCode ?: ''; // for compatibility only
 

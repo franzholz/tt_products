@@ -74,6 +74,7 @@ class tx_ttproducts_template implements SingletonInterface
 
         if (file_exists($pathFilename)) {
             // template file is fetched. The whole template file from which the various subpart are extracted.
+
             $templateCode = file_get_contents($pathFilename);
         }
 

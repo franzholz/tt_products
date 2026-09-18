@@ -268,6 +268,7 @@ class tx_ttproducts_product extends tx_ttproducts_article_base
                 }
             }
         }
+
         return $articleRow;
     }
 
