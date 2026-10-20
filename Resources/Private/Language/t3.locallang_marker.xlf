@@ -1,0 +1,1612 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/locallang_marker.xlf" date="2021-11-23T20:35:28Z" product-name="tt_products" target-language="t3">
+    <header/>
+    <body>
+      <trans-unit id="memo_file_goto" resname="memo_file_goto">
+        <source>Go to file memo list.</source>
+        <target>crwdns145071:0crwdne145071:0</target>
+      </trans-unit>
+      <trans-unit id="memo_goto" resname="memo_goto">
+        <source>Go to the memo list.</source>
+        <target>crwdns145073:0crwdne145073:0</target>
+      </trans-unit>
+      <trans-unit id="memo_mark" resname="memo_mark">
+        <source>Mark article</source>
+        <target>crwdns145075:0crwdne145075:0</target>
+      </trans-unit>
+      <trans-unit id="memo_title" resname="memo_title">
+        <source>marked articles</source>
+        <target>crwdns145077:0crwdne145077:0</target>
+      </trans-unit>
+      <trans-unit id="memo_quit" resname="memo_quit">
+        <source>quit marked article</source>
+        <target>crwdns145079:0crwdne145079:0</target>
+      </trans-unit>
+      <trans-unit id="basket_goto" resname="basket_goto">
+        <source>Go to shopping cart.</source>
+        <target>crwdns145081:0crwdne145081:0</target>
+      </trans-unit>
+      <trans-unit id="basket_into" resname="basket_into">
+        <source>Into the shopping cart.</source>
+        <target>crwdns145083:0crwdne145083:0</target>
+      </trans-unit>
+      <trans-unit id="basket_into_input_type" resname="basket_into_input_type">
+        <source>Send</source>
+        <target>crwdns145085:0crwdne145085:0</target>
+      </trans-unit>
+      <trans-unit id="basket_mini_empty" resname="basket_mini_empty">
+        <source>Shopping cart is empty</source>
+        <target>crwdns145087:0crwdne145087:0</target>
+      </trans-unit>
+      <trans-unit id="basket_mini_item" resname="basket_mini_item">
+        <source>Item</source>
+        <target>crwdns145089:0crwdne145089:0</target>
+      </trans-unit>
+      <trans-unit id="basket_mini_notax" resname="basket_mini_notax">
+        <source>Not including VAT:</source>
+        <target>crwdns145091:0crwdne145091:0</target>
+      </trans-unit>
+      <trans-unit id="basket_mini_tax" resname="basket_mini_tax">
+        <source>Including VAT:</source>
+        <target>crwdns145093:0crwdne145093:0</target>
+      </trans-unit>
+      <trans-unit id="basket_mini_header" resname="basket_mini_header">
+        <source>Shopping cart:</source>
+        <target>crwdns145095:0crwdne145095:0</target>
+      </trans-unit>
+      <trans-unit id="basket_empty" resname="basket_empty">
+        <source>Your shopping cart is empty!</source>
+        <target>crwdns145097:0crwdne145097:0</target>
+      </trans-unit>
+      <trans-unit id="basket_billing_address" resname="basket_billing_address">
+        <source>Invoicing address </source>
+        <target>crwdns145099:0crwdne145099:0</target>
+      </trans-unit>
+      <trans-unit id="basket_billing_address_input" resname="basket_billing_address_input">
+        <source>Please enter your address here.</source>
+        <target>crwdns145101:0crwdne145101:0</target>
+      </trans-unit>
+      <trans-unit id="basket_billing_address_input_delivery" resname="basket_billing_address_input_delivery">
+        <source>You can also enter an alternative delivery address.</source>
+        <target>crwdns145103:0crwdne145103:0</target>
+      </trans-unit>
+      <trans-unit id="basket_delivery_address" resname="basket_delivery_address">
+        <source>Delivery address</source>
+        <target>crwdns145105:0crwdne145105:0</target>
+      </trans-unit>
+      <trans-unit id="basket_delivery_address_alternative" resname="basket_delivery_address_alternative">
+        <source>alternative delivery address</source>
+        <target>crwdns145107:0crwdne145107:0</target>
+      </trans-unit>
+      <trans-unit id="basket_delivery_address_empty" resname="basket_delivery_address_empty">
+        <source>Leave unchanged to send to the address above.</source>
+        <target>crwdns145109:0crwdne145109:0</target>
+      </trans-unit>
+      <trans-unit id="basket_info_text" resname="basket_info_text">
+        <source> Note: Fields marked with * are mandatory. Your data will not be forwarded to third parties! </source>
+        <target>crwdns145111:0crwdne145111:0</target>
+      </trans-unit>
+      <trans-unit id="basket_name" resname="basket_name">
+        <source>Name</source>
+        <target>crwdns145113:0crwdne145113:0</target>
+      </trans-unit>
+      <trans-unit id="basket_name_company" resname="basket_name_company">
+        <source>Name/company</source>
+        <target>crwdns145115:0crwdne145115:0</target>
+      </trans-unit>
+      <trans-unit id="basket_contact" resname="basket_contact">
+        <source>Contact person</source>
+        <target>crwdns145117:0crwdne145117:0</target>
+      </trans-unit>
+      <trans-unit id="basket_first_name" resname="basket_first_name">
+        <source>First name</source>
+        <target>crwdns145119:0crwdne145119:0</target>
+      </trans-unit>
+      <trans-unit id="basket_last_name" resname="basket_last_name">
+        <source>Surname</source>
+        <target>crwdns145121:0crwdne145121:0</target>
+      </trans-unit>
+      <trans-unit id="basket_title" resname="basket_title">
+        <source>Title</source>
+        <target>crwdns145123:0crwdne145123:0</target>
+      </trans-unit>
+      <trans-unit id="basket_company" resname="basket_company">
+        <source>Company</source>
+        <target>crwdns145125:0crwdne145125:0</target>
+      </trans-unit>
+      <trans-unit id="basket_address" resname="basket_address">
+        <source>Address</source>
+        <target>crwdns145127:0crwdne145127:0</target>
+      </trans-unit>
+      <trans-unit id="basket_house_no" resname="basket_house_no">
+        <source>House number</source>
+        <target>crwdns145129:0crwdne145129:0</target>
+      </trans-unit>
+      <trans-unit id="basket_date_of_birth" resname="basket_date_of_birth">
+        <source>Date of birth</source>
+        <target>crwdns145131:0crwdne145131:0</target>
+      </trans-unit>
+      <trans-unit id="basket_zip" resname="basket_zip">
+        <source>Postcode</source>
+        <target>crwdns145133:0crwdne145133:0</target>
+      </trans-unit>
+      <trans-unit id="basket_city" resname="basket_city">
+        <source>City</source>
+        <target>crwdns145135:0crwdne145135:0</target>
+      </trans-unit>
+      <trans-unit id="basket_country" resname="basket_country">
+        <source>Country</source>
+        <target>crwdns145137:0crwdne145137:0</target>
+      </trans-unit>
+      <trans-unit id="basket_phone" resname="basket_phone">
+        <source>Telephone</source>
+        <target>crwdns145139:0crwdne145139:0</target>
+      </trans-unit>
+      <trans-unit id="basket_email" resname="basket_email">
+        <source>E-mail</source>
+        <target>crwdns145141:0crwdne145141:0</target>
+      </trans-unit>
+      <trans-unit id="basket_zip_city" resname="basket_zip_city">
+        <source>Postcode/city</source>
+        <target>crwdns145143:0crwdne145143:0</target>
+      </trans-unit>
+      <trans-unit id="basket_zone" resname="basket_zone">
+        <source>Zone</source>
+        <target>crwdns145145:0crwdne145145:0</target>
+      </trans-unit>
+      <trans-unit id="basket_street" resname="basket_street">
+        <source>Street</source>
+        <target>crwdns145147:0crwdne145147:0</target>
+      </trans-unit>
+      <trans-unit id="basket_fe_username" resname="basket_fe_username">
+        <source>User name</source>
+        <target>crwdns145149:0crwdne145149:0</target>
+      </trans-unit>
+      <trans-unit id="basket_fe_user_id" resname="basket_fe_user_id">
+        <source>User ID </source>
+        <target>crwdns145151:0crwdne145151:0</target>
+      </trans-unit>
+      <trans-unit id="basket_update_cart" resname="basket_update_cart">
+        <source>Update shopping cart</source>
+        <target>crwdns145153:0crwdne145153:0</target>
+      </trans-unit>
+      <trans-unit id="basket_empty_cart" resname="basket_empty_cart">
+        <source>Delete shopping cart</source>
+        <target>crwdns145155:0crwdne145155:0</target>
+      </trans-unit>
+      <trans-unit id="basket_remove_item" resname="basket_remove_item">
+        <source>Remove item from shopping cart</source>
+        <target>crwdns145157:0crwdne145157:0</target>
+      </trans-unit>
+      <trans-unit id="basket_checkout" resname="basket_checkout">
+        <source>To the order</source>
+        <target>crwdns145159:0crwdne145159:0</target>
+      </trans-unit>
+      <trans-unit id="basket_back_to_cart" resname="basket_back_to_cart">
+        <source>Back to the shopping cart</source>
+        <target>crwdns145161:0crwdne145161:0</target>
+      </trans-unit>
+      <trans-unit id="basket_place_order" resname="basket_place_order">
+        <source>Complete the order</source>
+        <target>crwdns145163:0crwdne145163:0</target>
+      </trans-unit>
+      <trans-unit id="basket_enter_vat_id" resname="basket_enter_vat_id">
+        <source>Enter your valid VAT Reg. No. here:</source>
+        <target>crwdns145165:0crwdne145165:0</target>
+      </trans-unit>
+      <trans-unit id="basket_back_to_address" resname="basket_back_to_address">
+        <source>Back to the address</source>
+        <target>crwdns145167:0crwdne145167:0</target>
+      </trans-unit>
+      <trans-unit id="basket_place_payment" resname="basket_place_payment">
+        <source>Proceed to checkout</source>
+        <target>crwdns145169:0crwdne145169:0</target>
+      </trans-unit>
+      <trans-unit id="basket_vat_id" resname="basket_vat_id">
+        <source>VAT Reg. No.</source>
+        <target>crwdns145171:0crwdne145171:0</target>
+      </trans-unit>
+      <trans-unit id="basket_item_list" resname="basket_item_list">
+        <source>items in your shopping cart</source>
+        <target>crwdns145173:0crwdne145173:0</target>
+      </trans-unit>
+      <trans-unit id="basket_header_item" resname="basket_header_item">
+        <source>Item</source>
+        <target>crwdns145175:0crwdne145175:0</target>
+      </trans-unit>
+      <trans-unit id="basket_header_item_selected" resname="basket_header_item_selected">
+        <source>selected items</source>
+        <target>crwdns145177:0crwdne145177:0</target>
+      </trans-unit>
+      <trans-unit id="basket_header_quantity" resname="basket_header_quantity">
+        <source>Quantity</source>
+        <target>crwdns145179:0crwdne145179:0</target>
+      </trans-unit>
+      <trans-unit id="basket_header_price" resname="basket_header_price">
+        <source>Price</source>
+        <target>crwdns145181:0crwdne145181:0</target>
+      </trans-unit>
+      <trans-unit id="basket_header_total" resname="basket_header_total">
+        <source>Total</source>
+        <target>crwdns145183:0crwdne145183:0</target>
+      </trans-unit>
+      <trans-unit id="basket_price_total" resname="basket_price_total">
+        <source>incl. all costs</source>
+        <target>crwdns145185:0crwdne145185:0</target>
+      </trans-unit>
+      <trans-unit id="basket_pricetax_total_csv" resname="basket_pricetax_total_csv">
+        <source>sales gross</source>
+        <target>crwdns145187:0crwdne145187:0</target>
+      </trans-unit>
+      <trans-unit id="basket_price_goods_total" resname="basket_price_goods_total">
+        <source>excl. Shipping/payment</source>
+        <target>crwdns145189:0crwdne145189:0</target>
+      </trans-unit>
+      <trans-unit id="basket_billing_name_csv" resname="basket_billing_name_csv">
+        <source>customer name</source>
+        <target>crwdns145191:0crwdne145191:0</target>
+      </trans-unit>
+      <trans-unit id="basket_delivery_name_csv" resname="basket_delivery_name_csv">
+        <source>receiver name</source>
+        <target>crwdns145193:0crwdne145193:0</target>
+      </trans-unit>
+      <trans-unit id="basket_billing_cnum_csv" resname="basket_billing_cnum_csv">
+        <source>customer number</source>
+        <target>crwdns145195:0crwdne145195:0</target>
+      </trans-unit>
+      <trans-unit id="basket_billing_country_csv" resname="basket_billing_country_csv">
+        <source>country</source>
+        <target>crwdns145197:0crwdne145197:0</target>
+      </trans-unit>
+      <trans-unit id="basket_order_bill_no_csv" resname="basket_order_bill_no_csv">
+        <source>bill number</source>
+        <target>crwdns145199:0crwdne145199:0</target>
+      </trans-unit>
+      <trans-unit id="basket_order_uid_csv" resname="basket_order_uid_csv">
+        <source>order number</source>
+        <target>crwdns145201:0crwdne145201:0</target>
+      </trans-unit>
+      <trans-unit id="basket_order_crdate_csv" resname="basket_order_crdate_csv">
+        <source>voucher date</source>
+        <target>crwdns145203:0crwdne145203:0</target>
+      </trans-unit>
+      <trans-unit id="basket_billing_prefix_csv" resname="basket_billing_prefix_csv">
+        <source>bill </source>
+        <target>crwdns145205:0crwdne145205:0</target>
+      </trans-unit>
+      <trans-unit id="basket_delivery_prefix_csv" resname="basket_delivery_prefix_csv">
+        <source>delivery </source>
+        <target>crwdns145207:0crwdne145207:0</target>
+      </trans-unit>
+      <trans-unit id="basket_payment_prefix_csv" resname="basket_payment_prefix_csv">
+        <source>payment </source>
+        <target>crwdns145209:0crwdne145209:0</target>
+      </trans-unit>
+      <trans-unit id="basket_shipping_prefix_csv" resname="basket_shipping_prefix_csv">
+        <source>shipping </source>
+        <target>crwdns145211:0crwdne145211:0</target>
+      </trans-unit>
+      <trans-unit id="basket_minprice_error" resname="basket_minprice_error">
+        <source>You have not reached the minimum order quantity of 100 EUR. Please update your cart.</source>
+        <target>crwdns145213:0crwdne145213:0</target>
+      </trans-unit>
+      <trans-unit id="basket_info_question" resname="basket_info_question">
+        <source>Questions or customer wishes regarding your order.</source>
+        <target>crwdns145215:0crwdne145215:0</target>
+      </trans-unit>
+      <trans-unit id="basket_shipping_handling" resname="basket_shipping_handling">
+        <source>Shipping and packing</source>
+        <target>crwdns145217:0crwdne145217:0</target>
+      </trans-unit>
+      <trans-unit id="basket_shipping_payment" resname="basket_shipping_payment">
+        <source>Shipping and payment</source>
+        <target>crwdns145219:0crwdne145219:0</target>
+      </trans-unit>
+      <trans-unit id="basket_shipping_billing" resname="basket_shipping_billing">
+        <source>Shipping and billing</source>
+        <target>crwdns145221:0crwdne145221:0</target>
+      </trans-unit>
+      <trans-unit id="basket_payment_checkout" resname="basket_payment_checkout">
+        <source>Go to pay</source>
+        <target>crwdns145223:0crwdne145223:0</target>
+      </trans-unit>
+      <trans-unit id="basket_payment_select" resname="basket_payment_select">
+        <source>Method of payment:</source>
+        <target>crwdns145225:0crwdne145225:0</target>
+      </trans-unit>
+      <trans-unit id="basket_payment" resname="basket_payment">
+        <source>Method of payment:</source>
+        <target>crwdns145227:0crwdne145227:0</target>
+      </trans-unit>
+      <trans-unit id="basket_payment_total" resname="basket_payment_total">
+        <source>Total amount:</source>
+        <target>crwdns145229:0crwdne145229:0</target>
+      </trans-unit>
+      <trans-unit id="basket_payment_invoice" resname="basket_payment_invoice">
+        <source>Invoice amount:</source>
+        <target>crwdns145231:0crwdne145231:0</target>
+      </trans-unit>
+      <trans-unit id="basket_payment_memo" resname="basket_payment_memo">
+        <source>Message:</source>
+        <target>crwdns145233:0crwdne145233:0</target>
+      </trans-unit>
+      <trans-unit id="basket_payment_shipping_date" resname="basket_payment_shipping_date">
+        <source>Required date of delivery:</source>
+        <target>crwdns145235:0crwdne145235:0</target>
+      </trans-unit>
+      <trans-unit id="basket_payment_comment" resname="basket_payment_comment">
+        <source>Comment:</source>
+        <target>crwdns145237:0crwdne145237:0</target>
+      </trans-unit>
+      <trans-unit id="basket_payment_email_comment" resname="basket_payment_email_comment">
+        <source>(The order confirmation will be sent to this e-mail address)</source>
+        <target>crwdns145239:0crwdne145239:0</target>
+      </trans-unit>
+      <trans-unit id="basket_payment_add_comment" resname="basket_payment_add_comment">
+        <source>You can add a comment to your order here:</source>
+        <target>crwdns145241:0crwdne145241:0</target>
+      </trans-unit>
+      <trans-unit id="basket_payment_select_payment" resname="basket_payment_select_payment">
+        <source>Select the shipping mode and payment method.</source>
+        <target>crwdns145243:0crwdne145243:0</target>
+      </trans-unit>
+      <trans-unit id="basket_right_of_revocation" resname="basket_right_of_revocation">
+        <source>Right of revocation</source>
+        <target>crwdns145245:0crwdne145245:0</target>
+      </trans-unit>
+      <trans-unit id="basket_salutation" resname="basket_salutation">
+        <source>Salutation</source>
+        <target>crwdns145247:0crwdne145247:0</target>
+      </trans-unit>
+      <trans-unit id="basket_shipping_methods" resname="basket_shipping_methods">
+        <source>Shipping methods</source>
+        <target>crwdns145249:0crwdne145249:0</target>
+      </trans-unit>
+      <trans-unit id="basket_shipping_price" resname="basket_shipping_price">
+        <source>Type of shipment:</source>
+        <target>crwdns145251:0crwdne145251:0</target>
+      </trans-unit>
+      <trans-unit id="basket_terms" resname="basket_terms">
+        <source>I have read and accept &quot;the general terms</source>
+        <target>crwdns145253:0crwdne145253:0</target>
+      </trans-unit>
+      <trans-unit id="basket_terms_and" resname="basket_terms_and">
+        <source>and the</source>
+        <target>crwdns145255:0crwdne145255:0</target>
+      </trans-unit>
+      <trans-unit id="basket_terms_revocation" resname="basket_terms_revocation">
+        <source>revocation conditions</source>
+        <target>crwdns145257:0crwdne145257:0</target>
+      </trans-unit>
+      <trans-unit id="basket_terms_ack" resname="basket_terms_ack">
+        <source>Please confirm that you have read and accepted the general terms and conditions.</source>
+        <target>crwdns145259:0crwdne145259:0</target>
+      </trans-unit>
+      <trans-unit id="basket_terms_read" resname="basket_terms_read">
+        <source>and I accept them.</source>
+        <target>crwdns147605:0crwdne147605:0</target>
+      </trans-unit>
+      <trans-unit id="basket_privacy_policy" resname="basket_privacy_policy">
+        <source>Privacy Policy</source>
+        <target>crwdns145263:0crwdne145263:0</target>
+      </trans-unit>
+      <trans-unit id="basket_privacy_policy_agree_1" resname="basket_privacy_policy_agree_1">
+        <source>I have read and agree to the privacy policy.</source>
+        <target>crwdns145265:0crwdne145265:0</target>
+      </trans-unit>
+      <trans-unit id="basket_privacy_policy_agree_2" resname="basket_privacy_policy_agree_2">
+        <source>I agree for any data I transmit through this site, that you can use them in accordance with the Privacy Policy.</source>
+        <target>crwdns145267:0crwdne145267:0</target>
+      </trans-unit>
+      <trans-unit id="basket_privacy_policy_hint" resname="basket_privacy_policy_hint">
+        <source>Hint</source>
+        <target>crwdns145269:0crwdne145269:0</target>
+      </trans-unit>
+      <trans-unit id="basket_privacy_policy_hint_1" resname="basket_privacy_policy_hint_1">
+        <source>You have the right to renounce the agreement to the usage of your personal data at any time via email.</source>
+        <target>crwdns145271:0crwdne145271:0</target>
+      </trans-unit>
+      <trans-unit id="basket_required_message_error" resname="basket_required_message_error">
+        <source>Error in the entry</source>
+        <target>crwdns145273:0crwdne145273:0</target>
+      </trans-unit>
+      <trans-unit id="basket_required_message_missing" resname="basket_required_message_missing">
+        <source>You have not completed all the required fields for your address or you have not accepted the general terms and conditions!</source>
+        <target>crwdns145275:0crwdne145275:0</target>
+      </trans-unit>
+      <trans-unit id="basket_required_message_fix" resname="basket_required_message_fix">
+        <source>Please correct your entries!</source>
+        <target>crwdns145277:0crwdne145277:0</target>
+      </trans-unit>
+      <trans-unit id="basket_required_button_fix" resname="basket_required_button_fix">
+        <source>Correct entries</source>
+        <target>crwdns145279:0crwdne145279:0</target>
+      </trans-unit>
+      <trans-unit id="basket_delete_item" resname="basket_delete_item">
+        <source>To delete an item, just enter &quot;0&quot; for the order quantity and click on &quot;Update shopping cart&quot; below.</source>
+        <target>crwdns145281:0crwdne145281:0</target>
+      </trans-unit>
+      <trans-unit id="basket_delete_x_item" resname="basket_delete_x_item">
+        <source>To delete an item, just click on the X icon beside of the item!</source>
+        <target>crwdns145283:0crwdne145283:0</target>
+      </trans-unit>
+      <trans-unit id="basket_change_amount" resname="basket_change_amount">
+        <source>If you want to change the order quantity, just enter the required quantity in &quot;Quantity&quot; and click on &quot;Update shopping cart&quot; below.</source>
+        <target>crwdns145285:0crwdne145285:0</target>
+      </trans-unit>
+      <trans-unit id="product_in_basket" resname="product_in_basket">
+        <source>The following items are in your cart</source>
+        <target>crwdns145287:0crwdne145287:0</target>
+      </trans-unit>
+      <trans-unit id="product_ordered" resname="product_ordered">
+        <source>You have ordered the following items</source>
+        <target>crwdns145289:0crwdne145289:0</target>
+      </trans-unit>
+      <trans-unit id="basket_shipping_information" resname="basket_shipping_information">
+        <source>If your order should be delivered to different address, please enter the full delivery address here.</source>
+        <target>crwdns145291:0crwdne145291:0</target>
+      </trans-unit>
+      <trans-unit id="basket_payment_bic" resname="basket_payment_bic">
+        <source>BIC</source>
+        <target>crwdns145293:0crwdne145293:0</target>
+      </trans-unit>
+      <trans-unit id="basket_payment_iban" resname="basket_payment_iban">
+        <source>IBAN</source>
+        <target>crwdns145295:0crwdne145295:0</target>
+      </trans-unit>
+      <trans-unit id="basket_payment_account_holder" resname="basket_payment_account_holder">
+        <source>Account Holder</source>
+        <target>crwdns145297:0crwdne145297:0</target>
+      </trans-unit>
+      <trans-unit id="shipping_add_text" resname="shipping_add_text">
+        <source>Plus shipping costs, according to our freight agreement/road toll allowance!</source>
+        <target>crwdns145299:0crwdne145299:0</target>
+      </trans-unit>
+      <trans-unit id="shipping_end_text" resname="shipping_end_text">
+        <source>All deliveries are completed with the current freight agreement/road toll allowance not included</source>
+        <target>crwdns145301:0crwdne145301:0</target>
+      </trans-unit>
+      <trans-unit id="shipping_weight_text" resname="shipping_weight_text">
+        <source>Total weight of your order</source>
+        <target>crwdns145303:0crwdne145303:0</target>
+      </trans-unit>
+      <trans-unit id="basket_payment_20" resname="basket_payment_20">
+        <source>advance payment</source>
+        <target>crwdns145305:0crwdne145305:0</target>
+      </trans-unit>
+      <trans-unit id="basket_payment_60" resname="basket_payment_60">
+        <source>credit card</source>
+        <target>crwdns145307:0crwdne145307:0</target>
+      </trans-unit>
+      <trans-unit id="basket_amount_payable" resname="basket_amount_payable">
+        <source>amount payable</source>
+        <target>crwdns145309:0crwdne145309:0</target>
+      </trans-unit>
+      <trans-unit id="basket_sender_10" resname="basket_sender_10">
+        <source>DHL</source>
+        <target>crwdns145311:0crwdne145311:0</target>
+      </trans-unit>
+      <trans-unit id="basket_weight_total" resname="basket_weight_total">
+        <source>total weigth</source>
+        <target>crwdns145313:0crwdne145313:0</target>
+      </trans-unit>
+      <trans-unit id="basket_button_continue" resname="basket_button_continue">
+        <source>continue checkout</source>
+        <target>crwdns145315:0crwdne145315:0</target>
+      </trans-unit>
+      <trans-unit id="vat" resname="vat">
+        <source>VAT</source>
+        <target>crwdns145317:0crwdne145317:0</target>
+      </trans-unit>
+      <trans-unit id="no_vat" resname="no_vat">
+        <source>Net</source>
+        <target>crwdns145319:0crwdne145319:0</target>
+      </trans-unit>
+      <trans-unit id="incl_vat" resname="incl_vat">
+        <source>Including VAT</source>
+        <target>crwdns145321:0crwdne145321:0</target>
+      </trans-unit>
+      <trans-unit id="included_vat" resname="included_vat">
+        <source>Included VAT</source>
+        <target>crwdns145323:0crwdne145323:0</target>
+      </trans-unit>
+      <trans-unit id="includes" resname="includes">
+        <source>includes</source>
+        <target>crwdns145325:0crwdne145325:0</target>
+      </trans-unit>
+      <trans-unit id="plus" resname="plus">
+        <source>Plus</source>
+        <target>crwdns145327:0crwdne145327:0</target>
+      </trans-unit>
+      <trans-unit id="shipping" resname="shipping">
+        <source>shipping</source>
+        <target>crwdns145329:0crwdne145329:0</target>
+      </trans-unit>
+      <trans-unit id="p_old_price" resname="p_old_price">
+        <source>Old price</source>
+        <target>crwdns145331:0crwdne145331:0</target>
+      </trans-unit>
+      <trans-unit id="p_discount" resname="p_discount">
+        <source>Discount</source>
+        <target>crwdns145333:0crwdne145333:0</target>
+      </trans-unit>
+      <trans-unit id="p_discount_price" resname="p_discount_price">
+        <source>Discount price</source>
+        <target>crwdns145335:0crwdne145335:0</target>
+      </trans-unit>
+      <trans-unit id="p_unit_price" resname="p_unit_price">
+        <source>Unit price</source>
+        <target>crwdns145337:0crwdne145337:0</target>
+      </trans-unit>
+      <trans-unit id="p_catalogue_price" resname="p_catalogue_price">
+        <source>Catalogue price</source>
+        <target>crwdns145339:0crwdne145339:0</target>
+      </trans-unit>
+      <trans-unit id="p_acccessory" resname="p_acccessory">
+        <source>Accessories</source>
+        <target>crwdns145341:0crwdne145341:0</target>
+      </trans-unit>
+      <trans-unit id="p_category" resname="p_category">
+        <source>Category</source>
+        <target>crwdns145343:0crwdne145343:0</target>
+      </trans-unit>
+      <trans-unit id="p_currency" resname="p_currency">
+        <source>EUR</source>
+        <target>crwdns145345:0crwdne145345:0</target>
+      </trans-unit>
+      <trans-unit id="p_color" resname="p_color">
+        <source>Colour</source>
+        <target>crwdns145347:0crwdne145347:0</target>
+      </trans-unit>
+      <trans-unit id="p_color2" resname="p_color2">
+        <source>Colour 2</source>
+        <target>crwdns145349:0crwdne145349:0</target>
+      </trans-unit>
+      <trans-unit id="p_color3" resname="p_color3">
+        <source>Colour 3</source>
+        <target>crwdns145351:0crwdne145351:0</target>
+      </trans-unit>
+      <trans-unit id="p_color4" resname="p_color4">
+        <source>Colour 4</source>
+        <target>crwdns145353:0crwdne145353:0</target>
+      </trans-unit>
+      <trans-unit id="p_color5" resname="p_color5">
+        <source>Colour 5</source>
+        <target>crwdns145355:0crwdne145355:0</target>
+      </trans-unit>
+      <trans-unit id="p_size" resname="p_size">
+        <source>Size</source>
+        <target>crwdns145357:0crwdne145357:0</target>
+      </trans-unit>
+      <trans-unit id="p_size2" resname="p_size2">
+        <source>Size 2</source>
+        <target>crwdns145359:0crwdne145359:0</target>
+      </trans-unit>
+      <trans-unit id="p_size3" resname="p_size3">
+        <source>Size 3</source>
+        <target>crwdns145361:0crwdne145361:0</target>
+      </trans-unit>
+      <trans-unit id="p_size4" resname="p_size4">
+        <source>Size 4</source>
+        <target>crwdns145363:0crwdne145363:0</target>
+      </trans-unit>
+      <trans-unit id="p_width" resname="p_width">
+        <source>Width</source>
+        <target>crwdns145365:0crwdne145365:0</target>
+      </trans-unit>
+      <trans-unit id="p_height" resname="p_height">
+        <source>Height</source>
+        <target>crwdns145367:0crwdne145367:0</target>
+      </trans-unit>
+      <trans-unit id="p_width_height" resname="p_width_height">
+        <source>Width and Height</source>
+        <target>crwdns145369:0crwdne145369:0</target>
+      </trans-unit>
+      <trans-unit id="p_gradings" resname="p_gradings">
+        <source>Model</source>
+        <target>crwdns145371:0crwdne145371:0</target>
+      </trans-unit>
+      <trans-unit id="p_description" resname="p_description">
+        <source>Description</source>
+        <target>crwdns145373:0crwdne145373:0</target>
+      </trans-unit>
+      <trans-unit id="p_description2" resname="p_description2">
+        <source>Description 2</source>
+        <target>crwdns145375:0crwdne145375:0</target>
+      </trans-unit>
+      <trans-unit id="p_description3" resname="p_description3">
+        <source>Description 3</source>
+        <target>crwdns145377:0crwdne145377:0</target>
+      </trans-unit>
+      <trans-unit id="p_material" resname="p_material">
+        <source>Material</source>
+        <target>crwdns145379:0crwdne145379:0</target>
+      </trans-unit>
+      <trans-unit id="p_quality" resname="p_quality">
+        <source>Quality</source>
+        <target>crwdns145381:0crwdne145381:0</target>
+      </trans-unit>
+      <trans-unit id="p_form" resname="p_form">
+        <source>Form</source>
+        <target>crwdns145383:0crwdne145383:0</target>
+      </trans-unit>
+      <trans-unit id="p_form2" resname="p_form2">
+        <source>Form 2</source>
+        <target>crwdns145385:0crwdne145385:0</target>
+      </trans-unit>
+      <trans-unit id="p_type" resname="p_type">
+        <source>Type</source>
+        <target>crwdns145387:0crwdne145387:0</target>
+      </trans-unit>
+      <trans-unit id="p_pattern" resname="p_pattern">
+        <source>Pattern</source>
+        <target>crwdns145389:0crwdne145389:0</target>
+      </trans-unit>
+      <trans-unit id="p_surface" resname="p_surface">
+        <source>Surface</source>
+        <target>crwdns145391:0crwdne145391:0</target>
+      </trans-unit>
+      <trans-unit id="p_angular" resname="p_angular">
+        <source>Angular</source>
+        <target>crwdns145393:0crwdne145393:0</target>
+      </trans-unit>
+      <trans-unit id="p_time" resname="p_time">
+        <source>Time</source>
+        <target>crwdns145395:0crwdne145395:0</target>
+      </trans-unit>
+      <trans-unit id="p_time2" resname="p_time2">
+        <source>Time 2</source>
+        <target>crwdns145397:0crwdne145397:0</target>
+      </trans-unit>
+      <trans-unit id="p_guarantee" resname="p_guarantee">
+        <source>Guarantee</source>
+        <target>crwdns145399:0crwdne145399:0</target>
+      </trans-unit>
+      <trans-unit id="p_elements" resname="p_elements">
+        <source>Elements</source>
+        <target>crwdns145401:0crwdne145401:0</target>
+      </trans-unit>
+      <trans-unit id="p_boundary" resname="p_boundary">
+        <source>Boundary</source>
+        <target>crwdns145403:0crwdne145403:0</target>
+      </trans-unit>
+      <trans-unit id="p_costs" resname="p_costs">
+        <source>Costs</source>
+        <target>crwdns145405:0crwdne145405:0</target>
+      </trans-unit>
+      <trans-unit id="p_datasheet" resname="p_datasheet">
+        <source>Data sheet</source>
+        <target>crwdns145407:0crwdne145407:0</target>
+      </trans-unit>
+      <trans-unit id="p_www" resname="p_www">
+        <source>Manufacturer website</source>
+        <target>crwdns145409:0crwdne145409:0</target>
+      </trans-unit>
+      <trans-unit id="p_instock" resname="p_instock">
+        <source>in stock</source>
+        <target>crwdns145411:0crwdne145411:0</target>
+      </trans-unit>
+      <trans-unit id="p_piece" resname="p_piece">
+        <source>Item</source>
+        <target>crwdns145413:0crwdne145413:0</target>
+      </trans-unit>
+      <trans-unit id="p_via_email" resname="p_via_email">
+        <source>via E-mail</source>
+        <target>crwdns145415:0crwdne145415:0</target>
+      </trans-unit>
+      <trans-unit id="p_via_telephone" resname="p_via_telephone">
+        <source>via telephone</source>
+        <target>crwdns145417:0crwdne145417:0</target>
+      </trans-unit>
+      <trans-unit id="p_email" resname="p_email">
+        <source>E-mail request for item</source>
+        <target>crwdns145419:0crwdne145419:0</target>
+      </trans-unit>
+      <trans-unit id="p_email_body" resname="p_email_body">
+        <source>I have seen the following item</source>
+        <target>crwdns145421:0crwdne145421:0</target>
+      </trans-unit>
+      <trans-unit id="p_email_subject" resname="p_email_subject">
+        <source>E-mail request for item</source>
+        <target>crwdns145423:0crwdne145423:0</target>
+      </trans-unit>
+      <trans-unit id="p_email_question" resname="p_email_question">
+        <source>My questions</source>
+        <target>crwdns145425:0crwdne145425:0</target>
+      </trans-unit>
+      <trans-unit id="p_email_sender" resname="p_email_sender">
+        <source>Absender</source>
+        <target>crwdns145427:0crwdne145427:0</target>
+      </trans-unit>
+      <trans-unit id="p_email_recipient" resname="p_email_recipient">
+        <source>Empfänger</source>
+        <target>crwdns145429:0crwdne145429:0</target>
+      </trans-unit>
+      <trans-unit id="p_is_single" resname="p_is_single">
+        <source>Single product, which can only be selected once.</source>
+        <target>crwdns145431:0crwdne145431:0</target>
+      </trans-unit>
+      <trans-unit id="p_related" resname="p_related">
+        <source>Related products</source>
+        <target>crwdns145433:0crwdne145433:0</target>
+      </trans-unit>
+      <trans-unit id="p_delivery_status" resname="p_delivery_status">
+        <source>Delivery status</source>
+        <target>crwdns145435:0crwdne145435:0</target>
+      </trans-unit>
+      <trans-unit id="p_delivery_no" resname="p_delivery_no">
+        <source>No delivery.</source>
+        <target>crwdns342110:0crwdne342110:0</target>
+      </trans-unit>
+      <trans-unit id="p_delivery_available_demand" resname="p_delivery_available_demand">
+        <source>No delivery at the moment.</source>
+        <target>crwdns145437:0crwdne145437:0</target>
+      </trans-unit>
+      <trans-unit id="p_delivery_available_immediate" resname="p_delivery_available_immediate">
+        <source>Delivery within 24 hours (1 business day) after payment</source>
+        <target>crwdns145439:0crwdne145439:0</target>
+      </trans-unit>
+      <trans-unit id="p_delivery_available_short" resname="p_delivery_available_short">
+        <source>Delivery within 48 hours (2 business days) after payment</source>
+        <target>crwdns145441:0crwdne145441:0</target>
+      </trans-unit>
+      <trans-unit id="p_order_date" resname="p_order_date">
+        <source>Order date</source>
+        <target>crwdns145443:0crwdne145443:0</target>
+      </trans-unit>
+      <trans-unit id="p_order_state" resname="p_order_state">
+        <source>Order state</source>
+        <target>crwdns411221:0crwdne411221:0</target>
+      </trans-unit>
+      <trans-unit id="p_order_our_property" resname="p_order_our_property">
+        <source>The goods remain our property until full payment has been received.</source>
+        <target>crwdns411223:0crwdne411223:0</target>
+      </trans-unit>
+      <trans-unit id="p_checkbox1" resname="p_checkbox1">
+        <source>Checkbox 1 Text</source>
+        <target>crwdns145445:0crwdne145445:0</target>
+      </trans-unit>
+      <trans-unit id="p_checkbox1_value" resname="p_checkbox1_value">
+        <source>Checkbox 1 Value</source>
+        <target>crwdns145447:0crwdne145447:0</target>
+      </trans-unit>
+      <trans-unit id="p_direct_download" resname="p_direct_download">
+        <source>Direct Download here</source>
+        <target>crwdns333102:0crwdne333102:0</target>
+      </trans-unit>
+      <trans-unit id="list_buy_now" resname="list_buy_now">
+        <source>Into the shopping cart.</source>
+        <target>crwdns145449:0crwdne145449:0</target>
+      </trans-unit>
+      <trans-unit id="list_detail" resname="list_detail">
+        <source>Item details</source>
+        <target>crwdns145451:0crwdne145451:0</target>
+      </trans-unit>
+      <trans-unit id="list_next_page" resname="list_next_page">
+        <source>Next page</source>
+        <target>crwdns145453:0crwdne145453:0</target>
+      </trans-unit>
+      <trans-unit id="list_prev_page" resname="list_prev_page">
+        <source>Previous page</source>
+        <target>crwdns145455:0crwdne145455:0</target>
+      </trans-unit>
+      <trans-unit id="list_back_to_list" resname="list_back_to_list">
+        <source>Back to list</source>
+        <target>crwdns145457:0crwdne145457:0</target>
+      </trans-unit>
+      <trans-unit id="list_item_number" resname="list_item_number">
+        <source>Item no.</source>
+        <target>crwdns145459:0crwdne145459:0</target>
+      </trans-unit>
+      <trans-unit id="list_item_price" resname="list_item_price">
+        <source>Price</source>
+        <target>crwdns145461:0crwdne145461:0</target>
+      </trans-unit>
+      <trans-unit id="list_item_deposit" resname="list_item_deposit">
+        <source>Deposit</source>
+        <target>crwdns145463:0crwdne145463:0</target>
+      </trans-unit>
+      <trans-unit id="list_item_quantity" resname="list_item_quantity">
+        <source>Quantity</source>
+        <target>crwdns145465:0crwdne145465:0</target>
+      </trans-unit>
+      <trans-unit id="list_item_notfound" resname="list_item_notfound">
+        <source>No item has been found for this category. Choose another subcategory.</source>
+        <target>crwdns145467:0crwdne145467:0</target>
+      </trans-unit>
+      <trans-unit id="list_address_notfound" resname="list_address_notfound">
+        <source>No address has been found for this category. Choose another filter option.</source>
+        <target>crwdns145469:0crwdne145469:0</target>
+      </trans-unit>
+      <trans-unit id="single_next_product" resname="single_next_product">
+        <source>Next product</source>
+        <target>crwdns145471:0crwdne145471:0</target>
+      </trans-unit>
+      <trans-unit id="single_prev_product" resname="single_prev_product">
+        <source>Previous Product</source>
+        <target>crwdns145473:0crwdne145473:0</target>
+      </trans-unit>
+      <trans-unit id="search_item_notfound" resname="search_item_notfound">
+        <source>This item cannot be found.</source>
+        <target>crwdns145475:0crwdne145475:0</target>
+      </trans-unit>
+      <trans-unit id="search_button" resname="search_button">
+        <source>Search</source>
+        <target>crwdns145477:0crwdne145477:0</target>
+      </trans-unit>
+      <trans-unit id="search_for" resname="search_for">
+        <source>Search for</source>
+        <target>crwdns145479:0crwdne145479:0</target>
+      </trans-unit>
+      <trans-unit id="error_not_logged_in" resname="error_not_logged_in">
+        <source>You are not logged onto the system.</source>
+        <target>crwdns145481:0crwdne145481:0</target>
+      </trans-unit>
+      <trans-unit id="person_cards_number" resname="person_cards_number">
+        <source>card number</source>
+        <target>crwdns145483:0crwdne145483:0</target>
+      </trans-unit>
+      <trans-unit id="person_cards_secure_code" resname="person_cards_secure_code">
+        <source>Security code</source>
+        <target>crwdns145485:0crwdne145485:0</target>
+      </trans-unit>
+      <trans-unit id="person_cards_lasting" resname="person_cards_lasting">
+        <source>Valid to (Month/Year)</source>
+        <target>crwdns145487:0crwdne145487:0</target>
+      </trans-unit>
+      <trans-unit id="person_cards_owner" resname="person_cards_owner">
+        <source>Name on card</source>
+        <target>crwdns145489:0crwdne145489:0</target>
+      </trans-unit>
+      <trans-unit id="person_cards_cc_type_title" resname="person_cards_cc_type_title">
+        <source>Choose Card</source>
+        <target>crwdns145491:0crwdne145491:0</target>
+      </trans-unit>
+      <trans-unit id="person_cards_cc_type_1" resname="person_cards_cc_type_1">
+        <source>American Express</source>
+        <target>crwdns145493:0crwdne145493:0</target>
+      </trans-unit>
+      <trans-unit id="person_cards_cc_type_2" resname="person_cards_cc_type_2">
+        <source>Diners Club</source>
+        <target>crwdns145495:0crwdne145495:0</target>
+      </trans-unit>
+      <trans-unit id="person_cards_cc_type_3" resname="person_cards_cc_type_3">
+        <source>Master Card</source>
+        <target>crwdns145497:0crwdne145497:0</target>
+      </trans-unit>
+      <trans-unit id="person_cards_cc_type_4" resname="person_cards_cc_type_4">
+        <source>VISA</source>
+        <target>crwdns145499:0crwdne145499:0</target>
+      </trans-unit>
+      <trans-unit id="memo_not_logged_in" resname="memo_not_logged_in">
+        <source>You are not logged onto the system.</source>
+        <target>crwdns145501:0crwdne145501:0</target>
+      </trans-unit>
+      <trans-unit id="sellers_salutation" resname="sellers_salutation">
+        <source>Kind regards</source>
+        <target>crwdns145503:0crwdne145503:0</target>
+      </trans-unit>
+      <trans-unit id="sellers_company" resname="sellers_company">
+        <source>company of the seller</source>
+        <target>crwdns145505:0crwdne145505:0</target>
+      </trans-unit>
+      <trans-unit id="sellers_name" resname="sellers_name">
+        <source>name of the seller</source>
+        <target>crwdns145507:0crwdne145507:0</target>
+      </trans-unit>
+      <trans-unit id="sellers_address" resname="sellers_address">
+        <source>address of the seller</source>
+        <target>crwdns145509:0crwdne145509:0</target>
+      </trans-unit>
+      <trans-unit id="sellers_city" resname="sellers_city">
+        <source>city of the seller</source>
+        <target>crwdns145511:0crwdne145511:0</target>
+      </trans-unit>
+      <trans-unit id="sellers_country" resname="sellers_country">
+        <source>county of the seller</source>
+        <target>crwdns145513:0crwdne145513:0</target>
+      </trans-unit>
+      <trans-unit id="sellers_phone" resname="sellers_phone">
+        <source>telephone of the seller</source>
+        <target>crwdns145515:0crwdne145515:0</target>
+      </trans-unit>
+      <trans-unit id="sellers_fax" resname="sellers_fax">
+        <source>fax of the seller</source>
+        <target>crwdns145517:0crwdne145517:0</target>
+      </trans-unit>
+      <trans-unit id="sellers_email" resname="sellers_email">
+        <source>e-mail of the seller</source>
+        <target>crwdns145519:0crwdne145519:0</target>
+      </trans-unit>
+      <trans-unit id="sellers_internet" resname="sellers_internet">
+        <source>internet address of the seller</source>
+        <target>crwdns145521:0crwdne145521:0</target>
+      </trans-unit>
+      <trans-unit id="sellers_internet_other" resname="sellers_internet_other">
+        <source>internet addresses of the seller</source>
+        <target>crwdns145523:0crwdne145523:0</target>
+      </trans-unit>
+      <trans-unit id="sellers_hrb" resname="sellers_hrb">
+        <source>Registration court of the seller</source>
+        <target>crwdns145525:0crwdne145525:0</target>
+      </trans-unit>
+      <trans-unit id="sellers_executive" resname="sellers_executive">
+        <source>Managing Director of the seller</source>
+        <target>crwdns145527:0crwdne145527:0</target>
+      </trans-unit>
+      <trans-unit id="sellers_vat_id" resname="sellers_vat_id">
+        <source>EU VAT No of the seller</source>
+        <target>crwdns145529:0crwdne145529:0</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation" resname="order_confirmation">
+        <source>Order confirmation</source>
+        <target>crwdns145531:0crwdne145531:0</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_thanks" resname="order_confirmation_thanks">
+        <source>Thank you for your order!</source>
+        <target>crwdns145533:0crwdne145533:0</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_next_steps" resname="order_confirmation_next_steps">
+        <source>The next steps</source>
+        <target>crwdns145535:0crwdne145535:0</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_articles_delivery" resname="order_confirmation_articles_delivery">
+        <source>The delivery of the articles will take place in the next 14 days.</source>
+        <target>crwdns145537:0crwdne145537:0</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_complete" resname="order_confirmation_complete">
+        <source>Your order is now complete and has the following order number:</source>
+        <target>crwdns145539:0crwdne145539:0</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_email" resname="order_confirmation_email">
+        <source>The order confirmation will be sent to the following e-mail address:</source>
+        <target>crwdns145541:0crwdne145541:0</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_payment" resname="order_confirmation_payment">
+        <source>Method of payment</source>
+        <target>crwdns145543:0crwdne145543:0</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_10" resname="order_confirmation_10">
+        <source>To be agreed</source>
+        <target>crwdns145545:0crwdne145545:0</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_10_text" resname="order_confirmation_10_text">
+        <source>Please contact us</source>
+        <target>crwdns145547:0crwdne145547:0</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_15" resname="order_confirmation_15">
+        <source>Direct Debit</source>
+        <target>crwdns145549:0crwdne145549:0</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_15_text" resname="order_confirmation_15_text">
+        <source>The amount will be withdrawn from your account.</source>
+        <target>crwdns145551:0crwdne145551:0</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_20" resname="order_confirmation_20">
+        <source>Payment in advance</source>
+        <target>crwdns145553:0crwdne145553:0</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_20_text" resname="order_confirmation_20_text">
+        <source>Please transfer the invoice amount to the following bank account:</source>
+        <target>crwdns145555:0crwdne145555:0</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_20_owner" resname="order_confirmation_20_owner">
+        <source>Account holder: </source>
+        <target>crwdns145557:0crwdne145557:0</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_20_account" resname="order_confirmation_20_account">
+        <source>Account number: </source>
+        <target>crwdns145559:0crwdne145559:0</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_20_bank_no" resname="order_confirmation_20_bank_no">
+        <source>Bank identification code: </source>
+        <target>crwdns145561:0crwdne145561:0</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_20_bank" resname="order_confirmation_20_bank">
+        <source>Bank: </source>
+        <target>crwdns145563:0crwdne145563:0</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_20_bic" resname="order_confirmation_20_bic">
+        <source>BIC: </source>
+        <target>crwdns145565:0crwdne145565:0</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_20_iban" resname="order_confirmation_20_iban">
+        <source>IBAN: </source>
+        <target>crwdns145567:0crwdne145567:0</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_30" resname="order_confirmation_30">
+        <source>Surname:</source>
+        <target>crwdns145569:0crwdne145569:0</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_30_text" resname="order_confirmation_30_text">
+        <source>The product will be delivered to you directly. Payable on receipt.</source>
+        <target>crwdns145571:0crwdne145571:0</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_40" resname="order_confirmation_40">
+        <source>Invoice:</source>
+        <target>crwdns145573:0crwdne145573:0</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_40_text" resname="order_confirmation_40_text">
+        <source>The ordered item will be delivered with an invoice.</source>
+        <target>crwdns145575:0crwdne145575:0</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_50" resname="order_confirmation_50">
+        <source>Cash payment:</source>
+        <target>crwdns145577:0crwdne145577:0</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_50_text" resname="order_confirmation_50_text">
+        <source>We only accept cash payment on collection!</source>
+        <target>crwdns145579:0crwdne145579:0</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_50_button_text" resname="order_confirmation_50_button_text">
+        <source>Complete the ordering process by paying by credit card</source>
+        <target>crwdns145581:0crwdne145581:0</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_90" resname="order_confirmation_90">
+        <source>PayPal</source>
+        <target>crwdns145583:0crwdne145583:0</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_90_text" resname="order_confirmation_90_text">
+        <source>To complete the ordering process by PayPal click here </source>
+        <target>crwdns145585:0crwdne145585:0</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_delivery_order_status" resname="order_confirmation_delivery_order_status">
+        <source>Delivery and order status:</source>
+        <target>crwdns145587:0crwdne145587:0</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_goods_remain" resname="order_confirmation_goods_remain">
+        <source>The goods remain our property until full payment has been effected.</source>
+        <target>crwdns145589:0crwdne145589:0</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_date_of_order" resname="order_confirmation_date_of_order">
+        <source>Date of your order:</source>
+        <target>crwdns145591:0crwdne145591:0</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_view_status_with_code" resname="order_confirmation_view_status_with_code">
+        <source>You can check your order status at anytime using your order status code:</source>
+        <target>crwdns145593:0crwdne145593:0</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_check_order_status" resname="order_confirmation_check_order_status">
+        <source>Check order status!</source>
+        <target>crwdns145595:0crwdne145595:0</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_order_status" resname="order_confirmation_order_status">
+        <source>ORDER STATUS:</source>
+        <target>crwdns145597:0crwdne145597:0</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_status_address" resname="order_confirmation_status_address">
+        <source>You can view the status of your order at this address</source>
+        <target>crwdns145599:0crwdne145599:0</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_your_order" resname="order_confirmation_your_order">
+        <source>Thank you for your order</source>
+        <target>crwdns145601:0crwdne145601:0</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_your_order_uid" resname="order_confirmation_your_order_uid">
+        <source>order number</source>
+        <target>crwdns145603:0crwdne145603:0</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_new_order" resname="order_confirmation_new_order">
+        <source>new order</source>
+        <target>crwdns145605:0crwdne145605:0</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_your_order_details" resname="order_confirmation_your_order_details">
+        <source>order details:</source>
+        <target>crwdns145607:0crwdne145607:0</target>
+      </trans-unit>
+      <trans-unit id="memo_no_product" resname="memo_no_product">
+        <source>There are no products in the leaflet.</source>
+        <target>crwdns145609:0crwdne145609:0</target>
+      </trans-unit>
+      <trans-unit id="method_hint" resname="method_hint">
+        <source>Your data is transmitted securely via an encoded connection.</source>
+        <target>crwdns145611:0crwdne145611:0</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_owner" resname="order_confirmation_owner">
+        <source>Account holder </source>
+        <target>crwdns145613:0crwdne145613:0</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_account" resname="order_confirmation_account">
+        <source>Account number </source>
+        <target>crwdns145615:0crwdne145615:0</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_bank_no" resname="order_confirmation_bank_no">
+        <source>Bank sort code </source>
+        <target>crwdns145617:0crwdne145617:0</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_bank" resname="order_confirmation_bank">
+        <source>Bank </source>
+        <target>crwdns145619:0crwdne145619:0</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_bic" resname="order_confirmation_bic">
+        <source>BIC </source>
+        <target>crwdns145621:0crwdne145621:0</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_iban" resname="order_confirmation_iban">
+        <source>IBAN </source>
+        <target>crwdns145623:0crwdne145623:0</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_order_uid" resname="order_confirmation_order_uid">
+        <source>It is essential to state your order number:</source>
+        <target>crwdns145625:0crwdne145625:0</target>
+      </trans-unit>
+      <trans-unit id="basket_voucher" resname="basket_voucher">
+        <source>Voucher:</source>
+        <target>crwdns145627:0crwdne145627:0</target>
+      </trans-unit>
+      <trans-unit id="basket_voucher_price_act" resname="basket_voucher_price_act">
+        <source>Discount:</source>
+        <target>crwdns145629:0crwdne145629:0</target>
+      </trans-unit>
+      <trans-unit id="basket_voucher_wrong_code" resname="basket_voucher_wrong_code">
+        <source>The voucher code you entered seems to be wrong. Please try again.</source>
+        <target>crwdns145631:0crwdne145631:0</target>
+      </trans-unit>
+      <trans-unit id="basket_voucher_done" resname="basket_voucher_done">
+        <source>You have already redeemed this voucher code!</source>
+        <target>crwdns145633:0crwdne145633:0</target>
+      </trans-unit>
+      <trans-unit id="basket_found" resname="basket_found">
+        <source>Found at -my internet address - </source>
+        <target>crwdns145635:0crwdne145635:0</target>
+      </trans-unit>
+      <trans-unit id="basket_voucher_calculate" resname="basket_voucher_calculate">
+        <source>Calculate new price</source>
+        <target>crwdns145637:0crwdne145637:0</target>
+      </trans-unit>
+      <trans-unit id="basket_shipping_price_choice" resname="basket_shipping_price_choice">
+        <source>Shipping costs:</source>
+        <target>crwdns145639:0crwdne145639:0</target>
+      </trans-unit>
+      <trans-unit id="basket_tipafriend" resname="basket_tipafriend">
+        <source>Recommend a friend.</source>
+        <target>crwdns145641:0crwdne145641:0</target>
+      </trans-unit>
+      <trans-unit id="basket_change_item" resname="basket_change_item">
+        <source>If you want to change the order quantity, just enter the required quantity in &quot;Quantity&quot; and click on &quot;Update shopping basket&quot; below.</source>
+        <target>crwdns145643:0crwdne145643:0</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_info" resname="order_confirmation_info">
+        <source>Your data is transmitted securely via an encoded connection.</source>
+        <target>crwdns145645:0crwdne145645:0</target>
+      </trans-unit>
+      <trans-unit id="order_confirmation_hint" resname="order_confirmation_hint">
+        <source>By making the payment you complete the ordering process!</source>
+        <target>crwdns145647:0crwdne145647:0</target>
+      </trans-unit>
+      <trans-unit id="basket_artno" resname="basket_artno">
+        <source>Art.no.</source>
+        <target>crwdns145649:0crwdne145649:0</target>
+      </trans-unit>
+      <trans-unit id="basket_fax" resname="basket_fax">
+        <source>Fax No.</source>
+        <target>crwdns145651:0crwdne145651:0</target>
+      </trans-unit>
+      <trans-unit id="basket_name_prename" resname="basket_name_prename">
+        <source>Prename</source>
+        <target>crwdns145653:0crwdne145653:0</target>
+      </trans-unit>
+      <trans-unit id="basket_address_plus" resname="basket_address_plus">
+        <source>Addition to address</source>
+        <target>crwdns145655:0crwdne145655:0</target>
+      </trans-unit>
+      <trans-unit id="bank_receiver" resname="bank_receiver">
+        <source>Account owner</source>
+        <target>crwdns145657:0crwdne145657:0</target>
+      </trans-unit>
+      <trans-unit id="p_currency_no_tax" resname="p_currency_no_tax">
+        <source>EUR</source>
+        <target>crwdns145659:0crwdne145659:0</target>
+      </trans-unit>
+      <trans-unit id="order_status_wrong_number" resname="order_status_wrong_number">
+        <source>The order code does not exist! Please verify and try again!</source>
+        <target>crwdns145661:0crwdne145661:0</target>
+      </trans-unit>
+      <trans-unit id="order_status_view" resname="order_status_view">
+        <source>View order status</source>
+        <target>crwdns145663:0crwdne145663:0</target>
+      </trans-unit>
+      <trans-unit id="order_status_use_number" resname="order_status_use_number">
+        <source>Please use that number for the further communication with us.</source>
+        <target>crwdns145665:0crwdne145665:0</target>
+      </trans-unit>
+      <trans-unit id="order_status_tracking" resname="order_status_tracking">
+        <source>You can check your order status with this number: click here to show the current status.</source>
+        <target>crwdns410849:0crwdne410849:0</target>
+      </trans-unit>
+      <trans-unit id="order_status_tracking_2" resname="order_status_tracking_2">
+        <source>You can check your order status all the time with this state code:</source>
+        <target>crwdns411225:0crwdne411225:0</target>
+      </trans-unit>
+      <trans-unit id="order_party_change_button" resname="order_party_change_button">
+        <source>Select party</source>
+        <target>crwdns145669:0crwdne145669:0</target>
+      </trans-unit>
+      <trans-unit id="order_group_change_button" resname="order_group_change_button">
+        <source>Select group</source>
+        <target>crwdns145671:0crwdne145671:0</target>
+      </trans-unit>
+      <trans-unit id="order_view_change_button" resname="order_view_change_button">
+        <source>Select order view</source>
+        <target>crwdns145673:0crwdne145673:0</target>
+      </trans-unit>
+      <trans-unit id="order_view_crdate_max" resname="order_view_crdate_max">
+        <source>End time</source>
+        <target>crwdns145675:0crwdne145675:0</target>
+      </trans-unit>
+      <trans-unit id="order_view_crdate_min" resname="order_view_crdate_min">
+        <source>Start time</source>
+        <target>crwdns145677:0crwdne145677:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_bill" resname="tracking_status_bill">
+        <source>Your invoice #:</source>
+        <target>crwdns145679:0crwdne145679:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_order" resname="tracking_status_order">
+        <source>Your order #:</source>
+        <target>crwdns145681:0crwdne145681:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_status" resname="tracking_status_status">
+        <source>has the following status</source>
+        <target>crwdns145683:0crwdne145683:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_status_text" resname="tracking_status_status_text">
+        <source>(see last line for current status)</source>
+        <target>crwdns145685:0crwdne145685:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_data" resname="tracking_status_data">
+        <source>Additional data for status change:</source>
+        <target>crwdns145687:0crwdne145687:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_date" resname="tracking_status_date">
+        <source>Date/time:</source>
+        <target>crwdns145689:0crwdne145689:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_code" resname="tracking_status_code">
+        <source>order status code</source>
+        <target>crwdns145691:0crwdne145691:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_action" resname="tracking_status_action">
+        <source>Action:</source>
+        <target>crwdns145693:0crwdne145693:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_comment" resname="tracking_status_comment">
+        <source>Comment:</source>
+        <target>crwdns145695:0crwdne145695:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_choose_order" resname="tracking_status_choose_order">
+        <source>Select order</source>
+        <target>crwdns145697:0crwdne145697:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_choose_order_button" resname="tracking_status_choose_order_button">
+        <source>Select</source>
+        <target>crwdns145699:0crwdne145699:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_change" resname="tracking_status_change">
+        <source>Change order status</source>
+        <target>crwdns145701:0crwdne145701:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_change_button" resname="tracking_status_change_button">
+        <source>Add order status</source>
+        <target>crwdns145703:0crwdne145703:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_order_comment" resname="tracking_status_order_comment">
+        <source>Comment on new order status</source>
+        <target>crwdns145705:0crwdne145705:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_password" resname="tracking_status_password">
+        <source>Password:</source>
+        <target>crwdns145707:0crwdne145707:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_password_button" resname="tracking_status_password_button">
+        <source>Enter password</source>
+        <target>crwdns145709:0crwdne145709:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_email" resname="tracking_status_email">
+        <source>E-mail notification:</source>
+        <target>crwdns145711:0crwdne145711:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_email_text" resname="tracking_status_email_text">
+        <source>If you want to be informed of your order status as soon as it has been changed, check the following:</source>
+        <target>crwdns145713:0crwdne145713:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_email_checkbox" resname="tracking_status_email_checkbox">
+        <source>The message about the ordering procedure.</source>
+        <target>crwdns145715:0crwdne145715:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_email_button" resname="tracking_status_email_button">
+        <source>Update</source>
+        <target>crwdns145717:0crwdne145717:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_message" resname="tracking_status_message">
+        <source>Message to SHOP:</source>
+        <target>crwdns145719:0crwdne145719:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_message_text" resname="tracking_status_message_text">
+        <source>Here you can send us a message about your order.</source>
+        <target>crwdns145721:0crwdne145721:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_message_subject" resname="tracking_status_message_subject">
+        <source>Select subject:</source>
+        <target>crwdns145723:0crwdne145723:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_message_0" resname="tracking_status_message_0">
+        <source>idle</source>
+        <target>crwdns333104:0crwdne333104:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_message_1" resname="tracking_status_message_1">
+        <source>Customer order sent</source>
+        <target>crwdns145725:0crwdne145725:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_message_2" resname="tracking_status_message_2">
+        <source>Order from shop received and accepted</source>
+        <target>crwdns145727:0crwdne145727:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_message_10" resname="tracking_status_message_10">
+        <source>Shop is waiting for goods delivery from third party </source>
+        <target>crwdns145729:0crwdne145729:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_message_11" resname="tracking_status_message_11">
+        <source>Shop is waiting for customer payment</source>
+        <target>crwdns145731:0crwdne145731:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_message_12" resname="tracking_status_message_12">
+        <source>Shop is waiting for customer order</source>
+        <target>crwdns145733:0crwdne145733:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_message_13" resname="tracking_status_message_13">
+        <source>Order has been paid</source>
+        <target>crwdns145735:0crwdne145735:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_message_20" resname="tracking_status_message_20">
+        <source>Goods have been delivered to customer</source>
+        <target>crwdns145737:0crwdne145737:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_message_21" resname="tracking_status_message_21">
+        <source>Vouchers have been delivered to customer</source>
+        <target>crwdns145739:0crwdne145739:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_message_30" resname="tracking_status_message_30">
+        <source>Other messages from shop</source>
+        <target>crwdns145741:0crwdne145741:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_message_31" resname="tracking_status_message_31">
+        <source>An invoice has been issued</source>
+        <target>crwdns145743:0crwdne145743:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_message_32" resname="tracking_status_message_32">
+        <source>An invoice has been sent.</source>
+        <target>crwdns145745:0crwdne145745:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_message_33" resname="tracking_status_message_33">
+        <source>This order is tax-free.</source>
+        <target>crwdns145747:0crwdne145747:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_message_50" resname="tracking_status_message_50">
+        <source>Customer requires the order to be cancelled</source>
+        <target>crwdns145749:0crwdne145749:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_message_51" resname="tracking_status_message_51">
+        <source>Message from customer to shop</source>
+        <target>crwdns145751:0crwdne145751:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_message_52" resname="tracking_status_message_52">
+        <source>Customer requires the invoice including tax</source>
+        <target>crwdns145753:0crwdne145753:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_message_53" resname="tracking_status_message_53">
+        <source>Customer requires a tax-free invoice</source>
+        <target>crwdns145755:0crwdne145755:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_message_60" resname="tracking_status_message_60">
+        <source>Voucher message to the recipient</source>
+        <target>crwdns145757:0crwdne145757:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_message_100" resname="tracking_status_message_100">
+        <source>Order dispatched</source>
+        <target>crwdns145759:0crwdne145759:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_message_101" resname="tracking_status_message_101">
+        <source>Order completed</source>
+        <target>crwdns145761:0crwdne145761:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_message_200" resname="tracking_status_message_200">
+        <source>Order cancelled</source>
+        <target>crwdns145763:0crwdne145763:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_message_subject_comment" resname="tracking_status_message_subject_comment">
+        <source>Remarks:</source>
+        <target>crwdns145765:0crwdne145765:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_message_button" resname="tracking_status_message_button">
+        <source>Send message</source>
+        <target>crwdns145767:0crwdne145767:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_order_original" resname="tracking_status_order_original">
+        <source>Order confirmation - original:</source>
+        <target>crwdns145769:0crwdne145769:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_number" resname="tracking_status_number">
+        <source>Enter order status code:</source>
+        <target>crwdns145771:0crwdne145771:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_header" resname="tracking_status_header">
+        <source>order status</source>
+        <target>crwdns145773:0crwdne145773:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_code_enter" resname="tracking_status_code_enter">
+        <source>Enter your order status code.</source>
+        <target>crwdns145775:0crwdne145775:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_code_wrong" resname="tracking_status_code_wrong">
+        <source>The order status code does not exist. Make sure that the code is entered correctly. Try it again.</source>
+        <target>crwdns145777:0crwdne145777:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_status_number_button" resname="tracking_status_number_button">
+        <source>View status</source>
+        <target>crwdns145779:0crwdne145779:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_email_status_label" resname="tracking_email_status_label">
+        <source>Order status </source>
+        <target>crwdns145781:0crwdne145781:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_email_status" resname="tracking_email_status">
+        <source>Status:</source>
+        <target>crwdns145783:0crwdne145783:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_email_time" resname="tracking_email_time">
+        <source>Time:</source>
+        <target>crwdns145785:0crwdne145785:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_email_info" resname="tracking_email_info">
+        <source>ORDER INFORMATION</source>
+        <target>crwdns145787:0crwdne145787:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_email_comment" resname="tracking_email_comment">
+        <source>Remarks:</source>
+        <target>crwdns145789:0crwdne145789:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_email_status_view" resname="tracking_email_status_view">
+        <source>Click on your data to view:</source>
+        <target>crwdns145791:0crwdne145791:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_email_status_changed" resname="tracking_email_status_changed">
+        <source>The status of your order has been changed:</source>
+        <target>crwdns145793:0crwdne145793:0</target>
+      </trans-unit>
+      <trans-unit id="tracking_email_view_information" resname="tracking_email_view_information">
+        <source>You can view the order status at anytime and change order information if required using your order status code:</source>
+        <target>crwdns145795:0crwdne145795:0</target>
+      </trans-unit>
+      <trans-unit id="new_user_name" resname="new_user_name">
+        <source>Your user name is as follows:</source>
+        <target>crwdns145797:0crwdne145797:0</target>
+      </trans-unit>
+      <trans-unit id="new_user_password" resname="new_user_password">
+        <source>Your password is as follows:</source>
+        <target>crwdns145799:0crwdne145799:0</target>
+      </trans-unit>
+      <trans-unit id="new_user_access_data" resname="new_user_access_data">
+        <source>Your access data for </source>
+        <target>crwdns145801:0crwdne145801:0</target>
+      </trans-unit>
+      <trans-unit id="new_user_welcome" resname="new_user_welcome">
+        <source>We are delighted to welcome you as a new customer.</source>
+        <target>crwdns145803:0crwdne145803:0</target>
+      </trans-unit>
+      <trans-unit id="new_user_login" resname="new_user_login">
+        <source>For future orders you can log on with your user name and your password.</source>
+        <target>crwdns145805:0crwdne145805:0</target>
+      </trans-unit>
+      <trans-unit id="new_user_keep_email" resname="new_user_keep_email">
+        <source>Please keep this e-mail in a safe place.</source>
+        <target>crwdns145807:0crwdne145807:0</target>
+      </trans-unit>
+      <trans-unit id="register_now" resname="register_now">
+        <source>If you have not registered yet start with your declaration now in the shop</source>
+        <target>crwdns145809:0crwdne145809:0</target>
+      </trans-unit>
+      <trans-unit id="gift_code" resname="gift_code">
+        <source>Gift coupon code</source>
+        <target>crwdns145811:0crwdne145811:0</target>
+      </trans-unit>
+      <trans-unit id="gift_redeem" resname="gift_redeem">
+        <source>Cash in gift code.</source>
+        <target>crwdns145813:0crwdne145813:0</target>
+      </trans-unit>
+      <trans-unit id="gift_code_redeemed" resname="gift_code_redeemed">
+        <source>This gift code has been cashed into voucher points</source>
+        <target>crwdns145815:0crwdne145815:0</target>
+      </trans-unit>
+      <trans-unit id="gift_codes_redeemed" resname="gift_codes_redeemed">
+        <source>You gift codes have been redeemed into the following voucher points</source>
+        <target>crwdns145817:0crwdne145817:0</target>
+      </trans-unit>
+      <trans-unit id="gift_sender_name" resname="gift_sender_name">
+        <source>Sender name</source>
+        <target>crwdns145819:0crwdne145819:0</target>
+      </trans-unit>
+      <trans-unit id="gift_sender_email" resname="gift_sender_email">
+        <source>Sender email</source>
+        <target>crwdns145821:0crwdne145821:0</target>
+      </trans-unit>
+      <trans-unit id="gift_recipient_name" resname="gift_recipient_name">
+        <source>Recipient name</source>
+        <target>crwdns145823:0crwdne145823:0</target>
+      </trans-unit>
+      <trans-unit id="gift_recipient_email" resname="gift_recipient_email">
+        <source>Recipient email</source>
+        <target>crwdns145825:0crwdne145825:0</target>
+      </trans-unit>
+      <trans-unit id="voucher_received" resname="voucher_received">
+        <source>You have received a voucher code.</source>
+        <target>crwdns145827:0crwdne145827:0</target>
+      </trans-unit>
+      <trans-unit id="voucher_unique" resname="voucher_unique">
+        <source>Unique voucher code</source>
+        <target>crwdns145829:0crwdne145829:0</target>
+      </trans-unit>
+      <trans-unit id="voucher_value_euro" resname="voucher_value_euro">
+        <source>Value of the voucher in Euro</source>
+        <target>crwdns145831:0crwdne145831:0</target>
+      </trans-unit>
+      <trans-unit id="text_message_shipping_10" resname="text_message_shipping_10">
+        <source>Shipping to countries #10</source>
+        <target>crwdns145833:0crwdne145833:0</target>
+      </trans-unit>
+      <trans-unit id="text_message_shipping_20" resname="text_message_shipping_20">
+        <source>Shipping to countries #20</source>
+        <target>crwdns145835:0crwdne145835:0</target>
+      </trans-unit>
+      <trans-unit id="text_message_shipping_30" resname="text_message_shipping_30">
+        <source>Shipping to countries #30</source>
+        <target>crwdns145837:0crwdne145837:0</target>
+      </trans-unit>
+      <trans-unit id="text_message_payment_10" resname="text_message_payment_10">
+        <source>Payment method #10</source>
+        <target>crwdns145839:0crwdne145839:0</target>
+      </trans-unit>
+      <trans-unit id="text_message_payment_20" resname="text_message_payment_20">
+        <source>Payment method #20</source>
+        <target>crwdns145841:0crwdne145841:0</target>
+      </trans-unit>
+      <trans-unit id="text_message_payment_30" resname="text_message_payment_30">
+        <source>Payment method #30</source>
+        <target>crwdns145843:0crwdne145843:0</target>
+      </trans-unit>
+      <trans-unit id="withdrawal_start" resname="withdrawal_start">
+        <source>Withdrawal of order</source>
+        <target>crwdns410851:0crwdne410851:0</target>
+      </trans-unit>
+      <trans-unit id="you_can_withdraw_order" resname="you_can_withdraw_order">
+        <source>Here you can withdraw your order.</source>
+        <target>crwdns410853:0crwdne410853:0</target>
+      </trans-unit>
+      <trans-unit id="enter_tracking_name" resname="enter_tracking_name">
+        <source>Name:</source>
+        <target>crwdns410855:0crwdne410855:0</target>
+      </trans-unit>
+      <trans-unit id="enter_tracking_email" resname="enter_tracking_email">
+        <source>E-mail:</source>
+        <target>crwdns410857:0crwdne410857:0</target>
+      </trans-unit>
+      <trans-unit id="enter_tracking_code" resname="enter_tracking_code">
+        <source>Enter the tracking code:</source>
+        <target>crwdns410859:0crwdne410859:0</target>
+      </trans-unit>
+      <trans-unit id="enter_tracking_comment" resname="enter_tracking_comment">
+        <source>Comment about articles to be cancelled:</source>
+        <target>crwdns410861:0crwdne410861:0</target>
+      </trans-unit>
+      <trans-unit id="withdrawal_confirmation" resname="withdrawal_confirmation">
+        <source>Confirmation of withdrawal:</source>
+        <target>crwdns410863:0crwdne410863:0</target>
+      </trans-unit>
+      <trans-unit id="withdrawal_processing" resname="withdrawal_processing">
+        <source>The withdrawal for order no. %d is being processed.</source>
+        <target>crwdns410995:0%dcrwdne410995:0</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
