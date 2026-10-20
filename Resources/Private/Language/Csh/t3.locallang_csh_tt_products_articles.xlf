@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/Csh/locallang_csh_tt_products_articles.xlf" date="2021-11-23T20:34:02Z" product-name="tt_products" target-language="t3">
+    <header/>
+    <body>
+      <trans-unit id=".description" resname=".description">
+        <source>Shop articles.</source>
+        <target>crwdns146077:0crwdne146077:0</target>
+      </trans-unit>
+      <trans-unit id=".details" resname=".details">
+        <source>The articles are used to have special attributes like the price for variants of the products. They can be entered only after the corresponding product has already been entered.</source>
+        <target>crwdns146079:0crwdne146079:0</target>
+      </trans-unit>
+      <trans-unit id="_.seeAlso" resname="_.seeAlso">
+        <source>tt_products</source>
+        <target>crwdns146081:0crwdne146081:0</target>
+      </trans-unit>
+      <trans-unit id="title.description" resname="title.description">
+        <source>title</source>
+        <target>crwdns146083:0crwdne146083:0</target>
+      </trans-unit>
+      <trans-unit id="subtitle.description" resname="subtitle.description">
+        <source>subtitle</source>
+        <target>crwdns146085:0crwdne146085:0</target>
+      </trans-unit>
+      <trans-unit id="keyword.description" resname="keyword.description">
+        <source>keyword</source>
+        <target>crwdns146087:0crwdne146087:0</target>
+      </trans-unit>
+      <trans-unit id="itemnumber.description" resname="itemnumber.description">
+        <source>itemnumber</source>
+        <target>crwdns146089:0crwdne146089:0</target>
+      </trans-unit>
+      <trans-unit id="price.description" resname="price.description">
+        <source>price</source>
+        <target>crwdns146091:0crwdne146091:0</target>
+      </trans-unit>
+      <trans-unit id="price2.description" resname="price2.description">
+        <source>price2</source>
+        <target>crwdns146093:0crwdne146093:0</target>
+      </trans-unit>
+      <trans-unit id="graduated_config_type.description" resname="graduated_config_type.description">
+        <source>graduated_config_type</source>
+        <target>crwdns146095:0crwdne146095:0</target>
+      </trans-unit>
+      <trans-unit id="graduated_config.description" resname="graduated_config.description">
+        <source>graduated_config</source>
+        <target>crwdns146097:0crwdne146097:0</target>
+      </trans-unit>
+      <trans-unit id="graduated_price_round.description" resname="graduated_price_round.description">
+        <source>graduated_price_round</source>
+        <target>crwdns146099:0crwdne146099:0</target>
+      </trans-unit>
+      <trans-unit id="graduated_price_enable.description" resname="graduated_price_enable.description">
+        <source>graduated_price_enable</source>
+        <target>crwdns146101:0crwdne146101:0</target>
+      </trans-unit>
+      <trans-unit id="note.description" resname="note.description">
+        <source>note</source>
+        <target>crwdns146103:0crwdne146103:0</target>
+      </trans-unit>
+      <trans-unit id="note2.description" resname="note2.description">
+        <source>note2</source>
+        <target>crwdns146105:0crwdne146105:0</target>
+      </trans-unit>
+      <trans-unit id="image.description" resname="image.description">
+        <source>image</source>
+        <target>crwdns146107:0crwdne146107:0</target>
+      </trans-unit>
+      <trans-unit id="image_uid.description" resname="image_uid.description">
+        <source>image</source>
+        <target>crwdns146109:0crwdne146109:0</target>
+      </trans-unit>
+      <trans-unit id="smallimage.description" resname="smallimage.description">
+        <source>smallimage</source>
+        <target>crwdns146111:0crwdne146111:0</target>
+      </trans-unit>
+      <trans-unit id="smallimage_uid.description" resname="smallimage_uid.description">
+        <source>smallimage</source>
+        <target>crwdns146113:0crwdne146113:0</target>
+      </trans-unit>
+      <trans-unit id="inStock.description" resname="inStock.description">
+        <source>inStock</source>
+        <target>crwdns146115:0crwdne146115:0</target>
+      </trans-unit>
+      <trans-unit id="basketminquantity.description" resname="basketminquantity.description">
+        <source>basketminquantity</source>
+        <target>crwdns146117:0crwdne146117:0</target>
+      </trans-unit>
+      <trans-unit id="basketmaxquantity.description" resname="basketmaxquantity.description">
+        <source>basketmaxquantity</source>
+        <target>crwdns146119:0crwdne146119:0</target>
+      </trans-unit>
+      <trans-unit id="weight.description" resname="weight.description">
+        <source>weight</source>
+        <target>crwdns146121:0crwdne146121:0</target>
+      </trans-unit>
+      <trans-unit id="color.description" resname="color.description">
+        <source>color variant 1</source>
+        <target>crwdns146123:0crwdne146123:0</target>
+      </trans-unit>
+      <trans-unit id="color2.description" resname="color2.description">
+        <source>color2 variant 6</source>
+        <target>crwdns146125:0crwdne146125:0</target>
+      </trans-unit>
+      <trans-unit id="color3.description" resname="color3.description">
+        <source>color3 variant 7</source>
+        <target>crwdns146127:0crwdne146127:0</target>
+      </trans-unit>
+      <trans-unit id="color4.description" resname="color4.description">
+        <source>color4 variant 12</source>
+        <target>crwdns146129:0crwdne146129:0</target>
+      </trans-unit>
+      <trans-unit id="size.description" resname="size.description">
+        <source>size variant 2</source>
+        <target>crwdns146131:0crwdne146131:0</target>
+      </trans-unit>
+      <trans-unit id="size2.description" resname="size2.description">
+        <source>size2 variant 8</source>
+        <target>crwdns146133:0crwdne146133:0</target>
+      </trans-unit>
+      <trans-unit id="size3.description" resname="size3.description">
+        <source>size3 variant 9</source>
+        <target>crwdns146135:0crwdne146135:0</target>
+      </trans-unit>
+      <trans-unit id="size4.description" resname="size4.description">
+        <source>size4 variant 13</source>
+        <target>crwdns146137:0crwdne146137:0</target>
+      </trans-unit>
+      <trans-unit id="description.description" resname="description.description">
+        <source>description variant 3</source>
+        <target>crwdns146139:0crwdne146139:0</target>
+      </trans-unit>
+      <trans-unit id="description2.description" resname="description2.description">
+        <source>description2 variant 14</source>
+        <target>crwdns146141:0crwdne146141:0</target>
+      </trans-unit>
+      <trans-unit id="description3.description" resname="description3.description">
+        <source>description3 variant 15</source>
+        <target>crwdns146143:0crwdne146143:0</target>
+      </trans-unit>
+      <trans-unit id="gradings.description" resname="gradings.description">
+        <source>gradings variant 4</source>
+        <target>crwdns146145:0crwdne146145:0</target>
+      </trans-unit>
+      <trans-unit id="material.description" resname="material.description">
+        <source>material variant 10</source>
+        <target>crwdns146147:0crwdne146147:0</target>
+      </trans-unit>
+      <trans-unit id="quality.description" resname="quality.description">
+        <source>quality variant 11</source>
+        <target>crwdns146149:0crwdne146149:0</target>
+      </trans-unit>
+      <trans-unit id="form.description" resname="form.description">
+        <source>form variant 16</source>
+        <target>crwdns146151:0crwdne146151:0</target>
+      </trans-unit>
+      <trans-unit id="form2.description" resname="form2.description">
+        <source>form2 variant 17</source>
+        <target>crwdns146153:0crwdne146153:0</target>
+      </trans-unit>
+      <trans-unit id="type.description" resname="type.description">
+        <source>type variant 18</source>
+        <target>crwdns146155:0crwdne146155:0</target>
+      </trans-unit>
+      <trans-unit id="pattern.description" resname="pattern.description">
+        <source>pattern variant 19</source>
+        <target>crwdns146157:0crwdne146157:0</target>
+      </trans-unit>
+      <trans-unit id="surface.description" resname="surface.description">
+        <source>surface variant 20</source>
+        <target>crwdns146159:0crwdne146159:0</target>
+      </trans-unit>
+      <trans-unit id="angular.description" resname="angular.description">
+        <source>angular variant 21</source>
+        <target>crwdns146161:0crwdne146161:0</target>
+      </trans-unit>
+      <trans-unit id="time.description" resname="time.description">
+        <source>time variant 22</source>
+        <target>crwdns146163:0crwdne146163:0</target>
+      </trans-unit>
+      <trans-unit id="time2.description" resname="time2.description">
+        <source>time2 variant 23</source>
+        <target>crwdns146165:0crwdne146165:0</target>
+      </trans-unit>
+      <trans-unit id="guarantee.description" resname="guarantee.description">
+        <source>guarantee variant 24</source>
+        <target>crwdns146167:0crwdne146167:0</target>
+      </trans-unit>
+      <trans-unit id="elements.description" resname="elements.description">
+        <source>elements variant 25</source>
+        <target>crwdns146169:0crwdne146169:0</target>
+      </trans-unit>
+      <trans-unit id="boundary.description" resname="boundary.description">
+        <source>boundary variant 26</source>
+        <target>crwdns146171:0crwdne146171:0</target>
+      </trans-unit>
+      <trans-unit id="costs.description" resname="costs.description">
+        <source>costs variant 27</source>
+        <target>crwdns146173:0crwdne146173:0</target>
+      </trans-unit>
+      <trans-unit id="config_type.description" resname="config_type.description">
+        <source>config_type</source>
+        <target>crwdns146175:0crwdne146175:0</target>
+      </trans-unit>
+      <trans-unit id="config.description" resname="config.description">
+        <source>config</source>
+        <target>crwdns146177:0crwdne146177:0</target>
+      </trans-unit>
+      <trans-unit id="uid_product.description" resname="uid_product.description">
+        <source>uid_product</source>
+        <target>crwdns146179:0crwdne146179:0</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
