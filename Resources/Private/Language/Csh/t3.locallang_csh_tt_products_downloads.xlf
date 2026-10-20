@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/Csh/locallang_csh_tt_products_downloads.xlf" date="2021-11-23T20:34:39Z" product-name="tt_products" target-language="t3">
+    <header/>
+    <body>
+      <trans-unit id=".description" resname=".description">
+        <source>Shop downloads.</source>
+        <target>crwdns146189:0crwdne146189:0</target>
+      </trans-unit>
+      <trans-unit id=".details" resname=".details">
+        <source>There are a lot of download path descriptions possible for each product</source>
+        <target>crwdns146191:0crwdne146191:0</target>
+      </trans-unit>
+      <trans-unit id="_.seeAlso" resname="_.seeAlso">
+        <source>tt_products</source>
+        <target>crwdns146193:0crwdne146193:0</target>
+      </trans-unit>
+      <trans-unit id="title.description" resname="title.description">
+        <source>[FILL IN] tt_products_downloads-&gt;title</source>
+        <target>crwdns146195:0crwdne146195:0</target>
+      </trans-unit>
+      <trans-unit id="marker.description" resname="marker.description">
+        <source>Marker part to be used in the template to form the ###PRODUCT_DOWNLOAD_...###</source>
+        <target>crwdns146197:0crwdne146197:0</target>
+      </trans-unit>
+      <trans-unit id="note.description" resname="note.description">
+        <source>note</source>
+        <target>crwdns146199:0crwdne146199:0</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
