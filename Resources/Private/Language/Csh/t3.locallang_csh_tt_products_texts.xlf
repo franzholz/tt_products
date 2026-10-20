@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/Csh/locallang_csh_tt_products_texts.xlf" date="2021-11-23T20:35:02Z" product-name="tt_products" target-language="t3">
+    <header/>
+    <body>
+      <trans-unit id=".description" resname=".description">
+        <source>Shop texts.</source>
+        <target>crwdns146209:0crwdne146209:0</target>
+      </trans-unit>
+      <trans-unit id=".details" resname=".details">
+        <source>There are a lot of text descriptions possible for each product</source>
+        <target>crwdns146211:0crwdne146211:0</target>
+      </trans-unit>
+      <trans-unit id="_.seeAlso" resname="_.seeAlso">
+        <source>tt_products</source>
+        <target>crwdns146213:0crwdne146213:0</target>
+      </trans-unit>
+      <trans-unit id="title.description" resname="title.description">
+        <source>[FILL IN] tt_products_texts-&gt;title</source>
+        <target>crwdns146215:0crwdne146215:0</target>
+      </trans-unit>
+      <trans-unit id="marker.description" resname="marker.description">
+        <source>Marker part to be used in the template to form the ###PRODUCT_TEXT_...###</source>
+        <target>crwdns146217:0crwdne146217:0</target>
+      </trans-unit>
+      <trans-unit id="note.description" resname="note.description">
+        <source>note</source>
+        <target>crwdns146219:0crwdne146219:0</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
