@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/Csh/locallang_csh_sys_products_cards.xlf" date="2021-11-23T20:34:32Z" product-name="tt_products" target-language="t3">
+    <header/>
+    <body>
+      <trans-unit id=".description" resname=".description">
+        <source>Shop credit cards.</source>
+        <target>crwdns145877:0crwdne145877:0</target>
+      </trans-unit>
+      <trans-unit id=".details" resname=".details">
+        <source>Some orders have been made with credit cards. Hide them as much as you can and delete them as soon as possible!</source>
+        <target>crwdns145879:0crwdne145879:0</target>
+      </trans-unit>
+      <trans-unit id="_.seeAlso" resname="_.seeAlso">
+        <source>tt_products</source>
+        <target>crwdns145881:0crwdne145881:0</target>
+      </trans-unit>
+      <trans-unit id="title.description" resname="title.description">
+        <source>[FILL IN] sys_products_cards-&gt;title</source>
+        <target>crwdns145883:0crwdne145883:0</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
