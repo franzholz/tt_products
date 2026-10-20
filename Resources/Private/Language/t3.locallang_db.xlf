@@ -1,0 +1,1694 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/locallang_db.xlf" date="2023-02-03T17:21:08Z" product-name="tt_products" target-language="t3">
+    <header/>
+    <body>
+      <trans-unit id="tstamp" resname="tstamp">
+        <source>Time stamp</source>
+        <target>crwdns165756:0crwdne165756:0</target>
+      </trans-unit>
+      <trans-unit id="crdate" resname="crdate">
+        <source>Creation date</source>
+        <target>crwdns165758:0crwdne165758:0</target>
+      </trans-unit>
+      <trans-unit id="extmng.slugBehaviour" resname="extmng.slugBehaviour">
+        <source>Slug behaviour: uniqueInSite: The same slug can be used for tt_products in different sites. Use this setting *only* if no tt_products records are shared between sites. "unique" means that another identical product title will lead to a different slug name than for the first product.</source>
+        <target>crwdns165760:0crwdne165760:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products" resname="tt_products">
+        <source>Products</source>
+        <target>crwdns165762:0crwdne165762:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.accessory_uid" resname="tt_products.accessory_uid">
+        <source>Accessory products</source>
+        <target>crwdns165764:0crwdne165764:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.prod_uid" resname="tt_products.prod_uid">
+        <source>Template Products</source>
+        <target>crwdns165766:0crwdne165766:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.related_uid" resname="tt_products.related_uid">
+        <source>Related Products</source>
+        <target>crwdns165768:0crwdne165768:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.directcost" resname="tt_products.directcost">
+        <source>Direct Cost:</source>
+        <target>crwdns165770:0crwdne165770:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.regular_price" resname="tt_products.regular_price">
+        <source>Regular Price:</source>
+        <target>crwdns165772:0crwdne165772:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.price" resname="tt_products.price">
+        <source>Price:</source>
+        <target>crwdns165774:0crwdne165774:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.price2" resname="tt_products.price2">
+        <source>Price (2):</source>
+        <target>crwdns165776:0crwdne165776:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.discount" resname="tt_products.discount">
+        <source>Possible Discount:</source>
+        <target>crwdns165778:0crwdne165778:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.discount_disable" resname="tt_products.discount_disable">
+        <source>Disable Discounts:</source>
+        <target>crwdns165780:0crwdne165780:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.unit" resname="tt_products.unit">
+        <source>Unit of Measure</source>
+        <target>crwdns165782:0crwdne165782:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.unit_factor" resname="tt_products.unit_factor">
+        <source>Unit Factor</source>
+        <target>crwdns165784:0crwdne165784:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.graduated_price_enable">
+        <source>Enable Graduated Prices:</source>
+        <target>crwdns165786:0crwdne165786:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.graduated_price_round" resname="tt_products.graduated_price_round">
+        <source>Round format for Graduated Prices:</source>
+        <target>crwdns165788:0crwdne165788:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.graduated_price_uid" resname="tt_products.graduated_price_uid">
+        <source>Graduated Prices:</source>
+        <target>crwdns165790:0crwdne165790:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.article_uid" resname="tt_products.article_uid">
+        <source>Articles:</source>
+        <target>crwdns165792:0crwdne165792:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.note_uid" resname="tt_products.note_uid">
+        <source>Describing Pages:</source>
+        <target>crwdns165794:0crwdne165794:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.note" resname="tt_products.note">
+        <source>Description</source>
+        <target>crwdns165796:0crwdne165796:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.note2" resname="tt_products.note2">
+        <source>Commentary</source>
+        <target>crwdns165798:0crwdne165798:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.text_uid" resname="tt_products.text_uid">
+        <source>Additional texts:</source>
+        <target>crwdns165800:0crwdne165800:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.itemnumber" resname="tt_products.itemnumber">
+        <source>Identifier:</source>
+        <target>crwdns165802:0crwdne165802:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.ean" resname="tt_products.ean">
+        <source>EAN Code:</source>
+        <target>crwdns165804:0crwdne165804:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.doi" resname="tt_products.doi">
+        <source>Digital Object Identifier:</source>
+        <target>crwdns225690:0crwdne225690:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.shipping_point" resname="tt_products.shipping_point">
+        <source>Shipping point:</source>
+        <target>crwdns165806:0crwdne165806:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.inStock" resname="tt_products.inStock">
+        <source>In Stock (pcs):</source>
+        <target>crwdns165808:0crwdne165808:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.basketminquantity" resname="tt_products.basketminquantity">
+        <source>Minimum quantity in basket:</source>
+        <target>crwdns165810:0crwdne165810:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.basketmaxquantity" resname="tt_products.basketmaxquantity">
+        <source>Maximum quantity in basket:</source>
+        <target>crwdns165812:0crwdne165812:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.datasheet" resname="tt_products.datasheet">
+        <source>Datasheet</source>
+        <target>crwdns165814:0crwdne165814:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.www" resname="tt_products.www">
+        <source>WWW URL</source>
+        <target>crwdns165816:0crwdne165816:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.tax_free" resname="tt_products.tax_free">
+        <source>Tax-free:</source>
+        <target>crwdns165818:0crwdne165818:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.tax" resname="tt_products.tax">
+        <source>Tax:</source>
+        <target>crwdns165820:0crwdne165820:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.deposit" resname="tt_products.deposit">
+        <source>Deposit:</source>
+        <target>crwdns165822:0crwdne165822:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.weight" resname="tt_products.weight">
+        <source>Weight (kg):</source>
+        <target>crwdns165824:0crwdne165824:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.usebydate" resname="tt_products.usebydate">
+        <source>Use by date:</source>
+        <target>crwdns165826:0crwdne165826:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.bulkily" resname="tt_products.bulkily">
+        <source>Bulkily:</source>
+        <target>crwdns165828:0crwdne165828:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.offer" resname="tt_products.offer">
+        <source>Offer:</source>
+        <target>crwdns165830:0crwdne165830:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.highlight" resname="tt_products.highlight">
+        <source>Highlight:</source>
+        <target>crwdns165832:0crwdne165832:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.bargain" resname="tt_products.bargain">
+        <source>Bargain:</source>
+        <target>crwdns165834:0crwdne165834:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.color" resname="tt_products.color">
+        <source>Colour (Variant 1):</source>
+        <target>crwdns165836:0crwdne165836:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.color2" resname="tt_products.color2">
+        <source>2nd Colour (Variant 6):</source>
+        <target>crwdns165838:0crwdne165838:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.color3" resname="tt_products.color3">
+        <source>3rd Colour (Variant 7):</source>
+        <target>crwdns165840:0crwdne165840:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.color4" resname="tt_products.color4">
+        <source>4th Colour (Variant 12):</source>
+        <target>crwdns165842:0crwdne165842:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.size" resname="tt_products.size">
+        <source>Size Length (Variant 2):</source>
+        <target>crwdns165844:0crwdne165844:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.size2" resname="tt_products.size2">
+        <source>2nd Size Width (Variant 8):</source>
+        <target>crwdns165846:0crwdne165846:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.size3" resname="tt_products.size3">
+        <source>3rd Size Height (Variant 9):</source>
+        <target>crwdns165848:0crwdne165848:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.size4" resname="tt_products.size4">
+        <source>4th Size (Variant 13):</source>
+        <target>crwdns165850:0crwdne165850:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.description" resname="tt_products.description">
+        <source>Description (Variant 3):</source>
+        <target>crwdns165852:0crwdne165852:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.description2" resname="tt_products.description2">
+        <source>2nd Description (Variant 14):</source>
+        <target>crwdns165854:0crwdne165854:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.description3" resname="tt_products.description3">
+        <source>3rd Description (Variant 15):</source>
+        <target>crwdns165856:0crwdne165856:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.descriptions" resname="tt_products.descriptions">
+        <source>Descriptions </source>
+        <target>crwdns165858:0crwdne165858:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.gradings" resname="tt_products.gradings">
+        <source>Gradings (Variant 4):</source>
+        <target>crwdns165860:0crwdne165860:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.material" resname="tt_products.material">
+        <source>Material (Variant 10):</source>
+        <target>crwdns165862:0crwdne165862:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.quality" resname="tt_products.quality">
+        <source>Quality (Variant 11):</source>
+        <target>crwdns165864:0crwdne165864:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.form" resname="tt_products.form">
+        <source>Form (Variant 16):</source>
+        <target>crwdns165866:0crwdne165866:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.form2" resname="tt_products.form2">
+        <source>2nd Form (Variant 17):</source>
+        <target>crwdns165868:0crwdne165868:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.type" resname="tt_products.type">
+        <source>Type (Variant 18):</source>
+        <target>crwdns165870:0crwdne165870:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.pattern" resname="tt_products.pattern">
+        <source>Pattern (Variant 19):</source>
+        <target>crwdns165872:0crwdne165872:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.surface" resname="tt_products.surface">
+        <source>Surface (Variant 20):</source>
+        <target>crwdns165874:0crwdne165874:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.angular" resname="tt_products.angular">
+        <source>Angular (Variant 21):</source>
+        <target>crwdns165876:0crwdne165876:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.time" resname="tt_products.time">
+        <source>Time (Variant 22):</source>
+        <target>crwdns165878:0crwdne165878:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.time2" resname="tt_products.time2">
+        <source>2nd Time (Variant 23):</source>
+        <target>crwdns165880:0crwdne165880:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.guarantee" resname="tt_products.guarantee">
+        <source>Guarantee (Variant 24):</source>
+        <target>crwdns165882:0crwdne165882:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.elements" resname="tt_products.elements">
+        <source>Elements (Variant 25):</source>
+        <target>crwdns165884:0crwdne165884:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.boundary" resname="tt_products.boundary">
+        <source>Boundary (Variant 26):</source>
+        <target>crwdns165886:0crwdne165886:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.costs" resname="tt_products.costs">
+        <source>Costs (Variant 27):</source>
+        <target>crwdns165888:0crwdne165888:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.additionaltab" resname="tt_products.additionaltab">
+        <source>Addition</source>
+        <target>crwdns165890:0crwdne165890:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.additional_type" resname="tt_products.additional_type">
+        <source>internal additional type:</source>
+        <target>crwdns165892:0crwdne165892:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.additional" resname="tt_products.additional">
+        <source>Additional (Variant 5):</source>
+        <target>crwdns165894:0crwdne165894:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.additional.isSingle" resname="tt_products.additional.isSingle">
+        <source>Buy only once:</source>
+        <target>crwdns165896:0crwdne165896:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.additional.isImage" resname="tt_products.additional.isImage">
+        <source>Is an image:</source>
+        <target>crwdns165898:0crwdne165898:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.additional.alwaysInStock" resname="tt_products.additional.alwaysInStock">
+        <source>always in stock:</source>
+        <target>crwdns165900:0crwdne165900:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.additional.noMinPrice" resname="tt_products.additional.noMinPrice">
+        <source>no minimum price:</source>
+        <target>crwdns165902:0crwdne165902:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.additional.noMaxPrice" resname="tt_products.additional.noMaxPrice">
+        <source>no maximum price:</source>
+        <target>crwdns165904:0crwdne165904:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.additional.noGiftService" resname="tt_products.additional.noGiftService">
+        <source>no gift service:</source>
+        <target>crwdns165906:0crwdne165906:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.creditpoints" resname="tt_products.creditpoints">
+        <source>credit points</source>
+        <target>crwdns165908:0crwdne165908:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.falcat" resname="tt_products.falcat">
+        <source>FAL category for product:</source>
+        <target>crwdns410985:0crwdne410985:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.syscat" resname="tt_products.syscat">
+        <source>System category for product:</source>
+        <target>crwdns165912:0crwdne165912:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.special_preparation" resname="tt_products.special_preparation">
+        <source>Special Preparation:</source>
+        <target>crwdns165914:0crwdne165914:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.articles" resname="tt_products.articles">
+        <source>Articles </source>
+        <target>crwdns165916:0crwdne165916:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.graduated" resname="tt_products.graduated">
+        <source>Graduated Prices</source>
+        <target>crwdns165918:0crwdne165918:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.subtitle" resname="tt_products.subtitle">
+        <source>Subtitle </source>
+        <target>crwdns165920:0crwdne165920:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.keyword" resname="tt_products.keyword">
+        <source>Keywords (,): </source>
+        <target>crwdns165922:0crwdne165922:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.variants" resname="tt_products.variants">
+        <source>Variants </source>
+        <target>crwdns165924:0crwdne165924:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.extravariants" resname="tt_products.extravariants">
+        <source>Extra Variants </source>
+        <target>crwdns165926:0crwdne165926:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.relations" resname="tt_products.relations">
+        <source>Relations </source>
+        <target>crwdns165928:0crwdne165928:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.smallimage" resname="tt_products.smallimage">
+        <source>Small image</source>
+        <target>crwdns165930:0crwdne165930:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.shippingdiv" resname="tt_products.shippingdiv">
+        <source>Shipping </source>
+        <target>crwdns165932:0crwdne165932:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.shipping" resname="tt_products.shipping">
+        <source>shipping costs for first item</source>
+        <target>crwdns165934:0crwdne165934:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.shipping2" resname="tt_products.shipping2">
+        <source>shipping costs for each additional item</source>
+        <target>crwdns165936:0crwdne165936:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.handling" resname="tt_products.handling">
+        <source>fee for handling</source>
+        <target>crwdns165938:0crwdne165938:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.delivery" resname="tt_products.delivery">
+        <source>delivery:</source>
+        <target>crwdns165940:0crwdne165940:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.delivery.availableNot" resname="tt_products.delivery.availableNot">
+        <source>not available</source>
+        <target>crwdns165942:0crwdne165942:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.delivery.availableImmediate" resname="tt_products.delivery.availableImmediate">
+        <source>immediate delivery</source>
+        <target>crwdns165944:0crwdne165944:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.delivery.availableShort" resname="tt_products.delivery.availableShort">
+        <source>soon available</source>
+        <target>crwdns165946:0crwdne165946:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.delivery.availableDemand" resname="tt_products.delivery.availableDemand">
+        <source>only on demand</source>
+        <target>crwdns165948:0crwdne165948:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.categorydiv" resname="tt_products.categorydiv">
+        <source>Categories </source>
+        <target>crwdns165950:0crwdne165950:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.download_type" resname="tt_products.download_type">
+        <source>internal download type:</source>
+        <target>crwdns165952:0crwdne165952:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.download_uid" resname="tt_products.download_uid">
+        <source>Downloads</source>
+        <target>crwdns165954:0crwdne165954:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.download_info" resname="tt_products.download_info">
+        <source>Information required from the download</source>
+        <target>crwdns165956:0crwdne165956:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.download_info.limitedToDomain" resname="tt_products.download_info.limitedToDomain">
+        <source>limited to a domain</source>
+        <target>crwdns165958:0crwdne165958:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.title" resname="tt_products.title">
+        <source>Name:</source>
+        <target>crwdns165960:0crwdne165960:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.slug" resname="tt_products.slug">
+        <source>URL Segment</source>
+        <target>crwdns165962:0crwdne165962:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.sellstarttime" resname="tt_products.sellstarttime">
+        <source>Starttime for selling:</source>
+        <target>crwdns165964:0crwdne165964:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products.sellendtime" resname="tt_products.sellendtime">
+        <source>Endtime for selling:</source>
+        <target>crwdns165966:0crwdne165966:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_language" resname="tt_products_language">
+        <source>Products (alternative language)</source>
+        <target>crwdns165968:0crwdne165968:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_language.prod_uid" resname="tt_products_language.prod_uid">
+        <source>Product record</source>
+        <target>crwdns165970:0crwdne165970:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_language.sys_language_uid" resname="tt_products_language.sys_language_uid">
+        <source>Language</source>
+        <target>crwdns165972:0crwdne165972:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_language.text_uid" resname="tt_products_language.text_uid">
+        <source>Additional texts:</source>
+        <target>crwdns165974:0crwdne165974:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_language.datasheet" resname="tt_products_language.datasheet">
+        <source>Datasheet</source>
+        <target>crwdns165976:0crwdne165976:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_cat" resname="tt_products_cat">
+        <source>Product categories</source>
+        <target>crwdns165978:0crwdne165978:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_cat.catid" resname="tt_products_cat.catid">
+        <source>Category Identifier</source>
+        <target>crwdns165980:0crwdne165980:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_cat.email_uid" resname="tt_products_cat.email_uid">
+        <source>Confirmation email</source>
+        <target>crwdns165982:0crwdne165982:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_cat.discount" resname="tt_products_cat.discount">
+        <source>Possible Discount:</source>
+        <target>crwdns165984:0crwdne165984:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_cat.discount_disable" resname="tt_products_cat.discount_disable">
+        <source>Disable Discount:</source>
+        <target>crwdns165986:0crwdne165986:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_cat.highlight" resname="tt_products_cat.highlight">
+        <source>Highlight</source>
+        <target>crwdns165988:0crwdne165988:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_cat.sliderimage" resname="tt_products_cat.sliderimage">
+        <source>Slider Image</source>
+        <target>crwdns165990:0crwdne165990:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_cat.parent_category" resname="tt_products_cat.parent_category">
+        <source>Parent category</source>
+        <target>crwdns165992:0crwdne165992:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_cat_language" resname="tt_products_cat_language">
+        <source>Product category (alternative language)</source>
+        <target>crwdns165994:0crwdne165994:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_cat_language.sys_language_uid" resname="tt_products_cat_language.sys_language_uid">
+        <source>Language</source>
+        <target>crwdns165996:0crwdne165996:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_cat_language.cat_uid" resname="tt_products_cat_language.cat_uid">
+        <source>Product category record</source>
+        <target>crwdns165998:0crwdne165998:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_articles" resname="tt_products_articles">
+        <source>Product articles</source>
+        <target>crwdns166000:0crwdne166000:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_articles.uid_product" resname="tt_products_articles.uid_product">
+        <source>Product</source>
+        <target>crwdns166002:0crwdne166002:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_articles.config_type" resname="tt_products_articles.config_type">
+        <source>internal config type:</source>
+        <target>crwdns166004:0crwdne166004:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_articles.config" resname="tt_products_articles.config">
+        <source>Configuration:</source>
+        <target>crwdns166006:0crwdne166006:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_articles.config.isaddedprice" resname="tt_products_articles.config.isaddedprice">
+        <source>price is added</source>
+        <target>crwdns166008:0crwdne166008:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_articles.graduated_config_type" resname="tt_products_articles.graduated_config_type">
+        <source>internal graduated config type:</source>
+        <target>crwdns166010:0crwdne166010:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_articles.graduated_config" resname="tt_products_articles.graduated_config">
+        <source>Graduated Price Configuration:</source>
+        <target>crwdns166012:0crwdne166012:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_articles.graduated_config.addParentProductCount" resname="tt_products_articles.graduated_config.addParentProductCount">
+        <source>Add the product counts of the parent product</source>
+        <target>crwdns166014:0crwdne166014:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_articles_language" resname="tt_products_articles_language">
+        <source>Product articles (alternative language)</source>
+        <target>crwdns166016:0crwdne166016:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_articles_language.article_uid" resname="tt_products_articles_language.article_uid">
+        <source>Product article</source>
+        <target>crwdns166018:0crwdne166018:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_attribute_mm_graduated_price" resname="tt_products_attribute_mm_graduated_price">
+        <source>Relation product attributes to gradutated prices</source>
+        <target>crwdns166020:0crwdne166020:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_attribute_mm_graduated_price.uid_local" resname="tt_products_attribute_mm_graduated_price.uid_local">
+        <source>Product attribute using it.</source>
+        <target>crwdns166022:0crwdne166022:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_attribute_mm_graduated_price.uid_foreign" resname="tt_products_attribute_mm_graduated_price.uid_foreign">
+        <source>Price formula</source>
+        <target>crwdns166024:0crwdne166024:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_emails" resname="tt_products_emails">
+        <source>Products emails</source>
+        <target>crwdns166026:0crwdne166026:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_emails.suffix" resname="tt_products_emails.suffix">
+        <source>Template Suffix</source>
+        <target>crwdns166028:0crwdne166028:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_texts" resname="tt_products_texts">
+        <source>Product texts</source>
+        <target>crwdns166030:0crwdne166030:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_texts.marker" resname="tt_products_texts.marker">
+        <source>Marker</source>
+        <target>crwdns166032:0crwdne166032:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_texts.parentid" resname="tt_products_texts.parentid">
+        <source>Parent product</source>
+        <target>crwdns166034:0crwdne166034:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_texts.parenttable" resname="tt_products_texts.parenttable">
+        <source>Parent table</source>
+        <target>crwdns166036:0crwdne166036:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_texts_language" resname="tt_products_texts_language">
+        <source>Product texts (alternative language)</source>
+        <target>crwdns166038:0crwdne166038:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_texts_language.text_uid" resname="tt_products_texts_language.text_uid">
+        <source>Parent text</source>
+        <target>crwdns166040:0crwdne166040:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_texts_language.sys_language_uid" resname="tt_products_texts_language.sys_language_uid">
+        <source>Language</source>
+        <target>crwdns166042:0crwdne166042:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_texts_language.parentid" resname="tt_products_texts_language.parentid">
+        <source>Parent product (alternative language)</source>
+        <target>crwdns166044:0crwdne166044:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_texts_language.parenttable" resname="tt_products_texts_language.parenttable">
+        <source>Parent table</source>
+        <target>crwdns166046:0crwdne166046:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_downloads" resname="tt_products_downloads">
+        <source>Product Downloads</source>
+        <target>crwdns166048:0crwdne166048:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_downloads.title" resname="tt_products_downloads.title">
+        <source>Title</source>
+        <target>crwdns166050:0crwdne166050:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_downloads.marker" resname="tt_products_downloads.marker">
+        <source>Marker</source>
+        <target>crwdns166052:0crwdne166052:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_downloads.path" resname="tt_products_downloads.path">
+        <source>Path</source>
+        <target>crwdns166054:0crwdne166054:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_downloads.file_uid" resname="tt_products_downloads.file_uid">
+        <source>Files</source>
+        <target>crwdns166056:0crwdne166056:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_downloads.author" resname="tt_products_downloads.author">
+        <source>Author</source>
+        <target>crwdns166058:0crwdne166058:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_downloads.edition" resname="tt_products_downloads.edition">
+        <source>Edition</source>
+        <target>crwdns166060:0crwdne166060:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_downloads.edition.complete" resname="tt_products_downloads.edition.complete">
+        <source>Complete</source>
+        <target>crwdns166062:0crwdne166062:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_downloads.edition.partial" resname="tt_products_downloads.edition.partial">
+        <source>Partial</source>
+        <target>crwdns166064:0crwdne166064:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_downloads.open" resname="tt_products_downloads.open">
+        <source>Open for download</source>
+        <target>crwdns166066:0crwdne166066:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_downloads.price_enable" resname="tt_products_downloads.price_enable">
+        <source>Enable the Price</source>
+        <target>crwdns166068:0crwdne166068:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_downloads.price" resname="tt_products_downloads.price">
+        <source>Price</source>
+        <target>crwdns166070:0crwdne166070:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_downloads_language" resname="tt_products_downloads_language">
+        <source>Product Downloads (alternative language)</source>
+        <target>crwdns166072:0crwdne166072:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_downloads_language.parent_uid" resname="tt_products_downloads_language.parent_uid">
+        <source>Parent download</source>
+        <target>crwdns166074:0crwdne166074:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_downloads_language.sys_language_uid" resname="tt_products_downloads_language.sys_language_uid">
+        <source>Language</source>
+        <target>crwdns166076:0crwdne166076:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_products_mm_tax_categories" resname="tt_products_products_mm_tax_categories">
+        <source>Relation products to tax categories</source>
+        <target>crwdns166078:0crwdne166078:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_products_mm_downloads" resname="tt_products_products_mm_downloads">
+        <source>Relation products to downloads</source>
+        <target>crwdns166080:0crwdne166080:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_products_mm_downloads.uid_local" resname="tt_products_products_mm_downloads.uid_local">
+        <source>Product using it</source>
+        <target>crwdns166082:0crwdne166082:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_products_mm_downloads.uid_foreign" resname="tt_products_products_mm_downloads.uid_foreign">
+        <source>Download for it</source>
+        <target>crwdns166084:0crwdne166084:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_mm_graduated_price" resname="tt_products_mm_graduated_price">
+        <source>Relation products to gradutated prices</source>
+        <target>crwdns166086:0crwdne166086:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_mm_graduated_price.product_uid" resname="tt_products_mm_graduated_price.product_uid">
+        <source>Product using it.</source>
+        <target>crwdns166088:0crwdne166088:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_mm_graduated_price.uid_local" resname="tt_products_mm_graduated_price.uid_local">
+        <source>Product using it.</source>
+        <target>crwdns166090:0crwdne166090:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_mm_graduated_price.graduated_price_uid" resname="tt_products_mm_graduated_price.graduated_price_uid">
+        <source>Price formula</source>
+        <target>crwdns225692:0crwdne225692:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_mm_graduated_price.uid_foreign" resname="tt_products_mm_graduated_price.uid_foreign">
+        <source>Price formula</source>
+        <target>crwdns225694:0crwdne225694:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_products_mm_articles" resname="tt_products_products_mm_articles">
+        <source>Relation products to articles</source>
+        <target>crwdns166096:0crwdne166096:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_products_mm_articles.product_uid" resname="tt_products_products_mm_articles.product_uid">
+        <source>Product using it</source>
+        <target>crwdns166098:0crwdne166098:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_products_mm_articles.article_uid" resname="tt_products_products_mm_articles.article_uid">
+        <source>Article</source>
+        <target>crwdns166100:0crwdne166100:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_related_products_products_mm" resname="tt_products_related_products_products_mm">
+        <source>Relation products to related products</source>
+        <target>crwdns166102:0crwdne166102:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_related_products_products_mm.uid_local" resname="tt_products_related_products_products_mm.uid_local">
+        <source>Origin Product</source>
+        <target>crwdns166104:0crwdne166104:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_related_products_products_mm.uid_foreign" resname="tt_products_related_products_products_mm.uid_foreign">
+        <source>Related Product</source>
+        <target>crwdns166106:0crwdne166106:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_accessory_products_products_mm" resname="tt_products_accessory_products_products_mm">
+        <source>Relation products to accessory products</source>
+        <target>crwdns166108:0crwdne166108:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_accessory_products_products_mm.uid_local" resname="tt_products_accessory_products_products_mm.uid_local">
+        <source>Origin Product</source>
+        <target>crwdns166110:0crwdne166110:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_accessory_products_products_mm.uid_foreign" resname="tt_products_accessory_products_products_mm.uid_foreign">
+        <source>Accessory Product</source>
+        <target>crwdns166112:0crwdne166112:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_products_note_pages_mm" resname="tt_products_products_note_pages_mm">
+        <source>Relation products note to pages</source>
+        <target>crwdns333082:0crwdne333082:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_products_note_pages_mm.uid_local" resname="tt_products_products_note_pages_mm.uid_local">
+        <source>Product using it</source>
+        <target>crwdns333084:0crwdne333084:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_products_note_pages_mm.uid_foreign" resname="tt_products_products_note_pages_mm.uid_foreign">
+        <source>Notes Page</source>
+        <target>crwdns333086:0crwdne333086:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_graduated_price" resname="tt_products_graduated_price">
+        <source>Graduated prices</source>
+        <target>crwdns166114:0crwdne166114:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_graduated_price.formula" resname="tt_products_graduated_price.formula">
+        <source>Price formula:</source>
+        <target>crwdns166116:0crwdne166116:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_graduated_price.startamount" resname="tt_products_graduated_price.startamount">
+        <source>Start amount of items:</source>
+        <target>crwdns166118:0crwdne166118:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_graduated_price.items" resname="tt_products_graduated_price.items">
+        <source>Items</source>
+        <target>crwdns166120:0crwdne166120:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_graduated_price.starttime" resname="tt_products_graduated_price.starttime">
+        <source>valid from</source>
+        <target>crwdns166122:0crwdne166122:0</target>
+      </trans-unit>
+      <trans-unit id="tt_products_graduated_price.endtime" resname="tt_products_graduated_price.endtime">
+        <source>valid until</source>
+        <target>crwdns166124:0crwdne166124:0</target>
+      </trans-unit>
+      <trans-unit id="sys_file_reference.tx_ttproducts_author" resname="sys_file_reference.tx_ttproducts_author">
+        <source>Author</source>
+        <target>crwdns166126:0crwdne166126:0</target>
+      </trans-unit>
+      <trans-unit id="sys_file_reference.tx_ttproducts_startpoint" resname="sys_file_reference.tx_ttproducts_startpoint">
+        <source>Start Point</source>
+        <target>crwdns166128:0crwdne166128:0</target>
+      </trans-unit>
+      <trans-unit id="sys_file_reference.tx_ttproducts_endpoint" resname="sys_file_reference.tx_ttproducts_endpoint">
+        <source>End Point</source>
+        <target>crwdns166130:0crwdne166130:0</target>
+      </trans-unit>
+      <trans-unit id="sys_file_reference.tx_ttproducts_price_enable" resname="sys_file_reference.tx_ttproducts_price_enable">
+        <source>Enable the Price</source>
+        <target>crwdns166132:0crwdne166132:0</target>
+      </trans-unit>
+      <trans-unit id="sys_file_reference.tx_ttproducts_price" resname="sys_file_reference.tx_ttproducts_price">
+        <source>Price</source>
+        <target>crwdns166134:0crwdne166134:0</target>
+      </trans-unit>
+      <trans-unit id="sys_file_reference.shopAttributes" resname="sys_file_reference.shopAttributes">
+        <source>Shop Attributes</source>
+        <target>crwdns166136:0crwdne166136:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_cards" resname="sys_products_cards">
+        <source>Credit cards for orders</source>
+        <target>crwdns166138:0crwdne166138:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_cards.owner_name" resname="sys_products_cards.owner_name">
+        <source>owner name</source>
+        <target>crwdns166140:0crwdne166140:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_cards.cc_number" resname="sys_products_cards.cc_number">
+        <source>number</source>
+        <target>crwdns166142:0crwdne166142:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_cards.cc_number_1" resname="sys_products_cards.cc_number_1">
+        <source>number part 1</source>
+        <target>crwdns166144:0crwdne166144:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_cards.cc_number_2" resname="sys_products_cards.cc_number_2">
+        <source>number part 2</source>
+        <target>crwdns166146:0crwdne166146:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_cards.cc_number_3" resname="sys_products_cards.cc_number_3">
+        <source>number part 3</source>
+        <target>crwdns166148:0crwdne166148:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_cards.cc_number_4" resname="sys_products_cards.cc_number_4">
+        <source>number part 4</source>
+        <target>crwdns166150:0crwdne166150:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_cards.cc_type" resname="sys_products_cards.cc_type">
+        <source>organization</source>
+        <target>crwdns166152:0crwdne166152:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_cards.cc_type.I.0" resname="sys_products_cards.cc_type.I.0">
+        <source>American Express</source>
+        <target>crwdns166154:0crwdne166154:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_cards.cc_type.I.1" resname="sys_products_cards.cc_type.I.1">
+        <source>Diners Club</source>
+        <target>crwdns166156:0crwdne166156:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_cards.cc_type.I.2" resname="sys_products_cards.cc_type.I.2">
+        <source>Mastercard</source>
+        <target>crwdns166158:0crwdne166158:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_cards.cc_type.I.3" resname="sys_products_cards.cc_type.I.3">
+        <source>Visa</source>
+        <target>crwdns166160:0crwdne166160:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_cards.cvv2" resname="sys_products_cards.cvv2">
+        <source>Card Security Code</source>
+        <target>crwdns166162:0crwdne166162:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_cards.endtime_mm" resname="sys_products_cards.endtime_mm">
+        <source>Card endtime: month</source>
+        <target>crwdns166164:0crwdne166164:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_cards.endtime_yy" resname="sys_products_cards.endtime_yy">
+        <source>Card endtime: year</source>
+        <target>crwdns166166:0crwdne166166:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_accounts" resname="sys_products_accounts">
+        <source>Bank accounts for orders</source>
+        <target>crwdns166168:0crwdne166168:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_accounts.owner_name" resname="sys_products_accounts.owner_name">
+        <source>owner name</source>
+        <target>crwdns166170:0crwdne166170:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_accounts.ac_number" resname="sys_products_accounts.ac_number">
+        <source>account number</source>
+        <target>crwdns166172:0crwdne166172:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_accounts.bic" resname="sys_products_accounts.bic">
+        <source>bank identifier code</source>
+        <target>crwdns166174:0crwdne166174:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_accounts.iban" resname="sys_products_accounts.iban">
+        <source>IBAN</source>
+        <target>crwdns166176:0crwdne166176:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders" resname="sys_products_orders">
+        <source>Sys products orders</source>
+        <target>crwdns166178:0crwdne166178:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.crdate" resname="sys_products_orders.crdate">
+        <source>Order date</source>
+        <target>crwdns166180:0crwdne166180:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.payment" resname="sys_products_orders.payment">
+        <source>payment</source>
+        <target>crwdns166182:0crwdne166182:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.shipping" resname="sys_products_orders.shipping">
+        <source>shipping</source>
+        <target>crwdns166184:0crwdne166184:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.handling" resname="sys_products_orders.handling">
+        <source>handling</source>
+        <target>crwdns333088:0crwdne333088:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.amount" resname="sys_products_orders.amount">
+        <source>amount</source>
+        <target>crwdns166186:0crwdne166186:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.tax_mode" resname="sys_products_orders.tax_mode">
+        <source>tax mode</source>
+        <target>crwdns166188:0crwdne166188:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.tax_mode.I.0" resname="sys_products_orders.tax_mode.I.0">
+        <source>taxed</source>
+        <target>crwdns166190:0crwdne166190:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.tax_mode.I.1" resname="sys_products_orders.tax_mode.I.1">
+        <source>duty free</source>
+        <target>crwdns166192:0crwdne166192:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.pay_mode" resname="sys_products_orders.pay_mode">
+        <source>payment mode</source>
+        <target>crwdns166194:0crwdne166194:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.pay_mode.I.0" resname="sys_products_orders.pay_mode.I.0">
+        <source>unpaid</source>
+        <target>crwdns166196:0crwdne166196:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.pay_mode.I.1" resname="sys_products_orders.pay_mode.I.1">
+        <source>bank transfer</source>
+        <target>crwdns166198:0crwdne166198:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.pay_mode.I.2" resname="sys_products_orders.pay_mode.I.2">
+        <source>credit card</source>
+        <target>crwdns166200:0crwdne166200:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.pay_mode.I.3" resname="sys_products_orders.pay_mode.I.3">
+        <source>cash</source>
+        <target>crwdns166202:0crwdne166202:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.pay_mode.I.4" resname="sys_products_orders.pay_mode.I.4">
+        <source>Paypal</source>
+        <target>crwdns166204:0crwdne166204:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.pay_mode.I.5" resname="sys_products_orders.pay_mode.I.5">
+        <source>Saferpay</source>
+        <target>crwdns166206:0crwdne166206:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.pay_mode.I.6" resname="sys_products_orders.pay_mode.I.6">
+        <source>iPayment</source>
+        <target>crwdns166208:0crwdne166208:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.pay_mode.I.7" resname="sys_products_orders.pay_mode.I.7">
+        <source>Payone</source>
+        <target>crwdns166210:0crwdne166210:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.pay_mode.I.8" resname="sys_products_orders.pay_mode.I.8">
+        <source>ClickandBuy</source>
+        <target>crwdns166212:0crwdne166212:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.pay_mode.I.9" resname="sys_products_orders.pay_mode.I.9">
+        <source>vrepay</source>
+        <target>crwdns166214:0crwdne166214:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.pay_mode.I.10" resname="sys_products_orders.pay_mode.I.10">
+        <source>Authorize.net</source>
+        <target>crwdns166216:0crwdne166216:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.pay_mode.I.11" resname="sys_products_orders.pay_mode.I.11">
+        <source>Arrangement</source>
+        <target>crwdns166218:0crwdne166218:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.pay_mode.I.12" resname="sys_products_orders.pay_mode.I.12">
+        <source>Concardis</source>
+        <target>crwdns166220:0crwdne166220:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.pay_mode.I.13" resname="sys_products_orders.pay_mode.I.13">
+        <source>Dibs</source>
+        <target>crwdns166222:0crwdne166222:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.pay_mode.I.14" resname="sys_products_orders.pay_mode.I.14">
+        <source>Sofortueberweisung</source>
+        <target>crwdns166224:0crwdne166224:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.pay_mode.I.15" resname="sys_products_orders.pay_mode.I.15">
+        <source>Stripe</source>
+        <target>crwdns166226:0crwdne166226:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.pay_mode.I.16" resname="sys_products_orders.pay_mode.I.16">
+        <source>Expercash</source>
+        <target>crwdns166228:0crwdne166228:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.pay_mode.I.17" resname="sys_products_orders.pay_mode.I.17">
+        <source>Paymill</source>
+        <target>crwdns166230:0crwdne166230:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.email_notify" resname="sys_products_orders.email_notify">
+        <source>email notification</source>
+        <target>crwdns166232:0crwdne166232:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.tracking_code" resname="sys_products_orders.tracking_code">
+        <source>tracking code</source>
+        <target>crwdns166234:0crwdne166234:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.status" resname="sys_products_orders.status">
+        <source>status</source>
+        <target>crwdns166236:0crwdne166236:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.status_log" resname="sys_products_orders.status_log">
+        <source>status_log</source>
+        <target>crwdns166238:0crwdne166238:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.orderData" resname="sys_products_orders.orderData">
+        <source>order data</source>
+        <target>crwdns166240:0crwdne166240:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.orderHtml" resname="sys_products_orders.orderHtml">
+        <source>Order Html</source>
+        <target>crwdns166242:0crwdne166242:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.orderHtmlDiv" resname="sys_products_orders.orderHtmlDiv">
+        <source>Html</source>
+        <target>crwdns166244:0crwdne166244:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.agb" resname="sys_products_orders.agb">
+        <source>agb</source>
+        <target>crwdns166246:0crwdne166246:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.feusers_uid" resname="sys_products_orders.feusers_uid">
+        <source>frontend user</source>
+        <target>crwdns166248:0crwdne166248:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.creditpoints" resname="sys_products_orders.creditpoints">
+        <source>credit points</source>
+        <target>crwdns166250:0crwdne166250:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.creditpoints_spended" resname="sys_products_orders.creditpoints_spended">
+        <source>spended creditpoints</source>
+        <target>crwdns166252:0crwdne166252:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.creditpoints_saved" resname="sys_products_orders.creditpoints_saved">
+        <source>saved creditpoints</source>
+        <target>crwdns166254:0crwdne166254:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.creditpoints_gifts" resname="sys_products_orders.creditpoints_gifts">
+        <source>gifts creditpoints</source>
+        <target>crwdns166256:0crwdne166256:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.desired_date" resname="sys_products_orders.desired_date">
+        <source>desired date</source>
+        <target>crwdns166258:0crwdne166258:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.desired_time" resname="sys_products_orders.desired_time">
+        <source>desired time</source>
+        <target>crwdns166260:0crwdne166260:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.client_ip" resname="sys_products_orders.client_ip">
+        <source>used IP address</source>
+        <target>crwdns166262:0crwdne166262:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.vat_id" resname="sys_products_orders.vat_id">
+        <source>EU VAT number</source>
+        <target>crwdns166264:0crwdne166264:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.salutation" resname="sys_products_orders.salutation">
+        <source>salutation</source>
+        <target>crwdns166266:0crwdne166266:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.salutation.I.0" resname="sys_products_orders.salutation.I.0">
+        <source>Mr.</source>
+        <target>crwdns166268:0crwdne166268:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.salutation.I.1" resname="sys_products_orders.salutation.I.1">
+        <source>Mrs.</source>
+        <target>crwdns166270:0crwdne166270:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.salutation.I.2" resname="sys_products_orders.salutation.I.2">
+        <source>Company.</source>
+        <target>crwdns166272:0crwdne166272:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.salutation.I.3" resname="sys_products_orders.salutation.I.3">
+        <source>To</source>
+        <target>crwdns166274:0crwdne166274:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.foundby" resname="sys_products_orders.foundby">
+        <source>found by</source>
+        <target>crwdns166276:0crwdne166276:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.foundby.I.0" resname="sys_products_orders.foundby.I.0">
+        <source>undefined</source>
+        <target>crwdns166278:0crwdne166278:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.foundby.I.1" resname="sys_products_orders.foundby.I.1">
+        <source>company 1</source>
+        <target>crwdns166280:0crwdne166280:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.foundby.I.2" resname="sys_products_orders.foundby.I.2">
+        <source>company 2</source>
+        <target>crwdns166282:0crwdne166282:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.foundby.I.3" resname="sys_products_orders.foundby.I.3">
+        <source>friends and acquaintances</source>
+        <target>crwdns166284:0crwdne166284:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.foundby.I.4" resname="sys_products_orders.foundby.I.4">
+        <source>internet search engine</source>
+        <target>crwdns166286:0crwdne166286:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.foundby.I.5" resname="sys_products_orders.foundby.I.5">
+        <source>newspaper</source>
+        <target>crwdns166288:0crwdne166288:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.foundby.I.6" resname="sys_products_orders.foundby.I.6">
+        <source>others</source>
+        <target>crwdns166290:0crwdne166290:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.first_name" resname="sys_products_orders.first_name">
+        <source>first name</source>
+        <target>crwdns166292:0crwdne166292:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.last_name" resname="sys_products_orders.last_name">
+        <source>last name</source>
+        <target>crwdns166294:0crwdne166294:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.address" resname="sys_products_orders.address">
+        <source>street / address</source>
+        <target>crwdns166296:0crwdne166296:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.house_no" resname="sys_products_orders.house_no">
+        <source>house number</source>
+        <target>crwdns166298:0crwdne166298:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.order_code" resname="sys_products_orders.order_code">
+        <source>Order code</source>
+        <target>crwdns166300:0crwdne166300:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.date_of_birth" resname="sys_products_orders.date_of_birth">
+        <source>Date of birth</source>
+        <target>crwdns166302:0crwdne166302:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.date_of_payment" resname="sys_products_orders.date_of_payment">
+        <source>Date of payment</source>
+        <target>crwdns166304:0crwdne166304:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.date_of_delivery" resname="sys_products_orders.date_of_delivery">
+        <source>Date of delivery</source>
+        <target>crwdns166306:0crwdne166306:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.bill_no" resname="sys_products_orders.bill_no">
+        <source>Bill number</source>
+        <target>crwdns166308:0crwdne166308:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.order_no" resname="sys_products_orders.order_no">
+        <source>Order number</source>
+        <target>crwdns166310:0crwdne166310:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.radio1" resname="sys_products_orders.radio1">
+        <source>checked items</source>
+        <target>crwdns166312:0crwdne166312:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.radio1.I.0" resname="sys_products_orders.radio1.I.0">
+        <source>nothing checked</source>
+        <target>crwdns166314:0crwdne166314:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.radio1.I.1" resname="sys_products_orders.radio1.I.1">
+        <source>checked 1</source>
+        <target>crwdns166316:0crwdne166316:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.radio1.I.2" resname="sys_products_orders.radio1.I.2">
+        <source>checked 2</source>
+        <target>crwdns166318:0crwdne166318:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.giftservice" resname="sys_products_orders.giftservice">
+        <source>Gift service</source>
+        <target>crwdns166320:0crwdne166320:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.ordered_products" resname="sys_products_orders.ordered_products">
+        <source>Bought products</source>
+        <target>crwdns166322:0crwdne166322:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.fal_uid" resname="sys_products_orders.fal_uid">
+        <source>Bought files</source>
+        <target>crwdns166324:0crwdne166324:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.gained_uid" resname="sys_products_orders.gained_uid">
+        <source>Gained products</source>
+        <target>crwdns166326:0crwdne166326:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders.gained_voucher" resname="sys_products_orders.gained_voucher">
+        <source>Gained voucher codes</source>
+        <target>crwdns166328:0crwdne166328:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders_mm_gained_voucher_codes" resname="sys_products_orders_mm_gained_voucher_codes">
+        <source>Relations Order to Voucher Code</source>
+        <target>crwdns166330:0crwdne166330:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders_mm_gained_voucher_codes.uid_local" resname="sys_products_orders_mm_gained_voucher_codes.uid_local">
+        <source>Order</source>
+        <target>crwdns166332:0crwdne166332:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders_mm_gained_voucher_codes.uid_foreign" resname="sys_products_orders_mm_gained_voucher_codes.uid_foreign">
+        <source>Voucher</source>
+        <target>crwdns166334:0crwdne166334:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders_mm_gained_tt_products" resname="sys_products_orders_mm_gained_tt_products">
+        <source>Relations Order to Voucher Code</source>
+        <target>crwdns333090:0crwdne333090:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders_mm_gained_tt_products.uid_local" resname="sys_products_orders_mm_gained_tt_products.uid_local">
+        <source>Order</source>
+        <target>crwdns333092:0crwdne333092:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders_mm_gained_tt_products.uid_foreign" resname="sys_products_orders_mm_gained_tt_products.uid_foreign">
+        <source>Product</source>
+        <target>crwdns333094:0crwdne333094:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_fe_users_mm_visited_products.uid_local" resname="sys_products_fe_users_mm_visited_products.uid_local">
+        <source>Order</source>
+        <target>crwdns333096:0crwdne333096:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_fe_users_mm_visited_products.uid_foreign" resname="sys_products_fe_users_mm_visited_products.uid_foreign">
+        <source>Visited Product</source>
+        <target>crwdns333098:0crwdne333098:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders_mm_tt_products" resname="sys_products_orders_mm_tt_products">
+        <source>Relations Order to Product</source>
+        <target>crwdns166336:0crwdne166336:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders_mm_tt_products.uid_local" resname="sys_products_orders_mm_tt_products.uid_local">
+        <source>Order</source>
+        <target>crwdns166338:0crwdne166338:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_orders_mm_tt_products.uid_foreign" resname="sys_products_orders_mm_tt_products.uid_foreign">
+        <source>Product</source>
+        <target>crwdns166340:0crwdne166340:0</target>
+      </trans-unit>
+      <trans-unit id="sys_products_visited_products" resname="sys_products_visited_products">
+        <source>Visited Product</source>
+        <target>crwdns333100:0crwdne333100:0</target>
+      </trans-unit>
+      <trans-unit id="fe_groups.tt_products_discount" resname="fe_groups.tt_products_discount">
+        <source>Discount</source>
+        <target>crwdns166342:0crwdne166342:0</target>
+      </trans-unit>
+      <trans-unit id="fe_users.cnum" resname="fe_users.cnum">
+        <source>Customer Number:</source>
+        <target>crwdns166344:0crwdne166344:0</target>
+      </trans-unit>
+      <trans-unit id="fe_users.static_info_country" resname="fe_users.static_info_country">
+        <source>Country Code:</source>
+        <target>crwdns166346:0crwdne166346:0</target>
+      </trans-unit>
+      <trans-unit id="fe_users.zone" resname="fe_users.zone">
+        <source>State/province:</source>
+        <target>crwdns166348:0crwdne166348:0</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_memoItems" resname="fe_users.tt_products_memoItems">
+        <source>Memo Items</source>
+        <target>crwdns166350:0crwdne166350:0</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_memofile" resname="fe_users.tt_products_memofile">
+        <source>Memo Files</source>
+        <target>crwdns166352:0crwdne166352:0</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_discount" resname="fe_users.tt_products_discount">
+        <source>Discount</source>
+        <target>crwdns166354:0crwdne166354:0</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_creditpoints" resname="fe_users.tt_products_creditpoints">
+        <source>Creditpoints</source>
+        <target>crwdns166356:0crwdne166356:0</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_vouchercode" resname="fe_users.tt_products_vouchercode">
+        <source>Vouchercode</source>
+        <target>crwdns166358:0crwdne166358:0</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_vat" resname="fe_users.tt_products_vat">
+        <source>EU VAT number</source>
+        <target>crwdns166360:0crwdne166360:0</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_payment_bill" resname="fe_users.tt_products_payment_bill">
+        <source>Allow payment by bill</source>
+        <target>crwdns166362:0crwdne166362:0</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_business_partner" resname="fe_users.tt_products_business_partner">
+        <source>Business Partner</source>
+        <target>crwdns166364:0crwdne166364:0</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_business_partner.I.0" resname="fe_users.tt_products_business_partner.I.0">
+        <source>Private Customer</source>
+        <target>crwdns166366:0crwdne166366:0</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_business_partner.I.1" resname="fe_users.tt_products_business_partner.I.1">
+        <source>Business Customer</source>
+        <target>crwdns166368:0crwdne166368:0</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form" resname="fe_users.tt_products_organisation_form">
+        <source>Form of Organisation</source>
+        <target>crwdns166370:0crwdne166370:0</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form.A1" resname="fe_users.tt_products_organisation_form.A1">
+        <source>Aktiengesellschaft</source>
+        <target>crwdns166372:0crwdne166372:0</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form.A2" resname="fe_users.tt_products_organisation_form.A2">
+        <source>Aktiengesellschaft &amp; Co. KG</source>
+        <target>crwdns166374:0crwdne166374:0</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form.A3" resname="fe_users.tt_products_organisation_form.A3">
+        <source>Aktiengesellschaft &amp; Co. OHG</source>
+        <target>crwdns166376:0crwdne166376:0</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form.BH" resname="fe_users.tt_products_organisation_form.BH">
+        <source>Kommunalverwaltung</source>
+        <target>crwdns166378:0crwdne166378:0</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form.E1" resname="fe_users.tt_products_organisation_form.E1">
+        <source>Eingetragene Genossenschaft</source>
+        <target>crwdns166380:0crwdne166380:0</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form.E2" resname="fe_users.tt_products_organisation_form.E2">
+        <source>Eingetragener Verein</source>
+        <target>crwdns166382:0crwdne166382:0</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form.E3" resname="fe_users.tt_products_organisation_form.E3">
+        <source>Einzelunternehmen</source>
+        <target>crwdns166384:0crwdne166384:0</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form.E4" resname="fe_users.tt_products_organisation_form.E4">
+        <source>Eingetragener Kaufmann</source>
+        <target>crwdns166386:0crwdne166386:0</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form.G1" resname="fe_users.tt_products_organisation_form.G1">
+        <source>Ges. bürgerlichen Rechts</source>
+        <target>crwdns166388:0crwdne166388:0</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form.G2" resname="fe_users.tt_products_organisation_form.G2">
+        <source>GmbH</source>
+        <target>crwdns166390:0crwdne166390:0</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form.G3" resname="fe_users.tt_products_organisation_form.G3">
+        <source>GmbH &amp; Co.</source>
+        <target>crwdns166392:0crwdne166392:0</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form.G4" resname="fe_users.tt_products_organisation_form.G4">
+        <source>GmbH &amp; Co. KG</source>
+        <target>crwdns166394:0crwdne166394:0</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form.G5" resname="fe_users.tt_products_organisation_form.G5">
+        <source>GmbH &amp; Co. OHG</source>
+        <target>crwdns166396:0crwdne166396:0</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form.G6" resname="fe_users.tt_products_organisation_form.G6">
+        <source>GmbH gemeinschaftlich</source>
+        <target>crwdns166398:0crwdne166398:0</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form.G7" resname="fe_users.tt_products_organisation_form.G7">
+        <source>Gemeinnützige GmbH (gGmbH)</source>
+        <target>crwdns166400:0crwdne166400:0</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form.K2" resname="fe_users.tt_products_organisation_form.K2">
+        <source>Kommanditgesellsch. auf Aktien</source>
+        <target>crwdns166402:0crwdne166402:0</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form.K3" resname="fe_users.tt_products_organisation_form.K3">
+        <source>KG auf Aktien &amp; Co. KG</source>
+        <target>crwdns166404:0crwdne166404:0</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form.KG" resname="fe_users.tt_products_organisation_form.KG">
+        <source>Kommanditgesellschaft</source>
+        <target>crwdns166406:0crwdne166406:0</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form.KO" resname="fe_users.tt_products_organisation_form.KO">
+        <source>Körperschaft öffentl. Rechts</source>
+        <target>crwdns166408:0crwdne166408:0</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form.O1" resname="fe_users.tt_products_organisation_form.O1">
+        <source>Offene Handelsgesellschaft</source>
+        <target>crwdns166410:0crwdne166410:0</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form.P" resname="fe_users.tt_products_organisation_form.P">
+        <source>Privatperson</source>
+        <target>crwdns166412:0crwdne166412:0</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form.S1" resname="fe_users.tt_products_organisation_form.S1">
+        <source>Stiftung Öffentlichen Rechts</source>
+        <target>crwdns166414:0crwdne166414:0</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form.S2" resname="fe_users.tt_products_organisation_form.S2">
+        <source>Stiftung Privaten Rechts</source>
+        <target>crwdns166416:0crwdne166416:0</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form.S3" resname="fe_users.tt_products_organisation_form.S3">
+        <source>Stiftung &amp; Co. Handels KG</source>
+        <target>crwdns166418:0crwdne166418:0</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form.U" resname="fe_users.tt_products_organisation_form.U">
+        <source>Rechtsform klären</source>
+        <target>crwdns166420:0crwdne166420:0</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form.V1" resname="fe_users.tt_products_organisation_form.V1">
+        <source>Versicherungsverein a. Gegens.</source>
+        <target>crwdns166422:0crwdne166422:0</target>
+      </trans-unit>
+      <trans-unit id="fe_users.tt_products_organisation_form.Z1" resname="fe_users.tt_products_organisation_form.Z1">
+        <source>Ausländische Rechtsformen</source>
+        <target>crwdns166424:0crwdne166424:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.list_type_pi1" resname="tt_content.list_type_pi1">
+        <source>Shop System</source>
+        <target>crwdns166426:0crwdne166426:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.param_mode" resname="tt_content.pi_flexform.param_mode">
+        <source>Parameter: mode</source>
+        <target>crwdns166428:0crwdne166428:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.param_mode.0" resname="tt_content.pi_flexform.param_mode.0">
+        <source>0</source>
+        <target>crwdns166430:0crwdne166430:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.param_mode.1" resname="tt_content.pi_flexform.param_mode.1">
+        <source>1</source>
+        <target>crwdns166432:0crwdne166432:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.param_mode.2" resname="tt_content.pi_flexform.param_mode.2">
+        <source>2</source>
+        <target>crwdns166434:0crwdne166434:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.param_mode.3" resname="tt_content.pi_flexform.param_mode.3">
+        <source>3</source>
+        <target>crwdns166436:0crwdne166436:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode" resname="tt_content.pi_flexform.display_mode">
+        <source>Display mode</source>
+        <target>crwdns166438:0crwdne166438:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.1" resname="tt_content.pi_flexform.display_mode.1">
+        <source>Products: list</source>
+        <target>crwdns166440:0crwdne166440:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.2" resname="tt_content.pi_flexform.display_mode.2">
+        <source>Products: list gifts</source>
+        <target>crwdns166442:0crwdne166442:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.3" resname="tt_content.pi_flexform.display_mode.3">
+        <source>Products: list highlights</source>
+        <target>crwdns166444:0crwdne166444:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.4" resname="tt_content.pi_flexform.display_mode.4">
+        <source>Products: list offers</source>
+        <target>crwdns166446:0crwdne166446:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.5" resname="tt_content.pi_flexform.display_mode.5">
+        <source>Products: list new items</source>
+        <target>crwdns166448:0crwdne166448:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.6" resname="tt_content.pi_flexform.display_mode.6">
+        <source>Products: single view</source>
+        <target>crwdns166450:0crwdne166450:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.7" resname="tt_content.pi_flexform.display_mode.7">
+        <source>Products: search</source>
+        <target>crwdns166452:0crwdne166452:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.8" resname="tt_content.pi_flexform.display_mode.8">
+        <source>Test: various</source>
+        <target>crwdns166454:0crwdne166454:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.9" resname="tt_content.pi_flexform.display_mode.9">
+        <source>Basket: shopping cart, options</source>
+        <target>crwdns166456:0crwdne166456:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.10" resname="tt_content.pi_flexform.display_mode.10">
+        <source>Basket: overview</source>
+        <target>crwdns166458:0crwdne166458:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.11" resname="tt_content.pi_flexform.display_mode.11">
+        <source>Basket: collect addresses</source>
+        <target>crwdns166460:0crwdne166460:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.12" resname="tt_content.pi_flexform.display_mode.12">
+        <source>Basket: order review, payment</source>
+        <target>crwdns166462:0crwdne166462:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.13" resname="tt_content.pi_flexform.display_mode.13">
+        <source>Basket: order confirmation</source>
+        <target>crwdns166464:0crwdne166464:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.14" resname="tt_content.pi_flexform.display_mode.14">
+        <source>Orders: tracking</source>
+        <target>crwdns166466:0crwdne166466:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.15" resname="tt_content.pi_flexform.display_mode.15">
+        <source>Orders: billing</source>
+        <target>crwdns166468:0crwdne166468:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.16" resname="tt_content.pi_flexform.display_mode.16">
+        <source>Orders: delivery</source>
+        <target>crwdns166470:0crwdne166470:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.17" resname="tt_content.pi_flexform.display_mode.17">
+        <source>Orders: list</source>
+        <target>crwdns166472:0crwdne166472:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.18" resname="tt_content.pi_flexform.display_mode.18">
+        <source>Products: memo</source>
+        <target>crwdns166474:0crwdne166474:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.19" resname="tt_content.pi_flexform.display_mode.19">
+        <source>General: help</source>
+        <target>crwdns166476:0crwdne166476:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.20" resname="tt_content.pi_flexform.display_mode.20">
+        <source>Categories: list</source>
+        <target>crwdns166478:0crwdne166478:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.21" resname="tt_content.pi_flexform.display_mode.21">
+        <source>Articles: list</source>
+        <target>crwdns166480:0crwdne166480:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.22" resname="tt_content.pi_flexform.display_mode.22">
+        <source>Categories: select</source>
+        <target>crwdns166482:0crwdne166482:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.23" resname="tt_content.pi_flexform.display_mode.23">
+        <source>Files: list</source>
+        <target>crwdns166484:0crwdne166484:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.24" resname="tt_content.pi_flexform.display_mode.24">
+        <source>System Categories: list</source>
+        <target>crwdns166486:0crwdne166486:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.25" resname="tt_content.pi_flexform.display_mode.25">
+        <source>Addresses: select</source>
+        <target>crwdns166488:0crwdne166488:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.26" resname="tt_content.pi_flexform.display_mode.26">
+        <source>Addresses: list</source>
+        <target>crwdns166490:0crwdne166490:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.27" resname="tt_content.pi_flexform.display_mode.27">
+        <source>Categories: menu</source>
+        <target>crwdns166492:0crwdne166492:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.28" resname="tt_content.pi_flexform.display_mode.28">
+        <source>Addresses: menu</source>
+        <target>crwdns166494:0crwdne166494:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.29" resname="tt_content.pi_flexform.display_mode.29">
+        <source>System Categories: select</source>
+        <target>crwdns166496:0crwdne166496:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.30" resname="tt_content.pi_flexform.display_mode.30">
+        <source>System Categories: menu</source>
+        <target>crwdns166498:0crwdne166498:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.31" resname="tt_content.pi_flexform.display_mode.31">
+        <source>Categories: single</source>
+        <target>crwdns166500:0crwdne166500:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.32" resname="tt_content.pi_flexform.display_mode.32">
+        <source>Addresses: single</source>
+        <target>crwdns166502:0crwdne166502:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.33" resname="tt_content.pi_flexform.display_mode.33">
+        <source>System Categories: single</source>
+        <target>crwdns166504:0crwdne166504:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.34" resname="tt_content.pi_flexform.display_mode.34">
+        <source>Files: memo</source>
+        <target>crwdns166506:0crwdne166506:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.35" resname="tt_content.pi_flexform.display_mode.35">
+        <source>Files: memo overview</source>
+        <target>crwdns166508:0crwdne166508:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.36" resname="tt_content.pi_flexform.display_mode.36">
+        <source/>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.37" resname="tt_content.pi_flexform.display_mode.37">
+        <source>User: plugin 1 for external extension</source>
+        <target>crwdns166510:0crwdne166510:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.38" resname="tt_content.pi_flexform.display_mode.38">
+        <source>User: plugin 2 for external extension</source>
+        <target>crwdns166512:0crwdne166512:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.39" resname="tt_content.pi_flexform.display_mode.39">
+        <source>User: plugin 3 for external extension</source>
+        <target>crwdns166514:0crwdne166514:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.40" resname="tt_content.pi_flexform.display_mode.40">
+        <source>User: plugin 4 for external extension</source>
+        <target>crwdns166516:0crwdne166516:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.41" resname="tt_content.pi_flexform.display_mode.41">
+        <source>User: plugin 5 for external extension</source>
+        <target>crwdns166518:0crwdne166518:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.42" resname="tt_content.pi_flexform.display_mode.42">
+        <source>Products: list recently visited items</source>
+        <target>crwdns166520:0crwdne166520:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.43" resname="tt_content.pi_flexform.display_mode.43">
+        <source>Products: list mostly visited</source>
+        <target>crwdns166522:0crwdne166522:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.44" resname="tt_content.pi_flexform.display_mode.44">
+        <source>Products: list all users mostly visited</source>
+        <target>crwdns166524:0crwdne166524:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.45" resname="tt_content.pi_flexform.display_mode.45">
+        <source>Products: list affordable items</source>
+        <target>crwdns166526:0crwdne166526:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.46" resname="tt_content.pi_flexform.display_mode.46">
+        <source>Orders: downloads</source>
+        <target>crwdns166528:0crwdne166528:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.control" resname="tt_content.pi_flexform.display_mode.control">
+        <source>Control</source>
+        <target>crwdns166530:0crwdne166530:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.unused" resname="tt_content.pi_flexform.display_mode.unused">
+        <source>Unused</source>
+        <target>crwdns166532:0crwdne166532:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.display_mode.withdrawal" resname="tt_content.pi_flexform.display_mode.withdrawal">
+        <source>Orders: withdrawal</source>
+        <target>crwdns410987:0crwdne410987:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.product_selection" resname="tt_content.pi_flexform.product_selection">
+        <source>Product selection</source>
+        <target>crwdns166534:0crwdne166534:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.category_selection" resname="tt_content.pi_flexform.category_selection">
+        <source>Category selection</source>
+        <target>crwdns166536:0crwdne166536:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.required_pivars" resname="tt_content.pi_flexform.required_pivars">
+        <source>Required parameters</source>
+        <target>crwdns166538:0crwdne166538:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.required_pivars.1" resname="tt_content.pi_flexform.required_pivars.1">
+        <source> </source>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.required_pivars.2" resname="tt_content.pi_flexform.required_pivars.2">
+        <source>Product</source>
+        <target>crwdns166540:0crwdne166540:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.required_pivars.3" resname="tt_content.pi_flexform.required_pivars.3">
+        <source>Category</source>
+        <target>crwdns166542:0crwdne166542:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.required_pivars.4" resname="tt_content.pi_flexform.required_pivars.4">
+        <source>File (not implemented)</source>
+        <target>crwdns166544:0crwdne166544:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.required_pivars.5" resname="tt_content.pi_flexform.required_pivars.5">
+        <source>System Category (not implemented)</source>
+        <target>crwdns166546:0crwdne166546:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.required_pivars.6" resname="tt_content.pi_flexform.required_pivars.6">
+        <source>Address</source>
+        <target>crwdns166548:0crwdne166548:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.required_pivars.7" resname="tt_content.pi_flexform.required_pivars.7">
+        <source>Language</source>
+        <target>crwdns166550:0crwdne166550:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.required_pivars.8" resname="tt_content.pi_flexform.required_pivars.8">
+        <source>Search</source>
+        <target>crwdns166552:0crwdne166552:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.template_suffix" resname="tt_content.pi_flexform.template_suffix">
+        <source>Template suffix</source>
+        <target>crwdns166554:0crwdne166554:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.fal_where" resname="tt_content.pi_flexform.fal_where">
+        <source>FAL: WHERE</source>
+        <target>crwdns410989:0crwdne410989:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.fal_group_by" resname="tt_content.pi_flexform.fal_group_by">
+        <source>FAL: GROUP BY</source>
+        <target>crwdns410991:0crwdne410991:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.fal_join_tables" resname="tt_content.pi_flexform.fal_join_tables">
+        <source>FAL: JOIN TABLES</source>
+        <target>crwdns410993:0crwdne410993:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.product_where" resname="tt_content.pi_flexform.product_where">
+        <source>Product: WHERE</source>
+        <target>crwdns166562:0crwdne166562:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.file_where" resname="tt_content.pi_flexform.file_where">
+        <source>File: WHERE</source>
+        <target>crwdns166564:0crwdne166564:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.file_group_by" resname="tt_content.pi_flexform.file_group_by">
+        <source>File: GROUP BY</source>
+        <target>crwdns166566:0crwdne166566:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.file_join_tables" resname="tt_content.pi_flexform.file_join_tables">
+        <source>File: JOIN tables</source>
+        <target>crwdns166568:0crwdne166568:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_flexform.tsconfig" resname="tt_content.pi_flexform.tsconfig">
+        <source>Typoscript</source>
+        <target>crwdns166570:0crwdne166570:0</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
