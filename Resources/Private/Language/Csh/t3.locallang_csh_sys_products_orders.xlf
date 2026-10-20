@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/Csh/locallang_csh_sys_products_orders.xlf" date="2021-11-23T20:34:55Z" product-name="tt_products" target-language="t3">
+    <header/>
+    <body>
+      <trans-unit id=".description" resname=".description">
+        <source>Shop orders.</source>
+        <target>crwdns145885:0crwdne145885:0</target>
+      </trans-unit>
+      <trans-unit id=".details" resname=".details">
+        <source>Some orders have been made and should be changeable only by the admin.</source>
+        <target>crwdns145887:0crwdne145887:0</target>
+      </trans-unit>
+      <trans-unit id="_.seeAlso" resname="_.seeAlso">
+        <source>tt_products</source>
+        <target>crwdns145889:0crwdne145889:0</target>
+      </trans-unit>
+      <trans-unit id="title.description" resname="title.description">
+        <source>[FILL IN] sys_products_orders-&gt;title</source>
+        <target>crwdns145891:0crwdne145891:0</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
