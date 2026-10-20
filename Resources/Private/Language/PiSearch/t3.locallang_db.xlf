@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/PiSearch/locallang_db.xlf" date="2021-12-01T10:35:33Z" product-name="tt_products" target-language="t3">
+    <header/>
+    <body>
+      <trans-unit id="tt_content.list_type_pi_search" resname="tt_content.list_type_pi_search">
+        <source>Shop System Search</source>
+        <target>crwdns147541:0crwdne147541:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_search_flexform.display_mode" resname="tt_content.pi_search_flexform.display_mode">
+        <source>Display mode</source>
+        <target>crwdns147543:0crwdne147543:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_search_flexform.display_mode.1" resname="tt_content.pi_search_flexform.display_mode.1">
+        <source>First Letter</source>
+        <target>crwdns147545:0crwdne147545:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_search_flexform.display_mode.2" resname="tt_content.pi_search_flexform.display_mode.2">
+        <source>Year</source>
+        <target>crwdns147547:0crwdne147547:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_search_flexform.display_mode.3" resname="tt_content.pi_search_flexform.display_mode.3">
+        <source>Select Key Field</source>
+        <target>crwdns147549:0crwdne147549:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_search_flexform.display_mode.4" resname="tt_content.pi_search_flexform.display_mode.4">
+        <source>Text Field</source>
+        <target>crwdns147551:0crwdne147551:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_search_flexform.display_mode.5" resname="tt_content.pi_search_flexform.display_mode.5">
+        <source>Last Entries</source>
+        <target>crwdns147553:0crwdne147553:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_search_flexform.display_mode.6" resname="tt_content.pi_search_flexform.display_mode.6">
+        <source>Field Values</source>
+        <target>crwdns147555:0crwdne147555:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_search_flexform.template_suffix" resname="tt_content.pi_search_flexform.template_suffix">
+        <source>Template Suffix</source>
+        <target>crwdns147557:0crwdne147557:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_search_flexform.local_param" resname="tt_content.pi_search_flexform.local_param">
+        <source>Local Table</source>
+        <target>crwdns147559:0crwdne147559:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_search_flexform.local_param.1" resname="tt_content.pi_search_flexform.local_param.1">
+        <source>Product</source>
+        <target>crwdns147561:0crwdne147561:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_search_flexform.local_param.2" resname="tt_content.pi_search_flexform.local_param.2">
+        <source>Article</source>
+        <target>crwdns147563:0crwdne147563:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_search_flexform.local_param.3" resname="tt_content.pi_search_flexform.local_param.3">
+        <source>Category</source>
+        <target>crwdns147565:0crwdne147565:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_search_flexform.local_param.4" resname="tt_content.pi_search_flexform.local_param.4">
+        <source>DAM</source>
+        <target>crwdns147567:0crwdne147567:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_search_flexform.local_param.5" resname="tt_content.pi_search_flexform.local_param.5">
+        <source>DAM Category</source>
+        <target>crwdns147569:0crwdne147569:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_search_flexform.foreign_param" resname="tt_content.pi_search_flexform.foreign_param">
+        <source>Foreign Table</source>
+        <target>crwdns147571:0crwdne147571:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_search_flexform.foreign_param.1" resname="tt_content.pi_search_flexform.foreign_param.1">
+        <source>Category</source>
+        <target>crwdns147573:0crwdne147573:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_search_flexform.foreign_param.2" resname="tt_content.pi_search_flexform.foreign_param.2">
+        <source>Address</source>
+        <target>crwdns147575:0crwdne147575:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_search_flexform.foreign_param.3" resname="tt_content.pi_search_flexform.foreign_param.3">
+        <source>DAM Category</source>
+        <target>crwdns147577:0crwdne147577:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_search_flexform.foreign_param.4" resname="tt_content.pi_search_flexform.foreign_param.4">
+        <source> </source>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_search_flexform.fields" resname="tt_content.pi_search_flexform.fields">
+        <source>Fields</source>
+        <target>crwdns147579:0crwdne147579:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_search_flexform.group_by_fields" resname="tt_content.pi_search_flexform.group_by_fields">
+        <source>GROUP BY Fields</source>
+        <target>crwdns147581:0crwdne147581:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_search_flexform.url" resname="tt_content.pi_search_flexform.url">
+        <source>URL</source>
+        <target>crwdns147583:0crwdne147583:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_search_flexform.all" resname="tt_content.pi_search_flexform.all">
+        <source>Show all box</source>
+        <target>crwdns147585:0crwdne147585:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_search_flexform.parameters" resname="tt_content.pi_search_flexform.parameters">
+        <source>Parameters</source>
+        <target>crwdns147587:0crwdne147587:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_search_flexform.delimiter" resname="tt_content.pi_search_flexform.delimiter">
+        <source>Delimiter</source>
+        <target>crwdns147589:0crwdne147589:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_search_flexform.columns" resname="tt_content.pi_search_flexform.columns">
+        <source>Number of Columns</source>
+        <target>crwdns147591:0crwdne147591:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_search_flexform.tsconfig" resname="tt_content.pi_search_flexform.tsconfig">
+        <source>Typoscript</source>
+        <target>crwdns147593:0crwdne147593:0</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
