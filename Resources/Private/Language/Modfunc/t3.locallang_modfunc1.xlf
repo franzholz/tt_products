@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/Modfunc/locallang_modfunc1.xlf" date="2017-07-08T12:59:44Z" product-name="tt_products" target-language="t3">
+    <header/>
+    <body>
+      <trans-unit id="age" resname="age">
+        <source>Age of records in days</source>
+        <target>crwdns147427:0crwdne147427:0</target>
+      </trans-unit>
+      <trans-unit id="title" resname="title">
+        <source>Move Items</source>
+        <target>crwdns147429:0crwdne147429:0</target>
+      </trans-unit>
+      <trans-unit id="only_admin" resname="only_admin">
+        <source>These functions are only available for admins.</source>
+        <target>crwdns147431:0crwdne147431:0</target>
+      </trans-unit>
+      <trans-unit id="pid_src" resname="pid_src">
+        <source>The source id is %d.</source>
+        <target>crwdns147433:0%dcrwdne147433:0</target>
+      </trans-unit>
+      <trans-unit id="pid_dest" resname="pid_dest">
+        <source>Enter the destination page id</source>
+        <target>crwdns147435:0crwdne147435:0</target>
+      </trans-unit>
+      <trans-unit id="start" resname="start">
+        <source>Start the move</source>
+        <target>crwdns147437:0crwdne147437:0</target>
+      </trans-unit>
+      <trans-unit id="nothing_moved" resname="nothing_moved">
+        <source>No records have been moved.</source>
+        <target>crwdns147439:0crwdne147439:0</target>
+      </trans-unit>
+      <trans-unit id="moved_table" resname="moved_table">
+        <source>%d %s have been moved.</source>
+        <target>crwdns147441:0%dcrwdnd147441:0%scrwdne147441:0</target>
+      </trans-unit>
+      <trans-unit id="nothing" resname="nothing">
+        <source>Nothing has been done. Fill in all form fields correctly!</source>
+        <target>crwdns147443:0crwdne147443:0</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
