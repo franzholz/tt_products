@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/PiInt/locallang.xlf" date="2021-12-01T10:54:31Z" product-name="tt_products" target-language="t3">
+    <header/>
+    <body>
+      <trans-unit id="no_template" resname="no_template">
+        <source>The shop variable content template file has not been found. Check your template setup about</source>
+        <target>crwdns147493:0crwdne147493:0</target>
+      </trans-unit>
+      <trans-unit id="no_subtemplate" resname="no_subtemplate">
+        <source>The part | or the shop variable content template file | has not been found.</source>
+        <target>crwdns147495:0crwdne147495:0</target>
+      </trans-unit>
+      <trans-unit id="all" resname="all">
+        <source>ALL</source>
+        <target>crwdns147497:0crwdne147497:0</target>
+      </trans-unit>
+      <trans-unit id="latest_entries" resname="latest_entries">
+        <source>Go to the %d latest entries.</source>
+        <target>crwdns147499:0%dcrwdne147499:0</target>
+      </trans-unit>
+      <trans-unit id="no_setup" resname="no_setup">
+        <source>No setup for the dynamic plugins of tt_products has been found. It is under the name 'tx_ttproducts_pi_int'. Consider to add 'Shop System Variable Content' on the template setup under 'include static from extensions'.</source>
+        <target>crwdns147501:0crwdne147501:0</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
