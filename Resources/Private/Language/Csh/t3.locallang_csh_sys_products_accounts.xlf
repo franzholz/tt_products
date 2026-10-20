@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/Csh/locallang_csh_sys_products_accounts.xlf" date="2021-11-23T20:34:13Z" product-name="tt_products" target-language="t3">
+    <header/>
+    <body>
+      <trans-unit id=".description" resname=".description">
+        <source>Shop bank accounts.</source>
+        <target>crwdns145869:0crwdne145869:0</target>
+      </trans-unit>
+      <trans-unit id=".details" resname=".details">
+        <source>Some orders have been made with bank accounts. Hide them as much as you can and delete them as soon as possible!</source>
+        <target>crwdns145871:0crwdne145871:0</target>
+      </trans-unit>
+      <trans-unit id="_.seeAlso" resname="_.seeAlso">
+        <source>tt_products</source>
+        <target>crwdns145873:0crwdne145873:0</target>
+      </trans-unit>
+      <trans-unit id="title.description" resname="title.description">
+        <source>[FILL IN] sys_products_accounts-&gt;title</source>
+        <target>crwdns145875:0crwdne145875:0</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
