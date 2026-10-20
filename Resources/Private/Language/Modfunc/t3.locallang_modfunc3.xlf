@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/Modfunc/locallang_modfunc3.xlf" date="2017-07-08T13:15:50Z" product-name="tt_products" target-language="t3">
+    <header/>
+    <body>
+      <trans-unit id="title" resname="title">
+        <source>Import images into FAL for tt_products.</source>
+        <target>crwdns147473:0crwdne147473:0</target>
+      </trans-unit>
+      <trans-unit id="only_admin" resname="only_admin">
+        <source>These functions are only available for admins.</source>
+        <target>crwdns147475:0crwdne147475:0</target>
+      </trans-unit>
+      <trans-unit id="pid_src" resname="pid_src">
+        <source>The source id is %d.</source>
+        <target>crwdns147477:0%dcrwdne147477:0</target>
+      </trans-unit>
+      <trans-unit id="start" resname="start">
+        <source>Start the import of the images into FAL!</source>
+        <target>crwdns147479:0crwdne147479:0</target>
+      </trans-unit>
+      <trans-unit id="finished" resname="finished">
+        <source>The import of the images into FAL has been finished!</source>
+        <target>crwdns147481:0crwdne147481:0</target>
+      </trans-unit>
+      <trans-unit id="warning" resname="warning">
+        <source>You must make a backup copy of your images in the folder uploads/pics manually before you continue! All image files from this folder will be removed.</source>
+        <target>crwdns147483:0crwdne147483:0</target>
+      </trans-unit>
+      <trans-unit id="imported_number" resname="imported_number">
+        <source>%s records of tt_products with images have been converted into FAL.</source>
+        <target>crwdns147485:0%scrwdne147485:0</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
