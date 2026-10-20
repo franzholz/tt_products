@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/PiInt/locallang_db.xlf" date="2021-11-23T20:36:18Z" product-name="tt_products" target-language="t3">
+    <header/>
+    <body>
+      <trans-unit id="tt_content.list_type_pi_int" resname="tt_content.list_type_pi_int">
+        <source>Shop System Variable Content</source>
+        <target>crwdns336978:0crwdne336978:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_int_flexform.display_mode" resname="tt_content.pi_int_flexform.display_mode">
+        <source>Display mode</source>
+        <target>crwdns336980:0crwdne336980:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_int_flexform.display_mode.7" resname="tt_content.pi_int_flexform.display_mode.7">
+        <source>Products: search</source>
+        <target>crwdns336982:0crwdne336982:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_int_flexform.display_mode.8" resname="tt_content.pi_int_flexform.display_mode.8">
+        <source>Currency: selector</source>
+        <target>crwdns336984:0crwdne336984:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_int_flexform.display_mode.9" resname="tt_content.pi_int_flexform.display_mode.9">
+        <source>Basket: content</source>
+        <target>crwdns336986:0crwdne336986:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_int_flexform.display_mode.10" resname="tt_content.pi_int_flexform.display_mode.10">
+        <source>Basket: overview</source>
+        <target>crwdns336988:0crwdne336988:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_int_flexform.display_mode.11" resname="tt_content.pi_int_flexform.display_mode.11">
+        <source>Basket: input customer data</source>
+        <target>crwdns336990:0crwdne336990:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_int_flexform.display_mode.12" resname="tt_content.pi_int_flexform.display_mode.12">
+        <source>Basket: control and payment</source>
+        <target>crwdns336992:0crwdne336992:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_int_flexform.display_mode.13" resname="tt_content.pi_int_flexform.display_mode.13">
+        <source>Basket: finalize order</source>
+        <target>crwdns336994:0crwdne336994:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_int_flexform.display_mode.14" resname="tt_content.pi_int_flexform.display_mode.14">
+        <source>Orders: tracking</source>
+        <target>crwdns336996:0crwdne336996:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_int_flexform.display_mode.15" resname="tt_content.pi_int_flexform.display_mode.15">
+        <source>Orders: billing</source>
+        <target>crwdns336998:0crwdne336998:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_int_flexform.display_mode.16" resname="tt_content.pi_int_flexform.display_mode.16">
+        <source>Orders: delivery</source>
+        <target>crwdns337000:0crwdne337000:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_int_flexform.display_mode.17" resname="tt_content.pi_int_flexform.display_mode.17">
+        <source>Orders: list</source>
+        <target>crwdns337002:0crwdne337002:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_int_flexform.display_mode.18" resname="tt_content.pi_int_flexform.display_mode.18">
+        <source>Products: memo</source>
+        <target>crwdns337004:0crwdne337004:0</target>
+      </trans-unit>
+      <trans-unit id="tt_content.pi_int_flexform.display_mode.19" resname="tt_content.pi_int_flexform.display_mode.19">
+        <source>General: help</source>
+        <target>crwdns337006:0crwdne337006:0</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
