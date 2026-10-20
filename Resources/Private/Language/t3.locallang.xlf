@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<xliff xmlns="urn:oasis:names:tc:xliff:document:1.2" version="1.2">
+  <file source-language="en" datatype="plaintext" original="EXT:tt_products/Resources/Private/Language/locallang.xlf" date="2021-11-23T20:33:04Z" product-name="tt_products" target-language="t3">
+    <header/>
+    <body>
+      <trans-unit id="plugins_title" resname="plugins_title">
+        <source>Shop System</source>
+        <target>crwdns145845:0crwdne145845:0</target>
+      </trans-unit>
+      <trans-unit id="plugins_description" resname="plugins_description">
+        <source>Add a shopping system plugin to the page. This makes it possible to sell products in multiple languages.</source>
+        <target>crwdns145847:0crwdne145847:0</target>
+      </trans-unit>
+      <trans-unit id="m_default" resname="m_default">
+        <source>default</source>
+        <target>crwdns145849:0crwdne145849:0</target>
+      </trans-unit>
+      <trans-unit id="m_ext" resname="m_ext">
+        <source>extended</source>
+        <target>crwdns145851:0crwdne145851:0</target>
+      </trans-unit>
+      <trans-unit id="m_variants" resname="m_variants">
+        <source>variants</source>
+        <target>crwdns145853:0crwdne145853:0</target>
+      </trans-unit>
+      <trans-unit id="pageModule.plugin" resname="pageModule.plugin">
+        <source>Shop System: Products, Articles, Product Categories, Orders</source>
+        <target>crwdns145855:0crwdne145855:0</target>
+      </trans-unit>
+      <trans-unit id="moduleFunction.tx_ttproducts_modfunc1" resname="moduleFunction.tx_ttproducts_modfunc1">
+        <source>Move Items (tt_products)</source>
+        <target>crwdns145857:0crwdne145857:0</target>
+      </trans-unit>
+      <trans-unit id="moduleFunction.tx_ttproducts_modfunc2" resname="moduleFunction.tx_ttproducts_modfunc2">
+        <source>Create Records in Alternative Languages (tt_products)</source>
+        <target>crwdns145859:0crwdne145859:0</target>
+      </trans-unit>
+      <trans-unit id="moduleFunction.tx_ttproducts_modfunc3" resname="moduleFunction.tx_ttproducts_modfunc3">
+        <source>Import images into FAL (tt_products)</source>
+        <target>crwdns145861:0crwdne145861:0</target>
+      </trans-unit>
+    </body>
+  </file>
+</xliff>
